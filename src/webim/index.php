@@ -1,0 +1,1 @@
+<?php header("Location: /webim/operator/index.php"); exit; ?>
