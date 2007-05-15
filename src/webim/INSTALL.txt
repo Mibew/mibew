@@ -2,6 +2,10 @@
 Web Instant Messenger 1.0.6
 Copyright (c) 2005-2007 Internet Services Ltd.
 
+This program and the accompanying materials are made available under
+the terms of the Eclipse Public License v1.0 which accompanies this
+distribution, and is available at  
+http://www.eclipse.org/legal/epl-v10.html
 
 REQUIREMENTS
 
@@ -13,8 +17,7 @@ QUICK INSTALLATION
 
 1. Create folder with name 'webim' in the root of your website.
 
-NOTE!!! current revision of WebIM could work only in /webim/ location
-    !!! on your website.
+NOTE: current revision of WebIM could work only in /webim/ location on your website.
 
 2. Upload all the files contained in this archive (retaining the directory 
    structure) into created folder.
