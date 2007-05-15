@@ -54,7 +54,7 @@
 <br/>
 <br/>
 
-<a href="/webim/LICENSE.html" target="_blank"><?php echo getstring("install.license") ?></a>
+<a href="/webim/epl-v10.html" target="_blank"><?php echo getstring("install.license") ?></a>
 </td>
 </tr>
 </table>
