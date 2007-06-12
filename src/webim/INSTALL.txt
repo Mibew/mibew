@@ -11,7 +11,7 @@ REQUIREMENTS
 
  * A webserver or web hosting account with support for PHP 	
  * MySQL database 4.0 or above
- * PHP 4.3.3 or above with mysql support
+ * PHP 4.3.3 or above with MySQL support
 
 QUICK INSTALLATION
 
