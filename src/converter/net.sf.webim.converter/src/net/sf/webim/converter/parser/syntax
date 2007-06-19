@@ -1,0 +1,150 @@
+#   Automatically generated grammar
+
+.lang        "java" 
+.getsym      "chr = l < buff.length ? buff[l++] : 0"
+.positioning "offset"
+.class       "Parser"
+.namespace	 "net.sf.webim.converter.parser"
+.breaks		 "on"
+.lexemend    "on"
+
+# Vocabulary
+
+[0]
+
+any:	/[^<]+/
+
+'<':	/</         { group = @1; break; }
+
+comment:   /<%--([^-]|-[^-]|--[^%]|--%[^>])*--%>/
+doctype:   /<![^>]*>/
+taglib:    /<%@([^%]|%[^>])*%>/
+
+[1]
+
+identifier(String):	/[a-zA-Z_][A-Za-z_0-9-]*/ -1		{ @ = new String(token,0,lapg_size); break; }
+ccon(String):	/"[^\n"]*"/							{ @ = new String(token,1,lapg_size-2); break; }
+ccon:		/'[^\n']*'/
+
+'>':	    />/          { group = @0; break; }
+'=':		/=/
+':':		/:/
+'/':		/\//
+
+_skip:      /[\t\r\n ]+/    \ continue;
+
+# Attributes
+
+[]
+
+# Grammar
+
+input ::=
+	xml_tags 
+;
+
+xml_tags ::=
+	xml_tags xml_tag_or_space 
+	| xml_tag_or_space 
+;
+
+xml_tag_or_space ::=
+	tag_start tag_end								{ checkTag($tag_start,$tag_end); }
+	| tag_start xml_tags tag_end					{ checkTag($tag_start,$tag_end); }
+	| no_body_tag
+	| comment
+    | taglib
+    | doctype
+	| any
+;
+
+tag_name (String) ::=
+	identifier										{ $$ = $identifier; }
+	| identifier ':' identifier						{ $$ = $identifier#0 + ":" + $identifier#1; }
+;
+
+tag_start (XmlNode) ::=
+	'<' tag_name argumentsopt '>'		            { $$ = new XmlNode($tag_name, $argumentsopt); }
+;
+
+no_body_tag (XmlNode) ::=
+	'<' tag_name argumentsopt '/' '>'		        { $$ = new XmlNode($tag_name, $argumentsopt); }
+;
+
+tag_end (String) ::=
+	'<' '/' tag_name '>'		                    { $$ = $tag_name; }
+;
+
+arguments (ArrayList<XmlArgument>) ::=
+	arguments argument								{ $arguments.add($argument); }
+	| argument 										{ $$ = new ArrayList<XmlArgument>(); $arguments.add($argument); }
+;
+
+argument (XmlArgument) ::=
+	identifier '=' ccon								{ $$ = new XmlArgument(); }
+	| identifier									{ $$ = new XmlArgument(); }
+;
+
+
+##################################################################################
+
+%%
+import java.io.UnsupportedEncodingException;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+
+import net.sf.webim.converter.xml.XmlArgument;
+import net.sf.webim.converter.xml.XmlNode;
+%%
+
+public Parser() {
+}
+
+private static final boolean DEBUG_SYNTAX = false;
+
+private StringBuffer sb;
+
+int killEnds = -1;
+byte[] buff;
+int l;
+
+private String rawText(int start, int end) {
+	if( killEnds == start ) {
+		while( start < end && (buff[start] == '\t' || buff[start] == ' ') )
+			start++;
+
+		if( start < end && buff[start] == '\r' )
+			start++;
+
+		if( start < end && buff[start] == '\n' )
+			start++;
+	}
+	try {
+		return new String(buff, start, end-start, "utf-8");
+	} catch(UnsupportedEncodingException ex) {
+		return "";
+	}
+}
+
+void error( String s ) {
+	System.err.println(s);
+}
+
+public String parse(String s) {
+	l = 0;
+	sb = new StringBuffer();
+	try {
+		buff = s.getBytes("utf-8");
+	} catch( UnsupportedEncodingException ex ) {
+		return null;
+	}
+	if( parse() )
+		return sb.toString();
+
+	return null;
+}
+
+private void checkTag(XmlNode node, String endTag) {
+	if( !node.getTagName().equals(endTag) )
+		error("Tag " + node.getTagName() + " is closed with " + endTag);
+}

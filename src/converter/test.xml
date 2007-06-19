@@ -1,0 +1,273 @@
+<%@ page contentType="text/html; charset=utf-8" errorPage="/errors/error_page.jsp" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="tiles" uri="/tags/struts-tiles"%>
+<%@ taglib prefix="html" uri="/tags/struts-html"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="is" uri="imcenter.i_services.ru.tags"%>
+<%@ taglib prefix="bean" uri="/tags/struts-bean"%>
+
+<tiles:useAttribute id="titleKey" name="titleKey" classname="java.lang.String" />
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title><bean:message key="<%=titleKey%>" /></title>
+<link rel="shortcut icon" href="<c:url value='/res/images/favicon.ico'/>" type="image/x-icon"/>
+<meta http-equiv="Content-Type" content="text/html; charset=Windows-1251"/>
+<link rel="stylesheet" type="text/css" href="<c:url value='/res/style/chat.css'/>" />
+<script type="text/javascript" language="javascript" src="<c:url value='/res/common.js'/>"></script>
+<script type="text/javascript" language="javascript" src="<c:url value='/res/brws.js'/>"></script>
+<script language="javascript"><!--
+var threadParams = { servl:"<html:rewrite action='/Thread'/>",frequency:2,<c:if test="${user}">user:"true",</c:if>threadid:${ct.chatThreadId},token:${ct.token} };
+//--></script>
+<script type="text/javascript" language="javascript" src="<c:url value='/res/page_chat.js'/>"></script>
+</head>
+
+<body bgcolor="#FFFFFF" background="<c:url value='/res/images/chat/bg.gif'/>" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" marginwidth="0" marginheight="0" leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0">
+
+<table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+<td valign="top">
+
+	<table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
+	<tr>
+    <td></td>
+    <td colspan="2" height="100" background="<c:url value='/res/images/chat/banner.gif'/>" valign="top" class="bgrn">
+		<table width="100%" cellspacing="0" cellpadding="0" border="0">
+		<tr>
+	    <td width="50%" valign="top">
+			<table width="135" cellspacing="0" cellpadding="0" border="0">
+			<tr>
+		    <td height="25"></td>
+			</tr>
+			<tr>
+		    <td align="center"><c:if test="${not empty ct.company.chatLogoURL}"><img src="<c:url value='${ct.company.chatLogoURL}'/>" width="85" height="45" border="0" alt=""/></c:if></td>
+			</tr>
+			<tr>
+		    <td height="5"></td>
+			</tr>
+			<tr>
+		    <td align="center" class="text">${ct.company.name}</td>
+			</tr>
+			</table>
+		</td>
+    	<td width="50%" align="right" valign="top">
+			<table cellspacing="0" cellpadding="0" border="0">
+			<tr>
+		    <td height="25" align="right">
+
+				<table cellspacing="0" cellpadding="0" border="0">
+				<tr>
+			    <td class="text"><bean:message key="chat.window.product_name"/></td>
+			    <td width="5"></td>
+			    <td>
+					<table cellspacing="0" cellpadding="0" border="0">
+					<tr>
+				    <td width="95" height="13" bgcolor="#D09221" align="center" class="www"><a href="<bean:message key='site.url'/>" title="<bean:message key='company.title'/>" target="_blank"><bean:message key='site.title'/></a></td>
+					</tr>
+					</table>
+				</td>
+			    <td width="5"></td>
+			    <td><a class="closethread" href="javascript:void(0)" onclick="return false;" title="<bean:message key='chat.window.close_title'/>"><html:img page="/res/images/chat/buttons/closewin.gif" width="15" height="15" border="0" altKey="chat.window.close_link_text"/></a></td>
+			    <td width="5"></td>
+				</tr>
+				</table>
+
+			</td>
+			</tr>
+
+			<tr>
+		    <td height="60" align="right">
+				
+				<table cellspacing="0" cellpadding="0" border="0">
+				<tr>
+<c:if test="${agent}">
+				<td class="text" nowrap>
+					<bean:message key="chat.window.chatting_with"/> <b><a href="javascript:void(0)" onclick="return false;" title="<bean:message key='chat.window.chatting_with'/> <c:out value='${ct.user.name}'/>"><c:out value='${ct.user.name}'/></a></b><br/>
+				</td>
+</c:if><c:if test="${user}">
+				<td class="text" nowrap>
+				<div id="changename1" style="display:${displ1};">
+					<table cellspacing="0" cellpadding="0" border="0"><tr>
+					<td class="text" nowrap><bean:message key="chat.client.name"/></td> 
+					<td width="10" valign="top"><html:img page="/res/images/free.gif" width="10" height="1" border="0" alt="" /></td>
+					<td><input id="uname" type="text" size="12" value="<c:out value='${ct.user.name}'/>" class="username"/></td>
+					<td width="5" valign="top"><html:img page="/res/images/free.gif" width="5" height="1" border="0" alt="" /></td>
+					<td><a href="javascript:void(0)" onclick="return false;" title="<bean:message key='chat.client.changename'/>"><html:img page="/res/images/chat/buttons/exec.gif" width="25" height="25" border="0" alt="&gt;&gt;" /></a></td>
+					</tr></table>
+				</div>
+				<div id="changename2" style="display:${displ2};">
+					<table cellspacing="0" cellpadding="0" border="0"><tr>
+					<td class="text" nowrap><a href="javascript:void(0)" onclick="return false;" title="<bean:message key='chat.client.changename'/>"><bean:message key="chat.client.changename"/></a></td>
+					<td width="10" valign="top"><html:img page="/res/images/free.gif" width="10" height="1" border="0" alt="" /></td>
+					<td><a href="javascript:void(0)" onclick="return false;" title="<bean:message key='chat.client.changename'/>"><html:img page="/res/images/chat/buttons/changeuser.gif" width="25" height="25" border="0" alt="" /></a></td>
+					</tr></table>
+				</div>
+				</td>
+</c:if>
+<c:if test="${agent}">
+				<td width="10" valign="top"><html:img page="/res/images/free.gif" width="10" height="1" border="0" alt="" /></td>
+				<td><a class="closethread" href="javascript:void(0)" onclick="return false;" title="<bean:message key='chat.window.close_title'/>">
+				<html:img page="/res/images/chat/buttons/close.gif" width="25" height="25" border="0" altKey="chat.window.close_link_text"/></a></td>
+</c:if>
+<!--
+				<td><html:img page="/res/images/chat/buttons/changeuser.gif" width="25" height="25" border="0" alt="Change User" /></td>
+ -->
+
+			    <td><html:img page="/res/images/chat/buttondiv.gif" width="35" height="45" border="0" alt="" /></td>
+<c:if test="${user}">
+				<td><is:popupLink options="toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=204,resizable=0" name="ForwardMail" href="${selfLink}&page=mailthread">
+					<jsp:attribute name="title"><bean:message key='chat.window.toolbar.mail_history'/></jsp:attribute>
+					<jsp:body><html:img page="/res/images/chat/buttons/email.gif" width="25" height="25" border="0" alt="Mail&nbsp;"/></jsp:body>
+				</is:popupLink></td>
+</c:if><%--jsponly--%><c:if test="${agent && canpost}">
+				<td><a href="${selfLink}&page=redirect" title="<bean:message key='chat.window.toolbar.redirect_user'/>">
+				<html:img page="/res/images/chat/buttons/send.gif" width="25" height="25" border="0" alt="Redirect&nbsp;" /></a></td>
+</c:if>
+<c:if test="${agent && not empty requestScope.historyParams}">
+				<td><is:popupLink options="toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=703,height=380,resizable=1" name="UserHistory">
+					<jsp:attribute name="href"><html:rewrite forward="client_analysis_userhistory" name="historyParams"/></jsp:attribute>
+					<jsp:attribute name="title"><bean:message key='page.analysis.userhistory.title'/></jsp:attribute>
+					<jsp:body><html:img page="/res/images/chat/buttons/history.gif" width="25" height="25" border="0" alt="History&nbsp;"/></jsp:body>
+				</is:popupLink></td>
+</c:if><%--end--%>
+				<td><a id="refresh" href="javascript:void(0)" onclick="return false;" title="<bean:message key='chat.window.toolbar.refresh'/>">
+				<html:img page="/res/images/chat/buttons/refresh.gif" width="25" height="25" border="0" alt="Refresh&nbsp;" /></a></td>
+<%--jsponly--%><c:if test="${not empty requestScope.sslLink}">
+			    <td><a href="${requestScope.sslLink}" title="<bean:message key='chat.window.toolbar.ssl'/>">
+			    <html:img page="/res/images/chat/buttons/lock.gif" width="25" height="25" border="0" alt="Lock" /></a></td>
+</c:if><%--end--%>
+				<td width="20" valign="top"><html:img page="/res/images/free.gif" width="20" height="1" border="0" alt="" /></td>
+				</tr>
+				</table>
+
+			</td>
+			</tr>
+			</table>
+		</td>
+		</tr>
+		</table>
+	</td>
+	</tr>
+
+	<tr>
+    <td></td>
+    <td valign="top">
+
+		<table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
+		<tr>
+	    <td width="20" valign="top"><html:img pageKey="image.chat.history" width="20" height="80" border="0" alt="" /></td>
+    	<td colspan="2" width="100%" height="100%" valign="top" id="chatwndtd">
+			<table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
+			<tr>
+		    <td colspan="3" bgcolor="#A1A1A1"><html:img page="/res/images/free.gif" width="1" height="1" border="0" alt="" /></td>
+			</tr>
+			<tr>
+		    <td bgcolor="#A1A1A1"><html:img page="/res/images/free.gif" width="1" height="1" border="0" alt="" /></td>
+		    <td width="100%" height="100%" bgcolor="#FFFFFF" valign="top">
+				<iframe id="chatwnd" width="100%" height="100%" src="" frameborder="0" style="overflow:auto;">
+				Sorry, your browser does not support iframes; try a browser that supports W3 standards.
+				</iframe>
+			</td>
+		    <td bgcolor="#A1A1A1"><html:img page="/res/images/free.gif" width="1" height="1" border="0" alt="" /></td>
+			</tr>
+			<tr>
+		    <td colspan="3" bgcolor="#A1A1A1"><html:img page="/res/images/free.gif" width="1" height="1" border="0" alt="" /></td>
+			</tr>
+			</table>
+		</td>
+		</tr>
+<c:if test="${canpost}">
+		<tr>
+	    <td colspan="3" height="5" style="cursor:n-resize;" id="spl1"></td>
+		</tr>
+
+		<tr>
+	    <td width="20" valign="top"><html:img pageKey="image.chat.message" width="20" height="85" border="0" alt="" /></td>
+    	<td width="100%" height="100" valign="top" id="msgwndtd">
+			<table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
+			<tr>
+		    <td colspan="3" bgcolor="#A1A1A1"><html:img page="/res/images/free.gif" width="1" height="1" border="0" alt="" /></td>
+			</tr>
+			<tr>
+		    <td bgcolor="#A1A1A1"><html:img page="/res/images/free.gif" width="1" height="1" border="0" alt="" /></td>
+		    <td width="100%" height="100%" bgcolor="#FFFFFF" valign="top">
+				<textarea id="msgwnd" class="message" tabindex="0"></textarea>
+			</td>
+		    <td bgcolor="#A1A1A1"><html:img page="/res/images/free.gif" width="1" height="1" border="0" alt="" /></td>
+			</tr>
+			<tr>
+		    <td colspan="3" bgcolor="#A1A1A1"><html:img page="/res/images/free.gif" width="1" height="1" border="0" alt="" /></td>
+			</tr>
+			</table>
+		</td>
+	    <td valign="center" id="avatarwnd"></td>
+		</tr>
+</c:if>	
+		</table>
+
+	</td>
+    <td></td>
+	</tr>
+
+	<tr>
+    <td height="45"></td>
+    <td>
+		<table width="100%" cellspacing="0" cellpadding="0" border="0">
+		<tr>
+	    <td width="33%">
+			<table cellspacing="0" cellpadding="0" border="0">
+			<tr>
+		    <td width="20"></td>
+<%-- <c:if test="${user}">
+			<td style="padding-left:10px;">
+				Switch to <a href="${linkWoLevel}&level=simple">Level2</a>
+			</td>
+</c:if> --%>
+<%--jsponly--%><c:if test="${agent && canpost}">
+		    <td>
+				<select id="predefined" size="1" class="answer">
+				<option><bean:message key="chat.window.predefined.select_answer" /></option>
+				<c:forEach var="it" items="${predefinedList}"><option>${fn:escapeXml(it)}</option></c:forEach>
+				</select>
+			</td>
+</c:if><%--end--%>
+			</tr>
+			</table>
+		</td>
+		<td width="33%" align="center" class="copyr"><bean:message key="chat.window.poweredby" /> <a href="<bean:message key='site.url'/>" title="<bean:message key='company.title'/>" target="_blank"><bean:message key="chat.window.poweredreftext"/></a></td>
+		<td width="33%" align="right">
+		
+<c:if test="${canpost}">
+			<table cellspacing="0" cellpadding="0" border="0" id="postmessage">
+
+			<tr>
+		    <td><a href="javascript:void(0)" onclick="return false;" title="<bean:message key='chat.window.send_message'/>"><html:img page="/res/images/chat/submit.gif" width="40" height="35" border="0" alt="" /></a></td>
+		    <td background="<c:url value='/res/images/chat/submitbg.gif'/>" valign="top" class="submit">
+				<html:img page="/res/images/free.gif" width="1" height="10" border="0" alt="" /><br/>
+				<a href="javascript:void(0)" onclick="return false;" title="<bean:message key='chat.window.send_message'/>"><bean:message key='chat.window.send_message_short'/></a><br/>
+			</td>
+			<td width="10"><a href="javascript:void(0)" onclick="return false;" title="<bean:message key='chat.window.send_message'/>"><html:img page="/res/images/chat/submitrest.gif" width="10" height="35" border="0" alt="" /></a></td>
+			</tr>
+			</table>
+</c:if>
+		</td>
+		</tr>
+		</table>
+	</td>
+    <td></td>
+	</tr>
+
+	<tr>
+    <td width="10"><html:img page="/res/images/free.gif" width="10" height="1" border="0" alt="" /></td>
+    <td width="100%"><html:img page="/res/images/free.gif" width="585" height="1" border="0" alt="" /></td>
+    <td width="5"><html:img page="/res/images/free.gif" width="5" height="1" border="0" alt="" /></td>
+	</tr>
+	</table>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>
