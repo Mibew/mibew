@@ -17,18 +17,43 @@ require('../libs/operator.php');
 
 $operator = check_login();
 
-$lang = verifyparam("lang", "/^\w\w$/", "");
-if( !$lang || !in_array($lang,$available_locales) )
-	$lang = $current_locale;
+// collect available images and locales
+$imageLocales = array();
+$imagesDir = '../images/webim';
+if($handle = opendir($imagesDir)) {
+	while (false !== ($file = readdir($handle))) {
+		if (preg_match("/^(\w+)_([\w-]+)_on.gif$/", $file, $matches) 
+				&& is_file("$imagesDir/".$matches[1]."_".$matches[2]."_off.gif")) {
+			$image = $matches[1];
+			if( !isset($imageLocales[$image]) ) {
+				$imageLocales[$image] = array();
+			}
+			$imageLocales[$image][] = $matches[2];
+		}
+	}
+	closedir($handle);
+}
 
-$file = "../images/webim/webim_${lang}_on.gif";
+$image = verifyparam("image","/^\w+$/", "webim");
+$image_locales = $imageLocales[$image];
+
+$lang = verifyparam("lang", "/^\w\w$/", "");
+if( !$lang || !in_array($lang,$image_locales) )
+	$lang = in_array($current_locale,$image_locales) ? $current_locale : $image_locales[0];
+
+$file = "../images/webim/${image}_${lang}_on.gif";
 $size = get_gifimage_size($file);
 
-$message = get_image("/webim/button.php?lang=$lang",$size[0],$size[1]);
+$message = get_image("/webim/button.php?image=$image&lang=$lang",$size[0],$size[1]);
 
 $page = array();
 $page['operator'] = get_operator_name($operator);
 $page['buttonCode'] = generate_button("",$lang,$message);
+$page['availableImages'] = array_keys($imageLocales);
+$page['availableLocales'] = $image_locales;
+
+$page['formimage'] = $image;
+$page['formlang'] = $lang;
 
 start_html_output();
 require('../view/gen_button.php');

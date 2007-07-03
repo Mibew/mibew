@@ -51,19 +51,34 @@
 <br />
 <br />
 
-<a href="/webim/operator/getcode.php?lang=en"><?php echo getstring("get_button_en") ?></a><br/>
-<a href="/webim/operator/getcode.php?lang=ru"><?php echo getstring("get_button_ru") ?></a><br/>
-<br/>
-
+<form name="buttonCodeForm" method="get" action="/webim/operator/getcode.php">
 <table cellspacing='0' cellpadding='0' border='0'><tr><td background='/webim/images/loginbg.gif'><table cellspacing='0' cellpadding='0' border='0'><tr><td><img src='/webim/images/logincrnlt.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='/webim/images/logincrnrt.gif' width='16' height='16' border='0' alt=''></td></tr><tr><td></td><td align='center'><table border='0' cellspacing='0' cellpadding='0'>
+	<tr>
+		<td colspan="3" class="formauth"><?php echo getstring("page.gen_button.choose_image") ?></td>
+	</tr>
+	<tr><td colspan="3" height="2"></td></tr>
+	<tr>
+		<td colspan="3">
+			<select name="image" onchange="this.form.submit();"><?php foreach($page['availableImages'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("image") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+		</td>
+	</tr>
+	<tr><td colspan="3" height="5"></td></tr>
+	<tr>
+		<td colspan="3" class="formauth"><?php echo getstring("page.gen_button.choose_locale") ?></td>
+	</tr>
+	<tr><td colspan="3" height="2"></td></tr>
+	<tr>
+		<td colspan="3">
+			<select name="lang" onchange="this.form.submit();"><?php foreach($page['availableLocales'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("lang") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+		</td>
+	</tr>
+	<tr><td colspan="3" height="5"></td></tr>
 	<tr>
 		<td class="formauth"><?php echo getstring("page.gen_button.code") ?></td>
 		<td width="10"><img src="/webim/images/free.gif" width="10" height="1" border="0" alt=""></td>
 		<td></td>
 	</tr>
-	<tr>
-		<td colspan="3" height="2"></td>
-	</tr>
+	<tr><td colspan="3" height="2"></td></tr>
 	<tr>
 		<td><textarea cols="60" rows="15"><?php echo $page['buttonCode'] ?></textarea></td>
 		<td></td>
@@ -87,7 +102,7 @@
 		<td class="formauth" valign="top" nowrap><span class="formdescr"></span></td>
 	</tr>
 </table></td><td></td></tr><tr><td><img src='/webim/images/logincrnlb.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='/webim/images/logincrnrb.gif' width='16' height='16' border='0' alt=''></td></tr></table></td></tr></table>
-
+</form>
 </td>
 </tr>
 </table>
