@@ -15,12 +15,13 @@
 require('libs/common.php');
 require('libs/operator.php');
 
+$image = verifyparam("image","/^\w+$/", "webim");
 $lang = verifyparam("lang", "/^\w\w$/", "");
 if( !$lang || !in_array($lang,$available_locales) )
 	$lang = $current_locale;
 
 $image_postfix = has_online_operators() ? "on" : "off";
-$name = "images/webim/webim_${lang}_${image_postfix}.gif";
+$name = "images/webim/${image}_${lang}_${image_postfix}.gif";
 
 $fp = fopen($name, 'rb') or die("no image");
 header("Content-Type: image/gif");
