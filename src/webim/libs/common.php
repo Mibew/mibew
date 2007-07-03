@@ -240,4 +240,19 @@ function get_gifimage_size($file) {
 	return array(0,0);
 }
 
+function add_params($servlet, $params) {
+	$infix = '?';
+	if( strstr($servlet,$infix) !== FALSE )
+		$infix = '&';
+	foreach($params as $k => $v) {
+		$servlet .= $infix.$k."=".$v;
+		$infix = '&';
+	}
+	return $servlet;
+}
+
+function div($a,$b) {
+    return ($a-($a % $b)) / $b;
+}
+
 ?>
