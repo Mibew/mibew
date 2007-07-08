@@ -1,0 +1,117 @@
+<?php
+/*
+ * This file is part of Web Instant Messenger project.
+ *
+ * Copyright (c) 2005-2007 Internet Services Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Evgeny Gryaznov - initial API and implementation
+ */
+?>
+<html>
+<head>
+
+
+
+<link rel="stylesheet" type="text/css" media="all" href="/webim/styles.css" />
+
+
+
+
+
+<link rel="shortcut icon" href="/webim/images/favicon.ico" type="image/x-icon"/>
+<title>
+	<?php echo getstring("app.title") ?>	- <?php echo getstring("page_analysis.search.title") ?>
+</title>
+
+<meta http-equiv="keywords" content="<?php echo getstring("page.main_layout.meta_keyword") ?>">
+<meta http-equiv="description" content="<?php echo getstring("page.main_layout.meta_description") ?>">
+
+
+
+
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" link="#2971C1" vlink="#2971C1" alink="#2971C1">
+
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+<tr>
+<td valign="top" class="text">
+	
+ <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="left" valign="top"> 
+		<h1><?php echo getstring("page_analysis.search.title") ?></h1>
+ </td><td align="right" class="text" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="textform"><?php echo getstring2("menu.operator",array($page['operator'])) ?></td><td class="textform"><img src='/webim/images/topdiv.gif' width="25" height="15" border="0" alt="|" /></td><td class="textform"><a href="/webim/operator/index.php" title="<?php echo getstring("menu.main") ?>"><?php echo getstring("menu.main") ?></a></td></tr></table></td></tr></table> 
+	
+
+	<?php echo getstring("page_search.intro") ?>
+<br />
+<br />
+
+
+
+
+<form name="searchForm" method="get" action="/webim/operator/history.php">
+<table cellspacing='0' cellpadding='0' border='0'><tr><td background='/webim/images/loginbg.gif'><table cellspacing='0' cellpadding='0' border='0'><tr><td><img src='/webim/images/logincrnlt.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='/webim/images/logincrnrt.gif' width='16' height='16' border='0' alt=''></td></tr><tr><td></td><td align='center'><table border='0' cellspacing='0' cellpadding='0'>
+	<tr>
+		<td class="formauth" colspan="3"><?php echo getstring("page_analysis.full.text.search") ?></td>
+	</tr>
+	<tr>
+		<td class="formauth"><input type="text" name="q" size="80" value="<?php echo form_value('q') ?>" class="formauth"/></td>
+		<td width="10"><img src="/webim/images/free.gif" width="10" height="1" border="0" alt=""></td>
+		<td class="formauth">
+			<input type="image" name="" src='<?php echo getstring("image.button.search") ?>' border="0" alt='<?php echo getstring("button.search") ?>'/>
+		</td>
+	</tr>
+</table></td><td></td></tr><tr><td><img src='/webim/images/logincrnlb.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='/webim/images/logincrnrb.gif' width='16' height='16' border='0' alt=''></td></tr></table></td></tr></table>
+</form>
+
+<br/>
+<?php if( $page['pagination'] && $page['pagination.items'] ) { ?>
+	<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<tr>
+			<td class='table' bgcolor='#276db8' height='30'><span class='header'><?php echo getstring("page.analysis.search.head_name") ?></span></td><td width='3'></td>
+			<td class='table' bgcolor='#276db8' height='30'><span class='header'><?php echo getstring("page.analysis.search.head_host") ?></span></td><td width='3'></td>
+			<td class='table' bgcolor='#276db8' height='30'><span class='header'><?php echo getstring("page.analysis.search.head_operator") ?></span></td><td width='3'></td>
+			<td class='table' bgcolor='#276db8' height='30'><span class='header'><?php echo getstring("page.analysis.search.head_time") ?></span></td>
+		</tr>
+		<?php foreach( $page['pagination.items'] as $chatthread ) { ?>
+			<tr>
+				<td height='30' class='table'>
+					<a href="/webim/operator/threadprocessor.php?threadid=<?php echo $chatthread['threadid'] ?>" target="_blank" onclick="this.newWindow = window.open('/webim/operator/threadprocessor.php?threadid=<?php echo $chatthread['threadid'] ?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=600,height=420,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo htmlspecialchars($chatthread['userName']) ?></a>
+				</td><td background='/webim/images/tablediv3.gif'><img width='3' height='1' border='0' alt='' src='/webim/images/free.gif'></td>
+				<td height='30' class='table'>
+					<?php echo htmlspecialchars($chatthread['remote']) ?>
+				</td><td background='/webim/images/tablediv3.gif'><img width='3' height='1' border='0' alt='' src='/webim/images/free.gif'></td>
+				<td height='30' class='table'>
+        			<?php if( $chatthread['agentName'] ) { ?><?php echo htmlspecialchars($chatthread['agentName']) ?><?php } ?>
+				</td><td background='/webim/images/tablediv3.gif'><img width='3' height='1' border='0' alt='' src='/webim/images/free.gif'></td>
+				<td height='30' class='table'>
+					<?php echo date("d M Y H:i:s", $chatthread['created']) ?>,  <?php echo date("d M Y H:i:s", $chatthread['modified']-$chatthread['created']) ?>
+				</td>
+			</tr>
+			<tr><td height='2' colspan='7'></td></tr><tr><td bgcolor='#e1e1e1' colspan='7'><img width='1' height='1' border='0' alt='' src='/webim/images/free.gif'></td></tr><tr><td height='2' colspan='7'></td></tr>
+		<?php } ?>
+	</table>
+	<br />
+	<?php echo generate_pagination($page['pagination']) ?>
+<?php } ?>
+<?php if( $page['pagination'] && !$page['pagination.items'] ) { ?>
+	<br/><br/>
+	<table cellspacing='0' cellpadding='0' border='0'><tr><td background='/webim/images/loginbg.gif'><table cellspacing='0' cellpadding='0' border='0'><tr><td><img src='/webim/images/logincrnlt.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='/webim/images/logincrnrt.gif' width='16' height='16' border='0' alt=''></td></tr><tr><td></td><td align='center'><table border='0' cellspacing='0' cellpadding='0'>
+		<span class="table">
+			<?php echo getstring("tag.pagination.no_items") ?>
+		</span>
+	</table></td><td></td></tr><tr><td><img src='/webim/images/logincrnlb.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='/webim/images/logincrnrb.gif' width='16' height='16' border='0' alt=''></td></tr></table></td></tr></table>
+<?php } ?>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>
+

@@ -14,6 +14,7 @@
 
 require('libs/common.php');
 require('libs/chat.php');
+require('libs/operator.php');
 
 $act = verifyparam( "act", "/^(refresh|post|rename|close|ping)$/");
 $token = verifyparam( "token", "/^\d{1,9}$/");
@@ -26,9 +27,18 @@ if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] ) {
 	die("wrong thread");
 }
 
+# This code helps in simulation of operator connection problems
+# if( !$isuser )     die("error");
+
+ping_thread($thread, $isuser);
+
+if( !$isuser && $act != "rename" ) {
+	$operator = check_login();
+	check_for_reassign($thread,$operator);
+}
+
 if( $act == "refresh" ) {
 	$lastid = verifyparam( "lastid", "/^\d{1,9}$/", -1);
-	ping_thread($thread, $isuser);
 	print_thread_mesages($threadid, $token, $lastid, $isuser,$outformat);
 	exit;
 
@@ -40,14 +50,12 @@ if( $act == "refresh" ) {
 	$from = $isuser ? $thread['userName'] : $thread['agentName'];
 
 	post_message($threadid,$kind,$message,$from);
-	ping_thread($thread, $isuser);
 	print_thread_mesages($threadid, $token, $lastid, $isuser, $outformat);
 	exit;
 
 } else if( $act == "rename" ) {
 	$newname = getrawparam('name');
 
-	ping_thread($thread, $isuser);
 	rename_user($thread, $newname);
 	setcookie($namecookie, $newname, time()+60*60*24*365); 
 	start_xml_output();
@@ -56,14 +64,12 @@ if( $act == "refresh" ) {
 
 } else if( $act == "ping" ) {
 
-	ping_thread($thread, $isuser);
 	start_xml_output();
 	echo "<ping></ping>";
 	exit;
 
 } else if( $act == "close" ) {
 
-	ping_thread($thread, $isuser);
 	close_thread($thread, $isuser);
 	start_xml_output();
 	echo "<closed></closed>";

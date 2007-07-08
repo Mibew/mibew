@@ -29,7 +29,11 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 
 		$thread = create_thread($userName, $remote, $referer,$current_locale);
 		$_SESSION['threadid'] = $thread['threadid'];
+		if( $referer ) {
+			post_message($thread['threadid'],$kind_for_agent,getstring2('chat.came.from',array($referer)));
+		}
 		post_message($thread['threadid'],$kind_info,getstring('chat.wait'));
+
 	}	
 	$threadid = $thread['threadid'];
 	$token = $thread['ltoken'];
@@ -52,7 +56,7 @@ if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] ) {
 setup_chatview_for_user($thread, $level);
 start_html_output();
 
-$pparam = verifyparam( "page", "/^(mailthread)$/", "default");
+$pparam = verifyparam( "act", "/^(mailthread)$/", "default");
 if( $pparam == "mailthread" ) {
 	require('view/chat_mailthread.php');
 } else if( $level == "ajaxed" ) {

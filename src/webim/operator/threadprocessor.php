@@ -13,7 +13,20 @@
  */
 
 require('../libs/common.php');
+require('../libs/operator.php');
+require('../libs/chat.php');
+
+$operator = check_login();
+
+$page = array( 'operator' => get_operator_name($operator) );
+
+
+if( isset($_GET['threadid'])) {
+        $threadid = verifyparam( "threadid", "/^(\d{1,9})?$/", "");
+	$lastid = -1;
+	$page['threadMessages'] = get_messages($threadid,"html",false,$lastid);
+}
 
 start_html_output();
-require('view_index.php');
+require('../view/thread_log.php');
 ?>

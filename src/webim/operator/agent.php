@@ -31,9 +31,7 @@ if( !isset($_GET['token']) ) {
 		die("wrong thread");
 	}
 
-	$operatorName = ($thread['locale'] == $home_locale) ? $operator['vclocalename'] : $operator['vccommonname'];
-
-	take_thread($thread,$operatorName);
+	take_thread($thread,$operator);
 
 	$token = $thread['ltoken'];
 	header("Location: ".$_SERVER['PHP_SELF']."?thread=$threadid&token=$token");
@@ -50,6 +48,8 @@ if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] ) {
 setup_chatview_for_operator($thread);
 
 start_html_output();
-require('../view/chat_ajaxed.php');
+
+
+	require('../view/chat_ajaxed.php');
 
 ?>

@@ -15,7 +15,19 @@
 function operator_by_login($login) {
 	$link = connect();
 	$operator = select_one_row(
-		"select * from chatoperator where vclogin = '".mysql_real_escape_string($login)."'", $link );
+		 "select * from chatoperator where vclogin = '".mysql_real_escape_string($login)."'", $link );
+	mysql_close($link);
+	return $operator;
+}
+
+function operator_by_id_($id,$link) {
+	return select_one_row(
+		 "select * from chatoperator where operatorid = $id", $link );
+}
+
+function operator_by_id($id) {
+	$link = connect();
+	$operator = operator_by_id_($id,$link);
 	mysql_close($link);
 	return $operator;
 }

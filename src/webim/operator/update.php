@@ -45,10 +45,12 @@ function thread_to_xml($thread) {
 		return $result."/>";
 
 	$state = getstring($threadstate_key[$thread['istate']]);
+	$threadoperator = ($thread['agentName'] ? $thread['agentName'] : "-");
+
 	$result .= " canopen=\"true\" state=\"$state\">";
 	$result .= "<name>".htmlspecialchars($thread['userName'])."</name>";
 	$result .= "<addr>".htmlspecialchars($thread['remote'])."</addr>";
-	$result .= "<agent>".htmlspecialchars($thread['agentName'] ? $thread['agentName'] : "-")."</agent>";
+	$result .= "<agent>".htmlspecialchars($threadoperator)."</agent>";
 	$result .= "<time>".$thread['unix_timestamp(dtmcreated)']."000</time>";
 	$result .= "<modified>".$thread['unix_timestamp(dtmmodified)']."000</modified>";
 	$result .= "</thread>";
@@ -61,7 +63,9 @@ function print_pending_threads($since) {
 
 	$revision = $since;
 	$output = array();
-	$query = "select threadid, userName, agentName, unix_timestamp(dtmcreated), unix_timestamp(dtmmodified), lrevision, istate, remote from chatthread where lrevision > $since ORDER BY threadid";
+	$query = "select threadid, userName, agentName, unix_timestamp(dtmcreated), ".
+			 "unix_timestamp(dtmmodified), lrevision, istate, remote ".
+			 "from chatthread where lrevision > $since ORDER BY threadid";
 	$result = mysql_query($query,$link) or die(' Query failed: ' .mysql_error().": ".$query);
 
 	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {

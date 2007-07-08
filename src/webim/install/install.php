@@ -84,6 +84,7 @@ function create_tables() {
 drop_tables();
 create_tables();
 
+start_html_output();
 require('view_install.php');
 
 ?>

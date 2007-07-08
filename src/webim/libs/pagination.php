@@ -27,11 +27,11 @@ function generate_pagination_image($id) {
 	return "<img src=\"$webimroot/images/$id.gif\" border=\"0\"/>";
 }
 
-function setup_pagination($items) {
+function setup_pagination($items,$default_items_per_page=15) {
 	global $page;
 
 	if( $items ) {
-		$items_per_page = verifyparam("items", "/^\d{1,3}$/", 2);
+		$items_per_page = verifyparam("items", "/^\d{1,3}$/", $default_items_per_page);
 		if( $items_per_page < 2 )
 			$items_per_page = 2;
 	

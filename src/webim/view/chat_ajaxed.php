@@ -87,7 +87,7 @@ var threadParams = { servl:"/webim/thread.php",frequency:2,<?php if( $page['user
 				<tr>
 <?php if( $page['agent'] ) { ?>
 				<td class="text" nowrap>
-					<?php echo getstring("chat.window.chatting_with") ?> <b><a href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.chatting_with") ?> <?php echo $page['ct.user.name'] ?>"><?php echo $page['ct.user.name'] ?></a></b><br>
+					<?php echo getstring("chat.window.chatting_with") ?> <b><a href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.chatting_with") ?> <?php echo $page['ct.user.name'] ?><?php echo $page['namePostfix'] ?>"><?php echo $page['ct.user.name'] ?></a></b><br>
 				</td>
 <?php } ?><?php if( $page['user'] ) { ?>
 				<td class="text" nowrap>
@@ -120,8 +120,9 @@ var threadParams = { servl:"/webim/thread.php",frequency:2,<?php if( $page['user
 
 			    <td><img src='/webim/images/buttondiv.gif' width="35" height="45" border="0" alt="" /></td>
 <?php if( $page['user'] ) { ?>
-				<td><a href="<?php echo $page['selfLink'] ?>&page=mailthread" target="_blank" title="<?php echo getstring("chat.window.toolbar.mail_history") ?>" onclick="this.newWindow = window.open('<?php echo $page['selfLink'] ?>&page=mailthread', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=204,resizable=0');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src='/webim/images/buttons/email.gif' width="25" height="25" border="0" alt="Mail&nbsp;"/></a></td>
+				<td><a href="<?php echo $page['selfLink'] ?>&act=mailthread" target="_blank" title="<?php echo getstring("chat.window.toolbar.mail_history") ?>" onclick="this.newWindow = window.open('<?php echo $page['selfLink'] ?>&act=mailthread', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=204,resizable=0');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src='/webim/images/buttons/email.gif' width="25" height="25" border="0" alt="Mail&nbsp;"/></a></td>
 <?php } ?>
+
 				<td><a id="refresh" href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.toolbar.refresh") ?>">
 				<img src='/webim/images/buttons/refresh.gif' width="25" height="25" border="0" alt="Refresh&nbsp;" /></a></td>
 
@@ -248,3 +249,4 @@ var threadParams = { servl:"/webim/thread.php",frequency:2,<?php if( $page['user
 
 </body>
 </html>
+

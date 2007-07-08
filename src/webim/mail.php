@@ -30,7 +30,7 @@ $page['email'] = $mail;
 
 $history = "";
 $lastid = -1;
-$output = get_messages( $threadid, "text", $lastid );
+$output = get_messages( $threadid,"text",true,$lastid );
 foreach( $output as $msg ) {
 	$history .= $msg;
 }

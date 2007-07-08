@@ -58,10 +58,27 @@
 	<tr><td width='20' valign='top'><img src='/webim/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='/webim/operator/users.php'><?php echo getstring('topMenu.users') ?></a><br><img src='/webim/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getstring('page_client.pending_users') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
 
 	<tr><td width='20' valign='top'><img src='/webim/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='/webim/operator/getcode.php'><?php echo getstring('leftMenu.client_gen_button') ?></a><br><img src='/webim/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getstring('admin.content.client_gen_button') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
+        
+        <tr><td width='20' valign='top'><img src='/webim/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='/webim/operator/history.php'><?php echo getstring('page_analysis.search.title') ?></a><br><img src='/webim/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getstring('content.history') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
 
 	<tr><td width='20' valign='top'><img src='/webim/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='/webim/operator/logout.php'><?php echo getstring('topMenu.logoff') ?></a><br><img src='/webim/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getstring('content.logoff') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
 
 </table>
+
+<table width="200" cellspacing="0" cellpadding="0" border="0">
+<tr>
+  <td height="10"></td>
+</tr>
+<tr>
+  <td bgcolor="#D6D6D6"><img src="/webim/images/free.gif" height="1" width="1" border="0" alt=""></td>
+</tr>
+<tr>
+  <td height="7"></td>
+</tr>
+</table>
+
+Web Messenger/<?php echo $page['version'] ?> &bull; <?php echo $page['localeLinks'] ?>
+
 </td>
 </tr>
 </table>
