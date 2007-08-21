@@ -36,7 +36,7 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 	}
 }
 
-$page = array( 'backPath' => '' );
+$page = array( 'backPath' => '', 'formisRemember' => true );
 start_html_output();
 require('../view/login.php');
 ?>

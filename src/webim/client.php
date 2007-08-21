@@ -25,16 +25,14 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 	if( !$thread ) {
 		$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "";
 		$remote = isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $_SERVER['REMOTE_ADDR'];
-		$userName = isset($_COOKIE[$namecookie]) ? $_COOKIE[$namecookie] : getstring("chat.default.username");
-
-		$thread = create_thread($userName, $remote, $referer,$current_locale);
+		$visitor = $remote_visitor();
+		$thread = create_thread($visitor['name'], $remote, $referer,$current_locale);
 		$_SESSION['threadid'] = $thread['threadid'];
 		if( $referer ) {
 			post_message($thread['threadid'],$kind_for_agent,getstring2('chat.came.from',array($referer)));
 		}
 		post_message($thread['threadid'],$kind_info,getstring('chat.wait'));
-
-	}	
+	}
 	$threadid = $thread['threadid'];
 	$token = $thread['ltoken'];
 	$level = get_remote_level($_SERVER['HTTP_USER_AGENT']);

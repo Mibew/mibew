@@ -112,7 +112,7 @@
 					<td>
 					<table cellspacing="0" cellpadding="0" border="0">
 						<tr>
-							<td><input type="checkbox" name="isRemember" value="on" checked="checked"/></td>
+							<td><input type="checkbox" name="isRemember" value="on"<?php echo form_value_cb('isRemember') ? " checked=\"checked\"" : "" ?> /></td>
 							<td width="5"></td>
 							<td class="formauth" nowrap><span><?php echo getstring("page_login.remember") ?></span></td>
 						</tr>

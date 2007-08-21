@@ -49,8 +49,8 @@ function post_message_($threadid,$kind,$message,$link,$from=null,$time=null) {
 	    "insert into chatmessage (threadid,ikind,tmessage,tname,dtmcreated) values (%s, %s,'%s',%s,%s)",
 			$threadid,
 			$kind,
-			mysql_real_escape_string($message),
-			$from ? "'".mysql_real_escape_string($from)."'" : "null",
+			quote_smart($message,$link),
+			$from ? "'".quote_smart($from,$link)."'" : "null",
 			$time ? "FROM_UNIXTIME($time)" : "CURRENT_TIMESTAMP" );
 
 	perform_query($query,$link);
@@ -151,8 +151,13 @@ function print_thread_mesages($threadid, $token, $lastid, $isuser,$format) {
 	}
 }
 
+function get_user_name($name, $id="") {
+	global $presentable_name_pattern;
+       	return str_replace("{id}", $id, str_replace("{name}", $name, $presentable_name_pattern));
+}
+
 function setup_chatview_for_user($thread,$level) {
-	global $page, $webimroot;
+	global $page, $webimroot, $user_can_change_name;
 	$page = array();
 	$page['agent'] = false;
 	$page['user'] = true;
@@ -164,6 +169,7 @@ function setup_chatview_for_user($thread,$level) {
 	$page['ct.chatThreadId'] = $thread['threadid'];
 	$page['ct.token'] = $thread['ltoken'];
 	$page['ct.user.name'] = $thread['userName'];
+	$page['canChangeName'] = $user_can_change_name;
 
 	$page['ct.company.name'] = "Test company";  // TODO
 	$page['ct.company.chatLogoURL'] = "";		// TODO
@@ -172,17 +178,18 @@ function setup_chatview_for_user($thread,$level) {
 	$page['selfLink'] = "$webimroot/client.php?".$params."&level=".$level;
 }
 
-function setup_chatview_for_operator($thread) {
-	global $page, $webimroot;
+function setup_chatview_for_operator($thread,$operator) {
+	global $page, $webimroot, $company_logo_link, $company_name;
 	$page = array();
 	$page['agent'] = true;
 	$page['user'] = false;
 	$page['canpost'] = true;
 	$page['ct.chatThreadId'] = $thread['threadid'];
 	$page['ct.token'] = $thread['ltoken'];
-	$page['ct.user.name'] = $thread['userName'];
-	$page['ct.company.name'] = "Test company";
-	$page['ct.company.chatLogoURL'] = "";
+	$page['ct.user.name'] = get_user_name($thread['userName']);
+
+	$page['ct.company.name'] = $company_name;
+	$page['ct.company.chatLogoURL'] = $company_logo_link;
 
 	// TODO
 	$page['namePostfix'] = "";	
@@ -323,7 +330,8 @@ function create_thread($username,$remote,$referer,$lang) {
 	$link = connect();
 
 	$query = sprintf(
-		 "insert into chatthread (userName,"."ltoken,remote,referer,lrevision,locale,dtmcreated,dtmmodified) values ('%s','%s',%s,'%s','%s',%s,'%s',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)",
+		 "insert into chatthread (userName,"."ltoken,remote,referer,lrevision,locale,dtmcreated,dtmmodified) values ".
+								 "('%s',"."%s,'%s','%s',%s,'%s',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)",
 			mysql_real_escape_string($username),
 			next_token(),
 			mysql_real_escape_string($remote),
@@ -415,6 +423,13 @@ function thread_by_id($id) {
 	$thread = select_one_row("select * from chatthread where threadid = ". $id, $link );
 	mysql_close($link);
 	return $thread;
+}
+
+function visitor_from_request() {
+	global $namecookie;
+	$userName = isset($_COOKIE[$namecookie]) ? $_COOKIE[$namecookie] : getstring("chat.default.username");
+
+	return array( 'name' => $userName );
 }
 
 ?>

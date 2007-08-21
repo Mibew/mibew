@@ -54,6 +54,13 @@ if( $act == "refresh" ) {
 	exit;
 
 } else if( $act == "rename" ) {
+
+	if( !$user_can_change_name ) {
+		start_xml_output();
+		echo "<error></error>";
+		exit;
+	}
+
 	$newname = getrawparam('name');
 
 	rename_user($thread, $newname);

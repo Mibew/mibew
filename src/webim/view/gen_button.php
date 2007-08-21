@@ -74,6 +74,28 @@
 	</tr>
 	<tr><td colspan="3" height="5"></td></tr>
 	<tr>
+		<td colspan="3" class="formauth"><?php echo getstring("page.gen_button.include_site_name") ?></td>
+	</tr>
+	<tr><td colspan="3" height="2"></td></tr>
+	<tr>
+		<td colspan="3">
+			<input type="checkbox" name="hostname" value="on"<?php echo form_value_cb('hostname') ? " checked=\"checked\"" : "" ?> onchange="this.form.submit();"/>
+		</td>
+	</tr>
+<?php if( $page['formhostname'] ) { ?>
+	<tr><td colspan="3" height="5"></td></tr>
+	<tr>
+		<td colspan="3" class="formauth"><?php echo getstring("page.gen_button.secure_links") ?></td>
+	</tr>
+	<tr><td colspan="3" height="2"></td></tr>
+	<tr>
+		<td colspan="3">
+			<input type="checkbox" name="secure" value="on"<?php echo form_value_cb('secure') ? " checked=\"checked\"" : "" ?> onchange="this.form.submit();"/>
+		</td>
+	</tr>
+<?php } ?>
+	<tr><td colspan="3" height="5"></td></tr>
+	<tr>
 		<td class="formauth"><?php echo getstring("page.gen_button.code") ?></td>
 		<td width="10"><img src="/webim/images/free.gif" width="10" height="1" border="0" alt=""></td>
 		<td></td>

@@ -23,20 +23,67 @@ $mysqlpass = "123";
 /*
  *  Localization parameters
  */
+
+// Use CP-1251 database
 $dbencoding = "cp1251";
 $webim_encoding = "cp1251";
 $request_encoding = "utf-8";
-$output_charset = "cp1251";
+$output_charset = "Windows-1251";
+$force_charset_in_connection = true;
+
+
+// Use UTF-8 database
+/*
+$dbencoding = "utf8";
+$webim_encoding = "cp1251";
+$request_encoding = "utf-8";
+$output_charset = "Windows-1251";
+$force_charset_in_connection = true;
+*/
 
 /*
- *  Application parameters
+ *   From field in outgoing mail.
  */
-$webim_from_email = "webim@yourdomain.com"; # email from field
+$webim_from_email = "webim@yourdomain.com"; // email from field
 
+/*
+ *   Company international name.
+ */
+$company_name = "My Company Ltd.";
+
+/*
+ *   Company logo. 
+ */
+$company_logo_link = "";
+
+/*
+ *   Locales 
+ */
 $available_locales = array("en", "ru");
-$home_locale = "ru";                        # native name will be used in this locale
-$default_locale = "en";                     # if user does not provide known lang
+$home_locale = "ru";                        // native name will be used in this locale
+$default_locale = "en";                     // if user does not provide known lang
 
-$online_timeout = 30; # sec
+/*
+ *   Allows users to change their names
+ */
+$user_can_change_name = true;
+
+/*
+ *   How to build presentable visitor name from {name}. Default: {name}
+ */ 
+$presentable_name_pattern = "{name}";
+
+/*
+ *   Method of getting information about remote user. For example, you could
+ *   have user name or id in session. Default value: visitor_from_request
+ */
+$remote_visitor = 'visitor_from_request';
+
+/*
+ *   Timeout (in seconds) when online operator becomes offline.
+ */
+$online_timeout = 30;
+
+
 
 ?>

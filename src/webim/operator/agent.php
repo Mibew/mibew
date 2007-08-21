@@ -31,6 +31,7 @@ if( !isset($_GET['token']) ) {
 		die("wrong thread");
 	}
 
+	
 	take_thread($thread,$operator);
 
 	$token = $thread['ltoken'];
@@ -45,7 +46,7 @@ if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] ) {
 	die("wrong thread");
 }
 
-setup_chatview_for_operator($thread);
+setup_chatview_for_operator($thread, $operator);
 
 start_html_output();
 

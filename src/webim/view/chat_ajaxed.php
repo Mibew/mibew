@@ -89,7 +89,7 @@ var threadParams = { servl:"/webim/thread.php",frequency:2,<?php if( $page['user
 				<td class="text" nowrap>
 					<?php echo getstring("chat.window.chatting_with") ?> <b><a href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.chatting_with") ?> <?php echo $page['ct.user.name'] ?><?php echo $page['namePostfix'] ?>"><?php echo $page['ct.user.name'] ?></a></b><br>
 				</td>
-<?php } ?><?php if( $page['user'] ) { ?>
+<?php } ?><?php if( $page['user'] && $page['canChangeName'] ) { ?>
 				<td class="text" nowrap>
 				<div id="changename1" style="display:<?php echo $page['displ1'] ?>;">
 					<table cellspacing="0" cellpadding="0" border="0"><tr>
@@ -154,7 +154,7 @@ var threadParams = { servl:"/webim/thread.php",frequency:2,<?php if( $page['user
 			<tr>
 		    <td bgcolor="#A1A1A1"><img src='/webim/images/free.gif' width="1" height="1" border="0" alt="" /></td>
 		    <td width="100%" height="100%" bgcolor="#FFFFFF" valign="top">
-				<iframe id="chatwnd" width="100%" height="100%" src="" frameborder="0" style="overflow:auto;">
+				<iframe id="chatwnd" width="100%" height="100%" src='/webim/images/free.gif' frameborder="0" style="overflow:auto;">
 				Sorry, your browser does not support iframes; try a browser that supports W3 standards.
 				</iframe>
 			</td>

@@ -166,11 +166,12 @@ function getstring2($text,$params) {
 }
 
 function connect() {
-	global $mysqlhost, $mysqllogin, $mysqlpass, $mysqldb, $dbencoding;
+	global $mysqlhost, $mysqllogin, $mysqlpass, $mysqldb, $dbencoding, $force_charset_in_connection;
 	$link = mysql_connect($mysqlhost,$mysqllogin ,$mysqlpass )
 		or die('Could not connect: ' . mysql_error());
 	mysql_select_db($mysqldb) or die('Could not select database');
-	mysql_query("SET character set $dbencoding", $link);
+	if( $force_charset_in_connection )
+		mysql_query("SET character set $dbencoding", $link);
 	return $link;
 }
 
@@ -208,6 +209,13 @@ function form_value($key) {
 	if( isset($page) && isset($page["form$key"]) )
 		return $page["form$key"];
 	return "";
+}
+
+function form_value_cb($key) {
+	global $page;
+	if( isset($page) && isset($page["form$key"]) )
+		return $page["form$key"] === true;
+	return false;
 }
 
 function no_field($key) {
@@ -253,6 +261,33 @@ function add_params($servlet, $params) {
 
 function div($a,$b) {
     return ($a-($a % $b)) / $b;
+}
+
+function date_diff($seconds) {
+    $minutes = div($seconds,60);
+	$seconds = $seconds % 60;
+	if( $minutes < 60 ) {
+		return sprintf("%02d:%02d",$minutes, $seconds);
+	} else {
+		$hours = div($minutes,60);
+		$minutes = $minutes % 60;
+		return sprintf("%02d:%02d:%02d",$hours, $minutes, $seconds);
+	}
+}
+
+function quote_smart($value,$link) {
+	if (get_magic_quotes_gpc()) {
+		$value = stripslashes($value);
+	}
+	return mysql_real_escape_string($value,$link);
+}
+
+function get_app_location($showhost,$issecure) {
+	if( $showhost ) {
+		return ($issecure?"https://":"http://").$_SERVER['HTTP_HOST']."/webim";
+	} else {
+		return "/webim";
+	}
 }
 
 ?>

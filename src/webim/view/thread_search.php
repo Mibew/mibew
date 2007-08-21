@@ -90,7 +90,7 @@
         			<?php if( $chatthread['agentName'] ) { ?><?php echo htmlspecialchars($chatthread['agentName']) ?><?php } ?>
 				</td><td background='/webim/images/tablediv3.gif'><img width='3' height='1' border='0' alt='' src='/webim/images/free.gif'></td>
 				<td height='30' class='table'>
-					<?php echo date("d M Y H:i:s", $chatthread['created']) ?>,  <?php echo date("d M Y H:i:s", $chatthread['modified']-$chatthread['created']) ?>
+					<?php echo date("d M Y H:i:s", $chatthread['created']) ?>,  <?php echo date_diff($chatthread['modified']-$chatthread['created']) ?>
 				</td>
 			</tr>
 			<tr><td height='2' colspan='7'></td></tr><tr><td bgcolor='#e1e1e1' colspan='7'><img width='1' height='1' border='0' alt='' src='/webim/images/free.gif'></td></tr><tr><td height='2' colspan='7'></td></tr>

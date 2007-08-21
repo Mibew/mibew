@@ -37,6 +37,9 @@ if($handle = opendir($imagesDir)) {
 $image = verifyparam("image","/^\w+$/", "webim");
 $image_locales = $imageLocales[$image];
 
+$showhost = verifyparam("hostname","/^on$/", "") == "on";
+$forcesecure = verifyparam("secure","/^on$/", "") == "on";
+
 $lang = verifyparam("lang", "/^\w\w$/", "");
 if( !$lang || !in_array($lang,$image_locales) )
 	$lang = in_array($current_locale,$image_locales) ? $current_locale : $image_locales[0];
@@ -44,16 +47,18 @@ if( !$lang || !in_array($lang,$image_locales) )
 $file = "../images/webim/${image}_${lang}_on.gif";
 $size = get_gifimage_size($file);
 
-$message = get_image("/webim/button.php?image=$image&lang=$lang",$size[0],$size[1]);
+$message = get_image(get_app_location($showhost,$forcesecure)."/button.php?image=$image&lang=$lang",$size[0],$size[1]);
 
 $page = array();
 $page['operator'] = get_operator_name($operator);
-$page['buttonCode'] = generate_button("",$lang,$message);
+$page['buttonCode'] = generate_button("",$lang,$message,$showhost,$forcesecure);
 $page['availableImages'] = array_keys($imageLocales);
 $page['availableLocales'] = $image_locales;
 
 $page['formimage'] = $image;
 $page['formlang'] = $lang;
+$page['formhostname'] = $showhost;
+$page['formsecure'] = $forcesecure;
 
 start_html_output();
 require('../view/gen_button.php');
