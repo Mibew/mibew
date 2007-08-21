@@ -1,5 +1,5 @@
 
-Web Instant Messenger 1.0.6
+Web Instant Messenger 1.0.7
 Copyright (c) 2005-2007 Internet Services Ltd.
 
 This program and the accompanying materials are made available under

@@ -1,0 +1,17 @@
+
+  1.0.7
+  -----
+
+  [+] history search with pagination
+  [+] advanced 	button generation: secure link, include hostname, choosing images
+  [+] post referer into thread as a message (visible only for agent)
+  [+] new config options: user can change name, company name, logo
+  [+] notify operator if user closed his window
+  [+] notify visitor if operator has connection problems and move it into priority queue
+  [+] automatically take visitor if operator connection restored
+  [!] encoding problems in Internet Explorer
+  [!] quotes in messages & user names
+  [!] do not reopen closed threads 
+  [!] some fixes in handling thread locale
+  [!] version in menu, locales chooser in menu
+
