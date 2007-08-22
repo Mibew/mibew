@@ -87,7 +87,7 @@ var threadParams = { servl:"/webim/thread.php",frequency:2,<?php if( $page['user
 				<tr>
 <?php if( $page['agent'] ) { ?>
 				<td class="text" nowrap>
-					<?php echo getstring("chat.window.chatting_with") ?> <b><a href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.chatting_with") ?> <?php echo $page['ct.user.name'] ?><?php echo $page['namePostfix'] ?>"><?php echo $page['ct.user.name'] ?></a></b><br>
+					<?php echo getstring("chat.window.chatting_with") ?> <b><a href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.chatting_with") ?> <?php echo htmlspecialchars($page['ct.user.name']) ?><?php echo $page['namePostfix'] ?>"><?php echo htmlspecialchars($page['ct.user.name']) ?></a></b><br>
 				</td>
 <?php } ?><?php if( $page['user'] && $page['canChangeName'] ) { ?>
 				<td class="text" nowrap>

@@ -49,9 +49,9 @@ function thread_to_xml($thread) {
 
 	$result .= " canopen=\"true\"";
 	$result .= " state=\"$state\">";
-	$result .= "<name>".htmlspecialchars(get_user_name($thread['userName']))."</name>";
-	$result .= "<addr>".htmlspecialchars($thread['remote'])."</addr>";
-	$result .= "<agent>".htmlspecialchars($threadoperator)."</agent>";
+	$result .= "<name>".htmlspecialchars(htmlspecialchars(get_user_name($thread['userName'])))."</name>";
+	$result .= "<addr>".htmlspecialchars(htmlspecialchars($thread['remote']))."</addr>";
+	$result .= "<agent>".htmlspecialchars(htmlspecialchars($threadoperator))."</agent>";
 	$result .= "<time>".$thread['unix_timestamp(dtmcreated)']."000</time>";
 	$result .= "<modified>".$thread['unix_timestamp(dtmmodified)']."000</modified>";
 	$result .= "</thread>";
