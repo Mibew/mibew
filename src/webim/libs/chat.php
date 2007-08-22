@@ -157,7 +157,7 @@ function get_user_name($name, $id="") {
 }
 
 function setup_chatview_for_user($thread,$level) {
-	global $page, $webimroot, $user_can_change_name;
+	global $page, $webimroot, $user_can_change_name, $company_logo_link, $company_name;
 	$page = array();
 	$page['agent'] = false;
 	$page['user'] = true;
@@ -171,8 +171,8 @@ function setup_chatview_for_user($thread,$level) {
 	$page['ct.user.name'] = $thread['userName'];
 	$page['canChangeName'] = $user_can_change_name;
 
-	$page['ct.company.name'] = "Test company";  // TODO
-	$page['ct.company.chatLogoURL'] = "";		// TODO
+	$page['ct.company.name'] = $company_name;
+	$page['ct.company.chatLogoURL'] = $company_logo_link;
 
 	$params = "thread=".$thread['threadid']."&token=".$thread['ltoken'];
 	$page['selfLink'] = "$webimroot/client.php?".$params."&level=".$level;
