@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<i18n>
+
+<menu lang="eng">
+<item title="Home" link="index.html"/>
+<item title="Demo" link="demo.html"/>
+<item title="Download" link="download.html"/>
+<item title="SF.NET" link="http://www.sourceforge.net/projects/webim"/>
+</menu>
+
+<lang id="rus">
+<home link="index.html">Home</home>
+<mailto link="mailto:info@webim.ru" friendly="info&lt;i&gt;@&lt;/i&gt;webim.ru">Mail</mailto>
+<page_top>Наверх страницы</page_top>
+<page_top_short>Наверх</page_top_short>
+<banner1>Cайты тоже говорят</banner1>
+<banner2>Веб Мессенджер</banner2>
+<button_desc>получите ответ сразу...</button_desc>
+</lang>
+
+<lang id="eng">
+<home link="index.html">Home</home>
+<mailto link="mailto:info@webim.ru" friendly="info&lt;i&gt;@&lt;/i&gt;webim.ru">Mail</mailto>
+<page_top>Goto top</page_top>
+<page_top_short>Top</page_top_short>
+<banner1>Sites can speak</banner1>
+<banner2>Web Messenger</banner2>
+<button_desc>get response immediately...</button_desc>
+</lang>
+
+</i18n>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+
+<hxml xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="i18n.xml"/>
+
+<title lang="eng">Web Messenger Home</title>
+
+<content>
+
+<lang lang='eng'>
+
+
+<h>What is Web Messenger?</h>
+<p>
+"Web Messanger" - is unique software allowing visitors of your site to chat with your operators.
+</p>
+
+
+<h>Why use Web Messenger?</h>
+<p>
+"Web Messenger" makes it easier to communicate with existing and potential clients.
+It's enough to click the button and ask a question in opened friendly dialog window.
+Be available 24/7. Amused by perfect service they will come back again and again.
+
+<br/><br/>
+<b>Features</b>:
+<ul>
+<li>Pam-param</li>
+</ul>
+</p>
+
+
+<h>License</h>
+<p>
+This program and the accompanying materials are made available under the terms of 
+the <a href="http://www.eclipse.org/legal/epl-v10.html">Eclipse Public License v1.0</a>.<br/>
+<br/>
+Project is hosted by <a href="http://www.sourceforge.net/">SourceForge</a>.
+</p>
+
+</lang>
+
+</content>
+
+</hxml>
