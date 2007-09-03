@@ -317,7 +317,7 @@ urchinTracker();
 </xsl:template>
 
 <xsl:template match="h">
-	<span class="head3"><xsl:apply-templates/></span>
+	<h3><xsl:apply-templates/></h3>
 </xsl:template>
 
 <xsl:template match="i|b|p|br|li|ul">
@@ -345,7 +345,7 @@ urchinTracker();
 <xsl:template match="download">
 <xsl:variable name="dwlddir" select="@dir"/>
 
-<span class="head3"><xsl:value-of select="@title"/></span>
+<h3><xsl:value-of select="@title"/></h3>
 
 <xsl:for-each select="group">
 <p>
