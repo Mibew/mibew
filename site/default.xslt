@@ -104,14 +104,14 @@
 	  <td colspan="4" bgcolor="#FFFFFF">
 		<table width="100%" cellspacing="0" cellpadding="0" border="0">
 		<tr>
-		  <td width="185" valign="top">
+		  <td width="185" valign="center">
 			<table width="185" cellspacing="0" cellpadding="0" border="0">
 			<tr>
 				<td height="35" bgcolor="#FFFFFF"><img src="images/empty.gif" width="1" height="1" border="0" alt="" /></td>
 			</tr>
 			<tr>
 			  <td class="textform" align="center">
-   	 	  		<a><xsl:attribute name="href"><xsl:value-of select="i18n/lang[@id=$lang]/home/@link"/></xsl:attribute><xsl:attribute name="title"><xsl:value-of select="i18n/lang[@id=$lang]/home/text()"/></xsl:attribute><img src="images/logo.gif" width="185" height="140" border="0"><xsl:attribute name="alt"><xsl:value-of select="i18n/lang[@id=$lang]/home/text()"/></xsl:attribute></img></a>
+			  	<a href="http://sourceforge.net"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=195701&amp;type=4" width="125" height="37" border="0" alt="SourceForge.net Logo" /></a>
 			  </td>
 			</tr>
 			</table>
