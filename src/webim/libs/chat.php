@@ -44,21 +44,22 @@ function next_revision($link) {
 	return $val;
 }
 
-function post_message_($threadid,$kind,$message,$link,$from=null,$time=null) {
+function post_message_($threadid,$kind,$message,$link,$from=null,$time=null,$opid=null) {
 	$query = sprintf(
-	    "insert into chatmessage (threadid,ikind,tmessage,tname,dtmcreated) values (%s, %s,'%s',%s,%s)",
+	    "insert into chatmessage (threadid,ikind,tmessage,tname,agentId,dtmcreated) values (%s, %s,'%s',%s,%s,%s)",
 			$threadid,
 			$kind,
 			quote_smart($message,$link),
 			$from ? "'".quote_smart($from,$link)."'" : "null",
+			$opid ? $opid : "0",
 			$time ? "FROM_UNIXTIME($time)" : "CURRENT_TIMESTAMP" );
 
 	perform_query($query,$link);
 }
 
-function post_message($threadid,$kind,$message,$from=null) {
+function post_message($threadid,$kind,$message,$from=null,$agentid=null) {
 	$link = connect();
-	post_message_($threadid,$kind,$message,$link,$from);
+	post_message_($threadid,$kind,$message,$link,$from,null,$agentid);
 	mysql_close($link);
 }
 
@@ -347,11 +348,12 @@ function create_thread($username,$remote,$referer,$lang) {
 	return $newthread;
 }
 
-function do_take_thread($threadid,$operatorName) {
+function do_take_thread($threadid,$operatorId,$operatorName) {
 	global $state_chatting;
 	$link = connect();
 	commit_thread( $threadid, 
 		array("istate" => $state_chatting,
+			  "agentId" => $operatorId,
 			  "agentName" => "'".mysql_real_escape_string($operatorName)."'"), $link);
 	mysql_close($link);
 }
@@ -387,7 +389,7 @@ function take_thread($thread,$operator) {
 	$operatorName = ($thread['locale'] == $home_locale) ? $operator['vclocalename'] : $operator['vccommonname'];
 
 	if( $state == $state_queue || $state == $state_waiting) {
-		do_take_thread($threadid, $operatorName);
+		do_take_thread($threadid, $operator['operatorid'], $operatorName);
 
 		if( $state == $state_waiting  ) {
 			$message_to_post = getstring2_("chat.status.operator.changed", array($operatorName,$thread['agentName']), $thread['locale']);
@@ -395,24 +397,25 @@ function take_thread($thread,$operator) {
 			$message_to_post = getstring2_("chat.status.operator.joined", array($operatorName), $thread['locale']);
 		}
 	} else if( $state == $state_chatting ) {
-		if( $operatorName != $thread['agentName'] ) {
-			do_take_thread($threadid, $operatorName);		
+		if( $operator['operatorid'] != $thread['agentId'] ) {
+			do_take_thread($threadid, $operator['operatorid'], $operatorName);		
 			$message_to_post = getstring2_("chat.status.operator.changed", array($operatorName, $thread['agentName']), $thread['locale']);
 		}
 	} else {
 		die("cannot take thread");
 	}
 
-	if( $message_to_post )
+	if( $message_to_post ) {
 		post_message($threadid,$kind_events,$message_to_post);
+	}
 }
 
 function check_for_reassign($thread,$operator) {
 	global $state_waiting, $home_locale, $kind_events;
 	$operatorName = ($thread['locale'] == $home_locale) ? $operator['vclocalename'] : $operator['vccommonname'];
 	if( $thread['istate'] == $state_waiting && 
-			(  $thread['agentName'] == $operatorName )) {
-		do_take_thread($thread['threadid'], $operatorName);
+			(  $thread['agentId'] == $operator['operatorid'] )) {
+		do_take_thread($thread['threadid'], $operator['operatorid'], $operatorName);
 		$message_to_post = getstring2_("chat.status.operator.changed", array($operatorName,$thread['agentName']), $thread['locale']);
 		post_message($thread['threadid'],$kind_events,$message_to_post);
 	}

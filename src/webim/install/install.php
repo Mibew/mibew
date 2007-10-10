@@ -28,11 +28,18 @@ function create_tables() {
 	global $dbencoding;
 	$link = connect();
 
+	// to update from v1
+	// ALTER TABLE chatthread ADD agentId int NOT NULL DEFAULT 0 AFTER agentName
+	// update chatthread,chatoperator set agentId = operatorid where agentId = 0 AND (vclocalename = agentName OR vccommonname = agentName) 
+	// ALTER TABLE chatmessage ADD agentId int NOT NULL DEFAULT 0 AFTER ikind
+	// update chatmessage,chatoperator set agentId = operatorid where agentId = 0 AND ikind = 2 AND (vclocalename = tname OR vccommonname = tname) 
+	
 	$query = 
 		"CREATE TABLE chatthread (\n".
 		"	threadid int NOT NULL auto_increment PRIMARY KEY ,\n".
 		"	userName varchar(64) NOT NULL,\n".
 		"	agentName varchar(64),\n".
+		"   agentId int NOT NULL DEFAULT 0,\n".
 		"	dtmcreated datetime DEFAULT 0,\n".
 		"	dtmmodified datetime DEFAULT 0,\n".
 		"	lrevision int NOT NULL DEFAULT 0,\n".
@@ -53,6 +60,7 @@ function create_tables() {
 		"	messageid int NOT NULL auto_increment PRIMARY KEY,\n".
 		"	threadid int NOT NULL references chatthread(threadid),\n".
 		"	ikind int NOT NULL,\n".
+		"   agentId int NOT NULL DEFAULT 0,\n".
 		"	tmessage text NOT NULL,\n".
 		"	dtmcreated datetime DEFAULT 0,\n".
 		"	tname varchar(64)\n".

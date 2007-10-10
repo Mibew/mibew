@@ -19,14 +19,6 @@
 
 <link rel="stylesheet" type="text/css" media="all" href="/webim/styles.css" />
 <script type="text/javascript" language="javascript" src="/webim/js/common.js"></script>
-
-
-
-
-
-
-
-
 <script><!--
 var localized = new Array(
     "<?php echo getstring("pending.table.speak") ?>",
@@ -41,9 +33,6 @@ var updaterOptions = {
 //--></script>
 <script type="text/javascript" language="javascript" src="/webim/js/page_pendingclients.js"></script>
 
-
-
-
 <link rel="shortcut icon" href="/webim/images/favicon.ico" type="image/x-icon"/>
 <title>
 	<?php echo getstring("app.title") ?>	- <?php echo getstring("clients.title") ?>
@@ -51,10 +40,6 @@ var updaterOptions = {
 
 <meta http-equiv="keywords" content="<?php echo getstring("page.main_layout.meta_keyword") ?>">
 <meta http-equiv="description" content="<?php echo getstring("page.main_layout.meta_description") ?>">
-
-
-
-
 </head>
 
 <body bgcolor="#FFFFFF" text="#000000" link="#2971C1" vlink="#2971C1" alink="#2971C1">
@@ -68,12 +53,7 @@ var updaterOptions = {
  </td><td align="right" class="text" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="textform"><?php echo getstring2("menu.operator",array($page['operator'])) ?></td><td class="textform"><img src='/webim/images/topdiv.gif' width="25" height="15" border="0" alt="|" /></td><td class="textform"><a href="/webim/operator/index.php" title="<?php echo getstring("menu.main") ?>"><?php echo getstring("menu.main") ?></a></td></tr></table></td></tr></table> 
 	
 
-	
-
-
-
-
-<?php echo getstring("clients.intro") ?><br>
+	<?php echo getstring("clients.intro") ?><br>
 
 <?php echo getstring("clients.how_to") ?><br>
 <br>

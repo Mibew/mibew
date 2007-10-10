@@ -24,10 +24,6 @@
 <tr>
 <td valign="top">
 
-
-
-
-
 <table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 <td height="75"></td>

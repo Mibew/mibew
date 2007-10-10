@@ -24,10 +24,6 @@
 <tr>
 <td valign="top">
 
-
-
-
-
 <form name="mailThreadForm" method="post" action="/webim/mail.php">
 <input type="hidden" name="thread" value="<?php echo $page['ct.chatThreadId'] ?>"/><input type="hidden" name="token" value="<?php echo $page['ct.token'] ?>"/><input type="hidden" name="level" value="<?php echo $page['level'] ?>"/>
 

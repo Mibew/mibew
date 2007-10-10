@@ -103,7 +103,7 @@ page.gen_button.sample=Пример
 page.gen_button.code.description=<strong>Внимание!</strong> При внесении<br/> каких-либо изменений<br/> в этот код работоспособность<br/> кнопки не гарантируется!
 mail.user.history.subject=Вэб Мессенджер: история диалога
 mail.user.history.body=Здраствуйте, {0}!\n\nПо Вашему запросу, высылаем историю: \n\n{1}\n--- \nС уважением,\nСлужба поддержки i-services.ru
-errors.header=<font color="#c13030"><b>Исправьте ошибки:</b><br/><br/><ul>
+errors.header=<font color="#c13030"><b>Исправьте ошибки:</b><br/><ul>
 errors.prefix=<li class="error">
 errors.suffix=</li>
 errors.footer=</ul></font>

@@ -49,7 +49,7 @@ if( $act == "refresh" ) {
 	$kind = $isuser ? $kind_user : $kind_agent;
 	$from = $isuser ? $thread['userName'] : $thread['agentName'];
 
-	post_message($threadid,$kind,$message,$from);
+	post_message($threadid,$kind,$message,$from, $isuser ? null : $operator['operatorid'] );
 	print_thread_mesages($threadid, $token, $lastid, $isuser, $outformat);
 	exit;
 

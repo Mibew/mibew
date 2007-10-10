@@ -20,9 +20,6 @@
 <link rel="stylesheet" type="text/css" media="all" href="/webim/styles.css" />
 
 
-
-
-
 <link rel="shortcut icon" href="/webim/images/favicon.ico" type="image/x-icon"/>
 <title>
 	<?php echo getstring("app.title") ?>	- <?php echo getstring("page_agent.title") ?>
@@ -30,10 +27,6 @@
 
 <meta http-equiv="keywords" content="<?php echo getstring("page.main_layout.meta_keyword") ?>">
 <meta http-equiv="description" content="<?php echo getstring("page.main_layout.meta_description") ?>">
-
-
-
-
 </head>
 
 <body bgcolor="#FFFFFF" text="#000000" link="#2971C1" vlink="#2971C1" alink="#2971C1">
@@ -55,14 +48,6 @@
 <?php } ?>
 <br />
 <br />
-
-
-
-
-
-
-
-
 <?php if( isset($errors) && count($errors) > 0 ) { ?>
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>

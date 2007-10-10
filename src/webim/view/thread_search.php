@@ -20,9 +20,6 @@
 <link rel="stylesheet" type="text/css" media="all" href="/webim/styles.css" />
 
 
-
-
-
 <link rel="shortcut icon" href="/webim/images/favicon.ico" type="image/x-icon"/>
 <title>
 	<?php echo getstring("app.title") ?>	- <?php echo getstring("page_analysis.search.title") ?>
@@ -30,10 +27,6 @@
 
 <meta http-equiv="keywords" content="<?php echo getstring("page.main_layout.meta_keyword") ?>">
 <meta http-equiv="description" content="<?php echo getstring("page.main_layout.meta_description") ?>">
-
-
-
-
 </head>
 
 <body bgcolor="#FFFFFF" text="#000000" link="#2971C1" vlink="#2971C1" alink="#2971C1">
@@ -59,6 +52,7 @@
 	<tr>
 		<td class="formauth" colspan="3"><?php echo getstring("page_analysis.full.text.search") ?></td>
 	</tr>
+	<tr><td colspan="3" height="2"></td></tr>
 	<tr>
 		<td class="formauth"><input type="text" name="q" size="80" value="<?php echo form_value('q') ?>" class="formauth"/></td>
 		<td width="10"><img src="/webim/images/free.gif" width="10" height="1" border="0" alt=""></td>

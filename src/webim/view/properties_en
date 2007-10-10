@@ -103,7 +103,7 @@ page.gen_button.sample=Example
 page.gen_button.code.description=<strong>Caution!</strong> Please don't change<br/> the code manually because<br/> we don't guarantee that<br/> it will work!
 mail.user.history.subject=Web Messenger: dialog history
 mail.user.history.body=Hello, {0}!\n\nYour chat history: \n\n{1}\n--- \nKind Regards,\nThe I-Services Support Team
-errors.header=<font color="#c13030"><b>Correct the mistakes:</b><br/><br/><ul>
+errors.header=<font color="#c13030"><b>Correct the mistakes:</b><br/><ul>
 errors.prefix=<li class="error">
 errors.suffix=</li>
 errors.footer=</ul></font>

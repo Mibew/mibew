@@ -188,6 +188,18 @@ function select_one_row($query,$link) {
 	return $line;
 }
 
+function select_multi_assoc($query,$link) {
+	$sqlresult = mysql_query($query,$link) or die(' Query failed: ' . 
+		mysql_error().": ".$query);
+
+	$result = array();
+	while ($row = mysql_fetch_array($sqlresult, MYSQL_ASSOC)) {
+		$result[] = $row;
+	}
+	mysql_free_result($sqlresult);
+	return $result;
+}
+
 function start_xml_output() {
 	header("Cache-Control: no-store, no-cache, must-revalidate");
 	header("Content-type: text/xml");
@@ -288,6 +300,36 @@ function get_app_location($showhost,$issecure) {
 	} else {
 		return "/webim";
 	}
+}
+
+function get_month_selection($fromtime,$totime) {
+	$start = getdate($fromtime);
+	$month = $start['mon'];
+	$year = $start['year'];
+	$result = array();
+	do {
+		$current = mktime(0,0,0,$month,1,$year);
+		$result[date("m.y",$current)] = date("M, Y",$current);
+		$month++;
+		if( $month > 12 ) {
+			$month = 1;
+			$year++; 
+		}
+	} while( $current < $totime );
+	return $result;
+}
+
+function get_form_date($day,$month) {
+	if( preg_match('/^(\d{2}).(\d{2})$/', $month, $matches)) {
+		return mktime(0,0,0,$matches[1],$day,$matches[2]);
+	}
+	return 0;
+}
+
+function set_form_date($time,$prefix) {
+	global $page;
+	$page["form${prefix}day"] = date("d", $time);
+	$page["form${prefix}month"] = date("m.y", $time);
 }
 
 ?>
