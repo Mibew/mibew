@@ -19,19 +19,21 @@ $operator = check_login();
 
 // collect available images and locales
 $imageLocales = array();
-$imagesDir = '../images/webim';
-if($handle = opendir($imagesDir)) {
-	while (false !== ($file = readdir($handle))) {
-		if (preg_match("/^(\w+)_([\w-]+)_on.gif$/", $file, $matches) 
-				&& is_file("$imagesDir/".$matches[1]."_".$matches[2]."_off.gif")) {
-			$image = $matches[1];
-			if( !isset($imageLocales[$image]) ) {
-				$imageLocales[$image] = array();
+foreach($available_locales as $curr) {
+	$imagesDir = "../locales/$curr/button";
+	if($handle = opendir($imagesDir)) {
+		while (false !== ($file = readdir($handle))) {
+			if (preg_match("/^(\w+)_on.gif$/", $file, $matches) 
+					&& is_file("$imagesDir/".$matches[1]."_off.gif")) {
+				$image = $matches[1];
+				if( !isset($imageLocales[$image]) ) {
+					$imageLocales[$image] = array();
+				}
+				$imageLocales[$image][] = $curr;
 			}
-			$imageLocales[$image][] = $matches[2];
 		}
+		closedir($handle);
 	}
-	closedir($handle);
 }
 
 $image = verifyparam("image","/^\w+$/", "webim");
@@ -40,11 +42,11 @@ $image_locales = $imageLocales[$image];
 $showhost = verifyparam("hostname","/^on$/", "") == "on";
 $forcesecure = verifyparam("secure","/^on$/", "") == "on";
 
-$lang = verifyparam("lang", "/^\w\w$/", "");
+$lang = verifyparam("lang", "/^[\w-]{2,5}$/", "");
 if( !$lang || !in_array($lang,$image_locales) )
 	$lang = in_array($current_locale,$image_locales) ? $current_locale : $image_locales[0];
 
-$file = "../images/webim/${image}_${lang}_on.gif";
+$file = "../locales/${lang}/button/${image}_on.gif";
 $size = get_gifimage_size($file);
 
 $message = get_image(get_app_location($showhost,$forcesecure)."/button.php?image=$image&lang=$lang",$size[0],$size[1]);

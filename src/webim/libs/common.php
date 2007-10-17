@@ -99,7 +99,7 @@ function get_user_locale() {
 function get_locale() {
 	global $available_locales;
 
-	$locale = verifyparam("locale", "/^\w\w$/", "");
+	$locale = verifyparam("locale", "/^[\w-]{2,5}$/", "");
 
 	if( $locale && in_array($locale,$available_locales) ) {
 		$_SESSION['locale'] = $locale;
@@ -138,7 +138,7 @@ function get_locale_links($href) {
 function load_messages($locale) {
 	global $messages;
 	$hash = array();
-	$fp = fopen(dirname(__FILE__)."/../view/properties_$locale","r");
+	$fp = fopen(dirname(__FILE__)."/../locales/$locale/properties","r");
 	while (!feof($fp)) {
     	$line = fgets($fp, 4096);
 		$list = split("=", $line, 2 );
