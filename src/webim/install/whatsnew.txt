@@ -1,4 +1,9 @@
 
+  1.0.8
+  -----
+
+  [+] install/update wizard
+
   1.0.7
   -----
 

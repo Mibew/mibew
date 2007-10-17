@@ -22,7 +22,7 @@
 
 <link rel="shortcut icon" href="/webim/images/favicon.ico" type="image/x-icon"/>
 <title>
-	<?php echo getstring("app.title") ?>	- <?php echo getstring("install.title") ?>
+	<?php echo getstring("app.title") ?>	- <?php echo getstring("install.err.title") ?>
 </title>
 
 <meta http-equiv="keywords" content="<?php echo getstring("page.main_layout.meta_keyword") ?>">
@@ -35,13 +35,10 @@
 <tr>
 <td valign="top" class="text">
 	
-		<h1><?php echo getstring("install.title") ?></h1>
+		<h1><?php echo getstring("install.err.title") ?></h1>
 	
 
-	<?php echo getstring("install.message") ?>
-<br />
-<br />
-<?php if( isset($errors) && count($errors) > 0 ) { ?>
+	<?php if( isset($errors) && count($errors) > 0 ) { ?>
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
 	    <td valign="top"><img src='/webim/images/icon_err.gif' width="40" height="40" border="0" alt="" /></td>
@@ -62,28 +59,8 @@
 		</table>
 	<?php } ?>
 
-<?php if( $page['done'] ) { ?>
-<table cellspacing='0' cellpadding='0' border='0'><tr><td background='/webim/images/loginbg.gif'><table cellspacing='0' cellpadding='0' border='0'><tr><td><img src='/webim/images/logincrnlt.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='/webim/images/logincrnrt.gif' width='16' height='16' border='0' alt=''></td></tr><tr><td></td><td align='center'><table border='0' cellspacing='0' cellpadding='0'><tr><td align="left" class="text">
-<?php echo getstring("install.done") ?>
-<ul>
-<?php foreach( $page['done'] as $info ) { ?>
-<li><?php echo $info ?></li>
-<?php } ?>
-</ul>
-</td></tr>
-<?php if( $page['nextstep'] ) { ?>
-<tr><td align="left" class="text">
-<?php echo getstring("install.next") ?>
-<ul>
-<li>
-<?php if( $page['nextnotice'] ) { ?><?php echo $page['nextnotice'] ?><br/><br/><?php } ?>
-<a href="<?php echo $page['nextstepurl'] ?>"><?php echo $page['nextstep'] ?></a>
-</li>
-</ul>
-</td></tr>
-<?php } ?>
-</table></td><td></td></tr><tr><td><img src='/webim/images/logincrnlb.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='/webim/images/logincrnrb.gif' width='16' height='16' border='0' alt=''></td></tr></table></td></tr></table>
-<?php } ?>
+<br/>
+<?php echo getstring("install.err.back") ?>
 
 <table width="200" cellspacing="0" cellpadding="0" border="0">
 <tr>

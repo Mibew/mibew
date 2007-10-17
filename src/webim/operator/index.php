@@ -19,20 +19,9 @@ $operator = check_login();
 
 $page = array( 
 	'operator' => get_operator_name($operator),
-	'version' => 'v1.0.7'
+	'version' => $version,
+	'localeLinks' => get_locale_links("/webim/operator/index.php")
 );
-
-$localeLinks = "";
-foreach($available_locales as $k) {
-	if( strlen($localeLinks) > 0 )
-		$localeLinks .= " &bull; ";
-	if( $k == $current_locale )
-		$localeLinks .= $k;
-	else
-		$localeLinks .= "<a href=\"/webim/operator/index.php?locale=$k\">$k</a>";
-}
-
-$page['localeLinks'] = $localeLinks;
 
 start_html_output();
 require('../view/menu.php');

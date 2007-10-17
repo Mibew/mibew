@@ -18,6 +18,7 @@ require(dirname(__FILE__).'/converter.php');
 require(dirname(__FILE__).'/config.php');
 
 $webimroot = "/webim";                      # absolute path on server
+$version = 'v1.0.8 pre1';
 
 function myiconv($in_enc, $out_enc, $string) {
 	global $_utf8win1251, $_win1251utf8;
@@ -120,6 +121,20 @@ function set_locale($locale) {
 $current_locale = get_locale();
 $messages = array();
 
+function get_locale_links($href) {
+	global $available_locales, $current_locale;
+	$localeLinks = "";
+	foreach($available_locales as $k) {
+		if( strlen($localeLinks) > 0 )
+			$localeLinks .= " &bull; ";
+		if( $k == $current_locale )
+			$localeLinks .= $k;
+		else
+			$localeLinks .= "<a href=\"$href?locale=$k\">$k</a>";
+	}
+	return $localeLinks;
+}
+
 function load_messages($locale) {
 	global $messages;
 	$hash = array();
@@ -167,17 +182,18 @@ function getstring2($text,$params) {
 
 function connect() {
 	global $mysqlhost, $mysqllogin, $mysqlpass, $mysqldb, $dbencoding, $force_charset_in_connection;
-	$link = mysql_connect($mysqlhost,$mysqllogin ,$mysqlpass )
+	$link = @mysql_connect($mysqlhost,$mysqllogin ,$mysqlpass )
 		or die('Could not connect: ' . mysql_error());
-	mysql_select_db($mysqldb) or die('Could not select database');
-	if( $force_charset_in_connection )
+	mysql_select_db($mysqldb,$link) or die('Could not select database');
+	if( $force_charset_in_connection ) {
 		mysql_query("SET character set $dbencoding", $link);
+	}
 	return $link;
 }
 
 function perform_query($query,$link) {
-	mysql_query($query,$link) or die(' Query failed: ' . 
-		mysql_error().": ".$query);
+	mysql_query($query,$link) 
+		or die(' Query failed: '.mysql_error()/*.": ".$query*/);
 }
 
 function select_one_row($query,$link) {

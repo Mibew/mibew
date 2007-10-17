@@ -62,9 +62,7 @@ function update_operator($operatorid,$login,$password,$localename,$commonname) {
 	mysql_close($link);
 }
 
-function create_operator($login,$password,$localename,$commonname) {
-	$link = connect();
-
+function create_operator_($login,$password,$localename,$commonname,$link) {
 	$query = sprintf(
 		"insert into chatoperator (vclogin,vcpassword,vclocalename,vccommonname) values ('%s','%s','%s','%s')",
 			mysql_real_escape_string($login),
@@ -75,7 +73,12 @@ function create_operator($login,$password,$localename,$commonname) {
 	perform_query($query,$link);
 	$id = mysql_insert_id($link);
 
-	$newop = select_one_row("select * from chatoperator where operatorid = $id", $link );
+	return select_one_row("select * from chatoperator where operatorid = $id", $link );
+}
+
+function create_operator($login,$password,$localename,$commonname) {
+	$link = connect();
+	$newop = create_operator_($login,$password,$localename,$commonname,$link);
 	mysql_close($link);
 	return $newop;
 }
