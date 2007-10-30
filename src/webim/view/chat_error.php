@@ -16,10 +16,10 @@
 <html>
 <head>
 <title><?php echo getstring("chat.error_page.title") ?></title>
-<link rel="shortcut icon" href="/webim/images/favicon.ico" type="image/x-icon"/>
-<link rel="stylesheet" type="text/css" href="/webim/chat.css" />
+<link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
+<link rel="stylesheet" type="text/css" href="<?php echo $webimroot ?>/chat.css" />
 </head>
-<body bgcolor="#FFFFFF" background="/webim/images/bg.gif" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" marginwidth="0" marginheight="0" leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0">
+<body bgcolor="#FFFFFF" background="<?php echo $webimroot ?>/images/bg.gif" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" marginwidth="0" marginheight="0" leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0">
 <table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 <td valign="top">
@@ -38,11 +38,11 @@
 <td>
 
 	<table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0"><tr>
-    <td width="15"><img src='/webim/images/wincrnlt.gif' width="15" height="15" border="0" alt="" /></td>
-	<td width="100%" background="/webim/images/winbg.gif" class="bgcy"><img src='/webim/images/free.gif' width="1" height="1" border="0" alt="" /></td>
-    <td width="15"><img src='/webim/images/wincrnrt.gif' width="15" height="15" border="0" alt="" /></td>
-	</tr><tr><td height="100%" bgcolor="#FED840"><img src='/webim/images/free.gif' width="1" height="1" border="0" alt="" /></td>
-	<td background="/webim/images/winbg.gif" class="bgcy">
+    <td width="15"><img src='<?php echo $webimroot ?>/images/wincrnlt.gif' width="15" height="15" border="0" alt="" /></td>
+	<td width="100%" background="<?php echo $webimroot ?>/images/winbg.gif" class="bgcy"><img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+    <td width="15"><img src='<?php echo $webimroot ?>/images/wincrnrt.gif' width="15" height="15" border="0" alt="" /></td>
+	</tr><tr><td height="100%" bgcolor="#FED840"><img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+	<td background="<?php echo $webimroot ?>/images/winbg.gif" class="bgcy">
 
 		<?php	if( isset($errors) && count($errors) > 0 ) {
 		print getstring("errors.header");
@@ -55,10 +55,10 @@
 	} ?>
 
 
-	</td><td bgcolor="#E8A400"><img src='/webim/images/free.gif' width="1" height="1" border="0" alt="" /></td>
-	</tr><tr><td><img src='/webim/images/wincrnlb.gif' width="15" height="15" border="0" alt="" /></td>
-	<td background="/webim/images/winbg.gif" class="bgcy"><img src='/webim/images/free.gif' width="1" height="1" border="0" alt="" /></td>
-    <td><img src='/webim/images/wincrnrb.gif' width="15" height="15" border="0" alt="" /></td>
+	</td><td bgcolor="#E8A400"><img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+	</tr><tr><td><img src='<?php echo $webimroot ?>/images/wincrnlb.gif' width="15" height="15" border="0" alt="" /></td>
+	<td background="<?php echo $webimroot ?>/images/winbg.gif" class="bgcy"><img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+    <td><img src='<?php echo $webimroot ?>/images/wincrnrb.gif' width="15" height="15" border="0" alt="" /></td>
 	</tr>
 	</table>
 
@@ -75,7 +75,7 @@
     <td width="100%" align="right">
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td><a href="javascript:window.close();" title="<?php echo getstring("chat.error_page.close") ?>"><img src='/webim/images/buttons/back.gif' width="25" height="25" border="0" alt="" /></a></td>
+	    <td><a href="javascript:window.close();" title="<?php echo getstring("chat.error_page.close") ?>"><img src='<?php echo $webimroot ?>/images/buttons/back.gif' width="25" height="25" border="0" alt="" /></a></td>
 	    <td width="5"></td>
 	    <td class="button"><a href="javascript:window.close();" title="<?php echo getstring("chat.error_page.close") ?>"><?php echo getstring("chat.error_page.close") ?></a></td>
 		</tr>
@@ -89,9 +89,9 @@
 </tr>
 
 <tr>
-<td width="30"><img src='/webim/images/free.gif' width="30" height="1" border="0" alt="" /></td>
-<td width="100%"><img src='/webim/images/free.gif' width="540" height="1" border="0" alt="" /></td>
-<td width="30"><img src='/webim/images/free.gif' width="30" height="1" border="0" alt="" /></td>
+<td width="30"><img src='<?php echo $webimroot ?>/images/free.gif' width="30" height="1" border="0" alt="" /></td>
+<td width="100%"><img src='<?php echo $webimroot ?>/images/free.gif' width="540" height="1" border="0" alt="" /></td>
+<td width="30"><img src='<?php echo $webimroot ?>/images/free.gif' width="30" height="1" border="0" alt="" /></td>
 </tr>
 </table>
 

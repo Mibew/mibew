@@ -20,7 +20,7 @@ $operator = check_login();
 $page = array( 
 	'operator' => get_operator_name($operator),
 	'version' => $version,
-	'localeLinks' => get_locale_links("/webim/operator/index.php")
+	'localeLinks' => get_locale_links("$webimroot/operator/index.php")
 );
 
 start_html_output();

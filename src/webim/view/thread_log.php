@@ -17,11 +17,11 @@
 
 
 
-<link rel="stylesheet" type="text/css" media="all" href="/webim/styles.css" />
-<link rel="stylesheet" type="text/css" media="all" href="/webim/chat.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo $webimroot ?>/styles.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo $webimroot ?>/chat.css" />
 
 
-<link rel="shortcut icon" href="/webim/images/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <title>
 	<?php echo getstring("app.title") ?>	- <?php echo getstring("thread.chat_log") ?>
 </title>
@@ -59,11 +59,11 @@
 		</span>
 	</td>
 </tr>
-<tr><td height='2' colspan='1'></td></tr><tr><td bgcolor='#e1e1e1' colspan='1'><img width='1' height='1' border='0' alt='' src='/webim/images/free.gif'></td></tr><tr><td height='2' colspan='1'></td></tr>
+<tr><td height='2' colspan='1'></td></tr><tr><td bgcolor='#e1e1e1' colspan='1'><img width='1' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td></tr><tr><td height='2' colspan='1'></td></tr>
 </table>
 
 <br />
-<a href="/webim/operator/history.php">
+<a href="<?php echo $webimroot ?>/operator/history.php">
 	<?php echo getstring("thread.back_to_search") ?></a>
 <br />
 

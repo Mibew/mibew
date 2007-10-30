@@ -17,7 +17,6 @@ session_start();
 require(dirname(__FILE__).'/converter.php');
 require(dirname(__FILE__).'/config.php');
 
-$webimroot = "/webim";                      # absolute path on server
 $version = 'v1.0.8 pre1';
 
 function myiconv($in_enc, $out_enc, $string) {
@@ -311,10 +310,11 @@ function quote_smart($value,$link) {
 }
 
 function get_app_location($showhost,$issecure) {
+	global $webimroot;
 	if( $showhost ) {
-		return ($issecure?"https://":"http://").$_SERVER['HTTP_HOST']."/webim";
+		return ($issecure?"https://":"http://").$_SERVER['HTTP_HOST'].$webimroot;
 	} else {
-		return "/webim";
+		return $webimroot;
 	}
 }
 

@@ -17,10 +17,10 @@
 
 
 
-<link rel="stylesheet" type="text/css" media="all" href="/webim/styles.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo $webimroot ?>/styles.css" />
 
 
-<link rel="shortcut icon" href="/webim/images/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <title>
 	<?php echo getstring("app.title") ?>	- <?php echo getstring("install.err.title") ?>
 </title>
@@ -41,7 +41,7 @@
 	<?php if( isset($errors) && count($errors) > 0 ) { ?>
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td valign="top"><img src='/webim/images/icon_err.gif' width="40" height="40" border="0" alt="" /></td>
+	    <td valign="top"><img src='<?php echo $webimroot ?>/images/icon_err.gif' width="40" height="40" border="0" alt="" /></td>
 	    <td width="10"></td>
 	    <td class="text">
 		    <?php	if( isset($errors) && count($errors) > 0 ) {
@@ -67,14 +67,14 @@
   <td height="20"></td>
 </tr>
 <tr>
-  <td bgcolor="#D6D6D6"><img src="/webim/images/free.gif" height="1" width="1" border="0" alt=""></td>
+  <td bgcolor="#D6D6D6"><img src='<?php echo $webimroot ?>/images/free.gif' height="1" width="1" border="0" alt=""></td>
 </tr>
 <tr>
   <td height="7"></td>
 </tr>
 </table>
 
-Web Messenger/<?php echo $page['version'] ?> &bull; <?php echo $page['localeLinks'] ?> &bull; <a href="/webim/epl-v10.html" target="_blank"><?php echo getstring("install.license") ?></a>
+Web Messenger/<?php echo $page['version'] ?> &bull; <?php echo $page['localeLinks'] ?> &bull; <a href="<?php echo $webimroot ?>/epl-v10.html" target="_blank"><?php echo getstring("install.license") ?></a>
 
 </td>
 </tr>

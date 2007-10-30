@@ -17,10 +17,10 @@
 
 
 
-<link rel="stylesheet" type="text/css" media="all" href="/webim/styles.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo $webimroot ?>/styles.css" />
 
 
-<link rel="shortcut icon" href="/webim/images/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <title>
 	<?php echo getstring("app.title") ?>	- <?php echo getstring("install.title") ?>
 </title>
@@ -44,7 +44,7 @@
 <?php if( isset($errors) && count($errors) > 0 ) { ?>
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td valign="top"><img src='/webim/images/icon_err.gif' width="40" height="40" border="0" alt="" /></td>
+	    <td valign="top"><img src='<?php echo $webimroot ?>/images/icon_err.gif' width="40" height="40" border="0" alt="" /></td>
 	    <td width="10"></td>
 	    <td class="text">
 		    <?php	if( isset($errors) && count($errors) > 0 ) {
@@ -63,7 +63,7 @@
 	<?php } ?>
 
 <?php if( $page['done'] ) { ?>
-<table cellspacing='0' cellpadding='0' border='0'><tr><td background='/webim/images/loginbg.gif'><table cellspacing='0' cellpadding='0' border='0'><tr><td><img src='/webim/images/logincrnlt.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='/webim/images/logincrnrt.gif' width='16' height='16' border='0' alt=''></td></tr><tr><td></td><td align='center'><table border='0' cellspacing='0' cellpadding='0'><tr><td align="left" class="text">
+<table cellspacing='0' cellpadding='0' border='0'><tr><td background='<?php echo $webimroot ?>/images/loginbg.gif'><table cellspacing='0' cellpadding='0' border='0'><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlt.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrt.gif' width='16' height='16' border='0' alt=''></td></tr><tr><td></td><td align='center'><table border='0' cellspacing='0' cellpadding='0'><tr><td align="left" class="text">
 <?php echo getstring("install.done") ?>
 <ul>
 <?php foreach( $page['done'] as $info ) { ?>
@@ -82,7 +82,7 @@
 </ul>
 </td></tr>
 <?php } ?>
-</table></td><td></td></tr><tr><td><img src='/webim/images/logincrnlb.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='/webim/images/logincrnrb.gif' width='16' height='16' border='0' alt=''></td></tr></table></td></tr></table>
+</table></td><td></td></tr><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlb.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrb.gif' width='16' height='16' border='0' alt=''></td></tr></table></td></tr></table>
 <?php } ?>
 
 <table width="200" cellspacing="0" cellpadding="0" border="0">
@@ -90,14 +90,14 @@
   <td height="20"></td>
 </tr>
 <tr>
-  <td bgcolor="#D6D6D6"><img src="/webim/images/free.gif" height="1" width="1" border="0" alt=""></td>
+  <td bgcolor="#D6D6D6"><img src='<?php echo $webimroot ?>/images/free.gif' height="1" width="1" border="0" alt=""></td>
 </tr>
 <tr>
   <td height="7"></td>
 </tr>
 </table>
 
-Web Messenger/<?php echo $page['version'] ?> &bull; <?php echo $page['localeLinks'] ?> &bull; <a href="/webim/epl-v10.html" target="_blank"><?php echo getstring("install.license") ?></a>
+Web Messenger/<?php echo $page['version'] ?> &bull; <?php echo $page['localeLinks'] ?> &bull; <a href="<?php echo $webimroot ?>/epl-v10.html" target="_blank"><?php echo getstring("install.license") ?></a>
 
 </td>
 </tr>

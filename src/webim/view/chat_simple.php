@@ -16,13 +16,13 @@
 <html>
 <head>
 <title><?php echo getstring("chat.window.title.user") ?></title>
-<link rel="shortcut icon" href="/webim/images/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <meta http-equiv="Content-Type" content="text/html; charset=Windows-1251">
-<link rel="stylesheet" type="text/css" href="/webim/chat.css" />
-<script type="text/javascript" language="javascript" src="/webim/js/brws.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $webimroot ?>/chat.css" />
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/brws.js"></script>
 </head>
 
-<body bgcolor="#FFFFFF" background="/webim/images/bg.gif" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" marginwidth="0" marginheight="0" leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0">
+<body bgcolor="#FFFFFF" background="<?php echo $webimroot ?>/images/bg.gif" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" marginwidth="0" marginheight="0" leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0">
 
 <table width="600" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -31,7 +31,7 @@
 	<table width="600" cellspacing="0" cellpadding="0" border="0">
 	<tr>
     <td></td>
-    <td colspan="2" height="100" background="/webim/images/banner.gif" valign="top" class="bgrn">
+    <td colspan="2" height="100" background="<?php echo $webimroot ?>/images/banner.gif" valign="top" class="bgrn">
 		<table width="590" cellspacing="0" cellpadding="0" border="0">
 		<tr>
 	    <td width="135" valign="top">
@@ -67,7 +67,7 @@
 					</table>
 				</td>
 			    <td width="5"></td>
-			    <td><a class="closethread" href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.close_title") ?>"><img src='/webim/images/buttons/closewin.gif' width="15" height="15" border="0" altKey="chat.window.close_title"/></a></td>
+			    <td><a class="closethread" href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.close_title") ?>"><img src='<?php echo $webimroot ?>/images/buttons/closewin.gif' width="15" height="15" border="0" altKey="chat.window.close_title"/></a></td>
 			    <td width="5"></td>
 				</tr>
 				</table>
@@ -82,17 +82,17 @@
 				<tr>
 
 				<td class="text" nowrap><?php echo getstring("chat.client.name") ?></td> 
-				<td width="10" valign="top"><img src='/webim/images/free.gif' width="10" height="1" border="0" alt="" /></td>
+				<td width="10" valign="top"><img src='<?php echo $webimroot ?>/images/free.gif' width="10" height="1" border="0" alt="" /></td>
 				<td><input id="uname" type="text" size="12" value="<?php echo $page['ct.user.name'] ?>" class="username"></td>
-				<td width="5" valign="top"><img src='/webim/images/free.gif' width="5" height="1" border="0" alt="" /></td>
-				<td><a href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.client.changename") ?>"><img src='/webim/images/buttons/exec.gif' width="25" height="25" border="0" alt="&gt;&gt;" /></a></td>
+				<td width="5" valign="top"><img src='<?php echo $webimroot ?>/images/free.gif' width="5" height="1" border="0" alt="" /></td>
+				<td><a href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.client.changename") ?>"><img src='<?php echo $webimroot ?>/images/buttons/exec.gif' width="25" height="25" border="0" alt="&gt;&gt;" /></a></td>
 
-			    <td><img src='/webim/images/buttondiv.gif' width="35" height="45" border="0" alt="" /></td>
+			    <td><img src='<?php echo $webimroot ?>/images/buttondiv.gif' width="35" height="45" border="0" alt="" /></td>
 
-				<td><a href="<?php echo $page['selfLink'] ?>&act=mailthread" target="_blank" title="<?php echo getstring("chat.window.toolbar.mail_history") ?>" onclick="this.newWindow = window.open('<?php echo $page['selfLink'] ?>&act=mailthread', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=204,resizable=0');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src='/webim/images/buttons/email.gif' width="25" height="25" border="0" alt="Mail" /></a></td>
+				<td><a href="<?php echo $page['selfLink'] ?>&act=mailthread" target="_blank" title="<?php echo getstring("chat.window.toolbar.mail_history") ?>" onclick="this.newWindow = window.open('<?php echo $page['selfLink'] ?>&act=mailthread', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=204,resizable=0');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src='<?php echo $webimroot ?>/images/buttons/email.gif' width="25" height="25" border="0" alt="Mail" /></a></td>
 
 				<td><a id="refresh" href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.toolbar.refresh") ?>">
-				<img src='/webim/images/buttons/refresh.gif' width="25" height="25" border="0" alt="Refresh" /></a></td>
+				<img src='<?php echo $webimroot ?>/images/buttons/refresh.gif' width="25" height="25" border="0" alt="Refresh" /></a></td>
 
 			    
 
@@ -115,23 +115,23 @@
 
 		<table width="585" cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td width="20" valign="top"><img src='<?php echo getstring("image.chat.history") ?>' width="20" height="80" border="0" alt="History" /></td>
+	    <td width="20" valign="top"><img src='<?php echo $webimroot.getstring("image.chat.history") ?>' width="20" height="80" border="0" alt="History" /></td>
     	<td width="565" valign="top" id="chatwndtd">
 			<table width="100%" cellspacing="0" cellpadding="0" border="0">
 			<tr>
-		    <td colspan="3" bgcolor="#A1A1A1"><img src='/webim/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+		    <td colspan="3" bgcolor="#A1A1A1"><img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="1" border="0" alt="" /></td>
 			</tr>
 			<tr>
-		    <td bgcolor="#A1A1A1"><img src='/webim/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+		    <td bgcolor="#A1A1A1"><img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="1" border="0" alt="" /></td>
 		    <td width="100%" bgcolor="#FFFFFF" valign="top">
-				<iframe name="chatwndiframe" width="100%" height="175" src="/webim/thread.php?act=refresh&thread=<?php echo $page['ct.chatThreadId'] ?>&token=<?php echo $page['ct.token'] ?>&html=on&user=true" frameborder="0" style="overflow:auto;">
+				<iframe name="chatwndiframe" width="100%" height="175" src="<?php echo $webimroot ?>/thread.php?act=refresh&thread=<?php echo $page['ct.chatThreadId'] ?>&token=<?php echo $page['ct.token'] ?>&html=on&user=true" frameborder="0" style="overflow:auto;">
 				Sorry, your browser does not support iframes; try a browser that supports W3 standards.
 				</iframe>
 			</td>
-		    <td bgcolor="#A1A1A1"><img src='/webim/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+		    <td bgcolor="#A1A1A1"><img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="1" border="0" alt="" /></td>
 			</tr>
 			<tr>
-		    <td colspan="3" bgcolor="#A1A1A1"><img src='/webim/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+		    <td colspan="3" bgcolor="#A1A1A1"><img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="1" border="0" alt="" /></td>
 			</tr>
 			</table>
 		</td>
@@ -142,25 +142,25 @@
 		</tr>
 
 		<tr>
-	    <td width="20" valign="top"><img src='<?php echo getstring("image.chat.message") ?>' width="20" height="85" border="0" alt="Message" /></td>
+	    <td width="20" valign="top"><img src='<?php echo $webimroot.getstring("image.chat.message") ?>' width="20" height="85" border="0" alt="Message" /></td>
     	<td width="565" valign="top">
 			<table width="100%" cellspacing="0" cellpadding="0" border="0">
 			<tr>
-		    <td colspan="3" bgcolor="#A1A1A1"><img src='/webim/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+		    <td colspan="3" bgcolor="#A1A1A1"><img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="1" border="0" alt="" /></td>
 			</tr>
 			<tr>
-		    <td bgcolor="#A1A1A1"><img src='/webim/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+		    <td bgcolor="#A1A1A1"><img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="1" border="0" alt="" /></td>
 		    <td width="565" height="85" bgcolor="#FFFFFF" valign="top">
-				<form id="messageform" method="post" action="/webim/thread.php" target="chatwndiframe" width="565" height="85">
+				<form id="messageform" method="post" action="<?php echo $webimroot ?>/thread.php" target="chatwndiframe" width="565" height="85">
 				<input type="hidden" name="act" value="post"/><input type="hidden" name="html" value="on"/><input type="hidden" name="thread" value="<?php echo $page['ct.chatThreadId'] ?>"/><input type="hidden" name="token" value="<?php echo $page['ct.token'] ?>"/><input type="hidden" name="user" value="true"/>
 				<input type="hidden" id="message" name="message" value=""/>
 				<textarea id="messagetext" cols="50" rows="4" class="message" style="width:550px;" tabindex="0"></textarea>
 				</form>
 			</td>
-		    <td bgcolor="#A1A1A1"><img src='/webim/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+		    <td bgcolor="#A1A1A1"><img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="1" border="0" alt="" /></td>
 			</tr>
 			<tr>
-		    <td colspan="3" bgcolor="#A1A1A1"><img src='/webim/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+		    <td colspan="3" bgcolor="#A1A1A1"><img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="1" border="0" alt="" /></td>
 			</tr>
 			</table>
 		</td>
@@ -189,12 +189,12 @@
 			<table cellspacing="0" cellpadding="0" border="0" id="postmessage">
 
 			<tr>
-		    <td><a href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.send_message") ?>"><img src='/webim/images/submit.gif' width="40" height="35" border="0" altKey="chat.window.send_message_short"/></a></td>
-		    <td background="/webim/images/submitbg.gif" valign="top" class="submit">
-				<img src='/webim/images/free.gif' width="1" height="10" border="0" alt="" /><br>
+		    <td><a href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.send_message") ?>"><img src='<?php echo $webimroot ?>/images/submit.gif' width="40" height="35" border="0" altKey="chat.window.send_message_short"/></a></td>
+		    <td background="<?php echo $webimroot ?>/images/submitbg.gif" valign="top" class="submit">
+				<img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="10" border="0" alt="" /><br>
 				<a id="msgsend1" href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.send_message") ?>"><?php echo getstring("chat.window.send_message_short") ?></a><br>
 			</td>
-			<td width="10"><a href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.send_message") ?>"><img src='/webim/images/submitrest.gif' width="10" height="35" border="0" altKey="chat.window.send_message_short"/></a></td>
+			<td width="10"><a href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.send_message") ?>"><img src='<?php echo $webimroot ?>/images/submitrest.gif' width="10" height="35" border="0" altKey="chat.window.send_message_short"/></a></td>
 			</tr>
 			</table>
 		</td>
@@ -205,9 +205,9 @@
 	</tr>
 
 	<tr>
-    <td width="10"><img src='/webim/images/free.gif' width="10" height="1" border="0" alt="" /></td>
-    <td width="585"><img src='/webim/images/free.gif' width="585" height="1" border="0" alt="" /></td>
-    <td width="5"><img src='/webim/images/free.gif' width="5" height="1" border="0" alt="" /></td>
+    <td width="10"><img src='<?php echo $webimroot ?>/images/free.gif' width="10" height="1" border="0" alt="" /></td>
+    <td width="585"><img src='<?php echo $webimroot ?>/images/free.gif' width="585" height="1" border="0" alt="" /></td>
+    <td width="5"><img src='<?php echo $webimroot ?>/images/free.gif' width="5" height="1" border="0" alt="" /></td>
 	</tr>
 	</table>
 

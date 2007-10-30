@@ -1,1 +1,1 @@
-<?php header("Location: /webim/operator/index.php"); exit; ?>
+<?php header("Location: operator/index.php"); exit; ?>

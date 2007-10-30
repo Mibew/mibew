@@ -12,6 +12,11 @@
  *    Evgeny Gryaznov - initial API and implementation
  */
 
+/* 
+ * Application path on server 
+ */
+$webimroot = "/webim";
+
 /*
  *  MySQL Database parameters
  */

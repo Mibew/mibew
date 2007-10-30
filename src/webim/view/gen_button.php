@@ -17,10 +17,10 @@
 
 
 
-<link rel="stylesheet" type="text/css" media="all" href="/webim/styles.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo $webimroot ?>/styles.css" />
 
 
-<link rel="shortcut icon" href="/webim/images/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <title>
 	<?php echo getstring("app.title") ?>	- <?php echo getstring("page.gen_button.title") ?>
 </title>
@@ -37,15 +37,15 @@
 	
  <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="left" valign="top"> 
 		<h1><?php echo getstring("page.gen_button.title") ?></h1>
- </td><td align="right" class="text" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="textform"><?php echo getstring2("menu.operator",array($page['operator'])) ?></td><td class="textform"><img src='/webim/images/topdiv.gif' width="25" height="15" border="0" alt="|" /></td><td class="textform"><a href="/webim/operator/index.php" title="<?php echo getstring("menu.main") ?>"><?php echo getstring("menu.main") ?></a></td></tr></table></td></tr></table> 
+ </td><td align="right" class="text" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="textform"><?php echo getstring2("menu.operator",array($page['operator'])) ?></td><td class="textform"><img src='<?php echo $webimroot ?>/images/topdiv.gif' width="25" height="15" border="0" alt="|" /></td><td class="textform"><a href="<?php echo $webimroot ?>/operator/index.php" title="<?php echo getstring("menu.main") ?>"><?php echo getstring("menu.main") ?></a></td></tr></table></td></tr></table> 
 	
 
 	<?php echo getstring("page.gen_button.intro") ?>
 <br />
 <br />
 
-<form name="buttonCodeForm" method="get" action="/webim/operator/getcode.php">
-<table cellspacing='0' cellpadding='0' border='0'><tr><td background='/webim/images/loginbg.gif'><table cellspacing='0' cellpadding='0' border='0'><tr><td><img src='/webim/images/logincrnlt.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='/webim/images/logincrnrt.gif' width='16' height='16' border='0' alt=''></td></tr><tr><td></td><td align='center'><table border='0' cellspacing='0' cellpadding='0'>
+<form name="buttonCodeForm" method="get" action="<?php echo $webimroot ?>/operator/getcode.php">
+<table cellspacing='0' cellpadding='0' border='0'><tr><td background='<?php echo $webimroot ?>/images/loginbg.gif'><table cellspacing='0' cellpadding='0' border='0'><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlt.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrt.gif' width='16' height='16' border='0' alt=''></td></tr><tr><td></td><td align='center'><table border='0' cellspacing='0' cellpadding='0'>
 	<tr>
 		<td colspan="3" class="formauth"><?php echo getstring("page.gen_button.choose_image") ?></td>
 	</tr>
@@ -90,7 +90,7 @@
 	<tr><td colspan="3" height="5"></td></tr>
 	<tr>
 		<td class="formauth"><?php echo getstring("page.gen_button.code") ?></td>
-		<td width="10"><img src="/webim/images/free.gif" width="10" height="1" border="0" alt=""></td>
+		<td width="10"><img src="<?php echo $webimroot ?>/images/free.gif" width="10" height="1" border="0" alt=""></td>
 		<td></td>
 	</tr>
 	<tr><td colspan="3" height="2"></td></tr>
@@ -116,7 +116,7 @@
 		<td></td>
 		<td class="formauth" valign="top" nowrap><span class="formdescr"></span></td>
 	</tr>
-</table></td><td></td></tr><tr><td><img src='/webim/images/logincrnlb.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='/webim/images/logincrnrb.gif' width='16' height='16' border='0' alt=''></td></tr></table></td></tr></table>
+</table></td><td></td></tr><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlb.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrb.gif' width='16' height='16' border='0' alt=''></td></tr></table></td></tr></table>
 </form>
 </td>
 </tr>

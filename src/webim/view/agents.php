@@ -17,10 +17,10 @@
 
 
 
-<link rel="stylesheet" type="text/css" media="all" href="/webim/styles.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo $webimroot ?>/styles.css" />
 
 
-<link rel="shortcut icon" href="/webim/images/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <title>
 	<?php echo getstring("app.title") ?>	- <?php echo getstring("page_agents.title") ?>
 </title>
@@ -37,7 +37,7 @@
 	
  <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="left" valign="top"> 
 		<h1><?php echo getstring("page_agents.title") ?></h1>
- </td><td align="right" class="text" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="textform"><?php echo getstring2("menu.operator",array($page['operator'])) ?></td><td class="textform"><img src='/webim/images/topdiv.gif' width="25" height="15" border="0" alt="|" /></td><td class="textform"><a href="/webim/operator/index.php" title="<?php echo getstring("menu.main") ?>"><?php echo getstring("menu.main") ?></a></td></tr></table></td></tr></table> 
+ </td><td align="right" class="text" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="textform"><?php echo getstring2("menu.operator",array($page['operator'])) ?></td><td class="textform"><img src='<?php echo $webimroot ?>/images/topdiv.gif' width="25" height="15" border="0" alt="|" /></td><td class="textform"><a href="<?php echo $webimroot ?>/operator/index.php" title="<?php echo getstring("menu.main") ?>"><?php echo getstring("menu.main") ?></a></td></tr></table></td></tr></table> 
 	
 
 	<?php echo getstring("page_agents.intro") ?>
@@ -50,10 +50,10 @@
    <td align="right">
 	<table cellspacing="0" cellpadding="0" border="0">
 	<tr>
-    <td><img src='/webim/images/buttons/createagent.gif' border="0" altKey="page_agents.new_agent" /></td>
+    <td><img src='<?php echo $webimroot ?>/images/buttons/createagent.gif' border="0" altKey="page_agents.new_agent" /></td>
    	<td width="10"></td>
     <td class="text">
-		<a href='/webim/operator/operator.php' title="<?php echo getstring("page_agents.new_agent") ?>">
+		<a href='<?php echo $webimroot ?>/operator/operator.php' title="<?php echo getstring("page_agents.new_agent") ?>">
 			<?php echo getstring("page_agents.new_agent") ?>
 		</a>
     </td>
@@ -77,33 +77,33 @@
 	<td height='45' class='table'>
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td><img src='/webim/images/tbliclogin.gif' width="10" height="15" border="0" alt="" /></td>
+	    <td><img src='<?php echo $webimroot ?>/images/tbliclogin.gif' width="10" height="15" border="0" alt="" /></td>
     	<td class="table">
-    		<a href='/webim/operator/operator.php?op=<?php echo $a['vclogin'] ?>'>
+    		<a href='<?php echo $webimroot ?>/operator/operator.php?op=<?php echo $a['vclogin'] ?>'>
     			<?php echo htmlspecialchars($a['vclogin']) ?>
     		</a>
     	</td>
 		</tr>
 		</table>
-	</td><td background='/webim/images/tablediv3.gif'><img width='3' height='1' border='0' alt='' src='/webim/images/free.gif'></td>
+	</td><td background='<?php echo $webimroot ?>/images/tablediv3.gif'><img width='3' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td>
 	<td height='45' class='table'>
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td><img src='/webim/images/tbllabyel.gif' width="5" height="5" border="0" alt="" /></td>
+	    <td><img src='<?php echo $webimroot ?>/images/tbllabyel.gif' width="5" height="5" border="0" alt="" /></td>
     	<td class="table"><?php echo htmlspecialchars($a['vclocalename']) ?></td>
 		</tr>
 		</table>
-	</td><td background='/webim/images/tablediv3.gif'><img width='3' height='1' border='0' alt='' src='/webim/images/free.gif'></td>
+	</td><td background='<?php echo $webimroot ?>/images/tablediv3.gif'><img width='3' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td>
 	<td height='45' class='table'>
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td><img src='/webim/images/tbllabyel.gif' width="5" height="5" border="0" alt="" /></td>
+	    <td><img src='<?php echo $webimroot ?>/images/tbllabyel.gif' width="5" height="5" border="0" alt="" /></td>
     	<td class="table"><?php echo htmlspecialchars($a['vccommonname']) ?></td>
 		</tr>
 		</table>
 	</td>
 </tr>
-<tr><td height='2' colspan='7'></td></tr><tr><td bgcolor='#e1e1e1' colspan='7'><img width='1' height='1' border='0' alt='' src='/webim/images/free.gif'></td></tr><tr><td height='2' colspan='7'></td></tr>
+<tr><td height='2' colspan='7'></td></tr><tr><td bgcolor='#e1e1e1' colspan='7'><img width='1' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td></tr><tr><td height='2' colspan='7'></td></tr>
 <?php } ?>
 </table>
 </td>

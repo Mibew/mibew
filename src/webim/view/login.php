@@ -17,10 +17,10 @@
 
 
 
-<link rel="stylesheet" type="text/css" media="all" href="/webim/styles.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo $webimroot ?>/styles.css" />
 
 
-<link rel="shortcut icon" href="/webim/images/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <title>
 	<?php echo getstring("app.title") ?>	- <?php echo getstring("page_login.title") ?>
 </title>
@@ -44,7 +44,7 @@
 <?php if( isset($errors) && count($errors) > 0 ) { ?>
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td valign="top"><img src='/webim/images/icon_err.gif' width="40" height="40" border="0" alt="" /></td>
+	    <td valign="top"><img src='<?php echo $webimroot ?>/images/icon_err.gif' width="40" height="40" border="0" alt="" /></td>
 	    <td width="10"></td>
 	    <td class="text">
 		    <?php	if( isset($errors) && count($errors) > 0 ) {
@@ -62,8 +62,8 @@
 		</table>
 	<?php } ?>
 
-<form name="loginForm" method="post" action="/webim/operator/login.php">
-	<table cellspacing='0' cellpadding='0' border='0'><tr><td background='/webim/images/loginbg.gif'><table cellspacing='0' cellpadding='0' border='0'><tr><td><img src='/webim/images/logincrnlt.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='/webim/images/logincrnrt.gif' width='16' height='16' border='0' alt=''></td></tr><tr><td></td><td align='center'><table border='0' cellspacing='0' cellpadding='0'>
+<form name="loginForm" method="post" action="<?php echo $webimroot ?>/operator/login.php">
+	<table cellspacing='0' cellpadding='0' border='0'><tr><td background='<?php echo $webimroot ?>/images/loginbg.gif'><table cellspacing='0' cellpadding='0' border='0'><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlt.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrt.gif' width='16' height='16' border='0' alt=''></td></tr><tr><td></td><td align='center'><table border='0' cellspacing='0' cellpadding='0'>
 		<tr>
 			<td colspan="2">
 			<table cellspacing="0" cellpadding="0" border="0">
@@ -104,14 +104,14 @@
 			</td>
 		</tr>
 
-		<tr><td colspan='2' height='20'></td></tr><tr><td colspan='2' background='/webim/images/formline.gif'><img src='/webim/images/formline.gif' width='1' height='2' border='0' alt=''></td></tr><tr><td colspan='2' height='10'></td></tr>
+		<tr><td colspan='2' height='20'></td></tr><tr><td colspan='2' background='<?php echo $webimroot ?>/images/formline.gif'><img src='<?php echo $webimroot ?>/images/formline.gif' width='1' height='2' border='0' alt=''></td></tr><tr><td colspan='2' height='10'></td></tr>
 
 		<tr>
-			<td><input type="hidden" name="backPath" value="<?php echo $page['backPath'] ?>"/> <input type="image" name="" src='<?php echo getstring("image.button.login") ?>' border="0" alt='<?php echo getstring("button.enter") ?>'/>
+			<td><input type="hidden" name="backPath" value="<?php echo $page['backPath'] ?>"/> <input type="image" name="" src='<?php echo $webimroot.getstring("image.button.login") ?>' border="0" alt='<?php echo getstring("button.enter") ?>'/>
 			</td>
 			
 		</tr>
-	</table></td><td></td></tr><tr><td><img src='/webim/images/logincrnlb.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='/webim/images/logincrnrb.gif' width='16' height='16' border='0' alt=''></td></tr></table></td></tr></table>
+	</table></td><td></td></tr><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlb.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrb.gif' width='16' height='16' border='0' alt=''></td></tr></table></td></tr></table>
 </form>
 
 

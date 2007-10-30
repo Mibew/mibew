@@ -17,8 +17,8 @@
 
 
 
-<link rel="stylesheet" type="text/css" media="all" href="/webim/styles.css" />
-<script type="text/javascript" language="javascript" src="/webim/js/common.js"></script>
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo $webimroot ?>/styles.css" />
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/common.js"></script>
 <script><!--
 var localized = new Array(
     "<?php echo getstring("pending.table.speak") ?>",
@@ -26,14 +26,13 @@ var localized = new Array(
     "<?php echo getstring("pending.table.ban") ?>"
 );
 var updaterOptions = {
-	url:"/webim/operator/update.php", 
-
-	agentservl:"/webim/operator/agent.php",
+	url:"<?php echo $webimroot ?>/operator/update.php",wroot:"<?php echo $webimroot ?>", 
+	agentservl:"<?php echo $webimroot ?>/operator/agent.php",
 	noclients:"<?php echo getstring("clients.no_clients") ?>" };
 //--></script>
-<script type="text/javascript" language="javascript" src="/webim/js/page_pendingclients.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/page_pendingclients.js"></script>
 
-<link rel="shortcut icon" href="/webim/images/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <title>
 	<?php echo getstring("app.title") ?>	- <?php echo getstring("clients.title") ?>
 </title>
@@ -50,7 +49,7 @@ var updaterOptions = {
 	
  <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="left" valign="top"> 
 		<h1><?php echo getstring("clients.title") ?></h1>
- </td><td align="right" class="text" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="textform"><?php echo getstring2("menu.operator",array($page['operator'])) ?></td><td class="textform"><img src='/webim/images/topdiv.gif' width="25" height="15" border="0" alt="|" /></td><td class="textform"><a href="/webim/operator/index.php" title="<?php echo getstring("menu.main") ?>"><?php echo getstring("menu.main") ?></a></td></tr></table></td></tr></table> 
+ </td><td align="right" class="text" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="textform"><?php echo getstring2("menu.operator",array($page['operator'])) ?></td><td class="textform"><img src='<?php echo $webimroot ?>/images/topdiv.gif' width="25" height="15" border="0" alt="|" /></td><td class="textform"><a href="<?php echo $webimroot ?>/operator/index.php" title="<?php echo getstring("menu.main") ?>"><?php echo getstring("menu.main") ?></a></td></tr></table></td></tr></table> 
 	
 
 	<?php echo getstring("clients.intro") ?><br>
@@ -59,8 +58,8 @@ var updaterOptions = {
 <br>
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr><td colspan="3" bgcolor="#DADADA"><img src='/webim/images/free.gif' width="1" height="1" border="0" alt="" /></td></tr>
-<tr><td bgcolor="#DADADA"><img src='/webim/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+<tr><td colspan="3" bgcolor="#DADADA"><img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="1" border="0" alt="" /></td></tr>
+<tr><td bgcolor="#DADADA"><img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="1" border="0" alt="" /></td>
    <td width="100%">
    
    <!-- Pending -->
@@ -90,7 +89,7 @@ var updaterOptions = {
     <td colspan="13" height="30" bgcolor="#F5F5F5" class="table">
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td><img src='/webim/images/tblicusers.gif' width="15" height="15" border="0" alt="" /></td>
+	    <td><img src='<?php echo $webimroot ?>/images/tblicusers.gif' width="15" height="15" border="0" alt="" /></td>
     	<td class="table"><span class="black"><?php echo getstring("clients.queue.prio") ?></span></td>
 		</tr>
 		</table>
@@ -105,7 +104,7 @@ var updaterOptions = {
     <td colspan="13" height="30" bgcolor="#F5F5F5" class="table">
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td><img src='/webim/images/tblicusers2.gif' width="15" height="15" border="0" alt="" /></td>
+	    <td><img src='<?php echo $webimroot ?>/images/tblicusers2.gif' width="15" height="15" border="0" alt="" /></td>
     	<td class="table"><span class="black"><?php echo getstring("clients.queue.wait") ?></span></td>
 		</tr>	
 		</table>
@@ -119,7 +118,7 @@ var updaterOptions = {
 <tr id="chat">
     <td colspan="13" height="30" bgcolor="#F5F5F5" class="table">
 		<table cellspacing="0" cellpadding="0" border="0"><tr>
-	    <td><img src='/webim/images/tblicusers3.gif' width="30" height="15" border="0" alt="" /></td>
+	    <td><img src='<?php echo $webimroot ?>/images/tblicusers3.gif' width="30" height="15" border="0" alt="" /></td>
     	<td class="table"><span class="black"><?php echo getstring("clients.queue.chat") ?></span></td>
 		</tr>
 		</table>
@@ -132,9 +131,9 @@ var updaterOptions = {
 
 </table>
 
-</td><td bgcolor="#DADADA"><img src='/webim/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+</td><td bgcolor="#DADADA"><img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="1" border="0" alt="" /></td>
 </tr><tr>
-   <td colspan="3" bgcolor="#DADADA"><img src='/webim/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+   <td colspan="3" bgcolor="#DADADA"><img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="1" border="0" alt="" /></td>
 </tr></table>
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">

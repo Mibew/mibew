@@ -17,7 +17,7 @@ require('dbinfo.php');
 
 $page = array(
 	'version' => $version,
-	'localeLinks' => get_locale_links("/webim/install/index.php")
+	'localeLinks' => get_locale_links("$webimroot/install/index.php")
 );
 
 
@@ -113,7 +113,7 @@ function check_columns($link) {
 }
 
 function check_status() {
-	global $page;
+	global $page, $webimroot;
 	$link = check_connection();
 	if(!$link) {
 		return;
@@ -138,7 +138,7 @@ function check_status() {
 
 	$page['nextstep'] = getstring("installed.login_link");
 	$page['nextnotice'] = getstring("installed.notice");
-	$page['nextstepurl'] = "/webim/";
+	$page['nextstepurl'] = "$webimroot/";
 
 	mysql_close($link);
 }

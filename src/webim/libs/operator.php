@@ -107,10 +107,11 @@ function get_operator_name($operator) {
 
 function generate_button($title,$locale,$inner,$showhost,$forcesecure) {
 	$link = get_app_location($showhost,$forcesecure)."/client.php". ($locale?"?locale=".$locale : "");
-	return "<!-- webim button -->".get_popup($link, $inner, $title, "webim", "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=600,height=420,resizable=1" )."<!-- /webim button -->";
+	return "<!-- webim button -->".get_popup($link, $inner, $title, "webim", "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=600,height=420,resizable=1" )."<!-- / webim button -->";
 }
 
 function check_login() {
+	global $webimroot;
 	if( !isset( $_SESSION['operator'] ) ) {
 		if( isset($_COOKIE['webim_lite']) ) {
 			list($login,$pwd) = split(",", $_COOKIE['webim_lite'], 2);
@@ -121,7 +122,7 @@ function check_login() {
 			}
 		}
 		$_SESSION['backpath'] = $_SERVER['PHP_SELF'];
-		header("Location: /webim/operator/login.php");
+		header("Location: $webimroot/operator/login.php");
 		exit;
 	}
 	return $_SESSION['operator'];
@@ -132,21 +133,23 @@ function get_logged_in() {
 }
 
 function login_operator($operator,$remember) {
+	global $webimroot;
 	$_SESSION['operator'] = $operator;
 	if( $remember ) {
 		$value = $operator['vclogin'].",".md5($operator['vcpassword']);
-		setcookie('webim_lite', $value, time()+60*60*24*1000, "/webim/");
+		setcookie('webim_lite', $value, time()+60*60*24*1000, "$webimroot/");
 
 	} else if( isset($_COOKIE['webim_lite']) ) {
-		setcookie('webim_lite', '', time() - 3600, "/webim/");
+		setcookie('webim_lite', '', time() - 3600, "$webimroot/");
 	}
 }
 
 function logout_operator() {
+	global $webimroot;
 	$_SESSION['operator'] = NULL;
 	$_SESSION['backpath'] = NULL;
 	if( isset($_COOKIE['webim_lite']) ) {
-		setcookie('webim_lite', '', time() - 3600, "/webim/");
+		setcookie('webim_lite', '', time() - 3600, "$webimroot/");
 	}
 }
 
