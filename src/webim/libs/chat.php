@@ -125,7 +125,7 @@ function print_thread_mesages($threadid, $token, $lastid, $isuser,$format) {
 
 	if( $format == "xml" ) {
 		start_xml_output();
-		print("<thread lastID=\"$lastid\">");
+		print("<thread lastid=\"$lastid\">");
 		foreach( $output as $msg ) {
 			print "<message>".myiconv($webim_encoding,"utf-8",escape_with_cdata($msg))."</message>\n";
 		}
