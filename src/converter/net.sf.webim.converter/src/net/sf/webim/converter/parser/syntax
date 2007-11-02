@@ -17,7 +17,8 @@ any:	/[^<]+/
 '<':	/</         { group = @1; break; }
 
 comment:   /<%--([^-]|-[^-]|--[^%]|--%[^>])*--%>/
-doctype:   /<![^>]*>/
+comment:   /<!--([^-]|-[^-]|--[^>])*-->/
+doctype:   /<![^-][^>]*>/
 taglib:    /<%@([^%]|%[^>])*%>/
 
 [1]
@@ -49,8 +50,8 @@ xml_tags ::=
 ;
 
 xml_tag_or_space ::=
-	tag_start tag_end								{ checkTag($tag_start,$tag_end); }
-	| tag_start xml_tags tag_end					{ checkTag($tag_start,$tag_end); }
+	tag_start tag_end								{ checkTag($tag_start,$tag_end,@1.line); }
+	| tag_start xml_tags tag_end					{ checkTag($tag_start,$tag_end,@2.line); }
 	| no_body_tag
 	| comment
     | taglib
@@ -144,7 +145,7 @@ public String parse(String s) {
 	return null;
 }
 
-private void checkTag(XmlNode node, String endTag) {
+private void checkTag(XmlNode node, String endTag, int line) {
 	if( !node.getTagName().equals(endTag) )
-		error("Tag " + node.getTagName() + " is closed with " + endTag);
+		error("Tag " + node.getTagName() + " is closed with " + endTag + " at line " + line);
 }

@@ -8,17 +8,17 @@ import java.io.Reader;
 import net.sf.webim.converter.parser.Parser;
 
 public class JspConverter {
-	
+
 	public static void main(String[] args) {
-		String toProcess = getFileContents("C:\\projects\\sf\\webim\\src\\converter\\test.xml");
-		
+		String toProcess = getFileContents("../test.xml");
+
 		Parser p = new Parser();
 		String result = p.parse(toProcess);
-		
+
 		System.out.println(">>>\n" + result + "<<<");
-		
-	}	
-	
+
+	}
+
 	private static String getFileContents(String file) {
 		StringBuffer contents = new StringBuffer();
 		char[] buffer = new char[2048];
