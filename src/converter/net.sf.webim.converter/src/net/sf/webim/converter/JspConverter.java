@@ -5,17 +5,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
-import net.sf.webim.converter.parser.Parser;
+import net.sf.lapg.templates.model.xml.XmlModel;
+import net.sf.lapg.templates.model.xml.XmlNode;
 
 public class JspConverter {
 
 	public static void main(String[] args) {
 		String toProcess = getFileContents("../test.xml");
 
-		Parser p = new Parser();
-		String result = p.parse(toProcess);
+		XmlNode root = XmlModel.load(toProcess);
 
-		System.out.println(">>>\n" + result + "<<<");
+		System.out.println(">>>\n" + root.toString() + "<<<");
 
 	}
 
