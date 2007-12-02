@@ -15,6 +15,9 @@
 require('libs/common.php');
 require('libs/chat.php');
 
+$errors = array();
+$page = array();
+
 $token = verifyparam( "token", "/^\d{1,8}$/");
 $threadid = verifyparam( "thread", "/^\d{1,8}$/");
 
@@ -26,7 +29,21 @@ if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] ) {
 $mail = getparam('email');
 $page['email'] = $mail;
 
-// TODO check email
+if( !$mail ) {
+	$errors[] = no_field("form.field.email");
+} else if( !is_valid_email($mail)) {
+	$errors[] = wrong_field("form.field.email");
+}
+
+if( count($errors) > 0 ) {
+	$page['formemail'] = $mail;
+	$page['ct.chatThreadId'] = $thread['threadid'];
+	$page['ct.token'] = $thread['ltoken'];
+	$page['level'] = "";
+	start_html_output();
+	require('view/chat_mailthread.php');
+	exit;
+}
 
 $history = "";
 $lastid = -1;

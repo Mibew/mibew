@@ -52,6 +52,12 @@ $force_charset_in_connection = true;
 $webim_from_email = "webim@yourdomain.com"; // email from field
 
 /*
+ *   Inbox for left messages
+ */
+$webim_messages_mail = "operators@yourdomain.com";
+$webim_messages_encoding = "en";
+
+/*
  *   Company international name.
  */
 $company_name = "My Company Ltd.";

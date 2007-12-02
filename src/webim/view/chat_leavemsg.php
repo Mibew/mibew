@@ -15,7 +15,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-<title><?php echo getstring("chat.window.title.user") ?></title>
+<title><?php echo getstring("leavemessage.title") ?></title>
 <link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <link rel="stylesheet" type="text/css" href="<?php echo $webimroot ?>/chat.css" />
 </head>
@@ -24,14 +24,14 @@
 <tr>
 <td valign="top">
 
-<form name="mailThreadForm" method="post" action="<?php echo $webimroot ?>/mail.php">
-<input type="hidden" name="thread" value="<?php echo $page['ct.chatThreadId'] ?>"/><input type="hidden" name="token" value="<?php echo $page['ct.token'] ?>"/><input type="hidden" name="level" value="<?php echo $page['level'] ?>"/>
+<form name="leaveMessageForm" method="post" action="<?php echo $webimroot ?>/leavemessage.php">
 
 <table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
+<tr><td colspan="3" height="15"></td></tr>
 <tr>
-<td height="75"></td>
+<td height="40"></td>
 <td class="window">
-	<h1><?php echo getstring("mailthread.title") ?></h1>
+	<h1><?php echo getstring("leavemessage.title") ?></h1>
 </td>
 <td></td>
 </tr>
@@ -66,9 +66,27 @@
 
 	<table cellspacing="0" cellpadding="0" border="0"><tr><td width="15"><img src="<?php echo $webimroot ?>/images/wincrnlt.gif" width="15" height="15" border="0" alt="" /></td><td width="100%" background="<?php echo $webimroot ?>/images/winbg.gif" class="bgcy"><img src="<?php echo $webimroot ?>/images/free.gif" width="1" height="1" border="0" alt="" /></td><td width="15"><img src="<?php echo $webimroot ?>/images/wincrnrt.gif" width="15" height="15" border="0" alt="" /></td></tr><tr><td height="100%" bgcolor="#FED840"><img src="<?php echo $webimroot ?>/images/free.gif" width="1" height="1" border="0" alt="" /></td><td background="<?php echo $webimroot ?>/images/winbg.gif" class="bgcy"><table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td class="text"><?php echo getstring("mailthread.enter_email") ?></td>
-	    <td width="10"></td>
-	    <td><input type="text" name="email" size="20" value="<?php echo form_value('email') ?>" class="username"/></td>
+	    <td colspan="3" class="text"><?php echo getstring("leavemessage.descr") ?></td>
+		</tr>
+		<tr><td height="20" colspan="3"></td></tr>		
+		<tr>
+	    <td class="text"><?php echo getstring("form.field.email") ?>:</td>
+	    <td width="20"></td>
+	    <td><input type="text" name="email" size="50" value="<?php echo form_value('email') ?>" class="username"/></td>
+		</tr>
+		<tr><td height="7" colspan="3"></td></tr>		
+		<tr>
+	    <td class="text"><?php echo getstring("form.field.name") ?>:</td>
+	    <td width="20"></td>
+	    <td><input type="text" name="name" size="50" value="<?php echo form_value('name') ?>" class="username"/></td>
+		</tr>
+		<tr><td height="7" colspan="3"></td></tr>		
+		<tr>
+	    <td class="text"><?php echo getstring("form.field.message") ?>:</td>
+	    <td width="20"></td>
+	    <td height="120" valign="top"><table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0"><tr><td colspan="3" bgcolor="#A1A1A1"><img src="<?php echo $webimroot ?>/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td bgcolor="#A1A1A1"><img src="<?php echo $webimroot ?>/images/free.gif" width="1" height="1" border="0" alt="" /></td><td width="100%" height="100%" bgcolor="#FFFFFF" valign="top">
+	    <textarea name="message" class="message" tabindex="0"><?php echo form_value('message') ?></textarea>
+	    </td><td bgcolor="#A1A1A1"><img src="<?php echo $webimroot ?>/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td colspan="3" bgcolor="#A1A1A1"><img src="<?php echo $webimroot ?>/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr></table></td>
 		</tr>
 	</table></td><td bgcolor="#E8A400"><img src="<?php echo $webimroot ?>/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td><img src="<?php echo $webimroot ?>/images/wincrnlb.gif" width="15" height="15" border="0" alt="" /></td><td background="<?php echo $webimroot ?>/images/winbg.gif" class="bgcy"><img src="<?php echo $webimroot ?>/images/free.gif" width="1" height="1" border="0" alt="" /></td><td><img src="<?php echo $webimroot ?>/images/wincrnrb.gif" width="15" height="15" border="0" alt=""/></td></tr></table>
 
@@ -85,21 +103,21 @@
     <td width="50%">
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td><a href="javascript:document.mailThreadForm.submit();" title="<?php echo getstring("mailthread.perform") ?>"><img src='<?php echo $webimroot ?>/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
+	    <td><a href="javascript:document.leaveMessageForm.submit();" title="<?php echo getstring("leavemessage.perform") ?>"><img src='<?php echo $webimroot ?>/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
 	    <td background="<?php echo $webimroot ?>/images/submitbg.gif" valign="top" class="submit">
 			<img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="10" border="0" alt="" /><br>
-			<a href="javascript:document.mailThreadForm.submit();" title="<?php echo getstring("mailthread.perform") ?>"><?php echo getstring("mailthread.perform") ?></a><br>
+			<a href="javascript:document.leaveMessageForm.submit();" title="<?php echo getstring("leavemessage.perform") ?>"><?php echo getstring("leavemessage.perform") ?></a><br>
 		</td>
-	    <td width="10"><a href="javascript:document.mailThreadForm.submit();" title="<?php echo getstring("mailthread.perform") ?>"><img src='<?php echo $webimroot ?>/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
+	    <td width="10"><a href="javascript:document.leaveMessageForm.submit();" title="<?php echo getstring("leavemessage.perform") ?>"><img src='<?php echo $webimroot ?>/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
 		</tr>
 		</table>
 	</td>
     <td width="50%" align="right">
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td><a href="javascript:window.close();" title="<?php echo getstring("mailthread.close") ?>"><img src='<?php echo $webimroot ?>/images/buttons/back.gif' width="25" height="25" border="0" alt="" /></a></td>
+	    <td><a href="javascript:window.close();" title="<?php echo getstring("leavemessage.close") ?>"><img src='<?php echo $webimroot ?>/images/buttons/back.gif' width="25" height="25" border="0" alt="" /></a></td>
 	    <td width="5"></td>
-	    <td class="button"><a href="javascript:window.close();" title="<?php echo getstring("mailthread.close") ?>"><?php echo getstring("mailthread.close") ?></a></td>
+	    <td class="button"><a href="javascript:window.close();" title="<?php echo getstring("leavemessage.close") ?>"><?php echo getstring("leavemessage.close") ?></a></td>
 		</tr>
 		</table>
 	</td>
@@ -118,8 +136,6 @@
 </table>
 
 </form>
-
-
 
 </td>
 </tr>

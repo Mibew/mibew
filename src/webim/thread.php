@@ -76,8 +76,11 @@ if( $act == "refresh" ) {
 	exit;
 
 } else if( $act == "close" ) {
+	
+	if( $isuser || $thread['agentId'] == $operator['operatorid']) {
+		close_thread($thread, $isuser);
+	}
 
-	close_thread($thread, $isuser);
 	start_xml_output();
 	echo "<closed></closed>";
 	exit;

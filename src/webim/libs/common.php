@@ -185,7 +185,7 @@ function connect() {
 		or die('Could not connect: ' . mysql_error());
 	mysql_select_db($mysqldb,$link) or die('Could not select database');
 	if( $force_charset_in_connection ) {
-		mysql_query("SET character set $dbencoding", $link);
+		mysql_query("SET NAMES '$dbencoding'", $link);
 	}
 	return $link;
 }
@@ -249,6 +249,10 @@ function no_field($key) {
 	return getstring2("errors.required",array(getstring($key)));
 }
 
+function wrong_field($key) {
+	return getstring2("errors.wrong_field",array(getstring($key)));
+}
+
 function get_popup($href,$message,$title,$wndName,$options) {
 	return "<a href=\"$href\" target=\"_blank\" ".($title?"title=\"$title\" ":"")."onclick=\"this.newWindow = window.open('$href', '$wndName', '$options');this.newWindow.focus();this.newWindow.opener=window;return false;\">$message</a>";
 }
@@ -300,6 +304,10 @@ function date_diff($seconds) {
 		$minutes = $minutes % 60;
 		return sprintf("%02d:%02d:%02d",$hours, $minutes, $seconds);
 	}
+}
+
+function is_valid_email($mail) {
+	return preg_match("/^[^@]+@[^\.]+(\.[^\.]+)*$/", $mail);
 }
 
 function quote_smart($value,$link) {

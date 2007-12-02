@@ -71,6 +71,7 @@ if($act == "createdb") {
 			runsql("ALTER TABLE chatthread ADD agentId int NOT NULL DEFAULT 0 AFTER agentName", $link);
 			runsql("update chatthread,chatoperator set agentId = operatorid where agentId = 0 AND (vclocalename = agentName OR vccommonname = agentName)", $link); 
 		}
+
 	}
 }
 

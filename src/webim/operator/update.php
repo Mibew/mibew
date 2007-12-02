@@ -48,12 +48,14 @@ function thread_to_xml($thread) {
 	$threadoperator = ($thread['agentName'] ? $thread['agentName'] : "-");
 
 	$result .= " canopen=\"true\"";
+
 	$result .= " state=\"$state\">";
 	$result .= "<name>".htmlspecialchars(htmlspecialchars(get_user_name($thread['userName'])))."</name>";
 	$result .= "<addr>".htmlspecialchars(htmlspecialchars($thread['remote']))."</addr>";
 	$result .= "<agent>".htmlspecialchars(htmlspecialchars($threadoperator))."</agent>";
 	$result .= "<time>".$thread['unix_timestamp(dtmcreated)']."000</time>";
 	$result .= "<modified>".$thread['unix_timestamp(dtmmodified)']."000</modified>";
+	
 	$result .= "</thread>";
 	return $result;
 }

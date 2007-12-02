@@ -14,6 +14,7 @@
 
 require('libs/common.php');
 require('libs/chat.php');
+require('libs/operator.php');
 
 if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 
@@ -23,6 +24,12 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 	}
 
 	if( !$thread ) {
+		if(!has_online_operators()) {
+			start_html_output();
+			require('view/chat_leavemsg.php');
+			exit;
+		}
+		
 		$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "";
 		$remote = isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $_SERVER['REMOTE_ADDR'];
 		$visitor = $remote_visitor();

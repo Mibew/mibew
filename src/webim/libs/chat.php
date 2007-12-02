@@ -55,12 +55,14 @@ function post_message_($threadid,$kind,$message,$link,$from=null,$time=null,$opi
 			$time ? "FROM_UNIXTIME($time)" : "CURRENT_TIMESTAMP" );
 
 	perform_query($query,$link);
+	return mysql_insert_id($link);
 }
 
 function post_message($threadid,$kind,$message,$from=null,$agentid=null) {
 	$link = connect();
-	post_message_($threadid,$kind,$message,$link,$from,null,$agentid);
+	$id = post_message_($threadid,$kind,$message,$link,$from,null,$agentid);
 	mysql_close($link);
+	return $id;
 }
 
 function prepare_html_message($text) {
@@ -110,8 +112,9 @@ function get_messages($threadid,$meth,$isuser,&$lastid) {
 	while ($msg = mysql_fetch_array($result, MYSQL_ASSOC)) {
 		$message = ($meth == 'text') ? message_to_text($msg) : message_to_html($msg);
 		$messages[] = $message;
-		if( $msg['messageid'] > $lastid )
+		if( $msg['messageid'] > $lastid ) {
 			$lastid = $msg['messageid'];
+		}
 	}
 
 	mysql_free_result($result);

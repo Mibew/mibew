@@ -27,7 +27,7 @@ $dbtables = array(
 		"referer" => "text",
 		"locale" => "varchar(8)",
 		"lastpinguser" => "datetime DEFAULT 0",
-		"lastpingagent" => "datetime DEFAULT 0"
+		"lastpingagent" => "datetime DEFAULT 0",
 	),
 
 	"chatmessage" => array(
@@ -56,7 +56,7 @@ $dbtables = array(
 
 $dbtables_can_update = array(
 	"chatthread" => array("agentId"),
-	"chatmessage" => array("agentId")
+	"chatmessage" => array("agentId"),
 );
 
 function show_install_err($text) {
