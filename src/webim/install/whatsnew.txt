@@ -2,7 +2,12 @@
   1.0.8
   -----
 
-  [+] install/update wizard
+  [+] install/update wizard, can create database and update it if needed
+  [+] leave message form when no operator is available
+  [!] location of web application can be other than /webim (see config.php)
+  [!] locale-specific resources extracted into /locales
+  [!] some fixes for Safari browser
+  [!] email validation in forms
 
   1.0.7
   -----

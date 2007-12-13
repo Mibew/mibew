@@ -17,7 +17,7 @@ session_start();
 require(dirname(__FILE__).'/converter.php');
 require(dirname(__FILE__).'/config.php');
 
-$version = 'v1.0.8 pre1';
+$version = 'v1.0.8';
 
 function myiconv($in_enc, $out_enc, $string) {
 	global $_utf8win1251, $_win1251utf8;
