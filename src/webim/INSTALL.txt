@@ -16,9 +16,6 @@ REQUIREMENTS
 QUICK INSTALLATION
 
 1. Create folder with name 'webim' in the root of your website.
-
-NOTE: current revision of WebIM could work only in /webim/ location on your website.
-
 2. Upload all the files contained in this archive (retaining the directory 
    structure) into created folder.
 3. Edit /webim/libs/config.php and setup database connection parameters.
@@ -31,6 +28,15 @@ NOTE: current revision of WebIM could work only in /webim/ location on your webs
 7. Get button code and setup it on your site.
 8. Change your password and name.
 9. Wait for your visitors on "Pending users" page.
+
+UPDATE
+
+1. Backup you config.php
+2. Clean webim folder on server.
+3. Upload all the files contained in this archive (retaining the directory 
+   structure) into webim folder.
+4. Adjust you config.php
+5. Visit http://<yourdomain>/webim/install/ and follow the instructions to update database (if needed).
 
 OPTIONAL
 
