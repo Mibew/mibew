@@ -30,7 +30,7 @@ var updaterOptions = {
 	agentservl:"<?php echo $webimroot ?>/operator/agent.php",
 	noclients:"<?php echo getstring("clients.no_clients") ?>" };
 //--></script>
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/page_pendingclients.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/page_pendingclients2.js"></script>
 
 <link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <title>

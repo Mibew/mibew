@@ -24,7 +24,7 @@
 <script language="javascript"><!--
 var threadParams = { servl:"<?php echo $webimroot ?>/thread.php",wroot:"<?php echo $webimroot ?>",frequency:2,<?php if( $page['user'] ) { ?>user:"true",<?php } ?>threadid:<?php echo $page['ct.chatThreadId'] ?>,token:<?php echo $page['ct.token'] ?> };
 //--></script>
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/page_chat.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/page_chat2.js"></script>
 </head>
 
 <body bgcolor="#FFFFFF" background="<?php echo $webimroot ?>/images/bg.gif" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" marginwidth="0" marginheight="0" leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0">
