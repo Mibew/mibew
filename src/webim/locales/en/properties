@@ -1,7 +1,6 @@
-app.title=Web Instant Messenger
-site.url=http://i-services.ru
-site.title=i-services.ru
-company.title=Internet Services
+site.url=http://webim.ru
+site.title=webim.ru
+company.title=Web Messenger Community
 page.main_layout.meta_keyword=live chat,live help,live support
 page.main_layout.meta_description=Live chat, live help, and live support for websites
 page_login.title=Login
@@ -17,7 +16,7 @@ chat.window.product_name=Web <span class="grey">Messenger</span>
 chat.window.close_title=Close chat
 chat.window.chatting_with=You chat with:
 chat.window.poweredby=Powered by:
-chat.window.poweredreftext=i-services.ru
+chat.window.poweredreftext=webim.ru
 chat.window.send_message=Send message
 chat.window.send_message_short=Send (Ctrl-Enter)
 chat.window.toolbar.mail_history=Send chat history by e-mail
@@ -126,6 +125,7 @@ image.chat.message=/locales/en/images/message.gif
 image.button.login=/locales/en/images/login.gif
 image.button.save=/locales/en/images/save.gif
 image.button.search=/locales/en/images/search.gif
+app.title=Web Instant Messenger
 chat.came.from=Vistor came from page {0}
 content.history=Search the dialogs history
 content.logoff=Log out of the system.

@@ -1,7 +1,6 @@
-app.title=Вэб мессенджер
-site.url=http://i-services.ru
-site.title=i-services.ru
-company.title=Internet Services
+site.url=http://webim.ru
+site.title=webim.ru
+company.title=Web Messenger Community
 page.main_layout.meta_keyword=онлайн поддержка,онлайн консультант,онлайн помощь,улучшение сервиса,поддержка клиентов,центр поддержки,поддержка на сайте,центр сообщений,электронная коммерция,центр мгновенных сообщений,повышение продаж интернет магазина,интернет магазин,онлайн продажи,интернет продажи,посетители,покупатели,повышение коэффициента конверсии,online поддержка,online продажи, online обслуживание,online консультант,online помощь,обслуживание посетителей,обслуживание клиентов,качество обслуживания,бизнес-коммуникации,crm 
 page.main_layout.meta_description=повышение конвертации, повышение конверсии, увеличение процента покупателей,превращает посетителей в online покупателей,диалог с посетителем,чат с посетителем
 page_login.title=Вход в систему
@@ -17,7 +16,7 @@ chat.window.product_name=Вэб <span class="grey">Мессенджер</span>
 chat.window.close_title=Закрыть диалог
 chat.window.chatting_with=Вы общаетесь с:
 chat.window.poweredby=Предоставлено:
-chat.window.poweredreftext=i-services.ru
+chat.window.poweredreftext=webim.ru
 chat.window.send_message=Отправить сообщение
 chat.window.send_message_short=Отправить (Ctrl-Enter)
 chat.window.toolbar.mail_history=Отправить историю диалога по электронной почте
@@ -126,6 +125,7 @@ image.chat.message=/locales/ru/images/message.gif
 image.button.login=/locales/ru/images/login.gif
 image.button.save=/locales/ru/images/save.gif
 image.button.search=/locales/ru/images/search.gif
+app.title=Вэб мессенджер
 chat.came.from=Посетитель пришел со страницы {0}
 content.history=Поиск по истории диалогов
 content.logoff=Покинуть систему.
