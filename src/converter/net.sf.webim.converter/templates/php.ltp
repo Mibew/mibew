@@ -1,0 +1,8 @@
+
+${template hidden-}
+${if attrs.value-}
+<input type="hidden" name="${attrs.name}" value="${attrs.value}"/>
+${else-}
+<input type="hidden" name="${attrs.property}" value="<?php echo ${attrs.property} ?>"\/>
+${end-}
+${end}
