@@ -16,11 +16,15 @@ require('libs/common.php');
 require('libs/chat.php');
 require('libs/operator.php');
 
-$act = verifyparam( "act", "/^(refresh|post|rename|close|ping)$/");
+
+
+$act = verifyparam( "act", "/^(refresh|post|rename|close|ping".")$/");
 $token = verifyparam( "token", "/^\d{1,9}$/");
 $threadid = verifyparam( "thread", "/^\d{1,9}$/");
 $isuser = verifyparam( "user", "/^true$/", "false") == 'true';
 $outformat = (verifyparam( "html", "/^on$/", "off") == 'on') ? "html" : "xml";
+
+
 
 $thread = thread_by_id($threadid);
 if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] ) {
@@ -39,7 +43,7 @@ if( !$isuser && $act != "rename" ) {
 
 if( $act == "refresh" ) {
 	$lastid = verifyparam( "lastid", "/^\d{1,9}$/", -1);
-	print_thread_mesages($threadid, $token, $lastid, $isuser,$outformat);
+	print_thread_messages($threadid, $token, $lastid, $isuser,$outformat);
 	exit;
 
 } else if( $act == "post" ) {
@@ -48,9 +52,9 @@ if( $act == "refresh" ) {
 
 	$kind = $isuser ? $kind_user : $kind_agent;
 	$from = $isuser ? $thread['userName'] : $thread['agentName'];
-
+    
 	post_message($threadid,$kind,$message,$from, $isuser ? null : $operator['operatorid'] );
-	print_thread_mesages($threadid, $token, $lastid, $isuser, $outformat);
+	print_thread_messages($threadid, $token, $lastid, $isuser, $outformat);
 	exit;
 
 } else if( $act == "rename" ) {

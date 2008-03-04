@@ -93,11 +93,10 @@
 
 		<tr><td colspan='3' height='20'></td></tr><tr><td colspan='3' background='<?php echo $webimroot ?>/images/formline.gif'><img src='<?php echo $webimroot ?>/images/formline.gif' width='1' height='2' border='0' alt=''></td></tr><tr><td colspan='3' height='10'></td></tr>
 		<tr>
-			<td class="formauth"><input type="hidden" name="agentId" value="<?php echo $page['agentId'] ?>"/> 
+			<td class="formauth" colspan="3">
+                    <input type="hidden" name="agentId" value="<?php echo $page['agentId'] ?>"/> 
 			        <input type="image" name="" src='<?php echo $webimroot.getstring("image.button.save") ?>' border="0" alt='<?php echo getstring("button.save") ?>'/>
 			</td>
-			<td></td>
-			<td></td>
 		</tr>
 
 	</table></td><td></td></tr><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlb.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrb.gif' width='16' height='16' border='0' alt=''></td></tr></table></td></tr></table>

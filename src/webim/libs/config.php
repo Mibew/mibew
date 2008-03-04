@@ -96,5 +96,4 @@ $remote_visitor = 'visitor_from_request';
 $online_timeout = 30;
 
 
-
 ?>

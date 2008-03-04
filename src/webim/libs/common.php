@@ -249,12 +249,13 @@ function no_field($key) {
 	return getstring2("errors.required",array(getstring($key)));
 }
 
+
 function wrong_field($key) {
 	return getstring2("errors.wrong_field",array(getstring($key)));
 }
 
 function get_popup($href,$message,$title,$wndName,$options) {
-	return "<a href=\"$href\" target=\"_blank\" ".($title?"title=\"$title\" ":"")."onclick=\"this.newWindow = window.open('$href', '$wndName', '$options');this.newWindow.focus();this.newWindow.opener=window;return false;\">$message</a>";
+	return "<a href=\"$href\" target=\"_blank\" ".($title?"title=\"$title\" ":"")."onclick=\"if(navigator.userAgent.toLowerCase().indexOf('opera') != -1 && window.event.preventDefault) window.event.preventDefault();this.newWindow = window.open('$href', '$wndName', '$options');this.newWindow.focus();this.newWindow.opener=window;return false;\">$message</a>";
 }
 
 function get_image($href,$width,$height) {
@@ -355,5 +356,7 @@ function set_form_date($time,$prefix) {
 	$page["form${prefix}day"] = date("d", $time);
 	$page["form${prefix}month"] = date("m.y", $time);
 }
+
+
 
 ?>

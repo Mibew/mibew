@@ -189,12 +189,12 @@
 			<table cellspacing="0" cellpadding="0" border="0" id="postmessage">
 
 			<tr>
-		    <td><a href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.send_message") ?>"><img src='<?php echo $webimroot ?>/images/submit.gif' width="40" height="35" border="0" altKey="chat.window.send_message_short"/></a></td>
+		    <td><a href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.send_message") ?>"><img src='<?php echo $webimroot ?>/images/submit.gif' width="40" height="35" border="0" alt=""/></a></td>
 		    <td background="<?php echo $webimroot ?>/images/submitbg.gif" valign="top" class="submit">
 				<img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="10" border="0" alt="" /><br>
-				<a id="msgsend1" href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.send_message") ?>"><?php echo getstring("chat.window.send_message_short") ?></a><br>
+				<a id="msgsend1" href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.send_message") ?>"><?php echo getstring2("chat.window.send_message_short",array($page['send_shortcut'])) ?></a><br>
 			</td>
-			<td width="10"><a href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.send_message") ?>"><img src='<?php echo $webimroot ?>/images/submitrest.gif' width="10" height="35" border="0" altKey="chat.window.send_message_short"/></a></td>
+			<td width="10"><a href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.send_message") ?>"><img src='<?php echo $webimroot ?>/images/submitrest.gif' width="10" height="35" border="0" alt=""/></a></td>
 			</tr>
 			</table>
 		</td>

@@ -15,6 +15,8 @@
 require('../libs/common.php');
 require('../libs/operator.php');
 
+
+
 $operator = check_login();
 
 notify_operator_alive($operator['operatorid']);

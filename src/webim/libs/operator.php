@@ -51,7 +51,8 @@ function get_operators() {
 function update_operator($operatorid,$login,$password,$localename,$commonname) {
 	$link = connect();
 	$query = sprintf(
-		"update chatoperator set vclogin = '%s',%s vclocalename = '%s',vccommonname = '%s' where operatorid = %s",
+		"update chatoperator set vclogin = '%s',%s vclocalename = '%s', vccommonname = '%s'".
+		" where operatorid = %s",
 		mysql_real_escape_string($login),
 		($password ? " vcpassword='".md5($password)."'," : ""),
 		mysql_real_escape_string($localename),
@@ -64,11 +65,11 @@ function update_operator($operatorid,$login,$password,$localename,$commonname) {
 
 function create_operator_($login,$password,$localename,$commonname,$link) {
 	$query = sprintf(
-		"insert into chatoperator (vclogin,vcpassword,vclocalename,vccommonname) values ('%s','%s','%s','%s')",
+		"insert into chatoperator (vclogin,vcpassword,vclocalename,vccommonname".") values ('%s','%s','%s','%s'".")",
 			mysql_real_escape_string($login),
 			md5($password),
 			mysql_real_escape_string($localename),
-			mysql_real_escape_string($commonname) );
+			mysql_real_escape_string($commonname));
 
 	perform_query($query,$link);
 	$id = mysql_insert_id($link);

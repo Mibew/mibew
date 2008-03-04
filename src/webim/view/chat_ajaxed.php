@@ -42,17 +42,19 @@ var threadParams = { servl:"<?php echo $webimroot ?>/thread.php",wroot:"<?php ec
 	    <td width="50%" valign="top">
 			<table width="135" cellspacing="0" cellpadding="0" border="0">
 			<tr>
-		    <td height="25"></td>
+		    <td height="10"></td>
 			</tr>
 			<tr>
-		    <td align="center"><?php if( $page['ct.company.chatLogoURL'] ) { ?><img src="<?php echo $page['ct.company.chatLogoURL'] ?>" width="85" height="45" border="0" alt=""><?php } ?></td>
+		    <td align="center"><?php if( $page['ct.company.chatLogoURL'] ) { ?><a onclick="window.open('<?php echo getstring("site.url") ?>');return false;" href="_blank"><img src="<?php echo $page['ct.company.chatLogoURL'] ?>" border="0" alt=""></a><?php } ?></td>
 			</tr>
 			<tr>
 		    <td height="5"></td>
 			</tr>
+            <?php if( !$page['ct.company.chatLogoURL'] ) { ?>
 			<tr>
 		    <td align="center" class="text"><?php echo $page['ct.company.name'] ?></td>
 			</tr>
+            <?php } ?>
 			</table>
 		</td>
     	<td width="50%" align="right" valign="top">
@@ -192,7 +194,7 @@ var threadParams = { servl:"<?php echo $webimroot ?>/thread.php",wroot:"<?php ec
     <td>
 		<table width="100%" cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td width="33%">
+	    <td align="left">
 			<table cellspacing="0" cellpadding="0" border="0">
 			<tr>
 		    <td width="20"></td>
@@ -201,17 +203,20 @@ var threadParams = { servl:"<?php echo $webimroot ?>/thread.php",wroot:"<?php ec
 			</tr>
 			</table>
 		</td>
-		<td width="33%" align="center" class="copyr"><?php echo getstring("chat.window.poweredby") ?> <a href="<?php echo getstring("site.url") ?>" title="<?php echo getstring("company.title") ?>" target="_blank"><?php echo getstring("chat.window.poweredreftext") ?></a></td>
-		<td width="33%" align="right">
+		<td align="center" class="copyr"><?php echo getstring("chat.window.poweredby") ?> <a href="<?php echo getstring("site.url") ?>" title="<?php echo getstring("company.title") ?>" target="_blank"><?php echo getstring("chat.window.poweredreftext") ?></a></td>
+		<td align="right">
 		
 <?php if( $page['canpost'] ) { ?>
 			<table cellspacing="0" cellpadding="0" border="0" id="postmessage">
 
 			<tr>
+            <td>
+
+            </td>
 		    <td><a href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.send_message") ?>"><img src='<?php echo $webimroot ?>/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
 		    <td background="<?php echo $webimroot ?>/images/submitbg.gif" valign="top" class="submit">
 				<img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="10" border="0" alt="" /><br>
-				<a href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.send_message") ?>"><?php echo getstring("chat.window.send_message_short") ?></a><br>
+				<a id="sndmessagelnk" href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.send_message") ?>"><?php echo getstring2("chat.window.send_message_short",array($page['send_shortcut'])) ?></a><br>
 			</td>
 			<td width="10"><a href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.send_message") ?>"><img src='<?php echo $webimroot ?>/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
 			</tr>

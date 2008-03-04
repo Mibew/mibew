@@ -100,7 +100,7 @@
 
 	<table width="100%" cellspacing="0" cellpadding="0" border="0">
 	<tr>
-    <td width="50%">
+    <td width="33%">
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
 	    <td><a href="javascript:document.leaveMessageForm.submit();" title="<?php echo getstring("leavemessage.perform") ?>"><img src='<?php echo $webimroot ?>/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
@@ -112,7 +112,10 @@
 		</tr>
 		</table>
 	</td>
-    <td width="50%" align="right">
+
+  	<td width="33%" align="center" class="copyr"><?php echo getstring("chat.window.poweredby") ?> <a href="<?php echo getstring("site.url") ?>" title="<?php echo getstring("company.title") ?>" target="_blank"><?php echo getstring("chat.window.poweredreftext") ?></a></td>
+
+    <td width="33%" align="right">
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
 	    <td><a href="javascript:window.close();" title="<?php echo getstring("leavemessage.close") ?>"><img src='<?php echo $webimroot ?>/images/buttons/back.gif' width="25" height="25" border="0" alt="" /></a></td>
