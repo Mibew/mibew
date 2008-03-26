@@ -30,7 +30,6 @@ namespace webImTray {
             this.label2 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             label3 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
@@ -46,9 +45,9 @@ namespace webImTray {
             label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             label3.Name = "label3";
             label3.Padding = new System.Windows.Forms.Padding(0, 0, 0, 9);
-            label3.Size = new System.Drawing.Size(297, 27);
+            label3.Size = new System.Drawing.Size(401, 27);
             label3.TabIndex = 3;
-            label3.Text = "Copyright (c) 2006-07 Internet Services Ltd.";
+            label3.Text = "Copyright (c) 2006-08 Web Messenger Creators Community";
             // 
             // label4
             // 
@@ -58,9 +57,9 @@ namespace webImTray {
             label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             label4.Name = "label4";
             label4.Padding = new System.Windows.Forms.Padding(0, 0, 0, 9);
-            label4.Size = new System.Drawing.Size(169, 27);
+            label4.Size = new System.Drawing.Size(162, 27);
             label4.TabIndex = 4;
-            label4.Text = "Please, visit our websites";
+            label4.Text = "Please, visit our website";
             // 
             // label1
             // 
@@ -83,13 +82,13 @@ namespace webImTray {
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(134, 23);
             this.label2.TabIndex = 1;
-            this.label2.Text = "version 1.0.2";
+            this.label2.Text = "version 1.0.3";
             // 
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(352, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(147, 123);
             this.pictureBox1.TabIndex = 2;
@@ -109,27 +108,13 @@ namespace webImTray {
             this.linkLabel1.Text = "http://www.webim.ru";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.webim_ru_link);
             // 
-            // linkLabel2
-            // 
-            this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.linkLabel2.Location = new System.Drawing.Point(17, 218);
-            this.linkLabel2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 9);
-            this.linkLabel2.Size = new System.Drawing.Size(163, 27);
-            this.linkLabel2.TabIndex = 6;
-            this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "http://www.i-services.ru";
-            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.i_services_ru_link);
-            // 
             // pictureBox2
             // 
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(24, 268);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox2.Location = new System.Drawing.Point(23, 245);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(147, 69);
+            this.pictureBox2.Size = new System.Drawing.Size(147, 76);
             this.pictureBox2.TabIndex = 7;
             this.pictureBox2.TabStop = false;
             // 
@@ -140,14 +125,13 @@ namespace webImTray {
             this.BackColor = System.Drawing.Color.White;
             this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.linkLabel2);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(label4);
             this.Controls.Add(label3);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "About";
             this.Padding = new System.Windows.Forms.Padding(13, 25, 0, 0);
             this.Size = new System.Drawing.Size(499, 405);
@@ -164,7 +148,6 @@ namespace webImTray {
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.PictureBox pictureBox2;
     }
 }

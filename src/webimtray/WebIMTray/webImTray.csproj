@@ -132,6 +132,7 @@
     <Compile Include="options\OptionsSoundsPanel.Designer.cs">
       <DependentUpon>OptionsSoundsPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserActivityHook.cs" />
     <EmbeddedResource Include="options\About.resx">
       <SubType>Designer</SubType>
       <DependentUpon>About.cs</DependentUpon>
