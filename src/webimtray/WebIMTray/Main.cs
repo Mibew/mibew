@@ -40,9 +40,9 @@ namespace webImTray {
 
         void navigateThere() {
 #if DEBUG
-            webBrowser1.Navigate("http://localhost:8080/IMCenter/client/users/index_flat.jsp");
+            webBrowser1.Navigate("http://localhost:8080/webim/operator/users.php");
 #else
-            webBrowser1.Navigate(Options.WebIMServer + (Options.isLiteServer ? Options.LITE_PENDING_USERS_PAGE : Options.PRO_PENDING_USERS_PAGE));
+            webBrowser1.Navigate(Options.WebIMServer + Options.PENDING_USERS_PAGE);
 #endif
         }
 

@@ -6,36 +6,26 @@ using System.Windows.Forms;
 namespace webImTray {
     class Options {
 
-        public const string DEFAULT_PRO_SERVER = "http://pro.webim.ru";
-        public const string DEFAULT_LITE_SERVER = "http://localhost/webim";
-        public const string PRO_PENDING_USERS_PAGE = "/client/users/index_flat.jsp";
-        public const string PRO_SETTINGS_PAGE = "/client/settings/index.jsp";
-        public const string LITE_PENDING_USERS_PAGE = "/operator/users.php";
-        public const string LITE_SETTINGS_PAGE = "/operator/operators.php";
+        public const string DEFAULT_SERVER = "http://localhost/webim";
+        public const string PENDING_USERS_PAGE = "/operator/users.php";
+        public const string SETTINGS_PAGE = "/operator/operators.php";
         private const string HTTP_PREFIX = "http://";
 
         public static string WebIMServer {
             get {
-                String server = Application.UserAppDataRegistry.GetValue("server", DEFAULT_PRO_SERVER).ToString();
-                while (server.EndsWith("/"))
+                String server = Application.UserAppDataRegistry.GetValue("server", DEFAULT_SERVER).ToString();
+                while (server.EndsWith("/")) {
                     server = server.Substring(0, server.Length - 1);
-                if (!server.StartsWith(HTTP_PREFIX))
-                    return DEFAULT_PRO_SERVER;
+                }
+                if (!server.StartsWith(HTTP_PREFIX)) {
+                    return DEFAULT_SERVER;
+                }
                 return server;
             }
             set {
                 if (!value.StartsWith(HTTP_PREFIX))
                     return;
                 Application.UserAppDataRegistry.SetValue("server", value.ToString());
-            }
-        }
-
-        public static bool isLiteServer {
-            get {
-                return Application.UserAppDataRegistry.GetValue("islite", "false").ToString().ToLower().Equals("true");
-            }
-            set {
-                Application.UserAppDataRegistry.SetValue("islite", value.ToString());
             }
         }
 

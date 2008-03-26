@@ -9,7 +9,6 @@ using System.Windows.Forms;
 namespace webImTray {
     public partial class OptionsConnectionPanel : UserControl, OptionsPanel {
         bool modified = false;
-        bool initialized = false;
         
         public OptionsConnectionPanel() {
             InitializeComponent();
@@ -18,7 +17,6 @@ namespace webImTray {
         void OptionsPanel.apply() {
             if (modified) {
                 Options.WebIMServer = webimServer.Text;
-                Options.isLiteServer = radioLite.Checked;
                 if (forceRefresh.Checked) {
                     Options.ForceRefreshTime = forceRefreshTime.Value;
                 } else {
@@ -34,12 +32,7 @@ namespace webImTray {
             forceRefreshTime.Enabled = forceRefresh.Checked = refreshTime != 0;
             forceRefreshTime.Value = refreshTime != 0 ? refreshTime : 15;
 
-            bool lite = Options.isLiteServer;
-            radioPro.Checked = !lite;
-            radioLite.Checked = lite;
-
             modified = false;
-            initialized = true;
         }
 
         string OptionsPanel.getDescription() {
@@ -65,15 +58,7 @@ namespace webImTray {
         }
 
         private void showUserPropertiesOnline(object sender, LinkLabelLinkClickedEventArgs e) {
-            System.Diagnostics.Process.Start(Options.WebIMServer + (Options.isLiteServer ? Options.LITE_SETTINGS_PAGE : Options.PRO_SETTINGS_PAGE ));
+            System.Diagnostics.Process.Start(Options.WebIMServer + Options.SETTINGS_PAGE);
         }
-
-        private void radioCheckedChanged(object sender, EventArgs e) {
-            modified = true;
-            PanelModified.Invoke();
-            if (initialized) {
-                webimServer.Text = radioLite.Checked ? Options.DEFAULT_LITE_SERVER : Options.DEFAULT_PRO_SERVER;
-            }
-        } 
     }
 }
