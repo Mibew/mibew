@@ -91,6 +91,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.ico" />
+    <Compile Include="LockNotificationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Options.cs" />
     <Compile Include="options\About.cs">
       <SubType>UserControl</SubType>

@@ -144,7 +144,6 @@ namespace webImTray {
             // autoDisconnect
             // 
             this.autoDisconnect.AutoSize = true;
-            this.autoDisconnect.Enabled = false;
             this.autoDisconnect.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.autoDisconnect.Location = new System.Drawing.Point(23, 96);
             this.autoDisconnect.Margin = new System.Windows.Forms.Padding(4);
@@ -153,6 +152,7 @@ namespace webImTray {
             this.autoDisconnect.TabIndex = 3;
             this.autoDisconnect.Text = "Become idle if the computer is locked";
             this.autoDisconnect.UseVisualStyleBackColor = true;
+            this.autoDisconnect.CheckedChanged += new System.EventHandler(this.autoDisconnect_CheckedChanged);
             // 
             // groupBox2
             // 

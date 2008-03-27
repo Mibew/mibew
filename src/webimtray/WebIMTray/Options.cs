@@ -38,6 +38,15 @@ namespace webImTray {
             }
         }
 
+        public static bool DisconnectOnLock {
+            get {
+                return Application.UserAppDataRegistry.GetValue("disconnectonlock", "true").ToString().ToLower().Equals("true");
+            }
+            set {
+                Application.UserAppDataRegistry.SetValue("disconnectonlock", value.ToString());
+            }
+        }
+
         public static bool ShowInTaskBar {
             get {
                 return Application.UserAppDataRegistry.GetValue("showintaskbar", "false").ToString().ToLower().Equals("true");

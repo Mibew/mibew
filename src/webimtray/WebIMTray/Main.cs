@@ -9,7 +9,7 @@ using System.Data;
 
 namespace webImTray {
 
-    public partial class MainWindow : System.Windows.Forms.Form {
+    public partial class MainWindow : LockNotificationForm {
 
         public MainWindow() {
             InitializeComponent();
@@ -44,6 +44,10 @@ namespace webImTray {
 #else
             webBrowser1.Navigate(Options.WebIMServer + Options.PENDING_USERS_PAGE);
 #endif
+        }
+
+        void navigateBlank() {
+            webBrowser1.Navigate("about:blank");
         }
 
         private void showWindow() {
@@ -145,6 +149,18 @@ namespace webImTray {
 
         private void toolHideWindow_Click(object sender, EventArgs e) {
             hideWindow();
+        }
+
+        protected override void OnSessionLock() {
+            if (Options.DisconnectOnLock) {
+                navigateBlank();
+            }
+        }
+
+        protected override void OnSessionUnlock() {
+            if (Options.DisconnectOnLock) {
+                navigateThere();
+            }
         }
     }
 }

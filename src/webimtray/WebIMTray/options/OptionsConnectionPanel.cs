@@ -17,6 +17,7 @@ namespace webImTray {
         void OptionsPanel.apply() {
             if (modified) {
                 Options.WebIMServer = webimServer.Text;
+                Options.DisconnectOnLock = autoDisconnect.Checked;
                 if (forceRefresh.Checked) {
                     Options.ForceRefreshTime = forceRefreshTime.Value;
                 } else {
@@ -27,6 +28,7 @@ namespace webImTray {
 
         void OptionsPanel.initialize() {
             webimServer.Text = Options.WebIMServer;
+            autoDisconnect.Checked = Options.DisconnectOnLock;
 
             decimal refreshTime = Options.ForceRefreshTime;
             forceRefreshTime.Enabled = forceRefresh.Checked = refreshTime != 0;
@@ -59,6 +61,11 @@ namespace webImTray {
 
         private void showUserPropertiesOnline(object sender, LinkLabelLinkClickedEventArgs e) {
             System.Diagnostics.Process.Start(Options.WebIMServer + Options.SETTINGS_PAGE);
+        }
+
+        private void autoDisconnect_CheckedChanged(object sender, EventArgs e) {
+            modified = true;
+            PanelModified.Invoke();
         }
     }
 }
