@@ -60,7 +60,7 @@
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\WebImTray102.msi"
+        "OutputFilename" = "8:Release\\WebImTray103.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -159,23 +159,23 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Web IM Tray"
-        "ProductCode" = "8:{F6CB21A6-537D-4C7F-AB02-75D3D6F50926}"
-        "PackageCode" = "8:{5211A86E-FAA3-4066-B3E8-77FF5F4AC818}"
+        "ProductCode" = "8:{AB2921C8-AF41-47E9-B9F0-16E25036A6F2}"
+        "PackageCode" = "8:{BEC97C07-AA1D-4708-B044-43256F7F0E95}"
         "UpgradeCode" = "8:{2DE6CF3E-E993-4337-A3E7-6D24B63AC56D}"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.2"
-        "Manufacturer" = "8:Internet Services"
+        "ProductVersion" = "8:1.0.3"
+        "Manufacturer" = "8:WebIM"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:Web Messenger Tray"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Internet Services"
+        "ARPCONTACT" = "8:WebIM"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:Tray Application for Web Messenger"
-        "ARPURLINFOABOUT" = "8:http://www.i-services.ru"
+        "ARPURLINFOABOUT" = "8:http://www.webim.ru"
         "ARPPRODUCTICON" = "8:_87BBEE6DC5244EE8B30E60EF304991BB"
         "ARPIconIndex" = "3:32512"
         "SearchPath" = "8:"
@@ -1076,9 +1076,6 @@
                 {
                 }
             }
-        }
-        "VJSharpPlugin"
-        {
         }
     }
 }
