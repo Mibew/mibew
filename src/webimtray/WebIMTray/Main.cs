@@ -10,7 +10,6 @@ using System.Data;
 namespace webImTray {
 
     public partial class MainWindow : LockNotificationForm {
-
         public MainWindow() {
             InitializeComponent();
             PostInitialize();
@@ -87,8 +86,12 @@ namespace webImTray {
 
         void webBrowser1_DocumentTitleChanged(object sender, EventArgs e) {
             string s = webBrowser1.DocumentTitle;
-            if (s == null || s.Length == 0)
+            if (s == null || s.Length == 0) {
                 s = "Web Messenger [loading]";
+                this.notifyIcon.Icon = App.Notify_offl;
+            } else {
+                this.notifyIcon.Icon = App.Notify;
+            }
             this.Text = s;
         }
 

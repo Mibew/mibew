@@ -91,6 +91,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.ico" />
+    <None Include="icons\Notify_offl.ico" />
+    <None Include="icons\Notify.ico" />
+    <Compile Include="App.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>App.resx</DependentUpon>
+    </Compile>
     <Compile Include="LockNotificationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -136,6 +143,11 @@
       <DependentUpon>OptionsSoundsPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="UserActivityHook.cs" />
+    <EmbeddedResource Include="App.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>App.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="options\About.resx">
       <SubType>Designer</SubType>
       <DependentUpon>About.cs</DependentUpon>
