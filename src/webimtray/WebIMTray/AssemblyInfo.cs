@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyTitle("WebImTray")]
 [assembly: AssemblyDescription("Tray program for webim.ru service")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Internet Services")]
+[assembly: AssemblyCompany("Web Messenger community")]
 [assembly: AssemblyProduct("WebImTray")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]

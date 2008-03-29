@@ -41,11 +41,10 @@ namespace webImTray {
             // 
             label3.AutoSize = true;
             label3.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            label3.Location = new System.Drawing.Point(17, 140);
-            label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label3.Location = new System.Drawing.Point(13, 114);
             label3.Name = "label3";
-            label3.Padding = new System.Windows.Forms.Padding(0, 0, 0, 9);
-            label3.Size = new System.Drawing.Size(401, 27);
+            label3.Padding = new System.Windows.Forms.Padding(0, 0, 0, 7);
+            label3.Size = new System.Drawing.Size(335, 21);
             label3.TabIndex = 3;
             label3.Text = "Copyright (c) 2006-08 Web Messenger Creators Community";
             // 
@@ -53,11 +52,10 @@ namespace webImTray {
             // 
             label4.AutoSize = true;
             label4.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            label4.Location = new System.Drawing.Point(17, 166);
-            label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label4.Location = new System.Drawing.Point(13, 135);
             label4.Name = "label4";
-            label4.Padding = new System.Windows.Forms.Padding(0, 0, 0, 9);
-            label4.Size = new System.Drawing.Size(162, 27);
+            label4.Padding = new System.Windows.Forms.Padding(0, 0, 0, 7);
+            label4.Size = new System.Drawing.Size(138, 21);
             label4.TabIndex = 4;
             label4.Text = "Please, visit our website";
             // 
@@ -66,10 +64,9 @@ namespace webImTray {
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Tahoma", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.ForeColor = System.Drawing.Color.Maroon;
-            this.label1.Location = new System.Drawing.Point(17, 25);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(13, 20);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(264, 33);
+            this.label1.Size = new System.Drawing.Size(208, 25);
             this.label1.TabIndex = 0;
             this.label1.Text = "Web Messenger Tray";
             // 
@@ -77,20 +74,18 @@ namespace webImTray {
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(151, 62);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(113, 50);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(134, 23);
+            this.label2.Size = new System.Drawing.Size(108, 18);
             this.label2.TabIndex = 1;
             this.label2.Text = "version 1.0.3";
             // 
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(352, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBox1.Location = new System.Drawing.Point(264, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(147, 123);
+            this.pictureBox1.Size = new System.Drawing.Size(110, 100);
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             // 
@@ -98,11 +93,10 @@ namespace webImTray {
             // 
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.linkLabel1.Location = new System.Drawing.Point(17, 192);
-            this.linkLabel1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.linkLabel1.Location = new System.Drawing.Point(13, 156);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 9);
-            this.linkLabel1.Size = new System.Drawing.Size(145, 27);
+            this.linkLabel1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 7);
+            this.linkLabel1.Size = new System.Drawing.Size(130, 21);
             this.linkLabel1.TabIndex = 5;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "http://www.webim.ru";
@@ -111,16 +105,15 @@ namespace webImTray {
             // pictureBox2
             // 
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(23, 245);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBox2.Location = new System.Drawing.Point(17, 199);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(147, 76);
+            this.pictureBox2.Size = new System.Drawing.Size(110, 76);
             this.pictureBox2.TabIndex = 7;
             this.pictureBox2.TabStop = false;
             // 
             // About
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -131,10 +124,9 @@ namespace webImTray {
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "About";
-            this.Padding = new System.Windows.Forms.Padding(13, 25, 0, 0);
-            this.Size = new System.Drawing.Size(499, 405);
+            this.Padding = new System.Windows.Forms.Padding(10, 20, 0, 0);
+            this.Size = new System.Drawing.Size(374, 329);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);

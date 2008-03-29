@@ -141,7 +141,7 @@ namespace webImTray {
             this.MinimizeBox = false;
             this.Name = "MainWindow";
             this.ShowInTaskbar = false;
-            this.Text = "Internet Services - Web Messenger";
+            this.Text = "Web Messenger";
             this.Shown += new System.EventHandler(this.MainWindow_Shown);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Client_FormClosing);
             this.GotFocus += new System.EventHandler(this.gotFocus);

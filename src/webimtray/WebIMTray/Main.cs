@@ -88,7 +88,7 @@ namespace webImTray {
         void webBrowser1_DocumentTitleChanged(object sender, EventArgs e) {
             string s = webBrowser1.DocumentTitle;
             if (s == null || s.Length == 0)
-                s = "Internet Services - Web Messenger [loading]";
+                s = "Web Messenger [loading]";
             this.Text = s;
         }
 
