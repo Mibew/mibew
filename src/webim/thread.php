@@ -2,7 +2,7 @@
 /*
  * This file is part of Web Instant Messenger project.
  *
- * Copyright (c) 2005-2007 Internet Services Ltd.
+ * Copyright (c) 2005-2008 Internet Services Ltd.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,15 +16,12 @@ require('libs/common.php');
 require('libs/chat.php');
 require('libs/operator.php');
 
-
-
 $act = verifyparam( "act", "/^(refresh|post|rename|close|ping".")$/");
 $token = verifyparam( "token", "/^\d{1,9}$/");
 $threadid = verifyparam( "thread", "/^\d{1,9}$/");
 $isuser = verifyparam( "user", "/^true$/", "false") == 'true';
 $outformat = (verifyparam( "html", "/^on$/", "off") == 'on') ? "html" : "xml";
-
-
+$istyping = verifyparam( "typed", "/^1$/", "") == '1';
 
 $thread = thread_by_id($threadid);
 if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] ) {
@@ -34,7 +31,7 @@ if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] ) {
 # This code helps in simulation of operator connection problems
 # if( !$isuser )     die("error");
 
-ping_thread($thread, $isuser);
+ping_thread($thread, $isuser,$istyping);
 
 if( !$isuser && $act != "rename" ) {
 	$operator = check_login();

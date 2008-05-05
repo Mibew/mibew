@@ -2,7 +2,7 @@
 /*
  * This file is part of Web Instant Messenger project.
  *
- * Copyright (c) 2005-2007 Internet Services Ltd.
+ * Copyright (c) 2005-2008 Internet Services Ltd.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,7 +17,7 @@ session_start();
 require(dirname(__FILE__).'/converter.php');
 require(dirname(__FILE__).'/config.php');
 
-$version = 'v1.0.8';
+$version = 'v1.0.9';
 
 function myiconv($in_enc, $out_enc, $string) {
 	global $_utf8win1251, $_win1251utf8;
@@ -44,6 +44,8 @@ function getrawparam( $name ) {
 function getparam( $name ) {
 	if( isset($_POST[$name]) )
 		return $_POST[$name];
+    if( isset($_GET[$name]))
+        return $_GET[$name];
 	die("no ".$name." parameter");
 }
 
@@ -140,9 +142,9 @@ function load_messages($locale) {
 	$fp = fopen(dirname(__FILE__)."/../locales/$locale/properties","r");
 	while (!feof($fp)) {
     	$line = fgets($fp, 4096);
-		$list = split("=", $line, 2 );
-		if( isset($list[1]) ) {
-			$hash[$list[0]] = str_replace("\\n", "\n",trim($list[1]));
+		$keyval = split("=", $line, 2 );
+		if( isset($keyval[1]) ) {
+			$hash[$keyval[0]] = str_replace("\\n", "\n",trim($keyval[1]));
 		}
 	}
 	fclose($fp);
@@ -264,11 +266,11 @@ function get_image($href,$width,$height) {
 	return "<img src=\"$href\" border=\"0\"/>";
 }
 
-function get_gifimage_size($file) {
+function get_gifimage_size($filename) {
 	if( function_exists('gd_info')) {
 		$info = gd_info();
 		if( isset($info['GIF Read Support']) && $info['GIF Read Support'] ) {
-			$img = @imagecreatefromgif($file);
+			$img = @imagecreatefromgif($filename);
 			if($img) {
 				$height = imagesy($img);
 				$width = imagesx($img);
@@ -351,12 +353,10 @@ function get_form_date($day,$month) {
 	return 0;
 }
 
-function set_form_date($time,$prefix) {
+function set_form_date($utime,$prefix) {
 	global $page;
-	$page["form${prefix}day"] = date("d", $time);
-	$page["form${prefix}month"] = date("m.y", $time);
+	$page["form${prefix}day"] = date("d", $utime);
+	$page["form${prefix}month"] = date("m.y", $utime);
 }
-
-
 
 ?>

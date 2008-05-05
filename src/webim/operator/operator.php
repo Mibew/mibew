@@ -2,7 +2,7 @@
 /*
  * This file is part of Web Instant Messenger project.
  *
- * Copyright (c) 2005-2007 Internet Services Ltd.
+ * Copyright (c) 2005-2008 Internet Services Ltd.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,15 +20,17 @@ $operator = check_login();
 $page = array('agentId' => '');
 $errors = array();
 
+
 if( isset($_POST['login']) && isset($_POST['password']) ) {
 	$agentId = verifyparam( "agentId", "/^(\d{1,9})?$/", "");
 	$login = getparam('login');
 	$password = getparam('password');
 	$passwordConfirm = getparam('passwordConfirm');
-	$name = getparam('name');
+	$localname = getparam('name');
 	$commonname = getparam('commonname');
 
-	if( !$name )
+
+	if( !$localname )
 		$errors[] = no_field("form.field.agent_name");
 
 	if( !$commonname )
@@ -43,22 +45,22 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 	if( $password != $passwordConfirm )
 		$errors[] = getstring("my_settings.error.password_match");
 
-	$login_operator = operator_by_login($login);
-	if( (!$agentId && $login_operator) || 
-		( $agentId && $login_operator && $agentId != $login_operator['operatorid']) )
+	$existing_operator = operator_by_login($login);
+	if( (!$agentId && $existing_operator) || 
+		( $agentId && $existing_operator && $agentId != $existing_operator['operatorid']) )
 		$errors[] = getstring("page_agent.error.duplicate_login");
 
 	if( count($errors) == 0 ) {
-		if( $agentId ) {
-			update_operator($agentId,$login,$password,$name,$commonname);
+		if (!$agentId) {
+		    create_operator($login,$password,$localname,$commonname);
 		} else {
-			create_operator($login,$password,$name,$commonname);
+		    update_operator($agentId,$login,$password,$localname,$commonname);
 		}
 		header("Location: ".dirname($_SERVER['PHP_SELF'])."/operators.php");
 		exit;
 	} else {
 		$page['formlogin'] = $login;
-		$page['formname'] = $name;
+		$page['formname'] = $localname;
 		$page['formcommonname'] = $commonname;
 		$page['agentId'] = $agentId;
 	}

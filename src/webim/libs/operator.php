@@ -2,7 +2,7 @@
 /*
  * This file is part of Web Instant Messenger project.
  *
- * Copyright (c) 2005-2007 Internet Services Ltd.
+ * Copyright (c) 2005-2008 Internet Services Ltd.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -108,7 +108,8 @@ function get_operator_name($operator) {
 
 function generate_button($title,$locale,$inner,$showhost,$forcesecure) {
 	$link = get_app_location($showhost,$forcesecure)."/client.php". ($locale?"?locale=".$locale : "");
-	return "<!-- webim button -->".get_popup($link, $inner, $title, "webim", "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=600,height=420,resizable=1" )."<!-- / webim button -->";
+	$temp = get_popup($link, $inner, $title, "webim", "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=600,height=420,resizable=1" );
+	return "<!-- webim button -->".$temp."<!-- / webim button -->";
 }
 
 function check_login() {

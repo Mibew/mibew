@@ -2,7 +2,7 @@
 /*
  * This file is part of Web Instant Messenger project.
  *
- * Copyright (c) 2005-2007 Internet Services Ltd.
+ * Copyright (c) 2005-2008 Internet Services Ltd.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -29,7 +29,8 @@ $mysqlpass = "123";
  *  Localization parameters
  */
 
-// Use CP-1251 database
+
+/* Use CP-1251 database */
 $dbencoding = "cp1251";
 $webim_encoding = "cp1251";
 $request_encoding = "utf-8";
@@ -37,7 +38,7 @@ $output_charset = "Windows-1251";
 $force_charset_in_connection = true;
 
 
-// Use UTF-8 database
+/* Use UTF-8 database */
 /*
 $dbencoding = "utf8";
 $webim_encoding = "cp1251";
@@ -49,7 +50,7 @@ $force_charset_in_connection = true;
 /*
  *   From field in outgoing mail.
  */
-$webim_from_email = "webim@yourdomain.com"; // email from field
+$webim_from_email = "webim@yourdomain.com"; /* email from field */
 
 /*
  *   Inbox for left messages
@@ -71,8 +72,8 @@ $company_logo_link = "";
  *   Locales 
  */
 $available_locales = array("en", "ru");
-$home_locale = "ru";                        // native name will be used in this locale
-$default_locale = "en";                     // if user does not provide known lang
+$home_locale = "ru";                        /* native name will be used in this locale */
+$default_locale = "en";                     /* if user does not provide known lang */
 
 /*
  *   Allows users to change their names

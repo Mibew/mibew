@@ -2,7 +2,7 @@
 /*
  * This file is part of Web Instant Messenger project.
  *
- * Copyright (c) 2005-2007 Internet Services Ltd.
+ * Copyright (c) 2005-2008 Internet Services Ltd.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -26,17 +26,17 @@ if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] ) {
 	die("wrong thread");
 }
 
-$mail = getparam('email');
-$page['email'] = $mail;
+$email = getparam('email');
+$page['email'] = $email;
 
-if( !$mail ) {
+if( !$email ) {
 	$errors[] = no_field("form.field.email");
-} else if( !is_valid_email($mail)) {
+} else if( !is_valid_email($email)) {
 	$errors[] = wrong_field("form.field.email");
 }
 
 if( count($errors) > 0 ) {
-	$page['formemail'] = $mail;
+	$page['formemail'] = $email;
 	$page['ct.chatThreadId'] = $thread['threadid'];
 	$page['ct.token'] = $thread['ltoken'];
 	$page['level'] = "";
@@ -59,7 +59,7 @@ $headers = 'From: '.$webim_from_email."\r\n" .
    'Reply-To: '.$webim_from_email."\r\n" .
    'X-Mailer: PHP/'.phpversion();
 
-mail($mail,$subject,wordwrap($body,70),$headers);
+mail($email,$subject,wordwrap($body,70),$headers);
 
 start_html_output();
 require('view/chat_mailsent.php');

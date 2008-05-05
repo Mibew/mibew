@@ -2,7 +2,7 @@
 /*
  * This file is part of Web Instant Messenger project.
  *
- * Copyright (c) 2005-2007 Internet Services Ltd.
+ * Copyright (c) 2005-2008 Internet Services Ltd.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -31,9 +31,9 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 		}
 		
 		$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "";
-		$remote = isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $_SERVER['REMOTE_ADDR'];
+		$remoteHost = isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $_SERVER['REMOTE_ADDR'];
 		$visitor = $remote_visitor();
-		$thread = create_thread($visitor['name'], $remote, $referer,$current_locale);
+		$thread = create_thread($visitor['name'], $remoteHost, $referer,$current_locale);
 		$_SESSION['threadid'] = $thread['threadid'];
 		if( $referer ) {
 			post_message($thread['threadid'],$kind_for_agent,getstring2('chat.came.from',array($referer)));

@@ -2,7 +2,7 @@
 /*
  * This file is part of Web Instant Messenger project.
  *
- * Copyright (c) 2005-2007 Internet Services Ltd.
+ * Copyright (c) 2005-2008 Internet Services Ltd.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,7 +13,7 @@
  *    Pavel Petroshenko - history search
  */
 
-$connection_timeout = 30; # sec
+$connection_timeout = 30; // sec
 
 $namecookie = "WEBIM_Name";
 
@@ -44,7 +44,7 @@ function next_revision($link) {
 	return $val;
 }
 
-function post_message_($threadid,$kind,$message,$link,$from=null,$time=null,$opid=null) {
+function post_message_($threadid,$kind,$message,$link,$from=null,$utime=null,$opid=null) {
 	$query = sprintf(
 	    "insert into chatmessage (threadid,ikind,tmessage,tname,agentId,dtmcreated) values (%s, %s,'%s',%s,%s,%s)",
 			$threadid,
@@ -52,7 +52,7 @@ function post_message_($threadid,$kind,$message,$link,$from=null,$time=null,$opi
 			quote_smart($message,$link),
 			$from ? "'".quote_smart($from,$link)."'" : "null",
 			$opid ? $opid : "0",
-			$time ? "FROM_UNIXTIME($time)" : "CURRENT_TIMESTAMP" );
+			$utime ? "FROM_UNIXTIME($utime)" : "CURRENT_TIMESTAMP" );
 
 	perform_query($query,$link);
 	return mysql_insert_id($link);
@@ -84,16 +84,16 @@ function message_to_html($msg) {
 
 function message_to_text($msg) {
 	global $kind_user, $kind_agent, $kind_info;
-	$time = date("H:i:s ",$msg['created']);
+	$message_time = date("H:i:s ",$msg['created']);
 	if($msg['ikind'] == $kind_user || $msg['ikind'] == $kind_agent) {
 		if( $msg['tname'] )
-			return $time.$msg['tname'].": ".$msg['tmessage']."\n";
+			return $message_time.$msg['tname'].": ".$msg['tmessage']."\n";
 		else
-			return $time.$msg['tmessage']."\n";
+			return $message_time.$msg['tmessage']."\n";
 	} else if($msg['ikind'] == $kind_info ) {
-		return $time.$msg['tmessage']."\n";
+		return $message_time.$msg['tmessage']."\n";
 	} else {
-		return $time."[".$msg['tmessage']."]\n";
+		return $message_time."[".$msg['tmessage']."]\n";
 	}
 }
 
@@ -164,9 +164,9 @@ function print_thread_messages($threadid, $token, $lastid, $isuser,$format) {
 	}
 }
 
-function get_user_name($name, $id="") {
+function get_user_name($username, $id="") {
 	global $presentable_name_pattern;
-       	return str_replace("{id}", $id, str_replace("{name}", $name, $presentable_name_pattern));
+       	return str_replace("{id}", $id, str_replace("{name}", $username, $presentable_name_pattern));
 }
 
 function setup_chatview_for_user($thread,$level) {
@@ -211,27 +211,27 @@ function setup_chatview_for_operator($thread,$operator) {
 	$page['namePostfix'] = "";	
 }
 
-function is_ajax_browser($name,$ver,$useragent) {
-	if( $name == "opera" )
+function is_ajax_browser($browserid,$ver,$useragent) {
+	if( $browserid == "opera" )
 		return $ver >= 8.02;
-	if( $name == "safari" )
+	if( $browserid == "safari" )
 		return $ver >= 125;
-	if( $name == "msie" )
+	if( $browserid == "msie" )
 		return $ver >= 5.5 && !strstr($useragent, "powerpc");
-	if( $name == "netscape" )
+	if( $browserid == "netscape" )
 		return $ver >= 7.1;
-	if( $name == "mozilla")
+	if( $browserid == "mozilla")
 		return $ver >= 1.4;
-	if( $name == "firefox")
+	if( $browserid == "firefox")
 		return $ver >= 1.0;
 
 	return false;
 }
 
-function is_old_browser($name,$ver) {
-	if( $name == "opera" )
+function is_old_browser($browserid,$ver) {
+	if( $browserid == "opera" )
 		return $ver < 7.0;
-	if( $name == "msie" )
+	if( $browserid == "msie" )
 		return $ver < 5.0;
 	return false; 
 }
@@ -279,7 +279,7 @@ function get_access_time($threadid, $isuser, $link) {
 		$threadid), $link);
 }
 
-function ping_thread($thread, $isuser) {
+function ping_thread($thread, $isuser,$istyping) {
 	global $kind_for_agent, $state_chatting, $state_waiting, $kind_conn, $connection_timeout;
 	$link = connect();
 	$params = array(($isuser ? "lastpinguser" : "lastpingagent") => "CURRENT_TIMESTAMP" );
@@ -343,7 +343,7 @@ function close_thread($thread,$isuser) {
 	post_message($thread['threadid'], $kind_events, $message);
 }
 
-function create_thread($username,$remote,$referer,$lang) {
+function create_thread($username,$remoteHost,$referer,$lang) {
 	$link = connect();
 
 	$query = sprintf(
@@ -351,7 +351,7 @@ function create_thread($username,$remote,$referer,$lang) {
 								 "('%s',"."%s,'%s','%s',%s,'%s',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)",
 			mysql_real_escape_string($username),
 			next_token(),
-			mysql_real_escape_string($remote),
+			mysql_real_escape_string($remoteHost),
 			mysql_real_escape_string($referer),
 			next_revision($link),
 			mysql_real_escape_string($lang) );

@@ -2,7 +2,7 @@
 /*
  * This file is part of Web Instant Messenger project.
  *
- * Copyright (c) 2005-2007 Internet Services Ltd.
+ * Copyright (c) 2005-2008 Internet Services Ltd.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,11 +21,11 @@ if( !$lang || !in_array($lang,$available_locales) )
 	$lang = $current_locale;
 
 $image_postfix = has_online_operators() ? "on" : "off";
-$name = "locales/${lang}/button/${image}_${image_postfix}.gif";
+$filename = "locales/${lang}/button/${image}_${image_postfix}.gif";
 
-$fp = fopen($name, 'rb') or die("no image");
+$fp = fopen($filename, 'rb') or die("no image");
 header("Content-Type: image/gif");
-header("Content-Length: ".filesize($name));
+header("Content-Length: ".filesize($filename));
 fpassthru($fp);
 exit;
 ?>
