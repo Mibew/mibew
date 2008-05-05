@@ -73,6 +73,8 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
     		'&lastid=' + (this._options.lastid || 0);
     if( this._options.user )
     	this._options.parameters += "&user=true";
+	if( act == 'refresh' && this._options.message && this._options.message.value != '' )
+		this._options.parameters += "&typed=1";
   },
   
   enableInput: function(val) {
@@ -116,7 +118,8 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
     		this._options.message.focus();
     	}
     }).bind(this);
-    this.enableInput(false);
+    if( myRealAgent != 'opera' )
+    	this.enableInput(false);
     this.updater = new Ajax.Request(this._options.servl, postOptions);
   },
 
@@ -166,11 +169,12 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
 
 	for( var i = 0; i < xmlRoot.childNodes.length; i++ ) {
 		var node = xmlRoot.childNodes[i];
-		haveMessage = true;
-		if( node.tagName == 'message' )
+		if( node.tagName == 'message' ) {
+			haveMessage = true;
 			this.processMessage(result_div, node);
-		else if( node.tagName == 'avatar' )
+		} else if( node.tagName == 'avatar' ) {
 			this.setupAvatar(node);
+		}
 		// TODO thread events
 	}
 	if( haveMessage ) {		
@@ -182,8 +186,12 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
   
   handleKeyDown: function(k) {
 	if( k ){ ctrl=k.ctrlKey;k=k.which; } else { k=event.keyCode;ctrl=event.ctrlKey;	}
-	if( this._options.message && ((k==13 && ctrl) || (k==10)) ) {
-		this.postMessage( this._options.message.value );
+	if( this._options.message && ((k==13 && (ctrl || myRealAgent == 'opera')) || (k==10)) ) {
+		var mmsg = this._options.message.value;
+		if( myRealAgent == 'opera' ) {
+			mmsg = mmsg.replace(/[\r\n]+$/,'');
+		}
+		this.postMessage( mmsg );
 		return false;
 	}
 	return true;
@@ -281,6 +289,11 @@ Behaviour.register({
 			if( message )
 				Chat.threadUpdater.postMessage(message.value);
 		};
+	},
+	'a#sndmessagelnk' : function(el) {
+		if( myRealAgent == 'opera' ) {
+			el.innerHTML = el.innerHTML.replace('Ctrl-','');
+		}
 	},
 	'select#predefined' : function(el) {
 		el.onchange = function() {
