@@ -1,3 +1,6 @@
+encoding=utf-8
+output_charset=utf-8
+output_encoding=utf-8
 site.url=http://webim.ru
 site.title=webim.ru
 company.title=Web Messenger Community

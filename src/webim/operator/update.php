@@ -38,13 +38,13 @@ $threadstate_key = array(
 );
 
 function thread_to_xml($thread) {
-	global $threadstate_to_string, $threadstate_key;
+	global $threadstate_to_string, $threadstate_key, $webim_encoding;
 	$state = $threadstate_to_string[$thread['istate']];
 	$result = "<thread id=\"".$thread['threadid']."\" stateid=\"$state\"";
 	if( $state == "closed" )
 		return $result."/>";
 
-	$state = getstring($threadstate_key[$thread['istate']]);
+	$state = myiconv($webim_encoding,"utf-8",getstring($threadstate_key[$thread['istate']]));
 	$threadoperator = ($thread['agentName'] ? $thread['agentName'] : "-");
 
 	$result .= " canopen=\"true\"";

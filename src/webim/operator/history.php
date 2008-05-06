@@ -19,8 +19,8 @@ require('../libs/pagination.php');
 
 $operator = check_login();
 
-$page = array( 'operator' => get_operator_name($operator) );
-$query = isset($_GET['q']) ? $_GET['q'] : false;
+$page = array( 'operator' => topage(get_operator_name($operator)) );
+$query = isset($_GET['q']) ? myiconv(getoutputenc(), $webim_encoding, $_GET['q']) : false;
 
 if($query !== false) {
 	$link = connect();
@@ -44,7 +44,7 @@ if($query !== false) {
 	mysql_free_result($result);
 	mysql_close($link);
 
-	$page['formq'] = $query;
+	$page['formq'] = topage($query);
 	setup_pagination($foundThreads);
 } else {
 	setup_empty_pagination();

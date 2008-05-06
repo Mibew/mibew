@@ -32,7 +32,7 @@ function check_connection() {
 	if ($link) {
 		$result = mysql_query("SELECT VERSION() as c", $link);
 		if( $result && $ver = mysql_fetch_array($result, MYSQL_ASSOC)) {
-			$page['done'][] = getstring2("install.1.connected", array($ver['c']));
+			$page['done'][] = getlocal2("install.1.connected", array($ver['c']));
 			mysql_free_result($result);
 		} else {
 			$errors[] = "Version of your SQL server is unknown. Please check. Error: ".mysql_error();
@@ -41,7 +41,7 @@ function check_connection() {
 		}
 		return $link;
 	} else {
-		$errors[] = getstring2("install.connection.error", array(mysql_error()));
+		$errors[] = getlocal2("install.connection.error", array(mysql_error()));
 		return null;
 	}
 }
@@ -49,14 +49,14 @@ function check_connection() {
 function check_database($link) {
 	global $mysqldb, $force_charset_in_connection, $dbencoding, $page;
 	if(mysql_select_db($mysqldb,$link)) {
-		$page['done'][] = getstring2("install.2.db_exists", array($mysqldb));
+		$page['done'][] = getlocal2("install.2.db_exists", array($mysqldb));
 		if( $force_charset_in_connection ) {
 			mysql_query("SET character set $dbencoding", $link);
 		}
 		return true;
 	} else {
-		$page['nextstep'] = getstring2("install.2.create", array($mysqldb));
-		$page['nextnotice'] = getstring("install.2.notice");
+		$page['nextstep'] = getlocal2("install.2.create", array($mysqldb));
+		$page['nextnotice'] = getlocal("install.2.notice");
 		$page['nextstepurl'] = "dbperform.php?act=createdb";
 	}
 	return false;
@@ -68,10 +68,10 @@ function check_tables($link) {
 	if( $curr_tables !== false) {
 		$tocreate = array_diff(array_keys($dbtables), $curr_tables);
 		if( count($tocreate) == 0 ) {
-			$page['done'][] = getstring("install.3.tables_exist");
+			$page['done'][] = getlocal("install.3.tables_exist");
 			return true;
 		} else {
-			$page['nextstep'] = getstring("install.3.create");
+			$page['nextstep'] = getlocal("install.3.create");
 			$page['nextstepurl'] = "dbperform.php?act=createtables";
 		}
 	}
@@ -92,9 +92,9 @@ function check_columns($link) {
 			$cannot_update = array_diff($tocreate, $dbtables_can_update[$id]);
 			if( count($cannot_update) != 0) {
 				$errors[] = "Key columns are absent in table `$id'. Unable to continue installation.";
-				$page['nextstep'] = getstring("install.kill_tables");
+				$page['nextstep'] = getlocal("install.kill_tables");
 				$page['nextstepurl'] = "dbperform.php?act=droptables";
-				$page['nextnotice'] = getstring("install.kill_tables.notice");
+				$page['nextnotice'] = getlocal("install.kill_tables.notice");
 				return false;
 			}
 			$need_to_create_columns = true;
@@ -102,13 +102,13 @@ function check_columns($link) {
 	}
 
 	if( $need_to_create_columns ) {
-		$page['nextstep'] = getstring("install.4.create");
+		$page['nextstep'] = getlocal("install.4.create");
 		$page['nextstepurl'] = "dbperform.php?act=addcolumns";
-		$page['nextnotice'] = getstring("install.4.notice");
+		$page['nextnotice'] = getlocal("install.4.notice");
 		return false;
 	}
 
-	$page['done'][] = getstring("install.4.done");
+	$page['done'][] = getlocal("install.4.done");
 	return true;
 }
 
@@ -134,10 +134,10 @@ function check_status() {
 		return;
 	}
 
-	$page['done'][] = getstring("installed.message");
+	$page['done'][] = getlocal("installed.message");
 
-	$page['nextstep'] = getstring("installed.login_link");
-	$page['nextnotice'] = getstring("installed.notice");
+	$page['nextstep'] = getlocal("installed.login_link");
+	$page['nextnotice'] = getlocal("installed.notice");
 	$page['nextstepurl'] = "$webimroot/";
 
 	mysql_close($link);

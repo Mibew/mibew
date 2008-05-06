@@ -19,7 +19,7 @@ $operator = check_login();
 
 $page = array();
 $page['allowedAgents'] = get_operators();
-$page['operator'] = get_operator_name($operator);
+$page['operator'] = topage(get_operator_name($operator));
 
 start_html_output();
 require('../view/agents.php');

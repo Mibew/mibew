@@ -35,13 +35,15 @@ if( !$email ) {
 }
 
 if( count($errors) > 0 ) {
-	$page['formname'] = $visitor_name;
+	$page['formname'] = topage($visitor_name);
 	$page['formemail'] = $email;
-	$page['formmessage'] = $message;
+	$page['formmessage'] = topage($message);
 	start_html_output();
 	require('view/chat_leavemsg.php');
 	exit;
 }
+
+// FIXME mail encoding
 
 $subject = getstring2_("leavemail.subject", array($visitor_name), $webim_messages_encoding);
 $body = getstring2_("leavemail.body", array($visitor_name,$email,$message), $webim_messages_encoding); 

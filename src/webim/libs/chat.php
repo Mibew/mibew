@@ -114,7 +114,7 @@ function get_messages($threadid,$meth,$isuser,&$lastid) {
         if ($meth == 'xml') {
             $message = "<message>".myiconv($webim_encoding,"utf-8",escape_with_cdata(message_to_html($msg)))."</message>\n";
         } else {
-            $message = (($meth == 'text') ? message_to_text($msg) : message_to_html($msg));
+            $message = (($meth == 'text') ? message_to_text($msg) : topage(message_to_html($msg)));
         }
 
 		$messages[] = $message;
@@ -181,11 +181,11 @@ function setup_chatview_for_user($thread,$level) {
 	$page['level'] = $level;
 	$page['ct.chatThreadId'] = $thread['threadid'];
 	$page['ct.token'] = $thread['ltoken'];
-	$page['ct.user.name'] = $thread['userName'];
+	$page['ct.user.name'] = topage($thread['userName']);
 	$page['canChangeName'] = $user_can_change_name;
 
-	$page['ct.company.name'] = $company_name;
-	$page['ct.company.chatLogoURL'] = $company_logo_link;
+	$page['ct.company.name'] = topage($company_name);
+	$page['ct.company.chatLogoURL'] = topage($company_logo_link);
 	$page['send_shortcut'] = "Ctrl-Enter";
 
 	$params = "thread=".$thread['threadid']."&token=".$thread['ltoken'];
@@ -201,10 +201,10 @@ function setup_chatview_for_operator($thread,$operator) {
 	$page['canpost'] = true;
 	$page['ct.chatThreadId'] = $thread['threadid'];
 	$page['ct.token'] = $thread['ltoken'];
-	$page['ct.user.name'] = get_user_name($thread['userName']);
+	$page['ct.user.name'] = topage(get_user_name($thread['userName']));
 
-	$page['ct.company.name'] = $company_name;
-	$page['ct.company.chatLogoURL'] = $company_logo_link;
+	$page['ct.company.name'] = topage($company_name);
+	$page['ct.company.chatLogoURL'] = topage($company_logo_link);
 	$page['send_shortcut'] = "Ctrl-Enter";
 
 	// TODO

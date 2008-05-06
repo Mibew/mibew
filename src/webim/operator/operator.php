@@ -36,6 +36,7 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 	if( !$commonname )
 		$errors[] = no_field("form.field.agent_commonname");
 
+	// FIXME check login \w+
 	if( !$login )
 		$errors[] = no_field("form.field.login");
 
@@ -43,12 +44,12 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 		$errors[] = no_field("form.field.password");
 
 	if( $password != $passwordConfirm )
-		$errors[] = getstring("my_settings.error.password_match");
+		$errors[] = getlocal("my_settings.error.password_match");
 
 	$existing_operator = operator_by_login($login);
 	if( (!$agentId && $existing_operator) || 
 		( $agentId && $existing_operator && $agentId != $existing_operator['operatorid']) )
-		$errors[] = getstring("page_agent.error.duplicate_login");
+		$errors[] = getlocal("page_agent.error.duplicate_login");
 
 	if( count($errors) == 0 ) {
 		if (!$agentId) {
@@ -59,10 +60,10 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 		header("Location: ".dirname($_SERVER['PHP_SELF'])."/operators.php");
 		exit;
 	} else {
-		$page['formlogin'] = $login;
-		$page['formname'] = $localname;
-		$page['formcommonname'] = $commonname;
-		$page['agentId'] = $agentId;
+		$page['formlogin'] = topage($login);
+		$page['formname'] = topage($localname);
+		$page['formcommonname'] = topage($commonname);
+		$page['agentId'] = topage($agentId);
 	}
 
 } else if( isset($_GET['op']) ) {
@@ -70,17 +71,17 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 	$op = operator_by_login( $login );
 
 	if( !$op ) {
-		$errors[] = getstring("no_such_operator");
-		$page['formlogin'] = $login;
+		$errors[] = getlocal("no_such_operator");
+		$page['formlogin'] = topage($login);
 	} else {
-		$page['formlogin'] = $op['vclogin'];
-		$page['formname'] = $op['vclocalename'];
-		$page['formcommonname'] = $op['vccommonname'];
-		$page['agentId'] = $op['operatorid'];
+		$page['formlogin'] = topage($op['vclogin']);
+		$page['formname'] = topage($op['vclocalename']);
+		$page['formcommonname'] = topage($op['vccommonname']);
+		$page['agentId'] = topage($op['operatorid']);
 	}
 }
 
-$page['operator'] = get_operator_name($operator);
+$page['operator'] = topage(get_operator_name($operator));
 
 start_html_output();
 require('../view/agent.php');

@@ -31,21 +31,16 @@ $mysqlpass = "123";
 
 
 /* Use CP-1251 database */
+/*
 $dbencoding = "cp1251";
 $webim_encoding = "cp1251";
-$request_encoding = "utf-8";
-$output_charset = "Windows-1251";
-$force_charset_in_connection = true;
-
-
-/* Use UTF-8 database */
-/*
-$dbencoding = "utf8";
-$webim_encoding = "cp1251";
-$request_encoding = "utf-8";
-$output_charset = "Windows-1251";
 $force_charset_in_connection = true;
 */
+
+/* Use UTF-8 database */
+$dbencoding = "utf8";
+$webim_encoding = "utf-8";
+$force_charset_in_connection = true;
 
 /*
  *   From field in outgoing mail.

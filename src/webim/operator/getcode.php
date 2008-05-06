@@ -52,7 +52,7 @@ $size = get_gifimage_size($file);
 $message = get_image(get_app_location($showhost,$forcesecure)."/button.php?image=$image&lang=$lang",$size[0],$size[1]);
 
 $page = array();
-$page['operator'] = get_operator_name($operator);
+$page['operator'] = topage(get_operator_name($operator));
 $page['buttonCode'] = generate_button("",$lang,$message,$showhost,$forcesecure);
 $page['availableImages'] = array_keys($imageLocales);
 $page['availableLocales'] = $image_locales;

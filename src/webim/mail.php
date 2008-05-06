@@ -52,6 +52,8 @@ foreach( $output as $msg ) {
 	$history .= $msg;
 }
 
+// FIXME mail encoding?
+
 $subject = getstring("mail.user.history.subject");
 $body = getstring2("mail.user.history.body", array($thread['userName'],$history) ); 
 

@@ -18,7 +18,7 @@ require('../libs/chat.php');
 
 $operator = check_login();
 
-$page = array( 'operator' => get_operator_name($operator) );
+$page = array( 'operator' => topage(get_operator_name($operator)) );
 
 
 if( isset($_GET['threadid'])) {

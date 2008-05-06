@@ -63,7 +63,7 @@ function setup_empty_pagination() {
 
 function generate_pagination($pagination) {
 	global $pagination_spacing, $links_on_page;
-	$result = getstring2("tag.pagination.info",
+	$result = getlocal2("tag.pagination.info",
 		array($pagination['page'],$pagination['total'],$pagination['start']+1,$pagination['end'],$pagination['count']))."<br/>";
 
 	if( $pagination['total'] > 1 ) {

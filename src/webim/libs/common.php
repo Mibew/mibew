@@ -21,10 +21,14 @@ $version = 'v1.0.9';
 
 function myiconv($in_enc, $out_enc, $string) {
 	global $_utf8win1251, $_win1251utf8;
+	if($in_enc == $out_enc ) {
+		return $string;
+	}
 	if( function_exists('iconv') ) {
-	    $converted = iconv($in_enc, $out_enc, $string);
-	    if( $converted !== FALSE )
+	    $converted = @iconv($in_enc, $out_enc, $string);
+	    if( $converted !== FALSE ) {
 			return $converted;
+		}
 	}
 	if( $in_enc == "cp1251" && $out_enc == "utf-8" )
 		return strtr($string, $_win1251utf8);
@@ -32,21 +36,6 @@ function myiconv($in_enc, $out_enc, $string) {
 		return strtr($string, $_utf8win1251);
 
 	return $string; // do not know how to convert
-}
-
-function getrawparam( $name ) {
-	global $webim_encoding, $request_encoding;
-	if( isset($_POST[$name]) )
-		return myiconv($request_encoding,$webim_encoding,$_POST[$name]);
-	die("no ".$name." parameter");
-}
-
-function getparam( $name ) {
-	if( isset($_POST[$name]) )
-		return $_POST[$name];
-    if( isset($_GET[$name]))
-        return $_GET[$name];
-	die("no ".$name." parameter");
 }
 
 function verifyparam( $name, $regexp, $default = null ) {
@@ -121,6 +110,7 @@ function set_locale($locale) {
 
 $current_locale = get_locale();
 $messages = array();
+$output_encoding = array();
 
 function get_locale_links($href) {
 	global $available_locales, $current_locale;
@@ -137,18 +127,34 @@ function get_locale_links($href) {
 }
 
 function load_messages($locale) {
-	global $messages;
+	global $messages, $webim_encoding, $output_encoding;
 	$hash = array();
+	$current_encoding = $webim_encoding;
 	$fp = fopen(dirname(__FILE__)."/../locales/$locale/properties","r");
 	while (!feof($fp)) {
     	$line = fgets($fp, 4096);
 		$keyval = split("=", $line, 2 );
 		if( isset($keyval[1]) ) {
-			$hash[$keyval[0]] = str_replace("\\n", "\n",trim($keyval[1]));
+			if($keyval[0] == 'encoding') {
+				$current_encoding = trim($keyval[1]);
+			} else if($keyval[0] == 'output_encoding') {
+				$output_encoding[$locale] = trim($keyval[1]); 
+			} else if( $current_encoding == $webim_encoding ) {
+				$hash[$keyval[0]] = str_replace("\\n", "\n",trim($keyval[1]));
+			} else { 
+				$hash[$keyval[0]] = myiconv($current_encoding, $webim_encoding, str_replace("\\n", "\n",trim($keyval[1])));
+			}
 		}
 	}
 	fclose($fp);
 	$messages[$locale] = $hash;
+}
+
+function getoutputenc() {
+	global $current_locale, $output_encoding, $webim_encoding, $messages;
+	if(!isset($messages[$current_locale]))
+		load_messages($current_locale);
+	return isset($output_encoding[$current_locale]) ? $output_encoding[$current_locale] : $webim_encoding;
 }
 
 function getstring_($text,$locale) {
@@ -168,6 +174,16 @@ function getstring($text) {
 	return getstring_($text,$current_locale);
 }
 
+function getlocal($text) {
+	global $current_locale, $webim_encoding;
+	return myiconv($webim_encoding,getoutputenc(), getstring_($text,$current_locale));
+}
+
+function topage($text) {
+	global $webim_encoding;
+	return myiconv($webim_encoding,getoutputenc(), $text);
+}
+
 function getstring2_($text,$params,$locale) {
 	$string = getstring_($text,$locale);
 	for( $i = 0; $i < count($params); $i++ ) {
@@ -179,6 +195,31 @@ function getstring2_($text,$params,$locale) {
 function getstring2($text,$params) {
 	global $current_locale;
 	return getstring2_($text,$params,$current_locale);
+}
+
+function getlocal2($text,$params) {
+	global $current_locale, $webim_encoding;
+	$string = myiconv($webim_encoding,getoutputenc(), getstring_($text,$current_locale));
+	for( $i = 0; $i < count($params); $i++ ) {
+		$string = str_replace("{".$i."}", $params[$i], $string);
+	}
+	return $string;
+}
+
+/* ajax server actions use utf-8 */
+function getrawparam( $name ) {
+	global $webim_encoding;
+	if( isset($_POST[$name]) )
+		return myiconv("utf-8",$webim_encoding,$_POST[$name]);
+	die("no ".$name." parameter");
+}
+
+/* form processors use current Output encoding */
+function getparam( $name ) {
+	global $webim_encoding;
+	if( isset($_POST[$name]) )
+		return myiconv(getoutputenc(), $webim_encoding, $_POST[$name]);
+	die("no ".$name." parameter");
 }
 
 function connect() {
@@ -224,9 +265,9 @@ function start_xml_output() {
 }
 
 function start_html_output() {
-	global $output_charset;
+	$charset = getstring("output_charset");
 	header("Cache-Control: no-store, no-cache, must-revalidate");
-	header("Content-type: text/html".(isset($output_charset)?"; charset=".$output_charset:""));
+	header("Content-type: text/html".(isset($charset)?"; charset=".$charset:""));
 }
 
 function escape_with_cdata($text) {
@@ -248,12 +289,12 @@ function form_value_cb($key) {
 }
 
 function no_field($key) {
-	return getstring2("errors.required",array(getstring($key)));
+	return getlocal2("errors.required",array(getlocal($key)));
 }
 
 
 function wrong_field($key) {
-	return getstring2("errors.wrong_field",array(getstring($key)));
+	return getlocal2("errors.wrong_field",array(getlocal($key)));
 }
 
 function get_popup($href,$message,$title,$wndName,$options) {

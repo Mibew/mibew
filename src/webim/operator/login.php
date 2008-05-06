@@ -32,7 +32,7 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 		header("Location: $target");
 		exit;
 	} else {
-		$errors[] = getstring("page_login.error");
+		$errors[] = getlocal("page_login.error");
 	}
 }
 

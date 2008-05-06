@@ -1,3 +1,6 @@
+encoding=cp1251
+output_charset=Windows-1251
+output_encoding=cp1251
 site.url=http://webim.ru
 site.title=webim.ru
 company.title=Web Messenger Community
