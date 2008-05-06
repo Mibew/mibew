@@ -1,17 +1,16 @@
 
-Web Instant Messenger 1.0.8
-Copyright (c) 2005-2008 Internet Services Ltd.
+Web Instant Messenger 1.0.9
+Copyright (c) 2005-2008 Web Messenger Creators Community.
 
 This program and the accompanying materials are made available under
-the terms of the Eclipse Public License v1.0 which accompanies this
-distribution, and is available at  
-http://www.eclipse.org/legal/epl-v10.html
+the terms of the License which accompanies this distribution, 
+and is available at http://webim.ru/license.html
 
 REQUIREMENTS
 
- * A webserver or web hosting account with support for PHP 	
- * MySQL database 4.0 or above
- * PHP 4.3.3 or above with MySQL support
+ * Apache web server 1.3.34 or above
+ * MySQL database 5.0 or above
+ * PHP 4.x or above with MySQL support
 
 QUICK INSTALLATION
 
@@ -20,23 +19,24 @@ QUICK INSTALLATION
    structure) into created folder.
 3. Edit /webim/libs/config.php and setup database connection parameters.
 4. Using your web browser visit http://<yourdomain>/webim/install/ and 
-   hit "Create tables"
+   hit 'Create tables'
 5. Remove /webim/install/ directory from your server
 6. Logon as 
 		user: admin
 		password: <empty>
 7. Get button code and setup it on your site.
 8. Change your password and name.
-9. Wait for your visitors on "Pending users" page.
+9. Wait for your visitors on 'Pending users' page.
 
 UPDATE
 
-1. Backup you config.php
+1. Backup your /webim/libs/config.php
 2. Clean webim folder on server.
 3. Upload all the files contained in this archive (retaining the directory 
    structure) into webim folder.
 4. Adjust you config.php
 5. Visit http://<yourdomain>/webim/install/ and follow the instructions to update database (if needed).
+6. Remove /webim/install/ directory from your server
 
 OPTIONAL
 
