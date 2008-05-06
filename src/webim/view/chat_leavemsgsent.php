@@ -15,7 +15,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-<title><?php echo getstring("leavemessage.sent.title") ?></title>
+<title><?php echo getlocal("leavemessage.sent.title") ?></title>
 <link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <link rel="stylesheet" type="text/css" href="<?php echo $webimroot ?>/chat.css" />
 </head>
@@ -28,7 +28,7 @@
 <tr>
 <td height="75"></td>
 <td class="window">
-	<h1><?php echo getstring("leavemessage.sent.title") ?></h1>
+	<h1><?php echo getlocal("leavemessage.sent.title") ?></h1>
 </td>
 <td></td>
 </tr>
@@ -48,7 +48,7 @@
     <td height="100%" bgcolor="#FED840"><img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="1" border="0" alt="" /></td>
 	<td background="<?php echo $webimroot ?>/images/winbg.gif" class="bgcy">
 
-		<?php echo getstring("leavemessage.sent.message") ?><br/>
+		<?php echo getlocal("leavemessage.sent.message") ?><br/>
 	</td>
     <td bgcolor="#E8A400"><img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="1" border="0" alt="" /></td>
 	</tr>
@@ -73,9 +73,9 @@
     <td width="100%" align="right">
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td><a href="javascript:window.close();" title="<?php echo getstring("chat.mailthread.sent.close") ?>"><img src='<?php echo $webimroot ?>/images/buttons/back.gif' width="25" height="25" border="0" alt="" /></a></td>
+	    <td><a href="javascript:window.close();" title="<?php echo getlocal("chat.mailthread.sent.close") ?>"><img src='<?php echo $webimroot ?>/images/buttons/back.gif' width="25" height="25" border="0" alt="" /></a></td>
 	    <td width="5"></td>
-	    <td class="button"><a href="javascript:window.close();" title="<?php echo getstring("chat.mailthread.sent.close") ?>"><?php echo getstring("chat.mailthread.sent.close") ?></a></td>
+	    <td class="button"><a href="javascript:window.close();" title="<?php echo getlocal("chat.mailthread.sent.close") ?>"><?php echo getlocal("chat.mailthread.sent.close") ?></a></td>
 		</tr>
 		</table>
 	</td>

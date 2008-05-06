@@ -22,11 +22,11 @@
 
 <link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <title>
-	<?php echo getstring("app.title") ?>	- <?php echo getstring("page.gen_button.title") ?>
+	<?php echo getlocal("app.title") ?>	- <?php echo getlocal("page.gen_button.title") ?>
 </title>
 
-<meta http-equiv="keywords" content="<?php echo getstring("page.main_layout.meta_keyword") ?>">
-<meta http-equiv="description" content="<?php echo getstring("page.main_layout.meta_description") ?>">
+<meta http-equiv="keywords" content="<?php echo getlocal("page.main_layout.meta_keyword") ?>">
+<meta http-equiv="description" content="<?php echo getlocal("page.main_layout.meta_description") ?>">
 </head>
 
 <body bgcolor="#FFFFFF" text="#000000" link="#2971C1" vlink="#2971C1" alink="#2971C1">
@@ -36,18 +36,18 @@
 <td valign="top" class="text">
 	
  <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="left" valign="top"> 
-		<h1><?php echo getstring("page.gen_button.title") ?></h1>
- </td><td align="right" class="text" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="textform"><?php echo getstring2("menu.operator",array($page['operator'])) ?></td><td class="textform"><img src='<?php echo $webimroot ?>/images/topdiv.gif' width="25" height="15" border="0" alt="|" /></td><td class="textform"><a href="<?php echo $webimroot ?>/operator/index.php" title="<?php echo getstring("menu.main") ?>"><?php echo getstring("menu.main") ?></a></td></tr></table></td></tr></table> 
+		<h1><?php echo getlocal("page.gen_button.title") ?></h1>
+ </td><td align="right" class="text" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="textform"><?php echo getlocal2("menu.operator",array($page['operator'])) ?></td><td class="textform"><img src='<?php echo $webimroot ?>/images/topdiv.gif' width="25" height="15" border="0" alt="|" /></td><td class="textform"><a href="<?php echo $webimroot ?>/operator/index.php" title="<?php echo getlocal("menu.main") ?>"><?php echo getlocal("menu.main") ?></a></td></tr></table></td></tr></table> 
 	
 
-	<?php echo getstring("page.gen_button.intro") ?>
+	<?php echo getlocal("page.gen_button.intro") ?>
 <br />
 <br />
 
 <form name="buttonCodeForm" method="get" action="<?php echo $webimroot ?>/operator/getcode.php">
 <table cellspacing='0' cellpadding='0' border='0'><tr><td background='<?php echo $webimroot ?>/images/loginbg.gif'><table cellspacing='0' cellpadding='0' border='0'><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlt.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrt.gif' width='16' height='16' border='0' alt=''></td></tr><tr><td></td><td align='center'><table border='0' cellspacing='0' cellpadding='0'>
 	<tr>
-		<td colspan="3" class="formauth"><?php echo getstring("page.gen_button.choose_image") ?></td>
+		<td colspan="3" class="formauth"><?php echo getlocal("page.gen_button.choose_image") ?></td>
 	</tr>
 	<tr><td colspan="3" height="2"></td></tr>
 	<tr>
@@ -57,7 +57,7 @@
 	</tr>
 	<tr><td colspan="3" height="5"></td></tr>
 	<tr>
-		<td colspan="3" class="formauth"><?php echo getstring("page.gen_button.choose_locale") ?></td>
+		<td colspan="3" class="formauth"><?php echo getlocal("page.gen_button.choose_locale") ?></td>
 	</tr>
 	<tr><td colspan="3" height="2"></td></tr>
 	<tr>
@@ -67,7 +67,7 @@
 	</tr>
 	<tr><td colspan="3" height="5"></td></tr>
 	<tr>
-		<td colspan="3" class="formauth"><?php echo getstring("page.gen_button.include_site_name") ?></td>
+		<td colspan="3" class="formauth"><?php echo getlocal("page.gen_button.include_site_name") ?></td>
 	</tr>
 	<tr><td colspan="3" height="2"></td></tr>
 	<tr>
@@ -78,7 +78,7 @@
 <?php if( $page['formhostname'] ) { ?>
 	<tr><td colspan="3" height="5"></td></tr>
 	<tr>
-		<td colspan="3" class="formauth"><?php echo getstring("page.gen_button.secure_links") ?></td>
+		<td colspan="3" class="formauth"><?php echo getlocal("page.gen_button.secure_links") ?></td>
 	</tr>
 	<tr><td colspan="3" height="2"></td></tr>
 	<tr>
@@ -89,7 +89,7 @@
 <?php } ?>
 	<tr><td colspan="3" height="5"></td></tr>
 	<tr>
-		<td class="formauth"><?php echo getstring("page.gen_button.code") ?></td>
+		<td class="formauth"><?php echo getlocal("page.gen_button.code") ?></td>
 		<td width="10"><img src="<?php echo $webimroot ?>/images/free.gif" width="10" height="1" border="0" alt=""></td>
 		<td></td>
 	</tr>
@@ -97,14 +97,14 @@
 	<tr>
 		<td><textarea cols="60" rows="15"><?php echo $page['buttonCode'] ?></textarea></td>
 		<td></td>
-		<td class="formauth" valign="top" nowrap><span class="formdescr"><?php echo getstring("page.gen_button.code.description") ?></span></td>
+		<td class="formauth" valign="top" nowrap><span class="formdescr"><?php echo getlocal("page.gen_button.code.description") ?></span></td>
 	</tr>
 	<tr>
 		<td colspan="3" height="10"></td>
 	</tr>
 
 	<tr>
-		<td class="formauth"><?php echo getstring("page.gen_button.sample") ?></td>
+		<td class="formauth"><?php echo getlocal("page.gen_button.sample") ?></td>
 		<td></td>
 		<td></td>
 	</tr>

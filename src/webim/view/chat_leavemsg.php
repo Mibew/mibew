@@ -15,7 +15,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-<title><?php echo getstring("leavemessage.title") ?></title>
+<title><?php echo getlocal("leavemessage.title") ?></title>
 <link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <link rel="stylesheet" type="text/css" href="<?php echo $webimroot ?>/chat.css" />
 </head>
@@ -31,7 +31,7 @@
 <tr>
 <td height="40"></td>
 <td class="window">
-	<h1><?php echo getstring("leavemessage.title") ?></h1>
+	<h1><?php echo getlocal("leavemessage.title") ?></h1>
 </td>
 <td></td>
 </tr>
@@ -44,13 +44,13 @@
 	    <td width="10"></td>
 	    <td class="text">
 		    <?php	if( isset($errors) && count($errors) > 0 ) {
-		print getstring("errors.header");
+		print getlocal("errors.header");
 		foreach( $errors as $e ) {
-			print getstring("errors.prefix");
+			print getlocal("errors.prefix");
 			print $e;
-			print getstring("errors.suffix");
+			print getlocal("errors.suffix");
 		}
-		print getstring("errors.footer");
+		print getlocal("errors.footer");
 	} ?>
 
 		</td>
@@ -66,23 +66,23 @@
 
 	<table cellspacing="0" cellpadding="0" border="0"><tr><td width="15"><img src="<?php echo $webimroot ?>/images/wincrnlt.gif" width="15" height="15" border="0" alt="" /></td><td width="100%" background="<?php echo $webimroot ?>/images/winbg.gif" class="bgcy"><img src="<?php echo $webimroot ?>/images/free.gif" width="1" height="1" border="0" alt="" /></td><td width="15"><img src="<?php echo $webimroot ?>/images/wincrnrt.gif" width="15" height="15" border="0" alt="" /></td></tr><tr><td height="100%" bgcolor="#FED840"><img src="<?php echo $webimroot ?>/images/free.gif" width="1" height="1" border="0" alt="" /></td><td background="<?php echo $webimroot ?>/images/winbg.gif" class="bgcy"><table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td colspan="3" class="text"><?php echo getstring("leavemessage.descr") ?></td>
+	    <td colspan="3" class="text"><?php echo getlocal("leavemessage.descr") ?></td>
 		</tr>
 		<tr><td height="20" colspan="3"></td></tr>		
 		<tr>
-	    <td class="text"><?php echo getstring("form.field.email") ?>:</td>
+	    <td class="text"><?php echo getlocal("form.field.email") ?>:</td>
 	    <td width="20"></td>
 	    <td><input type="text" name="email" size="50" value="<?php echo form_value('email') ?>" class="username"/></td>
 		</tr>
 		<tr><td height="7" colspan="3"></td></tr>		
 		<tr>
-	    <td class="text"><?php echo getstring("form.field.name") ?>:</td>
+	    <td class="text"><?php echo getlocal("form.field.name") ?>:</td>
 	    <td width="20"></td>
 	    <td><input type="text" name="name" size="50" value="<?php echo form_value('name') ?>" class="username"/></td>
 		</tr>
 		<tr><td height="7" colspan="3"></td></tr>		
 		<tr>
-	    <td class="text"><?php echo getstring("form.field.message") ?>:</td>
+	    <td class="text"><?php echo getlocal("form.field.message") ?>:</td>
 	    <td width="20"></td>
 	    <td height="120" valign="top"><table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0"><tr><td colspan="3" bgcolor="#A1A1A1"><img src="<?php echo $webimroot ?>/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td bgcolor="#A1A1A1"><img src="<?php echo $webimroot ?>/images/free.gif" width="1" height="1" border="0" alt="" /></td><td width="100%" height="100%" bgcolor="#FFFFFF" valign="top">
 	    <textarea name="message" class="message" tabindex="0"><?php echo form_value('message') ?></textarea>
@@ -103,24 +103,24 @@
     <td width="33%">
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td><a href="javascript:document.leaveMessageForm.submit();" title="<?php echo getstring("leavemessage.perform") ?>"><img src='<?php echo $webimroot ?>/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
+	    <td><a href="javascript:document.leaveMessageForm.submit();" title="<?php echo getlocal("leavemessage.perform") ?>"><img src='<?php echo $webimroot ?>/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
 	    <td background="<?php echo $webimroot ?>/images/submitbg.gif" valign="top" class="submit">
 			<img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="10" border="0" alt="" /><br>
-			<a href="javascript:document.leaveMessageForm.submit();" title="<?php echo getstring("leavemessage.perform") ?>"><?php echo getstring("leavemessage.perform") ?></a><br>
+			<a href="javascript:document.leaveMessageForm.submit();" title="<?php echo getlocal("leavemessage.perform") ?>"><?php echo getlocal("leavemessage.perform") ?></a><br>
 		</td>
-	    <td width="10"><a href="javascript:document.leaveMessageForm.submit();" title="<?php echo getstring("leavemessage.perform") ?>"><img src='<?php echo $webimroot ?>/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
+	    <td width="10"><a href="javascript:document.leaveMessageForm.submit();" title="<?php echo getlocal("leavemessage.perform") ?>"><img src='<?php echo $webimroot ?>/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
 		</tr>
 		</table>
 	</td>
 
-  	<td width="33%" align="center" class="copyr"><?php echo getstring("chat.window.poweredby") ?> <a href="<?php echo getstring("site.url") ?>" title="<?php echo getstring("company.title") ?>" target="_blank"><?php echo getstring("chat.window.poweredreftext") ?></a></td>
+  	<td width="33%" align="center" class="copyr"><?php echo getlocal("chat.window.poweredby") ?> <a href="<?php echo getlocal("site.url") ?>" title="<?php echo getlocal("company.title") ?>" target="_blank"><?php echo getlocal("chat.window.poweredreftext") ?></a></td>
 
     <td width="33%" align="right">
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td><a href="javascript:window.close();" title="<?php echo getstring("leavemessage.close") ?>"><img src='<?php echo $webimroot ?>/images/buttons/back.gif' width="25" height="25" border="0" alt="" /></a></td>
+	    <td><a href="javascript:window.close();" title="<?php echo getlocal("leavemessage.close") ?>"><img src='<?php echo $webimroot ?>/images/buttons/back.gif' width="25" height="25" border="0" alt="" /></a></td>
 	    <td width="5"></td>
-	    <td class="button"><a href="javascript:window.close();" title="<?php echo getstring("leavemessage.close") ?>"><?php echo getstring("leavemessage.close") ?></a></td>
+	    <td class="button"><a href="javascript:window.close();" title="<?php echo getlocal("leavemessage.close") ?>"><?php echo getlocal("leavemessage.close") ?></a></td>
 		</tr>
 		</table>
 	</td>

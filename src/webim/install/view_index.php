@@ -22,11 +22,11 @@
 
 <link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <title>
-	<?php echo getstring("app.title") ?>	- <?php echo getstring("install.title") ?>
+	<?php echo getlocal("app.title") ?>	- <?php echo getlocal("install.title") ?>
 </title>
 
-<meta http-equiv="keywords" content="<?php echo getstring("page.main_layout.meta_keyword") ?>">
-<meta http-equiv="description" content="<?php echo getstring("page.main_layout.meta_description") ?>">
+<meta http-equiv="keywords" content="<?php echo getlocal("page.main_layout.meta_keyword") ?>">
+<meta http-equiv="description" content="<?php echo getlocal("page.main_layout.meta_description") ?>">
 </head>
 
 <body bgcolor="#FFFFFF" text="#000000" link="#2971C1" vlink="#2971C1" alink="#2971C1">
@@ -35,10 +35,10 @@
 <tr>
 <td valign="top" class="text">
 	
-		<h1><?php echo getstring("install.title") ?></h1>
+		<h1><?php echo getlocal("install.title") ?></h1>
 	
 
-	<?php echo getstring("install.message") ?>
+	<?php echo getlocal("install.message") ?>
 <br />
 <br />
 <?php if( isset($errors) && count($errors) > 0 ) { ?>
@@ -48,13 +48,13 @@
 	    <td width="10"></td>
 	    <td class="text">
 		    <?php	if( isset($errors) && count($errors) > 0 ) {
-		print getstring("errors.header");
+		print getlocal("errors.header");
 		foreach( $errors as $e ) {
-			print getstring("errors.prefix");
+			print getlocal("errors.prefix");
 			print $e;
-			print getstring("errors.suffix");
+			print getlocal("errors.suffix");
 		}
-		print getstring("errors.footer");
+		print getlocal("errors.footer");
 	} ?>
 
 		</td>
@@ -64,7 +64,7 @@
 
 <?php if( $page['done'] ) { ?>
 <table cellspacing='0' cellpadding='0' border='0'><tr><td background='<?php echo $webimroot ?>/images/loginbg.gif'><table cellspacing='0' cellpadding='0' border='0'><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlt.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrt.gif' width='16' height='16' border='0' alt=''></td></tr><tr><td></td><td align='center'><table border='0' cellspacing='0' cellpadding='0'><tr><td align="left" class="text">
-<?php echo getstring("install.done") ?>
+<?php echo getlocal("install.done") ?>
 <ul>
 <?php foreach( $page['done'] as $info ) { ?>
 <li><?php echo $info ?></li>
@@ -73,7 +73,7 @@
 </td></tr>
 <?php if( $page['nextstep'] ) { ?>
 <tr><td align="left" class="text">
-<?php echo getstring("install.next") ?>
+<?php echo getlocal("install.next") ?>
 <ul>
 <li>
 <?php if( $page['nextnotice'] ) { ?><?php echo $page['nextnotice'] ?><br/><br/><?php } ?>
@@ -97,7 +97,7 @@
 </tr>
 </table>
 
-Web Messenger/<?php echo $page['version'] ?> &bull; <?php echo $page['localeLinks'] ?> &bull; <a href="<?php echo $webimroot ?>/epl-v10.html" target="_blank"><?php echo getstring("install.license") ?></a>
+Web Messenger/<?php echo $page['version'] ?> &bull; <?php echo $page['localeLinks'] ?> &bull; <a href="<?php echo $webimroot ?>/epl-v10.html" target="_blank"><?php echo getlocal("install.license") ?></a>
 
 </td>
 </tr>

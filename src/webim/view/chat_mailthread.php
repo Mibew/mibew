@@ -15,7 +15,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-<title><?php echo getstring("chat.window.title.user") ?></title>
+<title><?php echo getlocal("chat.window.title.user") ?></title>
 <link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <link rel="stylesheet" type="text/css" href="<?php echo $webimroot ?>/chat.css" />
 </head>
@@ -31,7 +31,7 @@
 <tr>
 <td height="75"></td>
 <td class="window">
-	<h1><?php echo getstring("mailthread.title") ?></h1>
+	<h1><?php echo getlocal("mailthread.title") ?></h1>
 </td>
 <td></td>
 </tr>
@@ -44,13 +44,13 @@
 	    <td width="10"></td>
 	    <td class="text">
 		    <?php	if( isset($errors) && count($errors) > 0 ) {
-		print getstring("errors.header");
+		print getlocal("errors.header");
 		foreach( $errors as $e ) {
-			print getstring("errors.prefix");
+			print getlocal("errors.prefix");
 			print $e;
-			print getstring("errors.suffix");
+			print getlocal("errors.suffix");
 		}
-		print getstring("errors.footer");
+		print getlocal("errors.footer");
 	} ?>
 
 		</td>
@@ -66,7 +66,7 @@
 
 	<table cellspacing="0" cellpadding="0" border="0"><tr><td width="15"><img src="<?php echo $webimroot ?>/images/wincrnlt.gif" width="15" height="15" border="0" alt="" /></td><td width="100%" background="<?php echo $webimroot ?>/images/winbg.gif" class="bgcy"><img src="<?php echo $webimroot ?>/images/free.gif" width="1" height="1" border="0" alt="" /></td><td width="15"><img src="<?php echo $webimroot ?>/images/wincrnrt.gif" width="15" height="15" border="0" alt="" /></td></tr><tr><td height="100%" bgcolor="#FED840"><img src="<?php echo $webimroot ?>/images/free.gif" width="1" height="1" border="0" alt="" /></td><td background="<?php echo $webimroot ?>/images/winbg.gif" class="bgcy"><table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td class="text"><?php echo getstring("mailthread.enter_email") ?></td>
+	    <td class="text"><?php echo getlocal("mailthread.enter_email") ?></td>
 	    <td width="10"></td>
 	    <td><input type="text" name="email" size="20" value="<?php echo form_value('email') ?>" class="username"/></td>
 		</tr>
@@ -85,21 +85,21 @@
     <td width="50%">
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td><a href="javascript:document.mailThreadForm.submit();" title="<?php echo getstring("mailthread.perform") ?>"><img src='<?php echo $webimroot ?>/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
+	    <td><a href="javascript:document.mailThreadForm.submit();" title="<?php echo getlocal("mailthread.perform") ?>"><img src='<?php echo $webimroot ?>/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
 	    <td background="<?php echo $webimroot ?>/images/submitbg.gif" valign="top" class="submit">
 			<img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="10" border="0" alt="" /><br>
-			<a href="javascript:document.mailThreadForm.submit();" title="<?php echo getstring("mailthread.perform") ?>"><?php echo getstring("mailthread.perform") ?></a><br>
+			<a href="javascript:document.mailThreadForm.submit();" title="<?php echo getlocal("mailthread.perform") ?>"><?php echo getlocal("mailthread.perform") ?></a><br>
 		</td>
-	    <td width="10"><a href="javascript:document.mailThreadForm.submit();" title="<?php echo getstring("mailthread.perform") ?>"><img src='<?php echo $webimroot ?>/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
+	    <td width="10"><a href="javascript:document.mailThreadForm.submit();" title="<?php echo getlocal("mailthread.perform") ?>"><img src='<?php echo $webimroot ?>/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
 		</tr>
 		</table>
 	</td>
     <td width="50%" align="right">
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td><a href="javascript:window.close();" title="<?php echo getstring("mailthread.close") ?>"><img src='<?php echo $webimroot ?>/images/buttons/back.gif' width="25" height="25" border="0" alt="" /></a></td>
+	    <td><a href="javascript:window.close();" title="<?php echo getlocal("mailthread.close") ?>"><img src='<?php echo $webimroot ?>/images/buttons/back.gif' width="25" height="25" border="0" alt="" /></a></td>
 	    <td width="5"></td>
-	    <td class="button"><a href="javascript:window.close();" title="<?php echo getstring("mailthread.close") ?>"><?php echo getstring("mailthread.close") ?></a></td>
+	    <td class="button"><a href="javascript:window.close();" title="<?php echo getlocal("mailthread.close") ?>"><?php echo getlocal("mailthread.close") ?></a></td>
 		</tr>
 		</table>
 	</td>

@@ -21,24 +21,24 @@
 <script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/common.js"></script>
 <script><!--
 var localized = new Array(
-    "<?php echo getstring("pending.table.speak") ?>",
-    "<?php echo getstring("pending.table.view") ?>",
-    "<?php echo getstring("pending.table.ban") ?>"
+    "<?php echo getlocal("pending.table.speak") ?>",
+    "<?php echo getlocal("pending.table.view") ?>",
+    "<?php echo getlocal("pending.table.ban") ?>"
 );
 var updaterOptions = {
 	url:"<?php echo $webimroot ?>/operator/update.php",wroot:"<?php echo $webimroot ?>", 
 	agentservl:"<?php echo $webimroot ?>/operator/agent.php",
-	noclients:"<?php echo getstring("clients.no_clients") ?>" };
+	noclients:"<?php echo getlocal("clients.no_clients") ?>" };
 //--></script>
 <script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/page_pendingclients2.js"></script>
 
 <link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <title>
-	<?php echo getstring("app.title") ?>	- <?php echo getstring("clients.title") ?>
+	<?php echo getlocal("app.title") ?>	- <?php echo getlocal("clients.title") ?>
 </title>
 
-<meta http-equiv="keywords" content="<?php echo getstring("page.main_layout.meta_keyword") ?>">
-<meta http-equiv="description" content="<?php echo getstring("page.main_layout.meta_description") ?>">
+<meta http-equiv="keywords" content="<?php echo getlocal("page.main_layout.meta_keyword") ?>">
+<meta http-equiv="description" content="<?php echo getlocal("page.main_layout.meta_description") ?>">
 </head>
 
 <body bgcolor="#FFFFFF" text="#000000" link="#2971C1" vlink="#2971C1" alink="#2971C1">
@@ -48,13 +48,13 @@ var updaterOptions = {
 <td valign="top" class="text">
 	
  <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="left" valign="top"> 
-		<h1><?php echo getstring("clients.title") ?></h1>
- </td><td align="right" class="text" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="textform"><?php echo getstring2("menu.operator",array($page['operator'])) ?></td><td class="textform"><img src='<?php echo $webimroot ?>/images/topdiv.gif' width="25" height="15" border="0" alt="|" /></td><td class="textform"><a href="<?php echo $webimroot ?>/operator/index.php" title="<?php echo getstring("menu.main") ?>"><?php echo getstring("menu.main") ?></a></td></tr></table></td></tr></table> 
+		<h1><?php echo getlocal("clients.title") ?></h1>
+ </td><td align="right" class="text" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="textform"><?php echo getlocal2("menu.operator",array($page['operator'])) ?></td><td class="textform"><img src='<?php echo $webimroot ?>/images/topdiv.gif' width="25" height="15" border="0" alt="|" /></td><td class="textform"><a href="<?php echo $webimroot ?>/operator/index.php" title="<?php echo getlocal("menu.main") ?>"><?php echo getlocal("menu.main") ?></a></td></tr></table></td></tr></table> 
 	
 
-	<?php echo getstring("clients.intro") ?><br>
+	<?php echo getlocal("clients.intro") ?><br>
 
-<?php echo getstring("clients.how_to") ?><br>
+<?php echo getlocal("clients.how_to") ?><br>
 <br>
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -66,19 +66,19 @@ var updaterOptions = {
 
 <table width="100%" id="threadlist" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <td width="150" height="30" bgcolor="#276DB8" class="table"><span class="header"><?php echo getstring("pending.table.head.name") ?></span></td>
+    <td width="150" height="30" bgcolor="#276DB8" class="table"><span class="header"><?php echo getlocal("pending.table.head.name") ?></span></td>
     <td width="3"></td>
-    <td bgcolor="#276DB8" align="center" class="table" nowrap><span class="header"><?php echo getstring("pending.table.head.contactid") ?></span></td>
+    <td bgcolor="#276DB8" align="center" class="table" nowrap><span class="header"><?php echo getlocal("pending.table.head.contactid") ?></span></td>
     <td width="3"></td>
-    <td bgcolor="#276DB8" align="center" class="table" nowrap><span class="header"><?php echo getstring("pending.table.head.state") ?></span></td>
+    <td bgcolor="#276DB8" align="center" class="table" nowrap><span class="header"><?php echo getlocal("pending.table.head.state") ?></span></td>
     <td width="3"></td>
-    <td bgcolor="#276DB8" align="center" class="table" nowrap><span class="header"><?php echo getstring("pending.table.head.operator") ?></span></td>
+    <td bgcolor="#276DB8" align="center" class="table" nowrap><span class="header"><?php echo getlocal("pending.table.head.operator") ?></span></td>
     <td width="3"></td>
-    <td bgcolor="#276DB8" align="center" class="table" nowrap><span class="header"><?php echo getstring("pending.table.head.total") ?></span></td>
+    <td bgcolor="#276DB8" align="center" class="table" nowrap><span class="header"><?php echo getlocal("pending.table.head.total") ?></span></td>
     <td width="3"></td>
-    <td bgcolor="#276DB8" align="center" class="table" nowrap><span class="header"><?php echo getstring("pending.table.head.waittime") ?></span></td>
+    <td bgcolor="#276DB8" align="center" class="table" nowrap><span class="header"><?php echo getlocal("pending.table.head.waittime") ?></span></td>
     <td width="3"></td>
-    <td bgcolor="#276DB8" align="center" class="table" nowrap><span class="header"><?php echo getstring("pending.table.head.etc") ?></span></td>
+    <td bgcolor="#276DB8" align="center" class="table" nowrap><span class="header"><?php echo getlocal("pending.table.head.etc") ?></span></td>
 </tr>
 
 <tr>
@@ -90,7 +90,7 @@ var updaterOptions = {
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
 	    <td><img src='<?php echo $webimroot ?>/images/tblicusers.gif' width="15" height="15" border="0" alt="" /></td>
-    	<td class="table"><span class="black"><?php echo getstring("clients.queue.prio") ?></span></td>
+    	<td class="table"><span class="black"><?php echo getlocal("clients.queue.prio") ?></span></td>
 		</tr>
 		</table>
 	</td>
@@ -105,7 +105,7 @@ var updaterOptions = {
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
 	    <td><img src='<?php echo $webimroot ?>/images/tblicusers2.gif' width="15" height="15" border="0" alt="" /></td>
-    	<td class="table"><span class="black"><?php echo getstring("clients.queue.wait") ?></span></td>
+    	<td class="table"><span class="black"><?php echo getlocal("clients.queue.wait") ?></span></td>
 		</tr>	
 		</table>
 	</td>
@@ -119,7 +119,7 @@ var updaterOptions = {
     <td colspan="13" height="30" bgcolor="#F5F5F5" class="table">
 		<table cellspacing="0" cellpadding="0" border="0"><tr>
 	    <td><img src='<?php echo $webimroot ?>/images/tblicusers3.gif' width="30" height="15" border="0" alt="" /></td>
-    	<td class="table"><span class="black"><?php echo getstring("clients.queue.chat") ?></span></td>
+    	<td class="table"><span class="black"><?php echo getlocal("clients.queue.chat") ?></span></td>
 		</tr>
 		</table>
 	</td>

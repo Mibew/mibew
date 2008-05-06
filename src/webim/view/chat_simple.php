@@ -15,7 +15,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-<title><?php echo getstring("chat.window.title.user") ?></title>
+<title><?php echo getlocal("chat.window.title.user") ?></title>
 <link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <meta http-equiv="Content-Type" content="text/html; charset=Windows-1251">
 <link rel="stylesheet" type="text/css" href="<?php echo $webimroot ?>/chat.css" />
@@ -57,17 +57,17 @@
 
 				<table cellspacing="0" cellpadding="0" border="0">
 				<tr>
-			    <td class="text"><?php echo getstring("chat.window.product_name") ?></td>
+			    <td class="text"><?php echo getlocal("chat.window.product_name") ?></td>
 			    <td width="5"></td>
 			    <td>
 					<table cellspacing="0" cellpadding="0" border="0">
 					<tr>
-				    <td width="95" height="13" bgcolor="#D09221" align="center" class="www"><a href="<?php echo getstring("site.url") ?>" title="<?php echo getstring("company.title") ?>" target="_blank"><?php echo getstring("site.title") ?></a></td>
+				    <td width="95" height="13" bgcolor="#D09221" align="center" class="www"><a href="<?php echo getlocal("site.url") ?>" title="<?php echo getlocal("company.title") ?>" target="_blank"><?php echo getlocal("site.title") ?></a></td>
 					</tr>
 					</table>
 				</td>
 			    <td width="5"></td>
-			    <td><a class="closethread" href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.close_title") ?>"><img src='<?php echo $webimroot ?>/images/buttons/closewin.gif' width="15" height="15" border="0" altKey="chat.window.close_title"/></a></td>
+			    <td><a class="closethread" href="javascript:void(0)" onclick="return false;" title="<?php echo getlocal("chat.window.close_title") ?>"><img src='<?php echo $webimroot ?>/images/buttons/closewin.gif' width="15" height="15" border="0" altKey="chat.window.close_title"/></a></td>
 			    <td width="5"></td>
 				</tr>
 				</table>
@@ -81,17 +81,17 @@
 				<table cellspacing="0" cellpadding="0" border="0">
 				<tr>
 
-				<td class="text" nowrap><?php echo getstring("chat.client.name") ?></td> 
+				<td class="text" nowrap><?php echo getlocal("chat.client.name") ?></td> 
 				<td width="10" valign="top"><img src='<?php echo $webimroot ?>/images/free.gif' width="10" height="1" border="0" alt="" /></td>
 				<td><input id="uname" type="text" size="12" value="<?php echo $page['ct.user.name'] ?>" class="username"></td>
 				<td width="5" valign="top"><img src='<?php echo $webimroot ?>/images/free.gif' width="5" height="1" border="0" alt="" /></td>
-				<td><a href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.client.changename") ?>"><img src='<?php echo $webimroot ?>/images/buttons/exec.gif' width="25" height="25" border="0" alt="&gt;&gt;" /></a></td>
+				<td><a href="javascript:void(0)" onclick="return false;" title="<?php echo getlocal("chat.client.changename") ?>"><img src='<?php echo $webimroot ?>/images/buttons/exec.gif' width="25" height="25" border="0" alt="&gt;&gt;" /></a></td>
 
 			    <td><img src='<?php echo $webimroot ?>/images/buttondiv.gif' width="35" height="45" border="0" alt="" /></td>
 
-				<td><a href="<?php echo $page['selfLink'] ?>&act=mailthread" target="_blank" title="<?php echo getstring("chat.window.toolbar.mail_history") ?>" onclick="this.newWindow = window.open('<?php echo $page['selfLink'] ?>&act=mailthread', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=254,resizable=0');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src='<?php echo $webimroot ?>/images/buttons/email.gif' width="25" height="25" border="0" alt="Mail" /></a></td>
+				<td><a href="<?php echo $page['selfLink'] ?>&act=mailthread" target="_blank" title="<?php echo getlocal("chat.window.toolbar.mail_history") ?>" onclick="this.newWindow = window.open('<?php echo $page['selfLink'] ?>&act=mailthread', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=254,resizable=0');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src='<?php echo $webimroot ?>/images/buttons/email.gif' width="25" height="25" border="0" alt="Mail" /></a></td>
 
-				<td><a id="refresh" href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.toolbar.refresh") ?>">
+				<td><a id="refresh" href="javascript:void(0)" onclick="return false;" title="<?php echo getlocal("chat.window.toolbar.refresh") ?>">
 				<img src='<?php echo $webimroot ?>/images/buttons/refresh.gif' width="25" height="25" border="0" alt="Refresh" /></a></td>
 
 			    
@@ -115,7 +115,7 @@
 
 		<table width="585" cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td width="20" valign="top"><img src='<?php echo $webimroot.getstring("image.chat.history") ?>' width="20" height="80" border="0" alt="History" /></td>
+	    <td width="20" valign="top"><img src='<?php echo $webimroot.getlocal("image.chat.history") ?>' width="20" height="80" border="0" alt="History" /></td>
     	<td width="565" valign="top" id="chatwndtd">
 			<table width="100%" cellspacing="0" cellpadding="0" border="0">
 			<tr>
@@ -142,7 +142,7 @@
 		</tr>
 
 		<tr>
-	    <td width="20" valign="top"><img src='<?php echo $webimroot.getstring("image.chat.message") ?>' width="20" height="85" border="0" alt="Message" /></td>
+	    <td width="20" valign="top"><img src='<?php echo $webimroot.getlocal("image.chat.message") ?>' width="20" height="85" border="0" alt="Message" /></td>
     	<td width="565" valign="top">
 			<table width="100%" cellspacing="0" cellpadding="0" border="0">
 			<tr>
@@ -184,17 +184,17 @@
 			</tr>
 			</table>
 		</td>
-		<td width="33%" align="center" class="copyr"><?php echo getstring("chat.window.poweredby") ?> <a href="<?php echo getstring("site.url") ?>" title="<?php echo getstring("company.title") ?>" target="_blank"><?php echo getstring("chat.window.poweredreftext") ?></a></td>
+		<td width="33%" align="center" class="copyr"><?php echo getlocal("chat.window.poweredby") ?> <a href="<?php echo getlocal("site.url") ?>" title="<?php echo getlocal("company.title") ?>" target="_blank"><?php echo getlocal("chat.window.poweredreftext") ?></a></td>
 		<td width="33%" align="right">
 			<table cellspacing="0" cellpadding="0" border="0" id="postmessage">
 
 			<tr>
-		    <td><a href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.send_message") ?>"><img src='<?php echo $webimroot ?>/images/submit.gif' width="40" height="35" border="0" alt=""/></a></td>
+		    <td><a href="javascript:void(0)" onclick="return false;" title="<?php echo getlocal("chat.window.send_message") ?>"><img src='<?php echo $webimroot ?>/images/submit.gif' width="40" height="35" border="0" alt=""/></a></td>
 		    <td background="<?php echo $webimroot ?>/images/submitbg.gif" valign="top" class="submit">
 				<img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="10" border="0" alt="" /><br>
-				<a id="msgsend1" href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.send_message") ?>"><?php echo getstring2("chat.window.send_message_short",array($page['send_shortcut'])) ?></a><br>
+				<a id="msgsend1" href="javascript:void(0)" onclick="return false;" title="<?php echo getlocal("chat.window.send_message") ?>"><?php echo getlocal2("chat.window.send_message_short",array($page['send_shortcut'])) ?></a><br>
 			</td>
-			<td width="10"><a href="javascript:void(0)" onclick="return false;" title="<?php echo getstring("chat.window.send_message") ?>"><img src='<?php echo $webimroot ?>/images/submitrest.gif' width="10" height="35" border="0" alt=""/></a></td>
+			<td width="10"><a href="javascript:void(0)" onclick="return false;" title="<?php echo getlocal("chat.window.send_message") ?>"><img src='<?php echo $webimroot ?>/images/submitrest.gif' width="10" height="35" border="0" alt=""/></a></td>
 			</tr>
 			</table>
 		</td>

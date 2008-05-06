@@ -22,11 +22,11 @@
 
 <link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <title>
-	<?php echo getstring("app.title") ?>	- <?php echo getstring("page_login.title") ?>
+	<?php echo getlocal("app.title") ?>	- <?php echo getlocal("page_login.title") ?>
 </title>
 
-<meta http-equiv="keywords" content="<?php echo getstring("page.main_layout.meta_keyword") ?>">
-<meta http-equiv="description" content="<?php echo getstring("page.main_layout.meta_description") ?>">
+<meta http-equiv="keywords" content="<?php echo getlocal("page.main_layout.meta_keyword") ?>">
+<meta http-equiv="description" content="<?php echo getlocal("page.main_layout.meta_description") ?>">
 </head>
 
 <body bgcolor="#FFFFFF" text="#000000" link="#2971C1" vlink="#2971C1" alink="#2971C1">
@@ -35,7 +35,7 @@
 <tr>
 <td valign="top" class="text">
 	
-		<h1><?php echo getstring("page_login.title") ?></h1>
+		<h1><?php echo getlocal("page_login.title") ?></h1>
 	
 
 	
@@ -48,13 +48,13 @@
 	    <td width="10"></td>
 	    <td class="text">
 		    <?php	if( isset($errors) && count($errors) > 0 ) {
-		print getstring("errors.header");
+		print getlocal("errors.header");
 		foreach( $errors as $e ) {
-			print getstring("errors.prefix");
+			print getlocal("errors.prefix");
 			print $e;
-			print getstring("errors.suffix");
+			print getlocal("errors.suffix");
 		}
-		print getstring("errors.footer");
+		print getlocal("errors.footer");
 	} ?>
 
 		</td>
@@ -68,7 +68,7 @@
 			<td colspan="2">
 			<table cellspacing="0" cellpadding="0" border="0">
 				<tr>
-					<td class="formauth"><?php echo getstring("page_login.login") ?></td>
+					<td class="formauth"><?php echo getlocal("page_login.login") ?></td>
 					<td width="20"></td>
 					<td><input type="text" name="login" size="20" value="<?php echo form_value('login') ?>" class="formauth"/></td>
 				</tr>
@@ -78,7 +78,7 @@
 				</tr>
 
 				<tr>
-					<td class="formauth"><?php echo getstring("page_login.password") ?></td>
+					<td class="formauth"><?php echo getlocal("page_login.password") ?></td>
 					<td></td>
 					<td><input type="password" name="password" size="20" value="" class="formauth"/></td>
 				</tr>
@@ -95,7 +95,7 @@
 						<tr>
 							<td><input type="checkbox" name="isRemember" value="on"<?php echo form_value_cb('isRemember') ? " checked=\"checked\"" : "" ?> /></td>
 							<td width="5"></td>
-							<td class="formauth" nowrap><span><?php echo getstring("page_login.remember") ?></span></td>
+							<td class="formauth" nowrap><span><?php echo getlocal("page_login.remember") ?></span></td>
 						</tr>
 					</table>
 					</td>
@@ -107,7 +107,7 @@
 		<tr><td colspan='2' height='20'></td></tr><tr><td colspan='2' background='<?php echo $webimroot ?>/images/formline.gif'><img src='<?php echo $webimroot ?>/images/formline.gif' width='1' height='2' border='0' alt=''></td></tr><tr><td colspan='2' height='10'></td></tr>
 
 		<tr>
-			<td><input type="hidden" name="backPath" value="<?php echo $page['backPath'] ?>"/> <input type="image" name="" src='<?php echo $webimroot.getstring("image.button.login") ?>' border="0" alt='<?php echo getstring("button.enter") ?>'/>
+			<td><input type="hidden" name="backPath" value="<?php echo $page['backPath'] ?>"/> <input type="image" name="" src='<?php echo $webimroot.getlocal("image.button.login") ?>' border="0" alt='<?php echo getlocal("button.enter") ?>'/>
 			</td>
 			
 		</tr>

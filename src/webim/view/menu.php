@@ -22,11 +22,11 @@
 
 <link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <title>
-	<?php echo getstring("app.title") ?>	- <?php echo getstring("topMenu.admin") ?>
+	<?php echo getlocal("app.title") ?>	- <?php echo getlocal("topMenu.admin") ?>
 </title>
 
-<meta http-equiv="keywords" content="<?php echo getstring("page.main_layout.meta_keyword") ?>">
-<meta http-equiv="description" content="<?php echo getstring("page.main_layout.meta_description") ?>">
+<meta http-equiv="keywords" content="<?php echo getlocal("page.main_layout.meta_keyword") ?>">
+<meta http-equiv="description" content="<?php echo getlocal("page.main_layout.meta_description") ?>">
 </head>
 
 <body bgcolor="#FFFFFF" text="#000000" link="#2971C1" vlink="#2971C1" alink="#2971C1">
@@ -36,25 +36,25 @@
 <td valign="top" class="text">
 	
  <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="left" valign="top"> 
-		<h1><?php echo getstring("topMenu.admin") ?></h1>
- </td><td align="right" class="text" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="textform"><?php echo getstring2("menu.operator",array($page['operator'])) ?></td></tr></table></td></tr></table> 
+		<h1><?php echo getlocal("topMenu.admin") ?></h1>
+ </td><td align="right" class="text" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="textform"><?php echo getlocal2("menu.operator",array($page['operator'])) ?></td></tr></table></td></tr></table> 
 	
 
-	<?php echo getstring("admin.content.description") ?>
+	<?php echo getlocal("admin.content.description") ?>
 <br>
 <br>
 
 <table cellspacing="0" cellpadding="0" border="0">
 
-	<tr><td width='20' valign='top'><img src='<?php echo $webimroot ?>/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='<?php echo $webimroot ?>/operator/operators.php'><?php echo getstring('leftMenu.client_agents') ?></a><br><img src='<?php echo $webimroot ?>/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getstring('admin.content.client_agents') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
+	<tr><td width='20' valign='top'><img src='<?php echo $webimroot ?>/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='<?php echo $webimroot ?>/operator/operators.php'><?php echo getlocal('leftMenu.client_agents') ?></a><br><img src='<?php echo $webimroot ?>/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getlocal('admin.content.client_agents') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
 
-	<tr><td width='20' valign='top'><img src='<?php echo $webimroot ?>/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='<?php echo $webimroot ?>/operator/users.php'><?php echo getstring('topMenu.users') ?></a><br><img src='<?php echo $webimroot ?>/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getstring('page_client.pending_users') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
+	<tr><td width='20' valign='top'><img src='<?php echo $webimroot ?>/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='<?php echo $webimroot ?>/operator/users.php'><?php echo getlocal('topMenu.users') ?></a><br><img src='<?php echo $webimroot ?>/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getlocal('page_client.pending_users') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
 
-	<tr><td width='20' valign='top'><img src='<?php echo $webimroot ?>/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='<?php echo $webimroot ?>/operator/getcode.php'><?php echo getstring('leftMenu.client_gen_button') ?></a><br><img src='<?php echo $webimroot ?>/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getstring('admin.content.client_gen_button') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
+	<tr><td width='20' valign='top'><img src='<?php echo $webimroot ?>/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='<?php echo $webimroot ?>/operator/getcode.php'><?php echo getlocal('leftMenu.client_gen_button') ?></a><br><img src='<?php echo $webimroot ?>/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getlocal('admin.content.client_gen_button') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
 
-	<tr><td width='20' valign='top'><img src='<?php echo $webimroot ?>/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='<?php echo $webimroot ?>/operator/history.php'><?php echo getstring('page_analysis.search.title') ?></a><br><img src='<?php echo $webimroot ?>/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getstring('content.history') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
+	<tr><td width='20' valign='top'><img src='<?php echo $webimroot ?>/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='<?php echo $webimroot ?>/operator/history.php'><?php echo getlocal('page_analysis.search.title') ?></a><br><img src='<?php echo $webimroot ?>/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getlocal('content.history') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
 
-	<tr><td width='20' valign='top'><img src='<?php echo $webimroot ?>/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='<?php echo $webimroot ?>/operator/logout.php'><?php echo getstring('topMenu.logoff') ?></a><br><img src='<?php echo $webimroot ?>/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getstring('content.logoff') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
+	<tr><td width='20' valign='top'><img src='<?php echo $webimroot ?>/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='<?php echo $webimroot ?>/operator/logout.php'><?php echo getlocal('topMenu.logoff') ?></a><br><img src='<?php echo $webimroot ?>/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getlocal('content.logoff') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
 
 </table>
 

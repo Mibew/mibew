@@ -22,11 +22,11 @@
 
 <link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <title>
-	<?php echo getstring("app.title") ?>	- <?php echo getstring("install.err.title") ?>
+	<?php echo getlocal("app.title") ?>	- <?php echo getlocal("install.err.title") ?>
 </title>
 
-<meta http-equiv="keywords" content="<?php echo getstring("page.main_layout.meta_keyword") ?>">
-<meta http-equiv="description" content="<?php echo getstring("page.main_layout.meta_description") ?>">
+<meta http-equiv="keywords" content="<?php echo getlocal("page.main_layout.meta_keyword") ?>">
+<meta http-equiv="description" content="<?php echo getlocal("page.main_layout.meta_description") ?>">
 </head>
 
 <body bgcolor="#FFFFFF" text="#000000" link="#2971C1" vlink="#2971C1" alink="#2971C1">
@@ -35,7 +35,7 @@
 <tr>
 <td valign="top" class="text">
 	
-		<h1><?php echo getstring("install.err.title") ?></h1>
+		<h1><?php echo getlocal("install.err.title") ?></h1>
 	
 
 	<?php if( isset($errors) && count($errors) > 0 ) { ?>
@@ -45,13 +45,13 @@
 	    <td width="10"></td>
 	    <td class="text">
 		    <?php	if( isset($errors) && count($errors) > 0 ) {
-		print getstring("errors.header");
+		print getlocal("errors.header");
 		foreach( $errors as $e ) {
-			print getstring("errors.prefix");
+			print getlocal("errors.prefix");
 			print $e;
-			print getstring("errors.suffix");
+			print getlocal("errors.suffix");
 		}
-		print getstring("errors.footer");
+		print getlocal("errors.footer");
 	} ?>
 
 		</td>
@@ -60,7 +60,7 @@
 	<?php } ?>
 
 <br/>
-<?php echo getstring("install.err.back") ?>
+<?php echo getlocal("install.err.back") ?>
 
 <table width="200" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -74,7 +74,7 @@
 </tr>
 </table>
 
-Web Messenger/<?php echo $page['version'] ?> &bull; <?php echo $page['localeLinks'] ?> &bull; <a href="<?php echo $webimroot ?>/epl-v10.html" target="_blank"><?php echo getstring("install.license") ?></a>
+Web Messenger/<?php echo $page['version'] ?> &bull; <?php echo $page['localeLinks'] ?> &bull; <a href="<?php echo $webimroot ?>/epl-v10.html" target="_blank"><?php echo getlocal("install.license") ?></a>
 
 </td>
 </tr>

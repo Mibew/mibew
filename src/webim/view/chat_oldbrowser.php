@@ -15,7 +15,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-<title><?php echo getstring("page.chat.old_browser.title") ?></title>
+<title><?php echo getlocal("page.chat.old_browser.title") ?></title>
 <link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <link rel="stylesheet" type="text/css" href="<?php echo $webimroot ?>/chat.css" />
 </head>
@@ -43,7 +43,7 @@
 	</tr><tr><td height="100%" bgcolor="#FED840"><img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="1" border="0" alt="" /></td>
 	<td background="<?php echo $webimroot ?>/images/winbg.gif" class="bgcy">
 
-		<?php echo getstring("page.chat.old_browser.content") ?>
+		<?php echo getlocal("page.chat.old_browser.content") ?>
 
 	</td><td bgcolor="#E8A400"><img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="1" border="0" alt="" /></td>
 	</tr><tr><td><img src='<?php echo $webimroot ?>/images/wincrnlb.gif' width="15" height="15" border="0" alt="" /></td>
@@ -65,9 +65,9 @@
     <td width="100%" align="right">
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td><a href="javascript:window.close();" title="<?php echo getstring("page.chat.old_browser.close") ?>"><img src='<?php echo $webimroot ?>/images/buttons/back.gif' width="25" height="25" border="0" alt="" /></a></td>
+	    <td><a href="javascript:window.close();" title="<?php echo getlocal("page.chat.old_browser.close") ?>"><img src='<?php echo $webimroot ?>/images/buttons/back.gif' width="25" height="25" border="0" alt="" /></a></td>
 	    <td width="5"></td>
-	    <td class="button"><a href="javascript:window.close();" title="<?php echo getstring("page.chat.old_browser.close") ?>"><?php echo getstring("page.chat.old_browser.close") ?></a></td>
+	    <td class="button"><a href="javascript:window.close();" title="<?php echo getlocal("page.chat.old_browser.close") ?>"><?php echo getlocal("page.chat.old_browser.close") ?></a></td>
 		</tr>
 		</table>
 	</td>

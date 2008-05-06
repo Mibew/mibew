@@ -23,11 +23,11 @@
 
 <link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <title>
-	<?php echo getstring("app.title") ?>	- <?php echo getstring("thread.chat_log") ?>
+	<?php echo getlocal("app.title") ?>	- <?php echo getlocal("thread.chat_log") ?>
 </title>
 
-<meta http-equiv="keywords" content="<?php echo getstring("page.main_layout.meta_keyword") ?>">
-<meta http-equiv="description" content="<?php echo getstring("page.main_layout.meta_description") ?>">
+<meta http-equiv="keywords" content="<?php echo getlocal("page.main_layout.meta_keyword") ?>">
+<meta http-equiv="description" content="<?php echo getlocal("page.main_layout.meta_description") ?>">
 </head>
 
 <body bgcolor="#FFFFFF" text="#000000" link="#2971C1" vlink="#2971C1" alink="#2971C1">
@@ -36,18 +36,18 @@
 <tr>
 <td valign="top" class="text">
 	
-		<h1><?php echo getstring("thread.chat_log") ?></h1>
+		<h1><?php echo getlocal("thread.chat_log") ?></h1>
 	
 
 	
-<?php echo getstring("thread.intro") ?>
+<?php echo getlocal("thread.intro") ?>
 
 <br/><br/>
 
 <table border="0" cellpadding="0" cellspacing="0">
 <tr>
 	<td class='table' bgcolor='#276db8' height='30'><span class='header'>
-		<?php echo getstring("thread.chat_log") ?>
+		<?php echo getlocal("thread.chat_log") ?>
 	</span></td>
 </tr>
 <tr>
@@ -64,7 +64,7 @@
 
 <br />
 <a href="<?php echo $webimroot ?>/operator/history.php">
-	<?php echo getstring("thread.back_to_search") ?></a>
+	<?php echo getlocal("thread.back_to_search") ?></a>
 <br />
 
 </td>
