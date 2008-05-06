@@ -1,7 +1,8 @@
 
-  1.0.9
+  1.0.9 pre1
   -----
-  
+
+  [!] completly new encoding handling
   [!] some fixes for Opera
 
   1.0.8
