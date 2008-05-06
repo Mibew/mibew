@@ -36,9 +36,11 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 	if( !$commonname )
 		$errors[] = no_field("form.field.agent_commonname");
 
-	// FIXME check login \w+
-	if( !$login )
+	if( !$login ) {
 		$errors[] = no_field("form.field.login");
+	} else if( !preg_match( "/^[\w_]+$/",$login) ) {
+		$errors[] = getlocal("page_agent.error.wrong_login");
+	}
 
 	if( !$agentId && !$password )
 		$errors[] = no_field("form.field.password");
