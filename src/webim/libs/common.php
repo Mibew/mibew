@@ -260,7 +260,7 @@ function select_multi_assoc($query,$link) {
 
 function start_xml_output() {
 	header("Cache-Control: no-store, no-cache, must-revalidate");
-	header("Content-type: text/xml");
+	header("Content-type: text/xml; charset=utf-8");
 	echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 }
 

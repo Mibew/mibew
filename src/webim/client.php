@@ -43,7 +43,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 	$threadid = $thread['threadid'];
 	$token = $thread['ltoken'];
 	$level = get_remote_level($_SERVER['HTTP_USER_AGENT']);
-	header("Location: ".dirname($_SERVER['PHP_SELF'])."/client.php?thread=$threadid&token=$token&level=$level");
+	header("Location: $webimroot/client.php?thread=$threadid&token=$token&level=$level");
 	exit;
 }
 
