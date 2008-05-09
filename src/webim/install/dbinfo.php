@@ -54,6 +54,8 @@ $dbtables = array(
 	)
 );
 
+$memtables = array();
+
 $dbtables_can_update = array(
 	"chatthread" => array("agentId"),
 	"chatmessage" => array("agentId"),
@@ -72,7 +74,7 @@ function show_install_err($text) {
 }
 
 function create_table($id,$link) {
-	global $dbtables, $dbencoding;
+	global $dbtables, $memtables, $dbencoding;
 	
 	if(!isset($dbtables[$id])) {
 		show_install_err("Unknown table: $id, ".mysql_error());
@@ -86,9 +88,13 @@ function create_table($id,$link) {
 	}
 	
 	$query = preg_replace("/,\n$/", "", $query);
-	$query .= ") charset $dbencoding\n";
-	mysql_query($query,$link) 
-		or show_install_err(' Query failed: '.mysql_error());
+	$query .= ") charset $dbencoding";
+	if (in_array($id, $memtables)) {
+		$query .= " ENGINE=MEMORY";
+	} else {
+		$query .= " TYPE=InnoDb";
+	}
+	mysql_query($query,$link) or show_install_err(' Query failed: '.mysql_error());
 	
 	// post create
 	if( $id == 'chatoperator' ) {
