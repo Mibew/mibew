@@ -49,7 +49,7 @@ function thread_to_xml($thread) {
 
 	$result .= " canopen=\"true\"";
 
-	$result .= " state=\"$state\">";
+	$result .= " state=\"$state\" typing=\"".$thread['userTyping']."\">";
 	$result .= "<name>".htmlspecialchars(htmlspecialchars(get_user_name($thread['userName'])))."</name>";
 	$result .= "<addr>".htmlspecialchars(htmlspecialchars($thread['remote']))."</addr>";
 	$result .= "<agent>".htmlspecialchars(htmlspecialchars($threadoperator))."</agent>";
@@ -66,7 +66,7 @@ function print_pending_threads($since) {
 
 	$revision = $since;
 	$output = array();
-	$query = "select threadid, userName, agentName, unix_timestamp(dtmcreated), ".
+	$query = "select threadid, userName, agentName, unix_timestamp(dtmcreated), userTyping, ".
 			 "unix_timestamp(dtmmodified), lrevision, istate, remote ".
 			 "from chatthread where lrevision > $since ORDER BY threadid";
 	$result = mysql_query($query,$link) or die(' Query failed: ' .mysql_error().": ".$query);

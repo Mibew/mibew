@@ -28,6 +28,8 @@ $dbtables = array(
 		"locale" => "varchar(8)",
 		"lastpinguser" => "datetime DEFAULT 0",
 		"lastpingagent" => "datetime DEFAULT 0",
+		"userTyping" => "int DEFAULT 0",
+		"agentTyping" => "int DEFAULT 0",
 	),
 
 	"chatmessage" => array(
@@ -57,7 +59,7 @@ $dbtables = array(
 $memtables = array();
 
 $dbtables_can_update = array(
-	"chatthread" => array("agentId"),
+	"chatthread" => array("agentId", "userTyping", "agentTyping"),
 	"chatmessage" => array("agentId"),
 );
 

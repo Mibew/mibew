@@ -72,6 +72,14 @@ if($act == "createdb") {
 			runsql("update chatthread,chatoperator set agentId = operatorid where agentId = 0 AND (vclocalename = agentName OR vccommonname = agentName)", $link); 
 		}
 
+		if( in_array("chatthread.agentTyping", $absent) ) {
+			runsql("ALTER TABLE chatthread ADD agentTyping int DEFAULT 0", $link);
+		}
+		
+		if( in_array("chatthread.userTyping", $absent) ) {
+			runsql("ALTER TABLE chatthread ADD userTyping int DEFAULT 0", $link);
+		}
+
 	}
 }
 

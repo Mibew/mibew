@@ -128,14 +128,15 @@ function get_messages($threadid,$meth,$isuser,&$lastid) {
 	return $messages;
 } 
 
-function print_thread_messages($threadid, $token, $lastid, $isuser,$format) {
-	global $webim_encoding, $webimroot;	
+function print_thread_messages($thread, $token, $lastid, $isuser,$format) {
+	global $webim_encoding, $webimroot;
+	$threadid = $thread['threadid'];
 
 	if( $format == "xml" ) {
         $output = get_messages($threadid,"xml",$isuser,$lastid);
 
 		start_xml_output();
-		print("<thread lastid=\"$lastid\">");
+		print("<thread lastid=\"$lastid\" typing=\"".$thread[$isuser?"agentTyping":"userTyping"]."\">");
 		foreach( $output as $msg ) {
 			print $msg;
 		}
@@ -270,30 +271,24 @@ function update_thread_access($threadid, $params, $link) {
 		 "where threadid = ".$threadid,$link);
 }
 
-function get_access_time($threadid, $isuser, $link) {
-	return select_one_row(sprintf(
-		 "select unix_timestamp(%s) as lastping, ".
-		 "unix_timestamp(CURRENT_TIMESTAMP) as current ".
-		 "from chatthread where threadid = %s",
-		$isuser ? "lastpinguser" : "lastpingagent",
-		$threadid), $link);
-}
-
 function ping_thread($thread, $isuser,$istyping) {
 	global $kind_for_agent, $state_chatting, $state_waiting, $kind_conn, $connection_timeout;
 	$link = connect();
-	$params = array(($isuser ? "lastpinguser" : "lastpingagent") => "CURRENT_TIMESTAMP" );
-
-	$access = get_access_time($thread['threadid'], !$isuser, $link);
- 	if( $access['lastping'] > 0 && abs($access['current']-$access['lastping']) > $connection_timeout ) {
+	$params = array(($isuser ? "lastpinguser" : "lastpingagent") => "CURRENT_TIMESTAMP",
+					($isuser ? "userTyping" : "agentTyping") => ($istyping? "1" : "0") );
+	
+	$lastping = $thread[$isuser ? "lpagent" : "lpuser"];
+	$current = $thread['current'];
+	
+ 	if( $lastping > 0 && abs($current-$lastping) > $connection_timeout ) {
 		$params[$isuser ? "lastpingagent" : "lastpinguser"] = "0";
 		if( !$isuser ) {
 			$message_to_post = getstring_("chat.status.user.dead", $thread['locale']);
-			post_message_($thread['threadid'],$kind_for_agent,$message_to_post,$link,null,$access['lastping']+$connection_timeout);
+			post_message_($thread['threadid'],$kind_for_agent,$message_to_post,$link,null,$lastping+$connection_timeout);
 		} else if( $thread['istate'] == $state_chatting ) {
 
 			$message_to_post = getstring_("chat.status.operator.dead", $thread['locale']);
-			post_message_($thread['threadid'],$kind_conn,$message_to_post,$link,null,$access['lastping']+$connection_timeout);
+			post_message_($thread['threadid'],$kind_conn,$message_to_post,$link,null,$lastping+$connection_timeout);
 			$params['istate'] = $state_waiting;
 			commit_thread($thread['threadid'], $params, $link);
 			mysql_close($link);
@@ -343,6 +338,19 @@ function close_thread($thread,$isuser) {
 	post_message($thread['threadid'], $kind_events, $message);
 }
 
+function thread_by_id_($id,$link) {
+	return select_one_row("select threadid,userName,agentName,agentId,lrevision,istate,ltoken,userTyping,agentTyping".
+			",remote,referer,locale,unix_timestamp(lastpinguser) as lpuser,unix_timestamp(lastpingagent) as lpagent, unix_timestamp(CURRENT_TIMESTAMP) as current".
+			" from chatthread where threadid = ". $id, $link );
+}
+
+function thread_by_id($id) {
+	$link = connect();
+	$thread = thread_by_id_($id,$link);
+	mysql_close($link);
+	return $thread;
+}
+
 function create_thread($username,$remoteHost,$referer,$lang) {
 	$link = connect();
 
@@ -359,7 +367,7 @@ function create_thread($username,$remoteHost,$referer,$lang) {
 	perform_query($query,$link);
 	$id = mysql_insert_id($link);
 
-	$newthread = select_one_row("select * from chatthread where threadid = ". $id, $link );
+	$newthread = thread_by_id_($id,$link);
 	mysql_close($link);
 	return $newthread;
 }
@@ -436,13 +444,6 @@ function check_for_reassign($thread,$operator) {
 
 		post_message($thread['threadid'],$kind_events,$message_to_post);
 	}
-}
-
-function thread_by_id($id) {
-	$link = connect();
-	$thread = select_one_row("select * from chatthread where threadid = ". $id, $link );
-	mysql_close($link);
-	return $thread;
 }
 
 function visitor_from_request() {
