@@ -182,3 +182,4 @@ page_agent.create_new=Here you can create new operator
 page_agents.agent_commonname=International name
 page_analysis.full.text.search=User name or message text search:
 page_search.intro=Search for chat history of a specified user or a specified phrase in a message.
+typing.remote=Remote user is typing...

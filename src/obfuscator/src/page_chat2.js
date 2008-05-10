@@ -149,6 +149,12 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
 	FrameUtils.insertIntoFrame(_target, destHtml );
   },
 
+  showTyping: function(istyping) {
+  	if( $("typingdiv") ) {
+		$("typingdiv").style.display=istyping ? 'inline' : 'none';
+  	}	
+  },
+
   setupAvatar: function(avatar) {
 	var imageLink = NodeUtils.getNodeText(avatar);
 	if( this._options.avatar && this._options.user ) {
@@ -164,8 +170,14 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
 
    	var result_div = this._options.container;
 	var _lastid = NodeUtils.getAttrValue(xmlRoot, "lastid");
-	if( _lastid )
+	if( _lastid ) {
 		this._options.lastid = _lastid;
+	}
+		
+	var typing = NodeUtils.getAttrValue(xmlRoot, "typing");
+	if( typing ) {
+		this.showTyping(typing == '1');
+	}
 
 	for( var i = 0; i < xmlRoot.childNodes.length; i++ ) {
 		var node = xmlRoot.childNodes[i];

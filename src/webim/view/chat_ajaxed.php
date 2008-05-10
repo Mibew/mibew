@@ -134,6 +134,16 @@ var threadParams = { servl:"<?php echo $webimroot ?>/thread.php",wroot:"<?php ec
 
 			</td>
 			</tr>
+
+			<tr>
+		    <td height="15" align="right">
+				<div id="typingdiv" style="display:none;">
+					<?php echo getlocal("typing.remote") ?>
+				</div>
+
+			</td>
+			</tr>
+
 			</table>
 		</td>
 		</tr>
