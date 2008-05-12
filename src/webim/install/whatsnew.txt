@@ -1,9 +1,12 @@
 
-  1.0.9 pre1
+  1.0.9
   -----
 
-  [!] completly new encoding handling
+  [+] typing notifications in chat window
+  [!] completly new encoding handling, default is utf-8, page encoding is set in resources
+  [!] fixed user name storage in cookie (now utf8 in base64)
   [!] some fixes for Opera
+  [!] force utf-8 for xml
 
   1.0.8
   -----
