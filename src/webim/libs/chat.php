@@ -15,7 +15,8 @@
 
 $connection_timeout = 30; // sec
 
-$namecookie = "WEBIM_Name";
+$simplenamecookie = "WEBIM_Name";   // 1.0.8 and earlier
+$namecookie = "WEBIM_Data";   // 1.0.9+
 
 $state_queue = 0;
 $state_waiting = 1;
@@ -447,8 +448,16 @@ function check_for_reassign($thread,$operator) {
 }
 
 function visitor_from_request() {
-	global $namecookie;
-	$userName = isset($_COOKIE[$namecookie]) ? $_COOKIE[$namecookie] : getstring("chat.default.username");
+	global $namecookie, $simplenamecookie, $compatibility_encoding, $webim_encoding;
+	$userName = getstring("chat.default.username");
+	if( isset($_COOKIE[$namecookie]) ) {
+		$data = base64_decode(strtr($_COOKIE[$namecookie],'-_,', '+/='));
+		if( strlen($data) > 0 ) {
+			$userName = myiconv("utf-8",$webim_encoding,$data);
+		}
+	} else if( isset($_COOKIE[$simplenamecookie]) && isset($compatibility_encoding) ) {
+		$userName = myiconv($compatibility_encoding,$webim_encoding,$_COOKIE[$simplenamecookie]);
+	}
 
 	return array( 'name' => $userName );
 }

@@ -44,7 +44,7 @@ function thread_to_xml($thread) {
 	if( $state == "closed" )
 		return $result."/>";
 
-	$state = myiconv($webim_encoding,"utf-8",getstring($threadstate_key[$thread['istate']]));
+	$state = getstring($threadstate_key[$thread['istate']]);
 	$threadoperator = ($thread['agentName'] ? $thread['agentName'] : "-");
 
 	$result .= " canopen=\"true\"";

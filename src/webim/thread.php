@@ -65,7 +65,8 @@ if( $act == "refresh" ) {
 	$newname = getrawparam('name');
 
 	rename_user($thread, $newname);
-	setcookie($namecookie, $newname, time()+60*60*24*365); 
+	$data = strtr(base64_encode(myiconv($webim_encoding,"utf-8",$newname)), '+/=', '-_,');
+	setcookie($namecookie, $data, time()+60*60*24*365); 
 	start_xml_output();
 	echo "<changedname></changedname>";
 	exit;

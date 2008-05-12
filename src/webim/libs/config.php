@@ -29,18 +29,16 @@ $mysqlpass = "123";
  *  Localization parameters
  */
 
-
-/* Use CP-1251 database */
-/*
-$dbencoding = "cp1251";
-$webim_encoding = "cp1251";
-$force_charset_in_connection = true;
-*/
-
 /* Use UTF-8 database */
 $dbencoding = "utf8";
 $webim_encoding = "utf-8";
 $force_charset_in_connection = true;
+
+/*
+ * Web Messenger 1.0.8 an earlier stored user name in cookie in "webim_encoding". If
+ * you used this versions of webim set your previous encoding here.
+ */
+$compatibility_encoding = "cp1251";
 
 /*
  *   From field in outgoing mail.
