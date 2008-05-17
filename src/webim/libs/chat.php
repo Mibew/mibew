@@ -417,7 +417,11 @@ function take_thread($thread,$operator) {
 		do_take_thread($threadid, $operator['operatorid'], $operatorName);
 
 		if( $state == $state_waiting  ) {
-			$message_to_post = getstring2_("chat.status.operator.changed", array($operatorName,$thread['agentName']), $thread['locale']);
+			if( $operatorName != $thread['agentName'] ) {
+				$message_to_post = getstring2_("chat.status.operator.changed", array($operatorName, $thread['agentName']), $thread['locale']);
+			} else {
+				$message_to_post = getstring2_("chat.status.operator.returned", array($operatorName), $thread['locale']);
+			}
 		} else {
 			$message_to_post = getstring2_("chat.status.operator.joined", array($operatorName), $thread['locale']);
 		}
@@ -441,8 +445,12 @@ function check_for_reassign($thread,$operator) {
 	if( $thread['istate'] == $state_waiting && 
 			(  $thread['agentId'] == $operator['operatorid'] )) {
 		do_take_thread($thread['threadid'], $operator['operatorid'], $operatorName);
-		$message_to_post = getstring2_("chat.status.operator.changed", array($operatorName,$thread['agentName']), $thread['locale']);
-
+		if( $operatorName != $thread['agentName'] ) {
+			$message_to_post = getstring2_("chat.status.operator.changed", array($operatorName, $thread['agentName']), $thread['locale']);
+		} else {
+			$message_to_post = getstring2_("chat.status.operator.returned", array($operatorName), $thread['locale']);
+		}
+		
 		post_message($thread['threadid'],$kind_events,$message_to_post);
 	}
 }

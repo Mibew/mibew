@@ -34,6 +34,7 @@ chat.status.operator.joined=Operator {0} joined the chat
 chat.status.user.changedname=Visitor changed the name {0} to {1}
 chat.status.user.reopenedthread=Visitor joined chat again
 chat.status.operator.changed=Operator {0} changed operator {1}
+chat.status.operator.returned=Operator {0} is back
 chat.default.username=Visitor
 chat.error_page.title=Error
 chat.error_page.head=Error occurred:
