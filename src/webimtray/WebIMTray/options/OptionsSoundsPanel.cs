@@ -5,9 +5,12 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using System.Resources;
 
 namespace webImTray {
     public partial class OptionsSoundsPanel : UserControl, OptionsPanel {
+        public event ModifiedEvent PanelModified;
+
         public OptionsSoundsPanel() {
             InitializeComponent();
         }
@@ -26,6 +29,7 @@ namespace webImTray {
             return "Sounds";
         }
 
-        public event ModifiedEvent PanelModified;
+        public void updateUI(ResourceManager resManager) {
+        }
     }
 }

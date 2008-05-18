@@ -5,11 +5,13 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Resources;
+using System.Globalization;
 
 namespace webImTray {
     public partial class OptionsDialog : Form {
 
-        OptionsPanel[] panels = new OptionsPanel[] { 
+        static OptionsPanel[] panels = new OptionsPanel[] { 
             new OptionsGeneralPanel(), 
             new OptionsConnectionPanel(),
             new OptionsSoundsPanel(),
@@ -17,6 +19,10 @@ namespace webImTray {
         };
 
         OptionsPanel currentPanel = null;
+
+        private static ResourceManager resourceManager = new ResourceManager("webImTray.webImTray", System.Reflection.Assembly.GetExecutingAssembly());
+        private static CultureInfo englishCulture = new CultureInfo("en-US");
+        private static CultureInfo russianCulture = new CultureInfo("ru-RU");
 
         public OptionsDialog() {
             InitializeComponent();
@@ -90,6 +96,12 @@ namespace webImTray {
         private void apply_Click(object sender, EventArgs e) {
             applyChanges();
             apply.Enabled = false;
+        }
+
+        public static void updateUI() {
+            for (int i = 0; i < 4; i++) {
+                ((OptionsPanel)panels[i]).updateUI(resourceManager);
+            }
         }
     }
 }

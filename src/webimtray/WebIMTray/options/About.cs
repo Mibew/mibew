@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using System.Resources;
 
 namespace webImTray {
     public partial class About : UserControl, OptionsPanel {
@@ -24,8 +25,6 @@ namespace webImTray {
             return "About";
         }
 
-        public event ModifiedEvent PanelModified;
-
         #endregion
 
         private void i_services_ru_link(object sender, LinkLabelLinkClickedEventArgs e) {
@@ -34,6 +33,11 @@ namespace webImTray {
 
         private void webim_ru_link(object sender, LinkLabelLinkClickedEventArgs e) {
             System.Diagnostics.Process.Start("http://webim.ru/");
+        }
+
+        public event ModifiedEvent PanelModified;
+
+        public void updateUI(ResourceManager resManager) {
         }
     }
 }

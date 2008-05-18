@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using System.Resources;
 
 namespace webImTray {
     public partial class OptionsConnectionPanel : UserControl, OptionsPanel {
@@ -66,6 +67,9 @@ namespace webImTray {
         private void autoDisconnect_CheckedChanged(object sender, EventArgs e) {
             modified = true;
             PanelModified.Invoke();
+        }
+
+        public void updateUI(ResourceManager resManager) {
         }
     }
 }

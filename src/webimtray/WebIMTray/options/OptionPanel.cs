@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Resources;
 
 namespace webImTray {
 
@@ -10,6 +11,7 @@ namespace webImTray {
         void initialize();
         void apply();
         string getDescription();
+        void updateUI(ResourceManager resManager);
 
         event ModifiedEvent PanelModified; 
     }

@@ -5,10 +5,12 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using System.Resources;
 
 namespace webImTray {
     public partial class OptionsGeneralPanel : UserControl, OptionsPanel {
         bool modified = false;
+        public event ModifiedEvent PanelModified;
 
         public OptionsGeneralPanel() {
             InitializeComponent();
@@ -39,6 +41,15 @@ namespace webImTray {
             return "General";
         }
 
-        public event ModifiedEvent PanelModified;
+        public void updateUI(ResourceManager resManager) {
+            groupBox1.Text = resManager.GetString("application");
+        }
+
+        private void radioEnglish_CheckedChanged(object sender, EventArgs e) {
+            // Set english locale
+
+            // Update UI
+            OptionsDialog.updateUI();
+        }
     }
 }

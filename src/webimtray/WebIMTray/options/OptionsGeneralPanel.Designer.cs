@@ -1,3 +1,5 @@
+using System;
+
 namespace webImTray {
     partial class OptionsGeneralPanel {
         /// <summary> 
@@ -32,8 +34,12 @@ namespace webImTray {
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.showOptions = new System.Windows.Forms.CheckBox();
             this.showHide = new System.Windows.Forms.CheckBox();
+            this.languageBox = new System.Windows.Forms.GroupBox();
+            this.radioRussian = new System.Windows.Forms.RadioButton();
+            this.radioEnglish = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.languageBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -145,10 +151,48 @@ namespace webImTray {
             this.showHide.UseVisualStyleBackColor = true;
             this.showHide.CheckedChanged += new System.EventHandler(this.checkboxChanged);
             // 
+            // languageBox
+            // 
+            this.languageBox.Controls.Add(this.radioRussian);
+            this.languageBox.Controls.Add(this.radioEnglish);
+            this.languageBox.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold);
+            this.languageBox.Location = new System.Drawing.Point(3, 210);
+            this.languageBox.Name = "languageBox";
+            this.languageBox.Size = new System.Drawing.Size(371, 53);
+            this.languageBox.TabIndex = 2;
+            this.languageBox.TabStop = false;
+            this.languageBox.Text = "Language";
+            // 
+            // radioRussian
+            // 
+            this.radioRussian.AutoSize = true;
+            this.radioRussian.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.radioRussian.Location = new System.Drawing.Point(80, 30);
+            this.radioRussian.Name = "radioRussian";
+            this.radioRussian.Size = new System.Drawing.Size(63, 17);
+            this.radioRussian.TabIndex = 1;
+            this.radioRussian.TabStop = true;
+            this.radioRussian.Text = "Russian";
+            this.radioRussian.UseVisualStyleBackColor = true;
+            // 
+            // radioEnglish
+            // 
+            this.radioEnglish.AutoSize = true;
+            this.radioEnglish.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.radioEnglish.Location = new System.Drawing.Point(15, 30);
+            this.radioEnglish.Name = "radioEnglish";
+            this.radioEnglish.Size = new System.Drawing.Size(59, 17);
+            this.radioEnglish.TabIndex = 0;
+            this.radioEnglish.TabStop = true;
+            this.radioEnglish.Text = "English";
+            this.radioEnglish.UseVisualStyleBackColor = true;
+            this.radioEnglish.CheckedChanged += new System.EventHandler(this.radioEnglish_CheckedChanged);
+            // 
             // OptionsGeneralPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.languageBox);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "OptionsGeneralPanel";
@@ -157,6 +201,8 @@ namespace webImTray {
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.languageBox.ResumeLayout(false);
+            this.languageBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -172,5 +218,8 @@ namespace webImTray {
         private System.Windows.Forms.CheckBox showHide;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.GroupBox languageBox;
+        private System.Windows.Forms.RadioButton radioRussian;
+        private System.Windows.Forms.RadioButton radioEnglish;
     }
 }
