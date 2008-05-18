@@ -21,8 +21,8 @@ namespace webImTray {
         public void apply() {
         }
 
-        public string getDescription() {
-            return "About";
+        public string getDescription(ResourceManager resManager) {
+            return resManager.GetString("about");
         }
 
         #endregion

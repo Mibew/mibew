@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="about" xml:space="preserve">
+    <value>About</value>
+  </data>
   <data name="application" xml:space="preserve">
     <value>Application</value>
   </data>
@@ -138,6 +141,9 @@
   <data name="connection" xml:space="preserve">
     <value>Connection</value>
   </data>
+  <data name="connectionMI" xml:space="preserve">
+    <value>Connection</value>
+  </data>
   <data name="copyright" xml:space="preserve">
     <value>Copyright (c) 2006-2008 Web Messenger Creators Community</value>
   </data>
@@ -146,6 +152,9 @@
   </data>
   <data name="forceRefresh" xml:space="preserve">
     <value>Force page update every</value>
+  </data>
+  <data name="general" xml:space="preserve">
+    <value>General</value>
   </data>
   <data name="hideWhenStarted" xml:space="preserve">
     <value>Hide window after start</value>
@@ -191,6 +200,9 @@
   </data>
   <data name="showUserPreferences" xml:space="preserve">
     <value>Click here to change your preferences online</value>
+  </data>
+  <data name="sound" xml:space="preserve">
+    <value>Sound</value>
   </data>
   <data name="url" xml:space="preserve">
     <value>http://www.webim.ru</value>

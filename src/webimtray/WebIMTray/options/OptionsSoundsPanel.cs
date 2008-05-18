@@ -25,8 +25,8 @@ namespace webImTray {
         void OptionsPanel.initialize() {
         }
 
-        string OptionsPanel.getDescription() {
-            return "Sounds";
+        string OptionsPanel.getDescription(ResourceManager resManager) {
+            return resManager.GetString("sound");
         }
 
         public void updateUI(ResourceManager resManager) {

@@ -62,8 +62,8 @@ namespace webImTray {
             modified = false;
         }
     
-        string OptionsPanel.getDescription() {
-            return "General";
+        string OptionsPanel.getDescription(ResourceManager resManager) {
+            return resManager.GetString("general");
         }
 
         public void updateUI(ResourceManager resManager) {

@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="about" xml:space="preserve">
+    <value>О программе</value>
+  </data>
   <data name="application" xml:space="preserve">
     <value>Приложение</value>
   </data>
@@ -138,6 +141,9 @@
   <data name="connection" xml:space="preserve">
     <value>Соединение</value>
   </data>
+  <data name="connectionMI" xml:space="preserve">
+    <value>Связь</value>
+  </data>
   <data name="copyright" xml:space="preserve">
     <value>(c), Команда разработчиков Веб Мессенджер, 2006-08</value>
   </data>
@@ -146,6 +152,9 @@
   </data>
   <data name="forceRefresh" xml:space="preserve">
     <value>Обновлять каждые</value>
+  </data>
+  <data name="general" xml:space="preserve">
+    <value>Общие</value>
   </data>
   <data name="hideWhenStarted" xml:space="preserve">
     <value>Прятать окно после запуска</value>
@@ -191,6 +200,9 @@
   </data>
   <data name="showUserPreferences" xml:space="preserve">
     <value>Изменить ваши настройки online</value>
+  </data>
+  <data name="sound" xml:space="preserve">
+    <value>Звук</value>
   </data>
   <data name="url" xml:space="preserve">
     <value>http://www.webim.ru</value>

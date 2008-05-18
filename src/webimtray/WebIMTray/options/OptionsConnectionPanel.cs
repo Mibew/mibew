@@ -38,8 +38,8 @@ namespace webImTray {
             modified = false;
         }
 
-        string OptionsPanel.getDescription() {
-            return "Connection";
+        string OptionsPanel.getDescription(ResourceManager resManager) {
+            return resManager.GetString("connection");
         }
 
         public event ModifiedEvent PanelModified;

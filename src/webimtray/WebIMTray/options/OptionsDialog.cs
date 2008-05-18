@@ -43,19 +43,24 @@ namespace webImTray {
             container.Controls.Add((Control)currentPanel);
         }
 
-        private void optionsDialogLoaded(object sender, EventArgs e) {
+        private void updatePageSelector() {
             bool inited = false;
-
+            pageSelector.Items.Clear();
             foreach (OptionsPanel p in panels) {
-                ListViewItem item = new ListViewItem(p.getDescription());
+                ListViewItem item = new ListViewItem(p.getDescription(resourceManager));
                 if (!inited) {
                     item.Selected = true;
                     changePanel(p);
                     inited = true;
                 }
+                pageSelector.Items.Add(item);
+            }
+        }
+        private void optionsDialogLoaded(object sender, EventArgs e) {
+            updatePageSelector();
+            foreach (OptionsPanel p in panels) {
                 p.PanelModified += new ModifiedEvent(panelModified);
                 p.initialize();
-                pageSelector.Items.Add(item);
             }
             apply.Enabled = false;
         }
@@ -66,7 +71,7 @@ namespace webImTray {
 
         OptionsPanel getPanel(string s) {
             foreach (OptionsPanel p in panels) {
-                if (s.Equals(p.getDescription()))
+                if (s.Equals(p.getDescription(resourceManager)))
                     return p;
             }
 
@@ -111,6 +116,7 @@ namespace webImTray {
             currentInstance.cancel.Text = resourceManager.GetString("cancel");
             currentInstance.apply.Text = resourceManager.GetString("apply");
             currentInstance.Text = resourceManager.GetString("optionsTitle");
+            currentInstance.updatePageSelector();
         }
     }
 }
