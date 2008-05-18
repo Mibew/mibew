@@ -30,6 +30,8 @@ namespace webImTray {
         }
 
         public void updateUI(ResourceManager resManager) {
+            groupBox1.Text = resManager.GetString("notifications");
+            playSoundOnVisitor.Text = resManager.GetString("playSoundOnVisitor");
         }
     }
 }

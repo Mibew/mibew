@@ -70,6 +70,14 @@ namespace webImTray {
         }
 
         public void updateUI(ResourceManager resManager) {
+            groupBox1.Text = resManager.GetString("connection");
+            label1.Text = resManager.GetString("server");
+            autoDisconnect.Text = resManager.GetString("autoDisconnect");
+            autoDesconnectOnSS.Text = resManager.GetString("autoDesconnectOnSS");
+            groupBox2.Text = resManager.GetString("operatorPreferences");
+            showUserPreferences.Text = resManager.GetString("showUserPreferences");
+            label2.Text = resManager.GetString("minutes");
+            forceRefresh.Text = resManager.GetString("forceRefresh");
         }
     }
 }

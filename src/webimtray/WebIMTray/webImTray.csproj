@@ -172,6 +172,12 @@
       <SubType>Designer</SubType>
       <DependentUpon>OptionsSoundsPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="webImTray.en-US.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="webImTray.ru-RU.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

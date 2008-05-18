@@ -38,6 +38,11 @@ namespace webImTray {
         public event ModifiedEvent PanelModified;
 
         public void updateUI(ResourceManager resManager) {
+            label1.Text = resManager.GetString("webimtray");
+            label2.Text = resManager.GetString("version");
+            label3.Text = resManager.GetString("copyright");
+            label4.Text = resManager.GetString("visitUs");
+            linkLabel1.Text = resManager.GetString("url");
         }
     }
 }

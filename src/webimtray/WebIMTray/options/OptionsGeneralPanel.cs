@@ -6,6 +6,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using System.Resources;
+using System.Threading;
 
 namespace webImTray {
     public partial class OptionsGeneralPanel : UserControl, OptionsPanel {
@@ -43,13 +44,35 @@ namespace webImTray {
 
         public void updateUI(ResourceManager resManager) {
             groupBox1.Text = resManager.GetString("application");
+            showInTaskBar.Text = resManager.GetString("showInTaskBar");
+            autoStart.Text = resManager.GetString("autoStart");
+            hideWhenStarted.Text = resManager.GetString("hideWhenStarted");
+            groupBox2.Text = resManager.GetString("hotKeys");
+            showOptions.Text = resManager.GetString("showOptions");
+            showHide.Text = resManager.GetString("showHide");
+            languageBox.Text = resManager.GetString("language");
+            radioRussian.Text = resManager.GetString("russian");
+            radioEnglish.Text = resManager.GetString("english");
         }
 
         private void radioEnglish_CheckedChanged(object sender, EventArgs e) {
-            // Set english locale
+            if (radioEnglish.Checked) {
+                // Set english culture
+                Thread.CurrentThread.CurrentUICulture = OptionsDialog.englishCulture;
 
-            // Update UI
-            OptionsDialog.updateUI();
+                // Update UI
+                OptionsDialog.updateUI();
+            }
+        }
+
+        private void radioRussian_CheckedChanged(object sender, EventArgs e) {
+            if (radioRussian.Checked) {
+                // Set russian culture
+                Thread.CurrentThread.CurrentUICulture = OptionsDialog.russianCulture;
+
+                // Update UI
+                OptionsDialog.updateUI();
+            }
         }
     }
 }

@@ -133,7 +133,7 @@
     <value>Соединение</value>
   </data>
   <data name="copyright" xml:space="preserve">
-    <value>(c), Команда разработчиков Веб Мессенджер, 2006-2008</value>
+    <value>(c), Команда разработчиков Веб Мессенджер, 2006-08</value>
   </data>
   <data name="english" xml:space="preserve">
     <value>Английский</value>
@@ -160,7 +160,7 @@
     <value>Настройки оператора</value>
   </data>
   <data name="playSoundOnVisitor" xml:space="preserve">
-    <value>Проигрывать звуковое уведомление, когда приходит новые посетитель</value>
+    <value>Звуковое уведомление о появлении посетителя</value>
   </data>
   <data name="russian" xml:space="preserve">
     <value>Русский</value>

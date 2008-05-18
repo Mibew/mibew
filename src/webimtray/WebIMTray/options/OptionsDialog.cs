@@ -21,8 +21,8 @@ namespace webImTray {
         OptionsPanel currentPanel = null;
 
         private static ResourceManager resourceManager = new ResourceManager("webImTray.webImTray", System.Reflection.Assembly.GetExecutingAssembly());
-        private static CultureInfo englishCulture = new CultureInfo("en-US");
-        private static CultureInfo russianCulture = new CultureInfo("ru-RU");
+        public static CultureInfo englishCulture = new CultureInfo("en-US");
+        public static CultureInfo russianCulture = new CultureInfo("ru-RU");
 
         public OptionsDialog() {
             InitializeComponent();

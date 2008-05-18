@@ -111,7 +111,7 @@ namespace webImTray {
             // 
             this.textBox2.Enabled = false;
             this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox2.Location = new System.Drawing.Point(167, 52);
+            this.textBox2.Location = new System.Drawing.Point(216, 52);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(100, 20);
             this.textBox2.TabIndex = 3;
@@ -120,7 +120,7 @@ namespace webImTray {
             // 
             this.textBox1.Enabled = false;
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox1.Location = new System.Drawing.Point(167, 29);
+            this.textBox1.Location = new System.Drawing.Point(216, 29);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 20);
             this.textBox1.TabIndex = 2;
@@ -167,17 +167,18 @@ namespace webImTray {
             // 
             this.radioRussian.AutoSize = true;
             this.radioRussian.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.radioRussian.Location = new System.Drawing.Point(80, 30);
+            this.radioRussian.Location = new System.Drawing.Point(101, 30);
             this.radioRussian.Name = "radioRussian";
             this.radioRussian.Size = new System.Drawing.Size(63, 17);
             this.radioRussian.TabIndex = 1;
-            this.radioRussian.TabStop = true;
             this.radioRussian.Text = "Russian";
             this.radioRussian.UseVisualStyleBackColor = true;
+            this.radioRussian.CheckedChanged += new System.EventHandler(this.radioRussian_CheckedChanged);
             // 
             // radioEnglish
             // 
             this.radioEnglish.AutoSize = true;
+            this.radioEnglish.Checked = true;
             this.radioEnglish.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.radioEnglish.Location = new System.Drawing.Point(15, 30);
             this.radioEnglish.Name = "radioEnglish";
