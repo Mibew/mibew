@@ -20,10 +20,6 @@ namespace webImTray {
 
         OptionsPanel currentPanel = null;
 
-        private static ResourceManager resourceManager = new ResourceManager("webImTray.webImTray", System.Reflection.Assembly.GetExecutingAssembly());
-        public static CultureInfo englishCulture = new CultureInfo("en-US");
-        public static CultureInfo russianCulture = new CultureInfo("ru-RU");
-
         // FIXME: we have only one OptionsDialog instance
         // thus it's safe to keep it in a static variable.
         private static OptionsDialog currentInstance = null;
@@ -47,7 +43,7 @@ namespace webImTray {
             bool inited = false;
             pageSelector.Items.Clear();
             foreach (OptionsPanel p in panels) {
-                ListViewItem item = new ListViewItem(p.getDescription(resourceManager));
+                ListViewItem item = new ListViewItem(p.getDescription(Options.resourceManager));
                 if (!inited) {
                     item.Selected = true;
                     changePanel(p);
@@ -71,7 +67,7 @@ namespace webImTray {
 
         OptionsPanel getPanel(string s) {
             foreach (OptionsPanel p in panels) {
-                if (s.Equals(p.getDescription(resourceManager)))
+                if (s.Equals(p.getDescription(Options.resourceManager)))
                     return p;
             }
 
@@ -110,12 +106,12 @@ namespace webImTray {
 
         public static void updateUI() {
             for (int i = 0; i < 4; i++) {
-                ((OptionsPanel)panels[i]).updateUI(resourceManager);
+                ((OptionsPanel)panels[i]).updateUI();
             }
-            currentInstance.ok.Text = resourceManager.GetString("ok");
-            currentInstance.cancel.Text = resourceManager.GetString("cancel");
-            currentInstance.apply.Text = resourceManager.GetString("apply");
-            currentInstance.Text = resourceManager.GetString("optionsTitle");
+            currentInstance.ok.Text = Options.resourceManager.GetString("ok");
+            currentInstance.cancel.Text = Options.resourceManager.GetString("cancel");
+            currentInstance.apply.Text = Options.resourceManager.GetString("apply");
+            currentInstance.Text = Options.resourceManager.GetString("optionsTitle");
             currentInstance.updatePageSelector();
         }
     }

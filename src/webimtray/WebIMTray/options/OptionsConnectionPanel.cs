@@ -69,15 +69,15 @@ namespace webImTray {
             PanelModified.Invoke();
         }
 
-        public void updateUI(ResourceManager resManager) {
-            groupBox1.Text = resManager.GetString("connection");
-            label1.Text = resManager.GetString("server");
-            autoDisconnect.Text = resManager.GetString("autoDisconnect");
-            autoDesconnectOnSS.Text = resManager.GetString("autoDesconnectOnSS");
-            groupBox2.Text = resManager.GetString("operatorPreferences");
-            showUserPreferences.Text = resManager.GetString("showUserPreferences");
-            label2.Text = resManager.GetString("minutes");
-            forceRefresh.Text = resManager.GetString("forceRefresh");
+        public void updateUI() {
+            groupBox1.Text = Options.resourceManager.GetString("connection");
+            label1.Text = Options.resourceManager.GetString("server");
+            autoDisconnect.Text = Options.resourceManager.GetString("autoDisconnect");
+            autoDesconnectOnSS.Text = Options.resourceManager.GetString("autoDesconnectOnSS");
+            groupBox2.Text = Options.resourceManager.GetString("operatorPreferences");
+            showUserPreferences.Text = Options.resourceManager.GetString("showUserPreferences");
+            label2.Text = Options.resourceManager.GetString("minutes");
+            forceRefresh.Text = Options.resourceManager.GetString("forceRefresh");
         }
     }
 }

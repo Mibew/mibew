@@ -159,6 +159,9 @@
   <data name="hideWhenStarted" xml:space="preserve">
     <value>Прятать окно после запуска</value>
   </data>
+  <data name="hideWindow" xml:space="preserve">
+    <value>Скрыть окно</value>
+  </data>
   <data name="hotKeys" xml:space="preserve">
     <value>Быстрый вызов</value>
   </data>
@@ -167,6 +170,9 @@
   </data>
   <data name="minutes" xml:space="preserve">
     <value>минут</value>
+  </data>
+  <data name="navigateToolTip" xml:space="preserve">
+    <value>Показать ожидающих клиентов</value>
   </data>
   <data name="notifications" xml:space="preserve">
     <value>Звуковые уведомления</value>
@@ -179,6 +185,9 @@
   </data>
   <data name="optionsTitle" xml:space="preserve">
     <value>Настройки Веб Мессенджер "Трей"</value>
+  </data>
+  <data name="optionsToolTip" xml:space="preserve">
+    <value>Настройки...</value>
   </data>
   <data name="playSoundOnVisitor" xml:space="preserve">
     <value>Звуковое уведомление о появлении посетителя</value>

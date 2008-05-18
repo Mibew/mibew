@@ -142,6 +142,11 @@
     <Compile Include="options\OptionsSoundsPanel.Designer.cs">
       <DependentUpon>OptionsSoundsPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="UserActivityHook.cs" />
     <EmbeddedResource Include="App.resx">
       <SubType>Designer</SubType>
@@ -171,6 +176,11 @@
     <EmbeddedResource Include="options\OptionsSoundsPanel.resx">
       <SubType>Designer</SubType>
       <DependentUpon>OptionsSoundsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="webImTray.en-US.resx">
       <SubType>Designer</SubType>

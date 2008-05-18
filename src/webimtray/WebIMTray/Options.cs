@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
+using System.Resources;
+using System.Threading;
+using System.Globalization;
 
 namespace webImTray {
     class Options {
@@ -112,5 +115,9 @@ namespace webImTray {
                 Application.UserAppDataRegistry.SetValue("isrussianlocale", value.ToString());
             }
         }
+
+        public static ResourceManager resourceManager = new ResourceManager("webImTray.webImTray", System.Reflection.Assembly.GetExecutingAssembly());
+        public static CultureInfo englishCulture = new CultureInfo("en-US");
+        public static CultureInfo russianCulture = new CultureInfo("ru-RU");
     }
 }

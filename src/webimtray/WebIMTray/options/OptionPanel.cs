@@ -11,7 +11,7 @@ namespace webImTray {
         void initialize();
         void apply();
         string getDescription(ResourceManager resManager);
-        void updateUI(ResourceManager resManager);
+        void updateUI();
 
         event ModifiedEvent PanelModified; 
     }

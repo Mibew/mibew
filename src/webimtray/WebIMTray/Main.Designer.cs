@@ -50,26 +50,26 @@ namespace webImTray {
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.notifyMenu.Name = "notifyMenu";
-            this.notifyMenu.Size = new System.Drawing.Size(161, 66);
+            this.notifyMenu.Size = new System.Drawing.Size(131, 54);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("optionsToolStripMenuItem.Image")));
             this.optionsToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Silver;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(160, 28);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.optionsToolStripMenuItem.Text = "Options..";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsMenu_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(157, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(127, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(160, 28);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.menuExitClick);
             // 
@@ -81,7 +81,7 @@ namespace webImTray {
             this.toolHideWindow});
             this.toolbar.Location = new System.Drawing.Point(0, 0);
             this.toolbar.Name = "toolbar";
-            this.toolbar.Size = new System.Drawing.Size(864, 31);
+            this.toolbar.Size = new System.Drawing.Size(864, 25);
             this.toolbar.TabIndex = 1;
             this.toolbar.Text = "toolStrip1";
             // 
@@ -91,7 +91,7 @@ namespace webImTray {
             this.toolNavigate.Image = ((System.Drawing.Image)(resources.GetObject("toolNavigate.Image")));
             this.toolNavigate.ImageTransparentColor = System.Drawing.Color.Silver;
             this.toolNavigate.Name = "toolNavigate";
-            this.toolNavigate.Size = new System.Drawing.Size(23, 28);
+            this.toolNavigate.Size = new System.Drawing.Size(23, 22);
             this.toolNavigate.Text = "Show pending users";
             this.toolNavigate.Click += new System.EventHandler(this.toolNavigate_Click);
             // 
@@ -101,7 +101,7 @@ namespace webImTray {
             this.toolOptions.Image = ((System.Drawing.Image)(resources.GetObject("toolOptions.Image")));
             this.toolOptions.ImageTransparentColor = System.Drawing.Color.Silver;
             this.toolOptions.Name = "toolOptions";
-            this.toolOptions.Size = new System.Drawing.Size(23, 28);
+            this.toolOptions.Size = new System.Drawing.Size(23, 22);
             this.toolOptions.Text = "Options..";
             this.toolOptions.Click += new System.EventHandler(this.optionsMenu_Click);
             // 
@@ -112,17 +112,17 @@ namespace webImTray {
             this.toolHideWindow.Image = ((System.Drawing.Image)(resources.GetObject("toolHideWindow.Image")));
             this.toolHideWindow.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolHideWindow.Name = "toolHideWindow";
-            this.toolHideWindow.Size = new System.Drawing.Size(129, 28);
+            this.toolHideWindow.Size = new System.Drawing.Size(71, 22);
             this.toolHideWindow.Text = "Hide window";
             this.toolHideWindow.Click += new System.EventHandler(this.toolHideWindow_Click);
             // 
             // webBrowser1
             // 
             this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(0, 31);
+            this.webBrowser1.Location = new System.Drawing.Point(0, 25);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(864, 454);
+            this.webBrowser1.Size = new System.Drawing.Size(864, 460);
             this.webBrowser1.TabIndex = 2;
             this.webBrowser1.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.webBrowser1_PreviewKeyDown);
             // 
@@ -133,7 +133,7 @@ namespace webImTray {
             // 
             // MainWindow
             // 
-            this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
+            this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.ClientSize = new System.Drawing.Size(864, 485);
             this.Controls.Add(this.webBrowser1);
             this.Controls.Add(this.toolbar);
@@ -143,8 +143,8 @@ namespace webImTray {
             this.ShowInTaskbar = false;
             this.Text = "Web Messenger";
             this.Shown += new System.EventHandler(this.MainWindow_Shown);
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Client_FormClosing);
             this.GotFocus += new System.EventHandler(this.gotFocus);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Client_FormClosing);
             this.notifyMenu.ResumeLayout(false);
             this.toolbar.ResumeLayout(false);
             this.toolbar.PerformLayout();

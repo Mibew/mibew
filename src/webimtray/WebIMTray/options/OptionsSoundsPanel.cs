@@ -29,9 +29,9 @@ namespace webImTray {
             return resManager.GetString("sound");
         }
 
-        public void updateUI(ResourceManager resManager) {
-            groupBox1.Text = resManager.GetString("notifications");
-            playSoundOnVisitor.Text = resManager.GetString("playSoundOnVisitor");
+        public void updateUI() {
+            groupBox1.Text = Options.resourceManager.GetString("notifications");
+            playSoundOnVisitor.Text = Options.resourceManager.GetString("playSoundOnVisitor");
         }
     }
 }

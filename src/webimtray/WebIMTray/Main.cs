@@ -6,6 +6,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Data;
+using System.Threading;
 
 namespace webImTray {
 
@@ -35,6 +36,22 @@ namespace webImTray {
 
             navigateThere();
             setupReloadTimer();
+                        
+            // Restore previously set locale
+            if (!Options.RussianLocale) {
+                Thread.CurrentThread.CurrentUICulture = Options.englishCulture;
+            } else {
+                Thread.CurrentThread.CurrentUICulture = Options.russianCulture;
+            }
+            // Update localized controls
+            updateLocalizedControls();
+        }
+
+        private void updateLocalizedControls() {
+            // Update localized controls
+            toolHideWindow.Text = Options.resourceManager.GetString("hideWindow");
+            toolOptions.ToolTipText = Options.resourceManager.GetString("optionsToolTip");
+            toolNavigate.ToolTipText = Options.resourceManager.GetString("navigateToolTip");
         }
 
         void navigateThere() {
@@ -116,6 +133,10 @@ namespace webImTray {
             // apply options
             if (Options.ShowInTaskBar != this.ShowInTaskbar)
                 this.ShowInTaskbar = !this.ShowInTaskbar;
+
+            // Update localized controls
+            updateLocalizedControls();
+
             setupReloadTimer();
         }
 
