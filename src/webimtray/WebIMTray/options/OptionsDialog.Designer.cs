@@ -131,9 +131,5 @@ namespace webImTray {
         private System.Windows.Forms.Button apply;
         private System.Windows.Forms.Panel container;
         private System.Windows.Forms.LinkLabel linkLabel1;
-
-
-
-
     }
 }

@@ -24,8 +24,13 @@ namespace webImTray {
         public static CultureInfo englishCulture = new CultureInfo("en-US");
         public static CultureInfo russianCulture = new CultureInfo("ru-RU");
 
+        // FIXME: we have only one OptionsDialog instance
+        // thus it's safe to keep it in a static variable.
+        private static OptionsDialog currentInstance = null;
+
         public OptionsDialog() {
             InitializeComponent();
+            currentInstance = this;
         }
 
         private void changePanel(OptionsPanel panel) {
@@ -102,6 +107,10 @@ namespace webImTray {
             for (int i = 0; i < 4; i++) {
                 ((OptionsPanel)panels[i]).updateUI(resourceManager);
             }
+            currentInstance.ok.Text = resourceManager.GetString("ok");
+            currentInstance.cancel.Text = resourceManager.GetString("cancel");
+            currentInstance.apply.Text = resourceManager.GetString("apply");
+            currentInstance.Text = resourceManager.GetString("optionsTitle");
         }
     }
 }

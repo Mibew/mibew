@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Resources;
 using System.Threading;
+using System.Globalization;
 
 namespace webImTray {
     public partial class OptionsGeneralPanel : UserControl, OptionsPanel {
@@ -27,6 +28,18 @@ namespace webImTray {
                 Options.ShowInTaskBar = showInTaskBar.Checked;
                 Options.AutoStart = autoStart.Checked;
                 Options.HideAfterStart = hideWhenStarted.Checked;
+
+                // Save locale
+                Options.RussianLocale = radioRussian.Checked;
+
+                // Apply locale
+                if (radioEnglish.Checked) {
+                    Thread.CurrentThread.CurrentUICulture = OptionsDialog.englishCulture;
+                } else if (radioRussian.Checked) {
+                    Thread.CurrentThread.CurrentUICulture = OptionsDialog.russianCulture;
+                }
+                // Update UI according to the current locale
+                OptionsDialog.updateUI();
                 modified = false;
             }
         }
@@ -35,6 +48,17 @@ namespace webImTray {
             showInTaskBar.Checked = Options.ShowInTaskBar;
             autoStart.Checked = Options.AutoStart;
             hideWhenStarted.Checked = Options.HideAfterStart;
+    
+            // Restore previously set locale
+            if (!Options.RussianLocale) {
+                radioEnglish.Checked = true;
+            } else {
+                radioRussian.Checked = true;
+            }
+
+            // Update UI according to the current locale
+            OptionsDialog.updateUI();
+
             modified = false;
         }
     
@@ -56,23 +80,13 @@ namespace webImTray {
         }
 
         private void radioEnglish_CheckedChanged(object sender, EventArgs e) {
-            if (radioEnglish.Checked) {
-                // Set english culture
-                Thread.CurrentThread.CurrentUICulture = OptionsDialog.englishCulture;
-
-                // Update UI
-                OptionsDialog.updateUI();
-            }
+            modified = true;
+            PanelModified.Invoke();
         }
 
         private void radioRussian_CheckedChanged(object sender, EventArgs e) {
-            if (radioRussian.Checked) {
-                // Set russian culture
-                Thread.CurrentThread.CurrentUICulture = OptionsDialog.russianCulture;
-
-                // Update UI
-                OptionsDialog.updateUI();
-            }
+            modified = true;
+            PanelModified.Invoke();
         }
     }
 }

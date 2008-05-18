@@ -120,6 +120,9 @@
   <data name="application" xml:space="preserve">
     <value>Application</value>
   </data>
+  <data name="apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
   <data name="autoDesconnectOnSS" xml:space="preserve">
     <value>Become idle if the screen saver is activated</value>
   </data>
@@ -128,6 +131,9 @@
   </data>
   <data name="autoStart" xml:space="preserve">
     <value>Start automatically when starting Windows</value>
+  </data>
+  <data name="cancel" xml:space="preserve">
+    <value>Cancel</value>
   </data>
   <data name="connection" xml:space="preserve">
     <value>Connection</value>
@@ -156,8 +162,14 @@
   <data name="notifications" xml:space="preserve">
     <value>Notifications</value>
   </data>
+  <data name="ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
   <data name="operatorPreferences" xml:space="preserve">
     <value>Operator preferences</value>
+  </data>
+  <data name="optionsTitle" xml:space="preserve">
+    <value>Web IM Tray Options</value>
   </data>
   <data name="playSoundOnVisitor" xml:space="preserve">
     <value>Play sound when visitor comes</value>

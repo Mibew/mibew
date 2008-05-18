@@ -120,6 +120,9 @@
   <data name="application" xml:space="preserve">
     <value>Приложение</value>
   </data>
+  <data name="apply" xml:space="preserve">
+    <value>Применить</value>
+  </data>
   <data name="autoDesconnectOnSS" xml:space="preserve">
     <value>Автоматически отсоединяться, если запущен хранитель экрана</value>
   </data>
@@ -128,6 +131,9 @@
   </data>
   <data name="autoStart" xml:space="preserve">
     <value>Запускать автоматически при загрузке системы</value>
+  </data>
+  <data name="cancel" xml:space="preserve">
+    <value>Нет</value>
   </data>
   <data name="connection" xml:space="preserve">
     <value>Соединение</value>
@@ -156,8 +162,14 @@
   <data name="notifications" xml:space="preserve">
     <value>Звуковые уведомления</value>
   </data>
+  <data name="ok" xml:space="preserve">
+    <value>Да</value>
+  </data>
   <data name="operatorPreferences" xml:space="preserve">
     <value>Настройки оператора</value>
+  </data>
+  <data name="optionsTitle" xml:space="preserve">
+    <value>Настройки Веб Мессенджер "Трей"</value>
   </data>
   <data name="playSoundOnVisitor" xml:space="preserve">
     <value>Звуковое уведомление о появлении посетителя</value>

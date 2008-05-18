@@ -104,5 +104,13 @@ namespace webImTray {
             if (args.Length == 1 && args[0].Equals("/show"))
                 forceShowWindow = true;
         }
+
+        public static bool RussianLocale {
+            get {
+                return Application.UserAppDataRegistry.GetValue("isrussianlocale", "false").ToString().ToLower().Equals("true");
+            } set {
+                Application.UserAppDataRegistry.SetValue("isrussianlocale", value.ToString());
+            }
+        }
     }
 }
