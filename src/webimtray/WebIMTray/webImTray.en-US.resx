@@ -213,6 +213,12 @@
   <data name="sound" xml:space="preserve">
     <value>Sound</value>
   </data>
+  <data name="trayExit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="trayOptions" xml:space="preserve">
+    <value>Optoins..</value>
+  </data>
   <data name="url" xml:space="preserve">
     <value>http://www.webim.ru</value>
   </data>

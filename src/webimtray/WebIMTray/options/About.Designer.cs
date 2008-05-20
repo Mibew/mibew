@@ -76,7 +76,7 @@ namespace webImTray {
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(108, 18);
             this.label2.TabIndex = 1;
-            this.label2.Text = "version 1.0.3";
+            this.label2.Text = "version 1.0.4";
             // 
             // pictureBox1
             // 

@@ -52,6 +52,8 @@ namespace webImTray {
             toolHideWindow.Text = Options.resourceManager.GetString("hideWindow");
             toolOptions.ToolTipText = Options.resourceManager.GetString("optionsToolTip");
             toolNavigate.ToolTipText = Options.resourceManager.GetString("navigateToolTip");
+            optionsToolStripMenuItem.Text = Options.resourceManager.GetString("trayOptions");
+            exitToolStripMenuItem.Text = Options.resourceManager.GetString("trayExit");
         }
 
         void navigateThere() {
