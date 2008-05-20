@@ -110,7 +110,7 @@ namespace webImTray {
 
         public static bool RussianLocale {
             get {
-                return Application.UserAppDataRegistry.GetValue("isrussianlocale", "false").ToString().ToLower().Equals("true");
+                return Application.UserAppDataRegistry.GetValue("isrussianlocale", "true").ToString().ToLower().Equals("true");
             } set {
                 Application.UserAppDataRegistry.SetValue("isrussianlocale", value.ToString());
             }

@@ -150,6 +150,9 @@
   <data name="english" xml:space="preserve">
     <value>English</value>
   </data>
+  <data name="exitConfirmation" xml:space="preserve">
+    <value>Do you want to quit WebIM for Tray?</value>
+  </data>
   <data name="forceRefresh" xml:space="preserve">
     <value>Force page update every</value>
   </data>
@@ -230,5 +233,8 @@
   </data>
   <data name="webimtray" xml:space="preserve">
     <value>Web Messenger Tray</value>
+  </data>
+  <data name="webMessenger" xml:space="preserve">
+    <value>Web Messenger</value>
   </data>
 </root>

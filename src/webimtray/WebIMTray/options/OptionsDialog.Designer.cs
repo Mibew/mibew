@@ -54,7 +54,6 @@ namespace webImTray {
             this.ok.Name = "ok";
             this.ok.Size = new System.Drawing.Size(75, 23);
             this.ok.TabIndex = 1;
-            this.ok.Text = "OK";
             this.ok.UseVisualStyleBackColor = true;
             this.ok.Click += new System.EventHandler(this.ok_Click);
             // 
@@ -65,7 +64,6 @@ namespace webImTray {
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(75, 23);
             this.cancel.TabIndex = 2;
-            this.cancel.Text = "Cancel";
             this.cancel.UseVisualStyleBackColor = true;
             // 
             // apply
@@ -75,7 +73,6 @@ namespace webImTray {
             this.apply.Name = "apply";
             this.apply.Size = new System.Drawing.Size(75, 23);
             this.apply.TabIndex = 3;
-            this.apply.Text = "Apply";
             this.apply.UseVisualStyleBackColor = true;
             this.apply.Click += new System.EventHandler(this.apply_Click);
             // 
@@ -95,7 +92,6 @@ namespace webImTray {
             this.linkLabel1.Size = new System.Drawing.Size(96, 16);
             this.linkLabel1.TabIndex = 5;
             this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "www.webim.ru";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.openWebIMSite);
             // 
             // OptionsDialog
@@ -116,7 +112,6 @@ namespace webImTray {
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "OptionsDialog";
-            this.Text = "WebIM Tray Options";
             this.Load += new System.EventHandler(this.optionsDialogLoaded);
             this.ResumeLayout(false);
             this.PerformLayout();

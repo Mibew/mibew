@@ -115,8 +115,9 @@ namespace webImTray {
         }
 
         private void Client_FormClosing(object sender, FormClosingEventArgs e) {
-            if( !forceClosing && e.CloseReason == CloseReason.UserClosing 
-                        && MessageBox.Show(this, "Do you want to quit WebIM for Tray?", "Web Messenger", 
+            if( !forceClosing && e.CloseReason == CloseReason.UserClosing
+                        && MessageBox.Show(this, Options.resourceManager.GetString("exitConfirmation"),
+                                                 Options.resourceManager.GetString("webMessenger"), 
                         MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No) {
                 e.Cancel = true;
             }

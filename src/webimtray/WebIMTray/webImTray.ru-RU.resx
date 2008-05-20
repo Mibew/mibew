@@ -150,6 +150,9 @@
   <data name="english" xml:space="preserve">
     <value>Английский</value>
   </data>
+  <data name="exitConfirmation" xml:space="preserve">
+    <value>Вы действительно хотите выйти из приложения?</value>
+  </data>
   <data name="forceRefresh" xml:space="preserve">
     <value>Обновлять каждые</value>
   </data>
@@ -230,5 +233,8 @@
   </data>
   <data name="webimtray" xml:space="preserve">
     <value>Веб Мессенджер "Трей"</value>
+  </data>
+  <data name="webMessenger" xml:space="preserve">
+    <value>Веб Мессенджер</value>
   </data>
 </root>

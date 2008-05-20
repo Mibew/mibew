@@ -44,7 +44,6 @@ namespace webImTray {
             label3.Padding = new System.Windows.Forms.Padding(0, 0, 0, 7);
             label3.Size = new System.Drawing.Size(335, 21);
             label3.TabIndex = 3;
-            label3.Text = "Copyright (c) 2006-08 Web Messenger Creators Community";
             // 
             // label4
             // 
@@ -55,7 +54,6 @@ namespace webImTray {
             label4.Padding = new System.Windows.Forms.Padding(0, 0, 0, 7);
             label4.Size = new System.Drawing.Size(138, 21);
             label4.TabIndex = 4;
-            label4.Text = "Please, visit our website";
             // 
             // label1
             // 
@@ -66,7 +64,6 @@ namespace webImTray {
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(208, 25);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Web Messenger Tray";
             // 
             // label2
             // 
@@ -76,7 +73,6 @@ namespace webImTray {
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(108, 18);
             this.label2.TabIndex = 1;
-            this.label2.Text = "version 1.0.4";
             // 
             // pictureBox1
             // 
@@ -97,7 +93,6 @@ namespace webImTray {
             this.linkLabel1.Size = new System.Drawing.Size(130, 21);
             this.linkLabel1.TabIndex = 5;
             this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "http://www.webim.ru";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.webim_ru_link);
             // 
             // pictureBox2

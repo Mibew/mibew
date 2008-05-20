@@ -39,7 +39,6 @@ namespace webImTray {
             // 
             this.notifyIcon.ContextMenuStrip = this.notifyMenu;
             this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
-            this.notifyIcon.Text = "Web Messenger Tray";
             this.notifyIcon.Visible = true;
             this.notifyIcon.MouseDown += new System.Windows.Forms.MouseEventHandler(this.notifyIconClick);
             // 
@@ -58,7 +57,6 @@ namespace webImTray {
             this.optionsToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Silver;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
-            this.optionsToolStripMenuItem.Text = "Options..";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsMenu_Click);
             // 
             // toolStripMenuItem1
@@ -70,7 +68,6 @@ namespace webImTray {
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
-            this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.menuExitClick);
             // 
             // toolbar
@@ -83,7 +80,6 @@ namespace webImTray {
             this.toolbar.Name = "toolbar";
             this.toolbar.Size = new System.Drawing.Size(864, 25);
             this.toolbar.TabIndex = 1;
-            this.toolbar.Text = "toolStrip1";
             // 
             // toolNavigate
             // 
@@ -92,7 +88,6 @@ namespace webImTray {
             this.toolNavigate.ImageTransparentColor = System.Drawing.Color.Silver;
             this.toolNavigate.Name = "toolNavigate";
             this.toolNavigate.Size = new System.Drawing.Size(23, 22);
-            this.toolNavigate.Text = "Show pending users";
             this.toolNavigate.Click += new System.EventHandler(this.toolNavigate_Click);
             // 
             // toolOptions
@@ -102,7 +97,6 @@ namespace webImTray {
             this.toolOptions.ImageTransparentColor = System.Drawing.Color.Silver;
             this.toolOptions.Name = "toolOptions";
             this.toolOptions.Size = new System.Drawing.Size(23, 22);
-            this.toolOptions.Text = "Options..";
             this.toolOptions.Click += new System.EventHandler(this.optionsMenu_Click);
             // 
             // toolHideWindow
@@ -113,7 +107,6 @@ namespace webImTray {
             this.toolHideWindow.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolHideWindow.Name = "toolHideWindow";
             this.toolHideWindow.Size = new System.Drawing.Size(71, 22);
-            this.toolHideWindow.Text = "Hide window";
             this.toolHideWindow.Click += new System.EventHandler(this.toolHideWindow_Click);
             // 
             // webBrowser1
@@ -141,7 +134,6 @@ namespace webImTray {
             this.MinimizeBox = false;
             this.Name = "MainWindow";
             this.ShowInTaskbar = false;
-            this.Text = "Web Messenger";
             this.Shown += new System.EventHandler(this.MainWindow_Shown);
             this.GotFocus += new System.EventHandler(this.gotFocus);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Client_FormClosing);

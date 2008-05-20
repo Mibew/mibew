@@ -54,7 +54,6 @@ namespace webImTray {
             this.groupBox1.Size = new System.Drawing.Size(368, 106);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Application";
             // 
             // hideWhenStarted
             // 
@@ -64,7 +63,6 @@ namespace webImTray {
             this.hideWhenStarted.Name = "hideWhenStarted";
             this.hideWhenStarted.Size = new System.Drawing.Size(134, 17);
             this.hideWhenStarted.TabIndex = 3;
-            this.hideWhenStarted.Text = "Hide window after start";
             this.hideWhenStarted.UseVisualStyleBackColor = true;
             this.hideWhenStarted.CheckedChanged += new System.EventHandler(this.checkboxChanged);
             // 
@@ -76,7 +74,6 @@ namespace webImTray {
             this.autoStart.Name = "autoStart";
             this.autoStart.Size = new System.Drawing.Size(225, 17);
             this.autoStart.TabIndex = 1;
-            this.autoStart.Text = "Start automatically when starting Windows";
             this.autoStart.UseVisualStyleBackColor = true;
             this.autoStart.CheckedChanged += new System.EventHandler(this.checkboxChanged);
             // 
@@ -88,7 +85,6 @@ namespace webImTray {
             this.showInTaskBar.Name = "showInTaskBar";
             this.showInTaskBar.Size = new System.Drawing.Size(103, 17);
             this.showInTaskBar.TabIndex = 0;
-            this.showInTaskBar.Text = "Show In taskbar";
             this.showInTaskBar.UseVisualStyleBackColor = true;
             this.showInTaskBar.CheckedChanged += new System.EventHandler(this.checkboxChanged);
             // 
@@ -105,7 +101,6 @@ namespace webImTray {
             this.groupBox2.Size = new System.Drawing.Size(368, 89);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Hotkeys";
             // 
             // textBox2
             // 
@@ -134,7 +129,6 @@ namespace webImTray {
             this.showOptions.Name = "showOptions";
             this.showOptions.Size = new System.Drawing.Size(90, 17);
             this.showOptions.TabIndex = 1;
-            this.showOptions.Text = "Show options";
             this.showOptions.UseVisualStyleBackColor = true;
             this.showOptions.CheckedChanged += new System.EventHandler(this.checkboxChanged);
             // 
@@ -147,7 +141,6 @@ namespace webImTray {
             this.showHide.Name = "showHide";
             this.showHide.Size = new System.Drawing.Size(147, 17);
             this.showHide.TabIndex = 0;
-            this.showHide.Text = "Show/Hide main window:";
             this.showHide.UseVisualStyleBackColor = true;
             this.showHide.CheckedChanged += new System.EventHandler(this.checkboxChanged);
             // 
@@ -161,31 +154,28 @@ namespace webImTray {
             this.languageBox.Size = new System.Drawing.Size(371, 53);
             this.languageBox.TabIndex = 2;
             this.languageBox.TabStop = false;
-            this.languageBox.Text = "Language";
             // 
             // radioRussian
             // 
             this.radioRussian.AutoSize = true;
+            this.radioRussian.Checked = true;
             this.radioRussian.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.radioRussian.Location = new System.Drawing.Point(101, 30);
             this.radioRussian.Name = "radioRussian";
             this.radioRussian.Size = new System.Drawing.Size(63, 17);
             this.radioRussian.TabIndex = 1;
-            this.radioRussian.Text = "Russian";
+            this.radioRussian.TabStop = true;
             this.radioRussian.UseVisualStyleBackColor = true;
             this.radioRussian.CheckedChanged += new System.EventHandler(this.radioRussian_CheckedChanged);
             // 
             // radioEnglish
             // 
             this.radioEnglish.AutoSize = true;
-            this.radioEnglish.Checked = true;
             this.radioEnglish.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.radioEnglish.Location = new System.Drawing.Point(15, 30);
             this.radioEnglish.Name = "radioEnglish";
             this.radioEnglish.Size = new System.Drawing.Size(59, 17);
             this.radioEnglish.TabIndex = 0;
-            this.radioEnglish.TabStop = true;
-            this.radioEnglish.Text = "English";
             this.radioEnglish.UseVisualStyleBackColor = true;
             this.radioEnglish.CheckedChanged += new System.EventHandler(this.radioEnglish_CheckedChanged);
             // 

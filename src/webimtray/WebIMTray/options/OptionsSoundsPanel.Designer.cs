@@ -38,7 +38,6 @@ namespace webImTray {
             this.groupBox1.Size = new System.Drawing.Size(368, 156);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Notifications";
             // 
             // playSoundOnVisitor
             // 
@@ -49,7 +48,6 @@ namespace webImTray {
             this.playSoundOnVisitor.Name = "playSoundOnVisitor";
             this.playSoundOnVisitor.Size = new System.Drawing.Size(171, 17);
             this.playSoundOnVisitor.TabIndex = 0;
-            this.playSoundOnVisitor.Text = "Play sound when visitor comes";
             this.playSoundOnVisitor.UseVisualStyleBackColor = true;
             // 
             // OptionsSoundsPanel

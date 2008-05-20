@@ -55,7 +55,6 @@ namespace webImTray {
             this.groupBox1.Size = new System.Drawing.Size(491, 250);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Connection";
             // 
             // label2
             // 
@@ -66,7 +65,6 @@ namespace webImTray {
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(57, 17);
             this.label2.TabIndex = 9;
-            this.label2.Text = "minutes";
             // 
             // forceRefreshTime
             // 
@@ -103,7 +101,6 @@ namespace webImTray {
             this.forceRefresh.Name = "forceRefresh";
             this.forceRefresh.Size = new System.Drawing.Size(187, 21);
             this.forceRefresh.TabIndex = 7;
-            this.forceRefresh.Text = "Force page refresh every";
             this.forceRefresh.UseVisualStyleBackColor = true;
             this.forceRefresh.CheckedChanged += new System.EventHandler(this.forceRefresh_CheckedChanged);
             // 
@@ -117,7 +114,6 @@ namespace webImTray {
             this.autoDesconnectOnSS.Name = "autoDesconnectOnSS";
             this.autoDesconnectOnSS.Size = new System.Drawing.Size(280, 21);
             this.autoDesconnectOnSS.TabIndex = 6;
-            this.autoDesconnectOnSS.Text = "Become idle if the screen saver is active";
             this.autoDesconnectOnSS.UseVisualStyleBackColor = true;
             // 
             // webimServer
@@ -139,7 +135,6 @@ namespace webImTray {
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(201, 17);
             this.label1.TabIndex = 4;
-            this.label1.Text = "Web Instant Messenger server";
             // 
             // autoDisconnect
             // 
@@ -150,7 +145,6 @@ namespace webImTray {
             this.autoDisconnect.Name = "autoDisconnect";
             this.autoDisconnect.Size = new System.Drawing.Size(261, 21);
             this.autoDisconnect.TabIndex = 3;
-            this.autoDisconnect.Text = "Become idle if the computer is locked";
             this.autoDisconnect.UseVisualStyleBackColor = true;
             this.autoDisconnect.CheckedChanged += new System.EventHandler(this.autoDisconnect_CheckedChanged);
             // 
@@ -165,7 +159,6 @@ namespace webImTray {
             this.groupBox2.Size = new System.Drawing.Size(491, 107);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Operator preferences";
             // 
             // showUserPreferences
             // 
@@ -177,7 +170,6 @@ namespace webImTray {
             this.showUserPreferences.Size = new System.Drawing.Size(296, 18);
             this.showUserPreferences.TabIndex = 0;
             this.showUserPreferences.TabStop = true;
-            this.showUserPreferences.Text = "Click here to change your preferences online";
             this.showUserPreferences.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.showUserPropertiesOnline);
             // 
             // OptionsConnectionPanel
