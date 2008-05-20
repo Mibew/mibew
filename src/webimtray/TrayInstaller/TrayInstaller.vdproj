@@ -15,7 +15,19 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_7C6120AA9755457CB8CF9EE23C464449"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_87BBEE6DC5244EE8B30E60EF304991BB"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9E20108CFC9449D39D1816B090C23EBD"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -23,6 +35,18 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_87BBEE6DC5244EE8B30E60EF304991BB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_7C6120AA9755457CB8CF9EE23C464449"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_9E20108CFC9449D39D1816B090C23EBD"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -60,7 +84,7 @@
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\WebImTray103.msi"
+        "OutputFilename" = "8:Release\\WebImTray104.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -115,6 +139,68 @@
         }
         "File"
         {
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7C6120AA9755457CB8CF9EE23C464449"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:webImTray.resources, Version=1.0.4.0, Culture=ru-RU, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_7C6120AA9755457CB8CF9EE23C464449"
+                    {
+                    "Name" = "8:webImTray.resources.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\WebIMTray\\bin\\Release\\ru-RU\\webImTray.resources.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_0CA0DD7B3E60485ABBDD1260127A980B"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9E20108CFC9449D39D1816B090C23EBD"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:webImTray.resources, Version=1.0.4.0, Culture=en-US, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_9E20108CFC9449D39D1816B090C23EBD"
+                    {
+                    "Name" = "8:webImTray.resources.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\WebIMTray\\bin\\Release\\en-US\\webImTray.resources.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_4A5F5D9196714CB6BA9D63743D3BFC05"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -142,6 +228,28 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_0CA0DD7B3E60485ABBDD1260127A980B"
+                    {
+                    "Name" = "8:ru-RU"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_430958E3211B4B41949ADB3916FCD933"
+                        "Folders"
+                        {
+                        }
+                    }
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_4A5F5D9196714CB6BA9D63743D3BFC05"
+                    {
+                    "Name" = "8:en-US"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_060DE5CFFCF647C48F63F7B113A81FAF"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
         }
@@ -159,14 +267,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Web IM Tray"
-        "ProductCode" = "8:{AB2921C8-AF41-47E9-B9F0-16E25036A6F2}"
-        "PackageCode" = "8:{BEC97C07-AA1D-4708-B044-43256F7F0E95}"
+        "ProductCode" = "8:{364312DC-00EB-4A81-866B-2F9B58E866A5}"
+        "PackageCode" = "8:{35BEC3D5-2350-45B5-AE87-F651DD2E88E3}"
         "UpgradeCode" = "8:{2DE6CF3E-E993-4337-A3E7-6D24B63AC56D}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.3"
+        "ProductVersion" = "8:1.0.4"
         "Manufacturer" = "8:WebIM"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
