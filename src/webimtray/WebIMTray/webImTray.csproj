@@ -6,7 +6,7 @@
     <ProjectGuid>{21C7CA72-7F77-416C-9FD7-2DF748443E46}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ApplicationIcon>App.ico</ApplicationIcon>
+    <ApplicationIcon>icons\App.ico</ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
     <AssemblyName>webImTray</AssemblyName>
@@ -90,9 +90,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App.ico" />
-    <None Include="icons\Notify_offl.ico" />
-    <None Include="icons\Notify.ico" />
+    <Content Include="icons\App.ico" />
+    <Content Include="icons\Notify.ico" />
+    <Content Include="icons\Notify_offl.ico" />
     <Compile Include="App.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -148,6 +148,16 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="UserActivityHook.cs" />
+    <Compile Include="webImTray.en-US.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>webImTray.en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="webImTray.ru-RU.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>webImTray.ru-RU.resx</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="App.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
@@ -184,9 +194,13 @@
     </EmbeddedResource>
     <EmbeddedResource Include="webImTray.en-US.resx">
       <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>webImTray.en-US.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="webImTray.ru-RU.resx">
       <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>webImTray.ru-RU.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
