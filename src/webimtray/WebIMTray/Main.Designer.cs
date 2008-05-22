@@ -25,14 +25,14 @@ namespace webImTray {
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolbar = new System.Windows.Forms.ToolStrip();
-            this.toolNavigate = new System.Windows.Forms.ToolStripButton();
-            this.toolOptions = new System.Windows.Forms.ToolStripButton();
-            this.toolHideWindow = new System.Windows.Forms.ToolStripButton();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.reloadPageTimer = new System.Windows.Forms.Timer(this.components);
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hideWindowMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyMenu.SuspendLayout();
-            this.toolbar.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // notifyIcon
@@ -49,73 +49,34 @@ namespace webImTray {
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.notifyMenu.Name = "notifyMenu";
-            this.notifyMenu.Size = new System.Drawing.Size(131, 54);
+            this.notifyMenu.Size = new System.Drawing.Size(79, 54);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("optionsToolStripMenuItem.Image")));
             this.optionsToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Silver;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(78, 22);
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsMenu_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(127, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(75, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(78, 22);
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.menuExitClick);
-            // 
-            // toolbar
-            // 
-            this.toolbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolNavigate,
-            this.toolOptions,
-            this.toolHideWindow});
-            this.toolbar.Location = new System.Drawing.Point(0, 0);
-            this.toolbar.Name = "toolbar";
-            this.toolbar.Size = new System.Drawing.Size(864, 25);
-            this.toolbar.TabIndex = 1;
-            // 
-            // toolNavigate
-            // 
-            this.toolNavigate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolNavigate.Image = ((System.Drawing.Image)(resources.GetObject("toolNavigate.Image")));
-            this.toolNavigate.ImageTransparentColor = System.Drawing.Color.Silver;
-            this.toolNavigate.Name = "toolNavigate";
-            this.toolNavigate.Size = new System.Drawing.Size(23, 22);
-            this.toolNavigate.Click += new System.EventHandler(this.toolNavigate_Click);
-            // 
-            // toolOptions
-            // 
-            this.toolOptions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolOptions.Image = ((System.Drawing.Image)(resources.GetObject("toolOptions.Image")));
-            this.toolOptions.ImageTransparentColor = System.Drawing.Color.Silver;
-            this.toolOptions.Name = "toolOptions";
-            this.toolOptions.Size = new System.Drawing.Size(23, 22);
-            this.toolOptions.Click += new System.EventHandler(this.optionsMenu_Click);
-            // 
-            // toolHideWindow
-            // 
-            this.toolHideWindow.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolHideWindow.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolHideWindow.Image = ((System.Drawing.Image)(resources.GetObject("toolHideWindow.Image")));
-            this.toolHideWindow.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolHideWindow.Name = "toolHideWindow";
-            this.toolHideWindow.Size = new System.Drawing.Size(71, 22);
-            this.toolHideWindow.Click += new System.EventHandler(this.toolHideWindow_Click);
             // 
             // webBrowser1
             // 
             this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(0, 25);
+            this.webBrowser1.Location = new System.Drawing.Point(0, 24);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(864, 460);
+            this.webBrowser1.Size = new System.Drawing.Size(864, 461);
             this.webBrowser1.TabIndex = 2;
             this.webBrowser1.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.webBrowser1_PreviewKeyDown);
             // 
@@ -124,13 +85,47 @@ namespace webImTray {
             this.reloadPageTimer.Interval = 5000;
             this.reloadPageTimer.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.refreshToolStripMenuItem,
+            this.optionsMenuItem,
+            this.hideWindowMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(864, 24);
+            this.menuStrip1.TabIndex = 3;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // refreshToolStripMenuItem
+            // 
+            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.refreshToolStripMenuItem.Text = "Refresh";
+            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
+            // 
+            // optionsMenuItem
+            // 
+            this.optionsMenuItem.Name = "optionsMenuItem";
+            this.optionsMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.optionsMenuItem.Text = "Options";
+            this.optionsMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem1_Click);
+            // 
+            // hideWindowMenuItem
+            // 
+            this.hideWindowMenuItem.Name = "hideWindowMenuItem";
+            this.hideWindowMenuItem.Size = new System.Drawing.Size(79, 20);
+            this.hideWindowMenuItem.Text = "Hide window";
+            this.hideWindowMenuItem.Click += new System.EventHandler(this.hideWindowToolStripMenuItem_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.ClientSize = new System.Drawing.Size(864, 485);
             this.Controls.Add(this.webBrowser1);
-            this.Controls.Add(this.toolbar);
+            this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.MinimizeBox = false;
             this.Name = "MainWindow";
             this.ShowInTaskbar = false;
@@ -138,24 +133,24 @@ namespace webImTray {
             this.GotFocus += new System.EventHandler(this.gotFocus);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Client_FormClosing);
             this.notifyMenu.ResumeLayout(false);
-            this.toolbar.ResumeLayout(false);
-            this.toolbar.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
         #endregion
 
-        private System.Windows.Forms.ToolStrip toolbar;
-        private System.Windows.Forms.ToolStripButton toolNavigate;
         private System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.Timer reloadPageTimer;
-        private System.Windows.Forms.ToolStripButton toolOptions;
         private System.Windows.Forms.ContextMenuStrip notifyMenu;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripButton toolHideWindow;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem optionsMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hideWindowMenuItem;
 
     }
 }

@@ -174,9 +174,6 @@
   <data name="minutes" xml:space="preserve">
     <value>минут</value>
   </data>
-  <data name="navigateToolTip" xml:space="preserve">
-    <value>Показать ожидающих клиентов</value>
-  </data>
   <data name="notifications" xml:space="preserve">
     <value>Звуковые уведомления</value>
   </data>
@@ -186,14 +183,17 @@
   <data name="operatorPreferences" xml:space="preserve">
     <value>Настройки оператора</value>
   </data>
+  <data name="optionsMenuItem" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
   <data name="optionsTitle" xml:space="preserve">
     <value>Настройки Веб Мессенджер "Трей"</value>
   </data>
-  <data name="optionsToolTip" xml:space="preserve">
-    <value>Настройки...</value>
-  </data>
   <data name="playSoundOnVisitor" xml:space="preserve">
     <value>Звуковое уведомление о появлении посетителя</value>
+  </data>
+  <data name="refreshMenuItem" xml:space="preserve">
+    <value>Обновить</value>
   </data>
   <data name="russian" xml:space="preserve">
     <value>Русский</value>

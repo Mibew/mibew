@@ -49,9 +49,9 @@ namespace webImTray {
 
         private void updateLocalizedControls() {
             // Update localized controls
-            toolHideWindow.Text = Options.resourceManager.GetString("hideWindow");
-            toolOptions.ToolTipText = Options.resourceManager.GetString("optionsToolTip");
-            toolNavigate.ToolTipText = Options.resourceManager.GetString("navigateToolTip");
+            hideWindowMenuItem.Text = Options.resourceManager.GetString("hideWindow");
+            optionsMenuItem.Text = Options.resourceManager.GetString("optionsMenuItem");
+            refreshToolStripMenuItem.Text = Options.resourceManager.GetString("refreshMenuItem");
             optionsToolStripMenuItem.Text = Options.resourceManager.GetString("trayOptions");
             exitToolStripMenuItem.Text = Options.resourceManager.GetString("trayExit");
         }
@@ -188,6 +188,35 @@ namespace webImTray {
             if (Options.DisconnectOnLock) {
                 navigateThere();
             }
+        }
+
+        private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void optionsToolStripMenuItem1_Click(object sender, EventArgs e) {
+            OptionsDialog dialog = new OptionsDialog();
+            dialog.ShowDialog(this);
+
+            // apply options
+            if (Options.ShowInTaskBar != this.ShowInTaskbar) {
+                this.ShowInTaskbar = !this.ShowInTaskbar;
+            }
+
+            // Update localized controls
+            updateLocalizedControls();
+
+            setupReloadTimer();
+
+        }
+
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e) {
+            navigateThere();
+        }
+
+        private void hideWindowToolStripMenuItem_Click(object sender, EventArgs e) {
+            hideWindow();
         }
     }
 }

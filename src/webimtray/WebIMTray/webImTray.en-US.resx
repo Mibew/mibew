@@ -174,9 +174,6 @@
   <data name="minutes" xml:space="preserve">
     <value>minutes</value>
   </data>
-  <data name="navigateToolTip" xml:space="preserve">
-    <value>Show pending users</value>
-  </data>
   <data name="notifications" xml:space="preserve">
     <value>Notifications</value>
   </data>
@@ -186,14 +183,17 @@
   <data name="operatorPreferences" xml:space="preserve">
     <value>Operator preferences</value>
   </data>
+  <data name="optionsMenuItem" xml:space="preserve">
+    <value>Options</value>
+  </data>
   <data name="optionsTitle" xml:space="preserve">
     <value>Web IM Tray Options</value>
   </data>
-  <data name="optionsToolTip" xml:space="preserve">
-    <value>Options...</value>
-  </data>
   <data name="playSoundOnVisitor" xml:space="preserve">
     <value>Play sound when visitor comes</value>
+  </data>
+  <data name="refreshMenuItem" xml:space="preserve">
+    <value>Refresh</value>
   </data>
   <data name="russian" xml:space="preserve">
     <value>Russian</value>
