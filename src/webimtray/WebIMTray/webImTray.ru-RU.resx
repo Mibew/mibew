@@ -136,7 +136,7 @@
     <value>Запускать автоматически при загрузке системы</value>
   </data>
   <data name="cancel" xml:space="preserve">
-    <value>Нет</value>
+    <value>Отменить</value>
   </data>
   <data name="connection" xml:space="preserve">
     <value>Соединение</value>
@@ -178,7 +178,7 @@
     <value>Звуковые уведомления</value>
   </data>
   <data name="ok" xml:space="preserve">
-    <value>Да</value>
+    <value>Ok</value>
   </data>
   <data name="operatorPreferences" xml:space="preserve">
     <value>Настройки оператора</value>
