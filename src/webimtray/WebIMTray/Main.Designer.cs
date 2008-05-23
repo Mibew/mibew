@@ -30,7 +30,6 @@ namespace webImTray {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hideWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -89,8 +88,7 @@ namespace webImTray {
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.refreshToolStripMenuItem,
-            this.optionsMenuItem,
-            this.hideWindowToolStripMenuItem});
+            this.optionsMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(864, 24);
@@ -110,13 +108,6 @@ namespace webImTray {
             this.optionsMenuItem.Size = new System.Drawing.Size(56, 20);
             this.optionsMenuItem.Text = "Options";
             this.optionsMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem1_Click);
-            // 
-            // hideWindowToolStripMenuItem
-            // 
-            this.hideWindowToolStripMenuItem.Name = "hideWindowToolStripMenuItem";
-            this.hideWindowToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
-            this.hideWindowToolStripMenuItem.Text = "Hide window";
-            this.hideWindowToolStripMenuItem.Click += new System.EventHandler(this.hideWindowToolStripMenuItem_Click);
             // 
             // MainWindow
             // 
@@ -150,7 +141,6 @@ namespace webImTray {
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optionsMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem hideWindowToolStripMenuItem;
 
     }
 }

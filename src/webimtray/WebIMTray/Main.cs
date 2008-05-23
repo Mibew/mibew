@@ -48,9 +48,8 @@ namespace webImTray {
         }
 
         private void updateLocalizedControls() {
-            // Update localized controls
-            hideWindowToolStripMenuItem.Text = Options.resourceManager.GetString("hideWindow");
-            optionsToolStripMenuItem.Text = Options.resourceManager.GetString("optionsMenuItem");
+            // Update localized controls            
+            optionsMenuItem.Text = Options.resourceManager.GetString("optionsMenuItem");
             refreshToolStripMenuItem.Text = Options.resourceManager.GetString("refreshMenuItem");
             optionsToolStripMenuItem.Text = Options.resourceManager.GetString("trayOptions");
             exitToolStripMenuItem.Text = Options.resourceManager.GetString("trayExit");
