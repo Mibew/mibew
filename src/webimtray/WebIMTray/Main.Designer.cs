@@ -30,7 +30,7 @@ namespace webImTray {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hideWindowMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hideWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -90,7 +90,7 @@ namespace webImTray {
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.refreshToolStripMenuItem,
             this.optionsMenuItem,
-            this.hideWindowMenuItem});
+            this.hideWindowToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(864, 24);
@@ -111,12 +111,12 @@ namespace webImTray {
             this.optionsMenuItem.Text = "Options";
             this.optionsMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem1_Click);
             // 
-            // hideWindowMenuItem
+            // hideWindowToolStripMenuItem
             // 
-            this.hideWindowMenuItem.Name = "hideWindowMenuItem";
-            this.hideWindowMenuItem.Size = new System.Drawing.Size(79, 20);
-            this.hideWindowMenuItem.Text = "Hide window";
-            this.hideWindowMenuItem.Click += new System.EventHandler(this.hideWindowToolStripMenuItem_Click);
+            this.hideWindowToolStripMenuItem.Name = "hideWindowToolStripMenuItem";
+            this.hideWindowToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
+            this.hideWindowToolStripMenuItem.Text = "Hide window";
+            this.hideWindowToolStripMenuItem.Click += new System.EventHandler(this.hideWindowToolStripMenuItem_Click);
             // 
             // MainWindow
             // 
@@ -126,12 +126,12 @@ namespace webImTray {
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.MinimizeBox = false;
             this.Name = "MainWindow";
             this.ShowInTaskbar = false;
             this.Shown += new System.EventHandler(this.MainWindow_Shown);
             this.GotFocus += new System.EventHandler(this.gotFocus);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Client_FormClosing);
+            this.Resize += new System.EventHandler(this.FormResize);
             this.notifyMenu.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -150,7 +150,7 @@ namespace webImTray {
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optionsMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem hideWindowMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hideWindowToolStripMenuItem;
 
     }
 }

@@ -49,8 +49,8 @@ namespace webImTray {
 
         private void updateLocalizedControls() {
             // Update localized controls
-            hideWindowMenuItem.Text = Options.resourceManager.GetString("hideWindow");
-            optionsMenuItem.Text = Options.resourceManager.GetString("optionsMenuItem");
+            hideWindowToolStripMenuItem.Text = Options.resourceManager.GetString("hideWindow");
+            optionsToolStripMenuItem.Text = Options.resourceManager.GetString("optionsMenuItem");
             refreshToolStripMenuItem.Text = Options.resourceManager.GetString("refreshMenuItem");
             optionsToolStripMenuItem.Text = Options.resourceManager.GetString("trayOptions");
             exitToolStripMenuItem.Text = Options.resourceManager.GetString("trayExit");
@@ -217,6 +217,12 @@ namespace webImTray {
 
         private void hideWindowToolStripMenuItem_Click(object sender, EventArgs e) {
             hideWindow();
+        }
+
+        private void FormResize(object sender, System.EventArgs e) {
+            if (FormWindowState.Minimized == WindowState) {
+                hideWindow();
+            }
         }
     }
 }
