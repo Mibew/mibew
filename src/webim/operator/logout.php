@@ -17,8 +17,6 @@ require_once('../libs/operator.php');
 
 logout_operator();
 
-$target = dirname($_SERVER['PHP_SELF'])."/login.php";
-header("Location: $target");
+header("Location: $webimroot/operator/login.php");
 exit;
-
 ?>

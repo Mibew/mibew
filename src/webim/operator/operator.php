@@ -59,7 +59,7 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 		} else {
 		    update_operator($agentId,$login,$password,$localname,$commonname);
 		}
-		header("Location: ".dirname($_SERVER['PHP_SELF'])."/operators.php");
+		header("Location: $webimroot/operator/operators.php");
 		exit;
 	} else {
 		$page['formlogin'] = topage($login);

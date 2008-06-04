@@ -34,7 +34,7 @@ if( !isset($_GET['token']) ) {
     take_thread($thread,$operator);
 
     $token = $thread['ltoken'];
-    header("Location: ".$_SERVER['PHP_SELF']."?thread=$threadid&token=$token");
+    header("Location: $webimroot/operator/agent.php?thread=$threadid&token=$token");
     exit;
 }
 

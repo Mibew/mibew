@@ -26,7 +26,7 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 
 		$target = isset($_SESSION['backpath']) 
 				? $_SESSION['backpath'] 
-				: dirname($_SERVER['PHP_SELF'])."/index.php";
+				: "$webimroot/operator/index.php";
 		
         login_operator($operator,$remember);
 		header("Location: $target");

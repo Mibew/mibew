@@ -4,11 +4,14 @@
   
   [+] Number of messages from visitor in history
   [+] State "loading" (means user is still loading his window)
+  [+] Timers on peding users page are ticking now
   [!] Company logo link target is now an option in config
   [!] Mail encoding fixed (separate option)
   [!] Operator/user locale is stored in cookie
   [!] localized dates
   [!] fixed installing on DB with numeric name
+  [!] empty and double messages
+  [!] #1983764
 
   1.0.9
   -----

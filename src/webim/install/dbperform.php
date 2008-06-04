@@ -91,6 +91,6 @@ if($act == "createdb") {
 }
 
 mysql_close($link);
-header("Location: ".dirname($_SERVER['PHP_SELF'])."/index.php");
+header("Location: $webimroot/install/index.php");
 exit;
 ?>
