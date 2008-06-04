@@ -30,6 +30,7 @@ $dbtables = array(
 		"lastpingagent" => "datetime DEFAULT 0",
 		"userTyping" => "int DEFAULT 0",
 		"agentTyping" => "int DEFAULT 0",
+		"messageCount" => "varchar(16)"
 	),
 
 	"chatmessage" => array(
@@ -59,7 +60,7 @@ $dbtables = array(
 $memtables = array();
 
 $dbtables_can_update = array(
-	"chatthread" => array("agentId", "userTyping", "agentTyping"),
+	"chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount"),
 	"chatmessage" => array("agentId"),
 );
 
@@ -108,7 +109,7 @@ function create_table($id,$link) {
 
 function get_tables($link) {
 	global $mysqldb, $errors;
-	$result = mysql_query("SHOW TABLES FROM $mysqldb");
+	$result = mysql_query("SHOW TABLES FROM `$mysqldb`");
 	if( $result ) {
 		$arr = array();
 		while ($row = mysql_fetch_array($result, MYSQL_NUM)) {

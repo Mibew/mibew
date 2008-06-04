@@ -45,7 +45,18 @@ var threadParams = { servl:"<?php echo $webimroot ?>/thread.php",wroot:"<?php ec
 		    <td height="10"></td>
 			</tr>
 			<tr>
-		    <td align="center"><?php if( $page['ct.company.chatLogoURL'] ) { ?><a onclick="window.open('<?php echo getlocal("site.url") ?>');return false;" href="_blank"><img src="<?php echo $page['ct.company.chatLogoURL'] ?>" border="0" alt=""></a><?php } ?></td>
+		    <td align="center">
+		    	<?php if( $page['ct.company.chatLogoURL'] ) { ?>
+		    		<?php if( $page['webimHost'] ) { ?>
+		            	<a onclick="window.open('<?php echo $page['webimHost'] ?>');return false;" href="_blank">
+			            	<img src="<?php echo $page['ct.company.chatLogoURL'] ?>" border="0" alt="">
+			            </a>
+			        <?php } ?>
+		    		<?php if( !$page['webimHost'] ) { ?>
+		            	<img src="<?php echo $page['ct.company.chatLogoURL'] ?>" border="0" alt="">
+			        <?php } ?>
+		        <?php } ?>
+		    </td>
 			</tr>
 			<tr>
 		    <td height="5"></td>

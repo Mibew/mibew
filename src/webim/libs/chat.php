@@ -22,6 +22,7 @@ $state_queue = 0;
 $state_waiting = 1;
 $state_chatting = 2;
 $state_closed = 3;
+$state_loading = 4;
 
 $kind_user = 1;
 $kind_agent = 2;
@@ -166,13 +167,14 @@ function print_thread_messages($thread, $token, $lastid, $isuser,$format) {
 	}
 }
 
-function get_user_name($username, $id="") {
+function get_user_name($username, $addr) {
 	global $presentable_name_pattern;
-       	return str_replace("{id}", $id, str_replace("{name}", $username, $presentable_name_pattern));
+	return str_replace("{addr}", $addr, 
+			str_replace("{name}", $username, $presentable_name_pattern));
 }
 
 function setup_chatview_for_user($thread,$level) {
-	global $page, $webimroot, $user_can_change_name, $company_logo_link, $company_name;
+	global $page, $webimroot, $user_can_change_name, $company_logo_link, $company_name, $webim_host;
 	$page = array();
 	$page['agent'] = false;
 	$page['user'] = true;
@@ -192,22 +194,24 @@ function setup_chatview_for_user($thread,$level) {
 
 	$params = "thread=".$thread['threadid']."&token=".$thread['ltoken'];
 	$page['selfLink'] = "$webimroot/client.php?".$params."&level=".$level;
+	$page['webimHost'] = $webim_host;
 
 }
 
 function setup_chatview_for_operator($thread,$operator) {
-	global $page, $webimroot, $company_logo_link, $company_name;
+	global $page, $webimroot, $company_logo_link, $company_name, $webim_host;
 	$page = array();
 	$page['agent'] = true;
 	$page['user'] = false;
 	$page['canpost'] = true;
 	$page['ct.chatThreadId'] = $thread['threadid'];
 	$page['ct.token'] = $thread['ltoken'];
-	$page['ct.user.name'] = topage(get_user_name($thread['userName']));
+	$page['ct.user.name'] = topage(get_user_name($thread['userName'],$thread['remote']));
 
 	$page['ct.company.name'] = topage($company_name);
 	$page['ct.company.chatLogoURL'] = topage($company_logo_link);
 	$page['send_shortcut'] = "Ctrl-Enter";
+	$page['webimHost'] = $webim_host;
 
 	// TODO
 	$page['namePostfix'] = "";	
@@ -273,14 +277,21 @@ function update_thread_access($threadid, $params, $link) {
 }
 
 function ping_thread($thread, $isuser,$istyping) {
-	global $kind_for_agent, $state_chatting, $state_waiting, $kind_conn, $connection_timeout;
+	global $kind_for_agent, $state_queue, $state_loading, $state_chatting, $state_waiting, $kind_conn, $connection_timeout;
 	$link = connect();
 	$params = array(($isuser ? "lastpinguser" : "lastpingagent") => "CURRENT_TIMESTAMP",
 					($isuser ? "userTyping" : "agentTyping") => ($istyping? "1" : "0") );
 	
 	$lastping = $thread[$isuser ? "lpagent" : "lpuser"];
 	$current = $thread['current'];
-	
+
+	if( $thread['istate'] == $state_loading && $isuser) {
+		$params['istate'] = $state_queue;
+		commit_thread($thread['threadid'], $params, $link);
+		mysql_close($link);
+		return;
+	}
+
  	if( $lastping > 0 && abs($current-$lastping) > $connection_timeout ) {
 		$params[$isuser ? "lastpingagent" : "lastpinguser"] = "0";
 		if( !$isuser ) {
@@ -302,7 +313,7 @@ function ping_thread($thread, $isuser,$istyping) {
 }
 
 function commit_thread($threadid,$params,$link) {
-	$query = "update chatthread set lrevision = ".next_revision($link).", dtmmodified = CURRENT_TIMESTAMP";
+	$query = "update chatthread t set lrevision = ".next_revision($link).", dtmmodified = CURRENT_TIMESTAMP";
 	foreach( $params as $k => $v ) {
 	    $query .= ", ".$k."=".$v;
 	}
@@ -330,7 +341,8 @@ function close_thread($thread,$isuser) {
 	
 	if( $thread['istate'] != $state_closed ) {
 		$link = connect();
-		commit_thread( $thread['threadid'], array('istate' => $state_closed), $link);
+		commit_thread( $thread['threadid'], array('istate' => $state_closed, 
+			'messageCount' => '(SELECT COUNT(*) FROM chatmessage WHERE chatmessage.threadid = t.threadid AND ikind = 1)'), $link);
 		mysql_close($link);
 	}
 
@@ -353,11 +365,12 @@ function thread_by_id($id) {
 }
 
 function create_thread($username,$remoteHost,$referer,$lang) {
+	global $state_loading;
 	$link = connect();
 
 	$query = sprintf(
-		 "insert into chatthread (userName,"."ltoken,remote,referer,lrevision,locale,dtmcreated,dtmmodified) values ".
-								 "('%s',"."%s,'%s','%s',%s,'%s',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)",
+		 "insert into chatthread (userName,"."ltoken,remote,referer,lrevision,locale,dtmcreated,dtmmodified,istate) values ".
+								 "('%s',"."%s,'%s','%s',%s,'%s',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,$state_loading)",
 			mysql_real_escape_string($username),
 			next_token(),
 			mysql_real_escape_string($remoteHost),
@@ -384,7 +397,7 @@ function do_take_thread($threadid,$operatorId,$operatorName) {
 }
 
 function reopen_thread($threadid) {
-	global $state_queue,$state_waiting,$state_chatting,$state_closed,$kind_events;
+	global $state_queue,$state_loading,$state_waiting,$state_chatting,$state_closed,$kind_events;
 	$thread = thread_by_id($threadid);
 
 	if( !$thread )
@@ -393,7 +406,7 @@ function reopen_thread($threadid) {
 	if( $thread['istate'] == $state_closed )
 		return FALSE;
 
-	if( $thread['istate'] != $state_chatting && $thread['istate'] != $state_queue ) {
+	if( $thread['istate'] != $state_chatting && $thread['istate'] != $state_queue && $thread['istate'] != $state_loading ) {
 		$link = connect();
 		commit_thread( $threadid, 
 			array("istate" => $state_waiting ), $link);
@@ -405,7 +418,7 @@ function reopen_thread($threadid) {
 }
 
 function take_thread($thread,$operator) {
-	global $state_queue, $state_waiting, $state_chatting, $kind_events, $home_locale;
+	global $state_queue, $state_loading, $state_waiting, $state_chatting, $kind_events, $home_locale;
 
 	$state = $thread['istate'];
 	$threadid = $thread['threadid'];
@@ -413,7 +426,7 @@ function take_thread($thread,$operator) {
 
 	$operatorName = ($thread['locale'] == $home_locale) ? $operator['vclocalename'] : $operator['vccommonname'];
 
-	if( $state == $state_queue || $state == $state_waiting) {
+	if( $state == $state_queue || $state == $state_waiting || $state == $state_loading) {
 		do_take_thread($threadid, $operator['operatorid'], $operatorName);
 
 		if( $state == $state_waiting  ) {

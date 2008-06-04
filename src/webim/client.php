@@ -31,7 +31,8 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 		}
 		
 		$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "";
-		$remoteHost = isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $_SERVER['REMOTE_ADDR'];
+		$extAddr = $_SERVER['REMOTE_ADDR'];
+		$remoteHost = isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $extAddr;
 		$visitor = $remote_visitor();
 		$thread = create_thread($visitor['name'], $remoteHost, $referer,$current_locale);
 		$_SESSION['threadid'] = $thread['threadid'];

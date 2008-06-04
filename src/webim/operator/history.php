@@ -28,7 +28,8 @@ if($query !== false) {
 	$result = mysql_query(
 		 "select DISTINCT unix_timestamp(chatthread.dtmcreated) as created, ". 
     	 "unix_timestamp(chatthread.dtmmodified) as modified, chatthread.threadid, ".
-		 "chatthread.remote, chatthread.agentName, chatthread.userName ".
+		 "chatthread.remote, chatthread.agentName, chatthread.userName, ".
+		 "messageCount as size ".
 		 "from chatthread, chatmessage ".
 		 "where chatmessage.threadid = chatthread.threadid and ".
 			"((chatthread.userName LIKE '%%$query%%') or ".

@@ -41,6 +41,11 @@ $force_charset_in_connection = true;
 $compatibility_encoding = "cp1251";
 
 /*
+ * This encoding will be used for emails
+ */
+$mail_encoding = $webim_encoding;
+
+/*
  *   From field in outgoing mail.
  */
 $webim_from_email = "webim@yourdomain.com"; /* email from field */
@@ -49,7 +54,7 @@ $webim_from_email = "webim@yourdomain.com"; /* email from field */
  *   Inbox for left messages
  */
 $webim_messages_mail = "operators@yourdomain.com";
-$webim_messages_encoding = "en";
+$webim_messages_locale = "en";
 
 /*
  *   Company international name.
@@ -60,6 +65,11 @@ $company_name = "My Company Ltd.";
  *   Company logo. 
  */
 $company_logo_link = "";
+
+/*
+ * Web Messenger host
+ */
+$webim_host = "";
 
 /*
  *   Locales 
@@ -74,7 +84,7 @@ $default_locale = "en";                     /* if user does not provide known la
 $user_can_change_name = true;
 
 /*
- *   How to build presentable visitor name from {name}. Default: {name}
+ *   How to build presentable visitor name from {name} or {addr}. Default: {name}
  */ 
 $presentable_name_pattern = "{name}";
 

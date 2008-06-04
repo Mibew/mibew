@@ -70,6 +70,7 @@
 			<td class='table' bgcolor='#276db8' height='30'><span class='header'><?php echo getlocal("page.analysis.search.head_name") ?></span></td><td width='3'></td>
 			<td class='table' bgcolor='#276db8' height='30'><span class='header'><?php echo getlocal("page.analysis.search.head_host") ?></span></td><td width='3'></td>
 			<td class='table' bgcolor='#276db8' height='30'><span class='header'><?php echo getlocal("page.analysis.search.head_operator") ?></span></td><td width='3'></td>
+			<td class='table' bgcolor='#276db8' height='30'><span class='header'><?php echo getlocal("page.analysis.search.head_messages") ?></span></td><td width='3'></td>
 			<td class='table' bgcolor='#276db8' height='30'><span class='header'><?php echo getlocal("page.analysis.search.head_time") ?></span></td>
 		</tr>
 		<?php foreach( $page['pagination.items'] as $chatthread ) { ?>
@@ -84,10 +85,13 @@
         			<?php if( $chatthread['agentName'] ) { ?><?php echo topage(htmlspecialchars($chatthread['agentName'])) ?><?php } ?>
 				</td><td background='<?php echo $webimroot ?>/images/tablediv3.gif'><img width='3' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td>
 				<td height='30' class='table'>
-					<?php echo date("d M Y H:i:s", $chatthread['created']) ?>,  <?php echo date_diff($chatthread['modified']-$chatthread['created']) ?>
+        			<?php echo topage(htmlspecialchars($chatthread['size'])) ?>
+				</td><td background='<?php echo $webimroot ?>/images/tablediv3.gif'><img width='3' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td>
+				<td height='30' class='table'>
+					<?php echo strftime("%B, %d %Y %H:%M:%S", $chatthread['created']) ?>,  <?php echo date_diff($chatthread['modified']-$chatthread['created']) ?>
 				</td>
 			</tr>
-			<tr><td height='2' colspan='7'></td></tr><tr><td bgcolor='#e1e1e1' colspan='7'><img width='1' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td></tr><tr><td height='2' colspan='7'></td></tr>
+			<tr><td height='2' colspan='9'></td></tr><tr><td bgcolor='#e1e1e1' colspan='9'><img width='1' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td></tr><tr><td height='2' colspan='9'></td></tr>
 		<?php } ?>
 	</table>
 	<br />

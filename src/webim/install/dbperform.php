@@ -80,6 +80,13 @@ if($act == "createdb") {
 			runsql("ALTER TABLE chatthread ADD userTyping int DEFAULT 0", $link);
 		}
 
+		if( in_array("chatthread.messageCount", $absent) ) {
+			runsql("ALTER TABLE chatthread ADD messageCount varchar(16)", $link);
+			runsql("ALTER TABLE chatmessage ADD index idx_threadid_ikind (threadid, ikind)", $link);
+			runsql("UPDATE chatthread t SET t.messageCount = (SELECT COUNT(*) FROM chatmessage WHERE chatmessage.threadid = t.threadid AND ikind = 1)", $link); 
+			runsql("ALTER TABLE chatmessage DROP INDEX idx_threadid_ikind", $link);
+		}
+
 	}
 }
 

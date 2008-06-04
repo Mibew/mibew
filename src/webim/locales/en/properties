@@ -55,6 +55,7 @@ chat.thread.state_wait=In queue
 chat.thread.state_wait_for_another_agent=Waiting for operator
 chat.thread.state_chatting_with_agent=In chat
 chat.thread.state_closed=Closed
+chat.thread.state_loading=Loading
 clients.title=List of awaiting visitors
 clients.no_clients=The list of awaiting visitors is empty
 clients.intro=The page displays list of awaiting visitors.
@@ -79,6 +80,7 @@ page_analysis.search.title=Chats history
 page.analysis.search.head_name=Name
 page.analysis.search.head_host=Visitor's address
 page.analysis.search.head_operator=Operator
+page.analysis.search.head_messages=Visitor's messages
 page.analysis.search.head_time=Time in chat
 common.asterisk_explanation=<b><font class="red">*</font></b> - mandatory fields
 page_agents.title=Agents

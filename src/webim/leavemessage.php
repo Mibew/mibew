@@ -43,16 +43,10 @@ if( count($errors) > 0 ) {
 	exit;
 }
 
-// FIXME mail encoding
+$subject = getstring2_("leavemail.subject", array($visitor_name), $webim_messages_locale);
+$body = getstring2_("leavemail.body", array($visitor_name,$email,$message), $webim_messages_locale); 
 
-$subject = getstring2_("leavemail.subject", array($visitor_name), $webim_messages_encoding);
-$body = getstring2_("leavemail.body", array($visitor_name,$email,$message), $webim_messages_encoding); 
-
-$headers = 'From: '.$webim_from_email."\r\n" .
-   'Reply-To: '.$email."\r\n" .
-   'X-Mailer: PHP/'.phpversion();
-
-mail($webim_messages_mail,$subject,wordwrap($body,70),$headers);
+webim_mail($webim_messages_mail, $email, $subject, $body);
 
 
 start_html_output();

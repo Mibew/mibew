@@ -1,5 +1,5 @@
 
-Web Instant Messenger 1.0.9
+Web Instant Messenger 1.0.10
 Copyright (c) 2005-2008 Web Messenger Creators Community.
 
 This program and the accompanying materials are made available under

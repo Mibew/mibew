@@ -1,4 +1,15 @@
 
+  1.0.10
+  ------
+  
+  [+] Number of messages from visitor in history
+  [+] State "loading" (means user is still loading his window)
+  [!] Company logo link target is now an option in config
+  [!] Mail encoding fixed (separate option)
+  [!] Operator/user locale is stored in cookie
+  [!] localized dates
+  [!] fixed installing on DB with numeric name
+
   1.0.9
   -----
 

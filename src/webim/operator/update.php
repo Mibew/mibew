@@ -27,14 +27,16 @@ $threadstate_to_string = array(
 	$state_queue => "wait",
 	$state_waiting => "prio",
 	$state_chatting => "chat",
-	$state_closed => "closed"
+	$state_closed => "closed",
+	$state_loading => "wait"
 );
 
 $threadstate_key = array(
 	$state_queue => "chat.thread.state_wait",
 	$state_waiting => "chat.thread.state_wait_for_another_agent",
 	$state_chatting => "chat.thread.state_chatting_with_agent",
-	$state_closed => "chat.thread.state_closed"
+	$state_closed => "chat.thread.state_closed",
+	$state_loading => "chat.thread.state_loading"
 );
 
 function thread_to_xml($thread) {
@@ -50,7 +52,7 @@ function thread_to_xml($thread) {
 	$result .= " canopen=\"true\"";
 
 	$result .= " state=\"$state\" typing=\"".$thread['userTyping']."\">";
-	$result .= "<name>".htmlspecialchars(htmlspecialchars(get_user_name($thread['userName'])))."</name>";
+	$result .= "<name>".htmlspecialchars(htmlspecialchars(get_user_name($thread['userName'],$thread['remote'])))."</name>";
 	$result .= "<addr>".htmlspecialchars(htmlspecialchars($thread['remote']))."</addr>";
 	$result .= "<agent>".htmlspecialchars(htmlspecialchars($threadoperator))."</agent>";
 	$result .= "<time>".$thread['unix_timestamp(dtmcreated)']."000</time>";

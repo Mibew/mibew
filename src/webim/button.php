@@ -17,8 +17,9 @@ require_once('libs/operator.php');
 
 $image = verifyparam("image","/^\w+$/", "webim");
 $lang = verifyparam("lang", "/^[\w-]{2,5}$/", "");
-if( !$lang || !in_array($lang,$available_locales) )
+if(!$lang || !in_array($lang,$available_locales)) {
 	$lang = $current_locale;
+}
 
 $image_postfix = has_online_operators() ? "on" : "off";
 $filename = "locales/${lang}/button/${image}_${image_postfix}.gif";

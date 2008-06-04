@@ -52,16 +52,10 @@ foreach( $output as $msg ) {
 	$history .= $msg;
 }
 
-// FIXME mail encoding?
-
 $subject = getstring("mail.user.history.subject");
 $body = getstring2("mail.user.history.body", array($thread['userName'],$history) ); 
 
-$headers = 'From: '.$webim_from_email."\r\n" .
-   'Reply-To: '.$webim_from_email."\r\n" .
-   'X-Mailer: PHP/'.phpversion();
-
-mail($email,$subject,wordwrap($body,70),$headers);
+webim_mail($email, $webim_from_email, $subject, $body);
 
 start_html_output();
 require('view/chat_mailsent.php');

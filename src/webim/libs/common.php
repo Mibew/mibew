@@ -17,7 +17,7 @@ session_start();
 require_once(dirname(__FILE__).'/converter.php');
 require_once(dirname(__FILE__).'/config.php');
 
-$version = 'v1.0.9';
+$version = 'v1.0.10/pre1';
 
 function myiconv($in_enc, $out_enc, $string) {
 	global $_utf8win1251, $_win1251utf8;
@@ -69,6 +69,12 @@ function debugexit_print( $var ) {
 function get_user_locale() {
 	global $available_locales, $default_locale;
 
+	if( isset($_COOKIE['webim_locale']) ) {
+		$requested_lang = $_COOKIE['webim_locale'];
+		if( in_array($requested_lang,$available_locales) )
+			return $requested_lang;
+	}
+
 	if( isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ) {
 		$requested_langs = explode(",",$_SERVER['HTTP_ACCEPT_LANGUAGE']);
 		foreach( $requested_langs as $requested_lang) {
@@ -87,12 +93,13 @@ function get_user_locale() {
 }
 
 function get_locale() {
-	global $available_locales;
+	global $available_locales, $webimroot;
 
 	$locale = verifyparam("locale", "/^[\w-]{2,5}$/", "");
 
 	if( $locale && in_array($locale,$available_locales) ) {
 		$_SESSION['locale'] = $locale;
+		setcookie('webim_locale', $locale, time()+60*60*24*1000, "$webimroot/");
 	} else if( isset($_SESSION['locale']) ){
 	    $locale = $_SESSION['locale'];
 	}
@@ -102,13 +109,8 @@ function get_locale() {
 	return $locale;
 }
 
-function set_locale($locale) {
-	global $current_locale, $available_locales;
-	if( in_array($locale,$available_locales) )
-		$current_locale = $locale;
-}
-
 $current_locale = get_locale();
+setlocale(LC_TIME, $current_locale);
 $messages = array();
 $output_encoding = array();
 
@@ -177,6 +179,11 @@ function getstring($text) {
 function getlocal($text) {
 	global $current_locale, $webim_encoding;
 	return myiconv($webim_encoding,getoutputenc(), getstring_($text,$current_locale));
+}
+
+function getlocal_($text,$locale) {
+	global $webim_encoding;
+	return myiconv($webim_encoding,getoutputenc(), getstring_($text,$locale));
 }
 
 function topage($text) {
@@ -350,8 +357,8 @@ function date_diff($seconds) {
 	}
 }
 
-function is_valid_email($mail) {
-	return preg_match("/^[^@]+@[^\.]+(\.[^\.]+)*$/", $mail);
+function is_valid_email($email) {
+	return preg_match("/^[^@]+@[^\.]+(\.[^\.]+)*$/", $email);
 }
 
 function quote_smart($value,$link) {
@@ -377,7 +384,7 @@ function get_month_selection($fromtime,$totime) {
 	$result = array();
 	do {
 		$current = mktime(0,0,0,$month,1,$year);
-		$result[date("m.y",$current)] = date("M, Y",$current);
+		$result[date("m.y",$current)] = strftime("%B, %Y",$current);
 		$month++;
 		if( $month > 12 ) {
 			$month = 1;
@@ -398,6 +405,19 @@ function set_form_date($utime,$prefix) {
 	global $page;
 	$page["form${prefix}day"] = date("d", $utime);
 	$page["form${prefix}month"] = date("m.y", $utime);
+}
+
+function webim_mail($toaddr, $reply_to, $subject, $body) {
+	global $webim_encoding, $webim_from_email, $mail_encoding;
+
+	$headers = "From: $webim_from_email\r\n"
+	   ."Reply-To: ".myiconv($webim_encoding, $mail_encoding, $reply_to)."\r\n"
+	   ."Content-Type: text/plain; charset=$mail_encoding\r\n"
+	   .'X-Mailer: PHP/'.phpversion();
+
+	$real_subject = "=?".$mail_encoding."?B?".base64_encode(myiconv($webim_encoding,$mail_encoding,$subject))."?=";
+
+	mail($toaddr, $real_subject, wordwrap(myiconv($webim_encoding, $mail_encoding, $body),70), $headers);
 }
 
 ?>
