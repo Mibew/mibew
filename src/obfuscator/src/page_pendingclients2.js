@@ -113,6 +113,7 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
     this._options.handleError = this.handleError.bind(this);
     this._options.updateContent = this.updateContent.bind(this);
     this._options.lastrevision = 0;
+    this.threadTimers = new Object();
     this.delta = 0;
     this.t = this._options.table;
     this.periodicalUpdater = new Ajax.PeriodicalUpdater(this._options);
@@ -158,6 +159,7 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 			HtmlGenerationUtils.removeHr(this.t, row.rowIndex+1);
 			this.t.deleteRow(row.rowIndex);
 		}
+		this.threadTimers[id] = null;
 		return;
 	}
 
@@ -177,12 +179,14 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 	if( row != null && (row.rowIndex <= startRow.rowIndex || row.rowIndex >= endRow.rowIndex ) ) {
 		HtmlGenerationUtils.removeHr(this.t, row.rowIndex+1);
 		this.t.deleteRow(row.rowIndex);
+		this.threadTimers[id] = null;
 		row = null;
 	}
 	if( row == null ) {
 		row = this.t.insertRow(startRow.rowIndex+1);
 		HtmlGenerationUtils.insertHr(this.t, startRow.rowIndex+2);
 		row.id = "thr"+id;
+		this.threadTimers[id] = new Array(vtime,modified,stateid);
 		CommonUtils.insertCell(row, "name", "table", null, 30, HtmlGenerationUtils.viewOpenCell(vname,this._options.agentservl,id,canview,canopen,ban,message) );
 		HtmlGenerationUtils.insertSplitter(row);
 		CommonUtils.insertCell(row, "contid", "table", "center", null, vaddr );
@@ -200,6 +204,7 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 		if( stateid == 'wait' || stateid == 'prio' )
 			return true;
 	} else {
+		this.threadTimers[id] = new Array(vtime,modified,stateid);
 		setcell(this.t, row,"name",HtmlGenerationUtils.viewOpenCell(vname,this._options.agentservl,id,canview,canopen,ban,message));
 		setcell(this.t, row,"contid",vaddr);
 		setcell(this.t, row,"state",vstate);
@@ -247,6 +252,24 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 	return prefix + minutes+":"+secs;
   },
   
+  updateTimers: function() {
+	for (var i in this.threadTimers) {
+		if (this.threadTimers[i] != null) {
+			var value = this.threadTimers[i];
+			var row = CommonUtils.getRow("thr"+i, this.t);
+			if( row != null ) {
+				function setcell(_table, row,id,pcontent) {
+					var cell = CommonUtils.getCell( id, row, _table );
+					if( cell )
+						cell.innerHTML = pcontent;
+				}
+				setcell(this.t, row,"time",this.getTimeSince(value[0]));
+				setcell(this.t, row,"wait",(value[2]!='chat' ? this.getTimeSince(value[1]) : '-'));
+			}
+		}
+	}
+  },
+  
   updateContent: function(xmldoc) {
 	var root = xmldoc.documentElement;
 	var newAdded = false;
@@ -266,6 +289,7 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 					newAdded = true;
 		}
 		this.updateQueueMessages();
+		this.updateTimers();
 		this.setStatus( "Up to date" );
 		if( newAdded )
 			window.focus();
