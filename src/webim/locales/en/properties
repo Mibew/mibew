@@ -163,7 +163,7 @@ install.next=Next step:
 install.title=Installation
 installed.login_link=Proceed to login page
 installed.message=<b>Application installed successfully.</b>
-installed.notice=You can logon as admin with empty password. For security reasons, please <br/>change your password immediately and remove /webim/install folder from your server.
+installed.notice=You can logon as admin with empty password.<br/><br/><font color="#c13030"><b>!!! For security reasons, please change your password immediately and remove /webim/install folder from your server.</b></font>
 leavemail.body=Your have a message from {0}:\n\n{2}\n\nHis email: {1}\n\n--- \nYours site messenger
 leavemail.subject=Question from {0}
 leavemessage.close=Close

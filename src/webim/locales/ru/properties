@@ -163,7 +163,7 @@ install.next=Следующий шаг:
 install.title=Установка
 installed.login_link=Войти в систему
 installed.message=<b>Установка успешно завершена. </b>
-installed.notice=Вы можете войти в систему как admin с пустым паролем.<br/>В целях безопасности, удалите, пожалуйста, каталог /webim/install с вашего сервера и поменяйте пароль.
+installed.notice=Вы можете войти в систему как admin с пустым паролем.<br/><br/><font color="#c13030"><b>!!! В целях безопасности, удалите, пожалуйста, каталог /webim/install с вашего сервера и поменяйте пароль.</b></font>
 leavemail.body=Ваш посетитель '{0}' оставил сообщение:\n\n{2}\n\nЕmail: {1}\n\n--- \nС уважением,\nВаш Веб Мессенджер
 leavemail.subject=Вопрос от {0}
 leavemessage.close=Закрыть
