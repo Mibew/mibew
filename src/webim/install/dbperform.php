@@ -12,9 +12,9 @@
  *    Evgeny Gryaznov - initial API and implementation
  */
 
-require('../libs/common.php');
-require('../libs/operator.php');
-require('dbinfo.php');
+require_once('../libs/common.php');
+require_once('../libs/operator.php');
+require_once('dbinfo.php');
 
 function runsql($query,$link) {
 	mysql_query($query,$link)

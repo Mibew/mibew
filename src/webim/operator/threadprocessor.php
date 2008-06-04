@@ -12,9 +12,9 @@
  *    Evgeny Gryaznov - initial API and implementation
  */
 
-require('../libs/common.php');
-require('../libs/operator.php');
-require('../libs/chat.php');
+require_once('../libs/common.php');
+require_once('../libs/operator.php');
+require_once('../libs/chat.php');
 
 $operator = check_login();
 

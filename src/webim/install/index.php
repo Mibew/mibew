@@ -12,8 +12,8 @@
  *    Evgeny Gryaznov - initial API and implementation
  */
 
-require('../libs/common.php');
-require('dbinfo.php');
+require_once('../libs/common.php');
+require_once('dbinfo.php');
 
 $page = array(
 	'version' => $version,

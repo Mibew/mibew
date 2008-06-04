@@ -12,8 +12,8 @@
  *    Evgeny Gryaznov - initial API and implementation
  */
 
-require('libs/common.php');
-require('libs/operator.php');
+require_once('libs/common.php');
+require_once('libs/operator.php');
 
 $image = verifyparam("image","/^\w+$/", "webim");
 $lang = verifyparam("lang", "/^[\w-]{2,5}$/", "");

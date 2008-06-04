@@ -14,8 +14,8 @@
 
 session_start();
 
-require(dirname(__FILE__).'/converter.php');
-require(dirname(__FILE__).'/config.php');
+require_once(dirname(__FILE__).'/converter.php');
+require_once(dirname(__FILE__).'/config.php');
 
 $version = 'v1.0.9';
 

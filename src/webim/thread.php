@@ -12,9 +12,9 @@
  *    Evgeny Gryaznov - initial API and implementation
  */
 
-require('libs/common.php');
-require('libs/chat.php');
-require('libs/operator.php');
+require_once('libs/common.php');
+require_once('libs/chat.php');
+require_once('libs/operator.php');
 
 $act = verifyparam( "act", "/^(refresh|post|rename|close|ping".")$/");
 $token = verifyparam( "token", "/^\d{1,9}$/");

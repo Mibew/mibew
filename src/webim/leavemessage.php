@@ -12,8 +12,8 @@
  *    Evgeny Gryaznov - initial API and implementation
  */
 
-require('libs/common.php');
-require('libs/chat.php');
+require_once('libs/common.php');
+require_once('libs/chat.php');
 
 $errors = array();
 $page = array();
