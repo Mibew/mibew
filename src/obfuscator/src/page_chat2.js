@@ -58,6 +58,7 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
     this._options.onComplete = this.requestComplete.bind(this);
     this.updater = {};
     this.frequency = (this._options.frequency || 2);
+    this.cansend = true;
 	FrameUtils.initFrame(this._options.container);
     if( this._options.message ) {
 		this._options.message.onkeydown = this.handleKeyDown.bind(this);
@@ -96,6 +97,7 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
 
   requestComplete: function(_response) {
     this.enableInput(true);
+	this.cansend = true;   
 	var xmlRoot = Ajax.getXml(_response);
     if( xmlRoot && xmlRoot.tagName == 'thread' ) {
       this.updateContent( xmlRoot );
@@ -107,6 +109,10 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
   },
 
   postMessage: function(msg) {
+  	if( msg == "" || !this.cansend) {
+  		return;
+  	}
+  	this.cansend = false;
   	this.stopUpdate();
     this.updateOptions("post");
     var postOptions = {}.extend(this._options);
