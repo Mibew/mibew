@@ -177,7 +177,7 @@ var threadParams = { servl:"<?php echo $webimroot ?>/thread.php",wroot:"<?php ec
 			<tr>
 		    <td bgcolor="#A1A1A1"><img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="1" border="0" alt="" /></td>
 		    <td width="100%" height="100%" bgcolor="#FFFFFF" valign="top">
-				<iframe id="chatwnd" width="100%" height="100%" src='<?php echo $webimroot ?>/images/free.gif' frameborder="0" style="overflow:auto;">
+				<iframe id="chatwnd" width="100%" height="100%" src='<?php echo $webimroot ?>/images/blank.html' frameborder="0" style="overflow:auto;">
 				Sorry, your browser does not support iframes; try a browser that supports W3 standards.
 				</iframe>
 			</td>
