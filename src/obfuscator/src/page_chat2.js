@@ -56,6 +56,7 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
   initialize: function(_options) {
     this.setOptions(_options);
     this._options.onComplete = this.requestComplete.bind(this);
+    this._options.onException = this.handleException.bind(this);
     this.updater = {};
     this.frequency = (this._options.frequency || 2);
     this.cansend = true;
@@ -66,6 +67,12 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
 		this._options.message.onblur = (function() { this.focused = false; }).bind(this)
 	}
     this.update();
+  },
+
+  handleException: function(_request, ex) {
+  	this.setStatus(ex.name + " occured: " + ex.message);
+	this.stopUpdate();
+	this.timer = setTimeout(this.update.bind(this), this.frequency * 1000);
   },
 
   updateOptions: function(act) {
