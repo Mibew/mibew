@@ -16,7 +16,7 @@ require_once('libs/common.php');
 require_once('libs/operator.php');
 
 $image = verifyparam("image","/^\w+$/", "webim");
-$lang = verifyparam("lang", "/^[\w-]{2,5}$/", "");
+$lang = verifyparam(isset($_GET['language']) ? "language" : "lang", "/^[\w-]{2,5}$/", "");
 if(!$lang || !in_array($lang,$available_locales)) {
 	$lang = $current_locale;
 }
