@@ -1,4 +1,14 @@
 
+  1.4.0
+  -----
+
+  [+] introduce messenger settings page, persist several options in DB instead of config.php
+  [+] improve history search speed
+  [+] do not show typing notification for disconnected remote
+  [!] monitor connection status, show reconnecing message when connection is low (pendings users and chat window)
+  [!] support lang & language args in button code, create correct code for link
+  [!] fix safari, opera 9.5+ (+ several others compatibility fixes)
+
   1.0.10
   ------
   
