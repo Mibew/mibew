@@ -34,11 +34,11 @@
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
 <tr>
 <td valign="top" class="text">
-	
- <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="left" valign="top"> 
+
+ <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="left" valign="top">
 		<h1><?php echo getlocal("page_analysis.search.title") ?></h1>
- </td><td align="right" class="text" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="textform"><?php echo getlocal2("menu.operator",array($page['operator'])) ?></td><td class="textform"><img src='<?php echo $webimroot ?>/images/topdiv.gif' width="25" height="15" border="0" alt="|" /></td><td class="textform"><a href="<?php echo $webimroot ?>/operator/index.php" title="<?php echo getlocal("menu.main") ?>"><?php echo getlocal("menu.main") ?></a></td></tr></table></td></tr></table> 
-	
+ </td><td align="right" class="text" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="textform"><?php echo getlocal2("menu.operator",array($page['operator'])) ?></td><td class="textform"><img src='<?php echo $webimroot ?>/images/topdiv.gif' width="25" height="15" border="0" alt="|" /></td><td class="textform"><a href="<?php echo $webimroot ?>/operator/index.php" title="<?php echo getlocal("menu.main") ?>"><?php echo getlocal("menu.main") ?></a></td></tr></table></td></tr></table>
+
 
 	<?php echo getlocal("page_search.intro") ?>
 <br />

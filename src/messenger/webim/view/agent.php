@@ -34,11 +34,11 @@
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
 <tr>
 <td valign="top" class="text">
-	
- <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="left" valign="top"> 
+
+ <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="left" valign="top">
 		<h1><?php echo getlocal("page_agent.title") ?></h1>
- </td><td align="right" class="text" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="textform"><?php echo getlocal2("menu.operator",array($page['operator'])) ?></td><td class="textform"><img src='<?php echo $webimroot ?>/images/topdiv.gif' width="25" height="15" border="0" alt="|" /></td><td class="textform"><a href="<?php echo $webimroot ?>/operator/operators.php" title="<?php echo getlocal("menu.agents") ?>"><?php echo getlocal("menu.agents") ?></a></td><td class="textform"><img src='<?php echo $webimroot ?>/images/topdiv.gif' width="25" height="15" border="0" alt="|" /></td><td class="textform"><a href="<?php echo $webimroot ?>/operator/index.php" title="<?php echo getlocal("menu.main") ?>"><?php echo getlocal("menu.main") ?></a></td></tr></table></td></tr></table> 
-	
+ </td><td align="right" class="text" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="textform"><?php echo getlocal2("menu.operator",array($page['operator'])) ?></td><td class="textform"><img src='<?php echo $webimroot ?>/images/topdiv.gif' width="25" height="15" border="0" alt="|" /></td><td class="textform"><a href="<?php echo $webimroot ?>/operator/operators.php" title="<?php echo getlocal("menu.agents") ?>"><?php echo getlocal("menu.agents") ?></a></td><td class="textform"><img src='<?php echo $webimroot ?>/images/topdiv.gif' width="25" height="15" border="0" alt="|" /></td><td class="textform"><a href="<?php echo $webimroot ?>/operator/index.php" title="<?php echo getlocal("menu.main") ?>"><?php echo getlocal("menu.main") ?></a></td></tr></table></td></tr></table>
+
 
 	<?php if( $page['agentId'] ) { ?>
 <?php echo getlocal("page_agent.intro") ?>
@@ -94,14 +94,14 @@
 		<tr><td colspan='3' height='20'></td></tr><tr><td colspan='3' background='<?php echo $webimroot ?>/images/formline.gif'><img src='<?php echo $webimroot ?>/images/formline.gif' width='1' height='2' border='0' alt=''></td></tr><tr><td colspan='3' height='10'></td></tr>
 		<tr>
 			<td class="formauth" colspan="3">
-                    <input type="hidden" name="agentId" value="<?php echo $page['agentId'] ?>"/> 
+                    <input type="hidden" name="agentId" value="<?php echo $page['agentId'] ?>"/>
 			        <input type="image" name="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' border="0" alt='<?php echo getlocal("button.save") ?>'/>
 			</td>
 		</tr>
 
 	</table></td><td></td></tr><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlb.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrb.gif' width='16' height='16' border='0' alt=''></td></tr></table></td></tr></table>
 
-	
+
 
 
 

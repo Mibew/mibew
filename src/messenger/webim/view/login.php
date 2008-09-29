@@ -34,11 +34,11 @@
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
 <tr>
 <td valign="top" class="text">
-	
-		<h1><?php echo getlocal("page_login.title") ?></h1>
-	
 
-	
+		<h1><?php echo getlocal("page_login.title") ?></h1>
+
+
+
 
 
 <?php if( isset($errors) && count($errors) > 0 ) { ?>
@@ -109,7 +109,7 @@
 		<tr>
 			<td><input type="hidden" name="backPath" value="<?php echo $page['backPath'] ?>"/> <input type="image" name="" src='<?php echo $webimroot.getlocal("image.button.login") ?>' border="0" alt='<?php echo getlocal("button.enter") ?>'/>
 			</td>
-			
+
 		</tr>
 	</table></td><td></td></tr><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlb.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrb.gif' width='16' height='16' border='0' alt=''></td></tr></table></td></tr></table>
 </form>

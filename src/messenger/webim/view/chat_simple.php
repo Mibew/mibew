@@ -77,11 +77,11 @@
 
 			<tr>
 		    <td height="60" align="right">
-				
+
 				<table cellspacing="0" cellpadding="0" border="0">
 				<tr>
 
-				<td class="text" nowrap><?php echo getlocal("chat.client.name") ?></td> 
+				<td class="text" nowrap><?php echo getlocal("chat.client.name") ?></td>
 				<td width="10" valign="top"><img src='<?php echo $webimroot ?>/images/free.gif' width="10" height="1" border="0" alt="" /></td>
 				<td><input id="uname" type="text" size="12" value="<?php echo $page['ct.user.name'] ?>" class="username"></td>
 				<td width="5" valign="top"><img src='<?php echo $webimroot ?>/images/free.gif' width="5" height="1" border="0" alt="" /></td>
@@ -94,7 +94,7 @@
 				<td><a id="refresh" href="javascript:void(0)" onclick="return false;" title="<?php echo getlocal("chat.window.toolbar.refresh") ?>">
 				<img src='<?php echo $webimroot ?>/images/buttons/refresh.gif' width="25" height="25" border="0" alt="Refresh" /></a></td>
 
-			    
+
 
 			    <td width="20"></td>
 				</tr>
@@ -234,6 +234,5 @@ getEl('msgsend1').onclick = function() {
 	return false;
 }
 //--></script>
-
 </body>
 </html>

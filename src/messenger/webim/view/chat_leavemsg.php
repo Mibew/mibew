@@ -68,19 +68,19 @@
 		<tr>
 	    <td colspan="3" class="text"><?php echo getlocal("leavemessage.descr") ?></td>
 		</tr>
-		<tr><td height="20" colspan="3"></td></tr>		
+		<tr><td height="20" colspan="3"></td></tr>
 		<tr>
 	    <td class="text"><?php echo getlocal("form.field.email") ?>:</td>
 	    <td width="20"></td>
 	    <td><input type="text" name="email" size="50" value="<?php echo form_value('email') ?>" class="username"/></td>
 		</tr>
-		<tr><td height="7" colspan="3"></td></tr>		
+		<tr><td height="7" colspan="3"></td></tr>
 		<tr>
 	    <td class="text"><?php echo getlocal("form.field.name") ?>:</td>
 	    <td width="20"></td>
 	    <td><input type="text" name="name" size="50" value="<?php echo form_value('name') ?>" class="username"/></td>
 		</tr>
-		<tr><td height="7" colspan="3"></td></tr>		
+		<tr><td height="7" colspan="3"></td></tr>
 		<tr>
 	    <td class="text"><?php echo getlocal("form.field.message") ?>:</td>
 	    <td width="20"></td>
@@ -126,7 +126,7 @@
 	</td>
 	</tr>
 	</table>
-	
+
 </td>
 <td></td>
 </tr>
@@ -143,7 +143,6 @@
 </td>
 </tr>
 </table>
-
 </body>
 </html>
 

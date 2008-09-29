@@ -35,11 +35,11 @@
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
 <tr>
 <td valign="top" class="text">
-	
-		<h1><?php echo getlocal("thread.chat_log") ?></h1>
-	
 
-	
+		<h1><?php echo getlocal("thread.chat_log") ?></h1>
+
+
+
 <?php echo getlocal("thread.intro") ?>
 
 <br/><br/>
@@ -54,8 +54,8 @@
 	<td height='45' class='table'>
 		<span class="message">
                         <?php foreach( $page['threadMessages'] as $message ) { ?>
-                        	<?php echo $message ?>	
-                        <?php } ?>			
+                        	<?php echo $message ?>
+                        <?php } ?>
 		</span>
 	</td>
 </tr>
