@@ -16,11 +16,11 @@ require_once('libs/common.php');
 require_once('libs/chat.php');
 require_once('libs/operator.php');
 
-$act = verifyparam( "act", "/^(refresh|post|rename|close|ping".")$/");
+$act = verifyparam( "act", "/^(refresh|post|rename|close|ping)$/");
 $token = verifyparam( "token", "/^\d{1,9}$/");
 $threadid = verifyparam( "thread", "/^\d{1,9}$/");
 $isuser = verifyparam( "user", "/^true$/", "false") == 'true';
-$outformat = (verifyparam( "html", "/^on$/", "off") == 'on') ? "html" : "xml";
+$outformat = ((verifyparam( "html", "/^on$/", "off") == 'on') ? "html" : "xml");
 $istyping = verifyparam( "typed", "/^1$/", "") == '1';
 
 $thread = thread_by_id($threadid);
@@ -28,8 +28,17 @@ if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] ) {
 	die("wrong thread");
 }
 
-# This code helps in simulation of operator connection problems
-# if( !$isuser )     die("error");
+function show_ok_result($resid) {
+	start_xml_output();
+	echo "<$resid></$resid>";
+	exit;
+}
+
+function show_error($message) {
+	start_xml_output();
+	echo "<error><descr>$message</descr></error>";
+	exit;
+}
 
 ping_thread($thread, $isuser,$istyping);
 
@@ -49,7 +58,7 @@ if( $act == "refresh" ) {
 
 	$kind = $isuser ? $kind_user : $kind_agent;
 	$from = $isuser ? $thread['userName'] : $thread['agentName'];
-    
+
 	post_message($threadid,$kind,$message,$from, $isuser ? null : $operator['operatorid'] );
 	print_thread_messages($thread, $token, $lastid, $isuser, $outformat);
 	exit;
@@ -57,35 +66,25 @@ if( $act == "refresh" ) {
 } else if( $act == "rename" ) {
 
 	if( !$user_can_change_name ) {
-		start_xml_output();
-		echo "<error></error>";
-		exit;
+		show_error("server: forbidden to change name");
 	}
 
 	$newname = getrawparam('name');
 
 	rename_user($thread, $newname);
 	$data = strtr(base64_encode(myiconv($webim_encoding,"utf-8",$newname)), '+/=', '-_,');
-	setcookie($namecookie, $data, time()+60*60*24*365); 
-	start_xml_output();
-	echo "<changedname></changedname>";
-	exit;
+	setcookie($namecookie, $data, time()+60*60*24*365);
+	show_ok_result("rename");
 
 } else if( $act == "ping" ) {
-
-	start_xml_output();
-	echo "<ping></ping>";
-	exit;
+	show_ok_result("ping");
 
 } else if( $act == "close" ) {
-	
+
 	if( $isuser || $thread['agentId'] == $operator['operatorid']) {
 		close_thread($thread, $isuser);
 	}
-
-	start_xml_output();
-	echo "<closed></closed>";
-	exit;
+	show_ok_result("closed");
 
 }
 
