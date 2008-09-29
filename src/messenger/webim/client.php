@@ -29,7 +29,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 			require('view/chat_leavemsg.php');
 			exit;
 		}
-		
+
 		$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "";
 		$extAddr = $_SERVER['REMOTE_ADDR'];
 		$remoteHost = isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $extAddr;
@@ -56,8 +56,6 @@ $thread = thread_by_id($threadid);
 if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] ) {
 	die("wrong thread");
 }
-
-//$level = "simple";
 
 setup_chatview_for_user($thread, $level);
 start_html_output();
