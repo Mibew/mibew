@@ -44,10 +44,14 @@ if( count($errors) > 0 ) {
 }
 
 $subject = getstring2_("leavemail.subject", array($visitor_name), $webim_messages_locale);
-$body = getstring2_("leavemail.body", array($visitor_name,$email,$message), $webim_messages_locale); 
+$body = getstring2_("leavemail.body", array($visitor_name,$email,$message), $webim_messages_locale);
 
-webim_mail($webim_messages_mail, $email, $subject, $body);
+loadsettings();
+$inbox_mail = $settings['email'];
 
+if($inbox_mail) {
+	webim_mail($inbox_mail, $email, $subject, $body);
+}
 
 start_html_output();
 require('view/chat_leavemsgsent.php');
