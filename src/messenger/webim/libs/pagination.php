@@ -34,31 +34,31 @@ function setup_pagination($items,$default_items_per_page=15) {
 		$items_per_page = verifyparam("items", "/^\d{1,3}$/", $default_items_per_page);
 		if( $items_per_page < 2 )
 			$items_per_page = 2;
-	
+
 		$total_pages = div(count($items) + $items_per_page - 1, $items_per_page);
 		$curr_page = verifyparam("page", "/^\d{1,6}$/", 1);
-	
+
 		if( $curr_page < 1 )
 			$curr_page = 1;
 		if( $curr_page > $total_pages )
 			$curr_page = $total_pages;
-	
+
 		$start_index = ($curr_page-1)*$items_per_page;
 		$end_index = min($start_index+$items_per_page, count($items));
-	    $page['pagination.items'] = array_slice($items, $start_index, $end_index-$start_index);
-	    $page['pagination'] = 
-	    	array(  "page" => $curr_page, "items" => $items_per_page, "total" => $total_pages, 
-	    			"count" => count($items), "start" => $start_index, "end" => $end_index );
+		$page['pagination.items'] = array_slice($items, $start_index, $end_index-$start_index);
+		$page['pagination'] =
+			array(  "page" => $curr_page, "items" => $items_per_page, "total" => $total_pages,
+					"count" => count($items), "start" => $start_index, "end" => $end_index );
 	} else {
-    	$page['pagination.items'] = false;
-    	$page['pagination'] = true;
+		$page['pagination.items'] = false;
+		$page['pagination'] = true;
 	}
 }
 
 function setup_empty_pagination() {
 	global $page;
-    $page['pagination.items'] = false;
-    $page['pagination'] = false;
+	$page['pagination.items'] = false;
+	$page['pagination'] = false;
 }
 
 function generate_pagination($pagination) {
@@ -72,7 +72,7 @@ function generate_pagination($pagination) {
 
 		$minPage = max( $curr_page - $links_on_page, 1 );
 		$maxPage = min( $curr_page + $links_on_page, $pagination['total'] );
-		
+
 		if( $curr_page > 1 ) {
 			$result .= generate_pagination_link($curr_page-1, generate_pagination_image("prevpage")).$pagination_spacing;
 		}
@@ -86,7 +86,6 @@ function generate_pagination($pagination) {
 			if( $i < $maxPage )
 				$result .= $pagination_spacing;
 		}
-
 
 		if( $curr_page < $pagination['total'] ) {
 			$result .= $pagination_spacing.generate_pagination_link($curr_page+1, generate_pagination_image("nextpage"));

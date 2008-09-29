@@ -36,17 +36,10 @@ function get_operators() {
 	$link = connect();
 
 	$query = "select * from chatoperator order by vclogin";
-	$result = mysql_query($query,$link) or die(' Query failed: ' .mysql_error().": ".$query);
-
-	$operators = array();
-	while ($op = mysql_fetch_array($result, MYSQL_ASSOC)) {
-		$operators[] = $op;
-	}
-
-	mysql_free_result($result);
+	$result = select_multi_assoc($query, $link);
 	mysql_close($link);
-	return $operators;
-} 
+	return $result;
+}
 
 function update_operator($operatorid,$login,$password,$localename,$commonname) {
 	$link = connect();
@@ -65,7 +58,7 @@ function update_operator($operatorid,$login,$password,$localename,$commonname) {
 
 function create_operator_($login,$password,$localename,$commonname,$link) {
 	$query = sprintf(
-		"insert into chatoperator (vclogin,vcpassword,vclocalename,vccommonname".") values ('%s','%s','%s','%s'".")",
+		"insert into chatoperator (vclogin,vcpassword,vclocalename,vccommonname) values ('%s','%s','%s','%s')",
 			mysql_real_escape_string($login),
 			md5($password),
 			mysql_real_escape_string($localename),
