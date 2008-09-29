@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project [<!ENTITY buildfile SYSTEM "file:./build-user.xml">]>
+
+<project basedir="." default="update" name="Obfuscator">
+  <property name="obfuscator.location" value="." />
+  <property name="webim.location" value="../webim" />
+
+  <target name="update" depends="build">
+    <java classname="JSO" fork="true" error="${obfuscator.location}/bin/obfuscation.log">
+      <arg value="${obfuscator.location}/common.js" />
+      <arg value="${obfuscator.location}/chat.js" />
+      <arg value="${obfuscator.location}/users.js" />
+      <arg value="${obfuscator.location}/brws.js" />
+      <arg value="d=${webim.location}/js/" />
+      <!-- <arg value="debug"/> -->
+      <!-- <arg value="debugnames"/> -->
+      <!-- <arg value="o=0,0"/> -->
+      <classpath>
+        <pathelement location="${obfuscator.location}/bin/" />
+      </classpath>
+    </java>
+  </target>
+
+  <target name="build" depends="init">
+    <javac destdir="${obfuscator.location}/bin" fork="false">
+      <src path="${obfuscator.location}" />
+    </javac>
+  </target>
+
+  <target name="init">
+    <mkdir dir="${obfuscator.location}/bin"/>
+  </target>
+
+</project>

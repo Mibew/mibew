@@ -1,19 +1,16 @@
 var FrameUtils = {
   getDocument: function(frm) {
 	if (frm.contentDocument) {
-		return frm.contentDocument; 
+		return frm.contentDocument;
 	} else if (frm.contentWindow) {
 		return frm.contentWindow.document;
 	} else if (frm.document) {
 	    return frm.document;
 	} else {
-		alert( myRealAgent + ": cannot find document in frame " + frm);
-		//for( var a in frm )
-		//	alert( a );
 		return null;
 	}
   },
-  
+
   initFrame: function(frm) {
 	var doc = this.getDocument(frm);
 	doc.open();
@@ -57,8 +54,11 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
     this.setOptions(_options);
     this._options.onComplete = this.requestComplete.bind(this);
     this._options.onException = this.handleException.bind(this);
+    this._options.onTimeout = this.handleTimeout.bind(this);
+    this._options.timeout = 5000;
     this.updater = {};
     this.frequency = (this._options.frequency || 2);
+    this.lastupdate = 0;
     this.cansend = true;
 	FrameUtils.initFrame(this._options.container);
     if( this._options.message ) {
@@ -70,9 +70,15 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
   },
 
   handleException: function(_request, ex) {
-  	this.setStatus(ex.name + " occured: " + ex.message);
+  	this.setStatus("offline, reconnecting");
 	this.stopUpdate();
-	this.timer = setTimeout(this.update.bind(this), this.frequency * 1000);
+	this.timer = setTimeout(this.update.bind(this), 1000);
+  },
+
+  handleTimeout: function(_request) {
+  	this.setStatus("timeout, reconnecting");
+	this.stopUpdate();
+	this.timer = setTimeout(this.update.bind(this), 1000);
   },
 
   updateOptions: function(act) {
@@ -82,9 +88,9 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
     if( this._options.user )
     	this._options.parameters += "&user=true";
 	if( act == 'refresh' && this._options.message && this._options.message.value != '' )
-		this._options.parameters += "&typed=1";
+    	this._options.parameters += "&typed=1";
   },
-  
+
   enableInput: function(val) {
 	if( this._options.message )
 		this._options.message.disabled = !val;
@@ -103,24 +109,26 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
   },
 
   requestComplete: function(_response) {
-    this.enableInput(true);
-	this.cansend = true;   
-	var xmlRoot = Ajax.getXml(_response);
-    if( xmlRoot && xmlRoot.tagName == 'thread' ) {
-      this.updateContent( xmlRoot );
-	} else {
-	  this.handleError(_response, xmlRoot, 'refresh messages failed');
-	}
-
+    try {
+        this.enableInput(true);
+    	this.cansend = true;
+    	var xmlRoot = Ajax.getXml(_response);
+        if( xmlRoot && xmlRoot.tagName == 'thread' ) {
+          this.updateContent( xmlRoot );
+    	} else {
+    	  this.handleError(_response, xmlRoot, 'refresh messages failed');
+    	}
+	} catch (e) {
+    }
     this.timer = setTimeout(this.update.bind(this), this.frequency * 1000);
   },
 
   postMessage: function(msg) {
-  	if( msg == "" || !this.cansend) {
-  		return;
-  	}
-  	this.cansend = false;
-  	this.stopUpdate();
+    if( msg == "" || !this.cansend) {
+		return;
+    }
+    this.cansend = false;
+    this.stopUpdate();
     this.updateOptions("post");
     var postOptions = {}.extend(this._options);
     postOptions.parameters += "&message=" + encodeURIComponent(msg);
@@ -137,10 +145,10 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
   },
 
   changeName: function(newname) {
-    new Ajax.Request(this._options.servl, {parameters:'act=rename&thread=' + (this._options.threadid || -1) + 
+    new Ajax.Request(this._options.servl, {parameters:'act=rename&thread=' + (this._options.threadid || -1) +
     	'&token=' + (this._options.token || 0) + '&name=' + encodeURIComponent(newname)});
   },
-  
+
   onThreadClosed: function(_response) {
 	var xmlRoot = Ajax.getXml(_response);
     if( xmlRoot && xmlRoot.tagName == 'closed' ) {
@@ -165,14 +173,14 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
   showTyping: function(istyping) {
   	if( $("typingdiv") ) {
 		$("typingdiv").style.display=istyping ? 'inline' : 'none';
-  	}	
+  	}
   },
 
   setupAvatar: function(avatar) {
 	var imageLink = NodeUtils.getNodeText(avatar);
 	if( this._options.avatar && this._options.user ) {
-		this._options.avatar.innerHTML = imageLink != "" 
-			? "<img src=\""+Chat.webimRoot+"/images/free.gif\" width=\"7\" height=\"1\" border=\"0\" alt=\"\" /><img src=\"" 
+		this._options.avatar.innerHTML = imageLink != ""
+			? "<img src=\""+Chat.webimRoot+"/images/free.gif\" width=\"7\" height=\"1\" border=\"0\" alt=\"\" /><img src=\""
 				+imageLink+ "\" border=\"0\" alt=\"\"/>"
 			: "";
 	}
@@ -186,7 +194,7 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
 	if( _lastid ) {
 		this._options.lastid = _lastid;
 	}
-		
+
 	var typing = NodeUtils.getAttrValue(xmlRoot, "typing");
 	if( typing ) {
 		this.showTyping(typing == '1');
@@ -195,20 +203,34 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
 	for( var i = 0; i < xmlRoot.childNodes.length; i++ ) {
 		var node = xmlRoot.childNodes[i];
 		if( node.tagName == 'message' ) {
-			haveMessage = true;
+        	haveMessage = true;
 			this.processMessage(result_div, node);
 		} else if( node.tagName == 'avatar' ) {
 			this.setupAvatar(node);
-		}
-		// TODO thread events
+        }
 	}
-	if( haveMessage ) {		
+	if(window.location.search.indexOf('trace=on')>=0) {
+		var val = "updated";
+		if(this.lastupdate > 0) {
+			var seconds = ((new Date()).getTime() - this.lastupdate)/1000;
+			val = val + ", " + seconds + " secs";
+			if(seconds > 10) {
+				alert(val);
+			}
+		}
+		this.lastupdate = (new Date()).getTime();
+		this.setStatus(val);
+	} else {
+		this.clearStatus();
+	}
+	if( haveMessage ) {
 		FrameUtils.scrollDown(this._options.container);
-		if( !this.focused )
+		if( !this.focused ) {
 			window.focus();
+		}
 	}
   },
-  
+
   handleKeyDown: function(k) {
 	if( k ){ ctrl=k.ctrlKey;k=k.which; } else { k=event.keyCode;ctrl=event.ctrlKey;	}
 	if( this._options.message && ((k==13 && (ctrl || myRealAgent == 'opera')) || (k==10)) ) {
@@ -226,19 +248,26 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
 	if( xmlRoot && xmlRoot.tagName == 'error' ) {
 	  this.setStatus(NodeUtils.getNodeValue(xmlRoot,"descr"));
 	} else {
-	  this.setStatus(_action+', ' + Ajax.getError(_response));
-	}  
+	  this.setStatus("reconnecting");
+	}
+  },
+
+  showStatusDiv: function(k) {
+  	if( $("engineinfo") ) {
+		$("engineinfo").style.display='inline';
+		$("engineinfo").innerHTML = k;
+  	}
   },
 
   setStatus: function(k) {
 	if( this.statusTimeout )
 		clearTimeout(this.statusTimeout);
-	window.status = k;
+	this.showStatusDiv(k);
 	this.statusTimeout = setTimeout(this.clearStatus.bind(this), 4000);
   },
 
   clearStatus: function() {
-	window.status = "";
+	$("engineinfo").style.display='none';
   }
 });
 
@@ -246,7 +275,7 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
 HSplitter = Class.create();
 HSplitter.prototype = {
   initialize: function(_options) {
-	this._options = _options; 
+	this._options = _options;
 	this.captured = 0;
 	if( this._options.first && this._options.second && this._options.control ) {
 		this._options.control.onmousedown = this.onmousedownEvent.bind(this);
@@ -255,7 +284,7 @@ HSplitter.prototype = {
 	}
   },
 
-  onmousedownEvent: function(e) {	
+  onmousedownEvent: function(e) {
   	var ev = e || event;
 
 	if( this._options.control.setCapture )
@@ -294,13 +323,14 @@ HSplitter.prototype = {
 var Chat = {
   threadUpdater : {},
   hSplitter : {},
-  
+
   applyName: function() {
 	Chat.threadUpdater.changeName($('uname').value);
 	$('changename1').style.display='none';
 	$('changename2').style.display='inline';
+	$('unamelink').innerHTML=$('uname').value;
   },
-  
+
   showNameField: function() {
 	$('changename1').style.display='inline';
 	$('changename2').style.display='none';
@@ -323,7 +353,7 @@ Behaviour.register({
 	'select#predefined' : function(el) {
 		el.onchange = function() {
 			var message = $('msgwnd');
-			message.value = this.options[this.selectedIndex].innerText || this.options[this.selectedIndex].innerHTML; 
+			message.value = this.options[this.selectedIndex].innerText || this.options[this.selectedIndex].innerHTML;
 			this.selectedIndex = 0;
 			message.focus();
 		};
@@ -350,7 +380,7 @@ Behaviour.register({
 	},
 	'a#refresh' : function(el) {
 		el.onclick = function() {
-			Chat.threadUpdater.stopUpdate();
+		    Chat.threadUpdater.stopUpdate();
 			Chat.threadUpdater.update();
 		};
 	},

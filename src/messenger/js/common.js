@@ -17,7 +17,7 @@
 
 var Class = {
   create: function() {
-    return function() { 
+    return function() {
       this./**/initialize./**/apply(this, arguments);
     };
   },
@@ -92,10 +92,10 @@ PeriodicalExecuter.prototype = {
 
   onTimerEvent: function() {
     if (!this.currentlyExecuting) {
-      try { 
+      try {
         this.currentlyExecuting = true;
-        this.callback(); 
-      } finally { 
+        this.callback();
+      } finally {
         this.currentlyExecuting = false;
       }
     }
@@ -115,7 +115,7 @@ function findObj( id )
 		if( x.length == 0 ) return null;
 		if( x.length == 1 ) return x[ 0 ];
 	}
-    
+
     return x;
 }
 
@@ -136,7 +136,7 @@ function $() {
     if (typeof elem == 'string')
       elem = findObj(elem);
 
-    if (arguments.length == 1) 
+    if (arguments.length == 1)
       return elem;
 
     elems.push(elem);
@@ -150,15 +150,15 @@ if (!Function.prototype.apply) {
     var parameterStrings = new Array();
     if (!obj)     obj = window;
     if (!params) params = new Array();
-    
+
     for (var i = 0; i < params.length; i++)
       parameterStrings[i] = 'params[' + i + ']';
-    
+
     obj.$apply$ = this;
-    var result = eval('obj.$apply$(' + 
+    var result = eval('obj.$apply$(' +
       parameterStrings.join(', ') + ')');
     obj.$apply$ = null;
-    
+
     return result;
   };
 }
@@ -174,7 +174,7 @@ var Ajax = {
 
   getXml: function(_response) {
 	if( _response &&
-	  _response.status >= 200 && 
+	  _response.status >= 200 &&
 	  _response.status < 300 ) {
 	  var xmlDoc = _response.responseXML;
 	  if( xmlDoc && xmlDoc.documentElement )
@@ -182,7 +182,7 @@ var Ajax = {
 	}
 	return null;
   },
-  
+
   getError: function(_response) {
   	return _response.statusText || "connection error N" + _response.status;
   },
@@ -200,10 +200,15 @@ Ajax.Base.prototype = {
     }.extend(_options || {});
   },
 
+  getStatus: function() {
+    try {
+      return this.transport.status || 0;
+    } catch (e) { return 0 }
+  },
+
   responseIsSuccess: function() {
-    return this./**/transport.status == undefined
-        || this.transport.status == 0 
-        || (this.transport.status >= 200 && this.transport.status < 300);
+	var status = this.getStatus();
+	return !status || (status >= 200 && status < 300);
   },
 
   responseIsFailure: function() {
@@ -212,13 +217,15 @@ Ajax.Base.prototype = {
 };
 
 Ajax./**/Request = Class.create();
-Ajax.Request./**/Events = 
+Ajax.Request./**/Events =
   ['Uninitialized', 'Loading', 'Loaded', 'Interactive', 'Complete'];
 
 Class.inherit( Ajax.Request, Ajax.Base, {
   initialize: function(url, _options) {
     this.transport = Ajax.getTransport();
     this.setOptions(_options);
+    this.transportTimer = {};
+    this.finished = false;
     this.request(url);
   },
 
@@ -230,11 +237,13 @@ Class.inherit( Ajax.Request, Ajax.Base, {
       if (this._options._method == 'get' && parameters.length > 0)
         url += '?' + parameters;
 
-      this.transport.open(this._options._method, url, this._options.asynchronous);
+      this.transport.open(this._options._method.toUpperCase(), url, this._options.asynchronous);
 
       if (this._options.asynchronous) {
         this.transport.onreadystatechange = this.onStateChange.bind(this);
-        setTimeout((function() {this.respondToReadyState(1)}).bind(this), 10);
+        if(this._options.timeout) {
+        	this.transportTimer = setTimeout(this.handleTimeout.bind(this), this._options.timeout);
+        }
       }
 
       this.setRequestHeaders();
@@ -248,18 +257,19 @@ Class.inherit( Ajax.Request, Ajax.Base, {
   },
 
   setRequestHeaders: function() {
-    var requestHeaders = 
+    var requestHeaders =
       ['X-Requested-With', 'XMLHttpRequest'];
 
     if (this._options._method == 'post') {
-      requestHeaders.push('Content-type', 
+      requestHeaders.push('Content-type',
         'application/x-www-form-urlencoded');
 
-      /* Force "Connection: close" for Mozilla browsers to work around
-       * a bug where XMLHttpReqeuest sends an incorrect Content-length
-       * header. See Mozilla Bugzilla #246651. 
+      /* Force "Connection: close" for older Mozilla browsers to work
+       * around a bug where XMLHttpRequest sends an incorrect
+       * Content-length header. See Mozilla Bugzilla #246651.
        */
-      if (this.transport.overrideMimeType)
+      if (this.transport.overrideMimeType &&
+          (navigator.userAgent.match("/Gecko\/(\d{4})/") || [0,2005])[1] < 2005)
         requestHeaders.push('Connection', 'close');
     }
 
@@ -276,18 +286,10 @@ Class.inherit( Ajax.Request, Ajax.Base, {
       this.respondToReadyState(this.transport.readyState);
   },
 
-  header: function(name) {
-    try {
-      return this.transport.getResponseHeader(name);
-    } catch (e) {}
-  },
-
-  evalResponse: function() {
-    try {
-      return eval(this.transport.responseText);
-    } catch (e) {
-      this.dispatchException(e);
-    }
+  handleTimeout: function() {
+  	if(this.finished) { return; }
+  	this.finished = true;
+  	(this._options.onTimeout || Ajax.emptyFunction)(this);
   },
 
   respondToReadyState: function(readystate) {
@@ -295,26 +297,18 @@ Class.inherit( Ajax.Request, Ajax.Base, {
 
     if (event == 'Complete') {
       try {
-      	(this._options['on' + this.transport.status]
-      	 || this._options['on' + (this.responseIsSuccess() ? 'Success' : 'Failure')]
-      	 || Ajax.emptyFunction)(this.transport);
+		if(!this.finished) {
+	        this.finished = true;
+	      	if(this._options.timeout) { clearTimeout(this.transportTimer); }
+	      	(this._options.onComplete || Ajax.emptyFunction)(this.transport);
+	    }
       } catch (e) {
         this.dispatchException(e);
       }
 
-      if ((this.header('Content-type') || '').match("text\\/javascript"))
-        this.evalResponse();
-    }
-
-    try {
-	  (this._options['on' + event] || Ajax.emptyFunction)(this.transport);
-    } catch (e) {
-      this.dispatchException(e);
-    }
-
-	/* Avoid memory leak in MSIE: clean up the oncomplete event handler */
-	if (event == 'Complete')
+	  /* Avoid memory leak in MSIE: clean up the oncomplete event handler */
 	  this.transport.onreadystatechange = Ajax.emptyFunction;
+    }
   },
 
   dispatchException: function(exception) {
@@ -325,7 +319,7 @@ Class.inherit( Ajax.Request, Ajax.Base, {
 var EventHelper = {
 	register : function(obj, ev,func){
 		var oldev = obj[ev];
-		
+
 		if (typeof oldev != 'function') {
 			obj[ev] = func;
 		} else {
@@ -341,7 +335,7 @@ var EventHelper = {
    Behaviour v1.1 by Ben Nolan, June 2005. Based largely on the work
    of Simon Willison (see comments by Simon below).
    http://ripcord.co.nz/behaviour/
-*/   
+*/
 
 var Behaviour = {
   list : new Array,
@@ -436,11 +430,11 @@ document.getElementsBySelector = function(selector) {
     }
 
     // [evgeny] code for attribute selection is removed...
-    
+
     if (!currentContext[0]){
     	return;
     }
-    
+
     // If we get here, token is JUST an element (not a class or ID selector)
     tag_name = token;
     var found = new Array;
@@ -492,14 +486,14 @@ var CommonUtils = {
   		return _row;
   	if( _table.rows['head'] != null )
   		return null;
-  	
+
   	for( k=0; k < _table.rows.length; k++ ) {
   		if( _table.rows[k].id == _id )
   			return _table.rows[k];
   	}
-  	return null;  
+  	return null;
   },
-  
+
   getCell: function(_id,_row,_table) {
   	var _cell = _row.cells[_id];
   	if( _cell != null )
@@ -510,9 +504,9 @@ var CommonUtils = {
   		if( _row.cells[k].id == _id )
   			return _row.cells[k];
   	}
-  	return null;  
+  	return null;
   },
-  
+
   insertCell: function(_row,_id,_className,_align,_height, _inner) {
   	var cell = _row.insertCell(-1);
   	cell.id = _id;
@@ -524,3 +518,4 @@ var CommonUtils = {
   	cell.innerHTML = _inner;
   }
 };
+
