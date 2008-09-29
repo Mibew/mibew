@@ -1,4 +1,4 @@
-<?php         
+<?php
 /*
  * This file is part of Web Instant Messenger project.
  *

@@ -15,7 +15,6 @@
 require_once('../libs/common.php');
 require_once('../libs/operator.php');
 
-
 $operator = check_login();
 
 notify_operator_alive($operator['operatorid']);

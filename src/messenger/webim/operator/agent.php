@@ -22,7 +22,8 @@ $threadid = verifyparam( "thread", "/^\d{1,8}$/");
 
 if( !isset($_GET['token']) ) {
 
-	if( get_remote_level($_SERVER['HTTP_USER_AGENT']) != "ajaxed" ) {
+	$remote_level = get_remote_level($_SERVER['HTTP_USER_AGENT']);
+	if( $remote_level != "ajaxed" ) {
 		die("old browser is used, please update it");
 	}
 
@@ -31,11 +32,11 @@ if( !isset($_GET['token']) ) {
 		die("wrong thread");
 	}
 
-    take_thread($thread,$operator);
+	take_thread($thread,$operator);
 
-    $token = $thread['ltoken'];
-    header("Location: $webimroot/operator/agent.php?thread=$threadid&token=$token");
-    exit;
+	$token = $thread['ltoken'];
+	header("Location: $webimroot/operator/agent.php?thread=$threadid&token=$token&level=$remote_level");
+	exit;
 }
 
 $token = verifyparam( "token", "/^\d{1,8}$/");
@@ -48,7 +49,6 @@ if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] ) {
 setup_chatview_for_operator($thread, $operator);
 
 start_html_output();
-
 
 	require('../view/chat_ajaxed.php');
 

@@ -17,7 +17,7 @@ require_once('../libs/operator.php');
 
 $operator = check_login();
 
-$page = array( 
+$page = array(
 	'operator' => topage(get_operator_name($operator)),
 	'version' => $version,
 	'localeLinks' => get_locale_links("$webimroot/operator/index.php")

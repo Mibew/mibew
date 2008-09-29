@@ -20,7 +20,6 @@ $operator = check_login();
 
 $page = array( 'operator' => topage(get_operator_name($operator)) );
 
-
 if( isset($_GET['threadid'])) {
         $threadid = verifyparam( "threadid", "/^(\d{1,9})?$/", "");
 	$lastid = -1;

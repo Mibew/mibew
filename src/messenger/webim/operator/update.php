@@ -57,7 +57,7 @@ function thread_to_xml($thread) {
 	$result .= "<agent>".htmlspecialchars(htmlspecialchars($threadoperator))."</agent>";
 	$result .= "<time>".$thread['unix_timestamp(dtmcreated)']."000</time>";
 	$result .= "<modified>".$thread['unix_timestamp(dtmmodified)']."000</modified>";
-	
+
 	$result .= "</thread>";
 	return $result;
 }
@@ -71,16 +71,14 @@ function print_pending_threads($since) {
 	$query = "select threadid, userName, agentName, unix_timestamp(dtmcreated), userTyping, ".
 			 "unix_timestamp(dtmmodified), lrevision, istate, remote ".
 			 "from chatthread where lrevision > $since ORDER BY threadid";
-	$result = mysql_query($query,$link) or die(' Query failed: ' .mysql_error().": ".$query);
-
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+	$rows = select_multi_assoc($query, $link);
+	foreach ($rows as $row) {
 		$thread = thread_to_xml($row);
 		$output[] = $thread;
 		if( $row['lrevision'] > $revision )
 			$revision = $row['lrevision'];
 	}
 
-	mysql_free_result($result);
 	mysql_close($link);
 
 	start_xml_output();
@@ -90,8 +88,6 @@ function print_pending_threads($since) {
 	}
 	echo "</threads>";
 }
-
-////////
 
 $since = verifyparam( "since", "/^\d{1,9}$/", 0);
 

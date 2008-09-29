@@ -1,4 +1,4 @@
-<?php         
+<?php
 /*
  * This file is part of Web Instant Messenger project.
  *
@@ -24,10 +24,10 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 	$operator = operator_by_login( $login );
 	if( $operator && isset($operator['vcpassword']) && $operator['vcpassword'] == md5($password) ) {
 
-		$target = isset($_SESSION['backpath']) 
-				? $_SESSION['backpath'] 
+		$target = isset($_SESSION['backpath'])
+				? $_SESSION['backpath']
 				: "$webimroot/operator/index.php";
-		
+
         login_operator($operator,$remember);
 		header("Location: $target");
 		exit;

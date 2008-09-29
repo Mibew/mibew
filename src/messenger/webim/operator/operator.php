@@ -20,7 +20,6 @@ $operator = check_login();
 $page = array('agentId' => '');
 $errors = array();
 
-
 if( isset($_POST['login']) && isset($_POST['password']) ) {
 	$agentId = verifyparam( "agentId", "/^(\d{1,9})?$/", "");
 	$login = getparam('login');
@@ -28,7 +27,6 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 	$passwordConfirm = getparam('passwordConfirm');
 	$localname = getparam('name');
 	$commonname = getparam('commonname');
-
 
 	if( !$localname )
 		$errors[] = no_field("form.field.agent_name");
@@ -49,15 +47,15 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 		$errors[] = getlocal("my_settings.error.password_match");
 
 	$existing_operator = operator_by_login($login);
-	if( (!$agentId && $existing_operator) || 
+	if( (!$agentId && $existing_operator) ||
 		( $agentId && $existing_operator && $agentId != $existing_operator['operatorid']) )
 		$errors[] = getlocal("page_agent.error.duplicate_login");
 
 	if( count($errors) == 0 ) {
 		if (!$agentId) {
-		    create_operator($login,$password,$localname,$commonname);
+			create_operator($login,$password,$localname,$commonname);
 		} else {
-		    update_operator($agentId,$login,$password,$localname,$commonname);
+			update_operator($agentId,$login,$password,$localname,$commonname);
 		}
 		header("Location: $webimroot/operator/operators.php");
 		exit;

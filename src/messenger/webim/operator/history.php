@@ -26,7 +26,7 @@ if($query !== false) {
 	$link = connect();
 
 	$result = mysql_query(
-		 "select DISTINCT unix_timestamp(chatthread.dtmcreated) as created, ". 
+		 "select DISTINCT unix_timestamp(chatthread.dtmcreated) as created, ".
     	 "unix_timestamp(chatthread.dtmmodified) as modified, chatthread.threadid, ".
 		 "chatthread.remote, chatthread.agentName, chatthread.userName, ".
 		 "messageCount as size ".
@@ -34,7 +34,7 @@ if($query !== false) {
 		 "where chatmessage.threadid = chatthread.threadid and ".
 			"((chatthread.userName LIKE '%%$query%%') or ".
 			" (chatmessage.tmessage LIKE '%%$query%%'))".
-		 "order by created DESC", $link) 
+		 "order by created DESC", $link)
 							or die(' Query failed: ' .mysql_error().": ".$query);
 
 	$foundThreads = array();
