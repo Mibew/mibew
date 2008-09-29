@@ -34,8 +34,6 @@ $kind_events = 6;
 $kind_to_string = array( $kind_user => "user", $kind_agent => "agent", $kind_for_agent => "hidden",
 	$kind_info => "inf", $kind_conn => "conn", $kind_events => "event" );
 
-
-
 function next_token() {
 	return rand(99999,99999999);
 }
@@ -48,7 +46,7 @@ function next_revision($link) {
 
 function post_message_($threadid,$kind,$message,$link,$from=null,$utime=null,$opid=null) {
 	$query = sprintf(
-	    "insert into chatmessage (threadid,ikind,tmessage,tname,agentId,dtmcreated) values (%s, %s,'%s',%s,%s,%s)",
+		"insert into chatmessage (threadid,ikind,tmessage,tname,agentId,dtmcreated) values (%s, %s,'%s',%s,%s,%s)",
 			$threadid,
 			$kind,
 			quote_smart($message,$link),
@@ -104,20 +102,19 @@ function get_messages($threadid,$meth,$isuser,&$lastid) {
 	$link = connect();
 
 	$query = sprintf(
-	    "select messageid,ikind,unix_timestamp(dtmcreated) as created,tname,tmessage from chatmessage ".
-	    "where threadid = %s and messageid > %s %s order by messageid",
-	    $threadid, $lastid, $isuser ? "and ikind <> $kind_for_agent" : "" );
+		"select messageid,ikind,unix_timestamp(dtmcreated) as created,tname,tmessage from chatmessage ".
+		"where threadid = %s and messageid > %s %s order by messageid",
+		$threadid, $lastid, $isuser ? "and ikind <> $kind_for_agent" : "" );
 
 	$messages = array();
-	$result = mysql_query($query,$link) or die(' Query failed: ' .mysql_error().": ".$query);
-
-	while ($msg = mysql_fetch_array($result, MYSQL_ASSOC)) {
-        $message = "";
-        if ($meth == 'xml') {
-            $message = "<message>".myiconv($webim_encoding,"utf-8",escape_with_cdata(message_to_html($msg)))."</message>\n";
-        } else {
-            $message = (($meth == 'text') ? message_to_text($msg) : topage(message_to_html($msg)));
-        }
+	$msgs = select_multi_assoc($query, $link);
+	foreach ($msgs as $msg) {
+		$message = "";
+		if ($meth == 'xml') {
+			$message = "<message>".myiconv($webim_encoding,"utf-8",escape_with_cdata(message_to_html($msg)))."</message>\n";
+		} else {
+			$message = (($meth == 'text') ? message_to_text($msg) : topage(message_to_html($msg)));
+		}
 
 		$messages[] = $message;
 		if( $msg['messageid'] > $lastid ) {
@@ -125,96 +122,53 @@ function get_messages($threadid,$meth,$isuser,&$lastid) {
 		}
 	}
 
-	mysql_free_result($result);
 	mysql_close($link);
 	return $messages;
-} 
+}
 
 function print_thread_messages($thread, $token, $lastid, $isuser,$format) {
-	global $webim_encoding, $webimroot;
+	global $webim_encoding, $webimroot, $connection_timeout;
 	$threadid = $thread['threadid'];
+	$istyping = abs($thread['current']-$thread[$isuser ? "lpagent" : "lpuser"]) < $connection_timeout
+				&& $thread[$isuser?"agentTyping":"userTyping"] == "1" ? "1" : "0";
 
 	if( $format == "xml" ) {
-        $output = get_messages($threadid,"xml",$isuser,$lastid);
+		$output = get_messages($threadid,"xml",$isuser,$lastid);
 
 		start_xml_output();
-		print("<thread lastid=\"$lastid\" typing=\"".$thread[$isuser?"agentTyping":"userTyping"]."\">");
+		print("<thread lastid=\"$lastid\" typing=\"".$istyping."\">");
 		foreach( $output as $msg ) {
 			print $msg;
 		}
 		print("</thread>");
 	} else if( $format == "html" ) {
-        $output = get_messages($threadid,"html",$isuser,$lastid);
+		$output = get_messages($threadid,"html",$isuser,$lastid);
 
 		start_html_output();
 		$url = "$webimroot/thread.php?act=refresh&thread=$threadid&token=$token&html=on&user=".($isuser?"true":"false");
 
 		print("<html><head>\n".
-		    "<link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\"$webimroot/chat.css\" />\n".
-		    "<meta http-equiv=\"Refresh\" content=\"7; URL=$url&sn=11\">\n".
-		    "<meta http-equiv=\"Pragma\" content=\"no-cache\">\n".
-		    "</head>".
-		    "<body bgcolor='#FFFFFF' text='#000000' link='#C28400' vlink='#C28400' alink='#C28400' marginwidth='0' marginheight='0' leftmargin='0' rightmargin='0' topmargin='0' bottommargin='0' onload=\"if( location.hash != '#aend' ){location.hash='#aend';}\">".
-		    "<table width='100%' cellspacing='0' cellpadding='0' border='0'><tr><td valign='top' class='message'>" );
+			"<link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\"$webimroot/chat.css\" />\n".
+			"<meta http-equiv=\"Refresh\" content=\"7; URL=$url&sn=11\">\n".
+			"<meta http-equiv=\"Pragma\" content=\"no-cache\">\n".
+			"</head>".
+			"<body bgcolor='#FFFFFF' text='#000000' link='#C28400' vlink='#C28400' alink='#C28400' marginwidth='0' marginheight='0' leftmargin='0' rightmargin='0' topmargin='0' bottommargin='0' onload=\"if( location.hash != '#aend' ){location.hash='#aend';}\">".
+			"<table width='100%' cellspacing='0' cellpadding='0' border='0'><tr><td valign='top' class='message'>" );
 
 		foreach( $output as $msg ) {
 			print $msg;
 		}
 
 		print(
-		    "</td></tr></table><a name='aend'>".
-		    "</body></html>" );
+			"</td></tr></table><a name='aend'>".
+			"</body></html>" );
 	}
 }
 
 function get_user_name($username, $addr) {
 	global $presentable_name_pattern;
-	return str_replace("{addr}", $addr, 
+	return str_replace("{addr}", $addr,
 			str_replace("{name}", $username, $presentable_name_pattern));
-}
-
-function setup_chatview_for_user($thread,$level) {
-	global $page, $webimroot, $user_can_change_name, $company_logo_link, $company_name, $webim_host;
-	$page = array();
-	$page['agent'] = false;
-	$page['user'] = true;
-	$page['canpost'] = true;
-	$nameisset = getstring("chat.default.username") != $thread['userName'];
-	$page['displ1'] = $nameisset ? "none" : "inline";
-	$page['displ2'] = $nameisset ? "inline" : "none";
-	$page['level'] = $level;
-	$page['ct.chatThreadId'] = $thread['threadid'];
-	$page['ct.token'] = $thread['ltoken'];
-	$page['ct.user.name'] = topage($thread['userName']);
-	$page['canChangeName'] = $user_can_change_name;
-
-	$page['ct.company.name'] = topage($company_name);
-	$page['ct.company.chatLogoURL'] = topage($company_logo_link);
-	$page['send_shortcut'] = "Ctrl-Enter";
-
-	$params = "thread=".$thread['threadid']."&token=".$thread['ltoken'];
-	$page['selfLink'] = "$webimroot/client.php?".$params."&level=".$level;
-	$page['webimHost'] = $webim_host;
-
-}
-
-function setup_chatview_for_operator($thread,$operator) {
-	global $page, $webimroot, $company_logo_link, $company_name, $webim_host;
-	$page = array();
-	$page['agent'] = true;
-	$page['user'] = false;
-	$page['canpost'] = true;
-	$page['ct.chatThreadId'] = $thread['threadid'];
-	$page['ct.token'] = $thread['ltoken'];
-	$page['ct.user.name'] = topage(get_user_name($thread['userName'],$thread['remote']));
-
-	$page['ct.company.name'] = topage($company_name);
-	$page['ct.company.chatLogoURL'] = topage($company_logo_link);
-	$page['send_shortcut'] = "Ctrl-Enter";
-	$page['webimHost'] = $webim_host;
-
-	// TODO
-	$page['namePostfix'] = "";	
 }
 
 function is_ajax_browser($browserid,$ver,$useragent) {
@@ -239,7 +193,7 @@ function is_old_browser($browserid,$ver) {
 		return $ver < 7.0;
 	if( $browserid == "msie" )
 		return $ver < 5.0;
-	return false; 
+	return false;
 }
 
 $knownAgents = array("opera","msie","safari","firefox","netscape","mozilla");
@@ -264,12 +218,79 @@ function get_remote_level($useragent) {
 	return "simple";
 }
 
+function is_agent_opera95() {
+	$useragent = strtolower($_SERVER['HTTP_USER_AGENT']);
+	if( strstr($useragent,"opera") ) {
+		if( preg_match( "/opera[\\s\/]?(\\d+(\\.\\d+)?)/", $useragent, $matches ) ) {
+			$ver = $matches[1];
+
+			if ($ver >= "9.5")
+				return true;
+		}
+	}
+	return false;
+}
+
+function needsFramesrc() {
+	$useragent = strtolower($_SERVER['HTTP_USER_AGENT']);
+	return strstr($useragent,"safari/");
+}
+
+function setup_chatview_for_user($thread,$level) {
+	global $page, $webimroot, $user_can_change_name, $settings;
+	loadsettings();
+	$page = array();
+	$page['agent'] = false;
+	$page['user'] = true;
+	$page['canpost'] = true;
+	$nameisset = getstring("chat.default.username") != $thread['userName'];
+	$page['displ1'] = $nameisset ? "none" : "inline";
+	$page['displ2'] = $nameisset ? "inline" : "none";
+	$page['level'] = $level;
+	$page['ct.chatThreadId'] = $thread['threadid'];
+	$page['ct.token'] = $thread['ltoken'];
+	$page['ct.user.name'] = topage($thread['userName']);
+	$page['canChangeName'] = $user_can_change_name;
+
+	$page['ct.company.name'] = topage($settings['title']);
+	$page['ct.company.chatLogoURL'] = topage($settings['logo']);
+	$page['webimHost'] = topage($settings['hosturl']);
+	$page['send_shortcut'] = "Ctrl-Enter";
+
+	$params = "thread=".$thread['threadid']."&token=".$thread['ltoken'];
+	$page['selfLink'] = "$webimroot/client.php?".$params."&level=".$level;
+	$page['isOpera95'] = is_agent_opera95();
+	$page['neediframesrc'] = needsFramesrc();
+
+}
+
+function setup_chatview_for_operator($thread,$operator) {
+	global $page, $webimroot, $company_logo_link, $company_name, $settings;
+	loadsettings();
+	$page = array();
+	$page['agent'] = true;
+	$page['user'] = false;
+	$page['canpost'] = true;
+	$page['ct.chatThreadId'] = $thread['threadid'];
+	$page['ct.token'] = $thread['ltoken'];
+	$page['ct.user.name'] = topage(get_user_name($thread['userName'],$thread['remote']));
+
+	$page['ct.company.name'] = topage($settings['title']);
+	$page['ct.company.chatLogoURL'] = topage($settings['logo']);
+	$page['webimHost'] = topage($settings['hosturl']);
+	$page['send_shortcut'] = "Ctrl-Enter";
+	$page['isOpera95'] = is_agent_opera95();
+	$page['neediframesrc'] = needsFramesrc();
+
+	$page['namePostfix'] = "";
+}
+
 function update_thread_access($threadid, $params, $link) {
 	$clause = "";
 	foreach( $params as $k => $v ) {
 		if( strlen($clause) > 0 )
 			$clause .= ", ";
-	    $clause .= $k."=".$v;
+		$clause .= $k."=".$v;
 	}
 	perform_query(
 		 "update chatthread set $clause ".
@@ -281,7 +302,7 @@ function ping_thread($thread, $isuser,$istyping) {
 	$link = connect();
 	$params = array(($isuser ? "lastpinguser" : "lastpingagent") => "CURRENT_TIMESTAMP",
 					($isuser ? "userTyping" : "agentTyping") => ($istyping? "1" : "0") );
-	
+
 	$lastping = $thread[$isuser ? "lpagent" : "lpuser"];
 	$current = $thread['current'];
 
@@ -315,7 +336,7 @@ function ping_thread($thread, $isuser,$istyping) {
 function commit_thread($threadid,$params,$link) {
 	$query = "update chatthread t set lrevision = ".next_revision($link).", dtmmodified = CURRENT_TIMESTAMP";
 	foreach( $params as $k => $v ) {
-	    $query .= ", ".$k."=".$v;
+		$query .= ", ".$k."=".$v;
 	}
 	$query .= " where threadid = ".$threadid;
 
@@ -335,13 +356,12 @@ function rename_user($thread, $newname) {
 	}
 }
 
-
 function close_thread($thread,$isuser) {
 	global $state_closed, $kind_events;
-	
+
 	if( $thread['istate'] != $state_closed ) {
 		$link = connect();
-		commit_thread( $thread['threadid'], array('istate' => $state_closed, 
+		commit_thread( $thread['threadid'], array('istate' => $state_closed,
 			'messageCount' => '(SELECT COUNT(*) FROM chatmessage WHERE chatmessage.threadid = t.threadid AND ikind = 1)'), $link);
 		mysql_close($link);
 	}
@@ -369,8 +389,8 @@ function create_thread($username,$remoteHost,$referer,$lang) {
 	$link = connect();
 
 	$query = sprintf(
-		 "insert into chatthread (userName,"."ltoken,remote,referer,lrevision,locale,dtmcreated,dtmmodified,istate) values ".
-								 "('%s',"."%s,'%s','%s',%s,'%s',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,$state_loading)",
+		 "insert into chatthread (userName,ltoken,remote,referer,lrevision,locale,dtmcreated,dtmmodified,istate) values ".
+								 "('%s',%s,'%s','%s',%s,'%s',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,$state_loading)",
 			mysql_real_escape_string($username),
 			next_token(),
 			mysql_real_escape_string($remoteHost),
@@ -389,7 +409,7 @@ function create_thread($username,$remoteHost,$referer,$lang) {
 function do_take_thread($threadid,$operatorId,$operatorName) {
 	global $state_chatting;
 	$link = connect();
-	commit_thread( $threadid, 
+	commit_thread( $threadid,
 		array("istate" => $state_chatting,
 			  "agentId" => $operatorId,
 			  "agentName" => "'".mysql_real_escape_string($operatorName)."'"), $link);
@@ -408,7 +428,7 @@ function reopen_thread($threadid) {
 
 	if( $thread['istate'] != $state_chatting && $thread['istate'] != $state_queue && $thread['istate'] != $state_loading ) {
 		$link = connect();
-		commit_thread( $threadid, 
+		commit_thread( $threadid,
 			array("istate" => $state_waiting ), $link);
 		mysql_close($link);
 	}
@@ -440,7 +460,7 @@ function take_thread($thread,$operator) {
 		}
 	} else if( $state == $state_chatting ) {
 		if( $operator['operatorid'] != $thread['agentId'] ) {
-			do_take_thread($threadid, $operator['operatorid'], $operatorName);		
+			do_take_thread($threadid, $operator['operatorid'], $operatorName);
 			$message_to_post = getstring2_("chat.status.operator.changed", array($operatorName, $thread['agentName']), $thread['locale']);
 		}
 	} else {
@@ -455,7 +475,7 @@ function take_thread($thread,$operator) {
 function check_for_reassign($thread,$operator) {
 	global $state_waiting, $home_locale, $kind_events;
 	$operatorName = ($thread['locale'] == $home_locale) ? $operator['vclocalename'] : $operator['vccommonname'];
-	if( $thread['istate'] == $state_waiting && 
+	if( $thread['istate'] == $state_waiting &&
 			(  $thread['agentId'] == $operator['operatorid'] )) {
 		do_take_thread($thread['threadid'], $operator['operatorid'], $operatorName);
 		if( $operatorName != $thread['agentName'] ) {
@@ -463,7 +483,7 @@ function check_for_reassign($thread,$operator) {
 		} else {
 			$message_to_post = getstring2_("chat.status.operator.returned", array($operatorName), $thread['locale']);
 		}
-		
+
 		post_message($thread['threadid'],$kind_events,$message_to_post);
 	}
 }
