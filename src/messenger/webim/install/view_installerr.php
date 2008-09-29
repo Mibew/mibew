@@ -34,9 +34,9 @@
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
 <tr>
 <td valign="top" class="text">
-	
+
 		<h1><?php echo getlocal("install.err.title") ?></h1>
-	
+
 
 	<?php if( isset($errors) && count($errors) > 0 ) { ?>
 		<table cellspacing="0" cellpadding="0" border="0">

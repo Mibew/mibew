@@ -34,9 +34,9 @@
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
 <tr>
 <td valign="top" class="text">
-	
+
 		<h1><?php echo getlocal("install.title") ?></h1>
-	
+
 
 	<?php echo getlocal("install.message") ?>
 <br />
