@@ -26,11 +26,11 @@ var localized = new Array(
     "<?php echo getlocal("pending.table.ban") ?>"
 );
 var updaterOptions = {
-	url:"<?php echo $webimroot ?>/operator/update.php",wroot:"<?php echo $webimroot ?>", 
+	url:"<?php echo $webimroot ?>/operator/update.php",wroot:"<?php echo $webimroot ?>",
 	agentservl:"<?php echo $webimroot ?>/operator/agent.php",
 	noclients:"<?php echo getlocal("clients.no_clients") ?>" };
 //--></script>
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/page_pendingclients2.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/users.js"></script>
 
 <link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <title>
@@ -46,11 +46,11 @@ var updaterOptions = {
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
 <tr>
 <td valign="top" class="text">
-	
- <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="left" valign="top"> 
+
+ <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="left" valign="top">
 		<h1><?php echo getlocal("clients.title") ?></h1>
- </td><td align="right" class="text" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="textform"><?php echo getlocal2("menu.operator",array($page['operator'])) ?></td><td class="textform"><img src='<?php echo $webimroot ?>/images/topdiv.gif' width="25" height="15" border="0" alt="|" /></td><td class="textform"><a href="<?php echo $webimroot ?>/operator/index.php" title="<?php echo getlocal("menu.main") ?>"><?php echo getlocal("menu.main") ?></a></td></tr></table></td></tr></table> 
-	
+ </td><td align="right" class="text" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="textform"><?php echo getlocal2("menu.operator",array($page['operator'])) ?></td><td class="textform"><img src='<?php echo $webimroot ?>/images/topdiv.gif' width="25" height="15" border="0" alt="|" /></td><td class="textform"><a href="<?php echo $webimroot ?>/operator/index.php" title="<?php echo getlocal("menu.main") ?>"><?php echo getlocal("menu.main") ?></a></td></tr></table></td></tr></table>
+
 
 	<?php echo getlocal("clients.intro") ?><br>
 
@@ -61,7 +61,7 @@ var updaterOptions = {
 <tr><td colspan="3" bgcolor="#DADADA"><img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="1" border="0" alt="" /></td></tr>
 <tr><td bgcolor="#DADADA"><img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="1" border="0" alt="" /></td>
    <td width="100%">
-   
+
    <!-- Pending -->
 
 <table width="100%" id="threadlist" cellspacing="0" cellpadding="0" border="0">
@@ -106,7 +106,7 @@ var updaterOptions = {
 		<tr>
 	    <td><img src='<?php echo $webimroot ?>/images/tblicusers2.gif' width="15" height="15" border="0" alt="" /></td>
     	<td class="table"><span class="black"><?php echo getlocal("clients.queue.wait") ?></span></td>
-		</tr>	
+		</tr>
 		</table>
 	</td>
 </tr>

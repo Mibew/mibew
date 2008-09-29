@@ -24,7 +24,7 @@
 <script language="javascript"><!--
 var threadParams = { servl:"<?php echo $webimroot ?>/thread.php",wroot:"<?php echo $webimroot ?>",frequency:2,<?php if( $page['user'] ) { ?>user:"true",<?php } ?>threadid:<?php echo $page['ct.chatThreadId'] ?>,token:<?php echo $page['ct.token'] ?> };
 //--></script>
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/page_chat2.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/chat.js"></script>
 </head>
 
 <body bgcolor="#FFFFFF" background="<?php echo $webimroot ?>/images/bg.gif" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" marginwidth="0" marginheight="0" leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0">
@@ -63,7 +63,10 @@ var threadParams = { servl:"<?php echo $webimroot ?>/thread.php",wroot:"<?php ec
 			</tr>
             <?php if( !$page['ct.company.chatLogoURL'] ) { ?>
 			<tr>
-		    <td align="center" class="text"><?php echo $page['ct.company.name'] ?></td>
+		    <td align="center" class="text">
+	    		<?php if( $page['webimHost'] ) { ?>
+	            	<a onclick="window.open('<?php echo $page['webimHost'] ?>');return false;" href="_blank"><?php echo $page['ct.company.name'] ?></a><?php } ?>
+			    <?php if( !$page['webimHost'] ) { ?><?php echo $page['ct.company.name'] ?><?php } ?></td>
 			</tr>
             <?php } ?>
 			</table>
@@ -95,18 +98,19 @@ var threadParams = { servl:"<?php echo $webimroot ?>/thread.php",wroot:"<?php ec
 
 			<tr>
 		    <td height="60" align="right">
-				
+
 				<table cellspacing="0" cellpadding="0" border="0">
 				<tr>
 <?php if( $page['agent'] ) { ?>
 				<td class="text" nowrap>
-					<?php echo getlocal("chat.window.chatting_with") ?> <b><a href="javascript:void(0)" onclick="return false;" title="<?php echo getlocal("chat.window.chatting_with") ?> <?php echo htmlspecialchars($page['ct.user.name']) ?><?php echo $page['namePostfix'] ?>"><?php echo htmlspecialchars($page['ct.user.name']) ?></a></b><br>
-				</td>
-<?php } ?><?php if( $page['user'] && $page['canChangeName'] ) { ?>
+				<?php echo getlocal("chat.window.chatting_with") ?> <b><?php echo htmlspecialchars($page['ct.user.name']) ?></b>
+			</td>
+<?php } ?>
+<?php if( $page['user'] && $page['canChangeName'] ) { ?>
 				<td class="text" nowrap>
 				<div id="changename1" style="display:<?php echo $page['displ1'] ?>;">
 					<table cellspacing="0" cellpadding="0" border="0"><tr>
-					<td class="text" nowrap><?php echo getlocal("chat.client.name") ?></td> 
+					<td class="text" nowrap><?php echo getlocal("chat.client.name") ?></td>
 					<td width="10" valign="top"><img src='<?php echo $webimroot ?>/images/free.gif' width="10" height="1" border="0" alt="" /></td>
 					<td><input id="uname" type="text" size="12" value="<?php echo $page['ct.user.name'] ?>" class="username"></td>
 					<td width="5" valign="top"><img src='<?php echo $webimroot ?>/images/free.gif' width="5" height="1" border="0" alt="" /></td>
@@ -115,13 +119,20 @@ var threadParams = { servl:"<?php echo $webimroot ?>/thread.php",wroot:"<?php ec
 				</div>
 				<div id="changename2" style="display:<?php echo $page['displ2'] ?>;">
 					<table cellspacing="0" cellpadding="0" border="0"><tr>
-					<td class="text" nowrap><a href="javascript:void(0)" onclick="return false;" title="<?php echo getlocal("chat.client.changename") ?>"><?php echo getlocal("chat.client.changename") ?></a></td>
+					<td class="text" nowrap><a id="unamelink" href="javascript:void(0)" onclick="return false;" title="<?php echo getlocal("chat.client.changename") ?>"><?php echo $page['ct.user.name'] ?></a></td>
 					<td width="10" valign="top"><img src='<?php echo $webimroot ?>/images/free.gif' width="10" height="1" border="0" alt="" /></td>
 					<td><a href="javascript:void(0)" onclick="return false;" title="<?php echo getlocal("chat.client.changename") ?>"><img src='<?php echo $webimroot ?>/images/buttons/changeuser.gif' width="25" height="25" border="0" alt="" /></a></td>
 					</tr></table>
 				</div>
 				</td>
 <?php } ?>
+<?php if( $page['user'] && !$page['canChangeName'] ) { ?>
+				<td class="text" nowrap>
+				<?php echo getlocal("chat.client.name") ?>&nbsp;<?php echo $page['ct.user.name'] ?>
+				</td>
+<?php } ?>
+
+
 <?php if( $page['agent'] ) { ?>
 				<td width="10" valign="top"><img src='<?php echo $webimroot ?>/images/free.gif' width="10" height="1" border="0" alt="" /></td>
 				<td><a class="closethread" href="javascript:void(0)" onclick="return false;" title="<?php echo getlocal("chat.window.close_title") ?>">
@@ -148,10 +159,11 @@ var threadParams = { servl:"<?php echo $webimroot ?>/thread.php",wroot:"<?php ec
 
 			<tr>
 		    <td height="15" align="right">
+		    	<div id="engineinfo" style="display:none;">
+		    	</div>
 				<div id="typingdiv" style="display:none;">
 					<?php echo getlocal("typing.remote") ?>
 				</div>
-
 			</td>
 			</tr>
 
@@ -177,7 +189,7 @@ var threadParams = { servl:"<?php echo $webimroot ?>/thread.php",wroot:"<?php ec
 			<tr>
 		    <td bgcolor="#A1A1A1"><img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="1" border="0" alt="" /></td>
 		    <td width="100%" height="100%" bgcolor="#FFFFFF" valign="top">
-				<iframe id="chatwnd" width="100%" height="100%" src='<?php echo $webimroot ?>/images/blank.html' frameborder="0" style="overflow:auto;">
+				<iframe id="chatwnd" width="100%" height="100%" src="<?php if( $page['neediframesrc'] ) { ?><?php echo $webimroot ?>/images/blank.html<?php } ?>" frameborder="0" style="overflow:auto;">
 				Sorry, your browser does not support iframes; try a browser that supports W3 standards.
 				</iframe>
 			</td>
@@ -196,14 +208,19 @@ var threadParams = { servl:"<?php echo $webimroot ?>/thread.php",wroot:"<?php ec
 
 		<tr>
 	    <td width="20" valign="top"><img src='<?php echo $webimroot.getlocal("image.chat.message") ?>' width="20" height="85" border="0" alt="" /></td>
+	    <?php if( $page['isOpera95'] ) { ?>
+    	<td width="100%" height="60%" valign="top" id="msgwndtd">
+    	<?php } ?>
+	    <?php if( !$page['isOpera95'] ) { ?>
     	<td width="100%" height="100" valign="top" id="msgwndtd">
+    	<?php } ?>
 			<table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0"><tr><td colspan="3" bgcolor="#A1A1A1"><img src="<?php echo $webimroot ?>/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td bgcolor="#A1A1A1"><img src="<?php echo $webimroot ?>/images/free.gif" width="1" height="1" border="0" alt="" /></td><td width="100%" height="100%" bgcolor="#FFFFFF" valign="top">
 				<textarea id="msgwnd" class="message" tabindex="0"></textarea>
 			</td><td bgcolor="#A1A1A1"><img src="<?php echo $webimroot ?>/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td colspan="3" bgcolor="#A1A1A1"><img src="<?php echo $webimroot ?>/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr></table>
 		</td>
 	    <td valign="center" id="avatarwnd"></td>
 		</tr>
-<?php } ?>	
+<?php } ?>
 		</table>
 
 	</td>
@@ -226,7 +243,7 @@ var threadParams = { servl:"<?php echo $webimroot ?>/thread.php",wroot:"<?php ec
 		</td>
 		<td align="center" class="copyr"><?php echo getlocal("chat.window.poweredby") ?> <a href="<?php echo getlocal("site.url") ?>" title="<?php echo getlocal("company.title") ?>" target="_blank"><?php echo getlocal("chat.window.poweredreftext") ?></a></td>
 		<td align="right">
-		
+
 <?php if( $page['canpost'] ) { ?>
 			<table cellspacing="0" cellpadding="0" border="0" id="postmessage">
 
