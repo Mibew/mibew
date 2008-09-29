@@ -17,13 +17,12 @@ require_once('../libs/operator.php');
 
 $operator = check_login();
 
-// collect available images and locales
 $imageLocales = array();
 foreach($available_locales as $curr) {
 	$imagesDir = "../locales/$curr/button";
 	if($handle = opendir($imagesDir)) {
 		while (false !== ($file = readdir($handle))) {
-			if (preg_match("/^(\w+)_on.gif$/", $file, $matches) 
+			if (preg_match("/^(\w+)_on.gif$/", $file, $matches)
 					&& is_file("$imagesDir/".$matches[1]."_off.gif")) {
 				$image = $matches[1];
 				if( !isset($imageLocales[$image]) ) {
@@ -49,7 +48,7 @@ if( !$lang || !in_array($lang,$image_locales) )
 $file = "../locales/${lang}/button/${image}_on.gif";
 $size = get_gifimage_size($file);
 
-$message = get_image(get_app_location($showhost,$forcesecure)."/button.php?image=$image&lang=$lang",$size[0],$size[1]);
+$message = get_image(get_app_location($showhost,$forcesecure)."/button.php?image=$image&amp;lang=$lang",$size[0],$size[1]);
 
 $page = array();
 $page['operator'] = topage(get_operator_name($operator));
