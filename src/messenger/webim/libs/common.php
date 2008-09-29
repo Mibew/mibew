@@ -17,7 +17,7 @@ session_start();
 require_once(dirname(__FILE__).'/converter.php');
 require_once(dirname(__FILE__).'/config.php');
 
-$version = 'v1.0.10';
+$version = 'v1.4.0';
 
 function myiconv($in_enc, $out_enc, $string) {
 	global $_utf8win1251, $_win1251utf8;
@@ -25,8 +25,8 @@ function myiconv($in_enc, $out_enc, $string) {
 		return $string;
 	}
 	if( function_exists('iconv') ) {
-	    $converted = @iconv($in_enc, $out_enc, $string);
-	    if( $converted !== FALSE ) {
+		$converted = @iconv($in_enc, $out_enc, $string);
+		if( $converted !== FALSE ) {
 			return $converted;
 		}
 	}
@@ -39,7 +39,6 @@ function myiconv($in_enc, $out_enc, $string) {
 }
 
 function verifyparam( $name, $regexp, $default = null ) {
-
 	if( isset( $_GET[$name] ) ) {
 		$val = $_GET[$name];
 		if( preg_match( $regexp, $val ) )
@@ -54,7 +53,6 @@ function verifyparam( $name, $regexp, $default = null ) {
 		if( isset( $default ) )
 			return $default;
 	}
-
 	echo "<html><head></head><body>Wrong parameter used or absent: ".$name."</body></html>";
 	exit;
 }
@@ -101,7 +99,7 @@ function get_locale() {
 		$_SESSION['locale'] = $locale;
 		setcookie('webim_locale', $locale, time()+60*60*24*1000, "$webimroot/");
 	} else if( isset($_SESSION['locale']) ){
-	    $locale = $_SESSION['locale'];
+		$locale = $_SESSION['locale'];
 	}
 
 	if( !$locale || !in_array($locale,$available_locales) )
@@ -132,18 +130,18 @@ function load_messages($locale) {
 	global $messages, $webim_encoding, $output_encoding;
 	$hash = array();
 	$current_encoding = $webim_encoding;
-	$fp = fopen(dirname(__FILE__)."/../locales/$locale/properties","r");
+	$fp = fopen(dirname(__FILE__)."/../locales/$locale/properties", "r");
 	while (!feof($fp)) {
-    	$line = fgets($fp, 4096);
+		$line = fgets($fp, 4096);
 		$keyval = split("=", $line, 2 );
 		if( isset($keyval[1]) ) {
 			if($keyval[0] == 'encoding') {
 				$current_encoding = trim($keyval[1]);
 			} else if($keyval[0] == 'output_encoding') {
-				$output_encoding[$locale] = trim($keyval[1]); 
+				$output_encoding[$locale] = trim($keyval[1]);
 			} else if( $current_encoding == $webim_encoding ) {
 				$hash[$keyval[0]] = str_replace("\\n", "\n",trim($keyval[1]));
-			} else { 
+			} else {
 				$hash[$keyval[0]] = myiconv($current_encoding, $webim_encoding, str_replace("\\n", "\n",trim($keyval[1])));
 			}
 		}
@@ -241,20 +239,20 @@ function connect() {
 }
 
 function perform_query($query,$link) {
-	mysql_query($query,$link) 
+	mysql_query($query,$link)
 		or die(' Query failed: '.mysql_error()/*.": ".$query*/);
 }
 
 function select_one_row($query,$link) {
-	$result = mysql_query($query,$link) or die(' Query failed: ' . 
+	$result = mysql_query($query,$link) or die(' Query failed: ' .
 		mysql_error().": ".$query);
 	$line = mysql_fetch_array($result, MYSQL_ASSOC);
 	mysql_free_result($result);
 	return $line;
 }
 
-function select_multi_assoc($query,$link) {
-	$sqlresult = mysql_query($query,$link) or die(' Query failed: ' . 
+function select_multi_assoc($query, $link) {
+	$sqlresult = mysql_query($query,$link) or die(' Query failed: ' .
 		mysql_error().": ".$query);
 
 	$result = array();
@@ -266,14 +264,18 @@ function select_multi_assoc($query,$link) {
 }
 
 function start_xml_output() {
+	header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 	header("Cache-Control: no-store, no-cache, must-revalidate");
+	header("Pragma: no-cache");
 	header("Content-type: text/xml; charset=utf-8");
 	echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 }
 
 function start_html_output() {
 	$charset = getstring("output_charset");
+	header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 	header("Cache-Control: no-store, no-cache, must-revalidate");
+	header("Pragma: no-cache");
 	header("Content-type: text/html".(isset($charset)?"; charset=".$charset:""));
 }
 
@@ -299,7 +301,6 @@ function no_field($key) {
 	return getlocal2("errors.required",array(getlocal($key)));
 }
 
-
 function wrong_field($key) {
 	return getlocal2("errors.wrong_field",array(getlocal($key)));
 }
@@ -309,7 +310,7 @@ function get_popup($href,$message,$title,$wndName,$options) {
 }
 
 function get_image($href,$width,$height) {
-	if( $width != 0 && $height != 0 )                   
+	if( $width != 0 && $height != 0 )
 		return "<img src=\"$href\" border=\"0\" width=\"$width\" height=\"$height\"/>";
 	return "<img src=\"$href\" border=\"0\"/>";
 }
@@ -342,11 +343,11 @@ function add_params($servlet, $params) {
 }
 
 function div($a,$b) {
-    return ($a-($a % $b)) / $b;
+	return ($a-($a % $b)) / $b;
 }
 
 function date_diff($seconds) {
-    $minutes = div($seconds,60);
+	$minutes = div($seconds,60);
 	$seconds = $seconds % 60;
 	if( $minutes < 60 ) {
 		return sprintf("%02d:%02d",$minutes, $seconds);
@@ -388,7 +389,7 @@ function get_month_selection($fromtime,$totime) {
 		$month++;
 		if( $month > 12 ) {
 			$month = 1;
-			$year++; 
+			$year++;
 		}
 	} while( $current < $totime );
 	return $result;
@@ -418,6 +419,34 @@ function webim_mail($toaddr, $reply_to, $subject, $body) {
 	$real_subject = "=?".$mail_encoding."?B?".base64_encode(myiconv($webim_encoding,$mail_encoding,$subject))."?=";
 
 	mail($toaddr, $real_subject, wordwrap(myiconv($webim_encoding, $mail_encoding, $body),70), $headers);
+}
+
+$settings = array(
+	'email' => '',				/* inbox for left messages */
+	'title' => 'Company',
+	'hosturl' => 'http://www.webim.ru',
+	'logo' => ''
+);
+$settingsloaded = false;
+$settings_in_db = array();
+
+function loadsettings() {
+	global $settingsloaded, $settings_in_db, $settings;
+	if($settingsloaded) {
+		return;
+	}
+	$settingsloaded = true;
+
+	$link = connect();
+	$sqlresult = mysql_query('select vckey,vcvalue from chatconfig',$link) or die(' Query failed: '.mysql_error().": ".$query);
+
+	while ($row = mysql_fetch_array($sqlresult, MYSQL_ASSOC)) {
+		$name = $row['vckey'];
+		$settings[$name] = $row['vcvalue'];
+		$settings_in_db[$name] = true;
+	}
+	mysql_free_result($sqlresult);
+	mysql_close($link);
 }
 
 ?>

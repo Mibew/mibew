@@ -34,11 +34,11 @@
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
 <tr>
 <td valign="top" class="text">
-	
- <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="left" valign="top"> 
+
+ <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="left" valign="top">
 		<h1><?php echo getlocal("topMenu.admin") ?></h1>
- </td><td align="right" class="text" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="textform"><?php echo getlocal2("menu.operator",array($page['operator'])) ?></td></tr></table></td></tr></table> 
-	
+ </td><td align="right" class="text" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="textform"><?php echo getlocal2("menu.operator",array($page['operator'])) ?></td></tr></table></td></tr></table>
+
 
 	<?php echo getlocal("admin.content.description") ?>
 <br>
@@ -53,6 +53,8 @@
 	<tr><td width='20' valign='top'><img src='<?php echo $webimroot ?>/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='<?php echo $webimroot ?>/operator/getcode.php'><?php echo getlocal('leftMenu.client_gen_button') ?></a><br><img src='<?php echo $webimroot ?>/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getlocal('admin.content.client_gen_button') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
 
 	<tr><td width='20' valign='top'><img src='<?php echo $webimroot ?>/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='<?php echo $webimroot ?>/operator/history.php'><?php echo getlocal('page_analysis.search.title') ?></a><br><img src='<?php echo $webimroot ?>/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getlocal('content.history') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
+
+	<tr><td width='20' valign='top'><img src='<?php echo $webimroot ?>/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='<?php echo $webimroot ?>/operator/settings.php'><?php echo getlocal('leftMenu.client_settings') ?></a><br><img src='<?php echo $webimroot ?>/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getlocal('admin.content.client_settings') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
 
 	<tr><td width='20' valign='top'><img src='<?php echo $webimroot ?>/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='<?php echo $webimroot ?>/operator/logout.php'><?php echo getlocal('topMenu.logoff') ?></a><br><img src='<?php echo $webimroot ?>/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getlocal('content.logoff') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
 

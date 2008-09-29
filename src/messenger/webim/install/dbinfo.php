@@ -51,9 +51,15 @@ $dbtables = array(
 		"vccommonname" => "varchar(64) NOT NULL",
 		"dtmlastvisited" => "datetime DEFAULT 0",
 	),
-	
+
 	"chatrevision" => array(
 		"id" => "INT NOT NULL"
+	),
+
+	"chatconfig" => array (
+		"id" => "INT NOT NULL auto_increment PRIMARY KEY",
+		"vckey" => "varchar(255)",
+		"vcvalue" => "varchar(255)",
 	)
 );
 
@@ -66,30 +72,30 @@ $dbtables_can_update = array(
 
 function show_install_err($text) {
 	global $page, $version, $errors, $webimroot;
-	$page = array( 
+	$page = array(
 		'version' => $version,
 		'localeLinks' => get_locale_links("$webimroot/install/index.php")
 	);
 	$errors = array($text);
 	start_html_output();
 	require('view_installerr.php');
-	exit;	
+	exit;
 }
 
 function create_table($id,$link) {
 	global $dbtables, $memtables, $dbencoding;
-	
+
 	if(!isset($dbtables[$id])) {
 		show_install_err("Unknown table: $id, ".mysql_error());
 	}
-	
-	$query = 
+
+	$query =
 		"CREATE TABLE $id\n".
 		"(\n";
 	foreach( $dbtables[$id] as $k => $v ) {
-		$query .= "	$k $v,\n"; 
+		$query .= "	$k $v,\n";
 	}
-	
+
 	$query = preg_replace("/,\n$/", "", $query);
 	$query .= ") charset $dbencoding";
 	if (in_array($id, $memtables)) {
@@ -97,11 +103,11 @@ function create_table($id,$link) {
 	} else {
 		$query .= " TYPE=InnoDb";
 	}
+
 	mysql_query($query,$link) or show_install_err(' Query failed: '.mysql_error());
-	
-	// post create
+
 	if( $id == 'chatoperator' ) {
-		create_operator_("admin", "", "Administrator", "Administrator", $link);	
+		create_operator_("admin", "", "Administrator", "Administrator", $link);
 	} else if( $id == 'chatrevision' ) {
 		perform_query("INSERT INTO chatrevision VALUES (1)",$link);
 	}
