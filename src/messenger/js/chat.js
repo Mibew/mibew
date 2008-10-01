@@ -226,6 +226,7 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
 	if( haveMessage ) {
 		FrameUtils.scrollDown(this._options.container);
 		if( !this.focused ) {
+			playSound(Chat.webimRoot+'/sounds/new_message.wav');
 			window.focus();
 		}
 	}

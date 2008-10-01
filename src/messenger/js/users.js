@@ -298,6 +298,7 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 		this.updateTimers();
 		this.setStatus( "Up to date" );
 		if( newAdded ) {
+			playSound(webimRoot+'/sounds/new_user.wav');
 			window.focus();
 		}
 	} else if( root.tagName == 'error' ) {

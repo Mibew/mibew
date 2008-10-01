@@ -519,3 +519,15 @@ var CommonUtils = {
   }
 };
 
+function playSound(wav_file) {
+  var player = document.getElementById("player");
+  if (player)   {
+    player.parentNode.removeChild(player);
+  }
+  player = document.body.appendChild(document.createElement("div"));
+  if(navigator.userAgent.indexOf('MSIE') != -1) {
+    player.innerHTML = '<bgsound src="'+wav_file+'">';
+  } else {
+    player.innerHTML = '<div style="position: static; width: 0px; height: 0px"><embed type="audio/mpeg" src="'+wav_file+'" hidden="true" loop="false" autostart="true"></div>';
+  }
+}
