@@ -354,7 +354,9 @@ Behaviour.register({
 	'select#predefined' : function(el) {
 		el.onchange = function() {
 			var message = $('msgwnd');
-			message.value = this.options[this.selectedIndex].innerText || this.options[this.selectedIndex].innerHTML;
+			if(this.selectedIndex!=0) {
+				message.value = this.options[this.selectedIndex].innerText || this.options[this.selectedIndex].innerHTML;
+			}
 			this.selectedIndex = 0;
 			message.focus();
 		};
