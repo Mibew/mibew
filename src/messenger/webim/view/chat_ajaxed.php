@@ -48,7 +48,7 @@ var threadParams = { servl:"<?php echo $webimroot ?>/thread.php",wroot:"<?php ec
 		    <td align="center">
 		    	<?php if( $page['ct.company.chatLogoURL'] ) { ?>
 		    		<?php if( $page['webimHost'] ) { ?>
-		            	<a onclick="window.open('<?php echo $page['webimHost'] ?>');return false;" href="_blank">
+		            	<a onclick="window.open('<?php echo $page['webimHost'] ?>');return false;" href="<?php echo htmlspecialchars($page['webimHost']) ?>">
 			            	<img src="<?php echo $page['ct.company.chatLogoURL'] ?>" border="0" alt="">
 			            </a>
 			        <?php } ?>
@@ -65,7 +65,7 @@ var threadParams = { servl:"<?php echo $webimroot ?>/thread.php",wroot:"<?php ec
 			<tr>
 		    <td align="center" class="text">
 	    		<?php if( $page['webimHost'] ) { ?>
-	            	<a onclick="window.open('<?php echo $page['webimHost'] ?>');return false;" href="_blank"><?php echo $page['ct.company.name'] ?></a><?php } ?>
+	            	<a onclick="window.open('<?php echo $page['webimHost'] ?>');return false;" href="<?php echo htmlspecialchars($page['webimHost']) ?>"><?php echo $page['ct.company.name'] ?></a><?php } ?>
 			    <?php if( !$page['webimHost'] ) { ?><?php echo $page['ct.company.name'] ?><?php } ?></td>
 			</tr>
             <?php } ?>
@@ -258,9 +258,7 @@ var threadParams = { servl:"<?php echo $webimroot ?>/thread.php",wroot:"<?php ec
 			<table cellspacing="0" cellpadding="0" border="0" id="postmessage">
 
 			<tr>
-            <td>
 
-            </td>
 		    <td><a href="javascript:void(0)" onclick="return false;" title="<?php echo getlocal("chat.window.send_message") ?>"><img src='<?php echo $webimroot ?>/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
 		    <td background="<?php echo $webimroot ?>/images/submitbg.gif" valign="top" class="submit">
 				<img src='<?php echo $webimroot ?>/images/free.gif' width="1" height="10" border="0" alt="" /><br>
