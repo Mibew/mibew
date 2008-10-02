@@ -15,6 +15,7 @@
 require_once('../libs/common.php');
 require_once('../libs/chat.php');
 require_once('../libs/operator.php');
+require_once('../libs/pagination.php');
 
 $operator = check_login();
 
@@ -32,7 +33,19 @@ if( !isset($_GET['token']) ) {
 		die("wrong thread");
 	}
 
-	take_thread($thread,$operator);
+	$viewonly = verifyparam( "viewonly", "/^true$/", false);
+
+	$forcetake = verifyparam("force", "/^true$/", false);
+	if( !$viewonly && $thread['istate'] == $state_chatting && $operator['operatorid'] != $thread['agentId'] && $forcetake == false ) {
+		$page = array(
+			'user' => topage($thread['userName']), 'agent' => topage($thread['agentName']), 'link' => $_SERVER['PHP_SELF']."?thread=$threadid&amp;force=true"
+		);
+		require('../view/confirm.php');
+		exit;
+	}
+
+	if (!$viewonly)
+		take_thread($thread,$operator);
 
 	$token = $thread['ltoken'];
 	header("Location: $webimroot/operator/agent.php?thread=$threadid&token=$token&level=$remote_level");
@@ -50,6 +63,14 @@ setup_chatview_for_operator($thread, $operator);
 
 start_html_output();
 
+$pparam = verifyparam( "act", "/^(redirect)$/", "default");
+if( $pparam == "redirect" ) {
+	$found = get_operators();
+	setup_pagination($found);
+	$page['params'] = array('thread' => $threadid, 'token' => $token);
+	require('../view/redirect.php');
+} else {
 	require('../view/chat_ajaxed.php');
+}
 
 ?>

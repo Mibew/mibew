@@ -145,6 +145,9 @@ var threadParams = { servl:"<?php echo $webimroot ?>/thread.php",wroot:"<?php ec
 			    <td><img src='<?php echo $webimroot ?>/images/buttondiv.gif' width="35" height="45" border="0" alt="" /></td>
 <?php if( $page['user'] ) { ?>
 				<td><a href="<?php echo $page['selfLink'] ?>&act=mailthread" target="_blank" title="<?php echo getlocal("chat.window.toolbar.mail_history") ?>" onclick="this.newWindow = window.open('<?php echo $page['selfLink'] ?>&act=mailthread', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=254,resizable=0');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src='<?php echo $webimroot ?>/images/buttons/email.gif' width="25" height="25" border="0" alt="Mail&nbsp;"/></a></td>
+<?php } ?><?php if( $page['agent'] && $page['canpost'] ) { ?>
+				<td><a href="<?php echo $page['selfLink'] ?>&act=redirect" title="<?php echo getlocal("chat.window.toolbar.redirect_user") ?>">
+				<img src='<?php echo $webimroot ?>/images/buttons/send.gif' width="25" height="25" border="0" alt="Redirect&nbsp;" /></a></td>
 <?php } ?>
 
 				<td><a id="refresh" href="javascript:void(0)" onclick="return false;" title="<?php echo getlocal("chat.window.toolbar.refresh") ?>">
@@ -237,7 +240,14 @@ var threadParams = { servl:"<?php echo $webimroot ?>/thread.php",wroot:"<?php ec
 			<tr>
 		    <td width="20"></td>
 
-
+<?php if( $page['agent'] && $page['canpost'] ) { ?>
+		    <td>
+				<select id="predefined" size="1" class="answer">
+				<option><?php echo getlocal("chat.window.predefined.select_answer") ?></option>
+				<?php foreach( $page['predefinedList'] as $it ) { ?><option><?php echo htmlspecialchars($it) ?></option><?php } ?>
+				</select>
+			</td>
+<?php } ?>
 			</tr>
 			</table>
 		</td>
