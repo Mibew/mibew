@@ -424,7 +424,7 @@ function webim_mail($toaddr, $reply_to, $subject, $body) {
 $settings = array(
 	'email' => '',				/* inbox for left messages */
 	'title' => 'Company',
-	'hosturl' => 'http://www.webim.ru',
+	'hosturl' => 'http://webim.sourceforge.net',
 	'logo' => ''
 );
 $settingsloaded = false;

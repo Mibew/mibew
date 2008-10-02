@@ -1,8 +1,8 @@
 encoding=utf-8
 output_charset=utf-8
 output_encoding=utf-8
-site.url=http://webim.ru
-site.title=webim.ru
+site.url=http://webim.sourceforge.net
+site.title=webim.sf.net
 company.title=Web Messenger Community
 page.main_layout.meta_keyword=live chat,live help,live support
 page.main_layout.meta_description=Live chat, live help, and live support for websites
@@ -19,7 +19,7 @@ chat.window.product_name=Web <span class="grey">Messenger</span>
 chat.window.close_title=Close chat
 chat.window.chatting_with=You chat with:
 chat.window.poweredby=Powered by:
-chat.window.poweredreftext=webim.ru
+chat.window.poweredreftext=webim.sf.net
 chat.window.send_message=Send message
 chat.window.send_message_short=Send ({0})
 chat.window.predefined.select_answer=Choose answer...
