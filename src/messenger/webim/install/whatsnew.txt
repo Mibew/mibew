@@ -3,7 +3,7 @@
   -----
   
   [+] redirect visitor to another operator
-  [+] predefined answers
+  [+] predefined answers (without proper management yet)
   [+] play notification sounds (new message, new visitor)
   [+] confirmation when trying to intercept another operator's visitor
   [+] ability to view threads without taking
