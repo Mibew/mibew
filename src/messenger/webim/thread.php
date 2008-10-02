@@ -49,7 +49,7 @@ if( !$isuser && $act != "rename" ) {
 
 if( $act == "refresh" ) {
 	$lastid = verifyparam( "lastid", "/^\d{1,9}$/", -1);
-	print_thread_messages($thread, $token, $lastid, $isuser,$outformat);
+	print_thread_messages($thread, $token, $lastid, $isuser,$outformat, $isuser ? null : $operator['operatorid']);
 	exit;
 
 } else if( $act == "post" ) {
@@ -64,7 +64,7 @@ if( $act == "refresh" ) {
 	}
 
 	post_message($threadid,$kind,$message,$from, $isuser ? null : $operator['operatorid'] );
-	print_thread_messages($thread, $token, $lastid, $isuser, $outformat);
+	print_thread_messages($thread, $token, $lastid, $isuser, $outformat, $isuser ? null : $operator['operatorid']);
 	exit;
 
 } else if( $act == "rename" ) {

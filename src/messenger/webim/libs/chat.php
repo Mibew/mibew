@@ -126,7 +126,7 @@ function get_messages($threadid,$meth,$isuser,&$lastid) {
 	return $messages;
 }
 
-function print_thread_messages($thread, $token, $lastid, $isuser,$format) {
+function print_thread_messages($thread, $token, $lastid, $isuser, $format, $agentid=null) {
 	global $webim_encoding, $webimroot, $connection_timeout;
 	$threadid = $thread['threadid'];
 	$istyping = abs($thread['current']-$thread[$isuser ? "lpagent" : "lpuser"]) < $connection_timeout
@@ -136,7 +136,7 @@ function print_thread_messages($thread, $token, $lastid, $isuser,$format) {
 		$output = get_messages($threadid,"xml",$isuser,$lastid);
 
 		start_xml_output();
-		print("<thread lastid=\"$lastid\" typing=\"".$istyping."\">");
+		print("<thread lastid=\"$lastid\" typing=\"".$istyping."\" canpost=\"".(($isuser || $agentid != null && $agentid == $thread['agentId']) ? 1 : 0)."\">");
 		foreach( $output as $msg ) {
 			print $msg;
 		}

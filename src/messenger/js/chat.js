@@ -62,6 +62,7 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
     this.cansend = true;
     this.skipNextsound = true;
     this.focused = true;
+    this.ownThread = this._options.message != null;
 	FrameUtils.initFrame(this._options.container);
     if( this._options.message ) {
 		this._options.message.onkeydown = this.handleKeyDown.bind(this);
@@ -203,6 +204,13 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
 	var typing = NodeUtils.getAttrValue(xmlRoot, "typing");
 	if( typing ) {
 		this.showTyping(typing == '1');
+	}
+
+	var canpost = NodeUtils.getAttrValue(xmlRoot, "canpost");
+	if( canpost ) {
+		if( canpost == '1' && !this.ownThread || this.ownThread && canpost != '1' ) {
+			window.location.href = window.location.href;
+		}
 	}
 
 	for( var i = 0; i < xmlRoot.childNodes.length; i++ ) {
