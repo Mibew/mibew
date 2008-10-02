@@ -455,7 +455,7 @@ function take_thread($thread,$operator) {
 	if( $state == $state_queue || $state == $state_waiting || $state == $state_loading) {
 		do_take_thread($threadid, $operator['operatorid'], $operatorName);
 
-		if( $state == $state_waiting && $thread['nextagent'] != 0 ) {
+		if( $state == $state_waiting ) {
 			if( $operatorName != $thread['agentName'] ) {
 				$message_to_post = getstring2_("chat.status.operator.changed", array($operatorName, $thread['agentName']), $thread['locale']);
 			} else {
