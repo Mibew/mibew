@@ -25,6 +25,7 @@ $dbtables = array(
 		"ltoken" => "int NOT NULL",
 		"remote" => "varchar(255)",
 		"referer" => "text",
+		"nextagent" => "int NOT NULL DEFAULT 0",
 		"locale" => "varchar(8)",
 		"lastpinguser" => "datetime DEFAULT 0",
 		"lastpingagent" => "datetime DEFAULT 0",
@@ -66,7 +67,7 @@ $dbtables = array(
 $memtables = array();
 
 $dbtables_can_update = array(
-	"chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount"),
+	"chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount", "nextagent"),
 	"chatmessage" => array("agentId"),
 );
 

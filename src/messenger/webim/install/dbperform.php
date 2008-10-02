@@ -94,6 +94,10 @@ if ($act == "silentcreateall") {
 			runsql("ALTER TABLE chatmessage DROP INDEX idx_threadid_ikind", $link);
 		}
 
+		if( in_array("chatthread.nextagent", $absent) ) {
+			runsql("ALTER TABLE chatthread ADD nextagent int NOT NULL DEFAULT 0", $link);
+		}
+
 		$res = runsql("select null from information_schema.statistics where table_name = 'chatmessage' and index_name = 'idx_agentid'", $link);
 		if(mysql_num_rows($res) == 0) {
 			runsql("ALTER TABLE chatmessage ADD INDEX idx_agentid (agentid)", $link);
