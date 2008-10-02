@@ -149,6 +149,7 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
   },
 
   changeName: function(newname) {
+    this.skipNextsound = true;
     new Ajax.Request(this._options.servl, {parameters:'act=rename&thread=' + (this._options.threadid || -1) +
     	'&token=' + (this._options.token || 0) + '&name=' + encodeURIComponent(newname)});
   },
