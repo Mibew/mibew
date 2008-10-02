@@ -59,6 +59,10 @@ if( $act == "refresh" ) {
 	$kind = $isuser ? $kind_user : $kind_agent;
 	$from = $isuser ? $thread['userName'] : $thread['agentName'];
 
+	if(!$isuser && $operator['operatorid'] != $thread['agentId']) {
+		show_error("cannot send");
+	}
+
 	post_message($threadid,$kind,$message,$from, $isuser ? null : $operator['operatorid'] );
 	print_thread_messages($thread, $token, $lastid, $isuser, $outformat);
 	exit;
