@@ -60,6 +60,8 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
     this.frequency = (this._options.frequency || 2);
     this.lastupdate = 0;
     this.cansend = true;
+    this.skipNextsound = true;
+    this.focused = true;
 	FrameUtils.initFrame(this._options.container);
     if( this._options.message ) {
 		this._options.message.onkeydown = this.handleKeyDown.bind(this);
@@ -120,6 +122,7 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
     	}
 	} catch (e) {
     }
+    this.skipNextsound = false;
     this.timer = setTimeout(this.update.bind(this), this.frequency * 1000);
   },
 
@@ -129,6 +132,7 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
     }
     this.cansend = false;
     this.stopUpdate();
+    this.skipNextsound = true;
     this.updateOptions("post");
     var postOptions = {}.extend(this._options);
     postOptions.parameters += "&message=" + encodeURIComponent(msg);
@@ -225,8 +229,10 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
 	}
 	if( haveMessage ) {
 		FrameUtils.scrollDown(this._options.container);
-		if( !this.focused ) {
+		if(!this.skipNextsound) {
 			playSound(Chat.webimRoot+'/sounds/new_message.wav');
+		}
+		if( !this.focused ) {
 			window.focus();
 		}
 	}
