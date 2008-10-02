@@ -1,4 +1,13 @@
 
+  1.4.1
+  -----
+  
+  [+] redirect visitor to another operator
+  [+] predefined answers
+  [+] play notification sounds (new message, new visitor)
+  [+] confirmation when trying to intercept another operator's visitor
+  [+] ability to view threads without taking
+
   1.4.0
   -----
 
