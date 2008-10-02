@@ -95,11 +95,11 @@ var HtmlGenerationUtils = {
   	return '<table width="100%" cellspacing="0" cellpadding="0" border="0"><tr>' + content + '</tr></table>';
   },
 
-  viewOpenCell: function(username,servlet,id,canview,canopen,ban,message) {
+  viewOpenCell: function(username,servlet,id,canview,canopen,ban,message,cantakenow) {
   		var cellsCount = 2;
   		var link = servlet+"?thread="+id;
  		var gen = '<td class="table" style="padding-left:0px; padding-right:0px;">';
-		gen += HtmlGenerationUtils.popupLink( link, localized[canopen ? 0 : 1], "ImCenter"+id, username, 600, 420, ban);
+		gen += HtmlGenerationUtils.popupLink( cantakenow ? link : link+"&viewonly=true", localized[canopen ? 0 : 1], "ImCenter"+id, username, 600, 420, ban);
 		gen += '</td><td><img src="'+webimRoot+'/images/free.gif" width="5" height="1" border="0" alt=""></td>';
 		if( canopen ) {
 			gen += '<td width="30" align="center">';
@@ -107,7 +107,12 @@ var HtmlGenerationUtils = {
 			gen += '</td>';
 			cellsCount++;
 		}
-
+		if( canview ) {
+			gen += '<td width="30" align="center">';
+			gen += HtmlGenerationUtils.popupLink( link+"&viewonly=true", localized[1], "ImCenter"+id, '<img src="'+webimRoot+'/images/tbliclread.gif" width="15" height="15" border="0" alt="'+localized[1]+'">', 600, 420, null);
+			gen += '</td>';
+			cellsCount++;
+		}
   		return HtmlGenerationUtils.generateOneRowTable(gen);
   }
 };
@@ -152,6 +157,8 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 			vstate = attr.nodeValue;
 		else if( attr.nodeName == "canopen" )
 			canopen = true;
+		else if( attr.nodeName == "canview" )
+			canview = true;
 
 	}
 
@@ -194,7 +201,7 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 		HtmlGenerationUtils.insertHr(this.t, startRow.rowIndex+2);
 		row.id = "thr"+id;
 		this.threadTimers[id] = new Array(vtime,modified,stateid);
-		CommonUtils.insertCell(row, "name", "table", null, 30, HtmlGenerationUtils.viewOpenCell(vname,this._options.agentservl,id,canview,canopen,ban,message));
+		CommonUtils.insertCell(row, "name", "table", null, 30, HtmlGenerationUtils.viewOpenCell(vname,this._options.agentservl,id,canview,canopen,ban,message,stateid!='chat'));
 		HtmlGenerationUtils.insertSplitter(row);
 		CommonUtils.insertCell(row, "contid", "table", "center", null, vaddr );
 		HtmlGenerationUtils.insertSplitter(row);
@@ -212,7 +219,7 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 			return true;
 	} else {
 		this.threadTimers[id] = new Array(vtime,modified,stateid);
-		setcell(this.t, row,"name",HtmlGenerationUtils.viewOpenCell(vname,this._options.agentservl,id,canview,canopen,ban,message));
+		setcell(this.t, row,"name",HtmlGenerationUtils.viewOpenCell(vname,this._options.agentservl,id,canview,canopen,ban,message,stateid!='chat'));
 		setcell(this.t, row,"contid",vaddr);
 		setcell(this.t, row,"state",vstate);
 		setcell(this.t, row,"op",agent);
