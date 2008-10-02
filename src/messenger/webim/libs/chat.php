@@ -270,7 +270,7 @@ function setup_chatview_for_operator($thread,$operator) {
 	$page = array();
 	$page['agent'] = true;
 	$page['user'] = false;
-	$page['canpost'] = true;
+	$page['canpost'] = $thread['agentId'] == $operator['operatorid'];
 	$page['ct.chatThreadId'] = $thread['threadid'];
 	$page['ct.token'] = $thread['ltoken'];
 	$page['ct.user.name'] = topage(get_user_name($thread['userName'],$thread['remote']));
@@ -281,6 +281,10 @@ function setup_chatview_for_operator($thread,$operator) {
 	$page['send_shortcut'] = "Ctrl-Enter";
 	$page['isOpera95'] = is_agent_opera95();
 	$page['neediframesrc'] = needsFramesrc();
+
+	$page['predefinedList'] = explode("\n", getlocal_('chat.predefined_answers', $thread['locale']));
+	$params = "thread=".$thread['threadid']."&token=".$thread['ltoken'];
+	$page['selfLink'] = "$webimroot/operator/agent.php?".$params;
 
 	$page['namePostfix'] = "";
 }
@@ -323,6 +327,7 @@ function ping_thread($thread, $isuser,$istyping) {
 			$message_to_post = getstring_("chat.status.operator.dead", $thread['locale']);
 			post_message_($thread['threadid'],$kind_conn,$message_to_post,$link,null,$lastping+$connection_timeout);
 			$params['istate'] = $state_waiting;
+			$params['nextagent'] = 0;
 			commit_thread($thread['threadid'], $params, $link);
 			mysql_close($link);
 			return;
@@ -373,7 +378,7 @@ function close_thread($thread,$isuser) {
 
 function thread_by_id_($id,$link) {
 	return select_one_row("select threadid,userName,agentName,agentId,lrevision,istate,ltoken,userTyping,agentTyping".
-			",remote,referer,locale,unix_timestamp(lastpinguser) as lpuser,unix_timestamp(lastpingagent) as lpagent, unix_timestamp(CURRENT_TIMESTAMP) as current".
+			",remote,referer,locale,unix_timestamp(lastpinguser) as lpuser,unix_timestamp(lastpingagent) as lpagent, unix_timestamp(CURRENT_TIMESTAMP) as current,nextagent".
 			" from chatthread where threadid = ". $id, $link );
 }
 
@@ -411,6 +416,7 @@ function do_take_thread($threadid,$operatorId,$operatorName) {
 	$link = connect();
 	commit_thread( $threadid,
 		array("istate" => $state_chatting,
+			  "nextagent" => 0,
 			  "agentId" => $operatorId,
 			  "agentName" => "'".mysql_real_escape_string($operatorName)."'"), $link);
 	mysql_close($link);
@@ -429,7 +435,7 @@ function reopen_thread($threadid) {
 	if( $thread['istate'] != $state_chatting && $thread['istate'] != $state_queue && $thread['istate'] != $state_loading ) {
 		$link = connect();
 		commit_thread( $threadid,
-			array("istate" => $state_waiting ), $link);
+			array("istate" => $state_waiting, "nextagent" => 0), $link);
 		mysql_close($link);
 	}
 
@@ -449,7 +455,7 @@ function take_thread($thread,$operator) {
 	if( $state == $state_queue || $state == $state_waiting || $state == $state_loading) {
 		do_take_thread($threadid, $operator['operatorid'], $operatorName);
 
-		if( $state == $state_waiting  ) {
+		if( $state == $state_waiting && $thread['nextagent'] != 0 ) {
 			if( $operatorName != $thread['agentName'] ) {
 				$message_to_post = getstring2_("chat.status.operator.changed", array($operatorName, $thread['agentName']), $thread['locale']);
 			} else {
@@ -476,7 +482,8 @@ function check_for_reassign($thread,$operator) {
 	global $state_waiting, $home_locale, $kind_events;
 	$operatorName = ($thread['locale'] == $home_locale) ? $operator['vclocalename'] : $operator['vccommonname'];
 	if( $thread['istate'] == $state_waiting &&
-			(  $thread['agentId'] == $operator['operatorid'] )) {
+			(  $thread['nextagent'] == $operator['operatorid']
+			|| $thread['agentId'] == $operator['operatorid'] )) {
 		do_take_thread($thread['threadid'], $operator['operatorid'], $operatorName);
 		if( $operatorName != $thread['agentName'] ) {
 			$message_to_post = getstring2_("chat.status.operator.changed", array($operatorName, $thread['agentName']), $thread['locale']);

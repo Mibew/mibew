@@ -39,17 +39,22 @@ $threadstate_key = array(
 	$state_loading => "chat.thread.state_loading"
 );
 
-function thread_to_xml($thread) {
-	global $threadstate_to_string, $threadstate_key, $webim_encoding;
+function thread_to_xml($thread,$link) {
+	global $threadstate_to_string, $threadstate_key, $webim_encoding, $operator;
 	$state = $threadstate_to_string[$thread['istate']];
 	$result = "<thread id=\"".$thread['threadid']."\" stateid=\"$state\"";
 	if( $state == "closed" )
 		return $result."/>";
 
 	$state = getstring($threadstate_key[$thread['istate']]);
-	$threadoperator = ($thread['agentName'] ? $thread['agentName'] : "-");
+	$nextagent = $thread['nextagent'] != 0 ? operator_by_id_($thread['nextagent'],$link) : null;
+	$threadoperator = $nextagent ? get_operator_name($nextagent)
+						: ($thread['agentName'] ? $thread['agentName'] : "-");
 
 	$result .= " canopen=\"true\"";
+	if( $thread['agentId'] != $operator['operatorid'] && $thread['nextagent'] != $operator['operatorid']) {
+		$result .= " canview=\"true\"";
+	}
 
 	$result .= " state=\"$state\" typing=\"".$thread['userTyping']."\">";
 	$result .= "<name>".htmlspecialchars(htmlspecialchars(get_user_name($thread['userName'],$thread['remote'])))."</name>";
@@ -69,11 +74,11 @@ function print_pending_threads($since) {
 	$revision = $since;
 	$output = array();
 	$query = "select threadid, userName, agentName, unix_timestamp(dtmcreated), userTyping, ".
-			 "unix_timestamp(dtmmodified), lrevision, istate, remote ".
+			 "unix_timestamp(dtmmodified), lrevision, istate, remote, nextagent, agentId ".
 			 "from chatthread where lrevision > $since ORDER BY threadid";
 	$rows = select_multi_assoc($query, $link);
 	foreach ($rows as $row) {
-		$thread = thread_to_xml($row);
+		$thread = thread_to_xml($row,$link);
 		$output[] = $thread;
 		if( $row['lrevision'] > $revision )
 			$revision = $row['lrevision'];
