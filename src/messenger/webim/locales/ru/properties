@@ -93,6 +93,8 @@ page.analysis.search.head_host=Адрес посетителя
 page.analysis.search.head_operator=Оператор
 page.analysis.search.head_messages=Сообщений посетителя
 page.analysis.search.head_time=Время в диалоге
+page.analysis.userhistory.title=История диалогов
+page.analysis.userhistory.intro=На данной странице Вы можете увидеть все диалоги с Вашим посетителем.
 common.asterisk_explanation=<b><font class="red">*</font></b> - поля, обязательные для заполнения
 page_agents.title=Агенты
 page_agents.agents=Полный список агентов:

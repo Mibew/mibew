@@ -103,8 +103,14 @@ var threadParams = { servl:"<?php echo $webimroot ?>/thread.php",wroot:"<?php ec
 				<tr>
 <?php if( $page['agent'] ) { ?>
 				<td class="text" nowrap>
+            <?php if( $page['historyParams'] ) { ?>
+				<?php echo getlocal("chat.window.chatting_with") ?>
+				<a href="<?php echo add_params($webimroot."/operator/userhistory.php",$page['historyParams']) ?>" target="_blank" title="<?php echo getlocal("page.analysis.userhistory.title") ?>" onclick="this.newWindow = window.open('<?php echo add_params($webimroot."/operator/userhistory.php",$page['historyParams']) ?>', 'UserHistory', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=703,height=380,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo htmlspecialchars($page['ct.user.name']) ?></a>
+			<?php } ?>
+            <?php if( !$page['historyParams'] ) { ?>
 				<?php echo getlocal("chat.window.chatting_with") ?> <b><?php echo htmlspecialchars($page['ct.user.name']) ?></b>
-			</td>
+			<?php } ?>
+				</td>
 <?php } ?>
 <?php if( $page['user'] && $page['canChangeName'] ) { ?>
 				<td class="text" nowrap>
@@ -149,7 +155,9 @@ var threadParams = { servl:"<?php echo $webimroot ?>/thread.php",wroot:"<?php ec
 				<td><a href="<?php echo $page['selfLink'] ?>&act=redirect" title="<?php echo getlocal("chat.window.toolbar.redirect_user") ?>">
 				<img src='<?php echo $webimroot ?>/images/buttons/send.gif' width="25" height="25" border="0" alt="Redirect&nbsp;" /></a></td>
 <?php } ?>
-
+<?php if( $page['agent'] && $page['historyParams'] ) { ?>
+				<td><a href="<?php echo add_params($webimroot."/operator/userhistory.php",$page['historyParams']) ?>" target="_blank" title="<?php echo getlocal("page.analysis.userhistory.title") ?>" onclick="this.newWindow = window.open('<?php echo add_params($webimroot."/operator/userhistory.php",$page['historyParams']) ?>', 'UserHistory', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=703,height=380,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src='<?php echo $webimroot ?>/images/buttons/history.gif' width="25" height="25" border="0" alt="History&nbsp;"/></a></td>
+<?php } ?>
 				<td><a id="refresh" href="javascript:void(0)" onclick="return false;" title="<?php echo getlocal("chat.window.toolbar.refresh") ?>">
 				<img src='<?php echo $webimroot ?>/images/buttons/refresh.gif' width="25" height="25" border="0" alt="Refresh&nbsp;" /></a></td>
 

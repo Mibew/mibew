@@ -93,6 +93,8 @@ page.analysis.search.head_host=Visitor's address
 page.analysis.search.head_operator=Operator
 page.analysis.search.head_messages=Visitor's messages
 page.analysis.search.head_time=Time in chat
+page.analysis.userhistory.title=Visits history
+page.analysis.userhistory.intro=You can find chat history of your visitors here.
 common.asterisk_explanation=<b><font class="red">*</font></b> - mandatory fields
 page_agents.title=Agents
 page_agents.agents=Agents full list:
