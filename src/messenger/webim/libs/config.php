@@ -68,7 +68,7 @@ $default_locale = "en";						/* if user does not provide known lang */
 $user_can_change_name = true;
 
 /*
- *   How to build presentable visitor name from {name} or {addr}. Default: {name}
+ *   How to build presentable visitor name from {name}, {id} or {addr}. Default: {name}
  */
 $presentable_name_pattern = "{name}";
 
@@ -82,5 +82,10 @@ $remote_visitor = 'visitor_from_request';
  *   Timeout (in seconds) when online operator becomes offline.
  */
 $online_timeout = 30;
+
+/*
+ *   Link to page with information about user, {id} is substituted
+ */
+$user_link_pattern = "";
 
 ?>
