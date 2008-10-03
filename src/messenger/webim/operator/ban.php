@@ -1,0 +1,119 @@
+<?php
+/*
+ * This file is part of Web Instant Messenger project.
+ *
+ * Copyright (c) 2005-2008 Web Messenger Community
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Evgeny Gryaznov - initial API and implementation
+ */
+
+require_once('../libs/common.php');
+require_once('../libs/chat.php');
+require_once('../libs/operator.php');
+require_once('../libs/pagination.php');
+
+$operator = check_login();
+$page = array('banId' => '', 'operator' => topage(get_operator_name($operator)) );
+$page['saved'] = false;
+$page['thread'] = '';
+$page['threadid'] = '';
+$errors = array();
+
+if( isset($_POST['address']) ) {
+	$banId = verifyparam( "banId", "/^(\d{1,9})?$/", "");
+	$address = getparam("address");
+	$days = getparam("days");
+	$comment = getparam('comment');
+	$threadid = isset($_POST['threadid']) ? getparam('threadid') : "";
+
+	if( !preg_match( "/^(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3})$/", $address )) {
+		if( !preg_match("/^([a-z0-9-]+\.)+[a-z0-9-]+$/", $address)) {
+			$errors[] = wrong_field("form.field.address");
+		}
+	}
+
+	if( !preg_match( "/^\d+$/", $days )) {
+		$errors[] = wrong_field("form.field.ban_days");
+	}
+
+	if( !$comment ) {
+		$errors[] = no_field("form.field.ban_comment");
+	}
+
+	$link = connect();
+	$existing_ban = ban_for_addr_($address,$link);
+	mysql_close($link);
+
+	if( (!$banId && $existing_ban) ||
+		( $banId && $existing_ban && $banId != $existing_ban['banid']) ) {
+		$errors[] = getlocal2("ban.error.duplicate",array($address,$existing_ban['banid']));
+	}
+
+	if( count($errors) == 0 ) {
+		$link = connect();
+		$utime = time() + $days * 24*60*60;
+		if (!$banId) {
+			$query = sprintf(
+				"insert into chatban (dtmcreated,dtmtill,address,comment) values (CURRENT_TIMESTAMP,%s,'%s','%s')",
+				"FROM_UNIXTIME($utime)",
+				quote_smart($address,$link),
+				quote_smart($comment,$link));
+			perform_query($query,$link);
+		} else {
+			$query = sprintf(
+				"update chatban set dtmtill = %s,address = '%s',comment = '%s' where banid = $banId",
+				"FROM_UNIXTIME($utime)",
+				quote_smart($address,$link),
+				quote_smart($comment,$link));
+			perform_query($query,$link);
+					}
+		mysql_close($link);
+
+		if(!$threadid) {
+			header("Location: $webimroot/operator/blocked.php");
+			exit;
+		} else {
+			$page['saved'] = true;
+			$page['address'] = $address;
+		}
+	} else {
+		$page['banId'] = topage($banId);
+		$page['formaddress'] = topage($address);
+		$page['formdays'] = topage($days);
+		$page['formcomment'] = topage($comment);
+		$page['threadid'] = $threadid;
+	}
+} else if(isset($_GET['id'])) {
+	$banId = verifyparam( 'id', "/^\d{1,9}$/");
+	$link = connect();
+	$ban = select_one_row("select banid,(unix_timestamp(dtmtill)-unix_timestamp(CURRENT_TIMESTAMP)) as days,address,comment from chatban where banid = $banId", $link);
+	mysql_close($link);
+
+	if( $ban ) {
+		$page['banId'] = topage($ban['banid']);
+		$page['formaddress'] = topage($ban['address']);
+		$page['formdays'] = topage(round($ban['days']/86400));
+		$page['formcomment'] = topage($ban['comment']);
+	} else {
+		$errors[] = "Wrong id";
+	}
+} else if(isset($_GET['thread'])) {
+	$threadid = verifyparam( 'thread', "/^\d{1,9}$/");
+	$thread = thread_by_id($threadid);
+	if( $thread ) {
+		$page['thread'] = topage($thread['userName']);
+		$page['threadid'] = $threadid;
+		$page['formaddress'] = topage($thread['remote']);
+		$page['formdays'] = 15;
+	}
+}
+
+start_html_output();
+require('../view/ban.php');
+exit;
+?>

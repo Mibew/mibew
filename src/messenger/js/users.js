@@ -119,6 +119,11 @@ var HtmlGenerationUtils = {
 			gen += '</a></td>';
 		}
   		return HtmlGenerationUtils.generateOneRowTable(gen);
+  },
+  banCell: function(id){
+      return '<td width="30" align="center">'+
+          HtmlGenerationUtils.popupLink( webimRoot+'/operator/ban.php?thread='+id, localized[2], "ban"+id, '<img src="'+webimRoot+'/images/ban.gif" width="15" height="15" border="0" alt="'+localized[2]+'">', 550, 440, null)+
+          '</td>';
   }
 };
 
@@ -164,7 +169,8 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 			canopen = true;
 		else if( attr.nodeName == "canview" )
 			canview = true;
-
+		else if( attr.nodeName == "ban" )
+			ban = attr.nodeValue;
 	}
 
 	function setcell(_table, row,id,pcontent) {
@@ -190,6 +196,12 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 	var modified = NodeUtils.getNodeValue(node,"modified");
 	var message = NodeUtils.getNodeValue(node,"message");
 	var etc = '<td class="table">'+NodeUtils.getNodeValue(node,"useragent")+'</td>';
+
+	if(ban != null) {
+		etc = '<td class="table">'+NodeUtils.getNodeValue(node,"reason")+'</td>';
+	}
+
+	etc += HtmlGenerationUtils.banCell(id);
 	etc = HtmlGenerationUtils.generateOneRowTable(etc);
 
 	var startRow = CommonUtils.getRow(stateid, this.t);

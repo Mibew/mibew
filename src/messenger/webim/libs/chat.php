@@ -388,6 +388,10 @@ function thread_by_id_($id,$link) {
 			" from chatthread where threadid = ". $id, $link );
 }
 
+function ban_for_addr_($addr,$link) {
+	return select_one_row("select banid,comment from chatban where unix_timestamp(dtmtill) > unix_timestamp(CURRENT_TIMESTAMP) AND address = '".quote_smart($addr,$link)."'", $link );
+}
+
 function thread_by_id($id) {
 	$link = connect();
 	$thread = thread_by_id_($id,$link);

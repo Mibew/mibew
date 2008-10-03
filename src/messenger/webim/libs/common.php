@@ -425,7 +425,8 @@ $settings = array(
 	'email' => '',				/* inbox for left messages */
 	'title' => 'Company',
 	'hosturl' => 'http://webim.sourceforge.net',
-	'logo' => ''
+	'logo' => '',
+	'enableban' => '0'
 );
 $settingsloaded = false;
 $settings_in_db = array();

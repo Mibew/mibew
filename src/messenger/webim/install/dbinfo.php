@@ -60,6 +60,15 @@ $dbtables = array(
 		"id" => "INT NOT NULL"
 	),
 
+	"chatban" => array(
+		"banid" => "INT NOT NULL auto_increment PRIMARY KEY",
+		"dtmcreated" => "datetime DEFAULT 0",
+		"dtmtill" => "datetime DEFAULT 0",
+		"address" => "varchar(255)",
+		"comment" => "varchar(255)",
+		"blockedCount" => "int DEFAULT 0"
+	),
+
 	"chatconfig" => array (
 		"id" => "INT NOT NULL auto_increment PRIMARY KEY",
 		"vckey" => "varchar(255)",
@@ -72,6 +81,7 @@ $memtables = array();
 $dbtables_can_update = array(
 	"chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount", "nextagent", "shownmessageid", "userid", "userAgent"),
 	"chatmessage" => array("agentId"),
+	"chatban" => array(),
 );
 
 function show_install_err($text) {

@@ -16,11 +16,13 @@ require_once('../libs/common.php');
 require_once('../libs/operator.php');
 
 $operator = check_login();
+loadsettings();
 
 $page = array(
 	'operator' => topage(get_operator_name($operator)),
 	'version' => $version,
-	'localeLinks' => get_locale_links("$webimroot/operator/index.php")
+	'localeLinks' => get_locale_links("$webimroot/operator/index.php"),
+	'showban' => $settings['enableban'] == "1"
 );
 
 start_html_output();

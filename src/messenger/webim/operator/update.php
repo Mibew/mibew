@@ -85,12 +85,21 @@ function thread_to_xml($thread,$link) {
 		$result .= " canview=\"true\"";
 	}
 
+	$banForThread = ban_for_addr_($thread['remote'],$link);
+	if($banForThread) {
+		$result .= " ban=\"blocked\"";
+	}
+
 	$result .= " state=\"$state\" typing=\"".$thread['userTyping']."\">";
 	$result .= "<name>".htmlspecialchars(htmlspecialchars(get_user_name($thread['userName'],$thread['remote'], $thread['userid'])))."</name>";
 	$result .= "<addr>".htmlspecialchars(htmlspecialchars($thread['remote']))."</addr>";
 	$result .= "<agent>".htmlspecialchars(htmlspecialchars($threadoperator))."</agent>";
 	$result .= "<time>".$thread['unix_timestamp(dtmcreated)']."000</time>";
 	$result .= "<modified>".$thread['unix_timestamp(dtmmodified)']."000</modified>";
+
+	if($banForThread) {
+		$result .= "<reason>".$banForThread['comment']."</reason>";
+	}
 
 	$userAgent = get_useragent_version($thread['userAgent']);
 	$result .= "<useragent>".$userAgent."</useragent>";
