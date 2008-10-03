@@ -16,6 +16,7 @@ $dbtables = array(
 	"chatthread" => array(
 		"threadid" => "int NOT NULL auto_increment PRIMARY KEY",
 		"userName" => "varchar(64) NOT NULL",
+		"userid" => "varchar(255)",
 		"agentName" => "varchar(64)",
 		"agentId" => "int NOT NULL DEFAULT 0",
 		"dtmcreated" => "datetime DEFAULT 0",
@@ -31,6 +32,8 @@ $dbtables = array(
 		"lastpingagent" => "datetime DEFAULT 0",
 		"userTyping" => "int DEFAULT 0",
 		"agentTyping" => "int DEFAULT 0",
+		"shownmessageid" => "int NOT NULL DEFAULT 0",
+		"userAgent" => "varchar(255)",
 		"messageCount" => "varchar(16)"
 	),
 
@@ -67,7 +70,7 @@ $dbtables = array(
 $memtables = array();
 
 $dbtables_can_update = array(
-	"chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount", "nextagent"),
+	"chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount", "nextagent", "shownmessageid", "userid", "userAgent"),
 	"chatmessage" => array("agentId"),
 );
 

@@ -39,6 +39,35 @@ $threadstate_key = array(
 	$state_loading => "chat.thread.state_loading"
 );
 
+function get_useragent_version($userAgent) {
+    global $knownAgents;
+    if (is_array($knownAgents)) {
+	$userAgent = strtolower($userAgent);
+	foreach( $knownAgents as $agent ) {
+		if( strstr($userAgent,$agent) ) {
+			if( preg_match( "/".$agent."[\\s\/]?(\\d+(\\.\\d+(\\.\\d+)?)?)/", $userAgent, $matches ) ) {
+				$ver = $matches[1];
+				if($agent=='safari') {
+					if(preg_match( "/version\/(\\d+(\\.\\d+(\\.\\d+)?)?)/", $userAgent, $matches)) {
+						$ver = $matches[1];
+					} else {
+						$ver = "1 or 2 (build ".$ver.")";
+					}
+					if(preg_match( "/mobile\/(\\d+(\\.\\d+(\\.\\d+)?)?)/", $userAgent, $matches)) {
+						$userAgent = "iPhone ".$matches[1]." ($agent $ver)";
+						break;
+					}
+				}
+
+				$userAgent = ucfirst($agent)." ".$ver;
+				break;
+			}
+		}
+	}
+    }
+    return $userAgent;
+}
+
 function thread_to_xml($thread,$link) {
 	global $threadstate_to_string, $threadstate_key, $webim_encoding, $operator;
 	$state = $threadstate_to_string[$thread['istate']];
@@ -57,12 +86,22 @@ function thread_to_xml($thread,$link) {
 	}
 
 	$result .= " state=\"$state\" typing=\"".$thread['userTyping']."\">";
-	$result .= "<name>".htmlspecialchars(htmlspecialchars(get_user_name($thread['userName'],$thread['remote'])))."</name>";
+	$result .= "<name>".htmlspecialchars(htmlspecialchars(get_user_name($thread['userName'],$thread['remote'], $thread['userid'])))."</name>";
 	$result .= "<addr>".htmlspecialchars(htmlspecialchars($thread['remote']))."</addr>";
 	$result .= "<agent>".htmlspecialchars(htmlspecialchars($threadoperator))."</agent>";
 	$result .= "<time>".$thread['unix_timestamp(dtmcreated)']."000</time>";
 	$result .= "<modified>".$thread['unix_timestamp(dtmmodified)']."000</modified>";
 
+	$userAgent = get_useragent_version($thread['userAgent']);
+	$result .= "<useragent>".$userAgent."</useragent>";
+	if( $thread["shownmessageid"] != 0 ) {
+		$query = "select tmessage from chatmessage where messageid = ".$thread["shownmessageid"];
+		$line = select_one_row($query, $link);
+		if( $line ) {
+			$message = preg_replace("/[\r\n\t]+/", " ", $line["tmessage"]);
+			$result .= "<message>".htmlspecialchars(htmlspecialchars($message))."</message>";
+		}
+	}
 	$result .= "</thread>";
 	return $result;
 }
@@ -74,7 +113,7 @@ function print_pending_threads($since) {
 	$revision = $since;
 	$output = array();
 	$query = "select threadid, userName, agentName, unix_timestamp(dtmcreated), userTyping, ".
-			 "unix_timestamp(dtmmodified), lrevision, istate, remote, nextagent, agentId ".
+			 "unix_timestamp(dtmmodified), lrevision, istate, remote, nextagent, agentId, userid, shownmessageid, userAgent ".
 			 "from chatthread where lrevision > $since ORDER BY threadid";
 	$rows = select_multi_assoc($query, $link);
 	foreach ($rows as $row) {

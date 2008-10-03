@@ -32,9 +32,14 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 
 		$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "";
 		$extAddr = $_SERVER['REMOTE_ADDR'];
+		if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) &&
+		          $_SERVER['HTTP_X_FORWARDED_FOR'] != $_SERVER['REMOTE_ADDR']) {
+			$extAddr = $_SERVER['REMOTE_ADDR'].' ('.$_SERVER['HTTP_X_FORWARDED_FOR'].')';
+		}
+		$userbrowser = $_SERVER['HTTP_USER_AGENT'];
 		$remoteHost = isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $extAddr;
 		$visitor = $remote_visitor();
-		$thread = create_thread($visitor['name'], $remoteHost, $referer,$current_locale);
+		$thread = create_thread($visitor['name'], $remoteHost, $referer,$current_locale,$visitor['id'], $userbrowser);
 		$_SESSION['threadid'] = $thread['threadid'];
 		if( $referer ) {
 			post_message($thread['threadid'],$kind_for_agent,getstring2('chat.came.from',array($referer)));

@@ -98,6 +98,18 @@ if ($act == "silentcreateall") {
 			runsql("ALTER TABLE chatthread ADD nextagent int NOT NULL DEFAULT 0", $link);
 		}
 
+		if( in_array("chatthread.shownmessageid", $absent) ) {
+			runsql("ALTER TABLE chatthread ADD shownmessageid int NOT NULL DEFAULT 0", $link);
+		}
+
+		if( in_array("chatthread.userid", $absent) ) {
+			runsql("ALTER TABLE chatthread ADD userid varchar(255) DEFAULT \"\"", $link);
+		}
+
+		if( in_array("chatthread.userAgent", $absent) ) {
+			runsql("ALTER TABLE chatthread ADD userAgent varchar(255)", $link);
+		}
+
 		$res = runsql("select null from information_schema.statistics where table_name = 'chatmessage' and index_name = 'idx_agentid'", $link);
 		if(mysql_num_rows($res) == 0) {
 			runsql("ALTER TABLE chatmessage ADD INDEX idx_agentid (agentid)", $link);

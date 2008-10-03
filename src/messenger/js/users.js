@@ -113,6 +113,11 @@ var HtmlGenerationUtils = {
 			gen += '</td>';
 			cellsCount++;
 		}
+		if( message != "" ) {
+			gen += '</tr><tr><td class="firstmessage" align="right" colspan="'+cellsCount+'"><a href="javascript:void(0)" title="'+message+'" onclick="alert(this.title);return false;">';
+			gen += message.length > 30 ? message.substring(0,30) + '...' : message;
+			gen += '</a></td>';
+		}
   		return HtmlGenerationUtils.generateOneRowTable(gen);
   }
 };

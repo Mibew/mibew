@@ -17,6 +17,7 @@ $connection_timeout = 30; // sec
 
 $simplenamecookie = "WEBIM_Name";   // 1.0.8 and earlier
 $namecookie = "WEBIM_Data";   // 1.0.9+
+$usercookie = "WEBIM_UserID";
 
 $state_queue = 0;
 $state_waiting = 1;
@@ -33,6 +34,10 @@ $kind_events = 6;
 
 $kind_to_string = array( $kind_user => "user", $kind_agent => "agent", $kind_for_agent => "hidden",
 	$kind_info => "inf", $kind_conn => "conn", $kind_events => "event" );
+
+function get_user_id() {
+	return (time() + microtime()).rand(0,99999999);
+}
 
 function next_token() {
 	return rand(99999,99999999);
@@ -165,10 +170,11 @@ function print_thread_messages($thread, $token, $lastid, $isuser, $format, $agen
 	}
 }
 
-function get_user_name($username, $addr) {
+function get_user_name($username, $addr, $id) {
 	global $presentable_name_pattern;
 	return str_replace("{addr}", $addr,
-			str_replace("{name}", $username, $presentable_name_pattern));
+			str_replace("{id}", $id,
+			str_replace("{name}", $username, $presentable_name_pattern)));
 }
 
 function is_ajax_browser($browserid,$ver,$useragent) {
@@ -273,7 +279,7 @@ function setup_chatview_for_operator($thread,$operator) {
 	$page['canpost'] = $thread['agentId'] == $operator['operatorid'];
 	$page['ct.chatThreadId'] = $thread['threadid'];
 	$page['ct.token'] = $thread['ltoken'];
-	$page['ct.user.name'] = topage(get_user_name($thread['userName'],$thread['remote']));
+	$page['ct.user.name'] = topage(get_user_name($thread['userName'],$thread['remote'],$thread['userid']));
 
 	$page['ct.company.name'] = topage($settings['title']);
 	$page['ct.company.chatLogoURL'] = topage($settings['logo']);
@@ -281,7 +287,7 @@ function setup_chatview_for_operator($thread,$operator) {
 	$page['send_shortcut'] = "Ctrl-Enter";
 	$page['isOpera95'] = is_agent_opera95();
 	$page['neediframesrc'] = needsFramesrc();
-
+	$page['historyParams'] = array("userid" => "".$thread['userid']);
 	$page['predefinedList'] = explode("\n", getlocal_('chat.predefined_answers', $thread['locale']));
 	$params = "thread=".$thread['threadid']."&token=".$thread['ltoken'];
 	$page['selfLink'] = "$webimroot/operator/agent.php?".$params;
@@ -378,7 +384,7 @@ function close_thread($thread,$isuser) {
 
 function thread_by_id_($id,$link) {
 	return select_one_row("select threadid,userName,agentName,agentId,lrevision,istate,ltoken,userTyping,agentTyping".
-			",remote,referer,locale,unix_timestamp(lastpinguser) as lpuser,unix_timestamp(lastpingagent) as lpagent, unix_timestamp(CURRENT_TIMESTAMP) as current,nextagent".
+			",remote,referer,locale,unix_timestamp(lastpinguser) as lpuser,unix_timestamp(lastpingagent) as lpagent, unix_timestamp(CURRENT_TIMESTAMP) as current,nextagent,shownmessageid,userid,userAgent".
 			" from chatthread where threadid = ". $id, $link );
 }
 
@@ -389,19 +395,21 @@ function thread_by_id($id) {
 	return $thread;
 }
 
-function create_thread($username,$remoteHost,$referer,$lang) {
+function create_thread($username,$remoteHost,$referer,$lang,$userid,$userbrowser) {
 	global $state_loading;
 	$link = connect();
 
 	$query = sprintf(
-		 "insert into chatthread (userName,ltoken,remote,referer,lrevision,locale,dtmcreated,dtmmodified,istate) values ".
-								 "('%s',%s,'%s','%s',%s,'%s',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,$state_loading)",
+		 "insert into chatthread (userName,userid,ltoken,remote,referer,lrevision,locale,userAgent,dtmcreated,dtmmodified,istate) values ".
+								 "('%s','%s',%s,'%s','%s',%s,'%s','%s',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,$state_loading)",
 			mysql_real_escape_string($username),
+			mysql_real_escape_string($userid),
 			next_token(),
 			mysql_real_escape_string($remoteHost),
 			mysql_real_escape_string($referer),
 			next_revision($link),
-			mysql_real_escape_string($lang) );
+			mysql_real_escape_string($lang),
+			mysql_real_escape_string($userbrowser));
 
 	perform_query($query,$link);
 	$id = mysql_insert_id($link);
@@ -496,7 +504,7 @@ function check_for_reassign($thread,$operator) {
 }
 
 function visitor_from_request() {
-	global $namecookie, $simplenamecookie, $compatibility_encoding, $webim_encoding;
+	global $namecookie, $simplenamecookie, $compatibility_encoding, $webim_encoding, $usercookie;
 	$userName = getstring("chat.default.username");
 	if( isset($_COOKIE[$namecookie]) ) {
 		$data = base64_decode(strtr($_COOKIE[$namecookie],'-_,', '+/='));
@@ -507,7 +515,14 @@ function visitor_from_request() {
 		$userName = myiconv($compatibility_encoding,$webim_encoding,$_COOKIE[$simplenamecookie]);
 	}
 
-	return array( 'name' => $userName );
+	$userId = "";
+	if (isset($_COOKIE[$usercookie])) {
+		$userId = $_COOKIE[$usercookie];
+	} else {
+		$userId = get_user_id();
+		setcookie($usercookie, $userId, time()+60*60*24*365);
+	}
+	return array( 'id' => $userId, 'name' => $userName );
 }
 
 ?>
