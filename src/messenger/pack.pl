@@ -5,6 +5,7 @@
 ##################################################################
 
 $targetFolder = "deploy";
+$suffix = "141";
 
 ##################################################################
 # Copies tree into target folder, preprocess .phps
@@ -41,4 +42,4 @@ die "Target folder exists: $targetFolder" if -e $targetFolder;
 process_dir("./webim", $targetFolder);
 
 chdir $targetFolder;
-`tar zcf ../webim.tar.gz *`;
+`zip -r ../webim$suffix.zip *`;
