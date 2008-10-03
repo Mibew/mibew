@@ -1,4 +1,12 @@
 
+  1.4.2
+  -----
+  
+  [+] pending users: show first user message (below the name)
+  [+] pending users: show visitors's browser name and version 
+  [+] mark user with unique id to be able to see its dialogs later
+  [+] special button in operator's thread to browse previous chats
+
   1.4.1
   -----
   
