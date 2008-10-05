@@ -31,9 +31,10 @@ $kind_for_agent = 3;
 $kind_info = 4;
 $kind_conn = 5;
 $kind_events = 6;
+$kind_avatar = 7;
 
 $kind_to_string = array( $kind_user => "user", $kind_agent => "agent", $kind_for_agent => "hidden",
-	$kind_info => "inf", $kind_conn => "conn", $kind_events => "event" );
+	$kind_info => "inf", $kind_conn => "conn", $kind_events => "event", $kind_avatar => "avatar" );
 
 function get_user_id() {
 	return (time() + microtime()).rand(0,99999999);
@@ -78,7 +79,8 @@ function prepare_html_message($text) {
 }
 
 function message_to_html($msg) {
-	global $kind_to_string;
+	global $kind_to_string, $kind_avatar;
+	if( $msg['ikind'] == $kind_avatar ) return "";
 	$message = "<span>".date("H:i:s",$msg['created'])."</span> ";
 	$kind = $kind_to_string{$msg['ikind']};
 	if( $msg['tname'] )
@@ -88,7 +90,8 @@ function message_to_html($msg) {
 }
 
 function message_to_text($msg) {
-	global $kind_user, $kind_agent, $kind_info;
+	global $kind_user, $kind_agent, $kind_info, $kind_avatar;
+	if( $msg['ikind'] == $kind_avatar ) return "";
 	$message_time = date("H:i:s ",$msg['created']);
 	if($msg['ikind'] == $kind_user || $msg['ikind'] == $kind_agent) {
 		if( $msg['tname'] )
@@ -103,7 +106,7 @@ function message_to_text($msg) {
 }
 
 function get_messages($threadid,$meth,$isuser,&$lastid) {
-	global $kind_for_agent, $webim_encoding;
+	global $kind_for_agent, $kind_avatar, $webim_encoding;
 	$link = connect();
 
 	$query = sprintf(
@@ -116,9 +119,17 @@ function get_messages($threadid,$meth,$isuser,&$lastid) {
 	foreach ($msgs as $msg) {
 		$message = "";
 		if ($meth == 'xml') {
-			$message = "<message>".myiconv($webim_encoding,"utf-8",escape_with_cdata(message_to_html($msg)))."</message>\n";
+			switch ($msg['ikind']) {
+				case $kind_avatar:
+					$message = "<avatar>".myiconv($webim_encoding,"utf-8",escape_with_cdata($msg['tmessage']))."</avatar>";
+					break;
+				default:
+					$message = "<message>".myiconv($webim_encoding,"utf-8",escape_with_cdata(message_to_html($msg)))."</message>\n";
+			}
 		} else {
-			$message = (($meth == 'text') ? message_to_text($msg) : topage(message_to_html($msg)));
+			if ($msg['ikind'] != $kind_avatar) {
+				$message = (($meth == 'text') ? message_to_text($msg) : topage(message_to_html($msg)));
+			}
 		}
 
 		$messages[] = $message;
@@ -456,7 +467,7 @@ function reopen_thread($threadid) {
 }
 
 function take_thread($thread,$operator) {
-	global $state_queue, $state_loading, $state_waiting, $state_chatting, $kind_events, $home_locale;
+	global $state_queue, $state_loading, $state_waiting, $state_chatting, $kind_events, $kind_avatar, $home_locale;
 
 	$state = $thread['istate'];
 	$threadid = $thread['threadid'];
@@ -487,6 +498,7 @@ function take_thread($thread,$operator) {
 
 	if( $message_to_post ) {
 		post_message($threadid,$kind_events,$message_to_post);
+		post_message($threadid,$kind_avatar,$operator['vcavatar'] ? $operator['vcavatar'] : "");
 	}
 }
 
