@@ -53,7 +53,7 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 
 	if( count($errors) == 0 ) {
 		if (!$agentId) {
-			create_operator($login,$password,$localname,$commonname);
+			create_operator($login,$password,$localname,$commonname,"");
 		} else {
 			update_operator($agentId,$login,$password,$localname,$commonname);
 		}
@@ -82,6 +82,11 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 }
 
 $page['operator'] = topage(get_operator_name($operator));
+
+$page['tabs'] = isset($login) ? array(
+	getlocal("page_agent.tab.main") => "",
+	getlocal("page_agent.tab.avatar") => "$webimroot/operator/avatar.php?op=".topage($login)
+) : array();
 
 start_html_output();
 require('../view/agent.php');

@@ -88,4 +88,9 @@ $online_timeout = 30;
  */
 $user_link_pattern = "";
 
+/*
+ *   Maximum uploaded file size.
+ */
+$max_uploaded_file_size = 100000;
+
 ?>

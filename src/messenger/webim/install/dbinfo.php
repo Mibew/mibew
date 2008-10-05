@@ -124,7 +124,7 @@ function create_table($id,$link) {
 	mysql_query($query,$link) or show_install_err(' Query failed: '.mysql_error());
 
 	if( $id == 'chatoperator' ) {
-		create_operator_("admin", "", "Administrator", "Administrator", $link);
+		create_operator_("admin", "", "Administrator", "Administrator", "", $link);
 	} else if( $id == 'chatrevision' ) {
 		perform_query("INSERT INTO chatrevision VALUES (1)",$link);
 	}

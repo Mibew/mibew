@@ -301,6 +301,11 @@ function no_field($key) {
 	return getlocal2("errors.required",array(getlocal($key)));
 }
 
+function failed_uploading_file($filename, $key) {
+	return getlocal2("errors.failed.uploading.file",
+					  array($filename, getlocal($key)));
+}
+
 function wrong_field($key) {
 	return getlocal2("errors.wrong_field",array(getlocal($key)));
 }
