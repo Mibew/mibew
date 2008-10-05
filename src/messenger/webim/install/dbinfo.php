@@ -54,6 +54,8 @@ $dbtables = array(
 		"vclocalename" => "varchar(64) NOT NULL",
 		"vccommonname" => "varchar(64) NOT NULL",
 		"dtmlastvisited" => "datetime DEFAULT 0",
+		"vcavatar" => "varchar(255)",
+		"vcjabbername" => "varchar(255)",
 	),
 
 	"chatrevision" => array(
@@ -81,6 +83,7 @@ $memtables = array();
 $dbtables_can_update = array(
 	"chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount", "nextagent", "shownmessageid", "userid", "userAgent"),
 	"chatmessage" => array("agentId"),
+	"chatoperator" => array("vcavatar", "vcjabbername"),
 	"chatban" => array(),
 );
 
