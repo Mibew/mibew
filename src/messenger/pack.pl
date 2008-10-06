@@ -18,7 +18,7 @@ sub process_dir($$) {
     closedir DIR;
     mkdir $to;
     
-	for(grep { -f "$from/$_" && ($_ !~ /^\./ || $_ eq ".htaccess") } @content) {
+	for(grep { -f "$from/$_" && ($_ !~ /^\./ || $_ eq ".htaccess" || $_ eq ".keep") } @content) {
 		my ($source,$target) = ("$from/$_","$to/$_");
 
 		open (IN,"$source");
