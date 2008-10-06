@@ -503,7 +503,7 @@ function take_thread($thread,$operator) {
 }
 
 function check_for_reassign($thread,$operator) {
-	global $state_waiting, $home_locale, $kind_events;
+	global $state_waiting, $home_locale, $kind_events, $kind_avatar;
 	$operatorName = ($thread['locale'] == $home_locale) ? $operator['vclocalename'] : $operator['vccommonname'];
 	if( $thread['istate'] == $state_waiting &&
 			(  $thread['nextagent'] == $operator['operatorid']
@@ -516,6 +516,7 @@ function check_for_reassign($thread,$operator) {
 		}
 
 		post_message($thread['threadid'],$kind_events,$message_to_post);
+		post_message($thread['threadid'],$kind_avatar,$operator['vcavatar'] ? $operator['vcavatar'] : "");
 	}
 }
 
