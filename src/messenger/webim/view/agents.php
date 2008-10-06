@@ -79,7 +79,7 @@
 		<tr>
 	    <td><img src='<?php echo $webimroot ?>/images/tbliclogin.gif' width="10" height="15" border="0" alt="" /></td>
     	<td class="table">
-    		<a href='<?php echo $webimroot ?>/operator/operator.php?op=<?php echo $a['vclogin'] ?>'>
+    		<a href='<?php echo $webimroot ?>/operator/operator.php?op=<?php echo $a['operatorid'] ?>'>
     			<?php echo htmlspecialchars(topage($a['vclogin'])) ?>
     		</a>
     	</td>

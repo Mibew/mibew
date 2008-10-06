@@ -17,27 +17,27 @@ require_once('../libs/operator.php');
 
 $operator = check_login();
 
-$page = array('agentId' => '', 'avatar' => '');
+$opId = verifyparam( "op","/^\d{1,9}$/");
+$page = array('op' => $opId, 'avatar' => '');
 $page['operator'] = topage(get_operator_name($operator));
 $errors = array();
 
-if( isset($_POST['agentId']) ) {
-	$avatar = '';
-	$agentId = verifyparam( "agentId", "/^(\d{1,9})?$/", "");
-	$op = operator_by_id($agentId);
-	$login = $op ? $op['vclogin'] : '';
+$op = operator_by_id($opId);
 
-	if( !$op ) {
-		$errors[] = getlocal("no_such_operator");
+if( !$op ) {
+	$errors[] = getlocal("no_such_operator");
 
-	} else if( isset($_FILES['avatarFile']) && $_FILES['avatarFile']['name']) {
+} else if( isset($_POST['op']) ) {
+	$avatar = $op['vcavatar'];
+
+	if( isset($_FILES['avatarFile']) && $_FILES['avatarFile']['name']) {
         $valid_types = array("gif","jpg", "png", "tif");
 
         $orig_filename = $_FILES['avatarFile']['name'];
         $tmp_file_name = $_FILES['avatarFile']['tmp_name'];
 
         $ext = substr($orig_filename, 1 + strrpos($orig_filename, "."));
-        $new_file_name = "$agentId.$ext";
+        $new_file_name = "$opId.$ext";
 
         if ($_FILES['avatarFile']['size'] > $max_uploaded_file_size) {
             $errors[] = failed_uploading_file($orig_filename, "errors.file.size.exceeded");
@@ -62,40 +62,28 @@ if( isset($_POST['agentId']) ) {
 	if(count($errors) == 0) {
 		update_operator_avatar($op['operatorid'],$avatar);
 
-		if ($agentId && $avatar && $_SESSION['operator'] && $operator['operatorid'] == $agentId) {
+		if ($opId && $avatar && $_SESSION['operator'] && $operator['operatorid'] == $opId) {
 			$_SESSION['operator']['vcavatar'] = $avatar;
 		}
-		header("Location: $webimroot/operator/avatar.php?op=".topage($op['vclogin']));
+		header("Location: $webimroot/operator/avatar.php?op=$opId");
 		exit;
 	} else {
-		$page['avatar'] =  topage($op ? $op['vcavatar'] : '');
-		$page['agentId'] = $agentId;
-		$page['formlogin'] = topage($login);
+		$page['avatar'] = topage($op['vcavatar']);
 	}
 
 } else {
-	$login = verifyparam( 'op', "/^[\w_]+$/");
-	$op = operator_by_login( $login );
-
-	if( !$op ) {
-		$errors[] = getlocal("no_such_operator");
-		$page['formlogin'] = topage($login);
-	} else {
-		if (isset($_GET['delete']) && $_GET['delete'] == "true") {
-			update_operator_avatar($op['operatorid'],'');
-			header("Location: $webimroot/operator/avatar.php?op=".topage($op['vclogin']));
-			exit;
-		}
-		$page['formlogin'] = topage($op['vclogin']);
-		$page['agentId'] = topage($op['operatorid']);
-		$page['avatar'] = topage($op['vcavatar']);
+	if (isset($_GET['delete']) && $_GET['delete'] == "true") {
+		update_operator_avatar($op['operatorid'],'');
+		header("Location: $webimroot/operator/avatar.php?op=$opId");
+		exit;
 	}
+	$page['avatar'] = topage($op['vcavatar']);
 }
 
-$page['tabs'] = isset($login) ? array(
-	getlocal("page_agent.tab.main") => "$webimroot/operator/operator.php?op=".topage($login),
+$page['tabs'] = array(
+	getlocal("page_agent.tab.main") => "$webimroot/operator/operator.php?op=$opId",
 	getlocal("page_agent.tab.avatar") => ""
-) : array();
+);
 
 start_html_output();
 require('../view/avatar.php');

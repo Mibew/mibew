@@ -76,7 +76,7 @@
         	<tr><td class='formauth'><?php echo getlocal('form.field.avatar.current') ?></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
         		<img src="<?php echo $page['avatar'] ?>"/>
                 <br/>
-                <a class="formauth" href='<?php echo $webimroot ?>/operator/avatar.php?op=<?php echo $page['formlogin'] ?>&delete=true'>
+                <a class="formauth" href='<?php echo $webimroot ?>/operator/avatar.php?op=<?php echo $page['op'] ?>&delete=true'>
                     <?php echo getlocal("page_agent.clear_avatar") ?>
                 </a>
         	</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('form.field.avatar.current.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>
@@ -89,7 +89,7 @@
 		<tr><td colspan='3' height='20'></td></tr><tr><td colspan='3' background='<?php echo $webimroot ?>/images/formline.gif'><img src='<?php echo $webimroot ?>/images/formline.gif' width='1' height='2' border='0' alt=''></td></tr><tr><td colspan='3' height='10'></td></tr>
 		<tr>
 			<td class="formauth" colspan="3">
-                    <input type="hidden" name="agentId" value="<?php echo $page['agentId'] ?>"/>
+                    <input type="hidden" name="op" value="<?php echo $page['op'] ?>"/>
 			        <input type="image" name="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' border="0" alt='<?php echo getlocal("button.save") ?>'/>
 			</td>
 		</tr>
