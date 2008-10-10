@@ -53,6 +53,5 @@ if($inbox_mail) {
 	webim_mail($inbox_mail, $email, $subject, $body);
 }
 
-start_html_output();
-require('view/chat_leavemsgsent.php');
+expand("design/default/leavemessagesent.tpl");
 ?>
