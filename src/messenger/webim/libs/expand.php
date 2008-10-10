@@ -60,9 +60,11 @@ function expand_var($matches) {
 		}
 		return getlocal($var);
 	} else if($prefix == 'form:') {
-		return $page["form$var"];
+		return form_value($var);
 	} else if($prefix == 'page:') {
 		return $page[$var];
+	} else if($prefix == 'print:') {
+		return htmlspecialchars($page[$var]);
 	} else if($prefix == 'if:' || $prefix == 'else:' || $prefix == 'endif:' || $prefix == 'ifnot:') {
 		return "<!-- wrong $prefix:$var -->";
 	}

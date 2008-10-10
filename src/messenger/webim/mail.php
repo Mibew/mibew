@@ -14,6 +14,7 @@
 
 require_once('libs/common.php');
 require_once('libs/chat.php');
+require_once('libs/expand.php');
 
 $errors = array();
 $page = array();
@@ -40,8 +41,7 @@ if( count($errors) > 0 ) {
 	$page['ct.chatThreadId'] = $thread['threadid'];
 	$page['ct.token'] = $thread['ltoken'];
 	$page['level'] = "";
-	start_html_output();
-	require('view/chat_mailthread.php');
+	expand("design/default/mail.tpl");
 	exit;
 }
 
@@ -57,7 +57,5 @@ $body = getstring2("mail.user.history.body", array($thread['userName'],$history)
 
 webim_mail($email, $webim_from_email, $subject, $body);
 
-start_html_output();
-require('view/chat_mailsent.php');
-
+expand("design/default/mailsent.tpl");
 ?>

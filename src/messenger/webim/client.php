@@ -63,17 +63,16 @@ if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] ) {
 }
 
 setup_chatview_for_user($thread, $level);
-start_html_output();
 
 $pparam = verifyparam( "act", "/^(mailthread)$/", "default");
 if( $pparam == "mailthread" ) {
-	require('view/chat_mailthread.php');
+	expand("design/default/mail.tpl");
 } else if( $level == "ajaxed" ) {
 	expand("design/default/chat.tpl");
 } else if( $level == "simple" ) {
-	require('view/chat_simple.php');
+	expand("design/default/chatsimple.tpl");
 } else if( $level == "old" ) {
-	require('view/chat_oldbrowser.php');
+	expand("design/default/nochat.tpl");
 }
 
 ?>
