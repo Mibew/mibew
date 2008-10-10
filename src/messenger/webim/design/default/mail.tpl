@@ -30,11 +30,10 @@ ${if:errors}
 	    <td width="10"></td>
 	    <td class="text">
 		    ${errors}
-
 		</td>
 		</tr>
 		</table>
-	${endif:errors}
+${endif:errors}
 </td><td></td>
 </tr>
 
