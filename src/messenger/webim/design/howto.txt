@@ -1,0 +1,12 @@
+
+	How to create a skin for chat window.
+	-------------------------------------
+	
+	1. Folder/files structure.
+	
+		myskin/
+			chat.tpl
+			leavemessage.tpl
+			leavemessagesent.tpl
+		
+ 

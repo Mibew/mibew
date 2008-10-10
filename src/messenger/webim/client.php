@@ -15,6 +15,7 @@
 require_once('libs/common.php');
 require_once('libs/chat.php');
 require_once('libs/operator.php');
+require_once('libs/expand.php');
 
 if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 
@@ -25,8 +26,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 
 	if( !$thread ) {
 		if(!has_online_operators()) {
-			start_html_output();
-			require('view/chat_leavemsg.php');
+			expand("design/default/leavemessage.tpl");
 			exit;
 		}
 

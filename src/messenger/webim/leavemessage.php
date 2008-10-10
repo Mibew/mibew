@@ -14,6 +14,7 @@
 
 require_once('libs/common.php');
 require_once('libs/chat.php');
+require_once('libs/expand.php');
 
 $errors = array();
 $page = array();
@@ -38,8 +39,7 @@ if( count($errors) > 0 ) {
 	$page['formname'] = topage($visitor_name);
 	$page['formemail'] = $email;
 	$page['formmessage'] = topage($message);
-	start_html_output();
-	require('view/chat_leavemsg.php');
+	expand("design/default/leavemessage.tpl");
 	exit;
 }
 
