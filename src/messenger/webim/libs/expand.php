@@ -12,6 +12,8 @@
  *    Evgeny Gryaznov - initial API and implementation
  */
 
+$ifregexp = "/\\\${(if|ifnot):([\w\.]+)}(.*?)(\\\${else:\\2}.*?)?\\\${endif:\\2}/s";
+
 function check_condition($condition) {
 	global $errors, $page;
 	if($condition == 'errors') {
@@ -21,12 +23,12 @@ function check_condition($condition) {
 }
 
 function expand_condition($matches) {
-	global $page;
+	global $page, $ifregexp;
 	$value = check_condition($matches[2]) ^ ($matches[1] != 'if');
 	if($value) {
-		return $matches[3];
-	} else if($matches[4]) {
-		return substr($matches[4],strpos($matches[4],"}")+1); 
+		return preg_replace_callback($ifregexp, "expand_condition", $matches[3]);
+	} else if(isset($matches[4])) {
+		return preg_replace_callback($ifregexp, "expand_condition", substr($matches[4],strpos($matches[4],"}")+1)); 
 	}
 	return "";
 }
@@ -50,19 +52,28 @@ function expand_var($matches) {
 		}
 
 	} else if($prefix == 'msg:') {
+		if(strpos($var,",")!==false) {
+			$pos = strpos($var,",");
+			$param = substr($var, $pos+1);
+			$var = substr($var, 0, $pos);
+			return getlocal2($var, array($page[$param]));
+		}
 		return getlocal($var);
 	} else if($prefix == 'form:') {
 		return $page["form$var"];
 	} else if($prefix == 'page:') {
-		return $page["$var"];
+		return $page[$var];
+	} else if($prefix == 'if:' || $prefix == 'else:' || $prefix == 'endif:' || $prefix == 'ifnot:') {
+		return "<!-- wrong $prefix:$var -->";
 	}
 
 	return "";
 }
 
 function expandtext($text) {
-	$text = preg_replace_callback("/\\\${(if|ifnot):([\w\.]+)}(.*?)(\\\${else:\\2}.*?)?\\\${endif:\\2}/sm", "expand_condition", $text);
-	return preg_replace_callback("/\\\${(\w+:)?([\w\.]+)}/", "expand_var", $text);
+	global $ifregexp;
+	$text = preg_replace_callback($ifregexp, "expand_condition", $text);
+	return preg_replace_callback("/\\\${(\w+:)?([\w\.,]+)}/", "expand_var", $text);
 }
 
 function expand($filename) {

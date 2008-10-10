@@ -299,6 +299,7 @@ function setup_chatview_for_operator($thread,$operator) {
 	$page['isOpera95'] = is_agent_opera95();
 	$page['neediframesrc'] = needsFramesrc();
 	$page['historyParams'] = array("userid" => "".$thread['userid']);
+	$page['historyParamsLink'] = add_params($webimroot."/operator/userhistory.php",$page['historyParams']);
 	$page['predefinedList'] = explode("\n", getlocal_('chat.predefined_answers', $thread['locale']));
 	$params = "thread=".$thread['threadid']."&token=".$thread['ltoken'];
 	$page['selfLink'] = "$webimroot/operator/agent.php?".$params;

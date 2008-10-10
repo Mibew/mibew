@@ -124,7 +124,7 @@ ${if:user}
 				${msg:chat.client.name}&nbsp;${page:ct.user.name}
 				</td>
 	${endif:canChangeName}
-
+${endif:user}
 ${if:agent}
 				<td width="10" valign="top"><img src='${webimroot}/images/free.gif' width="10" height="1" border="0" alt="" /></td>
 				<td><a class="closethread" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.close_title}">
@@ -255,7 +255,7 @@ ${if:canpost}
 		    <td><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.send_message}"><img src='${webimroot}/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
 		    <td background="${webimroot}/images/submitbg.gif" valign="top" class="submit">
 				<img src='${webimroot}/images/free.gif' width="1" height="10" border="0" alt="" /><br>
-				<a id="sndmessagelnk" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.send_message}"><?php echo getlocal2("chat.window.send_message_short",array($page['send_shortcut'])) ?></a><br>
+				<a id="sndmessagelnk" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.send_message}">${msg:chat.window.send_message_short,send_shortcut}</a><br>
 			</td>
 			<td width="10"><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.send_message}"><img src='${webimroot}/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
 			</tr>

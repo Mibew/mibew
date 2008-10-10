@@ -16,6 +16,7 @@ require_once('../libs/common.php');
 require_once('../libs/chat.php');
 require_once('../libs/operator.php');
 require_once('../libs/pagination.php');
+require_once('../libs/expand.php');
 
 $operator = check_login();
 
@@ -71,7 +72,7 @@ if( $pparam == "redirect" ) {
 	$page['params'] = array('thread' => $threadid, 'token' => $token);
 	require('../view/redirect.php');
 } else {
-	require('../view/chat_ajaxed.php');
+	expand("../design/default/chat.tpl");
 }
 
 ?>

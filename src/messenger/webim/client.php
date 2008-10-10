@@ -69,7 +69,7 @@ $pparam = verifyparam( "act", "/^(mailthread)$/", "default");
 if( $pparam == "mailthread" ) {
 	require('view/chat_mailthread.php');
 } else if( $level == "ajaxed" ) {
-	require('view/chat_ajaxed.php');
+	expand("design/default/chat.tpl");
 } else if( $level == "simple" ) {
 	require('view/chat_simple.php');
 } else if( $level == "old" ) {
