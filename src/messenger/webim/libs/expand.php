@@ -40,6 +40,8 @@ function expand_var($matches) {
 	if(!$prefix) {
 		if($var == 'webimroot') {
 			return $webimroot;
+		} else if($var == 'pagination') {
+			return generate_pagination($page['pagination']);
 		} else if($var == 'errors') {
 			if( isset($errors) && count($errors) > 0 ) {
 				$result = getlocal("errors.header");

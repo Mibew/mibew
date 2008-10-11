@@ -15,6 +15,7 @@
 require_once('../libs/common.php');
 require_once('../libs/operator.php');
 require_once('../libs/chat.php');
+require_once('../libs/expand.php');
 
 $operator = check_login();
 
@@ -49,11 +50,10 @@ if( $nextOperator ) {
 	$errors[] = "Unknown operator";	// FIXME
 }
 
-start_html_output();
 if( count($errors) > 0 ) {
-	require('../view/chat_error.php');
+	expand("../design/default/error.tpl");
 } else {
-	require('../view/redirected.php');
+	expand("../design/default/redirected.tpl");
 }
 
 ?>
