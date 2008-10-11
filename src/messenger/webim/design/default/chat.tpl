@@ -34,7 +34,7 @@ var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",freque
 		    <td align="center">
 		    	${if:ct.company.chatLogoURL}
 		    		${if:webimHost}
-		            	<a onclick="window.open('${page:webimHost}');return false;" href="_blank">
+		            	<a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">
 			            	<img src="${page:ct.company.chatLogoURL}" border="0" alt="">
 			            </a>
 			        ${else:webimHost}
@@ -50,7 +50,7 @@ var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",freque
 			<tr>
 		    <td align="center" class="text">
 	    		${if:webimHost}
-	            	<a onclick="window.open('${page:webimHost}');return false;" href="_blank">${page:ct.company.name}</a>
+	            	<a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">${page:ct.company.name}</a>
 			    ${else:webimHost}
 			    	${page:ct.company.name}
 			    ${endif:webimHost}
@@ -237,7 +237,7 @@ ${if:agent}${if:canpost}
 		    <td>
 				<select id="predefined" size="1" class="answer">
 				<option>${msg:chat.window.predefined.select_answer}</option>
-				${predefinedAnswers}
+				${page:predefinedAnswers}
 				</select>
 			</td>
 ${endif:canpost}${endif:agent}
