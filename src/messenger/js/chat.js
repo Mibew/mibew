@@ -85,7 +85,7 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
   },
 
   updateOptions: function(act) {
-    this._options.parameters = 'act='+act+'&thread=' + (this._options.threadid || -1) +
+    this._options.parameters = 'act='+act+'&thread=' + (this._options.threadid || 0) +
 			'&token=' + (this._options.token || 0)+
     		'&lastid=' + (this._options.lastid || 0);
     if( this._options.user )
@@ -151,7 +151,7 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
 
   changeName: function(newname) {
     this.skipNextsound = true;
-    new Ajax.Request(this._options.servl, {parameters:'act=rename&thread=' + (this._options.threadid || -1) +
+    new Ajax.Request(this._options.servl, {parameters:'act=rename&thread=' + (this._options.threadid || 0) +
     	'&token=' + (this._options.token || 0) + '&name=' + encodeURIComponent(newname)});
   },
 
@@ -165,7 +165,7 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
   },
 
   closeThread: function() {
-	var _params = 'act=close&thread=' + (this._options.threadid || -1) + '&token=' + (this._options.token || 0);
+	var _params = 'act=close&thread=' + (this._options.threadid || 0) + '&token=' + (this._options.token || 0);
 	if( this._options.user )
     	_params += "&user=true";
     new Ajax.Request(this._options.servl, {parameters:_params, onComplete: this.onThreadClosed.bind(this)});
