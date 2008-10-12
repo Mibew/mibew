@@ -304,7 +304,7 @@ function setup_chatview_for_operator($thread,$operator) {
 	foreach(explode("\n", getlocal_('chat.predefined_answers', $thread['locale'])) as $answer) {
 		$predefinedres .= "<option>$answer</option>";
 	}
-	$page['predefinedAnswers'] = $predefinedres; 
+	$page['predefinedAnswers'] = $predefinedres;
 	$params = "thread=".$thread['threadid']."&token=".$thread['ltoken'];
 	$page['selfLink'] = "$webimroot/operator/agent.php?".$params;
 

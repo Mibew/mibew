@@ -28,7 +28,7 @@ function expand_condition($matches) {
 	if($value) {
 		return preg_replace_callback($ifregexp, "expand_condition", $matches[3]);
 	} else if(isset($matches[4])) {
-		return preg_replace_callback($ifregexp, "expand_condition", substr($matches[4],strpos($matches[4],"}")+1)); 
+		return preg_replace_callback($ifregexp, "expand_condition", substr($matches[4],strpos($matches[4],"}")+1));
 	}
 	return "";
 }
@@ -50,7 +50,7 @@ function expand_var($matches) {
 				}
 				$result .= getlocal("errors.footer");
 				return $result;
-			}			
+			}
 		}
 
 	} else if($prefix == 'msg:') {

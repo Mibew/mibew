@@ -69,7 +69,7 @@ $pparam = verifyparam( "act", "/^(redirect)$/", "default");
 if( $pparam == "redirect" ) {
 	$found = get_operators();
 	setup_pagination($found);
-	
+
 	$agent_list = "";
 	$params = array('thread' => $threadid, 'token' => $token);
 	for( $indagent = 0; $indagent < count($page['pagination.items']); $indagent += 1 ) {
@@ -78,7 +78,7 @@ if( $pparam == "redirect" ) {
 		$agent_list .= "<li><a href=\"".add_params($webimroot."/operator/redirect.php",$params)."\" title=\"".topage($agent['vclocalename'])."\">".topage($agent['vclocalename'])."</a>";
 	}
 	$page['pagination_list'] = $agent_list;
-	
+
 	expand("../design/default/redirect.tpl");
 } else {
 	expand("../design/default/chat.tpl");
