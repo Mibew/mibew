@@ -5,8 +5,17 @@
 	1. Folder/files structure.
 	
 		myskin/
-			chat.tpl
-			leavemessage.tpl
-			leavemessagesent.tpl
-		
- 
+			chat.tpl					modern browser Ajax window
+			chatsimple.tpl				compatibility mode, reload to refresh thread
+			nochat.tpl					chat page for VERY old browsers (shows the list of supported software)
+			leavemessage.tpl			leave message form for offline times
+			leavemessagesent.tpl		leave message sent page
+			mail.tpl					mail thread form
+			mailsent.tpl				mail was sent page 
+
+			(next templates are visible only to agent)		
+			error.tpl					page to report serious problems
+			redirect.tpl				list of available agents to redirect thread to
+			redirected.tpl				successfully redirected
+			
+	
