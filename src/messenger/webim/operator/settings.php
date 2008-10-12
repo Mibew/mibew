@@ -40,6 +40,8 @@ $title = $settings['title'];
 $logo  = $settings['logo'];
 $hosturl = $settings['hosturl'];
 $enableban = $settings['enableban'];
+$usernamepattern = $settings['usernamepattern'];
+$usercanchangename = $settings['usercanchangename'];
 
 if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
     $email = getparam('email');
@@ -47,6 +49,8 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
     $logo  = getparam('logo');
     $hosturl = getparam('hosturl');
     $enableban = verifyparam("enableban","/^on$/", "") == "on" ? "1" : "0";
+    $usernamepattern = getparam('usernamepattern');
+    $usercanchangename = verifyparam("usercanchangename", "/^on$/", "") == "on" ? "1" : "0";
 
     if($email && !is_valid_email($email)) {
         $errors[] = getlocal("settings.wrong.email");
@@ -58,6 +62,8 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
     	$settings['logo'] = $logo;
     	$settings['hosturl'] = $hosturl;
     	$settings['enableban'] = $enableban;
+    	$settings['usernamepattern'] = $usernamepattern;
+    	$settings['usercanchangename'] = $usercanchangename;
         update_settings();
         header("Location: $webimroot/operator/index.php");
         exit;
@@ -70,6 +76,8 @@ $page['formtitle'] = topage($title);
 $page['formlogo']  = topage($logo);
 $page['formhosturl']  = topage($hosturl);
 $page['formenableban'] = $enableban == "1";
+$page['formusernamepattern'] = topage($usernamepattern);
+$page['formusercanchangename'] = $usercanchangename == "1";
 
 start_html_output();
 require('../view/settings.php');

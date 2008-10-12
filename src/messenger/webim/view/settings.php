@@ -82,6 +82,14 @@
 			<input type="text" name="hosturl" size="40" value="<?php echo form_value('hosturl') ?>" class="formauth"/>
 		</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('settings.host.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>
 
+		<tr><td class='formauth'><?php echo getlocal('settings.usernamepattern') ?></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
+			<input type="text" name="usernamepattern" size="40" value="<?php echo form_value('usernamepattern') ?>" class="formauth"/>
+		</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('settings.usernamepattern.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>
+
+		<tr><td class='formauth'><?php echo getlocal('settings.usercanchangename') ?></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
+			<input type="checkbox" name="usercanchangename" value="on"<?php echo form_value_cb('usercanchangename') ? " checked=\"checked\"" : "" ?>/>
+		</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('settings.usercanchangename.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>
+
 		<tr><td class='formauth'><?php echo getlocal('settings.enableban') ?></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
 			<input type="checkbox" name="enableban" value="on"<?php echo form_value_cb('enableban') ? " checked=\"checked\"" : "" ?>/>
 		</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('settings.enableban.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>

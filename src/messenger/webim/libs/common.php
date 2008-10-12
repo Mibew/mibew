@@ -431,7 +431,9 @@ $settings = array(
 	'title' => 'Company',
 	'hosturl' => 'http://webim.sourceforge.net',
 	'logo' => '',
-	'enableban' => '0'
+	'enableban' => '0',
+	'usernamepattern' => '{name}',
+	'usercanchangename' => true
 );
 $settingsloaded = false;
 $settings_in_db = array();
