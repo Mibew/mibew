@@ -82,7 +82,7 @@ function expandtext($text) {
 
 function expand($filename) {
 	start_html_output();
-	$contents = file_get_contents($filename) or die("illegal template");
+	$contents = @file_get_contents($filename) or die("illegal template");
 	echo expandtext($contents);
 }
 

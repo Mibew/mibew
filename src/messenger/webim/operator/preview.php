@@ -35,9 +35,9 @@ if(!in_array($preview, $designlist)) {
 	$preview = $designlist[0];
 }
 
-$show = verifyparam("show", "/^(chat|mail|mailsent|leavemessage|leavemessagesent)$/", "");
+$show = verifyparam("show", "/^(chat|chatsimple|nochat|mail|mailsent|leavemessage|leavemessagesent)$/", "");
 
-if($show == 'chat' || $show == 'mail' || $show == 'leavemessage' || $show == 'leavemessagesent') {
+if($show == 'chat' || $show == 'mail' || $show == 'leavemessage' || $show == 'leavemessagesent' || $show == 'chatsimple' || $show == 'nochat') {
 	setup_chatview_for_user(array('threadid' => 0,'userName' => getstring("chat.default.username"), 'ltoken' => 123), "ajaxed");
 	$page['mailLink'] = "$webimroot/operator/preview.php?preview=$preview&amp;show=mail";
 	expand("../design/$preview/$show.tpl");
@@ -51,6 +51,8 @@ if($show == 'mailsent') {
 
 $templateList = array(
 	array('label' => getlocal("page.preview.userchat"), 'id' => 'chat', 'h' => 420, 'w' => 600),
+	array('label' => getlocal("page.preview.chatsimple"), 'id' => 'chatsimple', 'h' => 420, 'w' => 600),
+	array('label' => getlocal("page.preview.nochat"), 'id' => 'nochat', 'h' => 420, 'w' => 600),
 	array('label' => getlocal("page.preview.leavemessage"), 'id' => 'leavemessage', 'h' => 420, 'w' => 600),
 	array('label' => getlocal("page.preview.leavemessagesent"), 'id' => 'leavemessagesent', 'h' => 420, 'w' => 600),
 	array('label' => getlocal("page.preview.mail"), 'id' => 'mail', 'h' => 254, 'w' => 603),
@@ -62,7 +64,7 @@ $template = verifyparam("template", "/^\w+$/", "chat");
 $page['formpreview'] = $preview;
 $page['formtemplate'] = $template;
 $page['availablePreviews'] = $designlist;
-$page['availableTemplates'] = array("chat", "leavemessage", "leavemessagesent", "mail", "mailsent", "all");
+$page['availableTemplates'] = array("chat", "chatsimple", "nochat", "leavemessage", "leavemessagesent", "mail", "mailsent", "all");
 $page['operator'] = topage(get_operator_name($operator));
 $page['showlink'] = "$webimroot/operator/preview.php?preview=$preview&amp;show=";
 
