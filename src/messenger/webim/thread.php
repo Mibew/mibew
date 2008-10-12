@@ -23,6 +23,13 @@ $isuser = verifyparam( "user", "/^true$/", "false") == 'true';
 $outformat = ((verifyparam( "html", "/^on$/", "off") == 'on') ? "html" : "xml");
 $istyping = verifyparam( "typed", "/^1$/", "") == '1';
 
+if($threadid == 0 && ($token == 123 || $token == 124)) {
+	require_once('libs/demothread.php');
+	$lastid = verifyparam( "lastid", "/^\d{1,9}$/", 0);
+	demo_process_thread($act,$lastid,$isuser,$token == 123);
+	exit;
+}
+
 $thread = thread_by_id($threadid);
 if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] ) {
 	die("wrong thread");

@@ -74,11 +74,6 @@ $remote_visitor = 'visitor_from_request';
 $online_timeout = 30;
 
 /*
- *   Link to page with information about user, {id} is substituted
- */
-$user_link_pattern = "";
-
-/*
  *   Maximum uploaded file size.
  */
 $max_uploaded_file_size = 100000;
