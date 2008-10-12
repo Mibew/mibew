@@ -177,7 +177,7 @@ ${endif:agent}
 
 		<table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td width="20" valign="top"><img src='${webimroot}${msg:image.chat.history}' width="20" height="80" border="0" alt="" /></td>
+	    <td width="20" valign="top"><img src='${webimroot}${url:image.chat.history}' width="20" height="80" border="0" alt="" /></td>
     	<td colspan="2" width="100%" height="100%" valign="top" id="chatwndtd">
 			<table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
 			<tr>
@@ -204,7 +204,7 @@ ${if:canpost}
 		</tr>
 
 		<tr>
-	    <td width="20" valign="top"><img src='${webimroot}${msg:image.chat.message}' width="20" height="85" border="0" alt="" /></td>
+	    <td width="20" valign="top"><img src='${webimroot}${url:image.chat.message}' width="20" height="85" border="0" alt="" /></td>
 	    ${if:isOpera95}
     	<td width="100%" height="60%" valign="top" id="msgwndtd">
     	${else:isOpera95}

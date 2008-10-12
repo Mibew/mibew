@@ -53,7 +53,7 @@ function expand_var($matches) {
 			}
 		}
 
-	} else if($prefix == 'msg:') {
+	} else if($prefix == 'msg:' || $prefix == 'url:') {
 		if(strpos($var,",")!==false) {
 			$pos = strpos($var,",");
 			$param = substr($var, $pos+1);
