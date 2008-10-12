@@ -433,7 +433,7 @@ $settings = array(
 	'logo' => '',
 	'enableban' => '0',
 	'usernamepattern' => '{name}',
-	'usercanchangename' => true
+	'usercanchangename' => '1'
 );
 $settingsloaded = false;
 $settings_in_db = array();

@@ -182,10 +182,11 @@ function print_thread_messages($thread, $token, $lastid, $isuser, $format, $agen
 }
 
 function get_user_name($username, $addr, $id) {
-	global $presentable_name_pattern;
+	global $settings;
+	loadsettings();
 	return str_replace("{addr}", $addr,
 			str_replace("{id}", $id,
-			str_replace("{name}", $username, $presentable_name_pattern)));
+			str_replace("{name}", $username, $settings['usernamepattern'])));
 }
 
 function is_ajax_browser($browserid,$ver,$useragent) {
@@ -254,7 +255,7 @@ function needsFramesrc() {
 }
 
 function setup_chatview_for_user($thread,$level) {
-	global $page, $webimroot, $user_can_change_name, $settings;
+	global $page, $webimroot, $settings;
 	loadsettings();
 	$page = array();
 	$page['agent'] = false;
@@ -267,7 +268,7 @@ function setup_chatview_for_user($thread,$level) {
 	$page['ct.chatThreadId'] = $thread['threadid'];
 	$page['ct.token'] = $thread['ltoken'];
 	$page['ct.user.name'] = topage($thread['userName']);
-	$page['canChangeName'] = $user_can_change_name;
+	$page['canChangeName'] = $settings['usercanchangename'] == "1";
 
 	$page['ct.company.name'] = topage($settings['title']);
 	$page['ct.company.chatLogoURL'] = topage($settings['logo']);

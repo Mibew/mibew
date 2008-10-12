@@ -144,6 +144,7 @@ function print_pending_threads($since) {
 
 $since = verifyparam( "since", "/^\d{1,9}$/", 0);
 
+loadsettings();
 print_pending_threads($since);
 notify_operator_alive($operator['operatorid']);
 exit;

@@ -74,7 +74,8 @@ if( $act == "refresh" ) {
 
 } else if( $act == "rename" ) {
 
-	if( !$user_can_change_name ) {
+	loadsettings();
+	if( $settings['usercanchangename'] != "1" ) {
 		show_error("server: forbidden to change name");
 	}
 

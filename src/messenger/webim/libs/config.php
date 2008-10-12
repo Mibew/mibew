@@ -63,16 +63,6 @@ $home_locale = "ru";						/* native name will be used in this locale */
 $default_locale = "en";						/* if user does not provide known lang */
 
 /*
- *   Allows users to change their names
- */
-$user_can_change_name = true;
-
-/*
- *   How to build presentable visitor name from {name}, {id} or {addr}. Default: {name}
- */
-$presentable_name_pattern = "{name}";
-
-/*
  *   Method of getting information about remote user. For example, you could
  *   have user name or id in session. Default value: visitor_from_request
  */
