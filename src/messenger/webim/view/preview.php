@@ -57,16 +57,30 @@
 	</tr>
 	<tr><td colspan="3" height="10"></td></tr>
 	<tr>
-		<td colspan="3" class="formauth"><?php echo getlocal("page.preview.userchat") ?></td>
+		<td colspan="3" class="formauth"><?php echo getlocal("page.preview.choosetpl") ?></td>
+	</tr>
+	<tr><td colspan="3" height="2"></td></tr>
+	<tr>
+		<td colspan="3">
+			<select name="template" onchange="this.form.submit();"><?php foreach($page['availableTemplates'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("template") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+		</td>
+	</tr>
+<?php foreach( $page['previewList'] as $pp ) { ?>
+	<tr><td colspan="3" height="10"></td></tr>
+	<tr>
+		<td colspan="3" class="formauth"><?php echo htmlspecialchars($pp['label']) ?>
+		<a href="<?php echo $page['showlink'] ?><?php echo $pp['id'] ?>" target="_blank">link</a>
+		</td>
 	</tr>
 	<tr><td colspan="3" height="7"></td></tr>
 	<tr>
 		<td colspan="3">
-			<iframe id="sample1" width="600" height="420" src="<?php echo $page['showlink'] ?>chat" frameborder="1" style="overflow:none;">
+			<iframe id="sample<?php echo $pp['id'] ?>" width="<?php echo $pp['w'] ?>" height="<?php echo $pp['h'] ?>" src="<?php echo $page['showlink'] ?><?php echo $pp['id'] ?>" frameborder="1" scrolling="no">
 			No iframes
 			</iframe>
 		</td>
 	</tr>
+<?php } ?>
 </table></td><td></td></tr><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlb.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrb.gif' width='16' height='16' border='0' alt=''></td></tr></table></td></tr></table>
 </form>
 </td>

@@ -276,7 +276,7 @@ function setup_chatview_for_user($thread,$level) {
 	$page['send_shortcut'] = "Ctrl-Enter";
 
 	$params = "thread=".$thread['threadid']."&token=".$thread['ltoken'];
-	$page['selfLink'] = "$webimroot/client.php?".$params."&level=".$level;
+	$page['mailLink'] = "$webimroot/client.php?".$params."&level=$level&act=mailthread";
 	$page['isOpera95'] = is_agent_opera95();
 	$page['neediframesrc'] = needsFramesrc();
 
@@ -307,7 +307,7 @@ function setup_chatview_for_operator($thread,$operator) {
 	}
 	$page['predefinedAnswers'] = $predefinedres;
 	$params = "thread=".$thread['threadid']."&token=".$thread['ltoken'];
-	$page['selfLink'] = "$webimroot/operator/agent.php?".$params;
+	$page['redirectLink'] = "$webimroot/operator/agent.php?".$params."&act=redirect";
 
 	$page['namePostfix'] = "";
 }

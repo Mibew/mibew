@@ -133,11 +133,11 @@ ${endif:agent}
 
 			    <td><img src='${webimroot}/images/buttondiv.gif' width="35" height="45" border="0" alt="" /></td>
 ${if:user}
-				<td><a href="${page:selfLink}&act=mailthread" target="_blank" title="${msg:chat.window.toolbar.mail_history}" onclick="this.newWindow = window.open('${page:selfLink}&act=mailthread', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=254,resizable=0');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src='${webimroot}/images/buttons/email.gif' width="25" height="25" border="0" alt="Mail&nbsp;"/></a></td>
+				<td><a href="${page:mailLink}" target="_blank" title="${msg:chat.window.toolbar.mail_history}" onclick="this.newWindow = window.open('${page:mailLink}', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=254,resizable=0');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src='${webimroot}/images/buttons/email.gif' width="25" height="25" border="0" alt="Mail&nbsp;"/></a></td>
 ${endif:user}
 ${if:agent}
 ${if:canpost}
-				<td><a href="${page:selfLink}&act=redirect" title="${msg:chat.window.toolbar.redirect_user}">
+				<td><a href="${page:redirectLink}" title="${msg:chat.window.toolbar.redirect_user}">
 				<img src='${webimroot}/images/buttons/send.gif' width="25" height="25" border="0" alt="Redirect&nbsp;" /></a></td>
 ${endif:canpost}
 ${if:historyParams}

@@ -26,7 +26,7 @@ $istyping = verifyparam( "typed", "/^1$/", "") == '1';
 if($threadid == 0 && ($token == 123 || $token == 124)) {
 	require_once('libs/demothread.php');
 	$lastid = verifyparam( "lastid", "/^\d{1,9}$/", 0);
-	demo_process_thread($act,$lastid,$isuser,$token == 123);
+	demo_process_thread($act,$lastid,$isuser,$token == 123,$istyping,$act=="post"?getrawparam('message') : "");
 	exit;
 }
 
