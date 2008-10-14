@@ -51,9 +51,9 @@ if( $nextOperator ) {
 }
 
 if( count($errors) > 0 ) {
-	expand("../design/default/error.tpl");
+	expand("../styles", getchatstyle(), "error.tpl");
 } else {
-	expand("../design/default/redirected.tpl");
+	expand("../styles", getchatstyle(), "redirected.tpl");
 }
 
 ?>

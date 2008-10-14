@@ -433,7 +433,8 @@ $settings = array(
 	'logo' => '',
 	'enableban' => '0',
 	'usernamepattern' => '{name}',
-	'usercanchangename' => '1'
+	'usercanchangename' => '1',
+	'chatstyle' => 'default'
 );
 $settingsloaded = false;
 $settings_in_db = array();
@@ -455,6 +456,12 @@ function loadsettings() {
 	}
 	mysql_free_result($sqlresult);
 	mysql_close($link);
+}
+
+function getchatstyle() {
+	global $settings;
+	loadsettings();
+	return $settings['chatstyle'];
 }
 
 ?>

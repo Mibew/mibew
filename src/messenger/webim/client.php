@@ -26,7 +26,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 
 	if( !$thread ) {
 		if(!has_online_operators()) {
-			expand("design/default/leavemessage.tpl");
+			expand("styles", getchatstyle(), "leavemessage.tpl");
 			exit;
 		}
 
@@ -66,13 +66,13 @@ setup_chatview_for_user($thread, $level);
 
 $pparam = verifyparam( "act", "/^(mailthread)$/", "default");
 if( $pparam == "mailthread" ) {
-	expand("design/default/mail.tpl");
+	expand("styles", getchatstyle(), "mail.tpl");
 } else if( $level == "ajaxed" ) {
-	expand("design/default/chat.tpl");
+	expand("styles", getchatstyle(), "chat.tpl");
 } else if( $level == "simple" ) {
-	expand("design/default/chatsimple.tpl");
+	expand("styles", getchatstyle(), "chatsimple.tpl");
 } else if( $level == "old" ) {
-	expand("design/default/nochat.tpl");
+	expand("styles", getchatstyle(), "nochat.tpl");
 }
 
 ?>

@@ -80,9 +80,15 @@ function expandtext($text) {
 	return preg_replace_callback("/\\\${(\w+:)?([\w\.,]+)}/", "expand_var", $text);
 }
 
-function expand($filename) {
+function expand($basedir,$style,$filename) {
 	start_html_output();
-	$contents = @file_get_contents($filename) or die("illegal template");
+	if(!is_dir("$basedir/$style")) {
+		$style = "default";
+	}
+	$contents = @file_get_contents("$basedir/$style/$filename");
+	if($contents === false) {
+		$contents = @file_get_contents("$basedir/default/$filename") or die("cannot load template");
+	}
 	echo expandtext($contents);
 }
 

@@ -39,7 +39,7 @@ if( count($errors) > 0 ) {
 	$page['formname'] = topage($visitor_name);
 	$page['formemail'] = $email;
 	$page['formmessage'] = topage($message);
-	expand("design/default/leavemessage.tpl");
+	expand("styles", getchatstyle(), "leavemessage.tpl");
 	exit;
 }
 
@@ -53,5 +53,5 @@ if($inbox_mail) {
 	webim_mail($inbox_mail, $email, $subject, $body);
 }
 
-expand("design/default/leavemessagesent.tpl");
+expand("styles", getchatstyle(), "leavemessagesent.tpl");
 ?>

@@ -79,9 +79,9 @@ if( $pparam == "redirect" ) {
 	}
 	$page['pagination_list'] = $agent_list;
 
-	expand("../design/default/redirect.tpl");
+	expand("../styles", getchatstyle(), "redirect.tpl");
 } else {
-	expand("../design/default/chat.tpl");
+	expand("../styles", getchatstyle(), "chat.tpl");
 }
 
 ?>

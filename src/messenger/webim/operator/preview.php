@@ -19,20 +19,20 @@ require_once('../libs/expand.php');
 
 $operator = check_login();
 
-$designlist = array();
-$designfolder = "../design";
-if($handle = opendir($designfolder)) {
+$stylelist = array();
+$stylesfolder = "../styles";
+if($handle = opendir($stylesfolder)) {
 	while (false !== ($file = readdir($handle))) {
-		if (preg_match("/^\w+$/", $file) && is_dir("$designfolder/$file")) {
-			$designlist[] = $file;
+		if (preg_match("/^\w+$/", $file) && is_dir("$stylesfolder/$file")) {
+			$stylelist[] = $file;
 		}
 	}
 	closedir($handle);
 }
 
 $preview = verifyparam("preview","/^\w+$/", "default");
-if(!in_array($preview, $designlist)) {
-	$preview = $designlist[0];
+if(!in_array($preview, $stylelist)) {
+	$preview = $stylelist[0];
 }
 
 $show = verifyparam("show", "/^(chat|chatsimple|nochat|mail|mailsent|leavemessage|leavemessagesent)$/", "");
@@ -40,12 +40,12 @@ $show = verifyparam("show", "/^(chat|chatsimple|nochat|mail|mailsent|leavemessag
 if($show == 'chat' || $show == 'mail' || $show == 'leavemessage' || $show == 'leavemessagesent' || $show == 'chatsimple' || $show == 'nochat') {
 	setup_chatview_for_user(array('threadid' => 0,'userName' => getstring("chat.default.username"), 'ltoken' => 123), "ajaxed");
 	$page['mailLink'] = "$webimroot/operator/preview.php?preview=$preview&amp;show=mail";
-	expand("../design/$preview/$show.tpl");
+	expand("../styles", "$preview", "$show.tpl");
 	exit;
 }
 if($show == 'mailsent') {
 	$page['email'] = "admin@yourdomain.com";
-	expand("../design/$preview/$show.tpl");
+	expand("../styles", "$preview", "$show.tpl");
 	exit;
 }
 
@@ -63,7 +63,7 @@ $template = verifyparam("template", "/^\w+$/", "chat");
 
 $page['formpreview'] = $preview;
 $page['formtemplate'] = $template;
-$page['availablePreviews'] = $designlist;
+$page['availablePreviews'] = $stylelist;
 $page['availableTemplates'] = array("chat", "chatsimple", "nochat", "leavemessage", "leavemessagesent", "mail", "mailsent", "all");
 $page['operator'] = topage(get_operator_name($operator));
 $page['showlink'] = "$webimroot/operator/preview.php?preview=$preview&amp;show=";
