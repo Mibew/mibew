@@ -34,6 +34,17 @@ function update_settings() {
 $page = array('agentId' => '');
 $errors = array();
 
+$stylelist = array();
+$stylesfolder = "../styles";
+if($handle = opendir($stylesfolder)) {
+	while (false !== ($file = readdir($handle))) {
+		if (preg_match("/^\w+$/", $file) && is_dir("$stylesfolder/$file")) {
+			$stylelist[] = $file;
+		}
+	}
+	closedir($handle);
+}
+
 loadsettings();
 $email = $settings['email'];
 $title = $settings['title'];
@@ -42,6 +53,7 @@ $hosturl = $settings['hosturl'];
 $enableban = $settings['enableban'];
 $usernamepattern = $settings['usernamepattern'];
 $usercanchangename = $settings['usercanchangename'];
+$chatstyle = $settings['chatstyle'];
 
 if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
     $email = getparam('email');
@@ -51,6 +63,11 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
     $enableban = verifyparam("enableban","/^on$/", "") == "on" ? "1" : "0";
     $usernamepattern = getparam('usernamepattern');
     $usercanchangename = verifyparam("usercanchangename", "/^on$/", "") == "on" ? "1" : "0";
+
+	$chatstyle = verifyparam("chatstyle","/^\w+$/", $chatstyle);
+	if(!in_array($chatstyle, $stylelist)) {
+		$chatstyle = $stylelist[0];
+	}
 
     if($email && !is_valid_email($email)) {
         $errors[] = getlocal("settings.wrong.email");
@@ -64,6 +81,7 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
     	$settings['enableban'] = $enableban;
     	$settings['usernamepattern'] = $usernamepattern;
     	$settings['usercanchangename'] = $usercanchangename;
+    	$settings['chatstyle'] = $chatstyle;
         update_settings();
         header("Location: $webimroot/operator/index.php");
         exit;
@@ -78,6 +96,8 @@ $page['formhosturl']  = topage($hosturl);
 $page['formenableban'] = $enableban == "1";
 $page['formusernamepattern'] = topage($usernamepattern);
 $page['formusercanchangename'] = $usercanchangename == "1";
+$page['formchatstyle'] = $chatstyle;
+$page['availableStyles'] = $stylelist;
 
 start_html_output();
 require('../view/settings.php');
