@@ -13,6 +13,7 @@
  */
 
 $ifregexp = "/\\\${(if|ifnot):([\w\.]+)}(.*?)(\\\${else:\\2}.*?)?\\\${endif:\\2}/s";
+$expand_include_path = "";
 
 function check_condition($condition) {
 	global $errors, $page;
@@ -74,20 +75,31 @@ function expand_var($matches) {
 	return "";
 }
 
+function expand_include($matches) {
+	global $expand_include_path;
+	$name = $matches[1];
+	$contents = @file_get_contents($expand_include_path.$name) or die("cannot load template");
+	return $contents;
+}
+
 function expandtext($text) {
 	global $ifregexp;
+	$text = preg_replace_callback("/\\\${include:([\w\.]+)}/", "expand_include", $text);
 	$text = preg_replace_callback($ifregexp, "expand_condition", $text);
 	return preg_replace_callback("/\\\${(\w+:)?([\w\.,]+)}/", "expand_var", $text);
 }
 
 function expand($basedir,$style,$filename) {
+	global $expand_include_path;
 	start_html_output();
 	if(!is_dir("$basedir/$style")) {
 		$style = "default";
 	}
-	$contents = @file_get_contents("$basedir/$style/$filename");
+	$expand_include_path = "$basedir/$style/";
+	$contents = @file_get_contents($expand_include_path.$filename);
 	if($contents === false) {
-		$contents = @file_get_contents("$basedir/default/$filename") or die("cannot load template");
+		$expand_include_path = "$basedir/default/";
+		$contents = @file_get_contents($expand_include_path.$filename) or die("cannot load template");
 	}
 	echo expandtext($contents);
 }

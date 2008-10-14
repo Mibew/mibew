@@ -161,4 +161,19 @@ function logout_operator() {
 	}
 }
 
+function get_redirect_links($threadid,$token) {
+	global $page, $webimroot;
+	$found = get_operators();
+	setup_pagination($found);
+
+	$agent_list = "";
+	$params = array('thread' => $threadid, 'token' => $token);
+	for( $indagent = 0; $indagent < count($page['pagination.items']); $indagent += 1 ) {
+		$agent = $page['pagination.items'][$indagent];
+		$params['nextAgent'] = $agent['operatorid'];
+		$agent_list .= "<li><a href=\"".add_params($webimroot."/operator/redirect.php",$params)."\" title=\"".topage($agent['vclocalename'])."\">".topage($agent['vclocalename'])."</a>";
+	}
+	return $agent_list;
+}
+
 ?>

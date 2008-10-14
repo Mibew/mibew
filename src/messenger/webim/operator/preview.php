@@ -14,6 +14,7 @@
 
 require_once('../libs/common.php');
 require_once('../libs/chat.php');
+require_once('../libs/pagination.php');
 require_once('../libs/operator.php');
 require_once('../libs/expand.php');
 
@@ -35,7 +36,7 @@ if(!in_array($preview, $stylelist)) {
 	$preview = $stylelist[0];
 }
 
-$show = verifyparam("show", "/^(chat|chatsimple|nochat|mail|mailsent|leavemessage|leavemessagesent)$/", "");
+$show = verifyparam("show", "/^(chat|chatsimple|nochat|mail|mailsent|leavemessage|leavemessagesent|redirect|redirected|agentchat|agentrochat)$/", "");
 
 if($show == 'chat' || $show == 'mail' || $show == 'leavemessage' || $show == 'leavemessagesent' || $show == 'chatsimple' || $show == 'nochat') {
 	setup_chatview_for_user(array('threadid' => 0,'userName' => getstring("chat.default.username"), 'ltoken' => 123), "ajaxed");
@@ -48,6 +49,28 @@ if($show == 'mailsent') {
 	expand("../styles", "$preview", "$show.tpl");
 	exit;
 }
+if($show == 'redirect' || $show == 'redirected' || $show == 'agentchat' || $show == 'agentrochat' ) {
+	setup_chatview_for_operator(
+		array(
+			'threadid' => 0,
+			'userName' => getstring("chat.default.username"),
+			'remote' => "1.2.3.4",
+			'agentId' => 1,
+			'userid' => 'visitor1',
+			'locale' => $current_locale,
+			'ltoken' => $show=='agentrochat' ? 124 : 123),
+		array(
+			'operatorid' => ($show=='agentrochat' ? 2 : 1),
+			));
+	if($show=='redirect') {
+		$page['pagination_list'] = get_redirect_links( 0,$show=='agentrochat' ? 124 : 123);
+	} elseif($show=='redirected') {
+		$page['nextAgent'] = "Administrator";
+	}
+	$page['redirectLink'] = "$webimroot/operator/preview.php?preview=$preview&amp;show=redirect";
+	expand("../styles", "$preview", "$show.tpl");
+	exit;
+}
 
 $templateList = array(
 	array('label' => getlocal("page.preview.userchat"), 'id' => 'chat', 'h' => 420, 'w' => 600),
@@ -57,6 +80,10 @@ $templateList = array(
 	array('label' => getlocal("page.preview.leavemessagesent"), 'id' => 'leavemessagesent', 'h' => 420, 'w' => 600),
 	array('label' => getlocal("page.preview.mail"), 'id' => 'mail', 'h' => 254, 'w' => 603),
 	array('label' => getlocal("page.preview.mailsent"), 'id' => 'mailsent', 'h' => 254, 'w' => 603),
+	array('label' => getlocal("page.preview.redirect"), 'id' => 'redirect', 'h' => 420, 'w' => 600),
+	array('label' => getlocal("page.preview.redirected"), 'id' => 'redirected', 'h' => 420, 'w' => 600),
+	array('label' => getlocal("page.preview.agentchat"), 'id' => 'agentchat', 'h' => 420, 'w' => 600),
+	array('label' => getlocal("page.preview.agentrochat"), 'id' => 'agentrochat', 'h' => 420, 'w' => 600),
 );
 
 $template = verifyparam("template", "/^\w+$/", "chat");
@@ -64,7 +91,14 @@ $template = verifyparam("template", "/^\w+$/", "chat");
 $page['formpreview'] = $preview;
 $page['formtemplate'] = $template;
 $page['availablePreviews'] = $stylelist;
-$page['availableTemplates'] = array("chat", "chatsimple", "nochat", "leavemessage", "leavemessagesent", "mail", "mailsent", "all");
+$page['availableTemplates'] = array(
+	"chat", "chatsimple", "nochat",
+	"leavemessage", "leavemessagesent",
+	"mail", "mailsent",
+	"redirect", "redirected",
+	"agentchat", "agentrochat",
+	"all");
+
 $page['operator'] = topage(get_operator_name($operator));
 $page['showlink'] = "$webimroot/operator/preview.php?preview=$preview&amp;show=";
 
