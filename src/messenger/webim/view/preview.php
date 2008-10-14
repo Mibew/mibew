@@ -69,7 +69,7 @@
 	<tr><td colspan="3" height="10"></td></tr>
 	<tr>
 		<td colspan="3" class="formauth"><?php echo htmlspecialchars($pp['label']) ?>
-		<a href="<?php echo $page['showlink'] ?><?php echo $pp['id'] ?>" target="_blank">link</a>
+		<a href="<?php echo $page['showlink'] ?><?php echo $pp['id'] ?>" target="_blank" title="in separate window" onclick="this.newWindow = window.open('<?php echo $page['showlink'] ?><?php echo $pp['id'] ?>', '<?php echo $pp['id'] ?>', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=<?php echo $pp['w'] ?>,height=<?php echo $pp['h'] ?>,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">link</a>
 		</td>
 	</tr>
 	<tr><td colspan="3" height="7"></td></tr>
