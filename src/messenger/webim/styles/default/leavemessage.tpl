@@ -5,24 +5,89 @@
 <link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
 <link rel="stylesheet" type="text/css" href="${webimroot}/chat.css" />
 </head>
-<body bgcolor="#FFFFFF" background="${webimroot}/images/bg.gif" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" marginwidth="0" marginheight="0" leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0">
-<table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
+
+<style>
+#header{
+	height:50px;
+	background:url(${tplroot}/bg_domain.gif) repeat-x top;
+	background-color:#5AD66B;
+	width:99.6%;
+	margin:0px 0px 20px 0px;
+}
+#header .mmimg{
+	background:url(${tplroot}/quadrat.gif) bottom left no-repeat;
+}
+.form td{
+	background-color:#f4f4f4;
+	color:#525252;
+}
+.but{
+	font-family:Verdana !important;
+	font-size:11px;
+	background:url(${tplroot}/butbg.gif) no-repeat top left;
+	display:block;
+	text-align:center;
+	padding-top:2px;
+	color:white;
+	width:80px;
+	height:18px;
+	text-decoration:none;
+	position:relative;top:1px;
+}
+</style>
+
+<body bgcolor="#FFFFFF" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" style="margin:0px;">
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 <td valign="top">
 
-<form name="leaveMessageForm" method="post" action="${webimroot}/leavemessage.php">
 
-<table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
-<tr><td colspan="3" height="15"></td></tr>
+<form name="leaveMessageForm" method="post" action="${webimroot}/leavemessage.php">
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-<td height="40"></td>
-<td class="window">
-	<h1>${msg:leavemessage.title}</h1>
-</td>
-<td></td>
+	<td valign="top" height="150" style="padding:5px">
+		<table width="100%" cellspacing="0" cellpadding="0" border="0">
+		<tr>
+			<td width="100%" height="100" style="padding-left:20px;">
+		    	${if:ct.company.chatLogoURL}
+		    		${if:webimHost}
+		            	<a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">
+			            	<img src="${page:ct.company.chatLogoURL}" border="0" alt="">
+			            </a>
+			        ${else:webimHost}
+		            	<img src="${page:ct.company.chatLogoURL}" border="0" alt="">
+			        ${endif:webimHost}
+			    ${else:ct.company.chatLogoURL}
+	    			${if:webimHost}
+	        	    	<a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">${page:ct.company.name}</a>
+				    ${else:webimHost}
+				    	${page:ct.company.name}
+				    ${endif:webimHost}
+		        ${endif:ct.company.chatLogoURL}
+			</td>
+			<td nowrap style="padding-right:10px"><SPAN style="font-size:16px;font-weight:bold;color:#525252">${msg:leavemessage.title}</SPAN></td>
+		</tr>
+		</table>
+			<table cellspacing="0" cellpadding="0" border="0" id="header" class="bg_domain">
+			<tr>
+				<td style="padding-left:20px;width:612px;color:white;" class="mmimg">
+					${msg:leavemessage.descr}
+				</td>
+				<td align="right" style="padding-right:17px;">
+					<table cellspacing="0" cellpadding="0" border="0">
+					<tr>
+					<td><a href="javascript:window.close();" title="${msg:leavemessage.close}"><img src='${webimroot}/images/buttons/back.gif' width="25" height="25" border="0" alt="" /></a></td>
+					<td width="5"></td>
+					<td class="button"><a href="javascript:window.close();" title="${msg:leavemessage.close}">${msg:leavemessage.close}</a></td>
+					</tr>
+					</table>
+				</td>
+			</tr>
+			</table>
+	</td>
 </tr>
-<tr><td></td>
-<td height="25">
+<tr>
+	<td valign="top" style="padding:0px 0px 0px 24px;">
 ${if:errors}
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
@@ -34,88 +99,41 @@ ${if:errors}
 		</tr>
 		</table>
 ${endif:errors}
-</td><td></td>
-</tr>
-
-<tr>
-<td height="60"></td>
-<td>
-
-	<table cellspacing="0" cellpadding="0" border="0"><tr><td width="15"><img src="${webimroot}/images/wincrnlt.gif" width="15" height="15" border="0" alt="" /></td><td width="100%" background="${webimroot}/images/winbg.gif" class="bgcy"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td><td width="15"><img src="${webimroot}/images/wincrnrt.gif" width="15" height="15" border="0" alt="" /></td></tr><tr><td height="100%" bgcolor="#FED840"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td><td background="${webimroot}/images/winbg.gif" class="bgcy"><table cellspacing="0" cellpadding="0" border="0">
-		<tr>
-	    <td colspan="3" class="text">${msg:leavemessage.descr}</td>
-		</tr>
-		<tr><td height="20" colspan="3"></td></tr>
-		<tr>
-	    <td class="text">${msg:form.field.email}:</td>
-	    <td width="20"></td>
-	    <td><input type="text" name="email" size="50" value="${form:email}" class="username"/></td>
-		</tr>
-		<tr><td height="7" colspan="3"></td></tr>
-		<tr>
-	    <td class="text">${msg:form.field.name}:</td>
-	    <td width="20"></td>
-	    <td><input type="text" name="name" size="50" value="${form:name}" class="username"/></td>
-		</tr>
-		<tr><td height="7" colspan="3"></td></tr>
-		<tr>
-	    <td class="text">${msg:form.field.message}:</td>
-	    <td width="20"></td>
-	    <td height="120" valign="top"><table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0"><tr><td colspan="3" bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td><td width="100%" height="100%" bgcolor="#FFFFFF" valign="top">
-	    <textarea name="message" class="message" tabindex="0">${form:message}</textarea>
-	    </td><td bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td colspan="3" bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr></table></td>
-		</tr>
-	</table></td><td bgcolor="#E8A400"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td><img src="${webimroot}/images/wincrnlb.gif" width="15" height="15" border="0" alt="" /></td><td background="${webimroot}/images/winbg.gif" class="bgcy"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td><td><img src="${webimroot}/images/wincrnrb.gif" width="15" height="15" border="0" alt=""/></td></tr></table>
-
-</td>
-<td></td>
-</tr>
-
-<tr>
-<td height="70"></td>
-<td>
-
-	<table width="100%" cellspacing="0" cellpadding="0" border="0">
-	<tr>
-    <td width="33%">
-		<table cellspacing="0" cellpadding="0" border="0">
-		<tr>
-	    <td><a href="javascript:document.leaveMessageForm.submit();" title="${msg:leavemessage.perform}"><img src='${webimroot}/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
-	    <td background="${webimroot}/images/submitbg.gif" valign="top" class="submit">
-			<img src='${webimroot}/images/free.gif' width="1" height="10" border="0" alt="" /><br>
-			<a href="javascript:document.leaveMessageForm.submit();" title="${msg:leavemessage.perform}">${msg:leavemessage.perform}</a><br>
-		</td>
-	    <td width="10"><a href="javascript:document.leaveMessageForm.submit();" title="${msg:leavemessage.perform}"><img src='${webimroot}/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
-		</tr>
+		<table cellspacing="1" cellpadding="5" border="0" class="form">
+			<tr>
+				<td class="text">${msg:form.field.email}:</td>
+				<td><input type="text" name="email" size="50" value="" class="username"/></td>
+			</tr>
+			<tr>
+				<td class="text">${msg:form.field.name}:</td>
+				<td><input type="text" name="name" size="50" value="" class="username"/></td>
+			</tr>
+			<tr>
+				<td class="text">${msg:form.field.message}:</td>
+				<td height="120" valign="top">
+					<textarea name="message" tabindex="0" cols="40" rows="8" style="border:1px solid #878787; overflow:auto"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td align="right">
+					<table cellspacing="0" cellpadding="0" border="0">
+					<tr>
+					<td><a href="javascript:document.leaveMessageForm.submit();" class="but" id="sndmessagelnk">${msg:mailthread.perform}</a></td>
+					</tr>
+					</table>
+				</td>
+			</tr>
 		</table>
 	</td>
-
-  	<td width="33%" align="center" class="copyr">${msg:chat.window.poweredby} <a href="${msg:site.url}" title="${msg:company.title}" target="_blank">${msg:chat.window.poweredreftext}</a></td>
-
-    <td width="33%" align="right">
-		<table cellspacing="0" cellpadding="0" border="0">
-		<tr>
-	    <td><a href="javascript:window.close();" title="${msg:leavemessage.close}"><img src='${webimroot}/images/buttons/back.gif' width="25" height="25" border="0" alt="" /></a></td>
-	    <td width="5"></td>
-	    <td class="button"><a href="javascript:window.close();" title="${msg:leavemessage.close}">${msg:leavemessage.close}</a></td>
-		</tr>
-		</table>
-	</td>
-	</tr>
-	</table>
-
-</td>
-<td></td>
 </tr>
-
 <tr>
-<td width="30"><img src='${webimroot}/images/free.gif' width="30" height="1" border="0" alt="" /></td>
-<td width="100%"><img src='${webimroot}/images/free.gif' width="540" height="1" border="0" alt="" /></td>
-<td width="30"><img src='${webimroot}/images/free.gif' width="30" height="1" border="0" alt="" /></td>
+	<td valign="top" style="padding:24px">
+	</td>
 </tr>
 </table>
-
 </form>
+
 
 </td>
 </tr>

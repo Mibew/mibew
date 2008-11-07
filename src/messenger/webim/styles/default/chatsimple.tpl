@@ -8,7 +8,7 @@
 <script type="text/javascript" language="javascript" src="${webimroot}/js/brws.js"></script>
 </head>
 
-<body bgcolor="#FFFFFF" background="${webimroot}/images/bg.gif" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" marginwidth="0" marginheight="0" leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0">
+<body bgcolor="#FFFFFF" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" marginwidth="0" marginheight="0" leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0">
 
 <table width="600" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -17,7 +17,7 @@
 	<table width="600" cellspacing="0" cellpadding="0" border="0">
 	<tr>
     <td></td>
-    <td colspan="2" height="100" background="${webimroot}/images/banner.gif" valign="top" class="bgrn">
+    <td colspan="2" height="100" valign="top" class="bgrn">
 		<table width="590" cellspacing="0" cellpadding="0" border="0">
 		<tr>
 	    <td width="135" valign="top">
@@ -75,7 +75,7 @@
 
 			    <td><img src='${webimroot}/images/buttondiv.gif' width="35" height="45" border="0" alt="" /></td>
 
-				<td><a href="${page:mailLink}" target="_blank" title="${msg:chat.window.toolbar.mail_history}" onclick="this.newWindow = window.open('${page:mailLink}', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=254,resizable=0');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src='${webimroot}/images/buttons/email.gif' width="25" height="25" border="0" alt="Mail" /></a></td>
+				<td><a href="${page:mailLink}" target="_blank" title="${msg:chat.window.toolbar.mail_history}" onclick="this.newWindow = window.open('${page:mailLink}', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=254,resizable=0'); if (this.newWindow != null) {this.newWindow.focus();this.newWindow.opener=window;}return false;"><img src='${webimroot}/images/buttons/email.gif' width="25" height="25" border="0" alt="Mail" /></a></td>
 
 				<td><a id="refresh" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.toolbar.refresh}">
 				<img src='${webimroot}/images/buttons/refresh.gif' width="25" height="25" border="0" alt="Refresh" /></a></td>

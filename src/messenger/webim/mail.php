@@ -41,6 +41,7 @@ if( count($errors) > 0 ) {
 	$page['ct.chatThreadId'] = $thread['threadid'];
 	$page['ct.token'] = $thread['ltoken'];
 	$page['level'] = "";
+	setup_logo();
 	expand("styles", getchatstyle(), "mail.tpl");
 	exit;
 }
@@ -57,5 +58,6 @@ $body = getstring2("mail.user.history.body", array($thread['userName'],$history)
 
 webim_mail($email, $webim_from_email, $subject, $body);
 
+setup_logo();
 expand("styles", getchatstyle(), "mailsent.tpl");
 ?>

@@ -254,6 +254,14 @@ function needsFramesrc() {
 	return strstr($useragent,"safari/");
 }
 
+function setup_logo() {
+	global $page, $settings;
+	loadsettings();
+	$page['ct.company.name'] = topage($settings['title']);
+	$page['ct.company.chatLogoURL'] = topage($settings['logo']);
+	$page['webimHost'] = topage($settings['hosturl']);
+}
+
 function setup_chatview_for_user($thread,$level) {
 	global $page, $webimroot, $settings;
 	loadsettings();
@@ -270,9 +278,7 @@ function setup_chatview_for_user($thread,$level) {
 	$page['ct.user.name'] = topage($thread['userName']);
 	$page['canChangeName'] = $settings['usercanchangename'] == "1";
 
-	$page['ct.company.name'] = topage($settings['title']);
-	$page['ct.company.chatLogoURL'] = topage($settings['logo']);
-	$page['webimHost'] = topage($settings['hosturl']);
+	setup_logo();
 	$page['send_shortcut'] = "Ctrl-Enter";
 
 	$params = "thread=".$thread['threadid']."&token=".$thread['ltoken'];
@@ -293,9 +299,7 @@ function setup_chatview_for_operator($thread,$operator) {
 	$page['ct.token'] = $thread['ltoken'];
 	$page['ct.user.name'] = topage(get_user_name($thread['userName'],$thread['remote'],$thread['userid']));
 
-	$page['ct.company.name'] = topage($settings['title']);
-	$page['ct.company.chatLogoURL'] = topage($settings['logo']);
-	$page['webimHost'] = topage($settings['hosturl']);
+	setup_logo();
 	$page['send_shortcut'] = "Ctrl-Enter";
 	$page['isOpera95'] = is_agent_opera95();
 	$page['neediframesrc'] = needsFramesrc();

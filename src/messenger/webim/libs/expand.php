@@ -14,6 +14,7 @@
 
 $ifregexp = "/\\\${(if|ifnot):([\w\.]+)}(.*?)(\\\${else:\\2}.*?)?\\\${endif:\\2}/s";
 $expand_include_path = "";
+$current_style = "";
 
 function check_condition($condition) {
 	global $errors, $page;
@@ -35,12 +36,14 @@ function expand_condition($matches) {
 }
 
 function expand_var($matches) {
-	global $page, $webimroot, $errors;
+	global $page, $webimroot, $errors, $current_style;
 	$prefix = $matches[1];
 	$var = $matches[2];
 	if(!$prefix) {
 		if($var == 'webimroot') {
 			return $webimroot;
+		} else if($var == 'tplroot') {
+			return "$webimroot/styles/$current_style";
 		} else if($var == 'pagination') {
 			return generate_pagination($page['pagination']);
 		} else if($var == 'errors') {
@@ -90,15 +93,17 @@ function expandtext($text) {
 }
 
 function expand($basedir,$style,$filename) {
-	global $expand_include_path;
+	global $expand_include_path, $current_style;
 	start_html_output();
 	if(!is_dir("$basedir/$style")) {
 		$style = "default";
 	}
 	$expand_include_path = "$basedir/$style/";
+	$current_style = $style;
 	$contents = @file_get_contents($expand_include_path.$filename);
 	if($contents === false) {
 		$expand_include_path = "$basedir/default/";
+		$current_style = "default";
 		$contents = @file_get_contents($expand_include_path.$filename) or die("cannot load template");
 	}
 	echo expandtext($contents);

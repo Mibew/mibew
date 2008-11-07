@@ -8,7 +8,7 @@
 <script type="text/javascript" language="javascript" src="${webimroot}/js/brws.js"></script>
 </head>
 
-<body bgcolor="#FFFFFF" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" marginwidth="0" marginheight="0" leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0">
+<body bgcolor="#FFFFFF" background="${webimroot}/images/bg.gif" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" marginwidth="0" marginheight="0" leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0">
 
 <table width="600" cellspacing="0" cellpadding="0" border="0">
 <tr>

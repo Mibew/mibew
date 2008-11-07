@@ -5,7 +5,7 @@
 <link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
 <link rel="stylesheet" type="text/css" href="${webimroot}/chat.css" />
 </head>
-<body bgcolor="#FFFFFF" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" marginwidth="0" marginheight="0" leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0">
+<body bgcolor="#FFFFFF" background="${webimroot}/images/bg.gif" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" marginwidth="0" marginheight="0" leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0">
 <table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 <td valign="top">
@@ -29,7 +29,8 @@
 	</tr><tr><td height="100%" bgcolor="#FED840"><img src='${webimroot}/images/free.gif' width="1" height="1" border="0" alt="" /></td>
 	<td background="${webimroot}/images/winbg.gif" class="bgcy">
 
-		${msg:page.chat.old_browser.content}
+		${msg:page.chat.old_browser.problem}
+		${msg:page.chat.old_browser.list}
 
 	</td><td bgcolor="#E8A400"><img src='${webimroot}/images/free.gif' width="1" height="1" border="0" alt="" /></td>
 	</tr><tr><td><img src='${webimroot}/images/wincrnlb.gif' width="15" height="15" border="0" alt="" /></td>

@@ -37,6 +37,11 @@ if(!in_array($preview, $stylelist)) {
 }
 
 $show = verifyparam("show", "/^(chat|chatsimple|nochat|mail|mailsent|leavemessage|leavemessagesent|redirect|redirected|agentchat|agentrochat)$/", "");
+$showerrors = verifyparam("showerr", "/^true$/", "") == "true";
+$errors = array();
+if($showerrors) {
+	$errors[] = "Test error";
+}
 
 if($show == 'chat' || $show == 'mail' || $show == 'leavemessage' || $show == 'leavemessagesent' || $show == 'chatsimple' || $show == 'nochat') {
 	setup_chatview_for_user(array('threadid' => 0,'userName' => getstring("chat.default.username"), 'ltoken' => 123), "ajaxed");
@@ -46,6 +51,7 @@ if($show == 'chat' || $show == 'mail' || $show == 'leavemessage' || $show == 'le
 }
 if($show == 'mailsent') {
 	$page['email'] = "admin@yourdomain.com";
+	setup_logo();
 	expand("../styles", "$preview", "$show.tpl");
 	exit;
 }
@@ -73,17 +79,17 @@ if($show == 'redirect' || $show == 'redirected' || $show == 'agentchat' || $show
 }
 
 $templateList = array(
-	array('label' => getlocal("page.preview.userchat"), 'id' => 'chat', 'h' => 420, 'w' => 600),
-	array('label' => getlocal("page.preview.chatsimple"), 'id' => 'chatsimple', 'h' => 420, 'w' => 600),
-	array('label' => getlocal("page.preview.nochat"), 'id' => 'nochat', 'h' => 420, 'w' => 600),
-	array('label' => getlocal("page.preview.leavemessage"), 'id' => 'leavemessage', 'h' => 420, 'w' => 600),
-	array('label' => getlocal("page.preview.leavemessagesent"), 'id' => 'leavemessagesent', 'h' => 420, 'w' => 600),
+	array('label' => getlocal("page.preview.userchat"), 'id' => 'chat', 'h' => 480, 'w' => 640),
+	array('label' => getlocal("page.preview.chatsimple"), 'id' => 'chatsimple', 'h' => 480, 'w' => 640),
+	array('label' => getlocal("page.preview.nochat"), 'id' => 'nochat', 'h' => 480, 'w' => 640),
+	array('label' => getlocal("page.preview.leavemessage"), 'id' => 'leavemessage', 'h' => 480, 'w' => 640),
+	array('label' => getlocal("page.preview.leavemessagesent"), 'id' => 'leavemessagesent', 'h' => 480, 'w' => 640),
 	array('label' => getlocal("page.preview.mail"), 'id' => 'mail', 'h' => 254, 'w' => 603),
 	array('label' => getlocal("page.preview.mailsent"), 'id' => 'mailsent', 'h' => 254, 'w' => 603),
-	array('label' => getlocal("page.preview.redirect"), 'id' => 'redirect', 'h' => 420, 'w' => 600),
-	array('label' => getlocal("page.preview.redirected"), 'id' => 'redirected', 'h' => 420, 'w' => 600),
-	array('label' => getlocal("page.preview.agentchat"), 'id' => 'agentchat', 'h' => 420, 'w' => 600),
-	array('label' => getlocal("page.preview.agentrochat"), 'id' => 'agentrochat', 'h' => 420, 'w' => 600),
+	array('label' => getlocal("page.preview.redirect"), 'id' => 'redirect', 'h' => 480, 'w' => 640),
+	array('label' => getlocal("page.preview.redirected"), 'id' => 'redirected', 'h' => 480, 'w' => 640),
+	array('label' => getlocal("page.preview.agentchat"), 'id' => 'agentchat', 'h' => 480, 'w' => 640),
+	array('label' => getlocal("page.preview.agentrochat"), 'id' => 'agentrochat', 'h' => 480, 'w' => 640),
 );
 
 $template = verifyparam("template", "/^\w+$/", "chat");
@@ -100,7 +106,7 @@ $page['availableTemplates'] = array(
 	"all");
 
 $page['operator'] = topage(get_operator_name($operator));
-$page['showlink'] = "$webimroot/operator/preview.php?preview=$preview&amp;show=";
+$page['showlink'] = "$webimroot/operator/preview.php?preview=$preview&amp;".($showerrors?"showerr=true&amp;":"")."show=";
 
 $page['previewList'] = array();
 foreach($templateList as $tpl) {

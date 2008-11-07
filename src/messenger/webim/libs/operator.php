@@ -114,7 +114,7 @@ function get_operator_name($operator) {
 
 function generate_button($title,$locale,$inner,$showhost,$forcesecure) {
 	$link = get_app_location($showhost,$forcesecure)."/client.php". ($locale?"?locale=".$locale : "");
-	$temp = get_popup($link, $inner, $title, "webim", "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=600,height=420,resizable=1" );
+	$temp = get_popup($link, $inner, $title, "webim", "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1" );
 	return "<!-- webim button -->".$temp."<!-- / webim button -->";
 }
 

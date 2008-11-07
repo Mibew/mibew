@@ -99,17 +99,17 @@ var HtmlGenerationUtils = {
   		var cellsCount = 2;
   		var link = servlet+"?thread="+id;
  		var gen = '<td class="table" style="padding-left:0px; padding-right:0px;">';
-		gen += HtmlGenerationUtils.popupLink( (cantakenow||!canview) ? link : link+"&viewonly=true", localized[canopen ? 0 : 1], "ImCenter"+id, username, 600, 420, ban);
+		gen += HtmlGenerationUtils.popupLink( (cantakenow||!canview) ? link : link+"&viewonly=true", localized[canopen ? 0 : 1], "ImCenter"+id, username, 640, 480, ban);
 		gen += '</td><td><img src="'+webimRoot+'/images/free.gif" width="5" height="1" border="0" alt=""></td>';
 		if( canopen ) {
 			gen += '<td width="30" align="center">';
-			gen += HtmlGenerationUtils.popupLink( link, localized[0], "ImCenter"+id, '<img src="'+webimRoot+'/images/tbliclspeak.gif" width="15" height="15" border="0" alt="'+localized[0]+'">', 600, 420, null);
+			gen += HtmlGenerationUtils.popupLink( link, localized[0], "ImCenter"+id, '<img src="'+webimRoot+'/images/tbliclspeak.gif" width="15" height="15" border="0" alt="'+localized[0]+'">', 640, 480, null);
 			gen += '</td>';
 			cellsCount++;
 		}
 		if( canview ) {
 			gen += '<td width="30" align="center">';
-			gen += HtmlGenerationUtils.popupLink( link+"&viewonly=true", localized[1], "ImCenter"+id, '<img src="'+webimRoot+'/images/tbliclread.gif" width="15" height="15" border="0" alt="'+localized[1]+'">', 600, 420, null);
+			gen += HtmlGenerationUtils.popupLink( link+"&viewonly=true", localized[1], "ImCenter"+id, '<img src="'+webimRoot+'/images/tbliclread.gif" width="15" height="15" border="0" alt="'+localized[1]+'">', 640, 480, null);
 			gen += '</td>';
 			cellsCount++;
 		}

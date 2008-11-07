@@ -26,6 +26,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 
 	if( !$thread ) {
 		if(!has_online_operators()) {
+			setup_logo();
 			expand("styles", getchatstyle(), "leavemessage.tpl");
 			exit;
 		}
