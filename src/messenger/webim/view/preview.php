@@ -65,6 +65,18 @@
 			<select name="template" onchange="this.form.submit();"><?php foreach($page['availableTemplates'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("template") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 		</td>
 	</tr>
+<?php if( $page['canshowerrors'] ) { ?>
+	<tr><td colspan="3" height="10"></td></tr>
+	<tr>
+		<td colspan="3" class="formauth"><?php echo getlocal("page.preview.showerr") ?></td>
+	</tr>
+	<tr><td colspan="3" height="2"></td></tr>
+	<tr>
+		<td colspan="3">
+			<input type="checkbox" name="showerr" value="on"<?php echo form_value_cb('showerr') ? " checked=\"checked\"" : "" ?> onchange="this.form.submit();"/>
+		</td>
+	</tr>
+<?php } ?>
 <?php foreach( $page['previewList'] as $pp ) { ?>
 	<tr><td colspan="3" height="10"></td></tr>
 	<tr>

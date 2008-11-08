@@ -37,7 +37,7 @@ if(!in_array($preview, $stylelist)) {
 }
 
 $show = verifyparam("show", "/^(chat|chatsimple|nochat|mail|mailsent|leavemessage|leavemessagesent|redirect|redirected|agentchat|agentrochat)$/", "");
-$showerrors = verifyparam("showerr", "/^true$/", "") == "true";
+$showerrors = verifyparam("showerr", "/^on$/", "") == "on";
 $errors = array();
 if($showerrors) {
 	$errors[] = "Test error";
@@ -96,6 +96,8 @@ $template = verifyparam("template", "/^\w+$/", "chat");
 
 $page['formpreview'] = $preview;
 $page['formtemplate'] = $template;
+$page['canshowerrors'] = $template == 'leavemessage' || $template == 'mail' || $template == 'all';
+$page['formshowerr'] = $showerrors;
 $page['availablePreviews'] = $stylelist;
 $page['availableTemplates'] = array(
 	"chat", "chatsimple", "nochat",
@@ -106,7 +108,7 @@ $page['availableTemplates'] = array(
 	"all");
 
 $page['operator'] = topage(get_operator_name($operator));
-$page['showlink'] = "$webimroot/operator/preview.php?preview=$preview&amp;".($showerrors?"showerr=true&amp;":"")."show=";
+$page['showlink'] = "$webimroot/operator/preview.php?preview=$preview&amp;".($showerrors?"showerr=on&amp;":"")."show=";
 
 $page['previewList'] = array();
 foreach($templateList as $tpl) {

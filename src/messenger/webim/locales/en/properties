@@ -245,6 +245,7 @@ page.preview.mailsent=Mail is sent window
 page.preview.nochat=List of supported browsers window
 page.preview.redirect=Redirect visitor to another operator window
 page.preview.redirected=Visitor is redirected window
+page.preview.showerr=Show errors
 page.preview.title=Site style
 page.preview.userchat=Chat window (user-mode)
 page_agent.create_new=Here you can create new operator
