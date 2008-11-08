@@ -428,13 +428,14 @@ function webim_mail($toaddr, $reply_to, $subject, $body) {
 
 $settings = array(
 	'email' => '',				/* inbox for left messages */
-	'title' => 'Company',
+	'title' => 'Your Company',
 	'hosturl' => 'http://webim.sourceforge.net',
 	'logo' => '',
 	'enableban' => '0',
 	'usernamepattern' => '{name}',
 	'usercanchangename' => '1',
-	'chatstyle' => 'default'
+	'chatstyle' => 'default',
+	'chattitle' => 'Live Support'
 );
 $settingsloaded = false;
 $settings_in_db = array();

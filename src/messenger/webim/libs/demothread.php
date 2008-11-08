@@ -36,7 +36,7 @@ function demo_process_thread($act,$outformat,$lastid,$isuser,$canpost,$istyping,
 				"<meta http-equiv=\"Refresh\" content=\"7; URL=$url&sn=11\">\n".
 				"<meta http-equiv=\"Pragma\" content=\"no-cache\">\n".
 				"</head>".
-				"<body bgcolor='#FFFFFF' text='#000000' link='#C28400' vlink='#C28400' alink='#C28400' marginwidth='0' marginheight='0' leftmargin='0' rightmargin='0' topmargin='0' bottommargin='0' onload=\"if( location.hash != '#aend' ){location.hash='#aend';}\">".
+				"<body bgcolor='#FFFFFF' text='#000000' link='#C28400' vlink='#C28400' alink='#C28400' marginwidth='0' marginheight='0' leftmargin='0' rightmargin='0' topmargin='0' bottommargin='0'>".
 				"<table width='100%' cellspacing='0' cellpadding='0' border='0'><tr><td valign='top' class='message'>" );
 		}
 		if($lastid == 1) {

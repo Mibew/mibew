@@ -256,6 +256,8 @@ page_avatar.intro=Вы можете загрузить фотографию расширения JPG, GIF, PNG или TI
 page_avatar.title=Загрузка фотографии
 page_search.intro=На данной странице можно осуществить поиск диалогов по имени пользователя или фразе, встречающейся в сообщении.
 page_settings.intro=Здесь вы можете задать опции влияющие на отображение чат окна и общее поведение системы 
+settings.chat.title=Заголовок в чат окне
+settings.chat.title.description=Например, название отдела вашей компании
 settings.chatstyle=Выберите вид вашего чат окна
 settings.chatstyle.description=Предпросмотр всех страниц каждого стиля доступен <a href="preview.php">здесь</a>
 settings.company.title=Название компании

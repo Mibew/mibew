@@ -62,22 +62,30 @@ var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",freque
 			        ${endif:webimHost}
 			    ${else:ct.company.chatLogoURL}
 	    			${if:webimHost}
-	        	    	<a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">${page:ct.company.name}</a>
+	        	    	<a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">
+	        	    		<img src="${webimroot}/images/webimlogo.gif" border="0" alt="">
+	        	    	</a>
 				    ${else:webimHost}
-				    	${page:ct.company.name}
+				    	<img src="${webimroot}/images/webimlogo.gif" border="0" alt="">
 				    ${endif:webimHost}
 		        ${endif:ct.company.chatLogoURL}
 			</td>
 			<td align="right" valign="top" id="banner_orange">
 				<table cellspacing="0" cellpadding="0" border="0" width="460">
 				<tr>
-					<td height="100" align="right" valign="top" style="padding:5px">
+					<td height="30" align="right" valign="top" style="padding:5px">
 						<div id="engineinfo" style="display:none;">
 						</div>
 						<div id="typingdiv" style="display:none;">
 							${msg:typing.remote}	
 						</div>
 					</td>
+				</tr>
+				<tr>
+					<td height="40" align="right" nowrap style="padding-right:10px"><span style="font-size:16px;font-weight:bold;color:#525252">${page:chat.title}</span></td>
+				</tr>
+				<tr>
+					<td height="30"></td>
 				</tr>
 				</table>
 			</td>

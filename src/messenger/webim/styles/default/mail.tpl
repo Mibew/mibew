@@ -47,10 +47,12 @@
 			            	<img src="${page:ct.company.chatLogoURL}" border="0" alt="">
 				        ${endif:webimHost}
 				    ${else:ct.company.chatLogoURL}
-		    			${if:webimHost}
-		        	    	<a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">${page:ct.company.name}</a>
+	    				${if:webimHost}
+	        	    		<a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">
+	        		    		<img src="${webimroot}/images/webimlogo.gif" border="0" alt="">
+	        		    	</a>
 					    ${else:webimHost}
-					    	${page:ct.company.name}
+					    	<img src="${webimroot}/images/webimlogo.gif" border="0" alt="">
 					    ${endif:webimHost}
 			        ${endif:ct.company.chatLogoURL}
 				</td>
@@ -73,7 +75,7 @@ ${endif:errors}
 				<td style="padding-left: 20px" class="img132" width="270">
 				<table cellspacing="0" cellpadding="0" border="0">
 					<tr>
-						<td class="text" style="color: white">${msg:mailthread.enter_email}</td>
+						<td class="text" style="color: white" nowrap>${msg:mailthread.enter_email}</td>
 						<td width="10"></td>
 						<td><input type="text" name="email" size="20" value="${form:email}" class="username" /></td>
 					</tr>

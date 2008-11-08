@@ -74,6 +74,10 @@
 			<input type="text" name="title" size="40" value="<?php echo form_value('title') ?>" class="formauth"/>
 		</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('settings.company.title.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>
 
+		<tr><td class='formauth'><?php echo getlocal('settings.chat.title') ?></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
+			<input type="text" name="chattitle" size="40" value="<?php echo form_value('chattitle') ?>" class="formauth"/>
+		</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('settings.chat.title.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>
+
 		<tr><td class='formauth'><?php echo getlocal('settings.logo') ?></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
 			<input type="text" name="logo" size="40" value="<?php echo form_value('logo') ?>" class="formauth"/>
 		</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('settings.logo.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>

@@ -256,6 +256,8 @@ page_avatar.intro=You can upload your photo only in JPG, GIF, PNG or TIF image f
 page_avatar.title=Upload photo
 page_search.intro=Search for chat history of a specified user or a specified phrase in a message.
 page_settings.intro=Specify options affecting chat window and common system behavior
+settings.chat.title=Title in the chat window
+settings.chat.title.description=Department of your company for example.
 settings.chatstyle=Select style for your chat windows
 settings.chatstyle.description=Preview for all pages of each style is available <a href="preview.php">here</a>
 settings.company.title=Company title

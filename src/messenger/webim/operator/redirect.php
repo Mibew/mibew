@@ -50,6 +50,7 @@ if( $nextOperator ) {
 	$errors[] = "Unknown operator";	// FIXME
 }
 
+setup_logo();
 if( count($errors) > 0 ) {
 	expand("../styles", getchatstyle(), "error.tpl");
 } else {

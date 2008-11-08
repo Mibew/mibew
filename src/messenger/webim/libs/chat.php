@@ -277,6 +277,7 @@ function setup_chatview_for_user($thread,$level) {
 	$page['ct.token'] = $thread['ltoken'];
 	$page['ct.user.name'] = topage($thread['userName']);
 	$page['canChangeName'] = $settings['usercanchangename'] == "1";
+	$page['chat.title'] = topage($settings['chattitle']);
 
 	setup_logo();
 	$page['send_shortcut'] = "Ctrl-Enter";
@@ -298,6 +299,7 @@ function setup_chatview_for_operator($thread,$operator) {
 	$page['ct.chatThreadId'] = $thread['threadid'];
 	$page['ct.token'] = $thread['ltoken'];
 	$page['ct.user.name'] = topage(get_user_name($thread['userName'],$thread['remote'],$thread['userid']));
+	$page['chat.title'] = topage($settings['chattitle']);
 
 	setup_logo();
 	$page['send_shortcut'] = "Ctrl-Enter";

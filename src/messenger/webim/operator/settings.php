@@ -54,6 +54,7 @@ $enableban = $settings['enableban'];
 $usernamepattern = $settings['usernamepattern'];
 $usercanchangename = $settings['usercanchangename'];
 $chatstyle = $settings['chatstyle'];
+$chattitle = $settings['chattitle'];
 
 if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
     $email = getparam('email');
@@ -63,6 +64,7 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
     $enableban = verifyparam("enableban","/^on$/", "") == "on" ? "1" : "0";
     $usernamepattern = getparam('usernamepattern');
     $usercanchangename = verifyparam("usercanchangename", "/^on$/", "") == "on" ? "1" : "0";
+    $chattitle = getparam('chattitle');
 
 	$chatstyle = verifyparam("chatstyle","/^\w+$/", $chatstyle);
 	if(!in_array($chatstyle, $stylelist)) {
@@ -82,6 +84,7 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
     	$settings['usernamepattern'] = $usernamepattern;
     	$settings['usercanchangename'] = $usercanchangename;
     	$settings['chatstyle'] = $chatstyle;
+    	$settings['chattitle'] = $chattitle;
         update_settings();
         header("Location: $webimroot/operator/index.php");
         exit;
@@ -97,6 +100,7 @@ $page['formenableban'] = $enableban == "1";
 $page['formusernamepattern'] = topage($usernamepattern);
 $page['formusercanchangename'] = $usercanchangename == "1";
 $page['formchatstyle'] = $chatstyle;
+$page['formchattitle'] = topage($chattitle);
 $page['availableStyles'] = $stylelist;
 
 start_html_output();

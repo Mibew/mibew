@@ -59,9 +59,11 @@
 			        ${endif:webimHost}
 			    ${else:ct.company.chatLogoURL}
 	    			${if:webimHost}
-	        	    	<a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">${page:ct.company.name}</a>
+	        	    	<a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">
+	        	    		<img src="${webimroot}/images/webimlogo.gif" border="0" alt="">
+	        	    	</a>
 				    ${else:webimHost}
-				    	${page:ct.company.name}
+				    	<img src="${webimroot}/images/webimlogo.gif" border="0" alt="">
 				    ${endif:webimHost}
 		        ${endif:ct.company.chatLogoURL}
 			</td>
