@@ -31,10 +31,8 @@ if( isset($_POST['address']) ) {
 	$comment = getparam('comment');
 	$threadid = isset($_POST['threadid']) ? getparam('threadid') : "";
 
-	if( !preg_match( "/^(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3})$/", $address )) {
-		if( !preg_match("/^([a-z0-9-]+\.)+[a-z0-9-]+$/", $address)) {
-			$errors[] = wrong_field("form.field.address");
-		}
+	if( !$address ) {
+		$errors[] = no_field("form.field.address");
 	}
 
 	if( !preg_match( "/^\d+$/", $days )) {

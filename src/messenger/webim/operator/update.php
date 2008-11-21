@@ -69,7 +69,7 @@ function get_useragent_version($userAgent) {
 }
 
 function thread_to_xml($thread,$link) {
-	global $threadstate_to_string, $threadstate_key, $webim_encoding, $operator;
+	global $threadstate_to_string, $threadstate_key, $webim_encoding, $operator, $settings;
 	$state = $threadstate_to_string[$thread['istate']];
 	$result = "<thread id=\"".$thread['threadid']."\" stateid=\"$state\"";
 	if( $state == "closed" )
@@ -81,13 +81,16 @@ function thread_to_xml($thread,$link) {
 						: ($thread['agentName'] ? $thread['agentName'] : "-");
 
 	$result .= " canopen=\"true\"";
-	if( $thread['agentId'] != $operator['operatorid'] && $thread['nextagent'] != $operator['operatorid']) {
+	if ($thread['agentId'] != $operator['operatorid'] && $thread['nextagent'] != $operator['operatorid']) {
 		$result .= " canview=\"true\"";
 	}
+	if ($settings['enableban'] == "1") {
+		$result .= " canban=\"true\"";
+	}
 
-	$banForThread = ban_for_addr_($thread['remote'],$link);
+	$banForThread = $settings['enableban'] == "1" ? ban_for_addr_($thread['remote'],$link) : false;
 	if($banForThread) {
-		$result .= " ban=\"blocked\"";
+		$result .= " ban=\"blocked\" banid=\"".$banForThread['banid']."\"";
 	}
 
 	$result .= " state=\"$state\" typing=\"".$thread['userTyping']."\">";

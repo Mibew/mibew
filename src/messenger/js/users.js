@@ -120,9 +120,9 @@ var HtmlGenerationUtils = {
 		}
   		return HtmlGenerationUtils.generateOneRowTable(gen);
   },
-  banCell: function(id){
+  banCell: function(id,banid){
       return '<td width="30" align="center">'+
-          HtmlGenerationUtils.popupLink( webimRoot+'/operator/ban.php?thread='+id, localized[2], "ban"+id, '<img src="'+webimRoot+'/images/ban.gif" width="15" height="15" border="0" alt="'+localized[2]+'">', 550, 440, null)+
+          HtmlGenerationUtils.popupLink( webimRoot+'/operator/ban.php?'+(banid ? 'id='+banid : 'thread='+id), localized[2], "ban"+id, '<img src="'+webimRoot+'/images/ban.gif" width="15" height="15" border="0" alt="'+localized[2]+'">', 550, 440, null)+
           '</td>';
   }
 };
@@ -155,7 +155,7 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
   },
 
   updateThread: function(node) {
-	var id, stateid, vstate, canview = false, canopen = false, ban = null;
+	var id, stateid, vstate, canview = false, canopen = false, canban = false, ban = null, banid = null;
 
 	for( var i = 0; i < node.attributes.length; i++ ) {
 		var attr = node.attributes[i];
@@ -169,8 +169,12 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 			canopen = true;
 		else if( attr.nodeName == "canview" )
 			canview = true;
+		else if( attr.nodeName == "canban" )
+			canban = true;
 		else if( attr.nodeName == "ban" )
 			ban = attr.nodeValue;
+		else if( attr.nodeName == "banid" )
+			banid = attr.nodeValue;
 	}
 
 	function setcell(_table, row,id,pcontent) {
@@ -201,7 +205,9 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 		etc = '<td class="table">'+NodeUtils.getNodeValue(node,"reason")+'</td>';
 	}
 
-	etc += HtmlGenerationUtils.banCell(id);
+	if(canban) {
+		etc += HtmlGenerationUtils.banCell(id,banid);
+	}
 	etc = HtmlGenerationUtils.generateOneRowTable(etc);
 
 	var startRow = CommonUtils.getRow(stateid, this.t);
