@@ -112,8 +112,8 @@ function get_operator_name($operator) {
 		return $operator['vccommonname'];
 }
 
-function generate_button($title,$locale,$inner,$showhost,$forcesecure) {
-	$link = get_app_location($showhost,$forcesecure)."/client.php". ($locale?"?locale=".$locale : "");
+function generate_button($title,$locale,$style,$inner,$showhost,$forcesecure) {
+	$link = get_app_location($showhost,$forcesecure)."/client.php". ($locale?"?locale=$locale" : "").($style ? ($locale?"&":"?")."style=$style" : "");
 	$temp = get_popup($link, $inner, $title, "webim", "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1" );
 	return "<!-- webim button -->".$temp."<!-- / webim button -->";
 }

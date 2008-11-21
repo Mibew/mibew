@@ -38,6 +38,22 @@ foreach($available_locales as $curr) {
 $image = verifyparam("image","/^\w+$/", "webim");
 $image_locales = $imageLocales[$image];
 
+$stylelist = array("" => getlocal("page.preview.style_default"));
+$stylesfolder = "../styles";
+if($handle = opendir($stylesfolder)) {
+	while (false !== ($file = readdir($handle))) {
+		if (preg_match("/^\w+$/", $file) && is_dir("$stylesfolder/$file")) {
+			$stylelist[$file] = $file;
+		}
+	}
+	closedir($handle);
+}
+
+$style = verifyparam("style","/^\w*$/", "");
+if($style && !in_array($style, $stylelist)) {
+	$style = "";
+}
+
 $showhost = verifyparam("hostname","/^on$/", "") == "on";
 $forcesecure = verifyparam("secure","/^on$/", "") == "on";
 
@@ -52,10 +68,12 @@ $message = get_image(get_app_location($showhost,$forcesecure)."/button.php?image
 
 $page = array();
 $page['operator'] = topage(get_operator_name($operator));
-$page['buttonCode'] = generate_button("",$lang,$message,$showhost,$forcesecure);
+$page['buttonCode'] = generate_button("",$lang,$style,$message,$showhost,$forcesecure);
 $page['availableImages'] = array_keys($imageLocales);
 $page['availableLocales'] = $image_locales;
+$page['availableStyles'] = $stylelist;
 
+$page['formstyle'] = $style;
 $page['formimage'] = $image;
 $page['formlang'] = $lang;
 $page['formhostname'] = $showhost;

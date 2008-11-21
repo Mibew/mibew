@@ -67,6 +67,16 @@
 	</tr>
 	<tr><td colspan="3" height="5"></td></tr>
 	<tr>
+		<td colspan="3" class="formauth"><?php echo getlocal("page.gen_button.choose_style") ?></td>
+	</tr>
+	<tr><td colspan="3" height="2"></td></tr>
+	<tr>
+		<td colspan="3">
+			<select name="style" onchange="this.form.submit();"><?php foreach($page['availableStyles'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("style") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
+		</td>
+	</tr>
+	<tr><td colspan="3" height="5"></td></tr>
+	<tr>
 		<td colspan="3" class="formauth"><?php echo getlocal("page.gen_button.include_site_name") ?></td>
 	</tr>
 	<tr><td colspan="3" height="2"></td></tr>

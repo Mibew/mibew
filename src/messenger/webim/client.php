@@ -19,6 +19,7 @@ require_once('libs/expand.php');
 
 if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 
+	$chatstyle = verifyparam( "style", "/^\w+$/", "");
 	$thread = NULL;
 	if( isset($_SESSION['threadid']) ) {
 		$thread = reopen_thread($_SESSION['threadid']);
@@ -50,7 +51,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 	$threadid = $thread['threadid'];
 	$token = $thread['ltoken'];
 	$level = get_remote_level($_SERVER['HTTP_USER_AGENT']);
-	header("Location: $webimroot/client.php?thread=$threadid&token=$token&level=$level");
+	header("Location: $webimroot/client.php?thread=$threadid&token=$token&level=$level".($chatstyle ? "&style=$chatstyle" : ""));
 	exit;
 }
 

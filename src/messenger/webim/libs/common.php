@@ -461,6 +461,10 @@ function loadsettings() {
 
 function getchatstyle() {
 	global $settings;
+	$chatstyle = verifyparam( "style", "/^\w+$/", "");
+	if($chatstyle) {
+		return $chatstyle;
+	}
 	loadsettings();
 	return $settings['chatstyle'];
 }
