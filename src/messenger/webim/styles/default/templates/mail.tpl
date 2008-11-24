@@ -8,7 +8,7 @@
 <style>
 #header{
 	height:50px;
-	background:url(${tplroot}/bg_domain.gif) repeat-x top;
+	background:url(${tplroot}/images/bg_domain.gif) repeat-x top;
 	background-color:#5AD66B;
 	width:99.6%;
 	margin:0px 0px 20px 0px;
@@ -16,7 +16,7 @@
 .but{
 	font-family:Verdana !important;
 	font-size:11px;
-	background:url(${tplroot}/butbg.gif) no-repeat top left;
+	background:url(${tplroot}/images/butbg.gif) no-repeat top left;
 	display:block;
 	text-align:center;
 	padding-top:2px;

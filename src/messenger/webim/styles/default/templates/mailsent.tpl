@@ -8,13 +8,13 @@
 <style>
 #header{
 	height:50px;
-	background:url(${tplroot}/bg_domain.gif) repeat-x top;
+	background:url(${tplroot}/images/bg_domain.gif) repeat-x top;
 	background-color:#5AD66B;
 	width:99.6%;
 	margin:0px 0px 20px 0px;
 }
 #header .mmimg{
-	background:url(${tplroot}/quadrat.gif) bottom left no-repeat;
+	background:url(${tplroot}/images/quadrat.gif) bottom left no-repeat;
 }
 </style>
 <body bgcolor="#FFFFFF" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" style="margin:0px">
@@ -42,20 +42,20 @@
 				    ${endif:webimHost}
 		        ${endif:ct.company.chatLogoURL}
 			</td>
-			<td nowrap style="padding-right:10px"><span style="font-size:16px;font-weight:bold;color:#525252">${msg:chat.redirected.title}</span></td>
+			<td nowrap style="padding-right:10px"><span style="font-size:16px;font-weight:bold;color:#525252">${msg:chat.mailthread.sent.title}</span></td>
 		</tr>
 		</table>
 		<table cellspacing="0" cellpadding="0" border="0" id="header" class="bg_domain">
 		<tr>
 			<td style="padding-left:20px;color:white;" class="mmimg" width="770">
-				${msg:chat.redirected.content,nextAgent}
+				${msg:chat.mailthread.sent.content,email}
 			</td>
 			<td align="right" style="padding-right:17px;">
 				<table cellspacing="0" cellpadding="0" border="0">
 				<tr>
-					<td><a href="javascript:window.close();" title="${msg:chat.redirected.close}"><img src='${webimroot}/images/buttons/back.gif' width="25" height="25" border="0" alt="" /></a></td>
+					<td><a href="javascript:window.close();" title="${msg:chat.mailthread.sent.close}"><img src='${webimroot}/images/buttons/back.gif' width="25" height="25" border="0" alt="" /></a></td>
 					<td width="5"></td>
-					<td class="button"><a href="javascript:window.close();" title="${msg:chat.redirected.close}">${msg:chat.redirected.close}</a></td>
+					<td class="button"><a href="javascript:window.close();" title="${msg:chat.mailthread.sent.close}">${msg:chat.mailthread.sent.close}</a></td>
 				</tr>
 				</table>
 			</td>

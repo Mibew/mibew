@@ -98,11 +98,11 @@ function expand($basedir,$style,$filename) {
 	if(!is_dir("$basedir/$style")) {
 		$style = "default";
 	}
-	$expand_include_path = "$basedir/$style/";
+	$expand_include_path = "$basedir/$style/templates/";
 	$current_style = $style;
 	$contents = @file_get_contents($expand_include_path.$filename);
 	if($contents === false) {
-		$expand_include_path = "$basedir/default/";
+		$expand_include_path = "$basedir/default/templates/";
 		$current_style = "default";
 		$contents = @file_get_contents($expand_include_path.$filename) or die("cannot load template");
 	}
