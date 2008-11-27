@@ -9,9 +9,10 @@ a {color:#533633;}
 div#header{width:95%;min-width:725px;min-height:120px;margin:0px 20px 0px;padding:10px 0 10px;text-align:left;background:#FFF;display:block;}
 div#header div#title,div#menu{width:700px;margin:0 0px;text-align:left}
 div#header div#title{padding: 20px 0px 30px 70px;color:#533633;background-image: url(webimlogo.gif);background-repeat: no-repeat;background-position: 0% 0%;overflow-x: hidden;overflow-y: hidden;}
+div#logo {display:inline;margin:20px 0px 0px 20px;padding:0px 0px 0px 0px;}
 
 ul#nav,ul#nav li{list-style-type:none;margin:0;padding:0;}
-ul#nav{float:left;}
+ul#nav{float:bottom;}
 ul#nav li{float:left;margin-left: 3px;text-align: center}
 ul#nav a{float:left;width: 125px;padding: 5px 0;background: #999999;text-decoration:none;color: #FFC}
 ul#nav a:hover{background: #d4b179;color:#FFF;}
@@ -29,3 +30,5 @@ div#title big {color:#8b95a7;font-size: 1em;display: block;margin-top: 4px;margi
 
 div#downl{float:left;display:block;background:#f3f1f3; margin:0 10px 10px 0;padding:10px;}
 div#downl a{margin:5px 0 10px;padding: 0 10px;}
+
+div#header div#menu a.aa { vertical-align:bottom;margin:0 0 0 10px;padding:0px; }

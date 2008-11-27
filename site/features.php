@@ -1,32 +1,10 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-<head>
-<title>Web Messenger</title>
-<link rel="stylesheet" type="text/css" href="styles.css">
-<link rel="stylesheet" type="text/css" href="niftyCorners.css">
-<script type="text/javascript" src="niftycube.js"></script>
-<script type="text/javascript">
-window.onload=function(){
-Nifty("ul#nav a","small transparent top");
-Nifty("div#side","");
-}
-</script>
-</head>
-<body>
-<div id="header">
-<div id="title">
-	<h1><strong>Web Messenger</strong>&nbsp;&#8212; open-source live support software</h1>
-	<big>allows visitors of your site to chat with your operators</big>
-</div>
-<div id="menu">
-    <ul id="nav">
-        <li id="home"><a href="index.html">home</a></li>
-        <li id="who" class="activelink"><a href="features.html">features</a></li>
-        <li id="prod"><a href="demo.html">demo</a></li>
-        <li id="serv"><a href="download.html">download</a></li>
-    </ul>
-</div>
-</div>
+<?php 
+$page = 'feat';
+
+require_once('inc/header.i');
+require_once('inc/menu.i');
+?>
+
 <div id="container">
 <div id="content">
 <a name='price'></a>
@@ -92,5 +70,5 @@ Nifty("div#side","");
 </p>
 </div>
 </div>
-</body>
-</html>
+
+<?php require_once('inc/footer.i'); ?>
