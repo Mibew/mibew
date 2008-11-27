@@ -40,41 +40,76 @@
  </td><td align="right" class="text" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="textform"><?php echo getlocal2("menu.operator",array($page['operator'])) ?></td><td class="textform"><img src='<?php echo $webimroot ?>/images/topdiv.gif' width="25" height="15" border="0" alt="|" /></td><td class="textform"><a href="<?php echo $webimroot ?>/operator/index.php" title="<?php echo getlocal("menu.main") ?>"><?php echo getlocal("menu.main") ?></a></td></tr></table></td></tr></table>
 
 
-	<?php echo getlocal("page.translate.descr") ?>
-<br />
-<br />
-<?php if( $page['pagination'] && $page['pagination.items'] ) { ?>
-	<table cellpadding="0" cellspacing="0" border="0" width="100%">
-		<tr>
-			<td class='table' bgcolor='#276db8' height='30'><span class='header'>Key</span></td><td width='3'></td>
-			<td class='table' bgcolor='#276db8' height='30'><span class='header'><?php echo topage($page['title1']) ?></span></td><td width='3'></td>
-			<td class='table' bgcolor='#276db8' height='30'><span class='header'><?php echo topage($page['title2']) ?></span></td>
-		</tr>
-		<?php foreach( $page['pagination.items'] as $localstr ) { ?>
-			<tr>
-				<td height='20' class='table'>
-					<a href="<?php echo $webimroot ?>/operator/translate.php?target=<?php echo $page['lang2'] ?>&stringid=<?php echo $localstr['id'] ?>" target="_blank" onclick="this.newWindow = window.open('<?php echo $webimroot ?>/operator/translate.php?target=<?php echo $page['lang2'] ?>&stringid=<?php echo $localstr['id'] ?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo topage($localstr['id']) ?></a>
-				</td><td background='<?php echo $webimroot ?>/images/tablediv3.gif'><img width='3' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td>
-				<td height='20' class='table'>
-					<?php echo topage($localstr['l1']) ?>
-				</td><td background='<?php echo $webimroot ?>/images/tablediv3.gif'><img width='3' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td>
-				<td height='20' class='table'>
-					<?php echo topage($localstr['l2']) ?>
-				</td>
-			</tr>
-			<tr><td height='2' colspan='9'></td></tr><tr><td bgcolor='#e1e1e1' colspan='9'><img width='1' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td></tr><tr><td height='2' colspan='9'></td></tr>
-		<?php } ?>
-	</table>
-	<br />
-	<?php echo generate_pagination($page['pagination']) ?>
+	<?php if( $page['saved'] ) { ?>
+	<?php echo getlocal("page.translate.done") ?>
+
+	<script><!--
+		setTimeout( (function() { window.close(); }), 500 );
+	//--></script>
 <?php } ?>
-<?php if( $page['pagination'] && !$page['pagination.items'] ) { ?>
-	<br/><br/>
-	<table cellspacing='0' cellpadding='0' border='0'><tr><td background='<?php echo $webimroot ?>/images/loginbg.gif'><table cellspacing='0' cellpadding='0' border='0'><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlt.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrt.gif' width='16' height='16' border='0' alt=''></td></tr><tr><td></td><td align='center'><table border='0' cellspacing='0' cellpadding='0'>
-		<span class="table">
-			<?php echo getlocal("tag.pagination.no_items") ?>
-		</span>
-	</table></td><td></td></tr><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlb.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrb.gif' width='16' height='16' border='0' alt=''></td></tr></table></td></tr></table>
+<?php if( !$page['saved'] ) { ?>
+
+<?php echo getlocal("page.translate.one") ?>
+<br/>
+<br/>
+
+<?php if( isset($errors) && count($errors) > 0 ) { ?>
+		<table cellspacing="0" cellpadding="0" border="0">
+		<tr>
+	    <td valign="top"><img src='<?php echo $webimroot ?>/images/icon_err.gif' width="40" height="40" border="0" alt="" /></td>
+	    <td width="10"></td>
+	    <td class="text">
+		    <?php	if( isset($errors) && count($errors) > 0 ) {
+		print getlocal("errors.header");
+		foreach( $errors as $e ) {
+			print getlocal("errors.prefix");
+			print $e;
+			print getlocal("errors.suffix");
+		}
+		print getlocal("errors.footer");
+	} ?>
+
+		</td>
+		</tr>
+		</table>
+	<?php } ?>
+
+<form name="translateForm" method="post" action="<?php echo $webimroot ?>/operator/translate.php">
+<table cellspacing='0' cellpadding='0' border='0'><tr><td background='<?php echo $webimroot ?>/images/loginbg.gif'><table cellspacing='0' cellpadding='0' border='0'><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlt.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrt.gif' width='16' height='16' border='0' alt=''></td></tr><tr><td></td><td align='center'><table border='0' cellspacing='0' cellpadding='0'>
+	<tr>
+		<td colspan="3" class="formauth"><?php echo $page['title1'] ?></td>
+	</tr>
+	<tr><td colspan="3" height="2"></td></tr>
+	<tr>
+		<td colspan="3">
+			<textarea name="original" disabled="disabled" tabindex="0" cols="80" rows="5" style="border:1px solid #878787; overflow:auto"><?php echo $page['formoriginal'] ?></textarea>
+		</td>
+	</tr>
+	<tr><td colspan="3" height="5"></td></tr>
+
+	<tr>
+		<td colspan="3" class="formauth"><?php echo $page['title2'] ?></td>
+	</tr>
+	<tr><td colspan="3" height="2"></td></tr>
+	<tr>
+		<td colspan="3">
+			<textarea name="translation" tabindex="0" cols="80" rows="5" style="border:1px solid #878787; overflow:auto"><?php echo $page['formtranslation'] ?></textarea>
+		</td>
+	</tr>
+	<tr><td colspan="3" height="5"></td></tr>
+
+	<tr><td colspan='3' height='20'></td></tr><tr><td colspan='3' background='<?php echo $webimroot ?>/images/formline.gif'><img src='<?php echo $webimroot ?>/images/formline.gif' width='1' height='2' border='0' alt=''></td></tr><tr><td colspan='3' height='10'></td></tr>
+
+	<tr>
+		<td class="formauth">
+		<input type="hidden" name="key" value="<?php echo $page['key'] ?>"/>
+		<input type="hidden" name="target" value="<?php echo $page['target'] ?>"/>
+		<input type="image" name="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' border="0" alt='<?php echo getlocal("button.save") ?>'/></td>
+		<td></td>
+		<td></td>
+	</tr>
+</table></td><td></td></tr><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlb.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrb.gif' width='16' height='16' border='0' alt=''></td></tr></table></td></tr></table>
+</form>
 <?php } ?>
 
 </td>

@@ -150,6 +150,34 @@ function load_messages($locale) {
 	$messages[$locale] = $hash;
 }
 
+function save_message($locale,$key,$value) {
+	global $webim_encoding;
+	$result = "";
+	$added = false;
+	$current_encoding = $webim_encoding;
+	$fp = fopen(dirname(__FILE__)."/../locales/$locale/properties", "r");
+	while (!feof($fp)) {
+		$line = fgets($fp, 4096);
+		$keyval = split("=", $line, 2 );
+		if( isset($keyval[1]) ) {
+			if($keyval[0] == 'encoding') {
+				$current_encoding = trim($keyval[1]);
+			} else if(!$added && $keyval[0] == $key) {
+				$line = "$key=".myiconv($webim_encoding, $current_encoding, str_replace("\n", "\\n",trim($value)))."\n";
+				$added = true;
+			}
+		}
+		$result .= $line;
+	}
+	fclose($fp);
+	if(!$added) {
+		$result .= "$key=".myiconv($webim_encoding, $current_encoding, str_replace("\n", "\\n",trim($value)))."\n";
+	}
+	$fp = fopen(dirname(__FILE__)."/../locales/$locale/properties", "w");
+	fwrite($fp, $result);
+	fclose($fp);
+}
+
 function getoutputenc() {
 	global $current_locale, $output_encoding, $webim_encoding, $messages;
 	if(!isset($messages[$current_locale]))
