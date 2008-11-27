@@ -58,7 +58,7 @@ $webim_messages_locale = "en";
 /*
  *   Locales
  */
-$available_locales = array("en", "ru");
+$available_locales = array("en", "ru" /* preliminary: "sp"*/);
 $home_locale = "ru";						/* native name will be used in this locale */
 $default_locale = "en";						/* if user does not provide known lang */
 
