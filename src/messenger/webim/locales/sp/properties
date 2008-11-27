@@ -1,8 +1,8 @@
 encoding=ISO-8859-1
 output_charset=utf-8
 output_encoding=utf-8
-site.url=http://webim.sourceforge.net
-site.title=webim.sf.net
+site.url=http://openwebim.org
+site.title=openwebim.org
 company.title=Web Messenger Comunidad
 page.main_layout.meta_keyword=Conversacion , ayuda y soporte en vivo
 page.main_layout.meta_description=Conversacion , ayuda y soporte en vivo para su websites
@@ -19,7 +19,7 @@ chat.window.product_name=Web <span class="grey">Messenger</span>
 chat.window.close_title=Cerrar conversacion
 chat.window.chatting_with=Esta en conversacion con:
 chat.window.poweredby=Powered by:
-chat.window.poweredreftext=webim.sf.net
+chat.window.poweredreftext=openwebim.org
 chat.window.send_message=Enviar Mensaje
 chat.window.send_message_short=Enviar ({0})
 chat.window.predefined.select_answer=Elige respuesta...
