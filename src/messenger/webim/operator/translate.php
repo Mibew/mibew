@@ -16,6 +16,47 @@ require_once('../libs/common.php');
 require_once('../libs/operator.php');
 require_once('../libs/pagination.php');
 
+function save_message($locale,$key,$value) {
+	global $webim_encoding;
+	$result = "";
+	$added = false;
+	$current_encoding = $webim_encoding;
+	$fp = fopen(dirname(__FILE__)."/../locales/$locale/properties", "r");
+	while (!feof($fp)) {
+		$line = fgets($fp, 4096);
+		$keyval = split("=", $line, 2 );
+		if( isset($keyval[1]) ) {
+			if($keyval[0] == 'encoding') {
+				$current_encoding = trim($keyval[1]);
+			} else if(!$added && $keyval[0] == $key) {
+				$line = "$key=".myiconv($webim_encoding, $current_encoding, str_replace("\r", "",str_replace("\n", "\\n",trim($value))))."\n";
+				$added = true;
+			}
+		}
+		$result .= $line;
+	}
+	fclose($fp);
+	if(!$added) {
+		$result .= "$key=".myiconv($webim_encoding, $current_encoding, str_replace("\r", "",str_replace("\n", "\\n",trim($value))))."\n";
+	}
+	$fp = fopen(dirname(__FILE__)."/../locales/$locale/properties", "w");
+	fwrite($fp, $result);
+	fclose($fp);
+	$fp = fopen(dirname(__FILE__)."/../locales/$locale/properties.log", "a");
+
+	$extAddr = $_SERVER['REMOTE_ADDR'];
+	if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) &&
+	          $_SERVER['HTTP_X_FORWARDED_FOR'] != $_SERVER['REMOTE_ADDR']) {
+		$extAddr = $_SERVER['REMOTE_ADDR'].' ('.$_SERVER['HTTP_X_FORWARDED_FOR'].')';
+	}
+	$userbrowser = $_SERVER['HTTP_USER_AGENT'];
+	$remoteHost = isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $extAddr;
+
+	fwrite($fp,"# ".date(DATE_RFC822)." by $remoteHost using $userbrowser\n");
+	fwrite($fp,"$key=".myiconv($webim_encoding, $current_encoding, str_replace("\r", "",str_replace("\n", "\\n",trim($value))))."\n");
+	fclose($fp);
+}
+
 $operator = check_login();
 
 $source = verifyparam("source", "/^[\w-]{2,5}$/", $default_locale);
