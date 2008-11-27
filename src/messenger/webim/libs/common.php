@@ -163,7 +163,7 @@ function save_message($locale,$key,$value) {
 			if($keyval[0] == 'encoding') {
 				$current_encoding = trim($keyval[1]);
 			} else if(!$added && $keyval[0] == $key) {
-				$line = "$key=".myiconv($webim_encoding, $current_encoding, str_replace("\n", "\\n",trim($value)))."\n";
+				$line = "$key=".myiconv($webim_encoding, $current_encoding, str_replace("\r", "",str_replace("\n", "\\n",trim($value))))."\n";
 				$added = true;
 			}
 		}
@@ -171,7 +171,7 @@ function save_message($locale,$key,$value) {
 	}
 	fclose($fp);
 	if(!$added) {
-		$result .= "$key=".myiconv($webim_encoding, $current_encoding, str_replace("\n", "\\n",trim($value)))."\n";
+		$result .= "$key=".myiconv($webim_encoding, $current_encoding, str_replace("\r", "",str_replace("\n", "\\n",trim($value))))."\n";
 	}
 	$fp = fopen(dirname(__FILE__)."/../locales/$locale/properties", "w");
 	fwrite($fp, $result);
