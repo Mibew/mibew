@@ -13,8 +13,8 @@ page_login.remember=Remember
 page_login.error=Entered login/password is incorrect
 agent.not_logged_in=Your session is expired please login again
 page_client.pending_users=Your can find awaiting visitors.
-chat.window.title.agent=Web Messenger
-chat.window.title.user=Web Messenger
+chat.window.title.agent=Open Web Messenger
+chat.window.title.user=Open Web Messenger
 chat.window.product_name=Web <span class="grey">Messenger</span>
 chat.window.close_title=Close chat
 chat.window.chatting_with=You chat with:

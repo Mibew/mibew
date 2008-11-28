@@ -1,5 +1,5 @@
 
-Web Instant Messenger
+Open Web Messenger
 Copyright (c) 2005-2008 Web Messenger Creators Community.
 
 All rights reserved. This program and the accompanying materials

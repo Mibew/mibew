@@ -36,7 +36,7 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 	}
 }
 
-$page = array( 'backPath' => '', 'formisRemember' => true );
+$page = array( 'backPath' => '', 'formisRemember' => true, 'version' => $version, 'localeLinks' => get_locale_links("$webimroot/operator/login.php") );
 start_html_output();
 require('../view/login.php');
 ?>

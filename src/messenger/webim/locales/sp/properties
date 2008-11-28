@@ -13,8 +13,8 @@ page_login.remember=Recordar
 page_login.error=Usuario/password incorrecto
 agent.not_logged_in=Su session a expirado por favor accese de nuevo
 page_client.pending_users=Puedes encontrar visitantes en espera.
-chat.window.title.agent=Web Messenger
-chat.window.title.user=Web Messenger
+chat.window.title.agent=Open Web Messenger
+chat.window.title.user=Open Web Messenger
 chat.window.product_name=Web <span class="grey">Messenger</span>
 chat.window.close_title=Cerrar conversacion
 chat.window.chatting_with=Esta en conversacion con:

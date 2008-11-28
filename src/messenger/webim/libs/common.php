@@ -17,7 +17,7 @@ session_start();
 require_once(dirname(__FILE__).'/converter.php');
 require_once(dirname(__FILE__).'/config.php');
 
-$version = 'v1.4.3';
+$version = '1.5.0 beta 1';
 
 function myiconv($in_enc, $out_enc, $string) {
 	global $_utf8win1251, $_win1251utf8;
@@ -119,9 +119,9 @@ function get_locale_links($href) {
 		if( strlen($localeLinks) > 0 )
 			$localeLinks .= " &bull; ";
 		if( $k == $current_locale )
-			$localeLinks .= $k;
+			$localeLinks .= getlocal_($k, "names");
 		else
-			$localeLinks .= "<a href=\"$href?locale=$k\">$k</a>";
+			$localeLinks .= "<a href=\"$href?locale=$k\">".getlocal_($k, "names")."</a>";
 	}
 	return $localeLinks;
 }

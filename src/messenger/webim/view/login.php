@@ -114,7 +114,8 @@
 	</table></td><td></td></tr><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlb.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrb.gif' width='16' height='16' border='0' alt=''></td></tr></table></td></tr></table>
 </form>
 
-
+<br/>
+&laquo;<span style="color:#bb5500;">Open</span> Web Messenger&raquo; <?php echo $page['version'] ?> &bull; <?php echo $page['localeLinks'] ?>
 </td>
 </tr>
 </table>

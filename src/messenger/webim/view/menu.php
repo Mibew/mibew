@@ -74,7 +74,7 @@
 </tr>
 </table>
 
-Web Messenger/<?php echo $page['version'] ?> &bull; <?php echo $page['localeLinks'] ?>
+&laquo;<span style="color:#bb5500;">Open</span> Web Messenger&raquo; <?php echo $page['version'] ?> &bull; <?php echo $page['localeLinks'] ?>
 
 </td>
 </tr>

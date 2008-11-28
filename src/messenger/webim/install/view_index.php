@@ -97,7 +97,7 @@
 </tr>
 </table>
 
-Web Messenger/<?php echo $page['version'] ?> &bull; <?php echo $page['localeLinks'] ?> &bull; <a href="<?php echo $webimroot ?>/epl-v10.html" target="_blank"><?php echo getlocal("install.license") ?></a>
+&laquo;<span style="color:#bb5500;">Open</span> Web Messenger&raquo; <?php echo $page['version'] ?> &bull; <?php echo $page['localeLinks'] ?> &bull; <a href="<?php echo $webimroot ?>/epl-v10.html" target="_blank"><?php echo getlocal("install.license") ?></a>
 
 </td>
 </tr>
