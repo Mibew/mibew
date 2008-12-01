@@ -1,0 +1,46 @@
+encoding=utf-8
+output_charset=utf-8
+output_encoding=utf-8
+
+title=Open Web Messenger
+head.name=<strong>Web Messenger</strong>&nbsp;&#8212; open-source live support software
+head.descr=allows visitors of your site to chat with your operators
+
+menu.home=home
+menu.features=features
+menu.demo=demo
+menu.download=download
+
+index.whatis.title=What is Web Messenger?
+index.whatis="Web Messenger" - is unique software allowing visitors of your site to chat with your operators.
+index.why.title=Why should I use Web Messenger?
+index.why="Web Messenger" makes it easier to communicate with existing and potential clients. It will significantly increase conversion rates and online sales of your web site.
+index.how.title=How it works?
+index.how=You should place the button of Web Messenger at your site. Your visitors click the button and chat with your operators who help them.
+index.license.title=License
+index.license=This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0.
+index.hosted=Project is hosted by SourceForge.
+
+features.price.title=Pricing
+features.price=<ul><li>Open-source code, absolutely free\n<li>Eclipse Public License 1.0</ul>
+features.main.title=Main features
+features.main=<ul><li>Chat button for email signatures\n<li>Differing buttons on same website</ul>
+features.chat.title=Chat window
+features.chat=<ul>\n<li>Agent and visitor "Typing Indicator"\n<li>Agent photo\n<li>Chat transcript emails\n<li>Sound and Visual alerts\n<li>"Leave a message" when you are away\n<li>Customize chat with your Logo, Name etc.\n<li>Unicode support for multiple languages\n<li>Quickly convert text to hyperlinks in chat\n<li>Not blocked by pop-up blockers\n</ul>
+features.operator.title=Operator abilites
+features.operator=<ul>\n<li>Web-based Operator Console\n<li>Canned messages for speed and consistency\n<li>Chat conversation history with search\n<li>Linking to previous visits, instant access to previous chats\n<li>Reassign/Transfer chat ownership\n<li>Mark/Highlight nuisance visitors\n</ul>
+features.next.title=Nearest future (not ready yet)
+features.next=<ul>\n<li>Operator to Operator IM (Discussion)\n<li>Push Web Pages\n<li>SSL Secured Chat\n<li>Pre-Chat Questionnaire\n<li>Multiple Departments\n<li>Define Initial Chat Window Size\n<li>Co-Browse to View Visitor's Location on Your Site\n<li>Dynamic Chat Icons\n</ul>
+
+features.content.head=Content:
+
+demo.title=DEMO
+demo.click=Click this button:
+demo.login=And/or login as administrator here (no password is required) :
+demo.application=Web Messenger Application
+
+downl.title=Latest
+downl.release=Release:
+downl.nightly=Nightly:
+
+tag.pagination.info=Page {0} of {1}, {2}-{3} from {4}
