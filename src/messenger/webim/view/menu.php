@@ -46,17 +46,22 @@
 
 <table cellspacing="0" cellpadding="0" border="0">
 
+<?php if( $page['showadmin'] ) { ?>
 	<tr><td width='20' valign='top'><img src='<?php echo $webimroot ?>/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='<?php echo $webimroot ?>/operator/operators.php'><?php echo getlocal('leftMenu.client_agents') ?></a><br><img src='<?php echo $webimroot ?>/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getlocal('admin.content.client_agents') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
-
+<?php } ?>
 	<tr><td width='20' valign='top'><img src='<?php echo $webimroot ?>/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='<?php echo $webimroot ?>/operator/users.php'><?php echo getlocal('topMenu.users') ?></a><br><img src='<?php echo $webimroot ?>/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getlocal('page_client.pending_users') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
 
+<?php if( $page['showadmin'] ) { ?>
 	<tr><td width='20' valign='top'><img src='<?php echo $webimroot ?>/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='<?php echo $webimroot ?>/operator/getcode.php'><?php echo getlocal('leftMenu.client_gen_button') ?></a><br><img src='<?php echo $webimroot ?>/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getlocal('admin.content.client_gen_button') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
+<?php } ?>
 
 	<tr><td width='20' valign='top'><img src='<?php echo $webimroot ?>/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='<?php echo $webimroot ?>/operator/history.php'><?php echo getlocal('page_analysis.search.title') ?></a><br><img src='<?php echo $webimroot ?>/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getlocal('content.history') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
 <?php if( $page['showban'] ) { ?>
 	<tr><td width='20' valign='top'><img src='<?php echo $webimroot ?>/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='<?php echo $webimroot ?>/operator/blocked.php'><?php echo getlocal('menu.blocked') ?></a><br><img src='<?php echo $webimroot ?>/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getlocal('content.blocked') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
 <?php } ?>
+<?php if( $page['showadmin'] ) { ?>
 	<tr><td width='20' valign='top'><img src='<?php echo $webimroot ?>/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='<?php echo $webimroot ?>/operator/settings.php'><?php echo getlocal('leftMenu.client_settings') ?></a><br><img src='<?php echo $webimroot ?>/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getlocal('admin.content.client_settings') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
+<?php } ?>
 
 	<tr><td width='20' valign='top'><img src='<?php echo $webimroot ?>/images/lidiv.gif' width='5' height='45' border='0' alt=''></td><td valign='top' class='text'><a href='<?php echo $webimroot ?>/operator/logout.php'><?php echo getlocal('topMenu.logoff') ?></a><br><img src='<?php echo $webimroot ?>/images/free.gif' width='1' height='10' border='0' alt=''><br><?php echo getlocal('content.logoff') ?><br></td></tr><tr><td colspan='2' height='20'></td></tr>
 

@@ -124,6 +124,7 @@ page.gen_button.sample=Example
 page.gen_button.code.description=<strong>Caution!</strong> Please don't change<br/> the code manually because<br/> we don't guarantee that<br/> it will work!
 mail.user.history.subject=Web Messenger: dialog history
 mail.user.history.body=Hello, {0}!\n\nYour chat history: \n\n{1}\n--- \nKind Regards,\nWeb Messenger
+harderrors.header=<font color="#c13030"><b>Cannot execute:</b><br/><ul>
 errors.header=<font color="#c13030"><b>Correct the mistakes:</b><br/><ul>
 errors.prefix=<li class="error">
 errors.suffix=</li>
@@ -265,7 +266,7 @@ page_avatar.intro=You can upload your photo only in JPG, GIF, PNG or TIF image f
 page_avatar.title=Upload photo
 page_search.intro=Search for chat history of a specified user or a specified phrase in a message.
 page_settings.intro=Specify options affecting chat window and common system behavior
-permission.admin=System administration: settings, operators management
+permission.admin=System administration: settings, operators management, button generation
 permission.takeover=Take over chat thread
 permission.viewthreads=View another operator's chat thread
 permissions.intro=Here you can control operator's permissions 

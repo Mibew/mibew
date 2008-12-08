@@ -54,12 +54,14 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 
 	if( count($errors) == 0 ) {
 		if (!$opId) {
-			create_operator($login,$password,$localname,$commonname,"");
+			$newop = create_operator($login,$password,$localname,$commonname,"");
+			header("Location: $webimroot/operator/avatar.php?op=".$newop['operatorid']);
+			exit;
 		} else {
 			update_operator($opId,$login,$password,$localname,$commonname);
+			header("Location: $webimroot/operator/operators.php");
+			exit;
 		}
-		header("Location: $webimroot/operator/operators.php");
-		exit;
 	} else {
 		$page['formlogin'] = topage($login);
 		$page['formname'] = topage($localname);

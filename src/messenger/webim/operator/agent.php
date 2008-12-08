@@ -37,17 +37,33 @@ if( !isset($_GET['token']) ) {
 	$viewonly = verifyparam( "viewonly", "/^true$/", false);
 
 	$forcetake = verifyparam("force", "/^true$/", false);
-	if( !$viewonly && $thread['istate'] == $state_chatting && $operator['operatorid'] != $thread['agentId'] && $forcetake == false ) {
-		$page = array(
-			'user' => topage($thread['userName']), 'agent' => topage($thread['agentName']), 'link' => $_SERVER['PHP_SELF']."?thread=$threadid&amp;force=true"
-		);
-		start_html_output();
-		require('../view/confirm.php');
-		exit;
+	if( !$viewonly && $thread['istate'] == $state_chatting && $operator['operatorid'] != $thread['agentId'] ) {
+
+		if(!is_capable($can_takeover, $operator)) {
+			$errors = array("Cannot take over");
+			start_html_output();
+			expand("../styles", getchatstyle(), "error.tpl");
+			exit;
+		}
+
+		if( $forcetake == false ) {
+			$page = array(
+				'user' => topage($thread['userName']), 'agent' => topage($thread['agentName']), 'link' => $_SERVER['PHP_SELF']."?thread=$threadid&amp;force=true"
+			);
+			start_html_output();
+			require('../view/confirm.php');
+			exit;
+		}
 	}
 
-	if (!$viewonly)
+	if (!$viewonly) {
 		take_thread($thread,$operator);
+	} else if(!is_capable($can_viewthreads, $operator)) {
+		$errors = array("Cannot view threads");
+		start_html_output();
+		expand("../styles", getchatstyle(), "error.tpl");
+		exit;
+	}
 
 	$token = $thread['ltoken'];
 	header("Location: $webimroot/operator/agent.php?thread=$threadid&token=$token&level=$remote_level");
@@ -59,6 +75,13 @@ $token = verifyparam( "token", "/^\d{1,8}$/");
 $thread = thread_by_id($threadid);
 if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] ) {
 	die("wrong thread");
+}
+
+if($thread['agentId'] != $operator['operatorid'] && !is_capable($can_viewthreads, $operator)) {
+	$errors = array("Cannot view threads");
+	start_html_output();
+	expand("../styles", getchatstyle(), "error.tpl");
+	exit;
 }
 
 setup_chatview_for_operator($thread, $operator);

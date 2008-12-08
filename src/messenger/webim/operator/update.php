@@ -69,7 +69,9 @@ function get_useragent_version($userAgent) {
 }
 
 function thread_to_xml($thread,$link) {
-	global $threadstate_to_string, $threadstate_key, $webim_encoding, $operator, $settings;
+	global $state_chatting, $threadstate_to_string, $threadstate_key,
+			$webim_encoding, $operator, $settings,
+			$can_viewthreads, $can_takeover;
 	$state = $threadstate_to_string[$thread['istate']];
 	$result = "<thread id=\"".$thread['threadid']."\" stateid=\"$state\"";
 	if( $state == "closed" )
@@ -80,8 +82,11 @@ function thread_to_xml($thread,$link) {
 	$threadoperator = $nextagent ? get_operator_name($nextagent)
 						: ($thread['agentName'] ? $thread['agentName'] : "-");
 
-	$result .= " canopen=\"true\"";
-	if ($thread['agentId'] != $operator['operatorid'] && $thread['nextagent'] != $operator['operatorid']) {
+	if(!($thread['istate'] == $state_chatting && $thread['agentId'] != $operator['operatorid'] && !is_capable($can_takeover,$operator))) {
+		$result .= " canopen=\"true\"";
+	}
+	if ($thread['agentId'] != $operator['operatorid'] && $thread['nextagent'] != $operator['operatorid']
+			&& is_capable($can_viewthreads, $operator)) {
 		$result .= " canview=\"true\"";
 	}
 	if ($settings['enableban'] == "1") {

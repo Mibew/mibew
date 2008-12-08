@@ -85,6 +85,7 @@ $page['tabs'] = array(
 	getlocal("page_agent.tab.avatar") => "",
 	getlocal("page_agent.tab.permissions") => "$webimroot/operator/permissions.php?op=$opId"
 );
+$page['currentop'] = topage(get_operator_name($op))." (".$op['vclogin'].")";
 
 start_html_output();
 require('../view/avatar.php');

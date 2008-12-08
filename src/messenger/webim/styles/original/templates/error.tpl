@@ -30,7 +30,7 @@
 	</tr><tr><td height="100%" bgcolor="#FED840"><img src='${webimroot}/images/free.gif' width="1" height="1" border="0" alt="" /></td>
 	<td background="${webimroot}/images/winbg.gif" class="bgcy">
 
-		${errors}
+		${harderrors}
 
 
 	</td><td bgcolor="#E8A400"><img src='${webimroot}/images/free.gif' width="1" height="1" border="0" alt="" /></td>

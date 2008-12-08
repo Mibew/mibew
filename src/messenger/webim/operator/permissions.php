@@ -50,6 +50,9 @@ if( !$op ) {
 	if(count($errors) == 0) {
 		update_operator_permissions($op['operatorid'],$new_permissions);
 
+		if ($opId && $_SESSION['operator'] && $operator['operatorid'] == $opId) {
+			$_SESSION['operator']['iperm'] = $new_permissions;
+		}
 		header("Location: $webimroot/operator/operator.php?op=$opId");
 		exit;
 	}
@@ -64,6 +67,7 @@ $page['tabs'] = array(
 
 $page['permissionsList'] = get_permission_list();
 $page['formpermissions'] = array("");
+$page['currentop'] = topage(get_operator_name($op))." (".$op['vclogin'].")";
 
 foreach($permission_ids as $perm => $id) {
 	if(is_capable($perm,$op)) {

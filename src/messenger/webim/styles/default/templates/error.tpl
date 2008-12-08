@@ -60,7 +60,7 @@
 		</tr>
 		</table>
 		<p>
-			${errors}
+			${harderrors}
 		</p>
 	</td>
 </tr>

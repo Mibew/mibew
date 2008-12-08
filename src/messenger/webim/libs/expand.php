@@ -46,9 +46,9 @@ function expand_var($matches) {
 			return "$webimroot/styles/$current_style";
 		} else if($var == 'pagination') {
 			return generate_pagination($page['pagination']);
-		} else if($var == 'errors') {
+		} else if($var == 'errors' || $var == 'harderrors') {
 			if( isset($errors) && count($errors) > 0 ) {
-				$result = getlocal("errors.header");
+				$result = getlocal("$var.header");
 				foreach( $errors as $e ) {
 					$result .= getlocal("errors.prefix").$e.getlocal("errors.suffix");
 				}

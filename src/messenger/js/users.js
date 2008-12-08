@@ -99,7 +99,11 @@ var HtmlGenerationUtils = {
   		var cellsCount = 2;
   		var link = servlet+"?thread="+id;
  		var gen = '<td class="table" style="padding-left:0px; padding-right:0px;">';
-		gen += HtmlGenerationUtils.popupLink( (cantakenow||!canview) ? link : link+"&viewonly=true", localized[canopen ? 0 : 1], "ImCenter"+id, username, 640, 480, ban);
+ 		if(canopen || canview ) {
+			gen += HtmlGenerationUtils.popupLink( (cantakenow||!canview) ? link : link+"&viewonly=true", localized[canopen ? 0 : 1], "ImCenter"+id, username, 640, 480, ban);
+		} else {
+			gen += '<a href="#">' + username + '</a>';
+		}
 		gen += '</td><td><img src="'+webimRoot+'/images/free.gif" width="5" height="1" border="0" alt=""></td>';
 		if( canopen ) {
 			gen += '<td width="30" align="center">';
