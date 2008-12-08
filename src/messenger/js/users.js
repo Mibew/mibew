@@ -124,6 +124,9 @@ var HtmlGenerationUtils = {
       return '<td width="30" align="center">'+
           HtmlGenerationUtils.popupLink( webimRoot+'/operator/ban.php?'+(banid ? 'id='+banid : 'thread='+id), localized[2], "ban"+id, '<img src="'+webimRoot+'/images/ban.gif" width="15" height="15" border="0" alt="'+localized[2]+'">', 550, 440, null)+
           '</td>';
+  },
+  ipCell: function(ipaddr,iptext) {
+  	return HtmlGenerationUtils.popupLink('http:/'+'/api.hostip.info/get_html.php?ip='+ipaddr, "GeoLocation", "ip"+ipaddr, iptext, 400, 100,null);
   }
 };
 
@@ -203,6 +206,12 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 
 	if(ban != null) {
 		etc = '<td class="table">'+NodeUtils.getNodeValue(node,"reason")+'</td>';
+	}
+
+	var ipExpr = new RegExp("([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)");
+	if (ipExpr.exec(vaddr) != null) {
+		var currIp = RegExp.$1;
+		vaddr = HtmlGenerationUtils.ipCell(currIp, vaddr);
 	}
 
 	if(canban) {
