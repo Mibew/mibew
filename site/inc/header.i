@@ -10,6 +10,8 @@ window.onload=function(){
 Nifty("ul#nav a","small transparent top");
 Nifty("div#side","");
 Nifty("div#downl","");
+Nifty("div#style1","");
+Nifty("div#style2","");
 }
 </script>
 </head>

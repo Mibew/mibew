@@ -22,22 +22,29 @@ index.license=This program and the accompanying materials are made available und
 index.hosted=Project is hosted by SourceForge.
 
 features.price.title=Pricing
-features.price=<ul><li>Open-source code, absolutely free\n<li>Eclipse Public License 1.0</ul>
+features.price=<ul><li>Open-source code, free of charge\n<li>Eclipse Public License 1.0</ul>
 features.main.title=Main features
-features.main=<ul><li>Chat button for email signatures\n<li>Differing buttons on same website</ul>
+features.main=<ul>\n<li>Unlimited operators, chats, and users\n<li>Priority queue of visitors\n<li>Chat button for email signatures\n<li>Differing buttons on same website\n<li>English and russian are supported\n<li>Reconnect automatically if the internet connection went down\n</ul>
 features.chat.title=Chat window
 features.chat=<ul>\n<li>Agent and visitor "Typing Indicator"\n<li>Agent photo\n<li>Chat transcript emails\n<li>Sound and Visual alerts\n<li>"Leave a message" when you are away\n<li>Customize chat with your Logo, Name etc.\n<li>Unicode support for multiple languages\n<li>Quickly convert text to hyperlinks in chat\n<li>Not blocked by pop-up blockers\n</ul>
 features.operator.title=Operator abilites
-features.operator=<ul>\n<li>Web-based Operator Console\n<li>Canned messages for speed and consistency\n<li>Chat conversation history with search\n<li>Linking to previous visits, instant access to previous chats\n<li>Reassign/Transfer chat ownership\n<li>Mark/Highlight nuisance visitors\n</ul>
-features.next.title=Nearest future (not ready yet)
-features.next=<ul>\n<li>Operator to Operator IM (Discussion)\n<li>Push Web Pages\n<li>SSL Secured Chat\n<li>Pre-Chat Questionnaire\n<li>Multiple Departments\n<li>Define Initial Chat Window Size\n<li>Co-Browse to View Visitor's Location on Your Site\n<li>Dynamic Chat Icons\n</ul>
+features.operator=<ul>\n<li>Web-based Operator Console\n<li>Canned messages for speed and consistency\n<li>Track where your visitors clicked from to get to your website (refer URL)\n<li>Chat conversation history with search\n<li>Linking to previous visits, instant access to previous chats\n<li>Reassign/Transfer chat ownership\n<li>Mark/Highlight nuisance visitors\n<li>Administrator can view active chats\n<li>Information about visitor: first message, address, browser\n<li>Administrator can take over the chat\n</ul>
+features.next.title=New in version 1.5
+features.next=<ul>\n<li>Chat Window themes support, select your default one\n<li>Generate button for specific theme\n<li>2 pre-installed themes\n<li>UI for easy theme creation and customization\n<li>UI for system translation\n</ul>
+
+features.requirements.title=Server requirements
+features.requirements=<ul>\n<li>A webserver or web hosting account running on any major Operating System\n<li>PHP (5.x and above) with MySQL support\n<li>MySQL 5.0 and above\n</ul>
+
+features.browsers.title=Supported browsers
+features.browsers=<ul>\n<li>Microsoft Internet Explorer 5.0+\n<li>Mozilla Firefox 1.0+\n<li>Mozilla 1.4, 1.7\n<li>Opera 7.0+\n<li>Safari 1.2.5+\n<li>Netscape 6.0+\n<li>Google Chrome 0.2.149.29+\n<li>iPhone 1.1.4+\n</ul>
 
 features.content.head=Content:
 
 demo.title=DEMO
 demo.click=Click this button:
-demo.login=And/or login as administrator here (no password is required) :
+demo.login=And login as administrator here (no password is required) :
 demo.application=Web Messenger Application
+demo.styles=Click the following images to view different look and feels of the chat:
 
 downl.title=Latest
 downl.release=Release:
