@@ -12,6 +12,18 @@
  *    Evgeny Gryaznov - initial API and implementation
  */
 
+$can_administrate = 0;
+$can_takeover = 1;
+$can_viewthreads = 2;
+
+$can_count = 3;
+
+$permission_ids = array(
+	$can_administrate => "admin",
+	$can_takeover => "takeover",
+	$can_viewthreads => "viewthreads"
+);
+
 function operator_by_login($login) {
 	$link = connect();
 	$operator = select_one_row(
@@ -174,6 +186,26 @@ function get_redirect_links($threadid,$token) {
 		$agent_list .= "<li><a href=\"".add_params($webimroot."/operator/redirect.php",$params)."\" title=\"".topage($agent['vclocalename'])."\">".topage($agent['vclocalename'])."</a>";
 	}
 	return $agent_list;
+}
+
+$permission_list = array();
+
+function get_permission_list() {
+	global $permission_list, $permission_ids;
+	if(count($permission_list) == 0) {
+		foreach($permission_ids as $permid) {
+			$permission_list[] = array(
+				'id' => $permid,
+				'descr' => getlocal("permission.$permid")
+			);
+		}
+	}
+	return $permission_list;
+}
+
+function is_capable($perm,$operator) {
+	$permissions = $operator && isset($operator['iperm']) ? $operator['iperm'] : 0;
+	return $perm >= 0 && $perm < 32 && ($permissions & (1 << $perm)) != 0;
 }
 
 ?>

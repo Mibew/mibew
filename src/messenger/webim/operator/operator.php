@@ -86,7 +86,8 @@ $page['operator'] = topage(get_operator_name($operator));
 
 $page['tabs'] = $opId ? array(
 	getlocal("page_agent.tab.main") => "",
-	getlocal("page_agent.tab.avatar") => "$webimroot/operator/avatar.php?op=$opId"
+	getlocal("page_agent.tab.avatar") => "$webimroot/operator/avatar.php?op=$opId",
+	getlocal("page_agent.tab.permissions") => "$webimroot/operator/permissions.php?op=$opId"
 ) : array();
 
 start_html_output();

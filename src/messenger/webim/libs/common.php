@@ -297,6 +297,14 @@ function form_value_cb($key) {
 	return false;
 }
 
+function form_value_mb($key,$id) {
+	global $page;
+	if( isset($page) && isset($page["form$key"]) && is_array($page["form$key"]) ) {
+		return in_array($id, $page["form$key"]);
+	}
+	return false;
+}
+
 function no_field($key) {
 	return getlocal2("errors.required",array(getlocal($key)));
 }

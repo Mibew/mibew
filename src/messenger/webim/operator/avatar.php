@@ -82,7 +82,8 @@ if( !$op ) {
 
 $page['tabs'] = array(
 	getlocal("page_agent.tab.main") => "$webimroot/operator/operator.php?op=$opId",
-	getlocal("page_agent.tab.avatar") => ""
+	getlocal("page_agent.tab.avatar") => "",
+	getlocal("page_agent.tab.permissions") => "$webimroot/operator/permissions.php?op=$opId"
 );
 
 start_html_output();

@@ -56,6 +56,7 @@ $dbtables = array(
 		"dtmlastvisited" => "datetime DEFAULT 0",
 		"vcavatar" => "varchar(255)",
 		"vcjabbername" => "varchar(255)",
+		"iperm" => "int DEFAULT 65535",
 	),
 
 	"chatrevision" => array(
@@ -83,7 +84,7 @@ $memtables = array();
 $dbtables_can_update = array(
 	"chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount", "nextagent", "shownmessageid", "userid", "userAgent"),
 	"chatmessage" => array("agentId"),
-	"chatoperator" => array("vcavatar", "vcjabbername"),
+	"chatoperator" => array("vcavatar", "vcjabbername", "iperm"),
 	"chatban" => array(),
 );
 
