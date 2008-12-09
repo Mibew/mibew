@@ -45,62 +45,67 @@ if($handle = opendir($stylesfolder)) {
 	closedir($handle);
 }
 
+$options = array(
+		'email', 'title', 'logo', 'hosturl', 'enableban', 'usernamepattern', 'usercanchangename',
+		'chatstyle', 'chattitle', 'geolink', 'geolinkparams');
+
 loadsettings();
-$email = $settings['email'];
-$title = $settings['title'];
-$logo  = $settings['logo'];
-$hosturl = $settings['hosturl'];
-$enableban = $settings['enableban'];
-$usernamepattern = $settings['usernamepattern'];
-$usercanchangename = $settings['usercanchangename'];
-$chatstyle = $settings['chatstyle'];
-$chattitle = $settings['chattitle'];
+$params = array();
+foreach($options as $opt) {
+	$params[$opt] = $settings[$opt];
+}
 
 if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
-    $email = getparam('email');
-    $title = getparam('title');
-    $logo  = getparam('logo');
-    $hosturl = getparam('hosturl');
-    $enableban = verifyparam("enableban","/^on$/", "") == "on" ? "1" : "0";
-    $usernamepattern = getparam('usernamepattern');
-    $usercanchangename = verifyparam("usercanchangename", "/^on$/", "") == "on" ? "1" : "0";
-    $chattitle = getparam('chattitle');
+    $params['email'] = getparam('email');
+    $params['title'] = getparam('title');
+    $params['logo']  = getparam('logo');
+    $params['hosturl'] = getparam('hosturl');
+    $params['enableban'] = verifyparam("enableban","/^on$/", "") == "on" ? "1" : "0";
+    $params['usernamepattern'] = getparam('usernamepattern');
+    $params['usercanchangename'] = verifyparam("usercanchangename", "/^on$/", "") == "on" ? "1" : "0";
+    $params['chattitle'] = getparam('chattitle');
+    $params['geolink'] = getparam('geolink');
+	$params['geolinkparams'] = getparam('geolinkparams');
 
-	$chatstyle = verifyparam("chatstyle","/^\w+$/", $chatstyle);
-	if(!in_array($chatstyle, $stylelist)) {
-		$chatstyle = $stylelist[0];
+	$params['chatstyle'] = verifyparam("chatstyle","/^\w+$/", $params['chatstyle']);
+	if(!in_array($params['chatstyle'], $stylelist)) {
+		$params['chatstyle'] = $stylelist[0];
 	}
 
-    if($email && !is_valid_email($email)) {
+    if($params['email'] && !is_valid_email($params['email'])) {
         $errors[] = getlocal("settings.wrong.email");
     }
 
+    if($params['geolinkparams']) {
+    	foreach(split(",", $params['geolinkparams']) as $oneparam) {
+    		if(!preg_match("/^\s*(toolbar|scrollbars|location|status|menubar|width|height|resizable)=\d{1,4}$/", $oneparam)) {
+    			$errors[] = "Wrong link parameter: \"$oneparam\", should be one of 'toolbar, scrollbars, location, status, menubar, width, height or resizable'";
+    		}
+    	}
+    }
+
     if (count($errors) == 0) {
-    	$settings['email'] = $email;
-    	$settings['title'] = $title;
-    	$settings['logo'] = $logo;
-    	$settings['hosturl'] = $hosturl;
-    	$settings['enableban'] = $enableban;
-    	$settings['usernamepattern'] = $usernamepattern;
-    	$settings['usercanchangename'] = $usercanchangename;
-    	$settings['chatstyle'] = $chatstyle;
-    	$settings['chattitle'] = $chattitle;
-        update_settings();
+		foreach($options as $opt) {
+			$settings[$opt] = $params[$opt];
+		}
+    	update_settings();
         header("Location: $webimroot/operator/index.php");
         exit;
     }
 }
 
 $page['operator']  = topage(get_operator_name($operator));
-$page['formemail'] = topage($email);
-$page['formtitle'] = topage($title);
-$page['formlogo']  = topage($logo);
-$page['formhosturl']  = topage($hosturl);
-$page['formenableban'] = $enableban == "1";
-$page['formusernamepattern'] = topage($usernamepattern);
-$page['formusercanchangename'] = $usercanchangename == "1";
-$page['formchatstyle'] = $chatstyle;
-$page['formchattitle'] = topage($chattitle);
+$page['formemail'] = topage($params['email']);
+$page['formtitle'] = topage($params['title']);
+$page['formlogo']  = topage($params['logo']);
+$page['formhosturl']  = topage($params['hosturl']);
+$page['formgeolink'] = topage($params['geolink']);
+$page['formgeolinkparams'] = topage($params['geolinkparams']);
+$page['formenableban'] = $params['enableban'] == "1";
+$page['formusernamepattern'] = topage($params['usernamepattern']);
+$page['formusercanchangename'] = $params['usercanchangename'] == "1";
+$page['formchatstyle'] = $params['chatstyle'];
+$page['formchattitle'] = topage($params['chattitle']);
 $page['availableStyles'] = $stylelist;
 
 start_html_output();

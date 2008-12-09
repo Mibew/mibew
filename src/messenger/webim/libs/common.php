@@ -445,7 +445,7 @@ $settings = array(
 	'chatstyle' => 'default',
 	'chattitle' => 'Live Support',
 	'geolink' => 'http://api.hostip.info/get_html.php?ip={ip}',
-	'geolinkparams' => 'toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=440,height=100,resizable=1',
+	'geolinkparams' => 'width=440,height=100,toolbar=0,scrollbars=0,location=0,status=1,menubar=0,resizable=1',
 );
 $settingsloaded = false;
 $settings_in_db = array();

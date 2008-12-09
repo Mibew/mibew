@@ -70,7 +70,7 @@ function get_useragent_version($userAgent) {
 
 function get_user_addr($addr) {
 	global $settings;
-	if(preg_match( "/(\\d+\\.\\d+\\.\\d+\\.\\d+)/", $addr, $matches )) {
+	if($settings['geolink'] && preg_match( "/(\\d+\\.\\d+\\.\\d+\\.\\d+)/", $addr, $matches )) {
 		$userip = $matches[1];
 		return get_popup(str_replace("{ip}", $userip, $settings['geolink']), htmlspecialchars($addr), "GeoLocation", "ip$userip", $settings['geolinkparams']);
 	}
