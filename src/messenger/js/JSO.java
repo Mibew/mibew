@@ -117,7 +117,7 @@ public class JSO {
 		"XMLDocument", "y", "zIndex",
 		// non-IE
 		"outerHeight", "innerHeight", "outerWidth", "innerWidth", 
-		"which", 
+		"which", "enabledPlugin",
 
 		// collections
 		"all", "anchors", "applets", "areas", "attributes", "behaviorUrns", 

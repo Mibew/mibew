@@ -519,15 +519,27 @@ var CommonUtils = {
   }
 };
 
+function getWavMimeType() {
+   var mimeType = "application/x-mplayer2"; //default
+   var agt=navigator.userAgent.toLowerCase();
+   if (navigator.mimeTypes && agt.indexOf("windows")==-1) {
+      //non-IE, no-Windows
+      var plugin=navigator.mimeTypes["audio/mpeg"].enabledPlugin;
+      if (plugin || agt.indexOf("opera")>=0) mimeType="audio/mpeg"; //Mac/Safari & Linux/FFox
+   }//end no-Windows
+   return mimeType;
+}
+
 function playSound(wav_file) {
   var player = document.getElementById("player");
   if (player)   {
     player.parentNode.removeChild(player);
   }
   player = document.body.appendChild(document.createElement("div"));
-  if(navigator.userAgent.indexOf('MSIE') != -1) {
-    player.innerHTML = '<bgsound src="'+wav_file+'">';
+  var agt=navigator.userAgent.toLowerCase();
+  if(agt.indexOf('safari') == -1 && agt.indexOf('windows') != -1) {
+    player.innerHTML = '<embed type="'+getWavMimeType()+'" src="'+wav_file+'" loop="0" autostart="1" width="0" height="0">';
   } else {
-    player.innerHTML = '<div style="position: static; width: 0px; height: 0px"><embed type="audio/mpeg" src="'+wav_file+'" hidden="true" loop="false" autostart="true"></div>';
+    player.innerHTML = '<div style="position: static; width: 0px; height: 0px"><embed type="'+getWavMimeType()+'" src="'+wav_file+'" hidden="true" loop="false" autostart="true"></div>';
   }
 }
