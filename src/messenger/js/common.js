@@ -525,7 +525,7 @@ function getWavMimeType() {
    if (navigator.mimeTypes && agt.indexOf("windows")==-1) {
       //non-IE, no-Windows
       var plugin=navigator.mimeTypes["audio/mpeg"].enabledPlugin;
-      if (plugin || agt.indexOf("opera")>=0) mimeType="audio/mpeg"; //Mac/Safari & Linux/FFox
+      if (plugin || agt.indexOf("opera")>=0) mimeType="audio/mpeg";
    }//end no-Windows
    return mimeType;
 }
