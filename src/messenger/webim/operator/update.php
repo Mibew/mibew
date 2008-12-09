@@ -68,6 +68,15 @@ function get_useragent_version($userAgent) {
     return $userAgent;
 }
 
+function get_user_addr($addr) {
+	global $settings;
+	if(preg_match( "/(\\d+\\.\\d+\\.\\d+\\.\\d+)/", $addr, $matches )) {
+		$userip = $matches[1];
+		return get_popup(str_replace("{ip}", $userip, $settings['geolink']), htmlspecialchars($addr), "GeoLocation", "ip$userip", $settings['geolinkparams']);
+	}
+	return htmlspecialchars($addr);
+}
+
 function thread_to_xml($thread,$link) {
 	global $state_chatting, $threadstate_to_string, $threadstate_key,
 			$webim_encoding, $operator, $settings,
@@ -100,7 +109,7 @@ function thread_to_xml($thread,$link) {
 
 	$result .= " state=\"$state\" typing=\"".$thread['userTyping']."\">";
 	$result .= "<name>".htmlspecialchars(htmlspecialchars(get_user_name($thread['userName'],$thread['remote'], $thread['userid'])))."</name>";
-	$result .= "<addr>".htmlspecialchars(htmlspecialchars($thread['remote']))."</addr>";
+	$result .= "<addr>".htmlspecialchars(get_user_addr($thread['remote']))."</addr>";
 	$result .= "<agent>".htmlspecialchars(htmlspecialchars($threadoperator))."</agent>";
 	$result .= "<time>".$thread['unix_timestamp(dtmcreated)']."000</time>";
 	$result .= "<modified>".$thread['unix_timestamp(dtmmodified)']."000</modified>";
