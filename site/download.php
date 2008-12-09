@@ -20,8 +20,8 @@ require_once('inc/menu.i');
 <br/>
 <br/>
 <?php echo getlocal("downl.nightly") ?><br/>
-<a href="http://openwebim.org/download/webim150b1.zip">
-1.5.0 beta 1, November 28, 2008
+<a href="http://openwebim.org/download/webim150b2.zip">
+1.5.0 beta 2, December 9, 2008
 </a>
 
 

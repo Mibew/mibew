@@ -30,7 +30,7 @@ features.chat=<ul>\n<li>Agent and visitor "Typing Indicator"\n<li>Agent photo\n<
 features.operator.title=Operator abilites
 features.operator=<ul>\n<li>Web-based Operator Console\n<li>Canned messages for speed and consistency\n<li>Track where your visitors clicked from to get to your website (refer URL)\n<li>Chat conversation history with search\n<li>Linking to previous visits, instant access to previous chats\n<li>Reassign/Transfer chat ownership\n<li>Mark/Highlight nuisance visitors\n<li>Administrator can view active chats\n<li>Information about visitor: first message, address, browser\n<li>Administrator can take over the chat\n</ul>
 features.next.title=New in version 1.5
-features.next=<ul>\n<li>Chat Window themes support, select your default one\n<li>Generate button for specific theme\n<li>2 pre-installed themes\n<li>UI for easy theme creation and customization\n<li>UI for system translation\n</ul>
+features.next=<ul>\n<li>Chat Window themes support, select your default one\n<li>Generate button for specific theme\n<li>2 pre-installed themes\n<li>UI for easy theme creation and customization\n<li>UI for system translation\n<li>Geolocation link on each IP\n<li>Agents permissions\n</ul>
 
 features.requirements.title=Server requirements
 features.requirements=<ul>\n<li>A webserver or web hosting account running on any major Operating System\n<li>PHP (5.x and above) with MySQL support\n<li>MySQL 5.0 and above\n</ul>
@@ -41,7 +41,7 @@ features.browsers=<ul>\n<li>Microsoft Internet Explorer 5.0+\n<li>Mozilla Firefo
 features.content.head=Content:
 
 demo.title=DEMO
-demo.click=Click this button:
+demo.click=Click this button (if it appears as OFFLINE, login into the application as operator first):
 demo.login=And login as administrator here (no password is required) :
 demo.application=Web Messenger Application
 demo.styles=Click the following images to view different look and feels of the chat:
