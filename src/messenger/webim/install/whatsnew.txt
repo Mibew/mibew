@@ -1,10 +1,16 @@
-  1.4.3
+  1.5.0
   -----
   [+] chat styles support: selectors in button generation and in settings
   [+] styles are applied as set of page templates  
   [+] added styles preview page (the link from settings page) with "fake" chat
   [+] 2 styles are included: original (old one) and default (new green scheme)
   [+] new options in settings: user can change name, presentable name pattern
+  [+] customizable geolocation link for IPs on pending users page
+  [+] permissions support: Agents -> some agent -> Permissions
+  [+] New permissions:
+  	[x] System administration: settings, operators management, button generation
+	[x] Take over chat thread
+	[x] View another operator's chat thread
   
   1.4.2
   -----
