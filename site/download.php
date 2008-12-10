@@ -13,15 +13,15 @@ require_once('inc/menu.i');
 <div id="downl">
 
 <?php echo getlocal("downl.release") ?><br/>
-<a href="http://prdownloads.sourceforge.net/webim/webim142.zip?download">
-1.4.2, October 6, 2008
+<a href="http://prdownloads.sourceforge.net/webim/webim150.zip?download">
+1.5.0, December 10, 2008
 </a>
 
 <br/>
 <br/>
-<?php echo getlocal("downl.nightly") ?><br/>
-<a href="http://openwebim.org/download/webim150b2.zip">
-1.5.0 beta 2, December 9, 2008
+<?php echo getlocal("downl.prev") ?><br/>
+<a href="http://prdownloads.sourceforge.net/webim/webim142.zip?download">
+1.4.2, October 6, 2008
 </a>
 
 

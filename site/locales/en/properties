@@ -49,5 +49,6 @@ demo.styles=Click the following images to view different look and feels of the c
 downl.title=Latest
 downl.release=Release:
 downl.nightly=Nightly:
+downl.prev=Previous release:
 
 tag.pagination.info=Page {0} of {1}, {2}-{3} from {4}

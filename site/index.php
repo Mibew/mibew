@@ -8,6 +8,7 @@ require_once('inc/menu.i');
 
 <div id="container">
 <div id="content">
+<img src="images/style_default_tn.png" style="display:inline;float:left;margin:15px 15px 5px 0px;" width="200" height="166" border="0"/>
 <h3><?php echo getlocal("index.whatis.title") ?></h3>
 <p><?php echo getlocal("index.whatis") ?></p>
 
