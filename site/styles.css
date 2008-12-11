@@ -29,9 +29,9 @@ ul#nav li {margin-top:9px;}
 div#container{width:95%;min-width:725px;clear:both;margin:0 20px 10px;padding:20px 0 10px;text-align:left;background:#FFF}
 div#content{float:left;display:inline;width:66%;margin:0 0 10px 10px}
 
-div#side{float:left;display:inline;width:31%;background:#f3f1f3; margin:40px 10px 10px 0}
-div#side p{margin:5px 0 10px;padding: 0 10px}
-div#side div{margin: 0 0 10px;padding: 10px 0}
+div#side, div#side2 {float:left;display:inline;width:31%;background:#f3f1f3; margin:40px 10px 10px 0}
+div#side p, div#side2 p{margin:5px 0 10px;padding: 0 10px}
+div#side div, div#side2 div{margin: 0 0 10px;padding: 10px 0}
 
 div#title h1 {color:#5b4547;font-weight: normal;margin-top: 0pt;margin-right: 0pt;margin-bottom: 0pt;margin-left: 0pt;}
 div#title big {color:#8b95a7;font-size: 1em;display: block;margin-top: 4px;margin-right: 0pt;margin-bottom: 0pt;margin-left: 30pt;}
