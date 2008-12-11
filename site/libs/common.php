@@ -5,6 +5,11 @@ $default_locale = "en";
 $siteroot = "/site";
 $site_encoding = "utf-8"; 
 
+if(preg_match("/live-im/", $_SERVER['HTTP_HOST'])) {
+    header("Location: http://openwebim.org");
+    exit;
+}
+
 function myiconv($in_enc, $out_enc, $string) {
 	if($in_enc == $out_enc ) {
 		return $string;
