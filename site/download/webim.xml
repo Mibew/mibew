@@ -17,15 +17,15 @@
 		<Contact_Info>
 			<Author_First_Name>Evgeny</Author_First_Name>
 			<Author_Last_Name>Gryaznov</Author_Last_Name>
-			<Author_Email>evgeny@live-im.org</Author_Email>
+			<Author_Email>webimnotify@gmail.com</Author_Email>
 			<Contact_First_Name>Evgeny</Contact_First_Name>
 			<Contact_Last_Name>Gryaznov</Contact_Last_Name>
-			<Contact_Email>evgeny@live-im.org</Contact_Email>
+			<Contact_Email>webimnotify@gmail.com</Contact_Email>
 		</Contact_Info>
 		<Support_Info>
-			<Sales_Email>evgeny@live-im.org</Sales_Email>
-			<Support_Email>evgeny@live-im.org</Support_Email>
-			<General_Email>evgeny@live-im.org</General_Email>
+			<Sales_Email>webimnotify@gmail.com</Sales_Email>
+			<Support_Email>webimnotify@gmail.com</Support_Email>
+			<General_Email>webimnotify@gmail.com</General_Email>
 			<Sales_Phone />
 			<Support_Phone />
 			<General_Phone />
@@ -34,26 +34,26 @@
 	</Company_Info>
 	<Program_Info>
 		<Program_Name>Open Web Messenger</Program_Name>
-		<Program_Version>1.4.2</Program_Version>
-		<Program_Release_Month>10</Program_Release_Month>
-		<Program_Release_Day>06</Program_Release_Day>
+		<Program_Version>1.5.0</Program_Version>
+		<Program_Release_Month>12</Program_Release_Month>
+		<Program_Release_Day>10</Program_Release_Day>
 		<Program_Release_Year>2008</Program_Release_Year>
 		<Program_Cost_Dollars>0</Program_Cost_Dollars>
 		<Program_Cost_Other_Code />
 		<Program_Cost_Other />
 		<Program_Type>Freeware</Program_Type>
-		<Program_Release_Status>New Release</Program_Release_Status>
+		<Program_Release_Status>Major Update</Program_Release_Status>
 		<Program_Install_Support>Install Only</Program_Install_Support>
-		<Program_OS_Support>Windows2000,WinXP,Windows2003,Windows Vista Starter,Windows Vista Home Basic,Windows Vista Home Premium,Windows Vista Business,Windows Vista Enterprise,Windows Vista Ultimate,Windows Vista Home Basic x64,Windows Vista Home Premium x64,Windows Vista Business x64,Windows Vista Enterprise x64,Windows Vista Ultimate x64,Unix,Linux,Linux Console,Linux Gnome,Linux GPL,Linux Open Source,Mac OS X,Mac OS X 10.1,Mac OS X 10.2,Mac OS X 10.3,Mac OS X 10.4,Mac OS X 10.5</Program_OS_Support>
-		<Program_Language>English,Russian</Program_Language>
+		<Program_OS_Support>Not Applicable</Program_OS_Support>
+		<Program_Language>English,French,Russian,Spanish</Program_Language>
 		<Program_Change_Info />
 		<Program_Specific_Category>Internet</Program_Specific_Category>
 		<Program_Category_Class>Communications::Chat &amp; Instant Messaging</Program_Category_Class>
 		<Program_System_Requirements>A webserver or web hosting account running on any major Operating System</Program_System_Requirements>
 		<File_Info>
-			<File_Size_Bytes>280000</File_Size_Bytes>
-			<File_Size_K>273</File_Size_K>
-			<File_Size_MB>0.27</File_Size_MB>
+			<File_Size_Bytes>384762</File_Size_Bytes>
+			<File_Size_K>375</File_Size_K>
+			<File_Size_MB>0.37</File_Size_MB>
 		</File_Info>
 		<Expire_Info>
 			<Has_Expire_Info>N</Has_Expire_Info>
@@ -92,14 +92,15 @@
 			<Application_XML_File_URL>http://openwebim.org/download/webim.xml</Application_XML_File_URL>
 		</Application_URLs>
 		<Download_URLs>
-			<Primary_Download_URL>http://openwebim.org/download/webim142.zip</Primary_Download_URL>
-			<Secondary_Download_URL>http://prdownloads.sourceforge.net/webim/webim142.zip</Secondary_Download_URL>
+			<Primary_Download_URL>http://prdownloads.sourceforge.net/webim/webim150.zip</Primary_Download_URL>
+			<Secondary_Download_URL />
 			<Additional_Download_URL_1 />
 			<Additional_Download_URL_2 />
 		</Download_URLs>
 	</Web_Info>
 	<Permissions>
 		<Distribution_Permissions>Eclipse Public License v1.0</Distribution_Permissions>
-		<EULA>Eclipse Public License v1.0</EULA>
+		<EULA>Eclipse Public License v1.0
+</EULA>
 	</Permissions>
 </XML_DIZ_INFO>
