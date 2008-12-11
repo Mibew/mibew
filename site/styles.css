@@ -17,7 +17,7 @@ div#logo,div#locales {margin-left:20px;}
 div#logo {position:relative;top:5px;}
 div#locales {position:relative;bottom:5px;}
 
-div#menu {display:inline;vertical-align:bottom; }
+div#menu {display:inline;}
 
 ul#nav,ul#nav li{list-style-type:none;margin:0;padding:0;}
 ul#nav li{float:left;margin-left: 3px;text-align: center}
