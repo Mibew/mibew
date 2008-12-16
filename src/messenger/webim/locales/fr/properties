@@ -82,6 +82,7 @@ errors.failed.uploading.file=Erreur de téléchargement "{0}": "{1}".
 errors.file.move.error=Erreur de transfert de fichier
 errors.file.size.exceeded=Taille excessive du fichier téléchargé
 errors.footer=</ul></font>
+harderrors.header=<font color="#c13030"><b>Exécution impossible:</b><br/><ul>
 errors.header=<font color="#c13030"><b>Corrigez les erreurs:</b><br/><ul>
 errors.invalid.file.type=Type de fichier non valide
 errors.prefix=<li class="error">
@@ -215,6 +216,7 @@ page_agent.error.wrong_login=Votre Nom ou Login ne doit être composé que de lett
 page_agent.intro=Cette page affiche le détail des agents, si vous avez les droits d'accès, vous pouvez les éditer.
 page_agent.tab.avatar=Photo
 page_agent.tab.main=Général
+page_agent.tab.permissions=Autorisations
 page_agent.title=Détails de l'opérateur
 page_agents.agent_commonname=Nom international
 page_agents.agent_name=Nom
@@ -253,6 +255,11 @@ pending.table.head.total=Durée Totale
 pending.table.head.waittime=Temps d'attente
 pending.table.speak=Cliquer pour dialoguer avec le Visiteur
 pending.table.view=Contrôler les conversations
+permissions.title=Autorisations
+permissions.intro=Vous contrôlez ici le champ d'action de l'opérateur
+permission.admin=Gestion du programme: Réglages, Agents-opérateurs, Générateur de bouton
+permission.viewthreads=Voir le dialogue en cours d'un autre opérateur
+permission.takeover=Reprendre le contrôle du dialogue en cours
 settings.chat.title.description=Département de votre société, par exemple.
 settings.chat.title=Titre dans la fenêtre du tchat
 settings.chatstyle.description=Aperçu de toutes les pages de chaque style disponible <a href="preview.php">ici</a>
@@ -263,6 +270,10 @@ settings.email.description=Entrez un email pour recevoir des messages du système
 settings.email=Email
 settings.enableban.description=Permet de bloquer les attaques de certaines adresses IP
 settings.enableban=Autorise fonction "Visiteurs Malveillants"
+settings.geolink.description=Chaque adresse IP devient un lien ouvrable dans une nouvelle fenêtre. {ip} est remplacée par une IP réelle.
+settings.geolink=Lien vers un service de géo-localisation
+settings.geolinkparams.description=Cacher la taille de la fenêtre et la barre d'outils
+settings.geolinkparams=Options de la fenêtre de localisation géographique
 settings.host.description=Destination pour le nom de votre société ou lien logo
 settings.host=Adresse de votre site Web
 settings.logo.description=Entrez l'adresse http du logo de votre société
