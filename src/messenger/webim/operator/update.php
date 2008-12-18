@@ -45,7 +45,7 @@ function get_useragent_version($userAgent) {
 	$userAgent = strtolower($userAgent);
 	foreach( $knownAgents as $agent ) {
 		if( strstr($userAgent,$agent) ) {
-			if( preg_match( "/".$agent."[\\s\/]?(\\d+(\\.\\d+(\\.\\d+)?)?)/", $userAgent, $matches ) ) {
+			if( preg_match( "/".$agent."[\\s\/]?(\\d+(\\.\\d+(\\.\\d+(\\.\\d+)?)?)?)/", $userAgent, $matches ) ) {
 				$ver = $matches[1];
 				if($agent=='safari') {
 					if(preg_match( "/version\/(\\d+(\\.\\d+(\\.\\d+)?)?)/", $userAgent, $matches)) {

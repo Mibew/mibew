@@ -202,6 +202,8 @@ function is_ajax_browser($browserid,$ver,$useragent) {
 		return $ver >= 1.4;
 	if( $browserid == "firefox")
 		return $ver >= 1.0;
+	if( $browserid == "chrome")
+		return true;
 
 	return false;
 }
@@ -214,7 +216,7 @@ function is_old_browser($browserid,$ver) {
 	return false;
 }
 
-$knownAgents = array("opera","msie","safari","firefox","netscape","mozilla");
+$knownAgents = array("opera","msie","chrome","safari","firefox","netscape","mozilla");
 
 function get_remote_level($useragent) {
 	global $knownAgents;

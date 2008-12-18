@@ -1,6 +1,7 @@
-#Thu Nov 27 12:24:15 CET 2008
+#Thu Dec 18 15:36:01 CET 2008
 eclipse.preferences.version=1
 encoding//webim/INSTALL_RUS.txt=cp1251
 encoding//webim/locales/fr/properties=ISO-8859-1
+encoding//webim/locales/names/properties=utf-8
 encoding//webim/locales/ru=cp1251
 encoding//webim/locales/sp/properties=ISO-8859-1
