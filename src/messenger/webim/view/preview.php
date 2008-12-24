@@ -22,7 +22,7 @@
 
 <link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <title>
-	<?php echo getlocal("app.title") ?>	- <?php echo getlocal("page.preview.title") ?>
+	<?php echo getlocal("page.preview.title") ?> - <?php echo getlocal("app.title") ?>
 </title>
 
 <meta http-equiv="keywords" content="<?php echo getlocal("page.main_layout.meta_keyword") ?>">

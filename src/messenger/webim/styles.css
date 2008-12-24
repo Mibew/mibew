@@ -335,3 +335,12 @@ input.submit {
 .firstmessage a:hover {
 	color: #8a6a6a;
 }
+
+#formmessage {
+	border: 1px solid #4C96D4;
+	background-color: #E7F1F9;
+	padding: 8px 11px;
+	font-size: 11px; font-weight:bold;
+	width : 400px;
+	margin: 5px 2px;
+}

@@ -14,22 +14,9 @@
 
 require_once('../libs/common.php');
 require_once('../libs/operator.php');
+require_once('../libs/settings.php');
 
 $operator = check_login();
-
-function update_settings() {
-	global $settings, $settings_in_db;
-	$link = connect();
-	foreach ($settings as $key => $value) {
-		if(!isset($settings_in_db[$key])) {
-			perform_query("insert into chatconfig (vckey) values ('$key')",$link);
-		}
-        $query = sprintf("update chatconfig set vcvalue='%s' where vckey='$key'", mysql_real_escape_string($value));
-		perform_query($query,$link);
-	}
-
-	mysql_close($link);
-}
 
 $page = array('agentId' => '');
 $errors = array();
@@ -46,7 +33,7 @@ if($handle = opendir($stylesfolder)) {
 }
 
 $options = array(
-		'email', 'title', 'logo', 'hosturl', 'enableban', 'usernamepattern', 'usercanchangename',
+		'email', 'title', 'logo', 'hosturl', 'usernamepattern',
 		'chatstyle', 'chattitle', 'geolink', 'geolinkparams');
 
 loadsettings();
@@ -60,9 +47,7 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
     $params['title'] = getparam('title');
     $params['logo']  = getparam('logo');
     $params['hosturl'] = getparam('hosturl');
-    $params['enableban'] = verifyparam("enableban","/^on$/", "") == "on" ? "1" : "0";
     $params['usernamepattern'] = getparam('usernamepattern');
-    $params['usercanchangename'] = verifyparam("usercanchangename", "/^on$/", "") == "on" ? "1" : "0";
     $params['chattitle'] = getparam('chattitle');
     $params['geolink'] = getparam('geolink');
 	$params['geolinkparams'] = getparam('geolinkparams');
@@ -89,7 +74,7 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
 			$settings[$opt] = $params[$opt];
 		}
     	update_settings();
-        header("Location: $webimroot/operator/index.php");
+        header("Location: $webimroot/operator/settings.php?stored");
         exit;
     }
 }
@@ -101,13 +86,13 @@ $page['formlogo']  = topage($params['logo']);
 $page['formhosturl']  = topage($params['hosturl']);
 $page['formgeolink'] = topage($params['geolink']);
 $page['formgeolinkparams'] = topage($params['geolinkparams']);
-$page['formenableban'] = $params['enableban'] == "1";
 $page['formusernamepattern'] = topage($params['usernamepattern']);
-$page['formusercanchangename'] = $params['usercanchangename'] == "1";
 $page['formchatstyle'] = $params['chatstyle'];
 $page['formchattitle'] = topage($params['chattitle']);
 $page['availableStyles'] = $stylelist;
+$page['stored'] = isset($_GET['stored']);
 
+setup_settings_tabs(0);
 start_html_output();
 require('../view/settings.php');
 ?>

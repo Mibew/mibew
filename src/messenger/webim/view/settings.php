@@ -22,7 +22,7 @@
 
 <link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <title>
-	<?php echo getlocal("app.title") ?>	- <?php echo getlocal("settings.title") ?>
+	<?php echo getlocal("settings.title") ?> - <?php echo getlocal("app.title") ?>
 </title>
 
 <meta http-equiv="keywords" content="<?php echo getlocal("page.main_layout.meta_keyword") ?>">
@@ -63,9 +63,16 @@
 		</tr>
 		</table>
 	<?php } ?>
+<?php if( $page['stored'] ) { ?>
+<div id="formmessage"><?php echo getlocal("settings.saved") ?></div>
+<?php } ?>
 
 <form name="settings" method="post" action="<?php echo $webimroot ?>/operator/settings.php">
-	<table cellspacing='0' cellpadding='0' border='0'><tr><td background='<?php echo $webimroot ?>/images/loginbg.gif'><table cellspacing='0' cellpadding='0' border='0'><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlt.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrt.gif' width='16' height='16' border='0' alt=''></td></tr><tr><td></td><td align='center'><table border='0' cellspacing='0' cellpadding='0'>
+	<table cellspacing='0' cellpadding='0' border='0'>
+<?php if($page['tabs']) { ?>
+<tr><td align="right" style="padding-right:16px;"><table cellspacing="0" cellpadding="0" border="0"><tr><?php foreach($page['tabs'] as $k => $v) { if($v) { ?><td class="textform" style="padding: 2px 9px 3px 9px;"><a href="<?php echo $v ?>"><?php echo $k ?></a></td><?php } else { ?><td class="textform" background="<?php echo $webimroot ?>/images/loginbg.gif" style="border-left:1px solid #bbbbbb;border-top:1px solid #bbbbbb;border-right:1px solid #bbbbbb;padding: 2px 9px 3px 9px;"><?php echo $k ?></td><?php }} ?></tr></table></td></tr>
+<?php } ?>
+<tr><td background='<?php echo $webimroot ?>/images/loginbg.gif'><table cellspacing='0' cellpadding='0' border='0'><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlt.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrt.gif' width='16' height='16' border='0' alt=''></td></tr><tr><td></td><td align='center'><table border='0' cellspacing='0' cellpadding='0' width="700">
 		<tr><td class='formauth'><?php echo getlocal('settings.email') ?></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
 			<input type="text" name="email" size="40" value="<?php echo form_value('email') ?>" class="formauth"/>
 		</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('settings.email.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>
@@ -102,18 +109,10 @@
 			<select name="chatstyle" ><?php foreach($page['availableStyles'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("chatstyle") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 		</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('settings.chatstyle.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>
 
-		<tr><td class='formauth'><?php echo getlocal('settings.usercanchangename') ?></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
-			<input type="checkbox" name="usercanchangename" value="on"<?php echo form_value_cb('usercanchangename') ? " checked=\"checked\"" : "" ?>/>
-		</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('settings.usercanchangename.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>
-
-		<tr><td class='formauth'><?php echo getlocal('settings.enableban') ?></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
-			<input type="checkbox" name="enableban" value="on"<?php echo form_value_cb('enableban') ? " checked=\"checked\"" : "" ?>/>
-		</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('settings.enableban.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>
-
 		<tr><td colspan='3' height='20'></td></tr><tr><td colspan='3' background='<?php echo $webimroot ?>/images/formline.gif'><img src='<?php echo $webimroot ?>/images/formline.gif' width='1' height='2' border='0' alt=''></td></tr><tr><td colspan='3' height='10'></td></tr>
 		<tr>
 			<td class="formauth" colspan="3">
-			        <input type="image" name="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' border="0" alt='<?php echo getlocal("button.save") ?>'/>
+				<input type="image" name="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' border="0" alt='<?php echo getlocal("button.save") ?>'/>
 			</td>
 		</tr>
 
