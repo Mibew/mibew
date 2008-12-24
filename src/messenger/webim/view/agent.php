@@ -75,23 +75,23 @@
 <tr><td align="right" style="padding-right:16px;"><table cellspacing="0" cellpadding="0" border="0"><tr><?php foreach($page['tabs'] as $k => $v) { if($v) { ?><td class="textform" style="padding: 2px 9px 3px 9px;"><a href="<?php echo $v ?>"><?php echo $k ?></a></td><?php } else { ?><td class="textform" background="<?php echo $webimroot ?>/images/loginbg.gif" style="border-left:1px solid #bbbbbb;border-top:1px solid #bbbbbb;border-right:1px solid #bbbbbb;padding: 2px 9px 3px 9px;"><?php echo $k ?></td><?php }} ?></tr></table></td></tr>
 <?php } ?>
 <tr><td background='<?php echo $webimroot ?>/images/loginbg.gif'><table cellspacing='0' cellpadding='0' border='0'><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlt.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrt.gif' width='16' height='16' border='0' alt=''></td></tr><tr><td></td><td align='center'><table border='0' cellspacing='0' cellpadding='0' width="700">
-		<tr><td class='formauth'><?php echo getlocal('form.field.login') ?><b><font class='red'>*</font></b></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
+		<tr><td class='formauth'><?php echo getlocal('form.field.login') ?><b><span style='font-size:8.0pt;color:red'>*</span></b></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
 			<input type="text" name="login" size="40" value="<?php echo form_value('login') ?>" class="formauth"/>
 		</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('form.field.login.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>
 
-		<tr><td class='formauth'><?php echo getlocal('form.field.password') ?><b><font class='red'>*</font></b></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
+		<tr><td class='formauth'><?php echo getlocal('form.field.password') ?><b><span style='font-size:8.0pt;color:red'>*</span></b></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
 			<input type="password" name="password" size="40" value="" class="formauth"/>
 		</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('form.field.password.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>
 
-		<tr><td class='formauth'><?php echo getlocal('form.field.password_confirm') ?><b><font class='red'>*</font></b></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
+		<tr><td class='formauth'><?php echo getlocal('form.field.password_confirm') ?><b><span style='font-size:8.0pt;color:red'>*</span></b></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
 			<input type="password" name="passwordConfirm" size="40" value="" class="formauth"/>
 		</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('form.field.password_confirm.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>
 
-		<tr><td class='formauth'><?php echo getlocal('form.field.agent_name') ?><b><font class='red'>*</font></b></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
+		<tr><td class='formauth'><?php echo getlocal('form.field.agent_name') ?><b><span style='font-size:8.0pt;color:red'>*</span></b></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
 			<input type="text" name="name" size="40" value="<?php echo form_value('name') ?>" class="formauth"/>
 		</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('form.field.agent_name.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>
 
-		<tr><td class='formauth'><?php echo getlocal('form.field.agent_commonname') ?><b><font class='red'>*</font></b></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
+		<tr><td class='formauth'><?php echo getlocal('form.field.agent_commonname') ?><b><span style='font-size:8.0pt;color:red'>*</span></b></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
 			<input type="text" name="commonname" size="40" value="<?php echo form_value('commonname') ?>" class="formauth"/>
 		</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('form.field.agent_commonname.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>
 
