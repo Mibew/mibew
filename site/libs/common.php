@@ -57,7 +57,7 @@ function get_user_locale() {
 			if( strlen($requested_lang) > 2 )
 				$requested_lang = substr($requested_lang,0,2);
 
-			if( in_array($requested_lang,$available_locales) )
+			if( in_array($requested_lang,$available_locales) && $requested_lang != 'ru' /* do not detect RU */ )
 				return $requested_lang;
 		}
 	}
