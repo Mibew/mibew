@@ -165,6 +165,9 @@ function getstring_($text,$locale) {
 	$localized = $messages[$locale];
 	if( isset($localized[$text]) )
 		return $localized[$text];
+	if( $locale != 'en' ) {
+		return getstring_($text,'en');
+	}
 
 	return "!".$text;
 }
