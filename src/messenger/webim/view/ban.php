@@ -81,11 +81,11 @@
 
 	<form name="banForm" method="post" action="<?php echo $webimroot ?>/operator/ban.php">
 		<table cellspacing='0' cellpadding='0' border='0'><tr><td background='<?php echo $webimroot ?>/images/loginbg.gif'><table cellspacing='0' cellpadding='0' border='0'><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlt.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrt.gif' width='16' height='16' border='0' alt=''></td></tr><tr><td></td><td align='center'><table border='0' cellspacing='0' cellpadding='0'>
-			<tr><td class='formauth'><?php echo getlocal('form.field.address') ?><b><font class='red'>*</font></b></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
+			<tr><td class='formauth'><?php echo getlocal('form.field.address') ?><b><span style='font-size:8.0pt;color:red'>*</span></b></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
 				<input type="text" name="address" size="40" value="<?php echo form_value('address') ?>" class="formauth"/>
 			</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('form.field.address.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>
 
-			<tr><td class='formauth'><?php echo getlocal('form.field.ban_days') ?><b><font class='red'>*</font></b></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
+			<tr><td class='formauth'><?php echo getlocal('form.field.ban_days') ?><b><span style='font-size:8.0pt;color:red'>*</span></b></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
 				<input type="text" name="days" size="4" value="<?php echo form_value('days') ?>" class="formauth"/>
 			</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('form.field.ban_days.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>
 

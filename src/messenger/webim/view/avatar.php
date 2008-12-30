@@ -88,7 +88,7 @@
         	</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('form.field.avatar.current.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>
         <?php } ?>
 
-    	<tr><td class='formauth'><?php echo getlocal('form.field.avatar.upload') ?><b><font class='red'>*</font></b></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
+    	<tr><td class='formauth'><?php echo getlocal('form.field.avatar.upload') ?><b><span style='font-size:8.0pt;color:red'>*</span></b></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
             <input type="file" name="avatarFile" size="40" value="<?php echo form_value('avatarFile') ?>" class="formauth"/>
     	</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('form.field.avatar.upload.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>
 
