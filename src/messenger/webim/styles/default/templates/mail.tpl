@@ -93,7 +93,7 @@ ${endif:errors}
 				<table cellspacing="0" cellpadding="0" border="0">
 					<tr>
 						<td><a href="javascript:window.close();" title="${msg:mailthread.close}"><img
-							src='${webimroot}/images/buttons/back.gif' width="25" height="25"
+							src='${tplroot}/images/buttons/back.gif' width="25" height="25"
 							border="0" alt="" /></a></td>
 						<td width="5"></td>
 						<td class="button"><a href="javascript:window.close();"

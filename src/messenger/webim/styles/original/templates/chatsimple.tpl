@@ -8,7 +8,7 @@
 <script type="text/javascript" language="javascript" src="${webimroot}/js/brws.js"></script>
 </head>
 
-<body bgcolor="#FFFFFF" background="${webimroot}/images/bg.gif" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" marginwidth="0" marginheight="0" leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0">
+<body bgcolor="#FFFFFF" background="${tplroot}/images/bg.gif" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" marginwidth="0" marginheight="0" leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0">
 
 <table width="600" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -17,7 +17,7 @@
 	<table width="600" cellspacing="0" cellpadding="0" border="0">
 	<tr>
     <td></td>
-    <td colspan="2" height="100" background="${webimroot}/images/banner.gif" valign="top" class="bgrn">
+    <td colspan="2" height="100" background="${tplroot}/images/banner.gif" valign="top" class="bgrn">
 		<table width="590" cellspacing="0" cellpadding="0" border="0">
 		<tr>
 	    <td width="135" valign="top">
@@ -53,7 +53,7 @@
 					</table>
 				</td>
 			    <td width="5"></td>
-			    <td><a class="closethread" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.close_title}"><img src='${webimroot}/images/buttons/closewin.gif' width="15" height="15" border="0" altKey="chat.window.close_title"/></a></td>
+			    <td><a class="closethread" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.close_title}"><img src='${tplroot}/images/buttons/closewin.gif' width="15" height="15" border="0" altKey="chat.window.close_title"/></a></td>
 			    <td width="5"></td>
 				</tr>
 				</table>
@@ -71,14 +71,14 @@
 				<td width="10" valign="top"><img src='${webimroot}/images/free.gif' width="10" height="1" border="0" alt="" /></td>
 				<td><input id="uname" type="text" size="12" value="${page:ct.user.name}" class="username"></td>
 				<td width="5" valign="top"><img src='${webimroot}/images/free.gif' width="5" height="1" border="0" alt="" /></td>
-				<td><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.client.changename}"><img src='${webimroot}/images/buttons/exec.gif' width="25" height="25" border="0" alt="&gt;&gt;" /></a></td>
+				<td><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.client.changename}"><img src='${tplroot}/images/buttons/exec.gif' width="25" height="25" border="0" alt="&gt;&gt;" /></a></td>
 
-			    <td><img src='${webimroot}/images/buttondiv.gif' width="35" height="45" border="0" alt="" /></td>
+			    <td><img src='${tplroot}/images/buttondiv.gif' width="35" height="45" border="0" alt="" /></td>
 
-				<td><a href="${page:mailLink}" target="_blank" title="${msg:chat.window.toolbar.mail_history}" onclick="this.newWindow = window.open('${page:mailLink}', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=254,resizable=0');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src='${webimroot}/images/buttons/email.gif' width="25" height="25" border="0" alt="Mail" /></a></td>
+				<td><a href="${page:mailLink}" target="_blank" title="${msg:chat.window.toolbar.mail_history}" onclick="this.newWindow = window.open('${page:mailLink}', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=254,resizable=0');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src='${tplroot}/images/buttons/email.gif' width="25" height="25" border="0" alt="Mail" /></a></td>
 
 				<td><a id="refresh" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.toolbar.refresh}">
-				<img src='${webimroot}/images/buttons/refresh.gif' width="25" height="25" border="0" alt="Refresh" /></a></td>
+				<img src='${tplroot}/images/buttons/refresh.gif' width="25" height="25" border="0" alt="Refresh" /></a></td>
 
 
 
