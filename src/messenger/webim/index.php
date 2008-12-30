@@ -10,13 +10,9 @@
  *
  * Contributors:
  *    Evgeny Gryaznov - initial API and implementation
-*I thought this would be good for now
  */
+
+header("Location: operator/index.php");
+exit;
+
 ?>
-<html>
-<head>
-<title>OpenWebim</title>
-<meta http-equiv="REFRESH" content="0;url=operator/index.php"></HEAD>
-<BODY>
-</BODY>
-</HTML>
