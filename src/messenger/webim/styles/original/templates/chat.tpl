@@ -12,7 +12,25 @@ var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",freque
 //--></script>
 <script type="text/javascript" language="javascript" src="${webimroot}/js/chat.js"></script>
 </head>
-
+<style>
+.tplimage {
+	background: transparent url(${tplroot}/images/wmchat.png) no-repeat scroll 0px 0px;
+	width: 25px; height: 25px;
+	-moz-background-clip: -moz-initial; 
+	-moz-background-origin: -moz-initial; 
+	-moz-background-inline-policy: -moz-initial;
+}
+.irefresh { background-position:0px -24px; }
+.iclose { background-position:-24px 0px; }
+.iexec { background-position:-48px 0px; }
+.ihistory, .ichangeuser { background-position:-24px -24px; }
+.isend { background-position:-48px -24px; }
+.iemail { background-position:0px 0px; }
+.iclosewin { background-position:-108px -34px; width: 15px; height: 15px; }
+.ibuttondiv { background-position:-73px -2px; width: 35px; height: 45px;}
+.isubmit { background-position:-108px 0px; width: 40px; height: 35px; }
+.isubmitrest { background-position:-139px 0px; width: 10px; height: 35px;}
+</style>
 <body bgcolor="#FFFFFF" background="${tplroot}/images/bg.gif" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" marginwidth="0" marginheight="0" leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0">
 
 <table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
@@ -76,7 +94,7 @@ var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",freque
 					</table>
 				</td>
 			    <td width="5"></td>
-			    <td><a class="closethread" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.close_title}"><img src='${tplroot}/images/buttons/closewin.gif' width="15" height="15" border="0" altKey="chat.window.close_link_text"/></a></td>
+			    <td><a class="closethread" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.close_title}"><img class="tplimage iclosewin" src="${webimroot}/images/free.gif" border="0" altKey="chat.window.close_link_text"/></a></td>
 			    <td width="5"></td>
 				</tr>
 				</table>
@@ -108,14 +126,14 @@ ${if:user}
 					<td width="10" valign="top"><img src='${webimroot}/images/free.gif' width="10" height="1" border="0" alt="" /></td>
 					<td><input id="uname" type="text" size="12" value="${page:ct.user.name}" class="username"></td>
 					<td width="5" valign="top"><img src='${webimroot}/images/free.gif' width="5" height="1" border="0" alt="" /></td>
-					<td><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.client.changename}"><img src='${tplroot}/images/buttons/exec.gif' width="25" height="25" border="0" alt="&gt;&gt;" /></a></td>
+					<td><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.client.changename}"><img class="tplimage iexec" src="${webimroot}/images/free.gif" border="0" alt="&gt;&gt;" /></a></td>
 					</tr></table>
 				</div>
 				<div id="changename2" style="display:${page:displ2};">
 					<table cellspacing="0" cellpadding="0" border="0"><tr>
 					<td class="text" nowrap><a id="unamelink" href="javascript:void(0)" onclick="return false;" title="${msg:chat.client.changename}">${page:ct.user.name}</a></td>
 					<td width="10" valign="top"><img src='${webimroot}/images/free.gif' width="10" height="1" border="0" alt="" /></td>
-					<td><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.client.changename}"><img src='${tplroot}/images/buttons/changeuser.gif' width="25" height="25" border="0" alt="" /></a></td>
+					<td><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.client.changename}"><img class="tplimage ichangeuser" src="${webimroot}/images/free.gif" border="0" alt="" /></a></td>
 					</tr></table>
 				</div>
 				</td>
@@ -128,24 +146,24 @@ ${endif:user}
 ${if:agent}
 				<td width="10" valign="top"><img src='${webimroot}/images/free.gif' width="10" height="1" border="0" alt="" /></td>
 				<td><a class="closethread" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.close_title}">
-				<img src='${tplroot}/images/buttons/close.gif' width="25" height="25" border="0" altKey="chat.window.close_link_text"/></a></td>
+				<img class="tplimage iclose" src="${webimroot}/images/free.gif" border="0" altKey="chat.window.close_link_text"/></a></td>
 ${endif:agent}
 
-			    <td><img src='${tplroot}/images/buttondiv.gif' width="35" height="45" border="0" alt="" /></td>
+			    <td><img class="tplimage ibuttondiv" src="${webimroot}/images/free.gif" border="0" alt="" /></td>
 ${if:user}
-				<td><a href="${page:mailLink}" target="_blank" title="${msg:chat.window.toolbar.mail_history}" onclick="this.newWindow = window.open('${page:mailLink}', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=254,resizable=0'); if (this.newWindow != null) {this.newWindow.focus();this.newWindow.opener=window;}return false;"><img src='${tplroot}/images/buttons/email.gif' width="25" height="25" border="0" alt="Mail&nbsp;"/></a></td>
+				<td><a href="${page:mailLink}" target="_blank" title="${msg:chat.window.toolbar.mail_history}" onclick="this.newWindow = window.open('${page:mailLink}', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=254,resizable=0'); if (this.newWindow != null) {this.newWindow.focus();this.newWindow.opener=window;}return false;"><img class="tplimage iemail" src="${webimroot}/images/free.gif" border="0" alt="Mail&nbsp;"/></a></td>
 ${endif:user}
 ${if:agent}
 ${if:canpost}
 				<td><a href="${page:redirectLink}" title="${msg:chat.window.toolbar.redirect_user}">
-				<img src='${tplroot}/images/buttons/send.gif' width="25" height="25" border="0" alt="Redirect&nbsp;" /></a></td>
+				<img class="tplimage isend" src="${webimroot}/images/free.gif" border="0" alt="Redirect&nbsp;" /></a></td>
 ${endif:canpost}
 ${if:historyParams}
-				<td><a href="${page:historyParamsLink}" target="_blank" title="${msg:page.analysis.userhistory.title}" onclick="this.newWindow = window.open('${page:historyParamsLink}', 'UserHistory', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=703,height=380,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src='${tplroot}/images/buttons/history.gif' width="25" height="25" border="0" alt="History&nbsp;"/></a></td>
+				<td><a href="${page:historyParamsLink}" target="_blank" title="${msg:page.analysis.userhistory.title}" onclick="this.newWindow = window.open('${page:historyParamsLink}', 'UserHistory', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=703,height=380,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><img class="tplimage ihistory" src="${webimroot}/images/free.gif" border="0" alt="History&nbsp;"/></a></td>
 ${endif:historyParams}
 ${endif:agent}
 				<td><a id="refresh" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.toolbar.refresh}">
-				<img src='${tplroot}/images/buttons/refresh.gif' width="25" height="25" border="0" alt="Refresh&nbsp;" /></a></td>
+				<img class="tplimage irefresh" src="${webimroot}/images/free.gif" border="0" alt="Refresh&nbsp;" /></a></td>
 
 				<td width="20" valign="top"><img src='${webimroot}/images/free.gif' width="20" height="1" border="0" alt="" /></td>
 				</tr>
@@ -252,12 +270,12 @@ ${if:canpost}
 
 			<tr>
 
-		    <td><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.send_message}"><img src='${webimroot}/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
+		    <td><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.send_message}"><img class="tplimage isubmit" src="${webimroot}/images/free.gif" border="0" alt="" /></a></td>
 		    <td background="${webimroot}/images/submitbg.gif" valign="top" class="submit">
 				<img src='${webimroot}/images/free.gif' width="1" height="10" border="0" alt="" /><br>
 				<a id="sndmessagelnk" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.send_message}">${msg:chat.window.send_message_short,send_shortcut}</a><br>
 			</td>
-			<td width="10"><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.send_message}"><img src='${webimroot}/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
+			<td width="10"><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.send_message}"><img class="tplimage isubmitrest" src="${webimroot}/images/free.gif" border="0" alt="" /></a></td>
 			</tr>
 			</table>
 ${endif:canpost}
