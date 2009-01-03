@@ -118,6 +118,10 @@ if ($act == "silentcreateall") {
 			runsql("ALTER TABLE chatoperator ADD vcjabbername varchar(255)", $link);
 		}
 
+		if( in_array("chatthread.departmentid", $absent) ) {
+			runsql("ALTER TABLE chatthread ADD departmentid int references chatdepartment(departmentid)", $link);
+		}
+
 		if( in_array("chatthread.userAgent", $absent) ) {
 			runsql("ALTER TABLE chatthread ADD userAgent varchar(255)", $link);
 		}
