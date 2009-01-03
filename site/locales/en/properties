@@ -10,6 +10,7 @@ menu.home=home
 menu.features=features
 menu.demo=demo
 menu.download=download
+menu.support=support
 
 index.whatis.title=What is Web Messenger?
 index.whatis="Web Messenger" - is unique software allowing visitors of your site to chat with your operators.
@@ -50,5 +51,10 @@ downl.title=Latest
 downl.release=Release:
 downl.nightly=Nightly:
 downl.prev=Previous release:
+
+support.title=Support
+support.tutorials=How to Install
+support.FAQ=FAQ
+support.ScreenShots=Screenshots
 
 tag.pagination.info=Page {0} of {1}, {2}-{3} from {4}

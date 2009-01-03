@@ -2,10 +2,10 @@
 
 $available_locales = array("en", "ru");
 $default_locale = "en";
-$siteroot = "/site";
+$siteroot = "";
 $site_encoding = "utf-8"; 
 
-if(preg_match("/live-im/", $_SERVER['HTTP_HOST'])) {
+if(preg_match("/www\.openwebim\.org/", $_SERVER['HTTP_HOST'])) {
     header("Location: http://openwebim.org");
     exit;
 }

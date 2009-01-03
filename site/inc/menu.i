@@ -10,6 +10,7 @@
         <li id="who"<?php echo $page == 'feat' ? ' class="activelink"' : '' ?>><a href="features.php"><?php echo getlocal("menu.features") ?></a></li>
         <li id="prod"<?php echo $page == 'demo' ? ' class="activelink"' : '' ?>><a href="demo.php"><?php echo getlocal("menu.demo") ?></a></li>
         <li id="serv"<?php echo $page == 'downl' ? ' class="activelink"' : '' ?>><a href="download.php"><?php echo getlocal("menu.download") ?></a></li>
+		<li id="supp"<?php echo $page == 'supp' ? ' class="activelink"' : '' ?>><a href="support.php"><?php echo getlocal("menu.support") ?></a></li>
     </ul>
 </div>
 <div id="logo">
