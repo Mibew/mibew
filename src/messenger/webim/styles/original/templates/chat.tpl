@@ -40,7 +40,7 @@ var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",freque
 	<table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
 	<tr>
     <td></td>
-    <td colspan="2" height="100" background="${tplroot}/images/banner.gif" valign="top" class="bgrn">
+    <td colspan="2" height="100" background="${tplroot}/images/banner.png" valign="top" class="bgrn">
 		<table width="100%" cellspacing="0" cellpadding="0" border="0">
 		<tr>
 	    <td width="50%" valign="top">

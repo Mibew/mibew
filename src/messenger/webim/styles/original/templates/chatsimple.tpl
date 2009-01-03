@@ -17,7 +17,7 @@
 	<table width="600" cellspacing="0" cellpadding="0" border="0">
 	<tr>
     <td></td>
-    <td colspan="2" height="100" background="${tplroot}/images/banner.gif" valign="top" class="bgrn">
+    <td colspan="2" height="100" background="${tplroot}/images/banner.png" valign="top" class="bgrn">
 		<table width="590" cellspacing="0" cellpadding="0" border="0">
 		<tr>
 	    <td width="135" valign="top">
