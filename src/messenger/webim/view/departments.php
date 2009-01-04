@@ -75,9 +75,9 @@
 <tr><td background='<?php echo $webimroot ?>/images/loginbg.gif'><table cellspacing='0' cellpadding='0' border='0'><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlt.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrt.gif' width='16' height='16' border='0' alt=''></td></tr><tr><td></td><td align='center'><table border='0' cellspacing='0' cellpadding='0' width="700">
 		<tr><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td>
 
-		<tr><td class='formauth'><?php echo getlocal('settings.departments.add') ?></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
-			<INPUT NAME="name" TYPE="TEXT" SIZE="20" MAXLENGTH="255"> 
-		</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('settings.departments.add.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>
+		<tr><td class='formauth'><?php echo getlocal('departments.add') ?></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
+			<INPUT NAME="name" TYPE="TEXT" SIZE="10" MAXLENGTH="255"> 
+		</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('departments.add.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>
 		
 
 		<tr><td colspan='3' height='20'></td></tr><tr><td colspan='3' background='<?php echo $webimroot ?>/images/formline.gif'><img src='<?php echo $webimroot ?>/images/formline.gif' width='1' height='2' border='0' alt=''></td></tr><tr><td colspan='3' height='10'></td></tr>
@@ -95,11 +95,3 @@
 </table>
 </body>
 </html>
-<? 
-$name=$_POST['name']; 
- 
-mysql_connect("localhost", "root", "") or die(mysql_error()); 
-mysql_select_db("test") or die(mysql_error()); 
-mysql_query("INSERT INTO `data` VALUES ('$name')"); 
-Print "Your information has been successfully added to the database."; 
-?>

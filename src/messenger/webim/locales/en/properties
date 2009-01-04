@@ -1,4 +1,3 @@
-
 encoding=utf-8
 output_charset=utf-8
 output_encoding=utf-8
@@ -274,8 +273,6 @@ settings.company.title.description=Enter your company title
 settings.company.title=Company title
 settings.email.description=Enter email to receive system messages
 settings.email=Email
-settings.departments.add=Add a department
-settings.departments.add.description= Add a department for users to contact one user.
 settings.enableban.description=Using it you can block attacks from specific IPs
 settings.enableban=Enable feature "Malicious Visitors"
 settings.geolink.description=Each IP becomes a link opening in new window. {ip} is substituted with a real ip.  
@@ -306,3 +303,7 @@ topMenu.admin=Administration
 topMenu.logoff=Exit
 topMenu.users=Visitors
 typing.remote=Remote user is typing...
+
+departments.add=Add a department
+departments.add.description= Add a department for users to contact one user.
+
