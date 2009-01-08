@@ -166,16 +166,16 @@
                             </td>
                         </tr>
                         <tr>
-                            <td height='2' colspan='7'>
+                            <td height='2' colspan='14'>
                             </td>
                         </tr>
                         <tr>
-                            <td bgcolor='#e1e1e1' colspan='7'>
+                            <td bgcolor='#e1e1e1' colspan='14'>
                                 <img width='1' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'>
                             </td>
                         </tr>
                         <tr>
-                            <td height='2' colspan='7'></td>
+                            <td height='2' colspan='14'></td>
                         </tr>
                         <?php } ?>
                     </table>
