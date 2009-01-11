@@ -19,7 +19,7 @@ require_once('inc/menu.i');
 
 <?php echo getlocal("demo.login") ?><br/><br/>
 
-<a href="http://live-im.com/webim/"><?php echo getlocal("demo.application") ?>, 1.5.0</a>
+<a href="http://live-im.com/webim/"><?php echo getlocal("demo.application") ?>, 1.5.1</a>
 <br/>
 <br/>
 <br/>

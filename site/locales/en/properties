@@ -51,6 +51,7 @@ downl.title=Latest
 downl.release=Release:
 downl.nightly=Nightly:
 downl.prev=Previous release:
+downl.local=Localization packages:
 
 support.title=Support
 support.tutorials=How to Install
