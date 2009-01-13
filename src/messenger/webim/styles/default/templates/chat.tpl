@@ -51,6 +51,14 @@ var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",freque
 .isend { background-position:-120px 0px; }
 .iemail { background-position:0px 0px; }
 .iclosewin { background-position:-170px -1px; width: 15px; height: 15px; }
+.tplimageloc {
+	background: transparent url(${webimroot}${url:image.chat.sprite}) no-repeat scroll 0px 0px;
+	-moz-background-clip: -moz-initial; 
+	-moz-background-origin: -moz-initial; 
+	-moz-background-inline-policy: -moz-initial;
+}
+.ilog { background-position: 0px 0px;width: 20px; height: 80px; }
+.imessage { background-position: 0px -82px;width: 20px; height: 85px; }
 </style>
 
 
@@ -156,11 +164,11 @@ ${endif:agent}
 
 					<td style="color:#C9C9C9;font-size:40px;padding:0px 15px 5px 15px">|</td>
 ${if:user}
-				<td><a href="${page:mailLink}" target="_blank" title="${msg:chat.window.toolbar.mail_history}" onclick="this.newWindow = window.open('${page:mailLink}', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=254,resizable=0'); if (this.newWindow != null) {this.newWindow.focus();this.newWindow.opener=window;}return false;"><img class="tplimage iemail" src="${webimroot}/images/free.gif" border="0" alt="Mail&nbsp;"/></a></td>
+				<td><a href="${page:mailLink}&style=${styleid}" target="_blank" title="${msg:chat.window.toolbar.mail_history}" onclick="this.newWindow = window.open('${page:mailLink}&style=${styleid}', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=254,resizable=0'); if (this.newWindow != null) {this.newWindow.focus();this.newWindow.opener=window;}return false;"><img class="tplimage iemail" src="${webimroot}/images/free.gif" border="0" alt="Mail&nbsp;"/></a></td>
 ${endif:user}
 ${if:agent}
 ${if:canpost}
-				<td><a href="${page:redirectLink}" title="${msg:chat.window.toolbar.redirect_user}">
+				<td><a href="${page:redirectLink}&style=${styleid}" title="${msg:chat.window.toolbar.redirect_user}">
 				<img class="tplimage isend" src="${webimroot}/images/free.gif" border="0" alt="Redirect&nbsp;" /></a></td>
 ${endif:canpost}
 ${if:historyParams}
@@ -205,7 +213,7 @@ ${endif:agent}
 
 		<table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td width="20" valign="top"><img src='${webimroot}${url:image.chat.history}' width="20" height="80" border="0" alt="" /></td>
+	    <td width="20" valign="top"><img class="tplimageloc ilog" src="${webimroot}/images/free.gif" border="0" alt="" /></td>
     	<td colspan="2" width="100%" height="100%" valign="top" id="chatwndtd">
 			<table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
 			<tr>
@@ -232,7 +240,7 @@ ${if:canpost}
 		</tr>
 
 		<tr>
-	    <td width="20" valign="top"><img src='${webimroot}${url:image.chat.message}' width="20" height="85" border="0" alt="" /></td>
+	    <td width="20" valign="top"><img class="tplimageloc imessage" src="${webimroot}/images/free.gif" border="0" alt="" /></td>
 	    ${if:isOpera95}
     	<td width="100%" height="60%" valign="top" id="msgwndtd">
     	${else:isOpera95}

@@ -32,7 +32,7 @@
 <tr>
 	<td valign="top" style="padding: 5px;">
 
-		<form name="mailThreadForm" method="post" action="${webimroot}/mail.php">
+		<form name="mailThreadForm" method="post" action="${webimroot}/mail.php"><input type="hidden" name="style" value="${styleid}"/>
 		<input type="hidden" name="thread" value="${page:ct.chatThreadId}"/><input type="hidden" name="token" value="${page:ct.token}"/><input type="hidden" name="level" value="${page:level}"/>
 
 		<table width="100%" cellspacing="0" cellpadding="0" border="0">

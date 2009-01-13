@@ -43,6 +43,7 @@
 
 
 <form name="leaveMessageForm" method="post" action="${webimroot}/leavemessage.php">
+<input type="hidden" name="style" value="${styleid}"/>
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top" height="150" style="padding:5px">
@@ -104,16 +105,16 @@ ${endif:errors}
 		<table cellspacing="1" cellpadding="5" border="0" class="form">
 			<tr>
 				<td class="text">${msg:form.field.email}:</td>
-				<td><input type="text" name="email" size="50" value="" class="username"/></td>
+				<td><input type="text" name="email" size="50" value="${form:email}" class="username"/></td>
 			</tr>
 			<tr>
 				<td class="text">${msg:form.field.name}:</td>
-				<td><input type="text" name="name" size="50" value="" class="username"/></td>
+				<td><input type="text" name="name" size="50" value="${form:name}" class="username"/></td>
 			</tr>
 			<tr>
 				<td class="text">${msg:form.field.message}:</td>
 				<td height="120" valign="top">
-					<textarea name="message" tabindex="0" cols="40" rows="8" style="border:1px solid #878787; overflow:auto"></textarea>
+					<textarea name="message" tabindex="0" cols="40" rows="8" style="border:1px solid #878787; overflow:auto">${form:message}</textarea>
 				</td>
 			</tr>
 			<tr>

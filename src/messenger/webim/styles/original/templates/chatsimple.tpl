@@ -101,7 +101,7 @@
 
 		<table width="585" cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td width="20" valign="top"><img src='${webimroot}${msg:image.chat.history}' width="20" height="80" border="0" alt="History" /></td>
+	    <td width="20" valign="top"><img src='${webimroot}${url:image.chat.history}' width="20" height="80" border="0" alt="History" /></td>
     	<td width="565" valign="top" id="chatwndtd">
 			<table width="100%" cellspacing="0" cellpadding="0" border="0">
 			<tr>
@@ -128,7 +128,7 @@
 		</tr>
 
 		<tr>
-	    <td width="20" valign="top"><img src='${webimroot}${msg:image.chat.message}' width="20" height="85" border="0" alt="Message" /></td>
+	    <td width="20" valign="top"><img src='${webimroot}${url:image.chat.message}' width="20" height="85" border="0" alt="Message" /></td>
     	<td width="565" valign="top">
 			<table width="100%" cellspacing="0" cellpadding="0" border="0">
 			<tr>
