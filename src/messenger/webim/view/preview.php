@@ -2,7 +2,7 @@
 /*
  * This file is part of Web Instant Messenger project.
  *
- * Copyright (c) 2005-2008 Web Messenger Community
+ * Copyright (c) 2005-2009 Web Messenger Community
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -45,7 +45,11 @@
 <br />
 
 <form name="preview" method="get" action="<?php echo $webimroot ?>/operator/preview.php">
-<table cellspacing='0' cellpadding='0' border='0'><tr><td background='<?php echo $webimroot ?>/images/loginbg.gif'><table cellspacing='0' cellpadding='0' border='0'><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlt.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrt.gif' width='16' height='16' border='0' alt=''></td></tr><tr><td></td><td align='center'><table border='0' cellspacing='0' cellpadding='0'>
+<table cellspacing='0' cellpadding='0' border='0'>
+<?php if($page['tabs']) { ?>
+<tr><td align="right" style="padding-right:16px;"><table cellspacing="0" cellpadding="0" border="0"><tr><?php foreach($page['tabs'] as $k => $v) { if($v) { ?><td class="textform" style="padding: 2px 9px 3px 9px;"><a href="<?php echo $v ?>"><?php echo $k ?></a></td><?php } else { ?><td class="textform" background="<?php echo $webimroot ?>/images/loginbg.gif" style="border-left:1px solid #bbbbbb;border-top:1px solid #bbbbbb;border-right:1px solid #bbbbbb;padding: 2px 9px 3px 9px;"><?php echo $k ?></td><?php }} ?></tr></table></td></tr>
+<?php } ?>
+<tr><td background='<?php echo $webimroot ?>/images/loginbg.gif'><table cellspacing='0' cellpadding='0' border='0'><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlt.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrt.gif' width='16' height='16' border='0' alt=''></td></tr><tr><td></td><td align='center'><table border='0' cellspacing='0' cellpadding='0'>
 	<tr>
 		<td colspan="3" class="formauth"><?php echo getlocal("page.preview.choose") ?></td>
 	</tr>
