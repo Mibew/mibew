@@ -2,7 +2,7 @@
 /*
  * This file is part of Web Instant Messenger project.
  *
- * Copyright (c) 2005-2008 Web Messenger Community
+ * Copyright (c) 2005-2009 Web Messenger Community
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,7 +17,7 @@ require_once('libs/operator.php');
 
 $image = verifyparam("image","/^\w+$/", "webim");
 $lang = verifyparam(isset($_GET['language']) ? "language" : "lang", "/^[\w-]{2,5}$/", "");
-if(!$lang || !in_array($lang,$available_locales)) {
+if(!$lang || !locale_exists($lang)) {
 	$lang = $current_locale;
 }
 
