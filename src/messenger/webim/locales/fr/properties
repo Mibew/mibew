@@ -82,7 +82,6 @@ errors.failed.uploading.file=Erreur de téléchargement "{0}": "{1}".
 errors.file.move.error=Erreur de transfert de fichier
 errors.file.size.exceeded=Taille excessive du fichier téléchargé
 errors.footer=</ul></font>
-harderrors.header=<font color="#c13030"><b>Exécution impossible:</b><br/><ul>
 errors.header=<font color="#c13030"><b>Corrigez les erreurs:</b><br/><ul>
 errors.invalid.file.type=Type de fichier non valide
 errors.prefix=<li class="error">
@@ -113,12 +112,14 @@ form.field.password=Mot de Passe
 form.field.password_confirm.description=Confirmez le nouveau mot de passe.
 form.field.password_confirm=Confirmation
 form.field.translation=Traduire
+harderrors.header=<font color="#c13030"><b>Exécution impossible:</b><br/><ul>
 image.button.delete=/locales/fr/images/delete.gif
 image.button.login=/locales/fr/images/login.gif
 image.button.save=/locales/fr/images/save.gif
 image.button.search=/locales/fr/images/search.gif
 image.chat.history=/locales/fr/images/history.gif
 image.chat.message=/locales/fr/images/message.gif
+image.chat.sprite=/locales/fr/images/wmchat.png
 install.1.connected=Vous êtes connecté à un serveur MySQL version {0}
 install.2.create=Créer base de données "{0}"
 install.2.db_exists=La base de données "{0}" est créée.
@@ -255,11 +256,11 @@ pending.table.head.total=Durée Totale
 pending.table.head.waittime=Temps d'attente
 pending.table.speak=Cliquer pour dialoguer avec le Visiteur
 pending.table.view=Contrôler les conversations
-permissions.title=Autorisations
-permissions.intro=Vous contrôlez ici le champ d'action de l'opérateur
 permission.admin=Gestion du programme: Réglages, Agents-opérateurs, Générateur de bouton
-permission.viewthreads=Voir le dialogue en cours d'un autre opérateur
 permission.takeover=Reprendre le contrôle du dialogue en cours
+permission.viewthreads=Voir le dialogue en cours d'un autre opérateur
+permissions.intro=Vous contrôlez ici le champ d'action de l'opérateur
+permissions.title=Autorisations
 settings.chat.title.description=Département de votre société, par exemple.
 settings.chat.title=Titre dans la fenêtre de dialogue
 settings.chatstyle.description=Aperçu de toutes les pages de chaque style disponible <a href="preview.php">ici</a>

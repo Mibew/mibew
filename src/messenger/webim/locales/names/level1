@@ -41,6 +41,7 @@ form.field.message
 form.field.name
 image.chat.history
 image.chat.message
+image.chat.sprite
 leavemail.body
 leavemail.subject
 leavemessage.close
