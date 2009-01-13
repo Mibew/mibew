@@ -1,3 +1,14 @@
+  1.5.1
+  -----
+  [!] significant optimization of chat window (both themes), reduced number of images and their sizes
+  [+] tabs in settings: Optional Services, Themes preview
+  [+] better French and Spanish translations, additional languages are stored separately
+  [+] detect Chrome browser, show its version
+  [!] reverted order in title, removed available_locales variable from config.php (detect automatically)
+  [!] return English message by default (when translation for other language is absent)
+  [!] problems with styles, fixed error messages in avatar uploading
+  [+] nice confirmation when form is saved
+
   1.5.0
   -----
   [!] sound notifications: FF (mac,win), Opera (mac,win), IE, Safari (mac,win)
