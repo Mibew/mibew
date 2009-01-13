@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
+   <channel>
+      <title>Open Web Messenger</title>
+      <link>http://ebaursolutions.info/ibattle.xml</link>
+      <description></description>
+      <language>en</language>
+          <item>
+             <title>Forums</title>
+            <enclosure url="http://openwebim.org/forums" type="application/octet-stream" /> <link>http://openwebim.org/forums</link>
+         <description>Look at the cunning forums!</description>
+         </item>
+</channel>
+</rss>
