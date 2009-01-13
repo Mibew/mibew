@@ -1,6 +1,6 @@
 <?php
 
-$available_locales = array("en", "ru");
+$available_locales = array("en", "ru", "sp");
 $default_locale = "en";
 $siteroot = "";
 $site_encoding = "utf-8"; 
@@ -145,6 +145,9 @@ function getstring_($text,$locale) {
 	if( isset($localized[$text]) )
 		return $localized[$text];
 
+	if( $locale != 'en' ) {
+		return getstring_($text,'en');
+	}
 	return "!".$text;
 }
 
