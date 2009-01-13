@@ -2,7 +2,7 @@
 /*
  * This file is part of Web Instant Messenger project.
  *
- * Copyright (c) 2005-2008 Web Messenger Community
+ * Copyright (c) 2005-2009 Web Messenger Community
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,6 +17,7 @@ require_once('../libs/chat.php');
 require_once('../libs/pagination.php');
 require_once('../libs/operator.php');
 require_once('../libs/expand.php');
+require_once('../libs/settings.php');
 
 $operator = check_login();
 
@@ -118,5 +119,6 @@ foreach($templateList as $tpl) {
 }
 
 start_html_output();
+setup_settings_tabs(3);
 require('../view/preview.php');
 ?>

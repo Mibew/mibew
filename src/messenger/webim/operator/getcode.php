@@ -2,7 +2,7 @@
 /*
  * This file is part of Web Instant Messenger project.
  *
- * Copyright (c) 2005-2008 Web Messenger Community
+ * Copyright (c) 2005-2009 Web Messenger Community
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,7 +18,8 @@ require_once('../libs/operator.php');
 $operator = check_login();
 
 $imageLocales = array();
-foreach($available_locales as $curr) {
+$allLocales = get_available_locales();
+foreach($allLocales as $curr) {
 	$imagesDir = "../locales/$curr/button";
 	if($handle = opendir($imagesDir)) {
 		while (false !== ($file = readdir($handle))) {

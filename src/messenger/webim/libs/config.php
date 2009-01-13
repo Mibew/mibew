@@ -2,7 +2,7 @@
 /*
  * This file is part of Web Instant Messenger project.
  *
- * Copyright (c) 2005-2008 Web Messenger Community
+ * Copyright (c) 2005-2009 Web Messenger Community
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -58,8 +58,7 @@ $webim_messages_locale = "en";
 /*
  *   Locales
  */
-$available_locales = array("en", "ru" /* preliminary: "sp", "fr" */);
-$home_locale = "ru";						/* native name will be used in this locale */
+$home_locale = "en";						/* native name will be used in this locale */
 $default_locale = "en";						/* if user does not provide known lang */
 
 /*
@@ -67,15 +66,5 @@ $default_locale = "en";						/* if user does not provide known lang */
  *   have user name or id in session. Default value: visitor_from_request
  */
 $remote_visitor = 'visitor_from_request';
-
-/*
- *   Timeout (in seconds) when online operator becomes offline.
- */
-$online_timeout = 30;
-
-/*
- *   Maximum uploaded file size.
- */
-$max_uploaded_file_size = 100000;
 
 ?>

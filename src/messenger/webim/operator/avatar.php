@@ -2,7 +2,7 @@
 /*
  * This file is part of Web Instant Messenger project.
  *
- * Copyright (c) 2005-2008 Web Messenger Community
+ * Copyright (c) 2005-2009 Web Messenger Community
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -36,10 +36,12 @@ if( !$op ) {
         $orig_filename = $_FILES['avatarFile']['name'];
         $tmp_file_name = $_FILES['avatarFile']['tmp_name'];
 
-        $ext = substr($orig_filename, 1 + strrpos($orig_filename, "."));
+        $ext = strtolower(substr($orig_filename, 1 + strrpos($orig_filename, ".")));
         $new_file_name = "$opId.$ext";
+        loadsettings();
 
-        if ($_FILES['avatarFile']['size'] > $max_uploaded_file_size) {
+        $file_size = $_FILES['avatarFile']['size'];
+        if ($file_size == 0 || $file_size > $settings['max_uploaded_file_size']) {
             $errors[] = failed_uploading_file($orig_filename, "errors.file.size.exceeded");
         } elseif(!in_array($ext, $valid_types)) {
             $errors[] = failed_uploading_file($orig_filename, "errors.invalid.file.type");

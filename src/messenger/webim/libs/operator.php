@@ -2,7 +2,7 @@
 /*
  * This file is part of Web Instant Messenger project.
  *
- * Copyright (c) 2005-2008 Web Messenger Community
+ * Copyright (c) 2005-2009 Web Messenger Community
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -109,11 +109,12 @@ function notify_operator_alive($operatorid) {
 }
 
 function has_online_operators() {
-	global $online_timeout;
+	global $settings;
+	loadsettings();
 	$link = connect();
 	$row = select_one_row("select min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time from chatoperator",$link);
 	mysql_close($link);
-	return $row['time'] < $online_timeout;
+	return $row['time'] < $settings['online_timeout'];
 }
 
 function get_operator_name($operator) {

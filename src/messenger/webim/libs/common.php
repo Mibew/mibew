@@ -2,7 +2,7 @@
 /*
  * This file is part of Web Instant Messenger project.
  *
- * Copyright (c) 2005-2008 Web Messenger Community
+ * Copyright (c) 2005-2009 Web Messenger Community
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,7 +17,7 @@ session_start();
 require_once(dirname(__FILE__).'/converter.php');
 require_once(dirname(__FILE__).'/config.php');
 
-$version = '1.5.0';
+$version = '1.5.1';
 
 function myiconv($in_enc, $out_enc, $string) {
 	global $_utf8win1251, $_win1251utf8;
@@ -64,12 +64,33 @@ function debugexit_print( $var ) {
 	exit;
 }
 
+$locale_pattern = "/^[\w-]{2,5}$/";
+
+function locale_exists($locale) {
+	return file_exists(dirname(__FILE__)."/../locales/$locale/properties");
+}
+
+function get_available_locales() {
+	global $locale_pattern;
+	$list = array();
+	$folder = dirname(__FILE__)."/../locales";
+	if($handle = opendir($folder)) {
+		while (false !== ($file = readdir($handle))) {
+			if (preg_match($locale_pattern, $file) && $file != 'names' && is_dir("$folder/$file")) {
+				$list[] = $file;
+			}
+		}
+		closedir($handle);
+	}
+	return $list;
+}
+
 function get_user_locale() {
-	global $available_locales, $default_locale;
+	global $default_locale;
 
 	if( isset($_COOKIE['webim_locale']) ) {
 		$requested_lang = $_COOKIE['webim_locale'];
-		if( in_array($requested_lang,$available_locales) )
+		if( locale_exists($requested_lang) )
 			return $requested_lang;
 	}
 
@@ -79,30 +100,30 @@ function get_user_locale() {
 			if( strlen($requested_lang) > 2 )
 				$requested_lang = substr($requested_lang,0,2);
 
-			if( in_array($requested_lang,$available_locales) )
+			if( locale_exists($requested_lang) )
 				return $requested_lang;
 		}
 	}
 
-	if( in_array($default_locale,$available_locales) )
+	if( locale_exists($default_locale) )
 		return $default_locale;
 
 	return 'en';
 }
 
 function get_locale() {
-	global $available_locales, $webimroot;
+	global $webimroot, $locale_pattern;
 
-	$locale = verifyparam("locale", "/^[\w-]{2,5}$/", "");
+	$locale = verifyparam("locale", $locale_pattern, "");
 
-	if( $locale && in_array($locale,$available_locales) ) {
+	if( $locale && locale_exists($locale) ) {
 		$_SESSION['locale'] = $locale;
 		setcookie('webim_locale', $locale, time()+60*60*24*1000, "$webimroot/");
 	} else if( isset($_SESSION['locale']) ){
 		$locale = $_SESSION['locale'];
 	}
 
-	if( !$locale || !in_array($locale,$available_locales) )
+	if( !$locale || !locale_exists($locale) )
 		$locale = get_user_locale();
 	return $locale;
 }
@@ -113,9 +134,10 @@ $messages = array();
 $output_encoding = array();
 
 function get_locale_links($href) {
-	global $available_locales, $current_locale;
+	global $current_locale;
 	$localeLinks = "";
-	foreach($available_locales as $k) {
+	$allLocales = get_available_locales();
+	foreach($allLocales as $k) {
 		if( strlen($localeLinks) > 0 )
 			$localeLinks .= " &bull; ";
 		if( $k == $current_locale )
@@ -449,6 +471,8 @@ $settings = array(
 	'chattitle' => 'Live Support',
 	'geolink' => 'http://api.hostip.info/get_html.php?ip={ip}',
 	'geolinkparams' => 'width=440,height=100,toolbar=0,scrollbars=0,location=0,status=1,menubar=0,resizable=1',
+	'online_timeout' => 30,		/* Timeout (in seconds) when online operator becomes offline */
+	'max_uploaded_file_size' => 100000,
 );
 $settingsloaded = false;
 $settings_in_db = array();

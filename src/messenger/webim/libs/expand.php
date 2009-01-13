@@ -2,7 +2,7 @@
 /*
  * This file is part of Web Instant Messenger project.
  *
- * Copyright (c) 2005-2008 Web Messenger Community
+ * Copyright (c) 2005-2009 Web Messenger Community
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -44,6 +44,8 @@ function expand_var($matches) {
 			return $webimroot;
 		} else if($var == 'tplroot') {
 			return "$webimroot/styles/$current_style";
+		} else if($var == 'styleid') {
+			return $current_style;
 		} else if($var == 'pagination') {
 			return generate_pagination($page['pagination']);
 		} else if($var == 'errors' || $var == 'harderrors') {

@@ -2,7 +2,7 @@
 /*
  * This file is part of Web Instant Messenger project.
  *
- * Copyright (c) 2005-2008 Web Messenger Community
+ * Copyright (c) 2005-2009 Web Messenger Community
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -112,7 +112,8 @@ if($stringid) {
 }
 
 $localesList = array();
-foreach($available_locales as $loc) {
+$allLocales = get_available_locales();
+foreach($allLocales as $loc) {
 	$localesList[] = array("id" => $loc, "name" => getlocal_("localeid", $loc));
 }
 
