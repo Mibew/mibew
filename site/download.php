@@ -18,15 +18,26 @@ require_once('inc/menu.i');
 
 <br/>
 <br/>
-<?php echo getlocal("downl.local") ?><br/>
+<?php echo getlocal("downl.local") ?>
+<table cellpadding="0" cellspacing="2" border="0">
+<tr><td style="padding-right:2cm;">
 <a href="http://prdownloads.sourceforge.net/webim/webim_fr151.zip?download">
-French, 1.5.1</a><br/>
+French</a></td>
+<td style="padding-right:1cm;">1.5.1</td>
+<td>11 Jan 2009</td></tr>
 
+<tr><td>
 <a href="http://prdownloads.sourceforge.net/webim/webim_ru151.zip?download">
-Russian, 1.5.1</a><br/>
+Russian</a></td><td>1.5.1</td><td>11 Jan 2009</td></tr>
 
+<tr><td>
 <a href="http://prdownloads.sourceforge.net/webim/webim_sp151.zip?download">
-Spanish, 1.5.1</a>
+Spanish</a></td><td>1.5.1.1</td><td>13 Jan 2009</td></tr>
+
+<tr><td style="padding-right:1cm;">
+<a href="http://prdownloads.sourceforge.net/webim/webim_zh-tw151.zip?download">
+Traditional Chinese</a></td><td>1.5.1</td><td>15 Jan 2009</td></tr>
+</table>
 
 
 </div>
