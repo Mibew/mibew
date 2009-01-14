@@ -119,6 +119,6 @@ foreach($templateList as $tpl) {
 }
 
 start_html_output();
-setup_settings_tabs(3);
+setup_settings_tabs(2);
 require('../view/preview.php');
 ?>
