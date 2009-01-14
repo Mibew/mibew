@@ -31,8 +31,8 @@ function setup_settings_tabs($active) {
 	$page['tabs'] = array(
 		getlocal("page_settings.tab.main") => $active != 0 ? "$webimroot/operator/settings.php" : "",
 		getlocal("page_settings.tab.features") => $active != 1 ? "$webimroot/operator/features.php" : "",
-		getlocal("page_settings.tab.departments") => $active != 2 ? "$webimroot/operator/departments.php" : "",
-		getlocal("page_settings.tab.themes") => $active != 3 ? "$webimroot/operator/preview.php" : "",
+		getlocal("page_settings.tab.themes") => $active != 2 ? "$webimroot/operator/preview.php" : "",
+		getlocal("page_settings.tab.news") => $active != 3 ? "$webimroot/operator/news.php" : "",
 	);
 }
 

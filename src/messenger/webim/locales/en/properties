@@ -89,7 +89,6 @@ errors.required=Please fill "{0}".
 errors.suffix=</li>
 errors.wrong_field=Please fill "{0}" correctly.  
 features.saved=Features activated
-departments.saved.Departments Saved
 form.field.address.description=Ex: 12.23.45.123 or todo.com
 form.field.address=Visitor's Address
 form.field.agent_commonname.description=This name will be seen by your visitors.
@@ -173,9 +172,6 @@ page.analysis.search.head_messages=Visitor's messages
 page.analysis.search.head_name=Name
 page.analysis.search.head_operator=Operator
 page.analysis.search.head_time=Time in chat
-page.analysis.search.head_geo=Geo
-page.analysis.search.user_agent=Browser <br/><small>Details in the tooltip</small>
-page.analysis.search.head_os=Operation System
 page.analysis.userhistory.intro=You can find chat history of your visitors here.
 page.analysis.userhistory.title=Visits history
 page.chat.old_browser.close=Close...
@@ -251,7 +247,7 @@ page_login.remember=Remember
 page_login.title=Login
 page_search.intro=Search for chat history of a specified user or a specified phrase in a message.
 page_settings.intro=Specify options affecting chat window and common system behavior
-page_settings.tab.departments=Departments
+page_settings.tab.news=News
 page_settings.tab.features=Optional Services
 page_settings.tab.main=General
 page_settings.tab.themes=Themes preview
@@ -308,7 +304,3 @@ topMenu.admin=Administration
 topMenu.logoff=Exit
 topMenu.users=Visitors
 typing.remote=Remote user is typing...
-
-departments.add=Add a department
-departments.add.description= Add a department for users to contact one user.
-
