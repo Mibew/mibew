@@ -102,6 +102,9 @@ if($stringid) {
 		}
 
 		if(count($errors) == 0) {
+			if (get_magic_quotes_gpc()) {
+				$translation = stripslashes($translation);
+			}
 			save_message($target, $stringid, $translation);
 
 			$page['saved'] = true;
