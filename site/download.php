@@ -38,7 +38,9 @@ Spanish</a></td><td>1.5.1.1</td><td>13 Jan 2009</td></tr>
 <a href="http://prdownloads.sourceforge.net/webim/webim_zh-tw151.zip?download">
 Traditional Chinese</a></td><td>1.5.1</td><td>15 Jan 2009</td></tr>
 </table>
+<br/>
 
+<div><?php echo getlocal("lang.missing") ?><a href="/forums/index.php?board=7.0"><?php echo getlocal("lang.link") ?></a></div>
 
 </div>
 </div>

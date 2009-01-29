@@ -59,3 +59,6 @@ support.FAQ=FAQ
 support.ScreenShots=Screenshots
 
 tag.pagination.info=Page {0} of {1}, {2}-{3} from {4}
+
+lang.missing=Your language is missing?
+lang.link=Try here
