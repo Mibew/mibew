@@ -126,8 +126,9 @@ function get_operator_name($operator) {
 }
 
 function generate_button($title,$locale,$style,$inner,$showhost,$forcesecure) {
-	$link = get_app_location($showhost,$forcesecure)."/client.php". ($locale?"?locale=$locale" : "").($style ? ($locale?"&":"?")."style=$style" : "");
-	$temp = get_popup($link, $inner, $title, "webim", "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1" );
+	$link = get_app_location($showhost,$forcesecure)."/client.php". ($locale?"?locale=$locale" : "").($style ? ($locale?"&amp;":"?")."style=$style" : "");
+	$temp = get_popup($link, "'$link".($locale||$style?"&amp;":"?")."url='+escape(document.location.href)+'&amp;referrer='+escape(document.referrer)",
+			$inner, $title, "webim", "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1" );
 	return "<!-- webim button -->".$temp."<!-- / webim button -->";
 }
 
@@ -142,7 +143,11 @@ function check_login() {
 				return $op;
 			}
 		}
-		$_SESSION['backpath'] = $_SERVER['PHP_SELF'];
+		$requested = $_SERVER['PHP_SELF'];
+		if($_SERVER['REQUEST_METHOD'] == 'GET' && $_SERVER['QUERY_STRING']) {
+			$requested .= "?".$_SERVER['QUERY_STRING'];
+		}
+		$_SESSION['backpath'] = $requested;
 		header("Location: $webimroot/operator/login.php");
 		exit;
 	}

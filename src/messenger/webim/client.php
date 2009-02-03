@@ -32,7 +32,11 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 			exit;
 		}
 
-		$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "";
+		$referer = isset($_GET['url']) ? $_GET['url'] :
+			(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "");
+		if(isset($_GET['referrer']) && $_GET['referrer']) {
+			$referer .= "\n".$_GET['referrer'];
+		}
 		$extAddr = $_SERVER['REMOTE_ADDR'];
 		if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) &&
 		          $_SERVER['HTTP_X_FORWARDED_FOR'] != $_SERVER['REMOTE_ADDR']) {

@@ -343,8 +343,9 @@ function wrong_field($key) {
 	return getlocal2("errors.wrong_field",array(getlocal($key)));
 }
 
-function get_popup($href,$message,$title,$wndName,$options) {
-	return "<a href=\"$href\" target=\"_blank\" ".($title?"title=\"$title\" ":"")."onclick=\"if(navigator.userAgent.toLowerCase().indexOf('opera') != -1 && window.event.preventDefault) window.event.preventDefault();this.newWindow = window.open('$href', '$wndName', '$options');this.newWindow.focus();this.newWindow.opener=window;return false;\">$message</a>";
+function get_popup($href,$jshref,$message,$title,$wndName,$options) {
+	if(!$jshref) { $jshref = "'$href'"; }
+	return "<a href=\"$href\" target=\"_blank\" ".($title?"title=\"$title\" ":"")."onclick=\"if(navigator.userAgent.toLowerCase().indexOf('opera') != -1 && window.event.preventDefault) window.event.preventDefault();this.newWindow = window.open($jshref, '$wndName', '$options');this.newWindow.focus();this.newWindow.opener=window;return false;\">$message</a>";
 }
 
 function get_image($href,$width,$height) {

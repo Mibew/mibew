@@ -1,3 +1,8 @@
+  1.5.2
+  -----
+  [!] lost query parameters after login redirect
+  [+] added referrer into button code
+
   1.5.1
   -----
   [!] significant optimization of chat window (both themes), reduced number of images and their sizes
