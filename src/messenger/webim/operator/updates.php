@@ -15,15 +15,18 @@
 require_once('../libs/common.php');
 require_once('../libs/operator.php');
 require_once('../libs/settings.php');
-require_once('../libs/config.php');
 
 $operator = check_login();
 
-$page = array('agentId' => '');
 $errors = array();
-
+$page = array(
+	'operator' => topage(get_operator_name($operator)),
+	'localizations' => get_available_locales(),
+	'phpVersion' => phpversion(),
+	'version' => $version,
+);
 
 setup_settings_tabs(3);
 start_html_output();
-require('../view/news.php');
+require('../view/updates.php');
 ?>

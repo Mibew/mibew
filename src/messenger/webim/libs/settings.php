@@ -32,7 +32,7 @@ function setup_settings_tabs($active) {
 		getlocal("page_settings.tab.main") => $active != 0 ? "$webimroot/operator/settings.php" : "",
 		getlocal("page_settings.tab.features") => $active != 1 ? "$webimroot/operator/features.php" : "",
 		getlocal("page_settings.tab.themes") => $active != 2 ? "$webimroot/operator/preview.php" : "",
-		getlocal("page_settings.tab.news") => $active != 3 ? "$webimroot/operator/news.php" : "",
+		getlocal("page_settings.tab.updates") => $active != 3 ? "$webimroot/operator/updates.php" : "",
 	);
 }
 
