@@ -460,7 +460,10 @@ function webim_mail($toaddr, $reply_to, $subject, $body) {
 	mail($toaddr, $real_subject, wordwrap(myiconv($webim_encoding, $mail_encoding, $body),70), $headers);
 }
 
+$dbversion = '1.5.1';
+
 $settings = array(
+	'dbversion' => 0,
 	'email' => '',				/* inbox for left messages */
 	'title' => 'Your Company',
 	'hosturl' => 'http://webim.sourceforge.net',

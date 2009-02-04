@@ -140,6 +140,7 @@ install.license=Software license agreement
 install.message=Follow the wizard to setup your database. 
 install.next=Next step:
 install.title=Installation
+install.updatedb=Please, run <a href="{0}">Update wizard</a> to adjust your database.
 installed.login_link=Proceed to login page
 installed.message=<b>Application installed successfully.</b>
 installed.notice=You can logon as admin with empty password.<br/><br/><font color="#c13030"><b>!!! For security reasons, please change your password immediately and remove /webim/install folder from your server.</b></font>

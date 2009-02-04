@@ -13,6 +13,7 @@
  */
 
 require_once('../libs/common.php');
+require_once('../libs/settings.php');
 require_once('dbinfo.php');
 
 $page = array(
@@ -112,7 +113,7 @@ function check_columns($link) {
 }
 
 function check_status() {
-	global $page, $webimroot;
+	global $page, $webimroot, $settings, $dbversion;
 	$link = check_connection();
 	if(!$link) {
 		return;
@@ -140,6 +141,10 @@ function check_status() {
 	$page['nextstepurl'] = "$webimroot/";
 
 	mysql_close($link);
+
+	loadsettings();
+	$settings['dbversion'] = $dbversion;
+	update_settings();
 }
 
 check_status();

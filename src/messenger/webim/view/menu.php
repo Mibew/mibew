@@ -43,6 +43,10 @@
 	<?php echo getlocal("admin.content.description") ?>
 <br>
 <br>
+<?php if( $page['needUpdate'] ) { ?>
+<div id="formmessage"><?php echo getlocal2("install.updatedb",array($page['updateWizard'])) ?></div>
+<br/>
+<?php } ?>
 
 <table cellspacing="0" cellpadding="0" border="0">
 

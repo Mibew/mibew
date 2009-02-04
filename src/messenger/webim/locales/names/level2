@@ -52,6 +52,7 @@ image.button.delete
 image.button.login
 image.button.save
 image.button.search
+install.updatedb
 leftMenu.client_agents
 leftMenu.client_gen_button
 leftMenu.client_settings

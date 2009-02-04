@@ -24,6 +24,8 @@ $page = array(
 	'localeLinks' => get_locale_links("$webimroot/operator/index.php"),
 	'showban' => $settings['enableban'] == "1",
 	'showadmin' => is_capable($can_administrate, $operator),
+	'needUpdate' => $settings['dbversion'] != $dbversion,
+	'updateWizard' => "$webimroot/install/",
 );
 
 start_html_output();
