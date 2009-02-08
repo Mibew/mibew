@@ -35,7 +35,7 @@ function threads_by_userid($userid) {
 	$link = connect();
 
 	$query = sprintf("select unix_timestamp(dtmcreated) as created, unix_timestamp(dtmmodified) as modified, ".
-			 " threadid, remote, agentName, userName, userAgent ".
+			 " threadid, remote, agentName, userName ".
 			 "from chatthread ".
 			 "where userid=\"$userid\" order by created DESC", $userid);
 
