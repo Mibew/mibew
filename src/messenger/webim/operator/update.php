@@ -14,6 +14,7 @@
 
 require_once('../libs/common.php');
 require_once('../libs/chat.php');
+require_once('../libs/userinfo.php');
 require_once('../libs/operator.php');
 
 $operator = get_logged_in();
@@ -38,44 +39,6 @@ $threadstate_key = array(
 	$state_closed => "chat.thread.state_closed",
 	$state_loading => "chat.thread.state_loading"
 );
-
-function get_useragent_version($userAgent) {
-    global $knownAgents;
-    if (is_array($knownAgents)) {
-	$userAgent = strtolower($userAgent);
-	foreach( $knownAgents as $agent ) {
-		if( strstr($userAgent,$agent) ) {
-			if( preg_match( "/".$agent."[\\s\/]?(\\d+(\\.\\d+(\\.\\d+(\\.\\d+)?)?)?)/", $userAgent, $matches ) ) {
-				$ver = $matches[1];
-				if($agent=='safari') {
-					if(preg_match( "/version\/(\\d+(\\.\\d+(\\.\\d+)?)?)/", $userAgent, $matches)) {
-						$ver = $matches[1];
-					} else {
-						$ver = "1 or 2 (build ".$ver.")";
-					}
-					if(preg_match( "/mobile\/(\\d+(\\.\\d+(\\.\\d+)?)?)/", $userAgent, $matches)) {
-						$userAgent = "iPhone ".$matches[1]." ($agent $ver)";
-						break;
-					}
-				}
-
-				$userAgent = ucfirst($agent)." ".$ver;
-				break;
-			}
-		}
-	}
-    }
-    return $userAgent;
-}
-
-function get_user_addr($addr) {
-	global $settings;
-	if($settings['geolink'] && preg_match( "/(\\d+\\.\\d+\\.\\d+\\.\\d+)/", $addr, $matches )) {
-		$userip = $matches[1];
-		return get_popup(str_replace("{ip}", $userip, $settings['geolink']), '', htmlspecialchars($addr), "GeoLocation", "ip$userip", $settings['geolinkparams']);
-	}
-	return htmlspecialchars($addr);
-}
 
 function thread_to_xml($thread,$link) {
 	global $state_chatting, $threadstate_to_string, $threadstate_key,

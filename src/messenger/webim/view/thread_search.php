@@ -79,7 +79,7 @@
 					<a href="<?php echo $webimroot ?>/operator/threadprocessor.php?threadid=<?php echo $chatthread['threadid'] ?>" target="_blank" onclick="this.newWindow = window.open('<?php echo $webimroot ?>/operator/threadprocessor.php?threadid=<?php echo $chatthread['threadid'] ?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo topage(htmlspecialchars($chatthread['userName'])) ?></a>
 				</td><td background='<?php echo $webimroot ?>/images/tablediv3.gif'><img width='3' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td>
 				<td height='30' class='table'>
-					<?php echo topage(htmlspecialchars($chatthread['remote'])) ?>
+        			<?php echo get_user_addr(topage($chatthread['remote'])) ?>
 				</td><td background='<?php echo $webimroot ?>/images/tablediv3.gif'><img width='3' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td>
 				<td height='30' class='table'>
         			<?php if( $chatthread['agentName'] ) { ?><?php echo topage(htmlspecialchars($chatthread['agentName'])) ?><?php } ?>
@@ -88,7 +88,7 @@
         			<?php echo topage(htmlspecialchars($chatthread['size'])) ?>
 				</td><td background='<?php echo $webimroot ?>/images/tablediv3.gif'><img width='3' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td>
 				<td height='30' class='table'>
-					<?php echo strftime("%B, %d %Y %H:%M:%S", $chatthread['created']) ?>,  <?php echo date_diff($chatthread['modified']-$chatthread['created']) ?>
+					<?php echo date_diff($chatthread['modified']-$chatthread['created']) ?>, <?php echo strftime("%B, %d %Y %H:%M:%S", $chatthread['created']) ?>
 				</td>
 			</tr>
 			<tr><td height='2' colspan='9'></td></tr><tr><td bgcolor='#e1e1e1' colspan='9'><img width='1' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td></tr><tr><td height='2' colspan='9'></td></tr>

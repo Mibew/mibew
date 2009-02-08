@@ -15,9 +15,11 @@
 require_once('../libs/common.php');
 require_once('../libs/operator.php');
 require_once('../libs/chat.php');
+require_once('../libs/userinfo.php');
 require_once('../libs/pagination.php');
 
 $operator = check_login();
+loadsettings();
 
 $page = array( 'operator' => topage(get_operator_name($operator)) );
 
