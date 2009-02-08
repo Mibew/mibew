@@ -18,6 +18,7 @@ chat.status.user.changedname
 chat.status.user.dead
 chat.status.user.left
 chat.status.user.reopenedthread
+chat.visitor.info
 chat.wait
 chat.window.chatting_with
 chat.window.close_title

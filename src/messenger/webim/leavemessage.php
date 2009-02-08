@@ -22,6 +22,7 @@ $page = array();
 $email = getparam('email');
 $visitor_name = getparam('name');
 $message = getparam('message');
+$info = getparam('info');
 
 if( !$email ) {
 	$errors[] = no_field("form.field.email");
@@ -39,13 +40,14 @@ if( count($errors) > 0 ) {
 	$page['formname'] = topage($visitor_name);
 	$page['formemail'] = $email;
 	$page['formmessage'] = topage($message);
+	$page['info'] = $info;
 	setup_logo();
 	expand("styles", getchatstyle(), "leavemessage.tpl");
 	exit;
 }
 
 $subject = getstring2_("leavemail.subject", array($visitor_name), $webim_messages_locale);
-$body = getstring2_("leavemail.body", array($visitor_name,$email,$message), $webim_messages_locale);
+$body = getstring2_("leavemail.body", array($visitor_name,$email,$message,$info ? "$info\n" : ""), $webim_messages_locale);
 
 loadsettings();
 $inbox_mail = $settings['email'];

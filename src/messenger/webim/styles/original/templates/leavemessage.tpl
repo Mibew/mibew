@@ -28,6 +28,7 @@
 
 <form name="leaveMessageForm" method="post" action="${webimroot}/leavemessage.php">
 <input type="hidden" name="style" value="${styleid}"/>
+<input type="hidden" name="info" value="${page:info}"/>
 <table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
 <tr><td colspan="3" height="15"></td></tr>
 <tr>

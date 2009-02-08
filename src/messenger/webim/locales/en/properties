@@ -46,6 +46,7 @@ chat.thread.state_closed=Closed
 chat.thread.state_loading=Loading
 chat.thread.state_wait=In queue
 chat.thread.state_wait_for_another_agent=Waiting for operator
+chat.visitor.info=Info: {0}
 chat.wait=Thank you for contacting us. An operator will be with you shortly...
 chat.window.chatting_with=You chat with:
 chat.window.close_title=Close chat
@@ -144,7 +145,7 @@ install.updatedb=Please, run <a href="{0}">Update wizard</a> to adjust your data
 installed.login_link=Proceed to login page
 installed.message=<b>Application installed successfully.</b>
 installed.notice=You can logon as admin with empty password.<br/><br/><font color="#c13030"><b>!!! For security reasons, please change your password immediately and remove /webim/install folder from your server.</b></font>
-leavemail.body=Your have a message from {0}:\n\n{2}\n\nHis email: {1}\n\n--- \nYours site messenger
+leavemail.body=Your have a message from {0}:\n\n{2}\n\nHis email: {1}\n{3}\n--- \nYours site messenger
 leavemail.subject=Question from {0}
 leavemessage.close=Close
 leavemessage.descr=Sorry, no operator is available at the moment. Please, try again later or ask your question in this form.
