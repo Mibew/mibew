@@ -20,7 +20,7 @@ index.how.title=How it works?
 index.how=You should place the button of Web Messenger at your site. Your visitors click the button and chat with your operators who help them.
 index.license.title=License
 index.license=This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0.
-index.hosted=Project is hosted by SourceForge.
+index.hosted=Copyright 2009 Open Web Messenger Powered By Trilex Labs
 
 features.price.title=Pricing
 features.price=<ul><li>Open-source code, free of charge\n<li>Eclipse Public License 1.0</ul>

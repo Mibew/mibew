@@ -16,9 +16,9 @@ require_once('../libs/common.php');
 require_once('../libs/pagination.php');
 
 function getparam( $name ) { 
-	global $webim_encoding; 
+	global $site_encoding; 
 	if( isset($_POST[$name]) ) 
-		return myiconv(getoutputenc(), $webim_encoding, $_POST[$name]); 
+		return myiconv(getoutputenc(), $site_encoding, $_POST[$name]); 
 	die("no ".$name." parameter"); 
 } 
 
@@ -30,10 +30,10 @@ function form_value($key) {
 }
 
 function save_message($locale,$key,$value) {
-	global $webim_encoding;
+	global $site_encoding;
 	$result = "";
 	$added = false;
-	$current_encoding = $webim_encoding;
+	$current_encoding = $site_encoding;
 	$fp = fopen(dirname(__FILE__)."/../locales/$locale/properties", "r");
 	while (!feof($fp)) {
 		$line = fgets($fp, 4096);
@@ -42,7 +42,7 @@ function save_message($locale,$key,$value) {
 			if($keyval[0] == 'encoding') {
 				$current_encoding = trim($keyval[1]);
 			} else if(!$added && $keyval[0] == $key) {
-				$line = "$key=".myiconv($webim_encoding, $current_encoding, str_replace("\r", "",str_replace("\n", "\\n",trim($value))))."\n";
+				$line = "$key=".myiconv($site_encoding, $current_encoding, str_replace("\r", "",str_replace("\n", "\\n",trim($value))))."\n";
 				$added = true;
 			}
 		}
@@ -50,7 +50,7 @@ function save_message($locale,$key,$value) {
 	}
 	fclose($fp);
 	if(!$added) {
-		$result .= "$key=".myiconv($webim_encoding, $current_encoding, str_replace("\r", "",str_replace("\n", "\\n",trim($value))))."\n";
+		$result .= "$key=".myiconv($site_encoding, $current_encoding, str_replace("\r", "",str_replace("\n", "\\n",trim($value))))."\n";
 	}
 	$fp = fopen(dirname(__FILE__)."/../locales/$locale/properties", "w");
 	fwrite($fp, $result);
@@ -66,7 +66,7 @@ function save_message($locale,$key,$value) {
 	$remoteHost = isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $extAddr;
 
 	fwrite($fp,"# ".date(DATE_RFC822)." by $remoteHost using $userbrowser\n");
-	fwrite($fp,"$key=".myiconv($webim_encoding, $current_encoding, str_replace("\r", "",str_replace("\n", "\\n",trim($value))))."\n");
+	fwrite($fp,"$key=".myiconv($site_encoding, $current_encoding, str_replace("\r", "",str_replace("\n", "\\n",trim($value))))."\n");
 	fclose($fp);
 }
 
