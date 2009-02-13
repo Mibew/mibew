@@ -82,6 +82,12 @@ function get_locale() {
 
 	if( !$locale || !in_array($locale,$available_locales) )
 		$locale = get_user_locale();
+		
+	$useragent = isset($_SERVER['HTTP_USER_AGENT']) ? strtolower($_SERVER['HTTP_USER_AGENT']) : "";
+	if( $locale == 'ru' && preg_match( "/googlebot[\\s\/]?(\\d+(\\.\\d+)?)/", $useragent) ) {
+		$locale = "en";
+	}
+		
 	return $locale;
 }
 
