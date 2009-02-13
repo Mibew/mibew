@@ -17,7 +17,7 @@
     <a href="http://sourceforge.net"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=195701&amp;type=2" width="125" height="37" border="0" alt="SourceForge.net Logo" /></a>
 </div>
 <div id="locales">
-    <?php echo $current_locale == 'en' ? 'en' : '<a href="?locale=en">en</a>' ?> | <?php echo $current_locale == 'sp' ? 'sp' : '<a href="?locale=sp">sp</a>' ?> | <?php echo $current_locale == 'ru' ? 'ru' : '<a href="?locale=ru">ru</a>' ?>
+    <?php echo $current_locale == 'en' ? 'en' : '<a href="?locale=en">en</a>' ?> | <?php echo $current_locale == 'sp' ? 'sp' : '<a href="?locale=sp">sp</a>' ?> | <?php echo $current_locale == 'ru' ? 'ru' : '<a href="?locale=ru" rel="nofollow">ru</a>' ?>
 </div>
 </div>
 </div>
