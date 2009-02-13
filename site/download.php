@@ -20,6 +20,11 @@ require_once('inc/menu.i');
 <br/>
 <?php echo getlocal("downl.local") ?>
 <table cellpadding="0" cellspacing="2" border="0">
+
+<tr><td>
+<a href="http://prdownloads.sourceforge.net/webim/webim_de151.zip?download">
+Deutsch</a></td><td>1.5.1</td><td>6 Feb 2009</td></tr>
+
 <tr><td style="padding-right:2cm;">
 <a href="http://prdownloads.sourceforge.net/webim/webim_fr151.zip?download">
 French</a></td>

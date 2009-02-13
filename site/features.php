@@ -51,6 +51,34 @@ require_once('inc/menu.i');
 <a href="#browsers"><?php echo getlocal("features.browsers.title") ?></a><br/>
 </p>
 </div>
+<?php /*
+<div id="side2" style="margin-top:20px;">
+<p>Feature voting:</p>
+<?php
+if(isset($_POST['answer'])) {
+?>	
+<p>
+Thank you for your vote.
+</p>
+<?php
+} else {
+?>
+<form action="features.php" name="vote" method="post" style="margin:5px 0 10px;padding: 0 10px;">
+<label><input type="radio" name="answer" value="ssl" style="margin-right:5px;"/>SSL Encryption<br/></label>
+<label><input type="radio" name="answer" value="dep" style="margin-right:5px;"/>Departments<br/></label>
+<label><input type="radio" name="answer" value="track" style="margin-right:5px;"/>Visitor tracking<br/></label>
+<label><input type="radio" name="answer" value="invite" style="margin-right:5px;"/>Proactive Chat Invitations<br/></label>
+<label><input type="radio" name="answer" value="pushpage" style="margin-right:5px;"/>Push Pages Capability<br/></label>
+<label><input type="radio" name="answer" value="prechat" style="margin-right:5px;"/>Pre-Chat Questionnaire<br/></label>
+</form>
+<p align="right">
+<a href="javascript:document.vote.submit();">Vote</a>
+</p>
+<?php
+}
+?>
+</div>
+*/  ?>
 </div>
 
 <?php require_once('inc/footer.i'); ?>
