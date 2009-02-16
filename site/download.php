@@ -13,8 +13,8 @@ require_once('inc/menu.i');
 <div id="downl">
 
 <?php echo getlocal("downl.release") ?><br/>
-<a href="http://prdownloads.sourceforge.net/webim/webim151.zip?download">
-1.5.1, January 11, 2009</a>
+<a href="http://prdownloads.sourceforge.net/webim/webim152.zip?download">
+1.5.2, February 16, 2009</a>
 
 <br/>
 <br/>
@@ -22,26 +22,25 @@ require_once('inc/menu.i');
 <table cellpadding="0" cellspacing="2" border="0">
 
 <tr><td>
-<a href="http://prdownloads.sourceforge.net/webim/webim_de151.zip?download">
-Deutsch</a></td><td>1.5.1</td><td>6 Feb 2009</td></tr>
+<a href="http://prdownloads.sourceforge.net/webim/webim_de152.zip?download">
+Deutsch</a></td><td>1.5.2</td><td>16 Feb 2009</td></tr>
 
 <tr><td style="padding-right:2cm;">
-<a href="http://prdownloads.sourceforge.net/webim/webim_fr151.zip?download">
+<a href="http://prdownloads.sourceforge.net/webim/webim_fr152.zip?download">
 French</a></td>
-<td style="padding-right:1cm;">1.5.1</td>
-<td>11 Jan 2009</td></tr>
+<td style="padding-right:1cm;">1.5.2</td><td>16 Feb 2009</td></tr>
 
 <tr><td>
-<a href="http://prdownloads.sourceforge.net/webim/webim_ru151.zip?download">
-Russian</a></td><td>1.5.1</td><td>11 Jan 2009</td></tr>
+<a href="http://prdownloads.sourceforge.net/webim/webim_ru152.zip?download">
+Russian</a></td><td>1.5.2</td><td>16 Feb 2009</td></tr>
 
 <tr><td>
-<a href="http://prdownloads.sourceforge.net/webim/webim_sp151.zip?download">
-Spanish</a></td><td>1.5.1.1</td><td>13 Jan 2009</td></tr>
+<a href="http://prdownloads.sourceforge.net/webim/webim_sp152.zip?download">
+Spanish</a></td><td>1.5.2</td><td>16 Feb 2009</td></tr>
 
 <tr><td style="padding-right:1cm;">
-<a href="http://prdownloads.sourceforge.net/webim/webim_zh-tw151.zip?download">
-Traditional Chinese</a></td><td>1.5.1</td><td>15 Jan 2009</td></tr>
+<a href="http://prdownloads.sourceforge.net/webim/webim_zh-tw152.zip?download">
+Traditional Chinese</a></td><td>1.5.2</td><td>16 Feb 2009</td></tr>
 </table>
 <br/>
 
