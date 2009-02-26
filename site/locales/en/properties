@@ -3,25 +3,36 @@ output_charset=utf-8
 output_encoding=utf-8
 
 title=Open Web Messenger
-head.name=<strong>Web Messenger</strong>&nbsp;&#8212; open-source live support software
-head.descr=allows visitors of your site to chat with your operators
+head.name=Open Web Messenger
+head.descr=open-source live support software
 
-menu.home=home
-menu.features=features
-menu.demo=demo
-menu.download=download
-menu.support=forum
+menu.home=Home
+menu.features=Features
+menu.demo=Demo
+menu.download=Download
+menu.support=Forum
+
+head.intro=<strong>Web Messenger</strong> is an open-source live support application written in PHP and MySQL. It enables one-on-one chat assistance in real-time directly from your website.
+
+index.how.title=How it works?
+index.how.text=You should place the button of Web Messenger at your site. Your visitors click the button and chat with your operators who help them.
+index.license=This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0.
+
+index.post.title=Version 1.5.2 Released
+index.post.text=<p>We are pleased to announce the immediate availability of 1.5.2. This is a service release with minor fixes and improvements.</p><ul><li>updated chat icons</li><li>ability to turn off sound notifications in chat</li><li>switch to SSL connection button</li><li>better referrer tracking</li></ul><p><a href="#">Download 1.5.2</a></p>
+index.post.when=Posted on February 17, 2009 by inspirer
+index.post.link=<a href="/forums/index.php?topic=52.0" class="more">Read full article</a>
 
 index.whatis.title=What is Web Messenger?
 index.whatis="Web Messenger" - is unique software allowing visitors of your site to chat with your operators.
 index.why.title=Why should I use Web Messenger?
 index.why="Web Messenger" makes it easier to communicate with existing and potential clients. It will significantly increase conversion rates and online sales of your web site.
-index.how.title=How it works?
 index.how=You should place the button of Web Messenger at your site. Your visitors click the button and chat with your operators who help them.
 index.license.title=License
-index.license=This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0.
+
 index.hosted=Copyright 2009 Open Web Messenger Powered By Trilex Labs
 
+features.title=Features
 features.price.title=Pricing
 features.price=<ul><li>Open-source code, free of charge\n<li>Eclipse Public License 1.0</ul>
 features.main.title=Main features
