@@ -360,3 +360,8 @@ table#downl td {
 #tablecomment {
 	margin-top: 0.5em;
 }
+
+.box1 {
+	padding: 19px;
+	background: url(images/img05.gif) no-repeat;
+}
