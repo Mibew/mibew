@@ -317,7 +317,7 @@ input, textarea, select {
 #footer {
 	height: 50px;
 	min-height: 50px;
-	background: #003448 url(images/img01_v.gif) repeat-x;
+	background: white url(images/img01_v.gif) repeat-x;
 	font-size: 11px;
 
 	position:relative;
