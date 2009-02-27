@@ -2,6 +2,7 @@
 				<h2><?php echo getlocal("partners.title") ?></h2>
 				<ul>
 				<li><a href="http://sourceforge.net"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=195701&amp;type=2" width="125" height="37" alt="SourceForge.net Logo" /></a></li>
+				<li><a href="http://www.trilexnet.com/" style="padding-left:20px;"><img src="http://www.trilexnet.com/images/trilexlabs.jpg" width="80" height="30"/></a></li>
 				</ul>
 			</li>
 			<li id="locales">
