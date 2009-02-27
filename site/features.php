@@ -1,5 +1,6 @@
 <?php 
-$page = 'feat';
+$page = 'demo';
+$subpage = "features";
 require_once('libs/common.php');
 start_html_output();
 require_once('inc/header.i');
@@ -10,7 +11,7 @@ require_once('inc/menu.i');
 	<!-- start content -->
 	<div id="content">
 		<div class="box1">
-			<p><img src="images/img04_3.gif" alt="" width="74" height="79" class="left" /><?php echo getlocal("head.intro") ?></p>
+			<p><img src="images/webimlogo.gif" alt="" width="74" height="79" class="left" /><?php echo getlocal("head.intro") ?></p>
 		</div>
 		<div class="post">
 			<h2 class="title"><?php echo getlocal("features.title") ?></h2>
@@ -54,6 +55,7 @@ require_once('inc/menu.i');
 	<div id="sidebar">
 		<ul>
 <?php
+require_once('inc/demo.i');
 require_once('inc/locales.i');
 ?>
 			<li>

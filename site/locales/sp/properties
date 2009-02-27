@@ -3,14 +3,14 @@ output_charset=utf-8
 output_encoding=utf-8
 
 title=Open Web Messenger
-head.name=<strong>Web Messenger</strong> — software libre para la ayuda en vivo
+head.name=Open Web Messenger
 head.descr=permite a los visitantes de su sitio chatear con tus operadores
 
-menu.home=inicio
-menu.features=características
-menu.demo=demo
-menu.download=descarga
-menu.support=soporte
+menu.home=Inicio
+menu.features=Características
+menu.demo=Demo
+menu.download=Descarga
+menu.support=Soporte
 
 index.whatis.title=¿Qué es Web Messenger?
 index.whatis="Web Messenger" – es el único software que permite que los visitantes de tu sitio webse comuniquen con tus operadores.
@@ -48,3 +48,6 @@ support.ScreenShots=Captura de Pantallas
 support.FAQ=FAQ
 downl.release=Liberación:
 tag.pagination.info=Página {0} de {1}, {2}-{3} hasta {4}
+index.how.text=Debes colocar el botón de Web Messenger en tu sitio web, para que tus visitantes hagan clic en el botón y entonces puedan comunicarse con tus operadores quienes lesproporcionaran la correspondiente ayuda en línea.
+features.title=Características
+head.intro=<strong>"Web Messenger</strong> permite una fácil comunicación con clientes potenciales, lo que significa incrementar los tipos de conversión y ventas en línea de tu sitio web.

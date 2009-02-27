@@ -1,16 +1,24 @@
-/*
-Design by Free CSS Templates
-http://www.freecsstemplates.org
-Released for free under a Creative Commons Attribution 2.5 License
-*/
+// reset.css
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dd, dl, dt, li, ol, ul, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+background-position:0 0;background-repeat:no-repeat;border:0 none;font-size:100%;font-style:inherit;font-weight:inherit;margin:0;padding:0;
+text-align:left;vertical-align:baseline;font-family:"Myriad Pro"!important;}
+a img, :link img, :visited img { border:0 none;}
+table { border-collapse:collapse;border-spacing:0; }
+ol, ul {list-style-image:none;list-style-position:outside;list-style-type:none;}
+q:before, q:after, blockquote:before, blockquote:after { content:""; }
 
 body {
-	margin: 50px 0 0 0;
-	padding: 0;
 	background: #FFFFFF url(images/img01.gif) repeat-x;
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-	font-size: 13px;
+	font-size: 0.8em;
 	color: #333333;
+}
+html, body {
+	padding: 0;
+	margin:0;
+	border:0 none;
+	height:100%;
 }
 
 h1, h2, h3 {
@@ -95,7 +103,8 @@ input, textarea, select {
 #header {
 	width: 850px;
 	height: 82px;
-	margin: 0 auto 10px auto;
+	margin: 0px auto 10px auto;
+	padding-top: 50px;
 	background: url(images/img03.gif) repeat-x left bottom;
 }
 
@@ -150,7 +159,7 @@ input, textarea, select {
 	margin-left: 30px;
 	padding: 7px;
 	text-decoration: none;
-	font-size: 13px;
+	font-size: 1em;
 	color: #000000;
 }
 
@@ -162,11 +171,35 @@ input, textarea, select {
 	background: url(images/img02.gif) repeat-x left bottom;
 }
 
+#submenu a {
+	padding-left: 15px;
+	color: #536a1e;
+	font-size: 1em;
+	text-decoration: none;
+}
+
+#submenu .active a {
+	background: url(images/img02_h.gif) repeat-y left top;
+}
+
+#submenu a:hover {
+	text-decoration: underline;
+}
+
 /* Page */
 
 #page {
 	width: 850px;
-	margin: 0 auto;
+}
+
+.wrap {
+	position:relative;
+	width: 850px;
+	margin: 0px auto;
+	
+	height:auto !important;
+	height:100%;
+	min-height:100%;
 }
 
 /* Content */
@@ -228,11 +261,6 @@ input, textarea, select {
 	background: url(images/img06.gif) no-repeat left center;
 }
 
-.post .meta .comments {
-	padding-left: 22px;
-	background: url(images/img07.gif) no-repeat left center;
-}
-
 .post .meta b {
 	display: none;
 }
@@ -264,85 +292,71 @@ input, textarea, select {
 #sidebar h2 {
 	margin-bottom: 10px;
 	background: url(images/img03.gif) repeat-x left bottom;
-	font-size: 16px;
+	font-size: 1.3em;
+}
+
+.post .entry li {
+	padding-left: 22px;
+	margin-left: 0px;
+}
+
+.post .entry ul {
+	padding-left: 0px;
 }
 
 /* Locales */
 
 #locales a { margin-right:20px; }
 
-/* Boxes */
-
-.box1 {
-	padding: 19px;
-	background: url(images/img05.gif) no-repeat;
-}
-
-.box2 {
-	color: #BABABA;
-}
-
-.box2 h2 {
-	margin-bottom: 15px;
-	background: url(images/img10.gif) repeat-x left bottom;
-	font-size: 16px;
-	color: #FFFFFF;
-}
-
-.box2 ul {
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-
-.box2 a:link, .box2 a:hover, .box2 a:active, .box2 a:visited  {
-	color: #EDEDED;
-}
-
 /* Footer */
+
+.empty_inner {
+	height:50px;
+}
 
 #footer {
 	height: 50px;
 	min-height: 50px;
-	padding: 70px 0 0 0;
-	background: #003448 url(images/img09.gif) repeat-x;
+	background: #003448 url(images/img01_v.gif) repeat-x;
 	font-size: 11px;
-}
 
-html>body #footer {
-	height: auto;
-}
-
-#footer .wrap {
-	width: 850px;
-	margin: 0 auto;
+	position:relative;
+	margin-top:-51px; 
+	width:100%; 
 }
 
 #legal {
 	clear: both;
-	padding-top: 20px;
+	line-height: 50px;
 	text-align: center;
 	color: #375C69;
+	margin-bottom: 0px;
 }
 
 #legal a {
 	color: #476B77;
+	text-decoration: none;
 }
 
-#fbox1, #fbox2, #fbox3 {
-	float: left;
+#legal a:hover {
+	text-decoration: underline;
 }
 
-#fbox1 {
-	width: 310px;
+#footer .flink {
+	color: #7BAA0F;
+	text-decoration: underline;
 }
 
-#fbox2 {
-	width: 200px;
-	padding-left: 70px;
+
+#tableh {
+	margin-bottom: 0.8em;
 }
 
-#fbox3 {
-	width: 200px;
-	padding-left: 70px;
+table#downl td {
+	padding-right: 2em;
+	line-height: 160%
+}
+
+#tablecomment {
+	margin-top: 0.5em;
 }

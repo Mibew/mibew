@@ -11,12 +11,16 @@ require_once('inc/menu.i');
 <h3><?php echo getlocal("support.title") ?></h3>
 <p>
 <div id="downl">
-<a href="tutorials.php">
+<a href="http://openwebim.org/tutorials.php">
 <?php echo getlocal("support.tutorials") ?>
 </a>
 <p></p>
-<a href="screenshots.php">
+<a href="http://openwebim.org/screenshots.php">
 <?php echo getlocal("support.ScreenShots") ?>
+</a>
+<p></p>
+<a href="http://openwebim.org/faq.php">
+<?php echo ("FAQ") ?>
 </a>
 </div>
 
