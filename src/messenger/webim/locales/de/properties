@@ -113,7 +113,7 @@ form.field.password_confirm=Bestätigung
 form.field.translation=Übersetzung
 harderrors.header=<font color="#c13030"><b>Fehlgeschlagen:</b><br/><ul>
 install.1.connected=Sie sind verbunden mit MySQL Server Version {0}
-leavemail.body=Sie haben eine Nachricht von {0}:\n\n{2}\n\nSeine email: {1}\n\n--- \nIhr Support Team
+leavemail.body=Sie haben eine Nachricht von {0}:\n\n{2}\n\nSeine email: {1}\n{3}\n--- \nIhr Support Team
 leavemail.subject=Frage von {0}
 leavemessage.close=schliessen
 leavemessage.descr=Es tut uns leid, aber es ist zurzeit kein Operator frei bzw. da. <br>Versuchen sie es spaeter nochmal oder benutzen sie dieses Formular:

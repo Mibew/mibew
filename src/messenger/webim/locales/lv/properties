@@ -104,7 +104,7 @@ install.title=Uzstādīšana
 installed.login_link=Ieejiet sistēmā
 installed.message=<b>Uzstādīšana sekmīgi pabeigta. </b>
 installed.notice=Jūs varat ieejiet sistēmā ar lietotāja vārdu „admin” ar tukšu paroles laukumu.<br/><br/><font color="#c13030"><b>!!! Drošības mērķos, lūdzu nodzēsiet katalogu /webim/install no Jūsu servera un nomainiet paroli.</b></font>
-leavemail.body=Jūsu apmeklētājs '{0}' atstājis ziņojumu:\n\n{2}\n\nЕmail: {1}\n\n--- \nAr cieņu,\nJūsu Web Messenger
+leavemail.body=Jūsu apmeklētājs '{0}' atstājis ziņojumu:\n\n{2}\n\nЕmail: {1}\n{3}\n--- \nAr cieņu,\nJūsu Web Messenger
 leavemail.subject=Jautājums no {0}
 leavemessage.close=Aizvērt
 leavemessage.descr=Diemžēl visi operatori pašlaik ir aizņemti. Mēģiniet vērsties vēlāk vai atstājiet savu jautājumu un mēs ar Jums sazināsimies pēc Jūsu norādītās adreses.

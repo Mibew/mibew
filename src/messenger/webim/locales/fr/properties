@@ -142,7 +142,7 @@ install.title=Installation
 installed.login_link=Procédez à l'identification
 installed.message=<b>Application installée avec succès.</b>
 installed.notice=Vous pouvez ouvrir une session en tant que <i>"admin"</i> avec un mot de passe vide.<br/><br/><font color="#c13030"><b>Pour des raisons de sécurités, changez votre mot de passe immédiatement et effacez le dossier <i>webim/install</i> de votre serveur.</b></font>
-leavemail.body=Vous avez un message de {0}:\n\n{2}\n\nSon email: {1}\n\n--- \nde votre messagerie instantatanée
+leavemail.body=Vous avez un message de {0}:\n\n{2}\n\nSon email: {1}\n{3}\n--- \nde votre messagerie instantatanée
 leavemail.subject=Question de {0}
 leavemessage.close=Fermer
 leavemessage.descr=Désolé, aucun opérateur n'est disponible pour l'instant. Essayez plus tard ou posez votre question dans ce formulaire.

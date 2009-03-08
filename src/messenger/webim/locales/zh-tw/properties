@@ -143,7 +143,7 @@ install.title=安裝
 installed.login_link=繼續到登入頁面
 installed.message=<b>程式安裝完成.</b>
 installed.notice=您可以用 admin 名稱及空的密碼來登入.<br/><br/><font color="#c13030"><b>!!! 基於安全性考量, 請立即更改您的密碼並刪除網站 /webim/install 資料夾.</b></font>
-leavemail.body=您有訊息來自 {0}:\n\n{2}\n\nE-mail: {1}\n\n--- \n來自您的網站即時通
+leavemail.body=您有訊息來自 {0}:\n\n{2}\n\nE-mail: {1}\n{3}\n--- \n來自您的網站即時通
 leavemail.subject=問題來自 {0}
 leavemessage.close=關閉
 leavemessage.descr=很抱歉，目前客服不在線上，請稍後再試，或用表單與我們聯繫。
