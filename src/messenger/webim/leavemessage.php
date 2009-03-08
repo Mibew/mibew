@@ -40,16 +40,21 @@ if( count($errors) > 0 ) {
 	$page['formname'] = topage($visitor_name);
 	$page['formemail'] = $email;
 	$page['formmessage'] = topage($message);
-	$page['info'] = $info;
+	$page['info'] = topage($info);
 	setup_logo();
 	expand("styles", getchatstyle(), "leavemessage.tpl");
 	exit;
 }
 
-$subject = getstring2_("leavemail.subject", array($visitor_name), $webim_messages_locale);
-$body = getstring2_("leavemail.body", array($visitor_name,$email,$message,$info ? "$info\n" : ""), $webim_messages_locale);
-
 loadsettings();
+$message_locale = $settings['left_messages_locale'];
+if(!locale_exists($message_locale)) {
+	$message_locale = $home_locale;
+}
+
+$subject = getstring2_("leavemail.subject", array($visitor_name), $message_locale);
+$body = getstring2_("leavemail.body", array($visitor_name,$email,$message,$info ? "$info\n" : ""), $message_locale);
+
 $inbox_mail = $settings['email'];
 
 if($inbox_mail) {

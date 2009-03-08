@@ -21,7 +21,7 @@ $operator = check_login();
 $page = array('agentId' => '');
 $errors = array();
 
-$options = array('enableban', 'usercanchangename');
+$options = array('enableban', 'usercanchangename', 'enablessl');
 
 loadsettings();
 $params = array();
@@ -30,11 +30,8 @@ foreach($options as $opt) {
 }
 
 if (isset($_POST['sent'])) {
-    $params['enableban'] = verifyparam("enableban","/^on$/", "") == "on" ? "1" : "0";
-    $params['usercanchangename'] = verifyparam("usercanchangename", "/^on$/", "") == "on" ? "1" : "0";
-
 	foreach($options as $opt) {
-		$settings[$opt] = $params[$opt];
+    	$settings[$opt] = verifyparam($opt,"/^on$/", "") == "on" ? "1" : "0";
 	}
     update_settings();
     header("Location: $webimroot/operator/features.php?stored");
@@ -42,9 +39,10 @@ if (isset($_POST['sent'])) {
 }
 
 $page['operator']  = topage(get_operator_name($operator));
-$page['formenableban'] = $params['enableban'] == "1";
-$page['formusercanchangename'] = $params['usercanchangename'] == "1";
 $page['stored'] = isset($_GET['stored']);
+foreach($options as $opt) {
+   	$page["form$opt"] = $params[$opt] == "1";
+}
 
 setup_settings_tabs(1);
 start_html_output();

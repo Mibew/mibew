@@ -61,13 +61,18 @@ function setup_empty_pagination() {
 	$page['pagination'] = false;
 }
 
-function generate_pagination($pagination) {
+function generate_pagination($pagination,$bottom=true) {
 	global $pagination_spacing, $links_on_page;
 	$result = getlocal2("tag.pagination.info",
 		array($pagination['page'],$pagination['total'],$pagination['start']+1,$pagination['end'],$pagination['count']))."<br/>";
 
 	if( $pagination['total'] > 1 ) {
-		$result.="<br/><div class='pagination'>";
+		if(!$bottom) {
+			$result = "";
+		} else {
+			$result .= "<br/>";
+		}
+		$result.="<div class='pagination'>";
 		$curr_page = $pagination['page'];
 
 		$minPage = max( $curr_page - $links_on_page, 1 );

@@ -5,12 +5,12 @@
 <link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
 <meta http-equiv="Content-Type" content="text/html; charset=Windows-1251">
 <link rel="stylesheet" type="text/css" href="${webimroot}/chat.css" />
-<script type="text/javascript" language="javascript" src="${webimroot}/js/common.js"></script>
-<script type="text/javascript" language="javascript" src="${webimroot}/js/brws.js"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/common.js?v=152"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/brws.js?v=152"></script>
 <script language="javascript"><!--
 var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",frequency:2,${if:user}user:"true",${endif:user}threadid:${page:ct.chatThreadId},token:${page:ct.token} };
 //--></script>
-<script type="text/javascript" language="javascript" src="${webimroot}/js/chat.js"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/chat.js?v=152"></script>
 </head>
 
 <style>
@@ -49,8 +49,11 @@ var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",freque
 .iexec { background-position:-48px 0px; }
 .ihistory, .ichangeuser { background-position:-96px 0px; }
 .isend { background-position:-120px 0px; }
+.issl { background-position:-144px 0px; }
+.isound { background-position:-168px 0px; }
+.inosound { background-position:-192px 0px; }
 .iemail { background-position:0px 0px; }
-.iclosewin { background-position:-170px -1px; width: 15px; height: 15px; }
+.iclosewin { background-position:-187px -27px; width: 15px; height: 15px; }
 .tplimageloc {
 	background: transparent url(${webimroot}${url:image.chat.sprite}) no-repeat scroll 0px 0px;
 	-moz-background-clip: -moz-initial; 
@@ -121,39 +124,39 @@ var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",freque
 				<table cellspacing="0" cellpadding="0" border="0">
 				<tr>
 ${if:agent}
-						<td class="text" nowrap>
+				<td class="text" nowrap>
 					${if:historyParams}
 						${msg:chat.window.chatting_with}
 						<a href="${page:historyParamsLink}" target="_blank" title="${msg:page.analysis.userhistory.title}" onclick="this.newWindow = window.open('${page:historyParamsLink}', 'UserHistory', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=703,height=380,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">${print:ct.user.name}</a>
 					${else:historyParams}
 						${msg:chat.window.chatting_with} <b>${print:ct.user.name}</b>
 					${endif:historyParams}
-						</td>
+				</td>
 ${endif:agent}
 ${if:user}
 	${if:canChangeName}
-					<td class="text" nowrap>
-						<div id="changename1" style="display:${page:displ1};">
-							<table cellspacing="0" cellpadding="0" border="0"><tr>
-							<td class="text" nowrap>${msg:chat.client.name}</td>
-							<td width="10" valign="top"><img src='${webimroot}/images/free.gif' width="10" height="1" border="0" alt="" /></td>
-							<td><input id="uname" type="text" size="12" value="${page:ct.user.name}" class="username"></td>
-							<td width="5" valign="top"><img src='${webimroot}/images/free.gif' width="5" height="1" border="0" alt="" /></td>
-							<td><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.client.changename}"><img class="tplimage iexec" src="${webimroot}/images/free.gif" border="0" alt="&gt;&gt;" /></a></td>
-							</tr></table>
-						</div>
-						<div id="changename2" style="display:${page:displ2};">
-							<table cellspacing="0" cellpadding="0" border="0"><tr>
-							<td class="text" nowrap><a id="unamelink" href="javascript:void(0)" onclick="return false;" title="${msg:chat.client.changename}">${page:ct.user.name}</a></td>
-							<td width="10" valign="top"><img src='${webimroot}/images/free.gif' width="10" height="1" border="0" alt="" /></td>
-							<td><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.client.changename}"><img class="tplimage ichangeuser" src="${webimroot}/images/free.gif" border="0" alt="" /></a></td>
-							</tr></table>
-						</div>
-					</td>
+				<td class="text" nowrap>
+					<div id="changename1" style="display:${page:displ1};">
+						<table cellspacing="0" cellpadding="0" border="0"><tr>
+						<td class="text" nowrap>${msg:chat.client.name}</td>
+						<td width="10" valign="top"><img src='${webimroot}/images/free.gif' width="10" height="1" border="0" alt="" /></td>
+						<td><input id="uname" type="text" size="12" value="${page:ct.user.name}" class="username"></td>
+						<td width="5" valign="top"><img src='${webimroot}/images/free.gif' width="5" height="1" border="0" alt="" /></td>
+						<td><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.client.changename}"><img class="tplimage iexec" src="${webimroot}/images/free.gif" border="0" alt="&gt;&gt;" /></a></td>
+						</tr></table>
+					</div>
+					<div id="changename2" style="display:${page:displ2};">
+						<table cellspacing="0" cellpadding="0" border="0"><tr>
+						<td class="text" nowrap><a id="unamelink" href="javascript:void(0)" onclick="return false;" title="${msg:chat.client.changename}">${page:ct.user.name}</a></td>
+						<td width="10" valign="top"><img src='${webimroot}/images/free.gif' width="10" height="1" border="0" alt="" /></td>
+						<td><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.client.changename}"><img class="tplimage ichangeuser" src="${webimroot}/images/free.gif" border="0" alt="" /></a></td>
+						</tr></table>
+					</div>
+				</td>
 	${else:canChangeName}
-					<td class="text" nowrap>
+				<td class="text" nowrap>
 					${msg:chat.client.name}&nbsp;${page:ct.user.name}
-					</td>
+				</td>
 	${endif:canChangeName}
 ${endif:user}
 ${if:agent}
@@ -162,7 +165,7 @@ ${if:agent}
 				<img class="tplimage iclose" src="${webimroot}/images/free.gif" border="0" altKey="chat.window.close_link_text"/></a></td>
 ${endif:agent}
 
-					<td style="color:#C9C9C9;font-size:40px;padding:0px 15px 5px 15px">|</td>
+				<td style="color:#C9C9C9;font-size:40px;padding:0px 15px 5px 15px">|</td>
 ${if:user}
 				<td><a href="${page:mailLink}&style=${styleid}" target="_blank" title="${msg:chat.window.toolbar.mail_history}" onclick="this.newWindow = window.open('${page:mailLink}&style=${styleid}', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=254,resizable=0'); if (this.newWindow != null) {this.newWindow.focus();this.newWindow.opener=window;}return false;"><img class="tplimage iemail" src="${webimroot}/images/free.gif" border="0" alt="Mail&nbsp;"/></a></td>
 ${endif:user}
@@ -175,11 +178,16 @@ ${if:historyParams}
 				<td><a href="${page:historyParamsLink}" target="_blank" title="${msg:page.analysis.userhistory.title}" onclick="this.newWindow = window.open('${page:historyParamsLink}', 'UserHistory', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=703,height=380,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><img class="tplimage ihistory" src="${webimroot}/images/free.gif" border="0" alt="History&nbsp;"/></a></td>
 ${endif:historyParams}
 ${endif:agent}
+				<td><a id="togglesound" href="javascript:void(0)" onclick="return false;" title="Turn off sound">
+				<img id="soundimg" class="tplimage isound" src="${webimroot}/images/free.gif" border="0" alt="Sound&nbsp;" /></a></td>
 	
-					<td><a id="refresh" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.toolbar.refresh}">
-					<img class="tplimage irefresh" src="${webimroot}/images/free.gif" border="0" alt="Refresh&nbsp;" /></a></td>
-
-					<td width="20" valign="top"><img src='${webimroot}/images/free.gif' width="20" height="1" border="0" alt="" /></td>
+				<td><a id="refresh" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.toolbar.refresh}">
+				<img class="tplimage irefresh" src="${webimroot}/images/free.gif" border="0" alt="Refresh&nbsp;" /></a></td>
+${if:sslLink}
+				<td><a href="${page:sslLink}&style=${styleid}" title="SSL" >
+				<img class="tplimage issl" src="${webimroot}/images/free.gif" border="0" alt="SSL&nbsp;"/></a></td>
+${endif:sslLink}
+				<td width="20" valign="top"><img src='${webimroot}/images/free.gif' width="20" height="1" border="0" alt="" /></td>
 				</tr>
 				</table>
 			</td>

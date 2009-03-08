@@ -239,7 +239,10 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
 	if( haveMessage ) {
 		FrameUtils.scrollDown(this._options.container);
 		if(!this.skipNextsound) {
-			playSound(Chat.webimRoot+'/sounds/new_message.wav');
+			var tsound = $('soundimg');
+			if(tsound == null || tsound.className.match(new RegExp("\\bisound\\b")) ) {
+				playSound(Chat.webimRoot+'/sounds/new_message.wav');
+			}
 		}
 		if( !this.focused ) {
 			window.focus();
@@ -400,6 +403,22 @@ Behaviour.register({
 		el.onclick = function() {
 		    Chat.threadUpdater.stopUpdate();
 			Chat.threadUpdater.update();
+		};
+	},
+	'a#togglesound' : function(el) {
+		el.onclick = function() {
+			var tsound = $('soundimg');
+			if(!tsound) {
+				return;
+			}
+			if(tsound.className.match(new RegExp("\\bisound\\b"))) {
+				tsound.className = "tplimage inosound";
+			} else {
+				tsound.className = "tplimage isound";
+			}
+			var messagePane = $('msgwnd');
+			if(messagePane)
+				messagePane.focus();
 		};
 	},
 	'a.closethread' : function(el) {

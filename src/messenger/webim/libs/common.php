@@ -17,7 +17,7 @@ session_start();
 require_once(dirname(__FILE__).'/converter.php');
 require_once(dirname(__FILE__).'/config.php');
 
-$version = '1.5.1';
+$version = '1.5.2';
 
 function myiconv($in_enc, $out_enc, $string) {
 	global $_utf8win1251, $_win1251utf8;
@@ -408,6 +408,36 @@ function quote_smart($value,$link) {
 	return mysql_real_escape_string($value,$link);
 }
 
+function unicode_urldecode($url) {
+    preg_match_all('/%u([[:alnum:]]{4})/', $url, $a);
+
+    foreach ($a[1] as $uniord) {
+        $dec = hexdec($uniord);
+        $utf = '';
+
+        if ($dec < 128) {
+            $utf = chr($dec);
+        } else if ($dec < 2048) {
+            $utf = chr(192 + (($dec - ($dec % 64)) / 64));
+            $utf .= chr(128 + ($dec % 64));
+        } else {
+            $utf = chr(224 + (($dec - ($dec % 4096)) / 4096));
+            $utf .= chr(128 + ((($dec % 4096) - ($dec % 64)) / 64));
+            $utf .= chr(128 + ($dec % 64));
+        }
+        $url = str_replace('%u'.$uniord, $utf, $url);
+    }
+    return urldecode($url);
+}
+
+function getgetparam($name,$default='') {
+	global $webim_encoding;
+	if( !isset($_GET[$name]) || !$_GET[$name] ) {
+		return $default;
+	}
+	return myiconv("utf-8", $webim_encoding, unicode_urldecode($_GET[$name]));
+}
+
 function get_app_location($showhost,$issecure) {
 	global $webimroot;
 	if( $showhost ) {
@@ -415,6 +445,13 @@ function get_app_location($showhost,$issecure) {
 	} else {
 		return $webimroot;
 	}
+}
+
+function is_secure_request() {
+	return
+		   isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443'
+		|| isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on"
+		|| isset($_SERVER["HTTP_HTTPS"]) && $_SERVER["HTTP_HTTPS"] == "on";
 }
 
 function get_month_selection($fromtime,$totime) {
@@ -448,9 +485,9 @@ function set_form_date($utime,$prefix) {
 }
 
 function webim_mail($toaddr, $reply_to, $subject, $body) {
-	global $webim_encoding, $webim_from_email, $mail_encoding;
+	global $webim_encoding, $webim_mailbox, $mail_encoding;
 
-	$headers = "From: $webim_from_email\r\n"
+	$headers = "From: $webim_mailbox\r\n"
 	   ."Reply-To: ".myiconv($webim_encoding, $mail_encoding, $reply_to)."\r\n"
 	   ."Content-Type: text/plain; charset=$mail_encoding\r\n"
 	   .'X-Mailer: PHP/'.phpversion();
@@ -460,23 +497,27 @@ function webim_mail($toaddr, $reply_to, $subject, $body) {
 	mail($toaddr, $real_subject, wordwrap(myiconv($webim_encoding, $mail_encoding, $body),70), $headers);
 }
 
-$dbversion = '1.5.1';
+$dbversion = '1.5.2';
 
 $settings = array(
 	'dbversion' => 0,
-	'email' => '',				/* inbox for left messages */
 	'title' => 'Your Company',
-	'hosturl' => 'http://webim.sourceforge.net',
+	'hosturl' => 'http://openwebim.org',
 	'logo' => '',
-	'enableban' => '0',
 	'usernamepattern' => '{name}',
-	'usercanchangename' => '1',
 	'chatstyle' => 'default',
 	'chattitle' => 'Live Support',
 	'geolink' => 'http://api.hostip.info/get_html.php?ip={ip}',
 	'geolinkparams' => 'width=440,height=100,toolbar=0,scrollbars=0,location=0,status=1,menubar=0,resizable=1',
 	'online_timeout' => 30,		/* Timeout (in seconds) when online operator becomes offline */
 	'max_uploaded_file_size' => 100000,
+
+	'email' => '',				/* inbox for left messages */
+	'left_messages_locale' => $home_locale,
+
+	'enableban' => '0',
+	'enablessl' => '0',
+	'usercanchangename' => '1',
 );
 $settingsloaded = false;
 $settings_in_db = array();

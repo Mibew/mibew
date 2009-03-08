@@ -56,8 +56,9 @@ foreach( $output as $msg ) {
 $subject = getstring("mail.user.history.subject");
 $body = getstring2("mail.user.history.body", array($thread['userName'],$history) );
 
-webim_mail($email, $webim_from_email, $subject, $body);
+webim_mail($email, $webim_mailbox, $subject, $body);
 
 setup_logo();
 expand("styles", getchatstyle(), "mailsent.tpl");
+exit;
 ?>

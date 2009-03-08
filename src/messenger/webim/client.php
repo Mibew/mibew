@@ -20,7 +20,8 @@ require_once('libs/expand.php');
 if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 
 	$chatstyle = verifyparam( "style", "/^\w+$/", "");
-	$info = isset($_GET['info']) ? $_GET['info'] : "";
+	$info = getgetparam('info');
+	$email = getgetparam('email');
 	$thread = NULL;
 	if( isset($_SESSION['threadid']) ) {
 		$thread = reopen_thread($_SESSION['threadid']);
@@ -28,7 +29,10 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 
 	if( !$thread ) {
 		if(!has_online_operators()) {
+			$page = array();
 			setup_logo();
+			$page['formname'] = topage(getgetparam('name'));
+			$page['formemail'] = topage($email);
 			$page['info'] = topage($info);
 			expand("styles", getchatstyle(), "leavemessage.tpl");
 			exit;
@@ -46,13 +50,16 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 		}
 		$userbrowser = $_SERVER['HTTP_USER_AGENT'];
 		$remoteHost = isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $extAddr;
-		$visitor = $remote_visitor();
+		$visitor = visitor_from_request();
 		$thread = create_thread($visitor['name'], $remoteHost, $referer,$current_locale,$visitor['id'], $userbrowser);
 		$_SESSION['threadid'] = $thread['threadid'];
 		if( $referer ) {
 			post_message($thread['threadid'],$kind_for_agent,getstring2('chat.came.from',array($referer)));
 		}
 		post_message($thread['threadid'],$kind_info,getstring('chat.wait'));
+		if($email) {
+			post_message($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.email',array($email)));
+		}
 		if($info) {
 			post_message($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.info',array($info)));
 		}

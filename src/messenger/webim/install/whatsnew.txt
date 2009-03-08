@@ -1,7 +1,13 @@
   1.5.2
   -----
+  [+] Ability to disable sound notifications for chat (toolbar button) 
+  [+] Switch to SSL in chat (should be enabled in "Settings -> Optional Services")
   [!] lost query parameters after login redirect
   [+] added referrer into button code
+  [+] ability to add text for operator into button code, define visitor's name and email
+  [!] geolocation on IPs in history
+  [!] Translation UI: added sorting, filters, fixed several problems
+  [+] New chat buttons
 
   1.5.1
   -----

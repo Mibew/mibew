@@ -47,16 +47,34 @@
 <form name="translateForm" method="get" action="<?php echo $webimroot ?>/operator/translate.php">
 <table cellspacing='0' cellpadding='0' border='0'><tr><td background='<?php echo $webimroot ?>/images/loginbg.gif'><table cellspacing='0' cellpadding='0' border='0'><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlt.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrt.gif' width='16' height='16' border='0' alt=''></td></tr><tr><td></td><td align='center'><table border='0' cellspacing='0' cellpadding='0'>
 	<tr>
-		<td class="formauth" colspan="3">
+		<td class="formauth"><?php echo getlocal("translate.direction") ?></td>
+		<td></td>
+		<td class="formauth"><?php echo getlocal("translate.sort") ?></td>
+		<td></td>
+		<td class="formauth"><?php echo getlocal("translate.show") ?></td>
+	</tr>
+	<tr><td colspan="3" height="2"></td></tr>
+	<tr>
+		<td class="formauth">
 			<select name="source" onchange="this.form.submit();"><?php foreach($page['availableLocales'] as $k) { echo "<option value=\"".$k["id"]."\"".($k["id"] == form_value("source") ? " selected=\"selected\"" : "").">".$k["name"]."</option>"; } ?></select>
 			=>
 			<select name="target" onchange="this.form.submit();"><?php foreach($page['availableLocales'] as $k) { echo "<option value=\"".$k["id"]."\"".($k["id"] == form_value("target") ? " selected=\"selected\"" : "").">".$k["name"]."</option>"; } ?></select>
+		</td>
+		<td width="40">&nbsp;</td>
+		<td>
+			<select name="sort" onchange="this.form.submit();"><?php foreach($page['availableOrders'] as $k) { echo "<option value=\"".$k["id"]."\"".($k["id"] == form_value("sort") ? " selected=\"selected\"" : "").">".$k["name"]."</option>"; } ?></select>
+		</td>
+		<td width="40">&nbsp;</td>
+		<td>
+			<select name="show" onchange="this.form.submit();"><?php foreach($page['showOptions'] as $k) { echo "<option value=\"".$k["id"]."\"".($k["id"] == form_value("show") ? " selected=\"selected\"" : "").">".$k["name"]."</option>"; } ?></select>
 		</td>
 	</tr>
 </table></td><td></td></tr><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlb.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrb.gif' width='16' height='16' border='0' alt=''></td></tr></table></td></tr></table>
 </form>
 <br/>
 <?php if( $page['pagination'] && $page['pagination.items'] ) { ?>
+	<?php echo generate_pagination($page['pagination'],false) ?>
+	</br>
 	<table cellpadding="0" cellspacing="0" border="0" width="100%">
 		<tr>
 			<td class='table' bgcolor='#276db8' height='30'><span class='header'>Key</span></td><td width='3'></td>

@@ -18,7 +18,7 @@
 
 
 <link rel="stylesheet" type="text/css" media="all" href="<?php echo $webimroot ?>/styles.css" />
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/common.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/common.js?v=152"></script>
 <script><!--
 var localized = new Array(
     "<?php echo getlocal("pending.table.speak") ?>",
@@ -30,7 +30,7 @@ var updaterOptions = {
 	agentservl:"<?php echo $webimroot ?>/operator/agent.php",
 	noclients:"<?php echo getlocal("clients.no_clients") ?>" };
 //--></script>
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/users.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/users.js?v=152"></script>
 
 <link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
 <title>

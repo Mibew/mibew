@@ -5,12 +5,12 @@
 <link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
 <meta http-equiv="Content-Type" content="text/html; charset=Windows-1251">
 <link rel="stylesheet" type="text/css" href="${webimroot}/chat.css" />
-<script type="text/javascript" language="javascript" src="${webimroot}/js/common.js"></script>
-<script type="text/javascript" language="javascript" src="${webimroot}/js/brws.js"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/common.js?v=152"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/brws.js?v=152"></script>
 <script language="javascript"><!--
 var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",frequency:2,${if:user}user:"true",${endif:user}threadid:${page:ct.chatThreadId},token:${page:ct.token} };
 //--></script>
-<script type="text/javascript" language="javascript" src="${webimroot}/js/chat.js"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/chat.js?v=152"></script>
 </head>
 <style>
 .tplimage {
@@ -25,6 +25,9 @@ var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",freque
 .iexec { background-position:-48px 0px; }
 .ihistory, .ichangeuser { background-position:-24px -24px; }
 .isend { background-position:-48px -24px; }
+.issl { background-position:-173px 0px; }
+.isound { background-position:-149px 0px; }
+.inosound { background-position:-149px -24px; }
 .iemail { background-position:0px 0px; }
 .iclosewin { background-position:-108px -34px; width: 15px; height: 15px; }
 .ibuttondiv { background-position:-73px -2px; width: 35px; height: 45px;}
@@ -170,9 +173,15 @@ ${if:historyParams}
 				<td><a href="${page:historyParamsLink}" target="_blank" title="${msg:page.analysis.userhistory.title}" onclick="this.newWindow = window.open('${page:historyParamsLink}', 'UserHistory', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=703,height=380,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><img class="tplimage ihistory" src="${webimroot}/images/free.gif" border="0" alt="History&nbsp;"/></a></td>
 ${endif:historyParams}
 ${endif:agent}
+				<td><a id="togglesound" href="javascript:void(0)" onclick="return false;" title="Turn off sound">
+				<img id="soundimg" class="tplimage isound" src="${webimroot}/images/free.gif" border="0" alt="Sound&nbsp;" /></a></td>
+
 				<td><a id="refresh" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.toolbar.refresh}">
 				<img class="tplimage irefresh" src="${webimroot}/images/free.gif" border="0" alt="Refresh&nbsp;" /></a></td>
-
+${if:sslLink}
+				<td><a href="${page:sslLink}&style=${styleid}" title="SSL" >
+				<img class="tplimage issl" src="${webimroot}/images/free.gif" border="0" alt="SSL&nbsp;"/></a></td>
+${endif:sslLink}
 				<td width="20" valign="top"><img src='${webimroot}/images/free.gif' width="20" height="1" border="0" alt="" /></td>
 				</tr>
 				</table>

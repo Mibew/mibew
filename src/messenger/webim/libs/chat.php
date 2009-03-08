@@ -15,8 +15,7 @@
 
 $connection_timeout = 30; // sec
 
-$simplenamecookie = "WEBIM_Name";   // 1.0.8 and earlier
-$namecookie = "WEBIM_Data";   // 1.0.9+
+$namecookie = "WEBIM_Data";
 $usercookie = "WEBIM_UserID";
 
 $state_queue = 0;
@@ -286,6 +285,11 @@ function setup_chatview_for_user($thread,$level) {
 
 	$params = "thread=".$thread['threadid']."&token=".$thread['ltoken'];
 	$page['mailLink'] = "$webimroot/client.php?".$params."&level=$level&act=mailthread";
+
+	if($settings['enablessl'] == "1" && !is_secure_request()) {
+		$page['sslLink'] = get_app_location(true, true)."/client.php?".$params."&level=$level";
+	}
+
 	$page['isOpera95'] = is_agent_opera95();
 	$page['neediframesrc'] = needsFramesrc();
 
@@ -305,6 +309,9 @@ function setup_chatview_for_operator($thread,$operator) {
 
 	setup_logo();
 	$page['send_shortcut'] = "Ctrl-Enter";
+	if($settings['enablessl'] == "1" && !is_secure_request()) {
+		$page['sslLink'] = get_app_location(true, true)."/operator/agent.php?thread=".$thread['threadid']."&token=".$thread['ltoken'];
+	}
 	$page['isOpera95'] = is_agent_opera95();
 	$page['neediframesrc'] = needsFramesrc();
 	$page['historyParams'] = array("userid" => "".$thread['userid']);
@@ -535,15 +542,18 @@ function check_for_reassign($thread,$operator) {
 }
 
 function visitor_from_request() {
-	global $namecookie, $simplenamecookie, $compatibility_encoding, $webim_encoding, $usercookie;
-	$userName = getstring("chat.default.username");
+	global $namecookie, $webim_encoding, $usercookie;
+	$defaultName = getstring("chat.default.username");
+	$userName = $defaultName;
 	if( isset($_COOKIE[$namecookie]) ) {
 		$data = base64_decode(strtr($_COOKIE[$namecookie],'-_,', '+/='));
 		if( strlen($data) > 0 ) {
 			$userName = myiconv("utf-8",$webim_encoding,$data);
 		}
-	} else if( isset($_COOKIE[$simplenamecookie]) && isset($compatibility_encoding) ) {
-		$userName = myiconv($compatibility_encoding,$webim_encoding,$_COOKIE[$simplenamecookie]);
+	}
+
+	if($userName == $defaultName) {
+		$userName = getgetparam('name', $userName);
 	}
 
 	$userId = "";
