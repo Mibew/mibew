@@ -81,8 +81,8 @@ demo.chat.welcome=Bienvenue, que puis-je faire pour vous?
 errors.failed.uploading.file=Erreur de téléchargement "{0}": "{1}".
 errors.file.move.error=Erreur de transfert de fichier
 errors.file.size.exceeded=Taille excessive du fichier téléchargé
-errors.footer=</ul></font>
-errors.header=<font color="#c13030"><b>Corrigez les erreurs:</b><br/><ul>
+errors.footer=</ul>
+errors.header=<b>Corrigez les erreurs:</b><br/><ul>
 errors.invalid.file.type=Type de fichier non valide
 errors.prefix=<li class="error">
 errors.required=Please fill "{0}".  
@@ -112,7 +112,7 @@ form.field.password=Mot de Passe
 form.field.password_confirm.description=Confirmez le nouveau mot de passe.
 form.field.password_confirm=Confirmation
 form.field.translation=Traduire
-harderrors.header=<font color="#c13030"><b>Exécution impossible:</b><br/><ul>
+harderrors.header=<b>Exécution impossible:</b><br/><ul>
 image.button.delete=/locales/fr/images/delete.gif
 image.button.login=/locales/fr/images/login.gif
 image.button.save=/locales/fr/images/save.gif
@@ -187,8 +187,6 @@ page.gen_button.intro=Vous pouvez générer ici le code HTML à placer dans votre s
 page.gen_button.sample=Exemple
 page.gen_button.secure_links=Lien sécurisé utilisé (https)
 page.gen_button.title=Générer code HTML du Bouton
-page.main_layout.meta_description=Support en direct, aide directe sur site web
-page.main_layout.meta_keyword=Support en direct,aide,messagerie instantanée
 page.preview.agentchat=Fenêtre de dialogue (mode-agent)
 page.preview.agentrochat=Aperçu de la fenêtre de dialogue de l'Agent
 page.preview.chatsimple=Simple fenêtre de discussion, actualiser pour envoyer des messages (IE 5, Opera 7)

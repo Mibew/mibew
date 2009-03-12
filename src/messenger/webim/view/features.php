@@ -11,95 +11,78 @@
  * Contributors:
  *    Evgeny Gryaznov - initial API and implementation
  */
+
+require_once("inc_menu.php");
+$page['title'] = getlocal("settings.title");
+$page['menuid'] = "settings";
+
+function tpl_content() { global $page, $webimroot;
 ?>
-<html>
-<head>
 
-
-
-<link rel="stylesheet" type="text/css" media="all" href="<?php echo $webimroot ?>/styles.css" />
-
-
-<link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
-<title>
-	<?php echo getlocal("settings.title") ?> - <?php echo getlocal("app.title") ?>
-</title>
-
-<meta http-equiv="keywords" content="<?php echo getlocal("page.main_layout.meta_keyword") ?>">
-<meta http-equiv="description" content="<?php echo getlocal("page.main_layout.meta_description") ?>">
-</head>
-
-<body bgcolor="#FFFFFF" text="#000000" link="#2971C1" vlink="#2971C1" alink="#2971C1">
-
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-<tr>
-<td valign="top" class="text">
-
- <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="left" valign="top">
-		<h1><?php echo getlocal("settings.title") ?></h1>
- </td><td align="right" class="text" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td class="textform"><?php echo getlocal2("menu.operator",array($page['operator'])) ?></td><td class="textform"><img src='<?php echo $webimroot ?>/images/topdiv.gif' width="25" height="15" border="0" alt="|" /></td><td class="textform"><a href="<?php echo $webimroot ?>/operator/index.php" title="<?php echo getlocal("menu.main") ?>"><?php echo getlocal("menu.main") ?></a></td></tr></table></td></tr></table>
-
-
-	<?php echo getlocal("page_settings.intro") ?>
+<?php echo getlocal("page_settings.intro") ?>
 <br />
 <br />
-<?php if( isset($errors) && count($errors) > 0 ) { ?>
-		<table cellspacing="0" cellpadding="0" border="0">
-		<tr>
-	    <td valign="top"><img src='<?php echo $webimroot ?>/images/icon_err.gif' width="40" height="40" border="0" alt="" /></td>
-	    <td width="10"></td>
-	    <td class="text">
-		    <?php	if( isset($errors) && count($errors) > 0 ) {
-		print getlocal("errors.header");
-		foreach( $errors as $e ) {
-			print getlocal("errors.prefix");
-			print $e;
-			print getlocal("errors.suffix");
-		}
-		print getlocal("errors.footer");
-	} ?>
-
-		</td>
-		</tr>
-		</table>
-	<?php } ?>
+<?php 
+require_once('inc_errors.php');
+?>
 <?php if( $page['stored'] ) { ?>
 <div id="formmessage"><?php echo getlocal("features.saved") ?></div>
 <?php } ?>
 
 <form name="features" method="post" action="<?php echo $webimroot ?>/operator/features.php">
 <input type="hidden" name="sent" value="true"/>
-	<table cellspacing='0' cellpadding='0' border='0'>
+	<div>
 <?php if($page['tabs']) { ?>
-<tr><td align="right" style="padding-right:16px;"><table cellspacing="0" cellpadding="0" border="0"><tr><?php foreach($page['tabs'] as $k => $v) { if($v) { ?><td class="textform" style="padding: 2px 9px 3px 9px;"><a href="<?php echo $v ?>"><?php echo $k ?></a></td><?php } else { ?><td class="textform" background="<?php echo $webimroot ?>/images/loginbg.gif" style="border-left:1px solid #bbbbbb;border-top:1px solid #bbbbbb;border-right:1px solid #bbbbbb;padding: 2px 9px 3px 9px;"><?php echo $k ?></td><?php }} ?></tr></table></td></tr>
+	<ul class="tabs">
+
+<?php foreach($page['tabs'] as $k => $v) { if($v) { ?>
+	<li><a href="<?php echo $v ?>"><?php echo $k ?></a></li>
+<?php } else { ?>
+	<li class="active"><a href="#"><?php echo $k ?></a></li><?php }} ?>
+	</ul>
 <?php } ?>
-<tr><td background='<?php echo $webimroot ?>/images/loginbg.gif'><table cellspacing='0' cellpadding='0' border='0'><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlt.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrt.gif' width='16' height='16' border='0' alt=''></td></tr><tr><td></td><td align='center'><table border='0' cellspacing='0' cellpadding='0' width="700">
-		<tr><td class='formauth'><?php echo getlocal('settings.usercanchangename') ?></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
-			<input type="checkbox" name="usercanchangename" value="on"<?php echo form_value_cb('usercanchangename') ? " checked=\"checked\"" : "" ?>/>
-		</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('settings.usercanchangename.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>
+	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
-		<tr><td class='formauth'><?php echo getlocal('settings.enableban') ?></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
-			<input type="checkbox" name="enableban" value="on"<?php echo form_value_cb('enableban') ? " checked=\"checked\"" : "" ?>/>
-		</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('settings.enableban.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>
+	<div class="fieldForm">
+		<div class="field">
+			<div class="flabel"><?php echo getlocal('settings.usercanchangename') ?></div>
+			<div class="fvalue">
+				<input type="checkbox" name="usercanchangename" value="on"<?php echo form_value_cb('usercanchangename') ? " checked=\"checked\"" : "" ?>/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('settings.usercanchangename.description') ?></div>
+			<br clear="left"/>
+		</div>
 
-		<tr><td class='formauth'><?php echo getlocal('settings.enablessl') ?></td><td width='10'><img width='10' height='1' border='0' alt='' src='<?php echo $webimroot ?>/images/free.gif'></td><td></td></tr><tr><td height='2' colspan='3'></td></tr><tr><td>
-			<input type="checkbox" name="enablessl" value="on"<?php echo form_value_cb('enablessl') ? " checked=\"checked\"" : "" ?>/>
-		</td><td></td><td class='formauth'><span class='formdescr'> &mdash; <?php echo getlocal('settings.enablessl.description') ?></span></td></tr><tr><td colspan='3' height='10'></td></tr>
+		<div class="field">
+			<div class="flabel"><?php echo getlocal('settings.enableban') ?></div>
+			<div class="fvalue">
+				<input type="checkbox" name="enableban" value="on"<?php echo form_value_cb('enableban') ? " checked=\"checked\"" : "" ?>/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enableban.description') ?></div>
+			<br clear="left"/>
+		</div>
+		 
+		<div class="field">
+			<div class="flabel"><?php echo getlocal('settings.enablessl') ?></div>
+			<div class="fvalue">
+				<input type="checkbox" name="enablessl" value="on"<?php echo form_value_cb('enablessl') ? " checked=\"checked\"" : "" ?>/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enablessl.description') ?></div>
+			<br clear="left"/>
+		</div>
 
-		<tr><td colspan='3' height='20'></td></tr><tr><td colspan='3' background='<?php echo $webimroot ?>/images/formline.gif'><img src='<?php echo $webimroot ?>/images/formline.gif' width='1' height='2' border='0' alt=''></td></tr><tr><td colspan='3' height='10'></td></tr>
-		<tr>
-			<td class="formauth" colspan="3">
-				<input type="image" name="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' border="0" alt='<?php echo getlocal("button.save") ?>'/>
-			</td>
-		</tr>
+		<div class="fbutton">
+			<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
+		</div>
 
-	</table></td><td></td></tr><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlb.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrb.gif' width='16' height='16' border='0' alt=''></td></tr></table></td></tr></table>
+	</div>
+	
+	</div><div class="formbottom"><div class="formbottomi"></div></div></div>
+	</div>		
 </form>
 
-</td>
-</tr>
-</table>
+<?php 
+} /* content */
 
-</body>
-</html>
-
+require_once('inc_main.php');
+?>

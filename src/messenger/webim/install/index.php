@@ -150,5 +150,5 @@ function check_status() {
 check_status();
 
 start_html_output();
-require('view_index.php');
+require('../view/install_index.php');
 ?>

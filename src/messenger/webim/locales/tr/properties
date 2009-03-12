@@ -79,8 +79,8 @@ content.logoff=Çýkýþ
 errors.failed.uploading.file=Yükleme hatasý "{0}": {1}.
 errors.file.move.error=Taþýma hatasý
 errors.file.size.exceeded=Boyut yüksek
-errors.footer=</ul></font>
-errors.header=<font color="#c13030"><b>Düzeltilmesi Gereken Hatalar:</b><br/><ul>
+errors.footer=</ul>
+errors.header=<b>Düzeltilmesi Gereken Hatalar:</b><br/><ul>
 errors.invalid.file.type=Yanlýþ dosya formatý
 errors.prefix=<li class="error">
 errors.required="{0}" alanýnýn doldurulmasý gerek.  
@@ -110,7 +110,7 @@ form.field.password=Þifre
 form.field.password_confirm.description=Þifreyi tekrar girin
 form.field.password_confirm=Þifre (Tekrar)
 form.field.translation=Çeviri
-harderrors.header=<font color="#c13030"><b>Çalýþtýrýlamadý:</b><br/><ul>
+harderrors.header=<b>Çalýþtýrýlamadý:</b><br/><ul>
 image.button.delete=/locales/tr/images/delete.gif
 image.button.login=/locales/tr/images/login.gif
 image.button.save=/locales/tr/images/save.gif
@@ -184,8 +184,6 @@ page.gen_button.intro=HTML Kod oluþturucu
 page.gen_button.sample=Örnek
 page.gen_button.secure_links=Secure Link kullan (https)
 page.gen_button.title=HTML Kod oluþturucu
-page.main_layout.meta_description=Müþteri Hizmetleri
-page.main_layout.meta_keyword=Müþteri Hizmetleri
 page.preview.agentchat=Müþteri Destek Ekraný
 page.preview.agentrochat=Müþteri Destek Ekraný (Sadece Okunabilir)
 page.preview.chatsimple=Simple chat window, refresh to post messages (IE 5, Opera 7)

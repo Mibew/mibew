@@ -1,3 +1,8 @@
+  1.6.0
+  -----
+  [+] main page: warning if database is outdated (after install)
+  [+] "Updates" tab in settings
+
   1.5.2
   -----
   [+] Ability to disable sound notifications for chat (toolbar button) 

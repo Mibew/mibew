@@ -83,8 +83,8 @@ demo.chat.welcome=Olá, Como posso lhe ajudar?
 errors.failed.uploading.file=Erro ao fazer upload do arquivo "{0}": "{1}".
 errors.file.move.error=Erro ao mover arquivo
 errors.file.size.exceeded=Tamanho do arquivo excedido.
-errors.footer=</ul></font>
-errors.header=<font color="#c13030"><b>Corrija os erros:</b><br/><ul>
+errors.footer=</ul>
+errors.header=<b>Corrija os erros:</b><br/><ul>
 errors.invalid.file.type=Tipo de arquivo inválido
 errors.prefix=<li class="error">
 errors.required=Por favor, preencha "{0}".
@@ -115,7 +115,7 @@ form.field.password=Senha
 form.field.password_confirm.description=Confirme a nova senha.
 form.field.password_confirm=Confirmação
 form.field.translation=Tradução
-harderrors.header=<font color="#c13030"><b>Impossivel executar:</b><br/><ul>
+harderrors.header=<b>Impossivel executar:</b><br/><ul>
 image.button.delete=/locales/pt-br/images/delete.gif
 image.button.login=/locales/pt-br/images/login.gif
 image.button.save=/locales/pt-br/images/save.gif
@@ -190,8 +190,6 @@ page.gen_button.intro=Você pode gerar o código HTML para colocar no seu site a
 page.gen_button.sample=Exemplo
 page.gen_button.secure_links=Usar link seguro (https)
 page.gen_button.title=Gerador do código HTML do botão
-page.main_layout.meta_description=
-page.main_layout.meta_keyword=
 page.preview.agentchat=Janela do Chat (agent-mode)
 page.preview.agentrochat=Ver janela do chat (Modo de leitura)
 page.preview.chatsimple=Janela de chat simples, atualize para mandar mensagens (IE 5, Opera 7)

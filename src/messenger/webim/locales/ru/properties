@@ -83,8 +83,8 @@ demo.chat.welcome=Здравствуйте! Чем я могу Вам помочь?
 errors.failed.uploading.file=Ошибка выгрузки файла "{0}": {1}.
 errors.file.move.error=Ошибка копирования файла
 errors.file.size.exceeded=Превышен допустимый размер файла
-errors.footer=</ul></font>
-errors.header=<font color="#c13030"><b>Исправьте ошибки:</b><br/><ul>
+errors.footer=</ul>
+errors.header=<b>Исправьте ошибки:</b><br/><ul>
 errors.invalid.file.type=Недопустимый формат файла
 errors.prefix=<li class="error">
 errors.required=Заполните поле "{0}".  
@@ -115,7 +115,7 @@ form.field.password=Пароль
 form.field.password_confirm.description=Подтвердите введенный пароль.
 form.field.password_confirm=Подтверждение
 form.field.translation=Текст перевода
-harderrors.header=<font color="#c13030"><b>Невозможно выполнить:</b><br/><ul>
+harderrors.header=<b>Невозможно выполнить:</b><br/><ul>
 image.button.delete=/locales/ru/images/delete.gif
 image.button.login=/locales/ru/images/login.gif
 image.button.save=/locales/ru/images/save.gif
@@ -190,8 +190,6 @@ page.gen_button.intro=На этой странице Вы можете получить HTML-код кнопки "Веб М
 page.gen_button.sample=Пример
 page.gen_button.secure_links=Использовать защищенное соединение (https)
 page.gen_button.title=Получение HTML-кода кнопки
-page.main_layout.meta_description=повышение конвертации, повышение конверсии, увеличение процента покупателей,превращает посетителей в online покупателей,диалог с посетителем,чат с посетителем
-page.main_layout.meta_keyword=онлайн поддержка,онлайн консультант,онлайн помощь,улучшение сервиса,поддержка клиентов,центр поддержки,поддержка на сайте,центр сообщений,электронная коммерция,центр мгновенных сообщений,повышение продаж интернет магазина,интернет магазин,онлайн продажи,интернет продажи,посетители,покупатели,повышение коэффициента конверсии,online поддержка,online продажи, online обслуживание,online консультант,online помощь,обслуживание посетителей,обслуживание клиентов,качество обслуживания,бизнес-коммуникации,crm 
 page.preview.agentchat=Chat window (agent-mode)
 page.preview.agentrochat=View Chat window (agent in readonly mode)
 page.preview.chatsimple=Simple chat window, refresh to post messages (IE 5, Opera 7)

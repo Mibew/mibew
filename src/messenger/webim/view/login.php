@@ -11,115 +11,80 @@
  * Contributors:
  *    Evgeny Gryaznov - initial API and implementation
  */
+
+require_once('inc_locales.php');
+$page['title'] = getlocal("page_login.title");
+
+function rightmenu_content() { global $page, $webimroot, $errors, $current_locale;
+	$message = get_image(get_app_location(false,false)."/button.php?image=webim&amp;lang=$current_locale", 0, 0);
+	$code = generate_button("",$current_locale,"",$message,false,false);
 ?>
-<html>
-<head>
+			<li>
+				<h2><b>contact us</b></h2>
+				<?php echo $code ?>
+			</li>
+<?php 
+}
 
+function tpl_content() { global $page, $webimroot, $errors;
+?>
+<?php echo getlocal("page_login.intro") ?>
+<br/>
+<br/>
 
-
-<link rel="stylesheet" type="text/css" media="all" href="<?php echo $webimroot ?>/styles.css" />
-
-
-<link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
-<title>
-	<?php echo getlocal("page_login.title") ?> - <?php echo getlocal("app.title") ?>
-</title>
-
-<meta http-equiv="keywords" content="<?php echo getlocal("page.main_layout.meta_keyword") ?>">
-<meta http-equiv="description" content="<?php echo getlocal("page.main_layout.meta_description") ?>">
-</head>
-
-<body bgcolor="#FFFFFF" text="#000000" link="#2971C1" vlink="#2971C1" alink="#2971C1">
-
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-<tr>
-<td valign="top" class="text">
-
-		<h1><?php echo getlocal("page_login.title") ?></h1>
-
-
-
-
-
-<?php if( isset($errors) && count($errors) > 0 ) { ?>
-		<table cellspacing="0" cellpadding="0" border="0">
-		<tr>
-	    <td valign="top"><img src='<?php echo $webimroot ?>/images/icon_err.gif' width="40" height="40" border="0" alt="" /></td>
-	    <td width="10"></td>
-	    <td class="text">
-		    <?php	if( isset($errors) && count($errors) > 0 ) {
-		print getlocal("errors.header");
-		foreach( $errors as $e ) {
-			print getlocal("errors.prefix");
-			print $e;
-			print getlocal("errors.suffix");
-		}
-		print getlocal("errors.footer");
-	} ?>
-
-		</td>
-		</tr>
-		</table>
-	<?php } ?>
+<?php 
+require_once('inc_errors.php');
+?>
 
 <form name="loginForm" method="post" action="<?php echo $webimroot ?>/operator/login.php">
-	<table cellspacing='0' cellpadding='0' border='0'><tr><td background='<?php echo $webimroot ?>/images/loginbg.gif'><table cellspacing='0' cellpadding='0' border='0'><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlt.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrt.gif' width='16' height='16' border='0' alt=''></td></tr><tr><td></td><td align='center'><table border='0' cellspacing='0' cellpadding='0'>
-		<tr>
-			<td colspan="2">
-			<table cellspacing="0" cellpadding="0" border="0">
-				<tr>
-					<td class="formauth"><?php echo getlocal("page_login.login") ?></td>
-					<td width="20"></td>
-					<td><input type="text" name="login" size="20" value="<?php echo form_value('login') ?>" class="formauth"/></td>
-				</tr>
+<input type="hidden" name="backPath" value="<?php echo $page['backPath'] ?>"/>
+	<div id="loginpane">
+	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
-				<tr>
-					<td colspan="3" height="10"></td>
-				</tr>
+	<div class="fieldForm">
+		<div class="field">
+			<div class="fleftlabel"><?php echo getlocal("page_login.login") ?></div>
+			<div class="fvalue">
+				<input type="text" name="login" size="25" value="<?php echo form_value('login') ?>" class="formauth"/>
+			</div>
+			<br clear="left"/>
+		</div>
 
-				<tr>
-					<td class="formauth"><?php echo getlocal("page_login.password") ?></td>
-					<td></td>
-					<td><input type="password" name="password" size="20" value="" class="formauth"/></td>
-				</tr>
+		<div class="field">
+			<div class="fleftlabel"><?php echo getlocal("page_login.password") ?></div>
+			<div class="fvalue">
+				<input type="password" name="password" size="25" value="" class="formauth"/>
+			</div>
+			<br clear="left"/>
+		</div>
 
-				<tr>
-					<td colspan="3" height="5"></td>
-				</tr>
+		<div class="field">
+			<div class="fleftlabel">&nbsp;</div>
+			<div class="fvalue">
+				<label>
+					<input type="checkbox" name="isRemember" value="on"<?php echo form_value_cb('isRemember') ? " checked=\"checked\"" : "" ?> />
+					<?php echo getlocal("page_login.remember") ?></label>
+			</div>
+			<br clear="left"/>
+		</div>
 
-				<tr>
-					<td class="formauth"></td>
-					<td></td>
-					<td>
-					<table cellspacing="0" cellpadding="0" border="0">
-						<tr>
-							<td><input type="checkbox" name="isRemember" value="on"<?php echo form_value_cb('isRemember') ? " checked=\"checked\"" : "" ?> /></td>
-							<td width="5"></td>
-							<td class="formauth" nowrap><span><?php echo getlocal("page_login.remember") ?></span></td>
-						</tr>
-					</table>
-					</td>
-				</tr>
-			</table>
-			</td>
-		</tr>
+		<div class="fbutton">
+			<input type="image" name="login" src='<?php echo $webimroot.getlocal("image.button.login") ?>' alt='<?php echo getlocal("button.enter") ?>'/>
+		</div>
 
-		<tr><td colspan='2' height='20'></td></tr><tr><td colspan='2' background='<?php echo $webimroot ?>/images/formline.gif'><img src='<?php echo $webimroot ?>/images/formline.gif' width='1' height='2' border='0' alt=''></td></tr><tr><td colspan='2' height='10'></td></tr>
+	</div>
+	
+	</div><div class="formbottom"><div class="formbottomi"></div></div></div>
 
-		<tr>
-			<td><input type="hidden" name="backPath" value="<?php echo $page['backPath'] ?>"/> <input type="image" name="" src='<?php echo $webimroot.getlocal("image.button.login") ?>' border="0" alt='<?php echo getlocal("button.enter") ?>'/>
-			</td>
+	<div class="asterisk">
+		<?php echo getlocal("common.asterisk_explanation") ?>
+	</div>
 
-		</tr>
-	</table></td><td></td></tr><tr><td><img src='<?php echo $webimroot ?>/images/logincrnlb.gif' width='16' height='16' border='0' alt=''></td><td></td><td><img src='<?php echo $webimroot ?>/images/logincrnrb.gif' width='16' height='16' border='0' alt=''></td></tr></table></td></tr></table>
+	</div>		
 </form>
 
-<br/>
-&laquo;<span style="color:#bb5500;">Open</span> Web Messenger&raquo; <?php echo $page['version'] ?> &bull; <?php echo $page['localeLinks'] ?>
-</td>
-</tr>
-</table>
+<?php 
+} /* content */
 
-</body>
-</html>
-
+require_once('inc_main.php');
+?>

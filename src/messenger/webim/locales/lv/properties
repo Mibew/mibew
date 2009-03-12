@@ -57,8 +57,8 @@ clients.title=Gaidījušo apmeklētāju saraksts
 common.asterisk_explanation=<b><font class="red">*</font></b> - laukumi, obligātai aizpildīšanai
 content.history=Meklēšana pēc dialogu vēsturi
 content.logoff=Atstāt sistēmu.
-errors.footer=</ul></font>
-errors.header=<font color="#c13030"><b>Izlabojiet kļūdas:</b><br/><ul>
+errors.footer=</ul>
+errors.header=<b>Izlabojiet kļūdas:</b><br/><ul>
 errors.prefix=<li class="error">
 errors.required=Aizpildiet laukumu "{0}".  
 errors.suffix=</li>

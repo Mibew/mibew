@@ -19,12 +19,12 @@ function generate_pagination_link($page,$title) {
 	$lnk = $_SERVER['REQUEST_URI'];
 	$href = preg_replace("/\?page=\d+\&/", "?", preg_replace("/\&page=\d+/", "", $lnk));
 	$href .= strstr($href,"?") ? "&page=$page" : "?page=$page";
-	return "<a href=\"$href\" class=\"pagelink\">$title</a>";
+	return "<a href=\"".htmlspecialchars($href)."\" class=\"pagelink\">$title</a>";
 }
 
-function generate_pagination_image($id) {
+function generate_pagination_image($id,$alt) {
 	global $webimroot;
-	return "<img src=\"$webimroot/images/$id.gif\" border=\"0\"/>";
+	return "<img src=\"$webimroot/images/$id.gif\" border=\"0\" alt=\"".htmlspecialchars($alt)."\"/>";
 }
 
 function setup_pagination($items,$default_items_per_page=15) {
@@ -79,7 +79,7 @@ function generate_pagination($pagination,$bottom=true) {
 		$maxPage = min( $curr_page + $links_on_page, $pagination['total'] );
 
 		if( $curr_page > 1 ) {
-			$result .= generate_pagination_link($curr_page-1, generate_pagination_image("prevpage")).$pagination_spacing;
+			$result .= generate_pagination_link($curr_page-1, generate_pagination_image("prevpage", "previous")).$pagination_spacing;
 		}
 
 		for($i = $minPage; $i <= $maxPage; $i++ ) {
@@ -93,7 +93,7 @@ function generate_pagination($pagination,$bottom=true) {
 		}
 
 		if( $curr_page < $pagination['total'] ) {
-			$result .= $pagination_spacing.generate_pagination_link($curr_page+1, generate_pagination_image("nextpage"));
+			$result .= $pagination_spacing.generate_pagination_link($curr_page+1, generate_pagination_image("nextpage", "next"));
 		}
 		$result.="</div>";
 	}

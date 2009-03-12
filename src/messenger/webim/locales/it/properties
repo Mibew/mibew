@@ -81,8 +81,8 @@ demo.chat.welcome=Ciao, come posso aiutarti?
 errors.failed.uploading.file=Errore caricando il file "{0}": {1}.
 errors.file.move.error=Errore muovendo il file
 errors.file.size.exceeded=La dimensione del file da caricare è troppo grande
-errors.footer=</ul></font>
-errors.header=<font color="#c13030"><b>Correggere gli errori:</b><br/><ul>
+errors.footer=</ul>
+errors.header=<b>Correggere gli errori:</b><br/><ul>
 errors.invalid.file.type=Tipo di file non valido
 errors.prefix=<li class="error">
 errors.required=Compilare "{0}".  
@@ -113,7 +113,7 @@ form.field.password=Password
 form.field.password_confirm.description=Conferma la nuova password.
 form.field.password_confirm=Conferma
 form.field.translation=Traduzione
-harderrors.header=<font color="#c13030"><b>Non eseguito:</b><br/><ul>
+harderrors.header=<b>Non eseguito:</b><br/><ul>
 image.button.delete=/locales/it/images/delete.gif
 image.button.login=/locales/it/images/login.gif
 image.button.save=/locales/it/images/save.gif
@@ -188,8 +188,6 @@ page.gen_button.intro=Puoi generare il codice HTML da inserire nel sito.
 page.gen_button.sample=Esempio
 page.gen_button.secure_links=Usa link sicuro (https)
 page.gen_button.title=Bottone per generare il codice HTML
-page.main_layout.meta_description=Chat dal vivo, help dal vivo, supporto sitoweb dal vivo
-page.main_layout.meta_keyword=chat dal vivo, help dal vivo, supporto dal vivo
 page.preview.agentchat=Finestra chat (agent-mode)
 page.preview.agentrochat=Visualizza finestra chat (readonly mode)
 page.preview.chatsimple=Finestra chat semplice, aggiorna per inviare un messaggio (IE 5, Opera 7)

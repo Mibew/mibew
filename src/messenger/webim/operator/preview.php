@@ -47,6 +47,7 @@ if($showerrors) {
 if($show == 'chat' || $show == 'mail' || $show == 'leavemessage' || $show == 'leavemessagesent' || $show == 'chatsimple' || $show == 'nochat') {
 	setup_chatview_for_user(array('threadid' => 0,'userName' => getstring("chat.default.username"), 'ltoken' => 123), "ajaxed");
 	$page['mailLink'] = "$webimroot/operator/preview.php?preview=$preview&amp;show=mail";
+	$page['info'] = "";
 	expand("../styles", "$preview", "$show.tpl");
 	exit;
 }

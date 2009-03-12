@@ -80,8 +80,8 @@ demo.chat.welcome=Hallo, wie kann ich ihnen helfen ?
 errors.failed.uploading.file=Fehler beim Datei Upload "{0}": "{1}".
 errors.file.move.error=Fehler beim verschieben der Datei
 errors.file.size.exceeded=max. Upload Größe überschritten.
-errors.footer=</ul></font>
-errors.header=<font color="#c13030"><b>Fehler korrigieren:</b><br/><ul>
+errors.footer=</ul>
+errors.header=<b>Fehler korrigieren:</b><br/><ul>
 errors.invalid.file.type=Falscher Dateityp
 errors.prefix=<li class="error">
 errors.required=Bitte "{0}" ausfüllen.
@@ -111,7 +111,7 @@ form.field.password=Passwort
 form.field.password_confirm.description=Neues Passwort bestätigen.
 form.field.password_confirm=Bestätigung
 form.field.translation=Übersetzung
-harderrors.header=<font color="#c13030"><b>Fehlgeschlagen:</b><br/><ul>
+harderrors.header=<b>Fehlgeschlagen:</b><br/><ul>
 install.1.connected=Sie sind verbunden mit MySQL Server Version {0}
 leavemail.body=Sie haben eine Nachricht von {0}:\n\n{2}\n\nSeine email: {1}\n{3}\n--- \nIhr Support Team
 leavemail.subject=Frage von {0}
@@ -158,8 +158,6 @@ page.gen_button.intro=Hier kann der HTML Code generieren.
 page.gen_button.sample=Beispiel
 page.gen_button.secure_links=Sichere Links (https) ?
 page.gen_button.title=Button HTML Code generieren
-page.main_layout.meta_description=Live chat, live help, and live support for websites
-page.main_layout.meta_keyword=live chat,live help,live support
 page.preview.agentchat=Chat Fenster (Agenten-Modus)
 page.preview.agentrochat=Chatfenster anschauen (Lesen-Only-Modus)
 page.preview.chatsimple=Einfaches Chatfenster, Nachrichten aktualisieren (IE 5, Opera 7)

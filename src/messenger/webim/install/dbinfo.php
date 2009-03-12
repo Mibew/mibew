@@ -110,7 +110,7 @@ function show_install_err($text) {
 	);
 	$errors = array($text);
 	start_html_output();
-	require('view_installerr.php');
+	require('../view/install_err.php');
 	exit;
 }
 

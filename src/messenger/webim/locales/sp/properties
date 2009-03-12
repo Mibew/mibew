@@ -81,8 +81,8 @@ demo.chat.welcome=Hola, ¿En qué puedo ayudarle?
 errors.failed.uploading.file=Error al subir el archivo "{0}": "{1}".
 errors.file.move.error=Error al mover el archivo
 errors.file.size.exceeded=Ha excedido el tamaño de archivo para subir
-errors.footer=</ul></font>
-errors.header=<font color="#c13030"><b>Corregir los errores:</b><br/><ul>
+errors.footer=</ul>
+errors.header=<b>Corregir los errores:</b><br/><ul>
 errors.invalid.file.type=Tipo de archivo invalido
 errors.prefix=<li class="error">
 errors.required=Por favor rellene "{0}".  
@@ -113,7 +113,7 @@ form.field.password=Password
 form.field.password_confirm.description=Confirmar nueva contraseña
 form.field.password_confirm=Confirmación
 form.field.translation=Traducción
-harderrors.header=<font color="#c13030"><b>No se puede ejecutar:</b><br/><ul>
+harderrors.header=<b>No se puede ejecutar:</b><br/><ul>
 image.button.delete=/locales/sp/images/delete.gif
 image.button.login=/locales/sp/images/login.gif
 image.button.save=/locales/sp/images/save.gif
@@ -188,8 +188,6 @@ page.gen_button.intro=Puede generar el código HTML para insertarlo en su sitio w
 page.gen_button.sample=Ejemplo
 page.gen_button.secure_links=Usa enlace seguro (https)
 page.gen_button.title=Genera código boton HTML
-page.main_layout.meta_description=conversación , ayuda y soporte en vivo para su sitio web
-page.main_layout.meta_keyword=conversación , ayuda y soporte en vivo
 page.preview.agentchat=Ventana de Chat (modo-operador)
 page.preview.agentrochat=Ver ventana de Chat (operador en modo lectura)
 page.preview.chatsimple=Simple ventana de Chat, enviar mensajes de actualización (IE 5, Opera 7)

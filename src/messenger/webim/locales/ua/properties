@@ -55,8 +55,8 @@ common.asterisk_explanation=<b><font class="red">*</font></b> - поля, обов'язков
 company.title=Web Messenger Community
 content.history=Пошук по історії діалогів
 content.logoff=Залишити систему.
-errors.footer=</ul></font>
-errors.header=<font color="#c13030"><b>Виправте помилки:</b><br/><ul>
+errors.footer=</ul>
+errors.header=<b>Виправте помилки:</b><br/><ul>
 errors.prefix=<li class="error">
 errors.required=Заповніть поле "{0}".  
 errors.suffix=</li>
@@ -140,8 +140,6 @@ page.gen_button.intro=На цій сторінці Ви можете отримати HTML-код кнопки "Веб Ме
 page.gen_button.sample=Приклад
 page.gen_button.secure_links=Використовувати захищене з'єднання (https)
 page.gen_button.title=Отримання HTML-кода кнопки
-page.main_layout.meta_description=підвищення конвертації, підвищення конверсії, збільшення відсотка покупців,перетворює відвідувачів в online покупців,діалог з відвідувачем,чат з відвідувачем
-page.main_layout.meta_keyword=онлайн підтримка,онлайн консультант,онлайн допомога,покращення сервісу,підтримка клієнтів,центр підтримки,підтримка на сайті,центр повідомлень,електронна комерція,центр миттєвих повідомлень,підвищення продажів інтернет магазину,інтернет магазин,онлайн продажі,інтернет продажі,відвідувачі,покупці,підвищення коефіцієнта конверсії,online підтримка,online продажі, online обслуговування,online консультант,online допомога,обслуговування відвідувачів,обслуговування клієнтів,якість обслуговування,бізнес-комунікації,crm 
 page_agent.create_new=Створення нового оператора
 page_agent.error.duplicate_login=Виберіть інший логін, т.я. оператор з введеним логіном вже зареєстрований в системі.
 page_agent.intro=На цій сторінці Ви можете  відредагувати дані операторів

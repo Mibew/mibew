@@ -81,8 +81,8 @@ demo.chat.welcome=您好，有什麼可以協助您的嗎?
 errors.failed.uploading.file=無法上傳檔案 "{0}": "{1}".
 errors.file.move.error=無法移動檔案
 errors.file.size.exceeded=上傳檔案尺寸過大
-errors.footer=</ul></font>
-errors.header=<font color="#c13030"><b>修正錯誤:</b><br/><ul>
+errors.footer=</ul>
+errors.header=<b>修正錯誤:</b><br/><ul>
 errors.invalid.file.type=無效的檔案格式
 errors.prefix=<li class="error">
 errors.required=請輸入 "{0}".  
@@ -113,7 +113,7 @@ form.field.password=密碼
 form.field.password_confirm.description=再輸入一次密碼確保密碼正確。
 form.field.password_confirm=確認密碼
 form.field.translation=翻譯
-harderrors.header=<font color="#c13030"><b>無法執行:</b><br/><ul>
+harderrors.header=<b>無法執行:</b><br/><ul>
 image.button.delete=/locales/zh-tw/images/delete.gif
 image.button.login=/locales/zh-tw/images/login.gif
 image.button.save=/locales/zh-tw/images/save.gif
@@ -188,8 +188,6 @@ page.gen_button.intro=您可以產生 HTML 語法並放在您的網站上.
 page.gen_button.sample=範例
 page.gen_button.secure_links=使用安全連結 (https)
 page.gen_button.title=產生客服HTML按鈕
-page.main_layout.meta_description=Live chat, live help, and live support for websites,即時客服,線上客服系統,直接在網站與客服通話
-page.main_layout.meta_keyword=live chat,live help,live support,即時聊天,即時客服,即時服務,線上服務,線上客服
 page.preview.agentchat=對談視窗 (客服模式)
 page.preview.agentrochat=檢視對談視窗 (客服唯讀模式)
 page.preview.chatsimple=簡單對談視窗, 更新送出訊息 (IE 5, Opera 7)

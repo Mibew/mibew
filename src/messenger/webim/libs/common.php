@@ -82,6 +82,7 @@ function get_available_locales() {
 		}
 		closedir($handle);
 	}
+	sort($list);
 	return $list;
 }
 
@@ -135,15 +136,13 @@ $output_encoding = array();
 
 function get_locale_links($href) {
 	global $current_locale;
-	$localeLinks = "";
+	$localeLinks = array();
 	$allLocales = get_available_locales();
+	if(count($allLocales) < 2) {
+		return null;
+	}
 	foreach($allLocales as $k) {
-		if( strlen($localeLinks) > 0 )
-			$localeLinks .= " &bull; ";
-		if( $k == $current_locale )
-			$localeLinks .= getlocal_($k, "names");
-		else
-			$localeLinks .= "<a href=\"$href?locale=$k\">".getlocal_($k, "names")."</a>";
+		$localeLinks[$k] = getlocal_($k, "names");
 	}
 	return $localeLinks;
 }
@@ -345,13 +344,13 @@ function wrong_field($key) {
 
 function get_popup($href,$jshref,$message,$title,$wndName,$options) {
 	if(!$jshref) { $jshref = "'$href'"; }
-	return "<a href=\"$href\" target=\"_blank\" ".($title?"title=\"$title\" ":"")."onclick=\"if(navigator.userAgent.toLowerCase().indexOf('opera') != -1 && window.event.preventDefault) window.event.preventDefault();this.newWindow = window.open($jshref, '$wndName', '$options');this.newWindow.focus();this.newWindow.opener=window;return false;\">$message</a>";
+	return "<a href=\"$href\" target=\"_blank\" ".($title?"title=\"$title\" ":"")."onclick=\"if(navigator.userAgent.toLowerCase().indexOf('opera') != -1 &amp;&amp; window.event.preventDefault) window.event.preventDefault();this.newWindow = window.open($jshref, '$wndName', '$options');this.newWindow.focus();this.newWindow.opener=window;return false;\">$message</a>";
 }
 
 function get_image($href,$width,$height) {
 	if( $width != 0 && $height != 0 )
-		return "<img src=\"$href\" border=\"0\" width=\"$width\" height=\"$height\"/>";
-	return "<img src=\"$href\" border=\"0\"/>";
+		return "<img src=\"$href\" border=\"0\" width=\"$width\" height=\"$height\" alt=\"\"/>";
+	return "<img src=\"$href\" border=\"0\" alt=\"\"/>";
 }
 
 function get_gifimage_size($filename) {

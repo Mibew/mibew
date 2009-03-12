@@ -1,0 +1,437 @@
+/*
+  This file is part of Web Instant Messenger project.
+
+  Copyright (c) 2005-2009 Web Messenger Community
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+  http://www.eclipse.org/legal/epl-v10.html
+
+*/
+
+/* reset all */
+
+html, body, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, li, dt, dd, p, blockquote, pre, form, fieldset, table, th, td { margin: 0; padding: 0; }
+table { border-collapse:collapse; border-spacing:0; }
+fieldset,img { border:0; }
+ol,ul { list-style:none; }
+h1,h2,h3,h4,h5,h6 { font-size:100%; font-weight:normal; }
+q:before,q:after { content:''; }
+
+body {
+	background: #FFFFFF url(images/header.gif) repeat-x;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 0.8em;
+	line-height: 140%;
+	color: #333333;
+}
+
+/* 100% height with footer, 200 px sidebar	 */
+
+html, body {
+	height: 100%;
+}
+
+body {
+	min-width: 700px;
+}
+
+a {
+	color: #2f7599;
+}
+
+#wrap {
+	position:relative;
+	width: 100%;
+	margin: 0px auto -41px;
+	height:auto !important;
+	height:100%;
+	min-height:100%;
+	min-width:700px;
+}
+
+.contentdiv {
+	float:left;
+	width: 100%;
+}
+
+.contentinner {
+	margin-right: 210px;
+	padding: 10px 60px 10px 20px;
+}
+
+.empty_inner {
+	height:40px;
+}
+
+#footer {
+	background: white url(images/footer.gif) bottom repeat-x;
+	font-size:11px;
+	position:relative;
+
+	min-height: 40px;
+	height:40px;
+	vertical-align:middle;
+
+	width:100%;
+	text-align: center;
+}
+
+#legal {
+	clear: both;
+	line-height: 30px;
+	padding-top:10px;
+	text-align: center;
+	color: #375C69;
+	margin-bottom: 0px;
+}
+
+#footer .flink {
+	color: #2f7599;
+	text-decoration: underline;
+}
+
+/* Header */
+
+#header {
+	width: 100%;
+	height: 32px;
+	margin: 0px auto 10px auto;
+	padding-top: 10px;
+	padding-bottom: 5px;
+	background: url(images/graydot.gif) repeat-x left bottom;
+	display: block;
+}
+
+#header {
+	float: left;
+}
+
+img.left {
+	float: left;
+	margin-right: 15px;
+}
+
+#header h1 {
+	font-size: 2em;
+	line-height: 32px;
+	color: #494949;
+	margin-left: 40px;
+}
+
+#header h1 a {
+	color: #494949;
+}
+
+#header a {
+	text-decoration: none;
+}
+
+#title {
+	float: left;
+	display: inline;
+}
+
+#path {
+	float: right;
+	padding: 10px 20px 0px 0px;
+	line-height: 22px;
+	display: inline;
+}
+
+/* Sidebar */
+
+#sidebar {
+	float: left;
+	width: 185px;
+	margin-left: -210px;
+	margin-top: 20px;
+	position:relative;
+	line-height: 180%
+}
+
+#sidebar ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#sidebar li {
+	margin-bottom: 20px;
+}
+
+#sidebar li ul {
+}
+
+#sidebar li li {
+	margin: 0;
+}
+
+#sidebar h2 {
+	text-transform: lowercase;
+	margin-bottom: 10px;
+	background: url(images/graydot.gif) repeat-x left bottom;
+	font-size: 1.3em;
+}
+
+.locales a {
+	color: #2f7599;
+	font-size: 1em;
+	text-decoration: none;
+}
+
+.locales .active a {
+	color: #555;
+}
+
+.locales a:hover {
+	text-decoration: underline;
+}
+
+.submenu a {
+	padding-left: 15px;
+	color: #2f7599;
+	font-size: 1em;
+	text-decoration: none;
+}
+
+.submenu .active a {
+	background: url(images/li.gif) no-repeat left 1px;
+	color: #555;
+}
+
+.submenu a:hover {
+	text-decoration: underline;
+}
+
+/* form, tabbed form */
+
+.mform {
+	background: url(images/loginbg.gif);
+	clear: both;
+}
+
+.tabs {
+	float: right;
+	display: inline;
+	margin-right: 15px;
+}
+
+.tabs li {
+	display: inline;
+}
+
+.tabs a {
+	display: block;
+	float: left;
+	padding: 2px 9px 3px 9px;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #2f7599;
+}
+
+.tabs li.active a {
+	background: url(images/loginbg.gif);
+	border-left:1px solid #bbbbbb;border-top:1px solid #bbbbbb;border-right:1px solid #bbbbbb;
+	color: #000;
+	text-decoration: none;
+}
+
+.formtop, .formbottom, .formtopi, .formbottomi { height: 15px;}
+.formtop { background: url(images/logincrnrt.gif) no-repeat top right;}
+.formtopi { background: url(images/logincrnlt.gif) no-repeat top left; }
+.formbottom { background: url(images/logincrnrb.gif) no-repeat bottom right; }
+.formbottomi { background: url(images/logincrnlb.gif) no-repeat bottom left; }
+.forminner { margin: 0px 15px;}
+.forminner p { margin-bottom: 1em; }
+
+/* fieldForm */
+
+.fieldForm {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	width: 100%;
+}
+
+div.errinfo {
+	color: #c13030;
+}	
+
+.field {
+	width: 100%;
+	margin-top: 5px;
+}
+
+.flabel {
+	position: relative;
+	margin: 8px auto 2px;
+	color: black;
+}
+
+.fleftlabel {
+	float: left;
+	width: 100px;
+} 
+
+.flabel span.required {
+	font-size:8.0pt;
+	color:red;
+	font-weight: bold;
+}
+
+.fvalue {
+	float: left;
+}
+
+.fvaluewithta {
+	float: left;
+	width: 67%;
+}
+
+.fvaluewithta textarea {
+	width: 100%;
+}
+
+.fvaluenodesc {
+}
+
+.fvalueframe {
+	overflow: auto;
+	width: 100%;
+}
+
+.fvalueframe iframe {
+	border: solid 1px #999;
+}
+	
+.fdescr {
+	float:left;
+	padding-left:10px;
+	color: #676767;
+	font-size: 10px;
+	min-width: 200px;
+}
+
+.fbutton { 
+	background: url(images/formline.gif) repeat-x;
+	margin-top: 20px;
+	padding-top: 10px;
+}
+
+.formauth {
+}
+
+input.formauth {
+	border: 1px solid #878787;
+	color: #333;
+	margin-right:15px;
+	padding-right: 0px;	
+}
+
+#formmessage {
+	border: 1px solid #4C96D4;
+	background-color: #E7F1F9;
+	padding: 8px 11px;
+	font-size: 11px;
+	font-weight:bold;
+	width : 400px;
+	margin: 0px 2px 10px;
+	color: #515151;
+}
+
+.asterisk {
+	padding: 10px 20px;
+}
+
+/* tables */
+
+.tabletool {
+	float: right;
+}
+
+.tabletool a {
+	color: #296685;
+	vertical-align: top;
+	padding-left: 4px;
+}
+
+table.list {
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	background: #fff;
+	width: 100%;
+	border-collapse: collapse;
+	text-align: left;
+}
+
+table.list th {
+	font-size: 1.2em;
+	font-weight: normal;
+	color: #1D485E;
+	padding: 10px 8px;
+	border-bottom: 2px solid #2F7598;
+}
+
+table.list td {
+	color: #2f7599;
+	padding: 10px 8px;
+	border-bottom: 1px solid #ccc;
+}
+
+table.list td a.man {
+	background: url(images/tbliclogin.gif) no-repeat left center;
+	padding-left: 15px;
+}
+
+table.list tbody tr:hover td, table.list tbody tr:hover td a {
+	color: #1D485E;
+}
+
+/* search */
+
+#searchtext {
+	float:left;
+	display: inline;
+	margin:7px 20px 5px 0px;
+	width:75%;
+	padding-right:5px;
+}
+
+#searchtext input {
+	width: 100%;
+	margin: 0px;
+}
+
+#searchbutton {
+	float:left;
+}
+
+/* login */
+
+#loginpane {
+	width: 350px;
+}
+
+/* dashboard */
+
+.dashitem {
+	width: 200px;
+	height: 7em;
+	margin: 0px 2em 2em 0px;
+	padding: 5px 5px;
+	float: left; 	
+}
+
+.dashitem a {
+	background: url(images/graydot.gif) repeat-x left bottom;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+	display: block;	
+}
+
+/* install */
+
+#install li {
+	list-style-type: circle;
+	list-style-position: inside;
+	margin-left: 2em;
+}

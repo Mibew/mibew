@@ -83,8 +83,8 @@ demo.chat.welcome=Witam, w czym mogę pomóc?
 errors.failed.uploading.file=Błąd podczas przesyłania pliku "{0}": {1}.
 errors.file.move.error=Błąd przesuwania pliku
 errors.file.size.exceeded=Przekroczony rozmiar przesyłanego pliku
-errors.footer=</ul></font>
-errors.header=<font color="#c13030"><b>Popraw błędy:</b><br/><ul>
+errors.footer=</ul>
+errors.header=<b>Popraw błędy:</b><br/><ul>
 errors.invalid.file.type=Nieprawidłowy typ pliku
 errors.prefix=<li class="error">
 errors.required=Proszę wypełnić "{0}".  
@@ -115,7 +115,7 @@ form.field.password=Hasło
 form.field.password_confirm.description=Potwierdź nowe hasło.
 form.field.password_confirm=Potwierdzenie
 form.field.translation=Tłumaczenie
-harderrors.header=<font color="#c13030"><b>Nie można wykonać:</b><br/><ul>
+harderrors.header=<b>Nie można wykonać:</b><br/><ul>
 image.button.delete=/locales/pl/images/delete.gif
 image.button.login=/locales/pl/images/login.gif
 image.button.save=/locales/pl/images/save.gif
@@ -190,8 +190,6 @@ page.gen_button.intro=Tutaj możesz wygenerować a następnie wstawić przycisk 
 page.gen_button.sample=Przykład
 page.gen_button.secure_links=Użyj bezpiecznego połączenia (https)
 page.gen_button.title=Generowanie kodu przycisku HTML
-page.main_layout.meta_description=Live chat, pomoc na żywo oraz wsparcie techniczne z poziomu strony
-page.main_layout.meta_keyword=live chat,pomoz na żywo, wsparcie techniczne online
 page.preview.agentchat=Okno rozmowy (tryb przedstawiciela)
 page.preview.agentrochat=Pokaż Okno Rozmowy (tryb przedstawiciela tylko do odczytu)
 page.preview.chatsimple=Proste okno rozmowy, odśwież aby wysłać wiadomości (IE 5, Opera 7)
