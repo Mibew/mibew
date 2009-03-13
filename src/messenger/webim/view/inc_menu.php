@@ -7,7 +7,7 @@ function menuli($name) {
 	return "";
 }
 
-function rightmenu_content() { global $page, $webimroot, $errors;
+function tpl_menu() { global $page, $webimroot, $errors;
 	if(isset($page) && isset($page['operator'])) { ?>
 			<li>
 				<h2><b>main</b></h2>

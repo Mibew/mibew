@@ -6,6 +6,7 @@ admin.content.client_gen_button=Button HTML code generation.
 admin.content.client_settings=Specify options affecting chat window and common system behavior
 admin.content.description=Functions available for site operators.
 agent.not_logged_in=Your session is expired please login again
+app.descr=Web Messenger is an open-source live support application.
 app.title=Web Instant Messenger
 ban.error.duplicate=The specified address is already in use, click <a href="ban.php?id={1}">here</a> if you want to edit it.
 button.delete=Delete
@@ -242,7 +243,7 @@ page_bans.title=Blocked
 page_bans.to=Till
 page_client.pending_users=You can find awaiting visitors.
 page_login.error=Entered login/password is incorrect
-page_login.intro=Login to access administrative tools, see your visitors and browse the history. 
+page_login.intro=Please enter your username and password to access administrative tools, see your visitors and browse the history. 
 page_login.login=Login:
 page_login.password=Password:
 page_login.remember=Remember

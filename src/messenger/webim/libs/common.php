@@ -493,6 +493,8 @@ function webim_mail($toaddr, $reply_to, $subject, $body) {
 
 	$real_subject = "=?".$mail_encoding."?B?".base64_encode(myiconv($webim_encoding,$mail_encoding,$subject))."?=";
 
+	$body = preg_replace("/\n/","\r\n", $body);
+	
 	mail($toaddr, $real_subject, wordwrap(myiconv($webim_encoding, $mail_encoding, $body),70), $headers);
 }
 

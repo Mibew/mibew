@@ -416,6 +416,7 @@ function close_thread($thread,$isuser) {
 
 function thread_by_id_($id,$link) {
 	return select_one_row("select threadid,userName,agentName,agentId,lrevision,istate,ltoken,userTyping,agentTyping".
+			",unix_timestamp(dtmmodified) as modified, unix_timestamp(dtmcreated) as created".
 			",remote,referer,locale,unix_timestamp(lastpinguser) as lpuser,unix_timestamp(lastpingagent) as lpagent, unix_timestamp(CURRENT_TIMESTAMP) as current,nextagent,shownmessageid,userid,userAgent".
 			" from chatthread where threadid = ". $id, $link );
 }

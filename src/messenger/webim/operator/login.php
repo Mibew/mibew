@@ -16,6 +16,8 @@ require_once('../libs/common.php');
 require_once('../libs/operator.php');
 
 $errors = array();
+$page = array( 'backPath' => '', 'formisRemember' => true, 'version' => $version);
+
 if( isset($_POST['login']) && isset($_POST['password']) ) {
 	$login = getparam('login');
 	$password = getparam('password');
@@ -33,10 +35,11 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 		exit;
 	} else {
 		$errors[] = getlocal("page_login.error");
+		$page['formlogin'] = $login;
 	}
 }
 
-$page = array( 'backPath' => '', 'formisRemember' => true, 'version' => $version, 'localeLinks' => get_locale_links("$webimroot/operator/login.php") );
+$page['localeLinks'] = get_locale_links("$webimroot/operator/login.php");
 start_html_output();
 require('../view/login.php');
 ?>

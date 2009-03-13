@@ -1,8 +1,11 @@
 window.attachEvent('onload', mkwidth);
 window.attachEvent('onresize', mkwidth);
 
-var minwidth = 700;
-
 function mkwidth(){
-    document.getElementById("wrap").style.width = document.documentElement.clientWidth < minwidth ? minwidth+"px" : "100%";
+	if(document.getElementById("wrap700")) {
+		document.getElementById("wrap700").style.width = document.documentElement.clientWidth < 700 ? "700px" : "100%";
+	}
+	if(document.getElementById("wrap400")) {
+		document.getElementById("wrap400").style.width = document.documentElement.clientWidth < 400 ? "400px" : "100%";
+	}
 };

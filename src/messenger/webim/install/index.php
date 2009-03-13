@@ -139,6 +139,8 @@ function check_status() {
 	$page['nextstep'] = getlocal("installed.login_link");
 	$page['nextnotice'] = getlocal("installed.notice");
 	$page['nextstepurl'] = "$webimroot/";
+	
+	$page['show_small_login'] = true;
 
 	mysql_close($link);
 

@@ -15,6 +15,7 @@
 require_once('../libs/common.php');
 require_once('../libs/operator.php');
 require_once('../libs/chat.php');
+require_once('../libs/userinfo.php');
 
 $operator = check_login();
 
@@ -24,6 +25,7 @@ if( isset($_GET['threadid'])) {
         $threadid = verifyparam( "threadid", "/^(\d{1,9})?$/", "");
 	$lastid = -1;
 	$page['threadMessages'] = get_messages($threadid,"html",false,$lastid);
+	$page['thread'] = thread_by_id($threadid);
 }
 
 start_html_output();

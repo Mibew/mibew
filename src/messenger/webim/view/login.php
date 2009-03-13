@@ -13,35 +13,33 @@
  */
 
 require_once('inc_locales.php');
-$page['title'] = getlocal("page_login.title");
-
-function rightmenu_content() { global $page, $webimroot, $errors, $current_locale;
-	$message = get_image(get_app_location(false,false)."/button.php?image=webim&amp;lang=$current_locale", 0, 0);
-	$code = generate_button("",$current_locale,"",$message,false,false);
-?>
-			<li>
-				<h2><b>contact us</b></h2>
-				<?php echo $code ?>
-			</li>
-<?php 
-}
+$page['title'] = getlocal("app.title");
+$page['show_small_login'] = true;
+$page['fixedwrap'] = true;
 
 function tpl_content() { global $page, $webimroot, $errors;
 ?>
-<?php echo getlocal("page_login.intro") ?>
-<br/>
-<br/>
 
-<?php 
-require_once('inc_errors.php');
-?>
+<div id="loginintro">
+<p><?php echo getlocal("app.descr")?></p>
+</div>
 
 <form name="loginForm" method="post" action="<?php echo $webimroot ?>/operator/login.php">
 <input type="hidden" name="backPath" value="<?php echo $page['backPath'] ?>"/>
 	<div id="loginpane">
-	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
+
+	<div class="header">	
+		<h2><?php echo getlocal("page_login.title") ?></h2>
+	</div>
 
 	<div class="fieldForm">
+	
+		<?php echo getlocal("page_login.intro") ?><br/><br/>
+
+<?php 
+require_once('inc_errors.php');
+?>
+	
 		<div class="field">
 			<div class="fleftlabel"><?php echo getlocal("page_login.login") ?></div>
 			<div class="fvalue">
@@ -72,12 +70,6 @@ require_once('inc_errors.php');
 			<input type="image" name="login" src='<?php echo $webimroot.getlocal("image.button.login") ?>' alt='<?php echo getlocal("button.enter") ?>'/>
 		</div>
 
-	</div>
-	
-	</div><div class="formbottom"><div class="formbottomi"></div></div></div>
-
-	<div class="asterisk">
-		<?php echo getlocal("common.asterisk_explanation") ?>
 	</div>
 
 	</div>		
