@@ -40,9 +40,9 @@
 	
 	<div class="contentdiv">
 <?php if(function_exists('tpl_menu')) { ?>
-	<div class="contentinner">
+	<div id="wcontent" class="contentinner">
 <?php } else { ?>
-	<div class="contentnomenu">
+	<div id="wcontent" class="contentnomenu">
 <?php } ?>
 <?php
 	tpl_content();

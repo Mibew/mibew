@@ -71,7 +71,11 @@ function thread_to_xml($thread,$link) {
 	}
 
 	$result .= " state=\"$state\" typing=\"".$thread['userTyping']."\">";
-	$result .= "<name>".htmlspecialchars(htmlspecialchars(get_user_name($thread['userName'],$thread['remote'], $thread['userid'])))."</name>";
+	$result .="<name>";
+	if($banForThread) {
+		$result .= htmlspecialchars("[spam]&nbsp;");
+	}
+	$result .= htmlspecialchars(htmlspecialchars(get_user_name($thread['userName'],$thread['remote'], $thread['userid'])))."</name>";
 	$result .= "<addr>".htmlspecialchars(get_user_addr($thread['remote']))."</addr>";
 	$result .= "<agent>".htmlspecialchars(htmlspecialchars($threadoperator))."</agent>";
 	$result .= "<time>".$thread['unix_timestamp(dtmcreated)']."000</time>";

@@ -12,6 +12,7 @@
  *    Evgeny Gryaznov - initial API and implementation
  */
 
+require_once("inc_menu.php");
 $page['title'] = getlocal("clients.title");
 
 function tpl_header() { global $page, $webimroot;
@@ -21,7 +22,9 @@ function tpl_header() { global $page, $webimroot;
 var localized = new Array(
     "<?php echo getlocal("pending.table.speak") ?>",
     "<?php echo getlocal("pending.table.view") ?>",
-    "<?php echo getlocal("pending.table.ban") ?>"
+    "<?php echo getlocal("pending.table.ban") ?>",
+    "<?php echo htmlspecialchars(getlocal("pending.menu.show")) ?>",
+    "<?php echo htmlspecialchars(getlocal("pending.menu.hide")) ?>"
 );
 var updaterOptions = {
 	url:"<?php echo $webimroot ?>/operator/update.php",wroot:"<?php echo $webimroot ?>",
@@ -35,16 +38,20 @@ var updaterOptions = {
 function tpl_content() { global $page, $webimroot;
 ?>
 
+<div>
+<div style="float:right;padding-right:10px;">
+<a href="#" id="togglemenu"></a>
+</div>
 <?php echo getlocal("clients.intro") ?>
 <br/>
 <?php echo getlocal("clients.how_to") ?>
-<br/>
+</div>
 <br/>
 
 <table id="threadlist" class="awaiting" border="0">
 <thead>
 <tr>
-	<th><?php echo getlocal("pending.table.head.name") ?></th>
+	<th class="first"><?php echo getlocal("pending.table.head.name") ?></th>
 	<th><?php echo getlocal("pending.table.head.contactid") ?></th>
     <th><?php echo getlocal("pending.table.head.state") ?></th>
     <th><?php echo getlocal("pending.table.head.operator") ?></th>

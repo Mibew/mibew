@@ -16,71 +16,102 @@ require_once("inc_menu.php");
 $page['title'] = getlocal("topMenu.admin");
 $page['menuid'] = "main";
 
-function tpl_content() { global $page, $webimroot;
+function tpl_header() { global $page, $webimroot;
+?>	
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/locale.js"></script>
+<?php
+}
+
+function tpl_content() { global $page, $webimroot, $current_locale;
 ?>
 
-	<?php echo getlocal("admin.content.description") ?>
-<br/>
-<br/>
+<br/>   
 <?php if( $page['needUpdate'] ) { ?>
 <div id="formmessage"><?php echo getlocal2("install.updatedb",array($page['updateWizard'])) ?></div>
 <br/>
 <?php } ?>
 
-<div id="dashboard">
-
-	<div class="dashitem">
+<table id="dashboard">
+<tr>
+	<td class="dashitem">
+		<img src="/webim/images/dash/visitors.gif" alt=""/>
 		<a href='<?php echo $webimroot ?>/operator/users.php'>
 			<?php echo getlocal('topMenu.users') ?></a>
 		<?php echo getlocal('page_client.pending_users') ?>
-	</div>	
+	</td>	
 
-	<div class="dashitem">
+	<td class="dashitem">
+		<img src="/webim/images/dash/history.gif" alt=""/>
 		<a href='<?php echo $webimroot ?>/operator/history.php'>
 			<?php echo getlocal('page_analysis.search.title') ?></a>
 		<?php echo getlocal('content.history') ?>
-	</div>
+	</td>
 <?php if( $page['showban'] ) { ?>
 	
-	<div class="dashitem">
+	<td class="dashitem">
+		<img src="/webim/images/dash/blocked.gif" alt=""/>
 		<a href='<?php echo $webimroot ?>/operator/blocked.php'>
 			<?php echo getlocal('menu.blocked') ?></a>
 		<?php echo getlocal('content.blocked') ?>
-	</div>
+	</td>
 <?php } ?>
-
+</tr>
 <?php if( $page['showadmin'] ) { ?>
-	<br clear="all"/>
-	
-	<div class="dashitem">
+<tr>	
+	<td class="dashitem">
+		<img src="/webim/images/dash/operators.gif" alt=""/>
 		<a href='<?php echo $webimroot ?>/operator/operators.php'>
 			<?php echo getlocal('leftMenu.client_agents') ?></a>
 		<?php echo getlocal('admin.content.client_agents') ?>
-	</div>
+	</td>
 	
-	<div class="dashitem">
+	<td class="dashitem">
+		<img src="/webim/images/dash/getcode.gif" alt=""/>
 		<a href='<?php echo $webimroot ?>/operator/getcode.php'>
 			<?php echo getlocal('leftMenu.client_gen_button') ?></a>
 		<?php echo getlocal('admin.content.client_gen_button') ?>
-	</div>
+	</td>
 
-	<div class="dashitem">
+	<td class="dashitem">
+		<img src="/webim/images/dash/settings.gif" alt=""/>
 		<a href='<?php echo $webimroot ?>/operator/settings.php'>
 			<?php echo getlocal('leftMenu.client_settings') ?></a>
 		<?php echo getlocal('admin.content.client_settings') ?>
-	</div>
+	</td>
+</tr>
 <?php } ?>
 
-	<br clear="all"/>
+<tr>
+	<td class="dashitem">
+		<img src="/webim/images/dash/locale.gif"  alt=""/>
+		<a href='#' id="changelang">
+			<?php echo getlocal('menu.locale') ?></a>
+		<?php echo getlocal('menu.locale.content') ?>
+	</td>
 
-	<div class="dashitem">
+	<td class="dashitem">
+		<img src="/webim/images/dash/exit.gif" alt=""/>
 		<a href='<?php echo $webimroot ?>/operator/logout.php'>
 			<?php echo getlocal('topMenu.logoff') ?></a>
 		<?php echo getlocal('content.logoff') ?>
-	</div>
+	</td>
+</tr>
 
+</table>
+
+<div id="dashlocalesPopup">
+	<a href="#" id="dashlocalesPopupClose"><img src="/webim/images/dash/close.gif" alt="X"/></a>
+	<h2><img src="/webim/images/dash/locale.gif"  alt=""/>
+	<b><?php echo getlocal("lang.choose") ?></b></h2>
+	<ul class="locales">
+<?php foreach($page['localeLinks'] as $id => $title) { ?>
+		<li<?php echo $current_locale == $id ? " class=\"active\"" : "" ?> ><a href='?locale=<?php echo $id ?>'><?php echo $title ?></a></li>
+<?php } ?>
+	</ul>
 </div>
-	
+<div id="backgroundPopup"></div> 
+
 <?php 
 } /* content */
 

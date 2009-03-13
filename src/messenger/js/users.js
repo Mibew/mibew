@@ -62,40 +62,40 @@ var HtmlGenerationUtils = {
   },
 
   generateOneRowTable: function(content) {
-  	return '<table width="100%" cellspacing="0" cellpadding="0" border="0"><tr>' + content + '</tr></table>';
+  	return '<table class="inner"><tr>' + content + '</tr></table>';
   },
 
   viewOpenCell: function(username,servlet,id,canview,canopen,ban,message,cantakenow) {
   		var cellsCount = 2;
   		var link = servlet+"?thread="+id;
- 		var gen = '<td style="padding-left:0px; padding-right:0px;">';
+ 		var gen = '<td>';
  		if(canopen || canview ) {
-			gen += HtmlGenerationUtils.popupLink( (cantakenow||!canview) ? link : link+"&viewonly=true", localized[canopen ? 0 : 1], "ImCenter"+id, username, 640, 480, ban);
+			gen += HtmlGenerationUtils.popupLink( (cantakenow||!canview) ? link : link+"&viewonly=true", localized[canopen ? 0 : 1], "ImCenter"+id, username, 640, 480, null);
 		} else {
 			gen += '<a href="#">' + username + '</a>';
 		}
-		gen += '</td><td><img src="'+webimRoot+'/images/free.gif" width="5" height="1" border="0" alt=""></td>';
+		gen += '</td>';
 		if( canopen ) {
-			gen += '<td width="30" align="center">';
+			gen += '<td class="icon">';
 			gen += HtmlGenerationUtils.popupLink( link, localized[0], "ImCenter"+id, '<img src="'+webimRoot+'/images/tbliclspeak.gif" width="15" height="15" border="0" alt="'+localized[0]+'">', 640, 480, null);
 			gen += '</td>';
 			cellsCount++;
 		}
 		if( canview ) {
-			gen += '<td width="30" align="center">';
+			gen += '<td class="icon">';
 			gen += HtmlGenerationUtils.popupLink( link+"&viewonly=true", localized[1], "ImCenter"+id, '<img src="'+webimRoot+'/images/tbliclread.gif" width="15" height="15" border="0" alt="'+localized[1]+'">', 640, 480, null);
 			gen += '</td>';
 			cellsCount++;
 		}
 		if( message != "" ) {
-			gen += '</tr><tr><td class="firstmessage" align="right" colspan="'+cellsCount+'"><a href="javascript:void(0)" title="'+message+'" onclick="alert(this.title);return false;">';
+			gen += '</tr><tr><td class="firstmessage" colspan="'+cellsCount+'"><a href="javascript:void(0)" title="'+message+'" onclick="alert(this.title);return false;">';
 			gen += message.length > 30 ? message.substring(0,30) + '...' : message;
 			gen += '</a></td>';
 		}
   		return HtmlGenerationUtils.generateOneRowTable(gen);
   },
   banCell: function(id,banid){
-      return '<td width="30" align="center">'+
+      return '<td class="icon">'+
           HtmlGenerationUtils.popupLink( webimRoot+'/operator/ban.php?'+(banid ? 'id='+banid : 'thread='+id), localized[2], "ban"+id, '<img src="'+webimRoot+'/images/ban.gif" width="15" height="15" border="0" alt="'+localized[2]+'">', 720, 480, null)+
           '</td>';
   }
@@ -193,6 +193,7 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 	}
 	if( row == null ) {
 		row = this.t.insertRow(startRow.rowIndex+1);
+		row.className = (ban == "blocked" && stateid != "chat") ? "ban" : "in"+stateid;
 		row.id = "thr"+id;
 		this.threadTimers[id] = new Array(vtime,modified,stateid);
 		CommonUtils.insertCell(row, "name", "visitor", null, null, HtmlGenerationUtils.viewOpenCell(vname,this._options.agentservl,id,canview,canopen,ban,message,stateid!='chat'));
@@ -207,6 +208,7 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 			return true;
 	} else {
 		this.threadTimers[id] = new Array(vtime,modified,stateid);
+		row.className = (ban == "blocked" && stateid != "chat") ? "ban" : "in"+stateid;
 		setcell(this.t, row,"name",HtmlGenerationUtils.viewOpenCell(vname,this._options.agentservl,id,canview,canopen,ban,message,stateid!='chat'));
 		setcell(this.t, row,"contid",vaddr);
 		setcell(this.t, row,"state",vstate);
@@ -303,9 +305,32 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
   }
 });
 
+function togglemenu() {
+if($("sidebar") && $("wcontent") && $("togglemenu")) {
+  if($("wcontent").className == "contentnomenu") {
+    $("sidebar").style.display = "block";
+    $("wcontent").className = "contentinner";
+    $("togglemenu").innerHTML = localized[4];
+  } else {
+    $("sidebar").style.display = "none";
+    $("wcontent").className = "contentnomenu"; 
+    $("togglemenu").innerHTML = localized[3];
+  }
+}
+}
+
+Behaviour.register({
+	'#togglemenu' : function(el) {
+		el.onclick = function() {
+			togglemenu();
+		};
+	}
+});
+
 var webimRoot = "";
 
 EventHelper.register(window, 'onload', function(){
   webimRoot = updaterOptions.wroot;
   new Ajax.ThreadListUpdater(({table:$("threadlist"),status:$("connstatus")}).extend(updaterOptions || {}));
+  togglemenu();
 });

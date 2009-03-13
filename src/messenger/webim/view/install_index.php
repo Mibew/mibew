@@ -14,6 +14,7 @@
 
 require_once('inc_locales.php');
 $page['title'] = getlocal("install.title");
+$page['fixedwrap'] = true;
 
 function tpl_content() { global $page, $webimroot, $errors;
 ?>
