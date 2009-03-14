@@ -39,6 +39,11 @@ require_once('inc/menu.i');
 				<td>22 Feb 2009</td></tr>
 
 			<tr>
+				<td><a href="http://prdownloads.sourceforge.net/webim/webim_pt-br152.zip?download">Português Brasil</a></td>
+				<td>1.5.2</td>
+				<td>14 Mar 2009</td></tr>
+
+			<tr>
 				<td><a href="http://prdownloads.sourceforge.net/webim/webim_ru152.zip?download">Russian</a></td>
 				<td>1.5.2</td>
 				<td>16 Feb 2009</td></tr>
