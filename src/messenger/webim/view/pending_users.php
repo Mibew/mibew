@@ -14,6 +14,8 @@
 
 require_once("inc_menu.php");
 $page['title'] = getlocal("clients.title");
+$page['menuid'] = "users";
+
 
 function tpl_header() { global $page, $webimroot;
 ?>	

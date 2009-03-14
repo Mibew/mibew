@@ -274,6 +274,9 @@ permission.takeover=Take over chat thread
 permission.viewthreads=View another operator's chat thread
 permissions.intro=Here you can control operator's permissions 
 permissions.title=Permissions
+right.administration=Administration
+right.main=Main
+right.other=Other
 settings.chat.title.description=Department of your company for example.
 settings.chat.title=Title in the chat window
 settings.chatstyle.description=Preview for all pages of each style is available <a href="preview.php">here</a>

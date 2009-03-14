@@ -10,7 +10,7 @@ function menuli($name) {
 function tpl_menu() { global $page, $webimroot, $errors;
 	if(isset($page) && isset($page['operator'])) { ?>
 			<li>
-				<h2><b>main</b></h2>
+				<h2><?php echo getlocal('right.main') ?></h2>
 				<ul class="submenu">
 					<li<?php menuli("main")?>><a href='<?php echo $webimroot ?>/operator/index.php'><?php echo getlocal('topMenu.main') ?></a></li>
 					<li<?php menuli("users")?>><a href='<?php echo $webimroot ?>/operator/users.php'><?php echo getlocal('topMenu.users') ?></a></li>
@@ -19,7 +19,7 @@ function tpl_menu() { global $page, $webimroot, $errors;
 				</ul>
 			</li>
 			<li>
-				<h2><b>administration</b></h2>
+				<h2><?php echo getlocal('right.administration') ?></h2>
 				<ul class="submenu">
 					<li<?php menuli("operators")?>><a href='<?php echo $webimroot ?>/operator/operators.php'><?php echo getlocal('leftMenu.client_agents') ?></a></li>
 					<li<?php menuli("departments")?>><a href="#">Departments</a></li>
@@ -28,7 +28,7 @@ function tpl_menu() { global $page, $webimroot, $errors;
 				</ul>
 			</li>
 			<li>
-				<h2><b>other</b></h2>
+				<h2><?php echo getlocal('right.other') ?></h2>
 				<ul class="submenu">
 					<li><a href='<?php echo $webimroot ?>/operator/logout.php'><?php echo getlocal('topMenu.logoff') ?></a></li>
 				</ul>

@@ -189,6 +189,7 @@ img.left {
 	margin-bottom: 10px;
 	background: url(images/graydot.gif) repeat-x left bottom;
 	font-size: 1.3em;
+	font-weight: bold;
 }
 
 .locales a {
