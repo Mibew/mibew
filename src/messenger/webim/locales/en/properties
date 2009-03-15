@@ -73,7 +73,7 @@ clients.title=List of awaiting visitors
 common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - mandatory fields
 company.title=Web Messenger Community
 confirm.take.head=Change operator
-confirm.take.message=Visitor <span style="color:blue;">{0}</span> already assisted by <span style="color:green;">{1}</span>.<br/> Are your really sure you wan't to start chatting the visitor?
+confirm.take.message=Visitor <span style="color:blue;">{0}</span> already assisted by <span style="color:green;">{1}</span>.<br/> Are your really sure you want to start chatting the visitor?
 confirm.take.no=No, close the window
 confirm.take.yes=Yes, I'm sure
 content.blocked=Here you can defend from malicious visitors.

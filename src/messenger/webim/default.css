@@ -536,6 +536,34 @@ table.awaiting td.visitor {
 	border-bottom: 2px solid #2F7598;
 }
 
+/* nice button */
+
+#confirmpane {
+	width:450px;
+	margin:0px auto 5px;
+	padding-top: 70px;
+}
+
+.nicebutton {
+	border: none;
+	float: left;
+	margin-left: 30px;
+}
+
+.submit a {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	line-height: 35px;
+	color: #000000;
+	text-decoration: none;
+}
+
+.submit {
+	background: url(images/submitbg.gif) repeat-x;
+	vertical-align: top;
+}
+
+
 /* thread log */
 
 .logpane {
@@ -683,4 +711,3 @@ table.awaiting td.visitor {
 	color: #A1A1A1;
 	font-size: 11px;
 }
-
