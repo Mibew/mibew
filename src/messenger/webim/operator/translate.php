@@ -140,8 +140,8 @@ if($stringid) {
 	$page['saved'] = false;
 	$page['key'] = $stringid;
 	$page['target'] = $target;
-	$page['formoriginal'] = isset($lang1[$stringid]) ? $lang1[$stringid] : "<b><unknown></b>";
-	$page['formtranslation'] = $translation;
+	$page['formoriginal'] = isset($lang1[$stringid]) ? htmlspecialchars($lang1[$stringid]) : "<b><unknown></b>";
+	$page['formtranslation'] = htmlspecialchars($translation);
 	start_html_output();
 	require('../view/translate.php');
 	exit;

@@ -171,6 +171,7 @@ menu.locale=Язык
 menu.locale.content=Сменить язык.
 menu.main=Главная
 menu.operator=Вы {0}
+menu.translate=Локализация
 my_settings.error.password_match=Введенные пароли должны совпадать
 no_such_operator=Запрашиваемая учетная запись не существует
 page.analysis.search.head_host=Адрес посетителя

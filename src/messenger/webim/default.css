@@ -227,6 +227,7 @@ img.left {
 .mform {
 	background: url(images/loginbg.gif);
 	clear: both;
+	width: 100%;
 }
 
 .tabs {
@@ -269,6 +270,14 @@ img.left {
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	font-size: 11px;
 	width: 100%;
+}
+
+.packedFormField {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	float:left;
+	margin-right:25px;
+	margin-bottom:8px;
 }
 
 div.errinfo {
@@ -339,6 +348,12 @@ div.errinfo {
 .formauth {
 }
 
+textarea.wide {
+	border:1px solid #878787;
+	overflow:auto;
+	width: 95%;
+}
+
 input.formauth {
 	border: 1px solid #878787;
 	color: #333;
@@ -373,7 +388,7 @@ input.formauth {
 	padding-left: 4px;
 }
 
-table.list {
+table.list, table.translate {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
 	background: #fff;
 	width: 100%;
@@ -381,7 +396,7 @@ table.list {
 	text-align: left;
 }
 
-table.list th {
+table.list th, table.translate th {
 	font-size: 1.2em;
 	font-weight: normal;
 	color: #1D485E;
@@ -392,6 +407,14 @@ table.list th {
 table.list td {
 	color: #2f7599;
 	padding: 10px 8px;
+	border-bottom: 1px solid #ccc;
+}
+
+table.translate td {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #515151;
+	padding: 2px 8px;
 	border-bottom: 1px solid #ccc;
 }
 

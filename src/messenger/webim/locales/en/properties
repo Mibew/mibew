@@ -172,6 +172,7 @@ menu.locale=Language
 menu.locale.content=Change locale.
 menu.main=Main
 menu.operator=You are {0}
+menu.translate=Localize
 my_settings.error.password_match=Entered passwords do not match
 no_such_operator=No such operator
 page.analysis.search.head_host=Visitor's address
