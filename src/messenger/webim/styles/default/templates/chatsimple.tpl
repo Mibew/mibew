@@ -5,7 +5,7 @@
 <link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
 <meta http-equiv="Content-Type" content="text/html; charset=Windows-1251">
 <link rel="stylesheet" type="text/css" href="${webimroot}/chat.css" />
-<script type="text/javascript" language="javascript" src="${webimroot}/js/brws.js?v=152"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/brws.js?v=160a1"></script>
 </head>
 
 <body bgcolor="#FFFFFF" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" marginwidth="0" marginheight="0" leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0">

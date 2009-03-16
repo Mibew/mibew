@@ -3,7 +3,7 @@
 
 <project basedir="." default="update" name="Obfuscator">
   <property name="obfuscator.location" value="." />
-  <property name="webim.location" value="../webim" />
+  <property name="webim.location" value="../" />
 
   <target name="update" depends="build">
     <java classname="JSO" fork="true" error="${obfuscator.location}/bin/obfuscation.log">
@@ -11,10 +11,10 @@
       <arg value="${obfuscator.location}/chat.js" />
       <arg value="${obfuscator.location}/users.js" />
       <arg value="${obfuscator.location}/brws.js" />
-      <arg value="d=${webim.location}/js/" />
+      <arg value="d=${webim.location}" />
       <!-- <arg value="debug"/> -->
       <!-- <arg value="debugnames"/> -->
-      <!-- <arg value="o=0,0"/> -->
+      <arg value="o=0,0"/>
       <classpath>
         <pathelement location="${obfuscator.location}/bin/" />
       </classpath>

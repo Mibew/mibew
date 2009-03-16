@@ -19,7 +19,7 @@ $page['menuid'] = "users";
 
 function tpl_header() { global $page, $webimroot;
 ?>	
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/common.js?v=152"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/common.js?v=160a1"></script>
 <script type="text/javascript" language="javascript"><!--
 var localized = new Array(
     "<?php echo getlocal("pending.table.speak") ?>",
@@ -33,7 +33,7 @@ var updaterOptions = {
 	agentservl:"<?php echo $webimroot ?>/operator/agent.php",
 	noclients:"<?php echo getlocal("clients.no_clients") ?>" };
 //--></script>
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/users.js?v=152"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/users.js?v=160a1"></script>
 <?php
 }
 
