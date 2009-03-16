@@ -73,7 +73,7 @@ function thread_to_xml($thread,$link) {
 	$result .= " state=\"$state\" typing=\"".$thread['userTyping']."\">";
 	$result .="<name>";
 	if($banForThread) {
-		$result .= htmlspecialchars("[spam]&nbsp;");
+		$result .= htmlspecialchars(getstring('chat.client.spam.prefix'));
 	}
 	$result .= htmlspecialchars(htmlspecialchars(get_user_name($thread['userName'],$thread['remote'], $thread['userid'])))."</name>";
 	$result .= "<addr>".htmlspecialchars(get_user_addr($thread['remote']))."</addr>";

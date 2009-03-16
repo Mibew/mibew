@@ -79,7 +79,7 @@ function generate_pagination($pagination,$bottom=true) {
 		$maxPage = min( $curr_page + $links_on_page, $pagination['total'] );
 
 		if( $curr_page > 1 ) {
-			$result .= generate_pagination_link($curr_page-1, generate_pagination_image("prevpage", "previous")).$pagination_spacing;
+			$result .= generate_pagination_link($curr_page-1, generate_pagination_image("prevpage", getlocal("tag.pagination.previous"))).$pagination_spacing;
 		}
 
 		for($i = $minPage; $i <= $maxPage; $i++ ) {
@@ -93,7 +93,7 @@ function generate_pagination($pagination,$bottom=true) {
 		}
 
 		if( $curr_page < $pagination['total'] ) {
-			$result .= $pagination_spacing.generate_pagination_link($curr_page+1, generate_pagination_image("nextpage", "next"));
+			$result .= $pagination_spacing.generate_pagination_link($curr_page+1, generate_pagination_image("nextpage", getlocal("tag.pagination.next")));
 		}
 		$result.="</div>";
 	}
