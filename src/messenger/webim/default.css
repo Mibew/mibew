@@ -734,3 +734,16 @@ table.awaiting td.visitor {
 	color: #A1A1A1;
 	font-size: 11px;
 }
+
+/* updates */
+
+#news {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	margin-bottom:15px;
+	padding:4px;
+}
+
+.newstext {
+	margin-bottom:1em;
+}

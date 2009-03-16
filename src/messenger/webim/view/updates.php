@@ -16,6 +16,14 @@ require_once("inc_menu.php");
 $page['title'] = getlocal("updates.title");
 $page['menuid'] = "settings";
 
+function tpl_header() { global $page, $webimroot;
+?>	
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" language="javascript" src="http://openwebim.org/latestWebim.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/update.js"></script>
+<?php
+}
+
 function tpl_content() { global $page, $webimroot;
 ?>
 
@@ -33,11 +41,20 @@ function tpl_content() { global $page, $webimroot;
 	</ul>
 <?php } ?>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
-
+	
+		News:<br/>
+		<div id="news">
+		</div>
+		
 		You are using:<br/>
-			&laquo;<span style="color:#bb5500;">Open</span> Web Messenger&raquo; <?php echo $page['version'] ?>
+			<div id="cver"><?php echo $page['version'] ?></div>
 			
-		<br/><br/>
+		<br/>
+
+		Latest version:
+			<div id="lver"></div>
+		
+		<br/>
 			
 		Installed localizations:<br/>
 			<?php foreach( $page['localizations'] as $loc ) { ?>
@@ -48,9 +65,7 @@ function tpl_content() { global $page, $webimroot;
 		
 		Environment:<br/>
 			PHP <?php echo $page['phpVersion'] ?>
-			
-		<br/>
-	
+
 	</div><div class="formbottom"><div class="formbottomi"></div></div></div>
 </div>		
 
