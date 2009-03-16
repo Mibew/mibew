@@ -27,7 +27,6 @@ function update_operator_permissions($operatorid,$newvalue) {
 
 $opId = verifyparam( "op","/^\d{1,9}$/");
 $page = array('op' => $opId);
-$page['operator'] = topage(get_operator_name($operator));
 $errors = array();
 
 $op = operator_by_id($opId);
@@ -75,6 +74,7 @@ foreach($permission_ids as $perm => $id) {
 	}
 }
 
+prepare_menu($operator);
 start_html_output();
 require('../view/permissions.php');
 ?>

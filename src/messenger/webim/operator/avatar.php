@@ -19,7 +19,6 @@ $operator = check_login();
 
 $opId = verifyparam( "op","/^\d{1,9}$/");
 $page = array('op' => $opId, 'avatar' => '');
-$page['operator'] = topage(get_operator_name($operator));
 $errors = array();
 
 $op = operator_by_id($opId);
@@ -89,6 +88,7 @@ $page['tabs'] = array(
 );
 $page['currentop'] = topage(get_operator_name($op))." (".$op['vclogin'].")";
 
+prepare_menu($operator);
 start_html_output();
 require('../view/avatar.php');
 ?>

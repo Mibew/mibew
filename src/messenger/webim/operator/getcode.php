@@ -68,7 +68,6 @@ $size = get_gifimage_size($file);
 $message = get_image(get_app_location($showhost,$forcesecure)."/button.php?image=$image&amp;lang=$lang",$size[0],$size[1]);
 
 $page = array();
-$page['operator'] = topage(get_operator_name($operator));
 $page['buttonCode'] = generate_button("",$lang,$style,$message,$showhost,$forcesecure);
 $page['availableImages'] = array_keys($imageLocales);
 $page['availableLocales'] = $image_locales;
@@ -80,6 +79,7 @@ $page['formlang'] = $lang;
 $page['formhostname'] = $showhost;
 $page['formsecure'] = $forcesecure;
 
+prepare_menu($operator);
 start_html_output();
 require('../view/gen_button.php');
 ?>

@@ -19,8 +19,9 @@ $operator = check_login();
 
 notify_operator_alive($operator['operatorid']);
 
-$page = array( 'operator' => topage(get_operator_name($operator)) );
+$page = array();
 
+prepare_menu($operator);
 start_html_output();
 require('../view/pending_users.php');
 ?>

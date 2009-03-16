@@ -19,8 +19,8 @@ $operator = check_login();
 
 $page = array();
 $page['allowedAgents'] = get_operators();
-$page['operator'] = topage(get_operator_name($operator));
 
+prepare_menu($operator);
 start_html_output();
 require('../view/agents.php');
 ?>

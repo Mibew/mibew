@@ -19,7 +19,7 @@ require_once('../libs/userinfo.php');
 
 $operator = check_login();
 
-$page = array( 'operator' => topage(get_operator_name($operator)) );
+$page = array();
 
 if( isset($_GET['threadid'])) {
         $threadid = verifyparam( "threadid", "/^(\d{1,9})?$/", "");
@@ -28,6 +28,7 @@ if( isset($_GET['threadid'])) {
 	$page['thread'] = thread_by_id($threadid);
 }
 
+prepare_menu($operator, false);
 start_html_output();
 require('../view/thread_log.php');
 ?>

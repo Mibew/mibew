@@ -18,7 +18,7 @@ require_once('../libs/operator.php');
 require_once('../libs/pagination.php');
 
 $operator = check_login();
-$page = array('banId' => '', 'operator' => topage(get_operator_name($operator)) );
+$page = array('banId' => '');
 $page['saved'] = false;
 $page['thread'] = '';
 $page['threadid'] = '';
@@ -111,6 +111,7 @@ if( isset($_POST['address']) ) {
 	}
 }
 
+prepare_menu($operator, false);
 start_html_output();
 require('../view/ban.php');
 exit;

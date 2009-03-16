@@ -20,12 +20,12 @@ $operator = check_login();
 
 $errors = array();
 $page = array(
-	'operator' => topage(get_operator_name($operator)),
 	'localizations' => get_available_locales(),
 	'phpVersion' => phpversion(),
 	'version' => $version,
 );
 
+prepare_menu($operator);
 setup_settings_tabs(3);
 start_html_output();
 require('../view/updates.php');

@@ -21,7 +21,7 @@ require_once('../libs/pagination.php');
 $operator = check_login();
 loadsettings();
 
-$page = array( 'operator' => topage(get_operator_name($operator)) );
+$page = array();
 $query = isset($_GET['q']) ? myiconv(getoutputenc(), $webim_encoding, $_GET['q']) : false;
 
 if($query !== false) {
@@ -53,6 +53,7 @@ if($query !== false) {
 	setup_empty_pagination();
 }
 
+prepare_menu($operator);
 start_html_output();
 require('../view/thread_search.php');
 ?>

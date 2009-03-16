@@ -8,16 +8,19 @@ function menuli($name) {
 }
 
 function tpl_menu() { global $page, $webimroot, $errors;
-	if(isset($page) && isset($page['operator'])) { ?>
+	if(isset($page['operator'])) { ?>
 			<li>
 				<h2><?php echo getlocal('right.main') ?></h2>
 				<ul class="submenu">
 					<li<?php menuli("main")?>><a href='<?php echo $webimroot ?>/operator/index.php'><?php echo getlocal('topMenu.main') ?></a></li>
 					<li<?php menuli("users")?>><a href='<?php echo $webimroot ?>/operator/users.php'><?php echo getlocal('topMenu.users') ?></a></li>
 					<li<?php menuli("history")?>><a href='<?php echo $webimroot ?>/operator/history.php'><?php echo getlocal('page_analysis.search.title') ?></a></li>
+<?php if(isset($page['showban']) && $page['showban']) { ?>
 					<li<?php menuli("blocked")?>><a href='<?php echo $webimroot ?>/operator/blocked.php'><?php echo getlocal('menu.blocked') ?></a></li>
+<?php } ?>
 				</ul>
 			</li>
+<?php if(isset($page['showadmin']) && $page['showadmin']) { ?>
 			<li>
 				<h2><?php echo getlocal('right.administration') ?></h2>
 				<ul class="submenu">
@@ -28,6 +31,7 @@ function tpl_menu() { global $page, $webimroot, $errors;
 					<li<?php menuli("translate")?>><a href='<?php echo $webimroot ?>/operator/translate.php'><?php echo getlocal('menu.translate') ?></a></li>
 				</ul>
 			</li>
+<?php } ?>
 			<li>
 				<h2><?php echo getlocal('right.other') ?></h2>
 				<ul class="submenu">

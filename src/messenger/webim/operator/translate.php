@@ -108,7 +108,6 @@ $lang2 = $messages[$target];
 
 $errors = array();
 $page = array(
-	'operator' => topage(get_operator_name($operator)),
 	'lang1' => $source,
 	'lang2' => $target,
 	'title1' => isset($lang1["localeid"]) ? $lang1["localeid"] : $source,
@@ -131,6 +130,7 @@ if($stringid) {
 			save_message($target, $stringid, $translation);
 
 			$page['saved'] = true;
+			prepare_menu($operator, false);
 			start_html_output();
 			require('../view/translate.php');
 			exit;
@@ -142,6 +142,7 @@ if($stringid) {
 	$page['target'] = $target;
 	$page['formoriginal'] = isset($lang1[$stringid]) ? htmlspecialchars($lang1[$stringid]) : "<b><unknown></b>";
 	$page['formtranslation'] = htmlspecialchars($translation);
+	prepare_menu($operator, false);
 	start_html_output();
 	require('../view/translate.php');
 	exit;
@@ -195,6 +196,7 @@ $page['showOptions'] = array(
 	array("id" => "s3", "name" => getlocal("translate.show.foradmin")),
 );
 $page['formshow'] = $show;
+prepare_menu($operator);
 start_html_output();
 require('../view/translatelist.php');
 ?>

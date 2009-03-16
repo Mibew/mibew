@@ -109,7 +109,6 @@ $page['availableTemplates'] = array(
 	"agentchat", "agentrochat",
 	"all");
 
-$page['operator'] = topage(get_operator_name($operator));
 $page['showlink'] = "$webimroot/operator/preview.php?preview=$preview&amp;".($showerrors?"showerr=on&amp;":"")."show=";
 
 $page['previewList'] = array();
@@ -119,6 +118,7 @@ foreach($templateList as $tpl) {
 	}
 }
 
+prepare_menu($operator);
 start_html_output();
 setup_settings_tabs(2);
 require('../view/preview.php');

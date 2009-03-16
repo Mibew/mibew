@@ -214,4 +214,14 @@ function is_capable($perm,$operator) {
 	return $perm >= 0 && $perm < 32 && ($permissions & (1 << $perm)) != 0;
 }
 
+function prepare_menu($operator,$hasright=true) {
+	global $page, $settings, $can_administrate;
+	$page['operator'] = topage(get_operator_name($operator));
+	if($hasright) {
+		loadsettings();
+		$page['showban'] = $settings['enableban'] == "1";
+		$page['showadmin'] = is_capable($can_administrate, $operator);
+	}
+}
+
 ?>

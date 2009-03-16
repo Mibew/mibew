@@ -79,7 +79,6 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
     }
 }
 
-$page['operator']  = topage(get_operator_name($operator));
 $page['formemail'] = topage($params['email']);
 $page['formtitle'] = topage($params['title']);
 $page['formlogo']  = topage($params['logo']);
@@ -92,6 +91,7 @@ $page['formchattitle'] = topage($params['chattitle']);
 $page['availableStyles'] = $stylelist;
 $page['stored'] = isset($_GET['stored']);
 
+prepare_menu($operator);
 setup_settings_tabs(0);
 start_html_output();
 require('../view/settings.php');

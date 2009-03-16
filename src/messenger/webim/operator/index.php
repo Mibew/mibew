@@ -19,15 +19,13 @@ $operator = check_login();
 loadsettings();
 
 $page = array(
-	'operator' => topage(get_operator_name($operator)),
 	'version' => $version,
 	'localeLinks' => get_locale_links("$webimroot/operator/index.php"),
-	'showban' => $settings['enableban'] == "1",
-	'showadmin' => is_capable($can_administrate, $operator),
 	'needUpdate' => $settings['dbversion'] != $dbversion,
 	'updateWizard' => "$webimroot/install/",
 );
 
+prepare_menu($operator);
 start_html_output();
 require('../view/menu.php');
 ?>

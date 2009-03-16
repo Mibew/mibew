@@ -19,7 +19,6 @@ require_once('../libs/pagination.php');
 
 $operator = check_login();
 $page = array();
-$page['operator'] = topage(get_operator_name($operator));
 $errors = array();
 
 $link = connect();
@@ -51,6 +50,7 @@ mysql_close($link);
 
 setup_pagination($blockedList);
 
+prepare_menu($operator);
 start_html_output();
 require('../view/blocked_visitors.php');
 exit;

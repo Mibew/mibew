@@ -21,7 +21,7 @@ require_once('../libs/pagination.php');
 $operator = check_login();
 loadsettings();
 
-$page = array( 'operator' => topage(get_operator_name($operator)) );
+$page = array();
 
 $userid = "";
 if( isset($_GET['userid'])) {
@@ -53,6 +53,7 @@ function threads_by_userid($userid) {
 
 $found = threads_by_userid($userid);
 
+prepare_menu($operator);
 setup_pagination($found,6);
 start_html_output();
 require('../view/userhistory.php');

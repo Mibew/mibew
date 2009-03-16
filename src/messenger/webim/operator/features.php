@@ -38,12 +38,12 @@ if (isset($_POST['sent'])) {
     exit;
 }
 
-$page['operator']  = topage(get_operator_name($operator));
 $page['stored'] = isset($_GET['stored']);
 foreach($options as $opt) {
    	$page["form$opt"] = $params[$opt] == "1";
 }
 
+prepare_menu($operator);
 setup_settings_tabs(1);
 start_html_output();
 require('../view/features.php');
