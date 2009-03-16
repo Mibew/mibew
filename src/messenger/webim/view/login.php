@@ -13,7 +13,8 @@
  */
 
 require_once('inc_locales.php');
-$page['title'] = getlocal("app.title");
+$page['title'] = getlocal("page_login.title");
+$page['headertitle'] = getlocal("app.title");
 $page['show_small_login'] = true;
 $page['fixedwrap'] = true;
 

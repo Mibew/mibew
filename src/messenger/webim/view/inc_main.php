@@ -18,7 +18,7 @@
 	<div id="header">
 		<div id="title">
 			<h1><img src="<?php echo $webimroot ?>/images/logo.gif" alt="" width="32" height="32" class="left" />
-				<a href="#"><?php echo $page['title'] ?></a></h1>
+				<a href="#"><?php echo isset($page['headertitle']) ? $page['headertitle'] : $page['title'] ?></a></h1>
 		</div>
 <?php if(isset($page) && isset($page['operator'])) { ?>
 		<div id="path"><p><?php echo getlocal2("menu.operator",array($page['operator'])) ?></p></div>

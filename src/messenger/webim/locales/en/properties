@@ -168,6 +168,7 @@ mailthread.perform=Send
 mailthread.title=Send chat history<br>by mail
 menu.agents=Agents list
 menu.blocked=Blocked visitors
+menu.departments=Departments
 menu.locale=Language
 menu.locale.content=Change locale.
 menu.main=Main
