@@ -15,8 +15,10 @@
 $dbtables = array(
 	"chatdepartment" => array(
 		"departmentid" => "int NOT NULL auto_increment PRIMARY KEY",
-		"vcname" => "varchar(64) NOT NULL",
-		"vcdescription" => "varchar(1024) NOT NULL",
+		"vclocalname" => "varchar(64) NOT NULL",
+		"vccommonname" => "varchar(64) NOT NULL",
+		"vclocaldescription" => "varchar(1024) NOT NULL",
+		"vccommondescription" => "varchar(1024) NOT NULL",
 	),
 
 	"chatthread" => array(

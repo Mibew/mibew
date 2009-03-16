@@ -25,7 +25,9 @@ function tpl_menu() { global $page, $webimroot, $errors;
 				<h2><?php echo getlocal('right.administration') ?></h2>
 				<ul class="submenu">
 					<li<?php menuli("operators")?>><a href='<?php echo $webimroot ?>/operator/operators.php'><?php echo getlocal('leftMenu.client_agents') ?></a></li>
-					<li<?php menuli("departments")?>><a href="#"><?php echo getlocal('menu.departments') ?></a></li>
+<?php if(isset($page['showdep']) && $page['showdep']) { ?>
+					<li<?php menuli("departments")?>><a href='<?php echo $webimroot ?>/operator/departments.php'><?php echo getlocal('menu.departments') ?></a></li>
+<?php } ?>
 					<li<?php menuli("getcode")?>><a href='<?php echo $webimroot ?>/operator/getcode.php'><?php echo getlocal('leftMenu.client_gen_button') ?></a></li>
 					<li<?php menuli("settings")?>><a href='<?php echo $webimroot ?>/operator/settings.php'><?php echo getlocal('leftMenu.client_settings') ?></a></li>
 					<li<?php menuli("translate")?>><a href='<?php echo $webimroot ?>/operator/translate.php'><?php echo getlocal('menu.translate') ?></a></li>

@@ -17,7 +17,7 @@ session_start();
 require_once(dirname(__FILE__).'/converter.php');
 require_once(dirname(__FILE__).'/config.php');
 
-$version = '1.5.2';
+$version = '1.6.0 alpha 1';
 
 function myiconv($in_enc, $out_enc, $string) {
 	global $_utf8win1251, $_win1251utf8;
@@ -498,7 +498,7 @@ function webim_mail($toaddr, $reply_to, $subject, $body) {
 	mail($toaddr, $real_subject, wordwrap(myiconv($webim_encoding, $mail_encoding, $body),70), $headers);
 }
 
-$dbversion = '1.5.2';
+$dbversion = '1.6.0.1';
 
 $settings = array(
 	'dbversion' => 0,
@@ -519,6 +519,7 @@ $settings = array(
 	'enableban' => '0',
 	'enablessl' => '0',
 	'usercanchangename' => '1',
+	'enabledepartments' => '0',
 );
 $settingsloaded = false;
 $settings_in_db = array();

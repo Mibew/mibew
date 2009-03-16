@@ -64,7 +64,7 @@
    	<div class="empty_inner" style="">&#160;</div>
 </div>
 <div id="footer">
-	<p id="legal"><a href="http://openwebim.org/" class="flink">Open Web Messenger</a> 1.5.2 | (c) 2009 openwebim.org</p>
+	<p id="legal"><a href="http://openwebim.org/" class="flink">Open Web Messenger</a> <?php echo $version ?> | (c) 2009 openwebim.org</p>
 </div>
 </body>
 </html>

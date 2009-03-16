@@ -76,7 +76,16 @@ if( $page['showadmin'] ) { ?>
 		<?php echo getlocal('admin.content.client_agents') ?>
 	</td>
 	<?php menuseparator(); ?>
-	
+
+<?php if($page['showdep']) { ?>
+	<td class="dashitem">
+		<img src="/webim/images/dash/dep.gif" alt=""/>
+		<a href='<?php echo $webimroot ?>/operator/departments.php'>
+			<?php echo getlocal('menu.departments') ?></a>
+		<?php echo getlocal('menu.departments.content') ?>
+	</td>
+	<?php menuseparator(); ?>
+<?php } ?>	
 	<td class="dashitem">
 		<img src="/webim/images/dash/getcode.gif" alt=""/>
 		<a href='<?php echo $webimroot ?>/operator/getcode.php'>

@@ -71,6 +71,15 @@ require_once('inc_errors.php');
 			<br clear="left"/>
 		</div>
 
+		<div class="field">
+			<div class="flabel"><?php echo getlocal('settings.enabledepartments') ?></div>
+			<div class="fvalue">
+				<input type="checkbox" name="enabledepartments" value="on"<?php echo form_value_cb('enabledepartments') ? " checked=\"checked\"" : "" ?>/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enabledepartments.description') ?></div>
+			<br clear="left"/>
+		</div>
+
 		<div class="fbutton">
 			<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
 		</div>

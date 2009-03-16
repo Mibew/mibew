@@ -220,6 +220,7 @@ function prepare_menu($operator,$hasright=true) {
 	if($hasright) {
 		loadsettings();
 		$page['showban'] = $settings['enableban'] == "1";
+		$page['showdep'] = $settings['enabledepartments'] == "1";
 		$page['showadmin'] = is_capable($can_administrate, $operator);
 	}
 }
