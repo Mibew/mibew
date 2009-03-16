@@ -12,7 +12,9 @@
  *    Evgeny Gryaznov - initial API and implementation
  */
 
-require_once('inc_locales.php');
+if(isset($page) && isset($page['localeLinks'])) {
+	require_once('inc_locales.php');
+}
 $page['title'] = getlocal("install.title");
 $page['fixedwrap'] = true;
 

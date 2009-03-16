@@ -17,10 +17,12 @@ $page['title'] = getlocal("topMenu.admin");
 $page['menuid'] = "main";
 
 function tpl_header() { global $page, $webimroot;
+	if(isset($page) && isset($page['localeLinks'])) {
 ?>	
 <script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/jquery-1.3.2.min.js"></script>
 <script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/locale.js"></script>
 <?php
+	}
 }
 
 function menuseparator() {
@@ -103,6 +105,7 @@ if( $page['showadmin'] ) { ?>
 	<?php menuseparator(); ?>
 <?php } ?>
 
+<?php if(isset($page) && isset($page['localeLinks'])) { ?>
 	<td class="dashitem">
 		<img src="/webim/images/dash/locale.gif"  alt=""/>
 		<a href='#' id="changelang">
@@ -110,6 +113,7 @@ if( $page['showadmin'] ) { ?>
 		<?php echo getlocal('menu.locale.content') ?>
 	</td>
 	<?php menuseparator(); ?>
+<?php } ?>
 
 	<td class="dashitem">
 		<img src="/webim/images/dash/exit.gif" alt=""/>
@@ -121,6 +125,7 @@ if( $page['showadmin'] ) { ?>
 
 </table>
 
+<?php if(isset($page) && isset($page['localeLinks'])) { ?>
 <div id="dashlocalesPopup">
 	<a href="#" id="dashlocalesPopupClose"><img src="/webim/images/dash/close.gif" alt="X"/></a>
 	<h2><img src="/webim/images/dash/locale.gif"  alt=""/>
@@ -132,6 +137,7 @@ if( $page['showadmin'] ) { ?>
 	</ul>
 </div>
 <div id="backgroundPopup"></div> 
+<?php } ?>
 
 <?php 
 } /* content */

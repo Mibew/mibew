@@ -8,7 +8,6 @@ function menuloc($id) {
 }
 function tpl_menu() { global $page, $webimroot, $errors, $current_locale;
 ?>
-<?php if(isset($page) && isset($page['localeLinks'])) { ?>
 			<li>
 				<h2><b><?php echo getlocal("lang.choose") ?></b></h2>
 				<ul class="locales">
@@ -17,8 +16,6 @@ function tpl_menu() { global $page, $webimroot, $errors, $current_locale;
 <?php } ?>
 				</ul>
 			</li>
-<?php } ?>
-
 <?php 
 }
 ?>
