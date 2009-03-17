@@ -5,7 +5,7 @@
 ##################################################################
 
 $targetFolder = "deploy";
-$suffix = "150";
+$suffix = "160a1";
 
 ##################################################################
 # Copies tree into target folder, preprocess .phps
@@ -37,9 +37,48 @@ sub process_dir($$) {
 # Main
 ##################################################################
 
+`rm -rf $targetFolder`;
 die "Target folder exists: $targetFolder" if -e $targetFolder;
 
 process_dir("./webim", $targetFolder);
 
-chdir $targetFolder;
+chdir "$targetFolder/locales";
+
+`zip -r ../../webim${suffix}_de.zip de`;
+`rm -rf de`;
+
+`zip -r ../../webim${suffix}_ru.zip ru`;
+`rm -rf ru`;
+
+`zip -r ../../webim${suffix}_fr.zip fr`;
+`rm -rf fr`;
+
+`zip -r ../../webim${suffix}_it.zip it`;
+`rm -rf it`;
+
+`zip -r ../../webim${suffix}_lv.zip lv`;
+`rm -rf lv`;
+
+`zip -r ../../webim${suffix}_pl.zip pl`;
+`rm -rf pl`;
+
+`zip -r ../../webim${suffix}_pt-br.zip pt-br`;
+`rm -rf pt-br`;
+
+`zip -r ../../webim${suffix}_sp.zip sp`;
+`rm -rf sp`;
+
+`zip -r ../../webim${suffix}_tr.zip tr`;
+`rm -rf tr`;
+
+`zip -r ../../webim${suffix}_ua.zip ua`;
+`rm -rf ua`;
+
+`zip -r ../../webim${suffix}_zh-cn.zip zh-cn`;
+`rm -rf zh-cn`;
+
+`zip -r ../../webim${suffix}_zh-tw.zip zh-tw`;
+`rm -rf zh-tw`;
+
+chdir "..";
 `zip -r ../webim$suffix.zip *`;
