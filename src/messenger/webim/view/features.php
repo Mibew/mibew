@@ -72,7 +72,7 @@ require_once('inc_errors.php');
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.enabledepartments') ?></div>
+			<div class="flabel"><?php echo getlocal('settings.enabledepartments') ?> <span style="color:red;font-weight: bold;">- !!</span> incomplete in 1.6.0 alpha, use on your own risk</div>
 			<div class="fvalue">
 				<input type="checkbox" name="enabledepartments" value="on"<?php echo form_value_cb('enabledepartments') ? " checked=\"checked\"" : "" ?>/>
 			</div>
