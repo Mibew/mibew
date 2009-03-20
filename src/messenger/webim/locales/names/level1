@@ -9,6 +9,7 @@ chat.mailthread.sent.close
 chat.mailthread.sent.closewindow
 chat.mailthread.sent.content
 chat.mailthread.sent.title
+chat.predefined_answers
 chat.status.operator.changed
 chat.status.operator.dead
 chat.status.operator.joined
@@ -35,12 +36,12 @@ chat.window.toolbar.mail_history
 chat.window.toolbar.redirect_user
 chat.window.toolbar.refresh
 company.title
-encoding
 errors.required
 errors.wrong_field
 form.field.email
 form.field.message
 form.field.name
+harderrors.header
 image.chat.history
 image.chat.message
 image.chat.sprite
