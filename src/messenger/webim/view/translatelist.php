@@ -101,7 +101,7 @@ if( $page['pagination.items'] ) {
 ?>
 	<tr>
 	<td colspan="3">
-		<?php echo getlocal("tag.pagination.no_items.elements") ?>
+		<?php echo getlocal("tag.pagination.no_items") ?>
 	</td>
 	</tr>
 <?php 
