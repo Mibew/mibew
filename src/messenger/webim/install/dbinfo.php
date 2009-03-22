@@ -13,8 +13,8 @@
  */
 
 $dbtables = array(
-	"chatdepartment" => array(
-		"departmentid" => "int NOT NULL auto_increment PRIMARY KEY",
+	"chatgroup" => array(
+		"groupid" => "int NOT NULL auto_increment PRIMARY KEY",
 		"vclocalname" => "varchar(64) NOT NULL",
 		"vccommonname" => "varchar(64) NOT NULL",
 		"vclocaldescription" => "varchar(1024) NOT NULL",
@@ -43,7 +43,7 @@ $dbtables = array(
 		"shownmessageid" => "int NOT NULL DEFAULT 0",
 		"userAgent" => "varchar(255)",
 		"messageCount" => "varchar(16)",
-		"departmentid" => "int references chatdepartment(departmentid)",
+		"groupid" => "int references chatgroup(groupid)",
 	),
 
 	"chatmessage" => array(
@@ -72,8 +72,8 @@ $dbtables = array(
 		"id" => "INT NOT NULL"
 	),
 
-	"chatdepartmentoperator" => array(
-		"departmentid" => "int NOT NULL references chatdepartment(departmentid)",
+	"chatgroupoperator" => array(
+		"groupid" => "int NOT NULL references chatgroup(groupid)",
 		"operatorid" => "int NOT NULL references chatoperator(operatorid)",
 	),
 
@@ -96,12 +96,12 @@ $dbtables = array(
 $memtables = array();
 
 $dbtables_can_update = array(
-	"chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount", "nextagent", "shownmessageid", "userid", "userAgent", "departmentid"),
+	"chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount", "nextagent", "shownmessageid", "userid", "userAgent", "groupid"),
 	"chatmessage" => array("agentId"),
 	"chatoperator" => array("vcavatar", "vcjabbername", "iperm"),
 	"chatban" => array(),
-	"chatdepartment" => array(),
-	"chatdepartmentoperator" => array(),
+	"chatgroup" => array(),
+	"chatgroupoperator" => array(),
 );
 
 function show_install_err($text) {

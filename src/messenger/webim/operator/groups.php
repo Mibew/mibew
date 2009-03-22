@@ -17,32 +17,23 @@ require_once('../libs/operator.php');
 
 $operator = check_login();
 
-function get_departments() {
-	$link = connect();
-	$query = "select departmentid, vclocalname, vclocaldescription, 0 as inumofagents ".
-			 "from chatdepartment order by vclocalname";
-	$result = select_multi_assoc($query, $link);
-	mysql_close($link);
-	return $result;
-}
-
 if( isset($_GET['act']) && $_GET['act'] == 'del' ) {
 	
 	// TODO check permissions, delete in other places
 	
-	$departmentid = verifyparam( "dep", "/^(\d{1,9})?$/");
+	$groupid = verifyparam( "dep", "/^(\d{1,9})?$/");
 
 	$link = connect();
-	perform_query("delete from chatdepartment where departmentid = $departmentid",$link);
+	perform_query("delete from chatgroup where groupid = $groupid",$link);
 	mysql_close($link);
-	header("Location: $webimroot/operator/departments.php");
+	header("Location: $webimroot/operator/groups.php");
 	exit;
 }
 
 $page = array();
-$page['departments'] = get_departments();
+$page['groups'] = get_groups(true);
 
 prepare_menu($operator);
 start_html_output();
-require('../view/departments.php');
+require('../view/groups.php');
 ?>

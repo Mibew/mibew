@@ -89,12 +89,12 @@ if( $page['showadmin'] ) { ?>
 	</td>
 	<?php menuseparator(); ?>
 
-<?php if($page['showdep']) { ?>
+<?php if($page['showgroups']) { ?>
 	<td class="dashitem">
 		<img src="/webim/images/dash/dep.gif" alt=""/>
-		<a href='<?php echo $webimroot ?>/operator/departments.php'>
-			<?php echo getlocal('menu.departments') ?></a>
-		<?php echo getlocal('menu.departments.content') ?>
+		<a href='<?php echo $webimroot ?>/operator/groups.php'>
+			<?php echo getlocal('menu.groups') ?></a>
+		<?php echo getlocal('menu.groups.content') ?>
 	</td>
 	<?php menuseparator(); ?>
 <?php } ?>	

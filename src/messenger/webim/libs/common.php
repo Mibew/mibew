@@ -519,7 +519,7 @@ $settings = array(
 	'enableban' => '0',
 	'enablessl' => '0',
 	'usercanchangename' => '1',
-	'enabledepartments' => '0',
+	'enablegroups' => '0',
 	'enablestatistics' => '1',
 );
 $settingsloaded = false;

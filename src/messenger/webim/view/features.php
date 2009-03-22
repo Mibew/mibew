@@ -72,11 +72,11 @@ require_once('inc_errors.php');
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.enabledepartments') ?></div>
+			<div class="flabel"><?php echo getlocal('settings.enablegroups') ?></div>
 			<div class="fvalue">
-				<input type="checkbox" name="enabledepartments" value="on"<?php echo form_value_cb('enabledepartments') ? " checked=\"checked\"" : "" ?>/>
+				<input type="checkbox" name="enablegroups" value="on"<?php echo form_value_cb('enablegroups') ? " checked=\"checked\"" : "" ?>/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enabledepartments.description') ?></div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enablegroups.description') ?></div>
 			<br clear="left"/>
 		</div>
 

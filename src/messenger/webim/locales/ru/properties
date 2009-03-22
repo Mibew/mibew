@@ -167,7 +167,6 @@ mailthread.perform=Отправить
 mailthread.title=Отправить историю разговора<br>на почтовый ящик
 menu.agents=Список агентов
 menu.blocked=Нежелательные посетители
-menu.departments=Отделы
 menu.locale=Язык
 menu.locale.content=Сменить язык.
 menu.main=Главная

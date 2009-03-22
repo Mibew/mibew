@@ -220,10 +220,28 @@ function prepare_menu($operator,$hasright=true) {
 	if($hasright) {
 		loadsettings();
 		$page['showban'] = $settings['enableban'] == "1";
-		$page['showdep'] = $settings['enabledepartments'] == "1";
+		$page['showgroups'] = $settings['enablegroups'] == "1";
 		$page['showstat'] = $settings['enablestatistics'] == "1";
 		$page['showadmin'] = is_capable($can_administrate, $operator);
 	}
+}
+
+function get_groups($countagents) {
+	$link = connect();
+	$query = "select groupid, vclocalname, vclocaldescription".
+			 ($countagents ? ", 0 as inumofagents" : "").
+			 " from chatgroup order by vclocalname";
+	$result = select_multi_assoc($query, $link);
+	mysql_close($link);
+	return $result;
+}
+
+function get_operator_groupids($operatorid) {
+	$link = connect();
+	$query = "select groupid from chatgroupoperator where operatorid = $operatorid";
+	$result = select_multi_assoc($query, $link);
+	mysql_close($link);
+	return $result;
 }
 
 ?>

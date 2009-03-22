@@ -14,6 +14,7 @@
 
 require_once('../libs/common.php');
 require_once('../libs/operator.php');
+require_once('../libs/operator_settings.php');
 
 $operator = check_login();
 
@@ -84,13 +85,8 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 	}
 }
 
-$page['tabs'] = $opId ? array(
-	getlocal("page_agent.tab.main") => "",
-	getlocal("page_agent.tab.avatar") => "$webimroot/operator/avatar.php?op=$opId",
-	getlocal("page_agent.tab.permissions") => "$webimroot/operator/permissions.php?op=$opId"
-) : array();
-
 prepare_menu($operator);
+setup_operator_settings_tabs($opId,0);
 start_html_output();
 require('../view/agent.php');
 ?>

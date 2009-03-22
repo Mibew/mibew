@@ -13,20 +13,20 @@
  */
 
 require_once("inc_menu.php");
-$page['title'] = getlocal("page.departments.title");
-$page['menuid'] = "departments";
+$page['title'] = getlocal("page.groups.title");
+$page['menuid'] = "groups";
 
 function tpl_content() { global $page, $webimroot;
 ?>
 
-<?php echo getlocal("page.departments.intro") ?>
+<?php echo getlocal("page.groups.intro") ?>
 <br />
 <br />
 
 <div class="tabletool">
 	<img src='<?php echo $webimroot ?>/images/buttons/createdep.gif' border="0" alt="" />
-	<a href='<?php echo $webimroot ?>/operator/department.php' title="<?php echo getlocal("page.departments.new") ?>">
-		<?php echo getlocal("page.departments.new") ?>
+	<a href='<?php echo $webimroot ?>/operator/group.php' title="<?php echo getlocal("page.groups.new") ?>">
+		<?php echo getlocal("page.groups.new") ?>
 	</a>
 </div>
 <br clear="all"/>
@@ -36,22 +36,22 @@ function tpl_content() { global $page, $webimroot;
 <thead>
 <tr class="header">
 <th>
-	<?php echo getlocal("form.field.depname") ?>
+	<?php echo getlocal("form.field.groupname") ?>
 </th><th>
-	<?php echo getlocal("form.field.depdesc") ?>
+	<?php echo getlocal("form.field.groupdesc") ?>
 </th><th>
-	<?php echo getlocal("page.department.membersnum") ?>
+	<?php echo getlocal("page.group.membersnum") ?>
 </th><th>
 </th>
 </tr>
 </thead>
 <tbody>
 <?php
-if(count($page['departments']) > 0) { 
-	foreach( $page['departments'] as $dep ) { ?>
+if(count($page['groups']) > 0) { 
+	foreach( $page['groups'] as $dep ) { ?>
 <tr>
 	<td class="notlast">
-   		<a href="<?php echo $webimroot ?>/operator/department.php?dep=<?php echo $dep['departmentid'] ?>" class="man">
+   		<a href="<?php echo $webimroot ?>/operator/group.php?dep=<?php echo $dep['groupid'] ?>" class="man">
    			<?php echo htmlspecialchars(topage($dep['vclocalname'])) ?>
    		</a>
 	</td>
@@ -62,7 +62,7 @@ if(count($page['departments']) > 0) {
    		<?php echo htmlspecialchars(topage($dep['inumofagents'])) ?>
 	</td>
 	<td>
-		<a href="<?php echo $webimroot ?>/operator/departments.php?act=del&amp;dep=<?php echo $dep['departmentid'] ?>">
+		<a href="<?php echo $webimroot ?>/operator/groups.php?act=del&amp;dep=<?php echo $dep['groupid'] ?>">
 			remove
 		</a>
 	</td>

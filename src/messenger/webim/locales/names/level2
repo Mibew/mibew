@@ -56,8 +56,8 @@ leftMenu.client_agents
 leftMenu.client_gen_button
 leftMenu.client_settings
 menu.blocked
-menu.departments
-menu.departments.content
+menu.groups
+menu.groups.content
 menu.locale
 menu.locale.content
 menu.operator

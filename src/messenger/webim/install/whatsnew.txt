@@ -5,7 +5,7 @@
   [+] right menu, show/hide menu on awaiting users page, nice locale chooser
   [+] main page: warning if database is outdated (after install)
   [+] "Updates" tab in settings: news, link to the latest version
-  [+] Create/edit/remove departments
+  [+] Create/edit/remove groups
 
   1.5.2
   -----

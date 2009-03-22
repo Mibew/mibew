@@ -14,6 +14,7 @@
 
 require_once('../libs/common.php');
 require_once('../libs/operator.php');
+require_once('../libs/operator_settings.php');
 
 $operator = check_login();
 
@@ -81,14 +82,10 @@ if( !$op ) {
 	$page['avatar'] = topage($op['vcavatar']);
 }
 
-$page['tabs'] = array(
-	getlocal("page_agent.tab.main") => "$webimroot/operator/operator.php?op=$opId",
-	getlocal("page_agent.tab.avatar") => "",
-	getlocal("page_agent.tab.permissions") => "$webimroot/operator/permissions.php?op=$opId"
-);
 $page['currentop'] = topage(get_operator_name($op))." (".$op['vclogin'].")";
 
 prepare_menu($operator);
+setup_operator_settings_tabs($opId,1);
 start_html_output();
 require('../view/avatar.php');
 ?>
