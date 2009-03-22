@@ -16,6 +16,7 @@
 	["view/agents.php", 2],
 	["view/group.php", 2],
 	["view/groups.php", 2],
+	["view/operator_groups.php", 2],
 	["view/gen_button.php", 2],
 	["view/install_err.php", 2],
 	["view/install_index.php", 2],
@@ -34,6 +35,7 @@
 	["operator/operators.php", 2],
 	["operator/group.php", 2],
 	["operator/groups.php", 2],
+	["operator/opgroups.php", 2],
 	["operator/getcode.php", 2],
 	["operator/.*\\.php", 1],
 	
@@ -41,6 +43,7 @@
 	["webim/leavemessage.php", 0],
 	["webim/mail.php", 0],	
 
+	["libs/operator_settings.php", 2],
 	["webim/libs/chat.php", 0],
 	["libs/pagination.php", 1],
 	["libs/settings.php", 2],
@@ -201,12 +204,6 @@ close( OUT );
 
 open( OUT, "> $webimPath/locales/names/level2") or die "cannot write file, $!";
 for $key(sort grep { $messagekeys{$_} == 1 } keys %messagekeys) {
-	print OUT "$key\n";
-}
-close( OUT );
-
-open( OUT, "> $webimPath/locales/names/all2.txt") or die "cannot write file, $!";
-for $key(sort keys %messagekeys) {
 	print OUT "$key\n";
 }
 close( OUT );
