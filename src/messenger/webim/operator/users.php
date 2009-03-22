@@ -20,6 +20,7 @@ $operator = check_login();
 notify_operator_alive($operator['operatorid']);
 
 $page = array();
+$page['havemenu'] = isset($_GET['nomenu']) ? "0" : "1";
 
 prepare_menu($operator);
 start_html_output();

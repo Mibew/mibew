@@ -362,6 +362,7 @@ topMenu.admin=Home
 topMenu.logoff=Exit
 topMenu.main=Home
 topMenu.users=Visitors
+topMenu.users.nomenu=without menu
 translate.direction=Direction:
 translate.show.all=All strings
 translate.show.foradmin=Strings for administrator

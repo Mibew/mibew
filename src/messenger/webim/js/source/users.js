@@ -332,5 +332,7 @@ var webimRoot = "";
 EventHelper.register(window, 'onload', function(){
   webimRoot = updaterOptions.wroot;
   new Ajax.ThreadListUpdater(({table:$("threadlist"),status:$("connstatus")}).extend(updaterOptions || {}));
-  togglemenu();
+  if(!updaterOptions.havemenu) {
+	  togglemenu();
+  }	 
 });
