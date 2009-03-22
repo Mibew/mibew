@@ -45,11 +45,11 @@ require_once('inc_errors.php');
 	</p>
 <?php foreach( $page['groups'] as $pm ) { ?>
 	<div class="field">
-		<div class="flabel"><?php echo $pm['vclocalname'] ?></div>
+		<div class="flabel"><?php echo htmlspecialchars(topage($pm['vclocalname'])) ?></div>
 		<div class="fvalue">
 			<input type="checkbox" name="group<?php echo $pm['groupid'] ?>" value="on"<?php echo form_value_mb('group',$pm['groupid']) ? " checked=\"checked\"" : "" ?>/>
 		</div>
-		<div class="fdescr"> &mdash; <?php echo $pm['vclocaldescription'] ?></div>
+		<div class="fdescr"> &mdash; <?php echo $pm['vclocaldescription'] ? htmlspecialchars(topage($pm['vclocaldescription'])) : getlocal("operator.group.no_description") ?></div>
 		<br clear="left"/>
 	</div>
 <?php } ?>
