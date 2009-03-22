@@ -21,7 +21,7 @@ $operator = check_login();
 $page = array('agentId' => '');
 $errors = array();
 
-$options = array('enableban', 'usercanchangename', 'enablessl', 'enabledepartments');
+$options = array('enableban', 'usercanchangename', 'enablessl', 'enabledepartments', 'enablestatistics');
 
 loadsettings();
 $params = array();

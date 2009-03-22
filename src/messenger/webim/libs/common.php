@@ -520,6 +520,7 @@ $settings = array(
 	'enablessl' => '0',
 	'usercanchangename' => '1',
 	'enabledepartments' => '0',
+	'enablestatistics' => '1',
 );
 $settingsloaded = false;
 $settings_in_db = array();

@@ -52,15 +52,6 @@ require_once('inc_errors.php');
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.usercanchangename.description') ?></div>
 			<br clear="left"/>
 		</div>
-
-		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.enableban') ?></div>
-			<div class="fvalue">
-				<input type="checkbox" name="enableban" value="on"<?php echo form_value_cb('enableban') ? " checked=\"checked\"" : "" ?>/>
-			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enableban.description') ?></div>
-			<br clear="left"/>
-		</div>
 		 
 		<div class="field">
 			<div class="flabel"><?php echo getlocal('settings.enablessl') ?></div>
@@ -72,11 +63,29 @@ require_once('inc_errors.php');
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.enabledepartments') ?> <span style="color:red;font-weight: bold;">- !!</span> incomplete in 1.6.0 alpha, use on your own risk</div>
+			<div class="flabel"><?php echo getlocal('settings.enableban') ?></div>
+			<div class="fvalue">
+				<input type="checkbox" name="enableban" value="on"<?php echo form_value_cb('enableban') ? " checked=\"checked\"" : "" ?>/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enableban.description') ?></div>
+			<br clear="left"/>
+		</div>
+
+		<div class="field">
+			<div class="flabel"><?php echo getlocal('settings.enabledepartments') ?></div>
 			<div class="fvalue">
 				<input type="checkbox" name="enabledepartments" value="on"<?php echo form_value_cb('enabledepartments') ? " checked=\"checked\"" : "" ?>/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enabledepartments.description') ?></div>
+			<br clear="left"/>
+		</div>
+
+		<div class="field">
+			<div class="flabel"><?php echo getlocal('settings.enablestatistics') ?></div>
+			<div class="fvalue">
+				<input type="checkbox" name="enablestatistics" value="on"<?php echo form_value_cb('enablestatistics') ? " checked=\"checked\"" : "" ?>/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enablestatistics.description') ?></div>
 			<br clear="left"/>
 		</div>
 
