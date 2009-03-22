@@ -15,6 +15,9 @@ function tpl_menu() { global $page, $webimroot, $errors;
 					<li<?php menuli("main")?>><a href='<?php echo $webimroot ?>/operator/index.php'><?php echo getlocal('topMenu.main') ?></a></li>
 					<li<?php menuli("users")?>><a href='<?php echo $webimroot ?>/operator/users.php'><?php echo getlocal('topMenu.users') ?></a></li>
 					<li<?php menuli("history")?>><a href='<?php echo $webimroot ?>/operator/history.php'><?php echo getlocal('page_analysis.search.title') ?></a></li>
+<?php if(isset($page['showstat']) && $page['showstat']) { ?>
+					<li<?php menuli("statistics")?>><a href='<?php echo $webimroot ?>/operator/statistics.php'><?php echo getlocal('statistics.title') ?></a></li>
+<?php } ?>
 <?php if(isset($page['showban']) && $page['showban']) { ?>
 					<li<?php menuli("blocked")?>><a href='<?php echo $webimroot ?>/operator/blocked.php'><?php echo getlocal('menu.blocked') ?></a></li>
 <?php } ?>

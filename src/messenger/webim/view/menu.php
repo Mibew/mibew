@@ -59,6 +59,16 @@ function tpl_content() { global $page, $webimroot, $current_locale, $menuItemsCo
 $menuItemsCount = 2;
 if( $page['showban'] ) {
 ?>
+
+<?php if($page['showstat']) { ?>
+	<td class="dashitem">
+		<img src="/webim/images/dash/stat.gif" alt=""/>
+		<a href='<?php echo $webimroot ?>/operator/statistics.php'>
+			<?php echo getlocal('statistics.title') ?></a>
+		<?php echo getlocal('statistics.description') ?>
+	</td>
+	<?php menuseparator(); ?>
+<?php } ?>
 	
 	<td class="dashitem">
 		<img src="/webim/images/dash/blocked.gif" alt=""/>

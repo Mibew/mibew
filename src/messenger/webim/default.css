@@ -388,7 +388,17 @@ input.formauth {
 	padding-left: 4px;
 }
 
-table.list, table.translate {
+.tabletitle {
+	background: url(images/graydot.gif) repeat-x left bottom;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 1.4em;
+	margin: 10px 0px 20px;
+	padding-bottom: 10px;
+	color: #1D485E;
+	font-weight: bold;
+}
+
+table.list, table.translate, table.statistics {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
 	background: #fff;
 	width: 100%;
@@ -396,15 +406,17 @@ table.list, table.translate {
 	text-align: left;
 }
 
-table.list th, table.translate th {
+table.list th, table.translate th, table.statistics th {
 	font-size: 1.2em;
 	font-weight: normal;
-	color: #1D485E;
 	padding: 10px 8px;
 	border-bottom: 2px solid #2F7598;
 }
 
-table.list td {
+table.list th, table.translate th { color: #1D485E; }
+table.statistics th { color: #2F7598; }
+
+table.list td, table.statistics td {
 	color: #2f7599;
 	padding: 10px 8px;
 	border-bottom: 1px solid #ccc;
@@ -423,7 +435,7 @@ table.list td a.man {
 	padding-left: 15px;
 }
 
-table.list tbody tr:hover td, table.list tbody tr:hover td a {
+table.list tbody tr:hover td, table.list tbody tr:hover td a, table.statistics tbody tr:hover td {
 	color: #1D485E;
 }
 
@@ -506,6 +518,13 @@ table.awaiting td.visitor {
 	margin:7px 20px 5px 0px;
 	width:75%;
 	padding-right:5px;
+}
+
+.searchctrl {
+	float: left;
+	margin:7px 20px 5px 0px;
+	padding-right:5px;
+	display: inline;	
 }
 
 #searchtext input {

@@ -221,6 +221,7 @@ function prepare_menu($operator,$hasright=true) {
 		loadsettings();
 		$page['showban'] = $settings['enableban'] == "1";
 		$page['showdep'] = $settings['enabledepartments'] == "1";
+		$page['showstat'] = true; //$settings['enablestatistics'] == "1";
 		$page['showadmin'] = is_capable($can_administrate, $operator);
 	}
 }
