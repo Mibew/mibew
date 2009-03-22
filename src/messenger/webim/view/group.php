@@ -19,10 +19,10 @@ $page['menuid'] = "groups";
 function tpl_content() { global $page, $webimroot, $errors;
 ?>
 
-	<?php if( $page['depid'] ) { ?>
+	<?php if( $page['grid'] ) { ?>
 <?php echo getlocal("page.group.intro") ?>
 <?php } ?>
-<?php if( !$page['depid'] ) { ?>
+<?php if( !$page['grid'] ) { ?>
 <?php echo getlocal("page.group.create_new") ?>
 <?php } ?>
 <br />
@@ -32,7 +32,7 @@ require_once('inc_errors.php');
 ?>
 
 <form name="groupForm" method="post" action="<?php echo $webimroot ?>/operator/group.php">
-<input type="hidden" name="dep" value="<?php echo $page['depid'] ?>"/>
+<input type="hidden" name="gid" value="<?php echo $page['grid'] ?>"/>
 	<div>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 

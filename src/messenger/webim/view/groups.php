@@ -48,21 +48,21 @@ function tpl_content() { global $page, $webimroot;
 <tbody>
 <?php
 if(count($page['groups']) > 0) { 
-	foreach( $page['groups'] as $dep ) { ?>
+	foreach( $page['groups'] as $grp ) { ?>
 <tr>
 	<td class="notlast">
-   		<a href="<?php echo $webimroot ?>/operator/group.php?dep=<?php echo $dep['groupid'] ?>" class="man">
-   			<?php echo htmlspecialchars(topage($dep['vclocalname'])) ?>
+   		<a href="<?php echo $webimroot ?>/operator/group.php?gid=<?php echo $grp['groupid'] ?>" class="man">
+   			<?php echo htmlspecialchars(topage($grp['vclocalname'])) ?>
    		</a>
 	</td>
 	<td class="notlast">
-   		<?php echo $dep['vclocaldescription'] ? htmlspecialchars(topage($dep['vclocaldescription'])) : "&lt;none&gt;" ?>
+   		<?php echo $grp['vclocaldescription'] ? htmlspecialchars(topage($grp['vclocaldescription'])) : "&lt;none&gt;" ?>
 	</td>
 	<td>
-   		<?php echo htmlspecialchars(topage($dep['inumofagents'])) ?>
+   		<?php echo htmlspecialchars(topage($grp['inumofagents'])) ?>
 	</td>
 	<td>
-		<a href="<?php echo $webimroot ?>/operator/groups.php?act=del&amp;dep=<?php echo $dep['groupid'] ?>">
+		<a href="<?php echo $webimroot ?>/operator/groups.php?act=del&amp;gid=<?php echo $grp['groupid'] ?>">
 			remove
 		</a>
 	</td>

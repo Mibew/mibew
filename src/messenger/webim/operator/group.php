@@ -17,7 +17,7 @@ require_once('../libs/operator.php');
 
 $operator = check_login();
 
-$page = array('depid' => '');
+$page = array('grid' => '');
 $errors = array();
 $groupid = '';
 
@@ -70,7 +70,7 @@ function update_group($groupid,$name,$descr,$commonname,$commondescr) {
 
 
 if( isset($_POST['name'])) {
-	$groupid = verifyparam( "dep", "/^(\d{1,9})?$/", "");
+	$groupid = verifyparam( "gid", "/^(\d{1,9})?$/", "");
 	$name = getparam('name');
 	$description = getparam('description');
 	$commonname = getparam('commonname');
@@ -99,22 +99,22 @@ if( isset($_POST['name'])) {
 		$page['formdescription'] = topage($description);
 		$page['formcommonname'] = topage($commonname);
 		$page['formcommondescription'] = topage($commondescription);
-		$page['depid'] = topage($groupid);
+		$page['grid'] = topage($groupid);
 	}
 
-} else if( isset($_GET['dep']) ) {
-	$groupid = verifyparam( 'dep', "/^\d{1,9}$/");
+} else if( isset($_GET['gid']) ) {
+	$groupid = verifyparam( 'gid', "/^\d{1,9}$/");
 	$group = group_by_id($groupid);
 
 	if( !$group ) {
 		$errors[] = getlocal("page.group.no_such");
-		$page['depid'] = topage($groupid);
+		$page['grid'] = topage($groupid);
 	} else {
 		$page['formname'] = topage($group['vclocalname']);
 		$page['formdescription'] = topage($group['vclocaldescription']);
 		$page['formcommonname'] = topage($group['vccommonname']);
 		$page['formcommondescription'] = topage($group['vccommondescription']);
-		$page['depid'] = topage($group['groupid']);
+		$page['grid'] = topage($group['groupid']);
 	}
 }
 

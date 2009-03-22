@@ -21,7 +21,7 @@ if( isset($_GET['act']) && $_GET['act'] == 'del' ) {
 	
 	// TODO check permissions, delete in other places
 	
-	$groupid = verifyparam( "dep", "/^(\d{1,9})?$/");
+	$groupid = verifyparam( "gid", "/^(\d{1,9})?$/");
 
 	$link = connect();
 	perform_query("delete from chatgroup where groupid = $groupid",$link);
