@@ -53,7 +53,7 @@ if( !$op ) {
 		if ($opId && $_SESSION['operator'] && $operator['operatorid'] == $opId) {
 			$_SESSION['operator']['iperm'] = $new_permissions;
 		}
-		header("Location: $webimroot/operator/operator.php?op=$opId");
+		header("Location: $webimroot/operator/permissions.php?op=$opId&stored");
 		exit;
 	}
 
@@ -69,6 +69,7 @@ foreach($permission_ids as $perm => $id) {
 	}
 }
 
+$page['stored'] = isset($_GET['stored']);
 prepare_menu($operator);
 setup_operator_settings_tabs($opId,3);
 start_html_output();

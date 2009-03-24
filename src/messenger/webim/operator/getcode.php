@@ -14,8 +14,10 @@
 
 require_once('../libs/common.php');
 require_once('../libs/operator.php');
+require_once('../libs/groups.php');
 
 $operator = check_login();
+loadsettings();
 
 $imageLocales = array();
 $allLocales = get_available_locales();
@@ -55,6 +57,18 @@ if($style && !in_array($style, $stylelist)) {
 	$style = "";
 }
 
+$groupid = "";
+if($settings['enablegroups'] == '1') {
+	$groupid = verifyparam( "group", "/^\d{0,8}$/", "");
+	if($groupid) {
+		$group = group_by_id($groupid);
+		if(!$group) {
+			$errors[] = getlocal("page.group.no_such");
+			$groupid = "";
+		}
+	}
+}
+
 $showhost = verifyparam("hostname","/^on$/", "") == "on";
 $forcesecure = verifyparam("secure","/^on$/", "") == "on";
 
@@ -68,11 +82,21 @@ $size = get_gifimage_size($file);
 $message = get_image(get_app_location($showhost,$forcesecure)."/button.php?image=$image&amp;lang=$lang",$size[0],$size[1]);
 
 $page = array();
-$page['buttonCode'] = generate_button("",$lang,$style,$message,$showhost,$forcesecure);
+$page['buttonCode'] = generate_button("",$lang,$style,$groupid,$message,$showhost,$forcesecure);
 $page['availableImages'] = array_keys($imageLocales);
 $page['availableLocales'] = $image_locales;
 $page['availableStyles'] = $stylelist;
 
+if($settings['enablegroups'] == '1') {
+	$allgroups = get_groups(false);
+	$page['groups'] = array();
+	$page['groups'][] = array('groupid' => '', 'vclocalname' => getlocal("page.gen_button.default_group"));
+	foreach($allgroups as $g) {
+		$page['groups'][] = $g;
+	}
+}  
+
+$page['formgroup'] = $groupid;
 $page['formstyle'] = $style;
 $page['formimage'] = $image;
 $page['formlang'] = $lang;

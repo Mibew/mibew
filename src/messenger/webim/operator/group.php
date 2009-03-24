@@ -14,20 +14,13 @@
 
 require_once('../libs/common.php');
 require_once('../libs/operator.php');
+require_once('../libs/groups.php');
 
 $operator = check_login();
 
 $page = array('grid' => '');
 $errors = array();
 $groupid = '';
-
-function group_by_id($id) {
-	$link = connect();
-	$group = select_one_row(
-		 "select * from chatgroup where groupid = $id", $link );
-	mysql_close($link);
-	return $group;
-}
 
 function group_by_name($name) {
 	$link = connect();
@@ -87,11 +80,11 @@ if( isset($_POST['name'])) {
 	if( count($errors) == 0 ) {
 		if (!$groupid) {
 			$newdep = create_group($name,$description,$commonname,$commondescription);
-			header("Location: $webimroot/operator/groups.php");
+			header("Location: $webimroot/operator/groupmembers.php?gid=".$newdep['groupid']);
 			exit;
 		} else {
 			update_group($groupid,$name,$description,$commonname,$commondescription);
-			header("Location: $webimroot/operator/groups.php");
+			header("Location: $webimroot/operator/group.php?gid=$groupid&stored");
 			exit;
 		}
 	} else {
@@ -118,7 +111,9 @@ if( isset($_POST['name'])) {
 	}
 }
 
+$page['stored'] = isset($_GET['stored']);
 prepare_menu($operator);
+setup_group_settings_tabs($groupid, 0);
 start_html_output();
 require('../view/group.php');
 ?>

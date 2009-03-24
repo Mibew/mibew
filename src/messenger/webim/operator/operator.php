@@ -60,7 +60,7 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 			exit;
 		} else {
 			update_operator($opId,$login,$password,$localname,$commonname);
-			header("Location: $webimroot/operator/operators.php");
+			header("Location: $webimroot/operator/operator.php?op=$opId&stored");
 			exit;
 		}
 	} else {
@@ -85,6 +85,7 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 	}
 }
 
+$page['stored'] = isset($_GET['stored']);
 prepare_menu($operator);
 setup_operator_settings_tabs($opId,0);
 start_html_output();

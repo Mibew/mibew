@@ -59,7 +59,9 @@ if(count($page['groups']) > 0) {
    		<?php echo $grp['vclocaldescription'] ? htmlspecialchars(topage($grp['vclocaldescription'])) : "&lt;none&gt;" ?>
 	</td>
 	<td>
-   		<?php echo htmlspecialchars(topage($grp['inumofagents'])) ?>
+   		<a href="<?php echo $webimroot ?>/operator/groupmembers.php?gid=<?php echo $grp['groupid'] ?>">
+	   		<?php echo htmlspecialchars(topage($grp['inumofagents'])) ?>
+   		</a>
 	</td>
 	<td>
 		<a href="<?php echo $webimroot ?>/operator/groups.php?act=del&amp;gid=<?php echo $grp['groupid'] ?>">

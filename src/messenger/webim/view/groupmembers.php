@@ -13,13 +13,13 @@
  */
 
 require_once("inc_menu.php");
-$page['title'] = getlocal("permissions.title");
-$page['menuid'] = "operators";
+$page['title'] = getlocal("page.groupmembers.title");
+$page['menuid'] = "groups";
 
 function tpl_content() { global $page, $webimroot, $errors;
 ?>
 
-<?php echo getlocal("permissions.intro") ?>
+<?php echo getlocal("page.groupmembers.intro") ?>
 <br />
 <br />
 <?php 
@@ -29,8 +29,8 @@ require_once('inc_errors.php');
 <div id="formmessage"><?php echo getlocal("data.saved") ?></div>
 <?php } ?>
 
-<form name="permissionsForm" method="post" action="<?php echo $webimroot ?>/operator/permissions.php">
-<input type="hidden" name="op" value="<?php echo $page['op'] ?>"/>
+<form name="membersForm" method="post" action="<?php echo $webimroot ?>/operator/groupmembers.php">
+<input type="hidden" name="gid" value="<?php echo $page['groupid'] ?>"/>
 	<div>
 <?php if($page['tabs']) { ?>
 	<ul class="tabs">
@@ -44,13 +44,16 @@ require_once('inc_errors.php');
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
 	<p>
-		<b><?php echo $page['currentop'] ?></b>
+		<b><?php echo $page['currentgroup'] ?></b>
 	</p>
-<?php foreach( $page['permissionsList'] as $pm ) { ?>
-	<label>
-		<input type="checkbox" name="permissions<?php echo $pm['id'] ?>" value="on"<?php echo form_value_mb('permissions',$pm['id']) ? " checked=\"checked\"" : "" ?>/> <?php echo $pm['descr'] ?>
-	</label>
-	<br/>
+<?php foreach( $page['operators'] as $pm ) { ?>
+	<div class="field">
+		<div class="fvaluenodesc">
+			<input type="checkbox" name="op<?php echo $pm['operatorid'] ?>" value="on"<?php echo form_value_mb('op',$pm['operatorid']) ? " checked=\"checked\"" : "" ?>/> 
+			<?php echo htmlspecialchars(topage($pm['vclocalename'])) ?> (<a href="operator.php?op=<?php echo $pm['operatorid'] ?>"
+				><?php echo htmlspecialchars(topage($pm['vclogin'])) ?></a>)
+		</div>
+	</div>
 <?php } ?>
 
 	<div class="fbutton">

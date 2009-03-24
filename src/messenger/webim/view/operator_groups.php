@@ -25,6 +25,9 @@ function tpl_content() { global $page, $webimroot, $errors;
 <?php 
 require_once('inc_errors.php');
 ?>
+<?php if( $page['stored'] ) { ?>
+<div id="formmessage"><?php echo getlocal("data.saved") ?></div>
+<?php } ?>
 
 <form name="opgroupsForm" method="post" action="<?php echo $webimroot ?>/operator/opgroups.php">
 <input type="hidden" name="op" value="<?php echo $page['op'] ?>"/>

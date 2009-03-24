@@ -19,7 +19,7 @@ $operator = check_login();
 
 if( isset($_GET['act']) && $_GET['act'] == 'del' ) {
 	
-	// TODO check permissions, delete in other places
+	// TODO check permissions
 	
 	$groupid = verifyparam( "gid", "/^(\d{1,9})?$/");
 

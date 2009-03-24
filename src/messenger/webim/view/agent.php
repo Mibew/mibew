@@ -30,6 +30,9 @@ function tpl_content() { global $page, $webimroot, $errors;
 <?php 
 require_once('inc_errors.php');
 ?>
+<?php if( $page['stored'] ) { ?>
+<div id="formmessage"><?php echo getlocal("data.saved") ?></div>
+<?php } ?>
 
 <form name="agentForm" method="post" action="<?php echo $webimroot ?>/operator/operator.php">
 <input type="hidden" name="opid" value="<?php echo $page['opid'] ?>"/>

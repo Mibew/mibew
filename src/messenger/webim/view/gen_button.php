@@ -16,12 +16,15 @@ require_once("inc_menu.php");
 $page['title'] = getlocal("page.gen_button.title");
 $page['menuid'] = "getcode";
 
-function tpl_content() { global $page, $webimroot;
+function tpl_content() { global $page, $webimroot, $errors;
 ?>
 
 <?php echo getlocal("page.gen_button.intro") ?>
 <br />
 <br />
+<?php 
+require_once('inc_errors.php');
+?>
 
 <form name="buttonCodeForm" method="get" action="<?php echo $webimroot ?>/operator/getcode.php">
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
@@ -40,6 +43,15 @@ function tpl_content() { global $page, $webimroot;
 				<select name="lang" onchange="this.form.submit();"><?php foreach($page['availableLocales'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("lang") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			</div>
 		</div>
+
+<?php if($page['showgroups']) { ?>
+		<div class="field">
+			<div class="flabel"><?php echo getlocal("page.gen_button.choose_group") ?></div>
+			<div class="fvaluenodesc">
+				<select name="group" onchange="this.form.submit();"><?php foreach($page['groups'] as $k) { echo "<option value=\"".$k['groupid']."\"".($k['groupid'] == form_value("group") ? " selected=\"selected\"" : "").">".$k['vclocalname']."</option>"; } ?></select>
+			</div>
+		</div>
+<?php } ?>
 
 		<div class="field">
 			<div class="flabel"><?php echo getlocal("page.gen_button.choose_style") ?></div>

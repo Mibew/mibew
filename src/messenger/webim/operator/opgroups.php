@@ -47,7 +47,7 @@ if( !$op ) {
 	}
 	
 	update_operator_groups($op['operatorid'],$new_groups);
-	header("Location: $webimroot/operator/operator.php?op=$opId");
+	header("Location: $webimroot/operator/opgroups.php?op=$opId&stored");
 	exit;
 }
 
@@ -60,6 +60,7 @@ if($opId) {
 	}
 }
 
+$page['stored'] = isset($_GET['stored']);
 prepare_menu($operator);
 setup_operator_settings_tabs($opId,2);
 start_html_output();

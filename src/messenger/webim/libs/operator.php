@@ -125,9 +125,24 @@ function get_operator_name($operator) {
 		return $operator['vccommonname'];
 }
 
-function generate_button($title,$locale,$style,$inner,$showhost,$forcesecure) {
-	$link = get_app_location($showhost,$forcesecure)."/client.php". ($locale?"?locale=$locale" : "").($style ? ($locale?"&amp;":"?")."style=$style" : "");
-	$temp = get_popup($link, "'$link".($locale||$style?"&amp;":"?")."url='+escape(document.location.href)+'&amp;referrer='+escape(document.referrer)",
+function append_query($link,$pv) {
+	$infix = '?';
+	if( strstr($link,$infix) !== FALSE )
+		$infix = '&amp;';
+	return "$link$infix$pv";
+}
+
+function generate_button($title,$locale,$style,$group,$inner,$showhost,$forcesecure) {
+	$link = get_app_location($showhost,$forcesecure)."/client.php";
+	if($locale)
+		$link = append_query($link, "locale=$locale");
+	if($style)
+		$link = append_query($link, "style=$style");
+	if($group)
+		$link = append_query($link, "group=$group");
+
+	$jslink = append_query("'".$link,"url='+escape(document.location.href)+'&amp;referrer='+escape(document.referrer)");	
+	$temp = get_popup($link, "$jslink",
 			$inner, $title, "webim", "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1" );
 	return "<!-- webim button -->".$temp."<!-- / webim button -->";
 }
@@ -228,8 +243,10 @@ function prepare_menu($operator,$hasright=true) {
 
 function get_groups($countagents) {
 	$link = connect();
-	$query = "select groupid, vclocalname, vclocaldescription".
-			 ($countagents ? ", 0 as inumofagents" : "").
+	$query = "select chatgroup.groupid as groupid, vclocalname, vclocaldescription".
+			($countagents 
+					? ", (SELECT count(*) from chatgroupoperator where chatgroup.groupid = chatgroupoperator.groupid) as inumofagents" 
+					: "").
 			 " from chatgroup order by vclocalname";
 	$result = select_multi_assoc($query, $link);
 	mysql_close($link);
