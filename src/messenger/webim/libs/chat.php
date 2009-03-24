@@ -432,13 +432,13 @@ function thread_by_id($id) {
 	return $thread;
 }
 
-function create_thread($username,$remoteHost,$referer,$lang,$userid,$userbrowser) {
+function create_thread($groupid,$username,$remoteHost,$referer,$lang,$userid,$userbrowser) {
 	global $state_loading;
 	$link = connect();
 
 	$query = sprintf(
-		 "insert into chatthread (userName,userid,ltoken,remote,referer,lrevision,locale,userAgent,dtmcreated,dtmmodified,istate) values ".
-								 "('%s','%s',%s,'%s','%s',%s,'%s','%s',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,$state_loading)",
+		 "insert into chatthread (userName,userid,ltoken,remote,referer,lrevision,locale,userAgent,dtmcreated,dtmmodified,istate".($groupid?",groupid":"").") values ".
+								 "('%s','%s',%s,'%s','%s',%s,'%s','%s',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,$state_loading".($groupid?",$groupid":"").")",
 			mysql_real_escape_string($username),
 			mysql_real_escape_string($userid),
 			next_token(),

@@ -6,6 +6,7 @@
   [+] main page: warning if database is outdated (after install)
   [+] "Updates" tab in settings: news, link to the latest version
   [+] Create/edit/remove groups
+  [+] Statistics page
 
   1.5.2
   -----

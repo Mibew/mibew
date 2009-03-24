@@ -15,6 +15,7 @@
 require_once('libs/common.php');
 require_once('libs/chat.php');
 require_once('libs/operator.php');
+require_once('libs/groups.php');
 require_once('libs/expand.php');
 
 if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
@@ -38,6 +39,18 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 			exit;
 		}
 
+		loadsettings();
+		$groupid = "";
+		if($settings['enablegroups'] == '1') {
+			$groupid = verifyparam( "group", "/^\d{1,8}$/", "");
+			if($groupid) {
+				$group = group_by_id($groupid);
+				if(!$group) {
+					$groupid = "";
+				}
+			}
+		}
+
 		$referer = isset($_GET['url']) ? $_GET['url'] :
 			(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "");
 		if(isset($_GET['referrer']) && $_GET['referrer']) {
@@ -51,7 +64,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 		$userbrowser = $_SERVER['HTTP_USER_AGENT'];
 		$remoteHost = isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $extAddr;
 		$visitor = visitor_from_request();
-		$thread = create_thread($visitor['name'], $remoteHost, $referer,$current_locale,$visitor['id'], $userbrowser);
+		$thread = create_thread($groupid,$visitor['name'], $remoteHost, $referer,$current_locale,$visitor['id'], $userbrowser);
 		$_SESSION['threadid'] = $thread['threadid'];
 		if( $referer ) {
 			post_message($thread['threadid'],$kind_for_agent,getstring2('chat.came.from',array($referer)));
