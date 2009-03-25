@@ -19,6 +19,20 @@ $operator = check_login();
 
 notify_operator_alive($operator['operatorid']);
 
+loadsettings();
+if($settings['enablegroups'] == '1') {
+	$link = connect();
+	$groupids = array();
+	$allgroups = select_multi_assoc("select groupid from chatgroupoperator where operatorid = ".$operator['operatorid']." order by groupid",$link);
+	foreach($allgroups as $g) {
+		$groupids[] = $g['groupid'];	
+	}
+	$_SESSION['operatorgroups'] = implode(",", $groupids); 
+	mysql_close($link);
+} else {
+	$_SESSION['operatorgroups'] = ""; 
+}
+
 $page = array();
 $page['havemenu'] = isset($_GET['nomenu']) ? "0" : "1";
 

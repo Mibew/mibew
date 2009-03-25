@@ -53,6 +53,10 @@ function thread_to_xml($thread,$link) {
 	$nextagent = $thread['nextagent'] != 0 ? operator_by_id_($thread['nextagent'],$link) : null;
 	$threadoperator = $nextagent ? get_operator_name($nextagent)
 						: ($thread['agentName'] ? $thread['agentName'] : "-");
+						
+	if($threadoperator == "-" && $thread['groupname']) {
+		$threadoperator = "- ".$thread['groupname']." -";
+	}
 
 	if(!($thread['istate'] == $state_chatting && $thread['agentId'] != $operator['operatorid'] && !is_capable($can_takeover,$operator))) {
 		$result .= " canopen=\"true\"";
@@ -99,15 +103,22 @@ function thread_to_xml($thread,$link) {
 	return $result;
 }
 
-function print_pending_threads($since) {
-	global $webim_encoding;
+function print_pending_threads($groupids,$since) {
+	global $webim_encoding, $settings;
 	$link = connect();
 
 	$revision = $since;
 	$output = array();
 	$query = "select threadid, userName, agentName, unix_timestamp(dtmcreated), userTyping, ".
-			 "unix_timestamp(dtmmodified), lrevision, istate, remote, nextagent, agentId, userid, shownmessageid, userAgent ".
-			 "from chatthread where lrevision > $since ORDER BY threadid";
+			 "unix_timestamp(dtmmodified), lrevision, istate, remote, nextagent, agentId, userid, shownmessageid, userAgent, (select vclocalname from chatgroup where chatgroup.groupid = chatthread.groupid) as groupname ".
+			 "from chatthread where lrevision > $since ".
+			 ($settings['enablegroups'] == '1'
+			 		? "AND (groupid is NULL".($groupids 
+			 					? " OR groupid IN ($groupids)"
+			 					: "").
+			 			  ") " 
+			 		: "").
+			 "ORDER BY threadid";
 	$rows = select_multi_assoc($query, $link);
 	foreach ($rows as $row) {
 		$thread = thread_to_xml($row,$link);
@@ -129,7 +140,8 @@ function print_pending_threads($since) {
 $since = verifyparam( "since", "/^\d{1,9}$/", 0);
 
 loadsettings();
-print_pending_threads($since);
+$groupids = $_SESSION['operatorgroups'];
+print_pending_threads($groupids,$since);
 notify_operator_alive($operator['operatorid']);
 exit;
 
