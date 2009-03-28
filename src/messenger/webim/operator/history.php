@@ -26,11 +26,20 @@ $query = isset($_GET['q']) ? myiconv(getoutputenc(), $webim_encoding, $_GET['q']
 
 if($query !== false) {
 	$link = connect();
+	
+	$result = mysql_query("select chatgroup.groupid as groupid, vclocalname ".
+			 "from chatgroup order by vclocalname", $link);
+	$groupName = array();
+	while ($group = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		$groupName[$group['groupid']] = $group['vclocalname'];
+	}
+	$page['groupName'] = $groupName;
+	mysql_free_result($result);
 
 	$result = mysql_query(
 		 "select DISTINCT unix_timestamp(chatthread.dtmcreated) as created, ".
     	 "unix_timestamp(chatthread.dtmmodified) as modified, chatthread.threadid, ".
-		 "chatthread.remote, chatthread.agentName, chatthread.userName, ".
+		 "chatthread.remote, chatthread.agentName, chatthread.userName, groupid, ".
 		 "messageCount as size ".
 		 "from chatthread, chatmessage ".
 		 "where chatmessage.threadid = chatthread.threadid and ".

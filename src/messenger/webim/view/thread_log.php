@@ -41,6 +41,24 @@ $chatthread = $page['thread'];
 		</div>
 		<br clear="all"/>
 
+		<div class="wlabel">
+			<?php echo getlocal("page.analysis.search.head_browser") ?>:
+		</div>
+		<div class="wvalue">
+			<?php echo get_useragent_version(topage($chatthread['userAgent'])) ?>
+		</div>
+		<br clear="all"/>
+
+		<?php if( $chatthread['groupName'] ) { ?>
+			<div class="wlabel">
+				<?php echo getlocal("page.analysis.search.head_group") ?>:
+			</div>
+			<div class="wvalue">
+				<?php echo topage(htmlspecialchars($chatthread['groupName'])) ?>
+			</div>
+			<br clear="all"/>
+		<?php } ?>
+
 		<?php if( $chatthread['agentName'] ) { ?>
 			<div class="wlabel">
 				<?php echo getlocal("page.analysis.search.head_operator") ?>:

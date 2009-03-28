@@ -75,7 +75,12 @@ if( $page['pagination.items'] ) {
         	<?php echo get_user_addr(topage($chatthread['remote'])) ?>
 		</td>
 		<td>
-        	<?php if( $chatthread['agentName'] ) { ?><?php echo topage(htmlspecialchars($chatthread['agentName'])) ?><?php } ?>
+        	<?php if( $chatthread['agentName'] ) {
+        		echo topage(htmlspecialchars($chatthread['agentName']));
+        	} else if($chatthread['groupid'] && $chatthread['groupid'] != 0 && isset($page['groupName'][$chatthread['groupid']])) {
+        		echo "- ".topage(htmlspecialchars($page['groupName'][$chatthread['groupid']]))." -";
+        	} 
+        	?>
 		</td>
 		<td>
         	<?php echo topage(htmlspecialchars($chatthread['size'])) ?>

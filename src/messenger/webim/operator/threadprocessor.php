@@ -21,11 +21,23 @@ $operator = check_login();
 
 $page = array();
 
+function thread_info($id) {
+	$link = connect();
+	$thread = select_one_row("select userName,agentName,remote,userAgent,".
+			"unix_timestamp(dtmmodified) as modified, unix_timestamp(dtmcreated) as created,".
+			"vclocalname as groupName ".
+			"from chatthread left join chatgroup on chatthread.groupid = chatgroup.groupid ".
+			"where threadid = ". $id, $link );
+	mysql_close($link);
+	return $thread;
+}
+
+
 if( isset($_GET['threadid'])) {
         $threadid = verifyparam( "threadid", "/^(\d{1,9})?$/", "");
 	$lastid = -1;
 	$page['threadMessages'] = get_messages($threadid,"html",false,$lastid);
-	$page['thread'] = thread_by_id($threadid);
+	$page['thread'] = thread_info($threadid);
 }
 
 prepare_menu($operator, false);
