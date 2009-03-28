@@ -267,6 +267,14 @@ function perform_query($query,$link) {
 		or die(' Query failed: '.mysql_error()/*.": ".$query*/);
 }
 
+function rows_count($link,$table,$whereclause="") {
+	$result = mysql_query("SELECT count(*) FROM $table $whereclause",$link)
+			or die(' Count query failed: '.mysql_error());
+	$line = mysql_fetch_array($result, MYSQL_NUM);
+	mysql_free_result($result);
+	return $line[0];
+}
+
 function select_one_row($query,$link) {
 	$result = mysql_query($query,$link) or die(' Query failed: ' .
 		mysql_error().": ".$query);

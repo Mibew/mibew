@@ -194,19 +194,52 @@ function logout_operator() {
 	}
 }
 
-function get_redirect_links($threadid,$token) {
-	global $page, $webimroot;
-	$found = get_operators();
-	setup_pagination($found);
+function setup_redirect_links($threadid,$token) {
+	global $page, $webimroot, $settings;
+	loadsettings();
+	$link = connect();
+
+	$operatorscount = rows_count($link, "chatoperator");
+	$groupscount = $settings['enablegroups'] == "1" ? rows_count($link, "chatgroup") : 0;
+	
+	prepare_pagination(max($operatorscount,$groupscount),8);
+	$limit = $page['pagination']['limit'];
+
+	$query = "select operatorid, vclogin, vclocalename, vccommonname, (unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time ".
+			 "from chatoperator order by vclogin $limit";
+	$operators = select_multi_assoc($query, $link);
+
+	if($settings['enablegroups'] == "1") {
+		$query = "select groupid, vclocalname, vccommonname from chatgroup order by vclocalname $limit";
+		$groups = select_multi_assoc($query, $link);
+	}
+	
+	mysql_close($link);
 
 	$agent_list = "";
 	$params = array('thread' => $threadid, 'token' => $token);
-	for( $indagent = 0; $indagent < count($page['pagination.items']); $indagent += 1 ) {
-		$agent = $page['pagination.items'][$indagent];
+	foreach($operators as $agent) {
 		$params['nextAgent'] = $agent['operatorid'];
-		$agent_list .= "<li><a href=\"".add_params($webimroot."/operator/redirect.php",$params)."\" title=\"".topage($agent['vclocalename'])."\">".topage($agent['vclocalename'])."</a>";
+		$online = $agent['time'] < $settings['online_timeout'] ? getlocal("char.redirect.operator.online_suff") : "";
+		$agent_list .= "<li><a href=\"".add_params($webimroot."/operator/redirect.php",$params).
+						"\" title=\"".topage(get_operator_name($agent))."\">".
+						    topage(get_operator_name($agent)).
+						"</a> $online</li>";
 	}
-	return $agent_list;
+	$page['redirectToAgent'] = $agent_list;
+
+	$group_list = "";
+	if($settings['enablegroups'] == "1") {
+		$params = array('thread' => $threadid, 'token' => $token);
+		foreach($groups as $group) {
+			$params['nextGroup'] = $group['groupid'];
+			$group_list .= "<li><a href=\"".add_params($webimroot."/operator/redirect.php",$params).
+								"\" title=\"".topage(get_group_name($group))."\">".
+								topage(get_group_name($group)).
+							"</a></li>";
+		}
+	}
+	$page['redirectToGroup'] = $group_list;
 }
 
 $permission_list = array();

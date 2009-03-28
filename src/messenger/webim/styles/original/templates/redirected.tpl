@@ -47,7 +47,7 @@
     <td height="100%" bgcolor="#FED840"><img src='${webimroot}/images/free.gif' width="1" height="1" border="0" alt="" /></td>
 	<td background="${tplroot}/images/winbg.gif" class="bgcy">
 
-		${msg:chat.redirected.content,nextAgent}<br/>
+		${page:message}<br/>
 		<a href="javascript:window.close();">${msg:chat.redirected.closewindow}</a>
 
 	</td>

@@ -20,6 +20,14 @@ function group_by_id($id) {
 	return $group;
 }
 
+function get_group_name($group) {
+	global $home_locale, $current_locale;
+	if( $home_locale == $current_locale || !$group['vccommonname'] )
+		return $group['vclocalname'];
+	else
+		return $group['vccommonname'];
+}
+
 function setup_group_settings_tabs($gid, $active) {
 	global $page, $webimroot, $settings;
 	if($gid) {

@@ -14,6 +14,7 @@
 
 require_once('../libs/common.php');
 require_once('../libs/chat.php');
+require_once('../libs/groups.php');
 require_once('../libs/operator.php');
 require_once('../libs/pagination.php');
 require_once('../libs/expand.php');
@@ -90,7 +91,7 @@ start_html_output();
 
 $pparam = verifyparam( "act", "/^(redirect)$/", "default");
 if( $pparam == "redirect" ) {
-	$page['pagination_list'] = get_redirect_links($threadid,$token);
+	setup_redirect_links($threadid,$token);
 	expand("../styles", getchatstyle(), "redirect.tpl");
 } else {
 	expand("../styles", getchatstyle(), "chat.tpl");

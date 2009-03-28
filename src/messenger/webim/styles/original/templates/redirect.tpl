@@ -32,7 +32,7 @@
 	<tr>
     <td width="50%" height="90" class="window"><h1>${msg:chat.redirect.title}</h1></td>
 	<td width="50%" align="right" valign="bottom" class="window">
-		<h2>${msg:chat.redirect.choose_operator}</h2>
+		<h2>${msg:chat.redirect.choose}</h2>
 		<img src='${webimroot}/images/free.gif' width="1" height="5" border="0" alt="" /><br>
 	</td>
 	</tr>
@@ -60,9 +60,25 @@
 		<tr>
 	    <td width="100%" valign="top" class="window">
 	    
+			<table width="100%" cellpadding="0">
+			<tr>
+	    	<td width="50%" valign="top">
+${if:redirectToAgent}
+	    	${msg:chat.redirect.operator}<br/>
 	    	<ul class="agentlist">
-	    	${page:pagination_list}
+		    	${page:redirectToAgent}
 	    	</ul>
+${endif:redirectToAgent}
+	    	</td>
+	    	<td width="50%" valign="top">
+${if:redirectToGroup}
+	    	${msg:chat.redirect.group}<br/>
+	    	<ul class="agentlist">
+		    	${page:redirectToGroup}
+	    	</ul>
+${endif:redirectToGroup}
+	    	</td>
+	    	</tr></table>
 
 		</td>
 		</tr>

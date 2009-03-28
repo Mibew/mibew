@@ -72,7 +72,7 @@
 			<table cellspacing="0" cellpadding="0" border="0" id="header" class="bg_domain">
 			<tr>
 				<td style="padding-left:20px;width:612px;color:white;" class="mmimg">
-					${msg:chat.redirect.choose_operator}
+					${msg:chat.redirect.choose}
 				</td>
 				<td align="right" style="padding-right:17px;">
 					<table cellspacing="0" cellpadding="0" border="0">
@@ -89,13 +89,32 @@
 </tr>
 <tr>
 	<td valign="top" style="padding:0px 0px 0px 24px;">
-    	<ul class="agentlist">
-	    	${page:pagination_list}
-    	</ul>
+
+			<table width="100%" cellpadding="0">
+			<tr>
+	    	<td width="50%" valign="top">
+${if:redirectToAgent}
+	    	${msg:chat.redirect.operator}<br/>
+	    	<ul class="agentlist">
+		    	${page:redirectToAgent}
+	    	</ul>
+${endif:redirectToAgent}
+	    	</td>
+	    	<td width="50%" valign="top">
+${if:redirectToGroup}
+	    	${msg:chat.redirect.group}<br/>
+	    	<ul class="agentlist">
+		    	${page:redirectToGroup}
+	    	</ul>
+${endif:redirectToGroup}
+	    	</td>
+	    	</tr></table>
+
 	</td>
 </tr>
 <tr>
 	<td valign="top" style="padding:24px">
+		${pagination}
 	</td>
 </tr>
 </table>

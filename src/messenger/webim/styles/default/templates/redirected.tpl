@@ -48,7 +48,7 @@
 		<table cellspacing="0" cellpadding="0" border="0" id="header" class="bg_domain">
 		<tr>
 			<td style="padding-left:20px;color:white;" class="mmimg" width="770">
-				${msg:chat.redirected.content,nextAgent}
+				${page:message}
 			</td>
 			<td align="right" style="padding-right:17px;">
 				<table cellspacing="0" cellpadding="0" border="0">

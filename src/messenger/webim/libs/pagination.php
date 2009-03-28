@@ -27,15 +27,15 @@ function generate_pagination_image($id,$alt) {
 	return "<img src=\"$webimroot/images/$id.gif\" border=\"0\" alt=\"".htmlspecialchars($alt)."\"/>";
 }
 
-function setup_pagination($items,$default_items_per_page=15) {
+function prepare_pagination($items_count,$default_items_per_page=15) {
 	global $page;
 
-	if( $items ) {
+	if( $items_count ) {
 		$items_per_page = verifyparam("items", "/^\d{1,3}$/", $default_items_per_page);
 		if( $items_per_page < 2 )
 			$items_per_page = 2;
 
-		$total_pages = div(count($items) + $items_per_page - 1, $items_per_page);
+		$total_pages = div($items_count + $items_per_page - 1, $items_per_page);
 		$curr_page = verifyparam("page", "/^\d{1,6}$/", 1);
 
 		if( $curr_page < 1 )
@@ -44,14 +44,24 @@ function setup_pagination($items,$default_items_per_page=15) {
 			$curr_page = $total_pages;
 
 		$start_index = ($curr_page-1)*$items_per_page;
-		$end_index = min($start_index+$items_per_page, count($items));
-		$page['pagination.items'] = array_slice($items, $start_index, $end_index-$start_index);
+		$end_index = min($start_index+$items_per_page, $items_count);
 		$page['pagination'] =
 			array(  "page" => $curr_page, "items" => $items_per_page, "total" => $total_pages,
-					"count" => count($items), "start" => $start_index, "end" => $end_index );
+					"count" => $items_count, "start" => $start_index, "end" => $end_index,
+					"limit" => "LIMIT $start_index,".($end_index - $start_index) );
+	} else {
+		$page['pagination'] = true;
+	}
+}
+
+function setup_pagination($items,$default_items_per_page=15) {
+	global $page;
+	prepare_pagination($items ? count($items) : 0, $default_items_per_page);
+	if($items && count($items) > 0) {
+		$p = $page['pagination'];
+		$page['pagination.items'] = array_slice($items, $p['start'], $p['end']-$p['start']);
 	} else {
 		$page['pagination.items'] = false;
-		$page['pagination'] = true;
 	}
 }
 

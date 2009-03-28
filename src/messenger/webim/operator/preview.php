@@ -16,6 +16,7 @@ require_once('../libs/common.php');
 require_once('../libs/chat.php');
 require_once('../libs/pagination.php');
 require_once('../libs/operator.php');
+require_once('../libs/groups.php');
 require_once('../libs/expand.php');
 require_once('../libs/settings.php');
 
@@ -71,9 +72,9 @@ if($show == 'redirect' || $show == 'redirected' || $show == 'agentchat' || $show
 			'operatorid' => ($show=='agentrochat' ? 2 : 1),
 			));
 	if($show=='redirect') {
-		$page['pagination_list'] = get_redirect_links( 0,$show=='agentrochat' ? 124 : 123);
+		setup_redirect_links( 0,$show=='agentrochat' ? 124 : 123);
 	} elseif($show=='redirected') {
-		$page['nextAgent'] = "Administrator";
+		$page['message'] = getlocal2("chat.redirected.content",array("Administrator"));
 	}
 	$page['redirectLink'] = "$webimroot/operator/preview.php?preview=$preview&amp;show=redirect";
 	expand("../styles", "$preview", "$show.tpl");
