@@ -15,7 +15,7 @@ var FrameUtils = {
 	var doc = this.getDocument(frm);
 	doc.open();
 	doc.write("<html><head>");
-	doc.write("<link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\""+Chat.webimRoot+"/chat.css\" />");
+	doc.write("<link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\""+Chat.cssfile+"\" />");
 	doc.write("</head><body bgcolor='#FFFFFF' text='#000000' link='#C28400' vlink='#C28400' alink='#C28400' marginwidth='0' marginheight='0' leftmargin='0' rightmargin='0' topmargin='0' bottommargin='0'>");
 	doc.write("<table width='100%' cellspacing='0' cellpadding='0' border='0'><tr><td valign='top' class='message' id='content'></td></tr></table><a id='bottom'/>");
 	doc.write("</body></html>");
@@ -430,6 +430,7 @@ Behaviour.register({
 
 EventHelper.register(window, 'onload', function(){
   Chat.webimRoot = threadParams.wroot;
+  Chat.cssfile = threadParams.cssfile;
   Chat.hSplitter = new HSplitter({control:$("spl1"), first:$("msgwndtd"), second:$("chatwndtd"), minfirst:30, minsec:30});
   Chat.threadUpdater = new Ajax.ChatThreadUpdater(({container:myRealAgent=='safari'?self.frames[0]:$("chatwnd"),avatar:$("avatarwnd"),message:$("msgwnd")}).extend( threadParams || {} ));
 });

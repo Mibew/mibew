@@ -11,7 +11,7 @@
 //- localized
 
 //- onComplete, obj, params, $apply$
-//- threadParams, servl, frequency, user, threadid, token
+//- threadParams, servl, frequency, user, threadid, token, cssfile
 //- updaterOptions, url, company, agentservl, noclients, wroot, havemenu
 
 

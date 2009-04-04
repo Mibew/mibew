@@ -3,7 +3,7 @@
 <head>
 <title>${msg:leavemessage.title}</title>
 <link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
-<link rel="stylesheet" type="text/css" href="${webimroot}/chat.css" />
+<link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" />
 </head>
 
 <style>
@@ -119,8 +119,7 @@ ${endif:errors}
 				</td>
 			</tr>
 			<tr>
-				<td>&nbsp;</td>
-				<td align="right">
+				<td colspan="2" align="right">
 					<table cellspacing="0" cellpadding="0" border="0">
 					<tr>
 					<td><a href="javascript:document.leaveMessageForm.submit();" class="but" id="sndmessagelnk">${msg:mailthread.perform}</a></td>

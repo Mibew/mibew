@@ -1,0 +1,195 @@
+a {
+	text-decoration: underline;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+a img {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+}
+
+form {
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
+
+div#typingdiv, div#engineinfo {
+	border: 0px solid gray;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	padding-right: 10px;
+	padding-left: 10px;
+	background: #fafafa;
+	color: #B11E23;
+}
+
+.bgcn {
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.bgrn {
+	background-position: right;
+	background-repeat: no-repeat;
+}
+
+.bgcy {
+	background-position: center;
+	background-repeat: repeat-y;
+}
+
+.bgry {
+	background-position: right;
+	background-repeat: repeat-y;
+}
+
+.bgly {
+	background-position: left;
+	background-repeat: repeat-y;
+}
+
+.bgbx {
+	background-position: bottom;
+	background-repeat: repeat-x;
+}
+
+.window {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+}
+
+.window a {
+	color: #880000;
+}
+
+.window h1 {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	font-size: 18px;
+	color: #000000;
+	font-weight: normal;
+}
+
+.window h2 {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	font-size: 12px;
+	color: #000000;
+}
+
+.text {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+}
+
+.text span.grey {
+	color: #787878;
+}
+
+.www a {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+.message {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #4F4F4F;
+	padding-left: 3px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-right: 3px;
+	line-height: 17px;
+}
+
+.message span.time {
+	color: #000000;
+}
+
+.message span.nuser {
+	color: #B11E23;
+	font-weight: bold;
+}
+
+.message span.nagent {
+	font-weight: bold;
+}
+
+.message span.minf {
+	color: #1E48B1;
+	font-size: 11px;
+}
+
+.message span.mevent {
+	color: #A1A1A1;
+	font-size: 11px;
+}
+
+.message span.mhidden {
+	color: #A1A1A1;
+	font-size: 11px;
+}
+
+.message span.mconn {
+	color: #A1A1A1;
+	font-size: 11px;
+}
+
+textarea.message {
+	width: 100%;
+	height: 100%;
+	border: 0px solid Blue;
+	overflow: auto;
+	margin-left: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	margin-right: 5px;
+}
+
+.username {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #383838;
+	padding-left: 3px;
+}
+
+input.username {
+	border: 1px solid #878787;
+}
+
+.answer {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #575757;
+	width: 170px;
+}
+
+.submit a {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #000000;
+	text-decoration: none;
+}
+
+.button a {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #666666;
+}
+
+.copyr {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #929292;
+}
+
+.copyr a {
+	color: #929292;
+}

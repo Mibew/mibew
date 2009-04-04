@@ -3,7 +3,7 @@
 <head>
 <title>${msg:page.chat.old_browser.title}</title>
 <link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
-<link rel="stylesheet" type="text/css" href="${webimroot}/chat.css" />
+<link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" />
 </head>
 <style>
 .tplimage {
