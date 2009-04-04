@@ -16,7 +16,7 @@ require_once('../libs/common.php');
 require_once('../libs/operator.php');
 
 $errors = array();
-$page = array( 'backPath' => '', 'formisRemember' => true, 'version' => $version);
+$page = array( 'formisRemember' => true, 'version' => $version);
 
 if( isset($_POST['login']) && isset($_POST['password']) ) {
 	$login = getparam('login');

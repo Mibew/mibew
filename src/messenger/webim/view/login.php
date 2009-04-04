@@ -28,7 +28,6 @@ function tpl_content() { global $page, $webimroot, $errors;
 </div>
 
 <form name="loginForm" method="post" action="<?php echo $webimroot ?>/operator/login.php">
-<input type="hidden" name="backPath" value="<?php echo $page['backPath'] ?>"/>
 	<div id="loginpane">
 
 	<div class="header">	
