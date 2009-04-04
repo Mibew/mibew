@@ -187,8 +187,8 @@ function login_operator($operator,$remember) {
 
 function logout_operator() {
 	global $webimroot;
-	$_SESSION['operator'] = NULL;
-	$_SESSION['backpath'] = NULL;
+	unset($_SESSION['operator']);
+	unset($_SESSION['backpath']);
 	if( isset($_COOKIE['webim_lite']) ) {
 		setcookie('webim_lite', '', time() - 3600, "$webimroot/");
 	}
