@@ -124,9 +124,6 @@ if($stringid) {
 		}
 
 		if(count($errors) == 0) {
-			if (get_magic_quotes_gpc()) {
-				$translation = stripslashes($translation);
-			}
 			save_message($target, $stringid, $translation);
 
 			$page['saved'] = true;
@@ -140,8 +137,8 @@ if($stringid) {
 	$page['saved'] = false;
 	$page['key'] = $stringid;
 	$page['target'] = $target;
-	$page['formoriginal'] = isset($lang1[$stringid]) ? htmlspecialchars($lang1[$stringid]) : "<b><unknown></b>";
-	$page['formtranslation'] = htmlspecialchars($translation);
+	$page['formoriginal'] = isset($lang1[$stringid]) ? $lang1[$stringid] : "<b><unknown></b>";
+	$page['formtranslation'] = $translation;
 	prepare_menu($operator, false);
 	start_html_output();
 	require('../view/translate.php');

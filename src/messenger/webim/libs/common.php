@@ -238,17 +238,61 @@ function getlocal2($text,$params) {
 /* ajax server actions use utf-8 */
 function getrawparam( $name ) {
 	global $webim_encoding;
-	if( isset($_POST[$name]) )
-		return myiconv("utf-8",$webim_encoding,$_POST[$name]);
+	if( isset($_POST[$name]) ) {
+		$value = myiconv("utf-8",$webim_encoding,$_POST[$name]);
+		if (get_magic_quotes_gpc()) {
+			$value = stripslashes($value);
+		}
+		return $value;
+	}
 	die("no ".$name." parameter");
 }
 
 /* form processors use current Output encoding */
 function getparam( $name ) {
 	global $webim_encoding;
-	if( isset($_POST[$name]) )
-		return myiconv(getoutputenc(), $webim_encoding, $_POST[$name]);
+	if( isset($_POST[$name]) ) {
+		$value = myiconv(getoutputenc(), $webim_encoding, $_POST[$name]);
+		if (get_magic_quotes_gpc()) {
+			$value = stripslashes($value);
+		}
+		return $value;
+	}
 	die("no ".$name." parameter");
+}
+
+function unicode_urldecode($url) {
+    preg_match_all('/%u([[:alnum:]]{4})/', $url, $a);
+
+    foreach ($a[1] as $uniord) {
+        $dec = hexdec($uniord);
+        $utf = '';
+
+        if ($dec < 128) {
+            $utf = chr($dec);
+        } else if ($dec < 2048) {
+            $utf = chr(192 + (($dec - ($dec % 64)) / 64));
+            $utf .= chr(128 + ($dec % 64));
+        } else {
+            $utf = chr(224 + (($dec - ($dec % 4096)) / 4096));
+            $utf .= chr(128 + ((($dec % 4096) - ($dec % 64)) / 64));
+            $utf .= chr(128 + ($dec % 64));
+        }
+        $url = str_replace('%u'.$uniord, $utf, $url);
+    }
+    return urldecode($url);
+}
+
+function getgetparam($name,$default='') {
+	global $webim_encoding;
+	if( !isset($_GET[$name]) || !$_GET[$name] ) {
+		return $default;
+	}
+	$value = myiconv("utf-8", $webim_encoding, unicode_urldecode($_GET[$name]));
+	if (get_magic_quotes_gpc()) {
+		$value = stripslashes($value);
+	}
+	return $value;
 }
 
 function connect() {
@@ -318,7 +362,7 @@ function escape_with_cdata($text) {
 function form_value($key) {
 	global $page;
 	if( isset($page) && isset($page["form$key"]) )
-		return $page["form$key"];
+		return htmlspecialchars($page["form$key"]);
 	return "";
 }
 
@@ -406,43 +450,6 @@ function date_diff($seconds) {
 
 function is_valid_email($email) {
 	return preg_match("/^[^@]+@[^\.]+(\.[^\.]+)*$/", $email);
-}
-
-function quote_smart($value,$link) {
-	if (get_magic_quotes_gpc()) {
-		$value = stripslashes($value);
-	}
-	return mysql_real_escape_string($value,$link);
-}
-
-function unicode_urldecode($url) {
-    preg_match_all('/%u([[:alnum:]]{4})/', $url, $a);
-
-    foreach ($a[1] as $uniord) {
-        $dec = hexdec($uniord);
-        $utf = '';
-
-        if ($dec < 128) {
-            $utf = chr($dec);
-        } else if ($dec < 2048) {
-            $utf = chr(192 + (($dec - ($dec % 64)) / 64));
-            $utf .= chr(128 + ($dec % 64));
-        } else {
-            $utf = chr(224 + (($dec - ($dec % 4096)) / 4096));
-            $utf .= chr(128 + ((($dec % 4096) - ($dec % 64)) / 64));
-            $utf .= chr(128 + ($dec % 64));
-        }
-        $url = str_replace('%u'.$uniord, $utf, $url);
-    }
-    return urldecode($url);
-}
-
-function getgetparam($name,$default='') {
-	global $webim_encoding;
-	if( !isset($_GET[$name]) || !$_GET[$name] ) {
-		return $default;
-	}
-	return myiconv("utf-8", $webim_encoding, unicode_urldecode($_GET[$name]));
 }
 
 function get_app_location($showhost,$issecure) {
