@@ -313,6 +313,11 @@ div.errinfo {
 	font-weight: bold;
 }
 
+.field .subfield {
+	padding-left: 30px;
+	background: url(images/subitem.gif) no-repeat 10px 2px;
+}
+
 .fvalue {
 	float: left;
 }
