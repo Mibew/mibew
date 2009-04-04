@@ -18,12 +18,26 @@ require_once('libs/operator.php');
 require_once('libs/groups.php');
 require_once('libs/expand.php');
 
+loadsettings();
+if($settings['enablessl'] == "1" && $settings['forcessl'] == "1") {
+	if(!is_secure_request()) {
+		$requested = $_SERVER['PHP_SELF'];
+		if($_SERVER['REQUEST_METHOD'] == 'GET' && $_SERVER['QUERY_STRING']) {
+			header("Location: ".get_app_location(true,true)."/client.php?".$_SERVER['QUERY_STRING']);
+		} else {
+			die("only https connections are processed");
+		} 		
+		exit;
+	}
+}
+
 if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 
 	$chatstyle = verifyparam( "style", "/^\w+$/", "");
 	$info = getgetparam('info');
 	$email = getgetparam('email');
 	$thread = NULL;
+	$firstmessage = NULL;
 	if( isset($_SESSION['threadid']) ) {
 		$thread = reopen_thread($_SESSION['threadid']);
 	}
@@ -39,7 +53,6 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 			exit;
 		}
 
-		loadsettings();
 		$groupid = "";
 		if($settings['enablegroups'] == '1') {
 			$groupid = verifyparam( "group", "/^\d{1,8}$/", "");
@@ -51,11 +64,36 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 			}
 		}
 
+		$visitor = visitor_from_request();
 		$referer = isset($_GET['url']) ? $_GET['url'] :
 			(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "");
 		if(isset($_GET['referrer']) && $_GET['referrer']) {
 			$referer .= "\n".$_GET['referrer'];
 		}
+		
+		if($settings['enablepresurvey'] == '1') {
+			if(isset($_POST['survey']) && $_POST['survey'] == 'on') {
+				$firstmessage = getparam("message");
+				$info = getparam("info");
+				$email = getparam("email");
+				if($settings['usercanchangename'] == "1" && isset($_POST['name'])) {
+					$newname = getparam("name");
+					if($newname != $visitor['name']) {
+						$data = strtr(base64_encode(myiconv($webim_encoding,"utf-8",$newname)), '+/=', '-_,');
+						setcookie($namecookie, $data, time()+60*60*24*365);
+						$visitor['name'] = $newname;
+					}
+				}
+				$referer = urldecode(getparam("referrer"));
+			} else {
+				$page = array();
+				setup_logo();
+				setup_survey($visitor['name'], $email, $groupid, $info, $referer);
+				expand("styles", getchatstyle(), "survey.tpl");
+				exit;
+			}
+		}
+
 		$extAddr = $_SERVER['REMOTE_ADDR'];
 		if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) &&
 		          $_SERVER['HTTP_X_FORWARDED_FOR'] != $_SERVER['REMOTE_ADDR']) {
@@ -63,7 +101,6 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 		}
 		$userbrowser = $_SERVER['HTTP_USER_AGENT'];
 		$remoteHost = isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $extAddr;
-		$visitor = visitor_from_request();
 		$thread = create_thread($groupid,$visitor['name'], $remoteHost, $referer,$current_locale,$visitor['id'], $userbrowser);
 		$_SESSION['threadid'] = $thread['threadid'];
 		if( $referer ) {
@@ -75,6 +112,12 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 		}
 		if($info) {
 			post_message($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.info',array($info)));
+		}
+		if($firstmessage) {
+			$postedid = post_message($thread['threadid'],$kind_user,$firstmessage,$visitor['name']);
+			$link = connect();
+			commit_thread( $thread['threadid'], array('shownmessageid' => $postedid), $link);
+			mysql_close($link);
 		}
 	}
 	$threadid = $thread['threadid'];

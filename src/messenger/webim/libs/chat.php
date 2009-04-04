@@ -54,8 +54,8 @@ function post_message_($threadid,$kind,$message,$link,$from=null,$utime=null,$op
 		"insert into chatmessage (threadid,ikind,tmessage,tname,agentId,dtmcreated) values (%s, %s,'%s',%s,%s,%s)",
 			$threadid,
 			$kind,
-			quote_smart($message,$link),
-			$from ? "'".quote_smart($from,$link)."'" : "null",
+			mysql_real_escape_string($message,$link),
+			$from ? "'".mysql_real_escape_string($from,$link)."'" : "null",
 			$opid ? $opid : "0",
 			$utime ? "FROM_UNIXTIME($utime)" : "CURRENT_TIMESTAMP" );
 
@@ -263,6 +263,29 @@ function setup_logo() {
 	$page['webimHost'] = topage($settings['hosturl']);
 }
 
+function setup_survey($name, $email, $groupid, $info, $referrer) {
+	global $settings, $page;
+	
+	$page['formname'] = topage($name);
+	$page['formemail'] = topage($email);
+	$page['formgroupid'] = $groupid;
+	$page['forminfo'] = topage($info);
+	$page['referrer'] = urlencode(topage($referrer));
+
+	if($settings['enablegroups'] == '1' && $settings["surveyaskgroup"] == "1") {
+		$allgroups = get_groups(false);
+		$val = "";
+		foreach($allgroups as $k) { 
+			$val .= "<option value=\"".$k['groupid']."\"".($k['groupid'] == $groupid ? " selected=\"selected\"" : "").">".$k['vclocalname']."</option>";
+		}
+		$page['groups'] = $val;
+	}
+	
+	$page['showemail'] = $settings["surveyaskmail"] == "1" ? "1" : "";
+	$page['showmessage'] = $settings["surveyaskmessage"] == "1" ? "1" : "";
+	$page['showname'] = $settings['usercanchangename'] == "1" ? "1" : "";
+}
+
 function setup_chatview_for_user($thread,$level) {
 	global $page, $webimroot, $settings;
 	loadsettings();
@@ -276,7 +299,7 @@ function setup_chatview_for_user($thread,$level) {
 	$page['level'] = $level;
 	$page['ct.chatThreadId'] = $thread['threadid'];
 	$page['ct.token'] = $thread['ltoken'];
-	$page['ct.user.name'] = topage($thread['userName']);
+	$page['ct.user.name'] = htmlspecialchars(topage($thread['userName']));
 	$page['canChangeName'] = $settings['usercanchangename'] == "1";
 	$page['chat.title'] = topage($settings['chattitle']);
 
@@ -304,7 +327,7 @@ function setup_chatview_for_operator($thread,$operator) {
 	$page['canpost'] = $thread['agentId'] == $operator['operatorid'];
 	$page['ct.chatThreadId'] = $thread['threadid'];
 	$page['ct.token'] = $thread['ltoken'];
-	$page['ct.user.name'] = topage(get_user_name($thread['userName'],$thread['remote'],$thread['userid']));
+	$page['ct.user.name'] = htmlspecialchars(topage(get_user_name($thread['userName'],$thread['remote'],$thread['userid'])));
 	$page['chat.title'] = topage($settings['chattitle']);
 
 	setup_logo();
@@ -422,7 +445,7 @@ function thread_by_id_($id,$link) {
 }
 
 function ban_for_addr_($addr,$link) {
-	return select_one_row("select banid,comment from chatban where unix_timestamp(dtmtill) > unix_timestamp(CURRENT_TIMESTAMP) AND address = '".quote_smart($addr,$link)."'", $link );
+	return select_one_row("select banid,comment from chatban where unix_timestamp(dtmtill) > unix_timestamp(CURRENT_TIMESTAMP) AND address = '".mysql_real_escape_string($addr,$link)."'", $link );
 }
 
 function thread_by_id($id) {
