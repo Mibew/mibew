@@ -127,9 +127,9 @@ ${if:agent}
 				<td class="text" nowrap>
 					${if:historyParams}
 						${msg:chat.window.chatting_with}
-						<a href="${page:historyParamsLink}" target="_blank" title="${msg:page.analysis.userhistory.title}" onclick="this.newWindow = window.open('${page:historyParamsLink}', 'UserHistory', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=703,height=380,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">${print:ct.user.name}</a>
+						<a href="${page:historyParamsLink}" target="_blank" title="${msg:page.analysis.userhistory.title}" onclick="this.newWindow = window.open('${page:historyParamsLink}', 'UserHistory', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=703,height=380,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">${page:ct.user.name}</a>
 					${else:historyParams}
-						${msg:chat.window.chatting_with} <b>${print:ct.user.name}</b>
+						${msg:chat.window.chatting_with} <b>${page:ct.user.name}</b>
 					${endif:historyParams}
 				</td>
 ${endif:agent}
