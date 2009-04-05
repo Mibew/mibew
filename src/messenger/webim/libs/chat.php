@@ -413,28 +413,28 @@ function rename_user($thread, $newname) {
 	global $kind_events;
 
 	$link = connect();
-	commit_thread( $thread['threadid'], array('userName' => "'".mysql_real_escape_string($newname)."'"), $link);
-	mysql_close($link);
+	commit_thread( $thread['threadid'], array('userName' => "'".mysql_real_escape_string($newname,$link)."'"), $link);
 
 	if( $thread['userName'] != $newname ) {
-		post_message($thread['threadid'],$kind_events,
-			getstring2_("chat.status.user.changedname",array($thread['userName'], $newname), $thread['locale']));
+		post_message_($thread['threadid'],$kind_events,
+			getstring2_("chat.status.user.changedname",array($thread['userName'], $newname), $thread['locale']), $link);
 	}
+	mysql_close($link);
 }
 
 function close_thread($thread,$isuser) {
 	global $state_closed, $kind_events;
 
+	$link = connect();
 	if( $thread['istate'] != $state_closed ) {
-		$link = connect();
 		commit_thread( $thread['threadid'], array('istate' => $state_closed,
 			'messageCount' => '(SELECT COUNT(*) FROM chatmessage WHERE chatmessage.threadid = t.threadid AND ikind = 1)'), $link);
-		mysql_close($link);
 	}
 
 	$message =  $isuser ? getstring2_("chat.status.user.left", array($thread['userName']), $thread['locale'])
 					: getstring2_("chat.status.operator.left", array($thread['agentName']), $thread['locale']);
-	post_message($thread['threadid'], $kind_events, $message);
+	post_message_($thread['threadid'], $kind_events, $message, $link);
+	mysql_close($link);
 }
 
 function thread_by_id_($id,$link) {
@@ -455,27 +455,24 @@ function thread_by_id($id) {
 	return $thread;
 }
 
-function create_thread($groupid,$username,$remoteHost,$referer,$lang,$userid,$userbrowser) {
+function create_thread($groupid,$username,$remoteHost,$referer,$lang,$userid,$userbrowser,$link) {
 	global $state_loading;
-	$link = connect();
-
 	$query = sprintf(
 		 "insert into chatthread (userName,userid,ltoken,remote,referer,lrevision,locale,userAgent,dtmcreated,dtmmodified,istate".($groupid?",groupid":"").") values ".
 								 "('%s','%s',%s,'%s','%s',%s,'%s','%s',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,$state_loading".($groupid?",$groupid":"").")",
-			mysql_real_escape_string($username),
-			mysql_real_escape_string($userid),
+			mysql_real_escape_string($username, $link),
+			mysql_real_escape_string($userid, $link),
 			next_token(),
-			mysql_real_escape_string($remoteHost),
-			mysql_real_escape_string($referer),
+			mysql_real_escape_string($remoteHost, $link),
+			mysql_real_escape_string($referer, $link),
 			next_revision($link),
-			mysql_real_escape_string($lang),
-			mysql_real_escape_string($userbrowser));
+			mysql_real_escape_string($lang, $link),
+			mysql_real_escape_string($userbrowser, $link));
 
 	perform_query($query,$link);
 	$id = mysql_insert_id($link);
 
 	$newthread = thread_by_id_($id,$link);
-	mysql_close($link);
 	return $newthread;
 }
 
@@ -486,13 +483,14 @@ function do_take_thread($threadid,$operatorId,$operatorName) {
 		array("istate" => $state_chatting,
 			  "nextagent" => 0,
 			  "agentId" => $operatorId,
-			  "agentName" => "'".mysql_real_escape_string($operatorName)."'"), $link);
+			  "agentName" => "'".mysql_real_escape_string($operatorName, $link)."'"), $link);
 	mysql_close($link);
 }
 
 function reopen_thread($threadid) {
 	global $state_queue,$state_loading,$state_waiting,$state_chatting,$state_closed,$kind_events;
-	$thread = thread_by_id($threadid);
+	$link = connect();
+	$thread = thread_by_id_($threadid, $link);
 
 	if( !$thread )
 		return FALSE;
@@ -501,13 +499,12 @@ function reopen_thread($threadid) {
 		return FALSE;
 
 	if( $thread['istate'] != $state_chatting && $thread['istate'] != $state_queue && $thread['istate'] != $state_loading ) {
-		$link = connect();
 		commit_thread( $threadid,
 			array("istate" => $state_waiting, "nextagent" => 0), $link);
-		mysql_close($link);
 	}
 
-	post_message($thread['threadid'], $kind_events, getstring_("chat.status.user.reopenedthread", $thread['locale']));
+	post_message_($thread['threadid'], $kind_events, getstring_("chat.status.user.reopenedthread", $thread['locale']), $link);
+	mysql_close($link);
 	return $thread;
 }
 
@@ -563,6 +560,20 @@ function check_for_reassign($thread,$operator) {
 		post_message($thread['threadid'],$kind_events,$message_to_post);
 		post_message($thread['threadid'],$kind_avatar,$operator['vcavatar'] ? $operator['vcavatar'] : "");
 	}
+}
+
+function check_connections_from_remote($remote,$link) {
+	global $settings, $state_closed;
+	if($settings['max_connections_from_one_host'] == 0) {
+		return true;
+	}
+	$result = select_one_row(
+			"select count(*) as opened from chatthread ".
+			"where remote = '". mysql_real_escape_string($remote, $link)."' AND istate <> $state_closed", $link );
+	if($result && isset($result['opened'])) {
+		return $result['opened'] < $settings['max_connections_from_one_host'];
+	}
+	return true;
 }
 
 function visitor_from_request() {

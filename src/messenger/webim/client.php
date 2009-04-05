@@ -25,7 +25,7 @@ if($settings['enablessl'] == "1" && $settings['forcessl'] == "1") {
 		if($_SERVER['REQUEST_METHOD'] == 'GET' && $_SERVER['QUERY_STRING']) {
 			header("Location: ".get_app_location(true,true)."/client.php?".$_SERVER['QUERY_STRING']);
 		} else {
-			die("only https connections are processed");
+			die("only https connections are handled");
 		} 		
 		exit;
 	}
@@ -101,24 +101,30 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 		}
 		$userbrowser = $_SERVER['HTTP_USER_AGENT'];
 		$remoteHost = isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $extAddr;
-		$thread = create_thread($groupid,$visitor['name'], $remoteHost, $referer,$current_locale,$visitor['id'], $userbrowser);
-		$_SESSION['threadid'] = $thread['threadid'];
-		if( $referer ) {
-			post_message($thread['threadid'],$kind_for_agent,getstring2('chat.came.from',array($referer)));
+
+		$link = connect();
+		if(!check_connections_from_remote($remoteHost, $link)) {
+			mysql_close($link);
+			die("number of connections from your IP is exceeded, try again later");
 		}
-		post_message($thread['threadid'],$kind_info,getstring('chat.wait'));
+		$thread = create_thread($groupid,$visitor['name'], $remoteHost, $referer,$current_locale,$visitor['id'], $userbrowser,$link);
+		$_SESSION['threadid'] = $thread['threadid'];
+		
+		if( $referer ) {
+			post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.came.from',array($referer)),$link);
+		}
+		post_message_($thread['threadid'],$kind_info,getstring('chat.wait'),$link);
 		if($email) {
-			post_message($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.email',array($email)));
+			post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.email',array($email)),$link);
 		}
 		if($info) {
-			post_message($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.info',array($info)));
+			post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.info',array($info)),$link);
 		}
 		if($firstmessage) {
-			$postedid = post_message($thread['threadid'],$kind_user,$firstmessage,$visitor['name']);
-			$link = connect();
+			$postedid = post_message_($thread['threadid'],$kind_user,$firstmessage,$link,$visitor['name']);
 			commit_thread( $thread['threadid'], array('shownmessageid' => $postedid), $link);
-			mysql_close($link);
 		}
+		mysql_close($link);
 	}
 	$threadid = $thread['threadid'];
 	$token = $thread['ltoken'];
