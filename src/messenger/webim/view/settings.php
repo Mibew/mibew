@@ -117,6 +117,15 @@ require_once('inc_errors.php');
 		</div>
 
 		<div class="field">
+			<div class="flabel"><?php echo getlocal('settings.onehostconnections') ?></div>
+			<div class="fvalue">
+				<input type="text" name="onehostconnections" size="10" value="<?php echo form_value('onehostconnections') ?>" class="formauth"/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('settings.onehostconnections.description') ?></div>
+			<br clear="left"/>
+		</div>
+
+		<div class="field">
 			<div class="flabel"><?php echo getlocal('settings.chatstyle') ?></div>
 			<div class="fvalue">
 				<select name="chatstyle" ><?php foreach($page['availableStyles'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("chatstyle") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
