@@ -22,7 +22,7 @@ notify_operator_alive($operator['operatorid']);
 loadsettings();
 if($settings['enablegroups'] == '1') {
 	$link = connect();
-	$groupids = array();
+	$groupids = array(0);
 	$allgroups = select_multi_assoc("select groupid from chatgroupoperator where operatorid = ".$operator['operatorid']." order by groupid",$link);
 	foreach($allgroups as $g) {
 		$groupids[] = $g['groupid'];	
