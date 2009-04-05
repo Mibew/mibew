@@ -246,6 +246,7 @@ page.preview.redirect=Redirect visitor to another operator window
 page.preview.redirected="Visitor is redirected" window
 page.preview.showerr=Show errors
 page.preview.style_default=-from general settings-
+page.preview.survey=Pre-chat survey
 page.preview.title=Site style
 page.preview.userchat=Chat window (user-mode)
 page.translate.descr=If you don't like the translation, please send us an update.   

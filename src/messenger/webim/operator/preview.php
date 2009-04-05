@@ -38,7 +38,7 @@ if(!in_array($preview, $stylelist)) {
 	$preview = $stylelist[0];
 }
 
-$show = verifyparam("show", "/^(chat|chatsimple|nochat|mail|mailsent|leavemessage|leavemessagesent|redirect|redirected|agentchat|agentrochat)$/", "");
+$show = verifyparam("show", "/^(chat|chatsimple|nochat|mail|mailsent|survey|leavemessage|leavemessagesent|redirect|redirected|agentchat|agentrochat)$/", "");
 $showerrors = verifyparam("showerr", "/^on$/", "") == "on";
 $errors = array();
 if($showerrors) {
@@ -49,6 +49,13 @@ if($show == 'chat' || $show == 'mail' || $show == 'leavemessage' || $show == 'le
 	setup_chatview_for_user(array('threadid' => 0,'userName' => getstring("chat.default.username"), 'ltoken' => 123), "ajaxed");
 	$page['mailLink'] = "$webimroot/operator/preview.php?preview=$preview&amp;show=mail";
 	$page['info'] = "";
+	expand("../styles", "$preview", "$show.tpl");
+	exit;
+}
+if($show == 'survey') {
+	loadsettings();
+	setup_survey("Visitor", "", "", "", "http://google.com");
+	setup_logo();
 	expand("../styles", "$preview", "$show.tpl");
 	exit;
 }
@@ -85,6 +92,7 @@ $templateList = array(
 	array('label' => getlocal("page.preview.userchat"), 'id' => 'chat', 'h' => 480, 'w' => 640),
 	array('label' => getlocal("page.preview.chatsimple"), 'id' => 'chatsimple', 'h' => 480, 'w' => 640),
 	array('label' => getlocal("page.preview.nochat"), 'id' => 'nochat', 'h' => 480, 'w' => 640),
+	array('label' => getlocal("page.preview.survey"), 'id' => 'survey', 'h' => 480, 'w' => 640),
 	array('label' => getlocal("page.preview.leavemessage"), 'id' => 'leavemessage', 'h' => 480, 'w' => 640),
 	array('label' => getlocal("page.preview.leavemessagesent"), 'id' => 'leavemessagesent', 'h' => 480, 'w' => 640),
 	array('label' => getlocal("page.preview.mail"), 'id' => 'mail', 'h' => 254, 'w' => 603),
@@ -104,7 +112,7 @@ $page['formshowerr'] = $showerrors;
 $page['availablePreviews'] = $stylelist;
 $page['availableTemplates'] = array(
 	"chat", "chatsimple", "nochat",
-	"leavemessage", "leavemessagesent",
+	"survey", "leavemessage", "leavemessagesent",
 	"mail", "mailsent",
 	"redirect", "redirected",
 	"agentchat", "agentrochat",
