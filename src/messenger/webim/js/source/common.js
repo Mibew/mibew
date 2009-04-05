@@ -543,3 +543,7 @@ function playSound(wav_file) {
     player.innerHTML = '<div style="position: static; width: 0px; height: 0px"><embed type="'+getWavMimeType()+'" src="'+wav_file+'" hidden="true" loop="false" autostart="true"></div>';
   }
 }
+
+function htmlescape(str) {
+	return str.replace('&','&amp;').replace('<','&lt;').replace('>','&gt;').replace('"','&quot;');
+}

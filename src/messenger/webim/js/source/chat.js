@@ -347,7 +347,7 @@ var Chat = {
 	Chat.threadUpdater.changeName($('uname').value);
 	$('changename1').style.display='none';
 	$('changename2').style.display='inline';
-	$('unamelink').innerHTML=$('uname').value;
+	$('unamelink').innerHTML = htmlescape($('uname').value);
   },
 
   showNameField: function() {
