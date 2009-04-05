@@ -21,6 +21,19 @@ require_once('../libs/expand.php');
 
 $operator = check_login();
 
+loadsettings();
+if($settings['enablessl'] == "1" && $settings['forcessl'] == "1") {
+	if(!is_secure_request()) {
+		$requested = $_SERVER['PHP_SELF'];
+		if($_SERVER['REQUEST_METHOD'] == 'GET' && $_SERVER['QUERY_STRING']) {
+			header("Location: ".get_app_location(true,true)."/operator/agent.php?".$_SERVER['QUERY_STRING']);
+		} else {
+			die("only https connections are handled");
+		} 		
+		exit;
+	}
+}
+
 $threadid = verifyparam( "thread", "/^\d{1,8}$/");
 
 if( !isset($_GET['token']) ) {
