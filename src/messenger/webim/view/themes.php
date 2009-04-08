@@ -23,7 +23,7 @@ function tpl_content() { global $page, $webimroot;
 <br />
 <br />
 
-<form name="preview" method="get" action="<?php echo $webimroot ?>/operator/preview.php">
+<form name="preview" method="get" action="<?php echo $webimroot ?>/operator/themes.php">
 	<div>
 <?php if($page['tabs']) { ?>
 	<ul class="tabs">

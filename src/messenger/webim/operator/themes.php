@@ -47,7 +47,7 @@ if($showerrors) {
 
 if($show == 'chat' || $show == 'mail' || $show == 'leavemessage' || $show == 'leavemessagesent' || $show == 'chatsimple' || $show == 'nochat') {
 	setup_chatview_for_user(array('threadid' => 0,'userName' => getstring("chat.default.username"), 'ltoken' => 123), "ajaxed");
-	$page['mailLink'] = "$webimroot/operator/preview.php?preview=$preview&amp;show=mail";
+	$page['mailLink'] = "$webimroot/operator/themes.php?preview=$preview&amp;show=mail";
 	$page['info'] = "";
 	expand("../styles", "$preview", "$show.tpl");
 	exit;
@@ -83,7 +83,7 @@ if($show == 'redirect' || $show == 'redirected' || $show == 'agentchat' || $show
 	} elseif($show=='redirected') {
 		$page['message'] = getlocal2("chat.redirected.content",array("Administrator"));
 	}
-	$page['redirectLink'] = "$webimroot/operator/preview.php?preview=$preview&amp;show=redirect";
+	$page['redirectLink'] = "$webimroot/operator/themes.php?preview=$preview&amp;show=redirect";
 	expand("../styles", "$preview", "$show.tpl");
 	exit;
 }
@@ -118,7 +118,7 @@ $page['availableTemplates'] = array(
 	"agentchat", "agentrochat",
 	"all");
 
-$page['showlink'] = "$webimroot/operator/preview.php?preview=$preview&amp;".($showerrors?"showerr=on&amp;":"")."show=";
+$page['showlink'] = "$webimroot/operator/themes.php?preview=$preview&amp;".($showerrors?"showerr=on&amp;":"")."show=";
 
 $page['previewList'] = array();
 foreach($templateList as $tpl) {
@@ -130,5 +130,5 @@ foreach($templateList as $tpl) {
 prepare_menu($operator);
 start_html_output();
 setup_settings_tabs(2);
-require('../view/preview.php');
+require('../view/themes.php');
 ?>
