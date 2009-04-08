@@ -163,7 +163,7 @@ function print_thread_messages($thread, $token, $lastid, $isuser, $format, $agen
 		$url = "$webimroot/thread.php?act=refresh&thread=$threadid&token=$token&html=on&user=".($isuser?"true":"false");
 
 		print("<html><head>\n".
-			"<link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\"$webimroot/chat.css\" />\n".
+			"<link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\"$webimroot/styles/default/chat.css\" />\n".
 			"<meta http-equiv=\"Refresh\" content=\"7; URL=$url&sn=11\">\n".
 			"<meta http-equiv=\"Pragma\" content=\"no-cache\">\n".
 			"</head>".
