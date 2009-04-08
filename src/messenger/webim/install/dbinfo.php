@@ -90,6 +90,13 @@ $dbtables = array(
 		"id" => "INT NOT NULL auto_increment PRIMARY KEY",
 		"vckey" => "varchar(255)",
 		"vcvalue" => "varchar(255)",
+	),
+
+	"chatresponses" => array(
+		"id" => "INT NOT NULL auto_increment PRIMARY KEY",
+		"locale" => "varchar(8)",
+		"groupid" => "int references chatgroup(groupid)",
+		"vcvalue" => "varchar(1024) NOT NULL",
 	)
 );
 
@@ -102,6 +109,7 @@ $dbtables_can_update = array(
 	"chatban" => array(),
 	"chatgroup" => array(),
 	"chatgroupoperator" => array(),
+	"chatresponses" => array(),
 );
 
 function show_install_err($text) {

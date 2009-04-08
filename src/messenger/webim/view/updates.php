@@ -14,7 +14,7 @@
 
 require_once("inc_menu.php");
 $page['title'] = getlocal("updates.title");
-$page['menuid'] = "settings";
+$page['menuid'] = "updates";
 
 function tpl_header() { global $page, $webimroot;
 ?>	
@@ -31,15 +31,6 @@ function tpl_content() { global $page, $webimroot;
 <br />
 <br />
 <div>
-<?php if($page['tabs']) { ?>
-	<ul class="tabs">
-
-<?php foreach($page['tabs'] as $k => $v) { if($v) { ?>
-	<li><a href="<?php echo $v ?>"><?php echo $k ?></a></li>
-<?php } else { ?>
-	<li class="active"><a href="#"><?php echo $k ?></a></li><?php }} ?>
-	</ul>
-<?php } ?>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 	
 		News:<br/>
