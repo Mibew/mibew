@@ -66,6 +66,13 @@ page.chat.old_browser.close
 page.chat.old_browser.list
 page.chat.old_browser.problem
 page.chat.old_browser.title
+presurvey.department
+presurvey.intro
+presurvey.mail
+presurvey.name
+presurvey.question
+presurvey.submit
+presurvey.title
 site.title
 site.url
 typing.remote

@@ -12,7 +12,7 @@
  *    Evgeny Gryaznov - initial API and implementation
  */
 
-$page['title'] = getlocal($page['key'] ? "cannededit.title" : "cannednew.title");
+$page['title'] = $page['key'] ? getlocal("cannededit.title") : getlocal("cannednew.title");
 
 function tpl_content() { global $page, $webimroot, $errors;
 ?>
@@ -29,7 +29,7 @@ function tpl_content() { global $page, $webimroot, $errors;
 <?php } ?>
 <?php if( !$page['saved'] ) { ?>
 
-<?php echo getlocal($page['key'] ? "cannededit.descr" : "cannednew.descr") ?>
+<?php echo $page['key'] ? getlocal("cannededit.descr") : getlocal("cannednew.descr") ?>
 <br/>
 <br/>
 <?php 

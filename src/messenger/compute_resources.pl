@@ -4,7 +4,7 @@
 	["redirect(ed)?\\.tpl", 1],
 	["\\.tpl", 0],
 	
-	["view/preview.php", 2],
+	["view/themes.php", 2],
 	["view/translate.php", 2],
 	["view/translatelist.php", 2],
 	["view/settings.php", 2],
@@ -15,6 +15,7 @@
 	["view/agent.php", 2],
 	["view/agents.php", 2],
 	["view/group.php", 2],
+	["view/groupmembers.php", 2],
 	["view/groups.php", 2],
 	["view/operator_groups.php", 2],
 	["view/gen_button.php", 2],
@@ -24,7 +25,7 @@
 	
 	["install/.*\\.php", 2],
 	
-	["operator/preview.php", 2],
+	["operator/themes.php", 2],
 	["operator/translate.php", 2],
 	["operator/settings.php", 2],
 	["operator/updates.php", 2],
@@ -34,6 +35,7 @@
 	["operator/operator.php", 2],
 	["operator/operators.php", 2],
 	["operator/group.php", 2],
+	["operator/groupmembers.php", 2],
 	["operator/groups.php", 2],
 	["operator/opgroups.php", 2],
 	["operator/getcode.php", 2],
@@ -47,6 +49,7 @@
 	["webim/libs/chat.php", 0],
 	["libs/pagination.php", 1],
 	["libs/settings.php", 2],
+	["libs/groups.php", 2],
 	["libs/demothread.php", 2],
 
 	["webim/thread.php", 0],
