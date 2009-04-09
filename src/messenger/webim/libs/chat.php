@@ -318,6 +318,29 @@ function setup_chatview_for_user($thread,$level) {
 
 }
 
+function load_canned_messages($locale, $groupid) {
+	$link = connect();
+	$result = select_multi_assoc(
+			"select vcvalue from chatresponses where locale = '".$locale."' ".
+			"AND (groupid is NULL OR groupid = 0) order by vcvalue", $link);
+	if(count($result) == 0) {
+		foreach(explode("\n", getstring_('chat.predefined_answers', $locale)) as $answer) {
+			$result[] = array('vcvalue' => $answer);
+		}
+	}
+	if($groupid) {
+		$result2 = select_multi_assoc(
+				"select vcvalue from chatresponses where locale = '".$locale."' ".
+				"AND groupid = $groupid order by vcvalue", $link);
+		foreach($result as $r) {
+			$result2[] = $r;
+		}
+		$result = $result2;
+	}
+	mysql_close($link);
+	return $result;
+}
+
 function setup_chatview_for_operator($thread,$operator) {
 	global $page, $webimroot, $company_logo_link, $company_name, $settings;
 	loadsettings();
@@ -340,8 +363,9 @@ function setup_chatview_for_operator($thread,$operator) {
 	$page['historyParams'] = array("userid" => "".$thread['userid']);
 	$page['historyParamsLink'] = add_params($webimroot."/operator/userhistory.php",$page['historyParams']);
 	$predefinedres = "";
-	foreach(explode("\n", getlocal_('chat.predefined_answers', $thread['locale'])) as $answer) {
-		$predefinedres .= "<option>$answer</option>";
+	$canned_messages = load_canned_messages($thread['locale'], $thread['groupid']);
+	foreach($canned_messages as $answer) {
+		$predefinedres .= "<option>".htmlspecialchars(topage($answer['vcvalue']))."</option>";
 	}
 	$page['predefinedAnswers'] = $predefinedres;
 	$params = "thread=".$thread['threadid']."&token=".$thread['ltoken'];
@@ -440,7 +464,7 @@ function close_thread($thread,$isuser) {
 function thread_by_id_($id,$link) {
 	return select_one_row("select threadid,userName,agentName,agentId,lrevision,istate,ltoken,userTyping,agentTyping".
 			",unix_timestamp(dtmmodified) as modified, unix_timestamp(dtmcreated) as created".
-			",remote,referer,locale,unix_timestamp(lastpinguser) as lpuser,unix_timestamp(lastpingagent) as lpagent, unix_timestamp(CURRENT_TIMESTAMP) as current,nextagent,shownmessageid,userid,userAgent".
+			",remote,referer,locale,unix_timestamp(lastpinguser) as lpuser,unix_timestamp(lastpingagent) as lpagent, unix_timestamp(CURRENT_TIMESTAMP) as current,nextagent,shownmessageid,userid,userAgent,groupid".
 			" from chatthread where threadid = ". $id, $link );
 }
 
