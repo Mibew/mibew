@@ -68,9 +68,9 @@ require_once('inc_errors.php');
 <table class="translate">
 <thead>
 	<tr class="header"><th>
-		Message
+		<?php echo getlocal("cannededit.message") ?>
 	</th><th>
-		Modify
+		<?php echo getlocal("canned.actions") ?>
 	</th></tr>
 </thead>
 <tbody>
@@ -83,8 +83,8 @@ if( $page['pagination.items'] ) {
 		</td>
 		<td>
 			<a href="<?php echo $webimroot ?>/operator/cannededit.php?key=<?php echo $localstr['id'] ?>" target="_blank" 
-				onclick="this.newWindow = window.open('<?php echo $webimroot ?>/operator/cannededit.php?key=<?php echo $localstr['id'] ?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">edit</a>, 
-			<a href="<?php echo $webimroot ?>/operator/canned.php?act=delete&amp;key=<?php echo $localstr['id'] ?>&amp;lang=<?php echo form_value("lang") ?>&amp;group=<?php echo form_value("group")?>">delete</a>
+				onclick="this.newWindow = window.open('<?php echo $webimroot ?>/operator/cannededit.php?key=<?php echo $localstr['id'] ?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo getlocal("canned.actions.edit") ?></a>, 
+			<a href="<?php echo $webimroot ?>/operator/canned.php?act=delete&amp;key=<?php echo $localstr['id'] ?>&amp;lang=<?php echo form_value("lang") ?>&amp;group=<?php echo form_value("group")?>"><?php echo getlocal("canned.actions.del") ?></a>
 		</td>
 	</tr>
 <?php

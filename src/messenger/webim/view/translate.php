@@ -21,6 +21,9 @@ function tpl_content() { global $page, $webimroot, $errors;
 	<?php echo getlocal("page.translate.done") ?>
 
 	<script><!--
+		if(window.opener && window.opener.location) {
+			window.opener.location.reload();
+		} 
 		setTimeout( (function() { window.close(); }), 500 );
 	//--></script>
 <?php } ?>
@@ -42,14 +45,14 @@ require_once('inc_errors.php');
 		<div class="field">
 			<div class="flabel"><?php echo $page['title1'] ?></div>
 			<div class="fvaluenodesc">
-				<textarea name="original" disabled="disabled" cols="20" rows="5" class="wide"><?php echo $page['formoriginal'] ?></textarea>
+				<textarea name="original" disabled="disabled" cols="20" rows="5" class="wide"><?php echo form_value('original') ?></textarea>
 			</div>
 		</div>
 
 		<div class="field">
 			<div class="flabel"><?php echo $page['title2'] ?></div>
 			<div class="fvaluenodesc">
-				<textarea name="translation" cols="20" rows="5" class="wide"><?php echo $page['formtranslation'] ?></textarea>
+				<textarea name="translation" cols="20" rows="5" class="wide"><?php echo form_value('translation') ?></textarea>
 			</div>
 		</div>
 	

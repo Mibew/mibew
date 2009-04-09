@@ -24,9 +24,7 @@ function tpl_content() { global $page, $webimroot, $errors;
 		if(window.opener && window.opener.location) {
 			window.opener.location.reload();
 		} 
-		setTimeout( (function() {
-			window.close(); 
-		}), 500 );
+		setTimeout( (function() { window.close(); }), 500 );
 	//--></script>
 <?php } ?>
 <?php if( !$page['saved'] ) { ?>
@@ -48,7 +46,7 @@ require_once('inc_errors.php');
 
 	<div class="fieldForm">
 		<div class="field">
-			<div class="flabel">Message</div>
+			<div class="flabel"><?php echo getlocal("cannededit.message") ?></div>
 			<div class="fvaluenodesc">
 				<textarea name="message" cols="20" rows="5" class="wide"><?php echo form_value('message') ?></textarea>
 			</div>

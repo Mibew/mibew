@@ -33,28 +33,28 @@ function tpl_content() { global $page, $webimroot;
 <div>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 	
-		News:<br/>
+		<?php echo getlocal("updates.news")?><br/>
 		<div id="news">
 		</div>
 		
-		You are using:<br/>
+		<?php echo getlocal("updates.current")?><br/>
 			<div id="cver"><?php echo $page['version'] ?></div>
 			
 		<br/>
 
-		Latest version:
+		<?php echo getlocal("updates.latest")?>
 			<div id="lver"></div>
 		
 		<br/>
 			
-		Installed localizations:<br/>
+		<?php echo getlocal("updates.installed_locales")?><br/>
 			<?php foreach( $page['localizations'] as $loc ) { ?>
 				<?php echo $loc ?>
 			<?php } ?>
 		
 		<br/><br/>	
 		
-		Environment:<br/>
+		<?php echo getlocal("updates.env")?><br/>
 			PHP <?php echo $page['phpVersion'] ?>
 
 	</div><div class="formbottom"><div class="formbottomi"></div></div></div>

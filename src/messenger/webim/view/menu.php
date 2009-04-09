@@ -99,6 +99,14 @@ if( $page['showadmin'] ) { ?>
 	<?php menuseparator(); ?>
 <?php } ?>	
 	<td class="dashitem">
+		<img src="/webim/images/dash/canned.gif" alt=""/>
+		<a href='<?php echo $webimroot ?>/operator/canned.php'>
+			<?php echo getlocal('menu.canned') ?></a>
+		<?php echo getlocal('canned.descr') ?>
+	</td>
+	<?php menuseparator(); ?>
+
+	<td class="dashitem">
 		<img src="/webim/images/dash/getcode.gif" alt=""/>
 		<a href='<?php echo $webimroot ?>/operator/getcode.php'>
 			<?php echo getlocal('leftMenu.client_gen_button') ?></a>
@@ -121,6 +129,16 @@ if( $page['showadmin'] ) { ?>
 		<a href='#' id="changelang">
 			<?php echo getlocal('menu.locale') ?></a>
 		<?php echo getlocal('menu.locale.content') ?>
+	</td>
+	<?php menuseparator(); ?>
+<?php } ?>
+
+<?php if( $page['showadmin'] ) { ?>
+	<td class="dashitem">
+		<img src="/webim/images/dash/updates.gif" alt=""/>
+		<a href='<?php echo $webimroot ?>/operator/updates.php'>
+			<?php echo getlocal('menu.updates') ?></a>
+		<?php echo getlocal('menu.updates.content') ?>
 	</td>
 	<?php menuseparator(); ?>
 <?php } ?>
