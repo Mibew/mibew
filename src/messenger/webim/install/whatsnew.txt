@@ -1,12 +1,17 @@
-  1.6.0 alpha 1
+  1.6.0
   -----
   [+] completely new layout of all administrator pages, XHTML 1.0
   [+] New awaiting users and chat log pages
   [+] right menu, show/hide menu on awaiting users page, nice locale chooser
   [+] main page: warning if database is outdated (after install)
-  [+] "Updates" tab in settings: news, link to the latest version
+  [+] "Updates": news, link to the latest version
+  [+] Operator's profile page
+  [+] Configurable pre-chat survey
   [+] Create/edit/remove groups
+  [+] Canned messages page
   [+] Statistics page
+  [+] Popup dialog notification of the new visitor (turned off by default)
+  [!] Slow loading of awating visitors page
 
   1.5.2
   -----
