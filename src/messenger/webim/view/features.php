@@ -168,6 +168,15 @@ require_once('inc_errors.php');
 			</div>
 		</div>
 
+		<div class="field">
+			<div class="flabel"><?php echo getlocal('settings.popup_notification') ?></div>
+			<div class="fvalue">
+				<input type="checkbox" name="enablepopupnotification" value="on"<?php echo form_value_cb('enablepopupnotification') ? " checked=\"checked\"" : "" ?>/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('settings.popup_notification.description') ?></div>
+			<br clear="left"/>
+		</div>
+
 		<div class="fbutton">
 			<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
 		</div>

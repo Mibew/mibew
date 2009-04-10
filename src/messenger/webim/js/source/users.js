@@ -296,6 +296,9 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 		if( newAdded ) {
 			playSound(webimRoot+'/sounds/new_user.wav');
 			window.focus();
+			if(updaterOptions.showpopup) {
+				alert(localized[5]);
+			}
 		}
 	} else if( root.tagName == 'error' ) {
 		this.setStatus(NodeUtils.getNodeValue(root,"descr") );

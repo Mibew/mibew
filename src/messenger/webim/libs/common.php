@@ -542,6 +542,7 @@ $settings = array(
 		'surveyaskmail' => '0',
 		'surveyaskgroup' => '1',
 		'surveyaskmessage' => '0',
+	'enablepopupnotification' => '0',
 );
 $settingsloaded = false;
 $settings_in_db = array();

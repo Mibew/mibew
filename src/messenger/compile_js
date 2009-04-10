@@ -1,5 +1,5 @@
 #!/bin/sh
 
 cd webim/js/source
-~/distrib/apache-ant-1.7.0/bin/ant
+/usr/local/ant/bin/ant
 rm -rf bin

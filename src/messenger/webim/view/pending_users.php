@@ -26,12 +26,13 @@ var localized = new Array(
     "<?php echo getlocal("pending.table.view") ?>",
     "<?php echo getlocal("pending.table.ban") ?>",
     "<?php echo htmlspecialchars(getlocal("pending.menu.show")) ?>",
-    "<?php echo htmlspecialchars(getlocal("pending.menu.hide")) ?>"
+    "<?php echo htmlspecialchars(getlocal("pending.menu.hide")) ?>",
+    "<?php echo htmlspecialchars(getlocal("pending.popup_notification")) ?>"
 );
 var updaterOptions = {
 	url:"<?php echo $webimroot ?>/operator/update.php",wroot:"<?php echo $webimroot ?>",
 	agentservl:"<?php echo $webimroot ?>/operator/agent.php",
-	noclients:"<?php echo getlocal("clients.no_clients") ?>", havemenu: <?php echo $page['havemenu'] ?>, };
+	noclients:"<?php echo getlocal("clients.no_clients") ?>", havemenu: <?php echo $page['havemenu'] ?>, showpopup: <?php echo $page['showpopup'] ?> };
 //--></script>
 <script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/users.js?v=160a1"></script>
 <?php

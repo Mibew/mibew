@@ -12,7 +12,7 @@
 
 //- onComplete, obj, params, $apply$
 //- threadParams, servl, frequency, user, threadid, token, cssfile
-//- updaterOptions, url, company, agentservl, noclients, wroot, havemenu
+//- updaterOptions, url, company, agentservl, noclients, wroot, havemenu, showpopup
 
 
 var Class = {
