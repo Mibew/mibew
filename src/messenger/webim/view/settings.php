@@ -134,6 +134,16 @@ require_once('inc_errors.php');
 			<br clear="left"/>
 		</div>
 
+		<div class="field">
+			<div class="flabel"><?php echo getlocal('settings.sendmessagekey') ?></div>
+			<div class="fvaluenodesc">
+				<label>
+					<input type="radio" name="sendmessagekey" value="enter" <?php echo form_value("sendmessagekey") == "enter" ? " checked=\"checked\"" : ""?>/>Enter</label>
+				<label>	
+					<input type="radio" name="sendmessagekey" value="center" <?php echo form_value("sendmessagekey") == "center" ? " checked=\"checked\"" : ""?>/>Ctrl-Enter</label>
+			</div>
+		</div>
+
 		<div class="fbutton">
 			<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
 		</div>

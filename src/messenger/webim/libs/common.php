@@ -531,6 +531,7 @@ $settings = array(
 
 	'email' => '',				/* inbox for left messages */
 	'left_messages_locale' => $home_locale,
+	'sendmessagekey' => 'center',
 
 	'enableban' => '0',
 	'enablessl' => '0',

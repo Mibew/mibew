@@ -391,6 +391,7 @@ settings.no.title=Введите имя Вашей компании
 settings.onehostconnections.description=0 разрешает любое количество соединений
 settings.onehostconnections=Максимальное количество диалогов с одного адреса
 settings.saved=Изменения сохранены
+settings.sendmessagekey=Посылать сообщение по:
 settings.survey.askgroup.description=Показать/спрятать выбор группы в диалоге перед началом чата
 settings.survey.askgroup=Позволять посетителю выбирать группу операторов
 settings.survey.askmail.description=Показать/спрятать поле ввода адреса электронной почты

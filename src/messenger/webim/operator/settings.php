@@ -34,7 +34,7 @@ if($handle = opendir($stylesfolder)) {
 
 $options = array(
 		'email', 'title', 'logo', 'hosturl', 'usernamepattern',
-		'chatstyle', 'chattitle', 'geolink', 'geolinkparams', 'max_connections_from_one_host');
+		'chatstyle', 'chattitle', 'geolink', 'geolinkparams', 'max_connections_from_one_host', 'sendmessagekey');
 
 loadsettings();
 $params = array();
@@ -52,6 +52,7 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
     $params['geolink'] = getparam('geolink');
 	$params['geolinkparams'] = getparam('geolinkparams');
 	$params['max_connections_from_one_host'] = trim(getparam('onehostconnections'));
+	$params['sendmessagekey'] = verifyparam('sendmessagekey', "/^c?enter$/");
 
 	$params['chatstyle'] = verifyparam("chatstyle","/^\w+$/", $params['chatstyle']);
 	if(!in_array($params['chatstyle'], $stylelist)) {
@@ -94,6 +95,7 @@ $page['formusernamepattern'] = topage($params['usernamepattern']);
 $page['formchatstyle'] = $params['chatstyle'];
 $page['formchattitle'] = topage($params['chattitle']);
 $page['formonehostconnections'] = $params['max_connections_from_one_host'];
+$page['formsendmessagekey'] = $params['sendmessagekey'];
 $page['availableStyles'] = $stylelist;
 $page['stored'] = isset($_GET['stored']);
 
