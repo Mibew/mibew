@@ -82,6 +82,8 @@ menu.groups.content
 menu.locale
 menu.locale.content
 menu.operator
+menu.profile
+menu.profile.content
 menu.translate
 menu.updates
 menu.updates.content
@@ -115,6 +117,7 @@ page_login.title
 page_search.intro
 pending.menu.hide
 pending.menu.show
+pending.popup_notification
 pending.table.ban
 pending.table.head.contactid
 pending.table.head.etc
