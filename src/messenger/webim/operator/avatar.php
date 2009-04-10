@@ -19,7 +19,7 @@ require_once('../libs/operator_settings.php');
 $operator = check_login();
 
 $opId = verifyparam( "op","/^\d{1,9}$/");
-$page = array('op' => $opId, 'avatar' => '');
+$page = array('opid' => $opId, 'avatar' => '');
 $errors = array();
 
 $op = operator_by_id($opId);
@@ -30,7 +30,10 @@ if( !$op ) {
 } else if( isset($_POST['op']) ) {
 	$avatar = $op['vcavatar'];
 
-	if( isset($_FILES['avatarFile']) && $_FILES['avatarFile']['name']) {
+	if($opId != $operator['operatorid'] && !is_capable($can_administrate, $operator)) {
+		$errors[] = getlocal('page_agent.cannot_modify');
+
+	} else if( isset($_FILES['avatarFile']) && $_FILES['avatarFile']['name']) {
         $valid_types = array("gif","jpg", "png", "tif");
 
         $orig_filename = $_FILES['avatarFile']['name'];
@@ -82,7 +85,7 @@ if( !$op ) {
 	$page['avatar'] = topage($op['vcavatar']);
 }
 
-$page['currentop'] = topage(get_operator_name($op))." (".$op['vclogin'].")";
+$page['currentop'] = $op ? topage(get_operator_name($op))." (".$op['vclogin'].")" : "-not found-";
 
 prepare_menu($operator);
 setup_operator_settings_tabs($opId,1);

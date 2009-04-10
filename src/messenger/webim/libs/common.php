@@ -436,7 +436,7 @@ function div($a,$b) {
 	return ($a-($a % $b)) / $b;
 }
 
-function date_diff($seconds) {
+function date_diff_to_text($seconds) {
 	$minutes = div($seconds,60);
 	$seconds = $seconds % 60;
 	if( $minutes < 60 ) {

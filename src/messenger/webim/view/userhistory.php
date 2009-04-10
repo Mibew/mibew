@@ -52,7 +52,7 @@ if( $page['pagination.items'] ) {
         	<?php if( $chatthread['agentName'] ) { ?><?php echo topage(htmlspecialchars($chatthread['agentName'])) ?><?php } ?>
 		</td>
 		<td>
-			<?php echo date_diff($chatthread['modified']-$chatthread['created']) ?>, <?php echo strftime("%B, %d %Y %H:%M:%S", $chatthread['created']) ?>
+			<?php echo date_diff_to_text($chatthread['modified']-$chatthread['created']) ?>, <?php echo strftime("%B, %d %Y %H:%M:%S", $chatthread['created']) ?>
 		</td>
 	</tr>
 <?php

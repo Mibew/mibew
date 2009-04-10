@@ -52,7 +52,12 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 	if( (!$opId && $existing_operator) ||
 		( $opId && $existing_operator && $opId != $existing_operator['operatorid']) )
 		$errors[] = getlocal("page_agent.error.duplicate_login");
-
+		
+		
+	if($opId != $operator['operatorid'] && !is_capable($can_administrate, $operator)) {
+		$errors[] = getlocal('page_agent.cannot_modify');
+	}
+		
 	if( count($errors) == 0 ) {
 		if (!$opId) {
 			$newop = create_operator($login,$password,$localname,$commonname,"");

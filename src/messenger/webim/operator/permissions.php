@@ -27,7 +27,7 @@ function update_operator_permissions($operatorid,$newvalue) {
 }
 
 $opId = verifyparam( "op","/^\d{1,9}$/");
-$page = array('op' => $opId);
+$page = array('opid' => $opId, 'canmodify' => is_capable($can_administrate, $operator) ? "1" : "");
 $errors = array();
 
 $op = operator_by_id($opId);
@@ -36,6 +36,10 @@ if( !$op ) {
 	$errors[] = getlocal("no_such_operator");
 
 } else if( isset($_POST['op']) ) {
+
+	if(!is_capable($can_administrate, $operator)) {
+		$errors[] = getlocal('page_agent.cannot_modify');
+	}
 
 	$new_permissions = isset($op['iperm']) ? $op['iperm'] : 0;
 
@@ -61,11 +65,13 @@ if( !$op ) {
 
 $page['permissionsList'] = get_permission_list();
 $page['formpermissions'] = array("");
-$page['currentop'] = topage(get_operator_name($op))." (".$op['vclogin'].")";
+$page['currentop'] = $op ? topage(get_operator_name($op))." (".$op['vclogin'].")" : "-not found-";
 
-foreach($permission_ids as $perm => $id) {
-	if(is_capable($perm,$op)) {
-		$page['formpermissions'][] = $id;
+if($op) {
+	foreach($permission_ids as $perm => $id) {
+		if(is_capable($perm,$op)) {
+			$page['formpermissions'][] = $id;
+		}
 	}
 }
 

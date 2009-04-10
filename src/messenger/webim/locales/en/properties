@@ -94,7 +94,7 @@ clients.title=List of awaiting visitors
 common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - mandatory fields
 company.title=Web Messenger Community
 confirm.take.head=Change operator
-confirm.take.message=Visitor <span style="color:blue;">{0}</span> already assisted by <span style="color:green;">{1}</span>.<br/> Are your really sure you want to start chatting the visitor?
+confirm.take.message=Visitor <span style="color:blue;">{0}</span> already assisted by <span style="color:green;">{1}</span>.<br/> Are you really sure you want to start chatting the visitor?
 confirm.take.no=No, close the window
 confirm.take.yes=Yes, I'm sure
 content.blocked=Here you can defend from malicious visitors.
@@ -205,6 +205,8 @@ menu.locale.content=Change locale.
 menu.locale=Language
 menu.main=Main
 menu.operator=You are {0}
+menu.profile.content=You can change your personal information on this page.
+menu.profile=Profile
 menu.translate=Localize
 menu.updates.content=Check for news and updates.
 menu.updates=Updates
@@ -271,6 +273,7 @@ page.translate.descr=If you don't like the translation, please send us an update
 page.translate.done=Your translation is saved.
 page.translate.one=Enter you translation.
 page.translate.title=Localization wizard
+page_agent.cannot_modify=You are not allowed to change this person's profile.
 page_agent.clear_avatar=Remove avatar
 page_agent.create_new=Here you can create new operator
 page_agent.error.duplicate_login=Please choose another login, because operator with entered login is already registered in the system.

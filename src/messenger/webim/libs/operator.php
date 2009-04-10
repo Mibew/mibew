@@ -271,6 +271,7 @@ function prepare_menu($operator,$hasright=true) {
 		$page['showgroups'] = $settings['enablegroups'] == "1";
 		$page['showstat'] = $settings['enablestatistics'] == "1";
 		$page['showadmin'] = is_capable($can_administrate, $operator);
+		$page['currentopid'] = $operator['operatorid'];
 	}
 }
 

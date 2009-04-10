@@ -14,7 +14,7 @@
 
 require_once("inc_menu.php");
 $page['title'] = getlocal("page_agent.title");
-$page['menuid'] = "operators";
+$page['menuid'] = $page['opid'] == $page['currentopid'] ? "profile" : "operators";
 
 function tpl_content() { global $page, $webimroot, $errors;
 ?>

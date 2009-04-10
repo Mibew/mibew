@@ -14,7 +14,7 @@
 
 require_once("inc_menu.php");
 $page['title'] = getlocal("permissions.title");
-$page['menuid'] = "operators";
+$page['menuid'] = $page['opid'] == $page['currentopid'] ? "profile" : "operators";
 
 function tpl_content() { global $page, $webimroot, $errors;
 ?>
@@ -30,7 +30,7 @@ require_once('inc_errors.php');
 <?php } ?>
 
 <form name="permissionsForm" method="post" action="<?php echo $webimroot ?>/operator/permissions.php">
-<input type="hidden" name="op" value="<?php echo $page['op'] ?>"/>
+<input type="hidden" name="op" value="<?php echo $page['opid'] ?>"/>
 	<div>
 <?php if($page['tabs']) { ?>
 	<ul class="tabs">
@@ -48,15 +48,16 @@ require_once('inc_errors.php');
 	</p>
 <?php foreach( $page['permissionsList'] as $pm ) { ?>
 	<label>
-		<input type="checkbox" name="permissions<?php echo $pm['id'] ?>" value="on"<?php echo form_value_mb('permissions',$pm['id']) ? " checked=\"checked\"" : "" ?>/> <?php echo $pm['descr'] ?>
+		<input type="checkbox" name="permissions<?php echo $pm['id'] ?>" value="on"<?php echo form_value_mb('permissions',$pm['id']) ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/> <?php echo $pm['descr'] ?>
 	</label>
 	<br/>
 <?php } ?>
 
+<?php if($page['canmodify']) { ?>
 	<div class="fbutton">
 		<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
 	</div>
-
+<?php } ?>
 	</div><div class="formbottom"><div class="formbottomi"></div></div></div>
 	</div>		
 </form>

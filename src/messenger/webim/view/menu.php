@@ -57,7 +57,6 @@ function tpl_content() { global $page, $webimroot, $current_locale, $menuItemsCo
 	</td>
 <?php 
 $menuItemsCount = 2;
-if( $page['showban'] ) {
 ?>
 
 <?php if($page['showstat']) { ?>
@@ -69,7 +68,8 @@ if( $page['showban'] ) {
 	</td>
 	<?php menuseparator(); ?>
 <?php } ?>
-	
+
+<?php if( $page['showban'] ) { ?>	
 	<td class="dashitem">
 		<img src="/webim/images/dash/blocked.gif" alt=""/>
 		<a href='<?php echo $webimroot ?>/operator/blocked.php'>
@@ -77,9 +77,24 @@ if( $page['showban'] ) {
 		<?php echo getlocal('content.blocked') ?>
 	</td>
 	<?php menuseparator(); ?>
-<?php 
-}
-if( $page['showadmin'] ) { ?>
+<?php } ?>
+
+	<td class="dashitem">
+		<img src="/webim/images/dash/canned.gif" alt=""/>
+		<a href='<?php echo $webimroot ?>/operator/canned.php'>
+			<?php echo getlocal('menu.canned') ?></a>
+		<?php echo getlocal('canned.descr') ?>
+	</td>
+	<?php menuseparator(); ?>
+
+<?php if( $page['showadmin'] ) { ?>
+	<td class="dashitem">
+		<img src="/webim/images/dash/getcode.gif" alt=""/>
+		<a href='<?php echo $webimroot ?>/operator/getcode.php'>
+			<?php echo getlocal('leftMenu.client_gen_button') ?></a>
+		<?php echo getlocal('admin.content.client_gen_button') ?>
+	</td>
+	<?php menuseparator(); ?>
 	
 	<td class="dashitem">
 		<img src="/webim/images/dash/operators.gif" alt=""/>
@@ -98,27 +113,22 @@ if( $page['showadmin'] ) { ?>
 	</td>
 	<?php menuseparator(); ?>
 <?php } ?>	
-	<td class="dashitem">
-		<img src="/webim/images/dash/canned.gif" alt=""/>
-		<a href='<?php echo $webimroot ?>/operator/canned.php'>
-			<?php echo getlocal('menu.canned') ?></a>
-		<?php echo getlocal('canned.descr') ?>
-	</td>
-	<?php menuseparator(); ?>
-
-	<td class="dashitem">
-		<img src="/webim/images/dash/getcode.gif" alt=""/>
-		<a href='<?php echo $webimroot ?>/operator/getcode.php'>
-			<?php echo getlocal('leftMenu.client_gen_button') ?></a>
-		<?php echo getlocal('admin.content.client_gen_button') ?>
-	</td>
-	<?php menuseparator(); ?>
 
 	<td class="dashitem">
 		<img src="/webim/images/dash/settings.gif" alt=""/>
 		<a href='<?php echo $webimroot ?>/operator/settings.php'>
 			<?php echo getlocal('leftMenu.client_settings') ?></a>
 		<?php echo getlocal('admin.content.client_settings') ?>
+	</td>
+	<?php menuseparator(); ?>
+<?php } ?>
+
+<?php if(isset($page['currentopid']) && $page['currentopid']) {?>
+	<td class="dashitem">
+		<img src="/webim/images/dash/profile.gif"  alt=""/>
+		<a href='<?php echo $webimroot ?>/operator/operator.php?op=<?php echo $page['currentopid'] ?>'>
+			<?php echo getlocal('menu.profile') ?></a>
+		<?php echo getlocal('menu.profile.content') ?>
 	</td>
 	<?php menuseparator(); ?>
 <?php } ?>

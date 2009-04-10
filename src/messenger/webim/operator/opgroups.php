@@ -28,7 +28,7 @@ function update_operator_groups($operatorid,$newvalue) {
 }
 
 $opId = verifyparam( "op","/^\d{1,9}$/");
-$page = array('op' => $opId);
+$page = array('opid' => $opId);
 $page['groups'] = get_groups(false);
 $errors = array();
 
@@ -39,22 +39,28 @@ if( !$op ) {
 
 } else if( isset($_POST['op']) ) {
 
-	$new_groups = array();
-	foreach($page['groups'] as $group) {
-		if( verifyparam("group".$group['groupid'],"/^on$/", "") == "on") {
-			$new_groups[] = $group['groupid'];
-		}
+	if($opId != $operator['operatorid'] && !is_capable($can_administrate, $operator)) {
+		$errors[] = getlocal('page_agent.cannot_modify');
 	}
 	
-	update_operator_groups($op['operatorid'],$new_groups);
-	header("Location: $webimroot/operator/opgroups.php?op=$opId&stored");
-	exit;
+	if(count($errors) == 0) {
+		$new_groups = array();
+		foreach($page['groups'] as $group) {
+			if( verifyparam("group".$group['groupid'],"/^on$/", "") == "on") {
+				$new_groups[] = $group['groupid'];
+			}
+		}
+		
+		update_operator_groups($op['operatorid'],$new_groups);
+		header("Location: $webimroot/operator/opgroups.php?op=$opId&stored");
+		exit;
+	}
 }
 
 $page['formgroup'] = array();
-$page['currentop'] = $opId ? topage(get_operator_name($op))." (".$op['vclogin'].")" : "";
+$page['currentop'] = $op ? topage(get_operator_name($op))." (".$op['vclogin'].")" : "-not found-";
 
-if($opId) {
+if($op) {
 	foreach(get_operator_groupids($opId) as $rel) {
 		$page['formgroup'][] = $rel['groupid'];
 	}

@@ -73,7 +73,7 @@ $chatthread = $page['thread'];
 			<?php echo getlocal("page.analysis.search.head_time") ?>:
 		</div>
 		<div class="wvalue">
-			<?php echo date_diff($chatthread['modified']-$chatthread['created']) ?> 
+			<?php echo date_diff_to_text($chatthread['modified']-$chatthread['created']) ?> 
 				(<?php echo strftime("%B, %d %Y %H:%M:%S", $chatthread['created']) ?>)
 		</div>
 		<br clear="all"/>

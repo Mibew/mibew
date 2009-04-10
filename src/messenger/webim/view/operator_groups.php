@@ -14,7 +14,7 @@
 
 require_once("inc_menu.php");
 $page['title'] = getlocal("operator.groups.title");
-$page['menuid'] = "operators";
+$page['menuid'] = $page['opid'] == $page['currentopid'] ? "profile" : "operators";
 
 function tpl_content() { global $page, $webimroot, $errors;
 ?>
@@ -30,7 +30,7 @@ require_once('inc_errors.php');
 <?php } ?>
 
 <form name="opgroupsForm" method="post" action="<?php echo $webimroot ?>/operator/opgroups.php">
-<input type="hidden" name="op" value="<?php echo $page['op'] ?>"/>
+<input type="hidden" name="op" value="<?php echo $page['opid'] ?>"/>
 	<div>
 <?php if($page['tabs']) { ?>
 	<ul class="tabs">

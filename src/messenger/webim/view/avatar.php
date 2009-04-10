@@ -14,7 +14,7 @@
 
 require_once("inc_menu.php");
 $page['title'] = getlocal("page_avatar.title");
-$page['menuid'] = "operators";
+$page['menuid'] = $page['opid'] == $page['currentopid'] ? "profile" : "operators";
 
 function tpl_content() { global $page, $webimroot, $errors;
 ?>
@@ -27,7 +27,7 @@ require_once('inc_errors.php');
 ?>
 
 <form name="avatarForm" method="post" action="<?php echo $webimroot ?>/operator/avatar.php" enctype="multipart/form-data">
-<input type="hidden" name="op" value="<?php echo $page['op'] ?>"/>
+<input type="hidden" name="op" value="<?php echo $page['opid'] ?>"/>
 	<div>
 <?php if($page['tabs']) { ?>
 	<ul class="tabs">
@@ -51,7 +51,7 @@ require_once('inc_errors.php');
 			<div class="flabel"><?php echo getlocal('form.field.avatar.current') ?></div>
 			<div class="fvalue">
 				<img src="<?php echo $page['avatar'] ?>" alt="cannot load avatar"/><br/>
-                <a class="formauth" href='<?php echo $webimroot ?>/operator/avatar.php?op=<?php echo $page['op'] ?>&amp;delete=true'>
+                <a class="formauth" href='<?php echo $webimroot ?>/operator/avatar.php?op=<?php echo $page['opid'] ?>&amp;delete=true'>
                     <?php echo getlocal("page_agent.clear_avatar") ?>
                 </a>
 			</div>
