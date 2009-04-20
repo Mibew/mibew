@@ -45,7 +45,6 @@ chat.predefined_answers=Hallo, Wie kann ich Ihnen helfen ?\nWillkommen bei unser
 chat.redirect.back=zurück...
 chat.redirect.cannot=Sie chatten nicht mit dem besucher.
 chat.redirect.choose=Wähle:
-chat.redirect.choose_operator=Operator wählen:
 chat.redirect.group=Gruppe:
 chat.redirect.operator=Operator:
 chat.redirect.title=Weiterleiten zu<br>anderem Operator

@@ -25,7 +25,6 @@ chat.mailthread.sent.content=היסטוריית השיחות שלך נשלחה �
 chat.mailthread.sent.title=נשלח
 chat.predefined_answers=שלום! במה אוכל לעזור לך?\nתמתין בבקשה, אני מעביר אותך לנציג אחר.\nבבקשה, דייק בבקשה שלך ותסביר מה אתה רוצה..\nתודה לך ולהתראות!
 chat.redirect.back=חזרה...
-chat.redirect.choose_operator=בחר נציג:
 chat.redirect.title=לעבור<br>לנציג אחר
 chat.redirected.close=סגור...
 chat.redirected.closewindow=לחץ על קישור זה כדי לסגור את החלון
