@@ -43,14 +43,14 @@ function tpl_content() { global $page, $webimroot, $current_locale, $menuItemsCo
 <table id="dashboard">
 <tr>
 	<td class="dashitem">
-		<img src="/webim/images/dash/visitors.gif" alt=""/>
+		<img src="<?php echo $webimroot ?>/images/dash/visitors.gif" alt=""/>
 		<a href='<?php echo $webimroot ?>/operator/users.php'>
 			<?php echo getlocal('topMenu.users') ?></a>
 		<?php echo getlocal('page_client.pending_users') ?>
 	</td>	
 
 	<td class="dashitem">
-		<img src="/webim/images/dash/history.gif" alt=""/>
+		<img src="<?php echo $webimroot ?>/images/dash/history.gif" alt=""/>
 		<a href='<?php echo $webimroot ?>/operator/history.php'>
 			<?php echo getlocal('page_analysis.search.title') ?></a>
 		<?php echo getlocal('content.history') ?>
@@ -61,7 +61,7 @@ $menuItemsCount = 2;
 
 <?php if($page['showstat']) { ?>
 	<td class="dashitem">
-		<img src="/webim/images/dash/stat.gif" alt=""/>
+		<img src="<?php echo $webimroot ?>/images/dash/stat.gif" alt=""/>
 		<a href='<?php echo $webimroot ?>/operator/statistics.php'>
 			<?php echo getlocal('statistics.title') ?></a>
 		<?php echo getlocal('statistics.description') ?>
@@ -71,7 +71,7 @@ $menuItemsCount = 2;
 
 <?php if( $page['showban'] ) { ?>	
 	<td class="dashitem">
-		<img src="/webim/images/dash/blocked.gif" alt=""/>
+		<img src="<?php echo $webimroot ?>/images/dash/blocked.gif" alt=""/>
 		<a href='<?php echo $webimroot ?>/operator/blocked.php'>
 			<?php echo getlocal('menu.blocked') ?></a>
 		<?php echo getlocal('content.blocked') ?>
@@ -80,7 +80,7 @@ $menuItemsCount = 2;
 <?php } ?>
 
 	<td class="dashitem">
-		<img src="/webim/images/dash/canned.gif" alt=""/>
+		<img src="<?php echo $webimroot ?>/images/dash/canned.gif" alt=""/>
 		<a href='<?php echo $webimroot ?>/operator/canned.php'>
 			<?php echo getlocal('menu.canned') ?></a>
 		<?php echo getlocal('canned.descr') ?>
@@ -89,7 +89,7 @@ $menuItemsCount = 2;
 
 <?php if( $page['showadmin'] ) { ?>
 	<td class="dashitem">
-		<img src="/webim/images/dash/getcode.gif" alt=""/>
+		<img src="<?php echo $webimroot ?>/images/dash/getcode.gif" alt=""/>
 		<a href='<?php echo $webimroot ?>/operator/getcode.php'>
 			<?php echo getlocal('leftMenu.client_gen_button') ?></a>
 		<?php echo getlocal('admin.content.client_gen_button') ?>
@@ -97,7 +97,7 @@ $menuItemsCount = 2;
 	<?php menuseparator(); ?>
 	
 	<td class="dashitem">
-		<img src="/webim/images/dash/operators.gif" alt=""/>
+		<img src="<?php echo $webimroot ?>/images/dash/operators.gif" alt=""/>
 		<a href='<?php echo $webimroot ?>/operator/operators.php'>
 			<?php echo getlocal('leftMenu.client_agents') ?></a>
 		<?php echo getlocal('admin.content.client_agents') ?>
@@ -106,7 +106,7 @@ $menuItemsCount = 2;
 
 <?php if($page['showgroups']) { ?>
 	<td class="dashitem">
-		<img src="/webim/images/dash/dep.gif" alt=""/>
+		<img src="<?php echo $webimroot ?>/images/dash/dep.gif" alt=""/>
 		<a href='<?php echo $webimroot ?>/operator/groups.php'>
 			<?php echo getlocal('menu.groups') ?></a>
 		<?php echo getlocal('menu.groups.content') ?>
@@ -115,7 +115,7 @@ $menuItemsCount = 2;
 <?php } ?>	
 
 	<td class="dashitem">
-		<img src="/webim/images/dash/settings.gif" alt=""/>
+		<img src="<?php echo $webimroot ?>/images/dash/settings.gif" alt=""/>
 		<a href='<?php echo $webimroot ?>/operator/settings.php'>
 			<?php echo getlocal('leftMenu.client_settings') ?></a>
 		<?php echo getlocal('admin.content.client_settings') ?>
@@ -125,7 +125,7 @@ $menuItemsCount = 2;
 
 <?php if(isset($page['currentopid']) && $page['currentopid']) {?>
 	<td class="dashitem">
-		<img src="/webim/images/dash/profile.gif"  alt=""/>
+		<img src="<?php echo $webimroot ?>/images/dash/profile.gif"  alt=""/>
 		<a href='<?php echo $webimroot ?>/operator/operator.php?op=<?php echo $page['currentopid'] ?>'>
 			<?php echo getlocal('menu.profile') ?></a>
 		<?php echo getlocal('menu.profile.content') ?>
@@ -135,7 +135,7 @@ $menuItemsCount = 2;
 
 <?php if(isset($page) && isset($page['localeLinks'])) { ?>
 	<td class="dashitem">
-		<img src="/webim/images/dash/locale.gif"  alt=""/>
+		<img src="<?php echo $webimroot ?>/images/dash/locale.gif"  alt=""/>
 		<a href='#' id="changelang">
 			<?php echo getlocal('menu.locale') ?></a>
 		<?php echo getlocal('menu.locale.content') ?>
@@ -145,7 +145,7 @@ $menuItemsCount = 2;
 
 <?php if( $page['showadmin'] ) { ?>
 	<td class="dashitem">
-		<img src="/webim/images/dash/updates.gif" alt=""/>
+		<img src="<?php echo $webimroot ?>/images/dash/updates.gif" alt=""/>
 		<a href='<?php echo $webimroot ?>/operator/updates.php'>
 			<?php echo getlocal('menu.updates') ?></a>
 		<?php echo getlocal('menu.updates.content') ?>
@@ -154,7 +154,7 @@ $menuItemsCount = 2;
 <?php } ?>
 
 	<td class="dashitem">
-		<img src="/webim/images/dash/exit.gif" alt=""/>
+		<img src="<?php echo $webimroot ?>/images/dash/exit.gif" alt=""/>
 		<a href='<?php echo $webimroot ?>/operator/logout.php'>
 			<?php echo getlocal('topMenu.logoff') ?></a>
 		<?php echo getlocal('content.logoff') ?>
@@ -165,8 +165,8 @@ $menuItemsCount = 2;
 
 <?php if(isset($page) && isset($page['localeLinks'])) { ?>
 <div id="dashlocalesPopup">
-	<a href="#" id="dashlocalesPopupClose"><img src="/webim/images/dash/close.gif" alt="X"/></a>
-	<h2><img src="/webim/images/dash/locale.gif"  alt=""/>
+	<a href="#" id="dashlocalesPopupClose"><img src="<?php echo $webimroot ?>/images/dash/close.gif" alt="X"/></a>
+	<h2><img src="<?php echo $webimroot ?>/images/dash/locale.gif"  alt=""/>
 	<b><?php echo getlocal("lang.choose") ?></b></h2>
 	<ul class="locales">
 <?php foreach($page['localeLinks'] as $id => $title) { ?>
