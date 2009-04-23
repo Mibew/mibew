@@ -19,9 +19,6 @@ sub read_transl($) {
 }
 
 %tr_en = read_transl("en");
-%tr_ru = read_transl("ru");
-%tr_fr = read_transl("fr");
-%tr_sp = read_transl("sp");
 
 @all_keys = keys %tr_en;
 
@@ -49,6 +46,11 @@ sub check_transl($%) {
 	}
 }
 
-check_transl("ru", %tr_ru);
-check_transl("fr", %tr_fr);
-check_transl("sp", %tr_sp);
+check_transl("ru", read_transl("ru"));
+check_transl("fr", read_transl("fr"));
+check_transl("de", read_transl("de"));
+check_transl("sp", read_transl("sp"));
+check_transl("it", read_transl("it"));
+check_transl("pl", read_transl("pl"));
+check_transl("zh-tw", read_transl("zh-tw"));
+

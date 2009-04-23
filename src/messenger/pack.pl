@@ -5,7 +5,7 @@
 ##################################################################
 
 $targetFolder = "deploy";
-$suffix = "160a1";
+$suffix = "160rc1";
 
 ##################################################################
 # Copies tree into target folder, preprocess .phps
@@ -73,6 +73,9 @@ chdir "$targetFolder/locales";
 
 `zip -r ../../webim${suffix}_ua.zip ua`;
 `rm -rf ua`;
+
+`zip -r ../../webim${suffix}_he.zip he`;
+`rm -rf he`;
 
 `zip -r ../../webim${suffix}_zh-cn.zip zh-cn`;
 `rm -rf zh-cn`;
