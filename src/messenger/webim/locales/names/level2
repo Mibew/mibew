@@ -75,6 +75,7 @@ lang.choose
 leftMenu.client_agents
 leftMenu.client_gen_button
 leftMenu.client_settings
+localedirection
 menu.blocked
 menu.canned
 menu.groups
