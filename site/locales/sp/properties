@@ -4,7 +4,7 @@ output_encoding=utf-8
 
 title=Open Web Messenger
 head.name=Open Web Messenger
-head.descr=permite a los visitantes de su sitio chatear con tus operadores
+head.descr=Software de Código Abierto para ayuda en línea
 
 menu.home=Inicio
 menu.features=Características
@@ -38,7 +38,7 @@ features.browsers.title=Exploradores de internet soportados
 features.browsers=<ul>\n<li>Microsoft Internet Explorer 5.0+\n<li>Mozilla Firefox 1.0+\n<li>Mozilla 1.4, 1.7\n<li>Opera 7.0+\n<li>Safari 1.2.5+\n<li>Netscape 6.0+\n<li>Google Chrome 0.2.149.29+\n<li>iPhone 1.1.4+\n</ul>
 demo.click=2. Haga clic en este botón
 demo.login=1. Inicie sesión como administrador aquí (no se requiere contraseña)
-demo.styles=Haga clic en las siguientes imágenes para ver los diferentes estilos de ventanas paracharla:
+demo.styles=Haga clic en las siguientes imágenes para ver los diferentes estilos de ventanas para charla:
 demo.application=Web Messenger Application
 downl.title=Ultima versión
 downl.local=Paquetes de idioma:
@@ -46,8 +46,32 @@ support.title=Soporte
 support.tutorials=¿Como instalar?
 support.ScreenShots=Captura de Pantallas
 support.FAQ=FAQ
-downl.release=Liberación:
+downl.release=Estable:
 tag.pagination.info=Página {0} de {1}, {2}-{3} hasta {4}
 index.how.text=Debes colocar el botón de Web Messenger en tu sitio web, para que tus visitantes hagan clic en el botón y entonces puedan comunicarse con tus operadores quienes lesproporcionaran la correspondiente ayuda en línea.
 features.title=Características
 head.intro=<strong>"Web Messenger</strong> permite una fácil comunicación con clientes potenciales, lo que significa incrementar los tipos de conversión y ventas en línea de tu sitio web.
+menu.news=Noticias
+menu.contacts=Contactanos
+menu.credits=Creditos
+menu.terms=Términos de Uso
+submenu.title=<b>Secciones</b>
+languages.title=<b>Idiomas</b>
+partners.title=<b>Asociados</b>
+sidebar.quicknav=<b>Navegación Rápida</b>
+contacts.title=Contactanos
+credits.content=Esta es una lista de personas que han contribuido al Proyecto Open Web Messenger.
+license.title=Términos de uso
+credits.translators=Traductores:
+features.content.head=Contenido:
+index.post.link=<a href="/forums/index.php?topic=52.0" class="more">Leer artículo completo</a>
+index.post.when=Publicado el 17 de Febrero de 2009 por inspirer
+index.post.title=Version 1.5.2 Liberada
+contacts.content=Persona de Contacto: Evgeny Gryaznov<br/>E mail: evgeny@openwebim.org
+credits.title=Créditos
+index.post.text=<p>Nos complace en anunciar la nueva version disponible 1.5.2. Esta versión incluye correcciones y mejoras.</p><ul><li>Actualización de los iconos del Chat</li><li>Ofrece la posibilidad de desactivar las notificaciones de sonido</li><li>Botón para el cambio de conexión a SSL </li><li>Mejor seguimiento de referencias</li></ul><p><a href="download.php">Descargar 1.5.2</a></p>
+lang.link=Intenta Aquí
+lang.missing=¿Tu idioma no esta disponible?
+downl.prev=Liberación previa:
+downl.unstable=Alpha:
+license.content=Open Web Messenger es distribuido bajo los términos de la <a href="http://www.eclipse.org/legal/epl-v10.html">Licencia Pública Eclipse v1.0</a>.<br/>\nLa EPL 1.0 no es compatible con la Licencia GPL. Por favor, <a href="http://en.wikipedia.org/wiki/Eclipse_Public_License">lea más acerca de la Licencia EPL 1.0</a>.
