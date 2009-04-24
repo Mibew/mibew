@@ -113,6 +113,7 @@ leavemessage.title=Залиште ваше повідомлення
 leftMenu.client_agents=Оператори
 leftMenu.client_gen_button=Код кнопки
 localeid=Ukrainian (ua)
+localedirection=ltr
 mail.user.history.body=Доброго дня, {0}!\n\nЗгідно Вашого запиту, висилаємо історію: \n\n{1}\n--- \nЗ повагою,\nВеб Месенджер
 mail.user.history.subject=Веб Месенджер: історія діалогу
 mailthread.close=Закрити...

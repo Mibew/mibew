@@ -190,6 +190,7 @@ leftMenu.client_agents=Assistenti
 leftMenu.client_gen_button=Codice bottone
 leftMenu.client_settings=Impostazioni
 localeid=Italiano (it)
+localedirection=ltr
 mail.user.history.body=Ciao, {0}!\n\nLa tua cronologia: \n\n{1}\n--- \nKind Regards,\nWeb Messenger
 mail.user.history.subject=Web Messenger: dialog history
 mailthread.close=Chiudi...

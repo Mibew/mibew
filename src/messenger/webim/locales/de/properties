@@ -190,6 +190,7 @@ leftMenu.client_agents=Agenten
 leftMenu.client_gen_button=Button Code
 leftMenu.client_settings=Einstellungen
 localeid=Deutsch (de)
+localedirection=ltr
 mail.user.history.body=Hallo, {0}!\n\nIhre Chat-Protokoll: \n\n{1}\n--- \nMit freundlichen Gruessen,\nIhr Support Team
 mail.user.history.subject=Web Messenger: Chat-Protokoll
 mailthread.close=schliessen...

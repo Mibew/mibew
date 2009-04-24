@@ -155,6 +155,7 @@ leftMenu.client_agents=客服人员
 leftMenu.client_gen_button=图片语法
 leftMenu.client_settings=设定
 localeid=Chinese (Simplified)
+localedirection=ltr
 mail.user.history.body=哈喽, {0}!\n\n您的对话纪录如下: \n\n{1}\n--- \n祝 安康,\n网站即时通
 mail.user.history.subject=网站即时通: 对话纪录
 mailthread.close=关闭...

@@ -84,7 +84,7 @@ require_once('inc_errors.php');
 				<input type="checkbox" name="usercanchangename" value="on"<?php echo form_value_cb('usercanchangename') ? " checked=\"checked\"" : "" ?>/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.usercanchangename.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 		
 		<div class="field">
@@ -93,7 +93,7 @@ require_once('inc_errors.php');
 				<input id="enablessl" type="checkbox" name="enablessl" value="on"<?php echo form_value_cb('enablessl') ? " checked=\"checked\"" : "" ?>/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enablessl.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 
 			<div class="subfield underssl">
 				<div class="flabel"><?php echo getlocal('settings.forcessl') ?></div>
@@ -101,7 +101,7 @@ require_once('inc_errors.php');
 					<input type="checkbox" name="forcessl" value="on"<?php echo form_value_cb('forcessl') ? " checked=\"checked\"" : "" ?>/>
 				</div>
 				<div class="fdescr"> &mdash; <?php echo getlocal('settings.forcessl.description') ?></div>
-				<br clear="left"/>
+				<br clear="all"/>
 			</div>
 		</div>
 
@@ -111,7 +111,7 @@ require_once('inc_errors.php');
 				<input type="checkbox" name="enableban" value="on"<?php echo form_value_cb('enableban') ? " checked=\"checked\"" : "" ?>/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enableban.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="field">
@@ -120,7 +120,7 @@ require_once('inc_errors.php');
 				<input type="checkbox" name="enablegroups" value="on"<?php echo form_value_cb('enablegroups') ? " checked=\"checked\"" : "" ?>/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enablegroups.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="field">
@@ -129,7 +129,7 @@ require_once('inc_errors.php');
 				<input type="checkbox" name="enablestatistics" value="on"<?php echo form_value_cb('enablestatistics') ? " checked=\"checked\"" : "" ?>/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enablestatistics.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="field">
@@ -138,7 +138,7 @@ require_once('inc_errors.php');
 				<input id="enablepresurvey" type="checkbox" name="enablepresurvey" value="on"<?php echo form_value_cb('enablepresurvey') ? " checked=\"checked\"" : "" ?>/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enablepresurvey.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 
 			<div class="subfield undersurvey">
 				<div class="flabel"><?php echo getlocal('settings.survey.askmail') ?></div>
@@ -146,7 +146,7 @@ require_once('inc_errors.php');
 					<input type="checkbox" name="surveyaskmail" value="on"<?php echo form_value_cb('surveyaskmail') ? " checked=\"checked\"" : "" ?>/>
 				</div>
 				<div class="fdescr"> &mdash; <?php echo getlocal('settings.survey.askmail.description') ?></div>
-				<br clear="left"/>
+				<br clear="all"/>
 			</div>
 
 			<div class="subfield undersurvey">
@@ -155,7 +155,7 @@ require_once('inc_errors.php');
 					<input type="checkbox" name="surveyaskgroup" value="on"<?php echo form_value_cb('surveyaskgroup') ? " checked=\"checked\"" : "" ?>/>
 				</div>
 				<div class="fdescr"> &mdash; <?php echo getlocal('settings.survey.askgroup.description') ?></div>
-				<br clear="left"/>
+				<br clear="all"/>
 			</div>
 			
 			<div class="subfield undersurvey">
@@ -164,7 +164,7 @@ require_once('inc_errors.php');
 					<input type="checkbox" name="surveyaskmessage" value="on"<?php echo form_value_cb('surveyaskmessage') ? " checked=\"checked\"" : "" ?>/>
 				</div>
 				<div class="fdescr"> &mdash; <?php echo getlocal('settings.survey.askmessage.description') ?></div>
-				<br clear="left"/>
+				<br clear="all"/>
 			</div>
 		</div>
 
@@ -174,7 +174,7 @@ require_once('inc_errors.php');
 				<input type="checkbox" name="enablepopupnotification" value="on"<?php echo form_value_cb('enablepopupnotification') ? " checked=\"checked\"" : "" ?>/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.popup_notification.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="fbutton">

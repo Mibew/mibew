@@ -153,6 +153,7 @@ leftMenu.client_agents=Agents
 leftMenu.client_gen_button=Code du bouton
 leftMenu.client_settings=Paramètres
 localeid=Français (fr)
+localedirection=ltr
 mail.user.history.body=Bonjour, {0}!\n\nVotre historique de dialogue: \n\n{1}\n--- \nCordialement,\nLe Messager Web
 mail.user.history.subject=Web Messager: historique du dialogue
 mailthread.close=Fermer...

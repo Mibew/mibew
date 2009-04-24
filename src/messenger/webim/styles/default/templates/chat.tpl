@@ -3,7 +3,6 @@
 <head>
 <title>${msg:chat.window.title.agent}</title>
 <link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
-<meta http-equiv="Content-Type" content="text/html; charset=Windows-1251">
 <link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" />
 <script type="text/javascript" language="javascript" src="${webimroot}/js/common.js?v=160a1"></script>
 <script type="text/javascript" language="javascript" src="${webimroot}/js/brws.js?v=160a1"></script>

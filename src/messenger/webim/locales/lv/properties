@@ -116,6 +116,7 @@ leftMenu.client_agents=Operatori
 leftMenu.client_gen_button=Pogas kods
 leftMenu.client_settings=Iestatījumi
 localeid=Latvian (lv)
+localedirection=ltr
 mail.user.history.body=Labdien, {0}!\n\nPēc Jūsu pieprasījuma izsūtam vēsturi: \n\n{1}\n--- \nAr cieņu,\nWeb Messenger
 mail.user.history.subject=Web Messenger: dialoga vēsture
 mailthread.close=Aizvērt...

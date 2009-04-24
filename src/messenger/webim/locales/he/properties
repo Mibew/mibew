@@ -190,6 +190,7 @@ leftMenu.client_agents=סוכנים
 leftMenu.client_gen_button=הקוד של הכפתור
 leftMenu.client_settings=העדפות
 localeid=Hebrew (he)
+localedirection=rtl
 mail.user.history.body=שלום לך, {0}!\n\nבהמשך לבקשתך, זאת ההיסטוריה: \n\n{1}\n--- \nבכבוד רב,\nמסנגר
 mail.user.history.subject=מסנגר: היסטוריית השיחות
 mailthread.close=סגור...

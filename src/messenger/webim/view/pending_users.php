@@ -42,7 +42,7 @@ function tpl_content() { global $page, $webimroot;
 ?>
 
 <div>
-<div style="float:right;padding-right:10px;">
+<div id="togglediv">
 <a href="#" id="togglemenu"></a>
 </div>
 <?php echo getlocal("clients.intro") ?>

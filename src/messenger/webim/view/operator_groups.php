@@ -44,7 +44,7 @@ require_once('inc_errors.php');
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
 	<p>
-		<b><?php echo $page['currentop'] ?></b>
+		<b><?php echo $page['currentop'] ?>&lrm;</b>
 	</p>
 <?php foreach( $page['groups'] as $pm ) { ?>
 	<div class="field">
@@ -53,7 +53,7 @@ require_once('inc_errors.php');
 			<input type="checkbox" name="group<?php echo $pm['groupid'] ?>" value="on"<?php echo form_value_mb('group',$pm['groupid']) ? " checked=\"checked\"" : "" ?>/>
 		</div>
 		<div class="fdescr"> &mdash; <?php echo $pm['vclocaldescription'] ? htmlspecialchars(topage($pm['vclocaldescription'])) : getlocal("operator.group.no_description") ?></div>
-		<br clear="left"/>
+		<br clear="all"/>
 	</div>
 <?php } ?>
 

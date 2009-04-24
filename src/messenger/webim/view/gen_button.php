@@ -83,7 +83,7 @@ require_once('inc_errors.php');
 				<textarea cols="44" rows="15"><?php echo htmlspecialchars($page['buttonCode']) ?></textarea>
 			</div>
 			<div class="fdescr"><?php echo getlocal("page.gen_button.code.description") ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="field">

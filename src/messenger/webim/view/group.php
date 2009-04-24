@@ -55,7 +55,7 @@ require_once('inc_errors.php');
 				<input type="text" name="name" size="40" value="<?php echo form_value('name') ?>" class="formauth"/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.groupname.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="field">
@@ -64,7 +64,7 @@ require_once('inc_errors.php');
 				<input type="text" name="description" size="40" value="<?php echo form_value('description') ?>" class="formauth"/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.groupdesc.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="field">
@@ -73,7 +73,7 @@ require_once('inc_errors.php');
 				<input type="text" name="commonname" size="40" value="<?php echo form_value('commonname') ?>" class="formauth"/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.groupcommonname.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="field">
@@ -82,7 +82,7 @@ require_once('inc_errors.php');
 				<input type="text" name="commondescription" size="40" value="<?php echo form_value('commondescription') ?>" class="formauth"/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.groupcommondesc.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="fbutton">

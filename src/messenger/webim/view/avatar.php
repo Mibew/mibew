@@ -41,7 +41,7 @@ require_once('inc_errors.php');
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
 	<p>
-		<b><?php echo $page['currentop'] ?></b>
+		<b><?php echo $page['currentop'] ?>&lrm;</b>
 	</p>
 
 	<div class="fieldForm">
@@ -56,7 +56,7 @@ require_once('inc_errors.php');
                 </a>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.avatar.current.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 <?php } ?>
 
@@ -66,7 +66,7 @@ require_once('inc_errors.php');
 				<input type="file" name="avatarFile" size="40" value="<?php echo form_value('avatarFile') ?>" class="formauth"/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.avatar.upload.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="fbutton">

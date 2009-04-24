@@ -291,57 +291,8 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
 });
 
 
-HSplitter = Class.create();
-HSplitter.prototype = {
-  initialize: function(_options) {
-	this._options = _options;
-	this.captured = 0;
-	if( this._options.first && this._options.second && this._options.control ) {
-		this._options.control.onmousedown = this.onmousedownEvent.bind(this);
-		this._options.control.onmouseup = this.onmouseupEvent.bind(this);
-		this._options.control.onmousemove = this.onmouseMoveEvent.bind(this);
-	}
-  },
-
-  onmousedownEvent: function(e) {
-  	var ev = e || event;
-
-	if( this._options.control.setCapture )
-		this._options.control.setCapture();
-	this.start_height = this._options.first.style.pixelHeight || this._options.first.clientHeight;
-	this.start_offset = ev.screenY;
-	this._options.maxfirst = this._options.first.style.pixelHeight + this._options.second.clientHeight - this._options.minsec;
-	this.captured = 1;
-  },
-
-  onmouseupEvent: function() {
-	if( this.captured ) {
-		if( this._options.control.releaseCapture )
-			this._options.control.releaseCapture();
-		this.captured = 0;
-	}
-  },
-
-  onmouseMoveEvent: function(e) {
-  	var ev = e || event;
-
-	if( this.captured ) {
-		var new_height = this.start_height - (ev.screenY - this.start_offset);
-		if( new_height > this._options.maxfirst )
-			new_height = this._options.maxfirst;
-		else if( new_height < this._options.minfirst )
-			new_height = this._options.minfirst;
-		if( myAgent == 'moz' )
-			this._options.first.style.height=new_height+'px';
-		else
-			this._options.first.style.pixelHeight = new_height;
-	}
-  }
-};
-
 var Chat = {
   threadUpdater : {},
-  hSplitter : {},
 
   applyName: function() {
 	Chat.threadUpdater.changeName($('uname').value);
@@ -431,6 +382,5 @@ Behaviour.register({
 EventHelper.register(window, 'onload', function(){
   Chat.webimRoot = threadParams.wroot;
   Chat.cssfile = threadParams.cssfile;
-  Chat.hSplitter = new HSplitter({control:$("spl1"), first:$("msgwndtd"), second:$("chatwndtd"), minfirst:30, minsec:30});
   Chat.threadUpdater = new Ajax.ChatThreadUpdater(({container:myRealAgent=='safari'?self.frames[0]:$("chatwnd"),avatar:$("avatarwnd"),message:$("msgwnd")}).extend( threadParams || {} ));
 });

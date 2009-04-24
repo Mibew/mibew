@@ -190,6 +190,7 @@ leftMenu.client_agents=Операторы
 leftMenu.client_gen_button=Код кнопки
 leftMenu.client_settings=Настройки
 localeid=Russian (ru)
+localedirection=ltr
 mail.user.history.body=Здраствуйте, {0}!\n\nПо Вашему запросу, высылаем историю: \n\n{1}\n--- \nС уважением,\nВеб Мессенджер
 mail.user.history.subject=Веб Мессенджер: история диалога
 mailthread.close=Закрыть...

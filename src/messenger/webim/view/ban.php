@@ -52,7 +52,7 @@ require_once('inc_errors.php');
 				<input type="text" name="address" size="40" value="<?php echo form_value('address') ?>" class="formauth"/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.address.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="field">
@@ -61,7 +61,7 @@ require_once('inc_errors.php');
 				<input type="text" name="days" size="4" value="<?php echo form_value('days') ?>" class="formauth"/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.ban_days.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="field">
@@ -70,7 +70,7 @@ require_once('inc_errors.php');
 				<input type="text" name="comment" size="40" value="<?php echo form_value('comment') ?>" class="formauth"/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.ban_comment.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 		
 		<div class="fbutton">

@@ -190,6 +190,7 @@ leftMenu.client_agents=Konsultanci
 leftMenu.client_gen_button=Kod przycisku
 leftMenu.client_settings=Ustawienia
 localeid=Polski (pl)
+localedirection=ltr
 mail.user.history.body=Witaj, {0}!\n\nTwoja historia rozmowy: \n\n{1}\n--- \nPozdrawiamy,\nWeb Komunikator
 mail.user.history.subject=Web Komunikator: historia rozmowy
 mailthread.close=Zamknij...

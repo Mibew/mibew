@@ -50,7 +50,7 @@ require_once('inc_errors.php');
 				<input type="text" name="email" size="40" value="<?php echo form_value('email') ?>" class="formauth"/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.email.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="field">
@@ -59,7 +59,7 @@ require_once('inc_errors.php');
 				<input type="text" name="title" size="40" value="<?php echo form_value('title') ?>" class="formauth"/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.company.title.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 		 
 		<div class="field">
@@ -68,7 +68,7 @@ require_once('inc_errors.php');
 				<input type="text" name="chattitle" size="40" value="<?php echo form_value('chattitle') ?>" class="formauth"/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.chat.title.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="field">
@@ -77,7 +77,7 @@ require_once('inc_errors.php');
 				<input type="text" name="logo" size="40" value="<?php echo form_value('logo') ?>" class="formauth"/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.logo.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="field">
@@ -86,7 +86,7 @@ require_once('inc_errors.php');
 				<input type="text" name="hosturl" size="40" value="<?php echo form_value('hosturl') ?>" class="formauth"/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.host.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="field">
@@ -95,7 +95,7 @@ require_once('inc_errors.php');
 				<input type="text" name="geolink" size="40" value="<?php echo form_value('geolink') ?>" class="formauth"/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.geolink.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="field">
@@ -104,7 +104,7 @@ require_once('inc_errors.php');
 				<input type="text" name="geolinkparams" size="40" value="<?php echo form_value('geolinkparams') ?>" class="formauth"/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.geolinkparams.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="field">
@@ -113,7 +113,7 @@ require_once('inc_errors.php');
 				<input type="text" name="usernamepattern" size="40" value="<?php echo form_value('usernamepattern') ?>" class="formauth"/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.usernamepattern.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="field">
@@ -122,7 +122,7 @@ require_once('inc_errors.php');
 				<input type="text" name="onehostconnections" size="10" value="<?php echo form_value('onehostconnections') ?>" class="formauth"/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.onehostconnections.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="field">
@@ -131,7 +131,7 @@ require_once('inc_errors.php');
 				<select name="chatstyle" ><?php foreach($page['availableStyles'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("chatstyle") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.chatstyle.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="field">

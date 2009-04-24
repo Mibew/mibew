@@ -188,6 +188,7 @@ leftMenu.client_agents=Agentes
 leftMenu.client_gen_button=Código del Botón
 leftMenu.client_settings=Configuraciones
 localeid=Español (es)
+localedirection=ltr
 mail.user.history.body=Hola {0}!\n\nSu conversación: \n\n{1}\n--- \nKind Regards,\nWeb Messenger
 mail.user.history.subject=Web Messenger: Histórico de conversación
 mailthread.close=Cerrar...

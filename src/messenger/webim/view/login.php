@@ -47,7 +47,7 @@ require_once('inc_errors.php');
 			<div class="fvalue">
 				<input type="text" name="login" size="25" value="<?php echo form_value('login') ?>" class="formauth"/>
 			</div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="field">
@@ -55,7 +55,7 @@ require_once('inc_errors.php');
 			<div class="fvalue">
 				<input type="password" name="password" size="25" value="" class="formauth"/>
 			</div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="field">
@@ -65,7 +65,7 @@ require_once('inc_errors.php');
 					<input type="checkbox" name="isRemember" value="on"<?php echo form_value_cb('isRemember') ? " checked=\"checked\"" : "" ?> />
 					<?php echo getlocal("page_login.remember") ?></label>
 			</div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="fbutton">

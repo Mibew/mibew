@@ -44,7 +44,7 @@ require_once('inc_errors.php');
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
 	<p>
-		<b><?php echo $page['currentop'] ?></b>
+		<b><?php echo $page['currentop'] ?>&lrm;</b>
 	</p>
 <?php foreach( $page['permissionsList'] as $pm ) { ?>
 	<label>

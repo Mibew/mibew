@@ -108,6 +108,11 @@ a {
 	text-decoration: underline;
 }
 
+#togglediv { 
+	float:right;
+	padding-right:10px;
+}
+
 /* Header */
 
 #header {
@@ -777,4 +782,51 @@ table.awaiting td.visitor {
 
 .newstext {
 	margin-bottom:1em;
+}
+
+/* rtl rules */
+
+.lrtl .dashitem img, .lrtl #dashlocalesPopup h2 img {
+	float: right;
+	padding-right:0px;
+	padding-left:10px;
+}
+
+.lrtl .fleftlabel {
+	float: right;
+	width: 100px;
+}
+
+.lrtl .fdescr {
+	float:right;
+	padding-right:10px;
+}
+
+
+.lrtl .field .subfield {
+	padding-right: 30px;
+	background: url(images/subitem_rtl.gif) no-repeat 99% 2px;
+}
+
+
+.lrtl .fvalue {
+	float: right;
+}
+
+.lrtl .logpane .wlabel {
+	float: right;
+	margin-left:10px;
+}
+
+.lrtl .logpane .wvalue {
+	float: right;
+}
+
+.lrtl .fvaluewithta {
+	float: right;
+}
+
+.lrtl #togglediv { 
+	float:left;
+	padding-left:10px;
 }

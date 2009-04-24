@@ -55,7 +55,7 @@ require_once('inc_errors.php');
 				<input type="text" name="login" size="40" value="<?php echo form_value('login') ?>" class="formauth"/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.login.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="field">
@@ -64,7 +64,7 @@ require_once('inc_errors.php');
 				<input type="password" name="password" size="40" value="" class="formauth"/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.password.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="field">
@@ -73,7 +73,7 @@ require_once('inc_errors.php');
 				<input type="password" name="passwordConfirm" size="40" value="" class="formauth"/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.password_confirm.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="field">
@@ -82,7 +82,7 @@ require_once('inc_errors.php');
 				<input type="text" name="name" size="40" value="<?php echo form_value('name') ?>" class="formauth"/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.agent_name.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 
 		<div class="field">
@@ -91,7 +91,7 @@ require_once('inc_errors.php');
 				<input type="text" name="commonname" size="40" value="<?php echo form_value('commonname') ?>" class="formauth"/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.agent_commonname.description') ?></div>
-			<br clear="left"/>
+			<br clear="all"/>
 		</div>
 	
 		<div class="fbutton">

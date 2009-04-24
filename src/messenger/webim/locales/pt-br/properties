@@ -156,6 +156,7 @@ leftMenu.client_agents=Agentes
 leftMenu.client_gen_button=Botão
 leftMenu.client_settings=Configurações
 localeid=Português Brasil (pt-br)
+localedirection=ltr
 mail.user.history.body=Olá, {0}!\n\nSeu histórico do chat: \n\n{1}\n--- \nObrigado,\nWeb Messenger
 mail.user.history.subject=Web Messenger: Histórico de conversa
 mailthread.close=Fechar...

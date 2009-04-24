@@ -190,6 +190,7 @@ leftMenu.client_agents=Operators
 leftMenu.client_gen_button=Button code
 leftMenu.client_settings=Settings
 localeid=English (en)
+localedirection=ltr
 mail.user.history.body=Hello, {0}!\n\nYour chat history: \n\n{1}\n--- \nKind Regards,\nWeb Messenger
 mail.user.history.subject=Web Messenger: dialog history
 mailthread.close=Close...

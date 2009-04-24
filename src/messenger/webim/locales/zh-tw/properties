@@ -181,6 +181,7 @@ leftMenu.client_agents=客服人員
 leftMenu.client_gen_button=圖片語法
 leftMenu.client_settings=設定
 localeid=Chinese (Traditional)
+localedirection=ltr
 mail.user.history.body=哈嘍, {0}!\n\n您的對話紀錄如下: \n\n{1}\n--- \n祝 安康,\n網站即時通
 mail.user.history.subject=網站即時通: 對話紀錄
 mailthread.close=關閉...

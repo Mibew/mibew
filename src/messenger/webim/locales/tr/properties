@@ -151,6 +151,7 @@ leftMenu.client_agents=Yetkililer
 leftMenu.client_gen_button=HTML Kodu
 leftMenu.client_settings=Ayarlar
 localeid=Türkçe (tr)
+localedirection=ltr
 mail.user.history.body=Merhaba, {0}!\n\nÝleti Geçmiþiniz: \n\n{1}\n--- \nÝyi Günler,\nMüþteri Hizmetleri
 mail.user.history.subject=Müþteri Hizmetleri: Ýleti Geçmiþi
 mailthread.close=Kapat...
