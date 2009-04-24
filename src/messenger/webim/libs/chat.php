@@ -250,6 +250,11 @@ function is_agent_opera95() {
 	return false;
 }
 
+function is_mac_opera() {
+	$useragent = strtolower($_SERVER['HTTP_USER_AGENT']);
+	return strstr($useragent,"opera") && strstr($useragent, "mac");
+}
+
 function needsFramesrc() {
 	$useragent = strtolower($_SERVER['HTTP_USER_AGENT']);
 	return strstr($useragent,"safari/");
@@ -308,7 +313,7 @@ function setup_chatview_for_user($thread,$level) {
 		$page['send_shortcut'] = "Enter";
 		$page['ignorectrl'] =  1;
 	} else {
-		$page['send_shortcut'] = "Ctrl-Enter";
+		$page['send_shortcut'] = is_mac_opera() ? "&#8984;-Enter" : "Ctrl-Enter";
 		$page['ignorectrl'] =  0;
 	}
 
@@ -364,7 +369,7 @@ function setup_chatview_for_operator($thread,$operator) {
 		$page['send_shortcut'] = "Enter";
 		$page['ignorectrl'] =  1;
 	} else {
-		$page['send_shortcut'] = "Ctrl-Enter";
+		$page['send_shortcut'] = is_mac_opera() ? "&#8984;-Enter" : "Ctrl-Enter";
 		$page['ignorectrl'] =  0;
 	}
 
