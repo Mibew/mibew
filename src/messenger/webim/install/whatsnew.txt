@@ -11,6 +11,7 @@
   [+] Canned messages page
   [+] Statistics page
   [+] Popup dialog notification of the new visitor (turned off by default)
+  [+] Send message option: enter vs ctrl-enter
   [!] Slow loading of awating visitors page
 
   1.5.2
