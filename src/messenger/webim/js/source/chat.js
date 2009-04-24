@@ -41,9 +41,13 @@ var FrameUtils = {
   scrollDown: function(frm) {
 	var vbottom = this.getDocument(frm).getElementById('bottom');
 	if( myAgent == 'opera' ) {
-		frm.contentWindow.scrollTo(0,this.getDocument(frm).getElementById('content').clientHeight);
-	} else if( vbottom )
+	    try {
+		 frm.contentWindow.scrollTo(0,this.getDocument(frm).getElementById('content').clientHeight);
+	    } catch(e) {}
+	}
+	if( vbottom ) {
 		vbottom.scrollIntoView(false);
+	}
   }
 };
 
@@ -250,11 +254,15 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
 	}
   },
 
+  isSendkey: function(ctrlpressed, key) {
+	  return ((key==13 && (ctrlpressed || this._options.ignorectrl)) || (key==10));
+  },
+  
   handleKeyDown: function(k) {
 	if( k ){ ctrl=k.ctrlKey;k=k.which; } else { k=event.keyCode;ctrl=event.ctrlKey;	}
-	if( this._options.message && ((k==13 && (ctrl || myRealAgent == 'opera')) || (k==10)) ) {
+	if( this._options.message && this.isSendkey(ctrl, k) ) {
 		var mmsg = this._options.message.value;
-		if( myRealAgent == 'opera' ) {
+		if( this._options.ignorectrl ) {
 			mmsg = mmsg.replace(/[\r\n]+$/,'');
 		}
 		this.postMessage( mmsg );
@@ -314,11 +322,6 @@ Behaviour.register({
 			if( message )
 				Chat.threadUpdater.postMessage(message.value);
 		};
-	},
-	'a#sndmessagelnk' : function(el) {
-		if( myRealAgent == 'opera' ) {
-			el.innerHTML = el.innerHTML.replace('Ctrl-','');
-		}
 	},
 	'select#predefined' : function(el) {
 		el.onchange = function() {
@@ -382,5 +385,5 @@ Behaviour.register({
 EventHelper.register(window, 'onload', function(){
   Chat.webimRoot = threadParams.wroot;
   Chat.cssfile = threadParams.cssfile;
-  Chat.threadUpdater = new Ajax.ChatThreadUpdater(({container:myRealAgent=='safari'?self.frames[0]:$("chatwnd"),avatar:$("avatarwnd"),message:$("msgwnd")}).extend( threadParams || {} ));
+  Chat.threadUpdater = new Ajax.ChatThreadUpdater(({ignorectrl:-1,container:myRealAgent=='safari'?self.frames[0]:$("chatwnd"),avatar:$("avatarwnd"),message:$("msgwnd")}).extend( threadParams || {} ));
 });

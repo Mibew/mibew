@@ -79,7 +79,7 @@ require_once('inc_errors.php');
 
 		<div class="field">
 			<div class="flabel"><?php echo getlocal("page.gen_button.code") ?></div>
-			<div class="fvaluewithta">
+			<div class="fvaluewithta" dir="ltr">
 				<textarea cols="44" rows="15"><?php echo htmlspecialchars($page['buttonCode']) ?></textarea>
 			</div>
 			<div class="fdescr"><?php echo getlocal("page.gen_button.code.description") ?></div>

@@ -304,7 +304,13 @@ function setup_chatview_for_user($thread,$level) {
 	$page['chat.title'] = topage($settings['chattitle']);
 
 	setup_logo();
-	$page['send_shortcut'] = "Ctrl-Enter";
+	if($settings['sendmessagekey'] == 'enter') {
+		$page['send_shortcut'] = "Enter";
+		$page['ignorectrl'] =  1;
+	} else {
+		$page['send_shortcut'] = "Ctrl-Enter";
+		$page['ignorectrl'] =  0;
+	}
 
 	$params = "thread=".$thread['threadid']."&token=".$thread['ltoken'];
 	$page['mailLink'] = "$webimroot/client.php?".$params."&level=$level&act=mailthread";
@@ -354,7 +360,14 @@ function setup_chatview_for_operator($thread,$operator) {
 	$page['chat.title'] = topage($settings['chattitle']);
 
 	setup_logo();
-	$page['send_shortcut'] = "Ctrl-Enter";
+	if($settings['sendmessagekey'] == 'enter') {
+		$page['send_shortcut'] = "Enter";
+		$page['ignorectrl'] =  1;
+	} else {
+		$page['send_shortcut'] = "Ctrl-Enter";
+		$page['ignorectrl'] =  0;
+	}
+
 	if($settings['enablessl'] == "1" && !is_secure_request()) {
 		$page['sslLink'] = get_app_location(true, true)."/operator/agent.php?thread=".$thread['threadid']."&token=".$thread['ltoken'];
 	}
