@@ -72,13 +72,17 @@ features.browsers=<ul>\n<li>Microsoft Internet Explorer 5.0+</li>\n<li>Mozilla F
 features.content.head=Content:
 
 demo.title=DEMO
-demo.click=Click this button (if it appears as OFFLINE, login into the application as operator first):
-demo.login=And login as administrator here (no password is required) :
+demo.login=1. Log into operator panel and navigate to "Awaiting visitors" page.
+demo.click=2. Start a chat
+demo.tryalpha=3. (optional) Try out a new alpha (next version is coming soon)
+demo.tryrc=3. (optional) Try out our Release candidate
 demo.application=Web Messenger Application
 demo.styles=Click the following images to view different look and feels of the chat:
 
 downl.title=Latest
-downl.release=Release:
+downl.release=Stable:
+downl.unstable=Alpha:
+downl.unstable.2=Release candidate:
 downl.nightly=Nightly:
 downl.prev=Previous release:
 downl.local=Localization packages:

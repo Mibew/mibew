@@ -16,47 +16,64 @@ require_once('inc/menu.i');
 			<div class="entry">
 			<p>
 				<?php echo getlocal("downl.release") ?><br/>
-				<a href="http://prdownloads.sourceforge.net/webim/webim152.zip?download">
-				1.5.2, February 16, 2009</a>
+				<a href="http://prdownloads.sourceforge.net/webim/webim160.zip?download">
+				1.6.0, April 24, 2009</a>
 			</p>
+<?php /*
+			<p>
+				<?php echo getlocal("downl.unstable.2") ?><br/>
+				<a href="http://prdownloads.sourceforge.net/webim/webim160rc1.zip?download">
+				1.6.0 RC1, April 10, 2009</a>
+			</p>
+*/?>
 			<p id="tableh">
 				<?php echo getlocal("downl.local") ?>
 			</p>
 			<table cellpadding="0" cellspacing="0" border="0" id="downl">
 			<tr>
-				<td><a href="http://prdownloads.sourceforge.net/webim/webim_de152.zip?download">Deutsch</a></td>
-				<td>1.5.2</td>
-				<td>16 Feb 2009</td></tr>
+				<td><a href="http://prdownloads.sourceforge.net/webim/webim160_de.zip?download">Deutsch</a></td>
+				<td>1.6.0</td>
+				<td>24 Apr 2009</td></tr>
 			
 			<tr>
-				<td><a href="http://prdownloads.sourceforge.net/webim/webim_fr152.zip?download">French</a></td>
-				<td>1.5.2</td>
-				<td>16 Feb 2009</td></tr>
+				<td><a href="http://prdownloads.sourceforge.net/webim/webim160_fr.zip?download">French</a></td>
+				<td>1.6.0</td>
+				<td>24 Apr 2009</td></tr>
 
 			<tr>
-				<td><a href="http://prdownloads.sourceforge.net/webim/webim_pl152.zip?download">Polski</a></td>
-				<td>1.5.2</td>
-				<td>22 Feb 2009</td></tr>
+				<td><a href="http://prdownloads.sourceforge.net/webim/webim160_he.zip?download">Hebrew</a></td>
+				<td>1.6.0</td>
+				<td>24 Apr 2009</td></tr>
 
 			<tr>
-				<td><a href="http://prdownloads.sourceforge.net/webim/webim_pt-br152.zip?download">Português Brasil</a></td>
-				<td>1.5.2</td>
-				<td>14 Mar 2009</td></tr>
+				<td><a href="http://prdownloads.sourceforge.net/webim/webim160_it.zip?download">Italiano</a></td>
+				<td>1.6.0</td>
+				<td>24 Apr 2009</td></tr>
 
 			<tr>
-				<td><a href="http://prdownloads.sourceforge.net/webim/webim_ru152.zip?download">Russian</a></td>
-				<td>1.5.2</td>
-				<td>16 Feb 2009</td></tr>
+				<td><a href="http://prdownloads.sourceforge.net/webim/webim160_pl.zip?download">Polski</a></td>
+				<td>1.6.0</td>
+				<td>24 Apr 2009</td></tr>
+
+			<tr>
+				<td><a href="http://prdownloads.sourceforge.net/webim/webim160_pt-br.zip?download">Português Brasil</a></td>
+				<td>1.6.0</td>
+				<td>24 Apr 2009</td></tr>
+
+			<tr>
+				<td><a href="http://prdownloads.sourceforge.net/webim/webim160_ru.zip?download">Russian</a></td>
+				<td>1.6.0</td>
+				<td>24 Apr 2009</td></tr>
 			
 			<tr><td>
-				<a href="http://prdownloads.sourceforge.net/webim/webim_sp152.zip?download">Spanish</a></td>
-				<td>1.5.2</td>
-				<td>16 Feb 2009</td></tr>
+				<a href="http://prdownloads.sourceforge.net/webim/webim160_sp.zip?download">Spanish</a></td>
+				<td>1.6.0</td>
+				<td>24 Apr 2009</td></tr>
 			
 			<tr>
-				<td><a href="http://prdownloads.sourceforge.net/webim/webim_zh-tw152.zip?download">Traditional Chinese</a></td>
-				<td>1.5.2</td>
-				<td>16 Feb 2009</td></tr>
+				<td><a href="http://prdownloads.sourceforge.net/webim/webim160_zh-tw.zip?download">Traditional Chinese</a></td>
+				<td>1.6.0</td>
+				<td>24 Apr 2009</td></tr>
 				
 			</table>
 
