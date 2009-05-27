@@ -10,7 +10,7 @@
 				<h2><?php echo getlocal("languages.title") ?></h2>
 				<p>
 <?php	
-	foreach(array('en'=>'English','sp'=>'Spanish','ru'=>'Russian') as $k => $v) {
+	foreach(array('en'=>'English','sp'=>'Spanish') as $k => $v) {
 		if($k == $current_locale) {
 			echo "<a href=\"#\" class=\"inactive\">".$v."</a>";
 		} else {

@@ -18,6 +18,9 @@ require_once('inc/menu.i');
 			<p>
 			<?php echo getlocal("contacts.content") ?><br/>
 			</p>
+			<p>
+			<?php echo getlocal("contacts.content1") ?><br/>
+			</p>
 			</div>
 			<div class="nometa"></div>
 		</div>

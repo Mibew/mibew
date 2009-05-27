@@ -63,9 +63,9 @@ menu.credits=Благодарности
 credits.title=Благодарности
 credits.translators=Переводчики:
 index.post.link=<a href="/forums/index.php?topic=52.0" class="more">Прочитать полную статью</a>
-index.post.when=Размещено 17 февраля, 2009 by inspirer
+index.post.when=Размещено 24 апреля, 2009 by inspirer
 features.title=Возможности
-index.post.text=<p>\nМы рады сообщить о выпуске новой версии 1.5.2. Этот релиз содержит небольшие исправления и улучшения.\n</p>\n<ul>\n<li>новые иконки для чата</li>\n<li>возможность отключения звуковых нотификаций</li>\n<li>добавлена кнопка перевода чата в SSL режим</li>\n<li>сообщение о том откуда пришел посетитель</li>\n</ul>\n<p><a href="download.php?locale=ru">Скачать 1.5.2</a></p>
+index.post.text=<p>\nМы рады сообщить о выпуске новой версии 1.6.0. Этот большой релиз, который содержит много новых функций и улучшений.\n</p>\n<ul>\n<li>группы операторов</li>\n<li>опрос посетителя перед чатом</li>\n<li>статистика</li>\n<li>редактирование быстрых ответов</li>\n<li>новая консоль оператора</li>\n</ul>\n<p><a href="download.php?locale=ru">Скачать 1.6.0</a></p>
 contacts.title=Свяжитесь с нами
 contacts.content=Контактное лицо: Evgeny Gryaznov<br/>E mail: evgeny [at] openwebim (dot) org
 license.title=Условия использования

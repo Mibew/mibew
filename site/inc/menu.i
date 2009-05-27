@@ -10,8 +10,7 @@
         <li<?php echo $page == 'demo' ? ' class="active"' : '' ?>><a href="demo.php"><?php echo getlocal("menu.demo") ?></a></li>
         <li<?php echo $page == 'downl' ? ' class="active"' : '' ?>><a href="download.php"><?php echo getlocal("menu.download") ?></a></li>
         <li<?php echo $page == 'supp' ? ' class="active"' : '' ?>><a href="forums"><?php echo getlocal("menu.support") ?></a></li>
+        <li<?php echo $page == 'supp' ? ' class="active"' : '' ?>><a href="http://support.openwebim.org"><?php echo getlocal("menu.ticket") ?></a></li>
 	  </ul>
 	</div>
 </div>
-
-

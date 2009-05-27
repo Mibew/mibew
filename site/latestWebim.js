@@ -1,16 +1,16 @@
 
 window.webimLatest = {
-	version: "1.5.2",
+	version: "1.6.0",
 	download: "http://openwebim.org/download.php",
-	title: "Open Web Messenger 1.5.2"
+	title: "Open Web Messenger 1.6.0"
 };
 
 window.webimNews = [
 	{
-		title: 'Open Web Messenger 1.5.2 Released',
-		link: 'http://openwebim.org/forums/index.php?topic=52.0',
-		date: 'February 16, 2009',
-		message: 'We are pleased to announce the immediate availability of 1.5.2. This is a service release with minor fixes and improvements.'
+		title: 'Open Web Messenger 1.6.0 Released',
+		link: 'http://openwebim.org/forums/index.php?topic=165.0',
+		date: 'April 24, 2009',
+		message: 'We are pleased to announce the immediate availability of 1.6.0. This is a service release with minor fixes and improvements.'
 	},
 	{
 		title: 'Visit our forum',
