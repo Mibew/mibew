@@ -3,7 +3,7 @@
 "VSVersion" = "3:800"
 "ProjectType" = "8:{978C614F-708E-4E1A-B201-565925725DBA}"
 "IsWebType" = "8:FALSE"
-"ProjectName" = "8:TrayInstaller"
+"ProjectName" = "8:mibewInstaller"
 "LanguageId" = "3:1033"
 "CodePage" = "3:1252"
 "UILanguageId" = "3:1033"
@@ -15,19 +15,7 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_7C6120AA9755457CB8CF9EE23C464449"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_87BBEE6DC5244EE8B30E60EF304991BB"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_9E20108CFC9449D39D1816B090C23EBD"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -35,18 +23,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_87BBEE6DC5244EE8B30E60EF304991BB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_7C6120AA9755457CB8CF9EE23C464449"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9E20108CFC9449D39D1816B090C23EBD"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -84,7 +60,7 @@
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\WebImTray104.msi"
+        "OutputFilename" = "8:Release\\MibewTray11.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -131,7 +107,7 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "Version" = "8:2.0.50727"
+                "Version" = "8:3.5.21022"
                 "AllowLaterVersions" = "11:FALSE"
                 "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=9832"
                 }
@@ -139,68 +115,6 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7C6120AA9755457CB8CF9EE23C464449"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:webImTray.resources, Version=1.0.4.0, Culture=ru-RU, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_7C6120AA9755457CB8CF9EE23C464449"
-                    {
-                    "Name" = "8:webImTray.resources.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\WebIMTray\\bin\\Release\\ru-RU\\webImTray.resources.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_0CA0DD7B3E60485ABBDD1260127A980B"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9E20108CFC9449D39D1816B090C23EBD"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:webImTray.resources, Version=1.0.4.0, Culture=en-US, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_9E20108CFC9449D39D1816B090C23EBD"
-                    {
-                    "Name" = "8:webImTray.resources.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\WebIMTray\\bin\\Release\\en-US\\webImTray.resources.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_4A5F5D9196714CB6BA9D63743D3BFC05"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
         }
         "FileType"
         {
@@ -228,28 +142,6 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
-                    "{9EF0B969-E518-4E46-987F-47570745A589}:_0CA0DD7B3E60485ABBDD1260127A980B"
-                    {
-                    "Name" = "8:ru-RU"
-                    "AlwaysCreate" = "11:FALSE"
-                    "Condition" = "8:"
-                    "Transitive" = "11:FALSE"
-                    "Property" = "8:_430958E3211B4B41949ADB3916FCD933"
-                        "Folders"
-                        {
-                        }
-                    }
-                    "{9EF0B969-E518-4E46-987F-47570745A589}:_4A5F5D9196714CB6BA9D63743D3BFC05"
-                    {
-                    "Name" = "8:en-US"
-                    "AlwaysCreate" = "11:FALSE"
-                    "Condition" = "8:"
-                    "Transitive" = "11:FALSE"
-                    "Property" = "8:_060DE5CFFCF647C48F63F7B113A81FAF"
-                        "Folders"
-                        {
-                        }
-                    }
                 }
             }
         }
@@ -262,28 +154,29 @@
         "MsiBootstrapper"
         {
         "LangId" = "3:1033"
+        "RequiresElevation" = "11:FALSE"
         }
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:Web IM Tray"
+        "ProductName" = "8:Mibew Tray"
         "ProductCode" = "8:{364312DC-00EB-4A81-866B-2F9B58E866A5}"
-        "PackageCode" = "8:{35BEC3D5-2350-45B5-AE87-F651DD2E88E3}"
+        "PackageCode" = "8:{327E1249-A6D9-4A43-8193-84786DF17F25}"
         "UpgradeCode" = "8:{2DE6CF3E-E993-4337-A3E7-6D24B63AC56D}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.4"
-        "Manufacturer" = "8:WebIM"
+        "ProductVersion" = "8:1.1.0"
+        "Manufacturer" = "8:Mibew Community"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:Web Messenger Tray"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:WebIM"
+        "ARPCONTACT" = "8:Mibew"
         "Keywords" = "8:"
-        "ARPCOMMENTS" = "8:Tray Application for Web Messenger"
-        "ARPURLINFOABOUT" = "8:http://www.webim.ru"
+        "ARPCOMMENTS" = "8:Tray Application for Mibew Messenger"
+        "ARPURLINFOABOUT" = "8:http://www.openwebim.org"
         "ARPPRODUCTICON" = "8:_87BBEE6DC5244EE8B30E60EF304991BB"
         "ARPIconIndex" = "3:32512"
         "SearchPath" = "8:"
@@ -383,11 +276,11 @@
                                                         {
                                                             "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_340084670E71406FADCD1E50FC2B7B46"
                                                             {
-                                                            "Name" = "8:webimtray.exe"
+                                                            "Name" = "8:mibewTray.exe"
                                                             "Condition" = "8:AUTOSTART<>\"\""
                                                             "Transitive" = "11:FALSE"
                                                             "ValueTypes" = "3:1"
-                                                            "Value" = "8:[TARGETDIR]webImTray.exe"
+                                                            "Value" = "8:[TARGETDIR]mibewTray.exe"
                                                             }
                                                         }
                                                     }
@@ -417,7 +310,7 @@
                                 {
                                     "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_B9817DE863C348CD86FCCEE86940A082"
                                     {
-                                    "Name" = "8:WebImTray"
+                                    "Name" = "8:MibewTray"
                                     "Condition" = "8:"
                                     "AlwaysCreate" = "11:FALSE"
                                     "DeleteAtUninstall" = "11:FALSE"
@@ -487,18 +380,18 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_D72252420A2445F3A021D04DE4A45A74"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_1372605EFC3E42A1BA7E73406AB599C0"
             {
-            "Name" = "8:Web IM Tray"
+            "Name" = "8:Mibew Tray"
             "Arguments" = "8:/show"
-            "Description" = "8:Web Messenger Tray Application"
+            "Description" = "8:Mibew Tray Application"
             "ShowCmd" = "3:1"
-            "IconIndex" = "3:32512"
+            "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
             "Target" = "8:_87BBEE6DC5244EE8B30E60EF304991BB"
             "Folder" = "8:_16316B3AD6EE44829498FAE1DDD81401"
             "WorkingFolder" = "8:_1B1A7BFDB9314F15AD7EB067675C8CBE"
-            "Icon" = "8:_87BBEE6DC5244EE8B30E60EF304991BB"
+            "Icon" = "8:"
             "Feature" = "8:"
             }
         }
@@ -1158,7 +1051,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_87BBEE6DC5244EE8B30E60EF304991BB"
             {
-            "SourcePath" = "8:..\\WebIMTray\\obj\\Release\\webImTray.exe"
+            "SourcePath" = "8:..\\WebIMTray\\obj\\Release\\mibewTray.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_1B1A7BFDB9314F15AD7EB067675C8CBE"

@@ -71,7 +71,7 @@ namespace webImTray {
 
         private const string autoRunUserRegistry = "Software\\Microsoft\\Windows\\CurrentVersion\\Run";
         private const string autoRunRegistry = "HKEY_CURRENT_USER\\" + autoRunUserRegistry;
-        private const string autoRunKey = "webimtray.exe";
+        private const string autoRunKey = "mibewTray.exe";
 
         public static bool AutoStart {
             get {
