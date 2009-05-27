@@ -47,7 +47,8 @@ namespace webImTray {
             hideWhenStarted.Checked = Options.HideAfterStart;
     
             // Restore previously set locale
-            // TODO
+            languageSelector.Items.Add("English");
+            languageSelector.SelectedIndex = 0;
 
             // Update UI according to the current locale
             OptionsDialog.updateUI();

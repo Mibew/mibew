@@ -30,6 +30,7 @@ namespace webImTray {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyMenu.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -37,8 +38,7 @@ namespace webImTray {
             // notifyIcon
             // 
             this.notifyIcon.ContextMenuStrip = this.notifyMenu;
-            this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
-            this.notifyIcon.Visible = true;
+            resources.ApplyResources(this.notifyIcon, "notifyIcon");
             this.notifyIcon.MouseDown += new System.Windows.Forms.MouseEventHandler(this.notifyIconClick);
             // 
             // notifyMenu
@@ -48,35 +48,30 @@ namespace webImTray {
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.notifyMenu.Name = "notifyMenu";
-            this.notifyMenu.Size = new System.Drawing.Size(79, 54);
+            resources.ApplyResources(this.notifyMenu, "notifyMenu");
             // 
             // optionsToolStripMenuItem
             // 
-            this.optionsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("optionsToolStripMenuItem.Image")));
-            this.optionsToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Silver;
+            resources.ApplyResources(this.optionsToolStripMenuItem, "optionsToolStripMenuItem");
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(78, 22);
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsMenu_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(75, 6);
+            resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(78, 22);
+            resources.ApplyResources(this.exitToolStripMenuItem, "exitToolStripMenuItem");
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.menuExitClick);
             // 
             // webBrowser1
             // 
-            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(0, 24);
+            resources.ApplyResources(this.webBrowser1, "webBrowser1");
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(864, 461);
-            this.webBrowser1.TabIndex = 2;
             this.webBrowser1.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.webBrowser1_PreviewKeyDown);
             // 
             // reloadPageTimer
@@ -88,34 +83,36 @@ namespace webImTray {
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.refreshToolStripMenuItem,
-            this.optionsMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.optionsMenuItem,
+            this.hideToolStripMenuItem});
+            resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(864, 24);
-            this.menuStrip1.TabIndex = 3;
-            this.menuStrip1.Text = "menuStrip1";
             // 
             // refreshToolStripMenuItem
             // 
+            this.refreshToolStripMenuItem.Image = global::webImTray.App._01_navigate;
+            resources.ApplyResources(this.refreshToolStripMenuItem, "refreshToolStripMenuItem");
             this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
-            this.refreshToolStripMenuItem.Text = "Refresh";
             this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // optionsMenuItem
             // 
+            this.optionsMenuItem.Image = global::webImTray.App._02_properties;
+            resources.ApplyResources(this.optionsMenuItem, "optionsMenuItem");
             this.optionsMenuItem.Name = "optionsMenuItem";
-            this.optionsMenuItem.Size = new System.Drawing.Size(56, 20);
-            this.optionsMenuItem.Text = "Options";
             this.optionsMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem1_Click);
+            // 
+            // hideToolStripMenuItem
+            // 
+            this.hideToolStripMenuItem.Name = "hideToolStripMenuItem";
+            resources.ApplyResources(this.hideToolStripMenuItem, "hideToolStripMenuItem");
+            this.hideToolStripMenuItem.Click += new System.EventHandler(this.hideApp);
             // 
             // MainWindow
             // 
-            this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(864, 485);
+            resources.ApplyResources(this, "$this");
             this.Controls.Add(this.webBrowser1);
             this.Controls.Add(this.menuStrip1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainWindow";
             this.ShowInTaskbar = false;
@@ -123,12 +120,6 @@ namespace webImTray {
             this.GotFocus += new System.EventHandler(this.gotFocus);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Client_FormClosing);
             this.Resize += new System.EventHandler(this.FormResize);
-
-            this.optionsMenuItem.Text = "Options";
-            this.refreshToolStripMenuItem.Text = "Refresh";
-            this.optionsToolStripMenuItem.Text = "Options..";
-            this.exitToolStripMenuItem.Text = "Exit";
-            
             this.notifyMenu.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -147,6 +138,7 @@ namespace webImTray {
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optionsMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hideToolStripMenuItem;
 
     }
 }

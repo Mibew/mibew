@@ -60,6 +60,20 @@ namespace webImTray {
             }
         }
         
+        internal static System.Drawing.Bitmap _01_navigate {
+            get {
+                object obj = ResourceManager.GetObject("_01_navigate", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap _02_properties {
+            get {
+                object obj = ResourceManager.GetObject("_02_properties", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Icon Notify {
             get {
                 object obj = ResourceManager.GetObject("Notify", resourceCulture);

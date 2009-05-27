@@ -202,5 +202,10 @@ namespace webImTray {
                 hideWindow();
             }
         }
+
+        private void hideApp(object sender, EventArgs e)
+        {
+            hideWindow();
+        }
     }
 }

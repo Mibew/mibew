@@ -36,8 +36,7 @@ namespace webImTray {
             this.showOptions = new System.Windows.Forms.CheckBox();
             this.showHide = new System.Windows.Forms.CheckBox();
             this.languageBox = new System.Windows.Forms.GroupBox();
-            this.radioRussian = new System.Windows.Forms.RadioButton();
-            this.radioEnglish = new System.Windows.Forms.RadioButton();
+            this.languageSelector = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.languageBox.SuspendLayout();
@@ -109,27 +108,17 @@ namespace webImTray {
             // 
             // languageBox
             // 
-            this.languageBox.Controls.Add(this.radioRussian);
-            this.languageBox.Controls.Add(this.radioEnglish);
+            this.languageBox.Controls.Add(this.languageSelector);
             resources.ApplyResources(this.languageBox, "languageBox");
             this.languageBox.Name = "languageBox";
             this.languageBox.TabStop = false;
             // 
-            // radioRussian
+            // languageSelector
             // 
-            resources.ApplyResources(this.radioRussian, "radioRussian");
-            this.radioRussian.Checked = true;
-            this.radioRussian.Name = "radioRussian";
-            this.radioRussian.TabStop = true;
-            this.radioRussian.UseVisualStyleBackColor = true;
-            this.radioRussian.CheckedChanged += new System.EventHandler(this.radioRussian_CheckedChanged);
-            // 
-            // radioEnglish
-            // 
-            resources.ApplyResources(this.radioEnglish, "radioEnglish");
-            this.radioEnglish.Name = "radioEnglish";
-            this.radioEnglish.UseVisualStyleBackColor = true;
-            this.radioEnglish.CheckedChanged += new System.EventHandler(this.radioEnglish_CheckedChanged);
+            this.languageSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.languageSelector, "languageSelector");
+            this.languageSelector.FormattingEnabled = true;
+            this.languageSelector.Name = "languageSelector";
             // 
             // OptionsGeneralPanel
             // 
@@ -144,7 +133,6 @@ namespace webImTray {
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.languageBox.ResumeLayout(false);
-            this.languageBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -161,7 +149,6 @@ namespace webImTray {
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.GroupBox languageBox;
-        private System.Windows.Forms.RadioButton radioRussian;
-        private System.Windows.Forms.RadioButton radioEnglish;
+        private System.Windows.Forms.ComboBox languageSelector;
     }
 }
