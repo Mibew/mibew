@@ -86,6 +86,7 @@ downl.unstable.2=Release candidate:
 downl.nightly=Nightly:
 downl.prev=Previous release:
 downl.local=Localization packages:
+downl.tray=Desktop tray application for Windows:
 
 support.title=Support
 support.tutorials=How to Install

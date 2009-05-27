@@ -36,14 +36,14 @@ require_once('inc/menu.i');
 				<td>24 Apr 2009</td></tr>
 			
 			<tr>
-				<td><a href="http://prdownloads.sourceforge.net/webim/webim160_fr.zip?download">French</a></td>
-				<td>1.6.0</td>
-				<td>24 Apr 2009</td></tr>
+				<td><a href="http://prdownloads.sourceforge.net/webim/webim1601_fr.zip?download">French</a></td>
+				<td>1.6.0.1</td>
+				<td>7 May 2009</td></tr>
 
 			<tr>
-				<td><a href="http://prdownloads.sourceforge.net/webim/webim160_he.zip?download">Hebrew</a></td>
-				<td>1.6.0</td>
-				<td>24 Apr 2009</td></tr>
+				<td><a href="http://prdownloads.sourceforge.net/webim/webim1601_he.zip?download">Hebrew</a></td>
+				<td>1.6.0.1</td>
+				<td>7 May 2009</td></tr>
 
 			<tr>
 				<td><a href="http://prdownloads.sourceforge.net/webim/webim160_it.zip?download">Italiano</a></td>
@@ -80,6 +80,14 @@ require_once('inc/menu.i');
 			<p id="tablecomment">
 			<?php echo getlocal("lang.missing") ?> <a href="/forums/index.php?board=7.0"><?php echo getlocal("lang.link") ?></a>
 			</p>
+			
+			<p>
+				<?php echo getlocal("downl.tray") ?><br/>
+				<a href="http://prdownloads.sourceforge.net/webim/MibewTray11.msi?download">
+				Mibew Tray 1.1.0 beta, May 28, 2009</a>
+				<small style="padding-left:1cm;">(requires <a href="http://go.microsoft.com/fwlink/?LinkId=9832">.NET Framework 3.5</a> and <a href="http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=889482fc-5f56-4a38-b838-de776fd4138c">Windows Installer 3.1</a>)</small>
+			</p>
+			
 			
 			</div>
 			<div class="nometa"></div>
