@@ -1051,7 +1051,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_87BBEE6DC5244EE8B30E60EF304991BB"
             {
-            "SourcePath" = "8:..\\WebIMTray\\obj\\Release\\mibewTray.exe"
+            "SourcePath" = "8:..\\MibewTray\\obj\\Release\\mibewTray.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_1B1A7BFDB9314F15AD7EB067675C8CBE"
