@@ -6,11 +6,11 @@ using System.Runtime.CompilerServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly: AssemblyTitle("MibewTray")]
+[assembly: AssemblyTitle("Mibew Tray")]
 [assembly: AssemblyDescription("Tray application for Mibew Messenger users")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Mibew Messenger community")]
-[assembly: AssemblyProduct("MibewTray")]
+[assembly: AssemblyCompany("Mibew Community")]
+[assembly: AssemblyProduct("Mibew Tray")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		

@@ -15,14 +15,20 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_87BBEE6DC5244EE8B30E60EF304991BB"
+        "MsmKey" = "8:_5050C10B17B645A4856D44594EE57741"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_984629AFA52748639E73B436F534F630"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_87BBEE6DC5244EE8B30E60EF304991BB"
+        "OwnerKey" = "8:_5050C10B17B645A4856D44594EE57741"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -33,7 +39,7 @@
         "DisplayName" = "8:Debug"
         "IsDebugOnly" = "11:TRUE"
         "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Debug\\TrayInstaller.msi"
+        "OutputFilename" = "8:Debug\\MibewInstallerDBG.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -64,7 +70,7 @@
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
-        "Compression" = "3:2"
+        "Compression" = "3:3"
         "SignOutput" = "11:FALSE"
         "CertificateFile" = "8:"
         "PrivateKeyFile" = "8:"
@@ -79,10 +85,15 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Net.Framework.2.0"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Net.Framework.3.5"
                     {
-                    "Name" = "8:.NET Framework 2.0"
-                    "ProductCode" = "8:Microsoft.Net.Framework.2.0"
+                    "Name" = "8:.NET Framework 3.5"
+                    "ProductCode" = "8:Microsoft.Net.Framework.3.5"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
                     }
                 }
             }
@@ -115,6 +126,26 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_984629AFA52748639E73B436F534F630"
+            {
+            "SourcePath" = "8:mibew.bmp"
+            "TargetName" = "8:mibew.bmp"
+            "Tag" = "8:"
+            "Folder" = "8:_1B1A7BFDB9314F15AD7EB067675C8CBE"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:FALSE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -160,9 +191,9 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Mibew Tray"
-        "ProductCode" = "8:{364312DC-00EB-4A81-866B-2F9B58E866A5}"
-        "PackageCode" = "8:{327E1249-A6D9-4A43-8193-84786DF17F25}"
-        "UpgradeCode" = "8:{2DE6CF3E-E993-4337-A3E7-6D24B63AC56D}"
+        "ProductCode" = "8:{1362E6BF-F684-4D34-8768-536D9AAA06D3}"
+        "PackageCode" = "8:{E2D977FB-6F9D-4BF2-910B-08C3187542EC}"
+        "UpgradeCode" = "8:{484448C1-3D53-454F-BC23-BA913AAE7E1D}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
@@ -170,14 +201,14 @@
         "ProductVersion" = "8:1.1.0"
         "Manufacturer" = "8:Mibew Community"
         "ARPHELPTELEPHONE" = "8:"
-        "ARPHELPLINK" = "8:"
-        "Title" = "8:Web Messenger Tray"
+        "ARPHELPLINK" = "8:http://openwebim.org/forums/"
+        "Title" = "8:Mibew Messenger Tray"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Mibew"
+        "ARPCONTACT" = "8:Mibew Community"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:Tray Application for Mibew Messenger"
         "ARPURLINFOABOUT" = "8:http://www.openwebim.org"
-        "ARPPRODUCTICON" = "8:_87BBEE6DC5244EE8B30E60EF304991BB"
+        "ARPPRODUCTICON" = "8:_5050C10B17B645A4856D44594EE57741"
         "ARPIconIndex" = "3:32512"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -310,7 +341,7 @@
                                 {
                                     "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_B9817DE863C348CD86FCCEE86940A082"
                                     {
-                                    "Name" = "8:MibewTray"
+                                    "Name" = "8:[ProductName]"
                                     "Condition" = "8:"
                                     "AlwaysCreate" = "11:FALSE"
                                     "DeleteAtUninstall" = "11:FALSE"
@@ -319,7 +350,7 @@
                                         {
                                             "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_FEF59BC26DDE4041847A2CF2CB0E746E"
                                             {
-                                            "Name" = "8:[ProductVersion].1"
+                                            "Name" = "8:[ProductVersion].0"
                                             "Condition" = "8:"
                                             "AlwaysCreate" = "11:FALSE"
                                             "DeleteAtUninstall" = "11:FALSE"
@@ -380,18 +411,18 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_1372605EFC3E42A1BA7E73406AB599C0"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_6F86F52E4BB2485691BEF2F860A9CF6C"
             {
             "Name" = "8:Mibew Tray"
             "Arguments" = "8:/show"
-            "Description" = "8:Mibew Tray Application"
+            "Description" = "8:"
             "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
+            "IconIndex" = "3:32512"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_87BBEE6DC5244EE8B30E60EF304991BB"
+            "Target" = "8:_5050C10B17B645A4856D44594EE57741"
             "Folder" = "8:_16316B3AD6EE44829498FAE1DDD81401"
             "WorkingFolder" = "8:_1B1A7BFDB9314F15AD7EB067675C8CBE"
-            "Icon" = "8:"
+            "Icon" = "8:_5050C10B17B645A4856D44594EE57741"
             "Feature" = "8:"
             }
         }
@@ -421,7 +452,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_984629AFA52748639E73B436F534F630"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "ShowProgress"
@@ -465,7 +497,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_984629AFA52748639E73B436F534F630"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "UpdateText"
@@ -509,7 +542,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_984629AFA52748639E73B436F534F630"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "InstallAllUsersVisible"
@@ -544,7 +578,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_984629AFA52748639E73B436F534F630"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "BannerText"
@@ -582,7 +617,7 @@
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
                             "Setting" = "3:2"
-                            "Value" = "8:Start Web Messenger Tray automatically when starting windows"
+                            "Value" = "8:Start Mibew Tray automatically when starting windows"
                             "DefaultValue" = "8:#1234"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -800,7 +835,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_984629AFA52748639E73B436F534F630"
                             "UsePlugInResources" = "11:TRUE"
                             }
                         }
@@ -822,7 +858,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_984629AFA52748639E73B436F534F630"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "CopyrightWarning"
@@ -879,7 +916,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_984629AFA52748639E73B436F534F630"
                             "UsePlugInResources" = "11:TRUE"
                             }
                         }
@@ -901,7 +939,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_984629AFA52748639E73B436F534F630"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "CopyrightWarning"
@@ -949,7 +988,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_984629AFA52748639E73B436F534F630"
                             "UsePlugInResources" = "11:TRUE"
                             }
                         }
@@ -992,7 +1032,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_984629AFA52748639E73B436F534F630"
                             "UsePlugInResources" = "11:TRUE"
                             }
                             "ShowProgress"
@@ -1036,7 +1077,8 @@
                             "Type" = "3:8"
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
-                            "Setting" = "3:1"
+                            "Setting" = "3:2"
+                            "Value" = "8:_984629AFA52748639E73B436F534F630"
                             "UsePlugInResources" = "11:TRUE"
                             }
                         }
@@ -1049,7 +1091,7 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_87BBEE6DC5244EE8B30E60EF304991BB"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_5050C10B17B645A4856D44594EE57741"
             {
             "SourcePath" = "8:..\\MibewTray\\obj\\Release\\mibewTray.exe"
             "TargetName" = "8:"
@@ -1069,7 +1111,7 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:Release|Any CPU"
+            "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{21C7CA72-7F77-416C-9FD7-2DF748443E46}"
             "ShowKeyOutput" = "11:TRUE"
