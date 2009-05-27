@@ -15,6 +15,7 @@ menu.demo=Demo
 menu.features=Features
 menu.download=Download
 menu.support=Forum
+menu.ticket=Support
 
 submenu.title=<b>More</b>
 partners.title=<b>partners</b>
@@ -25,6 +26,7 @@ head.intro=<strong>Web Messenger</strong> is an open-source live support applica
 
 contacts.title=Contact us
 contacts.content=Contact person: Evgeny Gryaznov<br/>E&nbsp;mail: evgeny [at] openwebim (dot) org
+contacts.content1=Contact person: Ed Kraus<br/>E&nbsp;mail: support [at] openwebim (dot) org
 
 credits.title=Credits
 credits.translators=Translators:
@@ -37,9 +39,9 @@ index.how.title=How it works?
 index.how.text=You should place the button of Web Messenger at your site. Your visitors click the button and chat with your operators who help them.
 index.license=This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0.
 
-index.post.title=Version 1.5.2 Released
-index.post.text=<p>We are pleased to announce the immediate availability of 1.5.2. This is a service release with minor fixes and improvements.</p><ul><li>updated chat icons</li><li>ability to turn off sound notifications in chat</li><li>switch to SSL connection button</li><li>better referrer tracking</li></ul><p><a href="download.php">Download 1.5.2</a></p>
-index.post.when=Posted on February 17, 2009 by inspirer
+index.post.title=Version 1.6.0 Released
+index.post.text=<p>We are pleased to announce the immediate availability of 1.6.0. This is a major release with new features and improvements.</p><ul><li>operator groups</li><li>pre-chat survey</li><li>statistics</li><li>canned messages</li><li>new operator console</li></ul><p><a href="download.php">Download 1.6.0</a></p>
+index.post.when=Posted on April 24, 2009 by inspirer
 index.post.link=<a href="/forums/index.php?topic=52.0" class="more">Read full article</a>
 
 index.whatis.title=What is Web Messenger?
@@ -60,8 +62,8 @@ features.chat.title=Chat window
 features.chat=<ul>\n<li>Agent and visitor "Typing Indicator"</li>\n<li>Agent photo</li>\n<li>Chat transcript emails</li>\n<li>Sound and Visual alerts</li>\n<li>"Leave a message" when you are away</li>\n<li>Customize chat with your Logo, Name etc.</li>\n<li>Unicode support for multiple languages</li>\n<li>Quickly convert text to hyperlinks in chat</li>\n<li>Not blocked by pop-up blockers</li>\n</ul>
 features.operator.title=Operator abilites
 features.operator=<ul>\n<li>Web-based Operator Console</li>\n<li>Canned messages for speed and consistency</li>\n<li>Track where your visitors clicked from to get to your website (refer URL)</li>\n<li>Chat conversation history with search</li>\n<li>Linking to previous visits, instant access to previous chats</li>\n<li>Reassign/Transfer chat ownership</li>\n<li>Mark/Highlight nuisance visitors</li>\n<li>Administrator can view active chats</li>\n<li>Information about visitor: first message, address, browser</li>\n<li>Administrator can take over the chat</li>\n</ul>
-features.next.title=New in version 1.5
-features.next=<ul>\n<li>Chat Window themes support, select your default one</li>\n<li>Generate button for specific theme</li>\n<li>2 pre-installed themes</li>\n<li>UI for easy theme creation and customization</li>\n<li>UI for system translation</li>\n<li>Geolocation link on each IP</li>\n<li>Agents permissions</li>\n</ul>
+features.next.title=New in version 1.6
+features.next=<ul>\n<li>Operator groups</li>\n<li>Pre-chat questions</li>\n<li>Statistics</li>\n<li>Canned Messages</li>\n<li>New Operator Console</li></ul>
 
 features.requirements.title=Server requirements
 features.requirements=<ul>\n<li>A webserver or web hosting account running on any major Operating System</li>\n<li>PHP (5.x and above) with MySQL support</li>\n<li>MySQL 5.0 and above</li>\n</ul>
