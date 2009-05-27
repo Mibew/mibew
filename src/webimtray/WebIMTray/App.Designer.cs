@@ -60,16 +60,16 @@ namespace webImTray {
             }
         }
         
-        internal static System.Drawing.Bitmap _01_navigate {
+        internal static System.Drawing.Bitmap hide {
             get {
-                object obj = ResourceManager.GetObject("_01_navigate", resourceCulture);
+                object obj = ResourceManager.GetObject("hide", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap _02_properties {
+        internal static System.Drawing.Bitmap history {
             get {
-                object obj = ResourceManager.GetObject("_02_properties", resourceCulture);
+                object obj = ResourceManager.GetObject("history", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -85,6 +85,27 @@ namespace webImTray {
             get {
                 object obj = ResourceManager.GetObject("Notify_offl", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap options {
+            get {
+                object obj = ResourceManager.GetObject("options", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap refresh {
+            get {
+                object obj = ResourceManager.GetObject("refresh", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap visitors {
+            get {
+                object obj = ResourceManager.GetObject("visitors", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

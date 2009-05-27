@@ -43,7 +43,7 @@ namespace webImTray {
 
         void navigateThere() {
 #if DEBUG
-            webBrowser1.Navigate("http://localhost:8080/webim/operator/users.php");
+            webBrowser1.Navigate("http://openwebim.org/webim/operator/users.php?nomenu");
 #else
             webBrowser1.Navigate(Options.WebIMServer + Options.PENDING_USERS_PAGE);
 #endif
@@ -172,11 +172,6 @@ namespace webImTray {
             }
         }
 
-        private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void optionsToolStripMenuItem1_Click(object sender, EventArgs e) {
             OptionsDialog dialog = new OptionsDialog();
             dialog.ShowDialog(this);
@@ -190,7 +185,7 @@ namespace webImTray {
         }
 
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e) {
-            navigateThere();
+            webBrowser1.Refresh();
         }
 
         private void hideWindowToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -206,6 +201,11 @@ namespace webImTray {
         private void hideApp(object sender, EventArgs e)
         {
             hideWindow();
+        }
+
+        private void toolHistory_Click(object sender, EventArgs e)
+        {
+            webBrowser1.Navigate(Options.WebIMServer + Options.HISTORY_PAGE);
         }
     }
 }

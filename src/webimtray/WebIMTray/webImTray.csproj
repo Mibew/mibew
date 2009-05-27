@@ -100,9 +100,12 @@
     <Content Include="icons\App.ico" />
     <Content Include="icons\Notify.ico" />
     <Content Include="icons\Notify_offl.ico" />
-    <None Include="toolbarImages\02 properties.bmp" />
+    <None Include="toolbarImages\refresh.bmp" />
+    <None Include="toolbarImages\options.bmp" />
+    <None Include="toolbarImages\history.bmp" />
+    <None Include="toolbarImages\hide.bmp" />
+    <None Include="toolbarImages\visitors.bmp" />
     <None Include="icons\Options.ico" />
-    <None Include="toolbarImages\01 navigate.bmp" />
     <Compile Include="App.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

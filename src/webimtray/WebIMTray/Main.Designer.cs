@@ -28,6 +28,8 @@ namespace webImTray {
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.reloadPageTimer = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.visitorsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.historyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -82,30 +84,48 @@ namespace webImTray {
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.visitorsMenuItem,
+            this.historyMenuItem,
             this.refreshToolStripMenuItem,
             this.optionsMenuItem,
             this.hideToolStripMenuItem});
             resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.ShowItemToolTips = true;
+            // 
+            // visitorsMenuItem
+            // 
+            this.visitorsMenuItem.Image = global::webImTray.App.visitors;
+            resources.ApplyResources(this.visitorsMenuItem, "visitorsMenuItem");
+            this.visitorsMenuItem.Name = "visitorsMenuItem";
+            this.visitorsMenuItem.Click += new System.EventHandler(this.toolNavigate_Click);
+            // 
+            // historyMenuItem
+            // 
+            this.historyMenuItem.Image = global::webImTray.App.history;
+            resources.ApplyResources(this.historyMenuItem, "historyMenuItem");
+            this.historyMenuItem.Name = "historyMenuItem";
+            this.historyMenuItem.Click += new System.EventHandler(this.toolHistory_Click);
             // 
             // refreshToolStripMenuItem
             // 
-            this.refreshToolStripMenuItem.Image = global::webImTray.App._01_navigate;
+            this.refreshToolStripMenuItem.Image = global::webImTray.App.refresh;
             resources.ApplyResources(this.refreshToolStripMenuItem, "refreshToolStripMenuItem");
             this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
             this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // optionsMenuItem
             // 
-            this.optionsMenuItem.Image = global::webImTray.App._02_properties;
+            this.optionsMenuItem.Image = global::webImTray.App.options;
             resources.ApplyResources(this.optionsMenuItem, "optionsMenuItem");
             this.optionsMenuItem.Name = "optionsMenuItem";
             this.optionsMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem1_Click);
             // 
             // hideToolStripMenuItem
             // 
-            this.hideToolStripMenuItem.Name = "hideToolStripMenuItem";
+            this.hideToolStripMenuItem.Image = global::webImTray.App.hide;
             resources.ApplyResources(this.hideToolStripMenuItem, "hideToolStripMenuItem");
+            this.hideToolStripMenuItem.Name = "hideToolStripMenuItem";
             this.hideToolStripMenuItem.Click += new System.EventHandler(this.hideApp);
             // 
             // MainWindow
@@ -139,6 +159,8 @@ namespace webImTray {
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optionsMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hideToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem visitorsMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem historyMenuItem;
 
     }
 }
