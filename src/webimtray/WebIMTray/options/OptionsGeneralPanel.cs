@@ -30,14 +30,11 @@ namespace webImTray {
                 Options.HideAfterStart = hideWhenStarted.Checked;
 
                 // Save locale
-                Options.RussianLocale = radioRussian.Checked;
+                // Options.AppLocale = ...
 
                 // Apply locale
-                if (radioEnglish.Checked) {
-                    Thread.CurrentThread.CurrentUICulture = Options.englishCulture;
-                } else if (radioRussian.Checked) {
-                    Thread.CurrentThread.CurrentUICulture = Options.russianCulture;
-                }
+                //    Thread.CurrentThread.CurrentUICulture = Options.englishCulture;
+
                 // Update UI according to the current locale
                 OptionsDialog.updateUI();
                 modified = false;
@@ -50,11 +47,7 @@ namespace webImTray {
             hideWhenStarted.Checked = Options.HideAfterStart;
     
             // Restore previously set locale
-            if (!Options.RussianLocale) {
-                radioEnglish.Checked = true;
-            } else {
-                radioRussian.Checked = true;
-            }
+            // TODO
 
             // Update UI according to the current locale
             OptionsDialog.updateUI();
@@ -62,21 +55,8 @@ namespace webImTray {
             modified = false;
         }
     
-        string OptionsPanel.getDescription(ResourceManager resManager) {
-            return resManager.GetString("general");
-        }
-
-        public void updateUI() {
-            groupBox1.Text = Options.resourceManager.GetString("application");
-            showInTaskBar.Text = Options.resourceManager.GetString("showInTaskBar");
-            autoStart.Text = Options.resourceManager.GetString("autoStart");
-            hideWhenStarted.Text = Options.resourceManager.GetString("hideWhenStarted");
-            groupBox2.Text = Options.resourceManager.GetString("hotKeys");
-            showOptions.Text = Options.resourceManager.GetString("showOptions");
-            showHide.Text = Options.resourceManager.GetString("showHide");
-            languageBox.Text = Options.resourceManager.GetString("language");
-            radioRussian.Text = Options.resourceManager.GetString("russian");
-            radioEnglish.Text = Options.resourceManager.GetString("english");
+        string OptionsPanel.getDescription() {
+            return "General";
         }
 
         private void radioEnglish_CheckedChanged(object sender, EventArgs e) {

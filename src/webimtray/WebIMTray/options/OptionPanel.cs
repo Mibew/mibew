@@ -10,8 +10,7 @@ namespace webImTray {
     interface OptionsPanel {
         void initialize();
         void apply();
-        string getDescription(ResourceManager resManager);
-        void updateUI();
+        string getDescription();
 
         event ModifiedEvent PanelModified; 
     }

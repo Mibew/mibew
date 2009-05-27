@@ -9,7 +9,7 @@ using System.Globalization;
 namespace webImTray {
     class Options {
 
-        public const string DEFAULT_SERVER = "http://localhost/webim";
+        public const string DEFAULT_SERVER = "http://openwebim.org/webim";
         public const string PENDING_USERS_PAGE = "/operator/users.php";
         public const string SETTINGS_PAGE = "/operator/operators.php";
         private const string HTTP_PREFIX = "http://";
@@ -107,17 +107,5 @@ namespace webImTray {
             if (args.Length == 1 && args[0].Equals("/show"))
                 forceShowWindow = true;
         }
-
-        public static bool RussianLocale {
-            get {
-                return Application.UserAppDataRegistry.GetValue("isrussianlocale", "true").ToString().ToLower().Equals("true");
-            } set {
-                Application.UserAppDataRegistry.SetValue("isrussianlocale", value.ToString());
-            }
-        }
-
-        public static ResourceManager resourceManager = new ResourceManager("webImTray.webImTray", System.Reflection.Assembly.GetExecutingAssembly());
-        public static CultureInfo englishCulture = new CultureInfo("en-US");
-        public static CultureInfo russianCulture = new CultureInfo("ru-RU");
     }
 }

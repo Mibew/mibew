@@ -25,6 +25,7 @@ namespace webImTray {
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OptionsGeneralPanel));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.hideWhenStarted = new System.Windows.Forms.CheckBox();
             this.autoStart = new System.Windows.Forms.CheckBox();
@@ -47,44 +48,28 @@ namespace webImTray {
             this.groupBox1.Controls.Add(this.hideWhenStarted);
             this.groupBox1.Controls.Add(this.autoStart);
             this.groupBox1.Controls.Add(this.showInTaskBar);
-            this.groupBox1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(12);
-            this.groupBox1.Size = new System.Drawing.Size(368, 106);
-            this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             // 
             // hideWhenStarted
             // 
-            this.hideWhenStarted.AutoSize = true;
-            this.hideWhenStarted.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.hideWhenStarted.Location = new System.Drawing.Point(15, 76);
+            resources.ApplyResources(this.hideWhenStarted, "hideWhenStarted");
             this.hideWhenStarted.Name = "hideWhenStarted";
-            this.hideWhenStarted.Size = new System.Drawing.Size(134, 17);
-            this.hideWhenStarted.TabIndex = 3;
             this.hideWhenStarted.UseVisualStyleBackColor = true;
             this.hideWhenStarted.CheckedChanged += new System.EventHandler(this.checkboxChanged);
             // 
             // autoStart
             // 
-            this.autoStart.AutoSize = true;
-            this.autoStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.autoStart.Location = new System.Drawing.Point(15, 53);
+            resources.ApplyResources(this.autoStart, "autoStart");
             this.autoStart.Name = "autoStart";
-            this.autoStart.Size = new System.Drawing.Size(225, 17);
-            this.autoStart.TabIndex = 1;
             this.autoStart.UseVisualStyleBackColor = true;
             this.autoStart.CheckedChanged += new System.EventHandler(this.checkboxChanged);
             // 
             // showInTaskBar
             // 
-            this.showInTaskBar.AutoSize = true;
-            this.showInTaskBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.showInTaskBar.Location = new System.Drawing.Point(15, 30);
+            resources.ApplyResources(this.showInTaskBar, "showInTaskBar");
             this.showInTaskBar.Name = "showInTaskBar";
-            this.showInTaskBar.Size = new System.Drawing.Size(103, 17);
-            this.showInTaskBar.TabIndex = 0;
             this.showInTaskBar.UseVisualStyleBackColor = true;
             this.showInTaskBar.CheckedChanged += new System.EventHandler(this.checkboxChanged);
             // 
@@ -94,53 +79,31 @@ namespace webImTray {
             this.groupBox2.Controls.Add(this.textBox1);
             this.groupBox2.Controls.Add(this.showOptions);
             this.groupBox2.Controls.Add(this.showHide);
-            this.groupBox2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox2.Location = new System.Drawing.Point(3, 115);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(12);
-            this.groupBox2.Size = new System.Drawing.Size(368, 89);
-            this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             // 
             // textBox2
             // 
-            this.textBox2.Enabled = false;
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox2.Location = new System.Drawing.Point(216, 52);
+            resources.ApplyResources(this.textBox2, "textBox2");
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
-            this.textBox2.TabIndex = 3;
             // 
             // textBox1
             // 
-            this.textBox1.Enabled = false;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox1.Location = new System.Drawing.Point(216, 29);
+            resources.ApplyResources(this.textBox1, "textBox1");
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 2;
             // 
             // showOptions
             // 
-            this.showOptions.AutoSize = true;
-            this.showOptions.Enabled = false;
-            this.showOptions.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.showOptions.Location = new System.Drawing.Point(15, 54);
+            resources.ApplyResources(this.showOptions, "showOptions");
             this.showOptions.Name = "showOptions";
-            this.showOptions.Size = new System.Drawing.Size(90, 17);
-            this.showOptions.TabIndex = 1;
             this.showOptions.UseVisualStyleBackColor = true;
             this.showOptions.CheckedChanged += new System.EventHandler(this.checkboxChanged);
             // 
             // showHide
             // 
-            this.showHide.AutoSize = true;
-            this.showHide.Enabled = false;
-            this.showHide.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.showHide.Location = new System.Drawing.Point(15, 31);
+            resources.ApplyResources(this.showHide, "showHide");
             this.showHide.Name = "showHide";
-            this.showHide.Size = new System.Drawing.Size(147, 17);
-            this.showHide.TabIndex = 0;
             this.showHide.UseVisualStyleBackColor = true;
             this.showHide.CheckedChanged += new System.EventHandler(this.checkboxChanged);
             // 
@@ -148,46 +111,34 @@ namespace webImTray {
             // 
             this.languageBox.Controls.Add(this.radioRussian);
             this.languageBox.Controls.Add(this.radioEnglish);
-            this.languageBox.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold);
-            this.languageBox.Location = new System.Drawing.Point(3, 210);
+            resources.ApplyResources(this.languageBox, "languageBox");
             this.languageBox.Name = "languageBox";
-            this.languageBox.Size = new System.Drawing.Size(371, 53);
-            this.languageBox.TabIndex = 2;
             this.languageBox.TabStop = false;
             // 
             // radioRussian
             // 
-            this.radioRussian.AutoSize = true;
+            resources.ApplyResources(this.radioRussian, "radioRussian");
             this.radioRussian.Checked = true;
-            this.radioRussian.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.radioRussian.Location = new System.Drawing.Point(101, 30);
             this.radioRussian.Name = "radioRussian";
-            this.radioRussian.Size = new System.Drawing.Size(63, 17);
-            this.radioRussian.TabIndex = 1;
             this.radioRussian.TabStop = true;
             this.radioRussian.UseVisualStyleBackColor = true;
             this.radioRussian.CheckedChanged += new System.EventHandler(this.radioRussian_CheckedChanged);
             // 
             // radioEnglish
             // 
-            this.radioEnglish.AutoSize = true;
-            this.radioEnglish.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.radioEnglish.Location = new System.Drawing.Point(15, 30);
+            resources.ApplyResources(this.radioEnglish, "radioEnglish");
             this.radioEnglish.Name = "radioEnglish";
-            this.radioEnglish.Size = new System.Drawing.Size(59, 17);
-            this.radioEnglish.TabIndex = 0;
             this.radioEnglish.UseVisualStyleBackColor = true;
             this.radioEnglish.CheckedChanged += new System.EventHandler(this.radioEnglish_CheckedChanged);
             // 
             // OptionsGeneralPanel
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.languageBox);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "OptionsGeneralPanel";
-            this.Size = new System.Drawing.Size(374, 329);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

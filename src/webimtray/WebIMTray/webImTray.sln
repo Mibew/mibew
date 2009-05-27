@@ -1,5 +1,5 @@
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "webImTray", "webImTray.csproj", "{21C7CA72-7F77-416C-9FD7-2DF748443E46}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TrayInstaller", "..\TrayInstaller\TrayInstaller.vdproj", "{3B38021D-FBAB-4038-8220-F8C569A3C658}"

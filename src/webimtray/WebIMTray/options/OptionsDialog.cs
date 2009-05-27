@@ -43,7 +43,7 @@ namespace webImTray {
             bool inited = false;
             pageSelector.Items.Clear();
             foreach (OptionsPanel p in panels) {
-                ListViewItem item = new ListViewItem(p.getDescription(Options.resourceManager));
+                ListViewItem item = new ListViewItem(p.getDescription());
                 if (!inited) {
                     item.Selected = true;
                     changePanel(p);
@@ -67,7 +67,7 @@ namespace webImTray {
 
         OptionsPanel getPanel(string s) {
             foreach (OptionsPanel p in panels) {
-                if (s.Equals(p.getDescription(Options.resourceManager)))
+                if (s.Equals(p.getDescription()))
                     return p;
             }
 
@@ -85,7 +85,7 @@ namespace webImTray {
         }
 
         private void openWebIMSite(object sender, LinkLabelLinkClickedEventArgs e) {
-            System.Diagnostics.Process.Start("http://webim.ru/");
+            System.Diagnostics.Process.Start("http://openwebim.org/");
         }
 
         private void applyChanges() {
@@ -105,13 +105,6 @@ namespace webImTray {
         }
 
         public static void updateUI() {
-            for (int i = 0; i < 4; i++) {
-                ((OptionsPanel)panels[i]).updateUI();
-            }
-            currentInstance.ok.Text = Options.resourceManager.GetString("ok");
-            currentInstance.cancel.Text = Options.resourceManager.GetString("cancel");
-            currentInstance.apply.Text = Options.resourceManager.GetString("apply");
-            currentInstance.Text = Options.resourceManager.GetString("optionsTitle");
             currentInstance.updatePageSelector();
         }
     }

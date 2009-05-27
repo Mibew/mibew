@@ -38,21 +38,7 @@ namespace webImTray {
             setupReloadTimer();
                         
             // Restore previously set locale
-            if (!Options.RussianLocale) {
-                Thread.CurrentThread.CurrentUICulture = Options.englishCulture;
-            } else {
-                Thread.CurrentThread.CurrentUICulture = Options.russianCulture;
-            }
-            // Update localized controls
-            updateLocalizedControls();
-        }
-
-        private void updateLocalizedControls() {
-            // Update localized controls            
-            optionsMenuItem.Text = Options.resourceManager.GetString("optionsMenuItem");
-            refreshToolStripMenuItem.Text = Options.resourceManager.GetString("refreshMenuItem");
-            optionsToolStripMenuItem.Text = Options.resourceManager.GetString("trayOptions");
-            exitToolStripMenuItem.Text = Options.resourceManager.GetString("trayExit");
+            // TODO       Thread.CurrentThread.CurrentUICulture =
         }
 
         void navigateThere() {
@@ -105,7 +91,7 @@ namespace webImTray {
         void webBrowser1_DocumentTitleChanged(object sender, EventArgs e) {
             string s = webBrowser1.DocumentTitle;
             if (s == null || s.Length == 0) {
-                s = "Web Messenger [loading]";
+                s = "Mibew Messenger [loading]";
                 this.notifyIcon.Icon = App.Notify_offl;
             } else {
                 this.notifyIcon.Icon = App.Notify;
@@ -115,8 +101,8 @@ namespace webImTray {
 
         private void Client_FormClosing(object sender, FormClosingEventArgs e) {
             if( !forceClosing && e.CloseReason == CloseReason.UserClosing
-                        && MessageBox.Show(this, Options.resourceManager.GetString("exitConfirmation"),
-                                                 Options.resourceManager.GetString("webMessenger"), 
+                        && MessageBox.Show(this, "Do you want to quit?",
+                                                 "Mibew Messenger", 
                         MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No) {
                 e.Cancel = true;
             }
@@ -135,9 +121,6 @@ namespace webImTray {
             // apply options
             if (Options.ShowInTaskBar != this.ShowInTaskbar)
                 this.ShowInTaskbar = !this.ShowInTaskbar;
-
-            // Update localized controls
-            updateLocalizedControls();
 
             setupReloadTimer();
         }
@@ -203,11 +186,7 @@ namespace webImTray {
                 this.ShowInTaskbar = !this.ShowInTaskbar;
             }
 
-            // Update localized controls
-            updateLocalizedControls();
-
             setupReloadTimer();
-
         }
 
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e) {

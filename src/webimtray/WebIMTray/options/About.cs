@@ -21,28 +21,20 @@ namespace webImTray {
         public void apply() {
         }
 
-        public string getDescription(ResourceManager resManager) {
-            return resManager.GetString("about");
+        public string getDescription() {
+            return "About";
         }
 
         #endregion
 
         private void i_services_ru_link(object sender, LinkLabelLinkClickedEventArgs e) {
-            System.Diagnostics.Process.Start("http://i-services.ru/");
+            System.Diagnostics.Process.Start("http://openwebim.org/");
         }
 
         private void webim_ru_link(object sender, LinkLabelLinkClickedEventArgs e) {
-            System.Diagnostics.Process.Start("http://webim.ru/");
+            System.Diagnostics.Process.Start("http://openwebim.org/");
         }
 
         public event ModifiedEvent PanelModified;
-
-        public void updateUI() {
-            label1.Text = Options.resourceManager.GetString("webimtray");
-            label2.Text = Options.resourceManager.GetString("version");
-            label3.Text = Options.resourceManager.GetString("copyright");
-            label4.Text = Options.resourceManager.GetString("visitUs");
-            linkLabel1.Text = Options.resourceManager.GetString("url");
-        }
     }
 }

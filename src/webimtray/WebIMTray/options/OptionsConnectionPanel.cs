@@ -38,8 +38,8 @@ namespace webImTray {
             modified = false;
         }
 
-        string OptionsPanel.getDescription(ResourceManager resManager) {
-            return resManager.GetString("connection");
+        string OptionsPanel.getDescription() {
+            return "Connection";
         }
 
         public event ModifiedEvent PanelModified;
@@ -67,17 +67,6 @@ namespace webImTray {
         private void autoDisconnect_CheckedChanged(object sender, EventArgs e) {
             modified = true;
             PanelModified.Invoke();
-        }
-
-        public void updateUI() {
-            groupBox1.Text = Options.resourceManager.GetString("connection");
-            label1.Text = Options.resourceManager.GetString("server");
-            autoDisconnect.Text = Options.resourceManager.GetString("autoDisconnect");
-            autoDesconnectOnSS.Text = Options.resourceManager.GetString("autoDesconnectOnSS");
-            groupBox2.Text = Options.resourceManager.GetString("operatorPreferences");
-            showUserPreferences.Text = Options.resourceManager.GetString("showUserPreferences");
-            label2.Text = Options.resourceManager.GetString("minutes");
-            forceRefresh.Text = Options.resourceManager.GetString("forceRefresh");
         }
     }
 }

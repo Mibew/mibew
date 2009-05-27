@@ -123,6 +123,12 @@ namespace webImTray {
             this.GotFocus += new System.EventHandler(this.gotFocus);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Client_FormClosing);
             this.Resize += new System.EventHandler(this.FormResize);
+
+            this.optionsMenuItem.Text = "Options";
+            this.refreshToolStripMenuItem.Text = "Refresh";
+            this.optionsToolStripMenuItem.Text = "Options..";
+            this.exitToolStripMenuItem.Text = "Exit";
+            
             this.notifyMenu.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
