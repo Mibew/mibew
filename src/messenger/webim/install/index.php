@@ -72,7 +72,7 @@ function check_tables($link) {
 			return true;
 		} else {
 			$page['nextstep'] = getlocal("install.3.create");
-			$page['nextstepurl'] = "$webimroot/install/dbperform.php?act=createtables";
+			$page['nextstepurl'] = "$webimroot/install/dbperform.php?act=ct";
 		}
 	}
 	return false;
@@ -93,7 +93,7 @@ function check_columns($link) {
 			if( count($cannot_update) != 0) {
 				$errors[] = "Key columns are absent in table `$id'. Unable to continue installation.";
 				$page['nextstep'] = getlocal("install.kill_tables");
-				$page['nextstepurl'] = "$webimroot/install/dbperform.php?act=droptables";
+				$page['nextstepurl'] = "$webimroot/install/dbperform.php?act=dt";
 				$page['nextnotice'] = getlocal("install.kill_tables.notice");
 				return false;
 			}

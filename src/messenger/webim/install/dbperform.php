@@ -22,7 +22,8 @@ function runsql($query,$link) {
 	return $res;
 }
 
-$act = verifyparam( "act", "/^(silentcreateall|createdb|createtables|droptables|addcolumns)$/");
+$act = verifyparam( "act", "/^(silentcreateall|createdb|ct|dt|addcolumns)$/");
+
 $link = @mysql_connect($mysqlhost,$mysqllogin ,$mysqlpass )
 	or show_install_err('Could not connect: ' . mysql_error());
 
@@ -42,7 +43,7 @@ if ($act == "silentcreateall") {
 		mysql_query("SET character set $dbencoding", $link);
 	}
 
-	if( $act == "createtables") {
+	if( $act == "ct") {
 		$curr_tables = get_tables($link);
 		if( $curr_tables === false) {
 			show_install_err($errors[0]);
@@ -51,7 +52,7 @@ if ($act == "silentcreateall") {
 		foreach( $tocreate as $id) {
 			create_table($id, $link);
 		}
-	} else if( $act == "droptables") {
+	} else if( $act == "dt") {
 		foreach( array_keys($dbtables) as $id) {
 			mysql_query("DROP TABLE IF EXISTS $id",$link)
 				or show_install_err(' Query failed: '.mysql_error());
