@@ -147,7 +147,7 @@ function generate_button($title,$locale,$style,$group,$inner,$showhost,$forcesec
 	return "<!-- webim button -->".$temp."<!-- / webim button -->";
 }
 
-function check_login() {
+function check_login($redirect=true) {
 	global $webimroot;
 	if( !isset( $_SESSION['operator'] ) ) {
 		if( isset($_COOKIE['webim_lite']) ) {
@@ -162,9 +162,13 @@ function check_login() {
 		if($_SERVER['REQUEST_METHOD'] == 'GET' && $_SERVER['QUERY_STRING']) {
 			$requested .= "?".$_SERVER['QUERY_STRING'];
 		}
-		$_SESSION['backpath'] = $requested;
-		header("Location: $webimroot/operator/login.php");
-		exit;
+		if($redirect) {
+			$_SESSION['backpath'] = $requested;
+			header("Location: $webimroot/operator/login.php");
+			exit;
+		} else {
+			return null;
+		}
 	}
 	return $_SESSION['operator'];
 }
