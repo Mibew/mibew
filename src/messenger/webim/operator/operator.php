@@ -53,11 +53,12 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 		( $opId && $existing_operator && $opId != $existing_operator['operatorid']) )
 		$errors[] = getlocal("page_agent.error.duplicate_login");
 		
-		
-	if($opId != $operator['operatorid'] && !is_capable($can_administrate, $operator)) {
+	$canmodify = ($opId == $operator['operatorid'] && is_capable($can_modifyprofile, $operator)) 
+				|| is_capable($can_administrate, $operator);
+	if(!$canmodify) {
 		$errors[] = getlocal('page_agent.cannot_modify');
 	}
-		
+	
 	if( count($errors) == 0 ) {
 		if (!$opId) {
 			$newop = create_operator($login,$password,$localname,$commonname,"");
@@ -90,7 +91,16 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 	}
 }
 
+if(!$opId && !is_capable($can_administrate, $operator)) {
+	$errors[] = "You are not allowed to create operators";
+}
+
+$canmodify = ($opId == $operator['operatorid'] && is_capable($can_modifyprofile, $operator)) 
+				|| is_capable($can_administrate, $operator);
+
 $page['stored'] = isset($_GET['stored']);
+$page['canmodify'] = $canmodify ? "1" : "";
+
 prepare_menu($operator);
 setup_operator_settings_tabs($opId,0);
 start_html_output();

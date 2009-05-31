@@ -332,6 +332,7 @@ pending.table.head.waittime=Waiting time
 pending.table.speak=Click to chat with the visitor
 pending.table.view=Watch the chat
 permission.admin=System administration: settings, operators management, button generation
+permission.modifyprofile=Ability to modify profile
 permission.takeover=Take over chat thread
 permission.viewthreads=View another operator's chat thread
 permissions.intro=Change restrictions and available features for this operator.

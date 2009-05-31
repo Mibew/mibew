@@ -22,6 +22,9 @@ $opId = verifyparam( "op","/^\d{1,9}$/");
 $page = array('opid' => $opId, 'avatar' => '');
 $errors = array();
 
+$canmodify = ($opId == $operator['operatorid'] && is_capable($can_modifyprofile, $operator)) 
+				|| is_capable($can_administrate, $operator);
+
 $op = operator_by_id($opId);
 
 if( !$op ) {
@@ -30,7 +33,7 @@ if( !$op ) {
 } else if( isset($_POST['op']) ) {
 	$avatar = $op['vcavatar'];
 
-	if($opId != $operator['operatorid'] && !is_capable($can_administrate, $operator)) {
+	if(!$canmodify) {
 		$errors[] = getlocal('page_agent.cannot_modify');
 
 	} else if( isset($_FILES['avatarFile']) && $_FILES['avatarFile']['name']) {
@@ -77,7 +80,7 @@ if( !$op ) {
 	}
 
 } else {
-	if (isset($_GET['delete']) && $_GET['delete'] == "true") {
+	if (isset($_GET['delete']) && $_GET['delete'] == "true" && $canmodify) {
 		update_operator_avatar($op['operatorid'],'');
 		header("Location: $webimroot/operator/avatar.php?op=$opId");
 		exit;
@@ -86,6 +89,7 @@ if( !$op ) {
 }
 
 $page['currentop'] = $op ? topage(get_operator_name($op))." (".$op['vclogin'].")" : "-not found-";
+$page['canmodify'] = $canmodify ? "1" : "";
 
 prepare_menu($operator);
 setup_operator_settings_tabs($opId,1);

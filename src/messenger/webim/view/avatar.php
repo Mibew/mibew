@@ -51,15 +51,24 @@ require_once('inc_errors.php');
 			<div class="flabel"><?php echo getlocal('form.field.avatar.current') ?></div>
 			<div class="fvalue">
 				<img src="<?php echo $page['avatar'] ?>" alt="cannot load avatar"/><br/>
+<?php if($page['canmodify']) { ?>
                 <a class="formauth" href='<?php echo $webimroot ?>/operator/avatar.php?op=<?php echo $page['opid'] ?>&amp;delete=true'>
                     <?php echo getlocal("page_agent.clear_avatar") ?>
                 </a>
+<?php } ?>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.avatar.current.description') ?></div>
 			<br clear="all"/>
 		</div>
+<?php } else if(!$page['canmodify']) { ?>
+		<div class="field">
+			<div class="fvaluenodesc">
+				No avatar
+			</div>
+		</div>
 <?php } ?>
 
+<?php if($page['canmodify']) { ?>
 		<div class="field">
 			<div class="flabel"><?php echo getlocal('form.field.avatar.upload') ?><span class="required">*</span></div>
 			<div class="fvalue">
@@ -72,6 +81,7 @@ require_once('inc_errors.php');
 		<div class="fbutton">
 			<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
 		</div>
+<?php } ?>
 	</div>
 
 	</div><div class="formbottom"><div class="formbottomi"></div></div></div>

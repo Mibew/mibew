@@ -32,6 +32,9 @@ $page = array('opid' => $opId);
 $page['groups'] = get_groups(false);
 $errors = array();
 
+$canmodify = ($opId == $operator['operatorid'] && is_capable($can_modifyprofile, $operator)) 
+				|| is_capable($can_administrate, $operator);
+
 $op = operator_by_id($opId);
 
 if( !$op ) {
@@ -39,10 +42,10 @@ if( !$op ) {
 
 } else if( isset($_POST['op']) ) {
 
-	if($opId != $operator['operatorid'] && !is_capable($can_administrate, $operator)) {
+	if(!$canmodify) {
 		$errors[] = getlocal('page_agent.cannot_modify');
 	}
-	
+
 	if(count($errors) == 0) {
 		$new_groups = array();
 		foreach($page['groups'] as $group) {
@@ -59,6 +62,7 @@ if( !$op ) {
 
 $page['formgroup'] = array();
 $page['currentop'] = $op ? topage(get_operator_name($op))." (".$op['vclogin'].")" : "-not found-";
+$page['canmodify'] = $canmodify ? "1" : "";
 
 if($op) {
 	foreach(get_operator_groupids($opId) as $rel) {

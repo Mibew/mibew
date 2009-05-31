@@ -19,7 +19,7 @@ $page['menuid'] = $page['opid'] == $page['currentopid'] ? "profile" : "operators
 function tpl_content() { global $page, $webimroot, $errors;
 ?>
 
-	<?php if( $page['opid'] ) { ?>
+<?php if( $page['opid'] ) { ?>
 <?php echo getlocal("page_agent.intro") ?>
 <?php } ?>
 <?php if( !$page['opid'] ) { ?>
@@ -34,6 +34,7 @@ require_once('inc_errors.php');
 <div id="formmessage"><?php echo getlocal("data.saved") ?></div>
 <?php } ?>
 
+<?php if( $page['opid'] || $page['canmodify'] ) { ?>
 <form name="agentForm" method="post" action="<?php echo $webimroot ?>/operator/operator.php">
 <input type="hidden" name="opid" value="<?php echo $page['opid'] ?>"/>
 	<div>
@@ -52,7 +53,7 @@ require_once('inc_errors.php');
 		<div class="field">
 			<div class="flabel"><?php echo getlocal('form.field.login') ?><span class="required">*</span></div>
 			<div class="fvalue">
-				<input type="text" name="login" size="40" value="<?php echo form_value('login') ?>" class="formauth"/>
+				<input type="text" name="login" size="40" value="<?php echo form_value('login') ?>" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.login.description') ?></div>
 			<br clear="all"/>
@@ -61,7 +62,7 @@ require_once('inc_errors.php');
 		<div class="field">
 			<div class="flabel"><?php echo getlocal('form.field.password') ?><?php if( !$page['opid'] ) { ?><span class="required">*</span><?php } ?></div>
 			<div class="fvalue">
-				<input type="password" name="password" size="40" value="" class="formauth"/>
+				<input type="password" name="password" size="40" value="" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.password.description') ?></div>
 			<br clear="all"/>
@@ -70,7 +71,7 @@ require_once('inc_errors.php');
 		<div class="field">
 			<div class="flabel"><?php echo getlocal('form.field.password_confirm') ?><?php if( !$page['opid'] ) { ?><span class="required">*</span><?php } ?></div>
 			<div class="fvalue">
-				<input type="password" name="passwordConfirm" size="40" value="" class="formauth"/>
+				<input type="password" name="passwordConfirm" size="40" value="" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.password_confirm.description') ?></div>
 			<br clear="all"/>
@@ -79,7 +80,7 @@ require_once('inc_errors.php');
 		<div class="field">
 			<div class="flabel"><?php echo getlocal('form.field.agent_name') ?><span class="required">*</span></div>
 			<div class="fvalue">
-				<input type="text" name="name" size="40" value="<?php echo form_value('name') ?>" class="formauth"/>
+				<input type="text" name="name" size="40" value="<?php echo form_value('name') ?>" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.agent_name.description') ?></div>
 			<br clear="all"/>
@@ -88,16 +89,17 @@ require_once('inc_errors.php');
 		<div class="field">
 			<div class="flabel"><?php echo getlocal('form.field.agent_commonname') ?><span class="required">*</span></div>
 			<div class="fvalue">
-				<input type="text" name="commonname" size="40" value="<?php echo form_value('commonname') ?>" class="formauth"/>
+				<input type="text" name="commonname" size="40" value="<?php echo form_value('commonname') ?>" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.agent_commonname.description') ?></div>
 			<br clear="all"/>
 		</div>
-	
+
+<?php if($page['canmodify']) { ?>
 		<div class="fbutton">
 			<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
 		</div>
-
+<?php } ?>
 	</div>
 	
 	</div><div class="formbottom"><div class="formbottomi"></div></div></div>
@@ -108,7 +110,7 @@ require_once('inc_errors.php');
 	</div>
 
 </form>
-
+<?php } ?>
 <?php 
 } /* content */
 

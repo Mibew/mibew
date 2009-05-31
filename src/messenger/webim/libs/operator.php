@@ -15,13 +15,15 @@
 $can_administrate = 0;
 $can_takeover = 1;
 $can_viewthreads = 2;
+$can_modifyprofile = 3;
 
-$can_count = 3;
+$can_count = 4;
 
 $permission_ids = array(
 	$can_administrate => "admin",
 	$can_takeover => "takeover",
-	$can_viewthreads => "viewthreads"
+	$can_viewthreads => "viewthreads",
+	$can_modifyprofile => "modifyprofile"
 );
 
 function operator_by_login($login) {
