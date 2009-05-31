@@ -1,3 +1,8 @@
+  1.6.1
+  -----
+  [!] 404 installation problem
+  [+] new permission: "Ability to modify profile"
+
   1.6.0
   -----
   [+] completely new layout of all administrator pages, XHTML 1.0
