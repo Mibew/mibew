@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of Web Instant Messenger project.
+ * This file is part of Mibew Messenger project.
  *
  * Copyright (c) 2005-2008 Web Messenger Community
  * All rights reserved. This program and the accompanying materials

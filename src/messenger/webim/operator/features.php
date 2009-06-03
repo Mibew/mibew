@@ -1,8 +1,8 @@
 <?php
 /*
- * This file is part of Web Instant Messenger project.
+ * This file is part of Mibew Messenger project.
  *
- * Copyright (c) 2005-2009 Web Messenger Community
+ * Copyright (c) 2005-2009 Mibew Messenger Community
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
