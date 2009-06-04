@@ -43,16 +43,6 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 	}
 
 	if( !$thread ) {
-		if(!has_online_operators()) {
-			$page = array();
-			setup_logo();
-			$page['formname'] = topage(getgetparam('name'));
-			$page['formemail'] = topage($email);
-			$page['info'] = topage($info);
-			expand("styles", getchatstyle(), "leavemessage.tpl");
-			exit;
-		}
-
 		$groupid = "";
 		if($settings['enablegroups'] == '1') {
 			$groupid = verifyparam( "group", "/^\d{1,8}$/", "");
@@ -62,6 +52,16 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 					$groupid = "";
 				}
 			}
+		}
+		
+		if(!has_online_operators($groupid)) {
+			$page = array();
+			setup_logo();
+			$page['formname'] = topage(getgetparam('name'));
+			$page['formemail'] = topage($email);
+			$page['info'] = topage($info);
+			expand("styles", getchatstyle(), "leavemessage.tpl");
+			exit;
 		}
 
 		$visitor = visitor_from_request();

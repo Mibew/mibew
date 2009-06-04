@@ -110,11 +110,15 @@ function notify_operator_alive($operatorid) {
 	mysql_close($link);
 }
 
-function has_online_operators() {
+function has_online_operators($groupid="") {
 	global $settings;
 	loadsettings();
 	$link = connect();
-	$row = select_one_row("select min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time from chatoperator",$link);
+	$query = "select min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time from chatoperator";
+	if($groupid) {
+		$query .= ", chatgroupoperator where groupid = $groupid and chatoperator.operatorid = chatgroupoperator.operatorid";
+	}
+	$row = select_one_row($query,$link);
 	mysql_close($link);
 	return $row['time'] < $settings['online_timeout'];
 }

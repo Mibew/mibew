@@ -4,6 +4,7 @@
   [+] new permission: "Ability to modify profile"
   [+] new project name: Mibew Messenger
   [!] fixed localization of dates for all languages
+  [!] fixed online/offline image for groups
 
   1.6.0
   -----

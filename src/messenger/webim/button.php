@@ -14,6 +14,7 @@
 
 require_once('libs/common.php');
 require_once('libs/operator.php');
+require_once('libs/groups.php');
 
 $image = verifyparam("image","/^\w+$/", "webim");
 $lang = verifyparam(isset($_GET['language']) ? "language" : "lang", "/^[\w-]{2,5}$/", "");
@@ -21,7 +22,20 @@ if(!$lang || !locale_exists($lang)) {
 	$lang = $current_locale;
 }
 
-$image_postfix = has_online_operators() ? "on" : "off";
+$groupid = verifyparam( "group", "/^\d{1,8}$/", "");
+if($groupid) {
+	loadsettings();
+	if($settings['enablegroups'] == '1') {
+		$group = group_by_id($groupid);
+		if(!$group) {
+			$groupid = "";
+		}
+	} else {
+		$groupid = "";
+	}
+}
+
+$image_postfix = has_online_operators($groupid) ? "on" : "off";
 $filename = "locales/${lang}/button/${image}_${image_postfix}.gif";
 
 $fp = fopen($filename, 'rb') or die("no image");

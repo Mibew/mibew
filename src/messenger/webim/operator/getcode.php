@@ -79,7 +79,11 @@ if( !$lang || !in_array($lang,$image_locales) )
 $file = "../locales/${lang}/button/${image}_on.gif";
 $size = get_gifimage_size($file);
 
-$message = get_image(get_app_location($showhost,$forcesecure)."/button.php?image=$image&amp;lang=$lang",$size[0],$size[1]);
+$imagehref = get_app_location($showhost,$forcesecure)."/button.php?image=$image&amp;lang=$lang";
+if($groupid) {
+	$imagehref .= "&amp;group=$groupid";
+}
+$message = get_image($imagehref,$size[0],$size[1]);
 
 $page = array();
 $page['buttonCode'] = generate_button("",$lang,$style,$groupid,$message,$showhost,$forcesecure);
