@@ -6,7 +6,7 @@ admin.content.client_gen_button=Przycisk generatora kodu HTML.
 admin.content.client_settings=Modyfikuj opcje okna rozmowy oraz wspólnych elementów systemu.
 admin.content.description=Dostępne funkcje kontroli użytkowników.
 agent.not_logged_in=Twoja sesja wygasła, zaloguj się ponownie
-app.descr=Web Komunikator jest oprogramowaniem wsparcia użytkownika (live support) opartym na licencji open-source.
+app.descr=Mibew Komunikator jest oprogramowaniem wsparcia użytkownika (live support) opartym na licencji open-source.
 app.title=Mibew Komunikator
 ban.error.duplicate=Podane adresy są już używane, kliknij <a href="ban.php?id={1}">tutaj</a> jeśli chcesz je edytować.
 button.delete=Usuń

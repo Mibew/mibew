@@ -6,7 +6,7 @@ admin.content.client_gen_button=產生放置在網站上的HTML語法。
 admin.content.client_settings=設定基本選項以及開放功能。
 admin.content.description=管理員可以利用下方功能進行管理。
 agent.not_logged_in=您閒置超過時限，請重新登入
-app.descr=Web Messenger 是一個開源的在線客服應用
+app.descr=Mibew Messenger 是一個開源的在線客服應用
 app.title=網站即時訊息
 ban.error.duplicate=位址 {0} 已經存在於系統之中, 點選　<a href="ban.php?id={1}">這裡</a> 進行編輯.
 button.delete=刪除

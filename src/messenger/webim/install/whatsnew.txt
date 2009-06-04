@@ -2,6 +2,7 @@
   -----
   [!] 404 installation problem
   [+] new permission: "Ability to modify profile"
+  [+] new project name: Mibew Messenger
 
   1.6.0
   -----
