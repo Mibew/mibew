@@ -21,6 +21,8 @@ require_once('../libs/pagination.php');
 $operator = check_login();
 loadsettings();
 
+setlocale(LC_TIME, getstring("time.locale"));
+
 $page = array();
 $query = isset($_GET['q']) ? myiconv(getoutputenc(), $webim_encoding, $_GET['q']) : false;
 

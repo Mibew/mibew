@@ -423,6 +423,7 @@ tag.pagination.previous=предыдущая
 thread.back_to_search=Перейти в поиск
 thread.chat_log=Протокол разговора
 thread.intro=На данной странице Вы можете просмотреть диалог.
+time.locale=ru_RU
 topMenu.admin=Операторское меню
 topMenu.logoff=Выход
 topMenu.main=Главная

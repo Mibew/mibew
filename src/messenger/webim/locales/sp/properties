@@ -416,6 +416,7 @@ tag.pagination.previous=anterior
 thread.back_to_search=Buscar
 thread.chat_log=conversación log
 thread.intro=La pagina muestra la conversación
+time.locale=es_ES
 topMenu.admin=Administración
 topMenu.logoff=Salir
 topMenu.main=Inicio

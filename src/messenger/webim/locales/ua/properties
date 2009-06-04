@@ -178,6 +178,7 @@ tag.pagination.no_items=Нічого не знайдено
 thread.back_to_search=Перейти в пошук
 thread.chat_log=Протокол размови
 thread.intro=На цій сторінці Ви можете подивитись діалог.
+time.locale=uk_UA
 topMenu.admin=Операторське меню
 topMenu.logoff=Вихід
 topMenu.users=Відвідувачі

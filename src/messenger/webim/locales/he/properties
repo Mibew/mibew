@@ -422,6 +422,7 @@ tag.pagination.previous=הקודם
 thread.back_to_search=עבור לחיפוש
 thread.chat_log=סיכום השיחה
 thread.intro=בעמוד נוכחי ניתן לצפות בשיחה
+time.locale=he_IL
 topMenu.admin=תפריט של הנציגים
 topMenu.logoff=יציאה
 topMenu.main=בית

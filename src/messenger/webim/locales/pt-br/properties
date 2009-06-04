@@ -301,6 +301,7 @@ tag.pagination.no_items=Encontrado 0 elemento(s)
 thread.back_to_search=Procurar
 thread.chat_log=Log do chat
 thread.intro=Está página mostra todos os chats
+time.locale=pt_BR
 topMenu.admin=Administração
 topMenu.logoff=Sair
 topMenu.users=Visitantes

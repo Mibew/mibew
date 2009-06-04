@@ -423,6 +423,7 @@ tag.pagination.previous=previous
 thread.back_to_search=Go to search
 thread.chat_log=Chat log
 thread.intro=This page displays chat details and content.
+time.locale=en_US
 topMenu.admin=Home
 topMenu.logoff=Exit
 topMenu.main=Home

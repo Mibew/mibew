@@ -267,6 +267,7 @@ tag.pagination.no_items=
 thread.back_to_search=Arama yap
 thread.chat_log=Ýleti Geçmiþi
 thread.intro=Görüþme Alaný
+time.locale=tr_TR
 topMenu.admin=Yöentim Paneli
 topMenu.logoff=Çýkýþ
 topMenu.users=Müþteriler

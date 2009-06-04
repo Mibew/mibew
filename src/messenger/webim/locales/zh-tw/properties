@@ -372,6 +372,7 @@ tag.pagination.previous=上一個
 thread.back_to_search=搜尋
 thread.chat_log=對談紀錄
 thread.intro=顯示對談頁面
+time.locale=zh_TW
 topMenu.admin=管理員
 topMenu.logoff=離開
 topMenu.main=首頁

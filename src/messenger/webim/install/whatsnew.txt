@@ -3,6 +3,7 @@
   [!] 404 installation problem
   [+] new permission: "Ability to modify profile"
   [+] new project name: Mibew Messenger
+  [!] fixed localization of dates for all languages
 
   1.6.0
   -----

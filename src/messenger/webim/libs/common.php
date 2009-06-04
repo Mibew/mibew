@@ -130,7 +130,6 @@ function get_locale() {
 }
 
 $current_locale = get_locale();
-setlocale(LC_TIME, $current_locale);
 $messages = array();
 $output_encoding = array();
 

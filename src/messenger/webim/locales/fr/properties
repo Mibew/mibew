@@ -422,6 +422,7 @@ tag.pagination.previous=précédent
 thread.back_to_search=Aller rechercher
 thread.chat_log=Session de dialogue
 thread.intro=Cette page affiche la conversation
+time.locale=fr_FR
 topMenu.admin=Administration
 topMenu.logoff=Sortie
 topMenu.main=Accueil

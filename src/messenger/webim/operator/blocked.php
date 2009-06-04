@@ -21,6 +21,8 @@ $operator = check_login();
 $page = array();
 $errors = array();
 
+setlocale(LC_TIME, getstring("time.locale"));
+
 $link = connect();
 
 if( isset($_GET['act']) && $_GET['act'] == 'del' ) {

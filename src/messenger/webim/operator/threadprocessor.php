@@ -21,6 +21,8 @@ $operator = check_login();
 
 $page = array();
 
+setlocale(LC_TIME, getstring("time.locale"));
+
 function thread_info($id) {
 	$link = connect();
 	$thread = select_one_row("select userName,agentName,remote,userAgent,".

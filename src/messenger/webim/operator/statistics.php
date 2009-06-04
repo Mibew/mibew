@@ -18,6 +18,8 @@ require_once('../libs/operator.php');
 
 $operator = check_login();
 
+setlocale(LC_TIME, getstring("time.locale"));
+
 $page = array();
 $page['operator'] = topage(get_operator_name($operator));
 $page['availableDays'] = range(1,31);

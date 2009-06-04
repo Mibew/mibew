@@ -422,6 +422,7 @@ tag.pagination.previous=Vorheriges
 thread.back_to_search=zur Suche gehen
 thread.chat_log=Chat Log
 thread.intro=Die Seite zeigt Chats an
+time.locale=de_DE
 topMenu.admin=Administration
 topMenu.logoff=Logout
 topMenu.main=Home

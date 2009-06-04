@@ -298,6 +298,7 @@ tag.pagination.no_items=找到 0 个
 thread.back_to_search=搜寻
 thread.chat_log=对谈纪录
 thread.intro=显示对谈页面
+time.locale=zh_CN
 topMenu.admin=管理员
 topMenu.logoff=离开
 topMenu.users=客服上线

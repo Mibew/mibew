@@ -23,6 +23,8 @@ loadsettings();
 
 $page = array();
 
+setlocale(LC_TIME, getstring("time.locale"));
+
 $userid = "";
 if( isset($_GET['userid'])) {
 	$userid = verifyparam( "userid", "/^.{0,63}$/", "");
