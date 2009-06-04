@@ -1,5 +1,5 @@
 /*
- *  Open Web Messenger common script
+ *  Mibew Messenger common script
  *  http://sourceforge.net/projects/webim
  *
  *  Based on Prototype JavaScript framework, version 1.3.1

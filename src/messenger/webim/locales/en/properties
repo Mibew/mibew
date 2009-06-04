@@ -6,8 +6,8 @@ admin.content.client_gen_button=Button HTML code generation.
 admin.content.client_settings=Specify options affecting chat window and common system behavior.
 admin.content.description=Functions available for site operators.
 agent.not_logged_in=Your session is expired please login again
-app.descr=Web Messenger is an open-source live support application.
-app.title=Web Instant Messenger
+app.descr=Mibew Messenger is an open-source live support application.
+app.title=Mibew Messenger
 ban.error.duplicate=The specified address is already in use, click <a href="ban.php?id={1}">here</a> if you want to edit it.
 button.delete=Delete
 button.enter=Enter
@@ -76,11 +76,11 @@ chat.window.close_title=Close chat
 chat.window.poweredby=Powered by:
 chat.window.poweredreftext=openwebim.org
 chat.window.predefined.select_answer=Choose answer...
-chat.window.product_name=Web <span class="grey">Messenger</span>
+chat.window.product_name=Mibew <span class="grey">Messenger</span>
 chat.window.send_message=Send message
 chat.window.send_message_short=Send ({0})
-chat.window.title.agent=Open Web Messenger
-chat.window.title.user=Open Web Messenger
+chat.window.title.agent=Mibew Messenger
+chat.window.title.user=Mibew Messenger
 chat.window.toolbar.mail_history=Send chat history by e-mail
 chat.window.toolbar.redirect_user=Redirect visitor to another operator
 chat.window.toolbar.refresh=Refresh
@@ -92,7 +92,7 @@ clients.queue.prio=Priority visitors queue
 clients.queue.wait=Waiting for operator for the first time
 clients.title=List of awaiting visitors
 common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - mandatory fields
-company.title=Web Messenger Community
+company.title=Mibew Messenger Community
 confirm.take.head=Change operator
 confirm.take.message=Visitor <span style="color:blue;">{0}</span> already assisted by <span style="color:green;">{1}</span>.<br/> Are you really sure you want to start chatting the visitor?
 confirm.take.no=No, close the window
@@ -191,8 +191,8 @@ leftMenu.client_gen_button=Button code
 leftMenu.client_settings=Settings
 localeid=English (en)
 localedirection=ltr
-mail.user.history.body=Hello, {0}!\n\nYour chat history: \n\n{1}\n--- \nKind Regards,\nWeb Messenger
-mail.user.history.subject=Web Messenger: dialog history
+mail.user.history.body=Hello, {0}!\n\nYour chat history: \n\n{1}\n--- \nKind Regards,\nMibew Messenger
+mail.user.history.subject=Mibew Messenger: dialog history
 mailthread.close=Close...
 mailthread.enter_email=Enter your e-mail:
 mailthread.perform=Send

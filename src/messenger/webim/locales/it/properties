@@ -6,8 +6,8 @@ admin.content.client_gen_button=Generazione del codice HTML per il bottone.
 admin.content.client_settings=Specifica le opzioni che interessano la finestra di chat e il comportamento del sistema.
 admin.content.description=Funzioni disponibili per gli appartenenti al gruppo  power users.
 agent.not_logged_in=La tua sessione è scaduta, riesegui il login
-app.descr=Web Messenger è un'applicazione open-source per l'assistenza in tempo reale.
-app.title=Web Instant Messenger
+app.descr=Mibew Messenger è un'applicazione open-source per l'assistenza in tempo reale.
+app.title=Mibew Messenger
 ban.error.duplicate=L'indirizzo specificato è già in uso, clicca <a href="ban.php?id={1}">qui</a> se vuoi modificarlo.
 button.delete=Cancella
 button.enter=Entra
@@ -76,7 +76,7 @@ chat.window.close_title=Chiudi la chat
 chat.window.poweredby=Powered by:
 chat.window.poweredreftext=openwebim.org
 chat.window.predefined.select_answer=Scegli la risposta...
-chat.window.product_name=Web <span class="grey">Messenger</span>
+chat.window.product_name=Mibew <span class="grey">Messenger</span>
 chat.window.send_message=Invia Messaggio
 chat.window.send_message_short=Invia ({0})
 chat.window.title.agent=Supporto On-Line
@@ -92,7 +92,7 @@ clients.queue.prio=Coda degli utenti con priorità
 clients.queue.wait=In attesa di operatore per la prima volta
 clients.title=Lista degli utenti in attesa
 common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - campi obbligatori
-company.title=Web Messenger Community
+company.title=Mibew Messenger Community
 confirm.take.head=Cambia operatore
 confirm.take.message=L'utente <span style="color:blue;">{0}</span> è già assistita da <span style="color:green;">{1}</span>.<br/> Sei sicuro di voler iniziare una chat con l'utente?
 confirm.take.no=No, chiudi la finestra
@@ -191,8 +191,8 @@ leftMenu.client_gen_button=Codice bottone
 leftMenu.client_settings=Impostazioni
 localeid=Italiano (it)
 localedirection=ltr
-mail.user.history.body=Ciao, {0}!\n\nLa tua cronologia: \n\n{1}\n--- \nKind Regards,\nWeb Messenger
-mail.user.history.subject=Web Messenger: dialog history
+mail.user.history.body=Ciao, {0}!\n\nLa tua cronologia: \n\n{1}\n--- \nKind Regards,\nMibew Messenger
+mail.user.history.subject=Messenger: dialog history
 mailthread.close=Chiudi...
 mailthread.enter_email=La tua e-mail:
 mailthread.perform=Invia

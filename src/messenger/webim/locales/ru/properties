@@ -7,7 +7,7 @@ admin.content.client_settings=Вы можете задать опции влияющие на отображение чат
 admin.content.description=Набор функций, доступный только зарегистрированным операторам
 agent.not_logged_in=Ваша сессия устарела, войдите, пожалуйста, снова
 app.descr=Веб Мессенджер это приложение для общения с посетителями вашего сайта.
-app.title=Веб Мессенджер
+app.title=Mibew Мессенджер
 ban.error.duplicate=Адрес {0} уже зарегестрирован в системе, нажмите <a href="ban.php?id={1}">здесь</a> чтобы отредактировать его.
 button.delete=Удалить
 button.enter=Войти
@@ -76,11 +76,11 @@ chat.window.close_title=Закрыть диалог
 chat.window.poweredby=Предоставлено:
 chat.window.poweredreftext=openwebim.org
 chat.window.predefined.select_answer=Выберите ответ...
-chat.window.product_name=Веб <span class="grey">Мессенджер</span>
+chat.window.product_name=Mibew <span class="grey">Мессенджер</span>
 chat.window.send_message=Отправить сообщение
 chat.window.send_message_short=Отправить ({0})
-chat.window.title.agent=Веб Мессенджер
-chat.window.title.user=Веб Мессенджер
+chat.window.title.agent=Mibew Мессенджер
+chat.window.title.user=Mibew Мессенджер
 chat.window.toolbar.mail_history=Отправить историю диалога по электронной почте
 chat.window.toolbar.redirect_user=Перенаправить посетителя другому оператору
 chat.window.toolbar.refresh=Обновить содержимое диалога
@@ -92,7 +92,7 @@ clients.queue.prio=Приоритетная очередь посетителей
 clients.queue.wait=Ожидающие оператора в первый раз
 clients.title=Список ожидающих посетителей
 common.asterisk_explanation=<b><font class="red">*</font></b> - поля, обязательные для заполнения
-company.title=Web Messenger Community
+company.title=Mibew Messenger Community
 confirm.take.head=Сменить оператора
 confirm.take.message=С посетителем <span style="color:blue;">{0}</span> уже общается <span style="color:green;">{1}</span>.<br/>Вы уверены что хотите сменить его?
 confirm.take.no=Нет, закрыть окно
@@ -191,8 +191,8 @@ leftMenu.client_gen_button=Код кнопки
 leftMenu.client_settings=Настройки
 localeid=Russian (ru)
 localedirection=ltr
-mail.user.history.body=Здраствуйте, {0}!\n\nПо Вашему запросу, высылаем историю: \n\n{1}\n--- \nС уважением,\nВеб Мессенджер
-mail.user.history.subject=Веб Мессенджер: история диалога
+mail.user.history.body=Здраствуйте, {0}!\n\nПо Вашему запросу, высылаем историю: \n\n{1}\n--- \nС уважением,\nMibew Мессенджер
+mail.user.history.subject=Мессенджер: история диалога
 mailthread.close=Закрыть...
 mailthread.enter_email=Введите Ваш E-mail:
 mailthread.perform=Отправить

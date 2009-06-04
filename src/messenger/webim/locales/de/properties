@@ -76,11 +76,11 @@ chat.window.close_title=Chat schliessen
 chat.window.poweredby=Powered by:
 chat.window.poweredreftext=openwebim.org
 chat.window.predefined.select_answer=Antwort auswählen...
-chat.window.product_name=Web <span class="grey">Messenger</span>
+chat.window.product_name=Mibew <span class="grey">Messenger</span>
 chat.window.send_message=Nachricht senden
 chat.window.send_message_short=Senden ({0})
-chat.window.title.agent=Open Web Messenger
-chat.window.title.user=Open Web Messenger
+chat.window.title.agent=Mibew Messenger
+chat.window.title.user=Mibew Messenger
 chat.window.toolbar.mail_history=Chat-Protokoll via Email senden
 chat.window.toolbar.redirect_user=Benutzer an einen anderen Operator weiterleiten
 chat.window.toolbar.refresh=Aktualisieren
@@ -92,7 +92,7 @@ clients.queue.prio=Prioritäts Besucher Warteschlange
 clients.queue.wait=Das erste mal auf einen Operator warten
 clients.title=Liste der wartenden Benutzer
 common.asterisk_explanation=<b><font class="red">*</font></b> -	obligatorische Felder
-company.title=Web Messenger Community
+company.title=Mibew Messenger Community
 confirm.take.head=Operator wechseln
 confirm.take.message=Besucher <span style="color:blue;">{0}</span> ist schon reserviert für <span style="color:green;">{1}</span>.<br/> Sicher zum Start ?
 confirm.take.no=Nein, Fenster schliessen.
@@ -192,7 +192,7 @@ leftMenu.client_settings=Einstellungen
 localeid=Deutsch (de)
 localedirection=ltr
 mail.user.history.body=Hallo, {0}!\n\nIhre Chat-Protokoll: \n\n{1}\n--- \nMit freundlichen Gruessen,\nIhr Support Team
-mail.user.history.subject=Web Messenger: Chat-Protokoll
+mail.user.history.subject=Mibew Messenger: Chat-Protokoll
 mailthread.close=schliessen...
 mailthread.enter_email=Email eingeben:
 mailthread.perform=Senden

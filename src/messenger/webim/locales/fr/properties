@@ -6,8 +6,8 @@ admin.content.client_gen_button=Générer code HTML du Bouton.
 admin.content.client_settings=Spécifiez les options concernant la fenêtre de discussion et le comportement général du programme
 admin.content.description=Fonctions disponible pour utilisateurs autorisés.
 agent.not_logged_in=Votre session a expiré; ouvrez une nouvelle session
-app.descr=Web Messenger est une application de Support Direct sous licence Open-Source Initiative.
-app.title=Messageries Web Instantané
+app.descr=Mibew Messenger est une application de Support Direct sous licence Open-Source Initiative.
+app.title=Mibew Messenger
 ban.error.duplicate=L'adresse {0} est déjà utilisée, cliquez <a href="ban.php?id={1}">ici</a> pour la modifier.
 button.delete=Supprimer
 button.enter=Entrer
@@ -76,7 +76,7 @@ chat.window.close_title=Clore l'entretien
 chat.window.poweredby=Pulsé par:
 chat.window.poweredreftext=openwebim.org
 chat.window.predefined.select_answer=Choisissez une réponse...
-chat.window.product_name=Web <span class="grey">Messagerie</span>
+chat.window.product_name=Mibew <span class="grey">Messagerie</span>
 chat.window.send_message=Envoyer message
 chat.window.send_message_short=Envoyer ({0})
 chat.window.title.agent=Messagerie Web
@@ -92,7 +92,7 @@ clients.queue.prio=File des visiteurs prioritaires
 clients.queue.wait=En attente d'un opérateur pour la 1ère fois
 clients.title=Liste des visiteurs en attente
 common.asterisk_explanation=<b><font class="red">*</font></b> - champs obligatoires
-company.title=Communauté Web Messager
+company.title=Communauté Mibew Messager
 confirm.take.head=Changez d'opérateur
 confirm.take.message=Le Visiteur <span style="color:blue;">{0}</span> est déjà assisté par <span style="color:green;">{1}</span>.<br/> Etes-vous sûr de vouloir démarrer une discussion avec ce visiteur?
 confirm.take.no=NON, fermer la fenêtre
@@ -192,7 +192,7 @@ leftMenu.client_settings=Paramètres
 localedirection=ltr
 localeid=Français (fr)
 mail.user.history.body=Bonjour, {0}!\n\nVotre historique de dialogue: \n\n{1}\n--- \nCordialement,\nLe Messager Web
-mail.user.history.subject=Web Messager: historique du dialogue
+mail.user.history.subject=Messager: historique du dialogue
 mailthread.close=Fermer...
 mailthread.enter_email=Entrer votre email:
 mailthread.perform=Envoyer

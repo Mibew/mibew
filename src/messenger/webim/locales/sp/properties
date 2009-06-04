@@ -6,8 +6,8 @@ admin.content.client_gen_button=Genera código boton HTML.
 admin.content.client_settings=Especifique las opciones que afectan a la ventana de la charla y al comportamiento de sistema común.
 admin.content.description=Funciones disponibles sólo para usuarios administradores.
 agent.not_logged_in=Su sesión ha expirado por favor accese de nuevo
-app.descr=Web Messenger es un aplicación de código abierto para el soporte en línea
-app.title=Web Instant Messenger
+app.descr=Mibew Messenger es un aplicación de código abierto para el soporte en línea
+app.title=Mibew Messenger
 ban.error.duplicate=Dirección {0} esta en el sistema, click <a href="ban.php?id={1}">here</a> para editarla.
 button.delete=Eliminar
 button.enter=Entrar
@@ -74,11 +74,11 @@ chat.window.close_title=Cerrar conversación
 chat.window.poweredby=Powered by:
 chat.window.poweredreftext=openwebim.org
 chat.window.predefined.select_answer=Elige respuesta...
-chat.window.product_name=Web <span class="grey">Messenger</span>
+chat.window.product_name=Mibew <span class="grey">Messenger</span>
 chat.window.send_message=Enviar Mensaje
 chat.window.send_message_short=Enviar ({0})
-chat.window.title.agent=Open Web Messenger
-chat.window.title.user=Open Web Messenger
+chat.window.title.agent=Mibew Messenger
+chat.window.title.user=Mibew Messenger
 chat.window.toolbar.mail_history=Enviar conversación por email
 chat.window.toolbar.redirect_user=Redirecciónar visitante a otro operador
 chat.window.toolbar.refresh=Refrescar
@@ -90,7 +90,7 @@ clients.queue.prio=Visitante con prioridad para atención
 clients.queue.wait=Esperando a operador por primera vez
 clients.title=Lista de visitantes en espera
 common.asterisk_explanation=<b><font class="red">*</font></b> - mandatory fields
-company.title=Web Messenger Comunidad
+company.title=Mibew Messenger Comunidad
 confirm.take.head=Cambiar operador
 confirm.take.message=Visitante <span style="color:blue;">{0}</span> es actualmente servido por<span style="color:green;">{1}</span>.<br/> Esta usted seguro que quiere iniciar conversación con los visitantes?
 confirm.take.no=No, cierre la ventana
@@ -160,7 +160,7 @@ install.3.create=Crear las tablas requeridas.
 install.3.tables_exist=Tablas requeridas creadas.
 install.4.create=Actualizar tablas
 install.4.done=Estructura de tablas actualizadas.
-install.4.notice=Estructura de tablas ajustadas para la nueva versión de Web Instant Messenger. 
+install.4.notice=Estructura de tablas ajustadas para la nueva versión de Mibew Messenger. 
 install.connection.error=No hay conexión, por favor verifique la configuración del servidor en config.php. Error: {0}
 install.done=Completada:
 install.err.back=Resuelva el problema e intente de nuevo. Presione <a>back</a> para regresar a la ayuda.
@@ -189,8 +189,8 @@ leftMenu.client_gen_button=Código del Botón
 leftMenu.client_settings=Configuraciones
 localeid=Español (es)
 localedirection=ltr
-mail.user.history.body=Hola {0}!\n\nSu conversación: \n\n{1}\n--- \nKind Regards,\nWeb Messenger
-mail.user.history.subject=Web Messenger: Histórico de conversación
+mail.user.history.body=Hola {0}!\n\nSu conversación: \n\n{1}\n--- \nKind Regards,\nMibew Messenger
+mail.user.history.subject=Messenger: Histórico de conversación
 mailthread.close=Cerrar...
 mailthread.enter_email=Escriba su e-mail:
 mailthread.perform=Enviar

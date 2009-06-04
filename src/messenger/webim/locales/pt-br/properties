@@ -6,7 +6,7 @@ admin.content.client_gen_button=Botão de geração de código HTML
 admin.content.client_settings=Especificar opções que afetam a janela de chat e o comportamento comum do sistema.
 admin.content.description=Funções disponíveis para administradores.
 agent.not_logged_in=Sua sessão expirou, por favor faça novamente o login
-app.title=Web Instant Messenger
+app.title=Mibew Messenger
 ban.error.duplicate=O endereço especificado já está em uso, clique <a href="ban.php?id={1}">aqui</a> se você deseja editá-lo.
 button.delete=Excluir
 button.enter=Entrar
@@ -53,11 +53,11 @@ chat.window.close_title=Fechar chat
 chat.window.poweredby=Desenvolvimento:
 chat.window.poweredreftext=openwebim.org
 chat.window.predefined.select_answer=Escolha a resposta...
-chat.window.product_name=Web <span class="grey">Messenger</span>
+chat.window.product_name=Mibew <span class="grey">Messenger</span>
 chat.window.send_message=Enviar Mensagem
 chat.window.send_message_short=Enviar ({0})
-chat.window.title.agent=Open Web Messenger
-chat.window.title.user=Open Web Messenger
+chat.window.title.agent=Mibew Messenger
+chat.window.title.user=Mibew Messenger
 chat.window.toolbar.mail_history=Envie histórico do chat por e-mail
 chat.window.toolbar.redirect_user=Redirecionar visitante para outro operador
 chat.window.toolbar.refresh=Refresh
@@ -69,7 +69,7 @@ clients.queue.prio=Fila de prioridade para visitantes
 clients.queue.wait=Esperando um operador
 clients.title=Lista de visitantes em espera
 common.asterisk_explanation=<b><font class="red">*</font></b> - Campos obrigatórios
-company.title=Web Messenger Community
+company.title=Mibew Messenger Community
 confirm.take.head=Mudar o operador
 confirm.take.message=O visitante <span style="color:blue;">{0}</span> já está sendo atendido <span style="color:green;">{1}</span>.<br/> Você tem certeza que quer entrar no chat?
 confirm.take.no=Não, feche esta janela
@@ -157,8 +157,8 @@ leftMenu.client_gen_button=Botão
 leftMenu.client_settings=Configurações
 localeid=Português Brasil (pt-br)
 localedirection=ltr
-mail.user.history.body=Olá, {0}!\n\nSeu histórico do chat: \n\n{1}\n--- \nObrigado,\nWeb Messenger
-mail.user.history.subject=Web Messenger: Histórico de conversa
+mail.user.history.body=Olá, {0}!\n\nSeu histórico do chat: \n\n{1}\n--- \nObrigado,\nMibew Messenger
+mail.user.history.subject=Messenger: Histórico de conversa
 mailthread.close=Fechar...
 mailthread.enter_email=Digite seu e-mail:
 mailthread.perform=Enviar

@@ -92,7 +92,7 @@ clients.queue.prio=רשימת אורחים מועדפים
 clients.queue.wait=ממתינים לראשונה לנציג
 clients.title=רשימת אורחים ממתינים
 common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - שדות חושה למילוי
-company.title=Web Messenger Community
+company.title=Mibew Messenger Community
 confirm.take.head=להחליף נציג
 confirm.take.message=Visitor <span style="color:blue;">{0}</span> נמצא כבר בשיחה <span style="color:green;">{1}</span>.<br/> האם אתה בטוח שברצונך, להחליף את הנציג?
 confirm.take.no=לא, סגור חלון

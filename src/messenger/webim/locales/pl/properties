@@ -7,7 +7,7 @@ admin.content.client_settings=Modyfikuj opcje okna rozmowy oraz wspólnych eleme
 admin.content.description=Dostępne funkcje kontroli użytkowników.
 agent.not_logged_in=Twoja sesja wygasła, zaloguj się ponownie
 app.descr=Web Komunikator jest oprogramowaniem wsparcia użytkownika (live support) opartym na licencji open-source.
-app.title=Web Komunikator
+app.title=Mibew Komunikator
 ban.error.duplicate=Podane adresy są już używane, kliknij <a href="ban.php?id={1}">tutaj</a> jeśli chcesz je edytować.
 button.delete=Usuń
 button.enter=Wprowadź
@@ -76,11 +76,11 @@ chat.window.close_title=Zamknij rozmowę
 chat.window.poweredby=Powered by:
 chat.window.poweredreftext=openwebim.org
 chat.window.predefined.select_answer=Wybierz odpowiedź...
-chat.window.product_name=Web <span class="grey">Komunikator</span>
+chat.window.product_name=Mibew <span class="grey">Komunikator</span>
 chat.window.send_message=Wyślij wiadomość
 chat.window.send_message_short=Wyślij ({0})
-chat.window.title.agent=Otwarty Web Komunikator
-chat.window.title.user=Otwarty Web Komunikator
+chat.window.title.agent=Mibew Komunikator
+chat.window.title.user=Mibew Komunikator
 chat.window.toolbar.mail_history=Wyślij historię rozmowy na adres email
 chat.window.toolbar.redirect_user=Przekieruj użytkownika do innego operatora
 chat.window.toolbar.refresh=Odśwież
@@ -92,7 +92,7 @@ clients.queue.prio=Kolejka oczekujących użytkowników
 clients.queue.wait=Osoby oczekujące po raz pierwszy na rozmowę
 clients.title=Lista oczekujących użytkowników
 common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - pola wymagane
-company.title=Społecznośc Web Komunikatora
+company.title=Społecznośc Mibew Komunikatora
 confirm.take.head=Zmień Operatora
 confirm.take.message=Użytkownik <span style="color:blue;">{0}</span> jest już obsługiwany przez <span style="color:green;">{1}</span>.<br/> Na pewno chcesz rozpocząć rozmowę z tym użytkownikiem?
 confirm.take.no=Nie, zamknij okno
@@ -191,8 +191,8 @@ leftMenu.client_gen_button=Kod przycisku
 leftMenu.client_settings=Ustawienia
 localeid=Polski (pl)
 localedirection=ltr
-mail.user.history.body=Witaj, {0}!\n\nTwoja historia rozmowy: \n\n{1}\n--- \nPozdrawiamy,\nWeb Komunikator
-mail.user.history.subject=Web Komunikator: historia rozmowy
+mail.user.history.body=Witaj, {0}!\n\nTwoja historia rozmowy: \n\n{1}\n--- \nPozdrawiamy,\nMibew Komunikator
+mail.user.history.subject=Komunikator: historia rozmowy
 mailthread.close=Zamknij...
 mailthread.enter_email=Wprowadź swój adres email:
 mailthread.perform=Wyślij
