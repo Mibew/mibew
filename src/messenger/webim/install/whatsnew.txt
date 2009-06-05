@@ -7,6 +7,8 @@
   [!] fixed online/offline image for groups
   [+] ability to delete operators, confirmation dialog when deleting group/operator/blocked address
   [+] Information about last activity for operators: Online, Today at 22, 01 Jan.., or Never
+  [+] new theme: simplicity (by Sheldmandu)
+  [!] chat templates are fixed according to html standards
 
   1.6.0
   -----
