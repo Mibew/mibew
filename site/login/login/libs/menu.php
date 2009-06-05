@@ -6,7 +6,7 @@
 <link href="libs/loginmodule.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<h1>Welcome</h1>
+<h1>Welcome </h1>
 <a href="member-profile.php">My Profile</a> |<a href="payware.php">Payware</a>| <a href="downloads.php">Downloads</a>| <a href="features.php">Features</a> | 
 <a href="ticket.php">Ticket Support</a> |<a href="logout.php">Logout</a>
 <p></p>
