@@ -30,14 +30,19 @@ function demo_process_thread($act,$outformat,$lastid,$isuser,$canpost,$istyping,
 			print("<thread lastid=\"$lastid\" typing=\"".($istyping ? 1 : 0)."\" canpost=\"".($canpost ? 1 : 0)."\">");
 		} else {
 			start_html_output();
-			$url = "$webimroot/thread.php?act=refresh&thread=0&token=123&html=on&user=".($isuser?"true":"false");
-			print("<html><head>\n".
-				"<link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\"$webimroot/styles/default/chat.css\" />\n".
-				"<meta http-equiv=\"Refresh\" content=\"7; URL=$url&sn=11\">\n".
+			$url = "$webimroot/thread.php?act=refresh&amp;thread=0&amp;token=123&amp;html=on&amp;user=".($isuser?"true":"false");
+			
+			print(
+				"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">".
+				"<html>\n<head>\n".
+				"<link href=\"$webimroot/styles/default/chat.css\" rel=\"stylesheet\" type=\"text/css\">\n".
+				"<meta http-equiv=\"Refresh\" content=\"7; URL=$url&amp;sn=11\">\n".
 				"<meta http-equiv=\"Pragma\" content=\"no-cache\">\n".
-				"</head>".
-				"<body bgcolor='#FFFFFF' text='#000000' link='#C28400' vlink='#C28400' alink='#C28400' marginwidth='0' marginheight='0' leftmargin='0' rightmargin='0' topmargin='0' bottommargin='0'>".
+				"<title>chat</title>\n".
+				"</head>\n".
+				"<body bgcolor='#FFFFFF' text='#000000' link='#C28400' vlink='#C28400' alink='#C28400'>".
 				"<table width='100%' cellspacing='0' cellpadding='0' border='0'><tr><td valign='top' class='message'>" );
+			
 		}
 		if($lastid == 1) {
 			demo_print_message(
@@ -70,7 +75,7 @@ function demo_process_thread($act,$outformat,$lastid,$isuser,$canpost,$istyping,
 			print("</thread>");
 		} else {
 			print(
-				"</td></tr></table><a name='aend'>".
+				"</td></tr></table><a name='aend'></a>".
 				"</body></html>" );
 		}
 	}

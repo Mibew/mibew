@@ -38,10 +38,10 @@ if(!in_array($preview, $stylelist)) {
 	$preview = $stylelist[0];
 }
 
-$show = verifyparam("show", "/^(chat|chatsimple|nochat|mail|mailsent|survey|leavemessage|leavemessagesent|redirect|redirected|agentchat|agentrochat)$/", "");
+$show = verifyparam("show", "/^(chat|chatsimple|nochat|mail|mailsent|survey|leavemessage|leavemessagesent|redirect|redirected|agentchat|agentrochat|error)$/", "");
 $showerrors = verifyparam("showerr", "/^on$/", "") == "on";
 $errors = array();
-if($showerrors) {
+if($showerrors || $show == 'error') {
 	$errors[] = "Test error";
 }
 
@@ -59,7 +59,7 @@ if($show == 'survey') {
 	expand("../styles", "$preview", "$show.tpl");
 	exit;
 }
-if($show == 'mailsent') {
+if($show == 'mailsent' || $show == 'error') {
 	$page['email'] = "admin@yourdomain.com";
 	setup_logo();
 	expand("../styles", "$preview", "$show.tpl");
@@ -101,6 +101,7 @@ $templateList = array(
 	array('label' => getlocal("page.preview.redirected"), 'id' => 'redirected', 'h' => 480, 'w' => 640),
 	array('label' => getlocal("page.preview.agentchat"), 'id' => 'agentchat', 'h' => 480, 'w' => 640),
 	array('label' => getlocal("page.preview.agentrochat"), 'id' => 'agentrochat', 'h' => 480, 'w' => 640),
+	array('label' => getlocal("page.preview.error"), 'id' => 'error', 'h' => 480, 'w' => 640),
 );
 
 $template = verifyparam("template", "/^\w+$/", "chat");
@@ -115,7 +116,7 @@ $page['availableTemplates'] = array(
 	"survey", "leavemessage", "leavemessagesent",
 	"mail", "mailsent",
 	"redirect", "redirected",
-	"agentchat", "agentrochat",
+	"agentchat", "agentrochat", "error",
 	"all");
 
 $page['showlink'] = "$webimroot/operator/themes.php?preview=$preview&amp;".($showerrors?"showerr=on&amp;":"")."show=";

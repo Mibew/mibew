@@ -434,10 +434,10 @@ function get_gifimage_size($filename) {
 function add_params($servlet, $params) {
 	$infix = '?';
 	if( strstr($servlet,$infix) !== FALSE )
-		$infix = '&';
+		$infix = '&amp;';
 	foreach($params as $k => $v) {
 		$servlet .= $infix.$k."=".$v;
-		$infix = '&';
+		$infix = '&amp;';
 	}
 	return $servlet;
 }

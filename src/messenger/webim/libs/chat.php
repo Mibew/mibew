@@ -160,22 +160,25 @@ function print_thread_messages($thread, $token, $lastid, $isuser, $format, $agen
 		$output = get_messages($threadid,"html",$isuser,$lastid);
 
 		start_html_output();
-		$url = "$webimroot/thread.php?act=refresh&thread=$threadid&token=$token&html=on&user=".($isuser?"true":"false");
+		$url = "$webimroot/thread.php?act=refresh&amp;thread=$threadid&amp;token=$token&amp;html=on&amp;user=".($isuser?"true":"false");
 
-		print("<html><head>\n".
-			"<link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\"$webimroot/styles/default/chat.css\" />\n".
-			"<meta http-equiv=\"Refresh\" content=\"7; URL=$url&sn=11\">\n".
+		print(
+			"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">".
+			"<html>\n<head>\n".
+			"<link href=\"$webimroot/styles/default/chat.css\" rel=\"stylesheet\" type=\"text/css\">\n".
+			"<meta http-equiv=\"Refresh\" content=\"7; URL=$url&amp;sn=11\">\n".
 			"<meta http-equiv=\"Pragma\" content=\"no-cache\">\n".
-			"</head>".
-			"<body bgcolor='#FFFFFF' text='#000000' link='#C28400' vlink='#C28400' alink='#C28400' marginwidth='0' marginheight='0' leftmargin='0' rightmargin='0' topmargin='0' bottommargin='0' onload=\"if( location.hash != '#aend' ){location.hash='#aend';}\">".
+			"<title>chat</title>\n".
+			"</head>\n".
+			"<body bgcolor='#FFFFFF' text='#000000' link='#C28400' vlink='#C28400' alink='#C28400' onload=\"if( location.hash != '#aend' ){location.hash='#aend';}\">".
 			"<table width='100%' cellspacing='0' cellpadding='0' border='0'><tr><td valign='top' class='message'>" );
-
+		
 		foreach( $output as $msg ) {
 			print $msg;
 		}
 
 		print(
-			"</td></tr></table><a name='aend'>".
+			"</td></tr></table><a name='aend'></a>".
 			"</body></html>" );
 	}
 }
@@ -317,11 +320,11 @@ function setup_chatview_for_user($thread,$level) {
 		$page['ignorectrl'] =  0;
 	}
 
-	$params = "thread=".$thread['threadid']."&token=".$thread['ltoken'];
-	$page['mailLink'] = "$webimroot/client.php?".$params."&level=$level&act=mailthread";
+	$params = "thread=".$thread['threadid']."&amp;token=".$thread['ltoken'];
+	$page['mailLink'] = "$webimroot/client.php?".$params."&amp;level=$level&amp;act=mailthread";
 
 	if($settings['enablessl'] == "1" && !is_secure_request()) {
-		$page['sslLink'] = get_app_location(true, true)."/client.php?".$params."&level=$level";
+		$page['sslLink'] = get_app_location(true, true)."/client.php?".$params."&amp;level=$level";
 	}
 
 	$page['isOpera95'] = is_agent_opera95();
@@ -374,7 +377,7 @@ function setup_chatview_for_operator($thread,$operator) {
 	}
 
 	if($settings['enablessl'] == "1" && !is_secure_request()) {
-		$page['sslLink'] = get_app_location(true, true)."/operator/agent.php?thread=".$thread['threadid']."&token=".$thread['ltoken'];
+		$page['sslLink'] = get_app_location(true, true)."/operator/agent.php?thread=".$thread['threadid']."&amp;token=".$thread['ltoken'];
 	}
 	$page['isOpera95'] = is_agent_opera95();
 	$page['neediframesrc'] = needsFramesrc();
@@ -386,8 +389,8 @@ function setup_chatview_for_operator($thread,$operator) {
 		$predefinedres .= "<option>".htmlspecialchars(topage($answer['vcvalue']))."</option>";
 	}
 	$page['predefinedAnswers'] = $predefinedres;
-	$params = "thread=".$thread['threadid']."&token=".$thread['ltoken'];
-	$page['redirectLink'] = "$webimroot/operator/agent.php?".$params."&act=redirect";
+	$params = "thread=".$thread['threadid']."&amp;token=".$thread['ltoken'];
+	$page['redirectLink'] = "$webimroot/operator/agent.php?".$params."&amp;act=redirect";
 
 	$page['namePostfix'] = "";
 }
