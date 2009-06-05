@@ -2,13 +2,12 @@
 <html>
 <head>
 <title>${msg:chat.window.title.user}</title>
-<link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
-<meta http-equiv="Content-Type" content="text/html; charset=Windows-1251">
-<link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" />
+<link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" type="text/css" href="${tplroot}/chat.css">
 <script type="text/javascript" language="javascript" src="${webimroot}/js/brws.js?v=161"></script>
 </head>
 
-<body bgcolor="#FFFFFF" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" marginwidth="0" marginheight="0" leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0">
+<body bgcolor="#FFFFFF" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400">
 
 <table width="600" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -110,7 +109,7 @@
 			<tr>
 		    <td bgcolor="#A1A1A1"><img src='${webimroot}/images/free.gif' width="1" height="1" border="0" alt="" /></td>
 		    <td width="100%" bgcolor="#FFFFFF" valign="top">
-				<iframe name="chatwndiframe" width="100%" height="175" src="${webimroot}/thread.php?act=refresh&thread=${page:ct.chatThreadId}&token=${page:ct.token}&html=on&user=true" frameborder="0" style="overflow:auto;">
+				<iframe name="chatwndiframe" width="100%" height="175" src="${webimroot}/thread.php?act=refresh&amp;thread=${page:ct.chatThreadId}&amp;token=${page:ct.token}&amp;html=on&amp;user=true" frameborder="0" style="overflow:auto;">
 				Sorry, your browser does not support iframes; try a browser that supports W3 standards.
 				</iframe>
 			</td>
@@ -137,7 +136,7 @@
 			<tr>
 		    <td bgcolor="#A1A1A1"><img src='${webimroot}/images/free.gif' width="1" height="1" border="0" alt="" /></td>
 		    <td width="565" height="85" bgcolor="#FFFFFF" valign="top">
-				<form id="messageform" method="post" action="${webimroot}/thread.php" target="chatwndiframe" width="565" height="85">
+				<form id="messageform" method="post" action="${webimroot}/thread.php" target="chatwndiframe">
 				<input type="hidden" name="act" value="post"/><input type="hidden" name="html" value="on"/><input type="hidden" name="thread" value="${page:ct.chatThreadId}"/><input type="hidden" name="token" value="${page:ct.token}"/><input type="hidden" name="user" value="true"/>
 				<input type="hidden" id="message" name="message" value=""/>
 				<textarea id="messagetext" cols="50" rows="4" class="message" style="width:550px;" tabindex="0"></textarea>
@@ -176,9 +175,9 @@
 
 			<tr>
 		    <td><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.send_message}"><img src='${webimroot}/images/submit.gif' width="40" height="35" border="0" alt=""/></a></td>
-		    <td background="${webimroot}/images/submitbg.gif" valign="top" class="submit">
-				<img src='${webimroot}/images/free.gif' width="1" height="10" border="0" alt="" /><br>
-				<a id="msgsend1" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.send_message}">${msg:chat.window.send_message_short,send_shortcut}</a><br>
+		    <td style="background-image: url(${webimroot}/images/submitbg.gif)" valign="top" class="submit">
+				<img src='${webimroot}/images/free.gif' width="1" height="10" border="0" alt="" /><br/>
+				<a id="msgsend1" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.send_message}">${msg:chat.window.send_message_short,send_shortcut}</a><br/>
 			</td>
 			<td width="10"><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.send_message}"><img src='${webimroot}/images/submitrest.gif' width="10" height="35" border="0" alt=""/></a></td>
 			</tr>

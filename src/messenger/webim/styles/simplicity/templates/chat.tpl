@@ -2,23 +2,21 @@
 <html>
 <head>
 <title>${msg:chat.window.title.agent}</title>
-<link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
-<meta http-equiv="Content-Type" content="text/html; charset=Windows-1251">
-<link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" />
-<script type="text/javascript" language="javascript" src="${webimroot}/js/common.js?v=160a1"></script>
-<script type="text/javascript" language="javascript" src="${webimroot}/js/brws.js?v=160a1"></script>
-<script language="javascript">
-<!--
+<link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" type="text/css" href="${tplroot}/chat.css">
+<script type="text/javascript" language="javascript" src="${webimroot}/js/common.js?v=161"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/brws.js?v=161"></script>
+<script type="text/javascript" language="javascript"><!--
 var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",frequency:2,${if:user}user:"true",${endif:user}threadid:${page:ct.chatThreadId},token:${page:ct.token},cssfile:"${tplroot}/chat.css",ignorectrl:${page:ignorectrl} };
 //-->
 </script>
-<script type="text/javascript" language="javascript" src="${webimroot}/js/chat.js?v=160a1"></script>
-</head>
-<style>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/chat.js?v=161"></script>
+<style type="text/css">
 .isound { background: url(${tplroot}/images/buttons/sound.gif) no-repeat; width: 19px; height: 19px; }
 .inosound { background: url(${tplroot}/images/buttons/nosound.gif) no-repeat; width: 19px; height: 19px; }
 </style>
-<body>
+</head>
+<body style="background:#EFEFEF;">
 <div id="greybg">
 	<table id="toolbar" cellpadding="0" cellspacing="0" border="0" width="100%">
 		<tr>
@@ -34,7 +32,7 @@ var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",freque
 							${endif:historyParams}
 						</td>
 						<td>
-							<a class="closethread" href="javascript:void(0)" onClick="return false;" title="${msg:chat.window.close_title}"><img src="${tplroot}/images/buttons/close.gif" border="0" alt="${msg:chat.window.close_title}" altKey="chat.window.close_link_text"/></a>
+							<a class="closethread" href="javascript:void(0)" onClick="return false;" title="${msg:chat.window.close_title}"><img src="${tplroot}/images/buttons/close.gif" border="0" alt="${msg:chat.window.close_title}"/></a>
 						</td>
 					</tr></table>
 				${endif:agent}
@@ -68,13 +66,13 @@ var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",freque
 				<table cellpadding="0" cellspacing="5" border="0"><tr>
 				${if:user}
 					<td>
-						<a href="${page:mailLink}&style=${styleid}" target="_blank" title="${msg:chat.window.toolbar.mail_history}" onClick="this.newWindow = window.open('${page:mailLink}&style=${styleid}', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=254,resizable=0'); if (this.newWindow != null) {this.newWindow.focus();this.newWindow.opener=window;}return false;"><img src="${tplroot}/images/buttons/email.gif" border="0" alt="${msg:chat.window.toolbar.mail_history}"/></a>
+						<a href="${page:mailLink}&amp;style=${styleid}" target="_blank" title="${msg:chat.window.toolbar.mail_history}" onClick="this.newWindow = window.open('${page:mailLink}&amp;style=${styleid}', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=254,resizable=0'); if (this.newWindow != null) {this.newWindow.focus();this.newWindow.opener=window;}return false;"><img src="${tplroot}/images/buttons/email.gif" border="0" alt="${msg:chat.window.toolbar.mail_history}"/></a>
 					</td>
 				${endif:user}
 				${if:agent}
 					${if:canpost}
 						<td>
-							<a href="${page:redirectLink}&style=${styleid}" title="${msg:chat.window.toolbar.redirect_user}"><img src="${tplroot}/images/buttons/redirect.gif" border="0" alt="${msg:chat.window.toolbar.redirect_user}" /></a>
+							<a href="${page:redirectLink}&amp;style=${styleid}" title="${msg:chat.window.toolbar.redirect_user}"><img src="${tplroot}/images/buttons/redirect.gif" border="0" alt="${msg:chat.window.toolbar.redirect_user}" /></a>
 						</td>
 					${endif:canpost}
 					${if:historyParams}
@@ -91,11 +89,11 @@ var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",freque
 				</td>
 				${if:sslLink}
 					<td>
-						<a href="${page:sslLink}&style=${styleid}" title="SSL" ><img src="${tplroot}/images/buttons/ssl.gif" border="0" alt="SSL"/></a>
+						<a href="${page:sslLink}&amp;style=${styleid}" title="SSL" ><img src="${tplroot}/images/buttons/ssl.gif" border="0" alt="SSL"/></a>
 					</td>
 				${endif:sslLink}
 				<td>
-					<a class="closethread" href="javascript:void(0)" onClick="return false;" title="${msg:chat.window.close_title}"><img src="${tplroot}/images/buttons/close.gif" border="0" alt="${msg:chat.window.close_title}" altKey="chat.window.close_link_text"/></a>
+					<a class="closethread" href="javascript:void(0)" onClick="return false;" title="${msg:chat.window.close_title}"><img src="${tplroot}/images/buttons/close.gif" border="0" alt="${msg:chat.window.close_title}"/></a>
 				</td>
 				</tr></table>
 			</td>
@@ -147,7 +145,7 @@ var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",freque
 		</tr>
 		${endif:canpost}
 	</table>
-	<table id="footer" cellpadding="0" cellspacing="5" border="0" width="100%" height="100%">
+	<table id="footer" cellpadding="0" cellspacing="5" border="0" width="100%">
 		<tr>
 			<td valign="top">
 				${msg:chat.window.poweredby} <a href="${msg:site.url}" title="${msg:company.title}" target="_blank">${msg:chat.window.poweredreftext}</a>

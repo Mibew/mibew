@@ -1,5 +1,5 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>${msg:chat.error_page.title}</title>
 <link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
@@ -35,13 +35,14 @@
 			</td>
 		</tr>
 	</table>
-	<table id="footer" cellpadding="0" cellspacing="5" border="0" width="100%" height="100%">
+	<table id="footer" cellpadding="0" cellspacing="5" border="0" width="100%">
 		<tr>
 			<td valign="top">
 				${msg:chat.window.poweredby} <a href="${msg:site.url}" title="${msg:company.title}" target="_blank">${msg:chat.window.poweredreftext}</a>
 			</td>
 		</tr>
 	</table>
+</div>
 </body>
 </html>
 

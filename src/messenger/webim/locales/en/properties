@@ -258,6 +258,7 @@ page.preview.agentrochat=View Chat window (operator in readonly mode)
 page.preview.chatsimple=Simple chat window, refresh to post messages (IE 5, Opera 7)
 page.preview.choose=Choose style
 page.preview.choosetpl=Choose template
+page.preview.error=Error window
 page.preview.intro=From here, you can view the list of themes you currently have installed.
 page.preview.leavemessage=Leave message window
 page.preview.leavemessagesent="Message is delivered" window

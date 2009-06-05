@@ -2,12 +2,11 @@
 <html>
 <head>
 <title>${msg:chat.window.title.user}</title>
-<link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
-<meta http-equiv="Content-Type" content="text/html; charset=Windows-1251">
-<link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" />
-<script type="text/javascript" language="javascript" src="${webimroot}/js/brws.js?v=160a1"></script>
+<link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" type="text/css" href="${tplroot}/chat.css">
+<script type="text/javascript" language="javascript" src="${webimroot}/js/brws.js?v=161"></script>
 </head>
-<body>
+<body style="background:#EFEFEF;">
 <div id="greybg">
 	<table id="toolbar" cellpadding="0" cellspacing="0" border="0" width="100%">
 		<tr>
@@ -35,7 +34,7 @@
 						<a id="refresh" href="javascript:void(0)" onClick="return false;" title="${msg:chat.window.toolbar.refresh}"><img src='${tplroot}/images/buttons/refresh.gif' border="0" alt="${msg:chat.window.toolbar.refresh}" /></a>
 					</td>
 					<td>
-						<a class="closethread" href="javascript:void(0)" onClick="return false;" title="${msg:chat.window.close_title}"><img src="${tplroot}/images/buttons/closewin.gif" border="0" alt="${msg:chat.window.close_title}" altKey="chat.window.close_link_text"/></a>
+						<a class="closethread" href="javascript:void(0)" onClick="return false;" title="${msg:chat.window.close_title}"><img src="${tplroot}/images/buttons/closewin.gif" border="0" alt="${msg:chat.window.close_title}"/></a>
 					</td>
 				</tr></table>
 			</td>
@@ -44,7 +43,7 @@
 	<table id="chat" cellpadding="0" cellspacing="5" border="0" width="100%">
 		<tr>
 			<td>
-				<iframe id="chatwnd" class="chathistory" name="chatwndiframe" src="${webimroot}/thread.php?act=refresh&thread=${page:ct.chatThreadId}&token=${page:ct.token}&html=on&user=true" frameborder="0">
+				<iframe id="chatwnd" class="chathistory" name="chatwndiframe" src="${webimroot}/thread.php?act=refresh&amp;thread=${page:ct.chatThreadId}&amp;token=${page:ct.token}&amp;html=on&amp;user=true" frameborder="0">
 					Sorry, your browser does not support iframes; try a browser that supports W3C standards.
 				</iframe>
 			</td>
@@ -52,10 +51,10 @@
 		</tr>
 		<tr>
 			<td>
-				<form id="messageform" method="post" action="${webimroot}/thread.php" target="chatwndiframe" width="565" height="85">
+				<form id="messageform" method="post" action="${webimroot}/thread.php" target="chatwndiframe">
 					<input type="hidden" name="act" value="post"/><input type="hidden" name="html" value="on"/><input type="hidden" name="thread" value="${page:ct.chatThreadId}"/><input type="hidden" name="token" value="${page:ct.token}"/><input type="hidden" name="user" value="true"/>
 					<input type="hidden" id="message" name="message" value=""/>
-					<textarea id="messagetext" class="message" tabindex="0"></textarea>
+					<textarea id="messagetext" cols="50" rows="4" class="message" style="width:520px;" tabindex="0"></textarea>
 				</form>
 			</td>
 			<td width="100" valign="top">
@@ -69,7 +68,7 @@
 			</td>
 		</tr>
 	</table>
-	<table id="footer" cellpadding="0" cellspacing="5" border="0" width="100%" height="100%">
+	<table id="footer" cellpadding="0" cellspacing="5" border="0" width="100%">
 		<tr>
 			<td valign="top">
 				${msg:chat.window.poweredby} <a href="${msg:site.url}" title="${msg:company.title}" target="_blank">${msg:chat.window.poweredreftext}</a>

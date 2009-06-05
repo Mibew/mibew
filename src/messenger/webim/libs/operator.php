@@ -105,13 +105,13 @@ function has_online_operators($groupid="") {
 	global $settings;
 	loadsettings();
 	$link = connect();
-	$query = "select min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time from chatoperator";
+	$query = "select count(*) as total, min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time from chatoperator";
 	if($groupid) {
 		$query .= ", chatgroupoperator where groupid = $groupid and chatoperator.operatorid = chatgroupoperator.operatorid";
 	}
 	$row = select_one_row($query,$link);
 	mysql_close($link);
-	return $row['time'] < $settings['online_timeout'];
+	return $row['time'] < $settings['online_timeout'] && $row['total'] > 0;
 }
 
 function get_operator_name($operator) {
