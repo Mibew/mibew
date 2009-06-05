@@ -5,7 +5,7 @@
 <link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
 <meta http-equiv="Content-Type" content="text/html; charset=Windows-1251">
 <link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" />
-<script type="text/javascript" language="javascript" src="${webimroot}/js/brws.js?v=160a1"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/brws.js?v=161"></script>
 </head>
 
 <body bgcolor="#FFFFFF" background="${tplroot}/images/bg.gif" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" marginwidth="0" marginheight="0" leftmargin="0" rightmargin="0" topmargin="0" bottommargin="0">
@@ -53,7 +53,7 @@
 					</table>
 				</td>
 			    <td width="5"></td>
-			    <td><a class="closethread" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.close_title}"><img src='${tplroot}/images/buttons/closewin.gif' width="15" height="15" border="0" altKey="chat.window.close_title"/></a></td>
+			    <td><a class="closethread" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.close_title}"><img src='${tplroot}/images/buttons/closewin.gif' width="15" height="15" border="0" alt="${msg:chat.window.close_title}"/></a></td>
 			    <td width="5"></td>
 				</tr>
 				</table>
