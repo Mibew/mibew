@@ -38,11 +38,11 @@
 	
 	//Input Validations
 	if($login == '') {
-		$errmsg_arr[] = 'Login ID missing';
+		$errmsg_arr[] = 'Login ID is missing';
 		$errflag = true;
 	}
 	if($password == '') {
-		$errmsg_arr[] = 'Password missing';
+		$errmsg_arr[] = 'Password is missing';
 		$errflag = true;
 	}
 	
