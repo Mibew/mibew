@@ -17,7 +17,7 @@ require_once('inc/menu.i');
 			<div class="entry">
 			<p style="margin-bottom:15px;">
 			<?php echo getlocal("demo.login") ?><br/>
-			<a href="http://live-im.com/webim/" target="_blank"><?php echo getlocal("demo.application") ?>, 1.6.0</a>  <small style="padding-left:10px;">(username: admin, password is empty)</small>
+			<a href="http://live-im.com/webim/" target="_blank"><?php echo getlocal("demo.application") ?>, 1.6.1</a>  <small style="padding-left:10px;">(username: admin, password is empty)</small>
 			</p>
 			
 			<?php echo getlocal("demo.click") ?>

@@ -2,8 +2,8 @@ encoding=utf-8
 output_charset=utf-8
 output_encoding=utf-8
 
-title=Open Web Messenger
-head.name=Open Web Messenger
+title=Mibew Messenger
+head.name=Mibew Messenger
 head.descr=open-source live support software
 
 menu.home=Home
@@ -22,7 +22,7 @@ partners.title=<b>partners</b>
 languages.title=<b>languages</b>
 sidebar.quicknav=Quick <b>Navigation</b>
 
-head.intro=<strong>Web Messenger</strong> is an open-source live support application written in PHP and MySQL. It enables one-on-one chat assistance in real-time directly from your website.
+head.intro=<strong>Mibew Messenger</strong> (also known as <b>Open Web Messenger</b>) is an open-source live support application written in PHP and MySQL. It enables one-on-one chat assistance in real-time directly from your website.
 
 contacts.title=Contact us
 contacts.content=Contact person: Evgeny Gryaznov<br/>E&nbsp;mail: evgeny [at] openwebim (dot) org
@@ -78,10 +78,10 @@ demo.login=1. Log into operator panel and navigate to "Awaiting visitors" page.
 demo.click=2. Start a chat
 demo.tryalpha=3. (optional) Try out a new alpha (next version is coming soon)
 demo.tryrc=3. (optional) Try out our Release candidate
-demo.application=Web Messenger Application
+demo.application=Mibew Messenger Application
 demo.styles=Click the following images to view different look and feels of the chat:
 
-downl.title=Latest
+downl.title=Download
 downl.release=Stable:
 downl.unstable=Alpha:
 downl.unstable.2=Release candidate:
