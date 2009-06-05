@@ -16,6 +16,12 @@ require_once("inc_menu.php");
 $page['title'] = getlocal("page_bans.title");
 $page['menuid'] = "blocked";
 
+function tpl_header() { global $page, $webimroot;
+?>	
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/jquery-1.3.2.min.js"></script>
+<?php
+}
+
 function tpl_content() { global $page, $webimroot;
 ?>
 
@@ -52,7 +58,7 @@ if( $page['pagination.items'] ) {
 	foreach( $page['pagination.items'] as $b ) { ?>
 	<tr>
 	<td class="notlast">
-		<a href="ban.php?id=<?php echo $b['banid'] ?>" class="man">
+		<a href="ban.php?id=<?php echo $b['banid'] ?>" class="man" id="ti<?php echo $b['banid'] ?>">
 		   	<?php echo htmlspecialchars($b['address']) ?>
 	   	</a>
 	</td>
@@ -69,7 +75,7 @@ if( $page['pagination.items'] ) {
 ?>
 	</td>
 	<td>
-		<a href="<?php echo $webimroot ?>/operator/blocked.php?act=del&amp;id=<?php echo $b['banid'] ?>">
+		<a class="removelink" id="i<?php echo $b['banid'] ?>" href="<?php echo $webimroot ?>/operator/blocked.php?act=del&amp;id=<?php echo $b['banid'] ?>">
 			remove
 		</a>
 	</td>
@@ -95,6 +101,12 @@ if( $page['pagination.items'] ) {
 	}
 } 
 ?>
+<script type="text/javascript" language="javascript"><!--
+$('a.removelink').click(function(){
+	var addr = $("#t"+this.id).text();
+	return confirm("<?php echo str_replace("\n", "\\n", getlocal2("page_bans.confirm", array('"+$.trim(addr)+"'))) ?>");
+});
+//--></script>
 
 <?php 
 } /* content */

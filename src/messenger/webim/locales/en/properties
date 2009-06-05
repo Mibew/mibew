@@ -301,6 +301,7 @@ page_ban.sent=Address {0} is blocked for specified number of days.
 page_ban.thread=You opened this window for "{0}" thread, <i>Address</i> field is already filled. Select number of days and click <i>Send</i>.
 page_ban.title=Block address
 page_bans.add=Add address
+page_bans.confirm=Are you sure that you want to delete address {0} from the blocked list?
 page_bans.list=List of banned IPs:
 page_bans.title=Ban List
 page_bans.to=Till
