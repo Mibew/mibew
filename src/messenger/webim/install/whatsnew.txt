@@ -5,6 +5,7 @@
   [+] new project name: Mibew Messenger
   [!] fixed localization of dates for all languages
   [!] fixed online/offline image for groups
+  [+] ability to delete operators, confirmation dialog when deleting group/operator/blocked address
 
   1.6.0
   -----

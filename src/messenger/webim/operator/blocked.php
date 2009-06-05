@@ -29,7 +29,7 @@ if( isset($_GET['act']) && $_GET['act'] == 'del' ) {
 	$banId = isset($_GET['id']) ? $_GET['id'] : "";
 
 	if( !preg_match( "/^\d+$/", $banId )) {
-		$errors[] = "Wrong argument";
+		$errors[] = "Cannot delete: wrong argument";
 	}
 
 	if( count($errors) == 0 ) {
@@ -54,6 +54,7 @@ setup_pagination($blockedList);
 
 prepare_menu($operator);
 start_html_output();
+
 require('../view/blocked_visitors.php');
 exit;
 ?>

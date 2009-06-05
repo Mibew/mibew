@@ -234,6 +234,17 @@ function getlocal2($text,$params) {
 	return $string;
 }
 
+/* prepares for Javascript string */
+function getlocalforJS($text,$params) {
+	global $current_locale, $webim_encoding;
+	$string = myiconv($webim_encoding,getoutputenc(), getstring_($text,$current_locale));
+	$string = str_replace("\"", "\\\"", str_replace("\n", "\\n", $string)); 
+	for( $i = 0; $i < count($params); $i++ ) {
+		$string = str_replace("{".$i."}", $params[$i], $string);
+	}
+	return $string;
+}
+
 /* ajax server actions use utf-8 */
 function getrawparam( $name ) {
 	global $webim_encoding;

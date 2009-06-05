@@ -22,12 +22,15 @@ function tpl_header() { global $page, $webimroot;
 <?php
 }
 
-function tpl_content() { global $page, $webimroot;
+function tpl_content() { global $page, $webimroot, $errors;
 ?>
 
 <?php echo getlocal("page_ban.intro") ?>
 <br />
 <br />
+<?php 
+require_once('inc_errors.php');
+?>
 
 <div class="tabletool">
 	<img src="<?php echo $webimroot ?>/images/buttons/createban.gif" border="0" alt=""/>
@@ -104,7 +107,7 @@ if( $page['pagination.items'] ) {
 <script type="text/javascript" language="javascript"><!--
 $('a.removelink').click(function(){
 	var addr = $("#t"+this.id).text();
-	return confirm("<?php echo str_replace("\n", "\\n", getlocal2("page_bans.confirm", array('"+$.trim(addr)+"'))) ?>");
+	return confirm("<?php echo getlocalforJS("page_bans.confirm", array('"+$.trim(addr)+"')) ?>");
 });
 //--></script>
 
