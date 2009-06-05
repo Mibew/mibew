@@ -50,7 +50,7 @@ require_once('inc_errors.php');
 </th><th>
 	<?php echo getlocal("page_agents.agent_name") ?>
 </th><th>
-	<?php echo getlocal("page_agents.agent_commonname") ?>
+	<?php echo getlocal("page_agents.status") ?>
 <?php if($page['canmodify']) { ?>
 </th><th>
 <?php } ?>
@@ -66,10 +66,14 @@ require_once('inc_errors.php');
    		</a>
 	</td>
 	<td class="notlast">
-   		<?php echo htmlspecialchars(topage($a['vclocalename'])) ?>
+   		<?php echo htmlspecialchars(topage($a['vclocalename'])) ?> / <?php echo htmlspecialchars(topage($a['vccommonname'])) ?>
 	</td>
 	<td>
-   		<?php echo htmlspecialchars(topage($a['vccommonname'])) ?>
+<?php if(is_online($a)) { ?>
+		<?php echo getlocal("page_agents.isonline") ?>
+<?php } else { ?>
+		<?php echo date_to_text(time() - $a['time']) ?>
+<?php } ?>
 	</td>
 <?php if($page['canmodify']) { ?>
 	<td>

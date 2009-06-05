@@ -35,6 +35,15 @@ function update_group_members($groupid,$newvalue) {
 	mysql_close($link);
 }
 
+function get_operators() {
+	$link = connect();
+
+	$query = "select * from chatoperator order by vclogin";
+	$result = select_multi_assoc($query, $link);
+	mysql_close($link);
+	return $result;
+}
+
 $groupid = verifyparam( "gid","/^\d{1,9}$/");
 $page = array('groupid' => $groupid);
 $page['operators'] = get_operators();

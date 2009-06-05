@@ -3,9 +3,10 @@
   [!] 404 installation problem
   [+] new permission: "Ability to modify profile"
   [+] new project name: Mibew Messenger
-  [!] fixed localization of dates for all languages
+  [!] fixed localization of dates for all languages, nice formatting: Today/Yesterday
   [!] fixed online/offline image for groups
   [+] ability to delete operators, confirmation dialog when deleting group/operator/blocked address
+  [+] Information about last activity for operators: Online, Today at 22, 01 Jan.., or Never
 
   1.6.0
   -----

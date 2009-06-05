@@ -66,7 +66,7 @@ if( $page['pagination.items'] ) {
 	   	</a>
 	</td>
 	<td class="notlast">
-   		<?php echo strftime("%B, %d %Y %H:%M:%S", $b['till']) ?>
+   		<?php echo date_to_text($b['till']) ?>
 	</td>
 	<td>
 <?php 

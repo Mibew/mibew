@@ -46,15 +46,6 @@ function operator_by_id($id) {
 	return $operator;
 }
 
-function get_operators() {
-	$link = connect();
-
-	$query = "select * from chatoperator order by vclogin";
-	$result = select_multi_assoc($query, $link);
-	mysql_close($link);
-	return $result;
-}
-
 function update_operator($operatorid,$login,$password,$localename,$commonname) {
 	$link = connect();
 	$query = sprintf(

@@ -508,6 +508,24 @@ function set_form_date($utime,$prefix) {
 	$page["form${prefix}month"] = date("m.y", $utime);
 }
 
+function date_to_text($unixtime) {
+	if ($unixtime < 60*60*24*30)
+		return getlocal("time.never");
+		
+	$then = getdate($unixtime);
+	$now = getdate();
+
+	if ($then['yday'] == $now['yday'] && $then['year'] == $now['year']) {
+		$date_format = getlocal("time.today.at");
+	} else if (($then['yday']+1) == $now['yday'] && $then['year'] == $now['year']) {
+		$date_format = getlocal("time.yesterday.at");
+	} else {
+		$date_format = getlocal("time.dateformat");
+	}
+	
+	return strftime($date_format." ".getlocal("time.timeformat"), $unixtime);
+}
+
 function webim_mail($toaddr, $reply_to, $subject, $body) {
 	global $webim_encoding, $webim_mailbox, $mail_encoding;
 

@@ -74,7 +74,7 @@ $chatthread = $page['thread'];
 		</div>
 		<div class="wvalue">
 			<?php echo date_diff_to_text($chatthread['modified']-$chatthread['created']) ?> 
-				(<?php echo strftime("%B, %d %Y %H:%M:%S", $chatthread['created']) ?>)
+				(<?php echo date_to_text($chatthread['created']) ?>)
 		</div>
 		<br clear="all"/>
 </div>
