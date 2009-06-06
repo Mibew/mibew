@@ -1,0 +1,20 @@
+#legal {
+	clear: both;
+	line-height: 30px;
+	padding-top:10px;
+	text-align: center;
+	color: #375C69;
+	margin-bottom: 0px;
+}
+#footer {
+	background: white url(image/footer.gif) bottom repeat-x;
+	font-size:11px;
+	position:relative;
+
+	min-height: 40px;
+	height:40px;
+	vertical-align:middle;
+
+	width:100%;
+	text-align: center;
+	}

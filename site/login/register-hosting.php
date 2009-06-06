@@ -58,3 +58,7 @@
 <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
 <img align="center" alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
 </form>
+<link href="default.css" rel="stylesheet" type="text/css" />
+<div id="footer">
+	<p id="legal"><a href="http://openwebim.org/" class="flink">Open Web Messenger</a> 1.6.1 | (c) 2009 openwebim.org</p>
+</div>

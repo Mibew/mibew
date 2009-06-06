@@ -26,3 +26,4 @@
       <th>Email </th>
       <td><input name="email" type="text" class="textfield" id="lname" /></td>
     </tr>
+    <? include('libs/footer.php'); ?>

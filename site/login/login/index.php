@@ -24,5 +24,5 @@
   </table>
 </form><p></p>
 <div align="center"></font>Not a Member? <a href="register-form.php">Click Here</a></div>
-</body>
-</html>
+
+<? include('libs/footer.php'); ?>

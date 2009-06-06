@@ -7,3 +7,4 @@
 <p>This is also where you can get the current news, downloads, and more!</p>
 </body>
 </html>
+<? include('libs/footer.php'); ?>
