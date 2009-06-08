@@ -31,7 +31,7 @@ var localized = new Array(
 );
 var updaterOptions = {
 	url:"<?php echo $webimroot ?>/operator/update.php",wroot:"<?php echo $webimroot ?>",
-	agentservl:"<?php echo $webimroot ?>/operator/agent.php",
+	agentservl:"<?php echo $webimroot ?>/operator/agent.php", frequency:<?php echo $page['frequency'] ?>,
 	noclients:"<?php echo getlocal("clients.no_clients") ?>", havemenu: <?php echo $page['havemenu'] ?>, showpopup: <?php echo $page['showpopup'] ?> };
 //--></script>
 <script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/users.js?v=161"></script>

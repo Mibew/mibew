@@ -553,7 +553,6 @@ $settings = array(
 	'chattitle' => 'Live Support',
 	'geolink' => 'http://api.hostip.info/get_html.php?ip={ip}',
 	'geolinkparams' => 'width=440,height=100,toolbar=0,scrollbars=0,location=0,status=1,menubar=0,resizable=1',
-	'online_timeout' => 30,		/* Timeout (in seconds) when online operator becomes offline */
 	'max_uploaded_file_size' => 100000,
 	'max_connections_from_one_host' => 10,
 
@@ -572,6 +571,11 @@ $settings = array(
 		'surveyaskgroup' => '1',
 		'surveyaskmessage' => '0',
 	'enablepopupnotification' => '0',
+
+	'online_timeout' => 30,		/* Timeout (in seconds) when online operator becomes offline */
+	'updatefrequency_operator' => 2,
+	'updatefrequency_chat' => 2,
+	'updatefrequency_oldchat' => 7,
 );
 $settingsloaded = false;
 $settings_in_db = array();

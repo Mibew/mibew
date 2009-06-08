@@ -142,7 +142,7 @@ function get_messages($threadid,$meth,$isuser,&$lastid) {
 }
 
 function print_thread_messages($thread, $token, $lastid, $isuser, $format, $agentid=null) {
-	global $webim_encoding, $webimroot, $connection_timeout;
+	global $webim_encoding, $webimroot, $connection_timeout, $settings;
 	$threadid = $thread['threadid'];
 	$istyping = abs($thread['current']-$thread[$isuser ? "lpagent" : "lpuser"]) < $connection_timeout
 				&& $thread[$isuser?"agentTyping":"userTyping"] == "1" ? "1" : "0";
@@ -157,6 +157,7 @@ function print_thread_messages($thread, $token, $lastid, $isuser, $format, $agen
 		}
 		print("</thread>");
 	} else if( $format == "html" ) {
+		loadsettings();
 		$output = get_messages($threadid,"html",$isuser,$lastid);
 
 		start_html_output();
@@ -166,7 +167,7 @@ function print_thread_messages($thread, $token, $lastid, $isuser, $format, $agen
 			"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">".
 			"<html>\n<head>\n".
 			"<link href=\"$webimroot/styles/default/chat.css\" rel=\"stylesheet\" type=\"text/css\">\n".
-			"<meta http-equiv=\"Refresh\" content=\"7; URL=$url&amp;sn=11\">\n".
+			"<meta http-equiv=\"Refresh\" content=\"".$settings['updatefrequency_oldchat']."; URL=$url&amp;sn=11\">\n".
 			"<meta http-equiv=\"Pragma\" content=\"no-cache\">\n".
 			"<title>chat</title>\n".
 			"</head>\n".
@@ -330,6 +331,7 @@ function setup_chatview_for_user($thread,$level) {
 	$page['isOpera95'] = is_agent_opera95();
 	$page['neediframesrc'] = needsFramesrc();
 
+	$page['frequency'] = $settings['updatefrequency_chat'];
 }
 
 function load_canned_messages($locale, $groupid) {
@@ -393,6 +395,7 @@ function setup_chatview_for_operator($thread,$operator) {
 	$page['redirectLink'] = "$webimroot/operator/agent.php?".$params."&amp;act=redirect";
 
 	$page['namePostfix'] = "";
+	$page['frequency'] = $settings['updatefrequency_chat'];
 }
 
 function update_thread_access($threadid, $params, $link) {

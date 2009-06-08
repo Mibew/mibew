@@ -36,6 +36,7 @@ if($settings['enablegroups'] == '1') {
 $page = array();
 $page['havemenu'] = isset($_GET['nomenu']) ? "0" : "1";
 $page['showpopup'] = $settings['enablepopupnotification'] == '1' ? "1" : "0";
+$page['frequency'] = $settings['updatefrequency_operator'];
 
 prepare_menu($operator);
 start_html_output();

@@ -7,7 +7,7 @@
 <script type="text/javascript" language="javascript" src="${webimroot}/js/common.js?v=161"></script>
 <script type="text/javascript" language="javascript" src="${webimroot}/js/brws.js?v=161"></script>
 <script type="text/javascript" language="javascript"><!--
-var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",frequency:2,${if:user}user:"true",${endif:user}threadid:${page:ct.chatThreadId},token:${page:ct.token},cssfile:"${tplroot}/chat.css",ignorectrl:${page:ignorectrl} };
+var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",frequency:${page:frequency},${if:user}user:"true",${endif:user}threadid:${page:ct.chatThreadId},token:${page:ct.token},cssfile:"${tplroot}/chat.css",ignorectrl:${page:ignorectrl} };
 //-->
 </script>
 <script type="text/javascript" language="javascript" src="${webimroot}/js/chat.js?v=161"></script>
