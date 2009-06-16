@@ -161,6 +161,12 @@ tag.pagination.previous
 thread.back_to_search
 thread.chat_log
 thread.intro
+time.dateformat
+time.locale
+time.never
+time.timeformat
+time.today.at
+time.yesterday.at
 topMenu.admin
 topMenu.logoff
 topMenu.main
