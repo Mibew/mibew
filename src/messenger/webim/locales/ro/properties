@@ -1,0 +1,16 @@
+encoding=utf-8
+output_charset=utf-8
+output_encoding=utf-8
+app.title=Mibew Messenger
+chat.client.name=Introdu numele tau  
+chat.default.username=Vizitator
+chat.error_page.close=Inchide...
+chat.predefined_answers=Buna ziua, cu ce va putem ajuta?\nVa multumim ca ne-ati contactat. Va rugam sa scrieti mesajul dvs. in fereastra de mai jos si va vom raspunde imediat.
+chat.wait=Va multumim ca ne-ati contactat. Va rugam sa scrieti mesajul dvs. in fereastra de mai jos si va vom raspunde imediat.
+chat.window.product_name=Mibew <span class="grey">Messenger</span>
+company.title=Mibew Messenger Community
+chat.window.poweredreftext=openwebim.org
+site.title=openwebim.org
+site.url=http://openwebim.org
+localedirection=ltr  
+localeid=Romanian (ro)
