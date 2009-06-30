@@ -21,6 +21,16 @@ require_once('inc/menu.i');
 			</div>
 			<div class="nometa"></div>
 		</div>
+        <div class="post">
+			<h2 class="title"><?php echo getlocal("index.nextpost.title") ?></h2>
+			<div class="entry">
+				<?php echo getlocal("index.nextpost.text") ?>
+			</div>
+			<div class="meta">
+				<p class="byline"><?php echo getlocal("index.nextpost.when") ?></p>
+				<p class="links"><?php echo getlocal("index.nextpost.link") ?></p>
+			</div>
+		</div>
 		<div class="post">
 			<h2 class="title"><?php echo getlocal("index.post.title") ?></h2>
 			<div class="entry">
