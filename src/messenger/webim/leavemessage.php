@@ -35,6 +35,11 @@ if( !$email ) {
 		$errors[] = wrong_field("form.field.email");
 	}
 }
+if ( ($_REQUEST["txtCaptcha"] == $_SESSION["security_code"]) &&
+    (!empty($_REQUEST["txtCaptcha"]) && !empty($_SESSION["security_code"])) ) {
+} else {
+  $errors[] = no_field('errors.captcha');
+}
 
 if( count($errors) > 0 ) {
 	$page['formname'] = topage($visitor_name);
