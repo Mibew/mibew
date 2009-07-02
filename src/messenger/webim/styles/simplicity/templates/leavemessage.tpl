@@ -48,6 +48,10 @@
 							<td class="text" valign="top">${msg:form.field.message}:</td>
 							<td><textarea name="message" cols="45" rows="8"  class="field" tabindex="0">${form:message}</textarea></td>
 						</tr>
+						<tr >
+		 <td><img id="imgCaptcha" src="create_image.php" /></td>
+		<td><input id="txtCaptcha" type="text" aligh="right" name="txtCaptcha"" /></td>
+		</tr>
 					</table>
 				</td>
 			</tr>

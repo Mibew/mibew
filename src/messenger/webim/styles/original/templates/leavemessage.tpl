@@ -74,14 +74,20 @@ ${endif:errors}
 	    <td width="20"></td>
 	    <td><input type="text" name="name" size="50" value="${form:name}" class="username"/></td>
 		</tr>
-		<tr><td height="7" colspan="3"></td></tr>
 		<tr>
+		
 	    <td class="text">${msg:form.field.message}:</td>
 	    <td width="20"></td>
+	    
 	    <td height="120" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td colspan="3" bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td><td width="100%" height="100%" bgcolor="#FFFFFF" valign="top">
 	    <textarea rows="8" cols="45" name="message" class="message" tabindex="0" style="width:90%;">${form:message}</textarea>
-	    </td><td bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td colspan="3" bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr></table></td>
+	    	    </td><td bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td colspan="3" bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr></table></td>
 		</tr>
+		<tr >
+		 <td><img id="imgCaptcha" src="create_image.php" /></td>
+		<td><input id="txtCaptcha" type="text" aligh="right" name="txtCaptcha"" /></td>
+		</tr>
+
 	</table></td><td bgcolor="#E8A400"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td><img class="tplimage icrnlb" src="${webimroot}/images/free.gif" border="0" alt=""/></td><td style="background-image: url(${tplroot}/images/winbg.gif)" class="bgcy"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td><td><img class="tplimage icrnrb" src="${webimroot}/images/free.gif" border="0" alt=""/></td></tr></table>
 
 </td>
