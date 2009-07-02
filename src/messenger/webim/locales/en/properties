@@ -112,7 +112,8 @@ errors.invalid.file.type=Invalid file type
 errors.prefix=<li class="error">
 errors.required=Please fill "{0}".  
 errors.suffix=</li>
-errors.wrong_field=Please fill "{0}" correctly.  
+errors.wrong_field=Please fill "{0}" correctly.
+errors.captcha=Captcha is incorrect!
 features.saved=Features activated
 form.field.address.description=Ex: 12.23.45.123 or todo.com
 form.field.address=Visitor's Address

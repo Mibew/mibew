@@ -115,7 +115,18 @@ ${endif:errors}
 				<td class="text">${msg:form.field.message}:</td>
 				<td height="120" valign="top">
 					<textarea name="message" tabindex="0" cols="40" rows="8" style="border:1px solid #878787; overflow:auto">${form:message}</textarea>
+				</tr>
+				<td> 
+					<img id="imgCaptcha" src="create_image.php" />
+				</td><td>
+					<input id="txtCaptcha" type="text" name="txtCaptcha" value="" maxlength="10" size="32" />
 				</td>
+			</tr>
+			
+			</tr>
+				</td>
+			</tr>
+			<tr>
 			</tr>
 			<tr>
 				<td colspan="2" align="right">
