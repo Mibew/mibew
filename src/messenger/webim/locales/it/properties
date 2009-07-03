@@ -147,7 +147,6 @@ form.field.password_confirm.description=Conferma la nuova password.
 form.field.password_confirm=Conferma
 form.field.translation=Traduzione
 harderrors.header=<b>Non eseguito:</b><br/><ul>
-image.button.delete=/locales/it/images/delete.gif
 image.button.login=/locales/it/images/login.gif
 image.button.save=/locales/it/images/save.gif
 image.button.search=/locales/it/images/search.gif

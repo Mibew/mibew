@@ -145,7 +145,6 @@ form.field.password_confirm.description=Confirmar nueva contraseña
 form.field.password_confirm=Confirmación
 form.field.translation=Traducción
 harderrors.header=<b>No se puede ejecutar:</b><br/><ul>
-image.button.delete=/locales/sp/images/delete.gif
 image.button.login=/locales/sp/images/login.gif
 image.button.save=/locales/sp/images/save.gif
 image.button.search=/locales/sp/images/search.gif

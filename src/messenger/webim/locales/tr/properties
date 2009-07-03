@@ -111,7 +111,6 @@ form.field.password_confirm.description=Þifreyi tekrar girin
 form.field.password_confirm=Þifre (Tekrar)
 form.field.translation=Çeviri
 harderrors.header=<b>Çalýþtýrýlamadý:</b><br/><ul>
-image.button.delete=/locales/tr/images/delete.gif
 image.button.login=/locales/tr/images/login.gif
 image.button.save=/locales/tr/images/save.gif
 image.button.search=/locales/tr/images/search.gif

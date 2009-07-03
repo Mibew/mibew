@@ -147,7 +147,6 @@ form.field.password_confirm.description=Confirmez le nouveau mot de passe.
 form.field.password_confirm=Confirmation
 form.field.translation=Traduire
 harderrors.header=<b>Exécution impossible:</b><br/><ul>
-image.button.delete=/locales/fr/images/delete.gif
 image.button.login=/locales/fr/images/login.gif
 image.button.save=/locales/fr/images/save.gif
 image.button.search=/locales/fr/images/search.gif

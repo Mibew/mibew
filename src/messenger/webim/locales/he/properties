@@ -147,7 +147,6 @@ form.field.password_confirm.description=הכנס את הסיסמה בשנית ל
 form.field.password_confirm=אימות
 form.field.translation=טקסט לתרגום
 harderrors.header=<b>לא ניתן לביצוע:</b><br/><ul>
-image.button.delete=/locales/en/images/delete.gif
 image.button.login=/locales/en/images/login.gif
 image.button.save=/locales/en/images/save.gif
 image.button.search=/locales/en/images/search.gif

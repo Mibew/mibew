@@ -147,7 +147,6 @@ form.field.password_confirm.description=Подтвердите введенный пароль.
 form.field.password_confirm=Подтверждение
 form.field.translation=Текст перевода
 harderrors.header=<b>Невозможно выполнить:</b><br/><ul>
-image.button.delete=/locales/ru/images/delete.gif
 image.button.login=/locales/ru/images/login.gif
 image.button.save=/locales/ru/images/save.gif
 image.button.search=/locales/ru/images/search.gif

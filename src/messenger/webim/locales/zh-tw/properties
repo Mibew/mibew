@@ -138,7 +138,6 @@ form.field.password_confirm.description=再輸入一次密碼確保密碼正確�
 form.field.password_confirm=確認密碼
 form.field.translation=翻譯
 harderrors.header=<b>無法執行:</b><br/><ul>
-image.button.delete=/locales/zh-tw/images/delete.gif
 image.button.login=/locales/zh-tw/images/login.gif
 image.button.save=/locales/zh-tw/images/save.gif
 image.button.search=/locales/zh-tw/images/search.gif

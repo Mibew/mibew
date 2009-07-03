@@ -147,7 +147,6 @@ form.field.password_confirm.description=Potwierdź nowe hasło.
 form.field.password_confirm=Potwierdzenie
 form.field.translation=Tłumaczenie
 harderrors.header=<b>Nie można wykonać:</b><br/><ul>
-image.button.delete=/locales/pl/images/delete.gif
 image.button.login=/locales/pl/images/login.gif
 image.button.save=/locales/pl/images/save.gif
 image.button.search=/locales/pl/images/search.gif

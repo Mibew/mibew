@@ -147,7 +147,6 @@ form.field.password_confirm.description=Neues Passwort bestätigen.
 form.field.password_confirm=Bestätigung
 form.field.translation=Übersetzung
 harderrors.header=<b>Fehlgeschlagen:</b><br/><ul>
-image.button.delete=/locales/de/images/delete.gif
 image.button.login=/locales/de/images/login.gif
 image.button.save=/locales/de/images/save.gif
 image.button.search=/locales/de/images/search.gif

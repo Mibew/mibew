@@ -114,7 +114,6 @@ form.field.password_confirm.description=再输入一次密码确保密码正确�
 form.field.password_confirm=确认密码
 form.field.translation=翻译
 harderrors.header=<b>无法执行:</b><br/><ul>
-image.button.delete=/locales/zh-tw/images/delete.gif
 image.button.login=/locales/zh-tw/images/login.gif
 image.button.save=/locales/zh-tw/images/save.gif
 image.button.search=/locales/zh-tw/images/search.gif
