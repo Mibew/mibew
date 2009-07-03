@@ -91,10 +91,25 @@ function save_message($locale,$key,$value) {
 	}
 }
 
+function get_auxiliary($s) {
+	$res = "";
+	if(preg_match_all("/<[^>]+?>|[:]|\{\d+\}|[Mm]ibew|[Ww]ebim/", $s, $matches, PREG_PATTERN_ORDER)) {
+		foreach ($matches[0] as $val) {
+			if($val != "<br/>") {
+				$res .= $val;
+			}
+		}		
+	}
+	if(substr(trim($s),-1) == "." || substr(trim($s),-1) == "?") {
+		$res .= ".";
+	}
+	return $res;
+}
+
 $operator = check_login();
 
 $source = verifyparam("source", "/^[\w-]{2,5}$/", $default_locale);
-$target = verifyparam("target", "/^[\w-]{2,5}$/", $home_locale);
+$target = verifyparam("target", "/^[\w-]{2,5}$/", $current_locale);
 $stringid = verifyparam("key", "/^[_\.\w]+$/", "");
 
 if(!isset($messages[$source])) {
@@ -166,7 +181,14 @@ if($show == 's1') {
 foreach($allkeys as $key) {
 	if($key != 'output_charset') {
 		$tsource = htmlspecialchars($lang1[$key]);
-		$value = isset($lang2[$key]) ? htmlspecialchars($lang2[$key]) : "<font color=\"#c13030\"><b>absent</b></font>";
+		if(isset($lang2[$key])) {
+			$value = htmlspecialchars($lang2[$key]);
+			if(get_auxiliary($lang2[$key]) != get_auxiliary($lang1[$key])) {
+				$value = "<font color=\"#6030c1\"><b>$value</b></font> <strong>(wrong formatting)</strong>";
+			}
+		} else {
+			$value  = "<font color=\"#c13030\"><b>absent</b></font>";
+		}
 		$result[] = array(
 				'id' => $key,
 				'l1' => $tsource,
