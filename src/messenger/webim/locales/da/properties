@@ -1,0 +1,11 @@
+encoding=utf-8
+output_charset=utf-8
+output_encoding=utf-8
+app.title=Mibew Messenger
+chat.window.product_name=Mibew <span class="grey">Messenger</span>
+company.title=Mibew Messenger Community
+chat.window.poweredreftext=openwebim.org
+site.title=openwebim.org
+site.url=http://openwebim.org
+localedirection=ltr  
+localeid=Danish (da)
