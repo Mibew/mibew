@@ -55,6 +55,10 @@ require_once('inc/menu.i');
 				<td><a href="http://prdownloads.sourceforge.net/webim/webim161_pt-br.zip?download">Português Brasil</a></td>
 				<td>1.6.1</td>
 				<td>June 5, 2009</td></tr>
+                <tr>
+				<td><a href=""> Ukranian</a></td>
+				<td>1.6.1</td>
+				<td>June 5, 2009</td></tr>
 <?php /*
 			<tr>
 				<td><a href="http://prdownloads.sourceforge.net/webim/webim161_ru.zip?download">Russian</a></td>
