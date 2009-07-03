@@ -148,7 +148,6 @@ form.field.password_confirm.description=Confirm new password.
 form.field.password_confirm=Confirmation
 form.field.translation=Translation
 harderrors.header=<b>Cannot execute:</b><br/><ul>
-image.button.delete=/locales/en/images/delete.gif
 image.button.login=/locales/en/images/login.gif
 image.button.save=/locales/en/images/save.gif
 image.button.search=/locales/en/images/search.gif

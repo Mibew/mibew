@@ -147,7 +147,6 @@ form.field.password_confirm.description=Підтвердіть введений пароль
 form.field.password_confirm=Підтвердження
 form.field.translation=Текст перекладу
 harderrors.header=<b>Не можливо виконати:</b><br/><ul>
-image.button.delete=/locales/ru/images/delete.gif
 image.button.login=/locales/ua/images/login.gif
 image.button.save=/locales/ua/images/save.gif
 image.button.search=/locales/ua/images/search.gif
