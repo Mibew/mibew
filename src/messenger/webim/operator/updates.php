@@ -18,12 +18,23 @@ require_once('../libs/settings.php');
 
 $operator = check_login();
 
+$default_extensions = array('mysql', 'gd');
+
 $errors = array();
 $page = array(
 	'localizations' => get_available_locales(),
 	'phpVersion' => phpversion(),
 	'version' => $version,
 );
+
+foreach($default_extensions as $ext) {
+	if(!extension_loaded($ext)) {
+		$page['phpVersion'] .= " $ext/absent";
+	} else {
+		$ver = phpversion($ext);
+		$page['phpVersion'] .= $ver ? " $ext/$ver" : " $ext";
+	}
+}
 
 prepare_menu($operator);
 setup_settings_tabs(3);

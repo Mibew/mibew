@@ -23,7 +23,7 @@ $imageLocales = array();
 $allLocales = get_available_locales();
 foreach($allLocales as $curr) {
 	$imagesDir = "../locales/$curr/button";
-	if($handle = opendir($imagesDir)) {
+	if($handle = @opendir($imagesDir)) {
 		while (false !== ($file = readdir($handle))) {
 			if (preg_match("/^(\w+)_on.gif$/", $file, $matches)
 					&& is_file("$imagesDir/".$matches[1]."_off.gif")) {
