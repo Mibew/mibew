@@ -59,6 +59,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 			setup_logo();
 			$page['formname'] = topage(getgetparam('name'));
 			$page['formemail'] = topage($email);
+			$page['showcaptcha'] = $settings["enablecaptcha"] == "1" ? "1" : "";
 			$page['info'] = topage($info);
 			expand("styles", getchatstyle(), "leavemessage.tpl");
 			exit;

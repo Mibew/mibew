@@ -103,6 +103,7 @@ content.logoff=Покинуть систему.
 data.saved=Изменения сохранены
 demo.chat.question=Посоветуйте мне, пожалуйста, хороший браузер? 
 demo.chat.welcome=Здравствуйте! Чем я могу Вам помочь?
+errors.captcha=Введенные символы не соответствуют изображению. 
 errors.failed.uploading.file=Ошибка выгрузки файла "{0}": {1}.
 errors.file.move.error=Ошибка копирования файла
 errors.file.size.exceeded=Превышен допустимый размер файла

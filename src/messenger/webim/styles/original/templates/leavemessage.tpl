@@ -60,34 +60,36 @@ ${endif:errors}
 
 	<table cellspacing="0" cellpadding="0" border="0"><tr><td width="15"><img class="tplimage icrnlt" src="${webimroot}/images/free.gif" border="0" alt=""/></td><td width="100%" style="background-image: url(${tplroot}/images/winbg.gif)" class="bgcy"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td><td width="15"><img class="tplimage icrnrt" src="${webimroot}/images/free.gif" border="0" alt=""/></td></tr><tr><td height="100%" bgcolor="#FED840"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td><td style="background-image: url(${tplroot}/images/winbg.gif)" class="bgcy"><table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td colspan="3" class="text">${msg:leavemessage.descr}</td>
+		    <td colspan="3" class="text">${msg:leavemessage.descr}</td>
 		</tr>
 		<tr><td height="20" colspan="3"></td></tr>
 		<tr>
-	    <td class="text">${msg:form.field.email}:</td>
-	    <td width="20"></td>
-	    <td><input type="text" name="email" size="50" value="${form:email}" class="username"/></td>
+		    <td class="text">${msg:form.field.email}:</td>
+		    <td width="20"></td>
+		    <td><input type="text" name="email" size="50" value="${form:email}" class="username"/></td>
 		</tr>
 		<tr><td height="7" colspan="3"></td></tr>
 		<tr>
-	    <td class="text">${msg:form.field.name}:</td>
-	    <td width="20"></td>
-	    <td><input type="text" name="name" size="50" value="${form:name}" class="username"/></td>
+		    <td class="text">${msg:form.field.name}:</td>
+		    <td width="20"></td>
+		    <td><input type="text" name="name" size="50" value="${form:name}" class="username"/></td>
 		</tr>
+		<tr><td height="7" colspan="3"></td></tr>
 		<tr>
-		
-	    <td class="text">${msg:form.field.message}:</td>
-	    <td width="20"></td>
-	    
-	    <td height="120" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td colspan="3" bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td><td width="100%" height="100%" bgcolor="#FFFFFF" valign="top">
-	    <textarea rows="8" cols="45" name="message" class="message" tabindex="0" style="width:90%;">${form:message}</textarea>
-	    	    </td><td bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td colspan="3" bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr></table></td>
+		    <td class="text">${msg:form.field.message}:</td>
+		    <td width="20"></td>
+		    <td height="120" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td colspan="3" bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td><td width="100%" height="100%" bgcolor="#FFFFFF" valign="top">
+			    <textarea rows="8" cols="45" name="message" class="message" tabindex="0" style="width:90%;">${form:message}</textarea>
+		    </td><td bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td colspan="3" bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr></table></td>
 		</tr>
-		<tr >
-		 <td><img id="imgCaptcha" src="create_image.php" /></td>
-		<td><input id="txtCaptcha" type="text" aligh="right" name="txtCaptcha"" /></td>
+${if:showcaptcha}
+		<tr><td height="7" colspan="3"></td></tr>
+		<tr>
+		    <td class="text"><img src="captcha.php"/></td>
+		    <td width="20"></td>
+			<td><input type="text" name="captcha" size="50" maxlength="15" value="" class="username"/></td>
 		</tr>
-
+${endif:showcaptcha}
 	</table></td><td bgcolor="#E8A400"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td><img class="tplimage icrnlb" src="${webimroot}/images/free.gif" border="0" alt=""/></td><td style="background-image: url(${tplroot}/images/winbg.gif)" class="bgcy"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td><td><img class="tplimage icrnrb" src="${webimroot}/images/free.gif" border="0" alt=""/></td></tr></table>
 
 </td>

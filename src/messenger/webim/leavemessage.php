@@ -35,23 +35,28 @@ if( !$email ) {
 		$errors[] = wrong_field("form.field.email");
 	}
 }
-if ( ($_REQUEST["txtCaptcha"] == $_SESSION["security_code"]) &&
-    (!empty($_REQUEST["txtCaptcha"]) && !empty($_SESSION["security_code"])) ) {
-} else {
-  $errors[] = no_field('errors.captcha');
+
+loadsettings();
+if($settings["enablecaptcha"] == "1") {
+	$captcha = getparam('captcha');
+	$original = $_SESSION['captcha'];
+	if(empty($original) || empty($captcha) || $captcha != $original) {
+	  $errors[] = getlocal('errors.captcha');
+	}
+	unset($_SESSION['captcha']);
 }
 
 if( count($errors) > 0 ) {
 	$page['formname'] = topage($visitor_name);
 	$page['formemail'] = $email;
 	$page['formmessage'] = topage($message);
+	$page['showcaptcha'] = $settings["enablecaptcha"] == "1" ? "1" : "";
 	$page['info'] = topage($info);
 	setup_logo();
 	expand("styles", getchatstyle(), "leavemessage.tpl");
 	exit;
 }
 
-loadsettings();
 $message_locale = $settings['left_messages_locale'];
 if(!locale_exists($message_locale)) {
 	$message_locale = $home_locale;

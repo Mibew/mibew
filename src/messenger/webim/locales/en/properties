@@ -103,6 +103,7 @@ content.logoff=Log out of the system.
 data.saved=Changes saved
 demo.chat.question=There are so many browsers to choose from. Which one(s) do you recommend? 
 demo.chat.welcome=Hello, how may I help you?
+errors.captcha=The letters you typed don't match the letters that were shown in the picture. 
 errors.failed.uploading.file=Error uploading file "{0}": {1}.
 errors.file.move.error=Error moving file
 errors.file.size.exceeded=Uploaded file size exceeded
@@ -113,7 +114,6 @@ errors.prefix=<li class="error">
 errors.required=Please fill "{0}".  
 errors.suffix=</li>
 errors.wrong_field=Please fill "{0}" correctly.
-errors.captcha=Captcha is incorrect!
 features.saved=Features activated
 form.field.address.description=Ex: 12.23.45.123 or todo.com
 form.field.address=Visitor's Address
