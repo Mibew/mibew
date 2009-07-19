@@ -574,7 +574,7 @@ $settings = array(
 		'surveyaskgroup' => '1',
 		'surveyaskmessage' => '0',
 	'enablepopupnotification' => '0',
-	'enablecaptcha' => '1',
+	'enablecaptcha' => '0',
 
 	'online_timeout' => 30,		/* Timeout (in seconds) when online operator becomes offline */
 	'updatefrequency_operator' => 2,
