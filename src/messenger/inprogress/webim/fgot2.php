@@ -8,5 +8,5 @@
 	Your username:$username 
 	Your new password:$password 
 	click here to confirm the changes."
-Mail($to, $subj, $message);
+# mail($to, $subj, $message);
 	?>

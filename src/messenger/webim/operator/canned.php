@@ -81,7 +81,9 @@ if($settings['enablegroups'] == '1') {
 		}
 	}
 
-	$allgroups = get_groups(false);
+	$link = connect();
+	$allgroups = get_groups($link, false);
+	mysql_close($link);
 	$page['groups'] = array();
 	$page['groups'][] = array('groupid' => '', 'vclocalname' => getlocal("page.gen_button.default_group"));
 	foreach($allgroups as $g) {

@@ -177,6 +177,15 @@ require_once('inc_errors.php');
 			<br clear="all"/>
 		</div>
 
+		<div class="field">
+			<div class="flabel"><?php echo getlocal('settings.leavemessage_captcha') ?></div>
+			<div class="fvalue">
+				<input type="checkbox" name="enablecaptcha" value="on"<?php echo form_value_cb('enablecaptcha') ? " checked=\"checked\"" : "" ?>/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('settings.leavemessage_captcha.description') ?></div>
+			<br clear="all"/>
+		</div>
+
 		<div class="fbutton">
 			<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
 		</div>

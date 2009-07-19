@@ -282,10 +282,23 @@ function setup_survey($name, $email, $groupid, $info, $referrer) {
 	$page['referrer'] = urlencode(topage($referrer));
 
 	if($settings['enablegroups'] == '1' && $settings["surveyaskgroup"] == "1") {
-		$allgroups = get_groups(false);
+		$link = connect();
+		$allgroups = get_groups($link,true,true);
+		mysql_close($link);
 		$val = "";
-		foreach($allgroups as $k) { 
-			$val .= "<option value=\"".$k['groupid']."\"".($k['groupid'] == $groupid ? " selected=\"selected\"" : "").">".$k['vclocalname']."</option>";
+		foreach($allgroups as $k) {
+			$groupname = $k['vclocalname'];
+			if($k['inumofagents'] == 0) {
+				continue;
+			}
+			if($k['ilastseen'] !== NULL && $k['ilastseen'] < $settings['online_timeout']) {
+				$groupname .= " (online)";
+				if(!$groupid) {
+					$groupid = $k['groupid'];
+				}
+			}
+			$isselected = $k['groupid'] == $groupid;
+			$val .= "<option value=\"".$k['groupid']."\"".($isselected ? " selected=\"selected\"" : "").">$groupname</option>";
 		}
 		$page['groups'] = $val;
 	}

@@ -40,8 +40,15 @@ if( isset($_GET['act']) && $_GET['act'] == 'del' ) {
 	}
 }
 
+function is_online($group) {
+	global $settings;
+	return $group['ilastseen'] && $group['ilastseen'] < $settings['online_timeout'] ? "1" : "";	
+}
+
 $page = array();
-$page['groups'] = get_groups(true);
+$link = connect();
+$page['groups'] = get_groups($link, true, true);
+mysql_close($link);
 $page['canmodify'] = is_capable($can_administrate, $operator);
 
 prepare_menu($operator);

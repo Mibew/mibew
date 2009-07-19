@@ -25,7 +25,8 @@ $options = array(
 		'enableban', 'usercanchangename', 'enablegroups', 'enablestatistics',
 		'enablessl', 'forcessl',  
 		'enablepresurvey', 'surveyaskmail', 'surveyaskgroup', 'surveyaskmessage',
-		'enablepopupnotification');
+		'enablepopupnotification',
+		'enablecaptcha');
 
 loadsettings();
 $params = array();

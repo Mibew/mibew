@@ -27,9 +27,12 @@ function update_operator_groups($operatorid,$newvalue) {
 	mysql_close($link);
 }
 
+
 $opId = verifyparam( "op","/^\d{1,9}$/");
 $page = array('opid' => $opId);
-$page['groups'] = get_groups(false);
+$link = connect();
+$page['groups'] = get_groups($link, false);
+mysql_close($link);
 $errors = array();
 
 $canmodify = ($opId == $operator['operatorid'] && is_capable($can_modifyprofile, $operator)) 

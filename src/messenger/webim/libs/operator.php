@@ -211,8 +211,7 @@ function setup_redirect_links($threadid,$token) {
 	$operators = select_multi_assoc($query, $link);
 
 	if($settings['enablegroups'] == "1") {
-		$query = "select groupid, vclocalname, vccommonname from chatgroup order by vclocalname $limit";
-		$groups = select_multi_assoc($query, $link);
+		$groups = get_groups($link, true, true);
 	}
 	
 	mysql_close($link);
@@ -233,11 +232,15 @@ function setup_redirect_links($threadid,$token) {
 	if($settings['enablegroups'] == "1") {
 		$params = array('thread' => $threadid, 'token' => $token);
 		foreach($groups as $group) {
+			if($group['inumofagents'] == 0) {
+				continue;
+			}
 			$params['nextGroup'] = $group['groupid'];
+			$online = $group['ilastseen'] < $settings['online_timeout'] ? getlocal("char.redirect.operator.online_suff") : "";
 			$group_list .= "<li><a href=\"".add_params($webimroot."/operator/redirect.php",$params).
 								"\" title=\"".topage(get_group_name($group))."\">".
 								topage(get_group_name($group)).
-							"</a></li>";
+							"</a> $online</li>";
 		}
 	}
 	$page['redirectToGroup'] = $group_list;
@@ -276,16 +279,19 @@ function prepare_menu($operator,$hasright=true) {
 	}
 }
 
-function get_groups($countagents) {
-	$link = connect();
+function get_groups($link,$countagents, $checkonline=false) {
 	$query = "select chatgroup.groupid as groupid, vclocalname, vclocaldescription".
 			($countagents 
 					? ", (SELECT count(*) from chatgroupoperator where chatgroup.groupid = chatgroupoperator.groupid) as inumofagents" 
 					: "").
+			($checkonline 
+					? ", (SELECT min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time ".
+						"from chatgroupoperator, chatoperator where chatgroup.groupid = chatgroupoperator.groupid ".
+						"and chatgroupoperator.operatorid = chatoperator.operatorid) as ilastseen" 
+					: "").
+					
 			 " from chatgroup order by vclocalname";
-	$result = select_multi_assoc($query, $link);
-	mysql_close($link);
-	return $result;
+	return select_multi_assoc($query, $link);
 }
 
 function get_operator_groupids($operatorid) {

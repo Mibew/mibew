@@ -50,6 +50,8 @@ require_once('inc_errors.php');
 </th><th>
 	<?php echo getlocal("form.field.groupdesc") ?>
 </th><th>
+	<?php echo getlocal("page_agents.status") ?>
+</th><th>
 	<?php echo getlocal("page.group.membersnum") ?>
 <?php if($page['canmodify']) { ?>
 </th><th>
@@ -69,6 +71,13 @@ if(count($page['groups']) > 0) {
 	</td>
 	<td class="notlast">
    		<?php echo $grp['vclocaldescription'] ? htmlspecialchars(topage($grp['vclocaldescription'])) : "&lt;none&gt;" ?>
+	</td>
+	<td class="notlast">
+<?php if(is_online($grp)) { ?>
+		<?php echo getlocal("page_agents.isonline") ?>
+<?php } else { ?>
+		<?php echo date_to_text(time() - ($grp['ilastseen'] ? $grp['ilastseen'] : time())) ?>
+<?php } ?>
 	</td>
 	<td>
    		<a href="<?php echo $webimroot ?>/operator/groupmembers.php?gid=<?php echo $grp['groupid'] ?>">
