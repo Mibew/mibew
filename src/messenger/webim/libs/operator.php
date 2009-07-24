@@ -131,7 +131,7 @@ function append_query($link,$pv) {
 	return "$link$infix$pv";
 }
 
-function generate_button($title,$locale,$style,$group,$inner,$showhost,$forcesecure) {
+function generate_button($title,$locale,$style,$group,$inner,$showhost,$forcesecure,$modsecurity) {
 	$link = get_app_location($showhost,$forcesecure)."/client.php";
 	if($locale)
 		$link = append_query($link, "locale=$locale");
@@ -140,7 +140,8 @@ function generate_button($title,$locale,$style,$group,$inner,$showhost,$forcesec
 	if($group)
 		$link = append_query($link, "group=$group");
 
-	$jslink = append_query("'".$link,"url='+escape(document.location.href)+'&amp;referrer='+escape(document.referrer)");	
+	$modsecfix = $modsecurity ? ".replace('http://','').replace('https://','')" : "";
+	$jslink = append_query("'".$link,"url='+escape(document.location.href$modsecfix)+'&amp;referrer='+escape(document.referrer$modsecfix)");	
 	$temp = get_popup($link, "$jslink",
 			$inner, $title, "webim", "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1" );
 	return "<!-- webim button -->".$temp."<!-- / webim button -->";

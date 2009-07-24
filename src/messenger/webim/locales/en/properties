@@ -239,6 +239,7 @@ page.gen_button.code=HTML code
 page.gen_button.default_group=-all operators-
 page.gen_button.include_site_name=Include host name into the code
 page.gen_button.intro=You can generate HTML code to place at your site here.
+page.gen_button.modsecurity=Compatibility with mod_security (modsecurity.org), turn on only if you have problems with it
 page.gen_button.sample=Example
 page.gen_button.secure_links=Use secure links (https)
 page.gen_button.title=Button HTML code generation

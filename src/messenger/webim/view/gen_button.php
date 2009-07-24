@@ -31,16 +31,16 @@ require_once('inc_errors.php');
 
 	<div class="fieldForm">
 		<div class="field">
-			<div class="flabel"><?php echo getlocal("page.gen_button.choose_image") ?></div>
+			<div class="flabel"><?php echo getlocal("page.gen_button.choose_locale") ?></div>
 			<div class="fvaluenodesc">
-				<select name="image" onchange="this.form.submit();"><?php foreach($page['availableImages'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("image") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+				<select name="lang" onchange="this.form.submit();"><?php foreach($page['availableLocales'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("lang") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			</div>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal("page.gen_button.choose_locale") ?></div>
+			<div class="flabel"><?php echo getlocal("page.gen_button.choose_image") ?></div>
 			<div class="fvaluenodesc">
-				<select name="lang" onchange="this.form.submit();"><?php foreach($page['availableLocales'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("lang") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+				<select name="image" onchange="this.form.submit();"><?php foreach($page['availableImages'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("image") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			</div>
 		</div>
 
@@ -76,6 +76,13 @@ require_once('inc_errors.php');
 			</div>
 		</div>
 <?php } ?>
+
+		<div class="field">
+			<div class="flabel"><?php echo getlocal("page.gen_button.modsecurity") ?></div>
+			<div class="fvaluenodesc">
+				<input type="checkbox" name="modsecurity" value="on"<?php echo form_value_cb('modsecurity') ? " checked=\"checked\"" : "" ?> onchange="this.form.submit();"/>
+			</div>
+		</div>
 
 		<div class="field">
 			<div class="flabel"><?php echo getlocal("page.gen_button.code") ?></div>

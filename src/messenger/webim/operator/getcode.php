@@ -71,6 +71,7 @@ if($settings['enablegroups'] == '1') {
 
 $showhost = verifyparam("hostname","/^on$/", "") == "on";
 $forcesecure = verifyparam("secure","/^on$/", "") == "on";
+$modsecurity = verifyparam("modsecurity","/^on$/", "") == "on";
 
 $lang = verifyparam("lang", "/^[\w-]{2,5}$/", "");
 if( !$lang || !in_array($lang,$image_locales) )
@@ -86,7 +87,7 @@ if($groupid) {
 $message = get_image($imagehref,$size[0],$size[1]);
 
 $page = array();
-$page['buttonCode'] = generate_button("",$lang,$style,$groupid,$message,$showhost,$forcesecure);
+$page['buttonCode'] = generate_button("",$lang,$style,$groupid,$message,$showhost,$forcesecure,$modsecurity);
 $page['availableImages'] = array_keys($imageLocales);
 $page['availableLocales'] = $image_locales;
 $page['availableStyles'] = $stylelist;
@@ -108,6 +109,7 @@ $page['formimage'] = $image;
 $page['formlang'] = $lang;
 $page['formhostname'] = $showhost;
 $page['formsecure'] = $forcesecure;
+$page['formmodsecurity'] = $modsecurity;
 
 prepare_menu($operator);
 start_html_output();
