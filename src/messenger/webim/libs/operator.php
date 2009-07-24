@@ -95,9 +95,9 @@ function create_operator($login,$password,$localename,$commonname,$avatar) {
 	return $newop;
 }
 
-function notify_operator_alive($operatorid) {
+function notify_operator_alive($operatorid, $istatus) {
 	$link = connect();
-	perform_query("update chatoperator set dtmlastvisited = CURRENT_TIMESTAMP where operatorid = $operatorid",$link);
+	perform_query("update chatoperator set istatus = $istatus, dtmlastvisited = CURRENT_TIMESTAMP where operatorid = $operatorid",$link);
 	mysql_close($link);
 }
 
@@ -107,7 +107,9 @@ function has_online_operators($groupid="") {
 	$link = connect();
 	$query = "select count(*) as total, min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time from chatoperator";
 	if($groupid) {
-		$query .= ", chatgroupoperator where groupid = $groupid and chatoperator.operatorid = chatgroupoperator.operatorid";
+		$query .= ", chatgroupoperator where groupid = $groupid and chatoperator.operatorid = chatgroupoperator.operatorid and istatus = 0";
+	} else {
+		$query .= " where istatus = 0";
 	}
 	$row = select_one_row($query,$link);
 	mysql_close($link);
@@ -206,12 +208,12 @@ function setup_redirect_links($threadid,$token) {
 	prepare_pagination(max($operatorscount,$groupscount),8);
 	$limit = $page['pagination']['limit'];
 
-	$query = "select operatorid, vclogin, vclocalename, vccommonname, (unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time ".
+	$query = "select operatorid, vclogin, vclocalename, vccommonname, istatus, (unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time ".
 			 "from chatoperator order by vclogin $limit";
 	$operators = select_multi_assoc($query, $link);
 
 	if($settings['enablegroups'] == "1") {
-		$groups = get_groups($link, true, true);
+		$groups = get_groups($link, true);
 	}
 	
 	mysql_close($link);
@@ -220,11 +222,16 @@ function setup_redirect_links($threadid,$token) {
 	$params = array('thread' => $threadid, 'token' => $token);
 	foreach($operators as $agent) {
 		$params['nextAgent'] = $agent['operatorid'];
-		$online = $agent['time'] < $settings['online_timeout'] ? getlocal("char.redirect.operator.online_suff") : "";
+		$status = $agent['time'] < $settings['online_timeout']
+			? ($agent['istatus'] == 0
+				? getlocal("char.redirect.operator.online_suff")
+				: getlocal("char.redirect.operator.away_suff")
+			) 
+			: "";
 		$agent_list .= "<li><a href=\"".add_params($webimroot."/operator/redirect.php",$params).
 						"\" title=\"".topage(get_operator_name($agent))."\">".
 						    topage(get_operator_name($agent)).
-						"</a> $online</li>";
+						"</a> $status</li>";
 	}
 	$page['redirectToAgent'] = $agent_list;
 
@@ -236,11 +243,15 @@ function setup_redirect_links($threadid,$token) {
 				continue;
 			}
 			$params['nextGroup'] = $group['groupid'];
-			$online = $group['ilastseen'] < $settings['online_timeout'] ? getlocal("char.redirect.operator.online_suff") : "";
+			$status = $group['ilastseen'] !== NULL && $group['ilastseen'] < $settings['online_timeout'] 
+					? getlocal("char.redirect.operator.online_suff") 
+					: ($group['ilastseenaway'] !== NULL && $group['ilastseenaway'] < $settings['online_timeout']
+						? getlocal("char.redirect.operator.away_suff")
+						: "");
 			$group_list .= "<li><a href=\"".add_params($webimroot."/operator/redirect.php",$params).
 								"\" title=\"".topage(get_group_name($group))."\">".
 								topage(get_group_name($group)).
-							"</a> $online</li>";
+							"</a> $status</li>";
 		}
 	}
 	$page['redirectToGroup'] = $group_list;
@@ -279,17 +290,23 @@ function prepare_menu($operator,$hasright=true) {
 	}
 }
 
-function get_groups($link,$countagents, $checkonline=false) {
+function get_all_groups($link) {
+	$query = "select chatgroup.groupid as groupid, vclocalname, vclocaldescription from chatgroup order by vclocalname";
+	return select_multi_assoc($query, $link);
+}
+
+function get_groups($link,$checkaway) {
 	$query = "select chatgroup.groupid as groupid, vclocalname, vclocaldescription".
-			($countagents 
-					? ", (SELECT count(*) from chatgroupoperator where chatgroup.groupid = chatgroupoperator.groupid) as inumofagents" 
-					: "").
-			($checkonline 
-					? ", (SELECT min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time ".
-						"from chatgroupoperator, chatoperator where chatgroup.groupid = chatgroupoperator.groupid ".
-						"and chatgroupoperator.operatorid = chatoperator.operatorid) as ilastseen" 
-					: "").
-					
+			", (SELECT count(*) from chatgroupoperator where chatgroup.groupid = chatgroupoperator.groupid) as inumofagents". 
+			", (SELECT min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time ".
+					"from chatgroupoperator, chatoperator where istatus = 0 and chatgroup.groupid = chatgroupoperator.groupid ".
+					"and chatgroupoperator.operatorid = chatoperator.operatorid) as ilastseen".
+			($checkaway
+				 ? ", (SELECT min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time ".
+						"from chatgroupoperator, chatoperator where istatus <> 0 and chatgroup.groupid = chatgroupoperator.groupid ".
+						"and chatgroupoperator.operatorid = chatoperator.operatorid) as ilastseenaway"
+				 : ""
+			 ).
 			 " from chatgroup order by vclocalname";
 	return select_multi_assoc($query, $link);
 }

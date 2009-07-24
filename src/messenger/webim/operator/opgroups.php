@@ -31,7 +31,7 @@ function update_operator_groups($operatorid,$newvalue) {
 $opId = verifyparam( "op","/^\d{1,9}$/");
 $page = array('opid' => $opId);
 $link = connect();
-$page['groups'] = get_groups($link, false);
+$page['groups'] = get_all_groups($link);
 mysql_close($link);
 $errors = array();
 

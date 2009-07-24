@@ -141,11 +141,12 @@ function print_pending_threads($groupids,$since) {
 }
 
 $since = verifyparam( "since", "/^\d{1,9}$/", 0);
+$status = verifyparam( "status", "/^\d{1,2}$/", 0);
 
 loadsettings();
 $groupids = $_SESSION['operatorgroups'];
 print_pending_threads($groupids,$since);
-notify_operator_alive($operator['operatorid']);
+notify_operator_alive($operator['operatorid'], $status);
 exit;
 
 ?>

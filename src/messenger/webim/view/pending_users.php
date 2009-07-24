@@ -31,7 +31,7 @@ var localized = new Array(
 );
 var updaterOptions = {
 	url:"<?php echo $webimroot ?>/operator/update.php",wroot:"<?php echo $webimroot ?>",
-	agentservl:"<?php echo $webimroot ?>/operator/agent.php", frequency:<?php echo $page['frequency'] ?>,
+	agentservl:"<?php echo $webimroot ?>/operator/agent.php", frequency:<?php echo $page['frequency'] ?>, istatus:<?php echo $page['istatus'] ?>,  
 	noclients:"<?php echo getlocal("clients.no_clients") ?>", havemenu: <?php echo $page['havemenu'] ?>, showpopup: <?php echo $page['showpopup'] ?> };
 //--></script>
 <script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/users.js?v=161"></script>
@@ -81,7 +81,13 @@ function tpl_content() { global $page, $webimroot;
 <div id="connstatus">
 </div>
 
-
+<div id="connlinks">
+<?php if($page['istatus']) { ?>
+<a href="users.php<?php echo $page['havemenu'] ? "" : "?nomenu" ?>"><?php echo getlocal("pending.status.setonline") ?></a>
+<?php } else { ?>
+<a href="users.php?away<?php echo $page['havemenu'] ? "" : "&nomenu" ?>"><?php echo getlocal("pending.status.setaway") ?></a>
+<?php } ?>
+</div>
 
 <?php 
 } /* content */

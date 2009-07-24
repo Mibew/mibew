@@ -527,6 +527,19 @@ table.awaiting td.visitor {
 	margin: 10px 10px;
 }
 
+#connlinks {
+	margin: 10px 10px;
+}
+
+#connlinks a {
+	color: #777;
+	text-decoration: none;
+}
+
+#connlinks a:hover {
+	text-decoration: underline;
+}
+
 /* search */
 
 #searchtext {

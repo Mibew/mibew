@@ -117,7 +117,7 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
   },
 
   updateParams: function() {
-  	return "company=" + this._options.company + "&since=" + this._options.lastrevision;
+  	return "since=" + this._options.lastrevision + "&status=" + this._options.istatus;
   },
 
   setStatus: function(msg) {
@@ -272,7 +272,7 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 		}
 	}
   },
-
+  
   updateContent: function(root) {
 	var newAdded = false;
 	if( root.tagName == 'threads' ) {
@@ -292,7 +292,7 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 		}
 		this.updateQueueMessages();
 		this.updateTimers();
-		this.setStatus( "Up to date" );
+		this.setStatus(this._options.istatus ? "Away" : "Up to date");
 		if( newAdded ) {
 			playSound(webimRoot+'/sounds/new_user.wav');
 			window.focus();
@@ -322,6 +322,8 @@ if($("sidebar") && $("wcontent") && $("togglemenu")) {
 }
 }
 
+var webimRoot = "";
+
 Behaviour.register({
 	'#togglemenu' : function(el) {
 		el.onclick = function() {
@@ -330,11 +332,9 @@ Behaviour.register({
 	}
 });
 
-var webimRoot = "";
-
 EventHelper.register(window, 'onload', function(){
   webimRoot = updaterOptions.wroot;
-  new Ajax.ThreadListUpdater(({table:$("threadlist"),status:$("connstatus")}).extend(updaterOptions || {}));
+  new Ajax.ThreadListUpdater(({table:$("threadlist"),status:$("connstatus"),istatus:0}).extend(updaterOptions || {}));
   if(!updaterOptions.havemenu) {
 	  togglemenu();
   }	 

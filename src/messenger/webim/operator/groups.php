@@ -42,12 +42,18 @@ if( isset($_GET['act']) && $_GET['act'] == 'del' ) {
 
 function is_online($group) {
 	global $settings;
-	return $group['ilastseen'] && $group['ilastseen'] < $settings['online_timeout'] ? "1" : "";	
+	return $group['ilastseen'] !== NULL && $group['ilastseen'] < $settings['online_timeout'] ? "1" : "";	
 }
+
+function is_away($group) {
+	global $settings;
+	return $group['ilastseenaway'] !== NULL && $group['ilastseenaway'] < $settings['online_timeout'] ? "1" : "";	
+}
+
 
 $page = array();
 $link = connect();
-$page['groups'] = get_groups($link, true, true);
+$page['groups'] = get_groups($link, true);
 mysql_close($link);
 $page['canmodify'] = is_capable($can_administrate, $operator);
 

@@ -283,7 +283,7 @@ function setup_survey($name, $email, $groupid, $info, $referrer) {
 
 	if($settings['enablegroups'] == '1' && $settings["surveyaskgroup"] == "1") {
 		$link = connect();
-		$allgroups = get_groups($link,true,true);
+		$allgroups = get_groups($link,false);
 		mysql_close($link);
 		$val = "";
 		foreach($allgroups as $k) {
@@ -294,7 +294,7 @@ function setup_survey($name, $email, $groupid, $info, $referrer) {
 			if($k['ilastseen'] !== NULL && $k['ilastseen'] < $settings['online_timeout']) {
 				$groupname .= " (online)";
 				if(!$groupid) {
-					$groupid = $k['groupid'];
+					$groupid = $k['groupid'];  // select first online group
 				}
 			}
 			$isselected = $k['groupid'] == $groupid;

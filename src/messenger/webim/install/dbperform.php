@@ -111,6 +111,10 @@ if ($act == "silentcreateall") {
 			runsql("ALTER TABLE chatoperator ADD iperm int DEFAULT 65535", $link);
 		}
 
+		if( in_array("chatoperator.istatus", $absent) ) {
+			runsql("ALTER TABLE chatoperator ADD istatus int DEFAULT 0", $link);
+		}
+		
 		if( in_array("chatoperator.vcavatar", $absent) ) {
 			runsql("ALTER TABLE chatoperator ADD vcavatar varchar(255)", $link);
 		}
@@ -127,10 +131,9 @@ if ($act == "silentcreateall") {
 			runsql("ALTER TABLE chatthread ADD userAgent varchar(255)", $link);
 		}
 
-		$res = runsql("select null from information_schema.statistics where table_name = 'chatmessage' and index_name = 'idx_agentid'", $link);
-		if(mysql_num_rows($res) == 0) {
+		$res = mysql_query("select null from information_schema.statistics where table_name = 'chatmessage' and index_name = 'idx_agentid'", $link);
+		if($res && mysql_num_rows($res) == 0) {
 			runsql("ALTER TABLE chatmessage ADD INDEX idx_agentid (agentid)", $link);
-
 		}
 	}
 }
