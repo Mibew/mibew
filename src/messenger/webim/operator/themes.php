@@ -130,6 +130,6 @@ foreach($templateList as $tpl) {
 
 prepare_menu($operator);
 start_html_output();
-setup_settings_tabs(2);
+setup_settings_tabs(3);
 require('../view/themes.php');
 ?>
