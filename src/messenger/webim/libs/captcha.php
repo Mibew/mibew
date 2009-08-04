@@ -1,17 +1,18 @@
-<?
-/*
+<?php
+/*  [external]
+
 	This is PHP file that generates CAPTCHA image for the How to Create CAPTCHA
 	Protection using PHP and AJAX Tutorial
 
-	You may use this code in your own projects as long as this 
+	You may use this code in your own projects as long as this
 	copyright is left in place.  All code is provided AS-IS.
 	This code is distributed in the hope that it will be useful,
  	but WITHOUT ANY WARRANTY; without even the implied warranty of
  	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 	
 	For the rest of the code visit http://www.WebCheatSheet.com
-	
-	Copyright 2006 WebCheatSheet.com	
+
+	Copyright 2006 WebCheatSheet.com
 */
 
 function gen_captcha() {
