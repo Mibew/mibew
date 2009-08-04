@@ -24,7 +24,7 @@ session_start();
 require_once(dirname(__FILE__).'/converter.php');
 require_once(dirname(__FILE__).'/config.php');
 
-$version = '1.6.1';
+$version = '1.6.2';
 
 function myiconv($in_enc, $out_enc, $string) {
 	global $_utf8win1251, $_win1251utf8;
@@ -551,7 +551,7 @@ function webim_mail($toaddr, $reply_to, $subject, $body) {
 	mail($toaddr, $real_subject, wordwrap(myiconv($webim_encoding, $mail_encoding, $body),70), $headers);
 }
 
-$dbversion = '1.6.0.3';
+$dbversion = '1.6.2';
 
 $settings = array(
 	'dbversion' => 0,
