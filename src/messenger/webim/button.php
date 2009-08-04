@@ -3,10 +3,9 @@
  * This file is part of Mibew Messenger project.
  *
  * Copyright (c) 2005-2009 Mibew Messenger Community
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * All rights reserved. The contents of this file are subject to the terms of
+ * the Eclipse Public License v1.0 which accompanies this distribution, and
+ * is available at http://www.eclipse.org/legal/epl-v10.html
  * 
  * Alternatively, the contents of this file may be used under the terms of
  * the GNU General Public License Version 2 or later (the "GPL"), in which case

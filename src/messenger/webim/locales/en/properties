@@ -190,6 +190,7 @@ leavemessage.title=Leave your message
 leftMenu.client_agents=Operators
 leftMenu.client_gen_button=Button code
 leftMenu.client_settings=Settings
+license.title=License
 localedirection=ltr
 localeid=English (en)
 mail.user.history.body=Hello, {0}!\n\nYour chat history: \n\n{1}\n--- \nKind Regards,\nMibew Messenger
