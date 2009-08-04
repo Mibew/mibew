@@ -1,3 +1,14 @@
+  1.6.2
+  -----
+  [+] bi-licensed: EPL / GPL
+  [+] operator is away status, show status on redirect/survey/operators pages
+  [+] Captcha - Leave Message
+  [+] groups page: last active column
+  [+] pre-chat survey, redirect page: show group status - online/offline/away
+  [!] do not show empty groups in redirect/survey
+  [!] compatibility with the latest mod_security rules
+  [+] performance options in settings: update intervals, operator online time threshold
+
   1.6.1
   -----
   [!] 404 installation problem
