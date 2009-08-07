@@ -26,6 +26,24 @@ require_once('libs/expand.php');
 $errors = array();
 $page = array();
 
+function store_message($name, $email, $info, $message) {
+	global $state_left, $current_locale, $kind_for_agent, $kind_user;
+	$groupid = 0;
+	$remoteHost = get_remote_host();
+	$userbrowser = $_SERVER['HTTP_USER_AGENT'];
+	$visitor = visitor_from_request();
+	$link = connect();
+	$thread = create_thread($groupid,$name,$remoteHost,"",$current_locale,$visitor['id'], $userbrowser,$state_left,$link);
+	if($email) {
+		post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.email',array($email)),$link);
+	}
+	if($info) {
+		post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.info',array($info)),$link);
+	}
+	post_message_($thread['threadid'],$kind_user,$message,$link,$name);
+	mysql_close($link);
+}
+
 $email = getparam('email');
 $visitor_name = getparam('name');
 $message = getparam('message');
@@ -68,6 +86,8 @@ $message_locale = $settings['left_messages_locale'];
 if(!locale_exists($message_locale)) {
 	$message_locale = $home_locale;
 }
+
+store_message($visitor_name, $email, $info, $message);
 
 $subject = getstring2_("leavemail.subject", array($visitor_name), $message_locale);
 $body = getstring2_("leavemail.body", array($visitor_name,$email,$message,$info ? "$info\n" : ""), $message_locale);

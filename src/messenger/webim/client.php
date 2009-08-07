@@ -102,20 +102,15 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 			}
 		}
 
-		$extAddr = $_SERVER['REMOTE_ADDR'];
-		if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) &&
-		          $_SERVER['HTTP_X_FORWARDED_FOR'] != $_SERVER['REMOTE_ADDR']) {
-			$extAddr = $_SERVER['REMOTE_ADDR'].' ('.$_SERVER['HTTP_X_FORWARDED_FOR'].')';
-		}
+		$remoteHost = get_remote_host();
 		$userbrowser = $_SERVER['HTTP_USER_AGENT'];
-		$remoteHost = isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $extAddr;
 
 		$link = connect();
 		if(!check_connections_from_remote($remoteHost, $link)) {
 			mysql_close($link);
 			die("number of connections from your IP is exceeded, try again later");
 		}
-		$thread = create_thread($groupid,$visitor['name'], $remoteHost, $referer,$current_locale,$visitor['id'], $userbrowser,$link);
+		$thread = create_thread($groupid,$visitor['name'], $remoteHost, $referer,$current_locale,$visitor['id'], $userbrowser,$state_loading,$link);
 		$_SESSION['threadid'] = $thread['threadid'];
 		
 		if( $referer ) {

@@ -36,7 +36,8 @@ $threadstate_to_string = array(
 	$state_waiting => "prio",
 	$state_chatting => "chat",
 	$state_closed => "closed",
-	$state_loading => "wait"
+	$state_loading => "wait",
+	$state_left => "closed"
 );
 
 $threadstate_key = array(
@@ -111,7 +112,7 @@ function thread_to_xml($thread,$link) {
 }
 
 function print_pending_threads($groupids,$since) {
-	global $webim_encoding, $settings, $state_closed;
+	global $webim_encoding, $settings, $state_closed, $state_left;
 	$link = connect();
 
 	$revision = $since;
@@ -120,7 +121,7 @@ function print_pending_threads($groupids,$since) {
 			 "unix_timestamp(dtmmodified), lrevision, istate, remote, nextagent, agentId, userid, shownmessageid, userAgent, (select vclocalname from chatgroup where chatgroup.groupid = chatthread.groupid) as groupname ".
 			 "from chatthread where lrevision > $since ".
 			 ($since <= 0 
-			 		? "AND istate <> $state_closed " 
+			 		? "AND istate <> $state_closed AND istate <> $state_left " 
 			 		: "").
 			 ($settings['enablegroups'] == '1'
 			 		? "AND (groupid is NULL".($groupids 

@@ -30,6 +30,7 @@ $state_waiting = 1;
 $state_chatting = 2;
 $state_closed = 3;
 $state_loading = 4;
+$state_left = 5;
 
 $kind_user = 1;
 $kind_agent = 2;
@@ -523,11 +524,10 @@ function thread_by_id($id) {
 	return $thread;
 }
 
-function create_thread($groupid,$username,$remoteHost,$referer,$lang,$userid,$userbrowser,$link) {
-	global $state_loading;
+function create_thread($groupid,$username,$remoteHost,$referer,$lang,$userid,$userbrowser,$initialState,$link) {
 	$query = sprintf(
 		 "insert into chatthread (userName,userid,ltoken,remote,referer,lrevision,locale,userAgent,dtmcreated,dtmmodified,istate".($groupid?",groupid":"").") values ".
-								 "('%s','%s',%s,'%s','%s',%s,'%s','%s',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,$state_loading".($groupid?",$groupid":"").")",
+								 "('%s','%s',%s,'%s','%s',%s,'%s','%s',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,$initialState".($groupid?",$groupid":"").")",
 			mysql_real_escape_string($username, $link),
 			mysql_real_escape_string($userid, $link),
 			next_token(),
@@ -556,14 +556,14 @@ function do_take_thread($threadid,$operatorId,$operatorName) {
 }
 
 function reopen_thread($threadid) {
-	global $state_queue,$state_loading,$state_waiting,$state_chatting,$state_closed,$kind_events;
+	global $state_queue,$state_loading,$state_waiting,$state_chatting,$state_closed,$state_left,$kind_events;
 	$link = connect();
 	$thread = thread_by_id_($threadid, $link);
 
 	if( !$thread )
 		return FALSE;
 
-	if( $thread['istate'] == $state_closed )
+	if( $thread['istate'] == $state_closed || $thread['istate'] == $state_left )
 		return FALSE;
 
 	if( $thread['istate'] != $state_chatting && $thread['istate'] != $state_queue && $thread['istate'] != $state_loading ) {
@@ -631,13 +631,13 @@ function check_for_reassign($thread,$operator) {
 }
 
 function check_connections_from_remote($remote,$link) {
-	global $settings, $state_closed;
+	global $settings, $state_closed, $state_left;
 	if($settings['max_connections_from_one_host'] == 0) {
 		return true;
 	}
 	$result = select_one_row(
 			"select count(*) as opened from chatthread ".
-			"where remote = '". mysql_real_escape_string($remote, $link)."' AND istate <> $state_closed", $link );
+			"where remote = '". mysql_real_escape_string($remote, $link)."' AND istate <> $state_closed AND istate <> $state_left", $link );
 	if($result && isset($result['opened'])) {
 		return $result['opened'] < $settings['max_connections_from_one_host'];
 	}
@@ -667,6 +667,15 @@ function visitor_from_request() {
 		setcookie($usercookie, $userId, time()+60*60*24*365);
 	}
 	return array( 'id' => $userId, 'name' => $userName );
+}
+
+function get_remote_host() {
+	$extAddr = $_SERVER['REMOTE_ADDR'];
+	if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) &&
+	          $_SERVER['HTTP_X_FORWARDED_FOR'] != $_SERVER['REMOTE_ADDR']) {
+		$extAddr = $_SERVER['REMOTE_ADDR'].' ('.$_SERVER['HTTP_X_FORWARDED_FOR'].')';
+	}
+	return isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $extAddr;
 }
 
 ?>
