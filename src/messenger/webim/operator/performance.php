@@ -29,7 +29,8 @@ $page = array('agentId' => '');
 $errors = array();
 
 $options = array(
-		'online_timeout', 'updatefrequency_operator', 'updatefrequency_chat', 'updatefrequency_oldchat');
+		'online_timeout', 'updatefrequency_operator', 'updatefrequency_chat',
+		'updatefrequency_oldchat', 'max_connections_from_one_host');
 
 loadsettings();
 $params = array();
@@ -57,7 +58,12 @@ if (isset($_POST['onlinetimeout'])) {
     if(!is_numeric($params['updatefrequency_oldchat'])) {
     	$errors[] = wrong_field("settings.frequencyoldchat");
     }
-    
+
+	$params['max_connections_from_one_host'] = getparam('onehostconnections');
+    if(!is_numeric($params['max_connections_from_one_host'])) {
+    	$errors[] = getlocal("settings.wrong.onehostconnections");
+    }
+	
     if (count($errors) == 0) {
 		foreach($options as $opt) {
 			$settings[$opt] = $params[$opt];
@@ -72,6 +78,7 @@ $page['formonlinetimeout'] = $params['online_timeout'];
 $page['formfrequencyoperator'] = $params['updatefrequency_operator'];
 $page['formfrequencychat'] = $params['updatefrequency_chat'];
 $page['formfrequencyoldchat'] = $params['updatefrequency_oldchat'];
+$page['formonehostconnections'] = $params['max_connections_from_one_host'];
 $page['stored'] = isset($_GET['stored']);
 
 prepare_menu($operator);

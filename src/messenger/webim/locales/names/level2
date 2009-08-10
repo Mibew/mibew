@@ -23,6 +23,7 @@ cannededit.no_such
 cannededit.title
 cannednew.descr
 cannednew.title
+char.redirect.operator.away_suff
 char.redirect.operator.online_suff
 chat.client.spam.prefix
 chat.redirect.back
@@ -119,6 +120,8 @@ page_search.intro
 pending.menu.hide
 pending.menu.show
 pending.popup_notification
+pending.status.setaway
+pending.status.setonline
 pending.table.ban
 pending.table.head.contactid
 pending.table.head.etc

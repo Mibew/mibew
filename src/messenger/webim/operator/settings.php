@@ -41,7 +41,7 @@ if($handle = opendir($stylesfolder)) {
 
 $options = array(
 		'email', 'title', 'logo', 'hosturl', 'usernamepattern',
-		'chatstyle', 'chattitle', 'geolink', 'geolinkparams', 'max_connections_from_one_host', 'sendmessagekey');
+		'chatstyle', 'chattitle', 'geolink', 'geolinkparams', 'sendmessagekey');
 
 loadsettings();
 $params = array();
@@ -58,7 +58,6 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
     $params['chattitle'] = getparam('chattitle');
     $params['geolink'] = getparam('geolink');
 	$params['geolinkparams'] = getparam('geolinkparams');
-	$params['max_connections_from_one_host'] = trim(getparam('onehostconnections'));
 	$params['sendmessagekey'] = verifyparam('sendmessagekey', "/^c?enter$/");
 
 	$params['chatstyle'] = verifyparam("chatstyle","/^\w+$/", $params['chatstyle']);
@@ -70,10 +69,6 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
         $errors[] = getlocal("settings.wrong.email");
     }
     
-    if(!preg_match("/^\d+$/",$params['max_connections_from_one_host'])) {
-        $errors[] = getlocal("settings.wrong.onehostconnections");
-	}
-
     if($params['geolinkparams']) {
     	foreach(split(",", $params['geolinkparams']) as $oneparam) {
     		if(!preg_match("/^\s*(toolbar|scrollbars|location|status|menubar|width|height|resizable)=\d{1,4}$/", $oneparam)) {
@@ -101,7 +96,6 @@ $page['formgeolinkparams'] = topage($params['geolinkparams']);
 $page['formusernamepattern'] = topage($params['usernamepattern']);
 $page['formchatstyle'] = $params['chatstyle'];
 $page['formchattitle'] = topage($params['chattitle']);
-$page['formonehostconnections'] = $params['max_connections_from_one_host'];
 $page['formsendmessagekey'] = $params['sendmessagekey'];
 $page['availableStyles'] = $stylelist;
 $page['stored'] = isset($_GET['stored']);

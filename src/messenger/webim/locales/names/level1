@@ -1,6 +1,7 @@
 chat.came.from
 chat.client.changename
 chat.client.name
+chat.client.visited.page
 chat.default.username
 chat.error_page.close
 chat.error_page.head
@@ -36,6 +37,7 @@ chat.window.toolbar.mail_history
 chat.window.toolbar.redirect_user
 chat.window.toolbar.refresh
 company.title
+errors.captcha
 errors.required
 errors.wrong_field
 form.field.email
@@ -53,6 +55,7 @@ leavemessage.perform
 leavemessage.sent.message
 leavemessage.sent.title
 leavemessage.title
+license.title
 localeid
 mail.user.history.body
 mail.user.history.subject
