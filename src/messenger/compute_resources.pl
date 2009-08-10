@@ -4,12 +4,14 @@
 	["redirect(ed)?\\.tpl", 1],
 	["\\.tpl", 0],
 	
+	["view/license.php", 0],
 	["view/themes.php", 2],
 	["view/translate.php", 2],
 	["view/translatelist.php", 2],
 	["view/settings.php", 2],
 	["view/updates.php", 2],
 	["view/features.php", 2],
+	["view/performance.php", 2],
 	["view/avatar.php", 2],
 	["view/permissions.php", 2],
 	["view/agent.php", 2],
@@ -30,6 +32,7 @@
 	["operator/settings.php", 2],
 	["operator/updates.php", 2],
 	["operator/features.php", 2],
+	["operator/performance.php", 2],
 	["operator/avatar.php", 2],
 	["operator/permissions.php", 2],
 	["operator/operator.php", 2],
@@ -43,6 +46,8 @@
 	
 	["webim/client.php", 0],
 	["webim/leavemessage.php", 0],
+	["webim/captcha.php", 0],
+	["webim/license.php", 0],
 	["webim/mail.php", 0],	
 
 	["libs/operator_settings.php", 2],

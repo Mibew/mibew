@@ -5,7 +5,7 @@
 ##################################################################
 
 $targetFolder = "deploy";
-$suffix = "161";
+$suffix = "162";
 
 ##################################################################
 # Copies tree into target folder, preprocess .phps
@@ -42,49 +42,79 @@ die "Target folder exists: $targetFolder" if -e $targetFolder;
 
 process_dir("./webim", $targetFolder);
 
+`rm -rf release$suffix`;
+die "release folder exists: release$suffix" if -e "release$suffix";
+mkdir "release$suffix";
+
 chdir "$targetFolder/locales";
 
-`zip -r ../../webim${suffix}_de.zip de`;
-`rm -rf de`;
+`zip -r ../../release$suffix/pre_webim${suffix}_ar.zip ar`;
+`rm -rf ar`;
 
-`zip -r ../../webim${suffix}_ru.zip ru`;
-`rm -rf ru`;
+`zip -r ../../release$suffix/pre_webim${suffix}_da.zip da`;
+`rm -rf da`;
 
-`zip -r ../../webim${suffix}_fr.zip fr`;
-`rm -rf fr`;
+`zip -r ../../release$suffix/pre_webim${suffix}_ka.zip ka`;
+`rm -rf ka`;
 
-`zip -r ../../webim${suffix}_it.zip it`;
-`rm -rf it`;
-
-`zip -r ../../webim${suffix}_lv.zip lv`;
+`zip -r ../../release$suffix/pre_webim${suffix}_lv.zip lv`;
 `rm -rf lv`;
 
-`zip -r ../../webim${suffix}_pl.zip pl`;
-`rm -rf pl`;
+`zip -r ../../release$suffix/pre_webim${suffix}_nl.zip nl`;
+`rm -rf nl`;
 
-`zip -r ../../webim${suffix}_pt-br.zip pt-br`;
-`rm -rf pt-br`;
+`zip -r ../../release$suffix/pre_webim${suffix}_ro.zip ro`;
+`rm -rf ro`;
 
-`zip -r ../../webim${suffix}_sp.zip sp`;
-`rm -rf sp`;
-
-`zip -r ../../webim${suffix}_tr.zip tr`;
+`zip -r ../../release$suffix/pre_webim${suffix}_tr.zip tr`;
 `rm -rf tr`;
 
-`zip -r ../../webim${suffix}_ua.zip ua`;
-`rm -rf ua`;
-
-`zip -r ../../webim${suffix}_he.zip he`;
-`rm -rf he`;
-
-`zip -r ../../webim${suffix}_hr.zip hr`;
-`rm -rf hr`;
-
-`zip -r ../../webim${suffix}_zh-cn.zip zh-cn`;
+`zip -r ../../release$suffix/pre_webim${suffix}_zh-cn.zip zh-cn`;
 `rm -rf zh-cn`;
 
-`zip -r ../../webim${suffix}_zh-tw.zip zh-tw`;
+chdir "..";
+
+`zip -r ../release$suffix/webim${suffix}demo.zip *`;
+
+chdir "locales";
+
+`zip -r ../../release$suffix/webim${suffix}_de.zip de`;
+`rm -rf de`;
+
+`zip -r ../../release$suffix/webim${suffix}_ru.zip ru`;
+`rm -rf ru`;
+
+`zip -r ../../release$suffix/webim${suffix}_fr.zip fr`;
+`rm -rf fr`;
+
+`zip -r ../../release$suffix/webim${suffix}_it.zip it`;
+`rm -rf it`;
+
+`zip -r ../../release$suffix/webim${suffix}_pl.zip pl`;
+`rm -rf pl`;
+
+`zip -r ../../release$suffix/webim${suffix}_pt-br.zip pt-br`;
+`rm -rf pt-br`;
+
+`zip -r ../../release$suffix/webim${suffix}_sp.zip sp`;
+`rm -rf sp`;
+
+
+`zip -r ../../release$suffix/webim${suffix}_ua.zip ua`;
+`rm -rf ua`;
+
+`zip -r ../../release$suffix/webim${suffix}_he.zip he`;
+`rm -rf he`;
+
+`zip -r ../../release$suffix/webim${suffix}_hr.zip hr`;
+`rm -rf hr`;
+
+
+`zip -r ../../release$suffix/webim${suffix}_zh-tw.zip zh-tw`;
 `rm -rf zh-tw`;
 
 chdir "..";
-`zip -r ../webim$suffix.zip *`;
+`zip -r ../release$suffix/webim$suffix.zip *`;
+
+chdir "..";
+`rm -rf $targetFolder`;
