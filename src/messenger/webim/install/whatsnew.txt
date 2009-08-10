@@ -8,6 +8,7 @@
   [!] do not show empty groups in redirect/survey
   [!] compatibility with the latest mod_security rules
   [+] performance options in settings: update intervals, operator online time threshold
+  [+] information messages: visitor navigated to ...
 
   1.6.1
   -----

@@ -20,8 +20,20 @@
  */
 
 require_once('libs/common.php');
+require_once('libs/chat.php');
 require_once('libs/operator.php');
 require_once('libs/groups.php');
+
+$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "";
+if($referer && isset($_SESSION['threadid'])) {
+	$link = connect();
+	$thread = thread_by_id_($_SESSION['threadid'], $link);
+    if ($thread && $thread['istate'] != $state_closed) {
+        $msg = getstring2_("chat.client.visited.page", array($referer), $thread['locale']);
+        post_message_($thread['threadid'], $kind_for_agent,$msg,$link);
+    }
+    mysql_close($link);
+}
 
 $image = verifyparam("image","/^\w+$/", "webim");
 $lang = verifyparam(isset($_GET['language']) ? "language" : "lang", "/^[\w-]{2,5}$/", "");

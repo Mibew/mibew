@@ -34,6 +34,7 @@ chat.came.from=Посетитель пришел со страницы {0}
 chat.client.changename=Изменить имя
 chat.client.name=Вы 
 chat.client.spam.prefix=[спам]&nbsp;
+chat.client.visited.page=Посетитель перешел на {0}.
 chat.default.username=Посетитель
 chat.error_page.close=Закрыть...
 chat.error_page.head=Произошла ошибка:
