@@ -68,7 +68,7 @@
 
 				<td class="text" nowrap>${msg:chat.client.name}</td>
 				<td width="10" valign="top"><img src='${webimroot}/images/free.gif' width="10" height="1" border="0" alt="" /></td>
-				<td><input id="uname" type="text" size="12" value="${page:ct.user.name}" class="username"></td>
+				<td><input id="uname" type="text" size="12" value="${page:ct.user.name}" class="field"></td>
 				<td width="5" valign="top"><img src='${webimroot}/images/free.gif' width="5" height="1" border="0" alt="" /></td>
 				<td><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.client.changename}"><img src='${tplroot}/images/buttons/exec.gif' width="25" height="25" border="0" alt="&gt;&gt;" /></a></td>
 
@@ -169,7 +169,7 @@
 			</tr>
 			</table>
 		</td>
-		<td width="33%" align="center" class="copyr">${msg:chat.window.poweredby} <a href="${msg:site.url}" title="${msg:company.title}" target="_blank">${msg:chat.window.poweredreftext}</a></td>
+		<td width="33%" align="center" class="copyr">${msg:chat.window.poweredby} <a id="poweredByLink" href="http://openwebim.org" title="Mibew Community" target="_blank">openwebim.org</a></td>
 		<td width="33%" align="right">
 			<table cellspacing="0" cellpadding="0" border="0" id="postmessage">
 

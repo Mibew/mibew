@@ -90,7 +90,7 @@
 	</td>
 </tr>
 <tr>
-	<td valign="top" style="padding:0px 0px 0px 24px;">
+	<td valign="top" align="center" style="padding:0px 24px;">
 ${if:errors}
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
@@ -133,6 +133,14 @@ ${endif:showcaptcha}
 				</td>
 			</tr>
 		</table>
+		
+		<table cellpadding="7" cellspacing="5" border="0" width="100%">
+		<tr>
+			<td id="poweredByTD" align="center" class="copyr">
+				${msg:chat.window.poweredby} <a id="poweredByLink" href="http://openwebim.org" title="Mibew Community" target="_blank">openwebim.org</a>
+			</td>
+		</tr>
+		</table>
 	</td>
 </tr>
 <tr>
@@ -141,7 +149,6 @@ ${endif:showcaptcha}
 </tr>
 </table>
 </form>
-
 
 </td>
 </tr>

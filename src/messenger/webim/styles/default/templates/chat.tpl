@@ -286,7 +286,7 @@ ${endif:canpost}${endif:agent}
 			</tr>
 			</table>
 		</td>
-		<td id="poweredByTD" align="center" class="copyr">${msg:chat.window.poweredby} <a id="poweredByLink" href="${msg:site.url}" title="${msg:company.title}" target="_blank">${msg:chat.window.poweredreftext}</a></td>
+		<td id="poweredByTD" align="center" class="copyr">${msg:chat.window.poweredby} <a id="poweredByLink" href="http://openwebim.org" title="Mibew Community" target="_blank">openwebim.org</a></td>
 		<td align="right">
 
 ${if:canpost}

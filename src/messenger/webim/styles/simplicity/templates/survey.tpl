@@ -44,7 +44,7 @@
 						${if:groups}
 							<tr>
 								<td class="text">${msg:presurvey.department}</td>
-								<td><select name="group">${page:groups}</select></td>
+								<td><select name="group" style="min-width:200px;">${page:groups}</select></td>
 							</tr>
 						${endif:groups}
 						<tr>
@@ -89,7 +89,7 @@
 	<table id="footer" cellpadding="0" cellspacing="5" border="0" width="100%">
 		<tr>
 			<td valign="top">
-				${msg:chat.window.poweredby} <a href="${msg:site.url}" title="${msg:company.title}" target="_blank">${msg:chat.window.poweredreftext}</a>
+				${msg:chat.window.poweredby} <a id="poweredByLink" href="http://openwebim.org" title="Mibew Community" target="_blank">openwebim.org</a>
 			</td>
 		</tr>
 	</table>

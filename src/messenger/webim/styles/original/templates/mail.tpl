@@ -61,7 +61,7 @@ ${endif:errors}
 		<tr>
 	    <td class="text">${msg:mailthread.enter_email}</td>
 	    <td width="10"></td>
-	    <td><input type="text" name="email" size="20" value="${form:email}" class="username"/></td>
+	    <td><input type="text" name="email" size="20" value="${form:email}" class="field"/></td>
 		</tr>
 	</table></td><td bgcolor="#E8A400"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td><img class="tplimage icrnlb" src="${webimroot}/images/free.gif" border="0" alt=""/></td><td style="background-image: url(${tplroot}/images/winbg.gif)" class="bgcy"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td><td><img class="tplimage icrnrb" src="${webimroot}/images/free.gif" border="0" alt=""/></td></tr></table>
 

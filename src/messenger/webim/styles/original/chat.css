@@ -153,15 +153,22 @@ textarea.message {
 	margin-right: 5px;
 }
 
-.username {
+.field {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	color: #383838;
 	padding-left: 3px;
 }
 
-input.username {
+input.field {
 	border: 1px solid #878787;
+}
+
+textarea.field {
+	border: 0px;
+	margin: 0px;
+	padding: 0px 3px;
+	overflow: auto;
 }
 
 .answer {

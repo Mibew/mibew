@@ -169,7 +169,7 @@
 			</tr>
 			</table>
 		</td>
-		<td width="33%" align="center" class="copyr">${msg:chat.window.poweredby} <a href="${msg:site.url}" title="${msg:company.title}" target="_blank">${msg:chat.window.poweredreftext}</a></td>
+		<td width="33%" align="center" class="copyr">${msg:chat.window.poweredby} <a id="poweredByLink" href="http://openwebim.org" title="Mibew Community" target="_blank">openwebim.org</a></td>
 		<td width="33%" align="right">
 			<table cellspacing="0" cellpadding="0" border="0" id="postmessage">
 

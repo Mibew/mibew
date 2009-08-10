@@ -75,7 +75,7 @@ ${if:groups}
 			<td class="text">${msg:presurvey.department}</td>
 			<td width="20"></td>
 			<td>
-			<select name="group">${page:groups}</select>
+			<select name="group" style="min-width:200px;">${page:groups}</select>
 			</td>
 		</tr>
 		<tr><td height="7" colspan="3"></td></tr>
@@ -84,7 +84,7 @@ ${endif:groups}
 		<tr>
 			<td class="text">${msg:presurvey.name}</td>
 			<td width="20"></td>
-			<td><input type="text" name="name" size="50" value="${form:name}" class="username" ${ifnot:showname}disabled="disabled"${endif:showname}/></td>
+			<td><input type="text" name="name" size="50" value="${form:name}" class="field" ${ifnot:showname}disabled="disabled"${endif:showname}/></td>
 		</tr>
 		<tr><td height="7" colspan="3"></td></tr>
 
@@ -92,17 +92,17 @@ ${if:showemail}
 		<tr>
 			<td class="text">${msg:presurvey.mail}</td>
 		    <td width="20"></td>
-			<td><input type="text" name="email" size="50" value="${form:email}" class="username"/></td>
+			<td><input type="text" name="email" size="50" value="${form:email}" class="field"/></td>
 		</tr>
 		<tr><td height="7" colspan="3"></td></tr>
 ${endif:showemail}
 			
 ${if:showmessage}			
 		<tr>
-			<td class="text">${msg:presurvey.question}:</td>
+			<td class="text">${msg:presurvey.question}</td>
 		    <td width="20"></td>
 			<td height="60" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td colspan="3" bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td><td width="100%" height="100%" bgcolor="#FFFFFF" valign="top">
-				<textarea name="message" class="message" tabindex="0" cols="45" rows="2" style="overflow:auto; width:90%;">${form:message}</textarea>
+				<textarea name="message" class="field" tabindex="0" cols="45" rows="3">${form:message}</textarea>
 			</td><td bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td colspan="3" bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr></table></td>
 		</tr>
 		<tr><td height="7" colspan="3"></td></tr>
@@ -133,7 +133,7 @@ ${endif:showmessage}
 		</table>
 	</td>
 
-  	<td width="33%" align="center" class="copyr">${msg:chat.window.poweredby} <a href="${msg:site.url}" title="${msg:company.title}" target="_blank">${msg:chat.window.poweredreftext}</a></td>
+  	<td width="33%" align="center" class="copyr">${msg:chat.window.poweredby} <a id="poweredByLink" href="http://openwebim.org" title="Mibew Community" target="_blank">openwebim.org</a></td>
 
     <td width="33%" align="right">
 		<table cellspacing="0" cellpadding="0" border="0">
