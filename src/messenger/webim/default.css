@@ -39,7 +39,7 @@ html, body {
 }
 
 body {
-	min-width: 700px;
+	min-width: 750px;
 }
 
 a {
@@ -56,16 +56,16 @@ a {
 
 #wrap400 {
 	width: 100%;
-	min-width:400px;
+	min-width:450px;
 }
 
 #wrap700 {
 	width: 100%;
-	min-width:700px;
+	min-width:750px;
 }
 
 #fixedwrap {
-	width: 850px;
+	width: 750px;
 }	
 
 .contentdiv {

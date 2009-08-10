@@ -81,9 +81,9 @@ if(count($page['groups']) > 0) {
 	</td>
 	<td class="notlast">
 <?php if(is_online($grp)) { ?>
-		<?php echo getlocal("page_agents.isonline") ?>
+		<?php echo getlocal("page.groups.isonline") ?>
 <?php } else if(is_away($grp)) { ?>
-		<?php echo getlocal("page_agents.isaway") ?>
+		<?php echo getlocal("page.groups.isaway") ?>
 <?php } else { ?>
 		<?php echo date_to_text(time() - ($grp['ilastseen'] ? $grp['ilastseen'] : time())) ?>
 <?php } ?>
