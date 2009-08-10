@@ -26,13 +26,28 @@ $page['fixedwrap'] = true;
 function tpl_content() { global $page, $webimroot, $errors;
 ?>
 
-<p>Mibew Messenger is currently available for use in all personal or commercial projects under both EPL and GPL
-licenses. This means that you can choose the license that best suits your project, and use it accordingly.</p>
+<p>Mibew Messenger is distributed under the terms of the Eclipse Public License (or
+the General Public License, this means that you can choose one of two, and use it
+accordingly) with the following special exception.</p>
 
 <br/>
+
+<b>License exception:</b>
+<p>No one may remove, alter or hide any copyright notices or links to the community
+site ("http://openwebim.org") contained within the Program. Any derivative work
+must include this license exception.</p>
+
+<br/>
+
+<p>Eclipse Public License:<br/>
+<a href="<?php echo $webimroot ?>/epl-v10.html">Local version</a> or <a href="http://www.eclipse.org/legal/epl-v10.html">http://www.eclipse.org/legal/epl-v10.html</a>
+</p>
+
+<br/>
+
 <p>
-<a href="<?php echo $webimroot ?>/epl-v10.html">EPL License</a><br/>
-<a href="<?php echo $webimroot ?>/gpl-2.0.txt">GPL License</a>
+General Public License:<br/>
+<a href="<?php echo $webimroot ?>/gpl-2.0.txt">Local version</a> or <a href="http://www.gnu.org/copyleft/gpl.html">http://www.gnu.org/copyleft/gpl.html</a>
 </p>
 
 <?php 
