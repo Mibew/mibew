@@ -67,8 +67,13 @@ if(isset($_GET['nextGroup'])) {
 		$page['message'] = getlocal2("chat.redirected.content",array(topage(get_operator_name($nextOperator))));
 		if( $thread['istate'] == $state_chatting ) {
 			$link = connect();
-			commit_thread( $threadid,
-				array("istate" => $state_waiting, "nextagent" => $nextid, "agentId" => 0), $link);
+			$threadupdate = array("istate" => $state_waiting, "nextagent" => $nextid, "agentId" => 0);
+			if($thread['groupid'] != 0) {
+				if(FALSE === select_one_row("select groupid from chatgroupoperator where operatorid = $nextid and groupid = ".$thread['groupid'], $link)) {
+					$threadupdate['groupid'] = 0;
+				}
+			}
+			commit_thread( $threadid, $threadupdate, $link);
 			post_message_($thread['threadid'], $kind_events,
 				getstring2_("chat.status.operator.redirect",
 					array(get_operator_name($operator)),$thread['locale']), $link);

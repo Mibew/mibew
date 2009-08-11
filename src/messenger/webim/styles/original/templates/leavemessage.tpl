@@ -29,12 +29,14 @@
 <form name="leaveMessageForm" method="post" action="${webimroot}/leavemessage.php">
 <input type="hidden" name="style" value="${styleid}"/>
 <input type="hidden" name="info" value="${page:info}"/>
+<input type="hidden" name="referrer" value="${page:referrer}"/>
+${if:formgroupid}<input type="hidden" name="group" value="${form:groupid}"/>${endif:formgroupid}
 <table width="100%" style="height:100%;" cellspacing="0" cellpadding="0" border="0">
 <tr><td colspan="3" height="15"></td></tr>
 <tr>
 <td height="40"></td>
 <td class="window">
-	<h1>${msg:leavemessage.title}</h1>
+	<h1>${if:formgroupname}${form:groupname}: ${endif:formgroupname}${msg:leavemessage.title}</h1>
 </td>
 <td></td>
 </tr>

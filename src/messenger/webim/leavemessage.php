@@ -22,19 +22,22 @@
 require_once('libs/common.php');
 require_once('libs/chat.php');
 require_once('libs/expand.php');
+require_once('libs/groups.php');
 require_once('libs/captcha.php');
 
 $errors = array();
 $page = array();
 
-function store_message($name, $email, $info, $message) {
+function store_message($name, $email, $info, $message,$groupid,$referrer) {
 	global $state_left, $current_locale, $kind_for_agent, $kind_user;
-	$groupid = 0;
 	$remoteHost = get_remote_host();
 	$userbrowser = $_SERVER['HTTP_USER_AGENT'];
 	$visitor = visitor_from_request();
 	$link = connect();
-	$thread = create_thread($groupid,$name,$remoteHost,"",$current_locale,$visitor['id'], $userbrowser,$state_left,$link);
+	$thread = create_thread($groupid,$name,$remoteHost,$referrer,$current_locale,$visitor['id'], $userbrowser,$state_left,$link);
+	if( $referrer ) {
+		post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.came.from',array($referrer)),$link);
+	}
 	if($email) {
 		post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.email',array($email)),$link);
 	}
@@ -45,10 +48,26 @@ function store_message($name, $email, $info, $message) {
 	mysql_close($link);
 }
 
+$groupid = "";
+$groupname = "";
+loadsettings();
+if($settings['enablegroups'] == '1') {
+	$groupid = verifyparam( "group", "/^\d{1,8}$/", "");
+	if($groupid) {
+		$group = group_by_id($groupid);
+		if(!$group) {
+			$groupid = "";
+		} else {
+			$groupname = get_group_name($group);
+		}
+	}
+}
+
 $email = getparam('email');
 $visitor_name = getparam('name');
 $message = getparam('message');
 $info = getparam('info');
+$referrer = urldecode(getparam("referrer"));
 
 if( !$email ) {
 	$errors[] = no_field("form.field.email");
@@ -62,7 +81,6 @@ if( !$email ) {
 	}
 }
 
-loadsettings();
 if($settings["enablecaptcha"] == "1" && can_show_captcha()) {
 	$captcha = getparam('captcha');
 	$original = $_SESSION['captcha'];
@@ -73,11 +91,7 @@ if($settings["enablecaptcha"] == "1" && can_show_captcha()) {
 }
 
 if( count($errors) > 0 ) {
-	$page['formname'] = topage($visitor_name);
-	$page['formemail'] = $email;
-	$page['formmessage'] = topage($message);
-	$page['showcaptcha'] = $settings["enablecaptcha"] == "1" && can_show_captcha() ? "1" : "";
-	$page['info'] = topage($info);
+	setup_leavemessage($visitor_name,$email,$message,$groupid,$groupname,$info,$referrer,can_show_captcha());
 	setup_logo();
 	expand("styles", getchatstyle(), "leavemessage.tpl");
 	exit;
@@ -88,7 +102,7 @@ if(!locale_exists($message_locale)) {
 	$message_locale = $home_locale;
 }
 
-store_message($visitor_name, $email, $info, $message);
+store_message($visitor_name, $email, $info, $message, $groupid, $referrer);
 
 $subject = getstring2_("leavemail.subject", array($visitor_name), $message_locale);
 $body = getstring2_("leavemail.body", array($visitor_name,$email,$message,$info ? "$info\n" : ""), $message_locale);

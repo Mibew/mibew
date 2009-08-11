@@ -44,6 +44,8 @@
 <form name="leaveMessageForm" method="post" action="${webimroot}/leavemessage.php">
 <input type="hidden" name="style" value="${styleid}"/>
 <input type="hidden" name="info" value="${page:info}"/>
+<input type="hidden" name="referrer" value="${page:referrer}"/>
+${if:formgroupid}<input type="hidden" name="group" value="${form:groupid}"/>${endif:formgroupid}
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top" height="150" style="padding:5px">
@@ -68,7 +70,7 @@
 				    ${endif:webimHost}
 		        ${endif:ct.company.chatLogoURL}
 			</td>
-			<td nowrap="nowrap" style="padding-right:10px"><span style="font-size:16px;font-weight:bold;color:#525252">${msg:leavemessage.title}</span></td>
+			<td nowrap="nowrap" style="padding-right:10px"><span style="font-size:16px;font-weight:bold;color:#525252">${if:formgroupname}${form:groupname}: ${endif:formgroupname}${msg:leavemessage.title}</span></td>
 		</tr>
 		</table>
 			<table cellspacing="0" cellpadding="0" border="0" id="header" class="bg_domain">

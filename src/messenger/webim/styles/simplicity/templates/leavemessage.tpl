@@ -10,10 +10,12 @@
 	<form name="leaveMessageForm" method="post" action="${webimroot}/leavemessage.php">
 		<input type="hidden" name="style" value="${styleid}"/>
 		<input type="hidden" name="info" value="${page:info}"/>
+		<input type="hidden" name="referrer" value="${page:referrer}"/>
+		${if:formgroupid}<input type="hidden" name="group" value="${form:groupid}"/>${endif:formgroupid}
 		<table cellpadding="0" cellspacing="5" border="0" width="100%">
 			<tr>
 				<td colspan="2">
-					<h1>${msg:leavemessage.title}</h1>
+					<h1>${if:formgroupname}${form:groupname}: ${endif:formgroupname}${msg:leavemessage.title}</h1>
 				</td>
 			</tr>
 			<tr>

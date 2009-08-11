@@ -41,66 +41,67 @@ if($settings['enablessl'] == "1" && $settings['forcessl'] == "1") {
 
 if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 
-	$chatstyle = verifyparam( "style", "/^\w+$/", "");
-	$info = getgetparam('info');
-	$email = getgetparam('email');
 	$thread = NULL;
-	$firstmessage = NULL;
 	if( isset($_SESSION['threadid']) ) {
 		$thread = reopen_thread($_SESSION['threadid']);
 	}
 
 	if( !$thread ) {
 		$groupid = "";
+		$groupname = "";
 		if($settings['enablegroups'] == '1') {
 			$groupid = verifyparam( "group", "/^\d{1,8}$/", "");
 			if($groupid) {
 				$group = group_by_id($groupid);
 				if(!$group) {
 					$groupid = "";
+				} else {
+					$groupname = get_group_name($group);
 				}
 			}
 		}
+
+		$visitor = visitor_from_request();
 		
+		if(isset($_POST['survey']) && $_POST['survey'] == 'on') {
+			$firstmessage = getparam("message");
+			$info = getparam("info");
+			$email = getparam("email");
+			$referrer = urldecode(getparam("referrer"));
+
+			if($settings['usercanchangename'] == "1" && isset($_POST['name'])) {
+				$newname = getparam("name");
+				if($newname != $visitor['name']) {
+					$data = strtr(base64_encode(myiconv($webim_encoding,"utf-8",$newname)), '+/=', '-_,');
+					setcookie($namecookie, $data, time()+60*60*24*365);
+					$visitor['name'] = $newname;
+				}
+			}
+		} else {
+			$firstmessage = NULL;
+			$info = getgetparam('info');
+			$email = getgetparam('email');
+			$referrer = isset($_GET['url']) ? $_GET['url'] :
+				(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "");
+			if(isset($_GET['referrer']) && $_GET['referrer']) {
+				$referrer .= "\n".$_GET['referrer'];
+			}
+		}
+
 		if(!has_online_operators($groupid)) {
 			$page = array();
 			setup_logo();
-			$page['formname'] = topage(getgetparam('name'));
-			$page['formemail'] = topage($email);
-			$page['showcaptcha'] = $settings["enablecaptcha"] == "1" && can_show_captcha() ? "1" : "";
-			$page['info'] = topage($info);
+			setup_leavemessage($visitor['name'],$email,$firstmessage,$groupid,$groupname,$info,$referrer,can_show_captcha());
 			expand("styles", getchatstyle(), "leavemessage.tpl");
 			exit;
 		}
 
-		$visitor = visitor_from_request();
-		$referer = isset($_GET['url']) ? $_GET['url'] :
-			(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "");
-		if(isset($_GET['referrer']) && $_GET['referrer']) {
-			$referer .= "\n".$_GET['referrer'];
-		}
-		
-		if($settings['enablepresurvey'] == '1') {
-			if(isset($_POST['survey']) && $_POST['survey'] == 'on') {
-				$firstmessage = getparam("message");
-				$info = getparam("info");
-				$email = getparam("email");
-				if($settings['usercanchangename'] == "1" && isset($_POST['name'])) {
-					$newname = getparam("name");
-					if($newname != $visitor['name']) {
-						$data = strtr(base64_encode(myiconv($webim_encoding,"utf-8",$newname)), '+/=', '-_,');
-						setcookie($namecookie, $data, time()+60*60*24*365);
-						$visitor['name'] = $newname;
-					}
-				}
-				$referer = urldecode(getparam("referrer"));
-			} else {
-				$page = array();
-				setup_logo();
-				setup_survey($visitor['name'], $email, $groupid, $info, $referer);
-				expand("styles", getchatstyle(), "survey.tpl");
-				exit;
-			}
+		if($settings['enablepresurvey'] == '1' && !(isset($_POST['survey']) && $_POST['survey'] == 'on')) {
+			$page = array();
+			setup_logo();
+			setup_survey($visitor['name'], $email, $groupid, $info, $referrer);
+			expand("styles", getchatstyle(), "survey.tpl");
+			exit;
 		}
 
 		$remoteHost = get_remote_host();
@@ -111,11 +112,11 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 			mysql_close($link);
 			die("number of connections from your IP is exceeded, try again later");
 		}
-		$thread = create_thread($groupid,$visitor['name'], $remoteHost, $referer,$current_locale,$visitor['id'], $userbrowser,$state_loading,$link);
+		$thread = create_thread($groupid,$visitor['name'], $remoteHost, $referrer,$current_locale,$visitor['id'], $userbrowser,$state_loading,$link);
 		$_SESSION['threadid'] = $thread['threadid'];
 		
-		if( $referer ) {
-			post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.came.from',array($referer)),$link);
+		if( $referrer ) {
+			post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.came.from',array($referrer)),$link);
 		}
 		post_message_($thread['threadid'],$kind_info,getstring('chat.wait'),$link);
 		if($email) {
@@ -133,6 +134,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 	$threadid = $thread['threadid'];
 	$token = $thread['ltoken'];
 	$level = get_remote_level($_SERVER['HTTP_USER_AGENT']);
+	$chatstyle = verifyparam( "style", "/^\w+$/", "");
 	header("Location: $webimroot/client.php?thread=$threadid&token=$token&level=$level".($chatstyle ? "&style=$chatstyle" : ""));
 	exit;
 }

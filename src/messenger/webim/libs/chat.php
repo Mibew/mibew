@@ -280,6 +280,18 @@ function setup_logo() {
 	$page['webimHost'] = topage($settings['hosturl']);
 }
 
+function setup_leavemessage($name, $email, $message, $groupid, $groupname, $info, $referrer,$canshowcaptcha) {
+	global $settings, $page;
+	$page['formname'] = topage($name);
+	$page['formemail'] = topage($email);
+	$page['formmessage'] = $message ? topage($message) : "";
+	$page['showcaptcha'] = $settings["enablecaptcha"] == "1" && $canshowcaptcha ? "1" : "";
+	$page['formgroupid'] = $groupid;
+	$page['formgroupname'] = $groupname;
+	$page['forminfo'] = topage($info);
+	$page['referrer'] = urlencode(topage($referrer));
+}
+
 function setup_survey($name, $email, $groupid, $info, $referrer) {
 	global $settings, $page;
 	
@@ -300,10 +312,11 @@ function setup_survey($name, $email, $groupid, $info, $referrer) {
 				continue;
 			}
 			if($k['ilastseen'] !== NULL && $k['ilastseen'] < $settings['online_timeout']) {
-				$groupname .= " (online)";
 				if(!$groupid) {
 					$groupid = $k['groupid'];  // select first online group
 				}
+			} else {
+				$groupname .= " (offline)";
 			}
 			$isselected = $k['groupid'] == $groupid;
 			$val .= "<option value=\"".$k['groupid']."\"".($isselected ? " selected=\"selected\"" : "").">$groupname</option>";
