@@ -29,7 +29,7 @@ function group_by_id($id) {
 
 function get_group_name($group) {
 	global $home_locale, $current_locale;
-	if( $home_locale == $current_locale || !$group['vccommonname'] )
+	if( $home_locale == $current_locale || !isset($group['vccommonname']) || !$group['vccommonname'])
 		return $group['vclocalname'];
 	else
 		return $group['vccommonname'];

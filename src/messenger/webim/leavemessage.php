@@ -83,7 +83,7 @@ if( !$email ) {
 
 if($settings["enablecaptcha"] == "1" && can_show_captcha()) {
 	$captcha = getparam('captcha');
-	$original = $_SESSION['captcha'];
+	$original = isset($_SESSION['captcha']) ? $_SESSION['captcha'] : "";
 	if(empty($original) || empty($captcha) || $captcha != $original) {
 	  $errors[] = getlocal('errors.captcha');
 	}

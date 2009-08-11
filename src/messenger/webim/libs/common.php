@@ -549,7 +549,7 @@ function webim_mail($toaddr, $reply_to, $subject, $body) {
 
 	$body = preg_replace("/\n/","\r\n", $body);
 	
-	mail($toaddr, $real_subject, wordwrap(myiconv($webim_encoding, $mail_encoding, $body),70), $headers);
+	@mail($toaddr, $real_subject, wordwrap(myiconv($webim_encoding, $mail_encoding, $body),70), $headers);
 }
 
 $dbversion = '1.6.2';

@@ -79,7 +79,7 @@ function expand_var($matches) {
 	} else if($prefix == 'form:') {
 		return form_value($var);
 	} else if($prefix == 'page:') {
-		return $page[$var];
+		return isset($page[$var]) ? $page[$var] : "";
 	} else if($prefix == 'if:' || $prefix == 'else:' || $prefix == 'endif:' || $prefix == 'ifnot:') {
 		return "<!-- wrong $prefix:$var -->";
 	}
