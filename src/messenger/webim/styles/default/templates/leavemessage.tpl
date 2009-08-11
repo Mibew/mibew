@@ -92,7 +92,7 @@ ${if:formgroupid}<input type="hidden" name="group" value="${form:groupid}"/>${en
 	</td>
 </tr>
 <tr>
-	<td valign="top" align="center" style="padding:0px 24px;">
+	<td valign="top" style="padding:0px 24px;">
 ${if:errors}
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
@@ -116,7 +116,7 @@ ${endif:errors}
 			<tr>
 				<td class="text">${msg:form.field.message}:</td>
 				<td valign="top">
-					<textarea name="message" tabindex="0" cols="40" rows="6" style="border:1px solid #878787; overflow:auto">${form:message}</textarea>
+					<textarea name="message" tabindex="0" cols="40" rows="5" style="border:1px solid #878787; overflow:auto">${form:message}</textarea>
 				</td>
 			</tr>
 ${if:showcaptcha}
@@ -136,7 +136,7 @@ ${endif:showcaptcha}
 			</tr>
 		</table>
 		
-		<table cellpadding="7" cellspacing="5" border="0" width="100%">
+		<table cellpadding="7" cellspacing="5" border="0" width="450">
 		<tr>
 			<td id="poweredByTD" align="center" class="copyr">
 				${msg:chat.window.poweredby} <a id="poweredByLink" href="http://openwebim.org" title="Mibew Community" target="_blank">openwebim.org</a>
