@@ -24,6 +24,7 @@ require_once('libs/chat.php');
 require_once('libs/operator.php');
 require_once('libs/groups.php');
 require_once('libs/expand.php');
+require_once('libs/captcha.php');
 
 loadsettings();
 if($settings['enablessl'] == "1" && $settings['forcessl'] == "1") {
@@ -66,7 +67,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 			setup_logo();
 			$page['formname'] = topage(getgetparam('name'));
 			$page['formemail'] = topage($email);
-			$page['showcaptcha'] = $settings["enablecaptcha"] == "1" ? "1" : "";
+			$page['showcaptcha'] = $settings["enablecaptcha"] == "1" && can_show_captcha() ? "1" : "";
 			$page['info'] = topage($info);
 			expand("styles", getchatstyle(), "leavemessage.tpl");
 			exit;

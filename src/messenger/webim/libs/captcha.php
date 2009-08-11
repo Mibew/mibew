@@ -15,6 +15,10 @@
 	Copyright 2006 WebCheatSheet.com
 */
 
+function can_show_captcha() {
+	return extension_loaded("gd");
+}
+
 function gen_captcha() {
 	$md5_hash = md5(rand(0,9999)); 
 	return substr($md5_hash, 15, 5); 

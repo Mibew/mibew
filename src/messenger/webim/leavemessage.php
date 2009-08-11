@@ -22,6 +22,7 @@
 require_once('libs/common.php');
 require_once('libs/chat.php');
 require_once('libs/expand.php');
+require_once('libs/captcha.php');
 
 $errors = array();
 $page = array();
@@ -62,7 +63,7 @@ if( !$email ) {
 }
 
 loadsettings();
-if($settings["enablecaptcha"] == "1") {
+if($settings["enablecaptcha"] == "1" && can_show_captcha()) {
 	$captcha = getparam('captcha');
 	$original = $_SESSION['captcha'];
 	if(empty($original) || empty($captcha) || $captcha != $original) {
@@ -75,7 +76,7 @@ if( count($errors) > 0 ) {
 	$page['formname'] = topage($visitor_name);
 	$page['formemail'] = $email;
 	$page['formmessage'] = topage($message);
-	$page['showcaptcha'] = $settings["enablecaptcha"] == "1" ? "1" : "";
+	$page['showcaptcha'] = $settings["enablecaptcha"] == "1" && can_show_captcha() ? "1" : "";
 	$page['info'] = topage($info);
 	setup_logo();
 	expand("styles", getchatstyle(), "leavemessage.tpl");
