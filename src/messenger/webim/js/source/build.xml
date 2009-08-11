@@ -3,7 +3,7 @@
 
 <project basedir="." default="update" name="Obfuscator">
   <property name="obfuscator.location" value="." />
-  <property name="webim.location" value="../" />
+  <property name="webim.location" value="../162" />
 
   <target name="update" depends="build">
     <java classname="JSO" fork="true" error="${obfuscator.location}/bin/obfuscation.log">

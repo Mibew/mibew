@@ -4,13 +4,13 @@
 <title>${msg:chat.window.title.agent}</title>
 <link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="${tplroot}/chat.css">
-<script type="text/javascript" language="javascript" src="${webimroot}/js/common.js?v=161"></script>
-<script type="text/javascript" language="javascript" src="${webimroot}/js/brws.js?v=161"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/common.js"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/brws.js"></script>
 <script type="text/javascript" language="javascript"><!--
 var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",frequency:${page:frequency},${if:user}user:"true",${endif:user}threadid:${page:ct.chatThreadId},token:${page:ct.token},cssfile:"${tplroot}/chat.css",ignorectrl:${page:ignorectrl} };
 //-->
 </script>
-<script type="text/javascript" language="javascript" src="${webimroot}/js/chat.js?v=161"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/chat.js"></script>
 <style type="text/css">
 .isound { background: url(${tplroot}/images/buttons/sound.gif) no-repeat; width: 19px; height: 19px; }
 .inosound { background: url(${tplroot}/images/buttons/nosound.gif) no-repeat; width: 19px; height: 19px; }

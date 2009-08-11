@@ -4,7 +4,7 @@
 <title>${msg:chat.window.title.user}</title>
 <link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="${tplroot}/chat.css">
-<script type="text/javascript" language="javascript" src="${webimroot}/js/brws.js?v=161"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/brws.js"></script>
 </head>
 <body style="background:#EFEFEF;">
 <div id="greybg">
