@@ -22,7 +22,8 @@ require_once('inc/menu.i');
 			</div>
 			<div class="nometa"></div>
 		</div>
-        <div class="post">
+<?php /*
+    		<div class="post">
 			<h2 class="title"><?php echo getlocal("index.nextpost.title") ?></h2>
 			<div class="entry">
 				<?php echo getlocal("index.nextpost.text") ?>
@@ -31,7 +32,7 @@ require_once('inc/menu.i');
 				<p class="byline"><?php echo getlocal("index.nextpost.when") ?></p>
 				<p class="links"><?php echo getlocal("index.nextpost.link") ?></p>
 			</div>
-		</div>
+		</div> */ ?>
 		<div class="post">
 			<h2 class="title"><?php echo getlocal("index.post.title") ?></h2>
 			<div class="entry">
@@ -49,21 +50,16 @@ require_once('inc/menu.i');
 		<ul>
 <?php
 require_once('inc/main.i');
-require_once('inc/locales.i');
 ?>
 			<li>
 				<h2><?php echo getlocal("sidebar.quicknav") ?></h2>
 				<ul>
 					<li><a href="features.php"><?php echo getlocal("menu.features") ?></a></li><p></p>
-                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-<input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="hosted_button_id" value="4710959">
-<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-</form>
-
 				</ul>
 			</li>
+<?php
+require_once('inc/locales.i');
+?>
 		</ul>
 	</div>
 	<!-- end sidebar -->

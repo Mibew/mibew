@@ -17,8 +17,8 @@ require_once('inc/menu.i');
 			
 			<p>
 				<?php echo getlocal("downl.release") ?><br/>
-				<a href="http://prdownloads.sourceforge.net/webim/webim161.zip?download">
-				Mibew Messenger 1.6.1, June 5, 2009</a>
+				<a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.2/webim162.zip/download">
+				Mibew Messenger 1.6.2, August 12, 2009</a>
 				<small style="padding-left:1cm;">(requires <a href="http://php.net/">PHP</a> and <a href="http://mysql.com/">MySQL</a>)</small>
 			</p>
 
@@ -27,54 +27,61 @@ require_once('inc/menu.i');
 			</p>
 			<table cellpadding="0" cellspacing="0" border="0" id="downl">
 			<tr>
-				<td><a href="http://prdownloads.sourceforge.net/webim/webim161_de.zip?download">Deutsch</a></td>
-				<td>1.6.1</td>
-				<td>June 5, 2009</td></tr>
+				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.2/webim162_de.zip/download">Deutsch</a></td>
+				<td>1.6.2</td>
+				<td>August 12, 2009</td></tr>
 			
 			<tr>
-				<td><a href="http://prdownloads.sourceforge.net/webim/webim161_fr.zip?download">French</a></td>
-				<td>1.6.1</td>
-				<td>June 5, 2009</td></tr>
+				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.2/webim162_fr.zip/download">French</a></td>
+				<td>1.6.2</td>
+				<td>August 12, 2009</td></tr>
 
 			<tr>
-				<td><a href="http://prdownloads.sourceforge.net/webim/webim161_he.zip?download">Hebrew</a></td>
-				<td>1.6.1</td>
-				<td>June 5, 2009</td></tr>
+				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.2/webim162_he.zip/download">Hebrew</a></td>
+				<td>1.6.2</td>
+				<td>August 12, 2009</td></tr>
 
 			<tr>
-				<td><a href="http://prdownloads.sourceforge.net/webim/webim161_it.zip?download">Italiano</a></td>
-				<td>1.6.1</td>
-				<td>June 5, 2009</td></tr>
+				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.2/webim162_hr.zip/download">Hrvatski</a></td>
+				<td>1.6.2</td>
+				<td>August 12, 2009</td></tr>
 
 			<tr>
-				<td><a href="http://prdownloads.sourceforge.net/webim/webim161_pl.zip?download">Polski</a></td>
-				<td>1.6.1</td>
-				<td>June 5, 2009</td></tr>
+				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.2/webim162_it.zip/download">Italiano</a></td>
+				<td>1.6.2</td>
+				<td>August 12, 2009</td></tr>
 
 			<tr>
-				<td><a href="http://prdownloads.sourceforge.net/webim/webim161_pt-br.zip?download">Português Brasil</a></td>
-				<td>1.6.1</td>
-				<td>June 5, 2009</td></tr>
+				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.2/webim162_pl.zip/download">Polski</a></td>
+				<td>1.6.2</td>
+				<td>August 12, 2009</td></tr>
+
+			<tr>
+				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.2/webim162_pt-br.zip/download">Português Brasil</a></td>
+				<td>1.6.2</td>
+				<td>August 12, 2009</td></tr>
                 <tr>
 				
 <?php /*
 			<tr>
-				<td><a href="http://prdownloads.sourceforge.net/webim/webim161_ru.zip?download">Russian</a></td>
-				<td>1.6.1</td>
-				<td>June 5, 2009</td></tr>
+				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.2/webim162_ru.zip/download">Russian</a></td>
+				<td>1.6.2</td>
+				<td>August 12, 2009</td></tr>
 */ ?>
-			<tr><td>
-				<a href="http://prdownloads.sourceforge.net/webim/webim161_sp.zip?download">Spanish</a></td>
-				<td>1.6.1</td>
-				<td>June 5, 2009</td></tr>
+			<tr>
+				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.2/webim162_sp.zip/download">Spanish</a></td>
+				<td>1.6.2</td>
+				<td>August 12, 2009</td></tr>
 			
 			<tr>
-				<td><a href="http://prdownloads.sourceforge.net/webim/webim161_zh-tw.zip?download">Traditional Chinese</a></td>
-				<td>1.6.1</td>
-				<td>June 5, 2009</td></tr>
-                <td><a href=""> Ukranian</a></td>
-				<td>1.6.1</td>
-				<td>June 5, 2009</td></tr>
+				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.2/webim162_zh-tw.zip/download">Traditional Chinese</a></td>
+				<td>1.6.2</td>
+				<td>August 12, 2009</td></tr>
+
+			<tr>
+				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.2/webim162_ua.zip/download">Ukrainian</a></td>
+				<td>1.6.2</td>
+				<td>August 12, 2009</td></tr>
 				
 			</table>
 

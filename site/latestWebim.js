@@ -1,14 +1,20 @@
 
 window.webimLatest = {
-	version: "1.6.1",
+	version: "1.6.2",
 	download: "http://openwebim.org/download.php",
-	title: "Open Web Messenger 1.6.1"
+	title: "Mibew Messenger 1.6.2"
 };
 
 window.webimNews = [
 	{
-		title: 'Open Web Messenger 1.6.1 Released',
-		link: 'http://openwebim.org/forums/index.php?topic=165.0',
+		title: 'Mibew Messenger 1.6.2 Released',
+		link: 'http://openwebim.org/forums/index.php?topic=256.0',
+		date: 'August 12, 2009',
+		message: 'We finally released it! This is a service release which improves current functionality.'
+	},
+	{
+		title: 'Mibew Messenger 1.6.1 Released',
+		link: 'http://openwebim.org/forums/index.php?topic=205.0',
 		date: 'June 5, 2009',
 		message: 'We are pleased to announce the immediate availability of 1.6.1. This is a service release with minor fixes and improvements.'
 	},
