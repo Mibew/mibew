@@ -28,6 +28,11 @@ require_once('inc/menu.i');
 			<li>Spanish - Christian Mauricio Castillo Estrada</li>
 			<li>Traditional Chinese - Dawei</li>
 			</ul>
+			
+			<p><?php echo "Tech Support Team" ?></p>
+			<ul>
+			<li>(eddybaur)Ed Kraus - Admininstrator</li>
+			<li>(lamies) Mario Alejandro Llerena Vasquez - Operator, Spanish Translator</li>
 			</div>
 			<div class="nometa"></div>
 		</div>
