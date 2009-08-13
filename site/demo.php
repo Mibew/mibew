@@ -40,15 +40,26 @@ require_once('inc/menu.i');
 			</p>
 			<table width="100%" cellpadding="5">
 			<tr>
-				<td>Default style</td>
+				<td>Simplicity style</td>
 				<td>Original style</td>
+			</tr>
+			<tr>
+				<td>
+					<!-- webim button --><a href="http://demo.openwebim.org/client.php?locale=<?php echo $current_locale ?>&amp;style=simplicity" target="_blank" onclick="if(navigator.userAgent.toLowerCase().indexOf('opera') != -1 && window.event.preventDefault) window.event.preventDefault();this.newWindow = window.open('http://demo.openwebim.org/client.php?locale=<?php echo $current_locale ?>&amp;style=simplicity', 'webim', 'toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src="images/style_simplicity_tn.png" border="0"/></a><!-- / webim button -->
+				</td>
+				<td>
+					<!-- webim button --><a href="http://demo.openwebim.org/client.php?locale=<?php echo $current_locale ?>&amp;style=original" target="_blank" onclick="if(navigator.userAgent.toLowerCase().indexOf('opera') != -1 && window.event.preventDefault) window.event.preventDefault();this.newWindow = window.open('http://demo.openwebim.org/client.php?locale=<?php echo $current_locale ?>&amp;style=original', 'webim', 'toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src="images/style_original_tn.png" border="0"/></a><!-- / webim button -->
+				</td>
+			</tr>
+			<tr>
+				<td>Default style</td>
+				<td></td>
 			</tr>
 			<tr>
 				<td>
 					<!-- webim button --><a href="http://demo.openwebim.org/client.php?locale=<?php echo $current_locale ?>&amp;style=default" target="_blank" onclick="if(navigator.userAgent.toLowerCase().indexOf('opera') != -1 && window.event.preventDefault) window.event.preventDefault();this.newWindow = window.open('http://demo.openwebim.org/client.php?locale=<?php echo $current_locale ?>&amp;style=default', 'webim', 'toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src="images/style_default_tn.png" border="0"/></a><!-- / webim button -->
 				</td>
 				<td>
-					<!-- webim button --><a href="http://demo.openwebim.org/client.php?locale=<?php echo $current_locale ?>&amp;style=original" target="_blank" onclick="if(navigator.userAgent.toLowerCase().indexOf('opera') != -1 && window.event.preventDefault) window.event.preventDefault();this.newWindow = window.open('http://demo.openwebim.org/client.php?locale=<?php echo $current_locale ?>&amp;style=original', 'webim', 'toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src="images/style_original_tn.png" border="0"/></a><!-- / webim button -->
 				</td>
 			</tr>
 			</table>
