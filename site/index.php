@@ -54,7 +54,7 @@ require_once('inc/main.i');
 			<li>
 				<h2><?php echo getlocal("sidebar.quicknav") ?></h2>
 				<ul>
-					<li><a href="features.php"><?php echo getlocal("menu.features") ?></a></li><p></p>
+					<li><a href="features.php"><?php echo getlocal("menu.features") ?></a></li>
 				</ul>
 			</li>
 <?php
