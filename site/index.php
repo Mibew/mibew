@@ -3,6 +3,7 @@ $page = 'home';
 $subpage = 'news';
 require_once('libs/common.php');
 start_html_output();
+$title = getlocal("home.title");
 require_once('inc/header.i');
 require_once('inc/menu.i');
 ?>
@@ -17,7 +18,6 @@ require_once('inc/menu.i');
 			<h2 class="title"><?php echo getlocal("index.how.title") ?></h2>
 			<div class="entry">
 				<p><?php echo getlocal("index.how.text") ?></p>
-				<p><?php echo getlocal("index.license") ?></p>
 
 			</div>
 			<div class="nometa"></div>

@@ -3,6 +3,7 @@ $page = 'home';
 $subpage = 'terms';
 require_once('libs/common.php');
 start_html_output();
+$title = getlocal("license.title");
 require_once('inc/header.i');
 require_once('inc/menu.i');
 ?>

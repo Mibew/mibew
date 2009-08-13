@@ -3,6 +3,7 @@ $page = 'demo';
 $subpage = "demo";
 require_once('libs/common.php');
 start_html_output();
+$title = getlocal("demo.title");
 require_once('inc/header.i');
 require_once('inc/menu.i');
 ?>

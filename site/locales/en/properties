@@ -17,6 +17,7 @@ menu.download=Download
 menu.support=Forum
 menu.ticket=Support
 
+home.title=Home
 submenu.title=<b>More</b>
 partners.title=<b>partners</b>
 languages.title=<b>languages</b>
@@ -78,7 +79,7 @@ features.browsers=<ul>\n<li>Microsoft Internet Explorer 5.0+</li>\n<li>Mozilla F
 
 features.content.head=Content:
 
-demo.title=DEMO
+demo.title=Demo
 demo.login=1. Log into operator panel and navigate to "Awaiting visitors" page.
 demo.click=2. Start a chat
 demo.tryalpha=3. (optional) Try out a new alpha (next version is coming soon)

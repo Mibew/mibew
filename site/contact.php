@@ -3,6 +3,7 @@ $page = 'home';
 $subpage = 'contacts';
 require_once('libs/common.php');
 start_html_output();
+$title = getlocal("contacts.title");
 require_once('inc/header.i');
 require_once('inc/menu.i');
 ?>
