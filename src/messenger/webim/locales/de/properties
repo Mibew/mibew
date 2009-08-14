@@ -175,7 +175,7 @@ install.title=Installation
 install.updatedb=Bitte starten Sie den <a href="{0}">Update wizard</a> um die Datenbank anzupassen.
 installed.login_link=Sie können sich nun anmelden
 installed.message=<b>Das System wurde erfolgreich installiert.</b>
-installed.notice=Sie können sich als admin ohne Passwort anmelden.<br/><br/><font color="#c13030"><b>ACHTUNG: Aus Sicherheitsgründen sollten sie nach der Installation ein Passwort für den Benutzer admin vergeben und den Ordner /webim/install vom Server löschen.</b></font>
+installed.notice=Sie können sich als <b>admin</b> ohne Passwort anmelden.<br/><br/><font color="#c13030"><b>ACHTUNG: Aus Sicherheitsgründen sollten sie nach der Installation ein Passwort für den Benutzer admin vergeben und den Ordner /webim/install vom Server löschen.</b></font>
 lang.choose=Wählen Sie ihre Sprache
 leavemail.body=Sie haben eine Nachricht von {0}:\n\n{2}\n\nSeine email: {1}\n{3}\n--- \nIhr Support Team
 leavemail.subject=Frage von {0}

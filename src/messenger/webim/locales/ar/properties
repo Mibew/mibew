@@ -161,7 +161,7 @@ install.title=تثبيت
 install.updatedb=من فضلك , إضغط <a href="{0}">معالج التحديثات</a>لتحديث قاعدة بياناتك .
 installed.login_link=إستكمال الدخول للصفحة
 installed.message=<b>تم تثبيت التطبيق بنجاح.</b>
-installed.notice=يمكنك الدخول للإدارة كمستخدم admin وكلمة مرور فارغة<br/><br/><font color="#c13030"><b>لأسباب أمنية , غير كلمة المرور حالا وإحذف المجلد  /webim/install من على موقعك</b></font>
+installed.notice=يمكنك الدخول للإدارة كمستخدم <b>admin</b> وكلمة مرور فارغة<br/><br/><font color="#c13030"><b>لأسباب أمنية , غير كلمة المرور حالا وإحذف المجلد  /webim/install من على موقعك</b></font>
 lang.choose=غير اللغة
 leavemail.body=لديك رسالة من  {0}: {2} بريده: {1} {3} --- بريد موقعك
 leavemail.subject=سؤال من {0}

@@ -141,7 +141,7 @@ install.next=下一步:
 install.title=安装
 installed.login_link=继续到登入页面
 installed.message=<b>程式安装完成.</b>
-installed.notice=您可以用 admin 名称及空的密码来登入.<br/><br/><font color="#c13030"><b>!!! 基於安全性考量, 请立即更改您的密码并删除网站 /webim/install 资料夹.</b></font>
+installed.notice=您可以用 <b>admin</b> 名称及空的密码来登入.<br/><br/><font color="#c13030"><b>!!! 基於安全性考量, 请立即更改您的密码并删除网站 /webim/install 资料夹.</b></font>
 leavemail.body=您有讯息来自 {0}:\n\n{2}\n\nE-mail: {1}\n{3}\n--- \n来自您的网站即时通
 leavemail.subject=问题来自 {0}
 leavemessage.close=关闭
