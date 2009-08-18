@@ -552,7 +552,7 @@ function webim_mail($toaddr, $reply_to, $subject, $body) {
 	@mail($toaddr, $real_subject, wordwrap(myiconv($webim_encoding, $mail_encoding, $body),70), $headers);
 }
 
-$dbversion = '1.6.2';
+$dbversion = '1.6.3';
 
 $settings = array(
 	'dbversion' => 0,

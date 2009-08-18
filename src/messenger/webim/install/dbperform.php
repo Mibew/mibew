@@ -130,6 +130,10 @@ if ($act == "silentcreateall") {
 			runsql("ALTER TABLE chatoperator ADD vcjabbername varchar(255)", $link);
 		}
 
+		if( in_array("chatoperator.vcemail", $absent) ) {
+			runsql("ALTER TABLE chatoperator ADD vcemail varchar(64)", $link);
+		}
+		
 		if( in_array("chatthread.groupid", $absent) ) {
 			runsql("ALTER TABLE chatthread ADD groupid int references chatgroup(groupid)", $link);
 		}
@@ -138,6 +142,10 @@ if ($act == "silentcreateall") {
 			runsql("ALTER TABLE chatthread ADD userAgent varchar(255)", $link);
 		}
 
+		if( in_array("chatgroup.vcemail", $absent) ) {
+			runsql("ALTER TABLE chatgroup ADD vcemail varchar(64)", $link);
+		}
+		
 		$res = mysql_query("select null from information_schema.statistics where table_name = 'chatmessage' and index_name = 'idx_agentid'", $link);
 		if($res && mysql_num_rows($res) == 0) {
 			runsql("ALTER TABLE chatmessage ADD INDEX idx_agentid (agentid)", $link);

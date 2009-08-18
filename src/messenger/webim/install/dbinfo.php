@@ -22,6 +22,7 @@
 $dbtables = array(
 	"chatgroup" => array(
 		"groupid" => "int NOT NULL auto_increment PRIMARY KEY",
+		"vcemail" => "varchar(64)",
 		"vclocalname" => "varchar(64) NOT NULL",
 		"vccommonname" => "varchar(64) NOT NULL",
 		"vclocaldescription" => "varchar(1024) NOT NULL",
@@ -69,6 +70,7 @@ $dbtables = array(
 		"vcpassword" => "varchar(64) NOT NULL",
 		"vclocalename" => "varchar(64) NOT NULL",
 		"vccommonname" => "varchar(64) NOT NULL",
+		"vcemail" => "varchar(64)",
 		"dtmlastvisited" => "datetime DEFAULT 0",
 		"istatus" => "int DEFAULT 0", /* 0 - online, 1 - away */
 		"vcavatar" => "varchar(255)",
@@ -113,9 +115,9 @@ $memtables = array();
 $dbtables_can_update = array(
 	"chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount", "nextagent", "shownmessageid", "userid", "userAgent", "groupid"),
 	"chatmessage" => array("agentId"),
-	"chatoperator" => array("vcavatar", "vcjabbername", "iperm", "istatus"),
+	"chatoperator" => array("vcavatar", "vcjabbername", "iperm", "istatus", "vcemail"),
 	"chatban" => array(),
-	"chatgroup" => array(),
+	"chatgroup" => array("vcemail"),
 	"chatgroupoperator" => array(),
 	"chatresponses" => array(),
 );
