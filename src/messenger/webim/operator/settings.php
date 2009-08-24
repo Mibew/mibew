@@ -70,7 +70,7 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
     }
     
     if($params['geolinkparams']) {
-    	foreach(split(",", $params['geolinkparams']) as $oneparam) {
+    	foreach(preg_split("/,/", $params['geolinkparams']) as $oneparam) {
     		if(!preg_match("/^\s*(toolbar|scrollbars|location|status|menubar|width|height|resizable)=\d{1,4}$/", $oneparam)) {
     			$errors[] = "Wrong link parameter: \"$oneparam\", should be one of 'toolbar, scrollbars, location, status, menubar, width, height or resizable'";
     		}

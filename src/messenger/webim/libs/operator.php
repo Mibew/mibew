@@ -158,7 +158,7 @@ function check_login($redirect=true) {
 	global $webimroot;
 	if( !isset( $_SESSION['operator'] ) ) {
 		if( isset($_COOKIE['webim_lite']) ) {
-			list($login,$pwd) = split(",", $_COOKIE['webim_lite'], 2);
+			list($login,$pwd) = preg_split("/,/", $_COOKIE['webim_lite'], 2);
 			$op = operator_by_login($login);
 			if( $op && isset($pwd) && isset($op['vcpassword']) && md5($op['vcpassword']) == $pwd ) {
 				$_SESSION['operator'] = $op;
