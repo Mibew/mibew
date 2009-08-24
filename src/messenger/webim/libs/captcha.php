@@ -32,7 +32,9 @@ function draw_captcha($security_code) {
 
     //Create the image resource 
     $image = ImageCreate($width, $height);  
-    imageantialias($image, true);
+    if(function_exists('imageantialias')) {
+		imageantialias($image, true);
+    }
     
     //We are making three colors, white, black and gray 
     $white = ImageColorAllocate($image, 255, 255, 255); 
