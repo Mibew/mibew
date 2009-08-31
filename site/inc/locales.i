@@ -7,6 +7,7 @@
 				<li><a href="http://www.mediacms.net/" style="padding-left:10px;"><img src="images/mediacms.png" width="88" height="37"/></a></li> -->
 				</ul>
 			</li>
+<?php if(!(isset($hidelocales) && $hidelocales)) { ?>
 			<li id="locales">
 				<h2><?php echo getlocal("languages.title") ?></h2>
 				<p>
@@ -21,6 +22,7 @@
 ?>
 				</p>
 			</li>
+<?php } ?>
 			<li>
 				<h2><b>Stay in Touch</b></h2>
 				<ul>
