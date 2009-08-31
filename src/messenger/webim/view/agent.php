@@ -67,6 +67,15 @@ require_once('inc_errors.php');
 		</div>
 
 		<div class="field">
+			<div class="flabel"><?php echo getlocal('form.field.mail') ?></div>
+			<div class="fvalue">
+				<input type="text" name="email" size="40" value="<?php echo form_value('email') ?>" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.mail.description') ?></div>
+			<br clear="all"/>
+		</div>
+
+		<div class="field">
 			<div class="flabel"><?php echo getlocal('form.field.password') ?><?php if( !$page['opid'] ) { ?><span class="required">*</span><?php } ?></div>
 			<div class="fvalue">
 				<input type="password" name="password" size="40" value="" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>

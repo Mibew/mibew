@@ -133,6 +133,14 @@ if ($act == "silentcreateall") {
 		if( in_array("chatoperator.vcemail", $absent) ) {
 			runsql("ALTER TABLE chatoperator ADD vcemail varchar(64)", $link);
 		}
+
+		if( in_array("chatoperator.dtmrestore", $absent) ) {
+			runsql("ALTER TABLE chatoperator ADD dtmrestore datetime DEFAULT 0", $link);
+		}
+
+		if( in_array("chatoperator.vcrestoretoken", $absent) ) {
+			runsql("ALTER TABLE chatoperator ADD vcrestoretoken varchar(64)", $link);
+		}
 		
 		if( in_array("chatthread.groupid", $absent) ) {
 			runsql("ALTER TABLE chatthread ADD groupid int references chatgroup(groupid)", $link);

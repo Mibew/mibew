@@ -32,6 +32,7 @@ $opId = '';
 if( isset($_POST['login']) && isset($_POST['password']) ) {
 	$opId = verifyparam( "opid", "/^(\d{1,9})?$/", "");
 	$login = getparam('login');
+	$email = getparam('email');
 	$password = getparam('password');
 	$passwordConfirm = getparam('passwordConfirm');
 	$localname = getparam('name');
@@ -48,6 +49,9 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 	} else if( !preg_match( "/^[\w_\.]+$/",$login) ) {
 		$errors[] = getlocal("page_agent.error.wrong_login");
 	}
+
+	if($email != '' && !is_valid_email($email))
+		$errors[] = wrong_field("form.field.mail");
 
 	if( !$opId && !$password )
 		$errors[] = no_field("form.field.password");
@@ -68,17 +72,18 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 	
 	if( count($errors) == 0 ) {
 		if (!$opId) {
-			$newop = create_operator($login,$password,$localname,$commonname,"");
+			$newop = create_operator($login,$email,$password,$localname,$commonname,"");
 			header("Location: $webimroot/operator/avatar.php?op=".$newop['operatorid']);
 			exit;
 		} else {
-			update_operator($opId,$login,$password,$localname,$commonname);
+			update_operator($opId,$login,$email,$password,$localname,$commonname);
 			header("Location: $webimroot/operator/operator.php?op=$opId&stored");
 			exit;
 		}
 	} else {
 		$page['formlogin'] = topage($login);
 		$page['formname'] = topage($localname);
+		$page['formemail'] = topage($email);
 		$page['formcommonname'] = topage($commonname);
 		$page['opid'] = topage($opId);
 	}
@@ -93,6 +98,7 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 	} else {
 		$page['formlogin'] = topage($op['vclogin']);
 		$page['formname'] = topage($op['vclocalename']);
+		$page['formemail'] = topage($op['vcemail']);
 		$page['formcommonname'] = topage($op['vccommonname']);
 		$page['opid'] = topage($op['operatorid']);
 	}

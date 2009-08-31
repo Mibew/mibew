@@ -22,64 +22,68 @@
 if(isset($page) && isset($page['localeLinks'])) {
 	require_once('inc_locales.php');
 }
-$page['title'] = getlocal("page_login.title");
+$page['title'] = getlocal("restore.title");
 $page['headertitle'] = getlocal("app.title");
 $page['show_small_login'] = true;
 $page['fixedwrap'] = true;
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { 
+	global $page, $webimroot, $errors;
+	
+	if($page['isdone']) {
+?>
+<div id="loginpane">
+	<div class="header">	
+		<h2><?php echo getlocal("restore.sent.title") ?></h2>
+	</div>
+
+	<div class="fieldForm">
+		<?php echo getlocal("restore.sent") ?>
+		<br/>
+		<br/>
+		<a href="login.php"><?php echo getlocal("restore.back_to_login") ?></a>
+	</div>
+</div>	
+	
+<?php 		
+	} else {
 ?>
 
-<div id="loginintro">
-<p><?php echo getlocal("app.descr")?></p>
-</div>
-
-<form name="loginForm" method="post" action="<?php echo $webimroot ?>/operator/login.php">
+<form name="restoreForm" method="post" action="<?php echo $webimroot ?>/operator/restore.php">
 	<div id="loginpane">
 
 	<div class="header">	
-		<h2><?php echo getlocal("page_login.title") ?></h2>
+		<h2><?php echo getlocal("restore.title") ?></h2>
 	</div>
 
 	<div class="fieldForm">
 	
-		<?php echo getlocal("page_login.intro") ?><br/><br/>
+		<?php echo getlocal("restore.intro") ?><br/><br/>
 
 <?php 
 require_once('inc_errors.php');
 ?>
 	
 		<div class="field">
-			<div class="fleftlabel"><?php echo getlocal("page_login.login") ?></div>
+			<div class="fleftlabel"><?php echo getlocal("restore.emailorlogin") ?></div>
 			<div class="fvalue">
-				<input type="text" name="login" size="25" value="<?php echo form_value('login') ?>" class="formauth"/>
-			</div>
-			<br clear="all"/>
-		</div>
-
-		<div class="field">
-			<div class="fleftlabel"><?php echo getlocal("page_login.password") ?></div>
-			<div class="fvalue">
-				<input type="password" name="password" size="25" value="" class="formauth"/>
-			</div>
-			<br clear="all"/>
-		</div>
-
-		<div class="field">
-			<div class="fleftlabel">&nbsp;</div>
-			<div class="fvalue">
-				<label>
-					<input type="checkbox" name="isRemember" value="on"<?php echo form_value_cb('isRemember') ? " checked=\"checked\"" : "" ?> />
-					<?php echo getlocal("page_login.remember") ?></label>
+				<input type="text" name="loginoremail" size="25" value="<?php echo form_value('loginoremail') ?>" class="formauth"/>
 			</div>
 			<br clear="all"/>
 		</div>
 
 		<div class="fbutton">
-			<input type="image" name="login" src='<?php echo $webimroot.getlocal("image.button.login") ?>' alt='<?php echo getlocal("button.enter") ?>'/>
+			<table class="submitbutton"><tr>
+				<td><a href="javascript:restoreForm.submit();">
+					<img src='<?php echo $webimroot ?>/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
+				<td class="submit"><a href="javascript:restoreForm.submit();">
+					<?php echo getlocal("restore.submit") ?></a></td>
+				<td><a href="javascript:restoreForm.submit();">
+					<img src='<?php echo $webimroot ?>/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
+			</tr></table>
 
 			<div class="links">
-				<a href="restore.php"><?php echo getlocal("restore.pwd.message") ?></a><br/>
+				<a href="login.php"><?php echo getlocal("restore.back_to_login") ?></a>
 			</div>
 		</div>
 
@@ -89,6 +93,7 @@ require_once('inc_errors.php');
 </form>
 
 <?php 
+	}
 } /* content */
 
 require_once('inc_main.php');

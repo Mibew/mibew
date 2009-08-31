@@ -41,6 +41,14 @@ function operator_by_login($login) {
 	return $operator;
 }
 
+function operator_by_email($mail) {
+	$link = connect();
+	$operator = select_one_row(
+		 "select * from chatoperator where vcemail = '".mysql_real_escape_string($mail)."'", $link );
+	mysql_close($link);
+	return $operator;
+}
+
 function operator_by_id_($id,$link) {
 	return select_one_row(
 		 "select * from chatoperator where operatorid = $id", $link );
@@ -53,16 +61,17 @@ function operator_by_id($id) {
 	return $operator;
 }
 
-function update_operator($operatorid,$login,$password,$localename,$commonname) {
+function update_operator($operatorid,$login,$email,$password,$localename,$commonname) {
 	$link = connect();
 	$query = sprintf(
 		"update chatoperator set vclogin = '%s',%s vclocalename = '%s', vccommonname = '%s'".
-		", vcjabbername= '%s'".
+		", vcemail = '%s', vcjabbername= '%s'".
 		" where operatorid = %s",
 		mysql_real_escape_string($login),
 		($password ? " vcpassword='".md5($password)."'," : ""),
 		mysql_real_escape_string($localename),
 		mysql_real_escape_string($commonname),
+		mysql_real_escape_string($email),
 		'',
 		$operatorid );
 
@@ -80,14 +89,15 @@ function update_operator_avatar($operatorid,$avatar) {
 	mysql_close($link);
 }
 
-function create_operator_($login,$password,$localename,$commonname,$avatar,$link) {
+function create_operator_($login,$email,$password,$localename,$commonname,$avatar,$link) {
 	$query = sprintf(
-		"insert into chatoperator (vclogin,vcpassword,vclocalename,vccommonname,vcavatar,vcjabbername) values ('%s','%s','%s','%s','%s','%s')",
+		"insert into chatoperator (vclogin,vcpassword,vclocalename,vccommonname,vcavatar,vcemail,vcjabbername) values ('%s','%s','%s','%s','%s','%s','%s')",
 			mysql_real_escape_string($login),
 			md5($password),
 			mysql_real_escape_string($localename),
 			mysql_real_escape_string($commonname),
-			mysql_real_escape_string($avatar), '');
+			mysql_real_escape_string($avatar),
+			mysql_real_escape_string($email), '');
 
 	perform_query($query,$link);
 	$id = mysql_insert_id($link);
@@ -95,9 +105,9 @@ function create_operator_($login,$password,$localename,$commonname,$avatar,$link
 	return select_one_row("select * from chatoperator where operatorid = $id", $link );
 }
 
-function create_operator($login,$password,$localename,$commonname,$avatar) {
+function create_operator($login,$email,$password,$localename,$commonname,$avatar) {
 	$link = connect();
-	$newop = create_operator_($login,$password,$localename,$commonname,$avatar,$link);
+	$newop = create_operator_($login,$email,$password,$localename,$commonname,$avatar,$link);
 	mysql_close($link);
 	return $newop;
 }

@@ -368,6 +368,15 @@ div.errinfo {
 	padding-top: 10px;
 }
 
+.fbutton .links {
+	float: right;
+	margin-top: 5px;
+}
+
+.fbutton .submitbutton {
+	float: left;
+}
+
 .formauth {
 }
 
