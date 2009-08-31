@@ -45,7 +45,7 @@
 		<Program_Release_Status>Major Update</Program_Release_Status>
 		<Program_Install_Support>Install Only</Program_Install_Support>
 		<Program_OS_Support>Not Applicable</Program_OS_Support>
-		<Program_Language>English,Arabic,ChineseTraditional,Croatian,French,German,Hebrew,Italian,Polish,Portuguese,Russian,Spanish,Ukrainian</Program_Language>
+		<Program_Language>English,Arabic,Chinese,ChineseTraditional,Croatian,French,German,Hebrew,Italian,Polish,Portuguese,Russian,Spanish,Ukrainian</Program_Language>
 		<Program_Change_Info />
 		<Program_Specific_Category>Internet</Program_Specific_Category>
 		<Program_Category_Class>Communications::Chat &amp; Instant Messaging</Program_Category_Class>
@@ -72,7 +72,17 @@
 			<Char_Desc_80>Mibew Messenger allows visitors of your site to chat with your operators.</Char_Desc_80>
 			<Char_Desc_250>"Mibew Messenger" - is unique software allowing visitors of your site to chat with your operators.</Char_Desc_250>
 			<Char_Desc_450>"Mibew Messenger" - is unique software allowing visitors of your site to chat with your operators. You should place the button of Web Messenger at your site. Your visitors click the button and chat with your operators who help them. Mibew Messenger is distributed under the terms of the Eclipse Public License (or the General Public License, this means that you can choose one of two, and use it accordingly).</Char_Desc_450>
-			<Char_Desc_2000 />
+			<Char_Desc_2000>Mibew Messenger is an open source live support / chat application. It supports unlimited operators, visitors &amp; chats. With a
+web-based admin interface, operators or admins can:
+- Send canned messages
+- Track where visitors clicked from
+- Search porevious chat conversations
+- Reassign/transfer chat to another operator
+- Mark/highlight nuisance visitors
+- View active chats (admins) &amp; more
+- When there is no available operator, visitors can leave a message &amp; they can be contacted later.
+
+The look &amp; feel of the chat window can be totally customized with the theme support. This free live support application requires PHP 5 &amp; MySQL 5 to run.</Char_Desc_2000>
 		</English>
 		<Russian>
 			<Keywords>веб мессенджер, онлайн поддержка, живой сайт</Keywords>
@@ -80,7 +90,17 @@
 			<Char_Desc_80>Позволит посетителям вашего сайта легко общаться с вашими операторами.</Char_Desc_80>
 			<Char_Desc_250>"Мибью Мессенджер" - уникальное програмное обеспечение, позволяющее вашим посетителям общаться с операторами в режиме реального времени.</Char_Desc_250>
 			<Char_Desc_450>"Мибью Мессенджер" - уникальное програмное обеспечение, позволяющее вашим посетителям общаться с операторами в режиме реального времени. Вы размещаете предоставленную кнопку связи с оператором на вашем сайте. Ваши посетители получают возможность пообщаться с вашими операторами не устанавливая дополнительного ПО. В настоящее время Mibew Messenger выпускается под двумя лицензиями на выбор Eclipse Public License или General Public License.</Char_Desc_450>
-			<Char_Desc_2000 />
+			<Char_Desc_2000>Бесплатное веб-приложение для организации живой поддержки на сайте. 
+Основные возможности:
+ - общая очередь посетителей
+ - перенаправление посетителя другому оператору
+ - отслеживание откуда пришел посетитель
+ - поиск по истории чатов, история по конкретному посетителю
+ - предопределенные сообщения
+ - группы операторов
+
+Требует: PHP / MySQL
+Лицензия: GPL / EPL</Char_Desc_2000>
 		</Russian>
 	</Program_Descriptions>
 	<Web_Info>
