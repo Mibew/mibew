@@ -47,7 +47,7 @@ require_once('inc_errors.php');
 		<div class="field">
 			<div class="flabel"><?php echo getlocal("page.gen_button.choose_image") ?></div>
 			<div class="fvaluenodesc">
-				<select name="image" onchange="this.form.submit();"><?php foreach($page['availableImages'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("image") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+				<select name="i" onchange="this.form.submit();"><?php foreach($page['availableImages'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("image") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			</div>
 		</div>
 

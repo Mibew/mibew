@@ -45,7 +45,7 @@ foreach($allLocales as $curr) {
 	}
 }
 
-$image = verifyparam("image","/^\w+$/", "webim");
+$image = verifyparam(isset($_GET['image']) ? "image" : "i", "/^\w+$/", "webim");
 $image_locales = $imageLocales[$image];
 
 $stylelist = array("" => getlocal("page.preview.style_default"));
@@ -87,7 +87,7 @@ if( !$lang || !in_array($lang,$image_locales) )
 $file = "../locales/${lang}/button/${image}_on.gif";
 $size = get_gifimage_size($file);
 
-$imagehref = get_app_location($showhost,$forcesecure)."/button.php?image=$image&amp;lang=$lang";
+$imagehref = get_app_location($showhost,$forcesecure)."/button.php?i=$image&amp;lang=$lang";
 if($groupid) {
 	$imagehref .= "&amp;group=$groupid";
 }

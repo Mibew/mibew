@@ -35,7 +35,7 @@ if($referer && isset($_SESSION['threadid'])) {
     mysql_close($link);
 }
 
-$image = verifyparam("image","/^\w+$/", "webim");
+$image = verifyparam(isset($_GET['image']) ? "image" : "i", "/^\w+$/", "webim");
 $lang = verifyparam(isset($_GET['language']) ? "language" : "lang", "/^[\w-]{2,5}$/", "");
 if(!$lang || !locale_exists($lang)) {
 	$lang = $current_locale;
