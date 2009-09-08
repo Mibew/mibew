@@ -60,6 +60,14 @@ $filename = "locales/${lang}/button/${image}_${image_postfix}.gif";
 $fp = fopen($filename, 'rb') or die("no image");
 header("Content-Type: image/gif");
 header("Content-Length: ".filesize($filename));
-fpassthru($fp);
+if(function_exists('fpassthru')){
+	@fpassthru($fp);
+} else {
+	while( (!feof($fp)) && (connection_status()==0)){
+		print(fread($fp, 1024*8));
+		flush();
+	}
+	fclose($fp);
+}
 exit;
 ?>
