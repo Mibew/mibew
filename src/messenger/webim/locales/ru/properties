@@ -11,6 +11,12 @@ app.title=Mibew Мессенджер
 ban.error.duplicate=Адрес уже зарегестрирован в системе, нажмите <a href="ban.php?id={1}">здесь</a> чтобы отредактировать его.
 button.delete=Удалить
 button.enter=Войти
+button.offline.bottom=Оставьте сообщение
+button.offline.top=Консультант сайта
+button.offline=OFFLINE
+button.online.bottom=Задайте вопрос
+button.online.top=Консультант сайта
+button.online=ONLINE
 button.save=Сохранить
 button.search=Искать
 canned.actions.del=удалить
