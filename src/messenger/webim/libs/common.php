@@ -141,6 +141,12 @@ $current_locale = get_locale();
 $messages = array();
 $output_encoding = array();
 
+if(function_exists("date_default_timezone_set")) {
+	// TODO try to get timezone from config.php/session etc.
+	// autodetect timezone
+	@date_default_timezone_set(function_exists("date_default_timezone_get") ? @date_default_timezone_get() : "GMT");
+}
+
 function get_locale_links($href) {
 	global $current_locale;
 	$localeLinks = array();
