@@ -118,7 +118,7 @@ function load_messages($locale) {
 	if(!$fp) { die("wrong locale"); }
 	while (!feof($fp)) {
 		$line = fgets($fp, 4096);
-		$keyval = split("=", $line, 2 );
+		$keyval = preg_split("/=/", $line, 2 );
 		if( isset($keyval[1]) ) {
 			if($keyval[0] == 'encoding') {
 				$current_encoding = trim($keyval[1]);
