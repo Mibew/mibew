@@ -5,8 +5,8 @@ $default_locale = "en";
 $siteroot = "";
 $site_encoding = "utf-8"; 
 
-if(preg_match("/www\.openwebim\.org/", $_SERVER['HTTP_HOST'])) {
-    header("Location: http://openwebim.org");
+if(preg_match("/www\.mibew\.org/", $_SERVER['HTTP_HOST'])) {
+    header("Location: http://mibew.org");
     exit;
 }
 

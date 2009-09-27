@@ -2,27 +2,27 @@
 
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-    <loc>http://openwebim.org/</loc>
+    <loc>http://mibew.org/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
 </url> 
 <url>
-    <loc>http://openwebim.org/demo.php</loc>
+    <loc>http://mibew.org/demo.php</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
 </url> 
 <url>
-    <loc>http://openwebim.org/download.php</loc>
+    <loc>http://mibew.org/download.php</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
 </url> 
 <url>
-    <loc>http://openwebim.org/features.php</loc>
+    <loc>http://mibew.org/features.php</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url> 
 <url>
-    <loc>http://openwebim.org/forums/</loc>
+    <loc>http://mibew.org/forums/</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
 </url> 
