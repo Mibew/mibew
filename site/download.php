@@ -28,6 +28,11 @@ require_once('inc/menu.i');
 			</p>
 			<table cellpadding="0" cellspacing="0" border="0" id="downl">
 			<tr>
+				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.2/webim162_ar.zip/download">Arabic</a></td>
+				<td>1.6.2</td>
+				<td>September 27, 2009</td></tr>
+
+			<tr>
 				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.2/webim162_de.zip/download">Deutsch</a></td>
 				<td>1.6.2</td>
 				<td>August 12, 2009</td></tr>
