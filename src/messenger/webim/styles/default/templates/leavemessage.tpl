@@ -139,7 +139,7 @@ ${endif:showcaptcha}
 		<table cellpadding="7" cellspacing="5" border="0" width="450">
 		<tr>
 			<td id="poweredByTD" align="center" class="copyr">
-				${msg:chat.window.poweredby} <a id="poweredByLink" href="http://openwebim.org" title="Mibew Community" target="_blank">openwebim.org</a>
+				${msg:chat.window.poweredby} <a id="poweredByLink" href="http://mibew.org" title="Mibew Community" target="_blank">mibew.org</a>
 			</td>
 		</tr>
 		</table>

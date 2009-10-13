@@ -4,8 +4,8 @@ output_encoding=utf-8
 app.title=Mibew Messenger
 chat.window.product_name=Mibew <span class="grey">Messenger</span>
 company.title=Mibew Messenger Community
-chat.window.poweredreftext=openwebim.org
-site.title=openwebim.org
-site.url=http://openwebim.org
+chat.window.poweredreftext=mibew.org
+site.title=mibew.org
+site.url=http://mibew.org
 localedirection=ltr  
 localeid=Danish (da)

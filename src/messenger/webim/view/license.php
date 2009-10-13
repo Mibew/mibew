@@ -34,7 +34,7 @@ accordingly) with the following special exception.</p>
 
 <b>License exception:</b>
 <p>No one may remove, alter or hide any copyright notices or links to the community
-site ("http://openwebim.org") contained within the Program. Any derivative work
+site ("http://mibew.org") contained within the Program. Any derivative work
 must include this license exception.</p>
 
 <br/>

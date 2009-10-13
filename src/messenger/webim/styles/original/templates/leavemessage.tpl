@@ -117,7 +117,7 @@ ${endif:showcaptcha}
 		</table>
 	</td>
 
-  	<td width="33%" align="center" class="copyr">${msg:chat.window.poweredby} <a id="poweredByLink" href="http://openwebim.org" title="Mibew Community" target="_blank">openwebim.org</a></td>
+  	<td width="33%" align="center" class="copyr">${msg:chat.window.poweredby} <a id="poweredByLink" href="http://mibew.org" title="Mibew Community" target="_blank">mibew.org</a></td>
 
     <td width="33%" align="right">
 		<table cellspacing="0" cellpadding="0" border="0">
