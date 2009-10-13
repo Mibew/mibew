@@ -26,7 +26,6 @@ chat.wait
 chat.window.chatting_with
 chat.window.close_title
 chat.window.poweredby
-chat.window.poweredreftext
 chat.window.predefined.select_answer
 chat.window.product_name
 chat.window.send_message

@@ -1,3 +1,10 @@
+  1.6.3
+  -----
+  [+] password restore functionality for agent
+  [!] button code conflicts with spam filters and mod_security
+  [!] compatibility with PHP 5.3.0
+  [!] new domain: mibew.org
+ 
   1.6.2
   -----
   [+] bi-licensed: EPL / GPL
