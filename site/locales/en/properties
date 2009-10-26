@@ -68,8 +68,8 @@ features.chat.title=Chat window
 features.chat=<ul>\n<li>Agent and visitor "Typing Indicator"</li>\n<li>Agent photo</li>\n<li>Chat transcript emails</li>\n<li>Sound and Visual alerts</li>\n<li>"Leave a message" when you are away</li>\n<li>Customize chat with your Logo, Name etc.</li>\n<li>Unicode support for multiple languages</li>\n<li>Quickly convert text to hyperlinks in chat</li>\n<li>Not blocked by pop-up blockers</li>\n</ul>
 features.operator.title=Operator abilites
 features.operator=<ul>\n<li>Web-based Operator Console</li>\n<li>Canned messages for speed and consistency</li>\n<li>Track where your visitors clicked from to get to your website (refer URL)</li>\n<li>Chat conversation history with search</li>\n<li>Linking to previous visits, instant access to previous chats</li>\n<li>Reassign/Transfer chat ownership</li>\n<li>Mark/Highlight nuisance visitors</li>\n<li>Administrator can view active chats</li>\n<li>Information about visitor: first message, address, browser</li>\n<li>Administrator can take over the chat</li>\n</ul>
-features.next.title=New in version 1.6.1
-features.next=<ul>\n<li>fix online/offline state for group buttons</li><li>ability to delete operator</li><li>rename Open Web Messenger -> Mibew Messenger (new branding)</li><li>404 error during installation fix</li><li>new permission: "Ability to modify profile"</li><li>new theme: simplicity</li></ul>
+features.next.title=New in version 1.6.3
+features.next=<ul>\n<li>Support local time (when server is based in another time zone)</li>\n<li>XHTML compliant chat window with new behavior</li>\n<li>text link (eg "Chat now" if online, and "Leave a support ticket" if offline) instead of buttons</li>\n<li>restore password functionality for operators</li>\n<li>view history permission</li>\n<li>individual chat window sizes for themes</li>\n</ul>
 
 features.requirements.title=Server requirements
 features.requirements=<ul>\n<li>A webserver or web hosting account running on any major Operating System</li>\n<li>PHP (5.x and above) with MySQL support</li>\n<li>MySQL 5.0 and above</li>\n</ul>
