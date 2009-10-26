@@ -1,11 +1,18 @@
 
 window.webimLatest = {
-	version: "1.6.2",
+	version: "1.6.3",
 	download: "http://mibew.org/download.php",
-	title: "Mibew Messenger 1.6.2"
+	title: "Mibew Messenger 1.6.3"
 };
 
 window.webimNews = [
+	{
+		title: 'Mibew Messenger 1.6.3 Released',
+		link: 'http://mibew.org/forums/index.php?topic=256.0',
+		date: 'October 14, 2009',
+		message: 'We finally released it! This is a service release which improves current functionality.'
+	},
+
 	{
 		title: 'Mibew Messenger 1.6.2 Released',
 		link: 'http://mibew.org/forums/index.php?topic=256.0',
