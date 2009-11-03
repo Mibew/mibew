@@ -28,7 +28,7 @@ require_once('inc/menu.i');
 			<li>Hebrew - <a href="http://mediacms.net/" rel="nofollow">MediaCMS Team</a></li>
 			<li>Hrvatski - <a href="/forums/index.php?action=profile;u=1266">Gorana Rabar</a></li>
 			<li>Italiano - <a href="/forums/index.php?action=profile;u=781">CT32</a></li>
-			<li>Polski - <a href="/forums/index.php?action=profile;u=170">Kacper Wierzbicki</a>, WebTower</li>
+			<li>Polski - <a href="/forums/index.php?action=profile;u=170">Kacper Wierzbicki</a>, <a http://mibew.org/forums/index.php?action=profile;u=170 > WebTower</a></li>
 			<li>Português Brasil - <a href="/forums/index.php?action=profile;u=1304">Leandro Luquetti</a></li>
 			<li>Russian - <a href="/forums/index.php?action=profile;u=2">Evgeny Gryaznov</a></li>
 			<li>Spanish - Christian Mauricio Castillo Estrada</li>
@@ -39,7 +39,6 @@ require_once('inc/menu.i');
 			<p><?php echo "Tech Support Team" ?></p>
 			<ul>
 			<li>(eddybaur) Ed Kraus - Admininstrator</li>
-			<li>(lamies) Mario Alejandro Llerena Vasquez - Operator, Spanish Translator</li>
 			</ul>
 			</div>
 		</div>
