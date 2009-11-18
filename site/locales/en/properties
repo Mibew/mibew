@@ -16,12 +16,15 @@ menu.features=Features
 menu.download=Download
 menu.support=Forums
 menu.ticket=Support
+menu.copywrite=Remove Copywrite
+copywrite.text=To have the Copywrite removed, <a href="http://mibew.org/contact.php" > Contact us </a>
 
 home.title=Home
 submenu.title=<b>More</b>
 partners.title=<b>partners</b>
 languages.title=<b>languages</b>
 sidebar.quicknav=Quick <b>Navigation</b>
+copywrite.title=Removing Copywrite
 
 head.intro=<strong>Mibew Messenger</strong> (also known as <b>Open Web Messenger</b>) is an open-source live support application written in PHP and MySQL. It enables one-on-one chat assistance in real-time directly from your website.
 
