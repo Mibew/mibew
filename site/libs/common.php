@@ -42,52 +42,13 @@ function verifyparam( $name, $regexp, $default = null ) {
         exit;
 }
 
-function get_user_locale() {
-	global $available_locales, $default_locale;
-
-	if( isset($_COOKIE['webim_locale']) ) {
-		$requested_lang = $_COOKIE['webim_locale'];
-		if( in_array($requested_lang,$available_locales) )
-			return $requested_lang;
-	}
-
-	if( isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ) {
-		$requested_langs = explode(",",$_SERVER['HTTP_ACCEPT_LANGUAGE']);
-		foreach( $requested_langs as $requested_lang) {
-			if( strlen($requested_lang) > 2 )
-				$requested_lang = substr($requested_lang,0,2);
-
-			if( in_array($requested_lang,$available_locales) && $requested_lang != 'ru' /* do not detect RU */ )
-				return $requested_lang;
-		}
-	}
-
-	if( in_array($default_locale,$available_locales) )
-		return $default_locale;
-
-	return 'en';
-}
-
 function get_locale() {
 	global $available_locales, $siteroot;
 
-	$locale = verifyparam("locale", "/^[\w-]{2,5}$/", "");
-
-	if( $locale && in_array($locale,$available_locales) ) {
-		$_SESSION['locale'] = $locale;
-		setcookie('webim_locale', $locale, time()+60*60*24*1000, "$siteroot/");
-	} else if( isset($_SESSION['locale']) ){
-		$locale = $_SESSION['locale'];
-	}
-
+	$locale = verifyparam("intlocale", "/^[\w-]{2,5}$/", "");
 	if( !$locale || !in_array($locale,$available_locales) )
-		$locale = get_user_locale();
-		
-	$useragent = isset($_SERVER['HTTP_USER_AGENT']) ? strtolower($_SERVER['HTTP_USER_AGENT']) : "";
-	if( $locale == 'ru' && preg_match( "/googlebot[\\s\/]?(\\d+(\\.\\d+)?)/", $useragent) ) {
 		$locale = "en";
-	}
-		
+
 	return $locale;
 }
 

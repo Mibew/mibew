@@ -1,0 +1,6 @@
+RewriteEngine on
+
+RewriteCond %{HTTP_HOST}   ^(www\.)?mibew\.org [NC]
+RewriteBase /       
+RewriteRule     ^(ru|en|sp)/(.*)        $2?intlocale=$1 [L]
+RewriteRule     ^(ru|en|sp)$        	$1/ [R,L]

@@ -16,7 +16,7 @@
 		if($k == $current_locale) {
 			echo "<a href=\"#\" class=\"inactive\">".$v."</a>";
 		} else {
-			echo "<a href=\"?locale=$k\">".$v."</a>";
+			echo "<a href=\"".($k != "en" ? "/$k" : "")."/\">".$v."</a>";
 		}
 	}			
 ?>
