@@ -8,7 +8,7 @@ window.webimLatest = {
 window.webimNews = [
 	{
 		title: 'Mibew Messenger 1.6.3 Released',
-		link: 'http://mibew.org/forums/index.php?topic=256.0',
+		link: 'http://mibew.org/forums/index.php?topic=318.0',
 		date: 'October 14, 2009',
 		message: 'We finally released it! This is a service release which improves current functionality.'
 	},

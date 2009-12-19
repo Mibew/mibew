@@ -1,4 +1,47 @@
 <?php 
+function handle_error($errno, $errstr) {
+    echo <<<END
+<html>
+<head>
+    <title>Mibew.org :: Woops!</title>
+    <style type='text/css'>
+        div#header {
+            width: 100%;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            height: 10px;
+            background-color: #00567a;
+        }
+        body {
+            text-align: center;
+        }
+        .logo-text {
+            font-family: Verdana, sans-serif;
+            font-size: 40px;
+            color: #555555;
+            text-shadow: 0px -1px 0px #111111;
+        }
+        .woops {
+            font-size: 20px;
+            font-weight: bold;
+            font-family: Arial, serif;
+        }
+    </style>
+</head>
+<body>
+    <br /><br /><br /><br />
+    <div id='header'></div>
+    <img src='http://www.burn-blue.com/image/view/r03JwQ8l/64x64.gif' alt='Mibew Logo' title='Mibew Logo' />&nbsp;<span class='logo-text'>Mibew</span>
+    <br /><br /><br />
+    <span class='woops'>Woops! We seem to be having problems right now, check back in about 10 minutes by which time we hope to have the problem fixed</span>
+</body>
+</html>
+END;
+}
+
+set_error_handler('handle_error', E_ALL & ~E_STRICT);
+
 $page = 'home';
 $subpage = 'news';
 require_once('libs/common.php');
@@ -6,6 +49,7 @@ start_html_output();
 $title = getlocal("home.title");
 require_once('inc/header.i');
 require_once('inc/menu.i');
+
 ?>
 
 <div id="page">

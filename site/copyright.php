@@ -3,7 +3,7 @@ $page = 'home';
 $subpage = 'copywrite';
 require_once('libs/common.php');
 start_html_output();
-$title = getlocal("copywrite.title");
+$title = getlocal("copyright.title");
 require_once('inc/header.i');
 require_once('inc/menu.i');
 ?>
@@ -14,13 +14,9 @@ require_once('inc/menu.i');
 			<p><img src="images/webimlogo.gif" alt="" width="74" height="79" class="left" /><?php echo getlocal("head.intro") ?></p>
 		</div>
 		<div class="post">
-			<h2 class="title"><?php echo getlocal("copywrite.title") ?></h2>
+			<h2 class="title"><?php echo getlocal("copyright.title") ?></h2>
 			<div class="entry">
-			<? echo getlocal("copywrite.text") ?>
-			
-
-			
-			
+			<? echo getlocal("copyright.text") ?>
 			</div>
 		</div>
 	</div>

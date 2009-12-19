@@ -1,5 +1,5 @@
 User-Agent: *
-Disallow: /mibew/webim/
-Disallow: /mibew/article/
+Disallow: /webim/
+Disallow: /article/
 Allow: /
 

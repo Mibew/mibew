@@ -16,15 +16,15 @@ menu.features=Features
 menu.download=Download
 menu.support=Forums
 menu.ticket=Support
-menu.copywrite=Remove Copywrite
-copywrite.text=To have the Copywrite removed, <a href="http://mibew.org/contact.php" > Contact us </a>
+menu.copyright=Remove Copyright
+copyright.text=To have the Copyright removed, <a href="http://mibew.org/contact.php">Contact us</a>
 
 home.title=Home
 submenu.title=<b>More</b>
 partners.title=<b>partners</b>
 languages.title=<b>languages</b>
 sidebar.quicknav=Quick <b>Navigation</b>
-copywrite.title=Removing Copywrite
+copyright.title=Removing Copyright
 
 head.intro=<strong>Mibew Messenger</strong> (also known as <b>Open Web Messenger</b>) is an open-source live support application written in PHP and MySQL. It enables one-on-one chat assistance in real-time directly from your website.
 
@@ -41,12 +41,11 @@ license.content=Open Web Messenger is distributed under the terms of the <a href
 
 index.how.title=How it works?
 index.how.text=You should place the button of Web Messenger at your site. Your visitors click the button and chat with your operators who help them.
-index.license=This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0.
 
 index.post.title=Version 1.6.3 Released
-index.post.text=<p>We are pleased to announce the immediate availability of 1.6.3. This is a minor release with several fixes and improvements.</p>\n<ul>\n<li>Support local time (when server is based in another time zone)</li>\n<li>XHTML compliant chat window with new behavior</li>\n<li>text link (eg "Chat now" if online, and "Leave a support ticket" if offline) instead of buttons</li>\n<li>restore password functionality for operators</li>\n<li>view history permission</li>\n<li>individual chat window sizes for themes</li>\n</ul>\n<p><a href="download.php">Download 1.6.3</a></p>
-index.post.when=Posted on August 12th, 2009 by inspirer
-index.post.link=<a href="" class="more">Read full article</a>
+index.post.text=<p>We are pleased to announce the immediate availability of 1.6.3. This is a minor release with several fixes and improvements.</p>\n<ul>\n<li>password restore functionality for operator</li>\n<li>new Blue logo; new buttons: mgreen, mblue</li>\n<li>fixed: button code conflicts with spam filters and mod_security</li>\n<li>workarounds if some functions are disabled in php</li>\n<li>compatibility with PHP 5.3.0</li>\n</ul>\n<p><a href="download.php">Download 1.6.3</a></p>
+index.post.when=Posted on October 14th, 2009 by inspirer
+index.post.link=<a href="/forums/index.php?topic=25.0" class="more">Read full article</a>
 
 index.nextpost.title=Comming in Version 1.6.2
 index.nextpost.text=<p>We are pleased to announce our next version will be 1.6.2. This release will contain the following:</p><ul><li>pre-chat survey: show group status in dropdown - online/offline</li><li>bi-licensed release: EPL / GPL</li><li>compatibility with the latest mod_security</li><li>timing options: update intervals, operator online time threshold</li><li>Support local time (when server is based in another time zone)</li><li>XHTML compliant chat window with new behavior</li><li>text link (eg "Chat now" if online, and "Leave a support ticket" if offline) instead of buttons</li><li>Left messages are stored in history</li></ul>
@@ -60,11 +59,11 @@ index.why="Web Messenger" makes it easier to communicate with existing and poten
 index.how=You should place the button of Web Messenger at your site. Your visitors click the button and chat with your operators who help them.
 index.license.title=License
 
-index.hosted=Copyright 2009 Open Web Messenger Powered By Trilex Labs
+index.hosted=Copyright (c) 2005-09 Mibew Community, Powered By Trilex Labs
 
 features.title=Features
 features.price.title=Pricing
-features.price=<ul><li>Open-source code, free of charge</li>\n<li>Eclipse Public License 1.0</li></ul>
+features.price=<ul><li>Open-source code, free of charge</li>\n<li>Eclipse Public License 1.0 or General Public License</li></ul>
 features.main.title=Main features
 features.main=<ul>\n<li>Unlimited operators, chats, and users</li>\n<li>Priority queue of visitors</li>\n<li>Chat button for email signatures</li>\n<li>Differing buttons on same website</li>\n<li>English and russian are supported</li>\n<li>Reconnect automatically if the internet connection went down</li>\n</ul>
 features.chat.title=Chat window
