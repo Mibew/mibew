@@ -53,7 +53,7 @@ function get_locale() {
 }
 
 $current_locale = get_locale();
-setlocale(LC_TIME, $current_locale);
+setlocale(LC_TIME, getstring("time.locale"));
 $messages = array();
 $output_encoding = array();
 
@@ -170,6 +170,10 @@ function start_html_output() {
 
 function div($a,$b) {
     return ($a-($a % $b)) / $b;
+}
+
+function date_to_text($unixtime) {
+	return strftime(getlocal("time.dateformat"), $unixtime);
 }
 	
 ?>

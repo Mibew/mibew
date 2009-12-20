@@ -78,13 +78,21 @@ require_once('inc/menu.i');
 			</div>
 		</div> */ ?>
 		<div class="post">
-			<h2 class="title"><?php echo getlocal("index.post.title") ?></h2>
+			<h2 class="title"><?php echo getlocal2("index.post.title", array("1.6.3")) ?></h2>
 			<div class="entry">
-				<?php echo getlocal("index.post.text") ?>
+				<p><?php echo getlocal2("index.post.minor.release", array("1.6.3")) ?></p>
+				<ul>
+				<li>password restore functionality for operator</li>
+				<li>new Blue logo; new buttons: mgreen, mblue</li>
+				<li>fixed: button code conflicts with spam filters and mod_security</li>
+				<li>workarounds if some functions are disabled in php</li>
+				<li>compatibility with PHP 5.3.0</li>
+				</ul>
+				<p><a href="download.php"><?php echo getlocal2("index.post.download", array("1.6.3")) ?></a></p>
 			</div>
 			<div class="meta">
-				<p class="byline"><?php echo getlocal("index.post.when") ?></p>
-				<p class="links"><?php echo getlocal("index.post.link") ?></p>
+				<p class="byline"><?php echo getlocal2("index.post.when",array(date_to_text(mktime(0, 0, 0, 10, 14, 2009)),"inspirer")) ?></p>
+				<p class="links"><a href="/forums/index.php?topic=25.0" class="more"><?php echo getlocal("index.post.readfull") ?></a></p>
 			</div>
 		</div>
 	</div>

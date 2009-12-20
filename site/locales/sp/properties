@@ -65,14 +65,18 @@ credits.content=Esta es una lista de las personas que han contribuido al Proyect
 license.title=Términos de uso
 credits.translators=Traductores:
 features.content.head=Contenido:
-index.post.link=<a href="/forums/index.php?topic=205.msg589;boardseen#new" class="more">Leer artículo completo</a>
-index.post.when=Publicado el 5 de Junio de 2009 por Lamies
-index.post.title=Versión 1.6.1 Liberada
+index.post.title=Versión {0} Liberada
+index.post.minor.release=Nos complace en anunciar la nueva versión disponible {0}. Esta versión incluye correcciones y mejoras.
+index.post.download=Descargar {0}
+index.post.readfull=Leer artículo completo
+index.post.when=Publicado el {0} por {1}
 contacts.content=Persona de Contacto: Evgeny Gryaznov<br/>E mail: evgeny@openwebim.org
 credits.title=Créditos
-index.post.text=<p>Nos complace en anunciar la nueva version disponible 1.6.1. Esta versión incluye correcciones y mejoras.</p><ul><li>Correción Problema de Instalación 404</li><li>Opción para Modificar el Perfil</li><li>Nuevo Proyecto: Mibew Messenger</li><li>Imágenes Online/Offline Fijas</li><li>Localización de las fechas para todos los lenguajes, Buen Formato: Hoy/Ayer</li><li>abilidad para borrar operadores, Diálogo de Confirmación al borrar Departamentos/Operadores/bloquear Direcciones</li><li>Información acerca de la última actividad de los operadores: Online, Hoy a las 22, 01 Enero.., o Nunca</li><li>Nuevo Tema: simplicity (por Sheldmandu)</li></ul><p><a href="download.php">Descargar 1.6.1</a></p>
 lang.link=Haz Clic Aquí
 lang.missing=¿Tu idioma no está disponible?
 downl.prev=Liberación previa:
 downl.unstable=Alpha:
 license.content=Open Web Messenger es distribuido bajo los términos de la <a href="http://www.eclipse.org/legal/epl-v10.html">Licencia Pública Eclipse v1.0</a>.<br/>\nLa EPL 1.0 no es compatible con la Licencia GPL. Por favor, <a href="http://en.wikipedia.org/wiki/Eclipse_Public_License">lea más acerca de la Licencia EPL 1.0</a>.
+time.dateformat=%d %B %Y,
+time.locale=es_ES.UTF-8
+time.timeformat=%H:%M
