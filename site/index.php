@@ -91,7 +91,7 @@ require_once('inc/menu.i');
 				<p><a href="download.php"><?php echo getlocal2("index.post.download", array("1.6.3")) ?></a></p>
 			</div>
 			<div class="meta">
-				<p class="byline"><?php echo getlocal2("index.post.when",array(date_to_text(mktime(0, 0, 0, 10, 14, 2009)),"inspirer")) ?></p>
+				<p class="byline"><?php echo getlocal2("index.post.when",array(ccdate(14,10,2009),"inspirer")) ?></p>
 				<p class="links"><a href="/forums/index.php?topic=25.0" class="more"><?php echo getlocal("index.post.readfull") ?></a></p>
 			</div>
 		</div>

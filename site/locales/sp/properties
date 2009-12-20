@@ -2,8 +2,8 @@ encoding=utf-8
 output_charset=utf-8
 output_encoding=utf-8
 
-title=Open Web Messenger
-head.name=Open Web Messenger
+title=Mibew Messenger
+head.name=Mibew Messenger
 head.descr=Software de Código Abierto para Soporte en Línea
 
 menu.home=Inicio
@@ -51,7 +51,7 @@ downl.release=Estable:
 tag.pagination.info=Página {0} de {1}, {2}-{3} hasta {4}
 index.how.text=Debes colocar el botón de Web Messenger en tu sitio web, para que tus visitantes hagan clic en el botón y entonces puedan comunicarse con tus operadores quienes lesproporcionaran la correspondiente ayuda en línea.
 features.title=Características
-head.intro=<strong>"Web Messenger</strong> Permite una fácil comunicación con clientes potenciales. Lo que significa que incrementarás las ventas de tu sitio web.
+head.intro=<strong>"Web Messenger</strong> Permite una fácil comunicación con clientes potenciales. Lo que significa que incrementarás las ventas de tu sitio web.<br/><br/>
 menu.news=Noticias
 menu.contacts=Contáctenos
 menu.credits=Créditos

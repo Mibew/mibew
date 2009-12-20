@@ -175,5 +175,9 @@ function div($a,$b) {
 function date_to_text($unixtime) {
 	return strftime(getlocal("time.dateformat"), $unixtime);
 }
+
+function ccdate($day,$month,$year) {
+	return date_to_text(mktime(0,0,0,$month,$day,$year));
+}
 	
 ?>
