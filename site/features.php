@@ -18,32 +18,67 @@ require_once('inc/menu.i');
 			<h2 class="title"><?php echo getlocal("features.title") ?></h2>
 			<div class="entry">
 <a name='price'></a>
-<p><?php echo getlocal("features.price.title") ?></p>
-<?php echo getlocal("features.price") ?>
+<p class="featuretitle"><?php echo getlocal("features.price.title") ?></p>
+<ul>
+<?php foreach(preg_split("/\n/", getlocal("features.price")) as $val) {
+echo "<li>$val</li>\n"; } ?>
+</ul>
 
 <a name='main'></a>
-<p><?php echo getlocal("features.main.title") ?></p>
-<?php echo getlocal("features.main") ?>
+<p class="featuretitle"><?php echo getlocal("features.main.title") ?></p>
+<ul>
+<?php foreach(preg_split("/\n/", getlocal("features.main")) as $val) {
+echo "<li>$val</li>\n"; } ?>
+</ul>
+
+<a name='button'></a>
+<p class="featuretitle"><?php echo getlocal("features.button.title") ?></p>
+<ul>
+<?php foreach(preg_split("/\n/", getlocal("features.button")) as $val) {
+echo "<li>$val</li>\n"; } ?>
+</ul>
 
 <a name='chat'></a>
-<p><?php echo getlocal("features.chat.title") ?></p>
-<?php echo getlocal("features.chat") ?>
+<p class="featuretitle"><?php echo getlocal("features.chat.title") ?></p>
+<ul>
+<?php foreach(preg_split("/\n/", getlocal("features.chat")) as $val) {
+echo "<li>$val</li>\n"; } ?>
+</ul>
 
 <a name='operator'></a>
-<p><?php echo getlocal("features.operator.title") ?></p>
-<?php echo getlocal("features.operator") ?>
+<p class="featuretitle"><?php echo getlocal("features.operator.title") ?></p>
+<ul>
+<?php foreach(preg_split("/\n/", getlocal("features.operator")) as $val) {
+echo "<li>$val</li>\n"; } ?>
+</ul>
 
-<a name='next'></a>
-<p><?php echo getlocal("features.next.title") ?></p>
-<?php echo getlocal("features.next") ?>
+<a name='groups'></a>
+<p class="featuretitle"><?php echo getlocal("features.groups.title") ?></p>
+<ul>
+<?php foreach(preg_split("/\n/", getlocal("features.groups")) as $val) {
+echo "<li>$val</li>\n"; } ?>
+</ul>
+
+<a name='admin'></a>
+<p class="featuretitle"><?php echo getlocal("features.admin.title") ?></p>
+<ul>
+<?php foreach(preg_split("/\n/", getlocal("features.admin")) as $val) {
+echo "<li>$val</li>\n"; } ?>
+</ul>
 
 <a name='requirements'></a>
-<p><?php echo getlocal("features.requirements.title") ?></p>
-<?php echo getlocal("features.requirements") ?>
+<p class="featuretitle"><?php echo getlocal("features.requirements.title") ?></p>
+<ul>
+<?php foreach(preg_split("/\n/", getlocal("features.requirements")) as $val) {
+echo "<li>$val</li>\n"; } ?>
+</ul>
 
 <a name='browsers'></a>
-<p><?php echo getlocal("features.browsers.title") ?></p>
-<?php echo getlocal("features.browsers") ?>
+<p class="featuretitle"><?php echo getlocal("features.browsers.title") ?></p>
+<ul>
+<?php foreach(preg_split("/\n/", getlocal("features.browsers")) as $val) {
+echo "<li>$val</li>\n"; } ?>
+</ul>
 
 
 
@@ -64,9 +99,11 @@ require_once('inc/locales.i');
 				<ul>
 					<li><a href="#price"><?php echo getlocal("features.price.title") ?></a></li>
 					<li><a href="#main"><?php echo getlocal("features.main.title") ?></a></li>
+					<li><a href="#button"><?php echo getlocal("features.button.title") ?></a></li>
 					<li><a href="#chat"><?php echo getlocal("features.chat.title") ?></a></li>
 					<li><a href="#operator"><?php echo getlocal("features.operator.title") ?></a></li>
-					<li><a href="#next"><?php echo getlocal("features.next.title") ?></a></li>
+					<li><a href="#groups"><?php echo getlocal("features.groups.title") ?></a></li>
+					<li><a href="#admin"><?php echo getlocal("features.admin.title") ?></a></li>
 					<li><a href="#requirements"><?php echo getlocal("features.requirements.title") ?></a></li>
 					<li><a href="#browsers"><?php echo getlocal("features.browsers.title") ?></a></li>
 				</ul>

@@ -64,21 +64,26 @@ index.hosted=Copyright (c) 2005-09 Mibew Community, Powered By Trilex Labs
 
 features.title=Features
 features.price.title=Pricing
-features.price=<ul><li>Open-source code, free of charge</li>\n<li>Eclipse Public License 1.0 or General Public License</li></ul>
+features.price=Open-source code, free of charge\nEclipse Public License (EPL) or General Public License (GPL)
 features.main.title=Main features
-features.main=<ul>\n<li>Unlimited operators, chats, and users</li>\n<li>Priority queue of visitors</li>\n<li>Chat button for email signatures</li>\n<li>Differing buttons on same website</li>\n<li>English and russian are supported</li>\n<li>Reconnect automatically if the internet connection went down</li>\n</ul>
+features.main=Real-time chat (without page refresh)\nUnlimited operators, chats, and users\nUnlimited departments (groups of operators)\nPriority queue of visitors\nLocalized to 10+ languages, unicode support\nRuns on your server and domain\nEasy-to-modify source code
+features.button.title=Chat button
+features.button=Shows online/offline status\nReady for email signatures\nUsing different buttons on the same domain\n"Leave a message" when you are away\nDepartment buttons
+
 features.chat.title=Chat window
-features.chat=<ul>\n<li>Agent and visitor "Typing Indicator"</li>\n<li>Agent photo</li>\n<li>Chat transcript emails</li>\n<li>Sound and Visual alerts</li>\n<li>"Leave a message" when you are away</li>\n<li>Customize chat with your Logo, Name etc.</li>\n<li>Unicode support for multiple languages</li>\n<li>Quickly convert text to hyperlinks in chat</li>\n<li>Not blocked by pop-up blockers</li>\n</ul>
+features.chat=Optional pre-chat survey\nChat window themes (three themes are included)\nOperator and visitor "Typing Indicator"\nOperator's photo in visitors chat\nChat transcript emails\nSound and visual alerts on new message\nEnable/disable notification sound\nCustomize chat with your Logo, Name etc.\nQuickly convert text to hyperlinks in chat\nNot blocked by pop-up blockers\nCompatible with mod_security\nProtection against automated spam (captcha)\nAuto-reconnect if the internet connection went down
 features.operator.title=Operator abilites
-features.operator=<ul>\n<li>Web-based Operator Console</li>\n<li>Canned messages for speed and consistency</li>\n<li>Track where your visitors clicked from to get to your website (refer URL)</li>\n<li>Chat conversation history with search</li>\n<li>Linking to previous visits, instant access to previous chats</li>\n<li>Reassign/Transfer chat ownership</li>\n<li>Mark/Highlight nuisance visitors</li>\n<li>Administrator can view active chats</li>\n<li>Information about visitor: first message, address, browser</li>\n<li>Administrator can take over the chat</li>\n</ul>
-features.next.title=New in version 1.6.3
-features.next=<ul>\n<li>Support local time (when server is based in another time zone)</li>\n<li>XHTML compliant chat window with new behavior</li>\n<li>text link (eg "Chat now" if online, and "Leave a support ticket" if offline) instead of buttons</li>\n<li>restore password functionality for operators</li>\n<li>view history permission</li>\n<li>individual chat window sizes for themes</li>\n</ul>
+features.operator=Web-based Operator Console\nOperator is away mode\nCanned messages for speed and consistency\nTrack where your visitors clicked from to get to your website (refer URL)\nChat conversation history with search\nLinking to previous visits, instant access to previous chats\nInformation about visitor: first message, address, browser, geo-location\nNotification messages when visitors changes page\nReassign/Transfer chat ownership\nMark/Highlight nuisance visitors\nAdministrator can view active chats\nAdministrator can take over the chat\nDaily statistical reports\nOperator password retrieval
+
+features.groups.title=Groups of operators (Departments)
+features.groups=Assign operator to multiple groups\nGroup canned messages\nAbility to select group in pre-chat survey\nGroup button with online/offline status
+features.admin.title=Administration
+features.admin=Adding and managing canned responses\nPerformance options to control server load\nThemes preview mode for easy interface customization\nEnable/disable features like Groups, Malicious Visitors, Survey etc.\nUpdates page with the latest messenger news\nLocalization wizard
 
 features.requirements.title=Server requirements
-features.requirements=<ul>\n<li>A webserver or web hosting account running on any major Operating System</li>\n<li>PHP (5.x and above) with MySQL support</li>\n<li>MySQL 5.0 and above</li>\n</ul>
-
+features.requirements=A webserver or web hosting account running on any major Operating System\nPHP (5.x and above) with MySQL support\nMySQL 5.0 and above
 features.browsers.title=Supported browsers
-features.browsers=<ul>\n<li>Microsoft Internet Explorer 5.0+</li>\n<li>Mozilla Firefox 1.0+</li>\n<li>Mozilla 1.4, 1.7</li>\n<li>Opera 7.0+</li>\n<li>Safari 1.2.5+</li>\n<li>Netscape 6.0+</li>\n<li>Google Chrome 0.2.149.29+</li>\n<li>iPhone 1.1.4+</li>\n</ul>
+features.browsers=Microsoft Internet Explorer 5.0+\nMozilla Firefox 1.0+\nMozilla 1.4, 1.7\nOpera 7.0+\nSafari 1.2.5+\nNetscape 6.0+\nGoogle Chrome 0.2.149.29+\niPhone 1.1.4+
 
 features.content.head=Content:
 

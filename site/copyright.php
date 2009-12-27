@@ -1,6 +1,6 @@
 <?php
 $page = 'home';
-$subpage = 'copywrite';
+$subpage = 'copyright';
 require_once('libs/common.php');
 start_html_output();
 $title = getlocal("copyright.title");
