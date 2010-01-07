@@ -1,6 +1,6 @@
 This file is part of Mibew Messenger project.
 
-Copyright (c) 2005-2009 Mibew Messenger Community
+Copyright (c) 2005-2010 Mibew Messenger Community
 All rights reserved. The contents of this file are subject to the terms of
 the Eclipse Public License v1.0 which accompanies this distribution, and
 is available at http://www.eclipse.org/legal/epl-v10.html
