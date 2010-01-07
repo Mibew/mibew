@@ -25,7 +25,7 @@ require_once(dirname(__FILE__).'/converter.php');
 require_once(dirname(__FILE__).'/config.php');
 
 $version = '1.6.3';
-$jsver = "163";
+$jsver = "164";
 
 function myiconv($in_enc, $out_enc, $string) {
 	global $_utf8win1251, $_win1251utf8;
