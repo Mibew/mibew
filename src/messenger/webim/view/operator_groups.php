@@ -20,6 +20,7 @@
  */
 
 require_once("inc_menu.php");
+require_once("inc_tabbar.php");
 $page['title'] = getlocal("operator.groups.title");
 $page['menuid'] = $page['opid'] == $page['currentopid'] ? "profile" : "operators";
 
@@ -39,15 +40,7 @@ require_once('inc_errors.php');
 <form name="opgroupsForm" method="post" action="<?php echo $webimroot ?>/operator/opgroups.php">
 <input type="hidden" name="op" value="<?php echo $page['opid'] ?>"/>
 	<div>
-<?php if($page['tabs']) { ?>
-	<ul class="tabs">
-
-<?php foreach($page['tabs'] as $k => $v) { if($v) { ?>
-	<li><a href="<?php echo $v ?>"><?php echo $k ?></a></li>
-<?php } else { ?>
-	<li class="active"><a href="#"><?php echo $k ?></a></li><?php }} ?>
-	</ul>
-<?php } ?>
+<?php print_tabbar(); ?>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
 	<p>

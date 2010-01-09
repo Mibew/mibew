@@ -250,6 +250,7 @@ img.left {
 
 .tabs {
 	float: right;
+	margin-left: 15px;
 	display: inline;
 	margin-right: 15px;
 }
@@ -324,9 +325,16 @@ div.errinfo {
 	font-weight: bold;
 }
 
-.field .subfield {
+.field .subfield .fieldinrow {
 	padding-left: 30px;
 	background: url(images/subitem.gif) no-repeat 10px 2px;
+}
+
+.fieldinrow {
+	min-width: 300px;
+	display: inline;
+	float:left;
+	width: 45%;
 }
 
 .fvalue {

@@ -76,6 +76,7 @@ $dbtables = array(
 		"vcavatar" => "varchar(255)",
 		"vcjabbername" => "varchar(255)",
 		"iperm" => "int DEFAULT 65535",
+		"inotify" => "int DEFAULT 0", /* 0 - none, 1 - jabber */
 		"dtmrestore" => "datetime DEFAULT 0",
 		"vcrestoretoken" => "varchar(64)",
 	),
@@ -117,7 +118,7 @@ $memtables = array();
 $dbtables_can_update = array(
 	"chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount", "nextagent", "shownmessageid", "userid", "userAgent", "groupid"),
 	"chatmessage" => array("agentId"),
-	"chatoperator" => array("vcavatar", "vcjabbername", "iperm", "istatus", "vcemail", "dtmrestore", "vcrestoretoken"),
+	"chatoperator" => array("vcavatar", "vcjabbername", "iperm", "istatus", "vcemail", "dtmrestore", "vcrestoretoken", "inotify"),
 	"chatban" => array(),
 	"chatgroup" => array("vcemail"),
 	"chatgroupoperator" => array(),
@@ -161,7 +162,7 @@ function create_table($id,$link) {
 	mysql_query($query,$link) or show_install_err(' Query failed: '.mysql_error());
 
 	if( $id == 'chatoperator' ) {
-		create_operator_("admin", "", "", "Administrator", "Administrator", "", $link);
+		create_operator_("admin", "", "", "", "Administrator", "Administrator", 0, $link);
 	} else if( $id == 'chatrevision' ) {
 		perform_query("INSERT INTO chatrevision VALUES (1)",$link);
 	}

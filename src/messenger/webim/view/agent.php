@@ -20,6 +20,7 @@
  */
 
 require_once("inc_menu.php");
+require_once("inc_tabbar.php");
 $page['title'] = getlocal("page_agent.title");
 $page['menuid'] = $page['opid'] == $page['currentopid'] ? "profile" : "operators";
 
@@ -45,15 +46,7 @@ require_once('inc_errors.php');
 <form name="agentForm" method="post" action="<?php echo $webimroot ?>/operator/operator.php">
 <input type="hidden" name="opid" value="<?php echo $page['opid'] ?>"/>
 	<div>
-<?php if($page['tabs']) { ?>
-	<ul class="tabs">
-
-<?php foreach($page['tabs'] as $k => $v) { if($v) { ?>
-	<li><a href="<?php echo $v ?>"><?php echo $k ?></a></li>
-<?php } else { ?>
-	<li class="active"><a href="#"><?php echo $k ?></a></li><?php }} ?>
-	</ul>
-<?php } ?>
+<?php print_tabbar(); ?>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
 	<div class="fieldForm">
@@ -108,6 +101,24 @@ require_once('inc_errors.php');
 				<input type="text" name="commonname" size="40" value="<?php echo form_value('commonname') ?>" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.agent_commonname.description') ?></div>
+			<br clear="all"/>
+		</div>
+
+		<div class="field">
+			<div class="flabel"><?php echo getlocal('form.field.jabber') ?></div>
+			<div class="fvalue">
+				<input type="text" name="jabber" size="40" value="<?php echo form_value('jabber') ?>" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.jabber.description') ?></div>
+			<br clear="all"/>
+		</div>
+		
+		<div class="field" style="padding-top:0.3em;">
+			<div class="flabel"><?php echo getlocal('form.field.jabbernotify') ?></div>
+			<div class="fvalue">
+				<input type="checkbox" name="jabbernotify" value="on"<?php echo form_value_cb('jabbernotify') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.jabbernotify.description') ?></div>
 			<br clear="all"/>
 		</div>
 

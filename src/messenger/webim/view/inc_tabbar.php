@@ -19,29 +19,38 @@
  *    Evgeny Gryaznov - initial API and implementation
  */
 
-function update_settings() {
-	global $settings, $settings_in_db;
-	$link = connect();
-	foreach ($settings as $key => $value) {
-		if(!isset($settings_in_db[$key])) {
-			perform_query("insert into chatconfig (vckey) values ('$key')",$link);
+function print_tabbar($maxwidth = 4) {
+	global $page;
+	
+	if($page['tabs']) {
+		$tabbar = $page['tabs'];
+		$len = count($tabbar);
+		$selected = $page['tabselected'];
+		$tabbar2 = array();
+		for($i = 0; $i < $len; $i++) {
+			$tabbar2[] = $i != $selected
+				? "<li><a href=\"".$tabbar[$i]['link']."\">".$tabbar[$i]['title']."</a></li>\n"
+				: "<li class=\"active\"><a href=\"#\">".$tabbar[$i]['title']."</a></li>\n";
 		}
-        $query = sprintf("update chatconfig set vcvalue='%s' where vckey='$key'", mysql_real_escape_string($value));
-		perform_query($query,$link);
+		
+		if($len > $maxwidth) { // && $len - $selected > $maxwidth
+			if($selected < $maxwidth) {
+				$tabbar = array_splice($tabbar2, 0, $maxwidth);
+				array_splice($tabbar2, count($tabbar2),0, $tabbar);
+			} // else 3 rows menu
+		}		
+		
+		echo "<ul class=\"tabs\">\n";
+		$i = 0;
+		foreach($tabbar2 as $v) {
+			if($i > 0 && (($len-$i)%$maxwidth) == 0) {
+				echo "</ul><br clear=\"all\"><ul class=\"tabs\">\n";
+			}
+			echo $v;
+			$i++; 	
+		}
+		echo "</ul>";
 	}
-
-	mysql_close($link);
-}
-
-function setup_settings_tabs($active) {
-	global $page, $webimroot;
-	$page['tabselected'] = $active;
-	$page['tabs'] = array(
-		array('title'=> getlocal("page_settings.tab.main"), 'link' => "$webimroot/operator/settings.php"),
-		array('title'=> getlocal("page_settings.tab.features"), 'link' => "$webimroot/operator/features.php"),
-		array('title'=> getlocal("page_settings.tab.performance"), 'link' => "$webimroot/operator/performance.php"),
-		array('title'=> getlocal("page_settings.tab.themes"), 'link' => "$webimroot/operator/themes.php"),
-	);
 }
 
 ?>

@@ -121,6 +121,10 @@ if ($act == "silentcreateall") {
 		if( in_array("chatoperator.istatus", $absent) ) {
 			runsql("ALTER TABLE chatoperator ADD istatus int DEFAULT 0", $link);
 		}
+
+		if( in_array("chatoperator.inotify", $absent) ) {
+			runsql("ALTER TABLE chatoperator ADD inotify int DEFAULT 0", $link);
+		}
 		
 		if( in_array("chatoperator.vcavatar", $absent) ) {
 			runsql("ALTER TABLE chatoperator ADD vcavatar varchar(255)", $link);
