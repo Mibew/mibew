@@ -583,6 +583,7 @@ $settings = array(
 	'usercanchangename' => '1',
 	'enablegroups' => '0',
 	'enablestatistics' => '1',
+	'enablejabber' => '0',
 	'enablepresurvey' => '1',
 		'surveyaskmail' => '0',
 		'surveyaskgroup' => '1',

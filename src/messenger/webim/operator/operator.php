@@ -29,6 +29,7 @@ $page = array('opid' => '');
 $errors = array();
 $opId = '';
 
+loadsettings();
 if( isset($_POST['login']) && isset($_POST['password']) ) {
 	$opId = verifyparam( "opid", "/^(\d{1,9})?$/", "");
 	$login = getparam('login');
@@ -58,8 +59,13 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 	if($jabber != '' && !is_valid_email($jabber))
 		$errors[] = wrong_field("form.field.jabber");
 		
-	if($jabbernotify && $jabber == '')
-		$errors[] = no_field("form.field.jabber");
+	if($jabbernotify && $jabber == '') {
+		if( $settings['enablejabber'] == "1" ) {
+			$errors[] = no_field("form.field.jabber");
+		} else {
+			$jabbernotify = false;
+		}
+	}
 		
 	if( !$opId && !$password )
 		$errors[] = no_field("form.field.password");
@@ -125,6 +131,7 @@ $canmodify = ($opId == $operator['operatorid'] && is_capable($can_modifyprofile,
 
 $page['stored'] = isset($_GET['stored']);
 $page['canmodify'] = $canmodify ? "1" : "";
+$page['showjabber'] = $settings['enablejabber'] == "1"; 
 
 prepare_menu($operator);
 setup_operator_settings_tabs($opId,0);

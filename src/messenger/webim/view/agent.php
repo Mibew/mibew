@@ -45,6 +45,10 @@ require_once('inc_errors.php');
 <?php if( $page['opid'] || $page['canmodify'] ) { ?>
 <form name="agentForm" method="post" action="<?php echo $webimroot ?>/operator/operator.php">
 <input type="hidden" name="opid" value="<?php echo $page['opid'] ?>"/>
+<?php if(!$page['showjabber']) { ?>
+<input type="hidden" name="jabber" value="<?php echo form_value('jabber') ?>"/>
+<?php if(form_value_cb('jabbernotify')) { ?><input type="hidden" name="jabbernotify" value="on"/><?php } ?>
+<?php } ?> 
 	<div>
 <?php print_tabbar(); ?>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
@@ -104,6 +108,7 @@ require_once('inc_errors.php');
 			<br clear="all"/>
 		</div>
 
+<?php if($page['showjabber']) { ?>
 		<div class="field">
 			<div class="flabel"><?php echo getlocal('form.field.jabber') ?></div>
 			<div class="fvalue">
@@ -121,6 +126,7 @@ require_once('inc_errors.php');
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.jabbernotify.description') ?></div>
 			<br clear="all"/>
 		</div>
+<?php } ?>
 
 <?php if($page['canmodify']) { ?>
 		<div class="fbutton">

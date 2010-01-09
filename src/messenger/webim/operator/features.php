@@ -29,7 +29,7 @@ $page = array('agentId' => '');
 $errors = array();
 
 $options = array(
-		'enableban', 'usercanchangename', 'enablegroups', 'enablestatistics',
+		'enableban', 'usercanchangename', 'enablegroups', 'enablestatistics', 'enablejabber',
 		'enablessl', 'forcessl',  
 		'enablepresurvey', 'surveyaskmail', 'surveyaskgroup', 'surveyaskmessage',
 		'enablepopupnotification',

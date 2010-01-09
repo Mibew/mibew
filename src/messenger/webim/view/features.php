@@ -106,15 +106,6 @@ require_once('inc_errors.php');
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.enableban') ?></div>
-			<div class="fvalue">
-				<input type="checkbox" name="enableban" value="on"<?php echo form_value_cb('enableban') ? " checked=\"checked\"" : "" ?>/>
-			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enableban.description') ?></div>
-			<br clear="all"/>
-		</div>
-
-		<div class="field">
 			<div class="flabel"><?php echo getlocal('settings.enablegroups') ?></div>
 			<div class="fvalue">
 				<input type="checkbox" name="enablegroups" value="on"<?php echo form_value_cb('enablegroups') ? " checked=\"checked\"" : "" ?>/>
@@ -129,6 +120,24 @@ require_once('inc_errors.php');
 				<input type="checkbox" name="enablestatistics" value="on"<?php echo form_value_cb('enablestatistics') ? " checked=\"checked\"" : "" ?>/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enablestatistics.description') ?></div>
+			<br clear="all"/>
+		</div>
+
+		<div class="field">
+			<div class="flabel"><?php echo getlocal('settings.enablejabber') ?></div>
+			<div class="fvalue">
+				<input type="checkbox" name="enablejabber" value="on"<?php echo form_value_cb('enablejabber') ? " checked=\"checked\"" : "" ?>/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enablejabber.description') ?></div>
+			<br clear="all"/>
+		</div>
+
+		<div class="field">
+			<div class="flabel"><?php echo getlocal('settings.enableban') ?></div>
+			<div class="fvalue">
+				<input type="checkbox" name="enableban" value="on"<?php echo form_value_cb('enableban') ? " checked=\"checked\"" : "" ?>/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enableban.description') ?></div>
 			<br clear="all"/>
 		</div>
 

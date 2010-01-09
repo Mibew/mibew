@@ -414,6 +414,8 @@ settings.enableban.description=Using it you can block attacks from specific IPs
 settings.enableban=Enable feature "Malicious Visitors"
 settings.enablegroups.description=Use it to have separate queues for different questions.  
 settings.enablegroups=Enable "Groups"
+settings.enablejabber.description=Instant notification of new visitor (require <a href="http://mibew.org/download.php">Mibew Jabber</a> software) 
+settings.enablejabber=Enable "Jabber notifications"
 settings.enablepresurvey.description=Forces user to fill out a special form to start chat.
 settings.enablepresurvey=Enable "Pre-chat survey"
 settings.enablessl.description=Please, note that your web server should be configured to support https requests.
