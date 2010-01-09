@@ -36,6 +36,10 @@ $options = array(
 		'enablecaptcha');
 
 loadsettings();
+if($settings['featuresversion'] != $featuresversion) {
+	$settings['featuresversion'] = $featuresversion;
+	update_settings();
+}
 $params = array();
 foreach($options as $opt) {
 	$params[$opt] = $settings[$opt];

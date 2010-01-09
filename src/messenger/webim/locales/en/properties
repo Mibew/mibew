@@ -185,6 +185,7 @@ install.kill_tables.notice=Impossible to update tables structure. Try to do it m
 install.kill_tables=Drop existing tables from database
 install.license=Software license agreement
 install.message=Follow the wizard to setup your database. 
+install.newfeatures=Congratulations! You now have Mibew Messenger {1} installed. Turn on more features on <a href="{0}">Optional services</a> page.
 install.next=Next step:
 install.title=Installation
 install.updatedb=Please, run <a href="{0}">Update wizard</a> to adjust your database.

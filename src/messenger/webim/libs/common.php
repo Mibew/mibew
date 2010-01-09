@@ -559,9 +559,11 @@ function webim_mail($toaddr, $reply_to, $subject, $body) {
 }
 
 $dbversion = '1.6.3';
+$featuresversion = '1.6.4';
 
 $settings = array(
 	'dbversion' => 0,
+	'featuresversion' => 0,
 	'title' => 'Your Company',
 	'hosturl' => 'http://mibew.org',
 	'logo' => '',

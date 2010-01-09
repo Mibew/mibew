@@ -30,6 +30,8 @@ $page = array(
 	'localeLinks' => get_locale_links("$webimroot/operator/index.php"),
 	'needUpdate' => $settings['dbversion'] != $dbversion,
 	'updateWizard' => "$webimroot/install/",
+	'newFeatures' => $settings['featuresversion'] != $featuresversion,
+	'featuresPage' => "$webimroot/operator/features.php",
 );
 
 prepare_menu($operator);

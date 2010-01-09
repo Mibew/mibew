@@ -38,12 +38,15 @@ function menuseparator() {
 	if(($menuItemsCount%3) == 0) { echo "</tr><tr>"; }
 }
 
-function tpl_content() { global $page, $webimroot, $current_locale, $menuItemsCount;
+function tpl_content() { global $page, $webimroot, $current_locale, $menuItemsCount, $version;
 ?>
 
 <br/>   
 <?php if( $page['needUpdate'] ) { ?>
 <div id="formmessage"><?php echo getlocal2("install.updatedb",array($page['updateWizard'])) ?></div>
+<br/>
+<?php } else if($page['newFeatures']) { ?>
+<div><div id="formmessage"><?php echo getlocal2("install.newfeatures",array($page['featuresPage'], $version)) ?></div></div>
 <br/>
 <?php } ?>
 

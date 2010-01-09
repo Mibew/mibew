@@ -405,9 +405,9 @@ input.formauth {
 	border: 1px solid #4C96D4;
 	background-color: #E7F1F9;
 	padding: 8px 11px;
-	font-size: 11px;
+	font-size: 0.85em;
 	font-weight:bold;
-	width : 400px;
+	max-width: 700px;
 	margin: 0px 2px 10px;
 	color: #515151;
 }
