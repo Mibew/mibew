@@ -42,31 +42,25 @@ if($query !== false) {
 	while ($group = mysql_fetch_array($result, MYSQL_ASSOC)) {
 		$groupName[$group['groupid']] = $group['vclocalname'];
 	}
-	$page['groupName'] = $groupName;
 	mysql_free_result($result);
-
-	$result = mysql_query(
-		 "select DISTINCT unix_timestamp(chatthread.dtmcreated) as created, ".
+	$page['groupName'] = $groupName;
+	
+	$escapedQuery = mysql_real_escape_string($query,$link);
+	select_with_pagintation("DISTINCT unix_timestamp(chatthread.dtmcreated) as created, ".
     	 "unix_timestamp(chatthread.dtmmodified) as modified, chatthread.threadid, ".
 		 "chatthread.remote, chatthread.agentName, chatthread.userName, groupid, ".
-		 "messageCount as size ".
-		 "from chatthread, chatmessage ".
-		 "where chatmessage.threadid = chatthread.threadid and ".
-			"((chatthread.userName LIKE '%%$query%%') or ".
-			" (chatmessage.tmessage LIKE '%%$query%%'))".
-		 "order by created DESC", $link)
-							or die(' Query failed: ' .mysql_error().": ".$query);
-
-	$foundThreads = array();
-	while ($thread = mysql_fetch_array($result, MYSQL_ASSOC)) {
-		$foundThreads[] = $thread;
-	}
-
-	mysql_free_result($result);
+		 "messageCount as size",
+		 "chatthread, chatmessage",
+		 array(
+		 	"chatmessage.threadid = chatthread.threadid",
+		 	"((chatthread.userName LIKE '%%$escapedQuery%%') or (chatmessage.tmessage LIKE '%%$escapedQuery%%'))"
+		 ),
+		 "order by created DESC",
+		 "DISTINCT chatthread.dtmcreated", $link);
+	
 	mysql_close($link);
 
 	$page['formq'] = topage($query);
-	setup_pagination($foundThreads);
 } else {
 	setup_empty_pagination();
 }

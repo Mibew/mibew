@@ -110,7 +110,18 @@ $dbtables = array(
 		"locale" => "varchar(8)",
 		"groupid" => "int references chatgroup(groupid)",
 		"vcvalue" => "varchar(1024) NOT NULL",
-	)
+	),
+	
+	"chatnotification" => array(
+		"id" => "INT NOT NULL auto_increment PRIMARY KEY",
+		"locale" => "varchar(8)",
+		"vckind" => "varchar(16)",
+		"vcto" => "varchar(256)",
+		"dtmcreated" => "datetime DEFAULT 0",
+		"vcsubject" => "varchar(256)",
+		"tmessage" => "text NOT NULL",
+		"refoperator" => "int NOT NULL references chatoperator(operatorid)",
+	),
 );
 
 $memtables = array();
@@ -123,6 +134,7 @@ $dbtables_can_update = array(
 	"chatgroup" => array("vcemail"),
 	"chatgroupoperator" => array(),
 	"chatresponses" => array(),
+	"chatnotification" => array(),
 );
 
 function show_install_err($text) {

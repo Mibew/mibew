@@ -72,6 +72,19 @@ function setup_pagination($items,$default_items_per_page=15) {
 	}
 }
 
+function select_with_pagintation($fields, $table, $conditions, $order, $countfields, $link) {
+	global $page;
+	$count = db_rows_count($table, $conditions, $countfields, $link);
+	prepare_pagination($count);
+	if($count) {
+		$p = $page['pagination'];
+		$limit = $p['limit'];
+		$page['pagination.items'] = select_multi_assoc(db_build_select($fields, $table, $conditions, $order)." ".$limit, $link);
+	} else {
+		$page['pagination.items'] = false;
+	}
+}
+
 function setup_empty_pagination() {
 	global $page;
 	$page['pagination.items'] = false;

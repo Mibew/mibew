@@ -223,20 +223,30 @@ function setup_redirect_links($threadid,$token) {
 	loadsettings();
 	$link = connect();
 
-	$operatorscount = rows_count($link, "chatoperator");
-	$groupscount = $settings['enablegroups'] == "1" ? rows_count($link, "chatgroup") : 0;
-	
-	prepare_pagination(max($operatorscount,$groupscount),8);
-	$limit = $page['pagination']['limit'];
+	$operatorscount = db_rows_count("chatoperator", array(), "", $link);
 
-	$query = "select operatorid, vclogin, vclocalename, vccommonname, istatus, (unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time ".
-			 "from chatoperator order by vclogin $limit";
-	$operators = select_multi_assoc($query, $link);
-
+	$groupscount = 0;
 	if($settings['enablegroups'] == "1") {
-		$groups = get_groups($link, true);
+		$groups = array();
+		foreach(get_groups($link, true) as $group) {
+			if($group['inumofagents'] == 0) {
+				continue;
+			}
+			$groups[] = $group;
+		}
+		$groupscount = count($groups);
 	}
 	
+	prepare_pagination(max($operatorscount,$groupscount),8);
+	$p = $page['pagination'];
+	$limit = $p['limit'];
+
+	$operators = select_multi_assoc(db_build_select(
+		"operatorid, vclogin, vclocalename, vccommonname, istatus, (unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time",
+		"chatoperator", array(), "order by vclogin $limit"), $link);
+	
+	$groups = array_slice($groups, $p['start'], $p['end']-$p['start']);
+
 	mysql_close($link);
 
 	$agent_list = "";
@@ -260,9 +270,6 @@ function setup_redirect_links($threadid,$token) {
 	if($settings['enablegroups'] == "1") {
 		$params = array('thread' => $threadid, 'token' => $token);
 		foreach($groups as $group) {
-			if($group['inumofagents'] == 0) {
-				continue;
-			}
 			$params['nextGroup'] = $group['groupid'];
 			$status = $group['ilastseen'] !== NULL && $group['ilastseen'] < $settings['online_timeout'] 
 					? getlocal("char.redirect.operator.online_suff") 

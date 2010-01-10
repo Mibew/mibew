@@ -75,7 +75,7 @@ require_once('inc_errors.php');
 	<td class="notlast">
    		<?php echo htmlspecialchars(topage($a['vclocalename'])) ?> / <?php echo htmlspecialchars(topage($a['vccommonname'])) ?>
 	</td>
-	<td>
+	<td class="notlast">
 <?php if(is_online($a)) { ?>
 		<?php echo getlocal("page_agents.isonline") ?>
 <?php } else if(is_away($a)) { ?>

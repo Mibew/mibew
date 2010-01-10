@@ -299,6 +299,10 @@ img.left {
 	margin-bottom:8px;
 }
 
+.packedFormField select {
+	min-width: 130px;
+}
+
 div.errinfo {
 	color: #c13030;
 }	
@@ -473,6 +477,16 @@ table.translate td {
 table.list td a.man {
 	background: url(images/tbliclogin.gif) no-repeat left center;
 	padding-left: 15px;
+}
+
+table.list td a.mail {
+	background: url(images/mail.png) no-repeat left center;
+	padding-left: 24px;
+}
+
+table.list td a.xmpp {
+	background: url(images/xmpp.png) no-repeat left center;
+	padding-left: 24px;
 }
 
 table.list tbody tr:hover td, table.list tbody tr:hover td a, table.statistics tbody tr:hover td {
