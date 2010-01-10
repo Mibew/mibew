@@ -16,7 +16,25 @@ require_once('inc/menu.i');
 		<div class="post">
 			<h2 class="title"><?php echo getlocal("copyright.title") ?></h2>
 			<div class="entry">
-			<? echo getlocal("copyright.text") ?>
+			
+			<p>
+			<?php echo getlocal("copyright.text") ?>
+			</p>  
+			<ul class="decimal">
+			<li><?php echo getlocal("copyright.item1") ?></li>
+			<li><?php echo getlocal("copyright.item2") ?></li>
+			<li><?php echo getlocal("copyright.item3") ?></li>
+			<li><?php echo getlocal("copyright.item4") ?></li>
+			</ul>
+			
+			<p style="padding-top:.5em;margin-bottom:1em;">
+			<?php echo getlocal("copyright.contributors") ?>
+			</p>
+			
+			<p>
+			<?php echo getlocal("copyright.others") ?>
+			</p>
+			
 			</div>
 		</div>
 	</div>

@@ -17,7 +17,14 @@ menu.download=Download
 menu.support=Forums
 menu.ticket=Support
 menu.copyright=Remove Copyright
-copyright.text=To have the Copyright removed, <a href="http://mibew.org/contact.php">Contact us</a>
+
+copyright.text=<b>Mibew Messenger Community</b> is a non-profit organization that relies on contributions from volunteers to develop, support, and promote its products. There are several ways to become a member and remove copyright links in your instance of Mibew Messenger.
+copyright.item1=<b>Translate</b> Mibew Messenger to your language
+copyright.item2=Design a <b>new theme</b> for Chat window
+copyright.item3=Contribute to <b>the code</b>
+copyright.item4=<b>Donate</b> $45 or more
+copyright.contributors=<i>Contributors:</i> If your name is listed on credits page, just <a href="http://mibew.org/contact.php">inform us</a> about domain name(s) where you use Messenger with removed copyrights.
+copyright.others=<i>Others:</i> Donation of $45 allows you to use Messenger without copyright links on one domain. Please, include your domain name(s) into donation comment. You can <a href="http://mibew.org/contact.php">contact us</a> later in case of domain name change.
 
 home.title=Home
 submenu.title=<b>More</b>
