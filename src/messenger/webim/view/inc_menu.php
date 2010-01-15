@@ -28,6 +28,12 @@ function menuli($name) {
 }
 
 function tpl_menu() { global $page, $webimroot, $errors;
+	if(isset($page['isOnline']) && !$page['isOnline']) { ?>
+			<li id="offwarn">
+				<img src="<?php echo $webimroot ?>/images/dash/warn.gif" alt="" width="24" height="24"/>
+				<p><?php echo getlocal2("menu.goonline",array($webimroot."/operator/users.php?nomenu")) ?></p>
+			</li>		
+<?php }
 	if(isset($page['operator'])) { ?>
 			<li>
 				<h2><?php echo getlocal('right.main') ?></h2>

@@ -161,6 +161,14 @@ $menuItemsCount = 2;
 		<?php echo getlocal('menu.updates.content') ?>
 	</td>
 	<?php menuseparator(); ?>
+
+	<td class="dashitem">
+		<img src="<?php echo $webimroot ?>/images/dash/notifications.gif" alt=""/>
+		<a href='<?php echo $webimroot ?>/operator/notifications.php'>
+			<?php echo getlocal('menu.notifications') ?></a>
+		<?php echo getlocal('menu.notifications.content') ?>
+	</td>
+	<?php menuseparator(); ?>
 <?php } ?>
 
 	<td class="dashitem">

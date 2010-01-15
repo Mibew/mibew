@@ -216,11 +216,13 @@ mailthread.title=Send chat history<br/>by mail
 menu.agents=Operators list
 menu.blocked=Blocked visitors
 menu.canned=Canned Messages
+menu.goonline=You are Offline.<br/><a href="{0}">Connect..</a>
 menu.groups.content=Department or skill based operator groups.
 menu.groups=Groups
 menu.locale.content=Change locale.
 menu.locale=Language
 menu.main=Main
+menu.notifications.content=All notifications sent by messenger.
 menu.notifications=Notifications
 menu.operator=You are {0}
 menu.profile.content=You can change your personal information on this page.

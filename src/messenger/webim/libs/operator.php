@@ -136,6 +136,15 @@ function has_online_operators($groupid="") {
 	return $row['time'] < $settings['online_timeout'] && $row['total'] > 0;
 }
 
+function is_operator_online($operatorid, $link) {
+	global $settings;
+	loadsettings_($link);
+	$query = "select count(*) as total, min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time ".
+			 "from chatoperator where operatorid = $operatorid";
+	$row = select_one_row($query,$link);
+	return $row['time'] < $settings['online_timeout'] && $row['total'] == 1;
+}
+
 function get_operator_name($operator) {
 	global $home_locale, $current_locale;
 	if( $home_locale == $current_locale )

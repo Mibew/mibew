@@ -216,11 +216,13 @@ mailthread.title=Отправить историю разговора<br/>на почтовый ящик
 menu.agents=Список операторов
 menu.blocked=Нежелательные посетители
 menu.canned=Шаблоны ответов
+menu.goonline=Вы Оффлайн.<br/><a href="{0}">Подключиться..</a>
 menu.groups.content=Объединения операторов на основе отделов или областей знаний.
 menu.groups=Группы
 menu.locale.content=Выбрать язык системы.
 menu.locale=Язык
 menu.main=Главная
+menu.notifications.content=История всех отправленных уведомлений.
 menu.notifications=Уведомления
 menu.operator=Вы {0}
 menu.profile.content=На этой странице вы можете отредактировать свою персональную информацию.

@@ -412,8 +412,25 @@ input.formauth {
 	font-size: 0.85em;
 	font-weight:bold;
 	max-width: 700px;
-	margin: 0px 2px 10px;
+	margin: -10px 2px 10px;
 	color: #515151;
+}
+
+#offwarn {
+	border: 1px solid #4CD496;
+	background-color: #E7F9F1;
+	color: #515151;
+	padding: 8px 11px;
+	font-size: 0.85em;
+	font-weight:bold;
+	line-height: 140%;
+	margin: 0px;
+}
+
+#offwarn img {
+	margin-top: .4em;
+	float: left;
+	padding-right: 10px;
 }
 
 .asterisk {
@@ -720,6 +737,8 @@ table.awaiting td.visitor {
 .dashitem img, #dashlocalesPopup h2 img {
 	float: left;
 	padding-right:10px;
+	width: 24px;
+	height: 24px;
 }
 
 #dashlocalesPopup h2 img {
@@ -836,7 +855,7 @@ table.awaiting td.visitor {
 
 /* rtl rules */
 
-.lrtl .dashitem img, .lrtl #dashlocalesPopup h2 img {
+.lrtl .dashitem img, .lrtl #dashlocalesPopup h2 img, .lrtl #offwarn img {
 	float: right;
 	padding-right:0px;
 	padding-left:10px;
