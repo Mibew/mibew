@@ -25,6 +25,7 @@ require_once('libs/operator.php');
 require_once('libs/groups.php');
 require_once('libs/expand.php');
 require_once('libs/captcha.php');
+require_once('libs/notify.php');
 
 loadsettings();
 if($settings['enablessl'] == "1" && $settings['forcessl'] == "1") {
@@ -129,6 +130,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 			$postedid = post_message_($thread['threadid'],$kind_user,$firstmessage,$link,$visitor['name']);
 			commit_thread( $thread['threadid'], array('shownmessageid' => $postedid), $link);
 		}
+		notify_operators($thread, $firstmessage, $link);
 		mysql_close($link);
 	}
 	$threadid = $thread['threadid'];

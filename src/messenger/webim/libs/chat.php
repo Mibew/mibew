@@ -643,6 +643,33 @@ function check_for_reassign($thread,$operator) {
 	}
 }
 
+function notify_operators($thread,$firstmessage,$link) {
+	global $settings;
+	if($settings['enablejabber'] == 1) {
+		$groupid = $thread['groupid'];
+		$query = "select chatoperator.operatorid as opid, inotify, vcjabbername, vcemail, (unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time from chatoperator";
+		if($groupid) {
+			$query .= ", chatgroupoperator where groupid = $groupid and chatoperator.operatorid = chatgroupoperator.operatorid and istatus = 0";
+		} else {
+			$query .= " where istatus = 0";
+		}
+		$query .= " and inotify = 1";
+		$result = select_multi_assoc($query, $link);
+		$text = getstring2_("notify.new.text", array(
+			get_app_location(true, $settings['enablessl'] == '1' && $settings['forcessl'] == '1')."/operator/agent.php?thread=".$thread['threadid'],
+			$thread['userName']
+		), $thread['locale']);
+		if($firstmessage) {
+			$text .= "\n$firstmessage";
+		}
+		foreach($result as $op) {
+			if($op['time'] < $settings['online_timeout'] && is_valid_email($op['vcjabbername'])) {
+				webim_xmpp($op['vcjabbername'], getstring2("notify.new.subject", array($thread['userName'])), $text, $link);
+			}
+		}
+	}		
+}
+
 function check_connections_from_remote($remote,$link) {
 	global $settings, $state_closed, $state_left;
 	if($settings['max_connections_from_one_host'] == 0) {

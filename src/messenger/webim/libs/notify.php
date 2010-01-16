@@ -49,4 +49,9 @@ function webim_mail($toaddr, $reply_to, $subject, $body, $link) {
 	@mail($toaddr, $real_subject, wordwrap(myiconv($webim_encoding, $mail_encoding, $body),70), $headers);
 }
 
+function webim_xmpp($toaddr, $subject, $text, $link) {
+	global $current_locale;
+	log_notification($current_locale, "xmpp", $toaddr, $subject, $text, null, $link);
+}
+
 ?>
