@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="build" name="org.mibew.notifier">
+    <property environment="env"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+	
+    <target name="init">
+        <mkdir dir="bin"/>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="init" name="build">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <copy includeemptydirs="false" todir="bin">
+	    <fileset dir="../src" excludes="**/*.java, **/*.ini"/>
+        </copy>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
+	    <src path="../src"/>
+	    <classpath>
+		<fileset dir="../libs">
+		    <include name="**/*.jar"/>
+		</fileset>
+	    </classpath>
+	</javac>
+	<jar destfile="org.mibew.notifier.jar">
+	    <fileset dir="bin"/>
+	    <manifest>
+		<attribute name="Main-Class" value="org.mibew.trayapp.NotifyApp"/>
+	    </manifest>
+	</jar>
+    </target>
+    <target depends="build" name="package">
+	<copy includeemptydirs="false" todir="Mibew Notifier.app/Contents/Resources/Java">
+	    <fileset dir="../libs">
+		<include name="*.jar"/>
+	    </fileset>
+	</copy>
+    </target>
+</project>
