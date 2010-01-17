@@ -39,7 +39,7 @@ public class Application {
 		    }
 		});
 
-		MibewConnection conn = new MibewConnection("http://localhost:8080/webim/", "admin", "");
+		MibewConnection conn = new MibewConnection("http://localhost:8080/webim/", "admin", "1");
 		if(!conn.connect()) {
 			System.err.println("Wrong server, login or password.");
 			return;
