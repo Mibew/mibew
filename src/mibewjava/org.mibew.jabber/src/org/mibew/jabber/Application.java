@@ -56,7 +56,7 @@ public class Application {
 			}
 			
 		});
-		mt.track();
+		//mt.track();
 
 		connection.disconnect();
 	}

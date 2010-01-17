@@ -13,9 +13,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.net.URL;
 
-public class TrayNotifier {
+import org.mibew.api.MibewAgent;
+import org.mibew.api.MibewAgentListener;
+import org.mibew.api.MibewThread;
+
+public class TrayNotifier extends MibewAgentListener {
 
 	private TrayIcon trayIcon;
+	private MibewAgent agent;
+	
+	private Image online;
+	private Image offline;
 
 	public TrayNotifier() {
 	}
@@ -24,19 +32,22 @@ public class TrayNotifier {
 		if (SystemTray.isSupported()) {
 
 			SystemTray tray = SystemTray.getSystemTray();
-			URL url = this.getClass().getResource("tray.png");
-			Image image = Toolkit.getDefaultToolkit().getImage(url);
+			online = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("tray_on.png"));
+			offline = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("tray_off.png"));
 
 			PopupMenu popup = new PopupMenu();
 			MenuItem exitItem = new MenuItem("Exit", new MenuShortcut(KeyEvent.VK_X));
 			exitItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					if(agent != null) {
+						agent.stop();
+					}
 					System.exit(0);
 				}
 			});
 			
 			popup.add(exitItem);
-			trayIcon = new TrayIcon(image, "Mibew Notifier", popup);
+			trayIcon = new TrayIcon(offline, "Mibew Notifier", popup);
 			trayIcon.setImageAutoSize(true);
 
 			try {
@@ -50,7 +61,17 @@ public class TrayNotifier {
 			System.exit(1);
 		}
 	}
+
+	@Override
+	protected void onlineStateChanged(boolean isOnline) {
+		trayIcon.setImage(isOnline ? online : offline);
+	}
+
+	@Override
+	protected void updated(MibewThread[] all, MibewThread[] created) {
+	}
 	
-	public void setStatus(boolean online) {
+	public void setAgent(MibewAgent agent) {
+		this.agent = agent;
 	}
 }
