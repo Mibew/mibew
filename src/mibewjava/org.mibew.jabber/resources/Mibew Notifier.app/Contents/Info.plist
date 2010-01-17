@@ -38,7 +38,7 @@
 		<string>1.6+</string>
 		<key>ClassPath</key>
 			<array>
-			<string>$JAVAROOT/org.mibew.jabber.jar</string>
+			<string>$JAVAROOT/org.mibew.notifier.jar</string>
 			<string>$JAVAROOT/smackx.jar</string>
 			<string>$JAVAROOT/smackx-jingle.jar</string>
 			<string>$JAVAROOT/smackx-debug.jar</string>

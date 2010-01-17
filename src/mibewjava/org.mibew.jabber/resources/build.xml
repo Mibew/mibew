@@ -17,6 +17,7 @@
 	    <fileset dir="${osxJarPath}">
 		<include name="*.jar"/>
 	    </fileset>
+	    <fileset dir="."><include name="*.dmg"/></fileset>
 	</delete>
     </target>
     <target depends="init" name="build">
