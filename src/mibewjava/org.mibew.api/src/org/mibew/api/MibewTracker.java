@@ -57,15 +57,15 @@ public class MibewTracker {
 
 	private void processUpdate(List<MibewThread> updated) {
 		for (MibewThread mt : updated) {
-			MibewThread existing = fThreads.get(mt.fId);
-			boolean isClosed = mt.fState.equals("closed");
+			MibewThread existing = fThreads.get(mt.getId());
+			boolean isClosed = mt.getState().equals("closed");
 			if (existing == null) {
 				if (!isClosed) {
-					fThreads.put(mt.fId, mt);
+					fThreads.put(mt.getId(), mt);
 					fListener.threadCreated(mt);
 				}
 			} else if (isClosed) {
-				fThreads.remove(mt.fId);
+				fThreads.remove(mt.getId());
 				fListener.threadClosed(existing);
 			} else {
 				existing.updateFrom(mt);

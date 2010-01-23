@@ -48,10 +48,10 @@ public class UpdateHandler extends DefaultHandler {
 				fCurrentThread = new MibewThread(id, stateid);
 				
 				if(!stateid.equals("closed")) {
-					fCurrentThread.fStateText = attributes.getValue("state");
-					fCurrentThread.fCanOpen = booleanAttribute(attributes.getValue("canopen"));
-					fCurrentThread.fCanView = booleanAttribute(attributes.getValue("canview"));
-					fCurrentThread.fCanBan = booleanAttribute(attributes.getValue("canban"));
+					fCurrentThread.setStateText(attributes.getValue("state"));
+					fCurrentThread.setCanOpen(booleanAttribute(attributes.getValue("canopen")));
+					fCurrentThread.setCanView(booleanAttribute(attributes.getValue("canview")));
+					fCurrentThread.setCanBan(booleanAttribute(attributes.getValue("canban")));
 				}
 
 			}
@@ -68,6 +68,14 @@ public class UpdateHandler extends DefaultHandler {
 		return false;
 	}
 
+	private long longValue(String value) throws SAXException {
+		try {
+			return Long.parseLong(value);
+		} catch(NumberFormatException ex) {
+			throw new SAXException(ex);
+		}
+	}
+	
 	@Override
 	public void endElement(String uri, String localName, String name)
 			throws SAXException {
@@ -99,13 +107,18 @@ public class UpdateHandler extends DefaultHandler {
 			String subvar = fPath.peek();
 			String value = new String(ch, start, length);
 			if("name".equals(subvar)) {
-				fCurrentThread.fClientName += value; 
+				fCurrentThread.setClientName(fCurrentThread.getClientName() + value); 
 			} else if("addr".equals(subvar)) {
-				fCurrentThread.fAddress += value;
+				fCurrentThread.setAddress(fCurrentThread.getAddress() + value);
 			} else if("message".equals(subvar)) {
-				fCurrentThread.fFirstMessage += value;
+				fCurrentThread.setFirstMessage(fCurrentThread.getFirstMessage() + value);
 			} else if("agent".equals(subvar)) {
-				fCurrentThread.fAgent += value;
+				fCurrentThread.setAgent(fCurrentThread.getAgent() + value);
+			} else if("modified".equals(subvar)) {
+				if(fCurrentThread.getWaitingTime() != 0) {
+					throw new SAXException("error: waiting time is already set");
+				}
+				fCurrentThread.setWaitingTime(longValue(value) - fTime + System.currentTimeMillis());
 			}
 			
 			// TODO

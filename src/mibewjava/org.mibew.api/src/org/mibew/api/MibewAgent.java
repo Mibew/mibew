@@ -45,8 +45,12 @@ public class MibewAgent {
 		return fThread.isOnline();
 	}
 	
-	private void logError(String message, Throwable th) {
+	protected void logError(String message, Throwable th) {
 		System.err.println(message);
+	}
+	
+	public MibewAgentOptions getOptions() {
+		return fOptions;
 	}
 
 	private class MibewUpdateThread extends Thread {
@@ -114,17 +118,21 @@ public class MibewAgent {
 			});
 			long maxTime = System.currentTimeMillis() + fOptions.getConnectionRefreshTimeout()*1000;
 			
+			int errorsCount = 0;
 			while(!fExiting && (System.currentTimeMillis() < maxTime)) {
 				try {
 					createdThreads.clear();
 					mt.update();
 					fListener.updated(mt.getThreads(), createdThreads.toArray(new MibewThread[createdThreads.size()]));
-				} catch (Exception e) {
+					errorsCount = 0;
+					setOnline(true);
+				} catch (Throwable th) {
 					setOnline(false);
-					interruptableSleep(fOptions.getPollingInterval() / 2);
+					errorsCount++;
+					logError("not updated", th);
+					interruptableSleep(errorsCount < 10 ? fOptions.getPollingInterval() / 2 : fOptions.getPollingInterval() * 2);
 					continue;
 				}
-				setOnline(true);
 				interruptableSleep(fOptions.getPollingInterval());
 			}			
 

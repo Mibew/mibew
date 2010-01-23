@@ -49,7 +49,7 @@ public class Application {
 			@Override
 			public void threadCreated(MibewThread thread) {
 				try {
-					chat.sendMessage(thread.fId + ": " + thread.fAddress + " " + thread.fClientName);
+					chat.sendMessage(thread.getId() + ": " + thread.getAddress() + " " + thread.getClientName());
 				} catch (XMPPException e) {
 					e.printStackTrace();
 				}
