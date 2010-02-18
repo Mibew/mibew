@@ -1,4 +1,9 @@
 <div id="header">
+
+	<div id="clocale">
+	 <a href="/en">en</a> | <a href="/ru">ru</a> | <a href="/sp">sp</a>
+	</div>
+	<br clear="all"/>
 	<div id="logo">
 		
 		<h1><a href="#"><?php echo getlocal("head.name") ?></a></h1>

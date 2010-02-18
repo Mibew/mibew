@@ -102,9 +102,9 @@ input, textarea, select {
 
 #header {
 	width: 850px;
-	height: 82px;
+	height: 107px;
 	margin: 0px auto 10px auto;
-	padding-top: 50px;
+	padding-top: 25px;
 	background: url(images/img03.gif) repeat-x left bottom;
 }
 
@@ -141,11 +141,32 @@ input, textarea, select {
 
 #menu {
 	float: right;
+	margin: 15px 0 0 0;
+}
+
+#clocale {
+	float: right;
+	margin: -17px 0 20px 0;
+ 	background-color: #eee;
+	padding-right: 7px;
+	padding-left: 7px;
+	height: 22px;
+	color: #888;
+}
+
+#clocale a {
+	text-decoration: none;
+	color: #889;
+}
+
+#clocale a:hover {
+	color: #111;
+	text-decoration: underline;
 }
 
 #menu ul {
 	margin: 0;
-	padding: 15px 0 0 0;
+	padding: 0;
 	list-style: none;
 }
 
@@ -160,7 +181,7 @@ input, textarea, select {
 	padding: 7px;
 	text-decoration: none;
 	font-size: 1em;
-	color: #000000;
+	color: #000;
 }
 
 #menu a:hover {
