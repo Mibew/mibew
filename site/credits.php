@@ -24,6 +24,7 @@ require_once('inc/menu.i');
 			<ul>
 			<li>Arabic - <a href="/forums/index.php?action=profile;u=1366">Mostafa Khattab</a> and Active4web.net Developers</li>
 			<li>Deutsch - <a href="/forums/index.php?action=profile;u=49">Gregor</a></li>
+			<li>Dutch - <a href="/forums/index.php?action=profile;u=2036">Martin van der Linden</a></li>
 			<li>French - Hominn, Bard of LLYDAW</li>
 			<li>Hebrew - <a href="http://mediacms.net/" rel="nofollow">MediaCMS Team</a></li>
 			<li>Hrvatski - <a href="/forums/index.php?action=profile;u=1266">Gorana Rabar</a></li>
@@ -32,6 +33,7 @@ require_once('inc/menu.i');
 			<li>Português Brasil - <a href="/forums/index.php?action=profile;u=1304">Leandro Luquetti</a></li>
 			<li>Russian - <a href="/forums/index.php?action=profile;u=2">Evgeny Gryaznov</a></li>
 			<li>Spanish - Christian Mauricio Castillo Estrada</li>
+			<li>Thai - Bongkoch P.</li>
 			<li>Traditional Chinese - Dawei</li>
 			<li>Ukrainian - <a href="/forums/index.php?action=profile;u=1206">azzepis</a></li>
 			</ul>

@@ -38,6 +38,11 @@ require_once('inc/menu.i');
 				<td><?php echo ccdate(14,10,2009) ?></td></tr>
 			
 			<tr>
+				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.3/webim163_nl.zip/download">Dutch</a></td>
+				<td>1.6.3</td>
+				<td><?php echo ccdate(17,02,2010) ?></td></tr>
+			
+			<tr>
 				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.3/webim163_fr.zip/download">French</a></td>
 				<td>1.6.3</td>
 				<td><?php echo ccdate(14,10,2009) ?></td></tr>
@@ -77,6 +82,11 @@ require_once('inc/menu.i');
 				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.3/webim163_sp.zip/download">Spanish</a></td>
 				<td>1.6.3</td>
 				<td><?php echo ccdate(14,10,2009) ?></td></tr>
+
+			<tr>
+				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.3/webim163_th.zip/download">Thai</a></td>
+				<td>1.6.3</td>
+				<td><?php echo ccdate(17,02,2010) ?></td></tr>
 
 			<tr>
 				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.3/webim163_zh-cn.zip/download">Simplified Chinese</a></td>
