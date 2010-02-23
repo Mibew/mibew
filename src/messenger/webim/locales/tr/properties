@@ -16,6 +16,7 @@ button.search=Ara
 canned.actions.del=kaldýr
 canned.actions.edit=düzenle
 canned.actions=Güncelle
+cannededit.title=Mesajý düzenle
 chat.came.from=Müþterinin geldiði sayfa: {0}
 chat.client.changename=Ýsim deðiþtir
 chat.client.name=Kullanýcý:  
