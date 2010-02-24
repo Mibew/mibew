@@ -17,10 +17,12 @@ require_once('inc/menu.i');
 			<h2 class="title"><?php echo getlocal("contacts.title") ?></h2>
 			<div class="entry">
 			<p>
-			<?php echo getlocal("contacts.content") ?><br/>
+			<?php echo getlocal("contacts.person") ?> Evgeny Gryaznov<br/>
+			<?php echo getlocal("contacts.email") ?> evgeny [at] openwebim (dot) org
 			</p>
 			<p>
-			<?php echo getlocal("contacts.content1") ?><br/>
+			<?php echo getlocal("contacts.person") ?> Ed Kraus<br/>
+			<?php echo getlocal("contacts.email") ?> support [at] openwebim (dot) org
 			</p>
 			</div>
 			<div class="nometa"></div>

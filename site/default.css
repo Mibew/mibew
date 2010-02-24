@@ -154,6 +154,10 @@ input, textarea, select {
 	color: #888;
 }
 
+#clocale span {
+	vertical-align: middle;
+}
+
 #clocale a {
 	text-decoration: none;
 	color: #889;

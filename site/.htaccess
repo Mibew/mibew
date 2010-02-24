@@ -1,5 +1,5 @@
 RewriteEngine on
 
 RewriteBase /       
-RewriteRule     ^(ru|en|sp)/(.*)        $2?intlocale=$1 [L]
-RewriteRule     ^(ru|en|sp)$        	$1/ [R,L]
+RewriteRule     ^(ru|en|sp|ua)/(.*)        $2?intlocale=$1 [L]
+RewriteRule     ^(ru|en|sp|ua)$        	$1/ [R,L]

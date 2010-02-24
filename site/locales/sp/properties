@@ -70,13 +70,12 @@ index.post.minor.release=Nos complace en anunciar la nueva versión disponible {
 index.post.download=Descargar {0}
 index.post.readfull=Leer artículo completo
 index.post.when=Publicado el {0} por {1}
-contacts.content=Persona de Contacto: Evgeny Gryaznov<br/>E mail: evgeny@openwebim.org
+contacts.person=Persona de Contacto:
 credits.title=Créditos
 lang.link=Haz Clic Aquí
 lang.missing=¿Tu idioma no está disponible?
 downl.prev=Liberación previa:
 downl.unstable=Alpha:
-license.content=Open Web Messenger es distribuido bajo los términos de la <a href="http://www.eclipse.org/legal/epl-v10.html">Licencia Pública Eclipse v1.0</a>.<br/>\nLa EPL 1.0 no es compatible con la Licencia GPL. Por favor, <a href="http://en.wikipedia.org/wiki/Eclipse_Public_License">lea más acerca de la Licencia EPL 1.0</a>.
 time.dateformat=%d %B %Y,
 time.locale=es_ES.UTF-8
 time.timeformat=%H:%M

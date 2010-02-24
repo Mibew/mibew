@@ -1,7 +1,7 @@
 <div id="header">
 
 	<div id="clocale">
-	 <a href="/en">en</a> | <a href="/ru">ru</a> | <a href="/sp">sp</a>
+	 <span><a href="/en">en</a> | <a href="/ru">ru</a> | <a href="/sp">sp</a> | <a href="/ua">ua</a></span>
 	</div>
 	<br clear="all"/>
 	<div id="logo">

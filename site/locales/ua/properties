@@ -1,0 +1,7 @@
+encoding=utf-8
+output_charset=utf-8
+output_encoding=utf-8
+time.dateformat=%d %B %Y
+time.locale=uk_UA.UTF-8
+time.timeformat=%H:%M
+title=Мибью Веб Мессенджер

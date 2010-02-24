@@ -36,15 +36,14 @@ copyright.title=Removing Copyright
 head.intro=<strong>Mibew Messenger</strong> (also known as <b>Open Web Messenger</b>) is an open-source live support application written in PHP and MySQL. It enables one-on-one chat assistance in real-time directly from your website.
 
 contacts.title=Contact us
-contacts.content=Contact person: Evgeny Gryaznov<br/>E&nbsp;mail: evgeny [at] openwebim (dot) org
-contacts.content1=Contact person: Ed Kraus<br/>E&nbsp;mail: support [at] openwebim (dot) org
+contacts.person=Contact person:
+contacts.email=E&nbsp;mail:
 
 credits.title=Credits
 credits.translators=Translators:
 credits.content=This is a list of people that have contributed to the Open Web Messenger project.
 
 license.title=Terms of use
-license.content=Open Web Messenger is distributed under the terms of the <a href="http://www.eclipse.org/legal/epl-v10.html">Eclipse Public License v1.0</a>.<br/>\nThe EPL 1.0 is not compatible with the GPL. Please <a href="http://en.wikipedia.org/wiki/Eclipse_Public_License">read more about EPL 1.0</a>.
 
 index.how.title=How it works?
 index.how.text=You should place the button of Web Messenger at your site. Your visitors click the button and chat with your operators who help them.
@@ -55,10 +54,8 @@ index.post.download=Download {0}
 index.post.when=Posted on {0} by {1}
 index.post.readfull=Read full article
 
-index.nextpost.title=Comming in Version 1.6.2
-index.nextpost.text=<p>We are pleased to announce our next version will be 1.6.2. This release will contain the following:</p><ul><li>pre-chat survey: show group status in dropdown - online/offline</li><li>bi-licensed release: EPL / GPL</li><li>compatibility with the latest mod_security</li><li>timing options: update intervals, operator online time threshold</li><li>Support local time (when server is based in another time zone)</li><li>XHTML compliant chat window with new behavior</li><li>text link (eg "Chat now" if online, and "Leave a support ticket" if offline) instead of buttons</li><li>Left messages are stored in history</li></ul>
-index.nextpost.when=Posted on June 30th, 2009 by eddybaur
-index.nextpost.link=<a href="/forums/index.php?topic=52.0" class="more">Read full article</a>
+index.nextpost.title=Comming in Version {0}
+index.nextpost.text=We are pleased to announce our next version will be {0}. This release will contain the following:
 
 index.whatis.title=What is Web Messenger?
 index.whatis="Web Messenger" - is unique software allowing visitors of your site to chat with your operators.
