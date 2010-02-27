@@ -1,3 +1,11 @@
+/**
+ * @preserve This file is part of Mibew Messenger project.
+ * http://mibew.org
+ * 
+ * Copyright (c) 2005-2010 Mibew Messenger Community
+ * License: http://mibew.org/license.php
+ */
+
 var FrameUtils = {
   getDocument: function(frm) {
 	if (frm.contentDocument) {

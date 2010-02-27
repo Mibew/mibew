@@ -1,3 +1,10 @@
+/*
+ This file is part of Mibew Messenger project.
+ http://mibew.org
+
+ Copyright (c) 2005-2010 Mibew Messenger Community
+ License: http://mibew.org/license.php
+*/
 Ajax.PeriodicalUpdater=Class.create();
 Class.inherit(Ajax.PeriodicalUpdater,Ajax.Base,{initialize:function(a){this.setOptions(a);this._options.onComplete=this.requestComplete.bind(this);this._options.onException=this.handleException.bind(this);this._options.onTimeout=this.handleTimeout.bind(this);this._options.timeout=5E3;this.frequency=this._options.frequency||2;this.updater={};this.update()},handleException:function(){this._options.handleError&&this._options.handleError("offline, reconnecting");this.stopUpdate();this.timer=setTimeout(this.update.bind(this),
 1E3)},handleTimeout:function(){this._options.handleError&&this._options.handleError("timeout, reconnecting");this.stopUpdate();this.timer=setTimeout(this.update.bind(this),1E3)},stopUpdate:function(){if(this.updater._options)this.updater._options.onComplete=undefined;clearTimeout(this.timer)},update:function(){if(this._options.updateParams)this._options.parameters=this._options.updateParams();this.updater=new Ajax.Request(this._options.url,this._options)},requestComplete:function(a){try{var b=Ajax.getXml(a);

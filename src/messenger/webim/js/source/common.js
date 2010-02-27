@@ -1,9 +1,14 @@
+/**
+ * @preserve This file is part of Mibew Messenger project.
+ * http://mibew.org
+ * 
+ * Copyright (c) 2005-2010 Mibew Messenger Community
+ * License: http://mibew.org/license.php
+ */
+
 /*
- *  Mibew Messenger common script
- *  http://sourceforge.net/projects/webim
- *
- *  Based on Prototype JavaScript framework, version 1.3.1
- *  http://prototype.conio.net/ (c) 2005 Sam Stephenson <sam@conio.net>
+ * common.js Based on Prototype JavaScript framework, version 1.3.1
+ * http://prototype.conio.net/ (c) 2005 Sam Stephenson <sam@conio.net>
  */
 
 //- getEl, myAgent, myRealAgent

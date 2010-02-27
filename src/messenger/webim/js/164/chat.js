@@ -1,3 +1,10 @@
+/*
+ This file is part of Mibew Messenger project.
+ http://mibew.org
+
+ Copyright (c) 2005-2010 Mibew Messenger Community
+ License: http://mibew.org/license.php
+*/
 var FrameUtils={getDocument:function(a){return a.contentDocument?a.contentDocument:a.contentWindow?a.contentWindow.document:a.document?a.document:null},initFrame:function(a){var b=this.getDocument(a);b.open();b.write("<html><head>");b.write('<link rel="stylesheet" type="text/css" media="all" href="'+Chat.cssfile+'">');b.write("</head><body bgcolor='#FFFFFF' text='#000000' link='#C28400' vlink='#C28400' alink='#C28400'>");b.write("<table width='100%' cellspacing='0' cellpadding='0' border='0'><tr><td valign='top' class='message' id='content'></td></tr></table><a id='bottom'></a>");
 b.write("</body></html>");b.close();a.onload=function(){if(a.myHtml){FrameUtils.getDocument(a).getElementById("content").innerHTML+=a.myHtml;FrameUtils.scrollDown(a)}}},insertIntoFrame:function(a,b){var c=this.getDocument(a).getElementById("content");if(c==null){if(!a.myHtml)a.myHtml="";a.myHtml+=b}else c.innerHTML+=b},scrollDown:function(a){var b=this.getDocument(a).getElementById("bottom");if(myAgent=="opera")try{a.contentWindow.scrollTo(0,this.getDocument(a).getElementById("content").clientHeight)}catch(c){}b&&
 b.scrollIntoView(false)}};Ajax.ChatThreadUpdater=Class.create();
