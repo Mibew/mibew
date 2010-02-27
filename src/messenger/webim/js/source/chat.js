@@ -21,7 +21,7 @@ var FrameUtils = {
 	doc.write("</body></html>");
 	doc.close();
 	frm.onload = function() {
-		if( frm./**/myHtml ) {
+		if( frm.myHtml ) {
 			FrameUtils.getDocument(frm).getElementById('content').innerHTML += frm.myHtml;
 			FrameUtils.scrollDown(frm);
 		}

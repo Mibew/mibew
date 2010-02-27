@@ -2,33 +2,30 @@
 <!DOCTYPE project [<!ENTITY buildfile SYSTEM "file:./build-user.xml">]>
 
 <project basedir="." default="update" name="Obfuscator">
-  <property name="obfuscator.location" value="." />
+  <property name="closure.c" value="/usr/local/closure/compiler.jar" />
   <property name="webim.location" value="../164" />
 
-  <target name="update" depends="build">
-    <java classname="JSO" fork="true" error="${obfuscator.location}/bin/obfuscation.log">
-      <arg value="${obfuscator.location}/common.js" />
-      <arg value="${obfuscator.location}/chat.js" />
-      <arg value="${obfuscator.location}/users.js" />
-      <arg value="${obfuscator.location}/brws.js" />
-      <arg value="d=${webim.location}" />
-      <!-- <arg value="debug"/> -->
-      <!-- <arg value="debugnames"/> -->
-      <arg value="o=0,0"/>
-      <classpath>
-        <pathelement location="${obfuscator.location}/bin/" />
-      </classpath>
-    </java>
-  </target>
-
-  <target name="build" depends="init">
-    <javac destdir="${obfuscator.location}/bin" fork="false">
-      <src path="${obfuscator.location}" />
-    </javac>
-  </target>
-
-  <target name="init">
-    <mkdir dir="${obfuscator.location}/bin"/>
+  <target name="update">
+	<java jar="${closure.c}" fork="true">
+	  <arg value="--module_output_path_prefix"/>
+	  <arg value="${webim.location}/"/>
+	  <arg value="--module"/>
+	  	<arg value="common:1"/>
+		  <arg value="--js"/>
+		  <arg value="common.js"/>
+	  <arg value="--module"/>
+	  	<arg value="chat:1:common"/>
+		  <arg value="--js"/>
+		  <arg value="chat.js"/>
+	  <arg value="--module"/>
+	  	<arg value="users:1:common"/>
+		  <arg value="--js"/>
+		  <arg value="users.js"/>
+	  <arg value="--module"/>
+	  	<arg value="brws:1:common"/>
+		  <arg value="--js"/>
+		  <arg value="brws.js"/>
+	</java>
   </target>
 
 </project>
