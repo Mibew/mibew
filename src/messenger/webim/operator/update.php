@@ -23,6 +23,7 @@ require_once('../libs/common.php');
 require_once('../libs/chat.php');
 require_once('../libs/userinfo.php');
 require_once('../libs/operator.php');
+require_once('../libs/groups.php');
 
 $operator = get_logged_in();
 if( !$operator ) {
@@ -151,7 +152,12 @@ function print_pending_threads($groupids,$since) {
 $since = verifyparam( "since", "/^\d{1,9}$/", 0);
 $status = verifyparam( "status", "/^\d{1,2}$/", 0);
 
-loadsettings();
+$link = connect();
+loadsettings_($link);
+if(!isset($_SESSION['operatorgroups'])) {
+	$_SESSION['operatorgroups'] = get_operator_groupslist($operator['operatorid'], $link); 
+}
+mysql_close($link);
 $groupids = $_SESSION['operatorgroups'];
 print_pending_threads($groupids,$since);
 notify_operator_alive($operator['operatorid'], $status);
