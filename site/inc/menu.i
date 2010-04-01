@@ -14,7 +14,7 @@
         <li<?php echo $page == 'home' ? ' class="active"' : '' ?>><a href="index.php"><?php echo getlocal("menu.home") ?></a></li>
         <li<?php echo $page == 'demo' ? ' class="active"' : '' ?>><a href="demo.php"><?php echo getlocal("menu.demo") ?></a></li>
         <li<?php echo $page == 'downl' ? ' class="active"' : '' ?>><a href="download.php"><?php echo getlocal("menu.download") ?></a></li>
-        <li><a href="http://support.openwebim.org"><?php echo getlocal("menu.ticket") ?></a></li>
+        <li><a href="contact.php"><?php echo getlocal("menu.ticket") ?></a></li>
         <li><a href="/forums/"><?php echo getlocal("menu.support") ?></a></li>
 	  </ul>
 	</div>
