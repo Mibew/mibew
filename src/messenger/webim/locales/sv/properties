@@ -1,4 +1,4 @@
-﻿encoding=utf-8
+encoding=utf-8
 output_charset=utf-8
 output_encoding=utf-8
 admin.content.client_agents=Skapa och ta bort operatörer samt ändra deras rättigheter.
@@ -263,7 +263,6 @@ page.groupmembers.intro=Visa och redigera medlemslistan.
 page.groupmembers.title=Medlemmar
 page.groups.confirm=Är du säker på att du vill ta bort "{0}"?
 page.groups.intro=Den här sidan visare en lista över grupper i ditt system. Varje grupp kan ha en egen knapp och egna sparade svar.
-
 page.groups.isaway=Inte vid datorn
 page.groups.isonline=Online
 page.groups.new=Skapa ny grupp...
@@ -501,6 +500,3 @@ updates.intro=Programuppdateringar.
 updates.latest=Senaste version:
 updates.news=Nyheter:
 updates.title=Uppdateringar
-
-
-
