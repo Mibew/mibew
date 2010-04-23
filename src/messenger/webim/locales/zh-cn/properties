@@ -336,7 +336,7 @@ right.main=主要
 right.other=其它
 settings.chat.title.description=例如您公司的部门
 settings.chat.title=对谈窗口标题
-settings.chatstyle.description=若要预览页面的每个样式，请点 <a href="preview.php">这里</a>
+settings.chatstyle.description=若要预览页面的每个样式，请点 <a href="themes.php">这里</a>
 settings.chatstyle=选择对谈窗口的样式
 settings.company.title.description=输入公司名称
 settings.company.title=公司名称

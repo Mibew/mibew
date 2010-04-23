@@ -358,7 +358,7 @@ right.main=כללי
 right.other=אחר
 settings.chat.title.description=לדוגמא, שם המדור של הכפתור
 settings.chat.title=כותר בחלון הצאט
-settings.chatstyle.description= צפיה בתצוגה מקדימה של הסגנונות ניתנת <a href="preview.php">כאן</a>
+settings.chatstyle.description= צפיה בתצוגה מקדימה של הסגנונות ניתנת <a href="themes.php">כאן</a>
 settings.chatstyle=בחר סגנון לחלון הצאט
 settings.company.title.description=הכנס שם לכפתור שלך
 settings.company.title=שם הכפתור

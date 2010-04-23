@@ -358,7 +358,7 @@ right.main=Principale
 right.other=Altro
 settings.chat.title.description=Per esempio Dipartimento della compagnia.
 settings.chat.title=Finestra Titolo della chat
-settings.chatstyle.description=Anteprima per tutte le pagine di ogni stile disponibile <a href="preview.php">qui</a>
+settings.chatstyle.description=Anteprima per tutte le pagine di ogni stile disponibile <a href="themes.php">qui</a>
 settings.chatstyle=Seleziona lo stile per la finesta della chat
 settings.company.title.description=Inserischi il titolo della compagnia
 settings.company.title=Titolo compagnia

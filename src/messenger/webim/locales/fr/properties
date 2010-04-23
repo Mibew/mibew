@@ -358,7 +358,7 @@ right.main=Principal
 right.other=Autre
 settings.chat.title.description=Département de votre société, par exemple.
 settings.chat.title=Titre dans la fenêtre de dialogue
-settings.chatstyle.description=Aperçu de toutes les pages de chaque style disponible <a href="preview.php">ici</a>
+settings.chatstyle.description=Aperçu de toutes les pages de chaque style disponible <a href="themes.php">ici</a>
 settings.chatstyle=Sélectionnez le style de votre fenêtre de dialogue
 settings.company.title.description=Entrez le Nom de votre Société
 settings.company.title=Nom de Société

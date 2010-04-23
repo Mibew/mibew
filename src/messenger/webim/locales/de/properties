@@ -359,7 +359,7 @@ right.main=Primär
 right.other=Andere
 settings.chat.title.description=Abteilung Ihrer Firma zum Beispiel.
 settings.chat.title=Title im Chatfenster
-settings.chatstyle.description=Alles pruefen im Style, <a href="preview.php">hier</a>
+settings.chatstyle.description=Alles pruefen im Style, <a href="themes.php">hier</a>
 settings.chatstyle=Style für das Chatfenster
 settings.company.title.description=Geben sie ihren Firmen Titel ein
 settings.company.title=Firmen Titel
