@@ -1,6 +1,6 @@
 <?php
 
-$available_locales = array("en","sp","ru","ua");
+$available_locales = array("en","sp","ru","ua","fr","nl");
 $default_locale = "en";
 $siteroot = "";
 $site_encoding = "utf-8"; 
