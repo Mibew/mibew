@@ -59,28 +59,8 @@ if( isset($_GET['act']) && $_GET['act'] == 'del' ) {
 	}
 }
 
-function is_online($operator) {
-	global $settings;
-	return $operator['istatus'] == 0 && $operator['time'] < $settings['online_timeout'] ? "1" : "";	
-}
-
-function is_away($operator) {
-	global $settings;
-	return $operator['istatus'] != 0 && $operator['time'] < $settings['online_timeout'] ? "1" : "";	
-}
-
-function get_operators() {
-	$link = connect();
-
-	$query = "select operatorid, vclogin, vclocalename, vccommonname, istatus, (unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time ".
-			 "from chatoperator order by vclogin";
-	$operators = select_multi_assoc($query, $link);
-	mysql_close($link);
-	return $operators;
-}
-
 $page = array();
-$page['allowedAgents'] = get_operators();
+$page['allowedAgents'] = operator_get_all();
 $page['canmodify'] = is_capable($can_administrate, $operator);
 
 setlocale(LC_TIME, getstring("time.locale"));

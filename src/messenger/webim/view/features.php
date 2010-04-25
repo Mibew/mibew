@@ -187,6 +187,15 @@ require_once('inc_errors.php');
 		</div>
 
 		<div class="field">
+			<div class="flabel"><?php echo getlocal('settings.show_online_operators') ?></div>
+			<div class="fvalue">
+				<input type="checkbox" name="showonlineoperators" value="on"<?php echo form_value_cb('showonlineoperators') ? " checked=\"checked\"" : "" ?>/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('settings.show_online_operators.description') ?></div>
+			<br clear="all"/>
+		</div>
+
+		<div class="field">
 			<div class="flabel"><?php echo getlocal('settings.leavemessage_captcha') ?></div>
 			<div class="fvalue">
 				<input type="checkbox" name="enablecaptcha" value="on"<?php echo form_value_cb('enablecaptcha') ? " checked=\"checked\"" : "" ?>/>

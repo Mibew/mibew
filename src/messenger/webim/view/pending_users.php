@@ -39,7 +39,7 @@ var localized = new Array(
 var updaterOptions = {
 	url:"<?php echo $webimroot ?>/operator/update.php",wroot:"<?php echo $webimroot ?>",
 	agentservl:"<?php echo $webimroot ?>/operator/agent.php", frequency:<?php echo $page['frequency'] ?>, istatus:<?php echo $page['istatus'] ?>,  
-	noclients:"<?php echo getlocal("clients.no_clients") ?>", havemenu: <?php echo $page['havemenu'] ?>, showpopup: <?php echo $page['showpopup'] ?> };
+	noclients:"<?php echo getlocal("clients.no_clients") ?>", havemenu: <?php echo $page['havemenu'] ?>, showpopup: <?php echo $page['showpopup'] ?>, showonline: <?php echo $page['showonline'] ?> };
 //--></script>
 <script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/<?php echo $jsver ?>/users.js"></script>
 <?php
@@ -95,6 +95,11 @@ function tpl_content() { global $page, $webimroot;
 <a href="users.php?away<?php echo $page['havemenu'] ? "" : "&amp;nomenu" ?>"><?php echo getlocal("pending.status.setaway") ?></a>
 <?php } ?>
 </div>
+
+<?php if($page['showonline'] == "1") { ?>
+<div id="onlineoperators">
+</div>
+<?php } ?>
 
 <?php 
 } /* content */

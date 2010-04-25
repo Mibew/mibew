@@ -32,7 +32,7 @@ $options = array(
 		'enableban', 'usercanchangename', 'enablegroups', 'enablestatistics', 'enablejabber',
 		'enablessl', 'forcessl',  
 		'enablepresurvey', 'surveyaskmail', 'surveyaskgroup', 'surveyaskmessage',
-		'enablepopupnotification',
+		'enablepopupnotification', 'showonlineoperators',
 		'enablecaptcha');
 
 loadsettings();
