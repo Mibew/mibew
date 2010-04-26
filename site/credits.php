@@ -36,7 +36,7 @@ require_once('inc/menu.i');
 			<li>Português Brasil - <a href="/forums/index.php?action=profile;u=1304">Leandro Luquetti</a></li>
 			<li>Romanian - Tallal Suliman Eshaq</li>
 			<li>Russian - <a href="/forums/index.php?action=profile;u=2">Evgeny Gryaznov</a></li>
-			<li>Spanish - Christian Mauricio Castillo Estrada</li>
+			<li>Spanish - <a href="http://christianmce.blogsome.com/">Christian Mauricio Castillo Estrada</a>, <a href="http://mibew.org/forums/index.php?action=profile;u=799">Lamies</a></li>
 			<li>Swedish - <a href="http://sverok.se">Sverok</a> - Oliver Sundström, Nina Högberg, Andreas Brodin and David Stenström</li>
 			<li>Thai - Bongkoch P.</li>
 			<li>Simplified Chinese - <a href="/forums/index.php?action=profile;u=1679">codion</a></li>
