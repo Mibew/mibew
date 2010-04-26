@@ -5,6 +5,11 @@ $default_locale = "en";
 $siteroot = "";
 $site_encoding = "utf-8"; 
 
+$requestUri = $_SERVER["REQUEST_URI"];
+if(preg_match("/^\/(en|sp|ru|ua|fr|nl)\//", $requestUri)) {
+	$siteroot = substr($requestUri, 0, 3);
+}
+
 if(preg_match("/www\.mibew\.org/", $_SERVER['HTTP_HOST'])) {
     header("Location: http://mibew.org");
     exit;
@@ -43,7 +48,7 @@ function verifyparam( $name, $regexp, $default = null ) {
 }
 
 function get_locale() {
-	global $available_locales, $siteroot;
+	global $available_locales;
 
 	$locale = verifyparam("intlocale", "/^[\w-]{2,5}$/", "");
 	if( !$locale || !in_array($locale,$available_locales) )
