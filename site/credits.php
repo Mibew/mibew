@@ -22,18 +22,24 @@ require_once('inc/menu.i');
 			
 			<p><?php echo getlocal("credits.translators") ?></p>
 			<ul>
-			<li>Arabic - <a href="/forums/index.php?action=profile;u=1366">Mostafa Khattab</a> and Active4web.net Developers</li>
+			<li>Arabic - <a href="/forums/index.php?action=profile;u=1366">Mostafa Khattab</a> and Active4web.net Developers; Tallal Suliman Eshaq</li>
+			<li>Bulgarian - Teodor Todorov</li>
+			<li>Catalan - Enric Garcia Barrios</li>
 			<li>Deutsch - <a href="/forums/index.php?action=profile;u=49">Gregor</a></li>
-			<li>Dutch - <a href="/forums/index.php?action=profile;u=2036">Martin van der Linden</a></li>
+			<li>Dutch - <a href="http://twitter.com/elegantchaos">Martin van der Linden</a></li>
 			<li>French - Hominn, Bard of LLYDAW</li>
 			<li>Hebrew - <a href="http://mediacms.net/" rel="nofollow">MediaCMS Team</a></li>
 			<li>Hrvatski - <a href="/forums/index.php?action=profile;u=1266">Gorana Rabar</a></li>
+			<li>Hungarian - bercy</li>
 			<li>Italiano - <a href="/forums/index.php?action=profile;u=781">CT32</a></li>
 			<li>Polski - <a href="/forums/index.php?action=profile;u=170">Kacper Wierzbicki</a>, <a href="http://mibew.org/forums/index.php?action=profile;u=170" > WebTower</a></li>
 			<li>Português Brasil - <a href="/forums/index.php?action=profile;u=1304">Leandro Luquetti</a></li>
+			<li>Romanian - Tallal Suliman Eshaq</li>
 			<li>Russian - <a href="/forums/index.php?action=profile;u=2">Evgeny Gryaznov</a></li>
 			<li>Spanish - Christian Mauricio Castillo Estrada</li>
+			<li>Swedish - <a href="http://sverok.se">Sverok</a> - Oliver Sundström, Nina Högberg, Andreas Brodin and David Stenström</li>
 			<li>Thai - Bongkoch P.</li>
+			<li>Simplified Chinese - <a href="/forums/index.php?action=profile;u=1679">codion</a></li>
 			<li>Traditional Chinese - Dawei</li>
 			<li>Ukrainian - <a href="/forums/index.php?action=profile;u=1206">azzepis</a></li>
 			</ul>
