@@ -18,11 +18,11 @@ require_once('inc/menu.i');
 			<div class="entry">
 			<p>
 			<?php echo getlocal("contacts.person") ?> Evgeny Gryaznov<br/>
-			<?php echo getlocal("contacts.email") ?> evgeny [at] openwebim (dot) org
+			<?php echo getlocal("contacts.email") ?> evgeny [at] mibew (dot) org
 			</p>
 			<p>
 			<?php echo getlocal("contacts.person") ?> Ed Kraus<br/>
-			<?php echo getlocal("contacts.email") ?> support [at] openwebim (dot) org
+			<?php echo getlocal("contacts.email") ?> support [at] mibew (dot) org
 			</p>
 			</div>
 			<div class="nometa"></div>
