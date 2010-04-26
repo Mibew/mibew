@@ -62,6 +62,13 @@ require_once('inc/menu.i');
 			<h2 class="title"><?php echo getlocal("index.how.title") ?></h2>
 			<div class="entry">
 				<p><?php echo getlocal("index.how.text") ?></p>
+				
+				<?php if($current_locale == 'ru') {?>
+				<p style="margin-bottom:1em;">
+					<b><?php echo getlocal("article.attention") ?></b>: 
+					<a href="/ru/article/webim.php" rel="nofollow"><b><?php echo getlocal("article.about") ?></b></a>
+				</p>
+				<?php } ?>
 
 			</div>
 			<div class="nometa"></div>

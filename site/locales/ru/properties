@@ -1,6 +1,8 @@
 encoding=cp1251
 output_charset=utf-8
 output_encoding=utf-8
+article.attention=Внимание
+article.about=Статья о mibew.org и webim.ru
 contacts.email=E&nbsp;mail:
 contacts.person=Контактное лицо:
 contacts.title=Свяжитесь с нами
