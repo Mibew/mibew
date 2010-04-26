@@ -95,7 +95,7 @@ require_once('inc/menu.i');
 				<li>workarounds if some functions are disabled in php</li>
 				<li>compatibility with PHP 5.3.0</li>
 				</ul>
-				<p><a href="download.php"><?php echo getlocal2("index.post.download", array("1.6.3")) ?></a></p>
+				<p><a href="<?php echo $siteroot ?>/download.php"><?php echo getlocal2("index.post.download", array("1.6.3")) ?></a></p>
 			</div>
 			<div class="meta">
 				<p class="byline"><?php echo getlocal2("index.post.when",array(ccdate(14,10,2009),"inspirer")) ?></p>
@@ -113,7 +113,7 @@ require_once('inc/main.i');
 			<li>
 				<h2><?php echo getlocal("sidebar.quicknav") ?></h2>
 				<ul>
-					<li><a href="features.php"><?php echo getlocal("menu.features") ?></a></li>
+					<li><a href="<?php echo $siteroot ?>/features.php"><?php echo getlocal("menu.features") ?></a></li>
 				</ul>
 			</li>
 <?php

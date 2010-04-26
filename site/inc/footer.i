@@ -1,7 +1,7 @@
 	<div class="empty_inner" style="">&#160;</div>
 </div>
 <div id="footer">
-<p id="legal"><a href="/contact.php" class="flink">Contact Us</a> | (c) 2009 mibew.org. <a href="http://www.trilexnet.com/labs">A Trilex Labs Group</a>. Design by <a href="http://www.nodethirtythree.com/">NodeThirtyThree</a></p>
+<p id="legal"><a href="<?php echo $siteroot ?>/contact.php" class="flink">Contact Us</a> | (c) 2009 mibew.org. <a href="http://www.trilexnet.com/labs">A Trilex Labs Group</a>. Design by <a href="http://www.nodethirtythree.com/">NodeThirtyThree</a></p>
 </div>
 
 <script type="text/javascript">
