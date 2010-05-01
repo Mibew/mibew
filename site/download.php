@@ -33,6 +33,16 @@ require_once('inc/menu.i');
 				<td><?php echo ccdate(14,10,2009) ?></td></tr>
 
 			<tr>
+				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.3/webim163_bg.zip/download">Bulgarian</a></td>
+				<td>1.6.3</td>
+				<td><?php echo ccdate(02,05,2010) ?></td></tr>
+
+			<tr>
+				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.3/webim163_ca.zip/download">Catalan</a></td>
+				<td>1.6.3</td>
+				<td><?php echo ccdate(02,05,2010) ?></td></tr>
+
+			<tr>
 				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.3/webim163_de.zip/download">Deutsch</a></td>
 				<td>1.6.3</td>
 				<td><?php echo ccdate(14,10,2009) ?></td></tr>
@@ -58,6 +68,11 @@ require_once('inc/menu.i');
 				<td><?php echo ccdate(14,10,2009) ?></td></tr>
 
 			<tr>
+				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.3/webim163_hu.zip/download">Hungarian</a></td>
+				<td>1.6.3</td>
+				<td><?php echo ccdate(02,05,2010) ?></td></tr>
+
+			<tr>
 				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.3/webim163_it.zip/download">Italiano</a></td>
 				<td>1.6.3</td>
 				<td><?php echo ccdate(14,10,2009) ?></td></tr>
@@ -72,6 +87,11 @@ require_once('inc/menu.i');
 				<td>1.6.3</td>
 				<td><?php echo ccdate(14,10,2009) ?></td></tr>
                 <tr>
+
+			<tr>
+				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.3/webim163_ro.zip/download">Romanian</a></td>
+				<td>1.6.3</td>
+				<td><?php echo ccdate(02,05,2010) ?></td></tr>
 				
 			<tr>
 				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.3/webim163_ru.zip/download">Russian</a></td>
@@ -82,6 +102,11 @@ require_once('inc/menu.i');
 				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.3/webim163_sp.zip/download">Spanish</a></td>
 				<td>1.6.3</td>
 				<td><?php echo ccdate(14,10,2009) ?></td></tr>
+
+			<tr>
+				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.3/webim163_sv.zip/download">Swedish</a></td>
+				<td>1.6.3</td>
+				<td><?php echo ccdate(02,05,2010) ?></td></tr>
 
 			<tr>
 				<td><a href="https://sourceforge.net/projects/webim/files/Mibew%20Messenger/1.6.3/webim163_th.zip/download">Thai</a></td>
