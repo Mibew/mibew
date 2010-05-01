@@ -11,6 +11,8 @@ app.title=Mibew üzenetküldő
 ban.error.duplicate=A megadott cím már használatban van, kattintson <a href="ban.php?id={1}">ide</a> ha szerkeszteni akarja.
 button.delete=Törlés
 button.enter=Bevitel
+button.offline.bottom=Hagyjon üzenetet
+button.online.bottom=Tegye fel kérdését
 button.save=Mentés
 button.search=Keresés
 canned.actions.del=eltávolítás

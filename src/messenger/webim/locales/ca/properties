@@ -11,6 +11,12 @@ app.title=Mibew Messenger
 ban.error.duplicate=Adreça {0} està en el sistema, clic <a href="ban.php?id={1}">aquí</a> per editar.
 button.delete=Eliminar
 button.enter=Entrar
+button.offline.bottom=Deixa el teu missatge
+button.offline.top=Ajuda en viu
+button.offline=FORA DE LÍNIA
+button.online.bottom=Deixa el teu missatge
+button.online.top=Ajuda en viu
+button.online=EN LÍNIA
 button.save=Desa
 button.search=Cerca
 canned.actions.del=eliminar

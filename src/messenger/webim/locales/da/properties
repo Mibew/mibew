@@ -18,6 +18,14 @@ chat.error_page.close=Luk...
 chat.error_page.head=Fejl opstod:
 chat.error_page.title=Fejl
 chat.mailthread.sent.close=Luk...
+chat.mailthread.sent.closewindow=Klik på dette link for at lukke vinduet
+chat.mailthread.sent.content=Din chat-historik er sendt til {0}
+chat.mailthread.sent.title=Sendt
+chat.predefined_answers=Hejsa - kan jeg hjælpe med noget?\nVelkommen til vores support! Kan jeg hjælpe med noget?
+chat.status.operator.changed=Operatøren {0} skiftede operatør {1}
+chat.status.operator.joined=Operatøren {0} er kommet ind i chatten
+chat.status.operator.left=Operatøren {0} har forladt chatten
+chat.status.user.changedname=Operatøren {0} er tilbage igen
 chat.window.poweredreftext=mibew.org
 chat.window.product_name=Mibew <span class="grey">Messenger</span>
 company.title=Mibew Messenger Community
