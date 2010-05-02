@@ -168,6 +168,7 @@ image.button.search=/locales/en/images/search.gif
 image.chat.history=/locales/en/images/history.gif
 image.chat.message=/locales/en/images/message.gif
 image.chat.sprite=/locales/en/images/wmchat.png
+install.0.app=Application path is {0}
 install.1.connected=You are connected to MySQL server version {0}
 install.2.create=Create database "{0}"
 install.2.db_exists=Database "{0}" is created.
@@ -191,7 +192,7 @@ install.title=Installation
 install.updatedb=Please, run <a href="{0}">Update wizard</a> to adjust your database.
 installed.login_link=Proceed to login page
 installed.message=<b>Application installed successfully.</b>
-installed.notice=You can logon as <b>admin</b> with empty password.<br/><br/><font color="#c13030"><b>!!! For security reasons, please change your password immediately and remove /webim/install folder from your server.</b></font>
+installed.notice=You can logon as <b>admin</b> with empty password.<br/><br/><font color="#c13030"><b>!!! For security reasons, please change your password immediately and remove {0} folder from your server.</b></font>
 lang.choose=Choose your language
 leavemail.body=Your have a message from {0}:\n\n{2}\n\nHis email: {1}\n{3}\n--- \nYours site messenger
 leavemail.subject=Question from {0}
