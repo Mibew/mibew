@@ -1,3 +1,13 @@
+  1.7.0
+  -----
+  
+  [+] notifications log view, jabber notifications about new visitor (server part, requires Mibew-Jabber gate)
+  [+] core UI improvements, "you are offline" and "new features" notification panels
+  [!] optimized history search
+  [+] switched to google closure compiler for Javascript compression, jQuery 1.4.2 
+  [+] online/away operators list (on "awaiting visitors" page) by Andrew Armstrong
+  [!] various compatibility fixes: button image, captcha
+
   1.6.3
   -----
   [+] password restore functionality for agent
