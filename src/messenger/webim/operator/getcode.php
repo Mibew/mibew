@@ -23,6 +23,22 @@ require_once('../libs/common.php');
 require_once('../libs/operator.php');
 require_once('../libs/groups.php');
 
+function generate_button($title,$locale,$style,$group,$inner,$showhost,$forcesecure,$modsecurity) {
+	$link = get_app_location($showhost,$forcesecure)."/client.php";
+	if($locale)
+		$link = append_query($link, "locale=$locale");
+	if($style)
+		$link = append_query($link, "style=$style");
+	if($group)
+		$link = append_query($link, "group=$group");
+
+	$modsecfix = $modsecurity ? ".replace('http://','').replace('https://','')" : "";
+	$jslink = append_query("'".$link,"url='+escape(document.location.href$modsecfix)+'&amp;referrer='+escape(document.referrer$modsecfix)");	
+	$temp = get_popup($link, "$jslink",
+			$inner, $title, "webim", "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1" );
+	return "<!-- mibew button -->".$temp."<!-- / mibew button -->";
+}
+
 $operator = check_login();
 loadsettings();
 
@@ -120,5 +136,5 @@ $page['formmodsecurity'] = $modsecurity;
 
 prepare_menu($operator);
 start_html_output();
-require('../view/gen_button.php');
+require('../view/getcode_image.php');
 ?>
