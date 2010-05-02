@@ -27,15 +27,6 @@ require_once('../libs/getcode.php');
 $operator = check_login();
 loadsettings();
 
-$imageLocales = get_image_locales_map("../locales");
-$image = verifyparam(isset($_GET['image']) ? "image" : "i", "/^\w+$/", "webim");
-if(!isset($imageLocales[$image])) {
-	$errors[] = "Unknown image: $image";
-	$avail = array_keys($imageLocales);
-	$image = $avail[0];
-}
-$image_locales = $imageLocales[$image];
-
 $stylelist = get_style_list("../styles");
 $style = verifyparam("style","/^\w*$/", "");
 if($style && !in_array($style, $stylelist)) {
@@ -47,36 +38,29 @@ $showhost = verifyparam("hostname","/^on$/", "") == "on";
 $forcesecure = verifyparam("secure","/^on$/", "") == "on";
 $modsecurity = verifyparam("modsecurity","/^on$/", "") == "on";
 
+$allLocales = get_available_locales();
+
 $lang = verifyparam("lang", "/^[\w-]{2,5}$/", "");
-if( !$lang || !in_array($lang,$image_locales) )
-	$lang = in_array($current_locale,$image_locales) ? $current_locale : $image_locales[0];
+if( !$lang || !in_array($lang,$allLocales) )
+	$lang = in_array($current_locale,$allLocales) ? $current_locale : $allLocales[0];
 
-$file = "../locales/${lang}/button/${image}_on.gif";
-$size = get_gifimage_size($file);
-
-$imagehref = get_app_location($showhost,$forcesecure)."/b.php?i=$image&amp;lang=$lang";
-if($groupid) {
-	$imagehref .= "&amp;group=$groupid";
-}
-$message = get_image($imagehref,$size[0],$size[1]);
+$message = "Click to chat"; // TODO
 
 $page = array();
 $page['buttonCode'] = generate_button("",$lang,$style,$groupid,$message,$showhost,$forcesecure,$modsecurity);
-$page['availableImages'] = array_keys($imageLocales);
-$page['availableLocales'] = $image_locales;
+$page['availableLocales'] = $allLocales;
 $page['availableStyles'] = $stylelist;
 $page['groups'] = get_groups_list();
 
 $page['formgroup'] = $groupid;
 $page['formstyle'] = $style;
-$page['formimage'] = $image;
 $page['formlang'] = $lang;
 $page['formhostname'] = $showhost;
 $page['formsecure'] = $forcesecure;
 $page['formmodsecurity'] = $modsecurity;
 
 prepare_menu($operator);
-setup_getcode_tabs(0);
+setup_getcode_tabs(1);
 start_html_output();
-require('../view/getcode_image.php');
+require('../view/getcode_text.php');
 ?>

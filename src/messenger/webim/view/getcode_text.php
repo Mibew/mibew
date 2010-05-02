@@ -34,7 +34,7 @@ function tpl_content() { global $page, $webimroot, $errors;
 require_once('inc_errors.php');
 ?>
 
-<form name="buttonCodeForm" method="get" action="<?php echo $webimroot ?>/operator/getcode.php">
+<form name="buttonCodeForm" method="get" action="<?php echo $webimroot ?>/operator/gettextcode.php">
 	<div>
 <?php print_tabbar(); ?>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
@@ -57,13 +57,6 @@ require_once('inc_errors.php');
 		</div>
 <?php } ?>
 		<br clear="all"/>
-
-		<div class="fieldinrow">
-			<div class="flabel"><?php echo getlocal("page.gen_button.choose_image") ?></div>
-			<div class="fvaluenodesc">
-				<select name="i" onchange="this.form.submit();"><?php foreach($page['availableImages'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("image") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
-			</div>
-		</div>
 
 		<div class="fieldinrow">
 			<div class="flabel"><?php echo getlocal("page.gen_button.choose_style") ?></div>
