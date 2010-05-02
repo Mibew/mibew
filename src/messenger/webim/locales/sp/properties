@@ -173,7 +173,7 @@ install.title=Instalación
 install.updatedb=Por favor, ejecuta <a href="{0}">el Asistente de Actualización</a> para ajustar tu base de datos.
 installed.login_link=Proceda a la página de acceso
 installed.message=<b>Aplicación instalada con éxito.</b>
-installed.notice=Puede accesar como administrador con contraseña vacía.<br/><br/><font color="#c13030"><b>!!! Por seguridad, por favor cambie su contraseña inmediatamente y elimine el directorio /webim/install de su servidor.</b></font>
+installed.notice=Puede accesar como administrador con contraseña vacía.<br/><br/><font color="#c13030"><b>!!! Por seguridad, por favor cambie su contraseña inmediatamente y elimine el directorio {0} de su servidor.</b></font>
 lang.choose=Selecciona tu idioma
 leavemail.body=Tiene un mensaje de{0}:\n\n{2}\n\nEste email: {1}\n{3}\n--- \nAtentamente sitio Messenger
 leavemail.subject=Pregunta desde {0}

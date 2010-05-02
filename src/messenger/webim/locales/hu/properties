@@ -180,7 +180,7 @@ install.title=Installálás
 install.updatedb=Futtassa a <a href="{0}">Frissítés varázslót</a> az adatbázis beállításához.
 installed.login_link=Tovább a bejelentkező oldalra
 installed.message=<b>Az alkalmazás telepítése sikeresen befejeződött.</b>
-installed.notice=Bejelentkezhet admin felhasználónévvel, jelszó nélkül.<br/><br/><font color="#c13030"><b>!!! Biztonsági okokból kérem változtassa meg a jelszavát és távolítsa el a /webmin/install mappát a szerverről.</b></font>
+installed.notice=Bejelentkezhet admin felhasználónévvel, jelszó nélkül.<br/><br/><font color="#c13030"><b>!!! Biztonsági okokból kérem változtassa meg a jelszavát és távolítsa el a {0} mappát a szerverről.</b></font>
 lang.choose=Nyelv kiválasztása
 leavemail.body=Üzenete érkezett {0} -tól: {2} E-mail: {1} {3} --- Az oldalad üzenetküldője
 leavemail.subject=Kérdés {0} -tól

@@ -175,7 +175,7 @@ install.title=Instalacja
 install.updatedb=Uruchom proszę, <a href="{0}">Kreatora aktualizacji</a> aby ustawić swoją bazę danych.
 installed.login_link=Przejdź do strony logowania
 installed.message=<b>Aplikacja została pomyślnie zainstalowana.</b>
-installed.notice=Możesz się teraz zalogować jako <b>admin</b> z pustym polem hasła.<br/><br/><font color="#c13030"><b>!!! Z przyczyn bezpieczeństwa, zmień natychmiast swoje hasło oraz usuń folder /webim/install ze swojego serwera.</b></font>
+installed.notice=Możesz się teraz zalogować jako <b>admin</b> z pustym polem hasła.<br/><br/><font color="#c13030"><b>!!! Z przyczyn bezpieczeństwa, zmień natychmiast swoje hasło oraz usuń folder {0} ze swojego serwera.</b></font>
 lang.choose=Wybierz swój język
 leavemail.body=Masz nową wiadomość od {0}:\n\n{2}\n\nJego email: {1}\n{3}\n--- \nTwój Web Komunikator
 leavemail.subject=Zapytanie od {0}

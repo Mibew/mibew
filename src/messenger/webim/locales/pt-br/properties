@@ -167,7 +167,7 @@ install.next=Próximo Passo:
 install.title=Instalação
 installed.login_link=Ir para a página de login
 installed.message=<b>Aplicação instalado com sucesso.</b>
-installed.notice=Você pode logar como <b>admin</b> com a senha em branco.<br/><br/><font color="#c13030"><b>!!! Por razões de segurança, mude sua imediatamente e remove a pasta /webim/install do seu servidor.</b></font>
+installed.notice=Você pode logar como <b>admin</b> com a senha em branco.<br/><br/><font color="#c13030"><b>!!! Por razões de segurança, mude sua imediatamente e remove a pasta {0} do seu servidor.</b></font>
 lang.choose=Selecione o Idioma
 leavemail.body=Você tem mensagens de {0}:\n\n{2}\n\nEmail: {1}\n{3}\n--- \nWeb Messenger
 leavemail.subject=Pergunta de {0}

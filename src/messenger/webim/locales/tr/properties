@@ -144,7 +144,7 @@ install.next=Ýleri:
 install.title=Yükleme
 installed.login_link=Proceed to login page
 installed.message=<b>Application installed successfully.</b>
-installed.notice=You can logon as <b>admin</b> with empty password.<br/><br/><font color="#c13030"><b>!!! For security reasons, please change your password immediately and remove /webim/install folder from your server.</b></font>
+installed.notice=You can logon as <b>admin</b> with empty password.<br/><br/><font color="#c13030"><b>!!! For security reasons, please change your password immediately and remove {0} folder from your server.</b></font>
 leavemail.body={0} size mesaj gönderdi:\n\n{2}\n\nGönderen: {1}\n{3}\n--- \nMüþteri Hizmetleri Sistemi
 leavemail.subject=Soru soran: {0}
 leavemessage.close=Kapat

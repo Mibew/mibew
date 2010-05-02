@@ -186,7 +186,7 @@ install.title=Instalare
 install.updatedb=Vă rugăm, accesaţi <a href="{0}">Update wizard</a> pentru a ajusta baza de date.
 installed.login_link=Procesare la pagina de întrare
 installed.message=<b>Aplicaţiile de instalare cu succes.</b>
-installed.notice=Puteţi intra ca <b>admin</b> cu parola libera.<br/><br/><font color="#c13030"><b>!!! Penru securitate, vă rugăm să schimbaţi parola imediatşi sa schimbaţi fişierul /webim/install din serverul dumneavoastră.</b></font>
+installed.notice=Puteţi intra ca <b>admin</b> cu parola libera.<br/><br/><font color="#c13030"><b>!!! Penru securitate, vă rugăm să schimbaţi parola imediatşi sa schimbaţi fişierul {0} din serverul dumneavoastră.</b></font>
 lang.choose=Alegeţi limba
 leavemail.body=Dumneavoastră aveţi mesaj de la {0} :\n\n{2} \n\nEmail-ul este: {1} \n{3} \n---\nMesagerul site-ului dvs
 leavemail.subject=Întrebare de la {0}

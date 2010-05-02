@@ -172,7 +172,7 @@ install.title=安裝
 install.updatedb=請點擊 <a href="{0}">更新嚮導</a> 來調整您的數據庫。
 installed.login_link=繼續到登入頁面
 installed.message=<b>程式安裝完成.</b>
-installed.notice=您可以用 <b>admin</b> 名稱及空的密碼來登入.<br/><br/><font color="#c13030"><b>!!! 基於安全性考量, 請立即更改您的密碼並刪除網站 /webim/install 資料夾.</b></font>
+installed.notice=您可以用 <b>admin</b> 名稱及空的密碼來登入.<br/><br/><font color="#c13030"><b>!!! 基於安全性考量, 請立即更改您的密碼並刪除網站 {0} 資料夾.</b></font>
 lang.choose=選擇您的語言
 leavemail.body=您有訊息來自 {0}:\n\n{2}\n\nE-mail: {1}\n{3}\n--- \n來自您的網站即時通
 leavemail.subject=問題來自 {0}

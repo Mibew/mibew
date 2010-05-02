@@ -169,13 +169,13 @@ install.err.title=Problema
 install.kill_tables.notice=Impossibile aggiornare le struttura delle tabelle. Prova a farlo manualmente oppure ricrea tutte le tabelle (warning: tutti i dati verranno persi).
 install.kill_tables=Togli le tabelle esistenti dal database
 install.license=Software license agreement
-install.message=segui il wizard per settare il tuo database. 
+install.message=Segui il wizard per settare il tuo database. 
 install.next=Prossimo passo:
 install.title=Installazione
 install.updatedb=Cortesemente, lancia <a href="{0}">Aggiornamento guidato</a> per sistemare il database.
 installed.login_link=Vai alla pagina di login
 installed.message=<b>Applicazione installata con successo.</b>
-installed.notice=Puoi accedere lasciando vuota la password.<br/><br/><font color="#c13030"><b>!!! Per ragioni di sicurezza, inserisci la password e cancella la cartella /webim/install dal server server.</b></font>
+installed.notice=Puoi accedere lasciando vuota la password.<br/><br/><font color="#c13030"><b>!!! Per ragioni di sicurezza, inserisci la password e cancella la cartella {0} dal server server.</b></font>
 lang.choose=Scegli la tua lingua
 leavemail.body=Hai una domanda da {0}:\n\n{2}\n\nLa sua e-mail: {1}\n{3}\n--- \nHelp on-line
 leavemail.subject=Domanda da {0}

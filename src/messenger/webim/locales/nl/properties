@@ -186,7 +186,7 @@ install.title=Installatie
 install.updatedb=Aub de <a href="{0}">Update wizard</a> draaien om uw database aan te passen.
 installed.login_link=Ga door naar de inlogpagina
 installed.message=<b>Applicatie met succes geïnstalleerd.</b>
-installed.notice=U kunt inloggen als <b>admin</b> zonder wachtwoord.<br/><br/><font color="#c13030"><b>!!! Verander aub uw wachtwoord onmiddelijk en verwijder de /webim/install map van uw server.</b></font>
+installed.notice=U kunt inloggen als <b>admin</b> zonder wachtwoord.<br/><br/><font color="#c13030"><b>!!! Verander aub uw wachtwoord onmiddelijk en verwijder de {0} map van uw server.</b></font>
 lang.choose=Kies uw taal
 leavemail.body=U heeft een bericht ontvangen van {0}:\n\n{2}\n\nEmail: {1}\n{3}\n--- \nUw sitemessenger
 leavemail.subject=Vraag van {0}

@@ -186,7 +186,7 @@ install.title=Installation
 install.updatedb=Var god kör <a href="{0}">Uppdateringsguiden</a> för att justera.
 installed.login_link=Gå till inloggnings sidan
 installed.message=<b>Applikationen installerades korrekt</b>
-installed.notice=Du kan logga in som<b>admin</b> med ett tomt lösenord<br/><br/><font color="#c13030"><b>!!! För säkerhetsskäl så bör du byta lösenord och ta bort platsen /webim/install från din server katalog</b></font>
+installed.notice=Du kan logga in som<b>admin</b> med ett tomt lösenord<br/><br/><font color="#c13030"><b>!!! För säkerhetsskäl så bör du byta lösenord och ta bort platsen {0} från din server katalog</b></font>
 lang.choose=Välj ditt språk
 leavemail.body=Du har ett medelande från {0}:\n\n{2}\n\nHans epost: {1}\n{3}\n--- \nDin web messenger
 leavemail.subject=Fråga från {0}
