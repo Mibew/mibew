@@ -1,6 +1,8 @@
-#Thu May 14 22:34:01 CEST 2009
+#Sat Oct 16 12:56:25 CEST 2010
 eclipse.preferences.version=1
 encoding//webim/locales=UTF-8
+encoding//webim/locales/bg=cp1251
+encoding//webim/locales/ca=ISO-8859-1
 encoding//webim/locales/names/properties=utf-8
 encoding//webim/locales/ru=cp1251
 encoding//webim/locales/sp/properties=ISO-8859-1

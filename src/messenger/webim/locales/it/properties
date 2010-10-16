@@ -169,7 +169,7 @@ install.err.title=Problema
 install.kill_tables.notice=Impossibile aggiornare le struttura delle tabelle. Prova a farlo manualmente oppure ricrea tutte le tabelle (warning: tutti i dati verranno persi).
 install.kill_tables=Togli le tabelle esistenti dal database
 install.license=Software license agreement
-install.message=segui il wizard per settare il tuo database. 
+install.message=Segui il wizard per settare il tuo database. 
 install.next=Prossimo passo:
 install.title=Installazione
 install.updatedb=Cortesemente, lancia <a href="{0}">Aggiornamento guidato</a> per sistemare il database.
@@ -188,8 +188,8 @@ leavemessage.title=Lascia il tuo messaggio
 leftMenu.client_agents=Assistenti
 leftMenu.client_gen_button=Codice bottone
 leftMenu.client_settings=Impostazioni
-localeid=Italiano (it)
 localedirection=ltr
+localeid=Italiano (it)
 mail.user.history.body=Ciao, {0}!\n\nLa tua cronologia: \n\n{1}\n--- \nKind Regards,\nMibew Messenger
 mail.user.history.subject=Messenger: dialog history
 mailthread.close=Chiudi...
@@ -358,7 +358,7 @@ right.main=Principale
 right.other=Altro
 settings.chat.title.description=Per esempio Dipartimento della compagnia.
 settings.chat.title=Finestra Titolo della chat
-settings.chatstyle.description=Anteprima per tutte le pagine di ogni stile disponibile <a href="preview.php">qui</a>
+settings.chatstyle.description=Anteprima per tutte le pagine di ogni stile disponibile <a href="themes.php">qui</a>
 settings.chatstyle=Seleziona lo stile per la finesta della chat
 settings.company.title.description=Inserischi il titolo della compagnia
 settings.company.title=Titolo compagnia

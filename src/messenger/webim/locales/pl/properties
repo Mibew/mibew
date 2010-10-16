@@ -188,8 +188,8 @@ leavemessage.title=Zostaw swoją wiadomość
 leftMenu.client_agents=Konsultanci
 leftMenu.client_gen_button=Kod przycisku
 leftMenu.client_settings=Ustawienia
-localeid=Polski (pl)
 localedirection=ltr
+localeid=Polski (pl)
 mail.user.history.body=Witaj, {0}!\n\nTwoja historia rozmowy: \n\n{1}\n--- \nPozdrawiamy,\nMibew Komunikator
 mail.user.history.subject=Komunikator: historia rozmowy
 mailthread.close=Zamknij...
@@ -358,7 +358,7 @@ right.main=Główne
 right.other=Inne
 settings.chat.title.description=Przykładowo dział twojej firmy.
 settings.chat.title=Tytuł okna rozmowy
-settings.chatstyle.description=Przeglądaj wszystkie strony dostępnych stylów <a href="preview.php">tutaj</a>
+settings.chatstyle.description=Przeglądaj wszystkie strony dostępnych stylów <a href="themes.php">tutaj</a>
 settings.chatstyle=Wybierz styl okna rozmowy
 settings.company.title.description=Wprowadź nazwę swojej firmy
 settings.company.title=Nazwa firmy

@@ -186,8 +186,8 @@ leavemessage.title=Deje su mensaje
 leftMenu.client_agents=Agentes
 leftMenu.client_gen_button=Código del Botón
 leftMenu.client_settings=Configuraciones
-localeid=Español (es)
 localedirection=ltr
+localeid=Español (es)
 mail.user.history.body=Hola {0}!\n\nSu conversación: \n\n{1}\n--- \nKind Regards,\nMibew Messenger
 mail.user.history.subject=Messenger: Histórico de conversación
 mailthread.close=Cerrar...
@@ -355,7 +355,7 @@ right.main=Inicio
 right.other=Otro
 settings.chat.title.description=Departamento de tu empresa por ejemplo.
 settings.chat.title=Título en la ventana de chat
-settings.chatstyle.description=Vista previa para todas las páginas de cada estilo está disponible <a href="preview.php">aquí</a>
+settings.chatstyle.description=Vista previa para todas las páginas de cada estilo está disponible <a href="themes.php">aquí</a>
 settings.chatstyle=Seleccione el estilo de tus ventanas de chat
 settings.company.title.description=Introduce el nombre de tu empresa
 settings.company.title=Nombre de la empresa
