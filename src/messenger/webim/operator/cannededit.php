@@ -24,22 +24,25 @@ require_once('../libs/operator.php');
 require_once('../libs/pagination.php');
 
 function load_message($key) {
+	global $mysqlprefix;
 	$link = connect();
-	$result = select_one_row("select vcvalue from chatresponses where id = $key", $link);
+	$result = select_one_row("select vcvalue from " . $mysqlprefix . "chatresponses where id = $key", $link);
 	mysql_close($link);
 	return $result ? $result['vcvalue'] : null;
 }
 
 function save_message($key,$message) {
+	global $mysqlprefix;
 	$link = connect();
-	perform_query("update chatresponses set vcvalue = '".mysql_real_escape_string($message,$link)."' ".
+	perform_query("update " . $mysqlprefix . "chatresponses set vcvalue = '".mysql_real_escape_string($message,$link)."' ".
 				"where id = $key", $link);
 	mysql_close($link);
 }
 
 function add_message($locale,$groupid,$message) {
+	global $mysqlprefix;
 	$link = connect();
-	perform_query("insert into chatresponses (locale,groupid,vcvalue) values ('$locale',".
+	perform_query("insert into " . $mysqlprefix . "chatresponses (locale,groupid,vcvalue) values ('$locale',".
 				($groupid ? "$groupid, " : "null, ").
 				"'".mysql_real_escape_string($message,$link)."')", $link);
 	mysql_close($link);

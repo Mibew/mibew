@@ -45,7 +45,7 @@ if (isset($_POST['loginoremail'])) {
 		$token = md5((time() + microtime()).rand(0,99999999));
 		
 		$link = connect();
-		$query = "update chatoperator set dtmrestore = CURRENT_TIMESTAMP, vcrestoretoken = '$token' where operatorid = ".$torestore['operatorid'];
+		$query = "update " . $mysqlprefix . "chatoperator set dtmrestore = CURRENT_TIMESTAMP, vcrestoretoken = '$token' where operatorid = ".$torestore['operatorid'];
 		perform_query($query, $link);
 		
 		$href = get_app_location(true,false)."/operator/resetpwd.php?id=".$torestore['operatorid']."&token=$token";

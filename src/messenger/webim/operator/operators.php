@@ -50,8 +50,8 @@ if( isset($_GET['act']) && $_GET['act'] == 'del' ) {
 	
 	if( count($errors) == 0 ) {
 		$link = connect();
-		perform_query("delete from chatgroupoperator where operatorid = $operatorid",$link);
-		perform_query("delete from chatoperator where operatorid = $operatorid",$link);
+		perform_query("delete from " . $mysqlprefix . "chatgroupoperator where operatorid = $operatorid",$link);
+		perform_query("delete from " . $mysqlprefix . "chatoperator where operatorid = $operatorid",$link);
 		mysql_close($link);
 		
 		header("Location: $webimroot/operator/operators.php");

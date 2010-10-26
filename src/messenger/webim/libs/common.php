@@ -359,9 +359,10 @@ function select_multi_assoc($query, $link) {
 }
 
 function db_build_select($fields, $table, $conditions, $orderandgroup) {
+	global $mysqlprefix;
 	$condition = count($conditions) > 0 ? " where ".implode(" and ", $conditions) : "";
 	if($orderandgroup) $orderandgroup = " ".$orderandgroup;
-	return "select $fields from $table$condition$orderandgroup";
+	return "select $fields from $mysqlprefix . $table$condition$orderandgroup";
 }	
 
 function db_rows_count($table,$conditions,$countfields, $link) {
@@ -594,13 +595,13 @@ $settingsloaded = false;
 $settings_in_db = array();
 
 function loadsettings_($link) {
-	global $settingsloaded, $settings_in_db, $settings;
+	global $settingsloaded, $settings_in_db, $settings, $mysqlprefix;
 	if($settingsloaded) {
 		return;
 	}
 	$settingsloaded = true;
 
-	$sqlresult = mysql_query('select vckey,vcvalue from chatconfig',$link) or die(' Query failed: '.mysql_error($link).": ".$query);
+	$sqlresult = mysql_query("select vckey,vcvalue from " . $mysqlprefix . "chatconfig",$link) or die(' Query failed: '.mysql_error($link).": ".$query);
 
 	while ($row = mysql_fetch_array($sqlresult, MYSQL_ASSOC)) {
 		$name = $row['vckey'];

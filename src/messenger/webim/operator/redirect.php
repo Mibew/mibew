@@ -69,7 +69,7 @@ if(isset($_GET['nextGroup'])) {
 			$link = connect();
 			$threadupdate = array("istate" => $state_waiting, "nextagent" => $nextid, "agentId" => 0);
 			if($thread['groupid'] != 0) {
-				if(FALSE === select_one_row("select groupid from chatgroupoperator where operatorid = $nextid and groupid = ".$thread['groupid'], $link)) {
+				if(FALSE === select_one_row("select groupid from " . $mysqlprefix . "chatgroupoperator where operatorid = $nextid and groupid = ".$thread['groupid'], $link)) {
 					$threadupdate['groupid'] = 0;
 				}
 			}

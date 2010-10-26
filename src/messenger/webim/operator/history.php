@@ -36,8 +36,8 @@ $query = isset($_GET['q']) ? myiconv(getoutputenc(), $webim_encoding, $_GET['q']
 if($query !== false) {
 	$link = connect();
 	
-	$result = mysql_query("select chatgroup.groupid as groupid, vclocalname ".
-			 "from chatgroup order by vclocalname", $link);
+	$result = mysql_query("select " . $mysqlprefix . "chatgroup.groupid as groupid, vclocalname ".
+			 "from " . $mysqlprefix . "chatgroup order by vclocalname", $link);
 	$groupName = array();
 	while ($group = mysql_fetch_array($result, MYSQL_ASSOC)) {
 		$groupName[$group['groupid']] = $group['vclocalname'];
@@ -46,17 +46,17 @@ if($query !== false) {
 	$page['groupName'] = $groupName;
 	
 	$escapedQuery = mysql_real_escape_string($query,$link);
-	select_with_pagintation("DISTINCT unix_timestamp(chatthread.dtmcreated) as created, ".
-    	 "unix_timestamp(chatthread.dtmmodified) as modified, chatthread.threadid, ".
-		 "chatthread.remote, chatthread.agentName, chatthread.userName, groupid, ".
+	select_with_pagintation("DISTINCT unix_timestamp(" . $mysqlprefix . "chatthread.dtmcreated) as created, ".
+    	 "unix_timestamp(" . $mysqlprefix . "chatthread.dtmmodified) as modified, " . $mysqlprefix . "chatthread.threadid, ".
+		 $mysqlprefix . "chatthread.remote, " . $mysqlprefix . "chatthread.agentName, " . $mysqlprefix . "chatthread.userName, groupid, ".
 		 "messageCount as size",
-		 "chatthread, chatmessage",
+		 $mysqlprefix . "chatthread, " . $mysqlprefix . "chatmessage",
 		 array(
-		 	"chatmessage.threadid = chatthread.threadid",
-		 	"((chatthread.userName LIKE '%%$escapedQuery%%') or (chatmessage.tmessage LIKE '%%$escapedQuery%%'))"
+		 	$mysqlprefix . "chatmessage.threadid = " . $mysqlprefix . "chatthread.threadid",
+		 	"((" . $mysqlprefix . "chatthread.userName LIKE '%%$escapedQuery%%') or (" . $mysqlprefix . "chatmessage.tmessage LIKE '%%$escapedQuery%%'))"
 		 ),
 		 "order by created DESC",
-		 "DISTINCT chatthread.dtmcreated", $link);
+		 "DISTINCT " . $mysqlprefix . "chatthread.dtmcreated", $link);
 	
 	mysql_close($link);
 

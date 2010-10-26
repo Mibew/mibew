@@ -34,24 +34,27 @@ $permission_ids = array(
 );
 
 function operator_by_login($login) {
+	global $mysqlprefix;
 	$link = connect();
 	$operator = select_one_row(
-		 "select * from chatoperator where vclogin = '".mysql_real_escape_string($login)."'", $link );
+		 "select * from " . $mysqlprefix . "chatoperator where vclogin = '".mysql_real_escape_string($login)."'", $link );
 	mysql_close($link);
 	return $operator;
 }
 
 function operator_by_email($mail) {
+	global $mysqlprefix;
 	$link = connect();
 	$operator = select_one_row(
-		 "select * from chatoperator where vcemail = '".mysql_real_escape_string($mail)."'", $link );
+		 "select * from " . $mysqlprefix . "chatoperator where vcemail = '".mysql_real_escape_string($mail)."'", $link );
 	mysql_close($link);
 	return $operator;
 }
 
 function operator_by_id_($id,$link) {
+	global $mysqlprefix;
 	return select_one_row(
-		 "select * from chatoperator where operatorid = $id", $link );
+		 "select * from " .$mysqlprefix . "chatoperator where operatorid = $id", $link );
 }
 
 function operator_by_id($id) {
@@ -62,10 +65,11 @@ function operator_by_id($id) {
 }
 
 function operator_get_all() {
+	global $mysqlprefix;
 	$link = connect();
 
 	$query = "select operatorid, vclogin, vclocalename, vccommonname, istatus, (unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time ".
-			 "from chatoperator order by vclogin";
+			 "from " . $mysqlprefix . "chatoperator order by vclogin";
 	$operators = select_multi_assoc($query, $link);
 	mysql_close($link);
 	return $operators;
@@ -87,9 +91,10 @@ function operator_is_away($operator) {
 }
 
 function update_operator($operatorid,$login,$email,$jabber,$password,$localename,$commonname,$notify) {
+	global $mysqlprefix;
 	$link = connect();
 	$query = sprintf(
-		"update chatoperator set vclogin = '%s',%s vclocalename = '%s', vccommonname = '%s'".
+		"update " . $mysqlprefix . "chatoperator set vclogin = '%s',%s vclocalename = '%s', vccommonname = '%s'".
 		", vcemail = '%s', vcjabbername= '%s', inotify = %s".
 		" where operatorid = %s",
 		mysql_real_escape_string($login),
@@ -106,9 +111,10 @@ function update_operator($operatorid,$login,$email,$jabber,$password,$localename
 }
 
 function update_operator_avatar($operatorid,$avatar) {
+	global $mysqlprefix;
 	$link = connect();
 	$query = sprintf(
-		"update chatoperator set vcavatar = '%s' where operatorid = %s",
+		"update " . $mysqlprefix . "chatoperator set vcavatar = '%s' where operatorid = %s",
 		mysql_real_escape_string($avatar), $operatorid );
 
 	perform_query($query,$link);
@@ -116,8 +122,9 @@ function update_operator_avatar($operatorid,$avatar) {
 }
 
 function create_operator_($login,$email,$jabber,$password,$localename,$commonname,$notify,$link) {
+	global $mysqlprefix;
 	$query = sprintf(
-		"insert into chatoperator (vclogin,vcpassword,vclocalename,vccommonname,vcavatar,vcemail,vcjabbername,inotify) values ('%s','%s','%s','%s','%s','%s','%s',%s)",
+		"insert into " . $mysqlprefix . "chatoperator (vclogin,vcpassword,vclocalename,vccommonname,vcavatar,vcemail,vcjabbername,inotify) values ('%s','%s','%s','%s','%s','%s','%s',%s)",
 			mysql_real_escape_string($login),
 			md5($password),
 			mysql_real_escape_string($localename),
@@ -130,7 +137,7 @@ function create_operator_($login,$email,$jabber,$password,$localename,$commonnam
 	perform_query($query,$link);
 	$id = mysql_insert_id($link);
 
-	return select_one_row("select * from chatoperator where operatorid = $id", $link );
+	return select_one_row("select * from " . $mysqlprefix . "chatoperator where operatorid = $id", $link );
 }
 
 function create_operator($login,$email,$jabber,$password,$localename,$commonname,$notify) {
@@ -141,18 +148,20 @@ function create_operator($login,$email,$jabber,$password,$localename,$commonname
 }
 
 function notify_operator_alive($operatorid, $istatus) {
+	global $mysqlprefix;
 	$link = connect();
-	perform_query("update chatoperator set istatus = $istatus, dtmlastvisited = CURRENT_TIMESTAMP where operatorid = $operatorid",$link);
+	perform_query("update " . $mysqlprefix . "chatoperator set istatus = $istatus, dtmlastvisited = CURRENT_TIMESTAMP where operatorid = $operatorid",$link);
 	mysql_close($link);
 }
 
 function has_online_operators($groupid="") {
-	global $settings;
+	global $settings, $mysqlprefix;
 	loadsettings();
 	$link = connect();
-	$query = "select count(*) as total, min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time from chatoperator";
+	$query = "select count(*) as total, min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time from " . $mysqlprefix . "chatoperator";
 	if($groupid) {
-		$query .= ", chatgroupoperator where groupid = $groupid and chatoperator.operatorid = chatgroupoperator.operatorid and istatus = 0";
+		$query .= ", " . $mysqlprefix . "chatgroupoperator where groupid = $groupid and " . $mysqlprefix . "chatoperator.operatorid = " . 
+		$mysqlprefix . "chatgroupoperator.operatorid and istatus = 0";
 	} else {
 		$query .= " where istatus = 0";
 	}
@@ -162,10 +171,10 @@ function has_online_operators($groupid="") {
 }
 
 function is_operator_online($operatorid, $link) {
-	global $settings;
+	global $settings, $mysqlprefix;
 	loadsettings_($link);
 	$query = "select count(*) as total, min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time ".
-			 "from chatoperator where operatorid = $operatorid";
+			 "from " . $mysqlprefix . "chatoperator where operatorid = $operatorid";
 	$row = select_one_row($query,$link);
 	return $row['time'] < $settings['online_timeout'] && $row['total'] == 1;
 }
@@ -237,7 +246,7 @@ function logout_operator() {
 }
 
 function setup_redirect_links($threadid,$token) {
-	global $page, $webimroot, $settings;
+	global $page, $webimroot, $settings, $mysqlprefix;
 	loadsettings();
 	$link = connect();
 
@@ -337,29 +346,35 @@ function prepare_menu($operator,$hasright=true) {
 }
 
 function get_all_groups($link) {
-	$query = "select chatgroup.groupid as groupid, vclocalname, vclocaldescription from chatgroup order by vclocalname";
+	global $mysqlprefix;
+	$query = "select " . $mysqlprefix . "chatgroup.groupid as groupid, vclocalname, vclocaldescription from " . $mysqlprefix . "chatgroup order by vclocalname";
 	return select_multi_assoc($query, $link);
 }
 
 function get_groups($link,$checkaway) {
-	$query = "select chatgroup.groupid as groupid, vclocalname, vclocaldescription".
-			", (SELECT count(*) from chatgroupoperator where chatgroup.groupid = chatgroupoperator.groupid) as inumofagents". 
+	global $mysqlprefix;
+	$query = "select " . $mysqlprefix . "chatgroup.groupid as groupid, vclocalname, vclocaldescription".
+			", (SELECT count(*) from " . $mysqlprefix . "chatgroupoperator where " . $mysqlprefix . "chatgroup.groupid = " . 
+			$mysqlprefix . "chatgroupoperator.groupid) as inumofagents". 
 			", (SELECT min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time ".
-					"from chatgroupoperator, chatoperator where istatus = 0 and chatgroup.groupid = chatgroupoperator.groupid ".
-					"and chatgroupoperator.operatorid = chatoperator.operatorid) as ilastseen".
+					"from " . $mysqlprefix . "chatgroupoperator, " . $mysqlprefix . "chatoperator where istatus = 0 and " . 
+					$mysqlprefix . "chatgroup.groupid = " . $mysqlprefix . "chatgroupoperator.groupid ".
+					"and " . $mysqlprefix . "chatgroupoperator.operatorid = " . $mysqlprefix . "chatoperator.operatorid) as ilastseen".
 			($checkaway
 				 ? ", (SELECT min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time ".
-						"from chatgroupoperator, chatoperator where istatus <> 0 and chatgroup.groupid = chatgroupoperator.groupid ".
-						"and chatgroupoperator.operatorid = chatoperator.operatorid) as ilastseenaway"
+						"from " . $mysqlprefix . "chatgroupoperator, " . $mysqlprefix . "chatoperator where istatus <> 0 and " . 
+						$mysqlprefix . "chatgroup.groupid = " . $mysqlprefix . "chatgroupoperator.groupid ".
+						"and " . $mysqlprefix . "chatgroupoperator.operatorid = " . $mysqlprefix . "chatoperator.operatorid) as ilastseenaway"
 				 : ""
 			 ).
-			 " from chatgroup order by vclocalname";
+			 " from " . $mysqlprefix . "chatgroup order by vclocalname";
 	return select_multi_assoc($query, $link);
 }
 
 function get_operator_groupids($operatorid) {
+	global $mysqlprefix;
 	$link = connect();
-	$query = "select groupid from chatgroupoperator where operatorid = $operatorid";
+	$query = "select groupid from " . $mysqlprefix . "chatgroupoperator where operatorid = $operatorid";
 	$result = select_multi_assoc($query, $link);
 	mysql_close($link);
 	return $result;

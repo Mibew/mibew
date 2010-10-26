@@ -38,6 +38,7 @@ if( isset($_GET['userid'])) {
 }
 
 function threads_by_userid($userid) {
+	global $mysqlprefix;
 	if ($userid == "") {
 	    return null;
 	}
@@ -45,7 +46,7 @@ function threads_by_userid($userid) {
 
 	$query = sprintf("select unix_timestamp(dtmcreated) as created, unix_timestamp(dtmmodified) as modified, ".
 			 " threadid, remote, agentName, userName ".
-			 "from chatthread ".
+			 "from " . $mysqlprefix . "chatthread ".
 			 "where userid=\"$userid\" order by created DESC", $userid);
 
 	$result = mysql_query($query, $link) or die(' Query failed: ' .mysql_error().": ".$query);

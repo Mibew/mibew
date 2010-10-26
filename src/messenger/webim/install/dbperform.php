@@ -77,90 +77,90 @@ if ($act == "silentcreateall") {
 			}
 		}
 
-		if( in_array("chatmessage.agentId", $absent) ) {
-			runsql("ALTER TABLE chatmessage ADD agentId int NOT NULL DEFAULT 0 AFTER ikind", $link);
-			runsql("update chatmessage,chatoperator set agentId = operatorid where agentId = 0 AND ikind = 2 AND (vclocalename = tname OR vccommonname = tname)", $link);
+		if( in_array($mysqlprefix . "chatmessage.agentId", $absent) ) {
+			runsql("ALTER TABLE " . $mysqlprefix . "chatmessage ADD agentId int NOT NULL DEFAULT 0 AFTER ikind", $link);
+			runsql("update " . $mysqlprefix . "chatmessage, " . $mysqlprefix . "chatoperator set agentId = operatorid where agentId = 0 AND ikind = 2 AND (vclocalename = tname OR vccommonname = tname)", $link);
 		}
 
-		if( in_array("chatthread.agentId", $absent) ) {
-			runsql("ALTER TABLE chatthread ADD agentId int NOT NULL DEFAULT 0 AFTER agentName", $link);
-			runsql("update chatthread,chatoperator set agentId = operatorid where agentId = 0 AND (vclocalename = agentName OR vccommonname = agentName)", $link);
+		if( in_array($mysqlprefix . "chatthread.agentId", $absent) ) {
+			runsql("ALTER TABLE " . $mysqlprefix . "chatthread ADD agentId int NOT NULL DEFAULT 0 AFTER agentName", $link);
+			runsql("update " . $mysqlprefix . "chatthread, " . $mysqlprefix . "chatoperator set agentId = operatorid where agentId = 0 AND (vclocalename = agentName OR vccommonname = agentName)", $link);
 		}
 
-		if( in_array("chatthread.agentTyping", $absent) ) {
-			runsql("ALTER TABLE chatthread ADD agentTyping int DEFAULT 0", $link);
+		if( in_array($mysqlprefix . "chatthread.agentTyping", $absent) ) {
+			runsql("ALTER TABLE " . $mysqlprefix . "chatthread ADD agentTyping int DEFAULT 0", $link);
 		}
 
-		if( in_array("chatthread.userTyping", $absent) ) {
-			runsql("ALTER TABLE chatthread ADD userTyping int DEFAULT 0", $link);
+		if( in_array($mysqlprefix . "chatthread.userTyping", $absent) ) {
+			runsql("ALTER TABLE " . $mysqlprefix . "chatthread ADD userTyping int DEFAULT 0", $link);
 		}
 
-		if( in_array("chatthread.messageCount", $absent) ) {
-			runsql("ALTER TABLE chatthread ADD messageCount varchar(16)", $link);
-			runsql("ALTER TABLE chatmessage ADD INDEX idx_threadid_ikind (threadid, ikind)", $link);
-			runsql("UPDATE chatthread t SET t.messageCount = (SELECT COUNT(*) FROM chatmessage WHERE chatmessage.threadid = t.threadid AND ikind = 1)", $link);
-			runsql("ALTER TABLE chatmessage DROP INDEX idx_threadid_ikind", $link);
+		if( in_array($mysqlprefix . "chatthread.messageCount", $absent) ) {
+			runsql("ALTER TABLE " . $mysqlprefix . "chatthread ADD messageCount varchar(16)", $link);
+			runsql("ALTER TABLE " . $mysqlprefix . "chatmessage ADD INDEX idx_threadid_ikind (threadid, ikind)", $link);
+			runsql("UPDATE " . $mysqlprefix . "chatthread t SET t.messageCount = (SELECT COUNT(*) FROM " . $mysqlprefix . "chatmessage WHERE " . $mysqlprefix . "chatmessage.threadid = t.threadid AND ikind = 1)", $link);
+			runsql("ALTER TABLE " . $mysqlprefix . "chatmessage DROP INDEX idx_threadid_ikind", $link);
 		}
 
-		if( in_array("chatthread.nextagent", $absent) ) {
-			runsql("ALTER TABLE chatthread ADD nextagent int NOT NULL DEFAULT 0", $link);
+		if( in_array($mysqlprefix . "chatthread.nextagent", $absent) ) {
+			runsql("ALTER TABLE " . $mysqlprefix . "chatthread ADD nextagent int NOT NULL DEFAULT 0", $link);
 		}
 
-		if( in_array("chatthread.shownmessageid", $absent) ) {
-			runsql("ALTER TABLE chatthread ADD shownmessageid int NOT NULL DEFAULT 0", $link);
+		if( in_array($mysqlprefix . "chatthread.shownmessageid", $absent) ) {
+			runsql("ALTER TABLE " . $mysqlprefix . "chatthread ADD shownmessageid int NOT NULL DEFAULT 0", $link);
 		}
 
-		if( in_array("chatthread.userid", $absent) ) {
-			runsql("ALTER TABLE chatthread ADD userid varchar(255) DEFAULT \"\"", $link);
+		if( in_array($mysqlprefix . "chatthread.userid", $absent) ) {
+			runsql("ALTER TABLE " . $mysqlprefix . "chatthread ADD userid varchar(255) DEFAULT \"\"", $link);
 		}
 
-		if( in_array("chatoperator.iperm", $absent) ) {
-			runsql("ALTER TABLE chatoperator ADD iperm int DEFAULT 65535", $link);
+		if( in_array($mysqlprefix . "chatoperator.iperm", $absent) ) {
+			runsql("ALTER TABLE " . $mysqlprefix . "chatoperator ADD iperm int DEFAULT 65535", $link);
 		}
 
-		if( in_array("chatoperator.istatus", $absent) ) {
-			runsql("ALTER TABLE chatoperator ADD istatus int DEFAULT 0", $link);
+		if( in_array($mysqlprefix . "chatoperator.istatus", $absent) ) {
+			runsql("ALTER TABLE " . $mysqlprefix . "chatoperator ADD istatus int DEFAULT 0", $link);
 		}
 
-		if( in_array("chatoperator.inotify", $absent) ) {
-			runsql("ALTER TABLE chatoperator ADD inotify int DEFAULT 0", $link);
+		if( in_array($mysqlprefix . "chatoperator.inotify", $absent) ) {
+			runsql("ALTER TABLE " . $mysqlprefix . "chatoperator ADD inotify int DEFAULT 0", $link);
 		}
 		
-		if( in_array("chatoperator.vcavatar", $absent) ) {
-			runsql("ALTER TABLE chatoperator ADD vcavatar varchar(255)", $link);
+		if( in_array($mysqlprefix . "chatoperator.vcavatar", $absent) ) {
+			runsql("ALTER TABLE " . $mysqlprefix . "chatoperator ADD vcavatar varchar(255)", $link);
 		}
 
-		if( in_array("chatoperator.vcjabbername", $absent) ) {
-			runsql("ALTER TABLE chatoperator ADD vcjabbername varchar(255)", $link);
+		if( in_array($mysqlprefix . "chatoperator.vcjabbername", $absent) ) {
+			runsql("ALTER TABLE " . $mysqlprefix . "chatoperator ADD vcjabbername varchar(255)", $link);
 		}
 
-		if( in_array("chatoperator.vcemail", $absent) ) {
-			runsql("ALTER TABLE chatoperator ADD vcemail varchar(64)", $link);
+		if( in_array($mysqlprefix . "chatoperator.vcemail", $absent) ) {
+			runsql("ALTER TABLE " . $mysqlprefix . "chatoperator ADD vcemail varchar(64)", $link);
 		}
 
-		if( in_array("chatoperator.dtmrestore", $absent) ) {
-			runsql("ALTER TABLE chatoperator ADD dtmrestore datetime DEFAULT 0", $link);
+		if( in_array($mysqlprefix . "chatoperator.dtmrestore", $absent) ) {
+			runsql("ALTER TABLE " . $mysqlprefix . "chatoperator ADD dtmrestore datetime DEFAULT 0", $link);
 		}
 
-		if( in_array("chatoperator.vcrestoretoken", $absent) ) {
-			runsql("ALTER TABLE chatoperator ADD vcrestoretoken varchar(64)", $link);
+		if( in_array($mysqlprefix . "chatoperator.vcrestoretoken", $absent) ) {
+			runsql("ALTER TABLE " . $mysqlprefix . "chatoperator ADD vcrestoretoken varchar(64)", $link);
 		}
 		
-		if( in_array("chatthread.groupid", $absent) ) {
-			runsql("ALTER TABLE chatthread ADD groupid int references chatgroup(groupid)", $link);
+		if( in_array($mysqlprefix . "chatthread.groupid", $absent) ) {
+			runsql("ALTER TABLE " . $mysqlprefix . "chatthread ADD groupid int references chatgroup(groupid)", $link);
 		}
 
-		if( in_array("chatthread.userAgent", $absent) ) {
-			runsql("ALTER TABLE chatthread ADD userAgent varchar(255)", $link);
+		if( in_array($mysqlprefix . "chatthread.userAgent", $absent) ) {
+			runsql("ALTER TABLE " . $mysqlprefix . "chatthread ADD userAgent varchar(255)", $link);
 		}
 
-		if( in_array("chatgroup.vcemail", $absent) ) {
-			runsql("ALTER TABLE chatgroup ADD vcemail varchar(64)", $link);
+		if( in_array($mysqlprefix . "chatgroup.vcemail", $absent) ) {
+			runsql("ALTER TABLE " . $mysqlprefix . "chatgroup ADD vcemail varchar(64)", $link);
 		}
 		
-		$res = mysql_query("select null from information_schema.statistics where table_name = 'chatmessage' and index_name = 'idx_agentid'", $link);
+		$res = mysql_query("select null from information_schema.statistics where table_name = '". $mysqlprefix . "chatmessage' and index_name = 'idx_agentid'", $link);
 		if($res && mysql_num_rows($res) == 0) {
-			runsql("ALTER TABLE chatmessage ADD INDEX idx_agentid (agentid)", $link);
+			runsql("ALTER TABLE " . $mysqlprefix . "chatmessage ADD INDEX idx_agentid (agentid)", $link);
 		}
 	}
 }

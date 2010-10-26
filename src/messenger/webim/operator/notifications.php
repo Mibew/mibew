@@ -65,7 +65,7 @@ if($lang) {
 
 $link = connect();
 select_with_pagintation(
-	"id, locale, vckind, vcto, unix_timestamp(dtmcreated) as created, vcsubject, tmessage, refoperator", "chatnotification",
+	"id, locale, vckind, vcto, unix_timestamp(dtmcreated) as created, vcsubject, tmessage, refoperator", $mysqlprefix . "chatnotification",
 	$conditions,
 	"order by created desc", "", $link);
 

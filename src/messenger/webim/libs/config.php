@@ -36,6 +36,7 @@ $mysqlhost = "localhost";
 $mysqldb = "webim_db";
 $mysqllogin = "webim_lite";
 $mysqlpass = "123";
+$mysqlprefix = "";
 
 $dbencoding = "utf8";
 $force_charset_in_connection = true;
@@ -50,6 +51,6 @@ $mail_encoding = "utf-8";
  *  Locales
  */
 $home_locale = "en";						/* native name will be used in this locale */
-$default_locale = "en";						/* if user does not provide known lang */
+$default_locale = "en";					/* if user does not provide known lang */
 
 ?>

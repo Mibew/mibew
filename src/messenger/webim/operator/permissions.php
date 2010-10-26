@@ -26,8 +26,9 @@ require_once('../libs/operator_settings.php');
 $operator = check_login();
 
 function update_operator_permissions($operatorid,$newvalue) {
+	global $mysqlprefix;
 	$link = connect();
-	$query = "update chatoperator set iperm = $newvalue where operatorid = $operatorid";
+	$query = "update " . $mysqlprefix . "chatoperator set iperm = $newvalue where operatorid = $operatorid";
 
 	perform_query($query,$link);
 	mysql_close($link);
