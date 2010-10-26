@@ -250,7 +250,7 @@ function setup_redirect_links($threadid,$token) {
 	loadsettings();
 	$link = connect();
 
-	$operatorscount = db_rows_count("chatoperator", array(), "", $link);
+	$operatorscount = db_rows_count($mysqlprefix . "chatoperator", array(), "", $link);
 
 	$groupscount = 0;
 	if($settings['enablegroups'] == "1") {
@@ -270,7 +270,7 @@ function setup_redirect_links($threadid,$token) {
 
 	$operators = select_multi_assoc(db_build_select(
 		"operatorid, vclogin, vclocalename, vccommonname, istatus, (unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time",
-		"chatoperator", array(), "order by vclogin $limit"), $link);
+		$mysqlprefix . "chatoperator", array(), "order by vclogin $limit"), $link);
 	
 	$groups = array_slice($groups, $p['start'], $p['end']-$p['start']);
 
