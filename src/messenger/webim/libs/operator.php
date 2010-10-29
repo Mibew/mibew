@@ -195,13 +195,13 @@ function append_query($link,$pv) {
 }
 
 function check_login($redirect=true) {
-	global $webimroot;
-	if( !isset( $_SESSION['operator'] ) ) {
+	global $webimroot, $mysqlprefix;
+	if( !isset( $_SESSION[$mysqlprefix . 'operator'] ) ) {
 		if( isset($_COOKIE['webim_lite']) ) {
 			list($login,$pwd) = preg_split("/,/", $_COOKIE['webim_lite'], 2);
 			$op = operator_by_login($login);
 			if( $op && isset($pwd) && isset($op['vcpassword']) && md5($op['vcpassword']) == $pwd ) {
-				$_SESSION['operator'] = $op;
+				$_SESSION[$mysqlprefix . 'operator'] = $op;
 				return $op;
 			}
 		}
@@ -217,16 +217,17 @@ function check_login($redirect=true) {
 			return null;
 		}
 	}
-	return $_SESSION['operator'];
+	return $_SESSION[$mysqlprefix . 'operator'];
 }
 
 function get_logged_in() {
-	return isset( $_SESSION['operator'] ) ? $_SESSION['operator'] : FALSE;
+	global $mysqlprefix;
+	return isset( $_SESSION[$mysqlprefix . 'operator'] ) ? $_SESSION[$mysqlprefix . 'operator'] : FALSE;
 }
 
 function login_operator($operator,$remember) {
-	global $webimroot;
-	$_SESSION['operator'] = $operator;
+	global $webimroot, $mysqlprefix;
+	$_SESSION[$mysqlprefix . 'operator'] = $operator;
 	if( $remember ) {
 		$value = $operator['vclogin'].",".md5($operator['vcpassword']);
 		setcookie('webim_lite', $value, time()+60*60*24*1000, "$webimroot/");
@@ -237,8 +238,8 @@ function login_operator($operator,$remember) {
 }
 
 function logout_operator() {
-	global $webimroot;
-	unset($_SESSION['operator']);
+	global $webimroot, $mysqlprefix;
+	unset($_SESSION[$mysqlprefix . 'operator']);
 	unset($_SESSION['backpath']);
 	if( isset($_COOKIE['webim_lite']) ) {
 		setcookie('webim_lite', '', time() - 3600, "$webimroot/");

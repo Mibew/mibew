@@ -62,8 +62,8 @@ if( !$op ) {
 	if(count($errors) == 0) {
 		update_operator_permissions($op['operatorid'],$new_permissions);
 
-		if ($opId && $_SESSION['operator'] && $operator['operatorid'] == $opId) {
-			$_SESSION['operator']['iperm'] = $new_permissions;
+		if ($opId && $_SESSION[$mysqlprefix . 'operator'] && $operator['operatorid'] == $opId) {
+			$_SESSION[$mysqlprefix . $mysqlprefix . 'operator']['iperm'] = $new_permissions;
 		}
 		header("Location: $webimroot/operator/permissions.php?op=$opId&stored");
 		exit;
