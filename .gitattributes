@@ -1,0 +1,9 @@
+*.php text
+*.pl text
+*.xml text
+*.java text
+*.sh eol=lf
+*.txt text
+.project text
+.classpath text
+.buildpath text
