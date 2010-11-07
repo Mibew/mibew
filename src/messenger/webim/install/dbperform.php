@@ -147,7 +147,7 @@ if ($act == "silentcreateall") {
 		}
 		
 		if( in_array($mysqlprefix . "chatthread.groupid", $absent) ) {
-			runsql("ALTER TABLE " . $mysqlprefix . "chatthread ADD groupid int references chatgroup(groupid)", $link);
+			runsql("ALTER TABLE " . $mysqlprefix . "chatthread ADD groupid int references " . $mysqlprefix . "chatgroup(groupid)", $link);
 		}
 
 		if( in_array($mysqlprefix . "chatthread.userAgent", $absent) ) {

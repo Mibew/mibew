@@ -359,7 +359,6 @@ function select_multi_assoc($query, $link) {
 }
 
 function db_build_select($fields, $table, $conditions, $orderandgroup) {
-	global $mysqlprefix;
 	$condition = count($conditions) > 0 ? " where ".implode(" and ", $conditions) : "";
 	if($orderandgroup) $orderandgroup = " ".$orderandgroup;
 	return "select $fields from $table$condition$orderandgroup";

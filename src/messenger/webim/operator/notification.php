@@ -30,9 +30,10 @@ $page = array();
 setlocale(LC_TIME, getstring("time.locale"));
 
 function notification_info($id) {
+	global $mysqlprefix;
 	$link = connect();
 	$notification = select_one_row(db_build_select(
-		"id, locale, vckind, vcto, unix_timestamp(dtmcreated) as created, vcsubject, tmessage, refoperator", "chatnotification",
+		"id, locale, vckind, vcto, unix_timestamp(dtmcreated) as created, vcsubject, tmessage, refoperator", $mysqlprefix . "chatnotification",
 		array("id = $id"), ""), $link);
 	mysql_close($link);
 	return $notification;
