@@ -1,5 +1,0 @@
-User-Agent: *
-Disallow: /webim/
-Disallow: /article/
-Allow: /
-
