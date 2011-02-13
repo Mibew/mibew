@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="libs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/mibewjava/org.mibew.jabber/libs/smackx-debug.jar!/" />
+      <root url="jar://$PROJECT_DIR$/mibewjava/org.mibew.jabber/libs/smack.jar!/" />
+      <root url="jar://$PROJECT_DIR$/mibewjava/org.mibew.jabber/libs/smackx.jar!/" />
+      <root url="jar://$PROJECT_DIR$/mibewjava/org.mibew.jabber/libs/smackx-jingle.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
