@@ -2,7 +2,7 @@
  This file is part of Mibew Messenger project.
  http://mibew.org
 
- Copyright (c) 2005-2010 Mibew Messenger Community
+ Copyright (c) 2005-2011 Mibew Messenger Community
  License: http://mibew.org/license.php
 */
 Ajax.PeriodicalUpdater=Class.create();

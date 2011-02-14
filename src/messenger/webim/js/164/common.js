@@ -2,7 +2,7 @@
  This file is part of Mibew Messenger project.
  http://mibew.org
 
- Copyright (c) 2005-2010 Mibew Messenger Community
+ Copyright (c) 2005-2011 Mibew Messenger Community
  License: http://mibew.org/license.php
 */
 var Class={create:function(){return function(){this.initialize.apply(this,arguments)}},inherit:function(a,b,c){Object.extend(Object.extend(a.prototype,b.prototype),c)}};Object.extend=function(a,b){for(property in b)a[property]=b[property];return a};Object.prototype.extend=function(a){return Object.extend.apply(this,[this,a])};Function.prototype.bind=function(a){var b=this;return function(){return b.apply(a,arguments)}};
