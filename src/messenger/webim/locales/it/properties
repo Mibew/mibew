@@ -169,7 +169,7 @@ install.err.title=Problema
 install.kill_tables.notice=Impossibile aggiornare le struttura delle tabelle. Prova a farlo manualmente oppure ricrea tutte le tabelle (warning: tutti i dati verranno persi).
 install.kill_tables=Togli le tabelle esistenti dal database
 install.license=Software license agreement
-install.message=Segui il wizard per settare il tuo database. 
+install.message=Segui il wizard per settare il tuo database.
 install.next=Prossimo passo:
 install.title=Installazione
 install.updatedb=Cortesemente, lancia <a href="{0}">Aggiornamento guidato</a> per sistemare il database.

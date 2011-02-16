@@ -1,3 +1,11 @@
+admin.content.client_agents=შექმენი, წაშალე კომპანიის ოპერატორები. მართე მათი უფლებები.
+admin.content.client_gen_button=HTML ღილაკის კოდის გენერაცია.
+admin.content.client_settings=განსაზღვრე ოპციები რომლებიც განაპირობებს ჩატის სარკმელს და სისტემის ძირითად მახასიათებლებს.
+admin.content.description=ფუნქციები ნებადართულია საიტის ოპერატორებისათვის.
+button.delete=წაშლა
+button.offline.bottom=დატოვეთ შეტყობინება
+button.offline.top=საიტის კონსულტანტი
+button.offline=გათიშულია
 chat.came.from=სტუმარი შემოგვიერთდა {0} –დან
 chat.client.changename=სახელის შეცვლა
 chat.client.name=თქვენ ხართ  
