@@ -23,7 +23,7 @@ require_once('libs/common.php');
 require_once('libs/captcha.php');
 
 $captchaCode = gen_captcha();
-$_SESSION["captcha"] = $captchaCode;
+$_SESSION["mibew_captcha"] = $captchaCode;
 draw_captcha($captchaCode);
 
 exit;
