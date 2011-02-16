@@ -1,0 +1,13 @@
+*.php text
+*.pl text
+properties text
+*.html text
+*.css text
+*.tpl text
+*.xml text
+*.java text
+*.sh eol=lf
+*.txt text
+.project text
+.classpath text
+.buildpath text
