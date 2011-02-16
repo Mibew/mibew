@@ -288,7 +288,7 @@ function setup_leavemessage($name, $email, $message, $groupid, $groupname, $info
 	$page['showcaptcha'] = $settings["enablecaptcha"] == "1" && $canshowcaptcha ? "1" : "";
 	$page['formgroupid'] = $groupid;
 	$page['formgroupname'] = $groupname;
-	$page['info'] = topage($info);
+	$page['forminfo'] = topage($info);
 	$page['referrer'] = urlencode(topage($referrer));
 }
 

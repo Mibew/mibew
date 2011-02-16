@@ -9,7 +9,7 @@
 <div id="whitebg">
 	<form name="leaveMessageForm" method="post" action="${webimroot}/leavemessage.php">
 		<input type="hidden" name="style" value="${styleid}"/>
-		<input type="hidden" name="info" value="${page:info}"/>
+		<input type="hidden" name="info" value="${form:info}"/>
 		<input type="hidden" name="referrer" value="${page:referrer}"/>
 		${if:formgroupid}<input type="hidden" name="group" value="${form:groupid}"/>${endif:formgroupid}
 		<table cellpadding="0" cellspacing="5" border="0" width="100%">
