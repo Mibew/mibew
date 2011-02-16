@@ -22,6 +22,7 @@
 require_once('../libs/common.php');
 require_once('../libs/operator.php');
 require_once('../libs/settings.php');
+require_once('../libs/notify.php');
 
 $errors = array();
 $page = array('version' => $version);
@@ -46,11 +47,10 @@ if (isset($_POST['loginoremail'])) {
 		$link = connect();
 		$query = "update chatoperator set dtmrestore = CURRENT_TIMESTAMP, vcrestoretoken = '$token' where operatorid = ".$torestore['operatorid'];
 		perform_query($query, $link);
+		
+		$href = get_app_location(true,false)."/operator/resetpwd.php?id=".$torestore['operatorid']."&token=$token";
+		webim_mail($email, $email, getstring("restore.mailsubj"), getstring2("restore.mailtext",array(get_operator_name($torestore), $href)), $link);
 		mysql_close($link);
-		
-		$link = get_app_location(true,false)."/operator/resetpwd.php?id=".$torestore['operatorid']."&token=$token";
-		
-		webim_mail($email, $email, getstring("restore.mailsubj"), getstring2("restore.mailtext",array(get_operator_name($torestore), $link)));
 
 		$page['isdone'] = true;
 		require('../view/restore.php');

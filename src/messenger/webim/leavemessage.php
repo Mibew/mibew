@@ -24,6 +24,7 @@ require_once('libs/chat.php');
 require_once('libs/expand.php');
 require_once('libs/groups.php');
 require_once('libs/captcha.php');
+require_once('libs/notify.php');
 
 $errors = array();
 $page = array();
@@ -110,7 +111,9 @@ $body = getstring2_("leavemail.body", array($visitor_name,$email,$message,$info 
 $inbox_mail = $settings['email'];
 
 if($inbox_mail) {
-	webim_mail($inbox_mail, $email, $subject, $body);
+	$link = connect();
+	webim_mail($inbox_mail, $email, $subject, $body, $link);
+	mysql_close($link);
 }
 
 setup_logo();

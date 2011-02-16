@@ -338,14 +338,6 @@ function perform_query($query,$link) {
 		or die(' Query failed: '.mysql_error()/*.": ".$query*/);
 }
 
-function rows_count($link,$table,$whereclause="") {
-	$result = mysql_query("SELECT count(*) FROM $table $whereclause",$link)
-			or die(' Count query failed: '.mysql_error());
-	$line = mysql_fetch_array($result, MYSQL_NUM);
-	mysql_free_result($result);
-	return $line[0];
-}
-
 function select_one_row($query,$link) {
 	$result = mysql_query($query,$link) or die(' Query failed: ' .
 		mysql_error().": ".$query);
@@ -364,6 +356,20 @@ function select_multi_assoc($query, $link) {
 	}
 	mysql_free_result($sqlresult);
 	return $result;
+}
+
+function db_build_select($fields, $table, $conditions, $orderandgroup) {
+	$condition = count($conditions) > 0 ? " where ".implode(" and ", $conditions) : "";
+	if($orderandgroup) $orderandgroup = " ".$orderandgroup;
+	return "select $fields from $table$condition$orderandgroup";
+}	
+
+function db_rows_count($table,$conditions,$countfields, $link) {
+	$result = mysql_query(db_build_select("count(".($countfields ? $countfields : "*").")", $table, $conditions, ""),$link)
+			or die(' Count query failed: '.mysql_error());
+	$line = mysql_fetch_array($result, MYSQL_NUM);
+	mysql_free_result($result);
+	return $line[0];
 }
 
 function start_xml_output() {
@@ -541,21 +547,6 @@ function date_to_text($unixtime) {
 	}
 	
 	return strftime($date_format." ".getlocal("time.timeformat"), $unixtime);
-}
-
-function webim_mail($toaddr, $reply_to, $subject, $body) {
-	global $webim_encoding, $webim_mailbox, $mail_encoding;
-
-	$headers = "From: $webim_mailbox\r\n"
-	   ."Reply-To: ".myiconv($webim_encoding, $mail_encoding, $reply_to)."\r\n"
-	   ."Content-Type: text/plain; charset=$mail_encoding\r\n"
-	   .'X-Mailer: PHP/'.phpversion();
-
-	$real_subject = "=?".$mail_encoding."?B?".base64_encode(myiconv($webim_encoding,$mail_encoding,$subject))."?=";
-
-	$body = preg_replace("/\n/","\r\n", $body);
-	
-	@mail($toaddr, $real_subject, wordwrap(myiconv($webim_encoding, $mail_encoding, $body),70), $headers);
 }
 
 $dbversion = '1.6.3';

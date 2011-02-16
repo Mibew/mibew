@@ -22,6 +22,7 @@
 require_once('libs/common.php');
 require_once('libs/chat.php');
 require_once('libs/expand.php');
+require_once('libs/notify.php');
 
 $errors = array();
 $page = array();
@@ -63,7 +64,9 @@ foreach( $output as $msg ) {
 $subject = getstring("mail.user.history.subject");
 $body = getstring2("mail.user.history.body", array($thread['userName'],$history) );
 
-webim_mail($email, $webim_mailbox, $subject, $body);
+$link = connect();
+webim_mail($email, $webim_mailbox, $subject, $body, $link);
+mysql_close($link);
 
 setup_logo();
 expand("styles", getchatstyle(), "mailsent.tpl");
