@@ -48,6 +48,12 @@ mkdir "release$suffix";
 
 chdir "$targetFolder/locales";
 
+`zip -r ../../release$suffix/pre_webim${suffix}_cs.zip cs`;
+`rm -rf cs`;
+
+`zip -r ../../release$suffix/pre_webim${suffix}_fi.zip fi`;
+`rm -rf fi`;
+
 `zip -r ../../release$suffix/pre_webim${suffix}_da.zip da`;
 `rm -rf da`;
 
@@ -60,29 +66,35 @@ chdir "$targetFolder/locales";
 `zip -r ../../release$suffix/pre_webim${suffix}_nl.zip nl`;
 `rm -rf nl`;
 
-`zip -r ../../release$suffix/pre_webim${suffix}_ro.zip ro`;
-`rm -rf ro`;
-
 `zip -r ../../release$suffix/pre_webim${suffix}_tr.zip tr`;
 `rm -rf tr`;
 
-`zip -r ../../release$suffix/pre_webim${suffix}_hu.zip hu`;
-`rm -rf hu`;
-
 chdir "..";
 
-`zip -r ../release$suffix/webim${suffix}demo.zip *`;
+`zip -r ../release$suffix/webim${suffix}_all.zip *`;
 
 chdir "locales";
 
 `zip -r ../../release$suffix/webim${suffix}_ar.zip ar`;
 `rm -rf ar`;
 
+`zip -r ../../release$suffix/webim${suffix}_bg.zip bg`;
+`rm -rf bg`;
+
+`zip -r ../../release$suffix/webim${suffix}_ca.zip ca`;
+`rm -rf ca`;
+
 `zip -r ../../release$suffix/webim${suffix}_de.zip de`;
 `rm -rf de`;
 
 `zip -r ../../release$suffix/webim${suffix}_ru.zip ru`;
 `rm -rf ru`;
+
+`zip -r ../../release$suffix/webim${suffix}_ro.zip ro`;
+`rm -rf ro`;
+
+`zip -r ../../release$suffix/webim${suffix}_hu.zip hu`;
+`rm -rf hu`;
 
 `zip -r ../../release$suffix/webim${suffix}_fr.zip fr`;
 `rm -rf fr`;
@@ -98,6 +110,9 @@ chdir "locales";
 
 `zip -r ../../release$suffix/webim${suffix}_sp.zip sp`;
 `rm -rf sp`;
+
+`zip -r ../../release$suffix/webim${suffix}_sv.zip sv`;
+`rm -rf sv`;
 
 `zip -r ../../release$suffix/webim${suffix}_ua.zip ua`;
 `rm -rf ua`;

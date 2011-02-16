@@ -1,3 +1,7 @@
+  1.6.4
+  -----
+  [!] various compatibility fixes: button image, captcha, check webimroot variable (installation)
+
   1.6.3
   -----
   [+] password restore functionality for agent
