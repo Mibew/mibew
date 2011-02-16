@@ -175,7 +175,7 @@ install.title=Installation
 install.updatedb=Lancer <a href="{0}">Assistant de mise à jour</a> pour rectifier votre base de données.
 installed.login_link=Procédez à l'identification
 installed.message=<b>Application installée avec succès.</b>
-installed.notice=Vous pouvez ouvrir une session en tant que <i>"admin"</i> avec un mot de passe vide.<br/><br/><font color="#c13030"><b>Pour des raisons de sécurités, changez votre mot de passe immédiatement et effacez le dossier /webim/install de votre serveur.</b></font>
+installed.notice=Vous pouvez ouvrir une session en tant que <i>"admin"</i> avec un mot de passe vide.<br/><br/><font color="#c13030"><b>Pour des raisons de sécurités, changez votre mot de passe immédiatement et effacez le dossier {0} de votre serveur.</b></font>
 lang.choose=Choisissez votre langue
 leavemail.body=Vous avez un message de {0}:\n\n{2}\n\nSon email: {1}\n{3}\n--- \nde votre messagerie instantatanée
 leavemail.subject=Question de {0}

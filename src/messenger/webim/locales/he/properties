@@ -175,7 +175,7 @@ install.title=התקנה
 install.updatedb=בבקשה, תפעיל <a href="{0}">אשף עדכון</a> כדי לעדכן את הנתונים.
 installed.login_link=כניסה למערכת
 installed.message=<b>ההתקנה הסתיימה בהצלחה. </b>
-installed.notice=הינך יכול להיכנס למערכת כמנהל - <b>admin</b> עם סיסמה ריקה.<br/><br/><font color="#c13030"><b>!!! לטעמי בטחון, צריך למחוק את התקייה /webim/install מתוך השרת ושנה את הסיסמה.</b></font>
+installed.notice=הינך יכול להיכנס למערכת כמנהל - <b>admin</b> עם סיסמה ריקה.<br/><br/><font color="#c13030"><b>!!! לטעמי בטחון, צריך למחוק את התקייה {0} מתוך השרת ושנה את הסיסמה.</b></font>
 lang.choose=בחר שפה
 leavemail.body=האורח שלך '{0}' השאיר הודעה:\n\n{2}\n\n?mail: {1}\n{3}\n--- \nבכבוד רב,\nהמסנגר שלך
 leavemail.subject=שאלה מ {0}

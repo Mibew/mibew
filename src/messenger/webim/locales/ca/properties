@@ -179,7 +179,7 @@ install.title=Instal.lació
 install.updatedb=Si us plau, executa <a href="{0}">l'Assistent d'Actualització</a> per ajustar la teva base de dades.
 installed.login_link=Procediu a la pàgina d'accés
 installed.message=<b>Aplicació instal.lada amb èxit.</b>
-installed.notice=Podeu accedir com a <b>admin</b> amb contrasenya buida. <br/><br/><font color="#c13030"><b>!!! Per seguretat, si us plau canvieu la contrasenya immediatament i elimineu el directori /webim/install del seu servidor.</b></font>
+installed.notice=Podeu accedir com a <b>admin</b> amb contrasenya buida. <br/><br/><font color="#c13030"><b>!!! Per seguretat, si us plau canvieu la contrasenya immediatament i elimineu el directori {0} del seu servidor.</b></font>
 lang.choose=Selecciona l'idioma
 leavemail.body=Té un missatge de {0}:\n\n{2}\n\nAquest email: {1}\n{3}\n---\nAtentament lloc Messenger
 leavemail.subject=Pregunta des de {0}

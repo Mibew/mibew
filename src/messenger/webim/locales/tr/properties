@@ -186,7 +186,7 @@ install.title=Kurulum
 install.updatedb=Lütfen <a href="{0}">güncelleme sihirbazını</a> çalıştırarak veritabanınızı ayarlayın.
 installed.login_link=Giriş sayfasına devam edin
 installed.message=<b>Uygulama başarıyla kuruldu</b>
-installed.notice=Sisteme <b>admin</b> olarak boş şifre ile girebilirsiniz.<br/><br/><font color="#c13030"><b>!!! Güvenlik sebebi ile şifrenizi hemen değiştirin ve ardından /webim/install klasörünü sunucunuzdan silin.</b></font>
+installed.notice=Sisteme <b>admin</b> olarak boş şifre ile girebilirsiniz.<br/><br/><font color="#c13030"><b>!!! Güvenlik sebebi ile şifrenizi hemen değiştirin ve ardından {0} klasörünü sunucunuzdan silin.</b></font>
 lang.choose=Tercih ettiğiniz dili seçin
 leavemail.body={0} tarafından iletilmiş mesajınız var:\n\n{2}\n\nE-posta adresi: {1}\n{3}\n---\nSistem Yöneticisi
 leavemail.subject={0} tarafından gelen soru

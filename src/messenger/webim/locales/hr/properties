@@ -176,7 +176,7 @@ install.title=Instalacija
 install.updatedb=Molimo, pokrenite <a href="{0}">Čarobnjaka za ažuriranje</a> kako biste prilagodili bazu podataka.
 installed.login_link=Nastavite na stranicu prijave
 installed.message=<b>Aplikacija je uspješno instalirana.</b>
-installed.notice=Možete se prijaviti kao <b>admin</b> bez lozinke.<br/><br/><font color="#c13030"><b>!!! Iz sigurnosnih razloga, molimo da odmah promijenite lozinku i izbrišete /webim/install folder sa servera.</b></font>
+installed.notice=Možete se prijaviti kao <b>admin</b> bez lozinke.<br/><br/><font color="#c13030"><b>!!! Iz sigurnosnih razloga, molimo da odmah promijenite lozinku i izbrišete {0} folder sa servera.</b></font>
 lang.choose=Odaberite jezik
 leavemail.body=Imate poruku od {0}: \n\n{2} \n\nNjegov/njezin email: {1} \n{3} \n--- \nVaš Mibew Messenger
 leavemail.subject=Pitanje od {0}

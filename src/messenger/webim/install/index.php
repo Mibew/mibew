@@ -33,6 +33,25 @@ $page['nextstep'] = false;
 $page['nextnotice'] = false;
 $errors = array();
 
+function check_webimroot() {
+	global $page, $errors, $webimroot;
+	$requestUri = $_SERVER["REQUEST_URI"];
+	if(!preg_match('/^(.*)\\/install(\\/[^\\/\\\\]*)?$/', $requestUri, $matches)) {
+		$errors[] = "Cannot detect application location: $requestUri";
+		return false;	
+	}
+	$applocation = $matches[1];
+	
+	if($applocation != $webimroot) {
+		$errors[] = "Please, check file ${applocation}/libs/config.php<br/>Wrong value of \$webimroot variable, should be \"$applocation\"";
+		$webimroot = $applocation;
+		return false;	
+	}
+
+	$page['done'][] = getlocal2("install.0.app", array($applocation));
+	return true;
+}
+
 function check_connection() {
 	global $mysqlhost,$mysqllogin,$mysqlpass, $page, $errors, $webimroot;
 	$link = @mysql_connect($mysqlhost,$mysqllogin,$mysqlpass);
@@ -121,6 +140,11 @@ function check_columns($link) {
 
 function check_status() {
 	global $page, $webimroot, $settings, $dbversion;
+	
+	if(!check_webimroot()) {
+		return;
+	}
+	
 	$link = check_connection();
 	if(!$link) {
 		return;
@@ -144,7 +168,7 @@ function check_status() {
 	$page['done'][] = getlocal("installed.message");
 
 	$page['nextstep'] = getlocal("installed.login_link");
-	$page['nextnotice'] = getlocal("installed.notice");
+	$page['nextnotice'] = getlocal2("installed.notice", array($webimroot."/install/"));
 	$page['nextstepurl'] = "$webimroot/";
 	
 	$page['show_small_login'] = true;
