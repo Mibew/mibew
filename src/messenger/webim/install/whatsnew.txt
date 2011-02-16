@@ -1,6 +1,7 @@
   1.6.4
   -----
   [!] various compatibility fixes: button image, captcha, check webimroot variable (installation)
+  [!] fix speed of history search, fix redirection to groups
 
   1.6.3
   -----
