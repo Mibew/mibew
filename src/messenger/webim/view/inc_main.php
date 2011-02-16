@@ -2,7 +2,7 @@
 /*
  * This file is part of Mibew Messenger project.
  * 
- * Copyright (c) 2005-2009 Mibew Messenger Community
+ * Copyright (c) 2005-2011 Mibew Messenger Community
  * All rights reserved. The contents of this file are subject to the terms of
  * the Eclipse Public License v1.0 which accompanies this distribution, and
  * is available at http://www.eclipse.org/legal/epl-v10.html
@@ -87,7 +87,7 @@ $isrtl = getlocal("localedirection") == 'rtl';
    	<div class="empty_inner" style="">&#160;</div>
 </div>
 <div id="footer">
-	<p id="legal"><a href="http://mibew.org/" class="flink">Mibew Messenger</a> <?php echo $version ?> | (c) 2009 mibew.org</p>
+	<p id="legal"><a href="http://mibew.org/" class="flink">Mibew Messenger</a> <?php echo $version ?> | (c) 2011 mibew.org</p>
 </div>
 </body>
 </html>
