@@ -43,7 +43,7 @@ public class MibewAgentOptions {
 
 	private static String getProperty(Properties p, String name, String defaultValue) throws IOException {
 		String result = p.getProperty(name);
-		if(result == null || result.trim().length() == 0) {
+		if(result == null) {
 			if(defaultValue != null) {
 				return defaultValue;
 			}

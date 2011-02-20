@@ -1,12 +1,13 @@
 package org.mibew.notifier;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Shell;
+import org.mibew.api.MibewAgentOptions;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
-import javax.swing.JOptionPane;
-
-import org.mibew.api.MibewAgentOptions;
 
 public class Options {
 
@@ -43,13 +44,19 @@ public class Options {
 
 	public static class JOptions extends Options {
 
-		public JOptions(String[] args) {
+        private final Shell fShell;
+
+        public JOptions(Shell shell, String[] args) {
 			super(args);
-		}
+            fShell = shell;
+        }
 
 		@Override
-		protected void handleError(String message) {
-			JOptionPane.showMessageDialog(null, message);
+		protected void handleError(final String message) {
+            MessageBox messageBox = new MessageBox(fShell, SWT.OK | SWT.ICON_ERROR);
+            messageBox.setText("Options error");	//$NON-NLS-1$
+            messageBox.setMessage(message);
+            messageBox.open();
 		}
 	}
 }

@@ -43,7 +43,7 @@ public class MibewTracker {
 	private void handleResponse(MibewResponse response, UpdateHandler handler) throws IOException {
 		if (handler.getResponse() == UpdateHandler.UPD_ERROR) {
 			throw new IOException("Update error: " + handler.getMessage());
-		} else if (handler.getResponse() == UpdateHandler.UPD_THREADS) {
+		} else if (handler.getResponse() == UpdateHandler.UPD_SUCCESS) {
 			fSince = handler.getRevision();
 			fLastUpdate = handler.getTime();
 			List<MibewThread> threads = handler.getThreads();

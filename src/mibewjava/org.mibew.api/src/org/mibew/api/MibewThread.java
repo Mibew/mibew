@@ -1,6 +1,5 @@
 package org.mibew.api;
 
-import java.text.MessageFormat;
 
 /**
  *  @author inspirer
@@ -120,7 +119,6 @@ public class MibewThread implements Comparable<MibewThread> {
 		fWaitingTime = value;		
 	}
 	
-	@Override
 	public int compareTo(MibewThread o) {
 		int res = index(this).compareTo(index(o));
 		if(res != 0) {
