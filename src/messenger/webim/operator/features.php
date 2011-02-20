@@ -42,12 +42,16 @@ foreach($options as $opt) {
 }
 
 if (isset($_POST['sent'])) {
-	foreach($options as $opt) {
-    	$settings[$opt] = verifyparam($opt,"/^on$/", "") == "on" ? "1" : "0";
+	if (is_capable($can_administrate, $operator)) {
+		foreach($options as $opt) {
+    		$settings[$opt] = verifyparam($opt,"/^on$/", "") == "on" ? "1" : "0";
+		}
+    	update_settings();
+	header("Location: $webimroot/operator/features.php?stored");
+	exit;
+	} else {
+		$errors[] = "Not an administrator.";
 	}
-    update_settings();
-    header("Location: $webimroot/operator/features.php?stored");
-    exit;
 }
 
 $page['stored'] = isset($_GET['stored']);
