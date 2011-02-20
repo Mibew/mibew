@@ -25,7 +25,7 @@ require_once('../libs/settings.php');
 
 $operator = check_login();
 
-$default_extensions = array('mysql', 'gd');
+$default_extensions = array('mysql', 'gd', 'iconv');
 
 $errors = array();
 $page = array(
