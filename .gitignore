@@ -1,5 +1,7 @@
 bin
 src/messenger/.idea/workspace.xml
+src/messenger/absent_*
+src/messenger/release*
 src/mibewjava/.idea/workspace.xml
 src/mibewjava/org.mibew.notifier/resources/
 mibew.ini
