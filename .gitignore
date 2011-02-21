@@ -1,2 +1,4 @@
 src/messenger/.idea/workspace.xml
+src/messenger/absent_*
+src/messenger/release*
 .DS_Store

@@ -47,8 +47,8 @@ if (isset($_POST['sent'])) {
     		$settings[$opt] = verifyparam($opt,"/^on$/", "") == "on" ? "1" : "0";
 		}
     	update_settings();
-	header("Location: $webimroot/operator/features.php?stored");
-	exit;
+	    header("Location: $webimroot/operator/features.php?stored");
+	    exit;
 	} else {
 		$errors[] = "Not an administrator.";
 	}
