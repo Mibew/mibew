@@ -88,7 +88,7 @@ if($settings["enablecaptcha"] == "1" && can_show_captcha()) {
 	if(empty($original) || empty($captcha) || $captcha != $original) {
 	  $errors[] = getlocal('errors.captcha');
 	}
-	unset($_SESSION['captcha']);
+	unset($_SESSION['mibew_captcha']);
 }
 
 if( count($errors) > 0 ) {
