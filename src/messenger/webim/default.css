@@ -555,6 +555,13 @@ table.awaiting td.visitor {
 	text-decoration: underline;
 }
 
+/* online operators */
+
+#onlineoperators {
+	padding-right: 10px;
+	float: right;
+}
+
 /* search */
 
 #searchtext {

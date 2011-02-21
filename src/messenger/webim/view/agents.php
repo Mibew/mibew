@@ -75,10 +75,10 @@ require_once('inc_errors.php');
 	<td class="notlast">
    		<?php echo htmlspecialchars(topage($a['vclocalename'])) ?> / <?php echo htmlspecialchars(topage($a['vccommonname'])) ?>
 	</td>
-	<td>
-<?php if(is_online($a)) { ?>
+	<td class="notlast">
+<?php if(operator_is_available($a)) { ?>
 		<?php echo getlocal("page_agents.isonline") ?>
-<?php } else if(is_away($a)) { ?>
+<?php } else if(operator_is_away($a)) { ?>
 		<?php echo getlocal("page_agents.isaway") ?>
 <?php } else { ?>
 		<?php echo date_to_text(time() - $a['time']) ?>

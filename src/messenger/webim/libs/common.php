@@ -25,7 +25,7 @@ require_once(dirname(__FILE__).'/converter.php');
 require_once(dirname(__FILE__).'/config.php');
 
 $version = '1.6.4';
-$jsver = "163";
+$jsver = "164";
 
 function myiconv($in_enc, $out_enc, $string) {
 	global $_utf8win1251, $_win1251utf8;
@@ -579,6 +579,7 @@ $settings = array(
 		'surveyaskgroup' => '1',
 		'surveyaskmessage' => '0',
 	'enablepopupnotification' => '0',
+	'showonlineoperators' => '0',
 	'enablecaptcha' => '0',
 
 	'online_timeout' => 30,		/* Timeout (in seconds) when online operator becomes offline */

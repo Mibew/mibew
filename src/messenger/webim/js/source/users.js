@@ -117,7 +117,7 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
   },
 
   updateParams: function() {
-  	return "since=" + this._options.lastrevision + "&status=" + this._options.istatus;
+  	return "since=" + this._options.lastrevision + "&status=" + this._options.istatus + (this._options.showonline ? "&showonline=1" : "");
   },
 
   setStatus: function(msg) {
@@ -273,31 +273,66 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 	}
   },
   
-  updateContent: function(root) {
+  updateThreads: function(root) {
 	var newAdded = false;
-	if( root.tagName == 'threads' ) {
-		var _time = NodeUtils.getAttrValue(root, "time");
-		var _revision = NodeUtils.getAttrValue(root, "revision" );
+	var _time = NodeUtils.getAttrValue(root, "time");
+	var _revision = NodeUtils.getAttrValue(root, "revision" );
+	
+	if( _time )
+		this.delta = (new Date()).getTime() - _time;
+	if( _revision )
+		this._options.lastrevision = _revision;
+	
+	for( var i = 0; i < root.childNodes.length; i++ ) {
+		var node = root.childNodes[i];
+		if( node.tagName == 'thread' )
+			if( this.updateThread(node) )
+				newAdded = true;
+	}
+	this.updateQueueMessages();
+	this.updateTimers();
+	this.setStatus(this._options.istatus ? "Away" : "Up to date");
+	if( newAdded ) {
+		playSound(webimRoot+'/sounds/new_user.wav');
+		window.focus();
+		if(updaterOptions.showpopup) {
+			alert(localized[5]);
+		}
+	}
+  },
+  
+  updateOperators: function(root) {
+  	var div = $('onlineoperators');
+  	if (!div)
+  		return;
 
-		if( _time )
-			this.delta = (new Date()).getTime() - _time;
-		if( _revision )
-			this._options.lastrevision = _revision;
+	var names = [];
+	
+	for( var i = 0; i < root.childNodes.length; i++ ) {
+		var node = root.childNodes[i];
+		if(node.tagName != 'operator')
+			continue;
+		
+		var name = NodeUtils.getAttrValue(node, 'name');
+		var isAway = NodeUtils.getAttrValue(node, 'away') != null;
+		
+		names[names.length] = 
+			'<img src="'+webimRoot+'/images/op'+(isAway ? 'away' : 'online')+
+					'.gif" width="12" height="12" border="0" alt="'+localized[1]+'"> '+ name;
+	}
 
+	div.innerHTML = names.join(', ');
+  },
+
+  updateContent: function(root) {
+	if( root.tagName == 'update' ) {
 		for( var i = 0; i < root.childNodes.length; i++ ) {
 			var node = root.childNodes[i];
-			if( node.tagName == 'thread' )
-				if( this.updateThread(node) )
-					newAdded = true;
-		}
-		this.updateQueueMessages();
-		this.updateTimers();
-		this.setStatus(this._options.istatus ? "Away" : "Up to date");
-		if( newAdded ) {
-			playSound(webimRoot+'/sounds/new_user.wav');
-			window.focus();
-			if(updaterOptions.showpopup) {
-				alert(localized[5]);
+			
+			if (node.tagName == 'threads') {
+				this.updateThreads(node);
+			} else if (node.tagName == 'operators') {
+				this.updateOperators(node);
 			}
 		}
 	} else if( root.tagName == 'error' ) {

@@ -128,7 +128,7 @@ public class JSO {
 		
 		// Methods
 		"add", "addBehavior", "AddFavorite", "addImport", "addRule", "alert", 
-		"appendChild", "applyElement", "assign", "attachEvent", "back", "blur", 
+		"appendChild", "apply", "applyElement", "assign", "attachEvent", "back", "blur", 
 		"clearAttributes", "clearData", "clearInterval", "clearRequest", 
 		"clearTimeout", "click", "cloneNode", "close", "collapse", "compareEndPoints", 
 		"componentFromPoint", "confirm", "contains", "createCaption", "createControlRange", 

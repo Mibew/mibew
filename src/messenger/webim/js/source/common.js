@@ -10,7 +10,7 @@
 
 //- localized
 
-//- onComplete, obj, params, $apply$
+//- onComplete, showonline
 //- threadParams, servl, frequency, user, threadid, token, cssfile
 //- updaterOptions, url, company, agentservl, noclients, wroot, havemenu, showpopup, ignorectrl, istatus
 
@@ -143,24 +143,6 @@ function $() {
   }
 
   return elems;
-}
-
-if (!Function.prototype.apply) {
-  Function.prototype.apply = function(obj, params) {
-    var parameterStrings = new Array();
-    if (!obj)     obj = window;
-    if (!params) params = new Array();
-
-    for (var i = 0; i < params.length; i++)
-      parameterStrings[i] = 'params[' + i + ']';
-
-    obj.$apply$ = this;
-    var result = eval('obj.$apply$(' +
-      parameterStrings.join(', ') + ')');
-    obj.$apply$ = null;
-
-    return result;
-  };
 }
 
 var Ajax = {

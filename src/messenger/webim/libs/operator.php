@@ -61,6 +61,31 @@ function operator_by_id($id) {
 	return $operator;
 }
 
+function operator_get_all() {
+	$link = connect();
+
+	$query = "select operatorid, vclogin, vclocalename, vccommonname, istatus, (unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time ".
+			 "from chatoperator order by vclogin";
+	$operators = select_multi_assoc($query, $link);
+	mysql_close($link);
+	return $operators;
+}
+
+function operator_is_online($operator) {
+	global $settings;
+	return $operator['time'] < $settings['online_timeout'];
+}
+
+function operator_is_available($operator) {
+	global $settings;
+	return $operator['istatus'] == 0 && $operator['time'] < $settings['online_timeout'] ? "1" : "";	
+}
+
+function operator_is_away($operator) {
+	global $settings;
+	return $operator['istatus'] != 0 && $operator['time'] < $settings['online_timeout'] ? "1" : "";	
+}
+
 function update_operator($operatorid,$login,$email,$password,$localename,$commonname) {
 	$link = connect();
 	$query = sprintf(
