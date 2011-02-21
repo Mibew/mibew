@@ -50,10 +50,11 @@ if (isset($_POST['sent'])) {
 	    header("Location: $webimroot/operator/features.php?stored");
 	    exit;
 	} else {
-		$errors[] = "Not an administrator.";
+		$errors[] = "Not an administrator";
 	}
 }
 
+$page['canmodify'] = is_capable($can_administrate, $operator);
 $page['stored'] = isset($_GET['stored']);
 foreach($options as $opt) {
    	$page["form$opt"] = $params[$opt] == "1";
