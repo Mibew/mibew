@@ -49,7 +49,7 @@ function threads_by_userid($userid) {
 			 "from ${mysqlprefix}chatthread ".
 			 "where userid=\"$userid\" order by created DESC", $userid);
 
-	$result = mysql_query($query, $link) or die(' Query failed: ' .mysql_error().": ".$query);
+	$result = mysql_query($query, $link) or die(' Query failed: ' .mysql_error($link) /*.": ".$query*/);
 
 	$foundThreads = array();
 	while ($thread = mysql_fetch_array($result, MYSQL_ASSOC)) {

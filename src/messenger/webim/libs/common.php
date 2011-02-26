@@ -335,12 +335,12 @@ function connect() {
 
 function perform_query($query,$link) {
 	mysql_query($query,$link)
-		or die(' Query failed: '.mysql_error()/*.": ".$query*/);
+		or die(' Query failed: '.mysql_error($link)/*.": ".$query*/);
 }
 
 function select_one_row($query,$link) {
 	$result = mysql_query($query,$link) or die(' Query failed: ' .
-		mysql_error().": ".$query);
+		mysql_error($link) /*.": ".$query*/);
 	$line = mysql_fetch_array($result, MYSQL_ASSOC);
 	mysql_free_result($result);
 	return $line;
@@ -348,7 +348,7 @@ function select_one_row($query,$link) {
 
 function select_multi_assoc($query, $link) {
 	$sqlresult = mysql_query($query,$link) or die(' Query failed: ' .
-		mysql_error().": ".$query);
+		mysql_error($link) /*.": ".$query*/);
 
 	$result = array();
 	while ($row = mysql_fetch_array($sqlresult, MYSQL_ASSOC)) {
@@ -366,7 +366,7 @@ function db_build_select($fields, $table, $conditions, $orderandgroup) {
 
 function db_rows_count($table,$conditions,$countfields, $link) {
 	$result = mysql_query(db_build_select("count(".($countfields ? $countfields : "*").")", $table, $conditions, ""),$link)
-			or die(' Count query failed: '.mysql_error());
+			or die(' Count query failed: '.mysql_error($link));
 	$line = mysql_fetch_array($result, MYSQL_NUM);
 	mysql_free_result($result);
 	return $line[0];
