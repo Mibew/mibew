@@ -30,32 +30,32 @@ $loginoremail = "";
 
 if (isset($_POST['loginoremail'])) {
 	$loginoremail = getparam("loginoremail");
-	
+
 	$torestore = is_valid_email($loginoremail) ? operator_by_email($loginoremail) : operator_by_login($loginoremail);
-	if(!$torestore) {
+	if (!$torestore) {
 		$errors[] = getlocal("no_such_operator");
 	}
-	
+
 	$email = $torestore['vcemail'];
-	if(count($errors) == 0 && !is_valid_email($email)) {
+	if (count($errors) == 0 && !is_valid_email($email)) {
 		$errors[] = "Operator hasn't set his e-mail";
 	}
-	
+
 	if (count($errors) == 0) {
-		$token = md5((time() + microtime()).rand(0,99999999));
-		
+		$token = md5((time() + microtime()) . rand(0, 99999999));
+
 		$link = connect();
-		$query = "update ${mysqlprefix}chatoperator set dtmrestore = CURRENT_TIMESTAMP, vcrestoretoken = '$token' where operatorid = ".$torestore['operatorid'];
+		$query = "update ${mysqlprefix}chatoperator set dtmrestore = CURRENT_TIMESTAMP, vcrestoretoken = '$token' where operatorid = " . $torestore['operatorid'];
 		perform_query($query, $link);
-		
-		$href = get_app_location(true,false)."/operator/resetpwd.php?id=".$torestore['operatorid']."&token=$token";
-		webim_mail($email, $email, getstring("restore.mailsubj"), getstring2("restore.mailtext",array(get_operator_name($torestore), $href)), $link);
+
+		$href = get_app_location(true, false) . "/operator/resetpwd.php?id=" . $torestore['operatorid'] . "&token=$token";
+		webim_mail($email, $email, getstring("restore.mailsubj"), getstring2("restore.mailtext", array(get_operator_name($torestore), $href)), $link);
 		mysql_close($link);
 
 		$page['isdone'] = true;
 		require('../view/restore.php');
 		exit;
-    }
+	}
 }
 
 $page['formloginoremail'] = topage($loginoremail);

@@ -26,15 +26,15 @@ require_once('../libs/settings.php');
 $errors = array();
 $page = array('version' => $version, 'showform' => true);
 
-$opId = verifyparam( "id", "/^\d{1,9}$/");
+$opId = verifyparam("id", "/^\d{1,9}$/");
 $token = verifyparam("token", "/^[\dabcdef]+$/");
 
 $operator = operator_by_id($opId);
 
-if(!$operator) {
+if (!$operator) {
 	$errors[] = "No such operator";
 	$page['showform'] = false;
-} else if($token != $operator['vcrestoretoken']) {
+} else if ($token != $operator['vcrestoretoken']) {
 	$errors[] = "Wrong token";
 	$page['showform'] = false;
 }
@@ -42,25 +42,25 @@ if(!$operator) {
 if (count($errors) == 0 && isset($_POST['password'])) {
 	$password = getparam('password');
 	$passwordConfirm = getparam('passwordConfirm');
-		
-	if( !$password )
+
+	if (!$password)
 		$errors[] = no_field("form.field.password");
 
-	if( $password != $passwordConfirm )
+	if ($password != $passwordConfirm)
 		$errors[] = getlocal("my_settings.error.password_match");
-		
+
 	if (count($errors) == 0) {
 		$page['isdone'] = true;
 
 		$link = connect();
-		$query = "update ${mysqlprefix}chatoperator set vcpassword = '".md5($password)."', vcrestoretoken = '' where operatorid = ".$opId;
+		$query = "update ${mysqlprefix}chatoperator set vcpassword = '" . md5($password) . "', vcrestoretoken = '' where operatorid = " . $opId;
 		perform_query($query, $link);
 		mysql_close($link);
-		
+
 		start_html_output();
 		require('../view/resetpwd.php');
 		exit;
-    }
+	}
 }
 
 $page['id'] = $opId;

@@ -23,28 +23,31 @@ require_once('../libs/common.php');
 require_once('../libs/operator.php');
 require_once('../libs/pagination.php');
 
-function load_message($key) {
-    global $mysqlprefix;
+function load_message($key)
+{
+	global $mysqlprefix;
 	$link = connect();
 	$result = select_one_row("select vcvalue from ${mysqlprefix}chatresponses where id = $key", $link);
 	mysql_close($link);
 	return $result ? $result['vcvalue'] : null;
 }
 
-function save_message($key,$message) {
-    global $mysqlprefix;
+function save_message($key, $message)
+{
+	global $mysqlprefix;
 	$link = connect();
-	perform_query("update ${mysqlprefix}chatresponses set vcvalue = '".mysql_real_escape_string($message,$link)."' ".
-				"where id = $key", $link);
+	perform_query("update ${mysqlprefix}chatresponses set vcvalue = '" . mysql_real_escape_string($message, $link) . "' " .
+				  "where id = $key", $link);
 	mysql_close($link);
 }
 
-function add_message($locale,$groupid,$message) {
-    global $mysqlprefix;
+function add_message($locale, $groupid, $message)
+{
+	global $mysqlprefix;
 	$link = connect();
-	perform_query("insert into ${mysqlprefix}chatresponses (locale,groupid,vcvalue) values ('$locale',".
-				($groupid ? "$groupid, " : "null, ").
-				"'".mysql_real_escape_string($message,$link)."')", $link);
+	perform_query("insert into ${mysqlprefix}chatresponses (locale,groupid,vcvalue) values ('$locale'," .
+				  ($groupid ? "$groupid, " : "null, ") .
+				  "'" . mysql_real_escape_string($message, $link) . "')", $link);
 	mysql_close($link);
 }
 
@@ -56,9 +59,9 @@ $stringid = verifyparam("key", "/^\d{0,9}$/", "");
 $errors = array();
 $page = array();
 
-if($stringid) {
+if ($stringid) {
 	$message = load_message($stringid);
-	if(!$message) {
+	if (!$message) {
 		$errors[] = getlocal("cannededit.no_such");
 		$stringid = "";
 	}
@@ -66,19 +69,19 @@ if($stringid) {
 	$message = "";
 	$page['locale'] = verifyparam("lang", "/^[\w-]{2,5}$/", "");
 	$page['groupid'] = "";
-	if($settings['enablegroups'] == '1') {
-		$page['groupid'] = verifyparam( "group", "/^\d{0,8}$/");
+	if ($settings['enablegroups'] == '1') {
+		$page['groupid'] = verifyparam("group", "/^\d{0,8}$/");
 	}
 }
 
-if(isset($_POST['message'])) {
+if (isset($_POST['message'])) {
 	$message = getparam('message');
-	if(!$message) {
+	if (!$message) {
 		$errors[] = no_field("form.field.message");
 	}
 
-	if(count($errors) == 0) {
-		if($stringid) {
+	if (count($errors) == 0) {
+		if ($stringid) {
 			save_message($stringid, $message);
 		} else {
 			add_message($page['locale'], $page['groupid'], $message);

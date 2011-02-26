@@ -29,49 +29,49 @@ $page = array('agentId' => '');
 $errors = array();
 
 $options = array(
-		'online_timeout', 'updatefrequency_operator', 'updatefrequency_chat',
-		'updatefrequency_oldchat', 'max_connections_from_one_host');
+	'online_timeout', 'updatefrequency_operator', 'updatefrequency_chat',
+	'updatefrequency_oldchat', 'max_connections_from_one_host');
 
 loadsettings();
 $params = array();
-foreach($options as $opt) {
+foreach ($options as $opt) {
 	$params[$opt] = $settings[$opt];
 }
 
 if (isset($_POST['onlinetimeout'])) {
-    $params['online_timeout'] = getparam('onlinetimeout');
-    if(!is_numeric($params['online_timeout'])) {
-    	$errors[] = wrong_field("settings.onlinetimeout");
-    }
-    
-    $params['updatefrequency_operator'] = getparam('frequencyoperator');
-    if(!is_numeric($params['updatefrequency_operator'])) {
-    	$errors[] = wrong_field("settings.frequencyoperator");
-    }
-    
-    $params['updatefrequency_chat'] = getparam('frequencychat');
-    if(!is_numeric($params['updatefrequency_chat'])) {
-    	$errors[] = wrong_field("settings.frequencychat");
-    }
-    
-    $params['updatefrequency_oldchat'] = getparam('frequencyoldchat');
-    if(!is_numeric($params['updatefrequency_oldchat'])) {
-    	$errors[] = wrong_field("settings.frequencyoldchat");
-    }
+	$params['online_timeout'] = getparam('onlinetimeout');
+	if (!is_numeric($params['online_timeout'])) {
+		$errors[] = wrong_field("settings.onlinetimeout");
+	}
+
+	$params['updatefrequency_operator'] = getparam('frequencyoperator');
+	if (!is_numeric($params['updatefrequency_operator'])) {
+		$errors[] = wrong_field("settings.frequencyoperator");
+	}
+
+	$params['updatefrequency_chat'] = getparam('frequencychat');
+	if (!is_numeric($params['updatefrequency_chat'])) {
+		$errors[] = wrong_field("settings.frequencychat");
+	}
+
+	$params['updatefrequency_oldchat'] = getparam('frequencyoldchat');
+	if (!is_numeric($params['updatefrequency_oldchat'])) {
+		$errors[] = wrong_field("settings.frequencyoldchat");
+	}
 
 	$params['max_connections_from_one_host'] = getparam('onehostconnections');
-    if(!is_numeric($params['max_connections_from_one_host'])) {
-    	$errors[] = getlocal("settings.wrong.onehostconnections");
-    }
-	
-    if (count($errors) == 0) {
-		foreach($options as $opt) {
+	if (!is_numeric($params['max_connections_from_one_host'])) {
+		$errors[] = getlocal("settings.wrong.onehostconnections");
+	}
+
+	if (count($errors) == 0) {
+		foreach ($options as $opt) {
 			$settings[$opt] = $params[$opt];
 		}
-    	update_settings();
-        header("Location: $webimroot/operator/performance.php?stored");
-        exit;
-    }
+		update_settings();
+		header("Location: $webimroot/operator/performance.php?stored");
+		exit;
+	}
 }
 
 $page['formonlinetimeout'] = $params['online_timeout'];

@@ -24,37 +24,39 @@ require_once('../libs/operator.php');
 
 $operator = check_login();
 
-if( isset($_GET['act']) && $_GET['act'] == 'del' ) {
-	
+if (isset($_GET['act']) && $_GET['act'] == 'del') {
+
 	$groupid = isset($_GET['gid']) ? $_GET['gid'] : "";
 
-	if( !preg_match( "/^\d+$/", $groupid )) {
+	if (!preg_match("/^\d+$/", $groupid)) {
 		$errors[] = "Cannot delete: wrong argument";
 	}
-	
-	if( !is_capable($can_administrate, $operator)) {
+
+	if (!is_capable($can_administrate, $operator)) {
 		$errors[] = "You are not allowed to remove groups";
 	}
-	
-	if( count($errors) == 0 ) {
+
+	if (count($errors) == 0) {
 		$link = connect();
-		perform_query("delete from ${mysqlprefix}chatgroup where groupid = $groupid",$link);
-		perform_query("delete from ${mysqlprefix}chatgroupoperator where groupid = $groupid",$link);
-		perform_query("update ${mysqlprefix}chatthread set groupid = 0 where groupid = $groupid",$link);
+		perform_query("delete from ${mysqlprefix}chatgroup where groupid = $groupid", $link);
+		perform_query("delete from ${mysqlprefix}chatgroupoperator where groupid = $groupid", $link);
+		perform_query("update ${mysqlprefix}chatthread set groupid = 0 where groupid = $groupid", $link);
 		mysql_close($link);
 		header("Location: $webimroot/operator/groups.php");
 		exit;
 	}
 }
 
-function is_online($group) {
+function is_online($group)
+{
 	global $settings;
-	return $group['ilastseen'] !== NULL && $group['ilastseen'] < $settings['online_timeout'] ? "1" : "";	
+	return $group['ilastseen'] !== NULL && $group['ilastseen'] < $settings['online_timeout'] ? "1" : "";
 }
 
-function is_away($group) {
+function is_away($group)
+{
 	global $settings;
-	return $group['ilastseenaway'] !== NULL && $group['ilastseenaway'] < $settings['online_timeout'] ? "1" : "";	
+	return $group['ilastseenaway'] !== NULL && $group['ilastseenaway'] < $settings['online_timeout'] ? "1" : "";
 }
 
 

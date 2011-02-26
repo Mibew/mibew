@@ -32,22 +32,22 @@ setlocale(LC_TIME, getstring("time.locale"));
 
 $link = connect();
 
-if( isset($_GET['act']) && $_GET['act'] == 'del' ) {
+if (isset($_GET['act']) && $_GET['act'] == 'del') {
 	$banId = isset($_GET['id']) ? $_GET['id'] : "";
 
-	if( !preg_match( "/^\d+$/", $banId )) {
+	if (!preg_match("/^\d+$/", $banId)) {
 		$errors[] = "Cannot delete: wrong argument";
 	}
 
-	if( count($errors) == 0 ) {
-		perform_query("delete from ${mysqlprefix}chatban where banid = $banId",$link);
+	if (count($errors) == 0) {
+		perform_query("delete from ${mysqlprefix}chatban where banid = $banId", $link);
 		header("Location: $webimroot/operator/blocked.php");
 		exit;
 	}
 }
 
 $result = mysql_query("select banid,unix_timestamp(dtmtill) as till,address,comment from ${mysqlprefix}chatban", $link)
-	or die(' Query failed: ' .mysql_error($link));
+		or die(' Query failed: ' . mysql_error($link));
 
 $blockedList = array();
 while ($ban = mysql_fetch_array($result, MYSQL_ASSOC)) {

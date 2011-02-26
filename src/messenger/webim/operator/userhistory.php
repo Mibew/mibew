@@ -33,23 +33,24 @@ $page = array();
 setlocale(LC_TIME, getstring("time.locale"));
 
 $userid = "";
-if( isset($_GET['userid'])) {
-	$userid = verifyparam( "userid", "/^.{0,63}$/", "");
+if (isset($_GET['userid'])) {
+	$userid = verifyparam("userid", "/^.{0,63}$/", "");
 }
 
-function threads_by_userid($userid) {
-    global $mysqlprefix;
+function threads_by_userid($userid)
+{
+	global $mysqlprefix;
 	if ($userid == "") {
-	    return null;
+		return null;
 	}
 	$link = connect();
 
-	$query = sprintf("select unix_timestamp(dtmcreated) as created, unix_timestamp(dtmmodified) as modified, ".
-			 " threadid, remote, agentName, userName ".
-			 "from ${mysqlprefix}chatthread ".
-			 "where userid=\"$userid\" order by created DESC", $userid);
+	$query = sprintf("select unix_timestamp(dtmcreated) as created, unix_timestamp(dtmmodified) as modified, " .
+					 " threadid, remote, agentName, userName " .
+					 "from ${mysqlprefix}chatthread " .
+					 "where userid=\"$userid\" order by created DESC", $userid);
 
-	$result = mysql_query($query, $link) or die(' Query failed: ' .mysql_error($link) /*.": ".$query*/);
+	$result = mysql_query($query, $link) or die(' Query failed: ' . mysql_error($link) /*.": ".$query*/);
 
 	$foundThreads = array();
 	while ($thread = mysql_fetch_array($result, MYSQL_ASSOC)) {
@@ -64,7 +65,7 @@ function threads_by_userid($userid) {
 $found = threads_by_userid($userid);
 
 prepare_menu($operator);
-setup_pagination($found,6);
+setup_pagination($found, 6);
 start_html_output();
 require('../view/userhistory.php');
 ?>

@@ -29,47 +29,47 @@ require_once('../libs/expand.php');
 $operator = check_login();
 
 loadsettings();
-if($settings['enablessl'] == "1" && $settings['forcessl'] == "1") {
-	if(!is_secure_request()) {
+if ($settings['enablessl'] == "1" && $settings['forcessl'] == "1") {
+	if (!is_secure_request()) {
 		$requested = $_SERVER['PHP_SELF'];
-		if($_SERVER['REQUEST_METHOD'] == 'GET' && $_SERVER['QUERY_STRING']) {
-			header("Location: ".get_app_location(true,true)."/operator/agent.php?".$_SERVER['QUERY_STRING']);
+		if ($_SERVER['REQUEST_METHOD'] == 'GET' && $_SERVER['QUERY_STRING']) {
+			header("Location: " . get_app_location(true, true) . "/operator/agent.php?" . $_SERVER['QUERY_STRING']);
 		} else {
 			die("only https connections are handled");
-		} 		
+		}
 		exit;
 	}
 }
 
-$threadid = verifyparam( "thread", "/^\d{1,8}$/");
+$threadid = verifyparam("thread", "/^\d{1,8}$/");
 
-if( !isset($_GET['token']) ) {
+if (!isset($_GET['token'])) {
 
 	$remote_level = get_remote_level($_SERVER['HTTP_USER_AGENT']);
-	if( $remote_level != "ajaxed" ) {
+	if ($remote_level != "ajaxed") {
 		die("old browser is used, please update it");
 	}
 
 	$thread = thread_by_id($threadid);
-	if( !$thread || !isset($thread['ltoken']) ) {
+	if (!$thread || !isset($thread['ltoken'])) {
 		die("wrong thread");
 	}
 
-	$viewonly = verifyparam( "viewonly", "/^true$/", false);
+	$viewonly = verifyparam("viewonly", "/^true$/", false);
 
 	$forcetake = verifyparam("force", "/^true$/", false);
-	if( !$viewonly && $thread['istate'] == $state_chatting && $operator['operatorid'] != $thread['agentId'] ) {
+	if (!$viewonly && $thread['istate'] == $state_chatting && $operator['operatorid'] != $thread['agentId']) {
 
-		if(!is_capable($can_takeover, $operator)) {
+		if (!is_capable($can_takeover, $operator)) {
 			$errors = array("Cannot take over");
 			start_html_output();
 			expand("../styles", getchatstyle(), "error.tpl");
 			exit;
 		}
 
-		if( $forcetake == false ) {
+		if ($forcetake == false) {
 			$page = array(
-				'user' => topage($thread['userName']), 'agent' => topage($thread['agentName']), 'link' => $_SERVER['PHP_SELF']."?thread=$threadid&amp;force=true"
+				'user' => topage($thread['userName']), 'agent' => topage($thread['agentName']), 'link' => $_SERVER['PHP_SELF'] . "?thread=$threadid&amp;force=true"
 			);
 			start_html_output();
 			require('../view/confirm.php');
@@ -78,8 +78,8 @@ if( !isset($_GET['token']) ) {
 	}
 
 	if (!$viewonly) {
-		take_thread($thread,$operator);
-	} else if(!is_capable($can_viewthreads, $operator)) {
+		take_thread($thread, $operator);
+	} else if (!is_capable($can_viewthreads, $operator)) {
 		$errors = array("Cannot view threads");
 		start_html_output();
 		expand("../styles", getchatstyle(), "error.tpl");
@@ -91,14 +91,14 @@ if( !isset($_GET['token']) ) {
 	exit;
 }
 
-$token = verifyparam( "token", "/^\d{1,8}$/");
+$token = verifyparam("token", "/^\d{1,8}$/");
 
 $thread = thread_by_id($threadid);
-if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] ) {
+if (!$thread || !isset($thread['ltoken']) || $token != $thread['ltoken']) {
 	die("wrong thread");
 }
 
-if($thread['agentId'] != $operator['operatorid'] && !is_capable($can_viewthreads, $operator)) {
+if ($thread['agentId'] != $operator['operatorid'] && !is_capable($can_viewthreads, $operator)) {
 	$errors = array("Cannot view threads");
 	start_html_output();
 	expand("../styles", getchatstyle(), "error.tpl");
@@ -109,9 +109,9 @@ setup_chatview_for_operator($thread, $operator);
 
 start_html_output();
 
-$pparam = verifyparam( "act", "/^(redirect)$/", "default");
-if( $pparam == "redirect" ) {
-	setup_redirect_links($threadid,$token);
+$pparam = verifyparam("act", "/^(redirect)$/", "default");
+if ($pparam == "redirect") {
+	setup_redirect_links($threadid, $token);
 	expand("../styles", getchatstyle(), "redirect.tpl");
 } else {
 	expand("../styles", getchatstyle(), "chat.tpl");

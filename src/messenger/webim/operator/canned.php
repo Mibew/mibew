@@ -31,33 +31,34 @@ loadsettings();
 $errors = array();
 $page = array();
 
-function load_canned_messages($locale, $groupid) {
-    global $mysqlprefix;
+function load_canned_messages($locale, $groupid)
+{
+	global $mysqlprefix;
 	$link = connect();
-	$query = "select id, vcvalue from ${mysqlprefix}chatresponses ".
-			 "where locale = '".$locale."' AND (".
-			 ($groupid 
-			 		? "groupid = $groupid" 
-			 		: "groupid is NULL OR groupid = 0").
+	$query = "select id, vcvalue from ${mysqlprefix}chatresponses " .
+			 "where locale = '" . $locale . "' AND (" .
+			 ($groupid
+					 ? "groupid = $groupid"
+					 : "groupid is NULL OR groupid = 0") .
 			 ") order by vcvalue";
-			 		
+
 	$result = select_multi_assoc($query, $link);
-	if(!$groupid && count($result) == 0) {
-		foreach(explode("\n", getstring_('chat.predefined_answers', $locale)) as $answer) {
+	if (!$groupid && count($result) == 0) {
+		foreach (explode("\n", getstring_('chat.predefined_answers', $locale)) as $answer) {
 			$result[] = array('id' => '', 'vcvalue' => $answer);
 		}
-		if(count($result) > 0) {
+		if (count($result) > 0) {
 			$updatequery = "insert into ${mysqlprefix}chatresponses (vcvalue,locale,groupid) values ";
-			for($i=0;$i<count($result);$i++) {
-				if($i > 0) {
+			for ($i = 0; $i < count($result); $i++) {
+				if ($i > 0) {
 					$updatequery .= ", ";
 				}
-				$updatequery .= "('".mysql_real_escape_string($result[$i]['vcvalue'], $link)."','$locale', NULL)";
+				$updatequery .= "('" . mysql_real_escape_string($result[$i]['vcvalue'], $link) . "','$locale', NULL)";
 			}
 			perform_query($updatequery, $link);
 			$result = select_multi_assoc($query, $link);
 		}
-	}	
+	}
 	mysql_close($link);
 	return $result;
 }
@@ -66,24 +67,24 @@ function load_canned_messages($locale, $groupid) {
 
 $all_locales = get_available_locales();
 $locales_with_label = array();
-foreach($all_locales as $id) {
-	$locales_with_label[] = array('id' => $id, 'name' => getlocal_($id,"names"));
+foreach ($all_locales as $id) {
+	$locales_with_label[] = array('id' => $id, 'name' => getlocal_($id, "names"));
 }
 $page['locales'] = $locales_with_label;
 
 $lang = verifyparam("lang", "/^[\w-]{2,5}$/", "");
-if( !$lang || !in_array($lang,$all_locales) ) {
-	$lang = in_array($current_locale,$all_locales) ? $current_locale : $all_locales[0];
+if (!$lang || !in_array($lang, $all_locales)) {
+	$lang = in_array($current_locale, $all_locales) ? $current_locale : $all_locales[0];
 }
 
 # groups
 
 $groupid = "";
-if($settings['enablegroups'] == '1') {
-	$groupid = verifyparam( "group", "/^\d{0,8}$/", "");
-	if($groupid) {
+if ($settings['enablegroups'] == '1') {
+	$groupid = verifyparam("group", "/^\d{0,8}$/", "");
+	if ($groupid) {
 		$group = group_by_id($groupid);
-		if(!$group) {
+		if (!$group) {
 			$errors[] = getlocal("page.group.no_such");
 			$groupid = "";
 		}
@@ -94,23 +95,23 @@ if($settings['enablegroups'] == '1') {
 	mysql_close($link);
 	$page['groups'] = array();
 	$page['groups'][] = array('groupid' => '', 'vclocalname' => getlocal("page.gen_button.default_group"));
-	foreach($allgroups as $g) {
+	foreach ($allgroups as $g) {
 		$page['groups'][] = $g;
 	}
-}  
+}
 
 # delete
 
-if(isset($_GET['act']) && $_GET['act'] == 'delete') {
+if (isset($_GET['act']) && $_GET['act'] == 'delete') {
 	$key = isset($_GET['key']) ? $_GET['key'] : "";
 
-	if( !preg_match( "/^\d+$/", $key )) {
+	if (!preg_match("/^\d+$/", $key)) {
 		$errors[] = "Wrong key";
 	}
 
-	if( count($errors) == 0 ) {
+	if (count($errors) == 0) {
 		$link = connect();
-		perform_query("delete from ${mysqlprefix}chatresponses where id = $key",$link);
+		perform_query("delete from ${mysqlprefix}chatresponses where id = $key", $link);
 		mysql_close($link);
 		header("Location: $webimroot/operator/canned.php?lang=$lang&group=$groupid");
 		exit;

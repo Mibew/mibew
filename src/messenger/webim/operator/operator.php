@@ -29,8 +29,8 @@ $page = array('opid' => '');
 $errors = array();
 $opId = '';
 
-if( isset($_POST['login']) && isset($_POST['password']) ) {
-	$opId = verifyparam( "opid", "/^(\d{1,9})?$/", "");
+if (isset($_POST['login']) && isset($_POST['password'])) {
+	$opId = verifyparam("opid", "/^(\d{1,9})?$/", "");
 	$login = getparam('login');
 	$email = getparam('email');
 	$password = getparam('password');
@@ -38,45 +38,45 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 	$localname = getparam('name');
 	$commonname = getparam('commonname');
 
-	if( !$localname )
+	if (!$localname)
 		$errors[] = no_field("form.field.agent_name");
 
-	if( !$commonname )
+	if (!$commonname)
 		$errors[] = no_field("form.field.agent_commonname");
 
-	if( !$login ) {
+	if (!$login) {
 		$errors[] = no_field("form.field.login");
-	} else if( !preg_match( "/^[\w_\.]+$/",$login) ) {
+	} else if (!preg_match("/^[\w_\.]+$/", $login)) {
 		$errors[] = getlocal("page_agent.error.wrong_login");
 	}
 
-	if($email != '' && !is_valid_email($email))
+	if ($email != '' && !is_valid_email($email))
 		$errors[] = wrong_field("form.field.mail");
 
-	if( !$opId && !$password )
+	if (!$opId && !$password)
 		$errors[] = no_field("form.field.password");
 
-	if( $password != $passwordConfirm )
+	if ($password != $passwordConfirm)
 		$errors[] = getlocal("my_settings.error.password_match");
 
 	$existing_operator = operator_by_login($login);
-	if( (!$opId && $existing_operator) ||
-		( $opId && $existing_operator && $opId != $existing_operator['operatorid']) )
+	if ((!$opId && $existing_operator) ||
+		($opId && $existing_operator && $opId != $existing_operator['operatorid']))
 		$errors[] = getlocal("page_agent.error.duplicate_login");
-		
-	$canmodify = ($opId == $operator['operatorid'] && is_capable($can_modifyprofile, $operator)) 
-				|| is_capable($can_administrate, $operator);
-	if(!$canmodify) {
+
+	$canmodify = ($opId == $operator['operatorid'] && is_capable($can_modifyprofile, $operator))
+				 || is_capable($can_administrate, $operator);
+	if (!$canmodify) {
 		$errors[] = getlocal('page_agent.cannot_modify');
 	}
-	
-	if( count($errors) == 0 ) {
+
+	if (count($errors) == 0) {
 		if (!$opId) {
-			$newop = create_operator($login,$email,$password,$localname,$commonname,"");
-			header("Location: $webimroot/operator/avatar.php?op=".$newop['operatorid']);
+			$newop = create_operator($login, $email, $password, $localname, $commonname, "");
+			header("Location: $webimroot/operator/avatar.php?op=" . $newop['operatorid']);
 			exit;
 		} else {
-			update_operator($opId,$login,$email,$password,$localname,$commonname);
+			update_operator($opId, $login, $email, $password, $localname, $commonname);
 			header("Location: $webimroot/operator/operator.php?op=$opId&stored");
 			exit;
 		}
@@ -88,11 +88,11 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 		$page['opid'] = topage($opId);
 	}
 
-} else if( isset($_GET['op']) ) {
-	$opId = verifyparam( 'op', "/^\d{1,9}$/");
+} else if (isset($_GET['op'])) {
+	$opId = verifyparam('op', "/^\d{1,9}$/");
 	$op = operator_by_id($opId);
 
-	if( !$op ) {
+	if (!$op) {
 		$errors[] = getlocal("no_such_operator");
 		$page['opid'] = topage($opId);
 	} else {
@@ -104,18 +104,18 @@ if( isset($_POST['login']) && isset($_POST['password']) ) {
 	}
 }
 
-if(!$opId && !is_capable($can_administrate, $operator)) {
+if (!$opId && !is_capable($can_administrate, $operator)) {
 	$errors[] = "You are not allowed to create operators";
 }
 
-$canmodify = ($opId == $operator['operatorid'] && is_capable($can_modifyprofile, $operator)) 
-				|| is_capable($can_administrate, $operator);
+$canmodify = ($opId == $operator['operatorid'] && is_capable($can_modifyprofile, $operator))
+			 || is_capable($can_administrate, $operator);
 
 $page['stored'] = isset($_GET['stored']);
 $page['canmodify'] = $canmodify ? "1" : "";
 
 prepare_menu($operator);
-setup_operator_settings_tabs($opId,0);
+setup_operator_settings_tabs($opId, 0);
 start_html_output();
 require('../view/agent.php');
 ?>

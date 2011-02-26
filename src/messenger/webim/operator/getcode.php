@@ -23,20 +23,21 @@ require_once('../libs/common.php');
 require_once('../libs/operator.php');
 require_once('../libs/groups.php');
 
-function generate_button($title,$locale,$style,$group,$inner,$showhost,$forcesecure,$modsecurity) {
-	$link = get_app_location($showhost,$forcesecure)."/client.php";
-	if($locale)
+function generate_button($title, $locale, $style, $group, $inner, $showhost, $forcesecure, $modsecurity)
+{
+	$link = get_app_location($showhost, $forcesecure) . "/client.php";
+	if ($locale)
 		$link = append_query($link, "locale=$locale");
-	if($style)
+	if ($style)
 		$link = append_query($link, "style=$style");
-	if($group)
+	if ($group)
 		$link = append_query($link, "group=$group");
 
 	$modsecfix = $modsecurity ? ".replace('http://','').replace('https://','')" : "";
-	$jslink = append_query("'".$link,"url='+escape(document.location.href$modsecfix)+'&amp;referrer='+escape(document.referrer$modsecfix)");
+	$jslink = append_query("'" . $link, "url='+escape(document.location.href$modsecfix)+'&amp;referrer='+escape(document.referrer$modsecfix)");
 	$temp = get_popup($link, "$jslink",
-			$inner, $title, "webim", "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1" );
-	return "<!-- webim button -->".$temp."<!-- / webim button -->";
+					  $inner, $title, "webim", "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1");
+	return "<!-- webim button -->" . $temp . "<!-- / webim button -->";
 }
 
 $operator = check_login();
@@ -44,14 +45,14 @@ loadsettings();
 
 $imageLocales = array();
 $allLocales = get_available_locales();
-foreach($allLocales as $curr) {
+foreach ($allLocales as $curr) {
 	$imagesDir = "../locales/$curr/button";
-	if($handle = @opendir($imagesDir)) {
+	if ($handle = @opendir($imagesDir)) {
 		while (false !== ($file = readdir($handle))) {
 			if (preg_match("/^(\w+)_on.gif$/", $file, $matches)
-					&& is_file("$imagesDir/".$matches[1]."_off.gif")) {
+				&& is_file("$imagesDir/" . $matches[1] . "_off.gif")) {
 				$image = $matches[1];
-				if( !isset($imageLocales[$image]) ) {
+				if (!isset($imageLocales[$image])) {
 					$imageLocales[$image] = array();
 				}
 				$imageLocales[$image][] = $curr;
@@ -66,7 +67,7 @@ $image_locales = $imageLocales[$image];
 
 $stylelist = array("" => getlocal("page.preview.style_default"));
 $stylesfolder = "../styles";
-if($handle = opendir($stylesfolder)) {
+if ($handle = opendir($stylesfolder)) {
 	while (false !== ($file = readdir($handle))) {
 		if (preg_match("/^\w+$/", $file) && is_dir("$stylesfolder/$file")) {
 			$stylelist[$file] = $file;
@@ -75,56 +76,56 @@ if($handle = opendir($stylesfolder)) {
 	closedir($handle);
 }
 
-$style = verifyparam("style","/^\w*$/", "");
-if($style && !in_array($style, $stylelist)) {
+$style = verifyparam("style", "/^\w*$/", "");
+if ($style && !in_array($style, $stylelist)) {
 	$style = "";
 }
 
 $groupid = "";
-if($settings['enablegroups'] == '1') {
-	$groupid = verifyparam( "group", "/^\d{0,8}$/", "");
-	if($groupid) {
+if ($settings['enablegroups'] == '1') {
+	$groupid = verifyparam("group", "/^\d{0,8}$/", "");
+	if ($groupid) {
 		$group = group_by_id($groupid);
-		if(!$group) {
+		if (!$group) {
 			$errors[] = getlocal("page.group.no_such");
 			$groupid = "";
 		}
 	}
 }
 
-$showhost = verifyparam("hostname","/^on$/", "") == "on";
-$forcesecure = verifyparam("secure","/^on$/", "") == "on";
-$modsecurity = verifyparam("modsecurity","/^on$/", "") == "on";
+$showhost = verifyparam("hostname", "/^on$/", "") == "on";
+$forcesecure = verifyparam("secure", "/^on$/", "") == "on";
+$modsecurity = verifyparam("modsecurity", "/^on$/", "") == "on";
 
 $lang = verifyparam("lang", "/^[\w-]{2,5}$/", "");
-if( !$lang || !in_array($lang,$image_locales) )
-	$lang = in_array($current_locale,$image_locales) ? $current_locale : $image_locales[0];
+if (!$lang || !in_array($lang, $image_locales))
+	$lang = in_array($current_locale, $image_locales) ? $current_locale : $image_locales[0];
 
 $file = "../locales/${lang}/button/${image}_on.gif";
 $size = get_gifimage_size($file);
 
-$imagehref = get_app_location($showhost,$forcesecure)."/b.php?i=$image&amp;lang=$lang";
-if($groupid) {
+$imagehref = get_app_location($showhost, $forcesecure) . "/b.php?i=$image&amp;lang=$lang";
+if ($groupid) {
 	$imagehref .= "&amp;group=$groupid";
 }
-$message = get_image($imagehref,$size[0],$size[1]);
+$message = get_image($imagehref, $size[0], $size[1]);
 
 $page = array();
-$page['buttonCode'] = generate_button("",$lang,$style,$groupid,$message,$showhost,$forcesecure,$modsecurity);
+$page['buttonCode'] = generate_button("", $lang, $style, $groupid, $message, $showhost, $forcesecure, $modsecurity);
 $page['availableImages'] = array_keys($imageLocales);
 $page['availableLocales'] = $image_locales;
 $page['availableStyles'] = $stylelist;
 
-if($settings['enablegroups'] == '1') {
+if ($settings['enablegroups'] == '1') {
 	$link = connect();
 	$allgroups = get_all_groups($link);
 	mysql_close($link);
 	$page['groups'] = array();
 	$page['groups'][] = array('groupid' => '', 'vclocalname' => getlocal("page.gen_button.default_group"));
-	foreach($allgroups as $g) {
+	foreach ($allgroups as $g) {
 		$page['groups'][] = $g;
 	}
-}  
+}
 
 $page['formgroup'] = $groupid;
 $page['formstyle'] = $style;

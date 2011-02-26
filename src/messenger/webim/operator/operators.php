@@ -24,36 +24,36 @@ require_once('../libs/operator.php');
 
 $operator = check_login();
 
-if( isset($_GET['act']) && $_GET['act'] == 'del' ) {
+if (isset($_GET['act']) && $_GET['act'] == 'del') {
 	$operatorid = isset($_GET['id']) ? $_GET['id'] : "";
 
-	if( !preg_match( "/^\d+$/", $operatorid )) {
+	if (!preg_match("/^\d+$/", $operatorid)) {
 		$errors[] = "Cannot delete: wrong argument";
 	}
 
-	if( !is_capable($can_administrate, $operator)) {
+	if (!is_capable($can_administrate, $operator)) {
 		$errors[] = "You are not allowed to remove operators";
 	}
-	
-	if( $operatorid == $operator['operatorid']) {
+
+	if ($operatorid == $operator['operatorid']) {
 		$errors[] = "Cannot remove self";
 	}
 
-	if(count($errors) == 0) {
+	if (count($errors) == 0) {
 		$op = operator_by_id($operatorid);
-		if( !$op ) {
+		if (!$op) {
 			$errors[] = getlocal("no_such_operator");
-		} else if($op['vclogin'] == 'admin') {
-			$errors[] = 'Cannot remove operator "admin"';			
-		}		
+		} else if ($op['vclogin'] == 'admin') {
+			$errors[] = 'Cannot remove operator "admin"';
+		}
 	}
-	
-	if( count($errors) == 0 ) {
+
+	if (count($errors) == 0) {
 		$link = connect();
-		perform_query("delete from ${mysqlprefix}chatgroupoperator where operatorid = $operatorid",$link);
-		perform_query("delete from ${mysqlprefix}chatoperator where operatorid = $operatorid",$link);
+		perform_query("delete from ${mysqlprefix}chatgroupoperator where operatorid = $operatorid", $link);
+		perform_query("delete from ${mysqlprefix}chatoperator where operatorid = $operatorid", $link);
 		mysql_close($link);
-		
+
 		header("Location: $webimroot/operator/operators.php");
 		exit;
 	}
