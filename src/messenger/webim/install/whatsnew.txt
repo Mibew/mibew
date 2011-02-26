@@ -1,5 +1,8 @@
   1.6.4
   -----
+  [+] core UI improvements, "you are offline" and "new features" notification panels
+  [+] online/away operators list (on "awaiting visitors" page) by Andrew Armstrong
+  [+] several instances of mibew in one DB ($mysqlprefix variable)
   [!] various compatibility fixes: button image, captcha, check webimroot variable (installation)
   [!] fix speed of history search, fix redirection to groups
 
