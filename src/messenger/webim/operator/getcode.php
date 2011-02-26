@@ -29,7 +29,7 @@ loadsettings();
 
 $imageLocales = get_image_locales_map("../locales");
 $image = verifyparam(isset($_GET['image']) ? "image" : "i", "/^\w+$/", "webim");
-if(!isset($imageLocales[$image])) {
+if (!isset($imageLocales[$image])) {
 	$errors[] = "Unknown image: $image";
 	$avail = array_keys($imageLocales);
 	$image = $avail[0];
@@ -37,31 +37,31 @@ if(!isset($imageLocales[$image])) {
 $image_locales = $imageLocales[$image];
 
 $stylelist = get_style_list("../styles");
-$style = verifyparam("style","/^\w*$/", "");
-if($style && !in_array($style, $stylelist)) {
+$style = verifyparam("style", "/^\w*$/", "");
+if ($style && !in_array($style, $stylelist)) {
 	$style = "";
 }
 
 $groupid = verifyparam_groupid("group");
-$showhost = verifyparam("hostname","/^on$/", "") == "on";
-$forcesecure = verifyparam("secure","/^on$/", "") == "on";
-$modsecurity = verifyparam("modsecurity","/^on$/", "") == "on";
+$showhost = verifyparam("hostname", "/^on$/", "") == "on";
+$forcesecure = verifyparam("secure", "/^on$/", "") == "on";
+$modsecurity = verifyparam("modsecurity", "/^on$/", "") == "on";
 
 $lang = verifyparam("lang", "/^[\w-]{2,5}$/", "");
-if( !$lang || !in_array($lang,$image_locales) )
-	$lang = in_array($current_locale,$image_locales) ? $current_locale : $image_locales[0];
+if (!$lang || !in_array($lang, $image_locales))
+	$lang = in_array($current_locale, $image_locales) ? $current_locale : $image_locales[0];
 
 $file = "../locales/${lang}/button/${image}_on.gif";
 $size = get_gifimage_size($file);
 
-$imagehref = get_app_location($showhost,$forcesecure)."/b.php?i=$image&amp;lang=$lang";
-if($groupid) {
+$imagehref = get_app_location($showhost, $forcesecure) . "/b.php?i=$image&amp;lang=$lang";
+if ($groupid) {
 	$imagehref .= "&amp;group=$groupid";
 }
-$message = get_image($imagehref,$size[0],$size[1]);
+$message = get_image($imagehref, $size[0], $size[1]);
 
 $page = array();
-$page['buttonCode'] = generate_button("",$lang,$style,$groupid,$message,$showhost,$forcesecure,$modsecurity);
+$page['buttonCode'] = generate_button("", $lang, $style, $groupid, $message, $showhost, $forcesecure, $modsecurity);
 $page['availableImages'] = array_keys($imageLocales);
 $page['availableLocales'] = $image_locales;
 $page['availableStyles'] = $stylelist;

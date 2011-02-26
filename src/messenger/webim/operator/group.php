@@ -29,34 +29,37 @@ $page = array('grid' => '');
 $errors = array();
 $groupid = '';
 
-function group_by_name($name) {
+function group_by_name($name)
+{
 	global $mysqlprefix;
 	$link = connect();
 	$group = select_one_row(
-		 "select * from ${mysqlprefix}chatgroup where vclocalname = '".mysql_real_escape_string($name)."'", $link );
+		"select * from ${mysqlprefix}chatgroup where vclocalname = '" . mysql_real_escape_string($name) . "'", $link);
 	mysql_close($link);
 	return $group;
 }
 
-function create_group($name,$descr,$commonname,$commondescr) {
+function create_group($name, $descr, $commonname, $commondescr)
+{
 	global $mysqlprefix;
 	$link = connect();
 	$query = sprintf(
 		"insert into ${mysqlprefix}chatgroup (vclocalname,vclocaldescription,vccommonname,vccommondescription) values ('%s','%s','%s','%s')",
-			mysql_real_escape_string($name),
-			mysql_real_escape_string($descr),
-			mysql_real_escape_string($commonname),
-			mysql_real_escape_string($commondescr));
-			
-	perform_query($query,$link);
+		mysql_real_escape_string($name),
+		mysql_real_escape_string($descr),
+		mysql_real_escape_string($commonname),
+		mysql_real_escape_string($commondescr));
+
+	perform_query($query, $link);
 	$id = mysql_insert_id($link);
 
-	$newdep = select_one_row("select * from ${mysqlprefix}chatgroup where groupid = $id", $link );
+	$newdep = select_one_row("select * from ${mysqlprefix}chatgroup where groupid = $id", $link);
 	mysql_close($link);
 	return $newdep;
 }
 
-function update_group($groupid,$name,$descr,$commonname,$commondescr) {
+function update_group($groupid, $name, $descr, $commonname, $commondescr)
+{
 	global $mysqlprefix;
 	$link = connect();
 	$query = sprintf(
@@ -65,35 +68,35 @@ function update_group($groupid,$name,$descr,$commonname,$commondescr) {
 		mysql_real_escape_string($descr),
 		mysql_real_escape_string($commonname),
 		mysql_real_escape_string($commondescr),
-		$groupid );
+		$groupid);
 
-	perform_query($query,$link);
+	perform_query($query, $link);
 	mysql_close($link);
 }
 
 
-if( isset($_POST['name'])) {
-	$groupid = verifyparam( "gid", "/^(\d{1,9})?$/", "");
+if (isset($_POST['name'])) {
+	$groupid = verifyparam("gid", "/^(\d{1,9})?$/", "");
 	$name = getparam('name');
 	$description = getparam('description');
 	$commonname = getparam('commonname');
 	$commondescription = getparam('commondescription');
-	
-	if( !$name )
+
+	if (!$name)
 		$errors[] = no_field("form.field.groupname");
 
 	$existing_group = group_by_name($name);
-	if( (!$groupid && $existing_group) ||
-		( $groupid && $existing_group && $groupid != $existing_group['groupid']) )
+	if ((!$groupid && $existing_group) ||
+		($groupid && $existing_group && $groupid != $existing_group['groupid']))
 		$errors[] = getlocal("page.group.duplicate_name");
 
-	if( count($errors) == 0 ) {
+	if (count($errors) == 0) {
 		if (!$groupid) {
-			$newdep = create_group($name,$description,$commonname,$commondescription);
-			header("Location: $webimroot/operator/groupmembers.php?gid=".$newdep['groupid']);
+			$newdep = create_group($name, $description, $commonname, $commondescription);
+			header("Location: $webimroot/operator/groupmembers.php?gid=" . $newdep['groupid']);
 			exit;
 		} else {
-			update_group($groupid,$name,$description,$commonname,$commondescription);
+			update_group($groupid, $name, $description, $commonname, $commondescription);
 			header("Location: $webimroot/operator/group.php?gid=$groupid&stored");
 			exit;
 		}
@@ -105,11 +108,11 @@ if( isset($_POST['name'])) {
 		$page['grid'] = topage($groupid);
 	}
 
-} else if( isset($_GET['gid']) ) {
-	$groupid = verifyparam( 'gid', "/^\d{1,9}$/");
+} else if (isset($_GET['gid'])) {
+	$groupid = verifyparam('gid', "/^\d{1,9}$/");
 	$group = group_by_id($groupid);
 
-	if( !$group ) {
+	if (!$group) {
 		$errors[] = getlocal("page.group.no_such");
 		$page['grid'] = topage($groupid);
 	} else {

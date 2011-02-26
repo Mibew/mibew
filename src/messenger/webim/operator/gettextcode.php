@@ -28,26 +28,26 @@ $operator = check_login();
 loadsettings();
 
 $stylelist = get_style_list("../styles");
-$style = verifyparam("style","/^\w*$/", "");
-if($style && !in_array($style, $stylelist)) {
+$style = verifyparam("style", "/^\w*$/", "");
+if ($style && !in_array($style, $stylelist)) {
 	$style = "";
 }
 
 $groupid = verifyparam_groupid("group");
-$showhost = verifyparam("hostname","/^on$/", "") == "on";
-$forcesecure = verifyparam("secure","/^on$/", "") == "on";
-$modsecurity = verifyparam("modsecurity","/^on$/", "") == "on";
+$showhost = verifyparam("hostname", "/^on$/", "") == "on";
+$forcesecure = verifyparam("secure", "/^on$/", "") == "on";
+$modsecurity = verifyparam("modsecurity", "/^on$/", "") == "on";
 
 $allLocales = get_available_locales();
 
 $lang = verifyparam("lang", "/^[\w-]{2,5}$/", "");
-if( !$lang || !in_array($lang,$allLocales) )
-	$lang = in_array($current_locale,$allLocales) ? $current_locale : $allLocales[0];
+if (!$lang || !in_array($lang, $allLocales))
+	$lang = in_array($current_locale, $allLocales) ? $current_locale : $allLocales[0];
 
 $message = "Click to chat"; // TODO
 
 $page = array();
-$page['buttonCode'] = generate_button("",$lang,$style,$groupid,$message,$showhost,$forcesecure,$modsecurity);
+$page['buttonCode'] = generate_button("", $lang, $style, $groupid, $message, $showhost, $forcesecure, $modsecurity);
 $page['availableLocales'] = $allLocales;
 $page['availableStyles'] = $stylelist;
 $page['groups'] = get_groups_list();

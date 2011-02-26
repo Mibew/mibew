@@ -28,7 +28,7 @@ $operator = check_login();
 $page = array();
 $errors = array();
 
-if( !is_capable($can_administrate, $operator)) {
+if (!is_capable($can_administrate, $operator)) {
 	die("Permission denied.");
 }
 
@@ -38,13 +38,13 @@ setlocale(LC_TIME, getstring("time.locale"));
 
 $all_locales = get_available_locales();
 $locales_with_label = array(array('id' => '', 'name' => getlocal("notifications.locale.all")));
-foreach($all_locales as $id) {
-	$locales_with_label[] = array('id' => $id, 'name' => getlocal_($id,"names"));
+foreach ($all_locales as $id) {
+	$locales_with_label[] = array('id' => $id, 'name' => getlocal_($id, "names"));
 }
 $page['locales'] = $locales_with_label;
 
 $lang = verifyparam("lang", "/^([\w-]{2,5})?$/", "");
-if( $lang && !in_array($lang,$all_locales) ) {
+if ($lang && !in_array($lang, $all_locales)) {
 	$lang = "";
 }
 
@@ -56,10 +56,10 @@ $page['allkinds'] = array('', 'mail', 'xmpp');
 # fetch
 
 $conditions = array();
-if($kind) {
+if ($kind) {
 	$conditions[] = "vckind = '$kind'";
-}	
-if($lang) {
+}
+if ($lang) {
 	$conditions[] = "locale = '$lang'";
 }
 

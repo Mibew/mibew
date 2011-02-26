@@ -29,55 +29,55 @@ setlocale(LC_TIME, getstring("time.locale"));
 
 $page = array();
 $page['operator'] = topage(get_operator_name($operator));
-$page['availableDays'] = range(1,31);
-$page['availableMonth'] = get_month_selection(time()-400*24*60*60,time()+50*24*60*60 );
+$page['availableDays'] = range(1, 31);
+$page['availableMonth'] = get_month_selection(time() - 400 * 24 * 60 * 60, time() + 50 * 24 * 60 * 60);
 $page['showresults'] = false;
 $errors = array();
 
-if(isset($_GET['startday'])) {
-	$startday = verifyparam("startday","/^\d+$/");
-	$startmonth = verifyparam("startmonth","/^\d{2}.\d{2}$/");
-	$endday = verifyparam("endday","/^\d+$/");
-	$endmonth = verifyparam("endmonth","/^\d{2}.\d{2}$/");
-	$start = get_form_date($startday,$startmonth);
-	$end = get_form_date($endday, $endmonth)+24*60*60;
+if (isset($_GET['startday'])) {
+	$startday = verifyparam("startday", "/^\d+$/");
+	$startmonth = verifyparam("startmonth", "/^\d{2}.\d{2}$/");
+	$endday = verifyparam("endday", "/^\d+$/");
+	$endmonth = verifyparam("endmonth", "/^\d{2}.\d{2}$/");
+	$start = get_form_date($startday, $startmonth);
+	$end = get_form_date($endday, $endmonth) + 24 * 60 * 60;
 
 } else {
 	$curr = getdate(time());
-	if( $curr['mday'] < 7 ) {
+	if ($curr['mday'] < 7) {
 		// previous month
-		if($curr['mon'] == 1) {
-			$month = 12; 
-			$year = $curr['year']-1;
+		if ($curr['mon'] == 1) {
+			$month = 12;
+			$year = $curr['year'] - 1;
 		} else {
-			$month = $curr['mon']-1; 
+			$month = $curr['mon'] - 1;
 			$year = $curr['year'];
 		}
-		$start = mktime(0,0,0,$month,1,$year);
-		$end = mktime(0,0,0,$month, date("t",$start),$year)+24*60*60;
+		$start = mktime(0, 0, 0, $month, 1, $year);
+		$end = mktime(0, 0, 0, $month, date("t", $start), $year) + 24 * 60 * 60;
 	} else {
-		$start = mktime(0,0,0,$curr['mon'],1,$curr['year']);
-		$end = time()+24*60*60;
+		$start = mktime(0, 0, 0, $curr['mon'], 1, $curr['year']);
+		$end = time() + 24 * 60 * 60;
 	}
 }
 set_form_date($start, "start");
-set_form_date($end-24*60*60, "end");
+set_form_date($end - 24 * 60 * 60, "end");
 
-if( $start > $end ) {
+if ($start > $end) {
 	$errors[] = getlocal("statistics.wrong.dates");
 }
 
 $link = connect();
 
-$page['reportByDate'] = select_multi_assoc("select DATE(dtmcreated) as date, COUNT(distinct threadid) as threads, SUM(${mysqlprefix}chatmessage.ikind = $kind_agent) as agents, SUM(${mysqlprefix}chatmessage.ikind = $kind_user) as users ".
-	 "from ${mysqlprefix}chatmessage where unix_timestamp(dtmcreated) >= $start AND unix_timestamp(dtmcreated) < $end group by DATE(dtmcreated) order by dtmcreated desc", $link);
+$page['reportByDate'] = select_multi_assoc("select DATE(dtmcreated) as date, COUNT(distinct threadid) as threads, SUM(${mysqlprefix}chatmessage.ikind = $kind_agent) as agents, SUM(${mysqlprefix}chatmessage.ikind = $kind_user) as users " .
+										   "from ${mysqlprefix}chatmessage where unix_timestamp(dtmcreated) >= $start AND unix_timestamp(dtmcreated) < $end group by DATE(dtmcreated) order by dtmcreated desc", $link);
 
-$page['reportByDateTotal'] = select_one_row("select COUNT(distinct threadid) as threads, SUM(${mysqlprefix}chatmessage.ikind = $kind_agent) as agents, SUM(${mysqlprefix}chatmessage.ikind = $kind_user) as users ".
-	 "from ${mysqlprefix}chatmessage where unix_timestamp(dtmcreated) >= $start AND unix_timestamp(dtmcreated) < $end", $link);
+$page['reportByDateTotal'] = select_one_row("select COUNT(distinct threadid) as threads, SUM(${mysqlprefix}chatmessage.ikind = $kind_agent) as agents, SUM(${mysqlprefix}chatmessage.ikind = $kind_user) as users " .
+											"from ${mysqlprefix}chatmessage where unix_timestamp(dtmcreated) >= $start AND unix_timestamp(dtmcreated) < $end", $link);
 
-$page['reportByAgent'] = select_multi_assoc("select vclocalename as name, COUNT(distinct threadid) as threads, SUM(ikind = $kind_agent) as msgs, AVG(CHAR_LENGTH(tmessage)) as avglen ".
-	 "from ${mysqlprefix}chatmessage, ${mysqlprefix}chatoperator ".
-         "where agentId = operatorid AND unix_timestamp(dtmcreated) >= $start AND unix_timestamp(dtmcreated) < $end group by operatorid", $link);
+$page['reportByAgent'] = select_multi_assoc("select vclocalename as name, COUNT(distinct threadid) as threads, SUM(ikind = $kind_agent) as msgs, AVG(CHAR_LENGTH(tmessage)) as avglen " .
+											"from ${mysqlprefix}chatmessage, ${mysqlprefix}chatoperator " .
+											"where agentId = operatorid AND unix_timestamp(dtmcreated) >= $start AND unix_timestamp(dtmcreated) < $end group by operatorid", $link);
 
 $page['showresults'] = count($errors) == 0;
 

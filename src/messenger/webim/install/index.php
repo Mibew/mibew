@@ -33,35 +33,37 @@ $page['nextstep'] = false;
 $page['nextnotice'] = false;
 $errors = array();
 
-function check_webimroot() {
+function check_webimroot()
+{
 	global $page, $errors, $webimroot;
 	$requestUri = $_SERVER["REQUEST_URI"];
-	if(!preg_match('/^(.*)\\/install(\\/[^\\/\\\\]*)?$/', $requestUri, $matches)) {
+	if (!preg_match('/^(.*)\\/install(\\/[^\\/\\\\]*)?$/', $requestUri, $matches)) {
 		$errors[] = "Cannot detect application location: $requestUri";
-		return false;	
+		return false;
 	}
 	$applocation = $matches[1];
-	
-	if($applocation != $webimroot) {
+
+	if ($applocation != $webimroot) {
 		$errors[] = "Please, check file ${applocation}/libs/config.php<br/>Wrong value of \$webimroot variable, should be \"$applocation\"";
 		$webimroot = $applocation;
-		return false;	
+		return false;
 	}
 
 	$page['done'][] = getlocal2("install.0.app", array($applocation));
 	return true;
 }
 
-function check_connection() {
-	global $mysqlhost,$mysqllogin,$mysqlpass, $page, $errors, $webimroot;
-	$link = @mysql_connect($mysqlhost,$mysqllogin,$mysqlpass);
+function check_connection()
+{
+	global $mysqlhost, $mysqllogin, $mysqlpass, $page, $errors, $webimroot;
+	$link = @mysql_connect($mysqlhost, $mysqllogin, $mysqlpass);
 	if ($link) {
 		$result = mysql_query("SELECT VERSION() as c", $link);
-		if( $result && $ver = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		if ($result && $ver = mysql_fetch_array($result, MYSQL_ASSOC)) {
 			$page['done'][] = getlocal2("install.1.connected", array($ver['c']));
 			mysql_free_result($result);
 		} else {
-			$errors[] = "Version of your SQL server is unknown. Please check. Error: ".mysql_error();
+			$errors[] = "Version of your SQL server is unknown. Please check. Error: " . mysql_error();
 			mysql_close($link);
 			return null;
 		}
@@ -72,11 +74,12 @@ function check_connection() {
 	}
 }
 
-function check_database($link) {
+function check_database($link)
+{
 	global $mysqldb, $force_charset_in_connection, $dbencoding, $page, $webimroot;
-	if(mysql_select_db($mysqldb,$link)) {
+	if (mysql_select_db($mysqldb, $link)) {
 		$page['done'][] = getlocal2("install.2.db_exists", array($mysqldb));
-		if( $force_charset_in_connection ) {
+		if ($force_charset_in_connection) {
 			mysql_query("SET character set $dbencoding", $link);
 		}
 		return true;
@@ -88,12 +91,13 @@ function check_database($link) {
 	return false;
 }
 
-function check_tables($link) {
+function check_tables($link)
+{
 	global $dbtables, $page, $webimroot;
 	$curr_tables = get_tables($link);
-	if( $curr_tables !== false) {
+	if ($curr_tables !== false) {
 		$tocreate = array_diff(array_keys($dbtables), $curr_tables);
-		if( count($tocreate) == 0 ) {
+		if (count($tocreate) == 0) {
 			$page['done'][] = getlocal("install.3.tables_exist");
 			return true;
 		} else {
@@ -104,19 +108,20 @@ function check_tables($link) {
 	return false;
 }
 
-function check_columns($link) {
+function check_columns($link)
+{
 	global $dbtables, $dbtables_can_update, $errors, $page, $webimroot;
 
 	$need_to_create_columns = false;
-	foreach( $dbtables as $id => $columns) {
+	foreach ($dbtables as $id => $columns) {
 		$curr_columns = get_columns($id, $link);
-		if( $curr_columns === false ) {
+		if ($curr_columns === false) {
 			return false;
 		}
 		$tocreate = array_diff(array_keys($columns), $curr_columns);
-		if( count($tocreate) != 0 ) {
+		if (count($tocreate) != 0) {
 			$cannot_update = array_diff($tocreate, $dbtables_can_update[$id]);
-			if( count($cannot_update) != 0) {
+			if (count($cannot_update) != 0) {
 				$errors[] = "Key columns are absent in table `$id'. Unable to continue installation.";
 				$page['nextstep'] = getlocal("install.kill_tables");
 				$page['nextstepurl'] = "$webimroot/install/dbperform.php?act=dt";
@@ -127,7 +132,7 @@ function check_columns($link) {
 		}
 	}
 
-	if( $need_to_create_columns ) {
+	if ($need_to_create_columns) {
 		$page['nextstep'] = getlocal("install.4.create");
 		$page['nextstepurl'] = "$webimroot/install/dbperform.php?act=addcolumns";
 		$page['nextnotice'] = getlocal("install.4.notice");
@@ -138,29 +143,30 @@ function check_columns($link) {
 	return true;
 }
 
-function check_status() {
+function check_status()
+{
 	global $page, $webimroot, $settings, $dbversion;
-	
-	if(!check_webimroot()) {
+
+	if (!check_webimroot()) {
 		return;
 	}
-	
+
 	$link = check_connection();
-	if(!$link) {
+	if (!$link) {
 		return;
 	}
 
-	if( !check_database($link)) {
+	if (!check_database($link)) {
 		mysql_close($link);
 		return;
 	}
 
-	if( !check_tables($link)) {
+	if (!check_tables($link)) {
 		mysql_close($link);
 		return;
 	}
 
-	if( !check_columns($link)) {
+	if (!check_columns($link)) {
 		mysql_close($link);
 		return;
 	}
@@ -168,9 +174,9 @@ function check_status() {
 	$page['done'][] = getlocal("installed.message");
 
 	$page['nextstep'] = getlocal("installed.login_link");
-	$page['nextnotice'] = getlocal2("installed.notice", array($webimroot."/install/"));
+	$page['nextnotice'] = getlocal2("installed.notice", array($webimroot . "/install/"));
 	$page['nextstepurl'] = "$webimroot/";
-	
+
 	$page['show_small_login'] = true;
 
 	mysql_close($link);

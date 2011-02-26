@@ -19,28 +19,30 @@
  *    Evgeny Gryaznov - initial API and implementation
  */
 
-function update_settings() {
+function update_settings()
+{
 	global $settings, $settings_in_db, $mysqlprefix;
 	$link = connect();
 	foreach ($settings as $key => $value) {
-		if(!isset($settings_in_db[$key])) {
-			perform_query("insert into ${mysqlprefix}chatconfig (vckey) values ('$key')",$link);
+		if (!isset($settings_in_db[$key])) {
+			perform_query("insert into ${mysqlprefix}chatconfig (vckey) values ('$key')", $link);
 		}
-        $query = sprintf("update ${mysqlprefix}chatconfig set vcvalue='%s' where vckey='$key'", mysql_real_escape_string($value));
-		perform_query($query,$link);
+		$query = sprintf("update ${mysqlprefix}chatconfig set vcvalue='%s' where vckey='$key'", mysql_real_escape_string($value));
+		perform_query($query, $link);
 	}
 
 	mysql_close($link);
 }
 
-function setup_settings_tabs($active) {
+function setup_settings_tabs($active)
+{
 	global $page, $webimroot;
 	$page['tabselected'] = $active;
 	$page['tabs'] = array(
-		array('title'=> getlocal("page_settings.tab.main"), 'link' => "$webimroot/operator/settings.php"),
-		array('title'=> getlocal("page_settings.tab.features"), 'link' => "$webimroot/operator/features.php"),
-		array('title'=> getlocal("page_settings.tab.performance"), 'link' => "$webimroot/operator/performance.php"),
-		array('title'=> getlocal("page_settings.tab.themes"), 'link' => "$webimroot/operator/themes.php"),
+		array('title' => getlocal("page_settings.tab.main"), 'link' => "$webimroot/operator/settings.php"),
+		array('title' => getlocal("page_settings.tab.features"), 'link' => "$webimroot/operator/features.php"),
+		array('title' => getlocal("page_settings.tab.performance"), 'link' => "$webimroot/operator/performance.php"),
+		array('title' => getlocal("page_settings.tab.themes"), 'link' => "$webimroot/operator/themes.php"),
 	);
 }
 

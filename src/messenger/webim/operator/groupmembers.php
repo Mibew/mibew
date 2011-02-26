@@ -25,7 +25,8 @@ require_once('../libs/groups.php');
 
 $operator = check_login();
 
-function get_group_members($groupid) {
+function get_group_members($groupid)
+{
 	global $mysqlprefix;
 	$link = connect();
 	$query = "select operatorid from ${mysqlprefix}chatgroupoperator where groupid = $groupid";
@@ -34,17 +35,19 @@ function get_group_members($groupid) {
 	return $result;
 }
 
-function update_group_members($groupid,$newvalue) {
+function update_group_members($groupid, $newvalue)
+{
 	global $mysqlprefix;
 	$link = connect();
 	perform_query("delete from ${mysqlprefix}chatgroupoperator where groupid = $groupid", $link);
-	foreach($newvalue as $opid) {
+	foreach ($newvalue as $opid) {
 		perform_query("insert into ${mysqlprefix}chatgroupoperator (groupid, operatorid) values ($groupid,$opid)", $link);
 	}
 	mysql_close($link);
 }
 
-function get_operators() {
+function get_operators()
+{
 	global $mysqlprefix;
 	$link = connect();
 
@@ -54,25 +57,25 @@ function get_operators() {
 	return $result;
 }
 
-$groupid = verifyparam( "gid","/^\d{1,9}$/");
+$groupid = verifyparam("gid", "/^\d{1,9}$/");
 $page = array('groupid' => $groupid);
 $page['operators'] = get_operators();
 $errors = array();
 
 $group = group_by_id($groupid);
 
-if( !$group ) {
+if (!$group) {
 	$errors[] = getlocal("page.group.no_such");
 
-} else if( isset($_POST['gid']) ) {
+} else if (isset($_POST['gid'])) {
 
 	$new_members = array();
-	foreach($page['operators'] as $op) {
-		if( verifyparam("op".$op['operatorid'],"/^on$/", "") == "on") {
+	foreach ($page['operators'] as $op) {
+		if (verifyparam("op" . $op['operatorid'], "/^on$/", "") == "on") {
 			$new_members[] = $op['operatorid'];
 		}
 	}
-	
+
 	update_group_members($groupid, $new_members);
 	header("Location: $webimroot/operator/groupmembers.php?gid=$groupid&stored");
 	exit;
@@ -81,7 +84,7 @@ if( !$group ) {
 $page['formop'] = array();
 $page['currentgroup'] = $group ? topage(htmlspecialchars($group['vclocalname'])) : "";
 
-foreach(get_group_members($groupid) as $rel) {
+foreach (get_group_members($groupid) as $rel) {
 	$page['formop'][] = $rel['operatorid'];
 }
 

@@ -23,21 +23,21 @@ require_once('../libs/common.php');
 require_once('../libs/operator.php');
 
 $errors = array();
-$page = array( 'formisRemember' => true, 'version' => $version);
+$page = array('formisRemember' => true, 'version' => $version);
 
-if( isset($_POST['login']) && isset($_POST['password']) ) {
+if (isset($_POST['login']) && isset($_POST['password'])) {
 	$login = getparam('login');
 	$password = getparam('password');
 	$remember = isset($_POST['isRemember']) && $_POST['isRemember'] == "on";
 
-	$operator = operator_by_login( $login );
-	if( $operator && isset($operator['vcpassword']) && $operator['vcpassword'] == md5($password) ) {
+	$operator = operator_by_login($login);
+	if ($operator && isset($operator['vcpassword']) && $operator['vcpassword'] == md5($password)) {
 
 		$target = isset($_SESSION['backpath'])
 				? $_SESSION['backpath']
 				: "$webimroot/operator/index.php";
 
-        login_operator($operator,$remember);
+		login_operator($operator, $remember);
 		header("Location: $target");
 		exit;
 	} else {

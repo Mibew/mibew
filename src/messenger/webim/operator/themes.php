@@ -31,7 +31,7 @@ $operator = check_login();
 
 $stylelist = array();
 $stylesfolder = "../styles";
-if($handle = opendir($stylesfolder)) {
+if ($handle = opendir($stylesfolder)) {
 	while (false !== ($file = readdir($handle))) {
 		if (preg_match("/^\w+$/", $file) && is_dir("$stylesfolder/$file")) {
 			$stylelist[] = $file;
@@ -40,55 +40,55 @@ if($handle = opendir($stylesfolder)) {
 	closedir($handle);
 }
 
-$preview = verifyparam("preview","/^\w+$/", "default");
-if(!in_array($preview, $stylelist)) {
+$preview = verifyparam("preview", "/^\w+$/", "default");
+if (!in_array($preview, $stylelist)) {
 	$preview = $stylelist[0];
 }
 
 $show = verifyparam("show", "/^(chat|chatsimple|nochat|mail|mailsent|survey|leavemessage|leavemessagesent|redirect|redirected|agentchat|agentrochat|error)$/", "");
 $showerrors = verifyparam("showerr", "/^on$/", "") == "on";
 $errors = array();
-if($showerrors || $show == 'error') {
+if ($showerrors || $show == 'error') {
 	$errors[] = "Test error";
 }
 
-if($show == 'chat' || $show == 'mail' || $show == 'leavemessage' || $show == 'leavemessagesent' || $show == 'chatsimple' || $show == 'nochat') {
-	setup_chatview_for_user(array('threadid' => 0,'userName' => getstring("chat.default.username"), 'ltoken' => 123), "ajaxed");
+if ($show == 'chat' || $show == 'mail' || $show == 'leavemessage' || $show == 'leavemessagesent' || $show == 'chatsimple' || $show == 'nochat') {
+	setup_chatview_for_user(array('threadid' => 0, 'userName' => getstring("chat.default.username"), 'ltoken' => 123), "ajaxed");
 	$page['mailLink'] = "$webimroot/operator/themes.php?preview=$preview&amp;show=mail";
 	$page['info'] = "";
 	expand("../styles", "$preview", "$show.tpl");
 	exit;
 }
-if($show == 'survey') {
+if ($show == 'survey') {
 	loadsettings();
 	setup_survey("Visitor", "", "", "", "http://google.com");
 	setup_logo();
 	expand("../styles", "$preview", "$show.tpl");
 	exit;
 }
-if($show == 'mailsent' || $show == 'error') {
+if ($show == 'mailsent' || $show == 'error') {
 	$page['email'] = "admin@yourdomain.com";
 	setup_logo();
 	expand("../styles", "$preview", "$show.tpl");
 	exit;
 }
-if($show == 'redirect' || $show == 'redirected' || $show == 'agentchat' || $show == 'agentrochat' ) {
+if ($show == 'redirect' || $show == 'redirected' || $show == 'agentchat' || $show == 'agentrochat') {
 	setup_chatview_for_operator(
 		array(
-			'threadid' => 0,
-			'userName' => getstring("chat.default.username"),
-			'remote' => "1.2.3.4",
-			'agentId' => 1,
-			'userid' => 'visitor1',
-			'locale' => $current_locale,
-			'ltoken' => $show=='agentrochat' ? 124 : 123),
+			 'threadid' => 0,
+			 'userName' => getstring("chat.default.username"),
+			 'remote' => "1.2.3.4",
+			 'agentId' => 1,
+			 'userid' => 'visitor1',
+			 'locale' => $current_locale,
+			 'ltoken' => $show == 'agentrochat' ? 124 : 123),
 		array(
-			'operatorid' => ($show=='agentrochat' ? 2 : 1),
-			));
-	if($show=='redirect') {
-		setup_redirect_links( 0,$show=='agentrochat' ? 124 : 123);
-	} elseif($show=='redirected') {
-		$page['message'] = getlocal2("chat.redirected.content",array("Administrator"));
+			 'operatorid' => ($show == 'agentrochat' ? 2 : 1),
+		));
+	if ($show == 'redirect') {
+		setup_redirect_links(0, $show == 'agentrochat' ? 124 : 123);
+	} elseif ($show == 'redirected') {
+		$page['message'] = getlocal2("chat.redirected.content", array("Administrator"));
 	}
 	$page['redirectLink'] = "$webimroot/operator/themes.php?preview=$preview&amp;show=redirect";
 	expand("../styles", "$preview", "$show.tpl");
@@ -126,12 +126,12 @@ $page['availableTemplates'] = array(
 	"agentchat", "agentrochat", "error",
 	"all");
 
-$page['showlink'] = "$webimroot/operator/themes.php?preview=$preview&amp;".($showerrors?"showerr=on&amp;":"")."show=";
+$page['showlink'] = "$webimroot/operator/themes.php?preview=$preview&amp;" . ($showerrors ? "showerr=on&amp;" : "") . "show=";
 
 $page['previewList'] = array();
-foreach($templateList as $tpl) {
-	if($tpl['id'] == $template || $template == 'all') {
-		 $page['previewList'][] = $tpl;
+foreach ($templateList as $tpl) {
+	if ($tpl['id'] == $template || $template == 'all') {
+		$page['previewList'][] = $tpl;
 	}
 }
 

@@ -19,26 +19,27 @@
  *    Evgeny Gryaznov - initial API and implementation
  */
 
-function setup_operator_settings_tabs($opId, $active) {
+function setup_operator_settings_tabs($opId, $active)
+{
 	global $page, $webimroot, $settings;
 	loadsettings();
-	
-	if($opId) {
+
+	if ($opId) {
 		$page['tabselected'] = $active;
-		if($settings['enablegroups'] == '1') {
+		if ($settings['enablegroups'] == '1') {
 			$page['tabs'] = array(
-				array('title'=> getlocal("page_agent.tab.main"), 'link' => "$webimroot/operator/operator.php?op=$opId"),
-				array('title'=> getlocal("page_agent.tab.avatar"), 'link' => "$webimroot/operator/avatar.php?op=$opId"),
-				array('title'=> getlocal("page_agent.tab.groups"), 'link' => "$webimroot/operator/opgroups.php?op=$opId"),
-				array('title'=> getlocal("page_agent.tab.permissions"), 'link' => "$webimroot/operator/permissions.php?op=$opId"),
+				array('title' => getlocal("page_agent.tab.main"), 'link' => "$webimroot/operator/operator.php?op=$opId"),
+				array('title' => getlocal("page_agent.tab.avatar"), 'link' => "$webimroot/operator/avatar.php?op=$opId"),
+				array('title' => getlocal("page_agent.tab.groups"), 'link' => "$webimroot/operator/opgroups.php?op=$opId"),
+				array('title' => getlocal("page_agent.tab.permissions"), 'link' => "$webimroot/operator/permissions.php?op=$opId"),
 			);
 		} else {
 			$page['tabs'] = array(
-				array('title'=> getlocal("page_agent.tab.main"), 'link' => "$webimroot/operator/operator.php?op=$opId"),
-				array('title'=> getlocal("page_agent.tab.avatar"), 'link' => "$webimroot/operator/avatar.php?op=$opId"),
-				array('title'=> getlocal("page_agent.tab.permissions"), 'link' => "$webimroot/operator/permissions.php?op=$opId"),
+				array('title' => getlocal("page_agent.tab.main"), 'link' => "$webimroot/operator/operator.php?op=$opId"),
+				array('title' => getlocal("page_agent.tab.avatar"), 'link' => "$webimroot/operator/avatar.php?op=$opId"),
+				array('title' => getlocal("page_agent.tab.permissions"), 'link' => "$webimroot/operator/permissions.php?op=$opId"),
 			);
-			if($active == 3) $active--;
+			if ($active == 3) $active--;
 		}
 	} else {
 		$page['tabs'] = array();

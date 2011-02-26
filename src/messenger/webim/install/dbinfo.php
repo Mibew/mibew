@@ -99,7 +99,7 @@ $dbtables = array(
 		"blockedCount" => "int DEFAULT 0"
 	),
 
-	"${mysqlprefix}chatconfig" => array (
+	"${mysqlprefix}chatconfig" => array(
 		"id" => "INT NOT NULL auto_increment PRIMARY KEY",
 		"vckey" => "varchar(255)",
 		"vcvalue" => "varchar(255)",
@@ -111,7 +111,7 @@ $dbtables = array(
 		"groupid" => "int references ${mysqlprefix}chatgroup(groupid)",
 		"vcvalue" => "varchar(1024) NOT NULL",
 	),
-	
+
 	"${mysqlprefix}chatnotification" => array(
 		"id" => "INT NOT NULL auto_increment PRIMARY KEY",
 		"locale" => "varchar(8)",
@@ -137,7 +137,8 @@ $dbtables_can_update = array(
 	"${mysqlprefix}chatnotification" => array(),
 );
 
-function show_install_err($text) {
+function show_install_err($text)
+{
 	global $page, $version, $errors, $webimroot;
 	$page = array(
 		'version' => $version,
@@ -149,17 +150,18 @@ function show_install_err($text) {
 	exit;
 }
 
-function create_table($id,$link) {
+function create_table($id, $link)
+{
 	global $dbtables, $memtables, $dbencoding, $mysqlprefix;
 
-	if(!isset($dbtables[$id])) {
-		show_install_err("Unknown table: $id, ".mysql_error());
+	if (!isset($dbtables[$id])) {
+		show_install_err("Unknown table: $id, " . mysql_error());
 	}
 
 	$query =
-		"CREATE TABLE $id\n".
-		"(\n";
-	foreach( $dbtables[$id] as $k => $v ) {
+			"CREATE TABLE $id\n" .
+			"(\n";
+	foreach ($dbtables[$id] as $k => $v) {
 		$query .= "	$k $v,\n";
 	}
 
@@ -171,19 +173,20 @@ function create_table($id,$link) {
 		$query .= " TYPE=InnoDb";
 	}
 
-	mysql_query($query,$link) or show_install_err(' Query failed: '.mysql_error());
+	mysql_query($query, $link) or show_install_err(' Query failed: ' . mysql_error());
 
-	if( $id == "${mysqlprefix}chatoperator" ) {
+	if ($id == "${mysqlprefix}chatoperator") {
 		create_operator_("admin", "", "", "", "Administrator", "Administrator", 0, $link);
-	} else if( $id == "${mysqlprefix}chatrevision" ) {
-		perform_query("INSERT INTO ${mysqlprefix}chatrevision VALUES (1)",$link);
+	} else if ($id == "${mysqlprefix}chatrevision") {
+		perform_query("INSERT INTO ${mysqlprefix}chatrevision VALUES (1)", $link);
 	}
 }
 
-function get_tables($link) {
+function get_tables($link)
+{
 	global $mysqldb, $errors;
 	$result = mysql_query("SHOW TABLES FROM `$mysqldb`");
-	if( $result ) {
+	if ($result) {
 		$arr = array();
 		while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
 			$arr[] = $row[0];
@@ -192,15 +195,16 @@ function get_tables($link) {
 		return $arr;
 
 	} else {
-		$errors[] = "Cannot get tables from database. Error: ".mysql_error();
+		$errors[] = "Cannot get tables from database. Error: " . mysql_error();
 		return false;
 	}
 }
 
-function get_columns($tablename,$link) {
+function get_columns($tablename, $link)
+{
 	global $errors;
 	$result = mysql_query("SHOW COLUMNS FROM $tablename");
-	if( $result ) {
+	if ($result) {
 		$arr = array();
 		while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
 			$arr[] = $row[0];
@@ -209,7 +213,7 @@ function get_columns($tablename,$link) {
 		return $arr;
 
 	} else {
-		$errors[] = "Cannot get columns from table \"$tablename\". Error: ".mysql_error();
+		$errors[] = "Cannot get columns from table \"$tablename\". Error: " . mysql_error();
 		return false;
 	}
 }

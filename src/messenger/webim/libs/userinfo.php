@@ -19,38 +19,40 @@
  *    Evgeny Gryaznov - initial API and implementation
  */
 
-function get_useragent_version($userAgent) {
-    global $knownAgents;
-    if (is_array($knownAgents)) {
-	$userAgent = strtolower($userAgent);
-	foreach( $knownAgents as $agent ) {
-		if( strstr($userAgent,$agent) ) {
-			if( preg_match( "/".$agent."[\\s\/]?(\\d+(\\.\\d+(\\.\\d+(\\.\\d+)?)?)?)/", $userAgent, $matches ) ) {
-				$ver = $matches[1];
-				if($agent=='safari') {
-					if(preg_match( "/version\/(\\d+(\\.\\d+(\\.\\d+)?)?)/", $userAgent, $matches)) {
-						$ver = $matches[1];
-					} else {
-						$ver = "1 or 2 (build ".$ver.")";
+function get_useragent_version($userAgent)
+{
+	global $knownAgents;
+	if (is_array($knownAgents)) {
+		$userAgent = strtolower($userAgent);
+		foreach ($knownAgents as $agent) {
+			if (strstr($userAgent, $agent)) {
+				if (preg_match("/" . $agent . "[\\s\/]?(\\d+(\\.\\d+(\\.\\d+(\\.\\d+)?)?)?)/", $userAgent, $matches)) {
+					$ver = $matches[1];
+					if ($agent == 'safari') {
+						if (preg_match("/version\/(\\d+(\\.\\d+(\\.\\d+)?)?)/", $userAgent, $matches)) {
+							$ver = $matches[1];
+						} else {
+							$ver = "1 or 2 (build " . $ver . ")";
+						}
+						if (preg_match("/mobile\/(\\d+(\\.\\d+(\\.\\d+)?)?)/", $userAgent, $matches)) {
+							$userAgent = "iPhone " . $matches[1] . " ($agent $ver)";
+							break;
+						}
 					}
-					if(preg_match( "/mobile\/(\\d+(\\.\\d+(\\.\\d+)?)?)/", $userAgent, $matches)) {
-						$userAgent = "iPhone ".$matches[1]." ($agent $ver)";
-						break;
-					}
-				}
 
-				$userAgent = ucfirst($agent)." ".$ver;
-				break;
+					$userAgent = ucfirst($agent) . " " . $ver;
+					break;
+				}
 			}
 		}
 	}
-    }
-    return $userAgent;
+	return $userAgent;
 }
 
-function get_user_addr($addr) {
+function get_user_addr($addr)
+{
 	global $settings;
-	if($settings['geolink'] && preg_match( "/(\\d+\\.\\d+\\.\\d+\\.\\d+)/", $addr, $matches )) {
+	if ($settings['geolink'] && preg_match("/(\\d+\\.\\d+\\.\\d+\\.\\d+)/", $addr, $matches)) {
 		$userip = $matches[1];
 		return get_popup(str_replace("{ip}", $userip, $settings['geolink']), '', htmlspecialchars($addr), "GeoLocation", "ip$userip", $settings['geolinkparams']);
 	}

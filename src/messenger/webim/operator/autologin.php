@@ -25,7 +25,7 @@ require_once('../libs/operator.php');
 $operator = check_login(false);
 
 start_xml_output();
-if($operator) {
+if ($operator) {
 	echo "<login><status>OK</status></login>";
 } else {
 	echo "<login><status>FAILED</status></login>";

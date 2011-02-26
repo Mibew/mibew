@@ -34,8 +34,8 @@ $page = array(
 	'version' => $version,
 );
 
-foreach($default_extensions as $ext) {
-	if(!extension_loaded($ext)) {
+foreach ($default_extensions as $ext) {
+	if (!extension_loaded($ext)) {
 		$page['phpVersion'] .= " $ext/absent";
 	} else {
 		$ver = phpversion($ext);

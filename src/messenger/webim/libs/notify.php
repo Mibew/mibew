@@ -19,38 +19,41 @@
  *    Evgeny Gryaznov - initial API and implementation
  */
 
-function log_notification($locale,$kind,$to,$subj,$text,$refop,$link) {
+function log_notification($locale, $kind, $to, $subj, $text, $refop, $link)
+{
 	global $mysqlprefix;
 	$query = sprintf(
 		"insert into ${mysqlprefix}chatnotification (locale,vckind,vcto,vcsubject,tmessage,refoperator,dtmcreated) values ('%s','%s','%s','%s','%s',%s,%s)",
-			$locale,
-			$kind,
-			mysql_real_escape_string($to,$link),
-			mysql_real_escape_string($subj,$link),
-			mysql_real_escape_string($text,$link),
-			$refop ? $refop : "0",
-			"CURRENT_TIMESTAMP" );
+		$locale,
+		$kind,
+		mysql_real_escape_string($to, $link),
+		mysql_real_escape_string($subj, $link),
+		mysql_real_escape_string($text, $link),
+		$refop ? $refop : "0",
+		"CURRENT_TIMESTAMP");
 
-	perform_query($query,$link);
+	perform_query($query, $link);
 }
 
-function webim_mail($toaddr, $reply_to, $subject, $body, $link) {
+function webim_mail($toaddr, $reply_to, $subject, $body, $link)
+{
 	global $webim_encoding, $webim_mailbox, $mail_encoding, $current_locale;
 
 	$headers = "From: $webim_mailbox\r\n"
-	   ."Reply-To: ".myiconv($webim_encoding, $mail_encoding, $reply_to)."\r\n"
-	   ."Content-Type: text/plain; charset=$mail_encoding\r\n"
-	   .'X-Mailer: PHP/'.phpversion();
+			   . "Reply-To: " . myiconv($webim_encoding, $mail_encoding, $reply_to) . "\r\n"
+			   . "Content-Type: text/plain; charset=$mail_encoding\r\n"
+			   . 'X-Mailer: PHP/' . phpversion();
 
-	$real_subject = "=?".$mail_encoding."?B?".base64_encode(myiconv($webim_encoding,$mail_encoding,$subject))."?=";
+	$real_subject = "=?" . $mail_encoding . "?B?" . base64_encode(myiconv($webim_encoding, $mail_encoding, $subject)) . "?=";
 
-	$body = preg_replace("/\n/","\r\n", $body);
-	
+	$body = preg_replace("/\n/", "\r\n", $body);
+
 	log_notification($current_locale, "mail", $toaddr, $subject, $body, null, $link);
-	@mail($toaddr, $real_subject, wordwrap(myiconv($webim_encoding, $mail_encoding, $body),70), $headers);
+	@mail($toaddr, $real_subject, wordwrap(myiconv($webim_encoding, $mail_encoding, $body), 70), $headers);
 }
 
-function webim_xmpp($toaddr, $subject, $text, $link) {
+function webim_xmpp($toaddr, $subject, $text, $link)
+{
 	global $current_locale;
 	log_notification($current_locale, "xmpp", $toaddr, $subject, $text, null, $link);
 }

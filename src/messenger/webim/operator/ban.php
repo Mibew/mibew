@@ -31,55 +31,55 @@ $page['thread'] = '';
 $page['threadid'] = '';
 $errors = array();
 
-if( isset($_POST['address']) ) {
-	$banId = verifyparam( "banId", "/^(\d{1,9})?$/", "");
+if (isset($_POST['address'])) {
+	$banId = verifyparam("banId", "/^(\d{1,9})?$/", "");
 	$address = getparam("address");
 	$days = getparam("days");
 	$comment = getparam('comment');
 	$threadid = isset($_POST['threadid']) ? getparam('threadid') : "";
 
-	if( !$address ) {
+	if (!$address) {
 		$errors[] = no_field("form.field.address");
 	}
 
-	if( !preg_match( "/^\d+$/", $days )) {
+	if (!preg_match("/^\d+$/", $days)) {
 		$errors[] = wrong_field("form.field.ban_days");
 	}
 
-	if( !$comment ) {
+	if (!$comment) {
 		$errors[] = no_field("form.field.ban_comment");
 	}
 
 	$link = connect();
-	$existing_ban = ban_for_addr_($address,$link);
+	$existing_ban = ban_for_addr_($address, $link);
 	mysql_close($link);
 
-	if( (!$banId && $existing_ban) ||
-		( $banId && $existing_ban && $banId != $existing_ban['banid']) ) {
-		$errors[] = getlocal2("ban.error.duplicate",array($address,$existing_ban['banid']));
+	if ((!$banId && $existing_ban) ||
+		($banId && $existing_ban && $banId != $existing_ban['banid'])) {
+		$errors[] = getlocal2("ban.error.duplicate", array($address, $existing_ban['banid']));
 	}
 
-	if( count($errors) == 0 ) {
+	if (count($errors) == 0) {
 		$link = connect();
-		$utime = time() + $days * 24*60*60;
+		$utime = time() + $days * 24 * 60 * 60;
 		if (!$banId) {
 			$query = sprintf(
 				"insert into ${mysqlprefix}chatban (dtmcreated,dtmtill,address,comment) values (CURRENT_TIMESTAMP,%s,'%s','%s')",
 				"FROM_UNIXTIME($utime)",
-				mysql_real_escape_string($address,$link),
-				mysql_real_escape_string($comment,$link));
-			perform_query($query,$link);
+				mysql_real_escape_string($address, $link),
+				mysql_real_escape_string($comment, $link));
+			perform_query($query, $link);
 		} else {
 			$query = sprintf(
 				"update ${mysqlprefix}chatban set dtmtill = %s,address = '%s',comment = '%s' where banid = $banId",
 				"FROM_UNIXTIME($utime)",
-				mysql_real_escape_string($address,$link),
-				mysql_real_escape_string($comment,$link));
-			perform_query($query,$link);
-					}
+				mysql_real_escape_string($address, $link),
+				mysql_real_escape_string($comment, $link));
+			perform_query($query, $link);
+		}
 		mysql_close($link);
 
-		if(!$threadid) {
+		if (!$threadid) {
 			header("Location: $webimroot/operator/blocked.php");
 			exit;
 		} else {
@@ -93,24 +93,24 @@ if( isset($_POST['address']) ) {
 		$page['formcomment'] = topage($comment);
 		$page['threadid'] = $threadid;
 	}
-} else if(isset($_GET['id'])) {
-	$banId = verifyparam( 'id', "/^\d{1,9}$/");
+} else if (isset($_GET['id'])) {
+	$banId = verifyparam('id', "/^\d{1,9}$/");
 	$link = connect();
 	$ban = select_one_row("select banid,(unix_timestamp(dtmtill)-unix_timestamp(CURRENT_TIMESTAMP)) as days,address,comment from ${mysqlprefix}chatban where banid = $banId", $link);
 	mysql_close($link);
 
-	if( $ban ) {
+	if ($ban) {
 		$page['banId'] = topage($ban['banid']);
 		$page['formaddress'] = topage($ban['address']);
-		$page['formdays'] = topage(round($ban['days']/86400));
+		$page['formdays'] = topage(round($ban['days'] / 86400));
 		$page['formcomment'] = topage($ban['comment']);
 	} else {
 		$errors[] = "Wrong id";
 	}
-} else if(isset($_GET['thread'])) {
-	$threadid = verifyparam( 'thread', "/^\d{1,9}$/");
+} else if (isset($_GET['thread'])) {
+	$threadid = verifyparam('thread', "/^\d{1,9}$/");
 	$thread = thread_by_id($threadid);
-	if( $thread ) {
+	if ($thread) {
 		$page['thread'] = topage($thread['userName']);
 		$page['threadid'] = $threadid;
 		$page['formaddress'] = topage($thread['remote']);

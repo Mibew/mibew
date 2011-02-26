@@ -29,18 +29,19 @@ $page = array();
 
 setlocale(LC_TIME, getstring("time.locale"));
 
-function notification_info($id) {
+function notification_info($id)
+{
 	global $mysqlprefix;
 	$link = connect();
 	$notification = select_one_row(db_build_select(
-		"id, locale, vckind, vcto, unix_timestamp(dtmcreated) as created, vcsubject, tmessage, refoperator", "${mysqlprefix}chatnotification",
-		array("id = $id"), ""), $link);
+									   "id, locale, vckind, vcto, unix_timestamp(dtmcreated) as created, vcsubject, tmessage, refoperator", "${mysqlprefix}chatnotification",
+									   array("id = $id"), ""), $link);
 	mysql_close($link);
 	return $notification;
 }
 
 
-$notificationid = verifyparam( "id", "/^(\d{1,9})$/");
+$notificationid = verifyparam("id", "/^(\d{1,9})$/");
 $page['notification'] = notification_info($notificationid);
 
 prepare_menu($operator, false);

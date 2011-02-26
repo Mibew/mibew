@@ -29,30 +29,30 @@ $page = array('agentId' => '');
 $errors = array();
 
 $options = array(
-		'enableban', 'usercanchangename', 'enablegroups', 'enablestatistics', 'enablejabber',
-		'enablessl', 'forcessl',  
-		'enablepresurvey', 'surveyaskmail', 'surveyaskgroup', 'surveyaskmessage',
-		'enablepopupnotification', 'showonlineoperators',
-		'enablecaptcha');
+	'enableban', 'usercanchangename', 'enablegroups', 'enablestatistics', 'enablejabber',
+	'enablessl', 'forcessl',
+	'enablepresurvey', 'surveyaskmail', 'surveyaskgroup', 'surveyaskmessage',
+	'enablepopupnotification', 'showonlineoperators',
+	'enablecaptcha');
 
 loadsettings();
-if($settings['featuresversion'] != $featuresversion) {
+if ($settings['featuresversion'] != $featuresversion) {
 	$settings['featuresversion'] = $featuresversion;
 	update_settings();
 }
 $params = array();
-foreach($options as $opt) {
+foreach ($options as $opt) {
 	$params[$opt] = $settings[$opt];
 }
 
 if (isset($_POST['sent'])) {
 	if (is_capable($can_administrate, $operator)) {
-		foreach($options as $opt) {
-    		$settings[$opt] = verifyparam($opt,"/^on$/", "") == "on" ? "1" : "0";
+		foreach ($options as $opt) {
+			$settings[$opt] = verifyparam($opt, "/^on$/", "") == "on" ? "1" : "0";
 		}
-    	update_settings();
-	    header("Location: $webimroot/operator/features.php?stored");
-	    exit;
+		update_settings();
+		header("Location: $webimroot/operator/features.php?stored");
+		exit;
 	} else {
 		$errors[] = "Not an administrator";
 	}
@@ -60,8 +60,8 @@ if (isset($_POST['sent'])) {
 
 $page['canmodify'] = is_capable($can_administrate, $operator);
 $page['stored'] = isset($_GET['stored']);
-foreach($options as $opt) {
-   	$page["form$opt"] = $params[$opt] == "1";
+foreach ($options as $opt) {
+	$page["form$opt"] = $params[$opt] == "1";
 }
 
 prepare_menu($operator);
