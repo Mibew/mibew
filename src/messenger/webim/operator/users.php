@@ -30,7 +30,7 @@ notify_operator_alive($operator['operatorid'], $status);
 
 $link = connect();
 loadsettings_($link);
-$_SESSION['operatorgroups'] = get_operator_groupslist($operator['operatorid'], $link);
+$_SESSION["${mysqlprefix}operatorgroups"] = get_operator_groupslist($operator['operatorid'], $link);
 mysql_close($link);
 
 $page = array();
