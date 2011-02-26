@@ -155,7 +155,7 @@ function create_table($id, $link)
 	global $dbtables, $memtables, $dbencoding, $mysqlprefix;
 
 	if (!isset($dbtables[$id])) {
-		show_install_err("Unknown table: $id, " . mysql_error());
+		show_install_err("Unknown table: $id, " . mysql_error($link));
 	}
 
 	$query =
@@ -173,7 +173,7 @@ function create_table($id, $link)
 		$query .= " TYPE=InnoDb";
 	}
 
-	mysql_query($query, $link) or show_install_err(' Query failed: ' . mysql_error());
+	mysql_query($query, $link) or show_install_err(' Query failed: ' . mysql_error($link));
 
 	if ($id == "${mysqlprefix}chatoperator") {
 		create_operator_("admin", "", "", "", "Administrator", "Administrator", 0, $link);
@@ -185,7 +185,7 @@ function create_table($id, $link)
 function get_tables($link)
 {
 	global $mysqldb, $errors;
-	$result = mysql_query("SHOW TABLES FROM `$mysqldb`");
+	$result = mysql_query("SHOW TABLES FROM `$mysqldb`", $link);
 	if ($result) {
 		$arr = array();
 		while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
@@ -195,7 +195,7 @@ function get_tables($link)
 		return $arr;
 
 	} else {
-		$errors[] = "Cannot get tables from database. Error: " . mysql_error();
+		$errors[] = "Cannot get tables from database. Error: " . mysql_error($link);
 		return false;
 	}
 }
@@ -203,7 +203,7 @@ function get_tables($link)
 function get_columns($tablename, $link)
 {
 	global $errors;
-	$result = mysql_query("SHOW COLUMNS FROM $tablename");
+	$result = mysql_query("SHOW COLUMNS FROM $tablename", $link);
 	if ($result) {
 		$arr = array();
 		while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
@@ -213,7 +213,7 @@ function get_columns($tablename, $link)
 		return $arr;
 
 	} else {
-		$errors[] = "Cannot get columns from table \"$tablename\". Error: " . mysql_error();
+		$errors[] = "Cannot get columns from table \"$tablename\". Error: " . mysql_error($link);
 		return false;
 	}
 }

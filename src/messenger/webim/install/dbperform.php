@@ -25,8 +25,7 @@ require_once('dbinfo.php');
 
 function runsql($query, $link)
 {
-	$res = mysql_query($query, $link)
-	or show_install_err(' Query failed: ' . mysql_error());
+	$res = mysql_query($query, $link) or show_install_err(' Query failed: ' . mysql_error($link));
 	return $res;
 }
 
@@ -36,14 +35,12 @@ $link = @mysql_connect($mysqlhost, $mysqllogin, $mysqlpass)
 		 or show_install_err('Could not connect: ' . mysql_error());
 
 if ($act == "silentcreateall") {
-	mysql_query("CREATE DATABASE $mysqldb", $link)
-	or show_install_err(' Query failed: ' . mysql_error());
+	mysql_query("CREATE DATABASE $mysqldb", $link) or show_install_err(' Query failed: ' . mysql_error($link));
 	foreach ($dbtables as $id) {
 		create_table($id, $link);
 	}
 } else if ($act == "createdb") {
-	mysql_query("CREATE DATABASE $mysqldb", $link)
-	or show_install_err(' Query failed: ' . mysql_error());
+	mysql_query("CREATE DATABASE $mysqldb", $link) or show_install_err(' Query failed: ' . mysql_error($link));
 } else {
 	mysql_select_db($mysqldb, $link)
 	or show_install_err('Could not select database');
@@ -62,8 +59,7 @@ if ($act == "silentcreateall") {
 		}
 	} else if ($act == "dt") {
 		foreach (array_keys($dbtables) as $id) {
-			mysql_query("DROP TABLE IF EXISTS $id", $link)
-			or show_install_err(' Query failed: ' . mysql_error());
+			mysql_query("DROP TABLE IF EXISTS $id", $link) or show_install_err(' Query failed: ' . mysql_error($link));
 		}
 	} else if ($act == "addcolumns") {
 		$absent = array();

@@ -47,7 +47,7 @@ if (isset($_GET['act']) && $_GET['act'] == 'del') {
 }
 
 $result = mysql_query("select banid,unix_timestamp(dtmtill) as till,address,comment from ${mysqlprefix}chatban", $link)
-or die(' Query failed: ' . mysql_error());
+		or die(' Query failed: ' . mysql_error($link));
 
 $blockedList = array();
 while ($ban = mysql_fetch_array($result, MYSQL_ASSOC)) {

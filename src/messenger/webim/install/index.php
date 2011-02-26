@@ -63,7 +63,7 @@ function check_connection()
 			$page['done'][] = getlocal2("install.1.connected", array($ver['c']));
 			mysql_free_result($result);
 		} else {
-			$errors[] = "Version of your SQL server is unknown. Please check. Error: " . mysql_error();
+			$errors[] = "Version of your SQL server is unknown. Please check. Error: " . mysql_error($link);
 			mysql_close($link);
 			return null;
 		}
