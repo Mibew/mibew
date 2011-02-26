@@ -19,12 +19,13 @@
  *    Evgeny Gryaznov - initial API and implementation
  */
 
-function setup_operator_settings_tabs($opId, $active) {
+function setup_operator_settings_tabs($opId, $active)
+{
 	global $page, $webimroot, $settings;
 	loadsettings();
-	
-	if($opId) {
-		if($settings['enablegroups'] == '1') {
+
+	if ($opId) {
+		if ($settings['enablegroups'] == '1') {
 			$page['tabs'] = array(
 				getlocal("page_agent.tab.main") => $active != 0 ? "$webimroot/operator/operator.php?op=$opId" : "",
 				getlocal("page_agent.tab.avatar") => $active != 1 ? "$webimroot/operator/avatar.php?op=$opId" : "",

@@ -19,26 +19,29 @@
  *    Evgeny Gryaznov - initial API and implementation
  */
 
-function group_by_id($id) {
-    global $mysqlprefix;
+function group_by_id($id)
+{
+	global $mysqlprefix;
 	$link = connect();
 	$group = select_one_row(
-		 "select * from ${mysqlprefix}chatgroup where groupid = $id", $link );
+		"select * from ${mysqlprefix}chatgroup where groupid = $id", $link);
 	mysql_close($link);
 	return $group;
 }
 
-function get_group_name($group) {
+function get_group_name($group)
+{
 	global $home_locale, $current_locale;
-	if( $home_locale == $current_locale || !isset($group['vccommonname']) || !$group['vccommonname'])
+	if ($home_locale == $current_locale || !isset($group['vccommonname']) || !$group['vccommonname'])
 		return $group['vclocalname'];
 	else
 		return $group['vccommonname'];
 }
 
-function setup_group_settings_tabs($gid, $active) {
+function setup_group_settings_tabs($gid, $active)
+{
 	global $page, $webimroot, $settings;
-	if($gid) {
+	if ($gid) {
 		$page['tabs'] = array(
 			getlocal("page_group.tab.main") => $active != 0 ? "$webimroot/operator/group.php?gid=$gid" : "",
 			getlocal("page_group.tab.members") => $active != 1 ? "$webimroot/operator/groupmembers.php?gid=$gid" : "",
@@ -48,18 +51,19 @@ function setup_group_settings_tabs($gid, $active) {
 	}
 }
 
-function get_operator_groupslist($operatorid, $link) {
-    global $settings, $mysqlprefix;
-    if($settings['enablegroups'] == '1') {
-        $groupids = array(0);
-        $allgroups = select_multi_assoc("select groupid from ${mysqlprefix}chatgroupoperator where operatorid = $operatorid order by groupid",$link);
-        foreach($allgroups as $g) {
-            $groupids[] = $g['groupid'];
-        }
-        return implode(",", $groupids);
-    } else {
-        return "";
-    }
+function get_operator_groupslist($operatorid, $link)
+{
+	global $settings, $mysqlprefix;
+	if ($settings['enablegroups'] == '1') {
+		$groupids = array(0);
+		$allgroups = select_multi_assoc("select groupid from ${mysqlprefix}chatgroupoperator where operatorid = $operatorid order by groupid", $link);
+		foreach ($allgroups as $g) {
+			$groupids[] = $g['groupid'];
+		}
+		return implode(",", $groupids);
+	} else {
+		return "";
+	}
 }
 
 ?>

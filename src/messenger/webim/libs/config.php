@@ -50,7 +50,7 @@ $mail_encoding = "utf-8";
 /*
  *  Locales
  */
-$home_locale = "en";						/* native name will be used in this locale */
-$default_locale = "en";						/* if user does not provide known lang */
+$home_locale = "en"; /* native name will be used in this locale */
+$default_locale = "en"; /* if user does not provide known lang */
 
 ?>
