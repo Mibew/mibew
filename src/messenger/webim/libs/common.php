@@ -550,9 +550,11 @@ function date_to_text($unixtime) {
 }
 
 $dbversion = '1.6.3';
+$featuresversion = '1.6.4';
 
 $settings = array(
 	'dbversion' => 0,
+	'featuresversion' => 0,
 	'title' => 'Your Company',
 	'hosturl' => 'http://mibew.org',
 	'logo' => '',
