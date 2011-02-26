@@ -23,7 +23,11 @@ require_once('../libs/common.php');
 require_once('../libs/operator.php');
 
 $operator = check_login();
-loadsettings();
+
+$link = connect();
+loadsettings_($link);
+$isonline = is_operator_online($operator['operatorid'], $link);
+mysql_close($link);
 
 $page = array(
 	'version' => $version,
@@ -32,6 +36,7 @@ $page = array(
 	'updateWizard' => "$webimroot/install/",
 	'newFeatures' => $settings['featuresversion'] != $featuresversion,
 	'featuresPage' => "$webimroot/operator/features.php",
+	'isOnline' => $isonline
 );
 
 prepare_menu($operator);
