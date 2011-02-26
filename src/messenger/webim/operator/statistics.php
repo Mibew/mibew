@@ -69,14 +69,14 @@ if( $start > $end ) {
 
 $link = connect();
 
-$page['reportByDate'] = select_multi_assoc("select DATE(dtmcreated) as date, COUNT(distinct threadid) as threads, SUM(" . $mysqlprefix . "chatmessage.ikind = $kind_agent) as agents, SUM(" . $mysqlprefix . "chatmessage.ikind = $kind_user) as users ".
-	 "from " . $mysqlprefix . "chatmessage where unix_timestamp(dtmcreated) >= $start AND unix_timestamp(dtmcreated) < $end group by DATE(dtmcreated) order by dtmcreated desc", $link);
+$page['reportByDate'] = select_multi_assoc("select DATE(dtmcreated) as date, COUNT(distinct threadid) as threads, SUM(${mysqlprefix}chatmessage.ikind = $kind_agent) as agents, SUM(${mysqlprefix}chatmessage.ikind = $kind_user) as users ".
+	 "from ${mysqlprefix}chatmessage where unix_timestamp(dtmcreated) >= $start AND unix_timestamp(dtmcreated) < $end group by DATE(dtmcreated) order by dtmcreated desc", $link);
 
-$page['reportByDateTotal'] = select_one_row("select COUNT(distinct threadid) as threads, SUM(" . $mysqlprefix . "chatmessage.ikind = $kind_agent) as agents, SUM(" . $mysqlprefix . "chatmessage.ikind = $kind_user) as users ".
-	 "from " . $mysqlprefix . "chatmessage where unix_timestamp(dtmcreated) >= $start AND unix_timestamp(dtmcreated) < $end", $link);
+$page['reportByDateTotal'] = select_one_row("select COUNT(distinct threadid) as threads, SUM(${mysqlprefix}chatmessage.ikind = $kind_agent) as agents, SUM(${mysqlprefix}chatmessage.ikind = $kind_user) as users ".
+	 "from ${mysqlprefix}chatmessage where unix_timestamp(dtmcreated) >= $start AND unix_timestamp(dtmcreated) < $end", $link);
 
 $page['reportByAgent'] = select_multi_assoc("select vclocalename as name, COUNT(distinct threadid) as threads, SUM(ikind = $kind_agent) as msgs, AVG(CHAR_LENGTH(tmessage)) as avglen ".
-	 "from " . $mysqlprefix . "chatmessage, " . $mysqlprefix . "chatoperator ".
+	 "from ${mysqlprefix}chatmessage, ${mysqlprefix}chatoperator ".
          "where agentId = operatorid AND unix_timestamp(dtmcreated) >= $start AND unix_timestamp(dtmcreated) < $end group by operatorid", $link);
 
 $page['showresults'] = count($errors) == 0;

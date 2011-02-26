@@ -20,7 +20,7 @@
  */
 
 $dbtables = array(
-	$mysqlprefix . "chatgroup" => array(
+	"${mysqlprefix}chatgroup" => array(
 		"groupid" => "int NOT NULL auto_increment PRIMARY KEY",
 		"vcemail" => "varchar(64)",
 		"vclocalname" => "varchar(64) NOT NULL",
@@ -29,7 +29,7 @@ $dbtables = array(
 		"vccommondescription" => "varchar(1024) NOT NULL",
 	),
 
-	$mysqlprefix . "chatthread" => array(
+	"${mysqlprefix}chatthread" => array(
 		"threadid" => "int NOT NULL auto_increment PRIMARY KEY",
 		"userName" => "varchar(64) NOT NULL",
 		"userid" => "varchar(255)",
@@ -51,12 +51,12 @@ $dbtables = array(
 		"shownmessageid" => "int NOT NULL DEFAULT 0",
 		"userAgent" => "varchar(255)",
 		"messageCount" => "varchar(16)",
-		"groupid" => "int references " . $mysqlprefix . "chatgroup(groupid)",
+		"groupid" => "int references ${mysqlprefix}chatgroup(groupid)",
 	),
 
-	$mysqlprefix . "chatmessage" => array(
+	"${mysqlprefix}chatmessage" => array(
 		"messageid" => "int NOT NULL auto_increment PRIMARY KEY",
-		"threadid" => "int NOT NULL references " . $mysqlprefix . "chatthread(threadid)",
+		"threadid" => "int NOT NULL references ${mysqlprefix}chatthread(threadid)",
 		"ikind" => "int NOT NULL",
 		"agentId" => "int NOT NULL DEFAULT 0",
 		"tmessage" => "text NOT NULL",
@@ -64,7 +64,7 @@ $dbtables = array(
 		"tname" => "varchar(64)"
 	),
 
-	$mysqlprefix . "chatoperator" => array(
+	"${mysqlprefix}chatoperator" => array(
 		"operatorid" => "int NOT NULL auto_increment PRIMARY KEY",
 		"vclogin" => "varchar(64) NOT NULL",
 		"vcpassword" => "varchar(64) NOT NULL",
@@ -81,16 +81,16 @@ $dbtables = array(
 		"vcrestoretoken" => "varchar(64)",
 	),
 
-	$mysqlprefix . "chatrevision" => array(
+	"${mysqlprefix}chatrevision" => array(
 		"id" => "INT NOT NULL"
 	),
 
-	$mysqlprefix . "chatgroupoperator" => array(
-		"groupid" => "int NOT NULL references " . $mysqlprefix . "chatgroup(groupid)",
-		"operatorid" => "int NOT NULL references " . $mysqlprefix . "chatoperator(operatorid)",
+	"${mysqlprefix}chatgroupoperator" => array(
+		"groupid" => "int NOT NULL references ${mysqlprefix}chatgroup(groupid)",
+		"operatorid" => "int NOT NULL references ${mysqlprefix}chatoperator(operatorid)",
 	),
 
-	$mysqlprefix . "chatban" => array(
+	"${mysqlprefix}chatban" => array(
 		"banid" => "INT NOT NULL auto_increment PRIMARY KEY",
 		"dtmcreated" => "datetime DEFAULT 0",
 		"dtmtill" => "datetime DEFAULT 0",
@@ -99,20 +99,20 @@ $dbtables = array(
 		"blockedCount" => "int DEFAULT 0"
 	),
 
-	$mysqlprefix . "chatconfig" => array (
+	"${mysqlprefix}chatconfig" => array (
 		"id" => "INT NOT NULL auto_increment PRIMARY KEY",
 		"vckey" => "varchar(255)",
 		"vcvalue" => "varchar(255)",
 	),
 
-	$mysqlprefix . "chatresponses" => array(
+	"${mysqlprefix}chatresponses" => array(
 		"id" => "INT NOT NULL auto_increment PRIMARY KEY",
 		"locale" => "varchar(8)",
-		"groupid" => "int references " . $mysqlprefix . "chatgroup(groupid)",
+		"groupid" => "int references ${mysqlprefix}chatgroup(groupid)",
 		"vcvalue" => "varchar(1024) NOT NULL",
 	),
 	
-	$mysqlprefix . "chatnotification" => array(
+	"${mysqlprefix}chatnotification" => array(
 		"id" => "INT NOT NULL auto_increment PRIMARY KEY",
 		"locale" => "varchar(8)",
 		"vckind" => "varchar(16)",
@@ -120,21 +120,21 @@ $dbtables = array(
 		"dtmcreated" => "datetime DEFAULT 0",
 		"vcsubject" => "varchar(256)",
 		"tmessage" => "text NOT NULL",
-		"refoperator" => "int NOT NULL references " . $mysqlprefix . "chatoperator(operatorid)",
+		"refoperator" => "int NOT NULL references ${mysqlprefix}chatoperator(operatorid)",
 	),
 );
 
 $memtables = array();
 
 $dbtables_can_update = array(
-	$mysqlprefix . "chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount", "nextagent", "shownmessageid", "userid", "userAgent", "groupid"),
-	$mysqlprefix . "chatmessage" => array("agentId"),
-	$mysqlprefix . "chatoperator" => array("vcavatar", "vcjabbername", "iperm", "istatus", "vcemail", "dtmrestore", "vcrestoretoken", "inotify"),
-	$mysqlprefix . "chatban" => array(),
-	$mysqlprefix . "chatgroup" => array("vcemail"),
-	$mysqlprefix . "chatgroupoperator" => array(),
-	$mysqlprefix . "chatresponses" => array(),
-	$mysqlprefix . "chatnotification" => array(),
+	"${mysqlprefix}chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount", "nextagent", "shownmessageid", "userid", "userAgent", "groupid"),
+	"${mysqlprefix}chatmessage" => array("agentId"),
+	"${mysqlprefix}chatoperator" => array("vcavatar", "vcjabbername", "iperm", "istatus", "vcemail", "dtmrestore", "vcrestoretoken", "inotify"),
+	"${mysqlprefix}chatban" => array(),
+	"${mysqlprefix}chatgroup" => array("vcemail"),
+	"${mysqlprefix}chatgroupoperator" => array(),
+	"${mysqlprefix}chatresponses" => array(),
+	"${mysqlprefix}chatnotification" => array(),
 );
 
 function show_install_err($text) {
@@ -173,10 +173,10 @@ function create_table($id,$link) {
 
 	mysql_query($query,$link) or show_install_err(' Query failed: '.mysql_error());
 
-	if( $id == $mysqlprefix . 'chatoperator' ) {
+	if( $id == "${mysqlprefix}chatoperator" ) {
 		create_operator_("admin", "", "", "", "Administrator", "Administrator", 0, $link);
-	} else if( $id == $mysqlprefix . 'chatrevision' ) {
-		perform_query("INSERT INTO " . $mysqlprefix . "chatrevision VALUES (1)",$link);
+	} else if( $id == "${mysqlprefix}chatrevision" ) {
+		perform_query("INSERT INTO ${mysqlprefix}chatrevision VALUES (1)",$link);
 	}
 }
 

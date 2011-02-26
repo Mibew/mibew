@@ -22,7 +22,7 @@
 function log_notification($locale,$kind,$to,$subj,$text,$refop,$link) {
 	global $mysqlprefix;
 	$query = sprintf(
-		"insert into " . $mysqlprefix . "chatnotification (locale,vckind,vcto,vcsubject,tmessage,refoperator,dtmcreated) values ('%s','%s','%s','%s','%s',%s,%s)",
+		"insert into ${mysqlprefix}chatnotification (locale,vckind,vcto,vcsubject,tmessage,refoperator,dtmcreated) values ('%s','%s','%s','%s','%s',%s,%s)",
 			$locale,
 			$kind,
 			mysql_real_escape_string($to,$link),

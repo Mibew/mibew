@@ -28,7 +28,7 @@ $operator = check_login();
 function update_operator_permissions($operatorid,$newvalue) {
 	global $mysqlprefix;
 	$link = connect();
-	$query = "update " . $mysqlprefix . "chatoperator set iperm = $newvalue where operatorid = $operatorid";
+	$query = "update ${mysqlprefix}chatoperator set iperm = $newvalue where operatorid = $operatorid";
 
 	perform_query($query,$link);
 	mysql_close($link);
@@ -62,8 +62,8 @@ if( !$op ) {
 	if(count($errors) == 0) {
 		update_operator_permissions($op['operatorid'],$new_permissions);
 
-		if ($opId && $_SESSION[$mysqlprefix . 'operator'] && $operator['operatorid'] == $opId) {
-			$_SESSION[$mysqlprefix . 'operator']['iperm'] = $new_permissions;
+		if ($opId && $_SESSION["${mysqlprefix}operator"] && $operator['operatorid'] == $opId) {
+			$_SESSION["${mysqlprefix}operator"]['iperm'] = $new_permissions;
 		}
 		header("Location: $webimroot/operator/permissions.php?op=$opId&stored");
 		exit;

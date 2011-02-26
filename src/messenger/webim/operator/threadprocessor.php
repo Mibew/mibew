@@ -37,7 +37,7 @@ function thread_info($id) {
 	$thread = select_one_row("select userName,agentName,remote,userAgent,".
 			"unix_timestamp(dtmmodified) as modified, unix_timestamp(dtmcreated) as created,".
 			"vclocalname as groupName ".
-			"from " . $mysqlprefix . "chatthread left join " . $mysqlprefix . "chatgroup on " . $mysqlprefix . "chatthread.groupid = " . $mysqlprefix . "chatgroup.groupid ".
+			"from ${mysqlprefix}chatthread left join ${mysqlprefix}chatgroup on ${mysqlprefix}chatthread.groupid = ${mysqlprefix}chatgroup.groupid ".
 			"where threadid = ". $id, $link );
 	mysql_close($link);
 	return $thread;

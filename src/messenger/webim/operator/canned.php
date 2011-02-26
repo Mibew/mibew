@@ -34,7 +34,7 @@ $page = array();
 function load_canned_messages($locale, $groupid) {
 	global $mysqlprefix;
 	$link = connect();
-	$query = "select id, vcvalue from " . $mysqlprefix . "chatresponses ".
+	$query = "select id, vcvalue from ${mysqlprefix}chatresponses ".
 			 "where locale = '".$locale."' AND (".
 			 ($groupid 
 			 		? "groupid = $groupid" 
@@ -47,7 +47,7 @@ function load_canned_messages($locale, $groupid) {
 			$result[] = array('id' => '', 'vcvalue' => $answer);
 		}
 		if(count($result) > 0) {
-			$updatequery = "insert into " . $mysqlprefix . "chatresponses (vcvalue,locale,groupid) values ";
+			$updatequery = "insert into ${mysqlprefix}chatresponses (vcvalue,locale,groupid) values ";
 			for($i=0;$i<count($result);$i++) {
 				if($i > 0) {
 					$updatequery .= ", ";
@@ -110,7 +110,7 @@ if(isset($_GET['act']) && $_GET['act'] == 'delete') {
 
 	if( count($errors) == 0 ) {
 		$link = connect();
-		perform_query("delete from " . $mysqlprefix . "chatresponses where id = $key",$link);
+		perform_query("delete from ${mysqlprefix}chatresponses where id = $key",$link);
 		mysql_close($link);
 		header("Location: $webimroot/operator/canned.php?lang=$lang&group=$groupid");
 		exit;

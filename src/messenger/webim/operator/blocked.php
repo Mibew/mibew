@@ -40,13 +40,13 @@ if( isset($_GET['act']) && $_GET['act'] == 'del' ) {
 	}
 
 	if( count($errors) == 0 ) {
-		perform_query("delete from " . $mysqlprefix . "chatban where banid = $banId",$link);
+		perform_query("delete from ${mysqlprefix}chatban where banid = $banId",$link);
 		header("Location: $webimroot/operator/blocked.php");
 		exit;
 	}
 }
 
-$result = mysql_query("select banid,unix_timestamp(dtmtill) as till,address,comment from " . $mysqlprefix . "chatban", $link)
+$result = mysql_query("select banid,unix_timestamp(dtmtill) as till,address,comment from ${mysqlprefix}chatban", $link)
 	or die(' Query failed: ' .mysql_error());
 
 $blockedList = array();

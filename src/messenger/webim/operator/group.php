@@ -33,7 +33,7 @@ function group_by_name($name) {
 	global $mysqlprefix;
 	$link = connect();
 	$group = select_one_row(
-		 "select * from " . $mysqlprefix . "chatgroup where vclocalname = '".mysql_real_escape_string($name)."'", $link );
+		 "select * from ${mysqlprefix}chatgroup where vclocalname = '".mysql_real_escape_string($name)."'", $link );
 	mysql_close($link);
 	return $group;
 }
@@ -42,7 +42,7 @@ function create_group($name,$descr,$commonname,$commondescr) {
 	global $mysqlprefix;
 	$link = connect();
 	$query = sprintf(
-		"insert into " . $mysqlprefix . "chatgroup (vclocalname,vclocaldescription,vccommonname,vccommondescription) values ('%s','%s','%s','%s')",
+		"insert into ${mysqlprefix}chatgroup (vclocalname,vclocaldescription,vccommonname,vccommondescription) values ('%s','%s','%s','%s')",
 			mysql_real_escape_string($name),
 			mysql_real_escape_string($descr),
 			mysql_real_escape_string($commonname),
@@ -51,7 +51,7 @@ function create_group($name,$descr,$commonname,$commondescr) {
 	perform_query($query,$link);
 	$id = mysql_insert_id($link);
 
-	$newdep = select_one_row("select * from " . $mysqlprefix . "chatgroup where groupid = $id", $link );
+	$newdep = select_one_row("select * from ${mysqlprefix}chatgroup where groupid = $id", $link );
 	mysql_close($link);
 	return $newdep;
 }
@@ -60,7 +60,7 @@ function update_group($groupid,$name,$descr,$commonname,$commondescr) {
 	global $mysqlprefix;
 	$link = connect();
 	$query = sprintf(
-		"update " . $mysqlprefix . "chatgroup set vclocalname = '%s', vclocaldescription = '%s', vccommonname = '%s', vccommondescription = '%s' where groupid = %s",
+		"update ${mysqlprefix}chatgroup set vclocalname = '%s', vclocaldescription = '%s', vccommonname = '%s', vccommondescription = '%s' where groupid = %s",
 		mysql_real_escape_string($name),
 		mysql_real_escape_string($descr),
 		mysql_real_escape_string($commonname),

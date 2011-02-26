@@ -600,7 +600,7 @@ function loadsettings_($link) {
 	}
 	$settingsloaded = true;
 
-	$sqlresult = mysql_query("select vckey,vcvalue from " . $mysqlprefix . "chatconfig",$link) or die(' Query failed: '.mysql_error($link).": ".$query);
+	$sqlresult = mysql_query("select vckey,vcvalue from ${mysqlprefix}chatconfig", $link) or die(' Query failed: '.mysql_error($link));
 
 	while ($row = mysql_fetch_array($sqlresult, MYSQL_ASSOC)) {
 		$name = $row['vckey'];
