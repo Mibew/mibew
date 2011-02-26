@@ -57,9 +57,6 @@ chdir "$targetFolder/locales";
 `zip -r ../../release$suffix/pre_webim${suffix}_da.zip da`;
 `rm -rf da`;
 
-`zip -r ../../release$suffix/pre_webim${suffix}_ka.zip ka`;
-`rm -rf ka`;
-
 `zip -r ../../release$suffix/pre_webim${suffix}_lv.zip lv`;
 `rm -rf lv`;
 
@@ -104,6 +101,9 @@ chdir "locales";
 
 `zip -r ../../release$suffix/webim${suffix}_it.zip it`;
 `rm -rf it`;
+
+`zip -r ../../release$suffix/webim${suffix}_ka.zip ka`;
+`rm -rf ka`;
 
 `zip -r ../../release$suffix/webim${suffix}_pl.zip pl`;
 `rm -rf pl`;
