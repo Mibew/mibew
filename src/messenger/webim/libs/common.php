@@ -590,15 +590,14 @@ $settings = array(
 $settingsloaded = false;
 $settings_in_db = array();
 
-function loadsettings() {
+function loadsettings_($link) {
 	global $settingsloaded, $settings_in_db, $settings;
 	if($settingsloaded) {
 		return;
 	}
 	$settingsloaded = true;
 
-	$link = connect();
-	$sqlresult = mysql_query('select vckey,vcvalue from chatconfig',$link) or die(' Query failed: '.mysql_error().": ".$query);
+	$sqlresult = mysql_query("select vckey,vcvalue from chatconfig", $link) or die(' Query failed: '.mysql_error($link));
 
 	while ($row = mysql_fetch_array($sqlresult, MYSQL_ASSOC)) {
 		$name = $row['vckey'];
@@ -606,7 +605,15 @@ function loadsettings() {
 		$settings_in_db[$name] = true;
 	}
 	mysql_free_result($sqlresult);
-	mysql_close($link);
+}
+
+function loadsettings() {
+	global $settingsloaded;
+	if(!$settingsloaded) {
+		$link = connect();
+		loadsettings_($link);
+	    mysql_close($link);
+    }
 }
 
 function getchatstyle() {
