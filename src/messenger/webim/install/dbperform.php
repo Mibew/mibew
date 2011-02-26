@@ -25,7 +25,7 @@ require_once('dbinfo.php');
 
 function runsql($query, $link)
 {
-	$res = mysql_query($query, $link) or show_install_err(' Query failed: ' . mysql_error($link));
+	$res = mysql_query($query, $link) or show_install_err(' Query failed: ' . mysql_error());
 	return $res;
 }
 
