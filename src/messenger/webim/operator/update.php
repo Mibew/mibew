@@ -23,6 +23,7 @@ require_once('../libs/common.php');
 require_once('../libs/chat.php');
 require_once('../libs/userinfo.php');
 require_once('../libs/operator.php');
+require_once('../libs/groups.php');
 
 $operator = get_logged_in();
 if( !$operator ) {
@@ -167,8 +168,13 @@ $since = verifyparam( "since", "/^\d{1,9}$/", 0);
 $status = verifyparam( "status", "/^\d{1,2}$/", 0);
 $showonline = verifyparam( "showonline", "/^1$/", 0);
 
-loadsettings();
-$groupids = $_SESSION['operatorgroups'];
+$link = connect();
+loadsettings_($link);
+if(!isset($_SESSION['operatorgroups'])) {
+	$_SESSION["${mysqlprefix}operatorgroups"] = get_operator_groupslist($operator['operatorid'], $link);
+}
+mysql_close($link);
+$groupids = $_SESSION["${mysqlprefix}operatorgroups"];
 
 start_xml_output();
 echo '<update>';
