@@ -593,13 +593,13 @@ $settingsloaded = false;
 $settings_in_db = array();
 
 function loadsettings_($link) {
-	global $settingsloaded, $settings_in_db, $settings;
+	global $settingsloaded, $settings_in_db, $settings, $mysqlprefix;
 	if($settingsloaded) {
 		return;
 	}
 	$settingsloaded = true;
 
-	$sqlresult = mysql_query("select vckey,vcvalue from chatconfig", $link) or die(' Query failed: '.mysql_error($link));
+	$sqlresult = mysql_query("select vckey,vcvalue from ${mysqlprefix}chatconfig", $link) or die(' Query failed: '.mysql_error($link));
 
 	while ($row = mysql_fetch_array($sqlresult, MYSQL_ASSOC)) {
 		$name = $row['vckey'];

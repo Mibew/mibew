@@ -51,7 +51,7 @@ $threadstate_key = array(
 function thread_to_xml($thread,$link) {
 	global $state_chatting, $threadstate_to_string, $threadstate_key,
 			$webim_encoding, $operator, $settings,
-			$can_viewthreads, $can_takeover;
+			$can_viewthreads, $can_takeover, $mysqlprefix;
 	$state = $threadstate_to_string[$thread['istate']];
 	$result = "<thread id=\"".$thread['threadid']."\" stateid=\"$state\"";
 	if( $state == "closed" )
@@ -100,7 +100,7 @@ function thread_to_xml($thread,$link) {
 	$userAgent = get_useragent_version($thread['userAgent']);
 	$result .= "<useragent>".$userAgent."</useragent>";
 	if( $thread["shownmessageid"] != 0 ) {
-		$query = "select tmessage from chatmessage where messageid = ".$thread["shownmessageid"];
+		$query = "select tmessage from ${mysqlprefix}chatmessage where messageid = ".$thread["shownmessageid"];
 		$line = select_one_row($query, $link);
 		if( $line ) {
 			$message = preg_replace("/[\r\n\t]+/", " ", $line["tmessage"]);
@@ -112,14 +112,14 @@ function thread_to_xml($thread,$link) {
 }
 
 function print_pending_threads($groupids,$since) {
-	global $webim_encoding, $settings, $state_closed, $state_left;
+	global $webim_encoding, $settings, $state_closed, $state_left, $mysqlprefix;
 	$link = connect();
 
 	$revision = $since;
 	$output = array();
 	$query = "select threadid, userName, agentName, unix_timestamp(dtmcreated), userTyping, ".
-			 "unix_timestamp(dtmmodified), lrevision, istate, remote, nextagent, agentId, userid, shownmessageid, userAgent, (select vclocalname from chatgroup where chatgroup.groupid = chatthread.groupid) as groupname ".
-			 "from chatthread where lrevision > $since ".
+			 "unix_timestamp(dtmmodified), lrevision, istate, remote, nextagent, agentId, userid, shownmessageid, userAgent, (select vclocalname from ${mysqlprefix}chatgroup where ${mysqlprefix}chatgroup.groupid = ${mysqlprefix}chatthread.groupid) as groupname ".
+			 "from ${mysqlprefix}chatthread where lrevision > $since ".
 			 ($since <= 0 
 			 		? "AND istate <> $state_closed AND istate <> $state_left " 
 			 		: "").

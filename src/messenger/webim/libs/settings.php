@@ -20,13 +20,13 @@
  */
 
 function update_settings() {
-	global $settings, $settings_in_db;
+	global $settings, $settings_in_db, $mysqlprefix;
 	$link = connect();
 	foreach ($settings as $key => $value) {
 		if(!isset($settings_in_db[$key])) {
-			perform_query("insert into chatconfig (vckey) values ('$key')",$link);
+			perform_query("insert into ${mysqlprefix}chatconfig (vckey) values ('$key')",$link);
 		}
-        $query = sprintf("update chatconfig set vcvalue='%s' where vckey='$key'", mysql_real_escape_string($value));
+        $query = sprintf("update ${mysqlprefix}chatconfig set vcvalue='%s' where vckey='$key'", mysql_real_escape_string($value));
 		perform_query($query,$link);
 	}
 

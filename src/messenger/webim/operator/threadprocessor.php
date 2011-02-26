@@ -32,11 +32,12 @@ loadsettings();
 setlocale(LC_TIME, getstring("time.locale"));
 
 function thread_info($id) {
+    global $mysqlprefix;
 	$link = connect();
 	$thread = select_one_row("select userName,agentName,remote,userAgent,".
 			"unix_timestamp(dtmmodified) as modified, unix_timestamp(dtmcreated) as created,".
 			"vclocalname as groupName ".
-			"from chatthread left join chatgroup on chatthread.groupid = chatgroup.groupid ".
+			"from ${mysqlprefix}chatthread left join ${mysqlprefix}chatgroup on ${mysqlprefix}chatthread.groupid = ${mysqlprefix}chatgroup.groupid ".
 			"where threadid = ". $id, $link );
 	mysql_close($link);
 	return $thread;

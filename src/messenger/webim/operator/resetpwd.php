@@ -53,7 +53,7 @@ if (count($errors) == 0 && isset($_POST['password'])) {
 		$page['isdone'] = true;
 
 		$link = connect();
-		$query = "update chatoperator set vcpassword = '".md5($password)."', vcrestoretoken = '' where operatorid = ".$opId;
+		$query = "update ${mysqlprefix}chatoperator set vcpassword = '".md5($password)."', vcrestoretoken = '' where operatorid = ".$opId;
 		perform_query($query, $link);
 		mysql_close($link);
 		

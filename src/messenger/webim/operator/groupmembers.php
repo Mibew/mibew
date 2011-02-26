@@ -26,26 +26,29 @@ require_once('../libs/groups.php');
 $operator = check_login();
 
 function get_group_members($groupid) {
+    global $mysqlprefix;
 	$link = connect();
-	$query = "select operatorid from chatgroupoperator where groupid = $groupid";
+	$query = "select operatorid from ${mysqlprefix}chatgroupoperator where groupid = $groupid";
 	$result = select_multi_assoc($query, $link);
 	mysql_close($link);
 	return $result;
 }
 
 function update_group_members($groupid,$newvalue) {
+    global $mysqlprefix;
 	$link = connect();
-	perform_query("delete from chatgroupoperator where groupid = $groupid", $link);
+	perform_query("delete from ${mysqlprefix}chatgroupoperator where groupid = $groupid", $link);
 	foreach($newvalue as $opid) {
-		perform_query("insert into chatgroupoperator (groupid, operatorid) values ($groupid,$opid)", $link);
+		perform_query("insert into ${mysqlprefix}chatgroupoperator (groupid, operatorid) values ($groupid,$opid)", $link);
 	}
 	mysql_close($link);
 }
 
 function get_operators() {
+    global $mysqlprefix;
 	$link = connect();
 
-	$query = "select * from chatoperator order by vclogin";
+	$query = "select * from ${mysqlprefix}chatoperator order by vclogin";
 	$result = select_multi_assoc($query, $link);
 	mysql_close($link);
 	return $result;

@@ -26,10 +26,11 @@ require_once('../libs/operator_settings.php');
 $operator = check_login();
 
 function update_operator_groups($operatorid,$newvalue) {
+    global $mysqlprefix;
 	$link = connect();
-	perform_query("delete from chatgroupoperator where operatorid = $operatorid", $link);
+	perform_query("delete from ${mysqlprefix}chatgroupoperator where operatorid = $operatorid", $link);
 	foreach($newvalue as $groupid) {
-		perform_query("insert into chatgroupoperator (groupid, operatorid) values ($groupid,$operatorid)", $link);
+		perform_query("insert into ${mysqlprefix}chatgroupoperator (groupid, operatorid) values ($groupid,$operatorid)", $link);
 	}
 	mysql_close($link);
 }

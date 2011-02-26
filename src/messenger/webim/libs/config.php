@@ -36,6 +36,7 @@ $mysqlhost = "localhost";
 $mysqldb = "webim_db";
 $mysqllogin = "webim_lite";
 $mysqlpass = "123";
+$mysqlprefix = "";
 
 $dbencoding = "utf8";
 $force_charset_in_connection = true;
