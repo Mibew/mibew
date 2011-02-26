@@ -150,8 +150,7 @@ function print_pending_threads($groupids,$since) {
 function print_operators() {
 	echo "<operators>";
 	$operators = operator_get_all();
-	$names = array();
-	
+
 	foreach($operators as $operator) {
 		if (!operator_is_online($operator))
 			continue;

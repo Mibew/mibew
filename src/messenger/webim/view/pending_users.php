@@ -92,7 +92,7 @@ function tpl_content() { global $page, $webimroot;
 <?php if($page['istatus']) { ?>
 <a href="users.php<?php echo $page['havemenu'] ? "" : "?nomenu" ?>"><?php echo getlocal("pending.status.setonline") ?></a>
 <?php } else { ?>
-<a href="users.php?away<?php echo $page['havemenu'] ? "" : "&nomenu" ?>"><?php echo getlocal("pending.status.setaway") ?></a>
+<a href="users.php?away<?php echo $page['havemenu'] ? "" : "&amp;nomenu" ?>"><?php echo getlocal("pending.status.setaway") ?></a>
 <?php } ?>
 </div>
 
