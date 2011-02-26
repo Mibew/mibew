@@ -329,6 +329,13 @@ div.errinfo {
 	background: url(images/subitem.gif) no-repeat 10px 2px;
 }
 
+.fieldinrow {
+	min-width: 300px;
+	display: inline;
+	float:left;
+	width: 45%;
+}
+
 .fvalue {
 	float: left;
 }
