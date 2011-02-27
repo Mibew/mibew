@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE project [<!ENTITY buildfile SYSTEM "file:./build-user.xml">]>
 
 <project basedir="." default="update" name="Obfuscator">
   <property name="closure.c" value="/usr/local/closure/compiler.jar" />
@@ -25,6 +24,10 @@
 	  	<arg value="brws:1:common"/>
 		  <arg value="--js"/>
 		  <arg value="brws.js"/>
+	  <arg value="--module"/>
+		<arg value="soundcheck:1:common"/>
+		  <arg value="--js"/>
+		  <arg value="soundcheck.js"/>
 	</java>
   </target>
 

@@ -31,6 +31,7 @@ $page = array(
 $page['done'] = array();
 $page['nextstep'] = false;
 $page['nextnotice'] = false;
+$page['soundcheck'] = false;
 $errors = array();
 
 function check_webimroot()
@@ -143,6 +144,16 @@ function check_columns($link)
 	return true;
 }
 
+function check_sound() {
+	global $page;
+
+	$page['soundcheck'] = true;
+	$page['done'][] = getlocal2("install.5.text", array(
+							"<a id='check-nv' href='javascript:void(0)'>".getlocal("install.5.newvisitor")."</a>",
+							"<a id='check-nm' href='javascript:void(0)'>".getlocal("install.5.newmessage")."</a>"
+					));
+}
+
 function check_status()
 {
 	global $page, $webimroot, $settings, $dbversion;
@@ -170,6 +181,8 @@ function check_status()
 		mysql_close($link);
 		return;
 	}
+
+	check_sound();
 
 	$page['done'][] = getlocal("installed.message");
 

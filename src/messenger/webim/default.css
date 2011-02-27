@@ -804,6 +804,16 @@ table.awaiting td.visitor {
 	margin-left: 2em;
 }
 
+#check-nv, #check-nm {
+	color: #2f7599;
+	text-decoration: none;
+}
+
+#check-nv:hover, #check-nm:hover {
+	text-decoration: underline;
+}
+
+
 /* chat */
 
 .message {
