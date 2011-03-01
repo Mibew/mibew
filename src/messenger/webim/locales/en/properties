@@ -144,6 +144,7 @@ form.field.groupcommonname.description=Name in English.
 form.field.groupcommonname=International name
 form.field.groupdesc.description=Description of the group.
 form.field.groupdesc=Description
+form.field.groupemail.description=Group email for notifications. Leave empty to use the default address.
 form.field.groupname.description=Name to identify the group.
 form.field.groupname=Name
 form.field.login.description=Login can consist of small Latin letters and underscore.
