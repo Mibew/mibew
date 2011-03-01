@@ -73,6 +73,7 @@ form.field.password_confirm
 image.button.login
 image.button.save
 image.button.search
+install.newfeatures
 install.updatedb
 lang.choose
 leftMenu.client_agents
@@ -81,6 +82,7 @@ leftMenu.client_settings
 localedirection
 menu.blocked
 menu.canned
+menu.goonline
 menu.groups
 menu.groups.content
 menu.locale

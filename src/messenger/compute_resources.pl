@@ -59,6 +59,7 @@
 
 	["webim/thread.php", 0],
 	["webim/b.php", 0],
+	["webim/button.php", 0],
 	["webim/index.php", 0],
 
 	["webim/libs/.*\\.php", 1],
@@ -172,7 +173,7 @@ sub process_one($) {
 		print "not detected for: $source\n";
 		$current_level = 0;
 	}
-	
+
 	if($source =~ /\.php$/) {
 		# print "$source ($current_level)\n";
 		process_php($source);

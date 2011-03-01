@@ -1,12 +1,16 @@
   1.7.0
   -----
-  
   [+] notifications log view, jabber notifications about new visitor (server part, requires Mibew-Jabber gate)
-  [+] core UI improvements, "you are offline" and "new features" notification panels
-  [!] optimized history search
   [+] switched to google closure compiler for Javascript compression, jQuery 1.4.2 
+
+  1.6.4
+  -----
+  [+] core UI improvements, "you are offline" and "new features" notification panels
   [+] online/away operators list (on "awaiting visitors" page) by Andrew Armstrong
-  [!] various compatibility fixes: button image, captcha
+  [+] several instances of mibew in one DB ($mysqlprefix variable)
+  [+] ability to override notification email for group
+  [!] various compatibility fixes: button image, captcha, check webimroot variable (installation)
+  [!] fix speed of history search, fix redirection to groups
 
   1.6.3
   -----
