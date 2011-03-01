@@ -39,16 +39,17 @@ function group_by_name($name)
 	return $group;
 }
 
-function create_group($name, $descr, $commonname, $commondescr)
+function create_group($name, $descr, $commonname, $commondescr, $email)
 {
 	global $mysqlprefix;
 	$link = connect();
 	$query = sprintf(
-		"insert into ${mysqlprefix}chatgroup (vclocalname,vclocaldescription,vccommonname,vccommondescription) values ('%s','%s','%s','%s')",
+		"insert into ${mysqlprefix}chatgroup (vclocalname,vclocaldescription,vccommonname,vccommondescription,vcemail) values ('%s','%s','%s','%s','%s')",
 		mysql_real_escape_string($name),
 		mysql_real_escape_string($descr),
 		mysql_real_escape_string($commonname),
-		mysql_real_escape_string($commondescr));
+		mysql_real_escape_string($commondescr),
+		mysql_real_escape_string($email));
 
 	perform_query($query, $link);
 	$id = mysql_insert_id($link);
@@ -58,16 +59,17 @@ function create_group($name, $descr, $commonname, $commondescr)
 	return $newdep;
 }
 
-function update_group($groupid, $name, $descr, $commonname, $commondescr)
+function update_group($groupid, $name, $descr, $commonname, $commondescr, $email)
 {
 	global $mysqlprefix;
 	$link = connect();
 	$query = sprintf(
-		"update ${mysqlprefix}chatgroup set vclocalname = '%s', vclocaldescription = '%s', vccommonname = '%s', vccommondescription = '%s' where groupid = %s",
+		"update ${mysqlprefix}chatgroup set vclocalname = '%s', vclocaldescription = '%s', vccommonname = '%s', vccommondescription = '%s', vcemail = '%s' where groupid = %s",
 		mysql_real_escape_string($name),
 		mysql_real_escape_string($descr),
 		mysql_real_escape_string($commonname),
 		mysql_real_escape_string($commondescr),
+		mysql_real_escape_string($email),
 		$groupid);
 
 	perform_query($query, $link);
@@ -81,9 +83,13 @@ if (isset($_POST['name'])) {
 	$description = getparam('description');
 	$commonname = getparam('commonname');
 	$commondescription = getparam('commondescription');
+	$email = getparam('email');
 
 	if (!$name)
 		$errors[] = no_field("form.field.groupname");
+
+	if ($email != '' && !is_valid_email($email))
+		$errors[] = wrong_field("form.field.mail");
 
 	$existing_group = group_by_name($name);
 	if ((!$groupid && $existing_group) ||
@@ -92,11 +98,11 @@ if (isset($_POST['name'])) {
 
 	if (count($errors) == 0) {
 		if (!$groupid) {
-			$newdep = create_group($name, $description, $commonname, $commondescription);
+			$newdep = create_group($name, $description, $commonname, $commondescription, $email);
 			header("Location: $webimroot/operator/groupmembers.php?gid=" . $newdep['groupid']);
 			exit;
 		} else {
-			update_group($groupid, $name, $description, $commonname, $commondescription);
+			update_group($groupid, $name, $description, $commonname, $commondescription, $email);
 			header("Location: $webimroot/operator/group.php?gid=$groupid&stored");
 			exit;
 		}
@@ -105,6 +111,7 @@ if (isset($_POST['name'])) {
 		$page['formdescription'] = topage($description);
 		$page['formcommonname'] = topage($commonname);
 		$page['formcommondescription'] = topage($commondescription);
+		$page['formemail'] = topage($email);
 		$page['grid'] = topage($groupid);
 	}
 
@@ -120,6 +127,7 @@ if (isset($_POST['name'])) {
 		$page['formdescription'] = topage($group['vclocaldescription']);
 		$page['formcommonname'] = topage($group['vccommonname']);
 		$page['formcommondescription'] = topage($group['vccommondescription']);
+		$page['formemail'] = topage($group['vcemail']);
 		$page['grid'] = topage($group['groupid']);
 	}
 }

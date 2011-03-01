@@ -144,6 +144,7 @@ form.field.groupcommonname.description=Это название увидят ваши посетители из др
 form.field.groupcommonname=Интернациональное название
 form.field.groupdesc.description=Будет доступно посетителям при выборе группы.
 form.field.groupdesc=Описание
+form.field.groupemail.description=Адрес для извещений. Оставьте пустым, чтобы использовать глобальный адрес.
 form.field.groupname.description=Может быть названием отдела в вашей компании.
 form.field.groupname=Название группы
 form.field.jabber.description=Для быстрого получения уведомлений

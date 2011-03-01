@@ -51,6 +51,7 @@ function store_message($name, $email, $info, $message,$groupid,$referrer) {
 
 $groupid = "";
 $groupname = "";
+$group = NULL;
 loadsettings();
 if($settings['enablegroups'] == '1') {
 	$groupid = verifyparam( "group", "/^\d{1,8}$/", "");
@@ -108,7 +109,11 @@ store_message($visitor_name, $email, $info, $message, $groupid, $referrer);
 $subject = getstring2_("leavemail.subject", array($visitor_name), $message_locale);
 $body = getstring2_("leavemail.body", array($visitor_name,$email,$message,$info ? "$info\n" : ""), $message_locale);
 
-$inbox_mail = $settings['email'];
+if (isset($group) && !empty($group['vcemail'])) {
+	$inbox_mail = $group['vcemail'];
+} else {
+	$inbox_mail = $settings['email'];
+}
 
 if($inbox_mail) {
 	$link = connect();
