@@ -11,6 +11,7 @@
   [+] ability to override notification email for group
   [!] various compatibility fixes: button image, captcha, check webimroot variable (installation)
   [!] fix speed of history search, fix redirection to groups
+  [!] fix sound issues in windows
 
   1.6.3
   -----
