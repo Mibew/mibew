@@ -10,6 +10,7 @@
   [+] several instances of mibew in one DB ($mysqlprefix variable)
   [+] ability to override notification email for group
   [!] various compatibility fixes: button image, captcha, check webimroot variable (installation)
+  [!] check file permissions/checksum (installation)
   [!] fix speed of history search, fix redirection to groups
   [!] fix sound issues in windows
 
