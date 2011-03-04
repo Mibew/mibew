@@ -57,6 +57,10 @@ if ($act == "silentcreateall") {
 			create_table($id, $link);
 		}
 	} else if ($act == "dt") {
+
+		# comment this line to be able to drop tables
+		show_install_err("For security reasons, removing tables is disabled by default");
+
 		foreach (array_keys($dbtables) as $id) {
 			mysql_query("DROP TABLE IF EXISTS $id", $link) or show_install_err(' Query failed: ' . mysql_error($link));
 		}

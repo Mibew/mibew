@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+use Digest::MD5 qw(md5 md5_hex md5_base64);
+
 @rules = (
 	["redirect(ed)?\\.tpl", 1],
 	["\\.tpl", 0],
@@ -115,8 +117,12 @@ sub file_content($) {
 	my $oldslash = $/;
 	$/ = EOI;
 	$content = <IN1>;
-	$content =~ s/\r//g;
-	close( IN1 );
+    close( IN1 );
+	if($content =~ s/\r//g) {
+	    open( OUT1, "> $input") or die "cannot fix $input";
+	    print OUT1 $content;
+	    close(OUT1);
+	}
 	$/ = $oldslash;
 	return $content;
 }
@@ -153,8 +159,21 @@ sub process_php($) {
 	}
 }
 
+sub file_checksum($) {
+    my ($source) = @_;
+    if($source =~ /\.(png|gif|jpg|ico|wav)$/) {
+    	return "-";
+    }
+
+    my $content = file_content($source);
+    return md5_hex($content);
+}
+
+@allsources = ();
+
 sub process_one($) {
 	my($source) = @_;
+	push @allsources, $source unless $source =~ /$webimPath\/locales/ && $source !~ /$webimPath\/locales\/(en|names)/ || $source =~ /\/package$/;
 
 	if($source !~ /\.(php|tpl)$/) {
 		return;
@@ -214,5 +233,13 @@ close( OUT );
 open( OUT, "> $webimPath/locales/names/level2") or die "cannot write file, $!";
 for $key(sort grep { $messagekeys{$_} == 1 } keys %messagekeys) {
 	print OUT "$key\n";
+}
+close( OUT );
+
+open( OUT, "> $webimPath/install/package") or die "cannot write file, $!";
+for $key(sort @allsources) {
+    $digest = file_checksum($key);
+    $key =~ s/$webimPath\///;
+    print OUT "$key $digest\n";
 }
 close( OUT );

@@ -54,6 +54,90 @@ function check_webimroot()
 	return true;
 }
 
+function fpermissions($file)
+{
+	$perms = fileperms($file);
+	if (($perms & 0x8000) == 0x8000) {
+		$info = '-';
+	} elseif (($perms & 0x4000) == 0x4000) {
+		$info = 'd';
+	} else {
+		$info = '?';
+	}
+
+	// Owner
+	$info .= (($perms & 0x0100) ? 'r' : '-');
+	$info .= (($perms & 0x0080) ? 'w' : '-');
+	$info .= (($perms & 0x0040) ?
+			(($perms & 0x0800) ? 's' : 'x') :
+			(($perms & 0x0800) ? 'S' : '-'));
+
+	// Group
+	$info .= (($perms & 0x0020) ? 'r' : '-');
+	$info .= (($perms & 0x0010) ? 'w' : '-');
+	$info .= (($perms & 0x0008) ?
+			(($perms & 0x0400) ? 's' : 'x') :
+			(($perms & 0x0400) ? 'S' : '-'));
+
+	// World
+	$info .= (($perms & 0x0004) ? 'r' : '-');
+	$info .= (($perms & 0x0002) ? 'w' : '-');
+	$info .= (($perms & 0x0001) ?
+			(($perms & 0x0200) ? 't' : 'x') :
+			(($perms & 0x0200) ? 'T' : '-'));
+
+	return $info;
+}
+
+function check_files()
+{
+	global $page, $errors, $webimroot;
+
+	$packageFile = dirname(__FILE__) . "/package";
+	$fp = @fopen($packageFile, "r");
+	if ($fp === FALSE) {
+		$errors[] = "Cannot open file $webimroot/install/package";
+		if (file_exists($packageFile)) {
+			$errors[] = getlocal2("install.check_permissions", array(fpermissions($packageFile)));
+		}
+		return false;
+	}
+
+	$knownFiles = array();
+	while (!feof($fp)) {
+		$line = fgets($fp, 4096);
+		$keyval = preg_split("/ /", $line, 2);
+		if (isset($keyval[1])) {
+			$knownFiles[$keyval[0]] = trim($keyval[1]);
+		}
+	}
+	fclose($fp);
+
+	foreach ($knownFiles as $file => $sum) {
+		$relativeName = dirname(__FILE__) . "/../$file";
+		if (!is_readable($relativeName)) {
+			if (file_exists($relativeName)) {
+				$errors[] = "Cannot read file $webimroot/$file";
+				$errors[] = getlocal2("install.check_permissions", array(fpermissions($relativeName)));
+			} else {
+				$errors[] = "File is absent: $webimroot/$file";
+			}
+			return false;
+		}
+		if ($sum != "-") {
+			$result = md5_file($relativeName);
+			if ($result != $sum) {
+				$errors[] = "Checksum differs for $webimroot/$file";
+				$errors[] = getlocal("install.check_files");
+				return false;
+			}
+		}
+	}
+
+	$page['done'][] = getlocal("install.0.package");
+	return true;
+}
+
 function check_connection()
 {
 	global $mysqlhost, $mysqllogin, $mysqlpass, $page, $errors, $webimroot;
@@ -144,14 +228,28 @@ function check_columns($link)
 	return true;
 }
 
-function check_sound() {
+function check_sound()
+{
 	global $page;
 
 	$page['soundcheck'] = true;
 	$page['done'][] = getlocal2("install.5.text", array(
-							"<a id='check-nv' href='javascript:void(0)'>".getlocal("install.5.newvisitor")."</a>",
-							"<a id='check-nm' href='javascript:void(0)'>".getlocal("install.5.newmessage")."</a>"
-					));
+													   "<a id='check-nv' href='javascript:void(0)'>" . getlocal("install.5.newvisitor") . "</a>",
+													   "<a id='check-nm' href='javascript:void(0)'>" . getlocal("install.5.newmessage") . "</a>"
+												  ));
+}
+
+function check_admin($link)
+{
+	global $mysqlprefix;
+	$result = mysql_query("select * from ${mysqlprefix}chatoperator where vclogin = 'admin'", $link);
+	if ($result) {
+		$line = mysql_fetch_array($result, MYSQL_ASSOC);
+		mysql_free_result($result);
+		return $line['vcpassword'] != md5('');
+	}
+
+	return false;
 }
 
 function check_status()
@@ -159,6 +257,10 @@ function check_status()
 	global $page, $webimroot, $settings, $dbversion;
 
 	if (!check_webimroot()) {
+		return;
+	}
+
+	if (!check_files()) {
 		return;
 	}
 
@@ -186,9 +288,11 @@ function check_status()
 
 	$page['done'][] = getlocal("installed.message");
 
-	$page['nextstep'] = getlocal("installed.login_link");
-	$page['nextnotice'] = getlocal2("installed.notice", array("${webimroot}/install/"));
-	$page['nextstepurl'] = "$webimroot/";
+	if (!check_admin($link)) {
+		$page['nextstep'] = getlocal("installed.login_link");
+		$page['nextnotice'] = getlocal2("installed.notice", array("${webimroot}/install/"));
+		$page['nextstepurl'] = "$webimroot/";
+	}
 
 	$page['show_small_login'] = true;
 
