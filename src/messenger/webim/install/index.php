@@ -96,7 +96,7 @@ function check_files()
 	$packageFile = dirname(__FILE__) . "/package";
 	$fp = @fopen($packageFile, "r");
 	if ($fp === FALSE) {
-		$errors[] = "Cannot open file $webimroot/install/package";
+		$errors[] = getlocal2("install.cannot_read", array("$webimroot/install/package"));
 		if (file_exists($packageFile)) {
 			$errors[] = getlocal2("install.check_permissions", array(fpermissions($packageFile)));
 		}
@@ -117,17 +117,21 @@ function check_files()
 		$relativeName = dirname(__FILE__) . "/../$file";
 		if (!is_readable($relativeName)) {
 			if (file_exists($relativeName)) {
-				$errors[] = "Cannot read file $webimroot/$file";
+				$errors[] = getlocal2("install.cannot_read", array("$webimroot/$file"));
 				$errors[] = getlocal2("install.check_permissions", array(fpermissions($relativeName)));
 			} else {
-				$errors[] = "File is absent: $webimroot/$file";
+				$errors[] = getlocal2("install.no_file", array("$webimroot/$file"));
 			}
 			return false;
 		}
 		if ($sum != "-") {
 			$result = md5_file($relativeName);
 			if ($result != $sum) {
-				$errors[] = "Checksum differs for $webimroot/$file";
+				// try without \r
+				$result = md5(str_replace("\r", "", file_get_contents($relativeName)));
+			}
+			if ($result != $sum) {
+				$errors[] = getlocal2("install.bad_checksum", array("$webimroot/$file"));
 				$errors[] = getlocal("install.check_files");
 				return false;
 			}
@@ -255,6 +259,8 @@ function check_admin($link)
 function check_status()
 {
 	global $page, $webimroot, $settings, $dbversion;
+
+	$page['done'][] = getlocal2("install.0.php", array(phpversion()));
 
 	if (!check_webimroot()) {
 		return;
