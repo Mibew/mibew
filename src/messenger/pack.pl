@@ -48,93 +48,93 @@ mkdir "release$suffix";
 
 chdir "$targetFolder";
 
-`zip -r ../release$suffix/webim${suffix}_all.zip *`;
+`zip -r ../release$suffix/mibew${suffix}_all.zip * .htaccess`;
 
 chdir "locales";
 
-`zip -r ../../release$suffix/webim${suffix}_cs.zip cs`;
+`zip -r ../../release$suffix/mibew${suffix}_cs.zip cs`;
 `rm -rf cs`;
 
-`zip -r ../../release$suffix/webim${suffix}_fi.zip fi`;
+`zip -r ../../release$suffix/mibew${suffix}_fi.zip fi`;
 `rm -rf fi`;
 
-`zip -r ../../release$suffix/webim${suffix}_da.zip da`;
+`zip -r ../../release$suffix/mibew${suffix}_da.zip da`;
 `rm -rf da`;
 
-`zip -r ../../release$suffix/webim${suffix}_lv.zip lv`;
+`zip -r ../../release$suffix/mibew${suffix}_lv.zip lv`;
 `rm -rf lv`;
 
-`zip -r ../../release$suffix/webim${suffix}_fa.zip fa`;
+`zip -r ../../release$suffix/mibew${suffix}_fa.zip fa`;
 `rm -rf fa`;
 
-`zip -r ../../release$suffix/webim${suffix}_nl.zip nl`;
+`zip -r ../../release$suffix/mibew${suffix}_nl.zip nl`;
 `rm -rf nl`;
 
-`zip -r ../../release$suffix/webim${suffix}_th.zip th`;
+`zip -r ../../release$suffix/mibew${suffix}_th.zip th`;
 `rm -rf th`;
 
-`zip -r ../../release$suffix/webim${suffix}_ar.zip ar`;
+`zip -r ../../release$suffix/mibew${suffix}_ar.zip ar`;
 `rm -rf ar`;
 
-`zip -r ../../release$suffix/webim${suffix}_bg.zip bg`;
+`zip -r ../../release$suffix/mibew${suffix}_bg.zip bg`;
 `rm -rf bg`;
 
-`zip -r ../../release$suffix/webim${suffix}_ca.zip ca`;
+`zip -r ../../release$suffix/mibew${suffix}_ca.zip ca`;
 `rm -rf ca`;
 
-`zip -r ../../release$suffix/webim${suffix}_de.zip de`;
+`zip -r ../../release$suffix/mibew${suffix}_de.zip de`;
 `rm -rf de`;
 
-`zip -r ../../release$suffix/webim${suffix}_ru.zip ru`;
+`zip -r ../../release$suffix/mibew${suffix}_ru.zip ru`;
 `rm -rf ru`;
 
-`zip -r ../../release$suffix/webim${suffix}_ro.zip ro`;
+`zip -r ../../release$suffix/mibew${suffix}_ro.zip ro`;
 `rm -rf ro`;
 
-`zip -r ../../release$suffix/webim${suffix}_hu.zip hu`;
+`zip -r ../../release$suffix/mibew${suffix}_hu.zip hu`;
 `rm -rf hu`;
 
-`zip -r ../../release$suffix/webim${suffix}_fr.zip fr`;
+`zip -r ../../release$suffix/mibew${suffix}_fr.zip fr`;
 `rm -rf fr`;
 
-`zip -r ../../release$suffix/webim${suffix}_it.zip it`;
+`zip -r ../../release$suffix/mibew${suffix}_it.zip it`;
 `rm -rf it`;
 
-`zip -r ../../release$suffix/webim${suffix}_ka.zip ka`;
+`zip -r ../../release$suffix/mibew${suffix}_ka.zip ka`;
 `rm -rf ka`;
 
-`zip -r ../../release$suffix/webim${suffix}_pl.zip pl`;
+`zip -r ../../release$suffix/mibew${suffix}_pl.zip pl`;
 `rm -rf pl`;
 
-`zip -r ../../release$suffix/webim${suffix}_pt-br.zip pt-br`;
+`zip -r ../../release$suffix/mibew${suffix}_pt-br.zip pt-br`;
 `rm -rf pt-br`;
 
-`zip -r ../../release$suffix/webim${suffix}_sp.zip sp`;
+`zip -r ../../release$suffix/mibew${suffix}_sp.zip sp`;
 `rm -rf sp`;
 
-`zip -r ../../release$suffix/webim${suffix}_sv.zip sv`;
+`zip -r ../../release$suffix/mibew${suffix}_sv.zip sv`;
 `rm -rf sv`;
 
-`zip -r ../../release$suffix/webim${suffix}_ua.zip ua`;
+`zip -r ../../release$suffix/mibew${suffix}_ua.zip ua`;
 `rm -rf ua`;
 
-`zip -r ../../release$suffix/webim${suffix}_he.zip he`;
+`zip -r ../../release$suffix/mibew${suffix}_he.zip he`;
 `rm -rf he`;
 
-`zip -r ../../release$suffix/webim${suffix}_hr.zip hr`;
+`zip -r ../../release$suffix/mibew${suffix}_hr.zip hr`;
 `rm -rf hr`;
 
-`zip -r ../../release$suffix/webim${suffix}_tr.zip tr`;
+`zip -r ../../release$suffix/mibew${suffix}_tr.zip tr`;
 `rm -rf tr`;
 
-`zip -r ../../release$suffix/webim${suffix}_zh-cn.zip zh-cn`;
+`zip -r ../../release$suffix/mibew${suffix}_zh-cn.zip zh-cn`;
 `rm -rf zh-cn`;
 
-`zip -r ../../release$suffix/webim${suffix}_zh-tw.zip zh-tw`;
+`zip -r ../../release$suffix/mibew${suffix}_zh-tw.zip zh-tw`;
 `rm -rf zh-tw`;
 
 chdir "..";
-`zip -r ../release$suffix/webim$suffix.zip *`;
+`zip -r ../release$suffix/mibew$suffix.zip * .htaccess`;
 
 chdir "..";
 `rm -rf $targetFolder`;
