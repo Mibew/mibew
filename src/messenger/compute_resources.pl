@@ -161,7 +161,7 @@ sub process_php($) {
 
 sub file_checksum($) {
     my ($source) = @_;
-    if($source =~ /\.(png|gif|jpg|ico|wav)$/) {
+    if($source =~ /\.(png|gif|jpg|ico|wav)$/ || $source =~ /config\.php$/) {
     	return "-";
     }
 
