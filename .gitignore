@@ -1,5 +1,6 @@
 bin
 src/messenger/.idea/workspace.xml
+src/messenger/webim/install/package
 src/messenger/absent_*
 src/messenger/release*
 src/mibewjava/.idea/workspace.xml
