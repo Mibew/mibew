@@ -46,28 +46,26 @@ process_dir("./webim", $targetFolder);
 die "release folder exists: release$suffix" if -e "release$suffix";
 mkdir "release$suffix";
 
-chdir "$targetFolder/locales";
-
-`zip -r ../../release$suffix/pre_webim${suffix}_cs.zip cs`;
-`rm -rf cs`;
-
-`zip -r ../../release$suffix/pre_webim${suffix}_fi.zip fi`;
-`rm -rf fi`;
-
-`zip -r ../../release$suffix/pre_webim${suffix}_da.zip da`;
-`rm -rf da`;
-
-`zip -r ../../release$suffix/pre_webim${suffix}_lv.zip lv`;
-`rm -rf lv`;
-
-`zip -r ../../release$suffix/pre_webim${suffix}_fa.zip fa`;
-`rm -rf fa`;
-
-chdir "..";
+chdir "$targetFolder";
 
 `zip -r ../release$suffix/webim${suffix}_all.zip *`;
 
 chdir "locales";
+
+`zip -r ../../release$suffix/webim${suffix}_cs.zip cs`;
+`rm -rf cs`;
+
+`zip -r ../../release$suffix/webim${suffix}_fi.zip fi`;
+`rm -rf fi`;
+
+`zip -r ../../release$suffix/webim${suffix}_da.zip da`;
+`rm -rf da`;
+
+`zip -r ../../release$suffix/webim${suffix}_lv.zip lv`;
+`rm -rf lv`;
+
+`zip -r ../../release$suffix/webim${suffix}_fa.zip fa`;
+`rm -rf fa`;
 
 `zip -r ../../release$suffix/webim${suffix}_nl.zip nl`;
 `rm -rf nl`;
