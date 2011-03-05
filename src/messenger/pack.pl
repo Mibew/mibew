@@ -61,6 +61,9 @@ chdir "locales";
 `zip -r ../../release$suffix/mibew${suffix}_da.zip da`;
 `rm -rf da`;
 
+`zip -r ../../release$suffix/mibew${suffix}_el.zip el`;
+`rm -rf el`;
+
 `zip -r ../../release$suffix/mibew${suffix}_lv.zip lv`;
 `rm -rf lv`;
 
