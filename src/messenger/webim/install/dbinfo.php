@@ -157,7 +157,7 @@ function create_table($id, $link)
 	if (in_array($id, $memtables)) {
 		$query .= " ENGINE=MEMORY";
 	} else {
-		$query .= " TYPE=InnoDb";
+		$query .= " ENGINE=InnoDb";
 	}
 
 	mysql_query($query, $link) or show_install_err(' Query failed: ' . mysql_error($link));
