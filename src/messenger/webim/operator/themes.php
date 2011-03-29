@@ -79,6 +79,7 @@ if ($show == 'redirect' || $show == 'redirected' || $show == 'agentchat' || $sho
 			 'userName' => getstring("chat.default.username"),
 			 'remote' => "1.2.3.4",
 			 'agentId' => 1,
+			 'groupid' => 0,
 			 'userid' => 'visitor1',
 			 'locale' => $current_locale,
 			 'ltoken' => $show == 'agentrochat' ? 124 : 123),
