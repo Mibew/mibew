@@ -17,7 +17,7 @@ var FrameUtils = {
 	doc.write("<html><head>");
 	doc.write("<link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\""+Chat.cssfile+"\">");
 	doc.write("</head><body bgcolor='#FFFFFF' text='#000000' link='#C28400' vlink='#C28400' alink='#C28400'>");
-	doc.write("<table width='100%' cellspacing='0' cellpadding='0' border='0'><tr><td valign='top' class='message' id='content'></td></tr></table><a id='bottom'></a>");
+	doc.write("<table width='100%' cellspacing='0' cellpadding='0' border='0'><tr><td valign='top' class='message' id='content'></td></tr></table><a id='bottom' name='bottom'></a>");
 	doc.write("</body></html>");
 	doc.close();
 	frm.onload = function() {
