@@ -83,6 +83,7 @@ img {
 	color: #495151;
 }
 #logo a {
+	float: left;
 	text-decoration: none;
 }
 #page-title {
@@ -356,5 +357,113 @@ a:hover .ichangeuser {
 }
 #predefined {
 	width: 200px;
+}
+/* ----- */
+
+/* error.tpl */
+#top2 {
+	position: relative;
+	padding: 5px 14px;
+	background: #FFF url("images/logobg.gif") scroll repeat-x 0 100%;
+	_zoom:1; /* IE6 fix */
+}
+.bgbody {
+	background: #FFF !important;
+}
+.wndb {
+	background: #FFF url("images/wndb.gif") scroll repeat-x 0 100%;
+}
+.wndl {
+	background: transparent url("images/chatbgl.gif") scroll repeat-y 0 0;
+}
+.wndr {
+	background: transparent url("images/chatbgr.gif") scroll repeat-y 100% 0;
+}
+.wndt {
+	background: transparent url("images/wndt.gif") scroll repeat-x 0 0;
+}
+.wndtl {
+	background: transparent url("images/wndtl.gif") scroll no-repeat 0 0;
+}
+.wndtr {
+	background: transparent url("images/wndtr.gif") scroll no-repeat 100% 0;
+}
+.wndbl {
+	background: transparent url("images/wndbl.gif") scroll no-repeat 0 100%;
+}
+.wndbr {
+	position: relative;
+	padding: 14px;
+	background: transparent url("images/wndbr.gif") scroll no-repeat 100% 100%;
+}
+.wndbr .buttons {
+	top: 14px;
+}
+#headers {
+	padding: 0 10px;
+	background: #F1F2F2;
+}
+#content-wrapper {
+	padding: 10px 14px 50px;
+	background: transparent url("images/content.gif") scroll repeat-x 0 -2px;
+}
+#content-wrapper {
+	font: normal 13px Arial;
+}
+.messagetxt {
+	padding: 0 60px 0 0;
+	font: normal 13px Arial;
+}
+/* --------- */
+
+/* redirect.tpl */
+.left {
+	float: left;
+	width: 49%;
+}
+.right {
+	float: right;
+	width: 49%;
+}
+.center {
+	padding-top: 30px;
+	text-align: center;
+}
+ul {
+	margin: 10px 0;
+	padding: 0 0 0 10px;
+	list-style: none outside none;
+}
+ul li {
+	margin: 0 0 4px;
+	padding: 0 0 0 10px;
+	list-style: none outside none;
+	background: transparent url("images/list.gif") scroll no-repeat 0 5px;
+}
+/* ------------ */
+
+/* other */
+.form {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-collapse: collapse;
+	vertical-align: top;
+}
+.form td {
+	margin: 0;
+	padding: 5px;
+	border: 0;
+	border-collapse: collapse;
+	vertical-align: top;
+}
+#content-wrapper #sndmessagelnk {
+	float: left;
+	margin-top: 10px;
+}
+#content-wrapper input, 
+#content-wrapper textarea, 
+.wndbr input {
+	border: 1px solid #BBC4C4;
 }
 /* ----- */
