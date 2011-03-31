@@ -69,14 +69,15 @@
 			${else:ct.company.chatLogoURL}
 				${if:webimHost}
 					<a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">
-						<img onload="setTrueHeight();" src="${webimroot}/images/webimlogo.gif" alt=""/>
+						<img onload="setTrueHeight();" src="${tplroot}/images/default-logo.gif" alt=""/>
 					</a>
 				${else:webimHost}
-					<img onload="setTrueHeight();" src="${webimroot}/images/webimlogo.gif" alt=""/>
+					<img onload="setTrueHeight();" src="${tplroot}/images/default-logo.gif" alt=""/>
 				${endif:webimHost}
 			${endif:ct.company.chatLogoURL}
 			&nbsp;
 			<div id="page-title">${page:chat.title}</div>
+			<div class="clear">&nbsp;</div>
 		</div>
 	</div>
 	<div id="chatheader">
