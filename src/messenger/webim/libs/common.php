@@ -359,7 +359,7 @@ function connect()
 
 function perform_query($query, $link)
 {
-	mysql_query($query, $link) or die(' Query failed: ' . mysql_error($link) /*.": ".$query*/);
+	mysql_query($query, $link) or die(' Query failed: ' . mysql_error($link));
 }
 
 function select_one_row($query, $link)
@@ -372,7 +372,7 @@ function select_one_row($query, $link)
 
 function select_multi_assoc($query, $link)
 {
-	$sqlresult = mysql_query($query, $link) or die(' Query failed: '.mysql_error($link));
+	$sqlresult = mysql_query($query, $link) or die(' Query failed: ' . mysql_error($link));
 
 	$result = array();
 	while ($row = mysql_fetch_array($sqlresult, MYSQL_ASSOC)) {
