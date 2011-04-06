@@ -1,9 +1,14 @@
-/*
- *  Mibew Messenger common script
- *  http://sourceforge.net/projects/webim
+/**
+ * @preserve This file is part of Mibew Messenger project.
+ * http://mibew.org
  *
- *  Based on Prototype JavaScript framework, version 1.3.1
- *  http://prototype.conio.net/ (c) 2005 Sam Stephenson <sam@conio.net>
+ * Copyright (c) 2005-2011 Mibew Messenger Community
+ * License: http://mibew.org/license.php
+ */
+
+/*
+ * common.js Based on Prototype JavaScript framework, version 1.3.1
+ * http://prototype.conio.net/ (c) 2005 Sam Stephenson <sam@conio.net>
  */
 
 //- getEl, myAgent, myRealAgent
@@ -18,12 +23,12 @@
 var Class = {
   create: function() {
     return function() {
-      this./**/initialize./**/apply(this, arguments);
+      this.initialize.apply(this, arguments);
     };
   },
 
   inherit: function(child,parent,body) {
-	Object./**/extend(Object.extend(child.prototype, parent.prototype), body );
+	Object.extend(Object.extend(child.prototype, parent.prototype), body );
   }
 };
 
@@ -38,21 +43,21 @@ Object.prototype.extend = function(_object) {
   return Object.extend.apply(this, [this, _object]);
 };
 
-Function.prototype./**/bind = function(_object) {
+Function.prototype.bind = function(_object) {
   var __method = this;
   return function() {
     return __method.apply(_object, arguments);
   }
 };
 
-Function.prototype./**/bindAsEventListener = function(_object) {
+Function.prototype.bindAsEventListener = function(_object) {
   var __method = this;
   return function(event) {
     __method.call(_object, event || window.event);
   }
 };
 
-Number.prototype./**/toColorPart = function() {
+Number.prototype.toColorPart = function() {
   var digits = this.toString(16);
   if (this < 16) return '0' + digits;
   return digits;
@@ -81,9 +86,9 @@ PeriodicalExecuter.prototype = {
   initialize: function(callback, frequency) {
     this.callback = callback;
     this.frequency = frequency;
-    this./**/currentlyExecuting = false;
+    this.currentlyExecuting = false;
 
-    this./**/registerCallback();
+    this.registerCallback();
   },
 
   registerCallback: function() {
@@ -119,7 +124,7 @@ function findObj( id )
     return x;
 }
 
-if (!Array.prototype./**/push) {
+if (!Array.prototype.push) {
   Array.prototype.push = function() {
 		var startLength = this.length;
 		for (var i = 0; i < arguments.length; i++)
@@ -172,7 +177,7 @@ var Ajax = {
   emptyFunction: function() {}
 };
 
-Ajax./**/Base = function() {};
+Ajax.Base = function() {};
 Ajax.Base.prototype = {
   setOptions: function(_options) {
     this._options = {
@@ -198,8 +203,8 @@ Ajax.Base.prototype = {
   }
 };
 
-Ajax./**/Request = Class.create();
-Ajax.Request./**/Events =
+Ajax.Request = Class.create();
+Ajax.Request.Events =
   ['Uninitialized', 'Loading', 'Loaded', 'Interactive', 'Complete'];
 
 Class.inherit( Ajax.Request, Ajax.Base, {

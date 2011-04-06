@@ -171,7 +171,8 @@ function has_online_operators($groupid = "")
 	$link = connect();
 	$query = "select count(*) as total, min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time from ${mysqlprefix}chatoperator";
 	if ($groupid) {
-		$query .= ", ${mysqlprefix}chatgroupoperator where groupid = $groupid and ${mysqlprefix}chatoperator.operatorid = ${mysqlprefix}chatgroupoperator.operatorid and istatus = 0";
+		$query .= ", ${mysqlprefix}chatgroupoperator where groupid = $groupid and ${mysqlprefix}chatoperator.operatorid = " .
+				  "${mysqlprefix}chatgroupoperator.operatorid and istatus = 0";
 	} else {
 		$query .= " where istatus = 0";
 	}
@@ -377,13 +378,16 @@ function get_groups($link, $checkaway)
 {
 	global $mysqlprefix;
 	$query = "select ${mysqlprefix}chatgroup.groupid as groupid, vclocalname, vclocaldescription" .
-			 ", (SELECT count(*) from ${mysqlprefix}chatgroupoperator where ${mysqlprefix}chatgroup.groupid = ${mysqlprefix}chatgroupoperator.groupid) as inumofagents" .
+			 ", (SELECT count(*) from ${mysqlprefix}chatgroupoperator where ${mysqlprefix}chatgroup.groupid = " .
+			 "${mysqlprefix}chatgroupoperator.groupid) as inumofagents" .
 			 ", (SELECT min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
-			 "from ${mysqlprefix}chatgroupoperator, ${mysqlprefix}chatoperator where istatus = 0 and ${mysqlprefix}chatgroup.groupid = ${mysqlprefix}chatgroupoperator.groupid " .
+			 "from ${mysqlprefix}chatgroupoperator, ${mysqlprefix}chatoperator where istatus = 0 and " .
+			 "${mysqlprefix}chatgroup.groupid = ${mysqlprefix}chatgroupoperator.groupid " .
 			 "and ${mysqlprefix}chatgroupoperator.operatorid = ${mysqlprefix}chatoperator.operatorid) as ilastseen" .
 			 ($checkaway
 					 ? ", (SELECT min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
-					   "from ${mysqlprefix}chatgroupoperator, ${mysqlprefix}chatoperator where istatus <> 0 and ${mysqlprefix}chatgroup.groupid = ${mysqlprefix}chatgroupoperator.groupid " .
+					   "from ${mysqlprefix}chatgroupoperator, ${mysqlprefix}chatoperator where istatus <> 0 and " .
+					   "${mysqlprefix}chatgroup.groupid = ${mysqlprefix}chatgroupoperator.groupid " .
 					   "and ${mysqlprefix}chatgroupoperator.operatorid = ${mysqlprefix}chatoperator.operatorid) as ilastseenaway"
 					 : ""
 			 ) .

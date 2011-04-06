@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE project [<!ENTITY buildfile SYSTEM "file:./build-user.xml">]>
 
 <project basedir="." default="update" name="Obfuscator">
 	<property name="obfuscator.location" value="."/>

@@ -1,3 +1,11 @@
+/**
+ * @preserve This file is part of Mibew Messenger project.
+ * http://mibew.org
+ * 
+ * Copyright (c) 2005-2011 Mibew Messenger Community
+ * License: http://mibew.org/license.php
+ */
+
 var FrameUtils = {
   getDocument: function(frm) {
 	if (frm.contentDocument) {
@@ -21,7 +29,7 @@ var FrameUtils = {
 	doc.write("</body></html>");
 	doc.close();
 	frm.onload = function() {
-		if( frm./**/myHtml ) {
+		if( frm.myHtml ) {
 			FrameUtils.getDocument(frm).getElementById('content').innerHTML += frm.myHtml;
 			FrameUtils.scrollDown(frm);
 		}

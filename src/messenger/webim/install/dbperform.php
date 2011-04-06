@@ -25,14 +25,14 @@ require_once('dbinfo.php');
 
 function runsql($query, $link)
 {
-	$res = mysql_query($query, $link) or show_install_err(' Query failed: ' . mysql_error());
+	$res = mysql_query($query, $link) or show_install_err(' Query failed: ' . mysql_error($link));
 	return $res;
 }
 
 $act = verifyparam("act", "/^(silentcreateall|createdb|ct|dt|addcolumns)$/");
 
 $link = @mysql_connect($mysqlhost, $mysqllogin, $mysqlpass)
-		 or show_install_err('Could not connect: ' . mysql_error($link));
+		 or show_install_err('Could not connect: ' . mysql_error());
 
 if ($act == "silentcreateall") {
 	mysql_query("CREATE DATABASE $mysqldb", $link) or show_install_err(' Query failed: ' . mysql_error($link));
@@ -79,12 +79,12 @@ if ($act == "silentcreateall") {
 
 		if (in_array("${mysqlprefix}chatmessage.agentId", $absent)) {
 			runsql("ALTER TABLE ${mysqlprefix}chatmessage ADD agentId int NOT NULL DEFAULT 0 AFTER ikind", $link);
-			runsql("update ${mysqlprefix}chatmessage,${mysqlprefix}chatoperator set agentId = operatorid where agentId = 0 AND ikind = 2 AND (vclocalename = tname OR vccommonname = tname)", $link);
+			runsql("update ${mysqlprefix}chatmessage, ${mysqlprefix}chatoperator set agentId = operatorid where agentId = 0 AND ikind = 2 AND (vclocalename = tname OR vccommonname = tname)", $link);
 		}
 
 		if (in_array("${mysqlprefix}chatthread.agentId", $absent)) {
 			runsql("ALTER TABLE ${mysqlprefix}chatthread ADD agentId int NOT NULL DEFAULT 0 AFTER agentName", $link);
-			runsql("update ${mysqlprefix}chatthread,${mysqlprefix}chatoperator set agentId = operatorid where agentId = 0 AND (vclocalename = agentName OR vccommonname = agentName)", $link);
+			runsql("update ${mysqlprefix}chatthread, ${mysqlprefix}chatoperator set agentId = operatorid where agentId = 0 AND (vclocalename = agentName OR vccommonname = agentName)", $link);
 		}
 
 		if (in_array("${mysqlprefix}chatthread.agentTyping", $absent)) {

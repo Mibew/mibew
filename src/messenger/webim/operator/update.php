@@ -173,7 +173,7 @@ $showonline = verifyparam("showonline", "/^1$/", 0);
 
 $link = connect();
 loadsettings_($link);
-if (!isset($_SESSION['operatorgroups'])) {
+if (!isset($_SESSION["${mysqlprefix}operatorgroups"])) {
 	$_SESSION["${mysqlprefix}operatorgroups"] = get_operator_groupslist($operator['operatorid'], $link);
 }
 mysql_close($link);
