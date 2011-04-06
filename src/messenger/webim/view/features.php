@@ -21,6 +21,7 @@
 
 require_once("inc_menu.php");
 require_once("inc_tabbar.php");
+
 $page['title'] = getlocal("settings.title");
 $page['menuid'] = "settings";
 

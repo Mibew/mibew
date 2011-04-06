@@ -21,6 +21,7 @@
 
 require_once("inc_menu.php");
 require_once("inc_tabbar.php");
+
 $page['title'] = getlocal("page_avatar.title");
 $page['menuid'] = $page['opid'] == $page['currentopid'] ? "profile" : "operators";
 

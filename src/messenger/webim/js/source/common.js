@@ -15,7 +15,7 @@
 
 //- localized
 
-//- onComplete
+//- onComplete, showonline
 //- threadParams, servl, frequency, user, threadid, token, cssfile
 //- updaterOptions, url, company, agentservl, noclients, wroot, havemenu, showpopup, ignorectrl, istatus
 

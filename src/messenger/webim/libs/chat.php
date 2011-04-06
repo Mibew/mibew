@@ -396,7 +396,7 @@ function load_canned_messages($locale, $groupid)
 	global $mysqlprefix;
 	$link = connect();
 	$result = select_multi_assoc(
-		"select vcvalue from ${mysqlprefix}chatresponses where locale = '" . $locale . "' " .
+		"select vcvalue from ${mysqlprefix}chatresponses where locale = '$locale' " .
 		"AND (groupid is NULL OR groupid = 0) order by vcvalue", $link);
 	if (count($result) == 0) {
 		foreach (explode("\n", getstring_('chat.predefined_answers', $locale)) as $answer) {
@@ -405,7 +405,7 @@ function load_canned_messages($locale, $groupid)
 	}
 	if ($groupid) {
 		$result2 = select_multi_assoc(
-			"select vcvalue from ${mysqlprefix}chatresponses where locale = '" . $locale . "' " .
+			"select vcvalue from ${mysqlprefix}chatresponses where locale = '$locale' " .
 			"AND groupid = $groupid order by vcvalue", $link);
 		foreach ($result as $r) {
 			$result2[] = $r;
@@ -469,7 +469,7 @@ function update_thread_access($threadid, $params, $link)
 	}
 	perform_query(
 		"update ${mysqlprefix}chatthread set $clause " .
-		"where threadid = " . $threadid, $link);
+		"where threadid = $threadid", $link);
 }
 
 function ping_thread($thread, $isuser, $istyping)
@@ -517,7 +517,7 @@ function commit_thread($threadid, $params, $link)
 	foreach ($params as $k => $v) {
 		$query .= ", " . $k . "=" . $v;
 	}
-	$query .= " where threadid = " . $threadid;
+	$query .= " where threadid = $threadid";
 
 	perform_query($query, $link);
 }
