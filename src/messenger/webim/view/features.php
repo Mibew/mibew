@@ -27,7 +27,7 @@ $page['menuid'] = "settings";
 
 function tpl_header() { global $page, $webimroot;
 ?>	
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/jquery-1.4.2.min.js"></script>
 <script type="text/javascript" language="javascript">
 function updateSurvey() {
 	if($("#enablepresurvey").is(":checked")) {
@@ -107,15 +107,6 @@ require_once('inc_errors.php');
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.enableban') ?></div>
-			<div class="fvalue">
-				<input type="checkbox" name="enableban" value="on"<?php echo form_value_cb('enableban') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
-			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enableban.description') ?></div>
-			<br clear="all"/>
-		</div>
-
-		<div class="field">
 			<div class="flabel"><?php echo getlocal('settings.enablegroups') ?></div>
 			<div class="fvalue">
 				<input type="checkbox" name="enablegroups" value="on"<?php echo form_value_cb('enablegroups') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
@@ -130,6 +121,15 @@ require_once('inc_errors.php');
 				<input type="checkbox" name="enablestatistics" value="on"<?php echo form_value_cb('enablestatistics') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enablestatistics.description') ?></div>
+			<br clear="all"/>
+		</div>
+
+		<div class="field">
+			<div class="flabel"><?php echo getlocal('settings.enableban') ?></div>
+			<div class="fvalue">
+				<input type="checkbox" name="enableban" value="on"<?php echo form_value_cb('enableban') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enableban.description') ?></div>
 			<br clear="all"/>
 		</div>
 
