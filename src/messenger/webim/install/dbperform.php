@@ -158,6 +158,11 @@ if ($act == "silentcreateall") {
 		if ($res && mysql_num_rows($res) == 0) {
 			runsql("ALTER TABLE ${mysqlprefix}chatmessage ADD INDEX idx_agentid (agentid)", $link);
 		}
+
+		$res = mysql_query("select null from information_schema.statistics where table_name = '${mysqlprefix}chatsitevisitor' and index_name = 'threadid'", $link);
+		if ($res && mysql_num_rows($res) == 0) {
+			runsql("ALTER TABLE ${mysqlprefix}chatsitevisitor ADD INDEX (threadid)", $link);
+		}
 	}
 }
 

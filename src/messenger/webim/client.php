@@ -25,6 +25,7 @@ require_once('libs/operator.php');
 require_once('libs/groups.php');
 require_once('libs/expand.php');
 require_once('libs/captcha.php');
+require_once('libs/invitation.php');
 
 loadsettings();
 if($settings['enablessl'] == "1" && $settings['forcessl'] == "1") {
@@ -114,7 +115,14 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 		}
 		$thread = create_thread($groupid,$visitor['name'], $remoteHost, $referrer,$current_locale,$visitor['id'], $userbrowser,$state_loading,$link);
 		$_SESSION['threadid'] = $thread['threadid'];
-		
+
+		$operator = invitation_accept($_SESSION['visitorid'], $thread['threadid'], $link);
+		if ($operator) {
+		    $operator = operator_by_id_($operator, $link);
+		    $operatorName = ($current_locale == $home_locale) ? $operator['vclocalename'] : $operator['vccommonname'];
+		    post_message_($thread['threadid'], $kind_for_agent, getstring2('chat.visitor.invitation.accepted', array($operatorName)), $link);
+		}
+
 		if( $referrer ) {
 			post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.came.from',array($referrer)),$link);
 		}

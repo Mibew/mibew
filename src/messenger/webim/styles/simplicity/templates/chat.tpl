@@ -80,9 +80,14 @@ var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",freque
 							<a href="${page:historyParamsLink}" target="_blank" title="${msg:page.analysis.userhistory.title}" onClick="this.newWindow = window.open('${page:historyParamsLink}', 'UserHistory', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=720,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src="${tplroot}/images/buttons/history.gif" border="0" alt="${msg:page.analysis.userhistory.title}"/></a>
 						</td>
 					${endif:historyParams}
+					${if:trackedParams}
+						<td>
+							<a href="${page:trackedParamsLink}" target="_blank" title="${msg:page.analysis.trackedpath.title}" onclick="this.newWindow = window.open('${page:trackedParamsLink}', 'UserTrackedPath', 'toolbar=0,scrollbars=1,location=0,statusbar=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src="${tplroot}/images/buttons/tracked.gif" border="0" alt="${msg:page.analysis.trackedpath.title}"/></a>
+						</td>
+					${endif:trackedParams}
 				${endif:agent}
 				<td>
-					<a id="togglesound" href="javascript:void(0)" onClick="return false;" title="Sound On/Off"><img id="soundimg" class="isound" src="${webimroot}/images/free.gif" border="0" alt="Sound On/Off" /></a>
+					<a id="togglesound" href="javascript:void(0)" onClick="return false;" title="${msg:chat.window.toolbar.mute}"><img id="soundimg" class="isound" src="${webimroot}/images/free.gif" border="0" alt="${msg:chat.window.toolbar.mute}" /></a>
 				</td>
 				<td>
 					<a id="refresh" href="javascript:void(0)" onClick="return false;" title="${msg:chat.window.toolbar.refresh}"><img src="${tplroot}/images/buttons/refresh.gif" border="0" alt="${msg:chat.window.toolbar.refresh}" /></a>

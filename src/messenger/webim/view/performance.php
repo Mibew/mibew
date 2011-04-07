@@ -90,6 +90,44 @@ require_once('inc_errors.php');
 			<br clear="all"/>
 		</div>
 
+<?php if ($page['enabletracking']) { ?>
+		<div class="field">
+			<div class="flabel"><?php echo getlocal('settings.frequencytracking') ?></div>
+			<div class="fvalue">
+				<input type="text" name="frequencytracking" size="40" value="<?php echo form_value('frequencytracking') ?>" class="formauth"/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('settings.frequencytracking.description') ?></div>
+			<br clear="all"/>
+		</div>
+
+		<div class="field">
+			<div class="flabel"><?php echo getlocal('settings.visitorslimit') ?></div>
+			<div class="fvalue">
+				<input type="text" name="visitorslimit" size="40" value="<?php echo form_value('visitorslimit') ?>" class="formauth"/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('settings.visitorslimit.description') ?></div>
+			<br clear="all"/>
+		</div>
+
+		<div class="field">
+			<div class="flabel"><?php echo getlocal('settings.invitationlifetime') ?></div>
+			<div class="fvalue">
+				<input type="text" name="invitationlifetime" size="40" value="<?php echo form_value('invitationlifetime') ?>" class="formauth"/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('settings.invitationlifetime.description') ?></div>
+			<br clear="all"/>
+		</div>
+
+		<div class="field">
+			<div class="flabel"><?php echo getlocal('settings.trackinglifetime') ?></div>
+			<div class="fvalue">
+				<input type="text" name="trackinglifetime" size="40" value="<?php echo form_value('trackinglifetime') ?>" class="formauth"/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('settings.trackinglifetime.description') ?></div>
+			<br clear="all"/>
+		</div>
+<?php } ?>
+
 		<div class="fbutton">
 			<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
 		</div>

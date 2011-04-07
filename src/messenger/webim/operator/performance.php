@@ -30,7 +30,9 @@ $errors = array();
 
 $options = array(
 	'online_timeout', 'updatefrequency_operator', 'updatefrequency_chat',
-	'updatefrequency_oldchat', 'max_connections_from_one_host');
+	'updatefrequency_oldchat', 'max_connections_from_one_host',
+	'updatefrequency_tracking', 'visitors_limit', 'invitation_lifetime',
+	'tracking_lifetime' );
 
 loadsettings();
 $params = array();
@@ -64,6 +66,30 @@ if (isset($_POST['onlinetimeout'])) {
 		$errors[] = getlocal("settings.wrong.onehostconnections");
 	}
 
+	if ($settings['enabletracking']) {
+
+	    $params['updatefrequency_tracking'] = getparam('frequencytracking');
+	    if (!is_numeric($params['updatefrequency_tracking'])) {
+		    $errors[] = wrong_field("settings.frequencytracking");
+	    }
+
+	    $params['visitors_limit'] = getparam('visitorslimit');
+	    if (!is_numeric($params['visitors_limit'])) {
+		    $errors[] = wrong_field("settings.visitorslimit");
+	    }
+
+	    $params['invitation_lifetime'] = getparam('invitationlifetime');
+	    if (!is_numeric($params['invitation_lifetime'])) {
+		    $errors[] = wrong_field("settings.invitationlifetime");
+	    }
+
+	    $params['tracking_lifetime'] = getparam('trackinglifetime');
+	    if (!is_numeric($params['tracking_lifetime'])) {
+		    $errors[] = wrong_field("settings.trackinglifetime");
+	    }
+
+	}
+
 	if (count($errors) == 0) {
 		foreach ($options as $opt) {
 			$settings[$opt] = $params[$opt];
@@ -79,6 +105,18 @@ $page['formfrequencyoperator'] = $params['updatefrequency_operator'];
 $page['formfrequencychat'] = $params['updatefrequency_chat'];
 $page['formfrequencyoldchat'] = $params['updatefrequency_oldchat'];
 $page['formonehostconnections'] = $params['max_connections_from_one_host'];
+
+if ($settings['enabletracking']) {
+
+	$page['formfrequencytracking'] = $params['updatefrequency_tracking'];
+	$page['formvisitorslimit'] = $params['visitors_limit'];
+	$page['forminvitationlifetime'] = $params['invitation_lifetime'];
+	$page['formtrackinglifetime'] = $params['tracking_lifetime'];
+
+}
+
+$page['enabletracking'] = $settings['enabletracking'];
+
 $page['stored'] = isset($_GET['stored']);
 
 prepare_menu($operator);

@@ -34,12 +34,16 @@ var localized = new Array(
     "<?php echo getlocal("pending.table.ban") ?>",
     "<?php echo htmlspecialchars(getlocal("pending.menu.show")) ?>",
     "<?php echo htmlspecialchars(getlocal("pending.menu.hide")) ?>",
-    "<?php echo htmlspecialchars(getlocal("pending.popup_notification")) ?>"
+    "<?php echo htmlspecialchars(getlocal("pending.popup_notification")) ?>",
+    "<?php echo getlocal("pending.table.tracked") ?>",
+    "<?php echo getlocal("pending.table.invite") ?>"
 );
 var updaterOptions = {
 	url:"<?php echo $webimroot ?>/operator/update.php",wroot:"<?php echo $webimroot ?>",
 	agentservl:"<?php echo $webimroot ?>/operator/agent.php", frequency:<?php echo $page['frequency'] ?>, istatus:<?php echo $page['istatus'] ?>,  
-	noclients:"<?php echo getlocal("clients.no_clients") ?>", havemenu: <?php echo $page['havemenu'] ?>, showpopup: <?php echo $page['showpopup'] ?>, showonline: <?php echo $page['showonline'] ?> };
+	noclients:"<?php echo getlocal("clients.no_clients") ?>", havemenu: <?php echo $page['havemenu'] ?>, showpopup: <?php echo $page['showpopup'] ?>,
+	showonline: <?php echo $page['showonline'] ?>, showvisitors: <?php echo $page['showvisitors'] ?>, novisitors: "<?php echo getlocal("visitors.no_visitors") ?>",
+	trackedservl:"<?php echo $webimroot ?>/operator/tracked.php", inviteservl:"<?php echo $webimroot ?>/operator/invite.php" };
 //--></script>
 <script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/<?php echo $jsver ?>/users.js"></script>
 <?php
@@ -84,6 +88,36 @@ function tpl_content() { global $page, $webimroot;
 </tbody>
 </table>
 
+<?php if ($page['showvisitors']) { ?>
+<div class="tabletitle"><?php echo getlocal("visitors.title") ?></div>
+<?php echo getlocal("visitors.intro") ?>
+<br/>
+<?php echo getlocal("visitors.how_to") ?>
+<table id="visitorslist" class="awaiting" border="0">
+<thead>
+<tr>
+	<th class="first"><?php echo getlocal("visitors.table.head.name") ?></th>
+    <th><?php echo getlocal("visitors.table.head.contactid") ?></th>
+    <th><?php echo getlocal("visitors.table.head.firsttimeonsite") ?></th>
+    <th><?php echo getlocal("visitors.table.head.lasttimeonsite") ?></th>
+    <th><?php echo getlocal("visitors.table.head.invited.by") ?></th>
+    <th><?php echo getlocal("visitors.table.head.invitationtime") ?></th>
+    <th><?php echo getlocal("visitors.table.head.invitations") ?></th>
+    <th><?php echo getlocal("visitors.table.head.etc") ?></th>
+</tr>
+</thead>
+<tbody>
+<tr id="visfree"><td colspan="8"></td></tr>
+<tr id="visfreeend"><td colspan="8"></td></tr>
+
+<tr id="visinvited"><td colspan="8"></td></tr>
+<tr id="visinvitedend"><td colspan="8"></td></tr>
+
+<tr><td id="visstatustd" colspan="8" height="30">Loading....</td></tr>
+</tbody>
+</table>
+<hr/>
+<?php } ?>
 
 <div id="connstatus">
 </div>

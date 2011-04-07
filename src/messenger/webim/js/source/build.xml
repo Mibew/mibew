@@ -28,6 +28,19 @@
 		<arg value="soundcheck:1:common"/>
 		  <arg value="--js"/>
 		  <arg value="soundcheck.js"/>
+		  <arg value="--module"/>
+			<arg value="invite_op:1:common"/>
+			  <arg value="--js"/>
+			  <arg value="invite_op.js"/>
+	</java>
+
+	<java jar="${closure.c}" fork="true">
+	  <arg value="--module_output_path_prefix"/>
+	  <arg value="../"/>
+	  <arg value="--module"/>
+		<arg value="invite:1"/>
+		  <arg value="--js"/>
+		  <arg value="invite.js"/>
 	</java>
   </target>
 

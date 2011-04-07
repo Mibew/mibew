@@ -109,7 +109,24 @@ $dbtables = array(
 		"locale" => "varchar(8)",
 		"groupid" => "int references ${mysqlprefix}chatgroup(groupid)",
 		"vcvalue" => "varchar(1024) NOT NULL",
-	)
+	),
+
+	"${mysqlprefix}chatsitevisitor" => array(
+		"visitorid" => "INT NOT NULL auto_increment PRIMARY KEY",
+		"userid" => "varchar(64) NOT NULL",
+		"username" => "varchar(255)",
+		"firsttime" => "datetime NOT NULL DEFAULT 0",
+		"lasttime" => "datetime NOT NULL DEFAULT 0",
+		"entry" => "text NOT NULL",
+		"path" => "text NOT NULL",
+		"details" => "text NOT NULL",
+		"invited" => "tinyint(1) NOT NULL DEFAULT 0",
+		"invitationtime" => "datetime",
+		"invitedby" => "INT references ${mysqlprefix}chatoperator(operatorid) on delete set null",
+		"invitations" => "INT NOT NULL DEFAULT 0",
+		"chats" => "INT NOT NULL DEFAULT 0",
+		"threadid" => "INT references ${mysqlprefix}chatthread(threadid) on delete set null"
+	),
 );
 
 $memtables = array();
@@ -122,6 +139,7 @@ $dbtables_can_update = array(
 	"${mysqlprefix}chatgroup" => array("vcemail"),
 	"${mysqlprefix}chatgroupoperator" => array(),
 	"${mysqlprefix}chatresponses" => array(),
+	"${mysqlprefix}chatsitevisitor" => array(),
 );
 
 function show_install_err($text)

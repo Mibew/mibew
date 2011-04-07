@@ -40,6 +40,13 @@ var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",freque
 }
 .ilog { background-position: 0px 0px;width: 20px; height: 80px; }
 .imessage { background-position: 0px -82px;width: 20px; height: 85px; }
+.itracked {
+	background: transparent url(${tplroot}/images/buttons/tracked.gif) no-repeat scroll 0px 0px; 
+	width: 25px; height: 25px;
+	-moz-background-clip: -moz-initial;
+	-moz-background-origin: -moz-initial;
+	-moz-background-inline-policy: -moz-initial;
+}
 </style>
 </head>
 <body bgcolor="#FFFFFF" style="background-image: url(${tplroot}/images/bg.gif); margin: 0px;" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400">
@@ -172,8 +179,11 @@ ${endif:canpost}
 ${if:historyParams}
 				<td><a href="${page:historyParamsLink}" target="_blank" title="${msg:page.analysis.userhistory.title}" onclick="this.newWindow = window.open('${page:historyParamsLink}', 'UserHistory', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=720,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><img class="tplimage ihistory" src="${webimroot}/images/free.gif" border="0" alt="History&nbsp;"/></a></td>
 ${endif:historyParams}
+${if:trackedParams}
+				<td><a href="${page:trackedParamsLink}" target="_blank" title="${msg:page.analysis.trackedpath.title}" onclick="this.newWindow = window.open('${page:trackedParamsLink}', 'UserTrackedPath', 'toolbar=0,scrollbars=1,location=0,statusbar=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><img class="itracked" src="${webimroot}/images/free.gif" border="0" alt="Tracked&nbsp;path&nbsp;"/></a></td>
+${endif:trackedParams}
 ${endif:agent}
-				<td><a id="togglesound" href="javascript:void(0)" onclick="return false;" title="Turn off sound">
+				<td><a id="togglesound" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.toolbar.mute}">
 				<img id="soundimg" class="tplimage isound" src="${webimroot}/images/free.gif" border="0" alt="Sound&nbsp;" /></a></td>
 
 				<td><a id="refresh" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.toolbar.refresh}">

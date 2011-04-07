@@ -21,6 +21,7 @@
 
 function generate_button($title, $locale, $style, $group, $inner, $showhost, $forcesecure, $modsecurity)
 {
+	global $settings;
 	$link = get_app_location($showhost, $forcesecure) . "/client.php";
 	if ($locale)
 		$link = append_query($link, "locale=$locale");
@@ -33,6 +34,15 @@ function generate_button($title, $locale, $style, $group, $inner, $showhost, $fo
 	$jslink = append_query("'" . $link, "url='+escape(document.location.href$modsecfix)+'&amp;referrer='+escape(document.referrer$modsecfix)");
 	$temp = get_popup($link, "$jslink",
 					  $inner, $title, "webim", "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1");
+	if ($settings['enabletracking']) {
+	    $temp = preg_replace('/^(<a )/', '\1id="mibewAgentButton" ', $temp);
+	    $temp .= '<div id="mibewinvitation"></div><script type="text/javascript">var mibewInviteStyle = \'@import url(';
+	    $temp .= get_app_location($showhost, $forcesecure);
+	    $temp .= '/invite.css);\';</script><script type="text/javascript" src="';
+	    $temp .= get_app_location($showhost, $forcesecure);
+	    $temp .= '/js/invite.js"></script><script type="text/javascript">mibewInviteMakeRequest(\'';
+	    $temp .= get_app_location($showhost, $forcesecure) . '/invite.php?entry=\' + escape(document.referrer) + \'&lang=ru\', ' . $settings['updatefrequency_tracking'] . '*1000);</script>';
+	}
 	return "<!-- mibew button -->" . $temp . "<!-- / mibew button -->";
 }
 

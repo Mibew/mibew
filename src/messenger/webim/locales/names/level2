@@ -43,6 +43,7 @@ chat.thread.state_closed
 chat.thread.state_loading
 chat.thread.state_wait
 chat.thread.state_wait_for_another_agent
+chat.visitor.invitation.accepted
 clients.how_to
 clients.intro
 clients.no_clients
@@ -75,6 +76,8 @@ image.button.save
 image.button.search
 install.newfeatures
 install.updatedb
+invitation.sent
+invitation.title
 lang.choose
 leftMenu.client_agents
 leftMenu.client_gen_button
@@ -102,6 +105,7 @@ page.analysis.search.head_messages
 page.analysis.search.head_name
 page.analysis.search.head_operator
 page.analysis.search.head_time
+page.analysis.trackedpath.title
 page.analysis.userhistory.intro
 page.analysis.userhistory.title
 page.gen_button.default_group
@@ -136,7 +140,9 @@ pending.table.head.operator
 pending.table.head.state
 pending.table.head.total
 pending.table.head.waittime
+pending.table.invite
 pending.table.speak
+pending.table.tracked
 pending.table.view
 permission.admin
 permission.takeover
@@ -197,3 +203,21 @@ topMenu.logoff
 topMenu.main
 topMenu.users
 topMenu.users.nomenu
+tracked.date
+tracked.empty.referrer
+tracked.intro
+tracked.link
+tracked.path
+tracked.visitor.came.from
+visitors.how_to
+visitors.intro
+visitors.no_visitors
+visitors.table.head.contactid
+visitors.table.head.etc
+visitors.table.head.firsttimeonsite
+visitors.table.head.invitations
+visitors.table.head.invitationtime
+visitors.table.head.invited.by
+visitors.table.head.lasttimeonsite
+visitors.table.head.name
+visitors.title

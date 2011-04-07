@@ -626,6 +626,7 @@ $settings = array(
 	'usercanchangename' => '1',
 	'enablegroups' => '0',
 	'enablestatistics' => '1',
+	'enabletracking' => '0',
 	'enablepresurvey' => '1',
 	'surveyaskmail' => '0',
 	'surveyaskgroup' => '1',
@@ -638,6 +639,12 @@ $settings = array(
 	'updatefrequency_operator' => 2,
 	'updatefrequency_chat' => 2,
 	'updatefrequency_oldchat' => 7,
+
+	'updatefrequency_tracking' => 10,
+	'visitors_limit' => 20, /* Number of visitors to look over */
+	'invitation_lifetime' => 60, /* Lifetime for invitation to chat */
+	'tracking_lifetime' => 600, /* Time to store tracked old visitors' data */
+
 );
 $settingsloaded = false;
 $settings_in_db = array();

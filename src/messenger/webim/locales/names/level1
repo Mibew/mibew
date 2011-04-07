@@ -33,6 +33,7 @@ chat.window.send_message_short
 chat.window.title.agent
 chat.window.title.user
 chat.window.toolbar.mail_history
+chat.window.toolbar.mute
 chat.window.toolbar.redirect_user
 chat.window.toolbar.refresh
 company.title
@@ -46,6 +47,7 @@ harderrors.header
 image.chat.history
 image.chat.message
 image.chat.sprite
+invitation.message
 leavemail.body
 leavemail.subject
 leavemessage.close

@@ -73,7 +73,7 @@ var HtmlGenerationUtils = {
   	return '<table class="inner"><tr>' + content + '</tr></table>';
   },
 
-  viewOpenCell: function(username,servlet,id,canview,canopen,ban,message,cantakenow) {
+  viewOpenCell: function(username,servlet,id,canview,canopen,ban,message,cantakenow,tracked,trackedlink) {
   		var cellsCount = 2;
   		var link = servlet+"?thread="+id;
  		var gen = '<td>';
@@ -95,17 +95,40 @@ var HtmlGenerationUtils = {
 			gen += '</td>';
 			cellsCount++;
 		}
+		if ( tracked ) {
+			gen += '<td class="icon">';
+			gen += HtmlGenerationUtils.popupLink( trackedlink+"?thread="+id, localized[6], "ImTracked"+id, '<img src="'+webimRoot+'/images/tblictrack.gif" width="15" height="15" border="0" alt="'+localized[6]+'">', 640, 480, null);
+			gen += '</td>';
+			cellsCount++;
+		}
 		if( message != "" ) {
 			gen += '</tr><tr><td class="firstmessage" colspan="'+cellsCount+'"><a href="javascript:void(0)" title="'+message+'" onclick="alert(this.title);return false;">';
 			gen += message.length > 30 ? message.substring(0,30) + '...' : message;
 			gen += '</a></td>';
 		}
+
   		return HtmlGenerationUtils.generateOneRowTable(gen);
   },
   banCell: function(id,banid){
       return '<td class="icon">'+
           HtmlGenerationUtils.popupLink( webimRoot+'/operator/ban.php?'+(banid ? 'id='+banid : 'thread='+id), localized[2], "ban"+id, '<img src="'+webimRoot+'/images/ban.gif" width="15" height="15" border="0" alt="'+localized[2]+'">', 720, 480, null)+
           '</td>';
+  },
+  viewVisOpenCell: function(username, inviteservlet, userid, trackedservlet, caninvite) {
+  		var cellsCount = 2;
+ 		var gen = '<td>';
+ 		if(caninvite) {
+			gen += HtmlGenerationUtils.popupLink( inviteservlet+"?visitor="+userid, localized[7], "ImCenter"+userid, username, 640, 480, null);
+		} else {
+			gen += '<a href="#">' + username + '</a>';
+		}
+		gen += '</td>';
+		gen += '<td class="icon">';
+		var tr_link = HtmlGenerationUtils.popupLink( trackedservlet+"?visitor="+userid, localized[6], "ImTracked"+userid, '<img src="'+webimRoot+'/images/tblictrack.gif" width="15" height="15" border="0" alt="'+localized[6]+'">', 640, 480, null);
+		tr_link = tr_link.replace("scrollbars=0","scrollbars=1");
+		gen += tr_link;
+		gen += '</td>';
+  		return HtmlGenerationUtils.generateOneRowTable(gen);
   }
 };
 
@@ -121,11 +144,15 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
     this.threadTimers = new Object();
     this.delta = 0;
     this.t = this._options.table;
+    this.t2 = this._options.visitors_table;
     this.periodicalUpdater = new Ajax.PeriodicalUpdater(this._options);
+    this.old_visitors = new Object();
+    this.visitors = new Object();
+    this.visitorTimers = new Object();
   },
 
   updateParams: function() {
-  	return "since=" + this._options.lastrevision + "&status=" + this._options.istatus + (this._options.showonline ? "&showonline=1" : "");
+  	return "since=" + this._options.lastrevision + "&status=" + this._options.istatus + (this._options.showonline ? "&showonline=1" : "") + (this._options.showvisitors ? "&showvisitors=1" : "");
   },
 
   setStatus: function(msg) {
@@ -204,7 +231,7 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 		row.className = (ban == "blocked" && stateid != "chat") ? "ban" : "in"+stateid;
 		row.id = "thr"+id;
 		this.threadTimers[id] = new Array(vtime,modified,stateid);
-		CommonUtils.insertCell(row, "name", "visitor", null, null, HtmlGenerationUtils.viewOpenCell(vname,this._options.agentservl,id,canview,canopen,ban,message,stateid!='chat'));
+		CommonUtils.insertCell(row, "name", "visitor", null, null, HtmlGenerationUtils.viewOpenCell(vname,this._options.agentservl,id,canview,canopen,ban,message,stateid!='chat',this._options.showvisitors, this._options.trackedservl));
 		CommonUtils.insertCell(row, "contid", "visitor", "center", null, vaddr );
 		CommonUtils.insertCell(row, "state", "visitor", "center", null, vstate );
 		CommonUtils.insertCell(row, "op", "visitor", "center", null, agent );
@@ -217,7 +244,7 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 	} else {
 		this.threadTimers[id] = new Array(vtime,modified,stateid);
 		row.className = (ban == "blocked" && stateid != "chat") ? "ban" : "in"+stateid;
-		setcell(this.t, row,"name",HtmlGenerationUtils.viewOpenCell(vname,this._options.agentservl,id,canview,canopen,ban,message,stateid!='chat'));
+		setcell(this.t, row,"name",HtmlGenerationUtils.viewOpenCell(vname,this._options.agentservl,id,canview,canopen,ban,message,stateid!='chat',this._options.showvisitors, this._options.trackedservl));
 		setcell(this.t, row,"contid",vaddr);
 		setcell(this.t, row,"state",vstate);
 		setcell(this.t, row,"op",agent);
@@ -332,6 +359,144 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 	div.innerHTML = names.join(', ');
   },
 
+  updateVisitorsTimers: function() {
+	for (var i in this.visitorTimers) {
+		if (this.visitorTimers[i] != null) {
+			var value = this.visitorTimers[i];
+			var row = CommonUtils.getRow("vis"+i, this.t2);
+			if( row != null ) {
+				function setcell(_table, row,id,pcontent) {
+					var cell = CommonUtils.getCell( id, row, _table );
+					if( cell )
+						cell.innerHTML = pcontent;
+				}
+				setcell(this.t2, row,"time",this.getTimeSince(value[0]));
+				setcell(this.t2, row,"modified",this.getTimeSince(value[1]));
+				if (value[2] != null)
+				    setcell(this.t2, row,"invitationtime",this.getTimeSince(value[2]));
+			}
+		}
+	}
+  },
+
+  updateVisitor: function(node) {
+	var id, invited = false;
+
+	for( var i = 0; i < node.attributes.length; i++ ) {
+		var attr = node.attributes[i];
+		if( attr.nodeName == "id" )
+			id = attr.nodeValue;
+	}
+
+	function setcell(_table, row,id,pcontent) {
+		var cell = CommonUtils.getCell( id, row, _table );
+		if( cell )
+			cell.innerHTML = pcontent;
+	}
+
+	var addr = NodeUtils.getNodeValue(node,"addr");
+	var username = NodeUtils.getNodeValue(node,"username");
+	var useragent = NodeUtils.getNodeValue(node,"useragent");
+	var time = NodeUtils.getNodeValue(node,"time");
+	var modified = NodeUtils.getNodeValue(node,"modified");
+
+	var invitations = NodeUtils.getNodeValue(node,"invitations");
+	var chats = NodeUtils.getNodeValue(node,"chats");
+
+	var operator = null;
+	var invitationtime = null;
+	var invitation = node.getElementsByTagName("invitation")[0];
+	for( var i = 0; i < invitation.childNodes.length; i++ ) {
+		var childnode = invitation.childNodes[i];
+		if( childnode.tagName == 'operator' ) {
+		    operator = childnode.firstChild.nodeValue;
+		}
+		else if ( childnode.tagName == 'invitationtime' ) {
+		    invitationtime = childnode.firstChild.nodeValue;
+		}
+	}
+	var state = (operator == null) ? 'free' : 'invited';
+
+	var row = CommonUtils.getRow("vis"+id, this.t2);
+
+	var startRow = CommonUtils.getRow("vis" + state, this.t2);
+	var endRow = CommonUtils.getRow("vis" + state + "end", this.t2);
+
+	if( row != null && (row.rowIndex <= startRow.rowIndex || row.rowIndex >= endRow.rowIndex ) ) {
+
+	    this.t2.deleteRow(row.rowIndex);
+	    this.visitorTimers[id] = null;
+	    row = null;
+	}
+
+	if (row == null) {
+	    row = this.t2.insertRow(startRow.rowIndex+1);
+	    row.id = "vis"+id;
+	    this.visitorTimers[id] = new Array(time, modified, invitationtime);
+	    CommonUtils.insertCell(row, "username", "visitor", null, null, HtmlGenerationUtils.viewVisOpenCell(username, this._options.inviteservl, id, this._options.trackedservl, operator==null));
+	    CommonUtils.insertCell(row, "addr", "visitor", "center", null, addr);
+	    CommonUtils.insertCell(row, "time", "visitor", "center", null, this.getTimeSince(time) );
+	    CommonUtils.insertCell(row, "modified", "visitor", "center", null, this.getTimeSince(modified) );
+	    CommonUtils.insertCell(row, "operator", "visitor", "center", null, (operator != null) ? operator : '-');
+	    CommonUtils.insertCell(row, "invitationtime", "visitor", "center", null, (operator != null ? this.getTimeSince(invitationtime) : '-') );
+	    CommonUtils.insertCell(row, "invitations", "visitor", "center", null, invitations + ' / ' + chats);
+	    CommonUtils.insertCell(row, "useragent", "visitor", "center", null, useragent);
+	}
+	else {
+	    this.visitorTimers[id] = new Array(time, modified, invitationtime);
+	    setcell(this.t2, row, "username",HtmlGenerationUtils.viewVisOpenCell(username, this._options.inviteservl, id, this._options.trackedservl, operator==null));
+	    setcell(this.t2, row, "addr", addr);
+	    setcell(this.t2, row, "operator", (operator != null) ? operator : '-');
+	    setcell(this.t2, row, "time", this.getTimeSince(time) );
+	    setcell(this.t2, row, "modified", this.getTimeSince(modified) );
+	    setcell(this.t2, row, "invitationtime", (operator != null ? this.getTimeSince(invitationtime) : '-') );
+	    setcell(this.t2, row, "invitations", invitations + ' / ' + chats);
+	    setcell(this.t2, row, "useragent", useragent);
+	}
+
+	this.visitors[id] = 1;
+
+	return false;
+  },
+
+  removeOldVisitors: function() {
+	for (id in this.old_visitors) {
+	    if (this.visitors[id] === undefined) {
+		var row = CommonUtils.getRow("vis"+id, this.t2);
+		if( row ) {
+			this.t2.deleteRow(row.rowIndex);
+		}
+		this.visitorTimers[id] = null;
+	    }
+	}
+  },
+
+  updateVisitorsList: function(visitors) {
+	var _status = $("visstatustd");
+	if( _status) {
+		_status.innerHTML = (visitors > 0) ? "" : this._options.novisitors;
+		_status.height = (visitors > 0) ? 5 : 30;
+	}
+  },
+
+  updateVisitors: function(root) {
+
+	this.old_visitors = this.visitors;
+	this.visitors = new Object();
+
+	var visitors_cnt = 0;
+	for( var i = 0; i < root.childNodes.length; i++ ) {
+		var node = root.childNodes[i];
+		if( node.tagName == 'visitor' ) {
+			visitors_cnt++;
+			this.updateVisitor(node);
+		}
+	}
+	this.updateVisitorsTimers();
+	this.removeOldVisitors();
+	this.updateVisitorsList(visitors_cnt);
+  },
+
   updateContent: function(root) {
 	if( root.tagName == 'update' ) {
 		for( var i = 0; i < root.childNodes.length; i++ ) {
@@ -341,6 +506,8 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 				this.updateThreads(node);
 			} else if (node.tagName == 'operators') {
 				this.updateOperators(node);
+			} else if (node.tagName == 'visitors') {
+				this.updateVisitors(node);
 			}
 		}
 	} else if( root.tagName == 'error' ) {
@@ -377,7 +544,7 @@ Behaviour.register({
 
 EventHelper.register(window, 'onload', function(){
   webimRoot = updaterOptions.wroot;
-  new Ajax.ThreadListUpdater(({table:$("threadlist"),status:$("connstatus"),istatus:0}).extend(updaterOptions || {}));
+  new Ajax.ThreadListUpdater(({table:$("threadlist"),status:$("connstatus"),istatus:0,visitors_table:$("visitorslist")}).extend(updaterOptions || {}));
   if(!updaterOptions.havemenu) {
 	  togglemenu();
   }	 

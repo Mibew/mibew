@@ -24,6 +24,7 @@ require_once('../libs/chat.php');
 require_once('../libs/userinfo.php');
 require_once('../libs/operator.php');
 require_once('../libs/groups.php');
+require_once('../libs/track.php');
 
 $operator = get_logged_in();
 if (!$operator) {
@@ -167,9 +168,97 @@ function print_operators()
 	echo "</operators>";
 }
 
+function visitor_to_xml($visitor, $link)
+{
+    $result = "<visitor id=\"" . $visitor['visitorid'] . "\">";
+
+//    $result .= "<userid>" . htmlspecialchars($visitor['userid']) . "</userid>";
+    $result .= "<username>" . htmlspecialchars($visitor['username']) . "</username>";
+
+    $result .= "<time>" . $visitor['unix_timestamp(firsttime)'] . "000</time>";
+    $result .= "<modified>" . $visitor['unix_timestamp(lasttime)'] . "000</modified>";
+//    $result .= "<entry>" . htmlspecialchars($visitor['entry']) . "</entry>";
+
+//    $result .= "<path>";
+//    $path = track_retrieve_path($visitor);
+//    ksort($path);
+//    foreach ($path as $k => $v) {
+//	$result .= "<url visited=\"" . $k . "000\">" . htmlspecialchars($v) . "</url>";
+//    }
+//    $result .= "</path>";
+
+    $details = track_retrieve_details($visitor);
+    $userAgent = get_useragent_version($details['user_agent']);
+    $result .= "<useragent>" . $userAgent . "</useragent>";
+    $result .= "<addr>" . htmlspecialchars(get_user_addr($details['remote_host'])) . "</addr>";
+
+    $result .= "<invitations>" . $visitor['invitations'] . "</invitations>";
+    $result .= "<chats>" . $visitor['chats'] . "</chats>";
+
+    $result .= "<invitation>";
+    if ($visitor['invited']) {
+	$result .= "<invitationtime>" . $visitor['unix_timestamp(invitationtime)'] . "000</invitationtime>";
+	$operator = get_operator_name(operator_by_id_($visitor['invitedby'], $link));
+	$result .= "<operator>" . htmlspecialchars(htmlspecialchars($operator)) . "</operator>";
+    }
+    $result .= "</invitation>";
+
+    $result .= "</visitor>";
+    return $result;
+}
+
+function print_visitors()
+{
+	global $webim_encoding, $settings, $state_closed, $state_left, $mysqlprefix;
+
+	$link = connect();
+
+// Remove old visitors' tracks
+	$query = "DELETE FROM ${mysqlprefix}chatsitevisitor WHERE (UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lasttime)) > " . $settings['tracking_lifetime'] .
+			" AND (threadid IS NULL OR (SELECT count(*) FROM ${mysqlprefix}chatthread WHERE threadid = ${mysqlprefix}chatsitevisitor.threadid" .
+			" AND istate <> $state_closed AND istate <> $state_left) = 0)";
+	perform_query($query, $link);
+
+// Remove old invitations
+	$query = "UPDATE ${mysqlprefix}chatsitevisitor SET invited = 0, invitationtime = NULL, invitedby = NULL" .
+			" WHERE threadid IS NULL AND (UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(invitationtime)) > " .
+			$settings['invitation_lifetime'];
+	perform_query($query, $link);
+
+// Remove associations of visitors with closed threads
+	$query = "UPDATE ${mysqlprefix}chatsitevisitor SET threadid = NULL WHERE threadid IS NOT NULL AND" .
+			" (SELECT count(*) FROM ${mysqlprefix}chatthread WHERE threadid = ${mysqlprefix}chatsitevisitor.threadid" .
+			" AND istate <> $state_closed AND istate <> $state_left) = 0";
+	perform_query($query, $link);
+
+	$output = array();
+
+	$query = "SELECT visitorid, userid, username, unix_timestamp(firsttime), unix_timestamp(lasttime), " .
+			 "entry, path, details, invited, unix_timestamp(invitationtime), invitedby, invitations, chats " .
+			 "FROM ${mysqlprefix}chatsitevisitor " .
+			 "WHERE threadid IS NULL " .
+			 "ORDER BY invited, lasttime DESC, invitations";
+	$query .= ($settings['visitors_limit'] == '0') ? "" : " LIMIT " . $settings['visitors_limit'];
+
+	$rows = select_multi_assoc($query, $link);
+	foreach ($rows as $row) {
+		$visitor = visitor_to_xml($row, $link);
+		$output[] = $visitor;
+	}
+
+	mysql_close($link);
+
+	echo "<visitors>";
+	foreach ($output as $thr) {
+		print myiconv($webim_encoding, "utf-8", $thr);
+	}
+	echo "</visitors>";
+}
+
 $since = verifyparam("since", "/^\d{1,9}$/", 0);
 $status = verifyparam("status", "/^\d{1,2}$/", 0);
 $showonline = verifyparam("showonline", "/^1$/", 0);
+$showvisitors = verifyparam("showvisitors", "/^1$/", 0);
 
 $link = connect();
 loadsettings_($link);
@@ -185,6 +274,9 @@ if ($showonline) {
 	print_operators();
 }
 print_pending_threads($groupids, $since);
+if ($showvisitors) {
+	print_visitors();
+}
 echo '</update>';
 notify_operator_alive($operator['operatorid'], $status);
 exit;

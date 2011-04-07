@@ -20,6 +20,8 @@
  *    Pavel Petroshenko - history search
  */
 
+require_once(dirname(__FILE__).'/track.php');
+
 $connection_timeout = 30; // sec
 
 $namecookie = "WEBIM_Data";
@@ -88,7 +90,7 @@ function post_message($threadid, $kind, $message, $from = null, $agentid = null)
 function prepare_html_message($text)
 {
 	$escaped_text = htmlspecialchars($text);
-	$text_w_links = preg_replace('/(http|ftp):\/\/\S*/', '<a href="$0" target="_blank">$0</a>', $escaped_text);
+	$text_w_links = preg_replace('/(https?|ftp):\/\/\S*/', '<a href="$0" target="_blank">$0</a>', $escaped_text);
 	$multiline = str_replace("\n", "<br/>", $text_w_links);
 	return $multiline;
 }
@@ -445,6 +447,13 @@ function setup_chatview_for_operator($thread, $operator)
 	$page['neediframesrc'] = needsFramesrc();
 	$page['historyParams'] = array("userid" => "" . $thread['userid']);
 	$page['historyParamsLink'] = add_params($webimroot . "/operator/userhistory.php", $page['historyParams']);
+	if ($settings['enabletracking']) {
+	    $link = connect();
+	    $visitor = track_get_visitor_by_threadid($thread['threadid'], $link);
+	    $page['trackedParams'] = array("visitor" => "" . $visitor['visitorid']);
+	    $page['trackedParamsLink'] = add_params($webimroot . "/operator/tracked.php", $page['trackedParams']);
+	    mysql_close($link);
+	}
 	$predefinedres = "";
 	$canned_messages = load_canned_messages($thread['locale'], $thread['groupid']);
 	foreach ($canned_messages as $answer) {
