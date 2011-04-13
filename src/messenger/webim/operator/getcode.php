@@ -25,6 +25,8 @@ require_once('../libs/groups.php');
 require_once('../libs/getcode.php');
 
 $operator = check_login();
+force_password($operator);
+
 loadsettings();
 
 $imageLocales = get_image_locales_map("../locales");

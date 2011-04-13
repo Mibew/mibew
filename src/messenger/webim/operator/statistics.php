@@ -24,6 +24,7 @@ require_once('../libs/chat.php');
 require_once('../libs/operator.php');
 
 $operator = check_login();
+force_password($operator);
 
 setlocale(LC_TIME, getstring("time.locale"));
 

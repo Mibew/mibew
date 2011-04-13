@@ -23,6 +23,8 @@ require_once('../libs/common.php');
 require_once('../libs/operator.php');
 
 $operator = check_login();
+force_password($operator);
+
 
 if (isset($_GET['act']) && $_GET['act'] == 'del') {
 	$operatorid = isset($_GET['id']) ? $_GET['id'] : "";
