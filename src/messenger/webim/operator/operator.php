@@ -105,6 +105,12 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 		$errors[] = getlocal("no_such_operator");
 		$page['opid'] = topage($opId);
 	} else {
+		//show an error if the admin password hasn't been set yet.
+		if ($operator['vcpassword']==md5('') && !isset($_GET['stored']))
+		{
+			$errors[] = getlocal("my_settings.error.no_password");
+		}
+
 		$page['formlogin'] = topage($op['vclogin']);
 		$page['formname'] = topage($op['vclocalename']);
 		$page['formemail'] = topage($op['vcemail']);
