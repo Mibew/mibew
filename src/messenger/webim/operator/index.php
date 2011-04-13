@@ -23,6 +23,7 @@ require_once('../libs/common.php');
 require_once('../libs/operator.php');
 
 $operator = check_login();
+force_password($operator);
 
 $link = connect();
 loadsettings_($link);
