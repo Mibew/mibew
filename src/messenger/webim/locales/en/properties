@@ -242,6 +242,7 @@ menu.profile=Profile
 menu.translate=Localize
 menu.updates.content=Check for news and updates.
 menu.updates=Updates
+my_settings.error.no_password=No Password set for the Administrator
 my_settings.error.password_match=Entered passwords do not match
 no_such_operator=No such operator
 notification.back_to_list=Back to the list

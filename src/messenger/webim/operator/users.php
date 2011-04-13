@@ -24,6 +24,8 @@ require_once('../libs/operator.php');
 require_once('../libs/groups.php');
 
 $operator = check_login();
+force_password($operator);
+
 $status = isset($_GET['away']) ? 1 : 0;
 
 notify_operator_alive($operator['operatorid'], $status);
