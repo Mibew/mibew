@@ -24,7 +24,6 @@ require_once('../libs/operator.php');
 require_once('../libs/settings.php');
 
 $operator = check_login();
-force_password($operator);
 
 $default_extensions = array('mysql', 'gd', 'iconv');
 

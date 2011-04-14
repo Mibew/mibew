@@ -116,12 +116,6 @@ function update_operator($operatorid, $login, $email, $password, $localename, $c
 
 	perform_query($query, $link);
 	mysql_close($link);
-	// update the session password
-	if (isset($password))
-	{
-		$_SESSION[$mysqlprefix.'operator']['vcpassword']=md5($password);
-	}
-
 }
 
 function update_operator_avatar($operatorid, $avatar)
@@ -239,17 +233,6 @@ function check_login($redirect = true)
 		}
 	}
 	return $_SESSION["${mysqlprefix}operator"];
-}
-
-// Force the admin to set a password after the installation
-function force_password($operator)
-{
-	global $webimroot;
-	if($operator['vcpassword']==md5(''))
-	{
-		header("Location: $webimroot/operator/operator.php?op=1");
-		exit;
-	}
 }
 
 function get_logged_in()

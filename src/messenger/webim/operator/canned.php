@@ -26,8 +26,6 @@ require_once('../libs/groups.php');
 require_once('../libs/pagination.php');
 
 $operator = check_login();
-force_password($operator);
-
 loadsettings();
 
 $errors = array();
