@@ -77,6 +77,15 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 			exit;
 		} else {
 			update_operator($opId, $login, $email, $password, $localname, $commonname);
+			// update the session password
+			if (isset($password) && $opId == $operator['operatorid']) {
+				$toDashboard = $operator['vcpassword'] == md5('') && $password != '';
+				$_SESSION["${mysqlprefix}operator"]['vcpassword'] = md5($password);
+				if($toDashboard) {
+					header("Location: $webimroot/operator/index.php");
+					exit;
+				}
+			}
 			header("Location: $webimroot/operator/operator.php?op=$opId&stored");
 			exit;
 		}
@@ -113,6 +122,7 @@ $canmodify = ($opId == $operator['operatorid'] && is_capable($can_modifyprofile,
 
 $page['stored'] = isset($_GET['stored']);
 $page['canmodify'] = $canmodify ? "1" : "";
+$page['needChangePassword'] = $operator['vcpassword'] == md5('');
 
 prepare_menu($operator);
 setup_operator_settings_tabs($opId, 0);

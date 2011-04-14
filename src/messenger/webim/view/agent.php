@@ -39,15 +39,20 @@ function tpl_content() { global $page, $webimroot, $errors;
 <?php 
 require_once('inc_errors.php');
 ?>
-<?php if( $page['stored'] ) { ?>
+<?php if( $page['needChangePassword'] ) { ?>
+<div id="formmessage"><?php echo getlocal("error.no_password") ?></div>
+<br/>
+<?php } else if( $page['stored'] ) { ?>
 <div id="formmessage"><?php echo getlocal("data.saved") ?></div>
 <?php } ?>
+
+
 
 <?php if( $page['opid'] || $page['canmodify'] ) { ?>
 <form name="agentForm" method="post" action="<?php echo $webimroot ?>/operator/operator.php">
 <input type="hidden" name="opid" value="<?php echo $page['opid'] ?>"/>
 	<div>
-<?php print_tabbar(); ?>
+<?php if(!$page['needChangePassword']) { print_tabbar(); } ?>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
 	<div class="fieldForm">
@@ -70,7 +75,7 @@ require_once('inc_errors.php');
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('form.field.password') ?><?php if( !$page['opid'] ) { ?><span class="required">*</span><?php } ?></div>
+			<div class="flabel"><?php echo getlocal('form.field.password') ?><?php if( !$page['opid'] || $page['needChangePassword'] ) { ?><span class="required">*</span><?php } ?></div>
 			<div class="fvalue">
 				<input type="password" name="password" size="40" value="" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
@@ -79,7 +84,7 @@ require_once('inc_errors.php');
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('form.field.password_confirm') ?><?php if( !$page['opid'] ) { ?><span class="required">*</span><?php } ?></div>
+			<div class="flabel"><?php echo getlocal('form.field.password_confirm') ?><?php if( !$page['opid'] || $page['needChangePassword'] ) { ?><span class="required">*</span><?php } ?></div>
 			<div class="fvalue">
 				<input type="password" name="passwordConfirm" size="40" value="" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
