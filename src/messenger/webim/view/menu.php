@@ -41,8 +41,12 @@ function menuseparator() {
 function tpl_content() { global $page, $webimroot, $current_locale, $menuItemsCount, $version;
 ?>
 
-<br/>   
-<?php if( $page['needUpdate'] ) { ?>
+<br/>
+
+<?php if( $page['needChangePassword'] ) { ?>
+<div id="formmessage"><?php echo getlocal("error.no_password") ?> <?php echo getlocal2("error.no_password.visit_profile", array($page['profilePage'])) ?></div>
+<br/>
+<?php } else if( $page['needUpdate'] ) { ?>
 <div id="formmessage"><?php echo getlocal2("install.updatedb",array($page['updateWizard'])) ?></div>
 <br/>
 <?php } else if($page['newFeatures']) { ?>

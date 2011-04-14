@@ -91,6 +91,15 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 			exit;
 		} else {
 			update_operator($opId, $login, $email, $jabber, $password, $localname, $commonname, $jabbernotify ? 1 : 0);
+			// update the session password
+			if (isset($password) && $opId == $operator['operatorid']) {
+				$toDashboard = $operator['vcpassword'] == md5('') && $password != '';
+				$_SESSION["${mysqlprefix}operator"]['vcpassword'] = md5($password);
+				if($toDashboard) {
+					header("Location: $webimroot/operator/index.php");
+					exit;
+				}
+			}
 			header("Location: $webimroot/operator/operator.php?op=$opId&stored");
 			exit;
 		}
@@ -112,12 +121,6 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 		$errors[] = getlocal("no_such_operator");
 		$page['opid'] = topage($opId);
 	} else {
-		//show an error if the admin password hasn't been set yet.
-		if ($operator['vcpassword']==md5('') && !isset($_GET['stored']))
-		{
-			$errors[] = getlocal("my_settings.error.no_password");
-		}
-
 		$page['formlogin'] = topage($op['vclogin']);
 		$page['formname'] = topage($op['vclocalename']);
 		$page['formemail'] = topage($op['vcemail']);
@@ -138,6 +141,7 @@ $canmodify = ($opId == $operator['operatorid'] && is_capable($can_modifyprofile,
 $page['stored'] = isset($_GET['stored']);
 $page['canmodify'] = $canmodify ? "1" : "";
 $page['showjabber'] = $settings['enablejabber'] == "1";
+$page['needChangePassword'] = $operator['vcpassword'] == md5('');
 
 prepare_menu($operator);
 setup_operator_settings_tabs($opId, 0);

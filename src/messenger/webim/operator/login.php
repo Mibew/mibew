@@ -33,9 +33,11 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 	$operator = operator_by_login($login);
 	if ($operator && isset($operator['vcpassword']) && $operator['vcpassword'] == md5($password)) {
 
-		$target = isset($_SESSION['backpath'])
-				? $_SESSION['backpath']
-				: "$webimroot/operator/index.php";
+		$target = $password == ''
+				? "$webimroot/operator/operator.php?op=" . $operator['operatorid']
+				: (isset($_SESSION['backpath'])
+					? $_SESSION['backpath']
+					: "$webimroot/operator/index.php");
 
 		login_operator($operator, $remember);
 		header("Location: $target");
