@@ -124,6 +124,8 @@ errors.prefix=<li class="error">
 errors.required=Please fill "{0}".  
 errors.suffix=</li>
 errors.wrong_field=Please fill "{0}" correctly.
+error.no_password=This is your first time logging in and your password is blank. For security reasons you have to change it.
+error.no_password.visit_profile=Visit your <a href="{0}">Profile Page</a>.
 features.saved=Features activated
 form.field.address.description=Ex: 12.23.45.123 or todo.com
 form.field.address=Visitor's Address
@@ -512,9 +514,9 @@ time.never=Never
 time.timeformat=%I:%M %p
 time.today.at=Today at
 time.yesterday.at=Yesterday at
-topMenu.admin=Home
+topMenu.admin=Dashboard
 topMenu.logoff=Exit
-topMenu.main=Home
+topMenu.main=Dashboard
 topMenu.users.nomenu=without menu
 topMenu.users=Visitors
 tracked.date=Visit time
