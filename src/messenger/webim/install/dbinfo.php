@@ -112,6 +112,12 @@ $dbtables = array(
 	)
 );
 
+$dbtables_indexes = array(
+	"${mysqlprefix}chatmessage" => array(
+		"idx_agentid" => "agentid"
+	)
+);
+
 $memtables = array();
 
 $dbtables_can_update = array(
@@ -139,7 +145,7 @@ function show_install_err($text)
 
 function create_table($id, $link)
 {
-	global $dbtables, $memtables, $dbencoding, $mysqlprefix;
+	global $dbtables, $dbtables_indexes, $memtables, $dbencoding, $mysqlprefix;
 
 	if (!isset($dbtables[$id])) {
 		show_install_err("Unknown table: $id, " . mysql_error($link));
@@ -150,6 +156,12 @@ function create_table($id, $link)
 			"(\n";
 	foreach ($dbtables[$id] as $k => $v) {
 		$query .= "	$k $v,\n";
+	}
+
+	if (isset($dbtables_indexes[$id])) {
+	    foreach ($dbtables_indexes[$id] as $k => $v) {
+		    $query .= "	INDEX $k ($v),\n";
+	    }
 	}
 
 	$query = preg_replace("/,\n$/", "", $query);
