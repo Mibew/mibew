@@ -159,7 +159,7 @@ if ($act == "silentcreateall") {
 			runsql("ALTER TABLE ${mysqlprefix}chatgroup ADD vcemail varchar(64)", $link);
 		}
 
-		$res = mysql_query("select null from information_schema.statistics where table_name = '${mysqlprefix}chatmessage' and index_name = 'idx_agentid'", $link);
+		$res = mysql_query("select null from information_schema.statistics where table_schema = '$mysqldb' and table_name = '${mysqlprefix}chatmessage' and index_name = 'idx_agentid'", $link);
 		if ($res && mysql_num_rows($res) == 0) {
 			runsql("ALTER TABLE ${mysqlprefix}chatmessage ADD INDEX idx_agentid (agentid)", $link);
 		}
