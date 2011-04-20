@@ -153,6 +153,7 @@ function print_pending_threads($groupids, $since)
 
 function print_operators()
 {
+	global $webim_encoding;
 	echo "<operators>";
 	$operators = operator_get_all();
 
@@ -160,7 +161,7 @@ function print_operators()
 		if (!operator_is_online($operator))
 			continue;
 
-		$name = htmlspecialchars(htmlspecialchars($operator['vclocalename']));
+		$name = myiconv($webim_encoding, "utf-8", htmlspecialchars(htmlspecialchars($operator['vclocalename'])));
 		$away = operator_is_away($operator) ? " away=\"1\"" : "";
 
 		echo "<operator name=\"$name\"$away/>";
