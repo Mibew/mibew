@@ -11,6 +11,8 @@ app.title=Mibew Messenger
 ban.error.duplicate=L'adresse {0} est déjà utilisée, cliquez <a href="ban.php?id={1}">ici</a> pour la modifier.
 button.delete=Supprimer
 button.enter=Entrer
+button.offline=Hors ligne
+button.online=En ligne
 button.save=Sauver
 button.search=Rechercher
 canned.actions.del=Supprimer
