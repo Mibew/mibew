@@ -363,6 +363,14 @@ function connect()
 	return $link;
 }
 
+function close_connection($link)
+{
+	global $use_persistent_connection;
+	if (! $use_persistent_connection) {
+		mysql_close($link);
+	}
+}
+
 function perform_query($query, $link)
 {
 	mysql_query($query, $link) or die(' Query failed: ' . mysql_error($link));
