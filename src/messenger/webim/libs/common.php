@@ -344,12 +344,18 @@ function getgetparam($name, $default = '')
 
 function connect()
 {
-	global $mysqlhost, $mysqllogin, $mysqlpass, $mysqldb, $dbencoding, $force_charset_in_connection;
+	global $mysqlhost, $mysqllogin, $mysqlpass, $mysqldb, $dbencoding, $force_charset_in_connection, $use_persistent_connection;
 	if (!extension_loaded("mysql")) {
 		die('Mysql extension is not loaded');
 	}
-	$link = @mysql_connect($mysqlhost, $mysqllogin, $mysqlpass)
-			 or die('Could not connect: ' . mysql_error());
+	if ($use_persistent_connection) {
+		$link = @mysql_pconnect($mysqlhost, $mysqllogin, $mysqlpass);
+	}else{
+		$link = @mysql_connect($mysqlhost, $mysqllogin, $mysqlpass);
+	}
+	if (! $link) {
+		die('Could not connect: ' . mysql_error());
+	}
 	mysql_select_db($mysqldb, $link) or die('Could not select database');
 	if ($force_charset_in_connection) {
 		mysql_query("SET NAMES '$dbencoding'", $link);
