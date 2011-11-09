@@ -379,6 +379,11 @@ function db_escape_string($string, $link = NULL)
 	return mysql_real_escape_string($string, $link);
 }
 
+function db_error($link)
+{
+	return mysql_error($link);
+}
+
 function perform_query($query, $link)
 {
 	mysql_query($query, $link) or die(' Query failed: ' . mysql_error($link));
