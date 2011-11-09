@@ -66,15 +66,15 @@ if (isset($_POST['address'])) {
 			$query = sprintf(
 				"insert into ${mysqlprefix}chatban (dtmcreated,dtmtill,address,comment) values (CURRENT_TIMESTAMP,%s,'%s','%s')",
 				"FROM_UNIXTIME($utime)",
-				mysql_real_escape_string($address, $link),
-				mysql_real_escape_string($comment, $link));
+				db_escape_string($address, $link),
+				db_escape_string($comment, $link));
 			perform_query($query, $link);
 		} else {
 			$query = sprintf(
 				"update ${mysqlprefix}chatban set dtmtill = %s,address = '%s',comment = '%s' where banid = $banId",
 				"FROM_UNIXTIME($utime)",
-				mysql_real_escape_string($address, $link),
-				mysql_real_escape_string($comment, $link));
+				db_escape_string($address, $link),
+				db_escape_string($comment, $link));
 			perform_query($query, $link);
 		}
 		close_connection($link);

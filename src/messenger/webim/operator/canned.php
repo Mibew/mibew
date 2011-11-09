@@ -55,7 +55,7 @@ function load_canned_messages($locale, $groupid)
 				if ($i > 0) {
 					$updatequery .= ", ";
 				}
-				$updatequery .= "('" . mysql_real_escape_string($result[$i]['vcvalue'], $link) . "','$locale', NULL)";
+				$updatequery .= "('" . db_escape_string($result[$i]['vcvalue'], $link) . "','$locale', NULL)";
 			}
 			perform_query($updatequery, $link);
 			$result = select_multi_assoc($query, $link);

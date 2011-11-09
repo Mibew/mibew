@@ -27,7 +27,7 @@ function update_settings()
 		if (!isset($settings_in_db[$key])) {
 			perform_query("insert into ${mysqlprefix}chatconfig (vckey) values ('$key')", $link);
 		}
-		$query = sprintf("update ${mysqlprefix}chatconfig set vcvalue='%s' where vckey='$key'", mysql_real_escape_string($value));
+		$query = sprintf("update ${mysqlprefix}chatconfig set vcvalue='%s' where vckey='$key'", db_escape_string($value));
 		perform_query($query, $link);
 	}
 

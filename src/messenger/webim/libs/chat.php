@@ -70,8 +70,8 @@ function post_message_($threadid, $kind, $message, $link, $from = null, $utime =
 		"insert into ${mysqlprefix}chatmessage (threadid,ikind,tmessage,tname,agentId,dtmcreated) values (%s, %s,'%s',%s,%s,%s)",
 		$threadid,
 		$kind,
-		mysql_real_escape_string($message, $link),
-		$from ? "'" . mysql_real_escape_string($from, $link) . "'" : "null",
+		db_escape_string($message, $link),
+		$from ? "'" . db_escape_string($from, $link) . "'" : "null",
 		$opid ? $opid : "0",
 		$utime ? "FROM_UNIXTIME($utime)" : "CURRENT_TIMESTAMP");
 
@@ -536,7 +536,7 @@ function rename_user($thread, $newname)
 	global $kind_events;
 
 	$link = connect();
-	commit_thread($thread['threadid'], array('userName' => "'" . mysql_real_escape_string($newname, $link) . "'"), $link);
+	commit_thread($thread['threadid'], array('userName' => "'" . db_escape_string($newname, $link) . "'"), $link);
 
 	if ($thread['userName'] != $newname) {
 		post_message_($thread['threadid'], $kind_events,
@@ -573,7 +573,7 @@ function thread_by_id_($id, $link)
 function ban_for_addr_($addr, $link)
 {
 	global $mysqlprefix;
-	return select_one_row("select banid,comment from ${mysqlprefix}chatban where unix_timestamp(dtmtill) > unix_timestamp(CURRENT_TIMESTAMP) AND address = '" . mysql_real_escape_string($addr, $link) . "'", $link);
+	return select_one_row("select banid,comment from ${mysqlprefix}chatban where unix_timestamp(dtmtill) > unix_timestamp(CURRENT_TIMESTAMP) AND address = '" . db_escape_string($addr, $link) . "'", $link);
 }
 
 function thread_by_id($id)
@@ -590,14 +590,14 @@ function create_thread($groupid, $username, $remoteHost, $referer, $lang, $useri
 	$query = sprintf(
 		"insert into ${mysqlprefix}chatthread (userName,userid,ltoken,remote,referer,lrevision,locale,userAgent,dtmcreated,dtmmodified,istate" . ($groupid ? ",groupid" : "") . ") values " .
 		"('%s','%s',%s,'%s','%s',%s,'%s','%s',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,$initialState" . ($groupid ? ",$groupid" : "") . ")",
-		mysql_real_escape_string($username, $link),
-		mysql_real_escape_string($userid, $link),
+		db_escape_string($username, $link),
+		db_escape_string($userid, $link),
 		next_token(),
-		mysql_real_escape_string($remoteHost, $link),
-		mysql_real_escape_string($referer, $link),
+		db_escape_string($remoteHost, $link),
+		db_escape_string($referer, $link),
 		next_revision($link),
-		mysql_real_escape_string($lang, $link),
-		mysql_real_escape_string($userbrowser, $link));
+		db_escape_string($lang, $link),
+		db_escape_string($userbrowser, $link));
 
 	perform_query($query, $link);
 	$id = mysql_insert_id($link);
@@ -614,7 +614,7 @@ function do_take_thread($threadid, $operatorId, $operatorName)
 				  array("istate" => $state_chatting,
 					   "nextagent" => 0,
 					   "agentId" => $operatorId,
-					   "agentName" => "'" . mysql_real_escape_string($operatorName, $link) . "'"), $link);
+					   "agentName" => "'" . db_escape_string($operatorName, $link) . "'"), $link);
 	close_connection($link);
 }
 
@@ -704,7 +704,7 @@ function check_connections_from_remote($remote, $link)
 	}
 	$result = select_one_row(
 		"select count(*) as opened from ${mysqlprefix}chatthread " .
-		"where remote = '" . mysql_real_escape_string($remote, $link) . "' AND istate <> $state_closed AND istate <> $state_left", $link);
+		"where remote = '" . db_escape_string($remote, $link) . "' AND istate <> $state_closed AND istate <> $state_left", $link);
 	if ($result && isset($result['opened'])) {
 		return $result['opened'] < $settings['max_connections_from_one_host'];
 	}

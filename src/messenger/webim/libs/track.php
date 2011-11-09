@@ -33,7 +33,7 @@ function track_visitor($visitorid, $entry, $referer, $link)
 	}
 	else {
 	    perform_query(sprintf("update ${mysqlprefix}chatsitevisitor set lasttime = CURRENT_TIMESTAMP, path = '%s' where visitorid=" . $visitor['visitorid'],
-		mysql_real_escape_string(track_build_path($referer, $visitor['path']))), $link);
+		db_escape_string(track_build_path($referer, $visitor['path']))), $link);
 	    return $visitor['visitorid'];
 	}
 }
@@ -45,11 +45,11 @@ function track_visitor_start($entry, $referer, $link)
 	$visitor = visitor_from_request();
 
 	perform_query(sprintf("insert into ${mysqlprefix}chatsitevisitor (userid, username, firsttime, lasttime, entry, path, details) values ('%s', '%s', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '%s', '%s', '%s')",
-			mysql_real_escape_string($visitor['id']),
-			mysql_real_escape_string($visitor['name']),
-			mysql_real_escape_string($entry),
-			mysql_real_escape_string(track_build_path($referer, '')),
-			mysql_real_escape_string(track_build_details())), $link);
+			db_escape_string($visitor['id']),
+			db_escape_string($visitor['name']),
+			db_escape_string($entry),
+			db_escape_string(track_build_path($referer, '')),
+			db_escape_string(track_build_details())), $link);
 
 	$id = mysql_insert_id($link);
 	return $id ? $id : 0;

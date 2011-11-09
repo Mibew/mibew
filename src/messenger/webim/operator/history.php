@@ -47,7 +47,7 @@ if ($query !== false) {
 	mysql_free_result($result);
 	$page['groupName'] = $groupName;
 
-	$escapedQuery = mysql_real_escape_string($query, $link);
+	$escapedQuery = db_escape_string($query, $link);
 	select_with_pagintation("DISTINCT unix_timestamp(${mysqlprefix}chatthread.dtmcreated) as created, " .
 							"unix_timestamp(${mysqlprefix}chatthread.dtmmodified) as modified, ${mysqlprefix}chatthread.threadid, " .
 							"${mysqlprefix}chatthread.remote, ${mysqlprefix}chatthread.agentName, ${mysqlprefix}chatthread.userName, groupid, " .

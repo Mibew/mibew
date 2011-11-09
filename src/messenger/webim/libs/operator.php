@@ -38,7 +38,7 @@ function operator_by_login($login)
 	global $mysqlprefix;
 	$link = connect();
 	$operator = select_one_row(
-		"select * from ${mysqlprefix}chatoperator where vclogin = '" . mysql_real_escape_string($login) . "'", $link);
+		"select * from ${mysqlprefix}chatoperator where vclogin = '" . db_escape_string($login) . "'", $link);
 	close_connection($link);
 	return $operator;
 }
@@ -48,7 +48,7 @@ function operator_by_email($mail)
 	global $mysqlprefix;
 	$link = connect();
 	$operator = select_one_row(
-		"select * from ${mysqlprefix}chatoperator where vcemail = '" . mysql_real_escape_string($mail) . "'", $link);
+		"select * from ${mysqlprefix}chatoperator where vcemail = '" . db_escape_string($mail) . "'", $link);
 	close_connection($link);
 	return $operator;
 }
@@ -106,11 +106,11 @@ function update_operator($operatorid, $login, $email, $password, $localename, $c
 		"update ${mysqlprefix}chatoperator set vclogin = '%s',%s vclocalename = '%s', vccommonname = '%s'" .
 		", vcemail = '%s', vcjabbername= '%s'" .
 		" where operatorid = %s",
-		mysql_real_escape_string($login),
+		db_escape_string($login),
 		($password ? " vcpassword='" . md5($password) . "'," : ""),
-		mysql_real_escape_string($localename),
-		mysql_real_escape_string($commonname),
-		mysql_real_escape_string($email),
+		db_escape_string($localename),
+		db_escape_string($commonname),
+		db_escape_string($email),
 		'',
 		$operatorid);
 
@@ -130,7 +130,7 @@ function update_operator_avatar($operatorid, $avatar)
 	$link = connect();
 	$query = sprintf(
 		"update ${mysqlprefix}chatoperator set vcavatar = '%s' where operatorid = %s",
-		mysql_real_escape_string($avatar), $operatorid);
+		db_escape_string($avatar), $operatorid);
 
 	perform_query($query, $link);
 	close_connection($link);
@@ -141,12 +141,12 @@ function create_operator_($login, $email, $password, $localename, $commonname, $
 	global $mysqlprefix;
 	$query = sprintf(
 		"insert into ${mysqlprefix}chatoperator (vclogin,vcpassword,vclocalename,vccommonname,vcavatar,vcemail,vcjabbername) values ('%s','%s','%s','%s','%s','%s','%s')",
-		mysql_real_escape_string($login),
+		db_escape_string($login),
 		md5($password),
-		mysql_real_escape_string($localename),
-		mysql_real_escape_string($commonname),
-		mysql_real_escape_string($avatar),
-		mysql_real_escape_string($email), '');
+		db_escape_string($localename),
+		db_escape_string($commonname),
+		db_escape_string($avatar),
+		db_escape_string($email), '');
 
 	perform_query($query, $link);
 	$id = mysql_insert_id($link);
