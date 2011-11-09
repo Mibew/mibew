@@ -28,7 +28,7 @@ force_password($operator);
 $link = connect();
 loadsettings_($link);
 $isonline = is_operator_online($operator['operatorid'], $link);
-mysql_close($link);
+close_connection($link);
 
 $page = array(
 	'version' => $version,

@@ -83,7 +83,7 @@ function post_message($threadid, $kind, $message, $from = null, $agentid = null)
 {
 	$link = connect();
 	$id = post_message_($threadid, $kind, $message, $link, $from, null, $agentid);
-	mysql_close($link);
+	close_connection($link);
 	return $id;
 }
 
@@ -158,7 +158,7 @@ function get_messages($threadid, $meth, $isuser, &$lastid)
 		}
 	}
 
-	mysql_close($link);
+	close_connection($link);
 	return $messages;
 }
 
@@ -328,7 +328,7 @@ function setup_survey($name, $email, $groupid, $info, $referrer)
 	if ($settings['enablegroups'] == '1' && $settings["surveyaskgroup"] == "1") {
 		$link = connect();
 		$allgroups = get_groups($link, false);
-		mysql_close($link);
+		close_connection($link);
 		$val = "";
 		foreach ($allgroups as $k) {
 			$groupname = $k['vclocalname'];
@@ -414,7 +414,7 @@ function load_canned_messages($locale, $groupid)
 		}
 		$result = $result2;
 	}
-	mysql_close($link);
+	close_connection($link);
 	return $result;
 }
 
@@ -452,7 +452,7 @@ function setup_chatview_for_operator($thread, $operator)
 	    $visitor = track_get_visitor_by_threadid($thread['threadid'], $link);
 	    $page['trackedParams'] = array("visitor" => "" . $visitor['visitorid']);
 	    $page['trackedParamsLink'] = add_params($webimroot . "/operator/tracked.php", $page['trackedParams']);
-	    mysql_close($link);
+	    close_connection($link);
 	}
 	$predefinedres = "";
 	$canned_messages = load_canned_messages($thread['locale'], $thread['groupid']);
@@ -494,7 +494,7 @@ function ping_thread($thread, $isuser, $istyping)
 	if ($thread['istate'] == $state_loading && $isuser) {
 		$params['istate'] = $state_queue;
 		commit_thread($thread['threadid'], $params, $link);
-		mysql_close($link);
+		close_connection($link);
 		return;
 	}
 
@@ -510,13 +510,13 @@ function ping_thread($thread, $isuser, $istyping)
 			$params['istate'] = $state_waiting;
 			$params['nextagent'] = 0;
 			commit_thread($thread['threadid'], $params, $link);
-			mysql_close($link);
+			close_connection($link);
 			return;
 		}
 	}
 
 	update_thread_access($thread['threadid'], $params, $link);
-	mysql_close($link);
+	close_connection($link);
 }
 
 function commit_thread($threadid, $params, $link)
@@ -542,7 +542,7 @@ function rename_user($thread, $newname)
 		post_message_($thread['threadid'], $kind_events,
 					  getstring2_("chat.status.user.changedname", array($thread['userName'], $newname), $thread['locale']), $link);
 	}
-	mysql_close($link);
+	close_connection($link);
 }
 
 function close_thread($thread, $isuser)
@@ -558,7 +558,7 @@ function close_thread($thread, $isuser)
 	$message = $isuser ? getstring2_("chat.status.user.left", array($thread['userName']), $thread['locale'])
 			: getstring2_("chat.status.operator.left", array($thread['agentName']), $thread['locale']);
 	post_message_($thread['threadid'], $kind_events, $message, $link);
-	mysql_close($link);
+	close_connection($link);
 }
 
 function thread_by_id_($id, $link)
@@ -580,7 +580,7 @@ function thread_by_id($id)
 {
 	$link = connect();
 	$thread = thread_by_id_($id, $link);
-	mysql_close($link);
+	close_connection($link);
 	return $thread;
 }
 
@@ -615,7 +615,7 @@ function do_take_thread($threadid, $operatorId, $operatorName)
 					   "nextagent" => 0,
 					   "agentId" => $operatorId,
 					   "agentName" => "'" . mysql_real_escape_string($operatorName, $link) . "'"), $link);
-	mysql_close($link);
+	close_connection($link);
 }
 
 function reopen_thread($threadid)
@@ -636,7 +636,7 @@ function reopen_thread($threadid)
 	}
 
 	post_message_($thread['threadid'], $kind_events, getstring_("chat.status.user.reopenedthread", $thread['locale']), $link);
-	mysql_close($link);
+	close_connection($link);
 	return $thread;
 }
 

@@ -28,7 +28,7 @@ function load_message($key)
 	global $mysqlprefix;
 	$link = connect();
 	$result = select_one_row("select vcvalue from ${mysqlprefix}chatresponses where id = $key", $link);
-	mysql_close($link);
+	close_connection($link);
 	return $result ? $result['vcvalue'] : null;
 }
 
@@ -38,7 +38,7 @@ function save_message($key, $message)
 	$link = connect();
 	perform_query("update ${mysqlprefix}chatresponses set vcvalue = '" . mysql_real_escape_string($message, $link) . "' " .
 				  "where id = $key", $link);
-	mysql_close($link);
+	close_connection($link);
 }
 
 function add_message($locale, $groupid, $message)
@@ -48,7 +48,7 @@ function add_message($locale, $groupid, $message)
 	perform_query("insert into ${mysqlprefix}chatresponses (locale,groupid,vcvalue) values ('$locale'," .
 				  ($groupid ? "$groupid, " : "null, ") .
 				  "'" . mysql_real_escape_string($message, $link) . "')", $link);
-	mysql_close($link);
+	close_connection($link);
 }
 
 $operator = check_login();

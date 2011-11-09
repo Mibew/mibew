@@ -52,7 +52,7 @@ if (isset($_POST['address'])) {
 
 	$link = connect();
 	$existing_ban = ban_for_addr_($address, $link);
-	mysql_close($link);
+	close_connection($link);
 
 	if ((!$banId && $existing_ban) ||
 		($banId && $existing_ban && $banId != $existing_ban['banid'])) {
@@ -77,7 +77,7 @@ if (isset($_POST['address'])) {
 				mysql_real_escape_string($comment, $link));
 			perform_query($query, $link);
 		}
-		mysql_close($link);
+		close_connection($link);
 
 		if (!$threadid) {
 			header("Location: $webimroot/operator/blocked.php");
@@ -97,7 +97,7 @@ if (isset($_POST['address'])) {
 	$banId = verifyparam('id', "/^\d{1,9}$/");
 	$link = connect();
 	$ban = select_one_row("select banid,(unix_timestamp(dtmtill)-unix_timestamp(CURRENT_TIMESTAMP)) as days,address,comment from ${mysqlprefix}chatban where banid = $banId", $link);
-	mysql_close($link);
+	close_connection($link);
 
 	if ($ban) {
 		$page['banId'] = topage($ban['banid']);

@@ -35,7 +35,7 @@ function group_by_name($name)
 	$link = connect();
 	$group = select_one_row(
 		"select * from ${mysqlprefix}chatgroup where vclocalname = '" . mysql_real_escape_string($name) . "'", $link);
-	mysql_close($link);
+	close_connection($link);
 	return $group;
 }
 
@@ -55,7 +55,7 @@ function create_group($name, $descr, $commonname, $commondescr, $email)
 	$id = mysql_insert_id($link);
 
 	$newdep = select_one_row("select * from ${mysqlprefix}chatgroup where groupid = $id", $link);
-	mysql_close($link);
+	close_connection($link);
 	return $newdep;
 }
 
@@ -73,7 +73,7 @@ function update_group($groupid, $name, $descr, $commonname, $commondescr, $email
 		$groupid);
 
 	perform_query($query, $link);
-	mysql_close($link);
+	close_connection($link);
 }
 
 

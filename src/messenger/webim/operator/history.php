@@ -60,7 +60,7 @@ if ($query !== false) {
 							"order by created DESC",
 							"DISTINCT ${mysqlprefix}chatthread.dtmcreated", $link);
 
-	mysql_close($link);
+	close_connection($link);
 
 	$page['formq'] = topage($query);
 } else {

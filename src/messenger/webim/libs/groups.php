@@ -25,7 +25,7 @@ function group_by_id($id)
 	$link = connect();
 	$group = select_one_row(
 		"select * from ${mysqlprefix}chatgroup where groupid = $id", $link);
-	mysql_close($link);
+	close_connection($link);
 	return $group;
 }
 

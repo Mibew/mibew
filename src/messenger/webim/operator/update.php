@@ -142,7 +142,7 @@ function print_pending_threads($groupids, $since)
 			$revision = $row['lrevision'];
 	}
 
-	mysql_close($link);
+	close_connection($link);
 
 	echo "<threads revision=\"$revision\" time=\"" . time() . "000\">";
 	foreach ($output as $thr) {
@@ -246,7 +246,7 @@ function print_visitors()
 		$output[] = $visitor;
 	}
 
-	mysql_close($link);
+	close_connection($link);
 
 	echo "<visitors>";
 	foreach ($output as $thr) {
@@ -265,7 +265,7 @@ loadsettings_($link);
 if (!isset($_SESSION["${mysqlprefix}operatorgroups"])) {
 	$_SESSION["${mysqlprefix}operatorgroups"] = get_operator_groupslist($operator['operatorid'], $link);
 }
-mysql_close($link);
+close_connection($link);
 $groupids = $_SESSION["${mysqlprefix}operatorgroups"];
 
 start_xml_output();

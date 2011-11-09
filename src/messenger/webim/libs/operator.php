@@ -39,7 +39,7 @@ function operator_by_login($login)
 	$link = connect();
 	$operator = select_one_row(
 		"select * from ${mysqlprefix}chatoperator where vclogin = '" . mysql_real_escape_string($login) . "'", $link);
-	mysql_close($link);
+	close_connection($link);
 	return $operator;
 }
 
@@ -49,7 +49,7 @@ function operator_by_email($mail)
 	$link = connect();
 	$operator = select_one_row(
 		"select * from ${mysqlprefix}chatoperator where vcemail = '" . mysql_real_escape_string($mail) . "'", $link);
-	mysql_close($link);
+	close_connection($link);
 	return $operator;
 }
 
@@ -64,7 +64,7 @@ function operator_by_id($id)
 {
 	$link = connect();
 	$operator = operator_by_id_($id, $link);
-	mysql_close($link);
+	close_connection($link);
 	return $operator;
 }
 
@@ -76,7 +76,7 @@ function operator_get_all()
 	$query = "select operatorid, vclogin, vclocalename, vccommonname, istatus, (unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
 			 "from ${mysqlprefix}chatoperator order by vclogin";
 	$operators = select_multi_assoc($query, $link);
-	mysql_close($link);
+	close_connection($link);
 	return $operators;
 }
 
@@ -115,7 +115,7 @@ function update_operator($operatorid, $login, $email, $password, $localename, $c
 		$operatorid);
 
 	perform_query($query, $link);
-	mysql_close($link);
+	close_connection($link);
 	// update the session password
 	if (isset($password))
 	{
@@ -133,7 +133,7 @@ function update_operator_avatar($operatorid, $avatar)
 		mysql_real_escape_string($avatar), $operatorid);
 
 	perform_query($query, $link);
-	mysql_close($link);
+	close_connection($link);
 }
 
 function create_operator_($login, $email, $password, $localename, $commonname, $avatar, $link)
@@ -158,7 +158,7 @@ function create_operator($login, $email, $password, $localename, $commonname, $a
 {
 	$link = connect();
 	$newop = create_operator_($login, $email, $password, $localename, $commonname, $avatar, $link);
-	mysql_close($link);
+	close_connection($link);
 	return $newop;
 }
 
@@ -167,7 +167,7 @@ function notify_operator_alive($operatorid, $istatus)
 	global $mysqlprefix;
 	$link = connect();
 	perform_query("update ${mysqlprefix}chatoperator set istatus = $istatus, dtmlastvisited = CURRENT_TIMESTAMP where operatorid = $operatorid", $link);
-	mysql_close($link);
+	close_connection($link);
 }
 
 function has_online_operators($groupid = "")
@@ -183,7 +183,7 @@ function has_online_operators($groupid = "")
 		$query .= " where istatus = 0";
 	}
 	$row = select_one_row($query, $link);
-	mysql_close($link);
+	close_connection($link);
 	return $row['time'] < $settings['online_timeout'] && $row['total'] > 0;
 }
 
@@ -310,7 +310,7 @@ function setup_redirect_links($threadid, $token)
 										"${mysqlprefix}chatoperator", array(), "order by vclogin $limit"), $link);
 
 	$groups = array_slice($groups, $p['start'], $p['end'] - $p['start']);
-	mysql_close($link);
+	close_connection($link);
 
 	$agent_list = "";
 	$params = array('thread' => $threadid, 'token' => $token);
@@ -418,7 +418,7 @@ function get_operator_groupids($operatorid)
 	$link = connect();
 	$query = "select groupid from ${mysqlprefix}chatgroupoperator where operatorid = $operatorid";
 	$result = select_multi_assoc($query, $link);
-	mysql_close($link);
+	close_connection($link);
 	return $result;
 }
 

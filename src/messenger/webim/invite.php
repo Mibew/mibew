@@ -51,7 +51,7 @@ if ($settings['enabletracking'] == '1') {
 	$operator = operator_by_id_($invited, $link);
     }
 
-    mysql_close($link);
+    close_connection($link);
 }
 
 start_xml_output();

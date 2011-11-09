@@ -82,7 +82,7 @@ $page['reportByAgent'] = select_multi_assoc("select vclocalename as name, COUNT(
 
 $page['showresults'] = count($errors) == 0;
 
-mysql_close($link);
+close_connection($link);
 
 prepare_menu($operator);
 start_html_output();

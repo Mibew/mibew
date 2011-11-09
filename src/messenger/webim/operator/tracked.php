@@ -53,7 +53,7 @@ else {
 	die("Wrong visitor!");
     }
 }
-mysql_close($link);
+close_connection($link);
 
 $path = track_retrieve_path($visitor);
 

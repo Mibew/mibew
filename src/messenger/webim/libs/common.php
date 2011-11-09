@@ -687,7 +687,7 @@ function loadsettings()
 	if (!$settingsloaded) {
 		$link = connect();
 		loadsettings_($link);
-		mysql_close($link);
+		close_connection($link);
 	}
 }
 

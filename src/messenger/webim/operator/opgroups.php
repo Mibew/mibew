@@ -33,7 +33,7 @@ function update_operator_groups($operatorid, $newvalue)
 	foreach ($newvalue as $groupid) {
 		perform_query("insert into ${mysqlprefix}chatgroupoperator (groupid, operatorid) values ($groupid,$operatorid)", $link);
 	}
-	mysql_close($link);
+	close_connection($link);
 }
 
 
@@ -41,7 +41,7 @@ $opId = verifyparam("op", "/^\d{1,9}$/");
 $page = array('opid' => $opId);
 $link = connect();
 $page['groups'] = get_all_groups($link);
-mysql_close($link);
+close_connection($link);
 $errors = array();
 
 $canmodify = ($opId == $operator['operatorid'] && is_capable($can_modifyprofile, $operator))

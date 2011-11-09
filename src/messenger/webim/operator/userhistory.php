@@ -58,7 +58,7 @@ function threads_by_userid($userid)
 	}
 
 	mysql_free_result($result);
-	mysql_close($link);
+	close_connection($link);
 	return $foundThreads;
 }
 

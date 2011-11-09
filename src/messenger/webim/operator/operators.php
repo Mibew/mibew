@@ -54,7 +54,7 @@ if (isset($_GET['act']) && $_GET['act'] == 'del') {
 		$link = connect();
 		perform_query("delete from ${mysqlprefix}chatgroupoperator where operatorid = $operatorid", $link);
 		perform_query("delete from ${mysqlprefix}chatoperator where operatorid = $operatorid", $link);
-		mysql_close($link);
+		close_connection($link);
 
 		header("Location: $webimroot/operator/operators.php");
 		exit;

@@ -66,7 +66,7 @@ $body = getstring2("mail.user.history.body", array($thread['userName'],$history)
 
 $link = connect();
 webim_mail($email, $webim_mailbox, $subject, $body, $link);
-mysql_close($link);
+close_connection($link);
 
 setup_logo();
 expand("styles", getchatstyle(), "mailsent.tpl");

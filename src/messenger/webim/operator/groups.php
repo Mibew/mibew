@@ -41,7 +41,7 @@ if (isset($_GET['act']) && $_GET['act'] == 'del') {
 		perform_query("delete from ${mysqlprefix}chatgroup where groupid = $groupid", $link);
 		perform_query("delete from ${mysqlprefix}chatgroupoperator where groupid = $groupid", $link);
 		perform_query("update ${mysqlprefix}chatthread set groupid = 0 where groupid = $groupid", $link);
-		mysql_close($link);
+		close_connection($link);
 		header("Location: $webimroot/operator/groups.php");
 		exit;
 	}
@@ -63,7 +63,7 @@ function is_away($group)
 $page = array();
 $link = connect();
 $page['groups'] = get_groups($link, true);
-mysql_close($link);
+close_connection($link);
 $page['canmodify'] = is_capable($can_administrate, $operator);
 
 prepare_menu($operator);

@@ -31,7 +31,7 @@ function update_settings()
 		perform_query($query, $link);
 	}
 
-	mysql_close($link);
+	close_connection($link);
 }
 
 function setup_settings_tabs($active)

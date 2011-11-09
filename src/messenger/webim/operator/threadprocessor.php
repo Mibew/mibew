@@ -40,7 +40,7 @@ function thread_info($id)
 							 "vclocalname as groupName " .
 							 "from ${mysqlprefix}chatthread left join ${mysqlprefix}chatgroup on ${mysqlprefix}chatthread.groupid = ${mysqlprefix}chatgroup.groupid " .
 							 "where threadid = " . $id, $link);
-	mysql_close($link);
+	close_connection($link);
 	return $thread;
 }
 

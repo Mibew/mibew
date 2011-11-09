@@ -55,7 +55,7 @@ while ($ban = mysql_fetch_array($result, MYSQL_ASSOC)) {
 }
 
 mysql_free_result($result);
-mysql_close($link);
+close_connection($link);
 
 setup_pagination($blockedList);
 
