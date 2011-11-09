@@ -386,12 +386,12 @@ function db_error($link)
 
 function perform_query($query, $link)
 {
-	mysql_query($query, $link) or die(' Query failed: ' . mysql_error($link));
+	mysql_query($query, $link) or die(' Query failed: ' . db_error($link));
 }
 
 function select_one_row($query, $link)
 {
-	$result = mysql_query($query, $link) or die(' Query failed: ' . mysql_error($link));
+	$result = mysql_query($query, $link) or die(' Query failed: ' . db_error($link));
 	$line = mysql_fetch_array($result, MYSQL_ASSOC);
 	mysql_free_result($result);
 	return $line;
@@ -399,7 +399,7 @@ function select_one_row($query, $link)
 
 function select_multi_assoc($query, $link)
 {
-	$sqlresult = mysql_query($query, $link) or die(' Query failed: ' . mysql_error($link));
+	$sqlresult = mysql_query($query, $link) or die(' Query failed: ' . db_error($link));
 
 	$result = array();
 	while ($row = mysql_fetch_array($sqlresult, MYSQL_ASSOC)) {
@@ -419,7 +419,7 @@ function db_build_select($fields, $table, $conditions, $orderandgroup)
 function db_rows_count($table, $conditions, $countfields, $link)
 {
 	$result = mysql_query(db_build_select("count(" . ($countfields ? $countfields : "*") . ")", $table, $conditions, ""), $link)
-	or die(' Count query failed: ' . mysql_error($link));
+	or die(' Count query failed: ' . db_error($link));
 	$line = mysql_fetch_array($result, MYSQL_NUM);
 	mysql_free_result($result);
 	return $line[0];
@@ -684,7 +684,7 @@ function loadsettings_($link)
 	}
 	$settingsloaded = true;
 
-	$sqlresult = mysql_query("select vckey,vcvalue from ${mysqlprefix}chatconfig", $link) or die(' Query failed: ' . mysql_error($link));
+	$sqlresult = mysql_query("select vckey,vcvalue from ${mysqlprefix}chatconfig", $link) or die(' Query failed: ' . db_error($link));
 
 	while ($row = mysql_fetch_array($sqlresult, MYSQL_ASSOC)) {
 		$name = $row['vckey'];
