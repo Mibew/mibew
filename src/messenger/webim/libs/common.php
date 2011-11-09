@@ -384,6 +384,11 @@ function db_error($link)
 	return mysql_error($link);
 }
 
+function db_insert_id($link)
+{
+	return mysql_insert_id($link);
+}
+
 function perform_query($query, $link)
 {
 	mysql_query($query, $link) or die(' Query failed: ' . db_error($link));
