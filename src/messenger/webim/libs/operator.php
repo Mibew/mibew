@@ -149,7 +149,7 @@ function create_operator_($login, $email, $password, $localename, $commonname, $
 		db_escape_string($email), '');
 
 	perform_query($query, $link);
-	$id = mysql_insert_id($link);
+	$id = db_insert_id($link);
 
 	return select_one_row("select * from ${mysqlprefix}chatoperator where operatorid = $id", $link);
 }

@@ -52,7 +52,7 @@ function create_group($name, $descr, $commonname, $commondescr, $email)
 		db_escape_string($email));
 
 	perform_query($query, $link);
-	$id = mysql_insert_id($link);
+	$id = db_insert_id($link);
 
 	$newdep = select_one_row("select * from ${mysqlprefix}chatgroup where groupid = $id", $link);
 	close_connection($link);

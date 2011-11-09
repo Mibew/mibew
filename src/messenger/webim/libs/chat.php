@@ -59,7 +59,7 @@ function next_revision($link)
 {
 	global $mysqlprefix;
 	perform_query("update ${mysqlprefix}chatrevision set id=LAST_INSERT_ID(id+1)", $link);
-	$val = mysql_insert_id($link);
+	$val = db_insert_id($link);
 	return $val;
 }
 
@@ -76,7 +76,7 @@ function post_message_($threadid, $kind, $message, $link, $from = null, $utime =
 		$utime ? "FROM_UNIXTIME($utime)" : "CURRENT_TIMESTAMP");
 
 	perform_query($query, $link);
-	return mysql_insert_id($link);
+	return db_insert_id($link);
 }
 
 function post_message($threadid, $kind, $message, $from = null, $agentid = null)
@@ -600,7 +600,7 @@ function create_thread($groupid, $username, $remoteHost, $referer, $lang, $useri
 		db_escape_string($userbrowser, $link));
 
 	perform_query($query, $link);
-	$id = mysql_insert_id($link);
+	$id = db_insert_id($link);
 
 	$newthread = thread_by_id_($id, $link);
 	return $newthread;

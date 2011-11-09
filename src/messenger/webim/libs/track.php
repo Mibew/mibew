@@ -51,7 +51,7 @@ function track_visitor_start($entry, $referer, $link)
 			db_escape_string(track_build_path($referer, '')),
 			db_escape_string(track_build_details())), $link);
 
-	$id = mysql_insert_id($link);
+	$id = db_insert_id($link);
 	return $id ? $id : 0;
 }
 
