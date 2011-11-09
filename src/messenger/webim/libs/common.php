@@ -371,6 +371,14 @@ function close_connection($link)
 	}
 }
 
+function db_escape_string($string, $link = NULL)
+{
+	if ( is_null($link) ) {
+		return mysql_real_escape_string($string);
+	}
+	return mysql_real_escape_string($string, $link);
+}
+
 function perform_query($query, $link)
 {
 	mysql_query($query, $link) or die(' Query failed: ' . mysql_error($link));
