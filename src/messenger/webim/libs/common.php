@@ -416,7 +416,7 @@ function select_one_row($query, $link)
 {
 	$result = perform_query($query, $link);
 	$line = db_fetch_assoc($result);
-	mysql_free_result($result);
+	db_free_result($result);
 	return $line;
 }
 
@@ -428,7 +428,7 @@ function select_multi_assoc($query, $link)
 	while ($row = db_fetch_assoc($sqlresult)) {
 		$result[] = $row;
 	}
-	mysql_free_result($sqlresult);
+	db_free_result($sqlresult);
 	return $result;
 }
 
@@ -443,7 +443,7 @@ function db_rows_count($table, $conditions, $countfields, $link)
 {
 	$result = perform_query(db_build_select("count(" . ($countfields ? $countfields : "*") . ")", $table, $conditions, ""), $link);
 	$line = db_fetch_row($result);
-	mysql_free_result($result);
+	db_free_result($result);
 	return $line[0];
 }
 
@@ -713,7 +713,7 @@ function loadsettings_($link)
 		$settings[$name] = $row['vcvalue'];
 		$settings_in_db[$name] = true;
 	}
-	mysql_free_result($sqlresult);
+	db_free_result($sqlresult);
 }
 
 function loadsettings()

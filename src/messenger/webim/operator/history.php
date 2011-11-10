@@ -44,7 +44,7 @@ if ($query !== false) {
 	while ($group = db_fetch_assoc($result)) {
 		$groupName[$group['groupid']] = $group['vclocalname'];
 	}
-	mysql_free_result($result);
+	db_free_result($result);
 	$page['groupName'] = $groupName;
 
 	$escapedQuery = db_escape_string($query, $link);
