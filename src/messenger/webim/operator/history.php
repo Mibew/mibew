@@ -41,7 +41,7 @@ if ($query !== false) {
 	$result = mysql_query("select ${mysqlprefix}chatgroup.groupid as groupid, vclocalname " .
 						  "from ${mysqlprefix}chatgroup order by vclocalname", $link);
 	$groupName = array();
-	while ($group = mysql_fetch_array($result, MYSQL_ASSOC)) {
+	while ($group = db_fetch_assoc($result)) {
 		$groupName[$group['groupid']] = $group['vclocalname'];
 	}
 	mysql_free_result($result);
