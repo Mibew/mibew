@@ -400,7 +400,11 @@ function db_fetch_assoc($result){
 
 function perform_query($query, $link)
 {
-	mysql_query($query, $link) or die(' Query failed: ' . db_error($link));
+	$result = mysql_query($query, $link);
+	if (! $result) {
+		die(' Query failed: ' . db_error($link));
+	}
+	return $result;
 }
 
 function select_one_row($query, $link)
