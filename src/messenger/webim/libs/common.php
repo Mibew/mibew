@@ -407,6 +407,11 @@ function perform_query($query, $link)
 	return $result;
 }
 
+function db_free_result($result)
+{
+	mysql_free_result($result);
+}
+
 function select_one_row($query, $link)
 {
 	$result = perform_query($query, $link);
