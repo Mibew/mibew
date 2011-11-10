@@ -389,6 +389,15 @@ function db_insert_id($link)
 	return mysql_insert_id($link);
 }
 
+function db_fetch_row($result)
+{
+	return mysql_fetch_row($result);
+}
+
+function db_fetch_assoc($result){
+	return mysql_fetch_assoc($result);
+}
+
 function perform_query($query, $link)
 {
 	mysql_query($query, $link) or die(' Query failed: ' . db_error($link));
