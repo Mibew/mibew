@@ -38,7 +38,7 @@ $query = isset($_GET['q']) ? myiconv(getoutputenc(), $webim_encoding, $_GET['q']
 if ($query !== false) {
 	$link = connect();
 
-	$result = mysql_query("select ${mysqlprefix}chatgroup.groupid as groupid, vclocalname " .
+	$result = perform_query("select ${mysqlprefix}chatgroup.groupid as groupid, vclocalname " .
 						  "from ${mysqlprefix}chatgroup order by vclocalname", $link);
 	$groupName = array();
 	while ($group = db_fetch_assoc($result)) {
