@@ -126,7 +126,7 @@ require_once('inc_errors.php');
 	<?php echo getlocal("report.byoperator.4") ?>
 </th></tr>
 </thead>
-<tbody>	
+<tbody>
 <?php if( $page['reportByAgent'] ) { ?>
 	<?php foreach( $page['reportByAgent'] as $row ) { ?>
 	<tr>
@@ -139,6 +139,36 @@ require_once('inc_errors.php');
 <?php } else { ?>
 	<tr>
 	<td colspan="4">
+		<?php echo getlocal("report.no_items") ?>
+	</td>
+	</tr>
+<?php } ?>
+</tbody>
+</table>
+
+<br/>
+<br/>
+
+<div class="tabletitle"><?php echo getlocal("report.bypage.title") ?></div>
+<table class="statistics">
+<thead>
+<tr><th>
+	<?php echo getlocal("report.bypage.1") ?>
+</th><th>
+	<?php echo getlocal("report.bypage.2") ?>
+</th></tr>
+</thead>
+<tbody>
+<?php if( $page['reportByPage'] ) { ?>
+	<?php foreach( $page['reportByPage'] as $row ) { ?>
+	<tr>
+		<td><a href="<?php echo htmlspecialchars($row['referer']) ?>"><?php echo htmlspecialchars($row['referer']) ?></a></td>
+		<td><?php echo $row['chattimes'] ?></td>
+	</tr>
+	<?php } ?>
+<?php } else { ?>
+	<tr>
+	<td colspan="2">
 		<?php echo getlocal("report.no_items") ?>
 	</td>
 	</tr>
