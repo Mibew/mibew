@@ -87,6 +87,11 @@ if ($act == "silentcreateall") {
 			runsql("update ${mysqlprefix}chatthread, ${mysqlprefix}chatoperator set agentId = operatorid where agentId = 0 AND (vclocalename = agentName OR vccommonname = agentName)", $link);
 		}
 
+		if (in_array("${mysqlprefix}chatthread.dtmchatstarted", $absent)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatthread ADD dtmchatstarted datetime DEFAULT 0 AFTER dtmcreated", $link);
+			runsql("update ${mysqlprefix}chatthread set dtmchatstarted = dtmcreated", $link);
+		}
+
 		if (in_array("${mysqlprefix}chatthread.agentTyping", $absent)) {
 			runsql("ALTER TABLE ${mysqlprefix}chatthread ADD agentTyping int DEFAULT 0", $link);
 		}

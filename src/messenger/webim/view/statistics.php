@@ -82,6 +82,10 @@ require_once('inc_errors.php');
 	<?php echo getlocal("report.bydate.3") ?>
 </th><th>
 	<?php echo getlocal("report.bydate.4") ?>
+</th><th>
+	<?php echo getlocal("report.bydate.5") ?>
+</th><th>
+	<?php echo getlocal("report.bydate.6") ?>
 </th></tr>
 </thead>
 <tbody>
@@ -92,6 +96,8 @@ require_once('inc_errors.php');
 		<td><?php echo $row['threads'] ?></td>
 		<td><?php echo $row['agents'] ?></td>
 		<td><?php echo $row['users'] ?></td>
+		<td><?php echo $row['avgwaitingtime'] ?></td>
+		<td><?php echo $row['avgchattime'] ?></td>
 	</tr>
 	<?php } ?>
 	<tr>
@@ -99,10 +105,12 @@ require_once('inc_errors.php');
 		<td><?php echo $page['reportByDateTotal']['threads'] ?></td>
 		<td><?php echo $page['reportByDateTotal']['agents'] ?></td>
 		<td><?php echo $page['reportByDateTotal']['users'] ?></td>
+		<td><?php echo $page['reportByDateTotal']['avgwaitingtime'] ?></td>
+		<td><?php echo $page['reportByDateTotal']['avgchattime'] ?></td>
 	</tr>
 <?php } else { ?>
 	<tr>
-	<td colspan="4">
+	<td colspan="6">
 		<?php echo getlocal("report.no_items") ?>
 	</td>
 	</tr>

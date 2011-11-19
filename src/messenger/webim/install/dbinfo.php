@@ -36,6 +36,7 @@ $dbtables = array(
 		"agentName" => "varchar(64)",
 		"agentId" => "int NOT NULL DEFAULT 0",
 		"dtmcreated" => "datetime DEFAULT 0",
+		"dtmchatstarted" => "datetime DEFAULT 0",
 		"dtmmodified" => "datetime DEFAULT 0",
 		"lrevision" => "int NOT NULL DEFAULT 0",
 		"istate" => "int NOT NULL DEFAULT 0",
@@ -141,7 +142,7 @@ $dbtables_indexes = array(
 $memtables = array();
 
 $dbtables_can_update = array(
-	"${mysqlprefix}chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount", "nextagent", "shownmessageid", "userid", "userAgent", "groupid"),
+	"${mysqlprefix}chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount", "nextagent", "shownmessageid", "userid", "userAgent", "groupid", "dtmchatstarted"),
 	"${mysqlprefix}chatmessage" => array("agentId"),
 	"${mysqlprefix}chatoperator" => array("vcavatar", "vcjabbername", "iperm", "istatus", "vcemail", "dtmrestore", "vcrestoretoken"),
 	"${mysqlprefix}chatban" => array(),

@@ -70,11 +70,13 @@ if ($start > $end) {
 
 $link = connect();
 
-$page['reportByDate'] = select_multi_assoc("select DATE(dtmcreated) as date, COUNT(distinct threadid) as threads, SUM(${mysqlprefix}chatmessage.ikind = $kind_agent) as agents, SUM(${mysqlprefix}chatmessage.ikind = $kind_user) as users " .
-										   "from ${mysqlprefix}chatmessage where unix_timestamp(dtmcreated) >= $start AND unix_timestamp(dtmcreated) < $end group by DATE(dtmcreated) order by dtmcreated desc", $link);
+$page['reportByDate'] = select_multi_assoc("select DATE(t.dtmcreated) as date, COUNT(distinct t.threadid) as threads, SUM(m.ikind = $kind_agent) as agents, SUM(m.ikind = $kind_user) as users, ROUND(AVG(unix_timestamp(t.dtmchatstarted)-unix_timestamp(t.dtmcreated)),1) as avgwaitingtime, ROUND(AVG(tmp.lastmsgtime - unix_timestamp(t.dtmchatstarted)),1) as avgchattime " .
+										"from ${mysqlprefix}chatmessage m, ${mysqlprefix}chatthread t, (SELECT i.threadid, unix_timestamp(MAX(i.dtmcreated)) AS lastmsgtime  FROM ${mysqlprefix}chatmessage i WHERE (ikind = $kind_user OR ikind = $kind_agent) GROUP BY i.threadid) tmp " .
+										"where m.threadid = t.threadid AND tmp.threadid = t.threadid AND unix_timestamp(m.dtmcreated) >= $start AND unix_timestamp(m.dtmcreated) < $end group by DATE(m.dtmcreated) order by m.dtmcreated desc", $link);
 
-$page['reportByDateTotal'] = select_one_row("select COUNT(distinct threadid) as threads, SUM(${mysqlprefix}chatmessage.ikind = $kind_agent) as agents, SUM(${mysqlprefix}chatmessage.ikind = $kind_user) as users " .
-											"from ${mysqlprefix}chatmessage where unix_timestamp(dtmcreated) >= $start AND unix_timestamp(dtmcreated) < $end", $link);
+$page['reportByDateTotal'] = select_one_row("select DATE(t.dtmcreated) as date, COUNT(distinct t.threadid) as threads, SUM(m.ikind = $kind_agent) as agents, SUM(m.ikind = $kind_user) as users, ROUND(AVG(unix_timestamp(t.dtmchatstarted)-unix_timestamp(t.dtmcreated)),1) as avgwaitingtime, ROUND(AVG(tmp.lastmsgtime - unix_timestamp(t.dtmchatstarted)),1) as avgchattime " .
+										"from ${mysqlprefix}chatmessage m, ${mysqlprefix}chatthread t, (SELECT i.threadid, unix_timestamp(MAX(i.dtmcreated)) AS lastmsgtime  FROM ${mysqlprefix}chatmessage i WHERE (ikind = $kind_user OR ikind = $kind_agent) GROUP BY i.threadid) tmp " .
+										"where m.threadid = t.threadid AND tmp.threadid = t.threadid AND unix_timestamp(m.dtmcreated) >= $start AND unix_timestamp(m.dtmcreated) < $end", $link);
 
 $page['reportByAgent'] = select_multi_assoc("select vclocalename as name, COUNT(distinct threadid) as threads, SUM(ikind = $kind_agent) as msgs, AVG(CHAR_LENGTH(tmessage)) as avglen " .
 											"from ${mysqlprefix}chatmessage, ${mysqlprefix}chatoperator " .

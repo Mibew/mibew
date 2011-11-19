@@ -565,7 +565,7 @@ function thread_by_id_($id, $link)
 {
 	global $mysqlprefix;
 	return select_one_row("select threadid,userName,agentName,agentId,lrevision,istate,ltoken,userTyping,agentTyping" .
-						  ",unix_timestamp(dtmmodified) as modified, unix_timestamp(dtmcreated) as created" .
+						  ",unix_timestamp(dtmmodified) as modified, unix_timestamp(dtmcreated) as created, unix_timestamp(dtmchatstarted) as chatstarted" .
 						  ",remote,referer,locale,unix_timestamp(lastpinguser) as lpuser,unix_timestamp(lastpingagent) as lpagent, unix_timestamp(CURRENT_TIMESTAMP) as current,nextagent,shownmessageid,userid,userAgent,groupid" .
 						  " from ${mysqlprefix}chatthread where threadid = " . $id, $link);
 }
@@ -606,15 +606,18 @@ function create_thread($groupid, $username, $remoteHost, $referer, $lang, $useri
 	return $newthread;
 }
 
-function do_take_thread($threadid, $operatorId, $operatorName)
+function do_take_thread($threadid, $operatorId, $operatorName, $chatstart = false)
 {
 	global $state_chatting;
 	$link = connect();
-	commit_thread($threadid,
-				  array("istate" => $state_chatting,
-					   "nextagent" => 0,
-					   "agentId" => $operatorId,
-					   "agentName" => "'" . db_escape_string($operatorName, $link) . "'"), $link);
+	$params = array("istate" => $state_chatting,
+			"nextagent" => 0,
+			"agentId" => $operatorId,
+			"agentName" => "'" . db_escape_string($operatorName, $link) . "'");
+	if ($chatstart){
+		$params['dtmchatstarted'] = "CURRENT_TIMESTAMP";
+	}
+	commit_thread($threadid, $params, $link);
 	close_connection($link);
 }
 
@@ -647,11 +650,12 @@ function take_thread($thread, $operator)
 	$state = $thread['istate'];
 	$threadid = $thread['threadid'];
 	$message_to_post = "";
+	$chatstart = $thread['chatstarted'] == 0;
 
 	$operatorName = ($thread['locale'] == $home_locale) ? $operator['vclocalename'] : $operator['vccommonname'];
 
 	if ($state == $state_queue || $state == $state_waiting || $state == $state_loading) {
-		do_take_thread($threadid, $operator['operatorid'], $operatorName);
+		do_take_thread($threadid, $operator['operatorid'], $operatorName, $chatstart);
 
 		if ($state == $state_waiting) {
 			if ($operatorName != $thread['agentName']) {
@@ -664,7 +668,7 @@ function take_thread($thread, $operator)
 		}
 	} else if ($state == $state_chatting) {
 		if ($operator['operatorid'] != $thread['agentId']) {
-			do_take_thread($threadid, $operator['operatorid'], $operatorName);
+			do_take_thread($threadid, $operator['operatorid'], $operatorName, $chatstart);
 			$message_to_post = getstring2_("chat.status.operator.changed", array($operatorName, $thread['agentName']), $thread['locale']);
 		}
 	} else {
