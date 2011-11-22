@@ -168,6 +168,11 @@ if ($act == "silentcreateall") {
 		if ($res && mysql_num_rows($res) == 0) {
 			runsql("ALTER TABLE ${mysqlprefix}chatsitevisitor ADD INDEX (threadid)", $link);
 		}
+
+		$res = mysql_query("select null from information_schema.statistics where table_schema = '$mysqldb' and table_name = '${mysqlprefix}visitedpage' and index_name = 'visitorid'", $link);
+		if ($res && mysql_num_rows($res) == 0) {
+			runsql("ALTER TABLE ${mysqlprefix}visitedpage ADD INDEX (visitorid)", $link);
+		}
 	}
 }
 

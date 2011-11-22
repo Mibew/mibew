@@ -53,9 +53,8 @@ else {
 	die("Wrong visitor!");
     }
 }
+$path = track_get_path($visitor, $link);
 close_connection($link);
-
-$path = track_retrieve_path($visitor);
 
 $page['entry'] = htmlspecialchars($visitor['entry']);
 $page['history'] = array();

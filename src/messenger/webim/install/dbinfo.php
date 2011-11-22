@@ -119,7 +119,6 @@ $dbtables = array(
 		"firsttime" => "datetime NOT NULL DEFAULT 0",
 		"lasttime" => "datetime NOT NULL DEFAULT 0",
 		"entry" => "text NOT NULL",
-		"path" => "text NOT NULL",
 		"details" => "text NOT NULL",
 		"invited" => "tinyint(1) NOT NULL DEFAULT 0",
 		"invitationtime" => "datetime",
@@ -127,6 +126,13 @@ $dbtables = array(
 		"invitations" => "INT NOT NULL DEFAULT 0",
 		"chats" => "INT NOT NULL DEFAULT 0",
 		"threadid" => "INT references ${mysqlprefix}chatthread(threadid) on delete set null"
+	),
+
+	"${mysqlprefix}visitedpage" => array(
+		"pageid" => "INT NOT NULL auto_increment PRIMARY KEY",
+		"address" => "varchar(1024)",
+		"visittime" => "datetime NOT NULL DEFAULT 0",
+		"visitorid" => "INT",
 	),
 );
 
@@ -136,6 +142,9 @@ $dbtables_indexes = array(
 	),
 	"${mysqlprefix}chatsitevisitor" => array(
 		"threadid" => "threadid"
+	),
+	"${mysqlprefix}visitedpage" => array(
+		"visitorid" => "visitorid"
 	)
 );
 
@@ -150,6 +159,7 @@ $dbtables_can_update = array(
 	"${mysqlprefix}chatgroupoperator" => array(),
 	"${mysqlprefix}chatresponses" => array(),
 	"${mysqlprefix}chatsitevisitor" => array(),
+	"${mysqlprefix}visitedpage" => array(),
 );
 
 function show_install_err($text)
