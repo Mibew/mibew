@@ -82,7 +82,9 @@ $page['reportByAgent'] = select_multi_assoc("select vclocalename as name, COUNT(
 											"from ${mysqlprefix}chatmessage, ${mysqlprefix}chatoperator " .
 											"where agentId = operatorid AND unix_timestamp(dtmcreated) >= $start AND unix_timestamp(dtmcreated) < $end group by operatorid", $link);
 
-$page['reportByPage'] = select_multi_assoc("SELECT COUNT(threadid) as chattimes, referer FROM ${mysqlprefix}chatthread WHERE unix_timestamp(dtmcreated) >= $start AND unix_timestamp(dtmcreated) < $end GROUP BY referer", $link);
+$page['reportByPage'] = select_multi_assoc("SELECT COUNT(p.pageid) as visittimes, p.address, COUNT(t.threadid) as chattimes " .
+						"FROM ${mysqlprefix}visitedpage p LEFT OUTER JOIN ${mysqlprefix}chatthread t ON (p.address = t.referer AND DATE(p.visittime) = DATE(t.dtmcreated)) " .
+						"WHERE unix_timestamp(p.visittime) >= $start AND unix_timestamp(p.visittime) < $end GROUP BY p.address", $link);
 
 $page['showresults'] = count($errors) == 0;
 

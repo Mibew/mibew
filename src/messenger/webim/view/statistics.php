@@ -164,19 +164,22 @@ require_once('inc_errors.php');
 	<?php echo getlocal("report.bypage.1") ?>
 </th><th>
 	<?php echo getlocal("report.bypage.2") ?>
+</th><th>
+	<?php echo getlocal("report.bypage.3") ?>
 </th></tr>
 </thead>
 <tbody>
 <?php if( $page['reportByPage'] ) { ?>
 	<?php foreach( $page['reportByPage'] as $row ) { ?>
 	<tr>
-		<td><a href="<?php echo htmlspecialchars($row['referer']) ?>"><?php echo htmlspecialchars($row['referer']) ?></a></td>
+		<td><a href="<?php echo htmlspecialchars($row['address']) ?>"><?php echo htmlspecialchars($row['address']) ?></a></td>
+		<td><?php echo $row['visittimes'] ?></td>
 		<td><?php echo $row['chattimes'] ?></td>
 	</tr>
 	<?php } ?>
 <?php } else { ?>
 	<tr>
-	<td colspan="2">
+	<td colspan="3">
 		<?php echo getlocal("report.no_items") ?>
 	</td>
 	</tr>
