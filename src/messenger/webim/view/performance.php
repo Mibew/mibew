@@ -90,6 +90,15 @@ require_once('inc_errors.php');
 			<br clear="all"/>
 		</div>
 
+		<div class="field">
+			<div class="flabel"><?php echo getlocal('settings.threadlifetime') ?></div>
+			<div class="fvalue">
+				<input type="text" name="threadlifetime" size="40" value="<?php echo form_value('threadlifetime') ?>" class="formauth"/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('settings.threadlifetime.description') ?></div>
+			<br clear="all"/>
+		</div>
+		
 		<div class="fbutton">
 			<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
 		</div>

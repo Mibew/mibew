@@ -30,7 +30,7 @@ $errors = array();
 
 $options = array(
 	'online_timeout', 'updatefrequency_operator', 'updatefrequency_chat',
-	'updatefrequency_oldchat', 'max_connections_from_one_host');
+	'updatefrequency_oldchat', 'max_connections_from_one_host', 'thread_lifetime');
 
 loadsettings();
 $params = array();
@@ -64,6 +64,11 @@ if (isset($_POST['onlinetimeout'])) {
 		$errors[] = getlocal("settings.wrong.onehostconnections");
 	}
 
+	$params['thread_lifetime'] = getparam('threadlifetime');
+	if (!is_numeric($params['thread_lifetime'])) {
+		$errors[] = getlocal("settings.wrong.threadlifetime");
+	}
+
 	if (count($errors) == 0) {
 		foreach ($options as $opt) {
 			$settings[$opt] = $params[$opt];
@@ -78,6 +83,7 @@ $page['formonlinetimeout'] = $params['online_timeout'];
 $page['formfrequencyoperator'] = $params['updatefrequency_operator'];
 $page['formfrequencychat'] = $params['updatefrequency_chat'];
 $page['formfrequencyoldchat'] = $params['updatefrequency_oldchat'];
+$page['formthreadlifetime'] = $params['thread_lifetime'];
 $page['formonehostconnections'] = $params['max_connections_from_one_host'];
 $page['stored'] = isset($_GET['stored']);
 

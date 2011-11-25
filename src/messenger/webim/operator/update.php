@@ -177,6 +177,7 @@ loadsettings_($link);
 if (!isset($_SESSION["${mysqlprefix}operatorgroups"])) {
 	$_SESSION["${mysqlprefix}operatorgroups"] = get_operator_groupslist($operator['operatorid'], $link);
 }
+close_old_threads($link);
 mysql_close($link);
 $groupids = $_SESSION["${mysqlprefix}operatorgroups"];
 
