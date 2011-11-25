@@ -561,6 +561,21 @@ function close_thread($thread, $isuser)
 	close_connection($link);
 }
 
+function close_old_threads($link)
+{
+	global $state_closed, $state_left, $state_chatting, $mysqlprefix, $settings;
+	if ($settings['thread_lifetime'] == 0) {
+		return;
+	}
+	$next_revision = next_revision($link);
+	$query = "update ${mysqlprefix}chatthread set lrevision =  $next_revision, dtmmodified = CURRENT_TIMESTAMP, istate = $state_closed " .
+			"where istate <> $state_closed and istate <> $state_left and  " .
+			"(ABS(UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lastpinguser)) > " . $settings['thread_lifetime'] . " and " .
+			"ABS(UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lastpingagent)) > " . $settings['thread_lifetime'] . ")";
+
+	perform_query($query, $link);
+}
+
 function thread_by_id_($id, $link)
 {
 	global $mysqlprefix;
@@ -623,12 +638,17 @@ function do_take_thread($threadid, $operatorId, $operatorName, $chatstart = fals
 
 function reopen_thread($threadid)
 {
-	global $state_queue, $state_loading, $state_waiting, $state_chatting, $state_closed, $state_left, $kind_events;
+	global $state_queue, $state_loading, $state_waiting, $state_chatting, $state_closed, $state_left, $kind_events, $settings;
 	$link = connect();
+
 	$thread = thread_by_id_($threadid, $link);
 
 	if (!$thread)
 		return FALSE;
+
+	if ($settings['thread_lifetime'] != 0 && abs($thread['lpuser'] - time()) > $settings['thread_lifetime'] && abs($thread['lpagent'] - time()) > $settings['thread_lifetime']) {
+		return FALSE;
+	}
 
 	if ($thread['istate'] == $state_closed || $thread['istate'] == $state_left)
 		return FALSE;
