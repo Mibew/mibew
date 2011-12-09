@@ -41,6 +41,10 @@
 		<arg value="invite:1"/>
 		  <arg value="--js"/>
 		  <arg value="invite.js"/>
+	  <arg value="--module"/>
+		<arg value="request:1"/>
+		  <arg value="--js"/>
+		  <arg value="request.js"/>
 	</java>
   </target>
 

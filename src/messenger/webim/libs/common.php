@@ -465,6 +465,14 @@ function start_html_output()
 	header("Content-type: text/html" . (isset($charset) ? "; charset=" . $charset : ""));
 }
 
+function start_js_output(){
+	header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+	header("Cache-Control: no-store, no-cache, must-revalidate");
+	header("Pragma: no-cache");
+	header("Content-type: application/javascript; charset=utf-8");
+	header('P3P:CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');
+}
+
 function escape_with_cdata($text)
 {
 	return "<![CDATA[" . str_replace("]]>", "]]>]]&gt;<![CDATA[", $text) . "]]>";
