@@ -38,10 +38,13 @@ function generate_button($title, $locale, $style, $group, $inner, $showhost, $fo
 	    $temp = preg_replace('/^(<a )/', '\1id="mibewAgentButton" ', $temp);
 	    $temp .= '<div id="mibewinvitation"></div><script type="text/javascript">var mibewInviteStyle = \'@import url(';
 	    $temp .= get_app_location($showhost, $forcesecure);
-	    $temp .= '/invite.css);\';</script><script type="text/javascript" src="';
+	    $temp .= '/invite.css);\'; var mibewRequestTimeout = ';
+	    $temp .= $settings['updatefrequency_tracking'];
+	    $temp .= '*1000; var mibewRequestUrl = \'';
 	    $temp .= get_app_location($showhost, $forcesecure);
-	    $temp .= '/js/invite.js"></script><script type="text/javascript">mibewInviteMakeRequest(\'';
-	    $temp .= get_app_location($showhost, $forcesecure) . '/invite.php?entry=\' + escape(document.referrer) + \'&lang=ru\', ' . $settings['updatefrequency_tracking'] . '*1000);</script>';
+	    $temp .= '/request.php?entry=\' + escape(document.referrer) + \'&lang=ru\'</script><script type="text/javascript" src="';
+	    $temp .= get_app_location($showhost, $forcesecure);
+	    $temp .= '/js/request.js"></script><script type="text/javascript">mibewMakeRequest();</script>';
 	}
 	return "<!-- mibew button -->" . $temp . "<!-- / mibew button -->";
 }

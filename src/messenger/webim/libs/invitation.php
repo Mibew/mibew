@@ -60,7 +60,7 @@ function invitation_accept($visitorid, $threadid, $link)
 {
 	global $mysqlprefix;
 
-	$query = "update ${mysqlprefix}chatsitevisitor set threadid = " . $threadid . ", chats = chats + 1 where visitorid = '" . db_escape_string($visitorid) . "'";
+	$query = "update ${mysqlprefix}chatsitevisitor set threadid = " . $threadid . ", chats = chats + 1 where visitorid = " . db_escape_string($visitorid) . "";
 	perform_query($query, $link);
 
 	$query = "select invitedby from ${mysqlprefix}chatsitevisitor where visitorid = '" . db_escape_string($visitorid) . "'";
