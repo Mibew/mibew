@@ -23,6 +23,7 @@ require_once('../libs/common.php');
 require_once('../libs/operator.php');
 require_once('../libs/groups.php');
 require_once('../libs/getcode.php');
+require_once('../libs/styles.php');
 
 $operator = check_login();
 force_password($operator);
@@ -38,10 +39,18 @@ if (!isset($imageLocales[$image])) {
 }
 $image_locales = $imageLocales[$image];
 
-$stylelist = get_style_list("../styles");
+$stylelist = get_style_list("../styles/dialogs");
+$stylelist[""] = getlocal("page.preview.style_default");
 $style = verifyparam("style", "/^\w*$/", "");
 if ($style && !in_array($style, $stylelist)) {
 	$style = "";
+}
+
+$invitationstylelist = get_style_list("../styles/invitations");
+$invitationstylelist[""] = getlocal("page.preview.style_default");
+$invitationstyle = verifyparam("invitationstyle", "/^\w*$/", "");
+if ($invitationstyle && !in_array($invitationstyle, $invitationstylelist)) {
+	$invitationstyle = "";
 }
 
 $groupid = verifyparam_groupid("group");
@@ -63,19 +72,23 @@ if ($groupid) {
 $message = get_image($imagehref, $size[0], $size[1]);
 
 $page = array();
-$page['buttonCode'] = generate_button("", $lang, $style, $groupid, $message, $showhost, $forcesecure, $modsecurity);
+$page['buttonCode'] = generate_button("", $lang, $style, $invitationstyle, $groupid, $message, $showhost, $forcesecure, $modsecurity);
 $page['availableImages'] = array_keys($imageLocales);
 $page['availableLocales'] = $image_locales;
-$page['availableStyles'] = $stylelist;
+$page['availableChatStyles'] = $stylelist;
+$page['availableInvitationStyles'] = $invitationstylelist;
 $page['groups'] = get_groups_list();
 
 $page['formgroup'] = $groupid;
 $page['formstyle'] = $style;
+$page['forminvitationstyle'] = $invitationstyle;
 $page['formimage'] = $image;
 $page['formlang'] = $lang;
 $page['formhostname'] = $showhost;
 $page['formsecure'] = $forcesecure;
 $page['formmodsecurity'] = $modsecurity;
+
+$page['enabletracking'] = $settings['enabletracking'];
 
 prepare_menu($operator);
 start_html_output();

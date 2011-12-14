@@ -88,9 +88,9 @@ if (isset($_GET['nextGroup'])) {
 
 setup_logo();
 if (count($errors) > 0) {
-	expand("../styles", getchatstyle(), "error.tpl");
+	expand("../styles/dialogs", getchatstyle(), "error.tpl");
 } else {
-	expand("../styles", getchatstyle(), "redirected.tpl");
+	expand("../styles/dialogs", getchatstyle(), "redirected.tpl");
 }
 
 ?>

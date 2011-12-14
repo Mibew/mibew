@@ -52,6 +52,25 @@ require_once('inc_errors.php');
 		</div>
 		<br clear="all"/>
 
+
+
+		<div class="fieldinrow">
+			<div class="flabel"><?php echo getlocal("page.gen_button.choose_style") ?></div>
+			<div class="fvaluenodesc">
+				<select name="style" onchange="this.form.submit();"><?php foreach($page['availableChatStyles'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("style") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
+			</div>
+		</div>
+
+<?php if($page['enabletracking']) { ?>
+		<div class="fieldinrow">
+			<div class="flabel"><?php echo getlocal("page.gen_button.choose_invitationstyle") ?></div>
+			<div class="fvaluenodesc">
+				<select name="invitationstyle" onchange="this.form.submit();"><?php foreach($page['availableInvitationStyles'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("invitationstyle") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
+			</div>
+		</div>
+<?php } ?>
+		<br clear="all"/>
+
 <?php if($page['showgroups']) { ?>
 		<div class="fieldinrow">
 			<div class="flabel"><?php echo getlocal("page.gen_button.choose_group") ?></div>
@@ -60,13 +79,6 @@ require_once('inc_errors.php');
 			</div>
 		</div>
 <?php } ?>
-
-		<div class="fieldinrow">
-			<div class="flabel"><?php echo getlocal("page.gen_button.choose_style") ?></div>
-			<div class="fvaluenodesc">
-				<select name="style" onchange="this.form.submit();"><?php foreach($page['availableStyles'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("style") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
-			</div>
-		</div>
 		<br clear="all"/>
 
 		<div class="fieldinrow">

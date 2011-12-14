@@ -63,7 +63,7 @@ if (!isset($_GET['token'])) {
 		if (!is_capable($can_takeover, $operator)) {
 			$errors = array("Cannot take over");
 			start_html_output();
-			expand("../styles", getchatstyle(), "error.tpl");
+			expand("../styles/dialogs", getchatstyle(), "error.tpl");
 			exit;
 		}
 
@@ -82,7 +82,7 @@ if (!isset($_GET['token'])) {
 	} else if (!is_capable($can_viewthreads, $operator)) {
 		$errors = array("Cannot view threads");
 		start_html_output();
-		expand("../styles", getchatstyle(), "error.tpl");
+		expand("../styles/dialogs", getchatstyle(), "error.tpl");
 		exit;
 	}
 
@@ -101,7 +101,7 @@ if (!$thread || !isset($thread['ltoken']) || $token != $thread['ltoken']) {
 if ($thread['agentId'] != $operator['operatorid'] && !is_capable($can_viewthreads, $operator)) {
 	$errors = array("Cannot view threads");
 	start_html_output();
-	expand("../styles", getchatstyle(), "error.tpl");
+	expand("../styles/dialogs", getchatstyle(), "error.tpl");
 	exit;
 }
 
@@ -112,9 +112,9 @@ start_html_output();
 $pparam = verifyparam("act", "/^(redirect)$/", "default");
 if ($pparam == "redirect") {
 	setup_redirect_links($threadid, $token);
-	expand("../styles", getchatstyle(), "redirect.tpl");
+	expand("../styles/dialogs", getchatstyle(), "redirect.tpl");
 } else {
-	expand("../styles", getchatstyle(), "chat.tpl");
+	expand("../styles/dialogs", getchatstyle(), "chat.tpl");
 }
 
 ?>

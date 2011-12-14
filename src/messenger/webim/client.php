@@ -93,7 +93,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 			$page = array();
 			setup_logo();
 			setup_leavemessage($visitor['name'],$email,$firstmessage,$groupid,$groupname,$info,$referrer,can_show_captcha());
-			expand("styles", getchatstyle(), "leavemessage.tpl");
+			expand("styles/dialogs", getchatstyle(), "leavemessage.tpl");
 			exit;
 		}
 
@@ -101,7 +101,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 			$page = array();
 			setup_logo();
 			setup_survey($visitor['name'], $email, $groupid, $info, $referrer);
-			expand("styles", getchatstyle(), "survey.tpl");
+			expand("styles/dialogs", getchatstyle(), "survey.tpl");
 			exit;
 		}
 
@@ -160,13 +160,13 @@ setup_chatview_for_user($thread, $level);
 
 $pparam = verifyparam( "act", "/^(mailthread)$/", "default");
 if( $pparam == "mailthread" ) {
-	expand("styles", getchatstyle(), "mail.tpl");
+	expand("styles/dialogs", getchatstyle(), "mail.tpl");
 } else if( $level == "ajaxed" ) {
-	expand("styles", getchatstyle(), "chat.tpl");
+	expand("styles/dialogs", getchatstyle(), "chat.tpl");
 } else if( $level == "simple" ) {
-	expand("styles", getchatstyle(), "chatsimple.tpl");
+	expand("styles/dialogs", getchatstyle(), "chatsimple.tpl");
 } else if( $level == "old" ) {
-	expand("styles", getchatstyle(), "nochat.tpl");
+	expand("styles/dialogs", getchatstyle(), "nochat.tpl");
 }
 
 ?>

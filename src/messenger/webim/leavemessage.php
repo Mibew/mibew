@@ -95,7 +95,7 @@ if($settings["enablecaptcha"] == "1" && can_show_captcha()) {
 if( count($errors) > 0 ) {
 	setup_leavemessage($visitor_name,$email,$message,$groupid,$groupname,$info,$referrer,can_show_captcha());
 	setup_logo();
-	expand("styles", getchatstyle(), "leavemessage.tpl");
+	expand("styles/dialogs", getchatstyle(), "leavemessage.tpl");
 	exit;
 }
 
@@ -122,5 +122,5 @@ if($inbox_mail) {
 }
 
 setup_logo();
-expand("styles", getchatstyle(), "leavemessagesent.tpl");
+expand("styles/dialogs", getchatstyle(), "leavemessagesent.tpl");
 ?>

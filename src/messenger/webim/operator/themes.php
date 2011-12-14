@@ -26,19 +26,11 @@ require_once('../libs/operator.php');
 require_once('../libs/groups.php');
 require_once('../libs/expand.php');
 require_once('../libs/settings.php');
+require_once('../libs/styles.php');
 
 $operator = check_login();
 
-$stylelist = array();
-$stylesfolder = "../styles";
-if ($handle = opendir($stylesfolder)) {
-	while (false !== ($file = readdir($handle))) {
-		if (preg_match("/^\w+$/", $file) && is_dir("$stylesfolder/$file")) {
-			$stylelist[] = $file;
-		}
-	}
-	closedir($handle);
-}
+$stylelist = get_style_list("../styles/dialogs");
 
 $preview = verifyparam("preview", "/^\w+$/", "default");
 if (!in_array($preview, $stylelist)) {
@@ -56,20 +48,20 @@ if ($show == 'chat' || $show == 'mail' || $show == 'leavemessage' || $show == 'l
 	setup_chatview_for_user(array('threadid' => 0, 'userName' => getstring("chat.default.username"), 'ltoken' => 123), "ajaxed");
 	$page['mailLink'] = "$webimroot/operator/themes.php?preview=$preview&amp;show=mail";
 	$page['info'] = "";
-	expand("../styles", "$preview", "$show.tpl");
+	expand("../styles/dialogs", "$preview", "$show.tpl");
 	exit;
 }
 if ($show == 'survey') {
 	loadsettings();
 	setup_survey("Visitor", "", "", "", "http://google.com");
 	setup_logo();
-	expand("../styles", "$preview", "$show.tpl");
+	expand("../styles/dialogs", "$preview", "$show.tpl");
 	exit;
 }
 if ($show == 'mailsent' || $show == 'error') {
 	$page['email'] = "admin@yourdomain.com";
 	setup_logo();
-	expand("../styles", "$preview", "$show.tpl");
+	expand("../styles/dialogs", "$preview", "$show.tpl");
 	exit;
 }
 if ($show == 'redirect' || $show == 'redirected' || $show == 'agentchat' || $show == 'agentrochat') {
@@ -92,7 +84,7 @@ if ($show == 'redirect' || $show == 'redirected' || $show == 'agentchat' || $sho
 		$page['message'] = getlocal2("chat.redirected.content", array("Administrator"));
 	}
 	$page['redirectLink'] = "$webimroot/operator/themes.php?preview=$preview&amp;show=redirect";
-	expand("../styles", "$preview", "$show.tpl");
+	expand("../styles/dialogs", "$preview", "$show.tpl");
 	exit;
 }
 
