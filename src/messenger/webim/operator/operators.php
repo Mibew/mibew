@@ -26,38 +26,68 @@ $operator = check_login();
 force_password($operator);
 
 
-if (isset($_GET['act']) && $_GET['act'] == 'del') {
+if (isset($_GET['act'])) {
+
 	$operatorid = isset($_GET['id']) ? $_GET['id'] : "";
-
 	if (!preg_match("/^\d+$/", $operatorid)) {
-		$errors[] = "Cannot delete: wrong argument";
+		$errors[] = getlocal("no_such_operator");
 	}
 
-	if (!is_capable($can_administrate, $operator)) {
-		$errors[] = "You are not allowed to remove operators";
-	}
+	if ($_GET['act'] == 'del') {
+		if (!is_capable($can_administrate, $operator)) {
+			$errors[] = "You are not allowed to remove operators";
+		}
 
-	if ($operatorid == $operator['operatorid']) {
-		$errors[] = "Cannot remove self";
-	}
+		if ($operatorid == $operator['operatorid']) {
+			$errors[] = "Cannot remove self";
+		}
 
-	if (count($errors) == 0) {
-		$op = operator_by_id($operatorid);
-		if (!$op) {
-			$errors[] = getlocal("no_such_operator");
-		} else if ($op['vclogin'] == 'admin') {
-			$errors[] = 'Cannot remove operator "admin"';
+		if (count($errors) == 0) {
+			$op = operator_by_id($operatorid);
+			if (!$op) {
+				$errors[] = getlocal("no_such_operator");
+			} else if ($op['vclogin'] == 'admin') {
+				$errors[] = 'Cannot remove operator "admin"';
+			}
+		}
+
+		if (count($errors) == 0) {
+			$link = connect();
+			perform_query("delete from ${mysqlprefix}chatgroupoperator where operatorid = $operatorid", $link);
+			perform_query("delete from ${mysqlprefix}chatoperator where operatorid = $operatorid", $link);
+			close_connection($link);
+
+			header("Location: $webimroot/operator/operators.php");
+			exit;
 		}
 	}
+	if ($_GET['act'] == 'disable' || $_GET['act'] == 'enable') {
+		$act_disable = ($_GET['act'] == 'disable');
+		if (!is_capable($can_administrate, $operator)) {
+			$errors[] = $act_disable?getlocal('page_agents.disable.not.allowed'):getlocal('page_agents.enable.not.allowed');
+		}
 
-	if (count($errors) == 0) {
-		$link = connect();
-		perform_query("delete from ${mysqlprefix}chatgroupoperator where operatorid = $operatorid", $link);
-		perform_query("delete from ${mysqlprefix}chatoperator where operatorid = $operatorid", $link);
-		close_connection($link);
+		if ($operatorid == $operator['operatorid'] && $act_disable) {
+			$errors[] = getlocal('page_agents.cannot.disable.self');
+		}
 
-		header("Location: $webimroot/operator/operators.php");
-		exit;
+		if (count($errors) == 0) {
+			$op = operator_by_id($operatorid);
+			if (!$op) {
+				$errors[] = getlocal("no_such_operator");
+			} else if ($op['vclogin'] == 'admin' && $act_disable) {
+				$errors[] = getlocal('page_agents.cannot.disable.admin');
+			}
+		}
+
+		if (count($errors) == 0) {
+			$link = connect();
+			perform_query("update ${mysqlprefix}chatoperator set idisabled = ".($act_disable?'1':'0')." where operatorid = $operatorid", $link);
+			close_connection($link);
+
+			header("Location: $webimroot/operator/operators.php");
+			exit;
+		}
 	}
 }
 

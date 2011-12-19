@@ -73,7 +73,7 @@ function operator_get_all()
 	global $mysqlprefix;
 	$link = connect();
 
-	$query = "select operatorid, vclogin, vclocalename, vccommonname, istatus, (unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
+	$query = "select operatorid, vclogin, vclocalename, vccommonname, istatus, idisabled, (unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
 			 "from ${mysqlprefix}chatoperator order by vclogin";
 	$operators = select_multi_assoc($query, $link);
 	close_connection($link);
@@ -96,6 +96,11 @@ function operator_is_away($operator)
 {
 	global $settings;
 	return $operator['istatus'] != 0 && $operator['time'] < $settings['online_timeout'] ? "1" : "";
+}
+
+function operator_is_disabled($operator)
+{
+	return $operator['idisabled'] == '1';
 }
 
 function update_operator($operatorid, $login, $email, $password, $localename, $commonname)
@@ -221,7 +226,7 @@ function check_login($redirect = true)
 		if (isset($_COOKIE['webim_lite'])) {
 			list($login, $pwd) = preg_split("/,/", $_COOKIE['webim_lite'], 2);
 			$op = operator_by_login($login);
-			if ($op && isset($pwd) && isset($op['vcpassword']) && md5($op['vcpassword']) == $pwd) {
+			if ($op && isset($pwd) && isset($op['vcpassword']) && md5($op['vcpassword']) == $pwd && !operator_is_disabled($op)) {
 				$_SESSION["${mysqlprefix}operator"] = $op;
 				return $op;
 			}

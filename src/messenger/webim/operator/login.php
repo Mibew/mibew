@@ -31,7 +31,7 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 	$remember = isset($_POST['isRemember']) && $_POST['isRemember'] == "on";
 
 	$operator = operator_by_login($login);
-	if ($operator && isset($operator['vcpassword']) && $operator['vcpassword'] == md5($password)) {
+	if ($operator && isset($operator['vcpassword']) && $operator['vcpassword'] == md5($password) && !operator_is_disabled($operator)) {
 
 		$target = $password == ''
 				? "$webimroot/operator/operator.php?op=" . $operator['operatorid']
@@ -43,7 +43,11 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 		header("Location: $target");
 		exit;
 	} else {
-		$errors[] = getlocal("page_login.error");
+		if (operator_is_disabled($operator)) {
+			$errors[] = getlocal('page_login.operator.disabled');
+		} else {
+			$errors[] = getlocal("page_login.error");
+		}
 		$page['formlogin'] = $login;
 	}
 }

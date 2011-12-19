@@ -127,6 +127,10 @@ if ($act == "silentcreateall") {
 			runsql("ALTER TABLE ${mysqlprefix}chatoperator ADD istatus int DEFAULT 0", $link);
 		}
 
+		if (in_array("${mysqlprefix}chatoperator.idisabled", $absent)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatoperator ADD idisabled int DEFAULT 0 AFTER istatus", $link);
+		}
+
 		if (in_array("${mysqlprefix}chatoperator.vcavatar", $absent)) {
 			runsql("ALTER TABLE ${mysqlprefix}chatoperator ADD vcavatar varchar(255)", $link);
 		}
