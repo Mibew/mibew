@@ -41,6 +41,7 @@ chat.client.changename=Change name
 chat.client.name=You are 
 chat.client.spam.prefix=[spam]&nbsp;
 chat.client.visited.page=Visitor navigated to {0}
+chat.close.confirmation=Are you sure want to leave chat?
 chat.default.username=Guest
 chat.error_page.close=Close...
 chat.error_page.head=Error occurred:

@@ -370,6 +370,7 @@ function setup_chatview_for_user($thread, $level)
 	$page['ct.user.name'] = htmlspecialchars(topage($thread['userName']));
 	$page['canChangeName'] = $settings['usercanchangename'] == "1";
 	$page['chat.title'] = topage($settings['chattitle']);
+	$page['chat.close.confirmation'] = getlocal('chat.close.confirmation');
 
 	setup_logo();
 	if ($settings['sendmessagekey'] == 'enter') {

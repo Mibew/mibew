@@ -177,6 +177,9 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
   },
 
   closeThread: function() {
+	if(! confirm(localized[0])){
+	    return false;
+	}
 	var _params = 'act=close&thread=' + (this._options.threadid || 0) + '&token=' + (this._options.token || 0);
 	if( this._options.user )
     	_params += "&user=true";
