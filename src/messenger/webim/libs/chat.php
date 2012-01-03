@@ -330,6 +330,7 @@ function setup_survey($name, $email, $groupid, $info, $referrer)
 		$allgroups = get_groups($link, false);
 		close_connection($link);
 		$val = "";
+		$groupdescriptions = array();
 		foreach ($allgroups as $k) {
 			$groupname = $k['vclocalname'];
 			if ($k['inumofagents'] == 0) {
@@ -338,14 +339,18 @@ function setup_survey($name, $email, $groupid, $info, $referrer)
 			if ($k['ilastseen'] !== NULL && $k['ilastseen'] < $settings['online_timeout']) {
 				if (!$groupid) {
 					$groupid = $k['groupid']; // select first online group
+					$defaultdescription = $k['vclocaldescription'];
 				}
 			} else {
 				$groupname .= " (offline)";
 			}
 			$isselected = $k['groupid'] == $groupid;
 			$val .= "<option value=\"" . $k['groupid'] . "\"" . ($isselected ? " selected=\"selected\"" : "") . ">$groupname</option>";
+			$groupdescriptions[] = $k['vclocaldescription'];
 		}
 		$page['groups'] = $val;
+		$page['group.descriptions'] = json_encode($groupdescriptions);
+		$page['default.department.description'] = empty($defaultdescription)?' ':$defaultdescription;
 	}
 
 	$page['showemail'] = $settings["surveyaskmail"] == "1" ? "1" : "";

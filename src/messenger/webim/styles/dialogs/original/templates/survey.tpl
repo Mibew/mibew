@@ -20,6 +20,9 @@
 .isubmit { background-position:0px -39px; width: 40px; height: 35px; }
 .isubmitrest { background-position:-31px -39px; width: 10px; height: 35px;}
 </style>
+${if:groups}
+<script type="text/javascript">groupDescriptions = ${page:group.descriptions};</script>
+${endif:groups}
 </head>
 <body bgcolor="#FFFFFF" style="background-image: url(${tplroot}/images/bg.gif); margin: 0px;" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400">
 <table width="100%" style="height: 100%;" cellspacing="0" cellpadding="0" border="0">
@@ -75,8 +78,14 @@ ${if:groups}
 			<td class="text">${msg:presurvey.department}</td>
 			<td width="20"></td>
 			<td>
-			<select name="group" style="min-width:200px;">${page:groups}</select>
+			<select name="group" style="min-width:200px;" onchange="document.getElementById('departmentDescription').childNodes.item(0).data = groupDescriptions[this.selectedIndex];">${page:groups}</select>
 			</td>
+		</tr>
+		<tr><td height="7" colspan="3"></td></tr>
+		<tr>
+			<td class="text">${msg:presurvey.department.description}</td>
+			<td width="20"></td>
+			<td class="text" id="departmentDescription">${page:default.department.description}</td>
 		</tr>
 		<tr><td height="7" colspan="3"></td></tr>
 ${endif:groups}

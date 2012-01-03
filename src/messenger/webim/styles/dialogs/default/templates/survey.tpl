@@ -34,7 +34,9 @@
 	text-decoration:none;
 }
 </style>
-
+${if:groups}
+<script type="text/javascript">groupDescriptions = ${page:group.descriptions};</script>
+${endif:groups}
 </head>
 <body bgcolor="#FFFFFF" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" style="margin:0px;">
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -114,8 +116,12 @@ ${if:groups}
 			<tr>
 				<td class="text">${msg:presurvey.department}</td>
 				<td>
-				<select name="group" style="min-width:200px;">${page:groups}</select>
+				<select name="group" style="min-width:200px;" onchange="document.getElementById('departmentDescription').childNodes.item(0).data = groupDescriptions[this.selectedIndex];">${page:groups}</select>
 				</td>
+			</tr>
+			<tr>
+				<td class="text">${msg:presurvey.department.description}</td>
+				<td class="text" id="departmentDescription">${page:default.department.description}</td>
 			</tr>
 ${endif:groups}
 

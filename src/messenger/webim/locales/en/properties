@@ -396,6 +396,7 @@ permission.viewthreads=View another operator's chat thread
 permissions.intro=Change restrictions and available features for this operator.
 permissions.title=Permissions
 presurvey.department=Choose Department:
+presurvey.department.description=Department description:
 presurvey.intro=Thank you for contacting us. Please fill out the form below and click the Start Chat button.
 presurvey.mail=Email:
 presurvey.name=Name:

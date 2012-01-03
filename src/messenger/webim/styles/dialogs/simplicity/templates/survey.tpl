@@ -4,6 +4,9 @@
 <title>${msg:presurvey.title}</title>
 <link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
 <link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" />
+${if:groups}
+<script type="text/javascript">groupDescriptions = ${page:group.descriptions};</script>
+${endif:groups}
 </head>
 <body>
 <div id="whitebg">
@@ -44,7 +47,11 @@
 						${if:groups}
 							<tr>
 								<td class="text">${msg:presurvey.department}</td>
-								<td><select name="group" style="min-width:200px;">${page:groups}</select></td>
+								<td><select name="group" style="min-width:200px;" onchange="document.getElementById('departmentDescription').childNodes.item(0).data = groupDescriptions[this.selectedIndex];">${page:groups}</select></td>
+							</tr>
+							<tr>
+								<td class="text">${msg:presurvey.department.description}</td>
+								<td class="text" id="departmentDescription">${page:default.department.description}</td>
 							</tr>
 						${endif:groups}
 						<tr>
