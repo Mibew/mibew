@@ -55,13 +55,13 @@ function load_canned_messages($locale, $groupid)
 				if ($i > 0) {
 					$updatequery .= ", ";
 				}
-				$updatequery .= "('" . mysql_real_escape_string($result[$i]['vcvalue'], $link) . "','$locale', NULL)";
+				$updatequery .= "('" . db_escape_string($result[$i]['vcvalue'], $link) . "','$locale', NULL)";
 			}
 			perform_query($updatequery, $link);
 			$result = select_multi_assoc($query, $link);
 		}
 	}
-	mysql_close($link);
+	close_connection($link);
 	return $result;
 }
 
@@ -94,7 +94,7 @@ if ($settings['enablegroups'] == '1') {
 
 	$link = connect();
 	$allgroups = get_all_groups($link);
-	mysql_close($link);
+	close_connection($link);
 	$page['groups'] = array();
 	$page['groups'][] = array('groupid' => '', 'vclocalname' => getlocal("page.gen_button.default_group"));
 	foreach ($allgroups as $g) {
@@ -114,7 +114,7 @@ if (isset($_GET['act']) && $_GET['act'] == 'delete') {
 	if (count($errors) == 0) {
 		$link = connect();
 		perform_query("delete from ${mysqlprefix}chatresponses where id = $key", $link);
-		mysql_close($link);
+		close_connection($link);
 		header("Location: $webimroot/operator/canned.php?lang=$lang&group=$groupid");
 		exit;
 	}

@@ -46,16 +46,9 @@ if (isset($_GET['act']) && $_GET['act'] == 'del') {
 	}
 }
 
-$result = mysql_query("select banid,unix_timestamp(dtmtill) as till,address,comment from ${mysqlprefix}chatban", $link)
-		or die(' Query failed: ' . mysql_error($link));
+$blockedList = select_multi_assoc("select banid,unix_timestamp(dtmtill) as till,address,comment from ${mysqlprefix}chatban", $link);
 
-$blockedList = array();
-while ($ban = mysql_fetch_array($result, MYSQL_ASSOC)) {
-	$blockedList[] = $ban;
-}
-
-mysql_free_result($result);
-mysql_close($link);
+close_connection($link);
 
 setup_pagination($blockedList);
 

@@ -33,7 +33,7 @@ notify_operator_alive($operator['operatorid'], $status);
 $link = connect();
 loadsettings_($link);
 $_SESSION["${mysqlprefix}operatorgroups"] = get_operator_groupslist($operator['operatorid'], $link);
-mysql_close($link);
+close_connection($link);
 
 $page = array();
 $page['havemenu'] = isset($_GET['nomenu']) ? "0" : "1";

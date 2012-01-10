@@ -50,7 +50,7 @@ if( count($errors) > 0 ) {
 	$page['ct.token'] = $thread['ltoken'];
 	$page['level'] = "";
 	setup_logo();
-	expand("styles", getchatstyle(), "mail.tpl");
+	expand("styles/dialogs", getchatstyle(), "mail.tpl");
 	exit;
 }
 
@@ -66,9 +66,9 @@ $body = getstring2("mail.user.history.body", array($thread['userName'],$history)
 
 $link = connect();
 webim_mail($email, $webim_mailbox, $subject, $body, $link);
-mysql_close($link);
+close_connection($link);
 
 setup_logo();
-expand("styles", getchatstyle(), "mailsent.tpl");
+expand("styles/dialogs", getchatstyle(), "mailsent.tpl");
 exit;
 ?>

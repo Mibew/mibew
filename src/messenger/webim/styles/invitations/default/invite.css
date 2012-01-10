@@ -1,0 +1,82 @@
+/*
+  This file is part of Mibew Messenger project.
+
+  Copyright (c) 2005-2011 Mibew Messenger Community
+  All rights reserved. The contents of this file are subject to the terms of
+  the Eclipse Public License v1.0 which accompanies this distribution, and
+  is available at http://www.eclipse.org/legal/epl-v10.html
+
+  Alternatively, the contents of this file may be used under the terms of
+  the GNU General Public License Version 2 or later (the "GPL"), in which case
+  the provisions of the GPL are applicable instead of those above. If you wish
+  to allow use of your version of this file only under the terms of the GPL, and
+  not to allow others to use your version of this file under the terms of the
+  EPL, indicate your decision by deleting the provisions above and replace them
+  with the notice and other provisions required by the GPL.
+*/
+
+#mibewinvitationpopup {
+    margin: 0 !important;
+    padding: 5px !important;
+    border: 0 !important;
+    outline: 0 !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 12px !important;
+    vertical-align: baseline !important;
+    line-height: normal !important;
+    border: 1px solid #aaa !important;
+    background-color: #ddd !important;
+    color: #000 !important;
+    position: fixed !important;
+    top: 50% !important;
+    left: 0 !important;
+    width: 400px !important;
+}
+
+#mibewinvitationpopup h1, #mibewinvitationpopup p, #mibewinvitationclose a {
+    cursor: pointer !important;
+}
+
+#mibewinvitationpopup h1{
+    font-size: 20px !important;
+    font-weight: bold !important;
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+}
+
+#mibewinvitationclose {
+    float: right !important;
+    background-color: red !important;
+    padding: 1px !important;
+    margin: 0 !important;
+}
+
+#mibewinvitationclose a {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif !important;
+    font-size: 20px !important;
+    font-weight: bold !important;
+    color: white !important;
+    margin: 0 4px 0 4px !important;
+}
+
+#mibewinvitationclose a, #mibewinvitationclose a:link, #mibewinvitationclose a:hover {
+    text-decoration: none !important;
+}
+
+#mibewinvitationpopup h1 {
+    text-align: center !important;
+}
+
+#mibewinvitationpopup p {
+    padding: 2px !important;
+    margin: 2px !important;
+}
+
+#mibewinvitationavatar {
+    margin: 2px !important;
+    margin-right: 5px !important;
+    cursor: pointer !important;
+    float: left !important;
+}

@@ -142,7 +142,7 @@ function print_pending_threads($groupids, $since)
 			$revision = $row['lrevision'];
 	}
 
-	mysql_close($link);
+	close_connection($link);
 
 	echo "<threads revision=\"$revision\" time=\"" . time() . "000\">";
 	foreach ($output as $thr) {
@@ -153,6 +153,7 @@ function print_pending_threads($groupids, $since)
 
 function print_operators()
 {
+	global $webim_encoding;
 	echo "<operators>";
 	$operators = operator_get_all();
 
@@ -160,7 +161,7 @@ function print_operators()
 		if (!operator_is_online($operator))
 			continue;
 
-		$name = htmlspecialchars(htmlspecialchars($operator['vclocalename']));
+		$name = myiconv($webim_encoding, "utf-8", htmlspecialchars(htmlspecialchars($operator['vclocalename'])));
 		$away = operator_is_away($operator) ? " away=\"1\"" : "";
 
 		echo "<operator name=\"$name\"$away/>";
@@ -246,7 +247,7 @@ function print_visitors()
 		$output[] = $visitor;
 	}
 
-	mysql_close($link);
+	close_connection($link);
 
 	echo "<visitors>";
 	foreach ($output as $thr) {
@@ -265,7 +266,8 @@ loadsettings_($link);
 if (!isset($_SESSION["${mysqlprefix}operatorgroups"])) {
 	$_SESSION["${mysqlprefix}operatorgroups"] = get_operator_groupslist($operator['operatorid'], $link);
 }
-mysql_close($link);
+close_old_threads($link);
+close_connection($link);
 $groupids = $_SESSION["${mysqlprefix}operatorgroups"];
 
 start_xml_output();

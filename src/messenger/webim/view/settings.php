@@ -120,12 +120,21 @@ require_once('inc_errors.php');
 		<div class="field">
 			<div class="flabel"><?php echo getlocal('settings.chatstyle') ?></div>
 			<div class="fvalue">
-				<select name="chatstyle" ><?php foreach($page['availableStyles'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("chatstyle") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+				<select name="chatstyle" ><?php foreach($page['availableChatStyles'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("chatstyle") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.chatstyle.description') ?></div>
 			<br clear="all"/>
 		</div>
-
+<?php if ($page['enabletracking']) { ?>
+		<div class="field">
+			<div class="flabel"><?php echo getlocal('settings.invitationstyle') ?></div>
+			<div class="fvalue">
+				<select name="invitationstyle" ><?php foreach($page['availableInvitationStyles'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("invitationstyle") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('settings.invitationstyle.description') ?></div>
+			<br clear="all"/>
+		</div>
+<?php } ?>
 		<div class="field">
 			<div class="flabel"><?php echo getlocal('settings.sendmessagekey') ?></div>
 			<div class="fvaluenodesc">

@@ -87,6 +87,11 @@ if ($act == "silentcreateall") {
 			runsql("update ${mysqlprefix}chatthread, ${mysqlprefix}chatoperator set agentId = operatorid where agentId = 0 AND (vclocalename = agentName OR vccommonname = agentName)", $link);
 		}
 
+		if (in_array("${mysqlprefix}chatthread.dtmchatstarted", $absent)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatthread ADD dtmchatstarted datetime DEFAULT 0 AFTER dtmcreated", $link);
+			runsql("update ${mysqlprefix}chatthread set dtmchatstarted = dtmcreated", $link);
+		}
+
 		if (in_array("${mysqlprefix}chatthread.agentTyping", $absent)) {
 			runsql("ALTER TABLE ${mysqlprefix}chatthread ADD agentTyping int DEFAULT 0", $link);
 		}
@@ -120,6 +125,10 @@ if ($act == "silentcreateall") {
 
 		if (in_array("${mysqlprefix}chatoperator.istatus", $absent)) {
 			runsql("ALTER TABLE ${mysqlprefix}chatoperator ADD istatus int DEFAULT 0", $link);
+		}
+
+		if (in_array("${mysqlprefix}chatoperator.idisabled", $absent)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatoperator ADD idisabled int DEFAULT 0 AFTER istatus", $link);
 		}
 
 		if (in_array("${mysqlprefix}chatoperator.vcavatar", $absent)) {
@@ -162,6 +171,11 @@ if ($act == "silentcreateall") {
 		$res = mysql_query("select null from information_schema.statistics where table_schema = '$mysqldb' and table_name = '${mysqlprefix}chatsitevisitor' and index_name = 'threadid'", $link);
 		if ($res && mysql_num_rows($res) == 0) {
 			runsql("ALTER TABLE ${mysqlprefix}chatsitevisitor ADD INDEX (threadid)", $link);
+		}
+
+		$res = mysql_query("select null from information_schema.statistics where table_schema = '$mysqldb' and table_name = '${mysqlprefix}visitedpage' and index_name = 'visitorid'", $link);
+		if ($res && mysql_num_rows($res) == 0) {
+			runsql("ALTER TABLE ${mysqlprefix}visitedpage ADD INDEX (visitorid)", $link);
 		}
 	}
 }

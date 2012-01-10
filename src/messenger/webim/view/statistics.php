@@ -82,6 +82,10 @@ require_once('inc_errors.php');
 	<?php echo getlocal("report.bydate.3") ?>
 </th><th>
 	<?php echo getlocal("report.bydate.4") ?>
+</th><th>
+	<?php echo getlocal("report.bydate.5") ?>
+</th><th>
+	<?php echo getlocal("report.bydate.6") ?>
 </th></tr>
 </thead>
 <tbody>
@@ -92,6 +96,8 @@ require_once('inc_errors.php');
 		<td><?php echo $row['threads'] ?></td>
 		<td><?php echo $row['agents'] ?></td>
 		<td><?php echo $row['users'] ?></td>
+		<td><?php echo $row['avgwaitingtime'] ?></td>
+		<td><?php echo $row['avgchattime'] ?></td>
 	</tr>
 	<?php } ?>
 	<tr>
@@ -99,10 +105,12 @@ require_once('inc_errors.php');
 		<td><?php echo $page['reportByDateTotal']['threads'] ?></td>
 		<td><?php echo $page['reportByDateTotal']['agents'] ?></td>
 		<td><?php echo $page['reportByDateTotal']['users'] ?></td>
+		<td><?php echo $page['reportByDateTotal']['avgwaitingtime'] ?></td>
+		<td><?php echo $page['reportByDateTotal']['avgchattime'] ?></td>
 	</tr>
 <?php } else { ?>
 	<tr>
-	<td colspan="4">
+	<td colspan="6">
 		<?php echo getlocal("report.no_items") ?>
 	</td>
 	</tr>
@@ -126,7 +134,7 @@ require_once('inc_errors.php');
 	<?php echo getlocal("report.byoperator.4") ?>
 </th></tr>
 </thead>
-<tbody>	
+<tbody>
 <?php if( $page['reportByAgent'] ) { ?>
 	<?php foreach( $page['reportByAgent'] as $row ) { ?>
 	<tr>
@@ -139,6 +147,39 @@ require_once('inc_errors.php');
 <?php } else { ?>
 	<tr>
 	<td colspan="4">
+		<?php echo getlocal("report.no_items") ?>
+	</td>
+	</tr>
+<?php } ?>
+</tbody>
+</table>
+
+<br/>
+<br/>
+
+<div class="tabletitle"><?php echo getlocal("report.bypage.title") ?></div>
+<table class="statistics">
+<thead>
+<tr><th>
+	<?php echo getlocal("report.bypage.1") ?>
+</th><th>
+	<?php echo getlocal("report.bypage.2") ?>
+</th><th>
+	<?php echo getlocal("report.bypage.3") ?>
+</th></tr>
+</thead>
+<tbody>
+<?php if( $page['reportByPage'] ) { ?>
+	<?php foreach( $page['reportByPage'] as $row ) { ?>
+	<tr>
+		<td><a href="<?php echo htmlspecialchars($row['address']) ?>"><?php echo htmlspecialchars($row['address']) ?></a></td>
+		<td><?php echo $row['visittimes'] ?></td>
+		<td><?php echo $row['chattimes'] ?></td>
+	</tr>
+	<?php } ?>
+<?php } else { ?>
+	<tr>
+	<td colspan="3">
 		<?php echo getlocal("report.no_items") ?>
 	</td>
 	</tr>

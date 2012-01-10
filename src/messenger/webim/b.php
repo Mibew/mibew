@@ -32,7 +32,7 @@ if($referer && isset($_SESSION['threadid'])) {
         $msg = getstring2_("chat.client.visited.page", array($referer), $thread['locale']);
         post_message_($thread['threadid'], $kind_for_agent,$msg,$link);
     }
-    mysql_close($link);
+    close_connection($link);
 }
 
 $image = verifyparam(isset($_GET['image']) ? "image" : "i", "/^\w+$/", "webim");

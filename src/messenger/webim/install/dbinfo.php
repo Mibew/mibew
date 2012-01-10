@@ -36,6 +36,7 @@ $dbtables = array(
 		"agentName" => "varchar(64)",
 		"agentId" => "int NOT NULL DEFAULT 0",
 		"dtmcreated" => "datetime DEFAULT 0",
+		"dtmchatstarted" => "datetime DEFAULT 0",
 		"dtmmodified" => "datetime DEFAULT 0",
 		"lrevision" => "int NOT NULL DEFAULT 0",
 		"istate" => "int NOT NULL DEFAULT 0",
@@ -73,6 +74,7 @@ $dbtables = array(
 		"vcemail" => "varchar(64)",
 		"dtmlastvisited" => "datetime DEFAULT 0",
 		"istatus" => "int DEFAULT 0", /* 0 - online, 1 - away */
+		"idisabled" => "int DEFAULT 0",
 		"vcavatar" => "varchar(255)",
 		"vcjabbername" => "varchar(255)",
 		"iperm" => "int DEFAULT 65535",
@@ -118,7 +120,6 @@ $dbtables = array(
 		"firsttime" => "datetime NOT NULL DEFAULT 0",
 		"lasttime" => "datetime NOT NULL DEFAULT 0",
 		"entry" => "text NOT NULL",
-		"path" => "text NOT NULL",
 		"details" => "text NOT NULL",
 		"invited" => "tinyint(1) NOT NULL DEFAULT 0",
 		"invitationtime" => "datetime",
@@ -126,6 +127,13 @@ $dbtables = array(
 		"invitations" => "INT NOT NULL DEFAULT 0",
 		"chats" => "INT NOT NULL DEFAULT 0",
 		"threadid" => "INT references ${mysqlprefix}chatthread(threadid) on delete set null"
+	),
+
+	"${mysqlprefix}visitedpage" => array(
+		"pageid" => "INT NOT NULL auto_increment PRIMARY KEY",
+		"address" => "varchar(1024)",
+		"visittime" => "datetime NOT NULL DEFAULT 0",
+		"visitorid" => "INT",
 	),
 );
 
@@ -135,20 +143,24 @@ $dbtables_indexes = array(
 	),
 	"${mysqlprefix}chatsitevisitor" => array(
 		"threadid" => "threadid"
+	),
+	"${mysqlprefix}visitedpage" => array(
+		"visitorid" => "visitorid"
 	)
 );
 
 $memtables = array();
 
 $dbtables_can_update = array(
-	"${mysqlprefix}chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount", "nextagent", "shownmessageid", "userid", "userAgent", "groupid"),
+	"${mysqlprefix}chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount", "nextagent", "shownmessageid", "userid", "userAgent", "groupid", "dtmchatstarted"),
 	"${mysqlprefix}chatmessage" => array("agentId"),
-	"${mysqlprefix}chatoperator" => array("vcavatar", "vcjabbername", "iperm", "istatus", "vcemail", "dtmrestore", "vcrestoretoken"),
+	"${mysqlprefix}chatoperator" => array("vcavatar", "vcjabbername", "iperm", "istatus", "idisabled", "vcemail", "dtmrestore", "vcrestoretoken"),
 	"${mysqlprefix}chatban" => array(),
 	"${mysqlprefix}chatgroup" => array("vcemail"),
 	"${mysqlprefix}chatgroupoperator" => array(),
 	"${mysqlprefix}chatresponses" => array(),
 	"${mysqlprefix}chatsitevisitor" => array(),
+	"${mysqlprefix}visitedpage" => array(),
 );
 
 function show_install_err($text)

@@ -51,7 +51,7 @@ if (isset($_GET['nextGroup'])) {
 			post_message_($thread['threadid'], $kind_events,
 						  getstring2_("chat.status.operator.redirect",
 									  array(get_operator_name($operator)), $thread['locale']), $link);
-			mysql_close($link);
+			close_connection($link);
 		} else {
 			$errors[] = getlocal("chat.redirect.cannot");
 		}
@@ -77,7 +77,7 @@ if (isset($_GET['nextGroup'])) {
 			post_message_($thread['threadid'], $kind_events,
 						  getstring2_("chat.status.operator.redirect",
 									  array(get_operator_name($operator)), $thread['locale']), $link);
-			mysql_close($link);
+			close_connection($link);
 		} else {
 			$errors[] = getlocal("chat.redirect.cannot");
 		}
@@ -88,9 +88,9 @@ if (isset($_GET['nextGroup'])) {
 
 setup_logo();
 if (count($errors) > 0) {
-	expand("../styles", getchatstyle(), "error.tpl");
+	expand("../styles/dialogs", getchatstyle(), "error.tpl");
 } else {
-	expand("../styles", getchatstyle(), "redirected.tpl");
+	expand("../styles/dialogs", getchatstyle(), "redirected.tpl");
 }
 
 ?>

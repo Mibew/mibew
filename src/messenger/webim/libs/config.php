@@ -41,6 +41,8 @@ $mysqlprefix = "";
 $dbencoding = "utf8";
 $force_charset_in_connection = true;
 
+$use_persistent_connection = false;
+
 /*
  *  Mailbox
  */

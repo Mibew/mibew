@@ -60,6 +60,7 @@ require_once('inc_errors.php');
 	<?php echo getlocal("page_agents.status") ?>
 <?php if($page['canmodify']) { ?>
 </th><th>
+</th><th>
 <?php } ?>
 </th>
 </tr>
@@ -85,6 +86,13 @@ require_once('inc_errors.php');
 <?php } ?>
 	</td>
 <?php if($page['canmodify']) { ?>
+	<td>
+<?php if(operator_is_disabled($a)){ ?>
+		<a href="<?php echo $webimroot ?>/operator/operators.php?act=enable&amp;id=<?php echo $a['operatorid'] ?>"><?php echo getlocal("page_agents.enable.agent") ?></a>
+<?php }else{ ?>
+		<a href="<?php echo $webimroot ?>/operator/operators.php?act=disable&amp;id=<?php echo $a['operatorid'] ?>"><?php echo getlocal("page_agents.disable.agent") ?></a>
+<?php } ?>
+	</td>
 	<td>
 		<a class="removelink" id="i<?php echo $a['operatorid'] ?>" href="<?php echo $webimroot ?>/operator/operators.php?act=del&amp;id=<?php echo $a['operatorid'] ?>">
 			remove

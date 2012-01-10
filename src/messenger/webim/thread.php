@@ -82,7 +82,7 @@ if( $act == "refresh" ) {
 	if($isuser && $thread["shownmessageid"] == 0) {
 		commit_thread( $thread['threadid'], array('shownmessageid' => $postedid), $link);
 	}
-	mysql_close($link);
+	close_connection($link);
 	print_thread_messages($thread, $token, $lastid, $isuser, $outformat, $isuser ? null : $operator['operatorid']);
 	exit;
 

@@ -32,7 +32,7 @@ function update_operator_permissions($operatorid, $newvalue)
 	$query = "update ${mysqlprefix}chatoperator set iperm = $newvalue where operatorid = $operatorid";
 
 	perform_query($query, $link);
-	mysql_close($link);
+	close_connection($link);
 }
 
 $opId = verifyparam("op", "/^\d{1,9}$/");

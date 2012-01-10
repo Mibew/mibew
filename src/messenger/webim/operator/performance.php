@@ -32,7 +32,7 @@ $options = array(
 	'online_timeout', 'updatefrequency_operator', 'updatefrequency_chat',
 	'updatefrequency_oldchat', 'max_connections_from_one_host',
 	'updatefrequency_tracking', 'visitors_limit', 'invitation_lifetime',
-	'tracking_lifetime' );
+	'tracking_lifetime', 'thread_lifetime' );
 
 loadsettings();
 $params = array();
@@ -64,6 +64,11 @@ if (isset($_POST['onlinetimeout'])) {
 	$params['max_connections_from_one_host'] = getparam('onehostconnections');
 	if (!is_numeric($params['max_connections_from_one_host'])) {
 		$errors[] = getlocal("settings.wrong.onehostconnections");
+	}
+
+	$params['thread_lifetime'] = getparam('threadlifetime');
+	if (!is_numeric($params['thread_lifetime'])) {
+		$errors[] = getlocal("settings.wrong.threadlifetime");
 	}
 
 	if ($settings['enabletracking']) {
@@ -105,6 +110,7 @@ $page['formfrequencyoperator'] = $params['updatefrequency_operator'];
 $page['formfrequencychat'] = $params['updatefrequency_chat'];
 $page['formfrequencyoldchat'] = $params['updatefrequency_oldchat'];
 $page['formonehostconnections'] = $params['max_connections_from_one_host'];
+$page['formthreadlifetime'] = $params['thread_lifetime'];
 
 if ($settings['enabletracking']) {
 

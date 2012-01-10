@@ -27,22 +27,25 @@ function update_settings()
 		if (!isset($settings_in_db[$key])) {
 			perform_query("insert into ${mysqlprefix}chatconfig (vckey) values ('$key')", $link);
 		}
-		$query = sprintf("update ${mysqlprefix}chatconfig set vcvalue='%s' where vckey='$key'", mysql_real_escape_string($value));
+		$query = sprintf("update ${mysqlprefix}chatconfig set vcvalue='%s' where vckey='$key'", db_escape_string($value));
 		perform_query($query, $link);
 	}
 
-	mysql_close($link);
+	close_connection($link);
 }
 
 function setup_settings_tabs($active)
 {
-	global $page, $webimroot;
+	global $settings, $page, $webimroot;
 	$page['tabs'] = array(
 		getlocal("page_settings.tab.main") => $active != 0 ? "$webimroot/operator/settings.php" : "",
 		getlocal("page_settings.tab.features") => $active != 1 ? "$webimroot/operator/features.php" : "",
 		getlocal("page_settings.tab.performance") => $active != 2 ? "$webimroot/operator/performance.php" : "",
 		getlocal("page_settings.tab.themes") => $active != 3 ? "$webimroot/operator/themes.php" : "",
 	);
+	if ($settings['enabletracking']) {
+		$page['tabs'][getlocal("page_settings.tab.invitationthemes")] = ($active != 4 ? "$webimroot/operator/invitationthemes.php" : "");
+	}
 }
 
 ?>

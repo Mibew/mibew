@@ -31,7 +31,7 @@ function get_group_members($groupid)
 	$link = connect();
 	$query = "select operatorid from ${mysqlprefix}chatgroupoperator where groupid = $groupid";
 	$result = select_multi_assoc($query, $link);
-	mysql_close($link);
+	close_connection($link);
 	return $result;
 }
 
@@ -43,7 +43,7 @@ function update_group_members($groupid, $newvalue)
 	foreach ($newvalue as $opid) {
 		perform_query("insert into ${mysqlprefix}chatgroupoperator (groupid, operatorid) values ($groupid,$opid)", $link);
 	}
-	mysql_close($link);
+	close_connection($link);
 }
 
 function get_operators()
@@ -53,7 +53,7 @@ function get_operators()
 
 	$query = "select * from ${mysqlprefix}chatoperator order by vclogin";
 	$result = select_multi_assoc($query, $link);
-	mysql_close($link);
+	close_connection($link);
 	return $result;
 }
 

@@ -33,7 +33,7 @@ $errors = array();
 
 $link = connect();
 $invitation = invitation_state($visitorid, $link);
-mysql_close($link);
+close_connection($link);
 
 start_xml_output();
 echo '<invitation>';

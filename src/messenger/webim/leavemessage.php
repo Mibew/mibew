@@ -46,7 +46,7 @@ function store_message($name, $email, $info, $message,$groupid,$referrer) {
 		post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.info',array($info)),$link);
 	}
 	post_message_($thread['threadid'],$kind_user,$message,$link,$name);
-	mysql_close($link);
+	close_connection($link);
 }
 
 $groupid = "";
@@ -95,7 +95,7 @@ if($settings["enablecaptcha"] == "1" && can_show_captcha()) {
 if( count($errors) > 0 ) {
 	setup_leavemessage($visitor_name,$email,$message,$groupid,$groupname,$info,$referrer,can_show_captcha());
 	setup_logo();
-	expand("styles", getchatstyle(), "leavemessage.tpl");
+	expand("styles/dialogs", getchatstyle(), "leavemessage.tpl");
 	exit;
 }
 
@@ -118,9 +118,9 @@ if (isset($group) && !empty($group['vcemail'])) {
 if($inbox_mail) {
 	$link = connect();
 	webim_mail($inbox_mail, $email, $subject, $body, $link);
-	mysql_close($link);
+	close_connection($link);
 }
 
 setup_logo();
-expand("styles", getchatstyle(), "leavemessagesent.tpl");
+expand("styles/dialogs", getchatstyle(), "leavemessagesent.tpl");
 ?>

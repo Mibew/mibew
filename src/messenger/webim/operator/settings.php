@@ -22,6 +22,7 @@
 require_once('../libs/common.php');
 require_once('../libs/operator.php');
 require_once('../libs/settings.php');
+require_once('../libs/styles.php');
 
 $operator = check_login();
 force_password($operator);
@@ -29,22 +30,19 @@ force_password($operator);
 $page = array('agentId' => '');
 $errors = array();
 
-$stylelist = array();
-$stylesfolder = "../styles";
-if ($handle = opendir($stylesfolder)) {
-	while (false !== ($file = readdir($handle))) {
-		if (preg_match("/^\w+$/", $file) && is_dir("$stylesfolder/$file")) {
-			$stylelist[] = $file;
-		}
-	}
-	closedir($handle);
-}
+$stylelist = get_style_list("../styles/dialogs");
 
 $options = array(
 	'email', 'title', 'logo', 'hosturl', 'usernamepattern',
 	'chatstyle', 'chattitle', 'geolink', 'geolinkparams', 'sendmessagekey');
 
 loadsettings();
+
+if ($settings['enabletracking']) {
+	$options[] = 'invitationstyle';
+	$invitationstylelist = get_style_list("../styles/invitations");
+}
+
 $params = array();
 foreach ($options as $opt) {
 	$params[$opt] = $settings[$opt];
@@ -64,6 +62,13 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
 	$params['chatstyle'] = verifyparam("chatstyle", "/^\w+$/", $params['chatstyle']);
 	if (!in_array($params['chatstyle'], $stylelist)) {
 		$params['chatstyle'] = $stylelist[0];
+	}
+
+	if ($settings['enabletracking']) {
+		$params['invitationstyle'] = verifyparam("invitationstyle", "/^\w+$/", $params['invitationstyle']);
+		if (!in_array($params['invitationstyle'], $invitationstylelist)) {
+			$params['invitationstyle'] = $invitationstylelist[0];
+		}
 	}
 
 	if ($params['email'] && !is_valid_email($params['email'])) {
@@ -98,8 +103,14 @@ $page['formusernamepattern'] = topage($params['usernamepattern']);
 $page['formchatstyle'] = $params['chatstyle'];
 $page['formchattitle'] = topage($params['chattitle']);
 $page['formsendmessagekey'] = $params['sendmessagekey'];
-$page['availableStyles'] = $stylelist;
+$page['availableChatStyles'] = $stylelist;
 $page['stored'] = isset($_GET['stored']);
+$page['enabletracking'] = $settings['enabletracking'];
+
+if ($settings['enabletracking']) {
+	$page['forminvitationstyle'] = $params['invitationstyle'];
+	$page['availableInvitationStyles'] = $invitationstylelist;
+}
 
 prepare_menu($operator);
 setup_settings_tabs(0);

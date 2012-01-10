@@ -38,8 +38,8 @@ function operator_by_login($login)
 	global $mysqlprefix;
 	$link = connect();
 	$operator = select_one_row(
-		"select * from ${mysqlprefix}chatoperator where vclogin = '" . mysql_real_escape_string($login) . "'", $link);
-	mysql_close($link);
+		"select * from ${mysqlprefix}chatoperator where vclogin = '" . db_escape_string($login) . "'", $link);
+	close_connection($link);
 	return $operator;
 }
 
@@ -48,8 +48,8 @@ function operator_by_email($mail)
 	global $mysqlprefix;
 	$link = connect();
 	$operator = select_one_row(
-		"select * from ${mysqlprefix}chatoperator where vcemail = '" . mysql_real_escape_string($mail) . "'", $link);
-	mysql_close($link);
+		"select * from ${mysqlprefix}chatoperator where vcemail = '" . db_escape_string($mail) . "'", $link);
+	close_connection($link);
 	return $operator;
 }
 
@@ -64,7 +64,7 @@ function operator_by_id($id)
 {
 	$link = connect();
 	$operator = operator_by_id_($id, $link);
-	mysql_close($link);
+	close_connection($link);
 	return $operator;
 }
 
@@ -73,10 +73,10 @@ function operator_get_all()
 	global $mysqlprefix;
 	$link = connect();
 
-	$query = "select operatorid, vclogin, vclocalename, vccommonname, istatus, (unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
+	$query = "select operatorid, vclogin, vclocalename, vccommonname, istatus, idisabled, (unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
 			 "from ${mysqlprefix}chatoperator order by vclogin";
 	$operators = select_multi_assoc($query, $link);
-	mysql_close($link);
+	close_connection($link);
 	return $operators;
 }
 
@@ -98,6 +98,11 @@ function operator_is_away($operator)
 	return $operator['istatus'] != 0 && $operator['time'] < $settings['online_timeout'] ? "1" : "";
 }
 
+function operator_is_disabled($operator)
+{
+	return $operator['idisabled'] == '1';
+}
+
 function update_operator($operatorid, $login, $email, $password, $localename, $commonname)
 {
 	global $mysqlprefix;
@@ -106,16 +111,16 @@ function update_operator($operatorid, $login, $email, $password, $localename, $c
 		"update ${mysqlprefix}chatoperator set vclogin = '%s',%s vclocalename = '%s', vccommonname = '%s'" .
 		", vcemail = '%s', vcjabbername= '%s'" .
 		" where operatorid = %s",
-		mysql_real_escape_string($login),
+		db_escape_string($login),
 		($password ? " vcpassword='" . md5($password) . "'," : ""),
-		mysql_real_escape_string($localename),
-		mysql_real_escape_string($commonname),
-		mysql_real_escape_string($email),
+		db_escape_string($localename),
+		db_escape_string($commonname),
+		db_escape_string($email),
 		'',
 		$operatorid);
 
 	perform_query($query, $link);
-	mysql_close($link);
+	close_connection($link);
 	// update the session password
 	if (isset($password))
 	{
@@ -130,10 +135,10 @@ function update_operator_avatar($operatorid, $avatar)
 	$link = connect();
 	$query = sprintf(
 		"update ${mysqlprefix}chatoperator set vcavatar = '%s' where operatorid = %s",
-		mysql_real_escape_string($avatar), $operatorid);
+		db_escape_string($avatar), $operatorid);
 
 	perform_query($query, $link);
-	mysql_close($link);
+	close_connection($link);
 }
 
 function create_operator_($login, $email, $password, $localename, $commonname, $avatar, $link)
@@ -141,15 +146,15 @@ function create_operator_($login, $email, $password, $localename, $commonname, $
 	global $mysqlprefix;
 	$query = sprintf(
 		"insert into ${mysqlprefix}chatoperator (vclogin,vcpassword,vclocalename,vccommonname,vcavatar,vcemail,vcjabbername) values ('%s','%s','%s','%s','%s','%s','%s')",
-		mysql_real_escape_string($login),
+		db_escape_string($login),
 		md5($password),
-		mysql_real_escape_string($localename),
-		mysql_real_escape_string($commonname),
-		mysql_real_escape_string($avatar),
-		mysql_real_escape_string($email), '');
+		db_escape_string($localename),
+		db_escape_string($commonname),
+		db_escape_string($avatar),
+		db_escape_string($email), '');
 
 	perform_query($query, $link);
-	$id = mysql_insert_id($link);
+	$id = db_insert_id($link);
 
 	return select_one_row("select * from ${mysqlprefix}chatoperator where operatorid = $id", $link);
 }
@@ -158,7 +163,7 @@ function create_operator($login, $email, $password, $localename, $commonname, $a
 {
 	$link = connect();
 	$newop = create_operator_($login, $email, $password, $localename, $commonname, $avatar, $link);
-	mysql_close($link);
+	close_connection($link);
 	return $newop;
 }
 
@@ -167,7 +172,7 @@ function notify_operator_alive($operatorid, $istatus)
 	global $mysqlprefix;
 	$link = connect();
 	perform_query("update ${mysqlprefix}chatoperator set istatus = $istatus, dtmlastvisited = CURRENT_TIMESTAMP where operatorid = $operatorid", $link);
-	mysql_close($link);
+	close_connection($link);
 }
 
 function has_online_operators($groupid = "")
@@ -183,7 +188,7 @@ function has_online_operators($groupid = "")
 		$query .= " where istatus = 0";
 	}
 	$row = select_one_row($query, $link);
-	mysql_close($link);
+	close_connection($link);
 	return $row['time'] < $settings['online_timeout'] && $row['total'] > 0;
 }
 
@@ -221,7 +226,7 @@ function check_login($redirect = true)
 		if (isset($_COOKIE['webim_lite'])) {
 			list($login, $pwd) = preg_split("/,/", $_COOKIE['webim_lite'], 2);
 			$op = operator_by_login($login);
-			if ($op && isset($pwd) && isset($op['vcpassword']) && md5($op['vcpassword']) == $pwd) {
+			if ($op && isset($pwd) && isset($op['vcpassword']) && md5($op['vcpassword']) == $pwd && !operator_is_disabled($op)) {
 				$_SESSION["${mysqlprefix}operator"] = $op;
 				return $op;
 			}
@@ -310,7 +315,7 @@ function setup_redirect_links($threadid, $token)
 										"${mysqlprefix}chatoperator", array(), "order by vclogin $limit"), $link);
 
 	$groups = array_slice($groups, $p['start'], $p['end'] - $p['start']);
-	mysql_close($link);
+	close_connection($link);
 
 	$agent_list = "";
 	$params = array('thread' => $threadid, 'token' => $token);
@@ -418,7 +423,7 @@ function get_operator_groupids($operatorid)
 	$link = connect();
 	$query = "select groupid from ${mysqlprefix}chatgroupoperator where operatorid = $operatorid";
 	$result = select_multi_assoc($query, $link);
-	mysql_close($link);
+	close_connection($link);
 	return $result;
 }
 

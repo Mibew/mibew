@@ -38,16 +38,16 @@ $query = isset($_GET['q']) ? myiconv(getoutputenc(), $webim_encoding, $_GET['q']
 if ($query !== false) {
 	$link = connect();
 
-	$result = mysql_query("select ${mysqlprefix}chatgroup.groupid as groupid, vclocalname " .
+	$result = perform_query("select ${mysqlprefix}chatgroup.groupid as groupid, vclocalname " .
 						  "from ${mysqlprefix}chatgroup order by vclocalname", $link);
 	$groupName = array();
-	while ($group = mysql_fetch_array($result, MYSQL_ASSOC)) {
+	while ($group = db_fetch_assoc($result)) {
 		$groupName[$group['groupid']] = $group['vclocalname'];
 	}
-	mysql_free_result($result);
+	db_free_result($result);
 	$page['groupName'] = $groupName;
 
-	$escapedQuery = mysql_real_escape_string($query, $link);
+	$escapedQuery = db_escape_string($query, $link);
 	select_with_pagintation("DISTINCT unix_timestamp(${mysqlprefix}chatthread.dtmcreated) as created, " .
 							"unix_timestamp(${mysqlprefix}chatthread.dtmmodified) as modified, ${mysqlprefix}chatthread.threadid, " .
 							"${mysqlprefix}chatthread.remote, ${mysqlprefix}chatthread.agentName, ${mysqlprefix}chatthread.userName, groupid, " .
@@ -60,7 +60,7 @@ if ($query !== false) {
 							"order by created DESC",
 							"DISTINCT ${mysqlprefix}chatthread.dtmcreated", $link);
 
-	mysql_close($link);
+	close_connection($link);
 
 	$page['formq'] = topage($query);
 } else {

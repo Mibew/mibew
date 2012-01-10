@@ -4,7 +4,7 @@
 	
 	1. Folder/files structure.
 	
-		myskin/
+		dialogs/myskin/
 			chat.tpl					modern browser Ajax window
 			chatsimple.tpl				compatibility mode, reload to refresh thread
 			nochat.tpl					chat page for VERY old browsers (shows the list of supported software)

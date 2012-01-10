@@ -33,7 +33,7 @@ $link = connect();
 if (!invitation_invite($visitorid, $operator['operatorid'], $link)) {
     die("Invitation failed!");
 }
-mysql_close($link);
+close_connection($link);
 
 $page = array();
 $page['visitor'] = $visitorid;

@@ -1,0 +1,8 @@
+var mibewRequestedScripts=[],mibewHandlers=[],mibewHandlersDependences=[];
+function mibewMakeRequest(){mibewDoLoadScript(mibewRequestUrl+"&rnd="+Math.random(),"responseScript")}
+function mibewOnResponse(a){var b=a.load,c=a.handlers,e=a.data,a=a.dependences;for(id in b)if(!(b[id]in mibewRequestedScripts))mibewRequestedScripts[id]=[],mibewRequestedScripts[id].url=b[id],mibewRequestedScripts[id].status="loading",mibewLoadScript(id);for(handler in a)handler in mibewHandlersDependences||(mibewHandlersDependences[handler]=a[handler]);for(b=0;b<c.length;b++){var d=c[b];if(mibewCanRunHandler(c[b]))window[d](e);else c[b]in mibewHandlers||(mibewHandlers[d]=function(){window[d](e)})}mibewCleanUpAfterRequest(); window.setTimeout(mibewMakeRequest,mibewRequestTimeout)}
+function mibewCleanUpAfterRequest(){document.getElementsByTagName("head")[0].removeChild(document.getElementById("responseScript"))}
+function mibewDoLoadScript(a,b){var c=document.createElement("script");c.setAttribute("type","text/javascript");c.setAttribute("src",a);c.setAttribute("id",b);document.getElementsByTagName("head")[0].appendChild(c);return c}
+function mibewLoadScript(a){var b=mibewDoLoadScript(mibewRequestedScripts[a].url,a);b.onload=function(){mibewScriptReady(a)};b.onreadystatechange=function(){("complete"==this.readyState||"loaded"==this.readyState)&&mibewScriptReady(a)}}
+function mibewScriptReady(a){mibewRequestedScripts[a].status="ready";for(handlerName in mibewHandlers)mibewCanRunHandler(handlerName)&&(mibewHandlers[handlerName](),delete mibewHandlers[handlerName])}
+function mibewCanRunHandler(a){for(var a=mibewHandlersDependences[a],b=0;b<a.length;b++)if("ready"!=mibewRequestedScripts[a[b]].status)return!1;return!0};

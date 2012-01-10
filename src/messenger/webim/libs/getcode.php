@@ -19,7 +19,7 @@
  *    Evgeny Gryaznov - initial API and implementation
  */
 
-function generate_button($title, $locale, $style, $group, $inner, $showhost, $forcesecure, $modsecurity)
+function generate_button($title, $locale, $style, $invitationstyle, $group, $inner, $showhost, $forcesecure, $modsecurity)
 {
 	global $settings;
 	$link = get_app_location($showhost, $forcesecure) . "/client.php";
@@ -38,26 +38,17 @@ function generate_button($title, $locale, $style, $group, $inner, $showhost, $fo
 	    $temp = preg_replace('/^(<a )/', '\1id="mibewAgentButton" ', $temp);
 	    $temp .= '<div id="mibewinvitation"></div><script type="text/javascript">var mibewInviteStyle = \'@import url(';
 	    $temp .= get_app_location($showhost, $forcesecure);
-	    $temp .= '/invite.css);\';</script><script type="text/javascript" src="';
+	    $temp .= '/styles/invitations/';
+	    $temp .= ($invitationstyle?$invitationstyle:$settings['invitationstyle']);
+	    $temp .= '/invite.css);\'; var mibewRequestTimeout = ';
+	    $temp .= $settings['updatefrequency_tracking'];
+	    $temp .= '*1000; var mibewRequestUrl = \'';
 	    $temp .= get_app_location($showhost, $forcesecure);
-	    $temp .= '/js/invite.js"></script><script type="text/javascript">mibewInviteMakeRequest(\'';
-	    $temp .= get_app_location($showhost, $forcesecure) . '/invite.php?entry=\' + escape(document.referrer) + \'&lang=ru\', ' . $settings['updatefrequency_tracking'] . '*1000);</script>';
+	    $temp .= '/request.php?entry=\' + escape(document.referrer) + \'&lang=ru\'</script><script type="text/javascript" src="';
+	    $temp .= get_app_location($showhost, $forcesecure);
+	    $temp .= '/js/request.js"></script><script type="text/javascript">mibewMakeRequest();</script>';
 	}
 	return "<!-- mibew button -->" . $temp . "<!-- / mibew button -->";
-}
-
-function get_style_list($stylesfolder)
-{
-	$stylelist = array("" => getlocal("page.preview.style_default"));
-	if ($handle = opendir($stylesfolder)) {
-		while (false !== ($file = readdir($handle))) {
-			if (preg_match("/^\w+$/", $file) && is_dir("$stylesfolder/$file")) {
-				$stylelist[$file] = $file;
-			}
-		}
-		closedir($handle);
-	}
-	return $stylelist;
 }
 
 function verifyparam_groupid($paramid)
@@ -84,7 +75,7 @@ function get_groups_list()
 	if ($settings['enablegroups'] == '1') {
 		$link = connect();
 		$allgroups = get_all_groups($link);
-		mysql_close($link);
+		close_connection($link);
 		$result[] = array('groupid' => '', 'vclocalname' => getlocal("page.gen_button.default_group"));
 		foreach ($allgroups as $g) {
 			$result[] = $g;

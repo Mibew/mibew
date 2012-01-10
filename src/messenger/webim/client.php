@@ -93,7 +93,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 			$page = array();
 			setup_logo();
 			setup_leavemessage($visitor['name'],$email,$firstmessage,$groupid,$groupname,$info,$referrer,can_show_captcha());
-			expand("styles", getchatstyle(), "leavemessage.tpl");
+			expand("styles/dialogs", getchatstyle(), "leavemessage.tpl");
 			exit;
 		}
 
@@ -101,7 +101,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 			$page = array();
 			setup_logo();
 			setup_survey($visitor['name'], $email, $groupid, $info, $referrer);
-			expand("styles", getchatstyle(), "survey.tpl");
+			expand("styles/dialogs", getchatstyle(), "survey.tpl");
 			exit;
 		}
 
@@ -110,7 +110,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 
 		$link = connect();
 		if(!check_connections_from_remote($remoteHost, $link)) {
-			mysql_close($link);
+			close_connection($link);
 			die("number of connections from your IP is exceeded, try again later");
 		}
 		$thread = create_thread($groupid,$visitor['name'], $remoteHost, $referrer,$current_locale,$visitor['id'], $userbrowser,$state_loading,$link);
@@ -137,7 +137,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 			$postedid = post_message_($thread['threadid'],$kind_user,$firstmessage,$link,$visitor['name']);
 			commit_thread( $thread['threadid'], array('shownmessageid' => $postedid), $link);
 		}
-		mysql_close($link);
+		close_connection($link);
 	}
 	$threadid = $thread['threadid'];
 	$token = $thread['ltoken'];
@@ -160,13 +160,13 @@ setup_chatview_for_user($thread, $level);
 
 $pparam = verifyparam( "act", "/^(mailthread)$/", "default");
 if( $pparam == "mailthread" ) {
-	expand("styles", getchatstyle(), "mail.tpl");
+	expand("styles/dialogs", getchatstyle(), "mail.tpl");
 } else if( $level == "ajaxed" ) {
-	expand("styles", getchatstyle(), "chat.tpl");
+	expand("styles/dialogs", getchatstyle(), "chat.tpl");
 } else if( $level == "simple" ) {
-	expand("styles", getchatstyle(), "chatsimple.tpl");
+	expand("styles/dialogs", getchatstyle(), "chatsimple.tpl");
 } else if( $level == "old" ) {
-	expand("styles", getchatstyle(), "nochat.tpl");
+	expand("styles/dialogs", getchatstyle(), "nochat.tpl");
 }
 
 ?>

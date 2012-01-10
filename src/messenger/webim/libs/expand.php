@@ -55,7 +55,7 @@ function expand_var($matches)
 		} else if ($var == 'jsver') {
 			return $jsver;
 		} else if ($var == 'tplroot') {
-			return "$webimroot/styles/$current_style";
+			return "$webimroot/styles/dialogs/$current_style";
 		} else if ($var == 'styleid') {
 			return $current_style;
 		} else if ($var == 'pagination') {

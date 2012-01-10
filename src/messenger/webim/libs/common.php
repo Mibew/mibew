@@ -344,41 +344,91 @@ function getgetparam($name, $default = '')
 
 function connect()
 {
-	global $mysqlhost, $mysqllogin, $mysqlpass, $mysqldb, $dbencoding, $force_charset_in_connection;
+	global $mysqlhost, $mysqllogin, $mysqlpass, $mysqldb, $dbencoding, $force_charset_in_connection, $use_persistent_connection;
 	if (!extension_loaded("mysql")) {
 		die('Mysql extension is not loaded');
 	}
-	$link = @mysql_connect($mysqlhost, $mysqllogin, $mysqlpass)
-			 or die('Could not connect: ' . mysql_error());
+	if ($use_persistent_connection) {
+		$link = @mysql_pconnect($mysqlhost, $mysqllogin, $mysqlpass);
+	}else{
+		$link = @mysql_connect($mysqlhost, $mysqllogin, $mysqlpass);
+	}
+	if (! $link) {
+		die('Could not connect: ' . mysql_error());
+	}
 	mysql_select_db($mysqldb, $link) or die('Could not select database');
 	if ($force_charset_in_connection) {
-		mysql_query("SET NAMES '$dbencoding'", $link);
+		perform_query("SET NAMES '$dbencoding'", $link);
 	}
 	return $link;
 }
 
+function close_connection($link)
+{
+	global $use_persistent_connection;
+	if (! $use_persistent_connection) {
+		mysql_close($link);
+	}
+}
+
+function db_escape_string($string, $link = NULL)
+{
+	if ( is_null($link) ) {
+		return mysql_real_escape_string($string);
+	}
+	return mysql_real_escape_string($string, $link);
+}
+
+function db_error($link)
+{
+	return mysql_error($link);
+}
+
+function db_insert_id($link)
+{
+	return mysql_insert_id($link);
+}
+
+function db_fetch_row($result)
+{
+	return mysql_fetch_row($result);
+}
+
+function db_fetch_assoc($result){
+	return mysql_fetch_assoc($result);
+}
+
 function perform_query($query, $link)
 {
-	mysql_query($query, $link) or die(' Query failed: ' . mysql_error($link));
+	$result = mysql_query($query, $link);
+	if (! $result) {
+		die(' Query failed: ' . db_error($link));
+	}
+	return $result;
+}
+
+function db_free_result($result)
+{
+	mysql_free_result($result);
 }
 
 function select_one_row($query, $link)
 {
-	$result = mysql_query($query, $link) or die(' Query failed: ' . mysql_error($link));
-	$line = mysql_fetch_array($result, MYSQL_ASSOC);
-	mysql_free_result($result);
+	$result = perform_query($query, $link);
+	$line = db_fetch_assoc($result);
+	db_free_result($result);
 	return $line;
 }
 
 function select_multi_assoc($query, $link)
 {
-	$sqlresult = mysql_query($query, $link) or die(' Query failed: ' . mysql_error($link));
+	$sqlresult = perform_query($query, $link);
 
 	$result = array();
-	while ($row = mysql_fetch_array($sqlresult, MYSQL_ASSOC)) {
+	while ($row = db_fetch_assoc($sqlresult)) {
 		$result[] = $row;
 	}
-	mysql_free_result($sqlresult);
+	db_free_result($sqlresult);
 	return $result;
 }
 
@@ -391,10 +441,9 @@ function db_build_select($fields, $table, $conditions, $orderandgroup)
 
 function db_rows_count($table, $conditions, $countfields, $link)
 {
-	$result = mysql_query(db_build_select("count(" . ($countfields ? $countfields : "*") . ")", $table, $conditions, ""), $link)
-	or die(' Count query failed: ' . mysql_error($link));
-	$line = mysql_fetch_array($result, MYSQL_NUM);
-	mysql_free_result($result);
+	$result = perform_query(db_build_select("count(" . ($countfields ? $countfields : "*") . ")", $table, $conditions, ""), $link);
+	$line = db_fetch_row($result);
+	db_free_result($result);
 	return $line[0];
 }
 
@@ -414,6 +463,14 @@ function start_html_output()
 	header("Cache-Control: no-store, no-cache, must-revalidate");
 	header("Pragma: no-cache");
 	header("Content-type: text/html" . (isset($charset) ? "; charset=" . $charset : ""));
+}
+
+function start_js_output(){
+	header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+	header("Cache-Control: no-store, no-cache, must-revalidate");
+	header("Pragma: no-cache");
+	header("Content-type: application/javascript; charset=utf-8");
+	header('P3P:CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');
 }
 
 function escape_with_cdata($text)
@@ -615,6 +672,7 @@ $settings = array(
 	'geolinkparams' => 'width=440,height=100,toolbar=0,scrollbars=0,location=0,status=1,menubar=0,resizable=1',
 	'max_uploaded_file_size' => 100000,
 	'max_connections_from_one_host' => 10,
+	'thread_lifetime' => 60,
 
 	'email' => '', /* inbox for left messages */
 	'left_messages_locale' => $home_locale,
@@ -657,14 +715,14 @@ function loadsettings_($link)
 	}
 	$settingsloaded = true;
 
-	$sqlresult = mysql_query("select vckey,vcvalue from ${mysqlprefix}chatconfig", $link) or die(' Query failed: ' . mysql_error($link));
+	$sqlresult = perform_query("select vckey,vcvalue from ${mysqlprefix}chatconfig", $link);
 
-	while ($row = mysql_fetch_array($sqlresult, MYSQL_ASSOC)) {
+	while ($row = db_fetch_assoc($sqlresult)) {
 		$name = $row['vckey'];
 		$settings[$name] = $row['vcvalue'];
 		$settings_in_db[$name] = true;
 	}
-	mysql_free_result($sqlresult);
+	db_free_result($sqlresult);
 }
 
 function loadsettings()
@@ -673,7 +731,7 @@ function loadsettings()
 	if (!$settingsloaded) {
 		$link = connect();
 		loadsettings_($link);
-		mysql_close($link);
+		close_connection($link);
 	}
 }
 
