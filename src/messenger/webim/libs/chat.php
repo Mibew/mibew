@@ -436,6 +436,7 @@ function setup_chatview_for_operator($thread, $operator)
 	$page['ct.token'] = $thread['ltoken'];
 	$page['ct.user.name'] = htmlspecialchars(topage(get_user_name($thread['userName'], $thread['remote'], $thread['userid'])));
 	$page['chat.title'] = topage($settings['chattitle']);
+	$page['chat.close.confirmation'] = getlocal('chat.close.confirmation');
 
 	setup_logo();
 	if ($settings['sendmessagekey'] == 'enter') {
