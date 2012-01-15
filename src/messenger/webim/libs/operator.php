@@ -185,7 +185,12 @@ function has_online_operators($groupid = "")
 		$query .= ", ${mysqlprefix}chatgroupoperator where groupid = $groupid and ${mysqlprefix}chatoperator.operatorid = " .
 				  "${mysqlprefix}chatgroupoperator.operatorid and istatus = 0";
 	} else {
-		$query .= " where istatus = 0";
+		if ($settings['enablegroups'] == 1) {
+			$query .= ", ${mysqlprefix}chatgroupoperator where ${mysqlprefix}chatoperator.operatorid = " .
+				"${mysqlprefix}chatgroupoperator.operatorid and istatus = 0";
+		} else {
+			$query .= " where istatus = 0";
+		}
 	}
 	$row = select_one_row($query, $link);
 	close_connection($link);
