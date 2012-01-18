@@ -29,9 +29,13 @@ $page = array('opid' => '');
 $errors = array();
 $opId = '';
 
-if (isset($_POST['login']) && isset($_POST['password'])) {
+if ((isset($_POST['login']) || !is_capable($can_administrate, $operator)) && isset($_POST['password'])) {
 	$opId = verifyparam("opid", "/^(\d{1,9})?$/", "");
-	$login = getparam('login');
+	if (is_capable($can_administrate, $operator)) {
+		$login = getparam('login');
+	} else {
+		$login = $operator['vclogin'];
+	}
 	$email = getparam('email');
 	$password = getparam('password');
 	$passwordConfirm = getparam('passwordConfirm');
@@ -128,6 +132,7 @@ $canmodify = ($opId == $operator['operatorid'] && is_capable($can_modifyprofile,
 
 $page['stored'] = isset($_GET['stored']);
 $page['canmodify'] = $canmodify ? "1" : "";
+$page['canchangelogin'] = is_capable($can_administrate, $operator);
 $page['needChangePassword'] = $operator['vcpassword'] == md5('');
 
 prepare_menu($operator);
