@@ -78,7 +78,7 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 		} else {
 			update_operator($opId, $login, $email, $password, $localname, $commonname);
 			// update the session password
-			if (isset($password) && $opId == $operator['operatorid']) {
+			if (!empty($password) && $opId == $operator['operatorid']) {
 				$toDashboard = $operator['vcpassword'] == md5('') && $password != '';
 				$_SESSION["${mysqlprefix}operator"]['vcpassword'] = md5($password);
 				if($toDashboard) {
