@@ -121,12 +121,6 @@ function update_operator($operatorid, $login, $email, $password, $localename, $c
 
 	perform_query($query, $link);
 	close_connection($link);
-	// update the session password
-	if (isset($password))
-	{
-		$_SESSION[$mysqlprefix.'operator']['vcpassword']=md5($password);
-	}
-
 }
 
 function update_operator_avatar($operatorid, $avatar)
