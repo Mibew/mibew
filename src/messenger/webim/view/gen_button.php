@@ -71,14 +71,12 @@ require_once('inc_errors.php');
 <?php } ?>
 		<br clear="all"/>
 
-<?php if($page['showgroups']) { ?>
 		<div class="fieldinrow">
 			<div class="flabel"><?php echo getlocal("page.gen_button.choose_group") ?></div>
 			<div class="fvaluenodesc">
 				<select name="group" onchange="this.form.submit();"><?php foreach($page['groups'] as $k) { echo "<option value=\"".$k['groupid']."\"".($k['groupid'] == form_value("group") ? " selected=\"selected\"" : "").">".$k['vclocalname']."</option>"; } ?></select>
 			</div>
 		</div>
-<?php } ?>
 		<br clear="all"/>
 
 		<div class="fieldinrow">

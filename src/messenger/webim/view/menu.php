@@ -118,7 +118,6 @@ $menuItemsCount = 2;
 	</td>
 	<?php menuseparator(); ?>
 
-<?php if($page['showgroups']) { ?>
 	<td class="dashitem">
 		<img src="<?php echo $webimroot ?>/images/dash/dep.gif" alt=""/>
 		<a href='<?php echo $webimroot ?>/operator/groups.php'>
@@ -126,7 +125,6 @@ $menuItemsCount = 2;
 		<?php echo getlocal('menu.groups.content') ?>
 	</td>
 	<?php menuseparator(); ?>
-<?php } ?>	
 
 	<td class="dashitem">
 		<img src="<?php echo $webimroot ?>/images/dash/settings.gif" alt=""/>

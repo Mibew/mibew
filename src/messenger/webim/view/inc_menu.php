@@ -56,9 +56,7 @@ function tpl_menu() { global $page, $webimroot, $errors;
 <?php if(isset($page['showadmin']) && $page['showadmin']) { ?>
 					<li<?php menuli("getcode")?>><a href='<?php echo $webimroot ?>/operator/getcode.php'><?php echo getlocal('leftMenu.client_gen_button') ?></a></li>
 					<li<?php menuli("operators")?>><a href='<?php echo $webimroot ?>/operator/operators.php'><?php echo getlocal('leftMenu.client_agents') ?></a></li>
-<?php if(isset($page['showgroups']) && $page['showgroups']) { ?>
 					<li<?php menuli("groups")?>><a href='<?php echo $webimroot ?>/operator/groups.php'><?php echo getlocal('menu.groups') ?></a></li>
-<?php } ?>
 					<li<?php menuli("settings")?>><a href='<?php echo $webimroot ?>/operator/settings.php'><?php echo getlocal('leftMenu.client_settings') ?></a></li>
 					<li<?php menuli("translate")?>><a href='<?php echo $webimroot ?>/operator/translate.php'><?php echo getlocal('menu.translate') ?></a></li>
 					<li<?php menuli("updates")?>><a href='<?php echo $webimroot ?>/operator/updates.php'><?php echo getlocal('menu.updates') ?></a></li>

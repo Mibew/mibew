@@ -53,16 +53,14 @@ function generate_button($title, $locale, $style, $invitationstyle, $group, $inn
 
 function verifyparam_groupid($paramid)
 {
-	global $settings, $errors;
+	global $errors;
 	$groupid = "";
-	if ($settings['enablegroups'] == '1') {
-		$groupid = verifyparam($paramid, "/^\d{0,8}$/", "");
-		if ($groupid) {
-			$group = group_by_id($groupid);
-			if (!$group) {
-				$errors[] = getlocal("page.group.no_such");
-				$groupid = "";
-			}
+	$groupid = verifyparam($paramid, "/^\d{0,8}$/", "");
+	if ($groupid) {
+		$group = group_by_id($groupid);
+		if (!$group) {
+			$errors[] = getlocal("page.group.no_such");
+			$groupid = "";
 		}
 	}
 	return $groupid;
@@ -70,16 +68,13 @@ function verifyparam_groupid($paramid)
 
 function get_groups_list()
 {
-	global $settings;
 	$result = array();
-	if ($settings['enablegroups'] == '1') {
-		$link = connect();
-		$allgroups = get_all_groups($link);
-		close_connection($link);
-		$result[] = array('groupid' => '', 'vclocalname' => getlocal("page.gen_button.default_group"));
-		foreach ($allgroups as $g) {
-			$result[] = $g;
-		}
+	$link = connect();
+	$allgroups = get_all_groups($link);
+	close_connection($link);
+	$result[] = array('groupid' => '', 'vclocalname' => getlocal("page.gen_button.default_group"));
+	foreach ($allgroups as $g) {
+		$result[] = $g;
 	}
 	return $result;
 }

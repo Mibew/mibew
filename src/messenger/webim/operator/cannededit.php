@@ -69,9 +69,7 @@ if ($stringid) {
 	$message = "";
 	$page['locale'] = verifyparam("lang", "/^[\w-]{2,5}$/", "");
 	$page['groupid'] = "";
-	if ($settings['enablegroups'] == '1') {
-		$page['groupid'] = verifyparam("group", "/^\d{0,8}$/");
-	}
+	$page['groupid'] = verifyparam("group", "/^\d{0,8}$/");
 }
 
 if (isset($_POST['message'])) {

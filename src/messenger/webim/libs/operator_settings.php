@@ -25,20 +25,12 @@ function setup_operator_settings_tabs($opId, $active)
 	loadsettings();
 
 	if ($opId) {
-		if ($settings['enablegroups'] == '1') {
-			$page['tabs'] = array(
-				getlocal("page_agent.tab.main") => $active != 0 ? "$webimroot/operator/operator.php?op=$opId" : "",
-				getlocal("page_agent.tab.avatar") => $active != 1 ? "$webimroot/operator/avatar.php?op=$opId" : "",
-				getlocal("page_agent.tab.groups") => $active != 2 ? "$webimroot/operator/opgroups.php?op=$opId" : "",
-				getlocal("page_agent.tab.permissions") => $active != 3 ? "$webimroot/operator/permissions.php?op=$opId" : ""
-			);
-		} else {
-			$page['tabs'] = array(
-				getlocal("page_agent.tab.main") => $active != 0 ? "$webimroot/operator/operator.php?op=$opId" : "",
-				getlocal("page_agent.tab.avatar") => $active != 1 ? "$webimroot/operator/avatar.php?op=$opId" : "",
-				getlocal("page_agent.tab.permissions") => $active != 3 ? "$webimroot/operator/permissions.php?op=$opId" : ""
-			);
-		}
+		$page['tabs'] = array(
+			getlocal("page_agent.tab.main") => $active != 0 ? "$webimroot/operator/operator.php?op=$opId" : "",
+			getlocal("page_agent.tab.avatar") => $active != 1 ? "$webimroot/operator/avatar.php?op=$opId" : "",
+			getlocal("page_agent.tab.groups") => $active != 2 ? "$webimroot/operator/opgroups.php?op=$opId" : "",
+			getlocal("page_agent.tab.permissions") => $active != 3 ? "$webimroot/operator/permissions.php?op=$opId" : ""
+		);
 	} else {
 		$page['tabs'] = array();
 	}

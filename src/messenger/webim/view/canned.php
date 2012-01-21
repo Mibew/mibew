@@ -44,8 +44,7 @@ require_once('inc_errors.php');
 				echo "<option value=\"".$k["id"]."\"".($k["id"] == form_value("lang") ? " selected=\"selected\"" : "").">".$k["name"]."</option>";
 			} ?></select>
 	</div>
-	
-<?php if($page['showgroups']) { ?>
+
 	<div class="packedFormField">
 		<?php echo getlocal("canned.group") ?><br/>
 		<select name="group" onchange="this.form.submit();"><?php 
@@ -53,7 +52,7 @@ require_once('inc_errors.php');
 				echo "<option value=\"".$k["groupid"]."\"".($k["groupid"] == form_value("group") ? " selected=\"selected\"" : "").">".$k["vclocalname"]."</option>";
 			} ?></select>
 	</div>
-<?php } ?>
+
 	
 	<br clear="all"/>
 	

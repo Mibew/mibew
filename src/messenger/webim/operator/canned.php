@@ -82,24 +82,22 @@ if (!$lang || !in_array($lang, $all_locales)) {
 # groups
 
 $groupid = "";
-if ($settings['enablegroups'] == '1') {
-	$groupid = verifyparam("group", "/^\d{0,8}$/", "");
-	if ($groupid) {
-		$group = group_by_id($groupid);
-		if (!$group) {
-			$errors[] = getlocal("page.group.no_such");
-			$groupid = "";
-		}
+$groupid = verifyparam("group", "/^\d{0,8}$/", "");
+if ($groupid) {
+	$group = group_by_id($groupid);
+	if (!$group) {
+		$errors[] = getlocal("page.group.no_such");
+		$groupid = "";
 	}
+}
 
-	$link = connect();
-	$allgroups = get_all_groups($link);
-	close_connection($link);
-	$page['groups'] = array();
-	$page['groups'][] = array('groupid' => '', 'vclocalname' => getlocal("page.gen_button.default_group"));
-	foreach ($allgroups as $g) {
-		$page['groups'][] = $g;
-	}
+$link = connect();
+$allgroups = get_all_groups($link);
+close_connection($link);
+$page['groups'] = array();
+$page['groups'][] = array('groupid' => '', 'vclocalname' => getlocal("page.gen_button.default_group"));
+foreach ($allgroups as $g) {
+	$page['groups'][] = $g;
 }
 
 # delete
