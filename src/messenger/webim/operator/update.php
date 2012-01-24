@@ -235,7 +235,7 @@ function print_visitors()
 	$output = array();
 
 	$query = "SELECT visitorid, userid, username, unix_timestamp(firsttime), unix_timestamp(lasttime), " .
-			 "entry, path, details, invited, unix_timestamp(invitationtime), invitedby, invitations, chats " .
+			 "entry, details, invited, unix_timestamp(invitationtime), invitedby, invitations, chats " .
 			 "FROM ${mysqlprefix}chatsitevisitor " .
 			 "WHERE threadid IS NULL " .
 			 "ORDER BY invited, lasttime DESC, invitations";
