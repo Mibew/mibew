@@ -39,7 +39,7 @@ function generate_button($title, $locale, $style, $invitationstyle, $group, $inn
 	    $temp .= '<div id="mibewinvitation"></div><script type="text/javascript">var mibewInviteStyle = \'@import url(';
 	    $temp .= get_app_location($showhost, $forcesecure);
 	    $temp .= '/styles/invitations/';
-	    $temp .= ($invitationstyle?$invitationstyle:$settings['invitationstyle']);
+	    $temp .= ($invitationstyle?$invitationstyle:(array_key_exists('invitationstyle', $settings)?$settings['invitationstyle']:'default'));
 	    $temp .= '/invite.css);\'; var mibewRequestTimeout = ';
 	    $temp .= $settings['updatefrequency_tracking'];
 	    $temp .= '*1000; var mibewRequestUrl = \'';
