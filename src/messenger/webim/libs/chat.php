@@ -575,7 +575,7 @@ function close_old_threads($link)
 	}
 	$next_revision = next_revision($link);
 	$query = "update ${mysqlprefix}chatthread set lrevision =  $next_revision, dtmmodified = CURRENT_TIMESTAMP, istate = $state_closed " .
-			"where istate <> $state_closed and istate <> $state_left and  " .
+			"where istate <> $state_closed and istate <> $state_left and lastpingagent <> 0 and lastpinguser <> 0 and " .
 			"(ABS(UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lastpinguser)) > " . $settings['thread_lifetime'] . " and " .
 			"ABS(UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lastpingagent)) > " . $settings['thread_lifetime'] . ")";
 
