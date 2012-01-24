@@ -50,8 +50,8 @@ function track_visitor_start($entry, $referer, $link)
 			db_escape_string($entry),
 			db_escape_string(track_build_details())), $link);
 
-	if ($id) {
-		track_visit_page($id, $referer, $link);
+	if ($SESSION['visitorid']) {
+		track_visit_page($SESSION['visitorid'], $referer, $link);
 	}
 
 	$id = db_insert_id($link);
