@@ -19,6 +19,7 @@
  *    Evgeny Gryaznov - initial API and implementation
  */
 
+require_once('../libs/canned.php');
 require_once('../libs/common.php');
 require_once('../libs/operator.php');
 require_once('../libs/settings.php');
@@ -32,38 +33,6 @@ loadsettings();
 
 $errors = array();
 $page = array();
-
-function load_canned_messages($locale, $groupid)
-{
-	global $mysqlprefix;
-	$link = connect();
-	$query = "select id, vcvalue from ${mysqlprefix}chatresponses " .
-			 "where locale = '" . $locale . "' AND (" .
-			 ($groupid
-					 ? "groupid = $groupid"
-					 : "groupid is NULL OR groupid = 0") .
-			 ") order by vcvalue";
-
-	$result = select_multi_assoc($query, $link);
-	if (!$groupid && count($result) == 0) {
-		foreach (explode("\n", getstring_('chat.predefined_answers', $locale)) as $answer) {
-			$result[] = array('id' => '', 'vcvalue' => $answer);
-		}
-		if (count($result) > 0) {
-			$updatequery = "insert into ${mysqlprefix}chatresponses (vcvalue,locale,groupid) values ";
-			for ($i = 0; $i < count($result); $i++) {
-				if ($i > 0) {
-					$updatequery .= ", ";
-				}
-				$updatequery .= "('" . db_escape_string($result[$i]['vcvalue'], $link) . "','$locale', NULL)";
-			}
-			perform_query($updatequery, $link);
-			$result = select_multi_assoc($query, $link);
-		}
-	}
-	close_connection($link);
-	return $result;
-}
 
 # locales
 

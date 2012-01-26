@@ -19,37 +19,10 @@
  *    Evgeny Gryaznov - initial API and implementation
  */
 
+require_once('../libs/canned.php');
 require_once('../libs/common.php');
 require_once('../libs/operator.php');
 require_once('../libs/pagination.php');
-
-function load_message($key)
-{
-	global $mysqlprefix;
-	$link = connect();
-	$result = select_one_row("select vcvalue from ${mysqlprefix}chatresponses where id = $key", $link);
-	close_connection($link);
-	return $result ? $result['vcvalue'] : null;
-}
-
-function save_message($key, $message)
-{
-	global $mysqlprefix;
-	$link = connect();
-	perform_query("update ${mysqlprefix}chatresponses set vcvalue = '" . db_escape_string($message, $link) . "' " .
-				  "where id = $key", $link);
-	close_connection($link);
-}
-
-function add_message($locale, $groupid, $message)
-{
-	global $mysqlprefix;
-	$link = connect();
-	perform_query("insert into ${mysqlprefix}chatresponses (locale,groupid,vcvalue) values ('$locale'," .
-				  ($groupid ? "$groupid, " : "null, ") .
-				  "'" . db_escape_string($message, $link) . "')", $link);
-	close_connection($link);
-}
 
 $operator = check_login();
 loadsettings();
@@ -60,7 +33,7 @@ $errors = array();
 $page = array();
 
 if ($stringid) {
-	$message = load_message($stringid);
+	$message = load_canned_message($stringid);
 	if (!$message) {
 		$errors[] = getlocal("cannededit.no_such");
 		$stringid = "";
@@ -80,9 +53,9 @@ if (isset($_POST['message'])) {
 
 	if (count($errors) == 0) {
 		if ($stringid) {
-			save_message($stringid, $message);
+			save_canned_message($stringid, $message);
 		} else {
-			add_message($page['locale'], $page['groupid'], $message);
+			add_canned_message($page['locale'], $page['groupid'], $message);
 		}
 		$page['saved'] = true;
 		prepare_menu($operator, false);

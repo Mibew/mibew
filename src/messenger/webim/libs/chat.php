@@ -399,31 +399,6 @@ function setup_chatview_for_user($thread, $level)
 	$page['frequency'] = $settings['updatefrequency_chat'];
 }
 
-function load_canned_messages($locale, $groupid)
-{
-	global $mysqlprefix;
-	$link = connect();
-	$result = select_multi_assoc(
-		"select vcvalue from ${mysqlprefix}chatresponses where locale = '$locale' " .
-		"AND (groupid is NULL OR groupid = 0) order by vcvalue", $link);
-	if (count($result) == 0) {
-		foreach (explode("\n", getstring_('chat.predefined_answers', $locale)) as $answer) {
-			$result[] = array('vcvalue' => $answer);
-		}
-	}
-	if ($groupid) {
-		$result2 = select_multi_assoc(
-			"select vcvalue from ${mysqlprefix}chatresponses where locale = '$locale' " .
-			"AND groupid = $groupid order by vcvalue", $link);
-		foreach ($result as $r) {
-			$result2[] = $r;
-		}
-		$result = $result2;
-	}
-	close_connection($link);
-	return $result;
-}
-
 function setup_chatview_for_operator($thread, $operator)
 {
 	global $page, $webimroot, $company_logo_link, $company_name, $settings;
@@ -462,7 +437,13 @@ function setup_chatview_for_operator($thread, $operator)
 	    close_connection($link);
 	}
 	$predefinedres = "";
-	$canned_messages = load_canned_messages($thread['locale'], $thread['groupid']);
+	$canned_messages = load_canned_messages($thread['locale'], 0);
+	if ($thread['groupid']) {
+		$canned_messages = array_merge(
+			load_canned_messages($thread['locale'], $thread['groupid']),
+			$canned_messages
+		);
+	};
 	foreach ($canned_messages as $answer) {
 		$predefinedres .= "<option>" . htmlspecialchars(topage($answer['vcvalue'])) . "</option>";
 	}

@@ -19,6 +19,7 @@
  *    Evgeny Gryaznov - initial API and implementation
  */
 
+require_once('../libs/canned.php');
 require_once('../libs/common.php');
 require_once('../libs/chat.php');
 require_once('../libs/groups.php');
