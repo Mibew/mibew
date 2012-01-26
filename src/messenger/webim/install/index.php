@@ -256,6 +256,27 @@ function check_admin($link)
 	return false;
 }
 
+function add_canned_messages($link){
+	global $mysqlprefix;
+	foreach (get_available_locales() as $locale) {
+		$result = array();
+		foreach (explode("\n", getstring_('chat.predefined_answers', $locale)) as $answer) {
+			$result[] = array('id' => '', 'vcvalue' => $answer);
+		}
+		if (count($result) > 0) {
+			$updatequery = "insert into ${mysqlprefix}chatresponses (vcvalue,locale,groupid) values ";
+			for ($i = 0; $i < count($result); $i++) {
+				if ($i > 0) {
+					$updatequery .= ", ";
+				}
+				$updatequery .= "('" . db_escape_string($result[$i]['vcvalue'], $link) . "','$locale', NULL)";
+			}
+			mysql_query($updatequery, $link);
+		}
+	}
+	return;
+}
+
 function check_status()
 {
 	global $page, $webimroot, $settings, $dbversion;
@@ -289,6 +310,8 @@ function check_status()
 		mysql_close($link);
 		return;
 	}
+
+	add_canned_messages($link);
 
 	check_sound();
 

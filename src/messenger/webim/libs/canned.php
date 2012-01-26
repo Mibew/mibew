@@ -31,34 +31,6 @@ function load_canned_messages($locale, $groupid)
 			 ") order by vcvalue";
 	$result = select_multi_assoc($query, $link);
 	close_connection($link);
-	if (!$groupid && count($result) == 0) {
-		$result = load_default_canned_messages($locale);
-	}
-	return $result;
-}
-
-function load_default_canned_messages($locale)
-{
-	global $mysqlprefix;
-	$link = connect();
-	$result = array();
-	foreach (explode("\n", getstring_('chat.predefined_answers', $locale)) as $answer) {
-		$result[] = array('id' => '', 'vcvalue' => $answer);
-	}
-	if (count($result) > 0) {
-		$updatequery = "insert into ${mysqlprefix}chatresponses (vcvalue,locale,groupid) values ";
-		for ($i = 0; $i < count($result); $i++) {
-			if ($i > 0) {
-				$updatequery .= ", ";
-			}
-			$updatequery .= "('" . db_escape_string($result[$i]['vcvalue'], $link) . "','$locale', NULL)";
-		}
-		perform_query($updatequery, $link);
-		$query = "select id, vcvalue from ${mysqlprefix}chatresponses " .
-			 "where locale = '" . $locale . "' AND (groupid is NULL OR groupid = 0) order by vcvalue";
-		$result = select_multi_assoc($query, $link);
-	}
-	close_connection($link);
 	return $result;
 }
 
