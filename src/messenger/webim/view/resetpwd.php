@@ -86,11 +86,11 @@ require_once('inc_errors.php');
 
 		<div class="fbutton">
 			<table class="submitbutton"><tr>
-				<td><a href="javascript:resetForm.submit();">
+				<td><a href="javascript:document.resetForm.submit();">
 					<img src='<?php echo $webimroot ?>/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
-				<td class="submit"><a href="javascript:resetForm.submit();">
+				<td class="submit"><a href="javascript:document.resetForm.submit();">
 					<?php echo getlocal("resetpwd.submit") ?></a></td>
-				<td><a href="javascript:resetForm.submit();">
+				<td><a href="javascript:document.resetForm.submit();">
 					<img src='<?php echo $webimroot ?>/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
 			</tr></table>
 
