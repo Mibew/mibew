@@ -10,6 +10,9 @@
 var localized = new Array(
     "${page:chat.close.confirmation}"
 );
+${if:agent}${if:canpost}
+var predefinedAnswers = ${page:fullPredefinedAnswers};
+${endif:canpost}${endif:agent}
 var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",frequency:${page:frequency},${if:user}user:"true",${endif:user}threadid:${page:ct.chatThreadId},token:${page:ct.token},cssfile:"${tplroot}/chat.css",ignorectrl:${page:ignorectrl} };
 //-->
 </script>

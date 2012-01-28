@@ -151,6 +151,10 @@ if ($act == "silentcreateall") {
 			runsql("ALTER TABLE ${mysqlprefix}chatoperator ADD vcrestoretoken varchar(64)", $link);
 		}
 
+		if (in_array("${mysqlprefix}chatresponses.vctitle", $absent)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatresponses ADD vctitle varchar(100) NOT NULL DEFAULT '' AFTER groupid", $link);
+		}
+
 		if (in_array("${mysqlprefix}chatthread.groupid", $absent)) {
 			runsql("ALTER TABLE ${mysqlprefix}chatthread ADD groupid int references ${mysqlprefix}chatgroup(groupid)", $link);
 		}

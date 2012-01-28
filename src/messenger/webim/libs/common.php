@@ -342,6 +342,18 @@ function getgetparam($name, $default = '')
 	return $value;
 }
 
+function cutstring($string, $length = 75, $ellipsis = '')
+{
+	$result = '';
+	if (strlen($string) > $length) {
+		$splitstring = explode("[__cut__]", wordwrap($string, $length, "[__cut__]", true));
+		$result = $splitstring[0] . $ellipsis;
+	}else{
+		$result = $string;
+	}
+	return $result;
+}
+
 function connect()
 {
 	global $mysqlhost, $mysqllogin, $mysqlpass, $mysqldb, $dbencoding, $force_charset_in_connection, $use_persistent_connection;

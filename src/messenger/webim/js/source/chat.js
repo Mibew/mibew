@@ -338,7 +338,7 @@ Behaviour.register({
 		el.onchange = function() {
 			var message = $('msgwnd');
 			if(this.selectedIndex!=0) {
-				message.value = this.options[this.selectedIndex].innerText || this.options[this.selectedIndex].innerHTML;
+				message.value = Chat.predefinedAnswers[this.selectedIndex-1];
 			}
 			this.selectedIndex = 0;
 			message.focus();
@@ -396,5 +396,6 @@ Behaviour.register({
 EventHelper.register(window, 'onload', function(){
   Chat.webimRoot = threadParams.wroot;
   Chat.cssfile = threadParams.cssfile;
+  Chat.predefinedAnswers = (typeof predefinedAnswers != 'undefined')?predefinedAnswers:Array();
   Chat.threadUpdater = new Ajax.ChatThreadUpdater(({ignorectrl:-1,container:myRealAgent=='safari'?self.frames[0]:$("chatwnd"),avatar:$("avatarwnd"),message:$("msgwnd")}).extend( threadParams || {} ));
 });

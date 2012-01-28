@@ -33,19 +33,28 @@ $errors = array();
 $page = array();
 
 if ($stringid) {
-	$message = load_canned_message($stringid);
-	if (!$message) {
+	$canned_message = load_canned_message($stringid);
+	if (!$canned_message) {
 		$errors[] = getlocal("cannededit.no_such");
 		$stringid = "";
+	}else{
+		$title = $canned_message['vctitle'];
+		$message = $canned_message['vcvalue'];
 	}
 } else {
-	$message = "";
+	$message = '';
+	$title = '';
 	$page['locale'] = verifyparam("lang", "/^[\w-]{2,5}$/", "");
 	$page['groupid'] = "";
 	$page['groupid'] = verifyparam("group", "/^\d{0,8}$/");
 }
 
-if (isset($_POST['message'])) {
+if (isset($_POST['message']) && isset($_POST['title'])) {
+	$title = getparam('title');
+	if (!$title) {
+		$errors[] = no_field("form.field.title");
+	}
+
 	$message = getparam('message');
 	if (!$message) {
 		$errors[] = no_field("form.field.message");
@@ -53,9 +62,9 @@ if (isset($_POST['message'])) {
 
 	if (count($errors) == 0) {
 		if ($stringid) {
-			save_canned_message($stringid, $message);
+			save_canned_message($stringid, $title, $message);
 		} else {
-			add_canned_message($page['locale'], $page['groupid'], $message);
+			add_canned_message($page['locale'], $page['groupid'], $title, $message);
 		}
 		$page['saved'] = true;
 		prepare_menu($operator, false);
@@ -67,6 +76,7 @@ if (isset($_POST['message'])) {
 
 $page['saved'] = false;
 $page['key'] = $stringid;
+$page['formtitle'] = topage($title);
 $page['formmessage'] = topage($message);
 prepare_menu($operator, false);
 start_html_output();

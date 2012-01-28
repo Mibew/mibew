@@ -258,23 +258,31 @@ function check_admin($link)
 
 function add_canned_messages($link){
 	global $mysqlprefix;
+	$localesresult = mysql_query("select locale from ${mysqlprefix}chatresponses", $link);
+	$existlocales = array();
+	for ($i = 0; $i < mysql_num_rows($localesresult); $i++) {
+		$existlocales[] = mysql_result($localesresult, $i, 'locale');
+	}
+	$result = array();
 	foreach (get_available_locales() as $locale) {
-		$result = array();
-		foreach (explode("\n", getstring_('chat.predefined_answers', $locale)) as $answer) {
-			$result[] = array('id' => '', 'vcvalue' => $answer);
-		}
-		if (count($result) > 0) {
-			$updatequery = "insert into ${mysqlprefix}chatresponses (vcvalue,locale,groupid) values ";
-			for ($i = 0; $i < count($result); $i++) {
-				if ($i > 0) {
-					$updatequery .= ", ";
-				}
-				$updatequery .= "('" . db_escape_string($result[$i]['vcvalue'], $link) . "','$locale', NULL)";
+		if (! in_array($locale, $existlocales)) {
+			foreach (explode("\n", getstring_('chat.predefined_answers', $locale)) as $answer) {
+				$result[] = array('locale' => $locale, 'vctitle' => cutstring($answer, 97, '...'), 'vcvalue' => $answer);
 			}
-			mysql_query($updatequery, $link);
 		}
 	}
-	return;
+	if (count($result) > 0) {
+		$updatequery = "insert into ${mysqlprefix}chatresponses (vctitle,vcvalue,locale,groupid) values ";
+		for ($i = 0; $i < count($result); $i++) {
+			if ($i > 0) {
+				$updatequery .= ", ";
+			}
+			$updatequery .= "('" . mysql_real_escape_string($result[$i]['vctitle'], $link) . "', "
+				. "'" . mysql_real_escape_string($result[$i]['vcvalue'], $link) . "', "
+				. "'" . mysql_real_escape_string($result[$i]['locale'], $link) . "', NULL)";
+		}
+		mysql_query($updatequery, $link);
+	}
 }
 
 function check_status()

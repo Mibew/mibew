@@ -53,6 +53,13 @@ require_once('inc_errors.php');
 
 	<div class="fieldForm">
 		<div class="field">
+			<div class="flabel"><?php echo getlocal("canned.message_title") ?></div>
+			<div class="fvaluenodesc">
+				<input type="text" name="title" class="wide" maxlength="100" value="<?php echo form_value('title') ?>"/>
+			</div>
+		</div>
+
+		<div class="field">
 			<div class="flabel"><?php echo getlocal("cannededit.message") ?></div>
 			<div class="fvaluenodesc">
 				<textarea name="message" cols="20" rows="5" class="wide"><?php echo form_value('message') ?></textarea>

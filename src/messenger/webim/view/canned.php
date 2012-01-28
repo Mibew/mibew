@@ -74,6 +74,8 @@ require_once('inc_errors.php');
 <table class="translate">
 <thead>
 	<tr class="header"><th>
+		<?php echo getlocal("canned.message_title") ?>
+	</th><th>
 		<?php echo getlocal("cannededit.message") ?>
 	</th><th>
 		<?php echo getlocal("canned.actions") ?>
@@ -84,6 +86,9 @@ require_once('inc_errors.php');
 if( $page['pagination.items'] ) {	
 	foreach( $page['pagination.items'] as $localstr ) { ?>
 	<tr>
+		<td>
+			<?php echo str_replace("\n", "", htmlspecialchars(topage($localstr['vctitle']))) ?>
+		</td>
 		<td>
 			<?php echo str_replace("\n", "<br/>",htmlspecialchars(topage($localstr['vcvalue']))) ?>
 		</td>

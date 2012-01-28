@@ -110,6 +110,7 @@ $dbtables = array(
 		"id" => "INT NOT NULL auto_increment PRIMARY KEY",
 		"locale" => "varchar(8)",
 		"groupid" => "int references ${mysqlprefix}chatgroup(groupid)",
+		"vctitle" => "varchar(100) NOT NULL DEFAULT ''",
 		"vcvalue" => "varchar(1024) NOT NULL",
 	),
 
@@ -158,7 +159,7 @@ $dbtables_can_update = array(
 	"${mysqlprefix}chatban" => array(),
 	"${mysqlprefix}chatgroup" => array("vcemail"),
 	"${mysqlprefix}chatgroupoperator" => array(),
-	"${mysqlprefix}chatresponses" => array(),
+	"${mysqlprefix}chatresponses" => array("vctitle"),
 	"${mysqlprefix}chatsitevisitor" => array(),
 	"${mysqlprefix}visitedpage" => array(),
 );

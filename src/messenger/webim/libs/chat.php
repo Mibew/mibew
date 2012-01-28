@@ -401,7 +401,7 @@ function setup_chatview_for_user($thread, $level)
 
 function setup_chatview_for_operator($thread, $operator)
 {
-	global $page, $webimroot, $company_logo_link, $company_name, $settings;
+	global $page, $webimroot, $company_logo_link, $webim_encoding, $company_name, $settings;
 	loadsettings();
 	$page = array();
 	$page['agent'] = true;
@@ -445,9 +445,11 @@ function setup_chatview_for_operator($thread, $operator)
 		);
 	};
 	foreach ($canned_messages as $answer) {
-		$predefinedres .= "<option>" . htmlspecialchars(topage($answer['vcvalue'])) . "</option>";
+		$predefinedres .= "<option>" . htmlspecialchars(topage($answer['vctitle']?$answer['vctitle']:cutstring($answer['vcvalue'], 97, '...'))) . "</option>";
+		$fullAnswers[] = myiconv($webim_encoding, getoutputenc(), $answer['vcvalue']);
 	}
 	$page['predefinedAnswers'] = $predefinedres;
+	$page['fullPredefinedAnswers'] = json_encode($fullAnswers);
 	$params = "thread=" . $thread['threadid'] . "&amp;token=" . $thread['ltoken'];
 	$page['redirectLink'] = "$webimroot/operator/agent.php?" . $params . "&amp;act=redirect";
 

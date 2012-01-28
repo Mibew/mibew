@@ -393,6 +393,13 @@ textarea.wide {
 	width: 95%;
 }
 
+input.wide {
+	border: 1px solid #878787;
+	color: #333;
+	line-height: normal;
+	width: 95%;
+}
+
 input.formauth {
 	border: 1px solid #878787;
 	color: #333;
