@@ -177,8 +177,10 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
   },
 
   closeThread: function() {
-	if(! confirm(localized[0])){
-	    return false;
+	if(typeof Chat.localizedStrings.closeConfirmation != 'undefined' && Chat.localizedStrings.closeConfirmation){
+		if(! confirm(Chat.localizedStrings.closeConfirmation)){
+		    return false;
+		}
 	}
 	var _params = 'act=close&thread=' + (this._options.threadid || 0) + '&token=' + (this._options.token || 0);
 	if( this._options.user )
@@ -397,5 +399,6 @@ EventHelper.register(window, 'onload', function(){
   Chat.webimRoot = threadParams.wroot;
   Chat.cssfile = threadParams.cssfile;
   Chat.predefinedAnswers = (typeof predefinedAnswers != 'undefined')?predefinedAnswers:Array();
+  Chat.localizedStrings = localizedStrings;
   Chat.threadUpdater = new Ajax.ChatThreadUpdater(({ignorectrl:-1,container:myRealAgent=='safari'?self.frames[0]:$("chatwnd"),avatar:$("avatarwnd"),message:$("msgwnd")}).extend( threadParams || {} ));
 });

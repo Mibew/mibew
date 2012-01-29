@@ -7,9 +7,7 @@
 <script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/common.js"></script>
 <script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/brws.js"></script>
 <script type="text/javascript" language="javascript"><!--
-var localized = new Array(
-    "${page:chat.close.confirmation}"
-);
+var localizedStrings = {closeConfirmation:"${page:chat.close.confirmation}"};
 ${if:agent}${if:canpost}
 var predefinedAnswers = ${page:fullPredefinedAnswers};
 ${endif:canpost}${endif:agent}
