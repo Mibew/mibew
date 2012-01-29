@@ -124,7 +124,7 @@ if ((isset($_POST['login']) || !is_capable($can_administrate, $operator)) && iss
 }
 
 if (!$opId && !is_capable($can_administrate, $operator)) {
-	$errors[] = "You are not allowed to create operators";
+	$errors[] = getlocal("page_agent.error.forbidden_create");
 }
 
 $canmodify = ($opId == $operator['operatorid'] && is_capable($can_modifyprofile, $operator))

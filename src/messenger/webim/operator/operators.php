@@ -35,11 +35,11 @@ if (isset($_GET['act'])) {
 
 	if ($_GET['act'] == 'del') {
 		if (!is_capable($can_administrate, $operator)) {
-			$errors[] = "You are not allowed to remove operators";
+			$errors[] = getlocal("page_agents.error.forbidden_remove");
 		}
 
 		if ($operatorid == $operator['operatorid']) {
-			$errors[] = "Cannot remove self";
+			$errors[] = getlocal("page_agents.error.cannot_remove_self");
 		}
 
 		if (count($errors) == 0) {
@@ -47,7 +47,7 @@ if (isset($_GET['act'])) {
 			if (!$op) {
 				$errors[] = getlocal("no_such_operator");
 			} else if ($op['vclogin'] == 'admin') {
-				$errors[] = 'Cannot remove operator "admin"';
+				$errors[] = getlocal("page_agents.error.cannot_remove_admin");
 			}
 		}
 

@@ -95,7 +95,7 @@ require_once('inc_errors.php');
 	</td>
 	<td>
 		<a class="removelink" id="i<?php echo $a['operatorid'] ?>" href="<?php echo $webimroot ?>/operator/operators.php?act=del&amp;id=<?php echo $a['operatorid'] ?>">
-			remove
+			<?php echo getlocal("remove.item") ?>
 		</a>
 	</td>
 <?php } ?>	
