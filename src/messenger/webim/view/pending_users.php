@@ -36,7 +36,9 @@ var localized = new Array(
     "<?php echo htmlspecialchars(getlocal("pending.menu.hide")) ?>",
     "<?php echo htmlspecialchars(getlocal("pending.popup_notification")) ?>",
     "<?php echo getlocal("pending.table.tracked") ?>",
-    "<?php echo getlocal("pending.table.invite") ?>"
+    "<?php echo getlocal("pending.table.invite") ?>",
+    "<?php echo getlocal("pending.status.away") ?>",
+    "<?php echo getlocal("pending.status.online") ?>"
 );
 var updaterOptions = {
 	url:"<?php echo $webimroot ?>/operator/update.php",wroot:"<?php echo $webimroot ?>",

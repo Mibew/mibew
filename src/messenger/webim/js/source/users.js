@@ -326,7 +326,7 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 	}
 	this.updateQueueMessages();
 	this.updateTimers();
-	this.setStatus(this._options.istatus ? "Away" : "Up to date");
+	this.setStatus(this._options.istatus ? localized[8] : localized[9]);
 	if( newAdded ) {
 		playSound(webimRoot+'/sounds/new_user.wav');
 		window.focus();
