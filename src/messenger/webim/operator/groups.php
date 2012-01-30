@@ -29,11 +29,11 @@ if (isset($_GET['act']) && $_GET['act'] == 'del') {
 	$groupid = isset($_GET['gid']) ? $_GET['gid'] : "";
 
 	if (!preg_match("/^\d+$/", $groupid)) {
-		$errors[] = "Cannot delete: wrong argument";
+		$errors[] = getlocal("page.groups.error.cannot_delete");
 	}
 
 	if (!is_capable($can_administrate, $operator)) {
-		$errors[] = "You are not allowed to remove groups";
+		$errors[] = getlocal("page.groups.error.forbidden_remove");
 	}
 
 	if (count($errors) == 0) {

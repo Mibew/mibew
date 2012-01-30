@@ -96,7 +96,7 @@ if(count($page['groups']) > 0) {
 <?php if($page['canmodify']) { ?>
 	<td>
 		<a href="<?php echo $webimroot ?>/operator/groups.php?act=del&amp;gid=<?php echo $grp['groupid'] ?>" id="i<?php echo $grp['groupid'] ?>" class="removelink">
-			remove
+			<?php echo getlocal("remove.item") ?>
 		</a>
 	</td>
 <?php } ?>
