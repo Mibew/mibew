@@ -28,6 +28,10 @@
 		<arg value="soundcheck:1:common"/>
 		  <arg value="--js"/>
 		  <arg value="soundcheck.js"/>
+	  <arg value="--module"/>
+		<arg value="survey:1:common"/>
+		  <arg value="--js"/>
+		  <arg value="survey.js"/>
 		  <arg value="--module"/>
 			<arg value="invite_op:1:common"/>
 			  <arg value="--js"/>

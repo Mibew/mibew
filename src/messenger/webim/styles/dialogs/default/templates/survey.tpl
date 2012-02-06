@@ -34,9 +34,18 @@
 	text-decoration:none;
 }
 </style>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/common.js"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/survey.js"></script>
+<script type="text/javascript">
 ${if:groups}
-<script type="text/javascript">groupDescriptions = ${page:group.descriptions};</script>
+    var groupDescriptions = ${page:group.descriptions};
 ${endif:groups}
+    var localizedStrings = {
+${if:showemail}
+	wrongEmail: '${msg:presurvey.error.wrong_email}',
+${endif:showemail}
+    }
+</script>
 </head>
 <body bgcolor="#FFFFFF" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" style="margin:0px;">
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -149,7 +158,7 @@ ${endif:showmessage}
 				<td colspan="2" align="right">
 					<table cellspacing="0" cellpadding="0" border="0">
 					<tr>
-					<td><a href="javascript:document.surveyForm.submit();" class="but" id="sndmessagelnk">${msg:presurvey.submit}</a></td>
+					<td><a href="javascript:Survey.submit();" class="but" id="sndmessagelnk">${msg:presurvey.submit}</a></td>
 					</tr>
 					</table>
 				</td>

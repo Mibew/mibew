@@ -405,6 +405,7 @@ permissions.intro=Здесь вы можете управлять возможностями оператора.
 permissions.title=Возможности оператора
 presurvey.department=Выберите отдел:
 presurvey.department.description=Описание отдела:
+presurvey.error.wrong_email=Неверный адрес электронной почты.
 presurvey.intro=Спасибо, что связались с нами! Заполните, пожалуйста, небольшую форму и нажмите "Начать диалог".
 presurvey.mail=E-mail:
 presurvey.name=Ваше имя:

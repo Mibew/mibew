@@ -20,9 +20,18 @@
 .isubmit { background-position:0px -39px; width: 40px; height: 35px; }
 .isubmitrest { background-position:-31px -39px; width: 10px; height: 35px;}
 </style>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/common.js"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/survey.js"></script>
+<script type="text/javascript">
 ${if:groups}
-<script type="text/javascript">groupDescriptions = ${page:group.descriptions};</script>
+    var groupDescriptions = ${page:group.descriptions};
 ${endif:groups}
+    var localizedStrings = {
+${if:showemail}
+	wrongEmail: '${msg:presurvey.error.wrong_email}',
+${endif:showemail}
+    }
+</script>
 </head>
 <body bgcolor="#FFFFFF" style="background-image: url(${tplroot}/images/bg.gif); margin: 0px;" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400">
 <table width="100%" style="height: 100%;" cellspacing="0" cellpadding="0" border="0">
@@ -132,12 +141,12 @@ ${endif:showmessage}
     <td width="33%">
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td><a href="javascript:document.surveyForm.submit();" title="${msg:presurvey.submit}"><img class="tplimage isubmit" src="${webimroot}/images/free.gif" border="0" alt=""/></a></td>
+	    <td><a href="javascript:Survey.submit();" title="${msg:presurvey.submit}"><img class="tplimage isubmit" src="${webimroot}/images/free.gif" border="0" alt=""/></a></td>
 	    <td style="background-image: url(${webimroot}/images/submitbg.gif)" valign="top" class="submit">
 			<img src='${webimroot}/images/free.gif' width="1" height="10" border="0" alt="" /><br/>
-			<a href="javascript:document.surveyForm.submit();" title="${msg:presurvey.submit}">${msg:presurvey.submit}</a><br/>
+			<a href="javascript:Survey.submit();" title="${msg:presurvey.submit}">${msg:presurvey.submit}</a><br/>
 		</td>
-	    <td width="10"><a href="javascript:document.surveyForm.submit();" title="${msg:presurvey.submit}"><img class="tplimage isubmitrest" src="${webimroot}/images/free.gif" border="0" alt=""/></a></td>
+	    <td width="10"><a href="javascript:Survey.submit();" title="${msg:presurvey.submit}"><img class="tplimage isubmitrest" src="${webimroot}/images/free.gif" border="0" alt=""/></a></td>
 		</tr>
 		</table>
 	</td>

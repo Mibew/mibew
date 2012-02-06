@@ -4,9 +4,18 @@
 	<title>${msg:presurvey.title}</title>
 	<link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
 	<link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" />
+	<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/common.js"></script>
+	<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/survey.js"></script>
+	<script type="text/javascript">
 	${if:groups}
-	<script type="text/javascript">groupDescriptions = ${page:group.descriptions};</script>
+	    var groupDescriptions = ${page:group.descriptions};
 	${endif:groups}
+	    var localizedStrings = {
+	${if:showemail}
+		wrongEmail: '${msg:presurvey.error.wrong_email}',
+	${endif:showemail}
+	    }
+	</script>
 </head>
 <body class="bgbody">
 	<div id="top2">
@@ -80,7 +89,7 @@
 			</tr>
 		${endif:showmessage}			
 		</table>		
-		<a href="javascript:document.surveyForm.submit();" class="but" id="sndmessagelnk">${msg:presurvey.submit}</a>
+		<a href="javascript:Survey.submit();" class="but" id="sndmessagelnk">${msg:presurvey.submit}</a>
 		<div class="clear">&nbsp;</div>
 	</div>
 </body>

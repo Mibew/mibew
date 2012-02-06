@@ -4,9 +4,18 @@
 <title>${msg:presurvey.title}</title>
 <link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
 <link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" />
+<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/common.js"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/survey.js"></script>
+<script type="text/javascript">
 ${if:groups}
-<script type="text/javascript">groupDescriptions = ${page:group.descriptions};</script>
+    var groupDescriptions = ${page:group.descriptions};
 ${endif:groups}
+    var localizedStrings = {
+${if:showemail}
+	wrongEmail: '${msg:presurvey.error.wrong_email}',
+${endif:showemail}
+    }
+</script>
 </head>
 <body>
 <div id="whitebg">
@@ -77,8 +86,8 @@ ${endif:groups}
 				<td>
 					<table cellspacing="3" cellpadding="0" border="0">
 						<tr>
-							<td><a href="javascript:document.surveyForm.submit();" title="${msg:presurvey.submit}"><img src="${tplroot}/images/buttons/exec.gif" border="0" alt="${msg:presurvey.submit}"/></a></td>
-							<td class="button"><a href="javascript:document.surveyForm.submit();" title="${msg:presurvey.submit}">${msg:presurvey.submit}</a></td>
+							<td><a href="javascript:Survey.submit();" title="${msg:presurvey.submit}"><img src="${tplroot}/images/buttons/exec.gif" border="0" alt="${msg:presurvey.submit}"/></a></td>
+							<td class="button"><a href="javascript:Survey.submit();" title="${msg:presurvey.submit}">${msg:presurvey.submit}</a></td>
 						</tr>
 					</table>
 				</td>
