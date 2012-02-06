@@ -48,12 +48,18 @@ if (!isset($_GET['token'])) {
 
 	$remote_level = get_remote_level($_SERVER['HTTP_USER_AGENT']);
 	if ($remote_level != "ajaxed") {
-		die("old browser is used, please update it");
+		$errors = array(getlocal("thread.error.old_browser"));
+		start_html_output();
+		expand("../styles/dialogs", getchatstyle(), "error.tpl");
+		exit;
 	}
 
 	$thread = thread_by_id($threadid);
 	if (!$thread || !isset($thread['ltoken'])) {
-		die("wrong thread");
+		$errors = array(getlocal("thread.error.wrong_thread"));
+		start_html_output();
+		expand("../styles/dialogs", getchatstyle(), "error.tpl");
+		exit;
 	}
 
 	$viewonly = verifyparam("viewonly", "/^true$/", false);
@@ -62,7 +68,7 @@ if (!isset($_GET['token'])) {
 	if (!$viewonly && $thread['istate'] == $state_chatting && $operator['operatorid'] != $thread['agentId']) {
 
 		if (!is_capable($can_takeover, $operator)) {
-			$errors = array("Cannot take over");
+			$errors = array(getlocal("thread.error.cannot_take_over"));
 			start_html_output();
 			expand("../styles/dialogs", getchatstyle(), "error.tpl");
 			exit;
@@ -79,9 +85,14 @@ if (!isset($_GET['token'])) {
 	}
 
 	if (!$viewonly) {
-		take_thread($thread, $operator);
+		if(! take_thread($thread, $operator)){
+			$errors = array(getlocal("thread.error.cannot_take"));
+			start_html_output();
+			expand("../styles/dialogs", getchatstyle(), "error.tpl");
+			exit;
+		}
 	} else if (!is_capable($can_viewthreads, $operator)) {
-		$errors = array("Cannot view threads");
+		$errors = array(getlocal("thread.error.cannot_view"));
 		start_html_output();
 		expand("../styles/dialogs", getchatstyle(), "error.tpl");
 		exit;

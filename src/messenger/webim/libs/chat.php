@@ -682,13 +682,14 @@ function take_thread($thread, $operator)
 			$message_to_post = getstring2_("chat.status.operator.changed", array($operatorName, $thread['agentName']), $thread['locale']);
 		}
 	} else {
-		die("cannot take thread");
+		return false;
 	}
 
 	if ($message_to_post) {
 		post_message($threadid, $kind_events, $message_to_post);
 		post_message($threadid, $kind_avatar, $operator['vcavatar'] ? $operator['vcavatar'] : "");
 	}
+	return true;
 }
 
 function check_for_reassign($thread, $operator)
