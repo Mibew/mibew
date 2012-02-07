@@ -214,7 +214,7 @@ function print_visitors()
 
 	$link = connect();
 
-// Remove old visitors' tracks
+// Remove old visitors
 	$query = "DELETE FROM ${mysqlprefix}chatsitevisitor WHERE (UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lasttime)) > " . $settings['tracking_lifetime'] .
 			" AND (threadid IS NULL OR (SELECT count(*) FROM ${mysqlprefix}chatthread WHERE threadid = ${mysqlprefix}chatsitevisitor.threadid" .
 			" AND istate <> $state_closed AND istate <> $state_left) = 0)";
@@ -230,6 +230,11 @@ function print_visitors()
 	$query = "UPDATE ${mysqlprefix}chatsitevisitor SET threadid = NULL WHERE threadid IS NOT NULL AND" .
 			" (SELECT count(*) FROM ${mysqlprefix}chatthread WHERE threadid = ${mysqlprefix}chatsitevisitor.threadid" .
 			" AND istate <> $state_closed AND istate <> $state_left) = 0";
+	perform_query($query, $link);
+
+// Remove old visitors' tracks
+	$query = "DELETE FROM ${mysqlprefix}visitedpage WHERE (UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(visittime)) > " . $settings['tracking_lifetime'] .
+			" AND visitorid NOT IN (SELECT visitorid FROM ${mysqlprefix}chatsitevisitor)";
 	perform_query($query, $link);
 
 	$output = array();

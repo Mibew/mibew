@@ -91,6 +91,8 @@ function track_visit_page($visitorid, $page, $link)
 		perform_query(sprintf("insert into ${mysqlprefix}visitedpage (visitorid, address, visittime) values ('%s', '%s', CURRENT_TIMESTAMP)",
 					db_escape_string($visitorid),
 					db_escape_string($page)), $link);
+		perform_query(sprintf("insert into ${mysqlprefix}visitedpagestatistics (address, visittime) values ('%s', CURRENT_TIMESTAMP)",
+					db_escape_string($page)), $link);
 	}
 }
 

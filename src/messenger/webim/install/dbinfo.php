@@ -136,6 +136,12 @@ $dbtables = array(
 		"visittime" => "datetime NOT NULL DEFAULT 0",
 		"visitorid" => "INT",
 	),
+
+	"${mysqlprefix}visitedpagestatistics" => array(
+		"pageid" => "INT NOT NULL auto_increment PRIMARY KEY",
+		"address" => "varchar(1024)",
+		"visittime" => "datetime NOT NULL DEFAULT 0"
+	),
 );
 
 $dbtables_indexes = array(
@@ -162,6 +168,7 @@ $dbtables_can_update = array(
 	"${mysqlprefix}chatresponses" => array("vctitle"),
 	"${mysqlprefix}chatsitevisitor" => array(),
 	"${mysqlprefix}visitedpage" => array(),
+	"${mysqlprefix}visitedpagestatistics" => array(),
 );
 
 function show_install_err($text)
