@@ -16,6 +16,10 @@ var Survey = {
 		return null;
 	},
 
+	changeGroup: function(){
+		document.getElementById('departmentDescription').childNodes.item(0).data = this.groupDescriptions[document.surveyForm.group.selectedIndex];
+	},
+
 	submit: function(){
 		var error = this.checkFields();
 		if(error == null){
@@ -28,4 +32,7 @@ var Survey = {
 
 EventHelper.register(window, 'onload', function(){
   Survey.localizedStrings = localizedStrings;
+  if( typeof groupDescriptions != 'undefined' ){
+	Survey.groupDescriptions = groupDescriptions;
+  }
 });

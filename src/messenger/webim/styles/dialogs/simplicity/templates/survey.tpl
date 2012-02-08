@@ -56,7 +56,7 @@ ${endif:showemail}
 						${if:groups}
 							<tr>
 								<td class="text">${msg:presurvey.department}</td>
-								<td><select name="group" style="min-width:200px;" onchange="document.getElementById('departmentDescription').childNodes.item(0).data = groupDescriptions[this.selectedIndex];">${page:groups}</select></td>
+								<td><select name="group" style="min-width:200px;" onchange="Survey.changeGroup()">${page:groups}</select></td>
 							</tr>
 							<tr>
 								<td class="text">${msg:presurvey.department.description}</td>

@@ -87,7 +87,7 @@ ${if:groups}
 			<td class="text">${msg:presurvey.department}</td>
 			<td width="20"></td>
 			<td>
-			<select name="group" style="min-width:200px;" onchange="document.getElementById('departmentDescription').childNodes.item(0).data = groupDescriptions[this.selectedIndex];">${page:groups}</select>
+			<select name="group" style="min-width:200px;" onchange="Survey.changeGroup()">${page:groups}</select>
 			</td>
 		</tr>
 		<tr><td height="7" colspan="3"></td></tr>
