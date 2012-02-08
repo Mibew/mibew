@@ -339,12 +339,14 @@ function setup_survey($name, $email, $groupid, $info, $referrer)
 			if ($k['ilastseen'] !== NULL && $k['ilastseen'] < $settings['online_timeout']) {
 				if (!$groupid) {
 					$groupid = $k['groupid']; // select first online group
-					$defaultdescription = $k['vclocaldescription'];
 				}
 			} else {
 				$groupname .= " (offline)";
 			}
 			$isselected = $k['groupid'] == $groupid;
+			if ($isselected) {
+				$defaultdescription = $k['vclocaldescription'];
+			}
 			$val .= "<option value=\"" . $k['groupid'] . "\"" . ($isselected ? " selected=\"selected\"" : "") . ">$groupname</option>";
 			$groupdescriptions[] = $k['vclocaldescription'];
 		}
