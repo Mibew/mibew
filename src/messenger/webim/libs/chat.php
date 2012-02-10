@@ -87,23 +87,29 @@ function post_message($threadid, $kind, $message, $from = null, $agentid = null)
 	return $id;
 }
 
-function prepare_html_message($text)
+function prepare_html_message($text, $allow_formating)
 {
 	$escaped_text = htmlspecialchars($text);
 	$text_w_links = preg_replace('/(https?|ftp):\/\/\S*/', '<a href="$0" target="_blank">$0</a>', $escaped_text);
 	$multiline = str_replace("\n", "<br/>", $text_w_links);
-	return $multiline;
+	if (! $allow_formating) {
+		return $multiline;
+	}
+	$formated = preg_replace('/&lt;(span|strong)&gt;(.*)&lt;\/\1&gt;/U', '<$1>$2</$1>', $multiline);
+	$formated = preg_replace('/&lt;span class=&quot;(.*)&quot;&gt;(.*)&lt;\/span&gt;/U', '<span class="$1">$2</span>', $formated);
+	return $formated;
 }
 
 function message_to_html($msg)
 {
-	global $kind_to_string, $kind_avatar;
+	global $kind_to_string, $kind_user, $kind_agent, $kind_avatar;
 	if ($msg['ikind'] == $kind_avatar) return "";
 	$message = "<span>" . date("H:i:s", $msg['created']) . "</span> ";
 	$kind = $kind_to_string{$msg['ikind']};
 	if ($msg['tname'])
 		$message .= "<span class='n$kind'>" . htmlspecialchars($msg['tname']) . "</span>: ";
-	$message .= "<span class='m$kind'>" . prepare_html_message($msg['tmessage']) . "</span><br/>";
+	$allow_formating = ($msg['ikind'] != $kind_user && $msg['ikind'] != $kind_agent);
+	$message .= "<span class='m$kind'>" . prepare_html_message($msg['tmessage'], $allow_formating) . "</span><br/>";
 	return $message;
 }
 
