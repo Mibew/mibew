@@ -138,7 +138,7 @@ require_once('inc_errors.php');
 <?php if( $page['reportByAgent'] ) { ?>
 	<?php foreach( $page['reportByAgent'] as $row ) { ?>
 	<tr>
-		<td><a href="<?php echo $webimroot ?>/operator/history.php?q=<?php echo topage(htmlspecialchars($row['name'])) ?>"><?php echo topage(htmlspecialchars($row['name'])) ?></a></td>
+		<td><a href="<?php echo $webimroot ?>/operator/history.php?q=<?php echo topage(htmlspecialchars($row['name'])) ?>&type=operator"><?php echo topage(htmlspecialchars($row['name'])) ?></a></td>
 		<td><?php echo $row['threads'] ?></td>
 		<td><?php echo $row['msgs'] ?></td>
     	<td><?php echo $row['avglen'] ?></td>

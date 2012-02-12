@@ -35,6 +35,9 @@ setlocale(LC_TIME, getstring("time.locale"));
 $page = array();
 $query = isset($_GET['q']) ? myiconv(getoutputenc(), $webim_encoding, $_GET['q']) : false;
 
+$searchType = verifyparam('type', '/^(all|message|operator|visitor)$/', 'all');
+$searchInSystemMessages = (verifyparam('insystemmessages', '/^on$/', 'off') == 'on') || !$query;
+
 if ($query !== false) {
 	$link = connect();
 
@@ -48,6 +51,18 @@ if ($query !== false) {
 	$page['groupName'] = $groupName;
 
 	$escapedQuery = db_escape_string($query, $link);
+	$searchConditions = array();
+	if ($searchType == 'message' || $searchType == 'all') {
+		$searchConditions[] = "(${mysqlprefix}chatmessage.tmessage LIKE '%%$escapedQuery%%'" .
+					($searchInSystemMessages?'':" AND (${mysqlprefix}chatmessage.ikind = $kind_user OR ${mysqlprefix}chatmessage.ikind = $kind_agent)") .
+					")";
+	}
+	if ($searchType == 'operator' || $searchType == 'all') {
+		$searchConditions[] = "(${mysqlprefix}chatthread.agentName LIKE '%%$escapedQuery%%')";
+	}
+	if ($searchType == 'visitor' || $searchType == 'all') {
+		$searchConditions[] = "(${mysqlprefix}chatthread.userName LIKE '%%$escapedQuery%%')";
+	}
 	select_with_pagintation("DISTINCT unix_timestamp(${mysqlprefix}chatthread.dtmcreated) as created, " .
 							"unix_timestamp(${mysqlprefix}chatthread.dtmmodified) as modified, ${mysqlprefix}chatthread.threadid, " .
 							"${mysqlprefix}chatthread.remote, ${mysqlprefix}chatthread.agentName, ${mysqlprefix}chatthread.userName, groupid, " .
@@ -55,7 +70,7 @@ if ($query !== false) {
 							"${mysqlprefix}chatthread, ${mysqlprefix}chatmessage",
 							array(
 								 "${mysqlprefix}chatmessage.threadid = ${mysqlprefix}chatthread.threadid",
-								 "((${mysqlprefix}chatthread.userName LIKE '%%$escapedQuery%%') or (${mysqlprefix}chatmessage.tmessage LIKE '%%$escapedQuery%%'))"
+								 "(" . implode(' or ', $searchConditions)  .  ")"
 							),
 							"order by created DESC",
 							"DISTINCT ${mysqlprefix}chatthread.dtmcreated", $link);
@@ -66,6 +81,9 @@ if ($query !== false) {
 } else {
 	setup_empty_pagination();
 }
+
+$page['formtype'] = $searchType;
+$page['forminsystemmessages'] = $searchInSystemMessages;
 
 prepare_menu($operator);
 start_html_output();

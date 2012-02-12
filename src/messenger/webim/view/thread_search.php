@@ -38,10 +38,22 @@ function tpl_content() { global $page, $webimroot;
 			<div class="flabel"><?php echo getlocal("page_analysis.full.text.search") ?></div>
 			<div class="fvaluenodesc">
 				<div id="searchtext">
-					<input type="text" name="q" size="80" value="<?php echo form_value('q') ?>" class="formauth"/>
+					<input type="text" name="q" size="60" value="<?php echo form_value('q') ?>" class="formauth"/>
+				</div>
+				<div class="searchctrl">
+					<?php echo getlocal("page_search.type.title") ?>
+					<select name="type" onchange="if (this.value == 'all' || this.value == 'message') {document.getElementById('inSystemMessages').style.display='inline'} else {document.getElementById('inSystemMessages').style.display='none'}; ">
+						<option value="all" <?php echo (form_value('type') == 'all')?'selected="selected"':'' ?>><?php echo getlocal("page_search.type.all") ?></option>
+						<option value="message" <?php echo (form_value('type') == 'message')?'selected="selected"':'' ?>><?php echo getlocal("page_search.type.message") ?></option>
+						<option value="operator" <?php echo (form_value('type') == 'operator')?'selected="selected"':'' ?>><?php echo getlocal("page_search.type.operator") ?></option>
+						<option value="visitor" <?php echo (form_value('type') == 'visitor')?'selected="selected"':'' ?>><?php echo getlocal("page_search.type.visitor") ?></option>
+					</select>
 				</div>
 				<div id="searchbutton">
 					<input type="image" name="search" src='<?php echo $webimroot.getlocal("image.button.search") ?>' alt='<?php echo getlocal("button.search") ?>'/>
+				</div><br />
+				<div class="searchctrl" id="inSystemMessages"<?php echo ((form_value('type') != 'all' && form_value('type') != 'message')?' style="display: none;"':'')?>>
+					<input type="checkbox" name="insystemmessages" <?php echo (form_value('insystemmessages')?'checked="checked"':'') ?>/> <?php echo getlocal("page_search.search.type.in_system_messages") ?>
 				</div>
 			</div>
 			<br clear="all"/>
