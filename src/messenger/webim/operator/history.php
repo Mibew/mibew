@@ -62,6 +62,7 @@ if ($query !== false) {
 	}
 	if ($searchType == 'visitor' || $searchType == 'all') {
 		$searchConditions[] = "(${mysqlprefix}chatthread.userName LIKE '%%$escapedQuery%%')";
+		$searchConditions[] = "(${mysqlprefix}chatthread.remote LIKE '%%$escapedQuery%%')";
 	}
 	select_with_pagintation("DISTINCT unix_timestamp(${mysqlprefix}chatthread.dtmcreated) as created, " .
 							"unix_timestamp(${mysqlprefix}chatthread.dtmmodified) as modified, ${mysqlprefix}chatthread.threadid, " .
