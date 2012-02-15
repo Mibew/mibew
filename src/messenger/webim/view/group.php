@@ -85,7 +85,16 @@ require_once('inc_errors.php');
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.groupcommondesc.description') ?></div>
 			<br clear="all"/>
 		</div>
-		
+
+		<div class="field">
+			<div class="flabel"><?php echo getlocal('form.field.groupweight') ?></div>
+			<div class="fvalue">
+				<input type="text" name="weight" size="40" value="<?php echo form_value('weight') ?>" class="formauth"/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.groupweight.description') ?></div>
+			<br clear="all"/>
+		</div>
+
 		<div class="field">
 			<div class="flabel"><?php echo getlocal('form.field.mail') ?></div>
 			<div class="fvalue">

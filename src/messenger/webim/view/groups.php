@@ -60,6 +60,8 @@ require_once('inc_errors.php');
 	<?php echo getlocal("page_agents.status") ?>
 </th><th>
 	<?php echo getlocal("page.group.membersnum") ?>
+</th><th>
+	<?php echo getlocal("page.groups.weight") ?>
 <?php if($page['canmodify']) { ?>
 </th><th>
 <?php } ?>
@@ -93,6 +95,9 @@ if(count($page['groups']) > 0) {
 	   		<?php echo htmlspecialchars(topage($grp['inumofagents'])) ?>
    		</a>
 	</td>
+	<td>
+		<?php echo $grp['iweight'] ?>
+	</td>
 <?php if($page['canmodify']) { ?>
 	<td>
 		<a href="<?php echo $webimroot ?>/operator/groups.php?act=del&amp;gid=<?php echo $grp['groupid'] ?>" id="i<?php echo $grp['groupid'] ?>" class="removelink">
@@ -106,7 +111,7 @@ if(count($page['groups']) > 0) {
 } else {
 ?>
 	<tr>
-	<td colspan="4">
+	<td colspan="5">
 		<?php echo getlocal("tag.pagination.no_items.elements") ?>
 	</td>
 	</tr>

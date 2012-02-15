@@ -397,7 +397,7 @@ function get_all_groups($link)
 function get_groups($link, $checkaway)
 {
 	global $mysqlprefix;
-	$query = "select ${mysqlprefix}chatgroup.groupid as groupid, vclocalname, vclocaldescription" .
+	$query = "select ${mysqlprefix}chatgroup.groupid as groupid, vclocalname, vclocaldescription, iweight" .
 			 ", (SELECT count(*) from ${mysqlprefix}chatgroupoperator where ${mysqlprefix}chatgroup.groupid = " .
 			 "${mysqlprefix}chatgroupoperator.groupid) as inumofagents" .
 			 ", (SELECT min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
@@ -411,7 +411,7 @@ function get_groups($link, $checkaway)
 					   "and ${mysqlprefix}chatgroupoperator.operatorid = ${mysqlprefix}chatoperator.operatorid) as ilastseenaway"
 					 : ""
 			 ) .
-			 " from ${mysqlprefix}chatgroup order by vclocalname";
+			 " from ${mysqlprefix}chatgroup order by iweight, vclocalname";
 	return select_multi_assoc($query, $link);
 }
 
