@@ -97,18 +97,21 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 			exit;
 		}
 
-		if($settings['enablepresurvey'] == '1' && !(isset($_POST['survey']) && $_POST['survey'] == 'on')) {
+		$link = connect();
+		$invitation_state = invitation_state($_SESSION['visitorid'], $link);
+		$visitor_is_invited = $settings['enabletracking'] && $invitation_state['invited'] && !$invitation_state['threadid'];
+		if($settings['enablepresurvey'] == '1' && !(isset($_POST['survey']) && $_POST['survey'] == 'on') && !$visitor_is_invited) {
 			$page = array();
 			setup_logo();
 			setup_survey($visitor['name'], $email, $groupid, $info, $referrer);
 			expand("styles/dialogs", getchatstyle(), "survey.tpl");
+			close_connection($link);
 			exit;
 		}
 
 		$remoteHost = get_remote_host();
 		$userbrowser = $_SERVER['HTTP_USER_AGENT'];
 
-		$link = connect();
 		if(!check_connections_from_remote($remoteHost, $link)) {
 			close_connection($link);
 			die("number of connections from your IP is exceeded, try again later");
