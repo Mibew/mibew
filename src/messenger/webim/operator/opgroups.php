@@ -44,8 +44,7 @@ $page['groups'] = get_all_groups($link);
 close_connection($link);
 $errors = array();
 
-$canmodify = ($opId == $operator['operatorid'] && is_capable($can_modifyprofile, $operator))
-			 || is_capable($can_administrate, $operator);
+$canmodify = is_capable($can_administrate, $operator);
 
 $op = operator_by_id($opId);
 
