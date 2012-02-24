@@ -100,8 +100,11 @@ if (isset($_POST['name'])) {
 	if ($email != '' && !is_valid_email($email))
 		$errors[] = wrong_field("form.field.mail");
 
-	if (! preg_match("/^\d{1,9}$/", $weight))
+	if (! preg_match("/^(\d{1,9})?$/", $weight))
 		$errors[] = wrong_field("form.field.groupweight");
+
+	if ($weight == '')
+		$weight = 0;
 
 	if (! $parentgroup)
 		$parentgroup = NULL;
