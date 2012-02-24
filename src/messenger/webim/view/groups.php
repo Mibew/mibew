@@ -73,7 +73,7 @@ require_once('inc_errors.php');
 if(count($page['groups']) > 0) { 
 	foreach( $page['groups'] as $grp ) { ?>
 <tr>
-	<td class="notlast">
+	<td class="notlast level<?php echo $grp['level'] ?>">
    		<a href="<?php echo $webimroot ?>/operator/group.php?gid=<?php echo $grp['groupid'] ?>" id="ti<?php echo $grp['groupid'] ?>" class="man">
    			<?php echo htmlspecialchars(topage($grp['vclocalname'])) ?>
    		</a>

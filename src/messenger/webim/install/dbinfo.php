@@ -28,6 +28,7 @@ $dbtables = array(
 		"vclocaldescription" => "varchar(1024) NOT NULL",
 		"vccommondescription" => "varchar(1024) NOT NULL",
 		"iweight" => "int NOT NULL DEFAULT 0",
+		"parent" => "int DEFAULT NULL",
 	),
 
 	"${mysqlprefix}chatthread" => array(
@@ -146,6 +147,9 @@ $dbtables = array(
 );
 
 $dbtables_indexes = array(
+	"${mysqlprefix}chatgroup" => array(
+		"parent" => "parent"
+	),
 	"${mysqlprefix}chatmessage" => array(
 		"idx_agentid" => "agentid"
 	),
@@ -164,7 +168,7 @@ $dbtables_can_update = array(
 	"${mysqlprefix}chatmessage" => array("agentId"),
 	"${mysqlprefix}chatoperator" => array("vcavatar", "vcjabbername", "iperm", "istatus", "idisabled", "vcemail", "dtmrestore", "vcrestoretoken"),
 	"${mysqlprefix}chatban" => array(),
-	"${mysqlprefix}chatgroup" => array("vcemail", "iweight"),
+	"${mysqlprefix}chatgroup" => array("vcemail", "iweight", "parent"),
 	"${mysqlprefix}chatgroupoperator" => array(),
 	"${mysqlprefix}chatresponses" => array("vctitle"),
 	"${mysqlprefix}chatsitevisitor" => array(),

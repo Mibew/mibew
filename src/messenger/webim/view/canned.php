@@ -49,7 +49,7 @@ require_once('inc_errors.php');
 		<?php echo getlocal("canned.group") ?><br/>
 		<select name="group" onchange="this.form.submit();"><?php 
 			foreach($page['groups'] as $k) { 
-				echo "<option value=\"".$k["groupid"]."\"".($k["groupid"] == form_value("group") ? " selected=\"selected\"" : "").">".$k["vclocalname"]."</option>";
+				echo "<option value=\"".$k["groupid"]."\"".($k["groupid"] == form_value("group") ? " selected=\"selected\"" : "").">".str_repeat('&nbsp', $k['level']*2).$k["vclocalname"]."</option>";
 			} ?></select>
 	</div>
 

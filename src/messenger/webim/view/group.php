@@ -87,6 +87,15 @@ require_once('inc_errors.php');
 		</div>
 
 		<div class="field">
+			<div class="flabel"><?php echo getlocal('form.field.mail') ?></div>
+			<div class="fvalue">
+				<input type="text" name="email" size="40" value="<?php echo form_value('email') ?>" class="formauth"/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.groupemail.description') ?></div>
+			<br clear="all"/>
+		</div>
+
+		<div class="field">
 			<div class="flabel"><?php echo getlocal('form.field.groupweight') ?></div>
 			<div class="fvalue">
 				<input type="text" name="weight" size="40" value="<?php echo form_value('weight') ?>" class="formauth"/>
@@ -96,14 +105,14 @@ require_once('inc_errors.php');
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('form.field.mail') ?></div>
+			<div class="flabel"><?php echo getlocal('form.field.groupparent') ?></div>
 			<div class="fvalue">
-				<input type="text" name="email" size="40" value="<?php echo form_value('email') ?>" class="formauth"/>
+				<select name="parentgroup" ><?php foreach($page['availableParentGroups'] as $k) { echo "<option value=\"".$k['groupid']."\"".($k['groupid'] == form_value("parentgroup") ? " selected=\"selected\"" : "").">".str_repeat('&nbsp;', $k['level']*2).$k['vclocalname']."</option>"; } ?></select>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.groupemail.description') ?></div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.groupparent.description') ?></div>
 			<br clear="all"/>
 		</div>
-		
+
 		<div class="fbutton">
 			<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
 		</div>

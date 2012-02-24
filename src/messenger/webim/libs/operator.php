@@ -176,7 +176,8 @@ function has_online_operators($groupid = "")
 	$link = connect();
 	$query = "select count(*) as total, min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time from ${mysqlprefix}chatoperator";
 	if ($groupid) {
-		$query .= ", ${mysqlprefix}chatgroupoperator where groupid = $groupid and ${mysqlprefix}chatoperator.operatorid = " .
+		$query .= ", ${mysqlprefix}chatgroupoperator, ${mysqlprefix}chatgroup where ${mysqlprefix}chatgroup.groupid = ${mysqlprefix}chatgroupoperator.groupid and " .
+				  "(${mysqlprefix}chatgroup.groupid = $groupid or ${mysqlprefix}chatgroup.parent = $groupid) and ${mysqlprefix}chatoperator.operatorid = " .
 				  "${mysqlprefix}chatgroupoperator.operatorid and istatus = 0";
 	} else {
 		if ($settings['enablegroups'] == 1) {
@@ -390,14 +391,29 @@ function prepare_menu($operator, $hasright = true)
 function get_all_groups($link)
 {
 	global $mysqlprefix;
-	$query = "select ${mysqlprefix}chatgroup.groupid as groupid, vclocalname, vclocaldescription from ${mysqlprefix}chatgroup order by vclocalname";
-	return select_multi_assoc($query, $link);
+	$query = "select ${mysqlprefix}chatgroup.groupid as groupid, parent, vclocalname, vclocaldescription from ${mysqlprefix}chatgroup order by vclocalname";
+	return get_sorted_child_groups_(select_multi_assoc($query, $link));
+}
+
+function get_sorted_child_groups_($groupslist, $skipgroups = array(), $maxlevel = -1, $groupid = NULL, $level = 0)
+{
+	$child_groups = array();
+	foreach ($groupslist as $index => $group) {
+		if ($group['parent'] == $groupid && !in_array($group['groupid'], $skipgroups)) {
+			$group['level'] = $level;
+			$child_groups[] = $group;
+			if ($maxlevel == -1 || $level < $maxlevel) {
+				$child_groups = array_merge($child_groups, get_sorted_child_groups_($groupslist, $skipgroups, $maxlevel, $group['groupid'], $level+1));
+			}
+		}
+	}
+	return $child_groups;
 }
 
 function get_groups($link, $checkaway)
 {
 	global $mysqlprefix;
-	$query = "select ${mysqlprefix}chatgroup.groupid as groupid, vclocalname, vclocaldescription, iweight" .
+	$query = "select ${mysqlprefix}chatgroup.groupid as groupid, parent, vclocalname, vclocaldescription, iweight" .
 			 ", (SELECT count(*) from ${mysqlprefix}chatgroupoperator where ${mysqlprefix}chatgroup.groupid = " .
 			 "${mysqlprefix}chatgroupoperator.groupid) as inumofagents" .
 			 ", (SELECT min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
@@ -412,7 +428,7 @@ function get_groups($link, $checkaway)
 					 : ""
 			 ) .
 			 " from ${mysqlprefix}chatgroup order by iweight, vclocalname";
-	return select_multi_assoc($query, $link);
+	return get_sorted_child_groups_(select_multi_assoc($query, $link));
 }
 
 function get_operator_groupids($operatorid)

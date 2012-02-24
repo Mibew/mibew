@@ -129,7 +129,7 @@ function print_pending_threads($groupids, $since)
 					 : "") .
 			 ($settings['enablegroups'] == '1'
 					 ? "AND (groupid is NULL" . ($groupids
-							 ? " OR groupid IN ($groupids)"
+							 ? " OR groupid IN ($groupids) OR groupid IN (SELECT parent FROM ${mysqlprefix}chatgroup WHERE groupid IN ($groupids)) "
 							 : "") .
 					   ") "
 					 : "") .

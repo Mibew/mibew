@@ -329,6 +329,13 @@ div.errinfo {
 	background: url(images/subitem.gif) no-repeat 10px 2px;
 }
 
+.forminner .level0{
+}
+
+.forminner .level1{
+	padding-left: 20px;
+}
+
 .fieldinrow {
 	min-width: 300px;
 	display: inline;
@@ -500,6 +507,13 @@ table.list td a.man {
 
 table.list tbody tr:hover td, table.list tbody tr:hover td a, table.statistics tbody tr:hover td {
 	color: #1D485E;
+}
+
+table.list td.level0{
+}
+
+table.list td.level1{
+	padding-left: 20px;
 }
 
 /* awaiting */

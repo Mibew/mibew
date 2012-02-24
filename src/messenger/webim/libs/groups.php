@@ -66,4 +66,31 @@ function get_operator_groupslist($operatorid, $link)
 	}
 }
 
+function get_available_parent_groups($skipgroup)
+{
+	global $mysqlprefix;
+	$link = connect();
+	$query = "select ${mysqlprefix}chatgroup.groupid as groupid, parent, vclocalname from ${mysqlprefix}chatgroup order by vclocalname";
+	$groupslist = select_multi_assoc($query, $link);
+	$result = array(array('groupid' => '', 'level' => '', 'vclocalname' => getlocal("form.field.groupparent.root")));
+
+	if ($skipgroup) {
+		$skipgroup = (array)$skipgroup;
+	} else {
+		$skipgroup = array();
+	}
+
+	$result = array_merge($result, get_sorted_child_groups_($groupslist, $skipgroup, 0) );
+	close_connection($link);
+	return $result;
+}
+
+function group_has_children($groupid, $link)
+{
+	global $mysqlprefix;
+	$children = select_one_row(sprintf("select COUNT(*) as count from ${mysqlprefix}chatgroup where parent = %u", $groupid),
+					$link);
+	return ($children['count'] > 0);
+}
+
 ?>

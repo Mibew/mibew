@@ -331,34 +331,40 @@ function setup_survey($name, $email, $groupid, $info, $referrer)
 	$page['forminfo'] = topage($info);
 	$page['referrer'] = urlencode(topage($referrer));
 
+	$selectedgroupid = $groupid;
+
 	if ($settings['enablegroups'] == '1' && $settings["surveyaskgroup"] == "1") {
 		$link = connect();
-		$allgroups = get_groups($link, false);
-		close_connection($link);
-		$val = "";
-		$groupdescriptions = array();
-		foreach ($allgroups as $k) {
-			$groupname = $k['vclocalname'];
-			if ($k['inumofagents'] == 0) {
-				continue;
-			}
-			if ($k['ilastseen'] !== NULL && $k['ilastseen'] < $settings['online_timeout']) {
-				if (!$groupid) {
-					$groupid = $k['groupid']; // select first online group
+		$showgroups = ($groupid == '')?true:group_has_children($groupid, $link);
+		if ($showgroups) {
+			$allgroups = get_groups($link, false);
+			close_connection($link);
+			$val = "";
+			$groupdescriptions = array();
+			foreach ($allgroups as $k) {
+				$groupname = $k['vclocalname'];
+				if ($k['inumofagents'] == 0 || ($groupid && $k['parent'] != $groupid && $k['groupid'] != $groupid )) {
+					continue;
 				}
-			} else {
-				$groupname .= " (offline)";
+				if ($k['ilastseen'] !== NULL && $k['ilastseen'] < $settings['online_timeout']) {
+					if (!$selectedgroupid) {
+						$selectedgroupid = $k['groupid']; // select first online group
+					}
+				} else {
+					$groupname .= " (offline)";
+				}
+				$isselected = $k['groupid'] == $selectedgroupid;
+				if ($isselected) {
+					$defaultdescription = $k['vclocaldescription'];
+				}
+				$val .= "<option value=\"" . $k['groupid'] . "\"" . ($isselected ? " selected=\"selected\"" : "") . ">$groupname</option>";
+				$groupdescriptions[] = $k['vclocaldescription'];
 			}
-			$isselected = $k['groupid'] == $groupid;
-			if ($isselected) {
-				$defaultdescription = $k['vclocaldescription'];
-			}
-			$val .= "<option value=\"" . $k['groupid'] . "\"" . ($isselected ? " selected=\"selected\"" : "") . ">$groupname</option>";
-			$groupdescriptions[] = $k['vclocaldescription'];
+			$page['groups'] = $val;
+			$page['group.descriptions'] = json_encode($groupdescriptions);
+			$page['default.department.description'] = empty($defaultdescription)?' ':$defaultdescription;
 		}
-		$page['groups'] = $val;
-		$page['group.descriptions'] = json_encode($groupdescriptions);
-		$page['default.department.description'] = empty($defaultdescription)?' ':$defaultdescription;
+		close_connection($link);
 	}
 
 	$page['showemail'] = $settings["surveyaskmail"] == "1" ? "1" : "";

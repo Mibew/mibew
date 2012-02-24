@@ -48,7 +48,7 @@ require_once('inc_errors.php');
 		<b><?php echo $page['currentop'] ?>&lrm;</b>
 	</p>
 <?php foreach( $page['groups'] as $pm ) { ?>
-	<div class="field">
+	<div class="field level<?php echo $pm['level'] ?>">
 		<div class="flabel"><?php echo htmlspecialchars(topage($pm['vclocalname'])) ?></div>
 		<div class="fvalue">
 			<input type="checkbox" name="group<?php echo $pm['groupid'] ?>" value="on"<?php echo form_value_mb('group',$pm['groupid']) ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
