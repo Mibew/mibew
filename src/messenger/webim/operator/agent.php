@@ -123,7 +123,7 @@ start_html_output();
 
 $pparam = verifyparam("act", "/^(redirect)$/", "default");
 if ($pparam == "redirect") {
-	setup_redirect_links($threadid, $token);
+	setup_redirect_links($threadid, $operator, $token);
 	expand("../styles/dialogs", getchatstyle(), "redirect.tpl");
 } else {
 	expand("../styles/dialogs", getchatstyle(), "chat.tpl");

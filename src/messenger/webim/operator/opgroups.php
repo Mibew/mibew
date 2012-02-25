@@ -36,11 +36,12 @@ function update_operator_groups($operatorid, $newvalue)
 	close_connection($link);
 }
 
+$operator_in_isolation = in_isolation($operator);
 
 $opId = verifyparam("op", "/^\d{1,9}$/");
 $page = array('opid' => $opId);
 $link = connect();
-$page['groups'] = get_all_groups($link);
+$page['groups'] = $operator_in_isolation?get_all_groups_for_operator($operator, $link):get_all_groups($link);
 close_connection($link);
 $errors = array();
 

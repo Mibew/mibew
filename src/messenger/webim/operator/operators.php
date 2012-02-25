@@ -92,7 +92,7 @@ if (isset($_GET['act'])) {
 }
 
 $page = array();
-$page['allowedAgents'] = operator_get_all();
+$page['allowedAgents'] = in_isolation($operator)?get_operators_from_adjacent_groups($operator):operator_get_all();
 $page['canmodify'] = is_capable($can_administrate, $operator);
 
 setlocale(LC_TIME, getstring("time.locale"));

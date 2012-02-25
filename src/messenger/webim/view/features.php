@@ -45,6 +45,14 @@ function updateSSL() {
 	}
 }
 
+function updateGroups(){
+	if($("#enablegroups").is(":checked")) {
+		$(".undergroups").show();
+	} else {
+		$(".undergroups").hide();
+	}
+}
+
 $(function(){
 	$("#enablepresurvey").change(function() {
 		updateSurvey();
@@ -52,8 +60,12 @@ $(function(){
 	$("#enablessl").change(function() {
 		updateSSL();
 	});
+	$("#enablegroups").change(function() {
+		updateGroups();
+	});
 	updateSurvey();
 	updateSSL();
+	updateGroups();
 });
 </script>
 <?php
@@ -109,10 +121,19 @@ require_once('inc_errors.php');
 		<div class="field">
 			<div class="flabel"><?php echo getlocal('settings.enablegroups') ?></div>
 			<div class="fvalue">
-				<input type="checkbox" name="enablegroups" value="on"<?php echo form_value_cb('enablegroups') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+				<input id="enablegroups" type="checkbox" name="enablegroups" value="on"<?php echo form_value_cb('enablegroups') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enablegroups.description') ?></div>
 			<br clear="all"/>
+
+			<div class="subfield undergroups">
+				<div class="flabel"><?php echo getlocal('settings.enablegroupsisolation') ?></div>
+				<div class="fvalue">
+					<input type="checkbox" name="enablegroupsisolation" value="on"<?php echo form_value_cb('enablegroupsisolation') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+				</div>
+				<div class="fdescr"> &mdash; <?php echo getlocal('settings.enablegroupsisolation.description') ?></div>
+				<br clear="all"/>
+			</div>
 		</div>
 
 		<div class="field">

@@ -151,11 +151,11 @@ function print_pending_threads($groupids, $since)
 	echo "</threads>";
 }
 
-function print_operators()
+function print_operators($operator)
 {
-	global $webim_encoding;
+	global $webim_encoding, $settings;
 	echo "<operators>";
-	$operators = operator_get_all();
+	$operators = in_isolation($operator)?get_operators_from_adjacent_groups($operator):operator_get_all();
 
 	foreach ($operators as $operator) {
 		if (!operator_is_online($operator))
@@ -278,7 +278,7 @@ $groupids = $_SESSION["${mysqlprefix}operatorgroups"];
 start_xml_output();
 echo '<update>';
 if ($showonline) {
-	print_operators();
+	print_operators($operator);
 }
 print_pending_threads($groupids, $since);
 if ($showvisitors) {

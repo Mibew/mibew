@@ -61,7 +61,7 @@ if ($groupid) {
 }
 
 $link = connect();
-$allgroups = get_all_groups($link);
+$allgroups = in_isolation($operator)?get_all_groups_for_operator($operator, $link):get_all_groups($link);
 close_connection($link);
 $page['groups'] = array();
 $page['groups'][] = array('groupid' => '', 'vclocalname' => getlocal("page.gen_button.default_group"));

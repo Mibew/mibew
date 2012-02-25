@@ -79,7 +79,7 @@ if ($show == 'redirect' || $show == 'redirected' || $show == 'agentchat' || $sho
 			 'operatorid' => ($show == 'agentrochat' ? 2 : 1),
 		));
 	if ($show == 'redirect') {
-		setup_redirect_links(0, $show == 'agentrochat' ? 124 : 123);
+		setup_redirect_links(0, $operator, $show == 'agentrochat' ? 124 : 123);
 	} elseif ($show == 'redirected') {
 		$page['message'] = getlocal2("chat.redirected.content", array("Administrator"));
 	}

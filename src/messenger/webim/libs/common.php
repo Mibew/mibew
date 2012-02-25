@@ -695,6 +695,7 @@ $settings = array(
 	'forcessl' => '0',
 	'usercanchangename' => '1',
 	'enablegroups' => '0',
+	'enablegroupsisolation' => '0',
 	'enablestatistics' => '1',
 	'enabletracking' => '0',
 	'enablepresurvey' => '1',

@@ -80,6 +80,25 @@ function operator_get_all()
 	return $operators;
 }
 
+function get_operators_from_adjacent_groups($operator)
+{
+	global $mysqlprefix;
+	$link = connect();
+
+	$query = "select distinct ${mysqlprefix}chatoperator.operatorid, vclogin, vclocalename, vccommonname, istatus, idisabled, (unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
+		 "from ${mysqlprefix}chatoperator, ${mysqlprefix}chatgroupoperator " .
+		 " where ${mysqlprefix}chatoperator.operatorid = ${mysqlprefix}chatgroupoperator.operatorid and ${mysqlprefix}chatgroupoperator.groupid in " .
+		 "(select g.groupid from ${mysqlprefix}chatgroup g, " .
+		 "(select distinct parent from ${mysqlprefix}chatgroup, ${mysqlprefix}chatgroupoperator " .
+		 "where ${mysqlprefix}chatgroup.groupid = ${mysqlprefix}chatgroupoperator.groupid and ${mysqlprefix}chatgroupoperator.operatorid = ".$operator['operatorid'].") i " .
+		 "where g.groupid = i.parent or g.parent = i.parent " .
+		 ") order by vclogin";
+
+	$operators = select_multi_assoc($query, $link);
+	close_connection($link);
+	return $operators;
+}
+
 function operator_is_online($operator)
 {
 	global $settings;
@@ -286,18 +305,23 @@ function logout_operator()
 	}
 }
 
-function setup_redirect_links($threadid, $token)
+function setup_redirect_links($threadid, $operator, $token)
 {
 	global $page, $webimroot, $settings, $mysqlprefix;
 	loadsettings();
-	$link = connect();
 
-	$operatorscount = db_rows_count("${mysqlprefix}chatoperator", array(), "", $link);
+	$operator_in_isolation = in_isolation($operator);
+
+	$operators = $operator_in_isolation?get_operators_from_adjacent_groups($operator):operator_get_all();
+	$operatorscount = count($operators);
+
+	$link = connect();
 
 	$groupscount = 0;
 	$groups = array();
 	if ($settings['enablegroups'] == "1") {
-		foreach (get_groups($link, true) as $group) {
+		$groupslist = $operator_in_isolation?get_groups_for_operator($link, $operator, true):get_groups($link, true);
+		foreach ($groupslist as $group) {
 			if ($group['inumofagents'] == 0) {
 				continue;
 			}
@@ -305,17 +329,14 @@ function setup_redirect_links($threadid, $token)
 		}
 		$groupscount = count($groups);
 	}
+	close_connection($link);
 
 	prepare_pagination(max($operatorscount, $groupscount), 8);
 	$p = $page['pagination'];
 	$limit = $p['limit'];
 
-	$operators = select_multi_assoc(db_build_select(
-										"operatorid, vclogin, vclocalename, vccommonname, istatus, (unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time",
-										"${mysqlprefix}chatoperator", array(), "order by vclogin $limit"), $link);
-
+	$operators = array_slice($operators, $p['start'], $p['end'] - $p['start']);
 	$groups = array_slice($groups, $p['start'], $p['end'] - $p['start']);
-	close_connection($link);
 
 	$agent_list = "";
 	$params = array('thread' => $threadid, 'token' => $token);
@@ -375,6 +396,13 @@ function is_capable($perm, $operator)
 	return $perm >= 0 && $perm < 32 && ($permissions & (1 << $perm)) != 0;
 }
 
+function in_isolation($operator)
+{
+	global $settings, $can_administrate;
+	loadsettings();
+	return (!is_capable($can_administrate, $operator) && $settings['enablegroups'] && $settings['enablegroupsisolation']);
+}
+
 function prepare_menu($operator, $hasright = true)
 {
 	global $page, $settings, $can_administrate;
@@ -395,6 +423,18 @@ function get_all_groups($link)
 	return get_sorted_child_groups_(select_multi_assoc($query, $link));
 }
 
+function get_all_groups_for_operator($operator, $link)
+{
+	global $mysqlprefix;
+	$query = "select g.groupid as groupid, g.parent, g.vclocalname, g.vclocaldescription " .
+		 "from ${mysqlprefix}chatgroup g, " .
+		 "(select distinct parent from ${mysqlprefix}chatgroup, ${mysqlprefix}chatgroupoperator " .
+		 "where ${mysqlprefix}chatgroup.groupid = ${mysqlprefix}chatgroupoperator.groupid and ${mysqlprefix}chatgroupoperator.operatorid = ".$operator['operatorid'].") i " .
+		 "where g.groupid = i.parent or g.parent = i.parent " .
+		 "order by vclocalname";
+	return get_sorted_child_groups_(select_multi_assoc($query, $link));
+}
+
 function get_sorted_child_groups_($groupslist, $skipgroups = array(), $maxlevel = -1, $groupid = NULL, $level = 0)
 {
 	$child_groups = array();
@@ -410,10 +450,10 @@ function get_sorted_child_groups_($groupslist, $skipgroups = array(), $maxlevel 
 	return $child_groups;
 }
 
-function get_groups($link, $checkaway)
+function get_groups_($link, $operator, $checkaway)
 {
 	global $mysqlprefix;
-	$query = "select ${mysqlprefix}chatgroup.groupid as groupid, parent, vclocalname, vclocaldescription, iweight" .
+	$query = "select ${mysqlprefix}chatgroup.groupid as groupid, ${mysqlprefix}chatgroup.parent as parent, vclocalname, vclocaldescription, iweight" .
 			 ", (SELECT count(*) from ${mysqlprefix}chatgroupoperator where ${mysqlprefix}chatgroup.groupid = " .
 			 "${mysqlprefix}chatgroupoperator.groupid) as inumofagents" .
 			 ", (SELECT min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
@@ -427,8 +467,25 @@ function get_groups($link, $checkaway)
 					   "and ${mysqlprefix}chatgroupoperator.operatorid = ${mysqlprefix}chatoperator.operatorid) as ilastseenaway"
 					 : ""
 			 ) .
-			 " from ${mysqlprefix}chatgroup order by iweight, vclocalname";
+			 " from ${mysqlprefix}chatgroup" .
+			 ($operator
+					 ? ", (select distinct parent from ${mysqlprefix}chatgroup, ${mysqlprefix}chatgroupoperator " .
+					   "where ${mysqlprefix}chatgroup.groupid = ${mysqlprefix}chatgroupoperator.groupid and ${mysqlprefix}chatgroupoperator.operatorid = ".$operator['operatorid'].") i " .
+					   "where ${mysqlprefix}chatgroup.groupid = i.parent or ${mysqlprefix}chatgroup.parent = i.parent "
+					 : ""
+			 ) .
+			 " order by iweight, vclocalname";
 	return get_sorted_child_groups_(select_multi_assoc($query, $link));
+}
+
+function get_groups($link, $checkaway)
+{
+	return get_groups_($link, NULL, $checkaway);
+}
+
+function get_groups_for_operator($link, $operator, $checkaway)
+{
+	return get_groups_($link, $operator, $checkaway);
 }
 
 function get_operator_groupids($operatorid)

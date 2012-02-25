@@ -29,7 +29,9 @@ $page = array('agentId' => '');
 $errors = array();
 
 $options = array(
-	'enableban', 'usercanchangename', 'enablegroups', 'enablestatistics', 'enabletracking',
+	'enableban', 'usercanchangename',
+	'enablegroups', 'enablegroupsisolation',
+	'enablestatistics', 'enabletracking',
 	'enablessl', 'forcessl',
 	'enablepresurvey', 'surveyaskmail', 'surveyaskgroup', 'surveyaskmessage',
 	'enablepopupnotification', 'showonlineoperators',
