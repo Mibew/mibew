@@ -263,4 +263,22 @@ function get_columns($tablename, $link)
 	}
 }
 
+function get_indexes($tablename, $link)
+{
+	global $mysqldb, $errors;
+	$result = mysql_query("SELECT index_name FROM information_schema.statistics where table_schema = '$mysqldb' and table_name = '$tablename' and index_name != 'PRIMARY'", $link);
+	if ($result) {
+		$arr = array();
+		while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
+			$arr[] = $row[0];
+		}
+		mysql_free_result($result);
+		return $arr;
+
+	} else {
+		$errors[] = "Cannot get indexes for table \"$tablename\". Error: " . mysql_error($link);
+		return false;
+	}
+}
+
 ?>

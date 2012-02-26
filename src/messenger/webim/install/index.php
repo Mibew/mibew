@@ -199,7 +199,7 @@ function check_tables($link)
 
 function check_columns($link)
 {
-	global $dbtables, $dbtables_can_update, $errors, $page, $webimroot;
+	global $dbtables, $dbtables_can_update, $dbtables_indexes, $errors, $page, $webimroot;
 
 	$need_to_create_columns = false;
 	foreach ($dbtables as $id => $columns) {
@@ -221,7 +221,19 @@ function check_columns($link)
 		}
 	}
 
-	if ($need_to_create_columns) {
+	$need_to_create_indexes = false;
+	foreach ($dbtables_indexes as $id => $indexes) {
+		$curr_indexes = get_indexes($id, $link);
+		if ($curr_indexes === false) {
+			return false;
+		}
+		$tocreate = array_diff(array_keys($indexes), $curr_indexes);
+		if (count($tocreate) != 0) {
+			$need_to_create_indexes = true;
+		}
+	}
+
+	if ($need_to_create_columns || $need_to_create_indexes) {
 		$page['nextstep'] = getlocal("install.4.create");
 		$page['nextstepurl'] = "$webimroot/install/dbperform.php?act=addcolumns";
 		$page['nextnotice'] = getlocal("install.4.notice");
