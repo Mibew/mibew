@@ -194,6 +194,14 @@ if ($act == "silentcreateall") {
 			runsql("ALTER TABLE ${mysqlprefix}chatgroup ADD INDEX (parent)", $link);
 		}
 
+		if (in_array("${mysqlprefix}chatgroupoperator.groupid", $absent_indexes)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatgroupoperator ADD INDEX (groupid)", $link);
+		}
+
+		if (in_array("${mysqlprefix}chatgroupoperator.operatorid", $absent_indexes)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatgroupoperator ADD INDEX (operatorid)", $link);
+		}
+
 		if (in_array("${mysqlprefix}chatmessage.idx_agentid", $absent_indexes)) {
 			runsql("ALTER TABLE ${mysqlprefix}chatmessage ADD INDEX idx_agentid (agentid)", $link);
 		}

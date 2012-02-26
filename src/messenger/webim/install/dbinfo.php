@@ -150,6 +150,10 @@ $dbtables_indexes = array(
 	"${mysqlprefix}chatgroup" => array(
 		"parent" => "parent"
 	),
+	"${mysqlprefix}chatgroupoperator" => array(
+		"groupid" => "groupid",
+		"operatorid" => "operatorid"
+	),
 	"${mysqlprefix}chatmessage" => array(
 		"idx_agentid" => "agentid"
 	),
