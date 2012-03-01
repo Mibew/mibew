@@ -450,9 +450,28 @@ function get_sorted_child_groups_($groupslist, $skipgroups = array(), $maxlevel 
 	return $child_groups;
 }
 
-function get_groups_($link, $operator, $checkaway)
+function get_groups_($link, $checkaway, $operator, $order = NULL)
 {
 	global $mysqlprefix;
+
+	if($order){
+		switch($order['by']){
+			case 'weight':
+				$orderby = "iweight";
+				break;
+			case 'lastseen':
+				$orderby = "ilastseen";
+				break;
+			default:
+				$orderby = "${mysqlprefix}chatgroup.vclocalname";
+		}
+		$orderby = sprintf(" IF(ISNULL(${mysqlprefix}chatgroup.parent),CONCAT('_',%s),'') %s, ${mysqlprefix}chatgroup.iweight ",
+					$orderby,
+					($order['desc']?'DESC':'ASC'));
+	}else{
+		$orderby = "iweight, vclocalname";
+	}
+
 	$query = "select ${mysqlprefix}chatgroup.groupid as groupid, ${mysqlprefix}chatgroup.parent as parent, vclocalname, vclocaldescription, iweight" .
 			 ", (SELECT count(*) from ${mysqlprefix}chatgroupoperator where ${mysqlprefix}chatgroup.groupid = " .
 			 "${mysqlprefix}chatgroupoperator.groupid) as inumofagents" .
@@ -474,18 +493,23 @@ function get_groups_($link, $operator, $checkaway)
 					   "where ${mysqlprefix}chatgroup.groupid = i.parent or ${mysqlprefix}chatgroup.parent = i.parent "
 					 : ""
 			 ) .
-			 " order by iweight, vclocalname";
+			 " order by " . $orderby;
 	return get_sorted_child_groups_(select_multi_assoc($query, $link));
 }
 
 function get_groups($link, $checkaway)
 {
-	return get_groups_($link, NULL, $checkaway);
+	return get_groups_($link, $checkaway, NULL);
 }
 
 function get_groups_for_operator($link, $operator, $checkaway)
 {
-	return get_groups_($link, $operator, $checkaway);
+	return get_groups_($link, $checkaway, $operator);
+}
+
+function get_sorted_groups($link, $order)
+{
+	return get_groups_($link, true, NULL, $order);
 }
 
 function get_operator_groupids($operatorid)

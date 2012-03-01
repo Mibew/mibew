@@ -49,6 +49,33 @@ require_once('inc_errors.php');
 <br clear="all"/>
 <?php } ?>
 
+<form name="groupsForm" method="get" action="<?php echo $webimroot ?>/operator/groups.php">
+
+	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
+
+	<div class="packedFormField">
+		<?php echo getlocal("page.groups.sort") ?><br/>
+		<select name="sortby" onchange="this.form.submit();"><?php
+			foreach($page['availableOrders'] as $k) {
+				echo "<option value=\"".$k['id']."\"".($k['id'] == form_value("sortby") ? " selected=\"selected\"" : "").">".$k['name']."</option>";
+			} ?></select>
+	</div>
+
+	<div class="packedFormField">
+		<?php echo getlocal("page.groups.sortdirection") ?><br/>
+		<select name="sortdirection" onchange="this.form.submit();"><?php
+			foreach($page['availableDirections'] as $k) {
+				echo "<option value=\"".$k['id']."\"".($k['id'] == form_value("sortdirection") ? " selected=\"selected\"" : "").">".$k['name']."</option>";
+			} ?></select>
+	</div>
+
+
+
+	<br clear="all"/>
+
+	</div><div class="formbottom"><div class="formbottomi"></div></div></div>
+</form>
+
 <table class="list">
 <thead>
 <tr class="header">
