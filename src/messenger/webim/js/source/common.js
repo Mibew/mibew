@@ -513,7 +513,7 @@ function playSound(wav_file) {
   	player.style = "position: absolute; left: 0px; top: -200px;";
   }
   document.body.appendChild(player);
-  player.innerHTML = '<embed src="'+wav_file+'" hidden="true" autostart="true" loop="false">';
+  player.innerHTML = '<audio autoplay src="'+wav_file+'"><embed src="'+wav_file+'" hidden="true" autostart="true" loop="false"></audio>';
 }
 
 function htmlescape(str) {
