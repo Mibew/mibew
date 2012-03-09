@@ -64,11 +64,11 @@
 		<table class="form">
 		${if:groups}
 			<tr>
-				<td><strong>${msg:presurvey.department}</strong></td>
-				<td><select name="group" onchange="Survey.changeGroup()">${page:groups}</select></td>
+				<td><strong>${msg:form.field.department}</strong></td>
+				<td><select name="group" onchange="Survey.changeGroup(this, 'departmentDescription', groupDescriptions)">${page:groups}</select></td>
 			</tr>
 			<tr>
-				<td><strong>${msg:presurvey.department.description}</strong></td>
+				<td><strong>${msg:form.field.department.description}</strong></td>
 				<td id="departmentDescription">${page:default.department.description}</td>
 			</tr>
 		${endif:groups}

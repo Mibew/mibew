@@ -319,6 +319,16 @@ function setup_leavemessage($name, $email, $message, $groupid, $groupname, $info
 	$page['formgroupname'] = $groupname;
 	$page['forminfo'] = topage($info);
 	$page['referrer'] = urlencode(topage($referrer));
+
+	if ($settings['enablegroups'] == '1') {
+		$groups = setup_groups_select($groupid, false);
+		if ($groups) {
+			$page['groups'] = $groups['select'];
+			$page['group.descriptions'] = json_encode($groups['descriptions']);
+			$page['default.department.description'] = $groups['defaultdescription'];
+		}
+	}
+
 }
 
 function setup_survey($name, $email, $groupid, $info, $referrer)
@@ -331,45 +341,66 @@ function setup_survey($name, $email, $groupid, $info, $referrer)
 	$page['forminfo'] = topage($info);
 	$page['referrer'] = urlencode(topage($referrer));
 
-	$selectedgroupid = $groupid;
-
 	if ($settings['enablegroups'] == '1' && $settings["surveyaskgroup"] == "1") {
-		$link = connect();
-		$showgroups = ($groupid == '')?true:group_has_children($groupid, $link);
-		if ($showgroups) {
-			$allgroups = get_groups($link, false);
-			close_connection($link);
-			$val = "";
-			$groupdescriptions = array();
-			foreach ($allgroups as $k) {
-				$groupname = $k['vclocalname'];
-				if ($k['inumofagents'] == 0 || ($groupid && $k['parent'] != $groupid && $k['groupid'] != $groupid )) {
-					continue;
-				}
-				if ($k['ilastseen'] !== NULL && $k['ilastseen'] < $settings['online_timeout']) {
-					if (!$selectedgroupid) {
-						$selectedgroupid = $k['groupid']; // select first online group
-					}
-				} else {
-					$groupname .= " (offline)";
-				}
-				$isselected = $k['groupid'] == $selectedgroupid;
-				if ($isselected) {
-					$defaultdescription = $k['vclocaldescription'];
-				}
-				$val .= "<option value=\"" . $k['groupid'] . "\"" . ($isselected ? " selected=\"selected\"" : "") . ">$groupname</option>";
-				$groupdescriptions[] = $k['vclocaldescription'];
-			}
-			$page['groups'] = $val;
-			$page['group.descriptions'] = json_encode($groupdescriptions);
-			$page['default.department.description'] = empty($defaultdescription)?' ':$defaultdescription;
+		$groups = setup_groups_select($groupid, true);
+		if ($groups) {
+			$page['groups'] = $groups['select'];
+			$page['group.descriptions'] = json_encode($groups['descriptions']);
+			$page['default.department.description'] = $groups['defaultdescription'];
 		}
-		close_connection($link);
 	}
 
 	$page['showemail'] = $settings["surveyaskmail"] == "1" ? "1" : "";
 	$page['showmessage'] = $settings["surveyaskmessage"] == "1" ? "1" : "";
 	$page['showname'] = $settings['usercanchangename'] == "1" ? "1" : "";
+}
+
+function setup_groups_select($groupid, $markoffline)
+{
+	global $settings;
+
+	$link = connect();
+	$showgroups = ($groupid == '')?true:group_has_children($groupid, $link);
+	if (!$showgroups) {
+		close_connection($link);
+		return false;
+	}
+
+	$allgroups = get_groups($link, false);
+	close_connection($link);
+
+	if (empty($allgroups)) {
+		return false;
+	}
+
+	$val = "";
+	$selectedgroupid = $groupid;
+	$groupdescriptions = array();
+	foreach ($allgroups as $k) {
+		$groupname = $k['vclocalname'];
+		if ($k['inumofagents'] == 0 || ($groupid && $k['parent'] != $groupid && $k['groupid'] != $groupid )) {
+			continue;
+		}
+		if ($k['ilastseen'] !== NULL && $k['ilastseen'] < $settings['online_timeout']) {
+			if (!$selectedgroupid) {
+				$selectedgroupid = $k['groupid']; // select first online group
+			}
+		} else {
+			$groupname .= $markoffline?" (offline)":"";
+		}
+		$isselected = $k['groupid'] == $selectedgroupid;
+		if ($isselected) {
+			$defaultdescription = $k['vclocaldescription'];
+		}
+		$val .= "<option value=\"" . $k['groupid'] . "\"" . ($isselected ? " selected=\"selected\"" : "") . ">$groupname</option>";
+		$groupdescriptions[] = $k['vclocaldescription'];
+	}
+
+	return array(
+		'select' => $val,
+		'descriptions' => $groupdescriptions,
+		'defaultdescription' => $defaultdescription
+	);
 }
 
 function setup_chatview_for_user($thread, $level)

@@ -123,13 +123,13 @@ ${endif:errors}
 
 ${if:groups}
 			<tr>
-				<td class="text">${msg:presurvey.department}</td>
+				<td class="text">${msg:form.field.department}</td>
 				<td>
-				<select name="group" style="min-width:200px;" onchange="Survey.changeGroup()">${page:groups}</select>
+				<select name="group" style="min-width:200px;" onchange="Survey.changeGroup(this, 'departmentDescription', groupDescriptions)">${page:groups}</select>
 				</td>
 			</tr>
 			<tr>
-				<td class="text">${msg:presurvey.department.description}</td>
+				<td class="text">${msg:form.field.department.description}</td>
 				<td class="text" id="departmentDescription">${page:default.department.description}</td>
 			</tr>
 ${endif:groups}

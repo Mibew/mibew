@@ -4,6 +4,13 @@
 <title>${msg:leavemessage.title}</title>
 <link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
 <link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" />
+<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/common.js"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/leavemessage.js"></script>
+<script type="text/javascript">
+${if:groups}
+    var groupDescriptions = ${page:group.descriptions};
+${endif:groups}
+</script>
 </head>
 <body>
 <div id="whitebg">
@@ -11,7 +18,7 @@
 		<input type="hidden" name="style" value="${styleid}"/>
 		<input type="hidden" name="info" value="${form:info}"/>
 		<input type="hidden" name="referrer" value="${page:referrer}"/>
-		${if:formgroupid}<input type="hidden" name="group" value="${form:groupid}"/>${endif:formgroupid}
+		${ifnot:groups}${if:formgroupid}<input type="hidden" name="group" value="${form:groupid}"/>${endif:formgroupid}${endif:groups}
 		<table cellpadding="0" cellspacing="5" border="0" width="100%">
 			<tr>
 				<td colspan="2">
@@ -46,6 +53,18 @@
 							<td class="text">${msg:form.field.name}:</td>
 							<td><input type="text" name="name" size="50" value="${form:name}" class="field"/></td>
 						</tr>
+${if:groups}
+						<tr>
+							<td class="text">${msg:form.field.department}</td>
+							<td>
+								<select name="group" style="min-width:200px;" onchange="MessageForm.changeGroup(this, 'departmentDescription', groupDescriptions)">${page:groups}</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="text">${msg:form.field.department.description}</td>
+							<td class="text" id="departmentDescription">${page:default.department.description}</td>
+						</tr>
+${endif:groups}
 						<tr>
 							<td class="text" valign="top">${msg:form.field.message}:</td>
 							<td><textarea name="message" cols="45" rows="8"  class="field" tabindex="0">${form:message}</textarea></td>

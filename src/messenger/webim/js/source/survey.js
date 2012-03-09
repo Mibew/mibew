@@ -6,33 +6,20 @@
  * License: http://mibew.org/license.php
  */
 
-var Survey = {
-	checkFields: function(){
-		var emailField = document.surveyForm.email;
-		var emailPattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-		if( emailField != null && emailField.value.search(emailPattern) == -1 ){
-			return this.localizedStrings.wrongEmail;
-		}
-		return null;
-	},
-
-	changeGroup: function(){
-		document.getElementById('departmentDescription').childNodes.item(0).data = this.groupDescriptions[document.surveyForm.group.selectedIndex];
-	},
-
-	submit: function(){
-		var error = this.checkFields();
-		if(error == null){
-			document.surveyForm.submit();
-		}else{
-			alert(error);
-		}
-	}
-}
+var SurveyForm = Class.create();
+Class.inherit(SurveyForm, ClientForm, {
+  checkFields: function() {
+    if(this.form.email == null || this.form.email.getAttribute('type') == 'hidden') {
+      return null;
+    }
+    if(! this.emailIsValid(this.form.email)){
+      return this.localizedStrings.wrongEmail || '';
+    }
+    return null;
+  }
+});
 
 EventHelper.register(window, 'onload', function(){
-  Survey.localizedStrings = localizedStrings;
-  if( typeof groupDescriptions != 'undefined' ){
-	Survey.groupDescriptions = groupDescriptions;
-  }
+  Survey = new SurveyForm(document.surveyForm);
+  Survey.localize(localizedStrings);
 });

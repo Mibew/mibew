@@ -112,6 +112,15 @@ $body = getstring2_("leavemail.body", array($visitor_name,$email,$message,$info 
 if (isset($group) && !empty($group['vcemail'])) {
 	$inbox_mail = $group['vcemail'];
 } else {
+	if (! is_null($group['parent'])) {
+		$parentgroup = group_by_id($group['parent']);
+		if ($parentgroup && !empty($parentgroup['vcemail'])) {
+			$inbox_mail = $parentgroup['vcemail'];
+		}
+	}
+}
+
+if (empty($inbox_mail)) {
 	$inbox_mail = $settings['email'];
 }
 

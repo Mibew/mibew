@@ -33,6 +33,13 @@
 	position:relative;top:1px;
 }
 </style>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/common.js"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/leavemessage.js"></script>
+<script type="text/javascript">
+${if:groups}
+    var groupDescriptions = ${page:group.descriptions};
+${endif:groups}
+</script>
 </head>
 
 <body bgcolor="#FFFFFF" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" style="margin:0px;">
@@ -45,7 +52,7 @@
 <input type="hidden" name="style" value="${styleid}"/>
 <input type="hidden" name="info" value="${form:info}"/>
 <input type="hidden" name="referrer" value="${page:referrer}"/>
-${if:formgroupid}<input type="hidden" name="group" value="${form:groupid}"/>${endif:formgroupid}
+${ifnot:groups}${if:formgroupid}<input type="hidden" name="group" value="${form:groupid}"/>${endif:formgroupid}${endif:groups}
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<td valign="top" height="150" style="padding:5px">
@@ -113,6 +120,20 @@ ${endif:errors}
 				<td class="text">${msg:form.field.name}:</td>
 				<td><input type="text" name="name" size="50" value="${form:name}" class="username"/></td>
 			</tr>
+
+${if:groups}
+			<tr>
+				<td class="text">${msg:form.field.department}</td>
+				<td>
+				<select name="group" style="min-width:200px;" onchange="MessageForm.changeGroup(this, 'departmentDescription', groupDescriptions)">${page:groups}</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="text">${msg:form.field.department.description}</td>
+				<td class="text" id="departmentDescription">${page:default.department.description}</td>
+			</tr>
+${endif:groups}
+
 			<tr>
 				<td class="text">${msg:form.field.message}:</td>
 				<td valign="top">

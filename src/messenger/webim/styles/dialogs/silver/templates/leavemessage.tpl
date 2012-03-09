@@ -4,6 +4,13 @@
 	<title>${msg:leavemessage.title}</title>
 	<link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
 	<link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" />
+	<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/common.js"></script>
+	<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/leavemessage.js"></script>
+	<script type="text/javascript">
+${if:groups}
+	    var groupDescriptions = ${page:group.descriptions};
+${endif:groups}
+	</script>
 </head>
 <body class="bgbody">
 
@@ -11,7 +18,7 @@
 	<input type="hidden" name="style" value="${styleid}"/>
 	<input type="hidden" name="info" value="${form:info}"/>
 	<input type="hidden" name="referrer" value="${page:referrer}"/>
-	${if:formgroupid}<input type="hidden" name="group" value="${form:groupid}"/>${endif:formgroupid}
+	${ifnot:groups}${if:formgroupid}<input type="hidden" name="group" value="${form:groupid}"/>${endif:formgroupid}${endif:groups}
 
 	<div id="top2">
 		<div id="logo">
@@ -58,6 +65,18 @@
 				<td><strong>${msg:form.field.name}:</strong></td>
 				<td><input type="text" name="name" size="50" value="${form:name}" class="username"/></td>
 			</tr>
+		${if:groups}
+			<tr>
+				<td class="text">${msg:form.field.department}</td>
+				<td>
+				<select name="group" style="min-width:200px;" onchange="MessageForm.changeGroup(this, 'departmentDescription', groupDescriptions)">${page:groups}</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="text">${msg:form.field.department.description}</td>
+				<td class="text" id="departmentDescription">${page:default.department.description}</td>
+			</tr>
+		${endif:groups}
 			<tr>
 				<td><strong>${msg:form.field.message}:</strong></td>
 				<td valign="top">

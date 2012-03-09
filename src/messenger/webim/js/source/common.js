@@ -519,3 +519,42 @@ function playSound(wav_file) {
 function htmlescape(str) {
 	return str.replace('&','&amp;').replace('<','&lt;').replace('>','&gt;').replace('"','&quot;');
 }
+
+var ClientForm = Class.create();
+ClientForm.prototype = {
+  initialize: function(form) {
+    this.emailPattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    this.form = form;
+    this.localizedStrings = null;
+  },
+
+  emailIsValid: function(emailField) {
+    if( emailField != null && emailField.value.search(this.emailPattern) == -1 ) {
+      return false;
+    }
+    return true;
+  },
+
+  changeGroup: function(groupField, descriptionFieldId, descriptions) {
+    document.getElementById(descriptionFieldId).innerHTML = descriptions[groupField.selectedIndex];
+  },
+
+  checkFields: function() {
+    return null;
+  },
+
+  localize: function(localizedStrings) {
+    this.localizedStrings = localizedStrings;
+  },
+
+  submit: function() {
+    var error = this.checkFields();
+    if(error === null){
+      this.form.submit();
+    }else{
+      if(error != '') {
+        alert(error);
+      }
+    }
+  }
+}
