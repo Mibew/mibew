@@ -131,7 +131,7 @@ function update_operator_avatar($operatorid, $avatar)
 	mysql_close($link);
 }
 
-function create_operator_($login, $email, $jabber, $password, $localename, $commonname, $notify, $link)
+function create_operator_($login, $email, $jabber, $password, $localename, $commonname, $notify, $avatar, $link)
 {
 	global $mysqlprefix;
 	$query = sprintf(
@@ -140,7 +140,7 @@ function create_operator_($login, $email, $jabber, $password, $localename, $comm
 		md5($password),
 		mysql_real_escape_string($localename),
 		mysql_real_escape_string($commonname),
-		'' /* no avatar */,
+		mysql_real_escape_string($avatar),
 		mysql_real_escape_string($email),
 		mysql_real_escape_string($jabber),
 		$notify);
@@ -151,10 +151,10 @@ function create_operator_($login, $email, $jabber, $password, $localename, $comm
 	return select_one_row("select * from ${mysqlprefix}chatoperator where operatorid = $id", $link);
 }
 
-function create_operator($login, $email, $jabber, $password, $localename, $commonname, $notify)
+function create_operator($login, $email, $jabber, $password, $localename, $commonname, $notify, $avatar)
 {
 	$link = connect();
-	$newop = create_operator_($login, $email, $jabber, $password, $localename, $commonname, $notify, $link);
+	$newop = create_operator_($login, $email, $jabber, $password, $localename, $commonname, $notify, $avatar, $link);
 	mysql_close($link);
 	return $newop;
 }

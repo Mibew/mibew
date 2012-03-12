@@ -86,7 +86,7 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 
 	if (count($errors) == 0) {
 		if (!$opId) {
-			$newop = create_operator($login, $email, $jabber, $password, $localname, $commonname, $jabbernotify ? 1 : 0);
+			$newop = create_operator($login, $email, $jabber, $password, $localname, $commonname, $jabbernotify ? 1 : 0, "");
 			header("Location: $webimroot/operator/avatar.php?op=" . $newop['operatorid']);
 			exit;
 		} else {
