@@ -19,7 +19,9 @@
  *    Evgeny Gryaznov - initial API and implementation
  */
 
+require_once("inc_tabbar.php");
 require_once("inc_menu.php");
+
 $page['title'] = getlocal("statistics.title");
 $page['menuid'] = "statistics";
 
@@ -34,8 +36,11 @@ require_once('inc_errors.php');
 ?>
 
 <form name="statisticsForm" method="get" action="<?php echo $webimroot ?>/operator/statistics.php">
-	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
+<input type="hidden" name="type" value="<?php echo $page['type'] ?>" />
 
+	<?php print_tabbar(); ?>
+
+	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
 	<div class="fieldForm">
 		<div class="field">
@@ -66,6 +71,7 @@ require_once('inc_errors.php');
 
 <?php if( $page['showresults'] ) { ?>
 
+<?php if($page['showbydate']) { ?>
 <br/>
 <br/>
 
@@ -117,7 +123,9 @@ require_once('inc_errors.php');
 <?php } ?>
 </tbody>
 </table>
+<?php } ?>
 
+<?php if($page['showbyagent']) { ?>
 <br/>
 <br/>
 
@@ -153,7 +161,9 @@ require_once('inc_errors.php');
 <?php } ?>
 </tbody>
 </table>
+<?php } ?>
 
+<?php if($page['showbypage']) { ?>
 <br/>
 <br/>
 
@@ -186,6 +196,7 @@ require_once('inc_errors.php');
 <?php } ?>
 </tbody>
 </table>
+<?php } ?>
 
 <?php } ?>
 
