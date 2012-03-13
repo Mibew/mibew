@@ -299,13 +299,14 @@ function needsFramesrc()
 	return strstr($useragent, "safari/");
 }
 
-function setup_logo()
+function setup_logo($group = NULL)
 {
 	global $page, $settings;
 	loadsettings();
-	$page['ct.company.name'] = topage($settings['title']);
-	$page['ct.company.chatLogoURL'] = topage($settings['logo']);
-	$page['webimHost'] = topage($settings['hosturl']);
+	$toplevelgroup = (!$group)?array():get_top_level_group($group);
+	$page['ct.company.name'] = topage(empty($toplevelgroup['vctitle'])?$settings['title']:$toplevelgroup['vctitle']);
+	$page['ct.company.chatLogoURL'] = topage(empty($toplevelgroup['vclogo'])?$settings['logo']:$toplevelgroup['vclogo']);
+	$page['webimHost'] = topage(empty($toplevelgroup['vchosturl'])?$settings['hosturl']:$toplevelgroup['vchosturl']);
 }
 
 function setup_leavemessage($name, $email, $message, $groupid, $groupname, $info, $referrer, $canshowcaptcha)
@@ -408,6 +409,12 @@ function setup_chatview_for_user($thread, $level)
 	global $page, $webimroot, $settings;
 	loadsettings();
 	$page = array();
+	if (! is_null($thread['groupid'])) {
+		$group = group_by_id($thread['groupid']);
+		$group = get_top_level_group($group);
+	} else {
+		$group = array();
+	}
 	$page['agent'] = false;
 	$page['user'] = true;
 	$page['canpost'] = true;
@@ -419,10 +426,10 @@ function setup_chatview_for_user($thread, $level)
 	$page['ct.token'] = $thread['ltoken'];
 	$page['ct.user.name'] = htmlspecialchars(topage($thread['userName']));
 	$page['canChangeName'] = $settings['usercanchangename'] == "1";
-	$page['chat.title'] = topage($settings['chattitle']);
+	$page['chat.title'] = topage(empty($group['vcchattitle'])?$settings['chattitle']:$group['vcchattitle']);
 	$page['chat.close.confirmation'] = getlocal('chat.close.confirmation');
 
-	setup_logo();
+	setup_logo($group);
 	if ($settings['sendmessagekey'] == 'enter') {
 		$page['send_shortcut'] = "Enter";
 		$page['ignorectrl'] = 1;
@@ -449,16 +456,22 @@ function setup_chatview_for_operator($thread, $operator)
 	global $page, $webimroot, $company_logo_link, $webim_encoding, $company_name, $settings;
 	loadsettings();
 	$page = array();
+	if (! is_null($thread['groupid'])) {
+		$group = group_by_id($thread['groupid']);
+		$group = get_top_level_group($group);
+	} else {
+		$group = array();
+	}
 	$page['agent'] = true;
 	$page['user'] = false;
 	$page['canpost'] = $thread['agentId'] == $operator['operatorid'];
 	$page['ct.chatThreadId'] = $thread['threadid'];
 	$page['ct.token'] = $thread['ltoken'];
 	$page['ct.user.name'] = htmlspecialchars(topage(get_user_name($thread['userName'], $thread['remote'], $thread['userid'])));
-	$page['chat.title'] = topage($settings['chattitle']);
+	$page['chat.title'] = topage(empty($group['vcchattitle'])?$settings['chattitle']:$group['vcchattitle']);
 	$page['chat.close.confirmation'] = getlocal('chat.close.confirmation');
 
-	setup_logo();
+	setup_logo($group);
 	if ($settings['sendmessagekey'] == 'enter') {
 		$page['send_shortcut'] = "Enter";
 		$page['ignorectrl'] = 1;

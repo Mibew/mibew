@@ -50,6 +50,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 	if( !$thread ) {
 		$groupid = "";
 		$groupname = "";
+		$group = NULL;
 		if($settings['enablegroups'] == '1') {
 			$groupid = verifyparam( "group", "/^\d{1,8}$/", "");
 			if($groupid) {
@@ -91,7 +92,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 
 		if(!has_online_operators($groupid)) {
 			$page = array();
-			setup_logo();
+			setup_logo($group);
 			setup_leavemessage($visitor['name'],$email,$firstmessage,$groupid,$groupname,$info,$referrer,can_show_captcha());
 			expand("styles/dialogs", getchatstyle(), "leavemessage.tpl");
 			exit;
@@ -102,7 +103,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 		$visitor_is_invited = $settings['enabletracking'] && $invitation_state['invited'] && !$invitation_state['threadid'];
 		if($settings['enablepresurvey'] == '1' && !(isset($_POST['survey']) && $_POST['survey'] == 'on') && !$visitor_is_invited) {
 			$page = array();
-			setup_logo();
+			setup_logo($group);
 			setup_survey($visitor['name'], $email, $groupid, $info, $referrer);
 			expand("styles/dialogs", getchatstyle(), "survey.tpl");
 			close_connection($link);

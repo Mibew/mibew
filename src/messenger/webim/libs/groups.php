@@ -93,4 +93,9 @@ function group_has_children($groupid, $link)
 	return ($children['count'] > 0);
 }
 
+function get_top_level_group($group)
+{
+	return is_null($group['parent'])?$group:group_by_id($group['parent']);
+}
+
 ?>

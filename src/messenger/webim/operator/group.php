@@ -39,19 +39,49 @@ function group_by_name($name)
 	return $group;
 }
 
-function create_group($name, $descr, $commonname, $commondescr, $email, $weight, $parentgroup)
+function check_group_params($group, $extra_params = NULL)
+{
+	$obligatory_params = array(
+		'name',
+		'description',
+		'commonname',
+		'commondescription',
+		'email',
+		'weight',
+		'parent',
+		'chattitle',
+		'hosturl',
+		'logo');
+	$params = is_null($extra_params)?$obligatory_params:array_merge($obligatory_params,$extra_params);
+	if(count(array_diff($params, array_keys($group))) != 0){
+		die('Wrong parameters set!');
+	}
+}
+
+/**
+ * @param array $group Operators' group.
+ * The $group array must contains following keys:
+ * name, description, commonname, commondescription,
+ * email, weight, parent, title, chattitle, hosturl, logo
+ */
+function create_group($group)
 {
 	global $mysqlprefix;
+	check_group_params($group);
 	$link = connect();
 	$query = sprintf(
-		"insert into ${mysqlprefix}chatgroup (parent, vclocalname,vclocaldescription,vccommonname,vccommondescription,vcemail,iweight) values (%s, '%s','%s','%s','%s','%s',%u)",
-		($parentgroup?(int)$parentgroup:'NULL'),
-		db_escape_string($name),
-		db_escape_string($descr),
-		db_escape_string($commonname),
-		db_escape_string($commondescr),
-		db_escape_string($email),
-		$weight);
+		"insert into ${mysqlprefix}chatgroup (parent, vclocalname,vclocaldescription,vccommonname,vccommondescription,vcemail,vctitle,vcchattitle,vchosturl,vclogo,iweight) values (%s, '%s','%s','%s','%s','%s','%s','%s','%s','%s',%u)",
+		($group['parent']?(int)$group['parent']:'NULL'),
+		db_escape_string($group['name']),
+		db_escape_string($group['description']),
+		db_escape_string($group['commonname']),
+		db_escape_string($group['commondescription']),
+		db_escape_string($group['email']),
+		db_escape_string($group['title']),
+		db_escape_string($group['chattitle']),
+		db_escape_string($group['hosturl']),
+		db_escape_string($group['logo']),
+		$group['weight']);
 
 	perform_query($query, $link);
 	$id = db_insert_id($link);
@@ -61,24 +91,35 @@ function create_group($name, $descr, $commonname, $commondescr, $email, $weight,
 	return $newdep;
 }
 
-function update_group($groupid, $name, $descr, $commonname, $commondescr, $email, $weight, $parentgroup)
+/**
+ * @param array $group Operators' group.
+ * The $group array must contains following keys:
+ * id, name, description, commonname, commondescription,
+ * email, weight, parent, title, chattitle, hosturl, logo
+ */
+function update_group($group)
 {
 	global $mysqlprefix;
+	check_group_params($group, array('id'));
 	$link = connect();
 	$query = sprintf(
-		"update ${mysqlprefix}chatgroup set parent = %s, vclocalname = '%s', vclocaldescription = '%s', vccommonname = '%s', vccommondescription = '%s', vcemail = '%s', iweight = %u where groupid = %s",
-		($parentgroup?(int)$parentgroup:'NULL'),
-		db_escape_string($name),
-		db_escape_string($descr),
-		db_escape_string($commonname),
-		db_escape_string($commondescr),
-		db_escape_string($email),
-		$weight,
-		$groupid);
+		"update ${mysqlprefix}chatgroup set parent = %s, vclocalname = '%s', vclocaldescription = '%s', vccommonname = '%s', vccommondescription = '%s', vcemail = '%s', vctitle = '%s', vcchattitle = '%s', vchosturl = '%s', vclogo = '%s', iweight = %u where groupid = %s",
+		($group['parent']?(int)$group['parent']:'NULL'),
+		db_escape_string($group['name']),
+		db_escape_string($group['description']),
+		db_escape_string($group['commonname']),
+		db_escape_string($group['commondescription']),
+		db_escape_string($group['email']),
+		db_escape_string($group['title']),
+		db_escape_string($group['chattitle']),
+		db_escape_string($group['hosturl']),
+		db_escape_string($group['logo']),
+		$group['weight'],
+		$group['id']);
 	perform_query($query, $link);
 
-	if ($parentgroup) {
-		$query = sprintf("update ${mysqlprefix}chatgroup set parent = NULL where parent = %u", $groupid);
+	if ($group['parent']) {
+		$query = sprintf("update ${mysqlprefix}chatgroup set parent = NULL where parent = %u", $group['id']);
 		perform_query($query, $link);
 	}
 	close_connection($link);
@@ -93,6 +134,10 @@ if (isset($_POST['name'])) {
 	$email = getparam('email');
 	$weight = getparam('weight');
 	$parentgroup = verifyparam("parentgroup", "/^(\d{1,9})?$/", "");
+	$title = getparam('title');
+	$chattitle = getparam('chattitle');
+	$hosturl = getparam('hosturl');
+	$logo = getparam('logo');
 
 	if (!$name)
 		$errors[] = no_field("form.field.groupname");
@@ -116,11 +161,34 @@ if (isset($_POST['name'])) {
 
 	if (count($errors) == 0) {
 		if (!$groupid) {
-			$newdep = create_group($name, $description, $commonname, $commondescription, $email, $weight, $parentgroup);
+			$newdep = create_group(array(
+				'name' => $name,
+				'description' => $description,
+				'commonname' => $commonname,
+				'commondescription' => $commondescription,
+				'email' => $email,
+				'weight' => $weight,
+				'parent' => $parentgroup,
+				'title' => $title,
+				'chattitle' => $chattitle,
+				'hosturl' => $hosturl,
+				'logo' => $logo));
 			header("Location: $webimroot/operator/groupmembers.php?gid=" . $newdep['groupid']);
 			exit;
 		} else {
-			update_group($groupid, $name, $description, $commonname, $commondescription, $email, $weight, $parentgroup);
+			update_group(array(
+				'id' => $groupid,
+				'name' => $name,
+				'description' => $description,
+				'commonname' => $commonname,
+				'commondescription' => $commondescription,
+				'email' => $email,
+				'weight' => $weight,
+				'parent' => $parentgroup,
+				'title' => $title,
+				'chattitle' => $chattitle,
+				'hosturl' => $hosturl,
+				'logo' => $logo));
 			header("Location: $webimroot/operator/group.php?gid=$groupid&stored");
 			exit;
 		}
@@ -133,6 +201,10 @@ if (isset($_POST['name'])) {
 		$page['formweight'] = topage($weight);
 		$page['formparentgroup'] = topage($parentgroup);
 		$page['grid'] = topage($groupid);
+		$page['formtitle'] = topage($title);
+		$page['formchattitle'] = topage($chattitle);
+		$page['formhosturl'] = topage($hosturl);
+		$page['formlogo'] = topage($logo);
 	}
 
 } else if (isset($_GET['gid'])) {
@@ -151,6 +223,10 @@ if (isset($_POST['name'])) {
 		$page['formweight'] = topage($group['iweight']);
 		$page['formparentgroup'] = topage($group['parent']);
 		$page['grid'] = topage($group['groupid']);
+		$page['formtitle'] = topage($group['vctitle']);
+		$page['formchattitle'] = topage($group['vcchattitle']);
+		$page['formhosturl'] = topage($group['vchosturl']);
+		$page['formlogo'] = topage($group['vclogo']);
 	}
 }
 

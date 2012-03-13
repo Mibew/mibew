@@ -290,6 +290,7 @@ page.gen_button.secure_links=Use secure links (https)
 page.gen_button.title=Button HTML code generation
 page.group.create_new=Create new group here.
 page.group.duplicate_name=Please choose another name because a group with that name already exists.
+page.group.extrafields.title=The fields that located below are extra fields. These fields are only available for the top level groups and override corresponding system settings if specified.
 page.group.intro=On this page you can edit group details.
 page.group.membersnum=Operators
 page.group.no_such=No such group

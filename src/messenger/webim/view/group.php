@@ -22,6 +22,29 @@
 require_once("inc_menu.php");
 require_once("inc_tabbar.php");
 
+function tpl_header() { global $page, $webimroot;
+?>
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" language="javascript">
+
+function updateParentGroup() {
+	if($("#parentgroup").val() == '') {
+		$("#extrafields").show();
+	}else{
+		$("#extrafields").hide();
+	}
+}
+
+$(function(){
+	$("#parentgroup").change(function() {
+		updateParentGroup();
+	});
+	updateParentGroup();
+});
+</script>
+<?php
+}
+
 $page['title'] = getlocal("page.group.title");
 $page['menuid'] = "groups";
 
@@ -107,10 +130,50 @@ require_once('inc_errors.php');
 		<div class="field">
 			<div class="flabel"><?php echo getlocal('form.field.groupparent') ?></div>
 			<div class="fvalue">
-				<select name="parentgroup" ><?php foreach($page['availableParentGroups'] as $k) { echo "<option value=\"".$k['groupid']."\"".($k['groupid'] == form_value("parentgroup") ? " selected=\"selected\"" : "").">".str_repeat('&nbsp;', $k['level']*2).$k['vclocalname']."</option>"; } ?></select>
+				<select name="parentgroup" id="parentgroup"><?php foreach($page['availableParentGroups'] as $k) { echo "<option value=\"".$k['groupid']."\"".($k['groupid'] == form_value("parentgroup") ? " selected=\"selected\"" : "").">".str_repeat('&nbsp;', $k['level']*2).$k['vclocalname']."</option>"; } ?></select>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.groupparent.description') ?></div>
 			<br clear="all"/>
+		</div>
+
+		<div id="extrafields">
+			<div class="fheader"><?php echo getlocal('page.group.extrafields.title') ?></div>
+
+			<div class="field">
+				<div class="flabel"><?php echo getlocal('settings.company.title') ?></div>
+				<div class="fvalue">
+					<input type="text" name="title" size="40" value="<?php echo form_value('title') ?>" class="formauth"/>
+				</div>
+				<div class="fdescr"> &mdash; <?php echo getlocal('settings.company.title.description') ?></div>
+				<br clear="all"/>
+			</div>
+
+			<div class="field">
+				<div class="flabel"><?php echo getlocal('settings.chat.title') ?></div>
+				<div class="fvalue">
+					<input type="text" name="chattitle" size="40" value="<?php echo form_value('chattitle') ?>" class="formauth"/>
+				</div>
+				<div class="fdescr"> &mdash; <?php echo getlocal('settings.chat.title') ?></div>
+				<br clear="all"/>
+			</div>
+
+			<div class="field">
+				<div class="flabel"><?php echo getlocal('settings.logo') ?></div>
+				<div class="fvalue">
+					<input type="text" name="logo" size="40" value="<?php echo form_value('logo') ?>" class="formauth"/>
+				</div>
+				<div class="fdescr"> &mdash; <?php echo getlocal('settings.logo.description') ?></div>
+				<br clear="all"/>
+			</div>
+
+			<div class="field">
+				<div class="flabel"><?php echo getlocal('settings.host') ?></div>
+				<div class="fvalue">
+					<input type="text" name="hosturl" size="40" value="<?php echo form_value('hosturl') ?>" class="formauth"/>
+				</div>
+				<div class="fdescr"> &mdash; <?php echo getlocal('settings.host.description') ?></div>
+				<br clear="all"/>
+			</div>
 		</div>
 
 		<div class="fbutton">

@@ -177,6 +177,22 @@ if ($act == "silentcreateall") {
 			runsql("ALTER TABLE ${mysqlprefix}chatgroup ADD parent int DEFAULT NULL AFTER groupid", $link);
 		}
 
+		if (in_array("${mysqlprefix}chatgroup.vctitle", $absent_columns)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatgroup ADD vctitle varchar(255) DEFAULT ''", $link);
+		}
+
+		if (in_array("${mysqlprefix}chatgroup.vcchattitle", $absent_columns)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatgroup ADD vcchattitle varchar(255) DEFAULT ''", $link);
+		}
+
+		if (in_array("${mysqlprefix}chatgroup.vclogo", $absent_columns)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatgroup ADD vclogo varchar(255) DEFAULT ''", $link);
+		}
+
+		if (in_array("${mysqlprefix}chatgroup.vchosturl", $absent_columns)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatgroup ADD vchosturl varchar(255) DEFAULT ''", $link);
+		}
+
 // Add absent indexes
 		$absent_indexes = array();
 		foreach ($dbtables_indexes as $id => $indexes) {

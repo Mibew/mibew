@@ -22,13 +22,17 @@
 $dbtables = array(
 	"${mysqlprefix}chatgroup" => array(
 		"groupid" => "int NOT NULL auto_increment PRIMARY KEY",
+		"parent" => "int DEFAULT NULL",
 		"vcemail" => "varchar(64)",
 		"vclocalname" => "varchar(64) NOT NULL",
 		"vccommonname" => "varchar(64) NOT NULL",
 		"vclocaldescription" => "varchar(1024) NOT NULL",
 		"vccommondescription" => "varchar(1024) NOT NULL",
 		"iweight" => "int NOT NULL DEFAULT 0",
-		"parent" => "int DEFAULT NULL",
+		"vctitle" => "varchar(255) DEFAULT ''",
+		"vcchattitle" => "varchar(255) DEFAULT ''",
+		"vclogo" => "varchar(255) DEFAULT ''",
+		"vchosturl" => "varchar(255) DEFAULT ''",
 	),
 
 	"${mysqlprefix}chatthread" => array(
@@ -172,7 +176,7 @@ $dbtables_can_update = array(
 	"${mysqlprefix}chatmessage" => array("agentId"),
 	"${mysqlprefix}chatoperator" => array("vcavatar", "vcjabbername", "iperm", "istatus", "idisabled", "vcemail", "dtmrestore", "vcrestoretoken"),
 	"${mysqlprefix}chatban" => array(),
-	"${mysqlprefix}chatgroup" => array("vcemail", "iweight", "parent"),
+	"${mysqlprefix}chatgroup" => array("vcemail", "iweight", "parent", "vctitle", "vcchattitle", "vclogo", "vchosturl"),
 	"${mysqlprefix}chatgroupoperator" => array(),
 	"${mysqlprefix}chatresponses" => array("vctitle"),
 	"${mysqlprefix}chatsitevisitor" => array(),

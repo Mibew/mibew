@@ -22,6 +22,7 @@
 require_once('libs/common.php');
 require_once('libs/chat.php');
 require_once('libs/expand.php');
+require_once('libs/groups.php');
 require_once('libs/notify.php');
 
 $errors = array();
@@ -37,7 +38,7 @@ if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] ) {
 
 $email = getparam('email');
 $page['email'] = $email;
-
+$group = is_null($thread['groupid'])?NULL:group_by_id($thread['groupid']);
 if( !$email ) {
 	$errors[] = no_field("form.field.email");
 } else if( !is_valid_email($email)) {
@@ -49,7 +50,7 @@ if( count($errors) > 0 ) {
 	$page['ct.chatThreadId'] = $thread['threadid'];
 	$page['ct.token'] = $thread['ltoken'];
 	$page['level'] = "";
-	setup_logo();
+	setup_logo($group);
 	expand("styles/dialogs", getchatstyle(), "mail.tpl");
 	exit;
 }
@@ -70,7 +71,7 @@ $link = connect();
 webim_mail($email, $webim_mailbox, $subject, $body, $link);
 close_connection($link);
 
-setup_logo();
+setup_logo($group);
 expand("styles/dialogs", getchatstyle(), "mailsent.tpl");
 exit;
 ?>

@@ -307,6 +307,10 @@ div.errinfo {
 	margin-top: 5px;
 }
 
+.fheader {
+	margin: 8px auto 8px;
+}
+
 .flabel {
 	position: relative;
 	margin: 8px auto 2px;
