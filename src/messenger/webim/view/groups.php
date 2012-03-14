@@ -39,16 +39,6 @@ function tpl_content() { global $page, $webimroot, $errors;
 require_once('inc_errors.php');
 ?>
 
-<?php if($page['canmodify']) { ?>
-<div class="tabletool">
-	<img src='<?php echo $webimroot ?>/images/buttons/createdep.gif' border="0" alt="" />
-	<a href='<?php echo $webimroot ?>/operator/group.php' title="<?php echo getlocal("page.groups.new") ?>">
-		<?php echo getlocal("page.groups.new") ?>
-	</a>
-</div>
-<br clear="all"/>
-<?php } ?>
-
 <form name="groupsForm" method="get" action="<?php echo $webimroot ?>/operator/groups.php">
 
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
@@ -69,12 +59,21 @@ require_once('inc_errors.php');
 			} ?></select>
 	</div>
 
-
-
 	<br clear="all"/>
 
 	</div><div class="formbottom"><div class="formbottomi"></div></div></div>
 </form>
+<br />
+
+<?php if($page['canmodify']) { ?>
+<div class="tabletool">
+	<img src='<?php echo $webimroot ?>/images/buttons/createdep.gif' border="0" alt="" />
+	<a href='<?php echo $webimroot ?>/operator/group.php' title="<?php echo getlocal("page.groups.new") ?>">
+		<?php echo getlocal("page.groups.new") ?>
+	</a>
+</div>
+<br clear="all"/>
+<?php } ?>
 
 <table class="list">
 <thead>
