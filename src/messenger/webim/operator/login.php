@@ -46,6 +46,10 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 		$errors[] = getlocal("page_login.error");
 		$page['formlogin'] = $login;
 	}
+} else if(isset($_GET['login'])) {
+	$login = getgetparam('login');
+	if (preg_match("/^(\w{1,15})$/", $login))
+		$page['formlogin'] = $login;
 }
 
 $page['localeLinks'] = get_locale_links("$webimroot/operator/login.php");

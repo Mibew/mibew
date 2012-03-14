@@ -57,6 +57,7 @@ if (count($errors) == 0 && isset($_POST['password'])) {
 		perform_query($query, $link);
 		mysql_close($link);
 
+		$page['loginname'] = $operator['vclogin'];
 		start_html_output();
 		require('../view/resetpwd.php');
 		exit;
