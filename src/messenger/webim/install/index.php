@@ -340,7 +340,7 @@ function check_status()
 	if (!check_admin($link)) {
 		$page['nextstep'] = getlocal("installed.login_link");
 		$page['nextnotice'] = getlocal2("installed.notice", array("${webimroot}/install/"));
-		$page['nextstepurl'] = "$webimroot/";
+		$page['nextstepurl'] = "$webimroot/operator/login.php?login=admin";
 	}
 
 	$page['show_small_login'] = true;

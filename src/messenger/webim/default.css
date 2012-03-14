@@ -319,7 +319,7 @@ div.errinfo {
 
 .fleftlabel {
 	float: left;
-	width: 100px;
+	width: 11em;
 } 
 
 .flabel span.required {
@@ -888,7 +888,7 @@ table.awaiting td.visitor {
 
 .lrtl .fleftlabel {
 	float: right;
-	width: 100px;
+	width: 11em;
 }
 
 .lrtl .fdescr {

@@ -116,6 +116,8 @@ data.saved=Изменения сохранены
 demo.chat.question=Посоветуйте мне, пожалуйста, хороший браузер? 
 demo.chat.welcome=Здравствуйте! Чем я могу Вам помочь?
 edit.item=редактировать
+error.no_password.visit_profile=Посетите свой <a href="{0}">Профиль</a>.
+error.no_password=Вы вошли в первый раз с пустым паролем. Из соображений безопасности выберите новый пароль.
 errors.captcha=Введенные символы не соответствуют изображению. 
 errors.failed.uploading.file=Ошибка выгрузки файла "{0}": {1}.
 errors.file.move.error=Ошибка копирования файла
@@ -542,6 +544,7 @@ settings.trackinglifetime.description=Укажите срок хранения старых отслеженных п
 settings.trackinglifetime=Срок хранения отслеженных путей
 settings.threadlifetime.description=Укажите время жизни диалога после закрытия диалогового окна в секундах. По умолчанию, 600 секунд. Укажите 0 для снятия ограничения.
 settings.threadlifetime=Время жизни диалога
+settings.title=Настройки мессенджера
 settings.usercanchangename.description=Возможность убрать поле смены имени из чат окна
 settings.usercanchangename=Разрешать посетителям менять имена
 settings.usernamepattern.description=Укажите как отобразить имя посетителя операторам. Можно использовать {name}, {id} и {addr}. По умолчанию: {name}

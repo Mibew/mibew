@@ -41,7 +41,7 @@ function tpl_content() {
 		<?php echo getlocal("resetpwd.changed") ?>
 		<br/>
 		<br/>
-		<a href="login.php"><?php echo getlocal("resetpwd.login") ?></a>
+		<a href="login.php?login=<?php echo $page['loginname'] ?>"><?php echo getlocal("resetpwd.login") ?></a>
 	</div>
 </div>	
 	
