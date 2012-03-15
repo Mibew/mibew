@@ -68,6 +68,64 @@ function operator_by_id($id)
 	return $operator;
 }
 
+/**
+ * Get list of operators taking into account $options
+ * @param array $options Associative array of options. It can contains following keys:
+ *  - 'sort': an associative array of sorting options.
+ *  - 'isolated_operator_id': id of current operators. If it set - function would return
+ *    only operators from adjacent groups.
+ *
+ * 'sort' array must contains two keys: 'by' and 'desc'.
+ * 'by' means the field by which operators would be sort and can take following
+ * values: 'commonname', 'localename', 'login', 'lastseen'. 'desc' means order in which operators would
+ * be sort. If it's 'true' operators would be sort in descending order and in
+ * ascending order overwise.
+ *
+ */
+function get_operators_list($options)
+{
+	global $mysqlprefix;
+	$link = connect();
+
+	if ( !empty($options['sort']) && isset($options['sort']['by']) && isset($options['sort']['desc'])) {
+		switch ($options['sort']['by']) {
+			case 'commonname':
+				$orderby = 'vccommonname';
+				break;
+			case 'localename':
+				$orderby = 'vclocalename';
+				break;
+			case 'lastseen':
+				$orderby = 'time';
+				break;
+			default:
+				$orderby = 'vclogin';
+				break;
+		}
+		$orderby = $orderby . ' ' . ($options['sort']['desc']?'DESC':'ASC');
+	} else {
+		$orderby = "vclogin";
+	}
+
+	$query = "select distinct ${mysqlprefix}chatoperator.operatorid, vclogin, vclocalename, vccommonname, istatus, idisabled, (unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
+		 "from ${mysqlprefix}chatoperator" .
+		 (
+		 empty($options['isolated_operator_id']) ? "" :
+			sprintf(", ${mysqlprefix}chatgroupoperator " .
+				" where ${mysqlprefix}chatoperator.operatorid = ${mysqlprefix}chatgroupoperator.operatorid and ${mysqlprefix}chatgroupoperator.groupid in " .
+				"(select g.groupid from ${mysqlprefix}chatgroup g, " .
+				"(select distinct parent from ${mysqlprefix}chatgroup, ${mysqlprefix}chatgroupoperator " .
+				"where ${mysqlprefix}chatgroup.groupid = ${mysqlprefix}chatgroupoperator.groupid and ${mysqlprefix}chatgroupoperator.operatorid = %u) i " .
+				"where g.groupid = i.parent or g.parent = i.parent " .
+				")", $options['isolated_operator_id'])
+		 ) .
+		 " order by " . $orderby;
+
+	$operators = select_multi_assoc($query, $link);
+	close_connection($link);
+	return $operators;
+}
+
 function operator_get_all()
 {
 	global $mysqlprefix;

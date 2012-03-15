@@ -92,8 +92,26 @@ if (isset($_GET['act'])) {
 }
 
 $page = array();
-$page['allowedAgents'] = in_isolation($operator)?get_operators_from_adjacent_groups($operator):operator_get_all();
+$sort['by'] = verifyparam("sortby", "/^(login|commonname|localename|lastseen)$/", "login");
+$sort['desc'] = (verifyparam("sortdirection", "/^(desc|asc)$/", "desc") == "desc");
+$page['formsortby'] = $sort['by'];
+$page['formsortdirection'] = $sort['desc']?'desc':'asc';
+$list_options['sort'] = $sort;
+if (in_isolation($operator)) {
+	$list_options['isolated_operator_id'] = $operator['operatorid'];
+}
+$page['allowedAgents'] = get_operators_list($list_options);
 $page['canmodify'] = is_capable($can_administrate, $operator);
+$page['availableOrders'] = array(
+	array('id' => 'login', 'name' => getlocal('page_agents.login')),
+	array('id' => 'localename', 'name' => getlocal('page_agents.agent_name')),
+	array('id' => 'commonname', 'name' => getlocal('page_agents.commonname')),
+	array('id' => 'lastseen', 'name' => getlocal('page_agents.status'))
+);
+$page['availableDirections'] = array(
+	array('id' => 'desc', 'name' => getlocal('page_agents.sortdirection.desc')),
+	array('id' => 'asc', 'name' => getlocal('page_agents.sortdirection.asc')),
+);
 
 setlocale(LC_TIME, getstring("time.locale"));
 

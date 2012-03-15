@@ -39,6 +39,32 @@ function tpl_content() { global $page, $webimroot, $errors;
 require_once('inc_errors.php');
 ?>
 
+<form name="agentsForm" method="get" action="<?php echo $webimroot ?>/operator/operators.php">
+
+	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
+
+	<div class="packedFormField">
+		<?php echo getlocal("page_agents.sort") ?><br/>
+		<select name="sortby" onchange="this.form.submit();"><?php
+			foreach($page['availableOrders'] as $k) {
+				echo "<option value=\"".$k['id']."\"".($k['id'] == form_value("sortby") ? " selected=\"selected\"" : "").">".$k['name']."</option>";
+			} ?></select>
+	</div>
+
+	<div class="packedFormField">
+		<?php echo getlocal("page_agents.sortdirection") ?><br/>
+		<select name="sortdirection" onchange="this.form.submit();"><?php
+			foreach($page['availableDirections'] as $k) {
+				echo "<option value=\"".$k['id']."\"".($k['id'] == form_value("sortdirection") ? " selected=\"selected\"" : "").">".$k['name']."</option>";
+			} ?></select>
+	</div>
+
+	<br clear="all"/>
+
+	</div><div class="formbottom"><div class="formbottomi"></div></div></div>
+</form>
+<br />
+
 <?php if($page['canmodify']) { ?>
 <div class="tabletool">
 	<img src='<?php echo $webimroot ?>/images/buttons/createagent.gif' border="0" alt="" />
