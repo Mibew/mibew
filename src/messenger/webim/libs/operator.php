@@ -370,7 +370,8 @@ function setup_redirect_links($threadid, $operator, $token)
 
 	$operator_in_isolation = in_isolation($operator);
 
-	$operators = $operator_in_isolation?get_operators_from_adjacent_groups($operator):operator_get_all();
+	$list_options = $operator_in_isolation?array('isolated_operator_id' => $operator['operatorid']):array();
+	$operators = get_operators_list($list_options);
 	$operatorscount = count($operators);
 
 	$link = connect();

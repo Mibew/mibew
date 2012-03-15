@@ -155,7 +155,9 @@ function print_operators($operator)
 {
 	global $webim_encoding, $settings;
 	echo "<operators>";
-	$operators = in_isolation($operator)?get_operators_from_adjacent_groups($operator):operator_get_all();
+
+	$list_options = in_isolation($operator)?array('isolated_operator_id' => $operator['operatorid']):array();
+	$operators = get_operators_list($list_options);
 
 	foreach ($operators as $operator) {
 		if (!operator_is_online($operator))
