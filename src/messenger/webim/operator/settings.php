@@ -24,6 +24,8 @@ require_once('../libs/operator.php');
 require_once('../libs/settings.php');
 require_once('../libs/styles.php');
 
+csrfchecktoken();
+
 $operator = check_login();
 force_password($operator);
 

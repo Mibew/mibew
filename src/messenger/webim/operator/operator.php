@@ -23,6 +23,8 @@ require_once('../libs/common.php');
 require_once('../libs/operator.php');
 require_once('../libs/operator_settings.php');
 
+csrfchecktoken();
+
 $operator = check_login();
 
 $page = array('opid' => '');
