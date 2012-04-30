@@ -25,6 +25,8 @@ require_once('../libs/settings.php');
 require_once('../libs/groups.php');
 require_once('../libs/pagination.php');
 
+csrfchecktoken();
+
 $operator = check_login();
 loadsettings();
 

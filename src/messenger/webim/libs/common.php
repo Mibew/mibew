@@ -702,7 +702,7 @@ function csrfchecktoken(){
 
       die("CSRF failure");
     }
-  } else if($_GET['act'] == 'del' && $_GET['csrf_token'] != $_SESSION['csrf_token']){
+  } else if(($_GET['act'] == 'del' || $_GET['act'] == 'delete') && $_GET['csrf_token'] != $_SESSION['csrf_token']){
       
     die("CSRF failure");
   }
