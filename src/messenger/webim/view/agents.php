@@ -86,7 +86,7 @@ require_once('inc_errors.php');
 	</td>
 <?php if($page['canmodify']) { ?>
 	<td>
-		<a class="removelink" id="i<?php echo $a['operatorid'] ?>" href="<?php echo $webimroot ?>/operator/operators.php?act=del&amp;id=<?php echo $a['operatorid'] ?>">
+  <a class="removelink" id="i<?php echo $a['operatorid'] ?>" href="<?php echo $webimroot ?>/operator/operators.php?act=del&amp;id=<?php echo $a['operatorid'] ?><?php print_csrf_token_in_url() ?>">
 			remove
 		</a>
 	</td>
