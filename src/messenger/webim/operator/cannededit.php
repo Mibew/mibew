@@ -23,6 +23,8 @@ require_once('../libs/common.php');
 require_once('../libs/operator.php');
 require_once('../libs/pagination.php');
 
+csrfchecktoken();
+
 function load_message($key)
 {
 	global $mysqlprefix;

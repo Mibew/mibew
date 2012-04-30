@@ -44,6 +44,10 @@ require_once('inc_errors.php');
 ?>
 
 <form name="cannedForm" method="post" action="<?php echo $webimroot ?>/operator/cannededit.php">
+
+<!-- add auth token -->
+<?php print_csrf_token_input() ?>
+
 <input type="hidden" name="key" value="<?php echo $page['key'] ?>"/>
 <?php if(!$page['key']) { ?>
 <input type="hidden" name="lang" value="<?php echo $page['locale'] ?>"/>
