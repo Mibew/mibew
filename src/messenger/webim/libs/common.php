@@ -767,10 +767,7 @@ function jspath()
 
 /* authorization token check for CSRF attack */
 function csrfchecktoken(){
-  /* if auth token not set, set it now */
-  if(!isset($_SESSION['csrf_token'])){
-      $_SESSION['csrf_token']=sha1(rand(10000000,99999999));
-  }
+  setcsrftoken();
 
   // check the turing code for post requests and del requests
   if ($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -789,12 +786,23 @@ function csrfchecktoken(){
 
 /* print csrf token as a hidden field*/
 function print_csrf_token_input(){
+  setcsrftoken();
+
   echo "<input name='csrf_token' type='hidden' value='".$_SESSION['csrf_token']."' />";
 }
 
 /* print csrf token in url format */
 function print_csrf_token_in_url(){
+  setcsrftoken();
+  
   echo "&amp;csrf_token=".$_SESSION['csrf_token'];
+}
+
+/* set csrf token */
+function setcsrftoken(){
+  if(!isset($_SESSION['csrf_token'])){
+      $_SESSION['csrf_token']=sha1(rand(10000000,99999999));
+  }
 }
 
 ?>
