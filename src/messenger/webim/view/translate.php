@@ -44,6 +44,10 @@ require_once('inc_errors.php');
 ?>
 
 <form name="translateForm" method="post" action="<?php echo $webimroot ?>/operator/translate.php">
+
+<!-- add auth token -->
+<?php print_csrf_token_input() ?>
+
 <input type="hidden" name="key" value="<?php echo $page['key'] ?>"/>
 <input type="hidden" name="target" value="<?php echo $page['target'] ?>"/>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
