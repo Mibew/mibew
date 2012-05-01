@@ -23,6 +23,8 @@ require_once('../libs/common.php');
 require_once('../libs/operator.php');
 require_once('../libs/pagination.php');
 
+csrfchecktoken();
+
 function compare_localization_by_l1($a, $b)
 {
 	if ($a == $b) {
