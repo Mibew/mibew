@@ -50,10 +50,7 @@ require_once('inc_errors.php');
 
 <?php if( $page['opid'] || $page['canmodify'] ) { ?>
 <form name="agentForm" method="post" action="<?php echo $webimroot ?>/operator/operator.php">
-
-<!-- add auth token -->
 <?php print_csrf_token_input() ?>
-
 <input type="hidden" name="opid" value="<?php echo $page['opid'] ?>"/>
 	<div>
 <?php if(!$page['needChangePassword']) { print_tabbar(); } ?>

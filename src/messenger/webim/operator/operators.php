@@ -22,9 +22,8 @@
 require_once('../libs/common.php');
 require_once('../libs/operator.php');
 
-csrfchecktoken();
-
 $operator = check_login();
+csrfchecktoken();
 
 if (isset($_GET['act']) && $_GET['act'] == 'del') {
 	$operatorid = isset($_GET['id']) ? $_GET['id'] : "";

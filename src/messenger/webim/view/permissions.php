@@ -39,10 +39,7 @@ require_once('inc_errors.php');
 <?php } ?>
 
 <form name="permissionsForm" method="post" action="<?php echo $webimroot ?>/operator/permissions.php">
-
-<!-- add csrf token -->
 <?php print_csrf_token_input() ?>
-
 <input type="hidden" name="op" value="<?php echo $page['opid'] ?>"/>
 	<div>
 <?php print_tabbar(); ?>

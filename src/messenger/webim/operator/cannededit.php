@@ -23,8 +23,6 @@ require_once('../libs/common.php');
 require_once('../libs/operator.php');
 require_once('../libs/pagination.php');
 
-csrfchecktoken();
-
 function load_message($key)
 {
 	global $mysqlprefix;
@@ -54,6 +52,7 @@ function add_message($locale, $groupid, $message)
 }
 
 $operator = check_login();
+csrfchecktoken();
 loadsettings();
 
 $stringid = verifyparam("key", "/^\d{0,9}$/", "");
