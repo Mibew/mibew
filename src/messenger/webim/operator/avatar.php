@@ -23,9 +23,8 @@ require_once('../libs/common.php');
 require_once('../libs/operator.php');
 require_once('../libs/operator_settings.php');
 
-csrfchecktoken();
-
 $operator = check_login();
+csrfchecktoken();
 
 $opId = verifyparam("op", "/^\d{1,9}$/");
 $page = array('opid' => $opId, 'avatar' => '');

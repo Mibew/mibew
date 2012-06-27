@@ -36,10 +36,7 @@ require_once('inc_errors.php');
 ?>
 
 <form name="avatarForm" method="post" action="<?php echo $webimroot ?>/operator/avatar.php" enctype="multipart/form-data">
-
-<!-- add csrf token -->
 <?php print_csrf_token_input() ?>
-
 <input type="hidden" name="op" value="<?php echo $page['opid'] ?>"/>
 	<div>
 <?php print_tabbar(); ?>

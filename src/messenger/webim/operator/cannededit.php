@@ -24,9 +24,8 @@ require_once('../libs/common.php');
 require_once('../libs/operator.php');
 require_once('../libs/pagination.php');
 
-csrfchecktoken();
-
 $operator = check_login();
+csrfchecktoken();
 loadsettings();
 
 $stringid = verifyparam("key", "/^\d{0,9}$/", "");

@@ -85,10 +85,7 @@ require_once('inc_errors.php');
 <?php } ?>
 
 <form name="features" method="post" action="<?php echo $webimroot ?>/operator/features.php">
-
-<!-- add auth token -->
 <?php print_csrf_token_input() ?>
-
 <input type="hidden" name="sent" value="true"/>
 	<div>
 <?php print_tabbar(); ?>

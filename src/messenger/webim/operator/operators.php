@@ -22,11 +22,9 @@
 require_once('../libs/common.php');
 require_once('../libs/operator.php');
 
-csrfchecktoken();
-
 $operator = check_login();
 force_password($operator);
-
+csrfchecktoken();
 
 if (isset($_GET['act'])) {
 
