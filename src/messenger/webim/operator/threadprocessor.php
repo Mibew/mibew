@@ -29,15 +29,16 @@ setlocale(LC_TIME, getstring("time.locale"));
 
 function thread_info($id)
 {
-	global $mysqlprefix;
-	$link = connect();
-	$thread = select_one_row("select userName,agentName,remote,userAgent," .
-							 "unix_timestamp(dtmmodified) as modified, unix_timestamp(dtmcreated) as created," .
-							 "vclocalname as groupName " .
-							 "from ${mysqlprefix}chatthread left join ${mysqlprefix}chatgroup on ${mysqlprefix}chatthread.groupid = ${mysqlprefix}chatgroup.groupid " .
-							 "where threadid = " . $id, $link);
-	close_connection($link);
-	return $thread;
+	$db = Database::getInstance();
+	return $db->query(
+		"select userName,agentName,remote,userAgent," .
+		"unix_timestamp(dtmmodified) as modified, unix_timestamp(dtmcreated) as created," .
+		"vclocalname as groupName " .
+		"from {chatthread} left join {chatgroup} on {chatthread}.groupid = {chatgroup}.groupid " .
+		"where threadid = ?",
+		array($id),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
 }
 
 

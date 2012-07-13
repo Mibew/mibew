@@ -23,22 +23,25 @@ $operator = check_login();
 
 function update_operator_groups($operatorid, $newvalue)
 {
-	global $mysqlprefix;
-	$link = connect();
-	perform_query("delete from ${mysqlprefix}chatgroupoperator where operatorid = $operatorid", $link);
+	$db = Database::getInstance();
+	$db->query(
+		"delete from {chatgroupoperator} where operatorid = ?",
+		array($operatorid)
+	);
+
 	foreach ($newvalue as $groupid) {
-		perform_query("insert into ${mysqlprefix}chatgroupoperator (groupid, operatorid) values ($groupid,$operatorid)", $link);
+		$db->query(
+			"insert into {chatgroupoperator} (groupid, operatorid) values (?,?)",
+			array($groupid, $operatorid)
+		);
 	}
-	close_connection($link);
 }
 
 $operator_in_isolation = in_isolation($operator);
 
 $opId = verifyparam("op", "/^\d{1,9}$/");
 $page = array('opid' => $opId);
-$link = connect();
-$page['groups'] = $operator_in_isolation?get_all_groups_for_operator($operator, $link):get_all_groups($link);
-close_connection($link);
+$page['groups'] = $operator_in_isolation?get_all_groups_for_operator($operator):get_all_groups();
 $errors = array();
 
 $canmodify = is_capable($can_administrate, $operator);

@@ -33,11 +33,10 @@ if (isset($_GET['act']) && $_GET['act'] == 'del') {
 	}
 
 	if (count($errors) == 0) {
-		$link = connect();
-		perform_query("delete from ${mysqlprefix}chatgroup where groupid = $groupid", $link);
-		perform_query("delete from ${mysqlprefix}chatgroupoperator where groupid = $groupid", $link);
-		perform_query("update ${mysqlprefix}chatthread set groupid = 0 where groupid = $groupid", $link);
-		close_connection($link);
+		$db = Database::getInstance();
+		$db->query("delete from {chatgroup} where groupid = ?", array($groupid));
+		$db->query("delete from {chatgroupoperator} where groupid = ?", array($groupid));
+		$db->query("update {chatthread} set groupid = 0 where groupid = ?",array($groupid));
 		header("Location: $webimroot/operator/groups.php");
 		exit;
 	}
@@ -59,9 +58,7 @@ function is_away($group)
 $page = array();
 $sort['by'] = verifyparam("sortby", "/^(name|lastseen|weight)$/", "name");
 $sort['desc'] = (verifyparam("sortdirection", "/^(desc|asc)$/", "desc") == "desc");
-$link = connect();
-$page['groups'] = get_sorted_groups($link, $sort);
-close_connection($link);
+$page['groups'] = get_sorted_groups($sort);
 $page['formsortby'] = $sort['by'];
 $page['formsortdirection'] = $sort['desc']?'desc':'asc';
 $page['canmodify'] = is_capable($can_administrate, $operator);

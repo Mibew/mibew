@@ -40,13 +40,15 @@ if (isset($_POST['loginoremail'])) {
 	if (count($errors) == 0) {
 		$token = md5((time() + microtime()) . rand(0, 99999999));
 
-		$link = connect();
-		$query = "update ${mysqlprefix}chatoperator set dtmrestore = CURRENT_TIMESTAMP, vcrestoretoken = '$token' where operatorid = " . $torestore['operatorid'];
-		perform_query($query, $link);
+		$db = Database::getInstance();
+		$db->query(
+			"update {chatoperator} set dtmrestore = CURRENT_TIMESTAMP, " .
+			"vcrestoretoken = ? where operatorid = ?",
+			array($token, $torestore['operatorid'])
+		);
 
 		$href = get_app_location(true, false) . "/operator/resetpwd.php?id=" . $torestore['operatorid'] . "&token=$token";
-		webim_mail($email, $email, getstring("restore.mailsubj"), getstring2("restore.mailtext", array(get_operator_name($torestore), $href)), $link);
-		close_connection($link);
+		webim_mail($email, $email, getstring("restore.mailsubj"), getstring2("restore.mailtext", array(get_operator_name($torestore), $href)));
 
 		$page['isdone'] = true;
 		require('../view/restore.php');

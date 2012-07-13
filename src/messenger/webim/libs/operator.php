@@ -31,37 +31,32 @@ $permission_ids = array(
 
 function operator_by_login($login)
 {
-	global $mysqlprefix;
-	$link = connect();
-	$operator = select_one_row(
-		"select * from ${mysqlprefix}chatoperator where vclogin = '" . db_escape_string($login) . "'", $link);
-	close_connection($link);
-	return $operator;
+	$db = Database::getInstance();
+	return $db->query(
+		"select * from {chatoperator} where vclogin = ?",
+		array($login),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
 }
 
 function operator_by_email($mail)
 {
-	global $mysqlprefix;
-	$link = connect();
-	$operator = select_one_row(
-		"select * from ${mysqlprefix}chatoperator where vcemail = '" . db_escape_string($mail) . "'", $link);
-	close_connection($link);
-	return $operator;
-}
-
-function operator_by_id_($id, $link)
-{
-	global $mysqlprefix;
-	return select_one_row(
-		"select * from ${mysqlprefix}chatoperator where operatorid = $id", $link);
+	$db = Database::getInstance();
+	return $db->query(
+		"select * from {chatoperator} where vcemail = ?",
+		array($mail),
+		array('return_rows', Database::RETURN_ONE_ROW)
+	);
 }
 
 function operator_by_id($id)
 {
-	$link = connect();
-	$operator = operator_by_id_($id, $link);
-	close_connection($link);
-	return $operator;
+	$db = Database::getInstance();
+	return $db->query(
+		"select * from {chatoperator} where operatorid = ?",
+		array($id),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
 }
 
 /**
@@ -80,8 +75,7 @@ function operator_by_id($id)
  */
 function get_operators_list($options)
 {
-	global $mysqlprefix;
-	$link = connect();
+	$db = Database::getInstance();
 
 	if ( !empty($options['sort']) && isset($options['sort']['by']) && isset($options['sort']['desc'])) {
 		switch ($options['sort']['by']) {
@@ -103,54 +97,67 @@ function get_operators_list($options)
 		$orderby = "vclogin";
 	}
 
-	$query = "select distinct ${mysqlprefix}chatoperator.operatorid, vclogin, vclocalename, vccommonname, istatus, idisabled, (unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
-		 "from ${mysqlprefix}chatoperator" .
+	$query = "select distinct {chatoperator}.operatorid, vclogin, vclocalename, vccommonname, istatus, idisabled, (unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
+		 "from {chatoperator}" .
 		 (
 		 empty($options['isolated_operator_id']) ? "" :
-			sprintf(", ${mysqlprefix}chatgroupoperator " .
-				" where ${mysqlprefix}chatoperator.operatorid = ${mysqlprefix}chatgroupoperator.operatorid and ${mysqlprefix}chatgroupoperator.groupid in " .
-				"(select g.groupid from ${mysqlprefix}chatgroup g, " .
-				"(select distinct parent from ${mysqlprefix}chatgroup, ${mysqlprefix}chatgroupoperator " .
-				"where ${mysqlprefix}chatgroup.groupid = ${mysqlprefix}chatgroupoperator.groupid and ${mysqlprefix}chatgroupoperator.operatorid = %u) i " .
-				"where g.groupid = i.parent or g.parent = i.parent " .
-				")", $options['isolated_operator_id'])
+			", {chatgroupoperator} " .
+			" where {chatoperator}.operatorid = {chatgroupoperator}.operatorid and {chatgroupoperator}.groupid in " .
+			"(select g.groupid from {chatgroup} g, " .
+			"(select distinct parent from {chatgroup}, {chatgroupoperator} " .
+			"where {chatgroup}.groupid = {chatgroupoperator}.groupid and {chatgroupoperator}.operatorid = :operatorid) i " .
+			"where g.groupid = i.parent or g.parent = i.parent " .
+			")"
 		 ) .
 		 " order by " . $orderby;
 
-	$operators = select_multi_assoc($query, $link);
-	close_connection($link);
+	$operators = $db->query(
+		$query,
+		(
+			empty($options['isolated_operator_id']) 
+			? array()
+			: array(':operatorid' => $options['isolated_operator_id'])
+		),
+		array('return_rows' => Database::RETURN_ALL_ROWS)
+	);
+
 	return $operators;
 }
 
 function operator_get_all()
 {
-	global $mysqlprefix;
-	$link = connect();
-
-	$query = "select operatorid, vclogin, vclocalename, vccommonname, istatus, idisabled, (unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
-			 "from ${mysqlprefix}chatoperator order by vclogin";
-	$operators = select_multi_assoc($query, $link);
-	close_connection($link);
-	return $operators;
+	$db = Database::getInstance();
+	return $operators = $db->query(
+		"select operatorid, vclogin, vclocalename, vccommonname, istatus, idisabled, " .
+		"(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
+		"from {chatoperator} order by vclogin",
+		NULL,
+		array('return_rows' => Database::RETURN_ALL_ROWS)
+	);
 }
 
 function get_operators_from_adjacent_groups($operator)
 {
-	global $mysqlprefix;
-	$link = connect();
-
-	$query = "select distinct ${mysqlprefix}chatoperator.operatorid, vclogin, vclocalename, vccommonname, istatus, idisabled, (unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
-		 "from ${mysqlprefix}chatoperator, ${mysqlprefix}chatgroupoperator " .
-		 " where ${mysqlprefix}chatoperator.operatorid = ${mysqlprefix}chatgroupoperator.operatorid and ${mysqlprefix}chatgroupoperator.groupid in " .
-		 "(select g.groupid from ${mysqlprefix}chatgroup g, " .
-		 "(select distinct parent from ${mysqlprefix}chatgroup, ${mysqlprefix}chatgroupoperator " .
-		 "where ${mysqlprefix}chatgroup.groupid = ${mysqlprefix}chatgroupoperator.groupid and ${mysqlprefix}chatgroupoperator.operatorid = ".$operator['operatorid'].") i " .
-		 "where g.groupid = i.parent or g.parent = i.parent " .
-		 ") order by vclogin";
-
-	$operators = select_multi_assoc($query, $link);
-	close_connection($link);
-	return $operators;
+	$db = Database::getInstance();
+	$query = "select distinct {chatoperator}.operatorid, vclogin, vclocalename,vccommonname, " .
+		"istatus, idisabled, " .
+		"(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
+		"from {chatoperator}, {chatgroupoperator} " .
+		"where {chatoperator}.operatorid = {chatgroupoperator}.operatorid " .
+		"and {chatgroupoperator}.groupid in " .
+		"(select g.groupid from {chatgroup} g, " .
+		"(select distinct parent from {chatgroup}, {chatgroupoperator} " .
+		"where {chatgroup}.groupid = {chatgroupoperator}.groupid " .
+		"and {chatgroupoperator}.operatorid = ?) i " .
+		"where g.groupid = i.parent or g.parent = i.parent " .
+		") order by vclogin";
+	
+	
+	return $db->query(
+		$query,
+		array($operator['operatorid']),
+		array('return_rows' => Database::RETURN_ALL_ROWS)
+	);
 }
 
 function operator_is_online($operator)
@@ -178,100 +185,116 @@ function operator_is_disabled($operator)
 
 function update_operator($operatorid, $login, $email, $password, $localename, $commonname)
 {
-	global $mysqlprefix;
-	$link = connect();
-	$query = sprintf(
-		"update ${mysqlprefix}chatoperator set vclogin = '%s',%s vclocalename = '%s', vccommonname = '%s'" .
-		", vcemail = '%s', vcjabbername= '%s'" .
-		" where operatorid = %s",
-		db_escape_string($login),
-		($password ? " vcpassword='" . md5($password) . "'," : ""),
-		db_escape_string($localename),
-		db_escape_string($commonname),
-		db_escape_string($email),
-		'',
-		$operatorid);
-
-	perform_query($query, $link);
-	close_connection($link);
+	$db = Database::getInstance();
+	$db->query(
+		"update {chatoperator} set vclogin = :login, " .
+		($password ? " vcpassword=:password, " : "") .
+		"vclocalename = :localname, vccommonname = :commonname, " .
+		"vcemail = :email, vcjabbername= :jabbername " .
+		"where operatorid = :operatorid",
+		array(
+			':login' => $login,
+			':password' => $password,
+			':localname' => $localename,
+			':commonname' => $commonname,
+			':email' => $email,
+			':jabbername' => '',
+			':operatorid' => $operatorid
+		)
+	);
 }
 
 function update_operator_avatar($operatorid, $avatar)
 {
-	global $mysqlprefix;
-	$link = connect();
-	$query = sprintf(
-		"update ${mysqlprefix}chatoperator set vcavatar = '%s' where operatorid = %s",
-		db_escape_string($avatar), $operatorid);
-
-	perform_query($query, $link);
-	close_connection($link);
+	$db = Database::getInstance();
+	$db->query(
+		"update {chatoperator} set vcavatar = ? where operatorid = ?",
+		array($avatar, $operatorid)
+	);
 }
 
-function create_operator_($login, $email, $password, $localename, $commonname, $avatar, $link)
-{
-	global $mysqlprefix;
-	$query = sprintf(
-		"insert into ${mysqlprefix}chatoperator (vclogin,vcpassword,vclocalename,vccommonname,vcavatar,vcemail,vcjabbername) values ('%s','%s','%s','%s','%s','%s','%s')",
-		db_escape_string($login),
-		md5($password),
-		db_escape_string($localename),
-		db_escape_string($commonname),
-		db_escape_string($avatar),
-		db_escape_string($email), '');
-
-	perform_query($query, $link);
-	$id = db_insert_id($link);
-
-	return select_one_row("select * from ${mysqlprefix}chatoperator where operatorid = $id", $link);
-}
-
+/**
+ * @todo Rename create_operator_ function to create_operator and remove any usage of create_operator_
+ */
 function create_operator($login, $email, $password, $localename, $commonname, $avatar)
 {
-	$link = connect();
-	$newop = create_operator_($login, $email, $password, $localename, $commonname, $avatar, $link);
-	close_connection($link);
-	return $newop;
+	$db = Database::getInstance();
+	$db->query(
+		"insert into {chatoperator} " .
+		"(vclogin,vcpassword,vclocalename,vccommonname,vcavatar,vcemail,vcjabbername) " .
+		"values (?, ?, ?, ?, ?, ?, ?)",
+		array(
+			$login,
+			md5($password),
+			$localename,
+			$commonname,
+			$avatar,
+			$email,
+			''
+		)
+	);
+
+	$id = $db->insertedId();
+
+	return $db->query(
+		"select * from {chatoperator} where operatorid = ?",
+		array($id),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
 }
 
 function notify_operator_alive($operatorid, $istatus)
 {
-	global $mysqlprefix;
-	$link = connect();
-	perform_query("update ${mysqlprefix}chatoperator set istatus = $istatus, dtmlastvisited = CURRENT_TIMESTAMP where operatorid = $operatorid", $link);
-	close_connection($link);
+	$db = Database::getInstance();
+	$db->query(
+		"update {chatoperator} set istatus = ?, dtmlastvisited = CURRENT_TIMESTAMP " .
+		"where operatorid = ?",
+		array($istatus, $operatorid)
+	);
 }
 
 function has_online_operators($groupid = "")
 {
-	global $settings, $mysqlprefix;
+	global $settings;
 	loadsettings();
-	$link = connect();
-	$query = "select count(*) as total, min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time from ${mysqlprefix}chatoperator";
+	$db = Database::getInstance();
+
+	$query = "select count(*) as total, min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time from {chatoperator}";
 	if ($groupid) {
-		$query .= ", ${mysqlprefix}chatgroupoperator, ${mysqlprefix}chatgroup where ${mysqlprefix}chatgroup.groupid = ${mysqlprefix}chatgroupoperator.groupid and " .
-				  "(${mysqlprefix}chatgroup.groupid = $groupid or ${mysqlprefix}chatgroup.parent = $groupid) and ${mysqlprefix}chatoperator.operatorid = " .
-				  "${mysqlprefix}chatgroupoperator.operatorid and istatus = 0";
+		$query .= ", {chatgroupoperator}, {chatgroup} where {chatgroup}.groupid = {chatgroupoperator}.groupid and " .
+			"({chatgroup}.groupid = :groupid or {chatgroup}.parent = :groupid) and {chatoperator}.operatorid = " .
+			"{chatgroupoperator}.operatorid and istatus = 0";
 	} else {
 		if ($settings['enablegroups'] == 1) {
-			$query .= ", ${mysqlprefix}chatgroupoperator where ${mysqlprefix}chatoperator.operatorid = " .
-				"${mysqlprefix}chatgroupoperator.operatorid and istatus = 0";
+			$query .= ", {chatgroupoperator} where {chatoperator}.operatorid = " .
+				"{chatgroupoperator}.operatorid and istatus = 0";
 		} else {
 			$query .= " where istatus = 0";
 		}
 	}
-	$row = select_one_row($query, $link);
-	close_connection($link);
+
+	$row = $db->query(
+		$query,
+		array(':groupid'=>$groupid),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
 	return $row['time'] < $settings['online_timeout'] && $row['total'] > 0;
 }
 
-function is_operator_online($operatorid, $link)
+function is_operator_online($operatorid)
 {
-	global $settings, $mysqlprefix;
-	loadsettings_($link);
-	$query = "select count(*) as total, min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
-			 "from ${mysqlprefix}chatoperator where operatorid = $operatorid";
-	$row = select_one_row($query, $link);
+	global $settings;
+	loadsettings();
+	
+	$db = Database::getInstance();
+	$row = $db->query(
+		"select count(*) as total, " .
+		"min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
+		"from {chatoperator} where operatorid = ?",
+		array($operatorid),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
+	
 	return $row['time'] < $settings['online_timeout'] && $row['total'] == 1;
 }
 
@@ -361,7 +384,7 @@ function logout_operator()
 
 function setup_redirect_links($threadid, $operator, $token)
 {
-	global $page, $webimroot, $settings, $mysqlprefix;
+	global $page, $webimroot, $settings;
 	loadsettings();
 
 	$operator_in_isolation = in_isolation($operator);
@@ -370,12 +393,10 @@ function setup_redirect_links($threadid, $operator, $token)
 	$operators = get_operators_list($list_options);
 	$operatorscount = count($operators);
 
-	$link = connect();
-
 	$groupscount = 0;
 	$groups = array();
 	if ($settings['enablegroups'] == "1") {
-		$groupslist = $operator_in_isolation?get_groups_for_operator($link, $operator, true):get_groups($link, true);
+		$groupslist = $operator_in_isolation?get_groups_for_operator($operator, true):get_groups(true);
 		foreach ($groupslist as $group) {
 			if ($group['inumofagents'] == 0) {
 				continue;
@@ -384,7 +405,6 @@ function setup_redirect_links($threadid, $operator, $token)
 		}
 		$groupscount = count($groups);
 	}
-	close_connection($link);
 
 	prepare_pagination(max($operatorscount, $groupscount), 8);
 	$p = $page['pagination'];
@@ -471,23 +491,35 @@ function prepare_menu($operator, $hasright = true)
 	}
 }
 
-function get_all_groups($link)
+function get_all_groups()
 {
-	global $mysqlprefix;
-	$query = "select ${mysqlprefix}chatgroup.groupid as groupid, parent, vclocalname, vclocaldescription from ${mysqlprefix}chatgroup order by vclocalname";
-	return get_sorted_child_groups_(select_multi_assoc($query, $link));
+	$db = Database::getInstance();
+	$groups = $db->query(
+		"select {chatgroup}.groupid as groupid, parent, vclocalname, vclocaldescription " .
+		"from {chatgroup} order by vclocalname",
+		NULL,
+		array('return_rows' => Database::RETURN_ALL_ROWS)
+	);
+	return get_sorted_child_groups_($groups);
 }
 
-function get_all_groups_for_operator($operator, $link)
+function get_all_groups_for_operator($operator)
 {
-	global $mysqlprefix;
+	$db = Database::getInstance();
 	$query = "select g.groupid as groupid, g.parent, g.vclocalname, g.vclocaldescription " .
-		 "from ${mysqlprefix}chatgroup g, " .
-		 "(select distinct parent from ${mysqlprefix}chatgroup, ${mysqlprefix}chatgroupoperator " .
-		 "where ${mysqlprefix}chatgroup.groupid = ${mysqlprefix}chatgroupoperator.groupid and ${mysqlprefix}chatgroupoperator.operatorid = ".$operator['operatorid'].") i " .
-		 "where g.groupid = i.parent or g.parent = i.parent " .
-		 "order by vclocalname";
-	return get_sorted_child_groups_(select_multi_assoc($query, $link));
+		"from {chatgroup} g, " .
+		"(select distinct parent from {chatgroup}, {chatgroupoperator} " .
+		"where {chatgroup}.groupid = {chatgroupoperator}.groupid " .
+		"and {chatgroupoperator}.operatorid = ?) i " .
+		"where g.groupid = i.parent or g.parent = i.parent " .
+		"order by vclocalname";
+	
+	$groups = $db->query(
+		$query,
+		array($operator['operatorid']),
+		array('return_rows' => Database::RETURN_ALL_ROWS)
+	);
+	return get_sorted_child_groups_($groups);
 }
 
 function get_sorted_child_groups_($groupslist, $skipgroups = array(), $maxlevel = -1, $groupid = NULL, $level = 0)
@@ -505,10 +537,9 @@ function get_sorted_child_groups_($groupslist, $skipgroups = array(), $maxlevel 
 	return $child_groups;
 }
 
-function get_groups_($link, $checkaway, $operator, $order = NULL)
+function get_groups_($checkaway, $operator, $order = NULL)
 {
-	global $mysqlprefix;
-
+	$db = Database::getInstance();
 	if($order){
 		switch($order['by']){
 			case 'weight':
@@ -518,63 +549,68 @@ function get_groups_($link, $checkaway, $operator, $order = NULL)
 				$orderby = "ilastseen";
 				break;
 			default:
-				$orderby = "${mysqlprefix}chatgroup.vclocalname";
+				$orderby = "{chatgroup}.vclocalname";
 		}
-		$orderby = sprintf(" IF(ISNULL(${mysqlprefix}chatgroup.parent),CONCAT('_',%s),'') %s, ${mysqlprefix}chatgroup.iweight ",
+		$orderby = sprintf(" IF(ISNULL({chatgroup}.parent),CONCAT('_',%s),'') %s, {chatgroup}.iweight ",
 					$orderby,
 					($order['desc']?'DESC':'ASC'));
 	}else{
 		$orderby = "iweight, vclocalname";
 	}
 
-	$query = "select ${mysqlprefix}chatgroup.groupid as groupid, ${mysqlprefix}chatgroup.parent as parent, vclocalname, vclocaldescription, iweight" .
-			 ", (SELECT count(*) from ${mysqlprefix}chatgroupoperator where ${mysqlprefix}chatgroup.groupid = " .
-			 "${mysqlprefix}chatgroupoperator.groupid) as inumofagents" .
-			 ", (SELECT min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
-			 "from ${mysqlprefix}chatgroupoperator, ${mysqlprefix}chatoperator where istatus = 0 and " .
-			 "${mysqlprefix}chatgroup.groupid = ${mysqlprefix}chatgroupoperator.groupid " .
-			 "and ${mysqlprefix}chatgroupoperator.operatorid = ${mysqlprefix}chatoperator.operatorid) as ilastseen" .
-			 ($checkaway
-					 ? ", (SELECT min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
-					   "from ${mysqlprefix}chatgroupoperator, ${mysqlprefix}chatoperator where istatus <> 0 and " .
-					   "${mysqlprefix}chatgroup.groupid = ${mysqlprefix}chatgroupoperator.groupid " .
-					   "and ${mysqlprefix}chatgroupoperator.operatorid = ${mysqlprefix}chatoperator.operatorid) as ilastseenaway"
-					 : ""
-			 ) .
-			 " from ${mysqlprefix}chatgroup" .
-			 ($operator
-					 ? ", (select distinct parent from ${mysqlprefix}chatgroup, ${mysqlprefix}chatgroupoperator " .
-					   "where ${mysqlprefix}chatgroup.groupid = ${mysqlprefix}chatgroupoperator.groupid and ${mysqlprefix}chatgroupoperator.operatorid = ".$operator['operatorid'].") i " .
-					   "where ${mysqlprefix}chatgroup.groupid = i.parent or ${mysqlprefix}chatgroup.parent = i.parent "
-					 : ""
-			 ) .
-			 " order by " . $orderby;
-	return get_sorted_child_groups_(select_multi_assoc($query, $link));
+	$query = "select {chatgroup}.groupid as groupid, {chatgroup}.parent as parent, vclocalname, vclocaldescription, iweight" .
+		", (SELECT count(*) from {chatgroupoperator} where {chatgroup}.groupid = " .
+		"{chatgroupoperator}.groupid) as inumofagents" .
+		", (SELECT min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
+		"from {chatgroupoperator}, {chatoperator} where istatus = 0 and " .
+		"{chatgroup}.groupid = {chatgroupoperator}.groupid " .
+		"and {chatgroupoperator}.operatorid = {chatoperator}.operatorid) as ilastseen" .
+		($checkaway
+			? ", (SELECT min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
+			"from {chatgroupoperator}, {chatoperator} where istatus <> 0 and " .
+			"{chatgroup}.groupid = {chatgroupoperator}.groupid " .
+			"and {chatgroupoperator}.operatorid = {chatoperator}.operatorid) as ilastseenaway"
+			: ""
+		) .
+		" from {chatgroup} " .
+		($operator
+			? ", (select distinct parent from {chatgroup}, {chatgroupoperator} " .
+			"where {chatgroup}.groupid = {chatgroupoperator}.groupid and {chatgroupoperator}.operatorid = ?) i " .
+			"where {chatgroup}.groupid = i.parent or {chatgroup}.parent = i.parent "
+			: ""
+		) .
+		" order by " . $orderby;
+	$groups = $db->query(
+		$query,
+		array($operator['operatorid']),
+		array('return_rows' => Database::RETURN_ALL_ROWS)
+	);
+	return get_sorted_child_groups_($groups);
 }
 
-function get_groups($link, $checkaway)
+function get_groups($checkaway)
 {
-	return get_groups_($link, $checkaway, NULL);
+	return get_groups_($checkaway, NULL);
 }
 
-function get_groups_for_operator($link, $operator, $checkaway)
+function get_groups_for_operator($operator, $checkaway)
 {
-	return get_groups_($link, $checkaway, $operator);
+	return get_groups_($checkaway, $operator);
 }
 
-function get_sorted_groups($link, $order)
+function get_sorted_groups($order)
 {
-	return get_groups_($link, true, NULL, $order);
+	return get_groups_(true, NULL, $order);
 }
 
 function get_operator_groupids($operatorid)
 {
-	global $mysqlprefix;
-	$link = connect();
-	$query = "select groupid from ${mysqlprefix}chatgroupoperator where operatorid = $operatorid";
-	$result = select_multi_assoc($query, $link);
-	close_connection($link);
-	return $result;
+	$db = Database::getInstance();
+	return $db->query(
+		"select groupid from {chatgroupoperator} where operatorid = ?",
+		array($operatorid),
+		array('return_rows' => Database::RETURN_ALL_ROWS)
+	);
 }
 
 ?>

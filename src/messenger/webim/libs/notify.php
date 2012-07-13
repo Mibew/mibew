@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-function webim_mail($toaddr, $reply_to, $subject, $body, $link)
+function webim_mail($toaddr, $reply_to, $subject, $body)
 {
 	global $webim_encoding, $webim_mailbox, $mail_encoding, $current_locale;
 

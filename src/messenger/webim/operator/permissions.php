@@ -24,12 +24,11 @@ csrfchecktoken();
 
 function update_operator_permissions($operatorid, $newvalue)
 {
-	global $mysqlprefix;
-	$link = connect();
-	$query = "update ${mysqlprefix}chatoperator set iperm = $newvalue where operatorid = $operatorid";
-
-	perform_query($query, $link);
-	close_connection($link);
+	$db = Database::getInstance();
+	$db->query(
+		"update {chatoperator} set iperm = ? where operatorid = ?",
+		array($newvalue, $operatorid)
+	);
 }
 
 $opId = verifyparam("op", "/^\d{1,9}$/");

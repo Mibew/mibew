@@ -48,10 +48,12 @@ if (count($errors) == 0 && isset($_POST['password'])) {
 	if (count($errors) == 0) {
 		$page['isdone'] = true;
 
-		$link = connect();
-		$query = "update ${mysqlprefix}chatoperator set vcpassword = '" . md5($password) . "', vcrestoretoken = '' where operatorid = " . $opId;
-		perform_query($query, $link);
-		close_connection($link);
+		$db = Database::getInstance();
+		$db->query(
+			"update {chatoperator} set vcpassword = ?, vcrestoretoken = '' " .
+			"where operatorid = ?",
+			array(md5($password), $opId)
+		);
 
 		$page['loginname'] = $operator['vclogin'];
 		start_html_output();

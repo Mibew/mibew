@@ -30,19 +30,17 @@ function store_message($name, $email, $info, $message,$groupid,$referrer) {
 	$remoteHost = get_remote_host();
 	$userbrowser = $_SERVER['HTTP_USER_AGENT'];
 	$visitor = visitor_from_request();
-	$link = connect();
-	$thread = create_thread($groupid,$name,$remoteHost,$referrer,$current_locale,$visitor['id'], $userbrowser,$state_left,$link);
+	$thread = create_thread($groupid,$name,$remoteHost,$referrer,$current_locale,$visitor['id'], $userbrowser,$state_left);
 	if( $referrer ) {
-		post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.came.from',array($referrer)),$link);
+		post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.came.from',array($referrer)));
 	}
 	if($email) {
-		post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.email',array($email)),$link);
+		post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.email',array($email)));
 	}
 	if($info) {
-		post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.info',array($info)),$link);
+		post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.info',array($info)));
 	}
-	post_message_($thread['threadid'],$kind_user,$message,$link,$name);
-	close_connection($link);
+	post_message_($thread['threadid'],$kind_user,$message,$name);
 }
 
 $groupid = "";
@@ -121,9 +119,7 @@ if (empty($inbox_mail)) {
 }
 
 if($inbox_mail) {
-	$link = connect();
-	webim_mail($inbox_mail, $email, $subject, $body, $link);
-	close_connection($link);
+	webim_mail($inbox_mail, $email, $subject, $body);
 }
 
 setup_logo($group);

@@ -26,7 +26,7 @@ $errors = array();
 
 setlocale(LC_TIME, getstring("time.locale"));
 
-$link = connect();
+$db = Database::getInstance();
 
 if (isset($_GET['act']) && $_GET['act'] == 'del') {
 	$banId = isset($_GET['id']) ? $_GET['id'] : "";
@@ -36,15 +36,17 @@ if (isset($_GET['act']) && $_GET['act'] == 'del') {
 	}
 
 	if (count($errors) == 0) {
-		perform_query("delete from ${mysqlprefix}chatban where banid = $banId", $link);
+		$db->query("delete from {chatban} where banid = ?", array($banId));
 		header("Location: $webimroot/operator/blocked.php");
 		exit;
 	}
 }
 
-$blockedList = select_multi_assoc("select banid,unix_timestamp(dtmtill) as till,address,comment from ${mysqlprefix}chatban", $link);
-
-close_connection($link);
+$blockedList = $db->query(
+	"select banid,unix_timestamp(dtmtill) as till,address,comment from {chatban}",
+	NULL,
+	array('return_rows' => Database::RETURN_ONE_ROW)
+);
 
 setup_pagination($blockedList);
 

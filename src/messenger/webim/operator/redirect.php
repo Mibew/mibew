@@ -41,13 +41,11 @@ if (isset($_GET['nextGroup'])) {
 	if ($nextGroup) {
 		$page['message'] = getlocal2("chat.redirected.group.content", array(topage(get_group_name($nextGroup))));
 		if ($thread['istate'] == $state_chatting) {
-			$link = connect();
 			commit_thread($threadid,
-						  array("istate" => $state_waiting, "nextagent" => 0, "groupid" => $nextid, "agentId" => 0, "agentName" => "''"), $link);
+						  array("istate" => $state_waiting, "nextagent" => 0, "groupid" => $nextid, "agentId" => 0, "agentName" => "''"));
 			post_message_($thread['threadid'], $kind_events,
 						  getstring2_("chat.status.operator.redirect",
-									  array(get_operator_name($operator)), $thread['locale']), $link);
-			close_connection($link);
+									  array(get_operator_name($operator)), $thread['locale']));
 		} else {
 			$errors[] = getlocal("chat.redirect.cannot");
 		}
@@ -62,18 +60,26 @@ if (isset($_GET['nextGroup'])) {
 	if ($nextOperator) {
 		$page['message'] = getlocal2("chat.redirected.content", array(topage(get_operator_name($nextOperator))));
 		if ($thread['istate'] == $state_chatting) {
-			$link = connect();
 			$threadupdate = array("istate" => $state_waiting, "nextagent" => $nextid, "agentId" => 0);
 			if ($thread['groupid'] != 0) {
-				if (FALSE === select_one_row("select groupid from ${mysqlprefix}chatgroupoperator where operatorid = $nextid and groupid = " . $thread['groupid'], $link)) {
+				$db = Database::getInstance();
+				list($groups_count) = $db->query(
+					"select count(*) AS count from {chatgroupoperator} " .
+					"where operatorid = ? and groupid = ?",
+					array($nextid, $thread['groupid']),
+					array(
+						'return_rows' => Database::RETURN_ONE_ROW, 
+						'fetch_type' => Database::FETCH_NUM
+					)
+				);
+				if ($groups_count === 0) {
 					$threadupdate['groupid'] = 0;
 				}
 			}
-			commit_thread($threadid, $threadupdate, $link);
+			commit_thread($threadid, $threadupdate);
 			post_message_($thread['threadid'], $kind_events,
 						  getstring2_("chat.status.operator.redirect",
-									  array(get_operator_name($operator)), $thread['locale']), $link);
-			close_connection($link);
+									  array(get_operator_name($operator)), $thread['locale']));
 		} else {
 			$errors[] = getlocal("chat.redirect.cannot");
 		}

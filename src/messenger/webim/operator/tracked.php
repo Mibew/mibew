@@ -36,21 +36,19 @@ else {
     $visitorid = verifyparam("visitor", "/^\d{1,8}$/");
 }
 
-$link = connect();
 if (isset($threadid)) {
-    $visitor = track_get_visitor_by_threadid($threadid, $link);
+    $visitor = track_get_visitor_by_threadid($threadid);
     if (!$visitor) {
 	die("Wrong thread!");
     }
 }
 else {
-    $visitor = track_get_visitor_by_id($visitorid, $link);
+    $visitor = track_get_visitor_by_id($visitorid);
     if (!$visitor) {
 	die("Wrong visitor!");
     }
 }
-$path = track_get_path($visitor, $link);
-close_connection($link);
+$path = track_get_path($visitor);
 
 $page['entry'] = htmlspecialchars($visitor['entry']);
 $page['history'] = array();

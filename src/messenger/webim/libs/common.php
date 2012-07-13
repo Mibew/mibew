@@ -19,6 +19,7 @@ session_start();
 
 require_once(dirname(__FILE__) . '/converter.php');
 require_once(dirname(__FILE__) . '/config.php');
+require_once(dirname(__FILE__) . '/database.php');
 
 $version = '1.6.5';
 $jsver = "165";
@@ -350,111 +351,6 @@ function cutstring($string, $length = 75, $ellipsis = '')
 	return $result;
 }
 
-function connect()
-{
-	global $mysqlhost, $mysqllogin, $mysqlpass, $mysqldb, $dbencoding, $force_charset_in_connection, $use_persistent_connection;
-	if (!extension_loaded("mysql")) {
-		die('Mysql extension is not loaded');
-	}
-	if ($use_persistent_connection) {
-		$link = @mysql_pconnect($mysqlhost, $mysqllogin, $mysqlpass);
-	}else{
-		$link = @mysql_connect($mysqlhost, $mysqllogin, $mysqlpass);
-	}
-	if (! $link) {
-		die('Could not connect: ' . mysql_error());
-	}
-	mysql_select_db($mysqldb, $link) or die('Could not select database');
-	if ($force_charset_in_connection) {
-		perform_query("SET NAMES '$dbencoding'", $link);
-	}
-	return $link;
-}
-
-function close_connection($link)
-{
-	global $use_persistent_connection;
-	if (! $use_persistent_connection) {
-		mysql_close($link);
-	}
-}
-
-function db_escape_string($string, $link = NULL)
-{
-	if ( is_null($link) ) {
-		return mysql_real_escape_string($string);
-	}
-	return mysql_real_escape_string($string, $link);
-}
-
-function db_error($link)
-{
-	return mysql_error($link);
-}
-
-function db_insert_id($link)
-{
-	return mysql_insert_id($link);
-}
-
-function db_fetch_row($result)
-{
-	return mysql_fetch_row($result);
-}
-
-function db_fetch_assoc($result){
-	return mysql_fetch_assoc($result);
-}
-
-function perform_query($query, $link)
-{
-	$result = mysql_query($query, $link);
-	if (! $result) {
-		die(' Query failed: ' . db_error($link));
-	}
-	return $result;
-}
-
-function db_free_result($result)
-{
-	mysql_free_result($result);
-}
-
-function select_one_row($query, $link)
-{
-	$result = perform_query($query, $link);
-	$line = db_fetch_assoc($result);
-	db_free_result($result);
-	return $line;
-}
-
-function select_multi_assoc($query, $link)
-{
-	$sqlresult = perform_query($query, $link);
-
-	$result = array();
-	while ($row = db_fetch_assoc($sqlresult)) {
-		$result[] = $row;
-	}
-	db_free_result($sqlresult);
-	return $result;
-}
-
-function db_build_select($fields, $table, $conditions, $orderandgroup)
-{
-	$condition = count($conditions) > 0 ? " where " . implode(" and ", $conditions) : "";
-	if ($orderandgroup) $orderandgroup = " " . $orderandgroup;
-	return "select $fields from $table$condition$orderandgroup";
-}
-
-function db_rows_count($table, $conditions, $countfields, $link)
-{
-	$result = perform_query(db_build_select("count(" . ($countfields ? $countfields : "*") . ")", $table, $conditions, ""), $link);
-	$line = db_fetch_row($result);
-	db_free_result($result);
-	return $line[0];
-}
-
 function start_xml_output()
 {
 	header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
@@ -716,31 +612,24 @@ $settings = array(
 $settingsloaded = false;
 $settings_in_db = array();
 
-function loadsettings_($link)
+function loadsettings()
 {
-	global $settingsloaded, $settings_in_db, $settings, $mysqlprefix;
+	global $settingsloaded, $settings_in_db, $settings;
 	if ($settingsloaded) {
 		return;
 	}
 	$settingsloaded = true;
 
-	$sqlresult = perform_query("select vckey,vcvalue from ${mysqlprefix}chatconfig", $link);
-
-	while ($row = db_fetch_assoc($sqlresult)) {
+	$db = Database::getInstance();
+	$rows = $db->query(
+		"select vckey,vcvalue from {chatconfig}",
+		NULL,
+		array('return_rows' => Database::RETURN_ALL_ROWS)
+	);
+	foreach ($rows as $row) {
 		$name = $row['vckey'];
 		$settings[$name] = $row['vcvalue'];
 		$settings_in_db[$name] = true;
-	}
-	db_free_result($sqlresult);
-}
-
-function loadsettings()
-{
-	global $settingsloaded;
-	if (!$settingsloaded) {
-		$link = connect();
-		loadsettings_($link);
-		close_connection($link);
 	}
 }
 

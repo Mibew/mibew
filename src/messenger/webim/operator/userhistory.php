@@ -35,21 +35,19 @@ if (isset($_GET['userid'])) {
 
 function threads_by_userid($userid)
 {
-	global $mysqlprefix;
+	$db = Database::getInstance();
 	if ($userid == "") {
 		return null;
 	}
-	$link = connect();
-
-	$query = sprintf("select unix_timestamp(dtmcreated) as created, unix_timestamp(dtmmodified) as modified, " .
-					 " threadid, remote, agentName, userName " .
-					 "from ${mysqlprefix}chatthread " .
-					 "where userid=\"$userid\" order by created DESC", $userid);
-
-	$foundThreads = select_multi_assoc($query, $link);
-
-	close_connection($link);
-	return $foundThreads;
+	
+	return $db->query(
+		"select unix_timestamp(dtmcreated) as created, " .
+		"unix_timestamp(dtmmodified) as modified, threadid, remote, agentName, userName " .
+		"from {chatthread} " .
+		"where userid=? order by created DESC",
+		array($userid),
+		array('return_rows' => Database::RETURN_ALL_ROWS)
+	);
 }
 
 $found = threads_by_userid($userid);

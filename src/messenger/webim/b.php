@@ -22,13 +22,11 @@ require_once('libs/groups.php');
 
 $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "";
 if($referer && isset($_SESSION['threadid'])) {
-	$link = connect();
-	$thread = thread_by_id_($_SESSION['threadid'], $link);
+	$thread = thread_by_id($_SESSION['threadid']);
     if ($thread && $thread['istate'] != $state_closed) {
         $msg = getstring2_("chat.client.visited.page", array($referer), $thread['locale']);
-        post_message_($thread['threadid'], $kind_for_agent,$msg,$link);
+        post_message_($thread['threadid'], $kind_for_agent,$msg);
     }
-    close_connection($link);
 }
 
 $image = verifyparam(isset($_GET['image']) ? "image" : "i", "/^\w+$/", "webim");

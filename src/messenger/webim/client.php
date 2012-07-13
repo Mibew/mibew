@@ -94,50 +94,46 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 			exit;
 		}
 
-		$link = connect();
-		$invitation_state = invitation_state($_SESSION['visitorid'], $link);
+		$invitation_state = invitation_state($_SESSION['visitorid']);
 		$visitor_is_invited = $settings['enabletracking'] && $invitation_state['invited'] && !$invitation_state['threadid'];
 		if($settings['enablepresurvey'] == '1' && !(isset($_POST['survey']) && $_POST['survey'] == 'on') && !$visitor_is_invited) {
 			$page = array();
 			setup_logo($group);
 			setup_survey($visitor['name'], $email, $groupid, $info, $referrer);
 			expand("styles/dialogs", getchatstyle(), "survey.tpl");
-			close_connection($link);
 			exit;
 		}
 
 		$remoteHost = get_remote_host();
 		$userbrowser = $_SERVER['HTTP_USER_AGENT'];
 
-		if(!check_connections_from_remote($remoteHost, $link)) {
-			close_connection($link);
+		if(!check_connections_from_remote($remoteHost)) {
 			die("number of connections from your IP is exceeded, try again later");
 		}
-		$thread = create_thread($groupid,$visitor['name'], $remoteHost, $referrer,$current_locale,$visitor['id'], $userbrowser,$state_loading,$link);
+		$thread = create_thread($groupid,$visitor['name'], $remoteHost, $referrer,$current_locale,$visitor['id'], $userbrowser,$state_loading);
 		$_SESSION['threadid'] = $thread['threadid'];
 
-		$operator = invitation_accept($_SESSION['visitorid'], $thread['threadid'], $link);
+		$operator = invitation_accept($_SESSION['visitorid'], $thread['threadid']);
 		if ($operator) {
-		    $operator = operator_by_id_($operator, $link);
+		    $operator = operator_by_id($operator);
 		    $operatorName = ($current_locale == $home_locale) ? $operator['vclocalename'] : $operator['vccommonname'];
-		    post_message_($thread['threadid'], $kind_for_agent, getstring2('chat.visitor.invitation.accepted', array($operatorName)), $link);
+		    post_message_($thread['threadid'], $kind_for_agent, getstring2('chat.visitor.invitation.accepted', array($operatorName)));
 		}
 
 		if( $referrer ) {
-			post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.came.from',array($referrer)),$link);
+			post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.came.from',array($referrer)));
 		}
-		post_message_($thread['threadid'],$kind_info,getstring('chat.wait'),$link);
+		post_message_($thread['threadid'],$kind_info,getstring('chat.wait'));
 		if($email) {
-			post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.email',array($email)),$link);
+			post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.email',array($email)));
 		}
 		if($info) {
-			post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.info',array($info)),$link);
+			post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.info',array($info)));
 		}
 		if($firstmessage) {
-			$postedid = post_message_($thread['threadid'],$kind_user,$firstmessage,$link,$visitor['name']);
-			commit_thread( $thread['threadid'], array('shownmessageid' => $postedid), $link);
+			$postedid = post_message_($thread['threadid'],$kind_user,$firstmessage,$visitor['name']);
+			commit_thread( $thread['threadid'], array('shownmessageid' => $postedid));
 		}
-		close_connection($link);
 	}
 	$threadid = $thread['threadid'];
 	$token = $thread['ltoken'];

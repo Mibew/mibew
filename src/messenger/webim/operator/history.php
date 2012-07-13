@@ -35,44 +35,50 @@ $searchType = verifyparam('type', '/^(all|message|operator|visitor)$/', 'all');
 $searchInSystemMessages = (verifyparam('insystemmessages', '/^on$/', 'off') == 'on') || !$query;
 
 if ($query !== false) {
-	$link = connect();
+	$db = Database::getInstance();
+	$groups = $db->query(
+		"select {chatgroup}.groupid as groupid, vclocalname " .
+		"from {chatgroup} order by vclocalname",
+		NULL,
+		array('return_rows' => Database::RETURN_ALL_ROWS)
+	);
 
-	$result = perform_query("select ${mysqlprefix}chatgroup.groupid as groupid, vclocalname " .
-						  "from ${mysqlprefix}chatgroup order by vclocalname", $link);
 	$groupName = array();
-	while ($group = db_fetch_assoc($result)) {
+	foreach ($groups as $group) {
 		$groupName[$group['groupid']] = $group['vclocalname'];
 	}
-	db_free_result($result);
 	$page['groupName'] = $groupName;
 
-	$escapedQuery = db_escape_string($query, $link);
+	$values = array(
+		':query' => "%{$escapedQuery}%",
+		':kind_user' => $kind_user,
+		':kind_agent' => $kind_agent
+	);
+
 	$searchConditions = array();
 	if ($searchType == 'message' || $searchType == 'all') {
-		$searchConditions[] = "(${mysqlprefix}chatmessage.tmessage LIKE '%%$escapedQuery%%'" .
-					($searchInSystemMessages?'':" AND (${mysqlprefix}chatmessage.ikind = $kind_user OR ${mysqlprefix}chatmessage.ikind = $kind_agent)") .
+		$searchConditions[] = "({chatmessage}.tmessage LIKE :query" .
+					($searchInSystemMessages?'':" AND ({chatmessage}.ikind = :kind_user OR {chatmessage}.ikind = :kind_agent)") .
 					")";
 	}
 	if ($searchType == 'operator' || $searchType == 'all') {
-		$searchConditions[] = "(${mysqlprefix}chatthread.agentName LIKE '%%$escapedQuery%%')";
+		$searchConditions[] = "({chatthread}.agentName LIKE :query)";
 	}
 	if ($searchType == 'visitor' || $searchType == 'all') {
-		$searchConditions[] = "(${mysqlprefix}chatthread.userName LIKE '%%$escapedQuery%%')";
-		$searchConditions[] = "(${mysqlprefix}chatthread.remote LIKE '%%$escapedQuery%%')";
+		$searchConditions[] = "({chatthread}.userName LIKE :query)";
+		$searchConditions[] = "({chatthread}.remote LIKE :query)";
 	}
-	select_with_pagintation("DISTINCT unix_timestamp(${mysqlprefix}chatthread.dtmcreated) as created, " .
-							"unix_timestamp(${mysqlprefix}chatthread.dtmmodified) as modified, ${mysqlprefix}chatthread.threadid, " .
-							"${mysqlprefix}chatthread.remote, ${mysqlprefix}chatthread.agentName, ${mysqlprefix}chatthread.userName, groupid, " .
-							"messageCount as size",
-							"${mysqlprefix}chatthread, ${mysqlprefix}chatmessage",
-							array(
-								 "${mysqlprefix}chatmessage.threadid = ${mysqlprefix}chatthread.threadid",
-								 "(" . implode(' or ', $searchConditions)  .  ")"
-							),
-							"order by created DESC",
-							"DISTINCT ${mysqlprefix}chatthread.dtmcreated", $link);
-
-	close_connection($link);
+	select_with_pagintation("DISTINCT unix_timestamp({chatthread}.dtmcreated) as created, " .
+		"unix_timestamp({chatthread}.dtmmodified) as modified, {chatthread}.threadid, " .
+		"{chatthread}.remote, {chatthread}.agentName, {chatthread}.userName, groupid, " .
+		"messageCount as size",
+		"{chatthread}, {chatmessage}",
+		array(
+			"{chatmessage}.threadid = {chatthread}.threadid",
+			"(" . implode(' or ', $searchConditions)  .  ")"
+		),
+		"order by created DESC",
+		"DISTINCT {chatthread}.dtmcreated", $values);
 
 	$page['formq'] = topage($query);
 } else {

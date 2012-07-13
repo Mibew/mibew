@@ -27,11 +27,12 @@ $groupid = '';
 
 function group_by_name($name)
 {
-	global $mysqlprefix;
-	$link = connect();
-	$group = select_one_row(
-		"select * from ${mysqlprefix}chatgroup where vclocalname = '" . db_escape_string($name) . "'", $link);
-	close_connection($link);
+	$db = Database::getInstance();
+	$group = $db->query(
+		"select * from {chatgroup} where vclocalname = ?",
+		array($name),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
 	return $group;
 }
 
@@ -55,39 +56,49 @@ function check_group_params($group, $extra_params = NULL)
 }
 
 /**
+ * Creates group
+ *
  * @param array $group Operators' group.
  * The $group array must contains following keys:
  * name, description, commonname, commondescription,
  * email, weight, parent, title, chattitle, hosturl, logo
+ * @return array Created group
  */
 function create_group($group)
 {
-	global $mysqlprefix;
+	$db = Database::getInstance();
 	check_group_params($group);
-	$link = connect();
-	$query = sprintf(
-		"insert into ${mysqlprefix}chatgroup (parent, vclocalname,vclocaldescription,vccommonname,vccommondescription,vcemail,vctitle,vcchattitle,vchosturl,vclogo,iweight) values (%s, '%s','%s','%s','%s','%s','%s','%s','%s','%s',%u)",
-		($group['parent']?(int)$group['parent']:'NULL'),
-		db_escape_string($group['name']),
-		db_escape_string($group['description']),
-		db_escape_string($group['commonname']),
-		db_escape_string($group['commondescription']),
-		db_escape_string($group['email']),
-		db_escape_string($group['title']),
-		db_escape_string($group['chattitle']),
-		db_escape_string($group['hosturl']),
-		db_escape_string($group['logo']),
-		$group['weight']);
+	$db->query(
+		"insert into {chatgroup} (parent, vclocalname,vclocaldescription,vccommonname, " .
+		"vccommondescription,vcemail,vctitle,vcchattitle,vchosturl,vclogo,iweight) " .
+		"values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+		array(
+			($group['parent'] ? (int)$group['parent'] : 'NULL'),
+			$group['name'],
+			$group['description'],
+			$group['commonname'],
+			$group['commondescription'],
+			$group['email'],
+			$group['title'],
+			$group['chattitle'],
+			$group['hosturl'],
+			$group['logo'],
+			$group['weight']
+		)
+	);
+	$id = $db->insertedId();
 
-	perform_query($query, $link);
-	$id = db_insert_id($link);
-
-	$newdep = select_one_row("select * from ${mysqlprefix}chatgroup where groupid = $id", $link);
-	close_connection($link);
+	$newdep = $db->query(
+		"select * from {chatgroup} where groupid = ?",
+		array($id),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
 	return $newdep;
 }
 
 /**
+ * Updates group info
+ *
  * @param array $group Operators' group.
  * The $group array must contains following keys:
  * id, name, description, commonname, commondescription,
@@ -95,30 +106,34 @@ function create_group($group)
  */
 function update_group($group)
 {
-	global $mysqlprefix;
+	$db = Database::getInstance();
 	check_group_params($group, array('id'));
-	$link = connect();
-	$query = sprintf(
-		"update ${mysqlprefix}chatgroup set parent = %s, vclocalname = '%s', vclocaldescription = '%s', vccommonname = '%s', vccommondescription = '%s', vcemail = '%s', vctitle = '%s', vcchattitle = '%s', vchosturl = '%s', vclogo = '%s', iweight = %u where groupid = %s",
-		($group['parent']?(int)$group['parent']:'NULL'),
-		db_escape_string($group['name']),
-		db_escape_string($group['description']),
-		db_escape_string($group['commonname']),
-		db_escape_string($group['commondescription']),
-		db_escape_string($group['email']),
-		db_escape_string($group['title']),
-		db_escape_string($group['chattitle']),
-		db_escape_string($group['hosturl']),
-		db_escape_string($group['logo']),
-		$group['weight'],
-		$group['id']);
-	perform_query($query, $link);
+	$db->query(
+		"update {chatgroup} set parent = ?, vclocalname = ?, vclocaldescription = ?, " .
+		"vccommonname = ?, vccommondescription = ?, vcemail = ?, vctitle = ?, " .
+		"vcchattitle = ?, vchosturl = ?, vclogo = ?, iweight = ? where groupid = ?",
+		array(
+			($group['parent'] ? (int)$group['parent'] : 'NULL'),
+			$group['name'],
+			$group['description'],
+			$group['commonname'],
+			$group['commondescription'],
+			$group['email'],
+			$group['title'],
+			$group['chattitle'],
+			$group['hosturl'],
+			$group['logo'],
+			$group['weight'],
+			$group['id']
+		)
+	);
 
 	if ($group['parent']) {
-		$query = sprintf("update ${mysqlprefix}chatgroup set parent = NULL where parent = %u", $group['id']);
-		perform_query($query, $link);
+		$db->query(
+			"update {chatgroup} set parent = NULL where parent = ?",
+			array($group['id'])
+		);
 	}
-	close_connection($link);
 }
 
 if (isset($_POST['name'])) {

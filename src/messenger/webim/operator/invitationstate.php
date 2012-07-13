@@ -27,9 +27,7 @@ $visitorid = verifyparam("visitor", "/^\d{1,8}$/");
 
 $errors = array();
 
-$link = connect();
-$invitation = invitation_state($visitorid, $link);
-close_connection($link);
+$invitation = invitation_state($visitorid);
 
 start_xml_output();
 echo '<invitation>';

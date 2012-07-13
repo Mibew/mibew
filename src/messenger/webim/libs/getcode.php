@@ -65,9 +65,7 @@ function verifyparam_groupid($paramid)
 function get_groups_list()
 {
 	$result = array();
-	$link = connect();
-	$allgroups = get_all_groups($link);
-	close_connection($link);
+	$allgroups = get_all_groups();
 	$result[] = array('groupid' => '', 'vclocalname' => getlocal("page.gen_button.default_group"), 'level' => 0);
 	foreach ($allgroups as $g) {
 		$result[] = $g;

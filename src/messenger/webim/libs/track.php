@@ -17,88 +17,108 @@
 
 require_once(dirname(__FILE__).'/chat.php');
 
-function track_visitor($visitorid, $entry, $referer, $link)
+function track_visitor($visitorid, $entry, $referer)
 {
-	global $mysqlprefix;
-
-	$visitor = track_get_visitor_by_id($visitorid, $link);
+	$visitor = track_get_visitor_by_id($visitorid);
 
 	if (FALSE === $visitor) {
-	    $visitor = track_visitor_start($entry, $referer, $link);
-	    return $visitor;
-	}
-	else {
-	    perform_query("update ${mysqlprefix}chatsitevisitor set lasttime = CURRENT_TIMESTAMP where visitorid=" . $visitor['visitorid'], $link);
-	    track_visit_page($visitor['visitorid'], $referer, $link);
-	    return $visitor['visitorid'];
+		$visitor = track_visitor_start($entry, $referer);
+		return $visitor;
+	} else {
+		$db = Database::getInstance();
+		$db->query(
+			"update {chatsitevisitor} set lasttime = CURRENT_TIMESTAMP " .
+			"where visitorid=?",
+			array($visitor['visitorid'])
+		);
+		track_visit_page($visitor['visitorid'], $referer);
+		return $visitor['visitorid'];
 	}
 }
 
-function track_visitor_start($entry, $referer, $link)
+function track_visitor_start($entry, $referer)
 {
-	global $mysqlprefix;
-
 	$visitor = visitor_from_request();
 
-	perform_query(sprintf("insert into ${mysqlprefix}chatsitevisitor (userid, username, firsttime, lasttime, entry, details) values ('%s', '%s', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '%s', '%s')",
-			db_escape_string($visitor['id']),
-			db_escape_string($visitor['name']),
-			db_escape_string($entry),
-			db_escape_string(track_build_details())), $link);
-	$id = db_insert_id($link);
+	$db = Database::getInstance();
+	$db->query(
+		"insert into {chatsitevisitor} (userid,username,firsttime,lasttime,entry,details) ".
+		"values (?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ?, ?)",
+		array(
+			$visitor['id'],
+			$visitor['name'],
+			$entry,
+			track_build_details()
+		)
+	);
+
+	$id = $db->insertedId();
 
 	if ($id) {
-		track_visit_page($id, $referer, $link);
+		track_visit_page($id, $referer);
 	}
 
 	return $id ? $id : 0;
 }
 
-function track_get_visitor_by_id($visitorid, $link)
+function track_get_visitor_by_id($visitorid)
 {
-	global $mysqlprefix;
-
-	$visitor = select_one_row(
-		"select * from ${mysqlprefix}chatsitevisitor where visitorid = $visitorid", $link);
-
-	return $visitor;
+	$db = Database::getInstance();
+	return $db->query(
+		"select * from {chatsitevisitor} where visitorid = ?",
+		array($visitorid),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
 }
 
-function track_get_visitor_by_threadid($threadid, $link)
+function track_get_visitor_by_threadid($threadid)
 {
-	global $mysqlprefix;
-
-	$visitor = select_one_row(
-		"select * from ${mysqlprefix}chatsitevisitor where threadid = $threadid", $link);
-
-	return $visitor;
+	$db = Database::getInstance();
+	return $db->query(
+		"select * from {chatsitevisitor} where threadid = ?",
+		array($threadid),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
 }
 
-function track_visit_page($visitorid, $page, $link)
+function track_visit_page($visitorid, $page)
 {
-	global $mysqlprefix;
-	
+	$db = Database::getInstance();
+
 	if (empty($page)) {
 		return;
 	}
-	$lastpage = select_one_row(sprintf("select address from ${mysqlprefix}visitedpage where visitorid = '%s' order by visittime desc limit 1",
-				db_escape_string($visitorid)), $link);
+	$lastpage = $db->query(
+		"select address from {visitedpage} where visitorid = ? " .
+		"order by visittime desc limit 1",
+		array($visitorid),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
 	if ( $lastpage['address'] != $page ) {
-		perform_query(sprintf("insert into ${mysqlprefix}visitedpage (visitorid, address, visittime) values ('%s', '%s', CURRENT_TIMESTAMP)",
-					db_escape_string($visitorid),
-					db_escape_string($page)), $link);
-		perform_query(sprintf("insert into ${mysqlprefix}visitedpagestatistics (address, visittime) values ('%s', CURRENT_TIMESTAMP)",
-					db_escape_string($page)), $link);
+		$db->query(
+			"insert into {visitedpage} (visitorid, address, visittime) " .
+			"values (?, ?, CURRENT_TIMESTAMP)",
+			array($visitorid, $page)
+		);
+		$db->query(
+			"insert into {visitedpagestatistics} (address, visittime) " .
+			"values (?, CURRENT_TIMESTAMP)",
+			array($page)
+		);
 	}
 }
 
-function track_get_path($visitor, $link)
+function track_get_path($visitor)
 {
-	global $mysqlprefix;
-	$query_result = perform_query(sprintf("select address, UNIX_TIMESTAMP(visittime) as visittime from ${mysqlprefix}visitedpage where visitorid = '%s'",
-				db_escape_string($visitor['visitorid'])), $link);
+	$db = Database::getInstance();
+	$query_result = $db->query(
+		"select address, UNIX_TIMESTAMP(visittime) as visittime from {visitedpage} " .
+		"where visitorid = ?",
+		array($visitor['visitorid']),
+		array('return_rows' => Database::RETURN_ALL_ROWS)
+	);
 	$result = array();
-	while( $page = db_fetch_assoc($query_result) ){
+	foreach ($query_result as $page) {
 		$result[$page['visittime']] = $page['address'];
 	}
 	return $result;

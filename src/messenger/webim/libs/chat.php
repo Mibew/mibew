@@ -50,36 +50,40 @@ function next_token()
 	return rand(99999, 99999999);
 }
 
-function next_revision($link)
+function next_revision()
 {
-	global $mysqlprefix;
-	perform_query("update ${mysqlprefix}chatrevision set id=LAST_INSERT_ID(id+1)", $link);
-	$val = db_insert_id($link);
+	$db = Database::getInstance();
+	$db->query("update {chatrevision} set id=LAST_INSERT_ID(id+1)");
+	$val = $db->insertedId();
 	return $val;
 }
 
-function post_message_($threadid, $kind, $message, $link, $from = null, $utime = null, $opid = null)
+/**
+ * @todo Think about post_message_ and post_message diffrence
+ */
+function post_message_($threadid, $kind, $message, $from = null, $utime = null, $opid = null)
 {
-	global $mysqlprefix;
-	$query = sprintf(
-		"insert into ${mysqlprefix}chatmessage (threadid,ikind,tmessage,tname,agentId,dtmcreated) values (%s, %s,'%s',%s,%s,%s)",
+	$db = Database::getInstance();
+	$query = "insert into {chatmessage} " .
+		"(threadid,ikind,tmessage,tname,agentId,dtmcreated) " .
+		"values (?,?,?,?,?,".($utime?"FROM_UNIXTIME(?)":"CURRENT_TIMESTAMP").")";
+	 $values = array(
 		$threadid,
 		$kind,
-		db_escape_string($message, $link),
-		$from ? "'" . db_escape_string($from, $link) . "'" : "null",
-		$opid ? $opid : "0",
-		$utime ? "FROM_UNIXTIME($utime)" : "CURRENT_TIMESTAMP");
-
-	perform_query($query, $link);
-	return db_insert_id($link);
+		$message,
+		($from ? $from : "null"),
+		($opid ? $opid : 0)
+	);
+	if ($utime) {
+		$values[] = $utime;
+	}
+	 $db->query($query, $values);
+	return $db->insertedId();
 }
 
 function post_message($threadid, $kind, $message, $from = null, $agentid = null)
 {
-	$link = connect();
-	$id = post_message_($threadid, $kind, $message, $link, $from, null, $agentid);
-	close_connection($link);
-	return $id;
+	return post_message_($threadid, $kind, $message, $from, null, $agentid);
 }
 
 function prepare_html_message($text, $allow_formating)
@@ -127,16 +131,23 @@ function message_to_text($msg)
 
 function get_messages($threadid, $meth, $isuser, &$lastid)
 {
-	global $kind_for_agent, $kind_avatar, $webim_encoding, $mysqlprefix;
-	$link = connect();
+	global $kind_for_agent, $kind_avatar, $webim_encoding;
+	$db = Database::getInstance();
 
-	$query = sprintf(
-		"select messageid,ikind,unix_timestamp(dtmcreated) as created,tname,tmessage from ${mysqlprefix}chatmessage " .
-		"where threadid = %s and messageid > %s %s order by messageid",
-		$threadid, $lastid, $isuser ? "and ikind <> $kind_for_agent" : "");
+	$msgs = $db->query(
+		"select messageid,ikind,unix_timestamp(dtmcreated) as created,tname,tmessage from {chatmessage} " .
+		"where threadid = :threadid and messageid > :lastid " .
+		($isuser ? "and ikind <> {$kind_for_agent} " : "") .
+		"order by messageid",
+		array(
+			':threadid' => $threadid,
+			':lastid' => $lastid,
+		),
+		array('return_rows' => Database::RETURN_ALL_ROWS)
+		
+	);
 
 	$messages = array();
-	$msgs = select_multi_assoc($query, $link);
 	foreach ($msgs as $msg) {
 		$message = "";
 		if ($meth == 'xml') {
@@ -159,7 +170,6 @@ function get_messages($threadid, $meth, $isuser, &$lastid)
 		}
 	}
 
-	close_connection($link);
 	return $messages;
 }
 
@@ -355,15 +365,12 @@ function setup_groups_select($groupid, $markoffline)
 {
 	global $settings;
 
-	$link = connect();
-	$showgroups = ($groupid == '')?true:group_has_children($groupid, $link);
+	$showgroups = ($groupid == '')?true:group_has_children($groupid);
 	if (!$showgroups) {
-		close_connection($link);
 		return false;
 	}
 
-	$allgroups = get_groups($link, false);
-	close_connection($link);
+	$allgroups = get_groups(false);
 
 	if (empty($allgroups)) {
 		return false;
@@ -404,7 +411,7 @@ function setup_chatview_for_user($thread, $level)
 	global $page, $webimroot, $settings;
 	loadsettings();
 	$page = array();
-	if (! is_null($thread['groupid'])) {
+	if (! empty($thread['groupid'])) {
 		$group = group_by_id($thread['groupid']);
 		$group = get_top_level_group($group);
 	} else {
@@ -483,11 +490,9 @@ function setup_chatview_for_operator($thread, $operator)
 	$page['historyParams'] = array("userid" => "" . $thread['userid']);
 	$page['historyParamsLink'] = add_params($webimroot . "/operator/userhistory.php", $page['historyParams']);
 	if ($settings['enabletracking']) {
-	    $link = connect();
-	    $visitor = track_get_visitor_by_threadid($thread['threadid'], $link);
+	    $visitor = track_get_visitor_by_threadid($thread['threadid']);
 	    $page['trackedParams'] = array("visitor" => "" . $visitor['visitorid']);
 	    $page['trackedParamsLink'] = add_params($webimroot . "/operator/tracked.php", $page['trackedParams']);
-	    close_connection($link);
 	}
 	$predefinedres = "";
 	$canned_messages = load_canned_messages($thread['locale'], 0);
@@ -510,24 +515,29 @@ function setup_chatview_for_operator($thread, $operator)
 	$page['frequency'] = $settings['updatefrequency_chat'];
 }
 
-function update_thread_access($threadid, $params, $link)
+function update_thread_access($threadid, $params)
 {
-	global $mysqlprefix;
+	$db = Database::getInstance();
 	$clause = "";
+	$values = array();
 	foreach ($params as $k => $v) {
 		if (strlen($clause) > 0)
 			$clause .= ", ";
-		$clause .= $k . "=" . $v;
+		$clause .= $k . "=?";
+		$values[] = $v;
 	}
-	perform_query(
-		"update ${mysqlprefix}chatthread set $clause " .
-		"where threadid = $threadid", $link);
+	$values[] = $threadid;
+
+	$db->query(
+		"update {chatthread} set {$clause} where threadid = ?",
+		$values
+	);
 }
 
 function ping_thread($thread, $isuser, $istyping)
 {
 	global $kind_for_agent, $state_queue, $state_loading, $state_chatting, $state_waiting, $kind_conn, $connection_timeout;
-	$link = connect();
+
 	$params = array(($isuser ? "lastpinguser" : "lastpingagent") => "CURRENT_TIMESTAMP",
 					($isuser ? "userTyping" : "agentTyping") => ($istyping ? "1" : "0"));
 
@@ -536,8 +546,7 @@ function ping_thread($thread, $isuser, $istyping)
 
 	if ($thread['istate'] == $state_loading && $isuser) {
 		$params['istate'] = $state_queue;
-		commit_thread($thread['threadid'], $params, $link);
-		close_connection($link);
+		commit_thread($thread['threadid'], $params);
 		return;
 	}
 
@@ -545,161 +554,176 @@ function ping_thread($thread, $isuser, $istyping)
 		$params[$isuser ? "lastpingagent" : "lastpinguser"] = "0";
 		if (!$isuser) {
 			$message_to_post = getstring_("chat.status.user.dead", $thread['locale']);
-			post_message_($thread['threadid'], $kind_for_agent, $message_to_post, $link, null, $lastping + $connection_timeout);
+			post_message_($thread['threadid'], $kind_for_agent, $message_to_post, null, $lastping + $connection_timeout);
 		} else if ($thread['istate'] == $state_chatting) {
 
 			$message_to_post = getstring_("chat.status.operator.dead", $thread['locale']);
-			post_message_($thread['threadid'], $kind_conn, $message_to_post, $link, null, $lastping + $connection_timeout);
+			post_message_($thread['threadid'], $kind_conn, $message_to_post, null, $lastping + $connection_timeout);
 			$params['istate'] = $state_waiting;
 			$params['nextagent'] = 0;
-			commit_thread($thread['threadid'], $params, $link);
-			close_connection($link);
+			commit_thread($thread['threadid'], $params);
 			return;
 		}
 	}
 
-	update_thread_access($thread['threadid'], $params, $link);
-	close_connection($link);
+	update_thread_access($thread['threadid'], $params);
 }
 
-function commit_thread($threadid, $params, $link)
+function commit_thread($threadid, $params)
 {
-	global $mysqlprefix;
-	$query = "update ${mysqlprefix}chatthread t set lrevision = " . next_revision($link) . ", dtmmodified = CURRENT_TIMESTAMP";
-	foreach ($params as $k => $v) {
-		$query .= ", " . $k . "=" . $v;
-	}
-	$query .= " where threadid = $threadid";
+	$db = Database::getInstance();
 
-	perform_query($query, $link);
+	$query = "update {chatthread} t " .
+		"set lrevision = ?, dtmmodified = CURRENT_TIMESTAMP";
+		$values = array(next_revision());
+	foreach ($params as $k => $v) {
+		$query .= ", " . $k . "=?";
+		$values[] = $v;
+	}
+	$query .= " where threadid = ?";
+	$values[] = $threadid;
+
+	$db->query($query, $values);
 }
 
 function rename_user($thread, $newname)
 {
 	global $kind_events;
 
-	$link = connect();
-	commit_thread($thread['threadid'], array('userName' => "'" . db_escape_string($newname, $link) . "'"), $link);
+	commit_thread($thread['threadid'], array('userName' => $newname));
 
 	if ($thread['userName'] != $newname) {
 		post_message_($thread['threadid'], $kind_events,
-					  getstring2_("chat.status.user.changedname", array($thread['userName'], $newname), $thread['locale']), $link);
+					  getstring2_("chat.status.user.changedname", array($thread['userName'], $newname), $thread['locale']));
 	}
-	close_connection($link);
 }
 
 function close_thread($thread, $isuser)
 {
-	global $state_closed, $kind_events, $mysqlprefix;
+	global $state_closed, $kind_events;
 
-	$link = connect();
 	if ($thread['istate'] != $state_closed) {
-		commit_thread($thread['threadid'], array('istate' => $state_closed,
-												'messageCount' => "(SELECT COUNT(*) FROM ${mysqlprefix}chatmessage WHERE ${mysqlprefix}chatmessage.threadid = t.threadid AND ikind = 1)"), $link);
+		commit_thread(
+			$thread['threadid'],
+			array(
+				'istate' => $state_closed,
+				'messageCount' => "(SELECT COUNT(*) FROM {chatmessage} WHERE {chatmessage}.threadid = t.threadid AND ikind = 1)"
+			)
+		);
 	}
 
 	$message = $isuser ? getstring2_("chat.status.user.left", array($thread['userName']), $thread['locale'])
 			: getstring2_("chat.status.operator.left", array($thread['agentName']), $thread['locale']);
-	post_message_($thread['threadid'], $kind_events, $message, $link);
-	close_connection($link);
+	post_message_($thread['threadid'], $kind_events, $message);
 }
 
-function close_old_threads($link)
+function close_old_threads()
 {
-	global $state_closed, $state_left, $state_chatting, $mysqlprefix, $settings;
+	global $state_closed, $state_left, $state_chatting, $settings;
 	if ($settings['thread_lifetime'] == 0) {
 		return;
 	}
-	$next_revision = next_revision($link);
-	$query = "update ${mysqlprefix}chatthread set lrevision =  $next_revision, dtmmodified = CURRENT_TIMESTAMP, istate = $state_closed " .
-			"where istate <> $state_closed and istate <> $state_left and lastpingagent <> 0 and lastpinguser <> 0 and " .
-			"(ABS(UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lastpinguser)) > " . $settings['thread_lifetime'] . " and " .
-			"ABS(UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lastpingagent)) > " . $settings['thread_lifetime'] . ")";
 
-	perform_query($query, $link);
-}
+	$db = Database::getInstance();
 
-function close_old_threads($link)
-{
-	global $state_closed, $state_left, $state_chatting, $mysqlprefix, $settings;
-	if ($settings['thread_lifetime'] == 0) {
-		return;
-	}
-	$next_revision = next_revision($link);
-	$query = "update ${mysqlprefix}chatthread set lrevision =  $next_revision, dtmmodified = CURRENT_TIMESTAMP, istate = $state_closed " .
-			"where istate <> $state_closed and istate <> $state_left and lastpingagent <> 0 and lastpinguser <> 0 and " .
-			"(ABS(UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lastpinguser)) > " . $settings['thread_lifetime'] . " and " .
-			"ABS(UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lastpingagent)) > " . $settings['thread_lifetime'] . ")";
+	$query = "update {chatthread} set lrevision = :next_revision, " .
+		"dtmmodified = CURRENT_TIMESTAMP, istate = :state_closed " .
+		"where istate <> :state_closed and istate <> :state_left " .
+		"and lastpingagent <> 0 and lastpinguser <> 0 and " .
+		"(ABS(UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lastpinguser)) > ".
+		":thread_lifetime and " .
+		"ABS(UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lastpingagent)) > ".
+		":thread_lifetime)";
 
-	perform_query($query, $link);
-}
-
-function thread_by_id_($id, $link)
-{
-	global $mysqlprefix;
-	return select_one_row("select threadid,userName,agentName,agentId,lrevision,istate,ltoken,userTyping,agentTyping" .
-						  ",unix_timestamp(dtmmodified) as modified, unix_timestamp(dtmcreated) as created, unix_timestamp(dtmchatstarted) as chatstarted" .
-						  ",remote,referer,locale,unix_timestamp(lastpinguser) as lpuser,unix_timestamp(lastpingagent) as lpagent, unix_timestamp(CURRENT_TIMESTAMP) as current,nextagent,shownmessageid,userid,userAgent,groupid" .
-						  " from ${mysqlprefix}chatthread where threadid = " . $id, $link);
-}
-
-function ban_for_addr_($addr, $link)
-{
-	global $mysqlprefix;
-	return select_one_row("select banid,comment from ${mysqlprefix}chatban where unix_timestamp(dtmtill) > unix_timestamp(CURRENT_TIMESTAMP) AND address = '" . db_escape_string($addr, $link) . "'", $link);
+	$db->query(
+		$query,
+		array(
+			':next_revision' => next_revision(),
+			':state_closed' => $state_closed,
+			':state_left' => $state_left,
+			':thread_lifetime' => $settings['thread_lifetime']
+		)
+	);
 }
 
 function thread_by_id($id)
 {
-	$link = connect();
-	$thread = thread_by_id_($id, $link);
-	close_connection($link);
-	return $thread;
+	$db = Database::getInstance();
+	return $db->query(
+		"select threadid,userName,agentName,agentId,lrevision,istate,ltoken,userTyping, " .
+		"agentTyping,unix_timestamp(dtmmodified) as modified, " .
+		"unix_timestamp(dtmcreated) as created, " .
+		"unix_timestamp(dtmchatstarted) as chatstarted,remote,referer,locale," .
+		"unix_timestamp(lastpinguser) as lpuser,unix_timestamp(lastpingagent) as lpagent," .
+		"unix_timestamp(CURRENT_TIMESTAMP) as current,nextagent,shownmessageid,userid, " .
+		"userAgent,groupid from {chatthread} where threadid = ?",
+		array($id),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
 }
 
-function create_thread($groupid, $username, $remoteHost, $referer, $lang, $userid, $userbrowser, $initialState, $link)
+function ban_for_addr($addr)
 {
-	global $mysqlprefix;
-	$query = sprintf(
-		"insert into ${mysqlprefix}chatthread (userName,userid,ltoken,remote,referer,lrevision,locale,userAgent,dtmcreated,dtmmodified,istate" . ($groupid ? ",groupid" : "") . ") values " .
-		"('%s','%s',%s,'%s','%s',%s,'%s','%s',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,$initialState" . ($groupid ? ",$groupid" : "") . ")",
-		db_escape_string($username, $link),
-		db_escape_string($userid, $link),
+	$db = Database::getInstance();
+	return $db->query(
+		"select banid,comment from {chatban} " .
+		"where unix_timestamp(dtmtill) > unix_timestamp(CURRENT_TIMESTAMP) AND address = ?",
+		array($addr),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
+}
+
+function create_thread($groupid, $username, $remoteHost, $referer, $lang, $userid, $userbrowser, $initialState)
+{
+	$db = Database::getInstance();
+
+	$query = "insert into {chatthread} (userName,userid,ltoken,remote,referer, " .
+		"lrevision,locale,userAgent,dtmcreated,dtmmodified,istate" .
+		($groupid ? ",groupid" : "") . ") values " .
+		"(?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?" .
+		($groupid ? ", ?" : "") . ")";
+
+	$values = array(
+		$username,
+		$userid,
 		next_token(),
-		db_escape_string($remoteHost, $link),
-		db_escape_string($referer, $link),
-		next_revision($link),
-		db_escape_string($lang, $link),
-		db_escape_string($userbrowser, $link));
+		$remoteHost,
+		$referer,
+		next_revision(),
+		$lang,
+		$userbrowser,
+		$initialState
+	);
 
-	perform_query($query, $link);
-	$id = db_insert_id($link);
+	if ($groupid) {
+		$values[] = $groupid;
+	}
 
-	$newthread = thread_by_id_($id, $link);
+	$db->query($query, $values);
+	$id = $db->insertedId();
+
+	$newthread = thread_by_id($id);
 	return $newthread;
 }
 
 function do_take_thread($threadid, $operatorId, $operatorName, $chatstart = false)
 {
 	global $state_chatting;
-	$link = connect();
 	$params = array("istate" => $state_chatting,
 			"nextagent" => 0,
 			"agentId" => $operatorId,
-			"agentName" => "'" . db_escape_string($operatorName, $link) . "'");
+			"agentName" => $operatorName);
 	if ($chatstart){
 		$params['dtmchatstarted'] = "CURRENT_TIMESTAMP";
 	}
-	commit_thread($threadid, $params, $link);
-	close_connection($link);
+	commit_thread($threadid, $params);
 }
 
 function reopen_thread($threadid)
 {
 	global $state_queue, $state_loading, $state_waiting, $state_chatting, $state_closed, $state_left, $kind_events, $settings;
-	$link = connect();
 
-	$thread = thread_by_id_($threadid, $link);
+	$thread = thread_by_id($threadid);
 
 	if (!$thread)
 		return FALSE;
@@ -712,12 +736,13 @@ function reopen_thread($threadid)
 		return FALSE;
 
 	if ($thread['istate'] != $state_chatting && $thread['istate'] != $state_queue && $thread['istate'] != $state_loading) {
-		commit_thread($threadid,
-					  array("istate" => $state_waiting, "nextagent" => 0), $link);
+		commit_thread(
+			$threadid,
+			array("istate" => $state_waiting, "nextagent" => 0)
+		);
 	}
 
-	post_message_($thread['threadid'], $kind_events, getstring_("chat.status.user.reopenedthread", $thread['locale']), $link);
-	close_connection($link);
+	post_message_($thread['threadid'], $kind_events, getstring_("chat.status.user.reopenedthread", $thread['locale']));
 	return $thread;
 }
 
@@ -779,15 +804,21 @@ function check_for_reassign($thread, $operator)
 	}
 }
 
-function check_connections_from_remote($remote, $link)
+function check_connections_from_remote($remote)
 {
-	global $settings, $state_closed, $state_left, $mysqlprefix;
+	global $settings, $state_closed, $state_left;
 	if ($settings['max_connections_from_one_host'] == 0) {
 		return true;
 	}
-	$result = select_one_row(
-		"select count(*) as opened from ${mysqlprefix}chatthread " .
-		"where remote = '" . db_escape_string($remote, $link) . "' AND istate <> $state_closed AND istate <> $state_left", $link);
+
+	$db = Database::getInstance();
+	$result = $db->query(
+		"select count(*) as opened from {chatthread} " .
+		"where remote = ? AND istate <> ? AND istate <> ?",
+		array($remote, $state_closed, $state_left),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
+
 	if ($result && isset($result['opened'])) {
 		return $result['opened'] < $settings['max_connections_from_one_host'];
 	}

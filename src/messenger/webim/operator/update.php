@@ -46,18 +46,18 @@ $threadstate_key = array(
 	$state_loading => "chat.thread.state_loading"
 );
 
-function thread_to_xml($thread, $link)
+function thread_to_xml($thread)
 {
 	global $state_chatting, $threadstate_to_string, $threadstate_key,
-$webim_encoding, $operator, $settings,
-$can_viewthreads, $can_takeover, $mysqlprefix;
+		$webim_encoding, $operator, $settings,
+		$can_viewthreads, $can_takeover;
 	$state = $threadstate_to_string[$thread['istate']];
 	$result = "<thread id=\"" . $thread['threadid'] . "\" stateid=\"$state\"";
 	if ($state == "closed")
 		return $result . "/>";
 
 	$state = getstring($threadstate_key[$thread['istate']]);
-	$nextagent = $thread['nextagent'] != 0 ? operator_by_id_($thread['nextagent'], $link) : null;
+	$nextagent = $thread['nextagent'] != 0 ? operator_by_id($thread['nextagent']) : null;
 	$threadoperator = $nextagent ? get_operator_name($nextagent)
 			: ($thread['agentName'] ? $thread['agentName'] : "-");
 
@@ -76,7 +76,7 @@ $can_viewthreads, $can_takeover, $mysqlprefix;
 		$result .= " canban=\"true\"";
 	}
 
-	$banForThread = $settings['enableban'] == "1" ? ban_for_addr_($thread['remote'], $link) : false;
+	$banForThread = $settings['enableban'] == "1" ? ban_for_addr($thread['remote']) : false;
 	if ($banForThread) {
 		$result .= " ban=\"blocked\" banid=\"" . $banForThread['banid'] . "\"";
 	}
@@ -99,8 +99,12 @@ $can_viewthreads, $can_takeover, $mysqlprefix;
 	$userAgent = get_useragent_version($thread['userAgent']);
 	$result .= "<useragent>" . $userAgent . "</useragent>";
 	if ($thread["shownmessageid"] != 0) {
-		$query = "select tmessage from ${mysqlprefix}chatmessage where messageid = " . $thread["shownmessageid"];
-		$line = select_one_row($query, $link);
+		$db = Database::getInstance();
+		$line = $db->query(
+			"select tmessage from {chatmessage} where messageid = ?",
+			array($thread["shownmessageid"]),
+			array('return_rows' => Database::RETURN_ONE_ROW)
+		);
 		if ($line) {
 			$message = preg_replace("/[\r\n\t]+/", " ", $line["tmessage"]);
 			$result .= "<message>" . htmlspecialchars(htmlspecialchars($message)) . "</message>";
@@ -112,33 +116,41 @@ $can_viewthreads, $can_takeover, $mysqlprefix;
 
 function print_pending_threads($groupids, $since)
 {
-	global $webim_encoding, $settings, $state_closed, $state_left, $mysqlprefix;
-	$link = connect();
+	global $webim_encoding, $settings, $state_closed, $state_left;
+	$db = Database::getInstance();
 
 	$revision = $since;
-	$output = array();
 	$query = "select threadid, userName, agentName, unix_timestamp(dtmcreated), userTyping, " .
-			 "unix_timestamp(dtmmodified), lrevision, istate, remote, nextagent, agentId, userid, shownmessageid, userAgent, (select vclocalname from ${mysqlprefix}chatgroup where ${mysqlprefix}chatgroup.groupid = ${mysqlprefix}chatthread.groupid) as groupname " .
-			 "from ${mysqlprefix}chatthread where lrevision > $since " .
-			 ($since <= 0
-					 ? "AND istate <> $state_closed AND istate <> $state_left "
-					 : "") .
-			 ($settings['enablegroups'] == '1'
-					 ? "AND (groupid is NULL" . ($groupids
-							 ? " OR groupid IN ($groupids) OR groupid IN (SELECT parent FROM ${mysqlprefix}chatgroup WHERE groupid IN ($groupids)) "
-							 : "") .
-					   ") "
-					 : "") .
-			 "ORDER BY threadid";
-	$rows = select_multi_assoc($query, $link);
+		"unix_timestamp(dtmmodified), lrevision, istate, remote, nextagent, agentId, " .
+		"userid, shownmessageid, userAgent, (select vclocalname from {chatgroup} where {chatgroup}.groupid = {chatthread}.groupid) as groupname " .
+		"from {chatthread} where lrevision > :since " .
+		($since <= 0
+			? "AND istate <> :state_closed AND istate <> :state_left "
+			: "") .
+		($settings['enablegroups'] == '1'
+			? "AND (groupid is NULL" . ($groupids
+				? " OR groupid IN ($groupids) OR groupid IN (SELECT parent FROM {chatgroup} WHERE groupid IN ($groupids)) "
+				: "") .
+			") "
+			: "") .
+		"ORDER BY threadid";
+	$rows = $db->query(
+		$query,
+		array(
+			':since' => $since,
+			':state_closed' => $state_closed,
+			':state_left' => $state_left
+		),
+		array('return_rows' => Database::RETURN_ALL_ROWS)
+	);
+
+	$output = array();
 	foreach ($rows as $row) {
-		$thread = thread_to_xml($row, $link);
+		$thread = thread_to_xml($row);
 		$output[] = $thread;
 		if ($row['lrevision'] > $revision)
 			$revision = $row['lrevision'];
 	}
-
-	close_connection($link);
 
 	echo "<threads revision=\"$revision\" time=\"" . time() . "000\">";
 	foreach ($output as $thr) {
@@ -167,7 +179,7 @@ function print_operators($operator)
 	echo "</operators>";
 }
 
-function visitor_to_xml($visitor, $link)
+function visitor_to_xml($visitor)
 {
     $result = "<visitor id=\"" . $visitor['visitorid'] . "\">";
 
@@ -197,7 +209,7 @@ function visitor_to_xml($visitor, $link)
     $result .= "<invitation>";
     if ($visitor['invited']) {
 	$result .= "<invitationtime>" . $visitor['unix_timestamp(invitationtime)'] . "000</invitationtime>";
-	$operator = get_operator_name(operator_by_id_($visitor['invitedby'], $link));
+	$operator = get_operator_name(operator_by_id($visitor['invitedby']));
 	$result .= "<operator>" . htmlspecialchars(htmlspecialchars($operator)) . "</operator>";
     }
     $result .= "</invitation>";
@@ -208,49 +220,55 @@ function visitor_to_xml($visitor, $link)
 
 function print_visitors()
 {
-	global $webim_encoding, $settings, $state_closed, $state_left, $mysqlprefix;
+	global $webim_encoding, $settings, $state_closed, $state_left;
 
-	$link = connect();
+	$db = Database::getInstance();
 
 // Remove old visitors
-	$query = "DELETE FROM ${mysqlprefix}chatsitevisitor WHERE (UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lasttime)) > " . $settings['tracking_lifetime'] .
-			" AND (threadid IS NULL OR (SELECT count(*) FROM ${mysqlprefix}chatthread WHERE threadid = ${mysqlprefix}chatsitevisitor.threadid" .
-			" AND istate <> $state_closed AND istate <> $state_left) = 0)";
-	perform_query($query, $link);
+	$db->query(
+		"DELETE FROM {chatsitevisitor} " .
+		"WHERE (UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lasttime)) > ? ".
+		"AND (threadid IS NULL OR " .
+		"(SELECT count(*) FROM {chatthread} WHERE threadid = {chatsitevisitor}.threadid " .
+		"AND istate <> {$state_closed} AND istate <> {$state_left}) = 0)",
+		array($settings['tracking_lifetime'])
+	);
 
 // Remove old invitations
-	$query = "UPDATE ${mysqlprefix}chatsitevisitor SET invited = 0, invitationtime = NULL, invitedby = NULL" .
-			" WHERE threadid IS NULL AND (UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(invitationtime)) > " .
-			$settings['invitation_lifetime'];
-	perform_query($query, $link);
+	$db->query(
+		"UPDATE {chatsitevisitor} SET invited = 0, invitationtime = NULL, invitedby = NULL".
+		" WHERE threadid IS NULL AND (UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(invitationtime)) > ?",
+		array($settings['invitation_lifetime'])
+	);
 
 // Remove associations of visitors with closed threads
-	$query = "UPDATE ${mysqlprefix}chatsitevisitor SET threadid = NULL WHERE threadid IS NOT NULL AND" .
-			" (SELECT count(*) FROM ${mysqlprefix}chatthread WHERE threadid = ${mysqlprefix}chatsitevisitor.threadid" .
-			" AND istate <> $state_closed AND istate <> $state_left) = 0";
-	perform_query($query, $link);
+	$db->query(
+		"UPDATE {chatsitevisitor} SET threadid = NULL WHERE threadid IS NOT NULL AND" .
+		" (SELECT count(*) FROM {chatthread} WHERE threadid = {chatsitevisitor}.threadid" .
+		" AND istate <> {$state_closed} AND istate <> {$state_left}) = 0"
+	);
 
 // Remove old visitors' tracks
-	$query = "DELETE FROM ${mysqlprefix}visitedpage WHERE (UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(visittime)) > " . $settings['tracking_lifetime'] .
-			" AND visitorid NOT IN (SELECT visitorid FROM ${mysqlprefix}chatsitevisitor)";
-	perform_query($query, $link);
-
-	$output = array();
+	$db->query(
+		"DELETE FROM {visitedpage} WHERE (UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(visittime)) > ? " .
+		" AND visitorid NOT IN (SELECT visitorid FROM {chatsitevisitor})",
+		array($settings['tracking_lifetime'])
+	);
 
 	$query = "SELECT visitorid, userid, username, unix_timestamp(firsttime), unix_timestamp(lasttime), " .
 			 "entry, details, invited, unix_timestamp(invitationtime), invitedby, invitations, chats " .
-			 "FROM ${mysqlprefix}chatsitevisitor " .
+			 "FROM {chatsitevisitor} " .
 			 "WHERE threadid IS NULL " .
 			 "ORDER BY invited, lasttime DESC, invitations";
 	$query .= ($settings['visitors_limit'] == '0') ? "" : " LIMIT " . $settings['visitors_limit'];
-
-	$rows = select_multi_assoc($query, $link);
+	
+	$rows = $db->query($query, NULL, array('return_rows' => Database::RETURN_ALL_ROWS));
+	
+	$output = array();
 	foreach ($rows as $row) {
-		$visitor = visitor_to_xml($row, $link);
+		$visitor = visitor_to_xml($row);
 		$output[] = $visitor;
 	}
-
-	close_connection($link);
 
 	echo "<visitors>";
 	foreach ($output as $thr) {
@@ -264,13 +282,11 @@ $status = verifyparam("status", "/^\d{1,2}$/", 0);
 $showonline = verifyparam("showonline", "/^1$/", 0);
 $showvisitors = verifyparam("showvisitors", "/^1$/", 0);
 
-$link = connect();
-loadsettings_($link);
+loadsettings();
 if (!isset($_SESSION["${mysqlprefix}operatorgroups"])) {
-	$_SESSION["${mysqlprefix}operatorgroups"] = get_operator_groupslist($operator['operatorid'], $link);
+	$_SESSION["${mysqlprefix}operatorgroups"] = get_operator_groupslist($operator['operatorid']);
 }
-close_old_threads($link);
-close_connection($link);
+close_old_threads();
 $groupids = $_SESSION["${mysqlprefix}operatorgroups"];
 
 start_xml_output();

@@ -30,14 +30,12 @@ if ($settings['enabletracking'] == '1') {
     $entry = isset($_GET['entry']) ? $_GET['entry'] : "";
     $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "";
 
-    $link = connect();
-
     if (isset($_SESSION['visitorid']) && preg_match('/^[0-9]+$/', $_SESSION['visitorid'])) {
-	$invited = invitation_check($_SESSION['visitorid'], $link);
-	$visitorid = track_visitor($_SESSION['visitorid'], $entry, $referer, $link);
+	$invited = invitation_check($_SESSION['visitorid']);
+	$visitorid = track_visitor($_SESSION['visitorid'], $entry, $referer);
     }
     else {
-	$visitorid = track_visitor_start($entry, $referer, $link);
+	$visitorid = track_visitor_start($entry, $referer);
     }
 
     if ($visitorid) {
@@ -45,10 +43,9 @@ if ($settings['enabletracking'] == '1') {
     }
 
     if ($invited !== FALSE) {
-	$operator = operator_by_id_($invited, $link);
+	$operator = operator_by_id($invited);
     }
 
-    close_connection($link);
 }
 
 $response = array();

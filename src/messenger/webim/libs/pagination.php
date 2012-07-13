@@ -72,15 +72,47 @@ function setup_pagination($items, $default_items_per_page = 15)
 	}
 }
 
-function select_with_pagintation($fields, $table, $conditions, $order, $countfields, $link)
+/**
+ * Selects rows from database taking pagination into account.
+ * 
+ * @global array $page
+ * @param string $fields Selected fields
+ * @param string $table Table name in database
+ * @param string $conditions Where close
+ * @param string $order Order clause
+ * @param string $countfields Field, substituted in SQL COUNT function
+ * @param array $values Associative array of substituted values. Keys are named placeholders in the 
+ *   query(see Database::query() and its $values parameter description)
+ * 
+ * @see Database::query()
+ */
+function select_with_pagintation($fields, $table, $conditions, $order, $countfields, $values)
 {
 	global $page;
-	$count = db_rows_count($table, $conditions, $countfields, $link);
+	$db = Database::getInstance();
+
+	list($count) = $db->query(
+		"select count(". ($countfields ? $countfieds : "*") .") from {$table} " .
+		"where " . (count($conditions)  ? implode(" and ", $conditions) : "") .
+		($order ? " " . $order : ""),
+		$values,
+		array(
+			'return_rows' => Database::RETURN_ONE_ROW,
+			'fetch_type' => Database::FETCH_NUM
+		)
+	);
+
 	prepare_pagination($count);
 	if ($count) {
 		$p = $page['pagination'];
 		$limit = $p['limit'];
-		$page['pagination.items'] = select_multi_assoc(db_build_select($fields, $table, $conditions, $order) . " " . $limit, $link);
+		$page['pagination.items'] = $db->query(
+			"select {$fields} from {$table} " .
+			"where " . (count($conditions)  ? implode(" and ", $conditions) : "") .
+			($order ? " " . $order : "") . " " . $limit,
+			$values,
+			array('return_rows' => Database::RETURN_ALL_ROWS)
+		);
 	} else {
 		$page['pagination.items'] = false;
 	}

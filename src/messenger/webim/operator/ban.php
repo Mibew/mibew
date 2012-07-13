@@ -46,9 +46,7 @@ if (isset($_POST['address'])) {
 		$errors[] = no_field("form.field.ban_comment");
 	}
 
-	$link = connect();
-	$existing_ban = ban_for_addr_($address, $link);
-	close_connection($link);
+	$existing_ban = ban_for_addr($address);
 
 	if ((!$banId && $existing_ban) ||
 		($banId && $existing_ban && $banId != $existing_ban['banid'])) {
@@ -56,24 +54,30 @@ if (isset($_POST['address'])) {
 	}
 
 	if (count($errors) == 0) {
-		$link = connect();
+		$db = Database::getInstance();
 		$utime = time() + $days * 24 * 60 * 60;
 		if (!$banId) {
-			$query = sprintf(
-				"insert into ${mysqlprefix}chatban (dtmcreated,dtmtill,address,comment) values (CURRENT_TIMESTAMP,%s,'%s','%s')",
-				"FROM_UNIXTIME($utime)",
-				db_escape_string($address, $link),
-				db_escape_string($comment, $link));
-			perform_query($query, $link);
+			$db->query(
+				"insert into {chatban} (dtmcreated,dtmtill,address,comment) " .
+				"values (CURRENT_TIMESTAMP,FROM_UNIXTIME(?),?,?)",
+				array(
+					$utime,
+					$address,
+					 $comment
+				)
+			);
 		} else {
-			$query = sprintf(
-				"update ${mysqlprefix}chatban set dtmtill = %s,address = '%s',comment = '%s' where banid = $banId",
-				"FROM_UNIXTIME($utime)",
-				db_escape_string($address, $link),
-				db_escape_string($comment, $link));
-			perform_query($query, $link);
+			$db->query(
+				"update {chatban} set dtmtill = FROM_UNIXTIME(?),address = ?, " .
+				"comment = ? where banid = ?",
+				array(
+					$utime,
+					$address,
+					$comment,
+					$banId
+				)
+			);
 		}
-		close_connection($link);
 
 		if (!$threadid) {
 			header("Location: $webimroot/operator/blocked.php");
@@ -91,9 +95,13 @@ if (isset($_POST['address'])) {
 	}
 } else if (isset($_GET['id'])) {
 	$banId = verifyparam('id', "/^\d{1,9}$/");
-	$link = connect();
-	$ban = select_one_row("select banid,(unix_timestamp(dtmtill)-unix_timestamp(CURRENT_TIMESTAMP)) as days,address,comment from ${mysqlprefix}chatban where banid = $banId", $link);
-	close_connection($link);
+	$db = Database::getInstance();
+	$ban = $db->query(
+		"select banid,(unix_timestamp(dtmtill)-unix_timestamp(CURRENT_TIMESTAMP))" .
+		" as days,address,comment from {chatban} where banid = ?",
+		array($banId),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
 
 	if ($ban) {
 		$page['banId'] = topage($ban['banid']);

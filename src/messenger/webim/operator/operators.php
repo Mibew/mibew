@@ -48,11 +48,15 @@ if (isset($_GET['act'])) {
 		}
 
 		if (count($errors) == 0) {
-			$link = connect();
-			perform_query("delete from ${mysqlprefix}chatgroupoperator where operatorid = $operatorid", $link);
-			perform_query("delete from ${mysqlprefix}chatoperator where operatorid = $operatorid", $link);
-			close_connection($link);
-
+			$db = Database::getInstance();
+			$db->query(
+				"delete from {chatgroupoperator} where operatorid = ?",
+				array($operatorid)
+			);
+			$db->query(
+				"delete from {chatoperator} where operatorid = ?",
+				array($operatorid)
+			);
 			header("Location: $webimroot/operator/operators.php");
 			exit;
 		}
@@ -77,9 +81,11 @@ if (isset($_GET['act'])) {
 		}
 
 		if (count($errors) == 0) {
-			$link = connect();
-			perform_query("update ${mysqlprefix}chatoperator set idisabled = ".($act_disable?'1':'0')." where operatorid = $operatorid", $link);
-			close_connection($link);
+			$db = Database::getInstance();
+			$db->query(
+				"update {chatoperator} set idisabled = ? where operatorid = ?",
+				array(($act_disable ? '1' : '0'), $operatorid)
+			);
 
 			header("Location: $webimroot/operator/operators.php");
 			exit;

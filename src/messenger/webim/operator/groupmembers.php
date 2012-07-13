@@ -23,34 +23,35 @@ $operator = check_login();
 
 function get_group_members($groupid)
 {
-	global $mysqlprefix;
-	$link = connect();
-	$query = "select operatorid from ${mysqlprefix}chatgroupoperator where groupid = $groupid";
-	$result = select_multi_assoc($query, $link);
-	close_connection($link);
-	return $result;
+	$db = Database::getInstance();
+	return $db->query(
+		"select operatorid from {chatgroupoperator} where groupid = ?",
+		array($groupid),
+		array('return_rows' => Database::RETURN_ALL_ROWS)
+	);
 }
 
 function update_group_members($groupid, $newvalue)
 {
-	global $mysqlprefix;
-	$link = connect();
-	perform_query("delete from ${mysqlprefix}chatgroupoperator where groupid = $groupid", $link);
+	$db = Database::getInstance();
+	$db->query("delete from {chatgroupoperator} where groupid = ?", array($groupid));
+
 	foreach ($newvalue as $opid) {
-		perform_query("insert into ${mysqlprefix}chatgroupoperator (groupid, operatorid) values ($groupid,$opid)", $link);
+		$db->query(
+			"insert into {chatgroupoperator} (groupid, operatorid) values (?, ?)",
+			array($groupid,$opid)
+		);
 	}
-	close_connection($link);
 }
 
 function get_operators()
 {
-	global $mysqlprefix;
-	$link = connect();
-
-	$query = "select * from ${mysqlprefix}chatoperator order by vclogin";
-	$result = select_multi_assoc($query, $link);
-	close_connection($link);
-	return $result;
+	$db = Database::getInstance();
+	return $db->query(
+		"select * from {chatoperator} order by vclogin",
+		NULL,
+		array('return_rows' => Database::RETURN_ALL_ROWS)
+	);
 }
 
 $groupid = verifyparam("gid", "/^\d{1,9}$/");

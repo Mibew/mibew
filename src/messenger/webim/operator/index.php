@@ -21,10 +21,8 @@ require_once('../libs/operator.php');
 $operator = check_login();
 force_password($operator);
 
-$link = connect();
-loadsettings_($link);
-$isonline = is_operator_online($operator['operatorid'], $link);
-close_connection($link);
+loadsettings();
+$isonline = is_operator_online($operator['operatorid']);
 
 $page = array(
 	'version' => $version,

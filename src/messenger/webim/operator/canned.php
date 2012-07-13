@@ -57,9 +57,7 @@ if ($groupid) {
 	}
 }
 
-$link = connect();
-$allgroups = in_isolation($operator)?get_all_groups_for_operator($operator, $link):get_all_groups($link);
-close_connection($link);
+$allgroups = in_isolation($operator)?get_all_groups_for_operator($operator):get_all_groups();
 $page['groups'] = array();
 $page['groups'][] = array('groupid' => '', 'vclocalname' => getlocal("page.gen_button.default_group"));
 foreach ($allgroups as $g) {
@@ -76,9 +74,8 @@ if (isset($_GET['act']) && $_GET['act'] == 'delete') {
 	}
 
 	if (count($errors) == 0) {
-		$link = connect();
-		perform_query("delete from ${mysqlprefix}chatresponses where id = $key", $link);
-		close_connection($link);
+		$db = Database::getInstance();
+		$db->query("delete from {chatresponses} where id = ?", array($key));
 		header("Location: $webimroot/operator/canned.php?lang=$lang&group=$groupid");
 		exit;
 	}

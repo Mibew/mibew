@@ -15,11 +15,14 @@
  * limitations under the License.
  */
 
-function invitation_state($visitorid, $link)
+function invitation_state($visitorid)
 {
-	global $mysqlprefix;
-	$query = "select invited, threadid from ${mysqlprefix}chatsitevisitor where visitorid = '" . db_escape_string($visitorid) . "'";
-	$result = select_one_row($query, $link);
+	$db = Database::getInstance();
+	$result = $db->query(
+		"select invited, threadid from {chatsitevisitor} where visitorid = ?",
+		array($visitorid),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
 	if (!$result) {
 	    $result['invited'] = 0;
 	    $result['threadid'] = 0;
@@ -27,46 +30,51 @@ function invitation_state($visitorid, $link)
 	return $result;
 }
 
-function invitation_invite($visitorid, $operatorid, $link)
+function invitation_invite($visitorid, $operatorid)
 {
-	global $mysqlprefix;
-
-	if (!invitation_check($visitorid, $link)) {
-	    $query = "update ${mysqlprefix}chatsitevisitor set invited = 1, invitedby = '" . db_escape_string($operatorid) . "', invitationtime = now(), invitations = invitations + 1 where visitorid = '" . db_escape_string($visitorid) . "'";
-	    perform_query($query, $link);
-	    return invitation_check($visitorid, $link);
-	}
-	else {
-	    return FALSE;
+	if (!invitation_check($visitorid)) {
+		$db = Database::getInstance();
+		$db->query(
+			"update {chatsitevisitor} set invited = 1, invitedby = ?, " .
+			"invitationtime = now(), invitations = invitations + 1 where visitorid = ?",
+			array($operatorid, $visitorid)
+		);
+		return invitation_check($visitorid);
+	} else {
+		return FALSE;
 	}
 }
 
-function invitation_check($visitorid, $link)
+function invitation_check($visitorid)
 {
-	global $mysqlprefix;
-
-	$query = "select invitedby from ${mysqlprefix}chatsitevisitor where invited and visitorid = '" . db_escape_string($visitorid) . "'" .
-		 " and lasttime < invitationtime and threadid is null";
-	$result = select_one_row($query, $link);
-
+	$db = Database::getInstance();
+	$result = $db->query(
+		"select invitedby from {chatsitevisitor} where invited and visitorid = ? " .
+		 " and lasttime < invitationtime and threadid is null",
+		array($visitorid),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
 	return ($result && isset($result['invitedby']) && $result['invitedby']) ? $result['invitedby'] : FALSE;
 }
 
-function invitation_accept($visitorid, $threadid, $link)
+function invitation_accept($visitorid, $threadid)
 {
-	global $mysqlprefix;
+	$db = Database::getInstance();
+	$db->query(
+		"update {chatsitevisitor} set threadid = ?, chats = chats + 1 where visitorid = ?",
+		array($threadid, $visitorid)
+	);
 
-	$query = "update ${mysqlprefix}chatsitevisitor set threadid = " . $threadid . ", chats = chats + 1 where visitorid = " . db_escape_string($visitorid) . "";
-	perform_query($query, $link);
-
-	$query = "select invitedby from ${mysqlprefix}chatsitevisitor where visitorid = '" . db_escape_string($visitorid) . "'";
-	$result = select_one_row($query, $link);
+	$result = $db->query(
+		"select invitedby from {chatsitevisitor} where visitorid = ?",
+		array($visitorid),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
 
 	if ($result && isset($result['invitedby']) && $result['invitedby']) {
-	    return $result['invitedby'];
-	}
-	else {
-	    return FALSE;
+		return $result['invitedby'];
+	} else {
+		return FALSE;
 	}
 }
 

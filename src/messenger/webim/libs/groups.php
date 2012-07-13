@@ -17,11 +17,12 @@
 
 function group_by_id($id)
 {
-	global $mysqlprefix;
-	$link = connect();
-	$group = select_one_row(
-		"select * from ${mysqlprefix}chatgroup where groupid = $id", $link);
-	close_connection($link);
+	$db = Database::getInstance();
+	$group = $db->query(
+		"select * from {chatgroup} where groupid = ?",
+		array($id),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
 	return $group;
 }
 
@@ -47,12 +48,17 @@ function setup_group_settings_tabs($gid, $active)
 	}
 }
 
-function get_operator_groupslist($operatorid, $link)
+function get_operator_groupslist($operatorid)
 {
-	global $settings, $mysqlprefix;
+	global $settings;
+	$db = Database::getInstance();
 	if ($settings['enablegroups'] == '1') {
 		$groupids = array(0);
-		$allgroups = select_multi_assoc("select groupid from ${mysqlprefix}chatgroupoperator where operatorid = $operatorid order by groupid", $link);
+		$allgroups = $db->query(
+			"select groupid from {chatgroupoperator} where operatorid = ? order by groupid",
+			array($operatorid),
+			array('return_rows' => Database::RETURN_ALL_ROWS)
+		);
 		foreach ($allgroups as $g) {
 			$groupids[] = $g['groupid'];
 		}
@@ -64,10 +70,13 @@ function get_operator_groupslist($operatorid, $link)
 
 function get_available_parent_groups($skipgroup)
 {
-	global $mysqlprefix;
-	$link = connect();
-	$query = "select ${mysqlprefix}chatgroup.groupid as groupid, parent, vclocalname from ${mysqlprefix}chatgroup order by vclocalname";
-	$groupslist = select_multi_assoc($query, $link);
+	$db = Database::getInstance();
+	$groupslist = $db->query(
+		"select {chatgroup}.groupid as groupid, parent, vclocalname " .
+		"from {chatgroup} order by vclocalname",
+		NULL,
+		array('return_rows' => Database::RETURN_ALL_ROWS)
+	);
 	$result = array(array('groupid' => '', 'level' => '', 'vclocalname' => getlocal("form.field.groupparent.root")));
 
 	if ($skipgroup) {
@@ -77,15 +86,17 @@ function get_available_parent_groups($skipgroup)
 	}
 
 	$result = array_merge($result, get_sorted_child_groups_($groupslist, $skipgroup, 0) );
-	close_connection($link);
 	return $result;
 }
 
-function group_has_children($groupid, $link)
+function group_has_children($groupid)
 {
-	global $mysqlprefix;
-	$children = select_one_row(sprintf("select COUNT(*) as count from ${mysqlprefix}chatgroup where parent = %u", $groupid),
-					$link);
+	$db = Database::getInstance();
+	$children = $db->query(
+		"select COUNT(*) as count from {chatgroup} where parent = ?",
+		array($groupid),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
 	return ($children['count'] > 0);
 }
 

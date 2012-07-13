@@ -17,17 +17,14 @@
 
 function update_settings()
 {
-	global $settings, $settings_in_db, $mysqlprefix;
-	$link = connect();
+	global $settings, $settings_in_db;
+	$db = Database::getInstance();
 	foreach ($settings as $key => $value) {
 		if (!isset($settings_in_db[$key])) {
-			perform_query("insert into ${mysqlprefix}chatconfig (vckey) values ('$key')", $link);
+			$db->query("insert into {chatconfig} (vckey) values (?)", array($key));
 		}
-		$query = sprintf("update ${mysqlprefix}chatconfig set vcvalue='%s' where vckey='$key'", db_escape_string($value));
-		perform_query($query, $link);
+		$db->query("update {chatconfig} set vcvalue=? where vckey=?", array($value, $key));
 	}
-
-	close_connection($link);
 }
 
 function setup_settings_tabs($active)

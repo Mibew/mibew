@@ -17,47 +17,54 @@
 
 function load_canned_messages($locale, $groupid)
 {
-	global $mysqlprefix;
-	$link = connect();
-	$query = "select id, vctitle, vcvalue from ${mysqlprefix}chatresponses " .
-			 "where locale = '" . $locale . "' AND (" .
-			 ($groupid
-					 ? "groupid = $groupid"
-					 : "groupid is NULL OR groupid = 0") .
-			 ") order by vcvalue";
-	$result = select_multi_assoc($query, $link);
-	close_connection($link);
-	return $result;
+	$db = Database::getInstance();
+	$values = array(':locale' => $locale);
+	if ($groupid) {
+		$values[':groupid'] = $groupid;
+	}
+	return $db->query(
+		"select id, vctitle, vcvalue from {chatresponses} " .
+		"where locale = :locale AND (" .
+		($groupid ? "groupid = :groupid" : "groupid is NULL OR groupid = 0") .
+		") order by vcvalue",
+		$values,
+		array('return_rows' => Database::RETURN_ALL_ROWS)
+	);
 }
 
 function load_canned_message($key)
 {
-	global $mysqlprefix;
-	$link = connect();
-	$result = select_one_row("select vctitle, vcvalue from ${mysqlprefix}chatresponses where id = $key", $link);
-	close_connection($link);
+	$db = Database::getInstance();
+	$result = $db->query(
+		"select vctitle, vcvalue from {chatresponses} where id = ?",
+		array($key),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
 	return $result ? $result : null;
 }
 
 function save_canned_message($key, $title, $message)
 {
-	global $mysqlprefix;
-	$link = connect();
-	perform_query("update ${mysqlprefix}chatresponses set vcvalue = '" . db_escape_string($message, $link) . "', " .
-				"vctitle = '" . db_escape_string($title, $link) . "' " .
-				"where id = $key", $link);
-	close_connection($link);
+	$db = Database::getInstance();
+	$db->query(
+		"update {chatresponses} set vcvalue = ?, vctitle = ? where id = ?",
+		array($message, $title, $key)
+	);
 }
 
 function add_canned_message($locale, $groupid, $title, $message)
 {
-	global $mysqlprefix;
-	$link = connect();
-	perform_query("insert into ${mysqlprefix}chatresponses (locale,groupid,vctitle,vcvalue) values ('$locale'," .
-				($groupid ? "$groupid, " : "null, ") .
-				"'" . db_escape_string($title, $link) . "', " .
-				"'" . db_escape_string($message, $link) . "')", $link);
-	close_connection($link);
+	$db = Database::getInstance();
+	$db->query(
+		"insert into {chatresponses} (locale,groupid,vctitle,vcvalue) " .
+		"values (?, ?, ?, ?)",
+		array(
+			$locale,
+			($groupid ? $groupid : "null"),
+			$title,
+			$message
+		)
+	);
 }
 
 ?>

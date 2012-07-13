@@ -25,11 +25,9 @@ loadsettings();
 
 $visitorid = verifyparam("visitor", "/^\d{1,8}$/");
 
-$link = connect();
-if (!invitation_invite($visitorid, $operator['operatorid'], $link)) {
+if (!invitation_invite($visitorid, $operator['operatorid'])) {
     die("Invitation failed!");
 }
-close_connection($link);
 
 $page = array();
 $page['visitor'] = $visitorid;

@@ -73,12 +73,10 @@ if( $act == "refresh" ) {
 		show_error("cannot send");
 	}
 
-	$link = connect();
-	$postedid = post_message_($threadid,$kind,$message,$link,$from,null,$isuser ? null : $operator['operatorid'] );
+	$postedid = post_message_($threadid,$kind,$message,$from,null,$isuser ? null : $operator['operatorid'] );
 	if($isuser && $thread["shownmessageid"] == 0) {
-		commit_thread( $thread['threadid'], array('shownmessageid' => $postedid), $link);
+		commit_thread( $thread['threadid'], array('shownmessageid' => $postedid));
 	}
-	close_connection($link);
 	print_thread_messages($thread, $token, $lastid, $isuser, $outformat, $isuser ? null : $operator['operatorid']);
 	exit;
 

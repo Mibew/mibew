@@ -231,9 +231,12 @@ function create_table($id, $link)
 	mysql_query($query, $link) or show_install_err(' Query failed: ' . mysql_error($link));
 
 	if ($id == "${mysqlprefix}chatoperator") {
-		create_operator_("admin", "", "", "Administrator", "Administrator", "", $link);
+		create_operator("admin", "", "", "Administrator", "Administrator", "");
 	} else if ($id == "${mysqlprefix}chatrevision") {
-		perform_query("INSERT INTO ${mysqlprefix}chatrevision VALUES (1)", $link);
+		$result = mysql_query("INSERT INTO ${mysqlprefix}chatrevision VALUES (1)", $link);
+		if (! $result) {
+			die(' Query failed: ' . mysql_error($link));
+		}
 	}
 }
 
