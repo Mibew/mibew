@@ -1,7 +1,7 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../webim/libs/database.php';
-require_once dirname(__FILE__) . '/../../../webim/libs/config.php';
+require_once dirname(__FILE__) . '/../../../../webim/libs/classes/database.php';
+require_once dirname(__FILE__) . '/../../../../webim/libs/config.php';
 
 /**
  * Test class for Database.

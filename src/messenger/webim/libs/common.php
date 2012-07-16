@@ -19,7 +19,7 @@ session_start();
 
 require_once(dirname(__FILE__) . '/converter.php');
 require_once(dirname(__FILE__) . '/config.php');
-require_once(dirname(__FILE__) . '/database.php');
+require_once(dirname(__FILE__) . '/classes/database.php');
 
 $version = '1.6.5';
 $jsver = "165";
