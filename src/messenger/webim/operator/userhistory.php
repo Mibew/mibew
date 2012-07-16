@@ -22,7 +22,6 @@ require_once('../libs/userinfo.php');
 require_once('../libs/pagination.php');
 
 $operator = check_login();
-loadsettings();
 
 $page = array();
 

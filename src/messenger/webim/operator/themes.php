@@ -48,7 +48,6 @@ if ($show == 'chat' || $show == 'mail' || $show == 'leavemessage' || $show == 'l
 	exit;
 }
 if ($show == 'survey') {
-	loadsettings();
 	setup_survey("Visitor", "", "", "", "http://google.com");
 	setup_logo();
 	expand("../styles/dialogs", "$preview", "$show.tpl");

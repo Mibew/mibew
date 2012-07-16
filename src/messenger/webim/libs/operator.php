@@ -162,20 +162,17 @@ function get_operators_from_adjacent_groups($operator)
 
 function operator_is_online($operator)
 {
-	global $settings;
-	return $operator['time'] < $settings['online_timeout'];
+	return $operator['time'] < Settings::get('online_timeout');
 }
 
 function operator_is_available($operator)
 {
-	global $settings;
-	return $operator['istatus'] == 0 && $operator['time'] < $settings['online_timeout'] ? "1" : "";
+	return $operator['istatus'] == 0 && $operator['time'] < Settings::get('online_timeout') ? "1" : "";
 }
 
 function operator_is_away($operator)
 {
-	global $settings;
-	return $operator['istatus'] != 0 && $operator['time'] < $settings['online_timeout'] ? "1" : "";
+	return $operator['istatus'] != 0 && $operator['time'] < Settings::get('online_timeout') ? "1" : "";
 }
 
 function operator_is_disabled($operator)
@@ -255,8 +252,6 @@ function notify_operator_alive($operatorid, $istatus)
 
 function has_online_operators($groupid = "")
 {
-	global $settings;
-	loadsettings();
 	$db = Database::getInstance();
 
 	$query = "select count(*) as total, min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time from {chatoperator}";
@@ -265,7 +260,7 @@ function has_online_operators($groupid = "")
 			"({chatgroup}.groupid = :groupid or {chatgroup}.parent = :groupid) and {chatoperator}.operatorid = " .
 			"{chatgroupoperator}.operatorid and istatus = 0";
 	} else {
-		if ($settings['enablegroups'] == 1) {
+		if (Settings::get('enablegroups') == 1) {
 			$query .= ", {chatgroupoperator} where {chatoperator}.operatorid = " .
 				"{chatgroupoperator}.operatorid and istatus = 0";
 		} else {
@@ -278,14 +273,11 @@ function has_online_operators($groupid = "")
 		array(':groupid'=>$groupid),
 		array('return_rows' => Database::RETURN_ONE_ROW)
 	);
-	return $row['time'] < $settings['online_timeout'] && $row['total'] > 0;
+	return $row['time'] < Settings::get('online_timeout') && $row['total'] > 0;
 }
 
 function is_operator_online($operatorid)
 {
-	global $settings;
-	loadsettings();
-	
 	$db = Database::getInstance();
 	$row = $db->query(
 		"select count(*) as total, " .
@@ -295,7 +287,7 @@ function is_operator_online($operatorid)
 		array('return_rows' => Database::RETURN_ONE_ROW)
 	);
 	
-	return $row['time'] < $settings['online_timeout'] && $row['total'] == 1;
+	return $row['time'] < Settings::get('online_timeout') && $row['total'] == 1;
 }
 
 function get_operator_name($operator)
@@ -384,8 +376,7 @@ function logout_operator()
 
 function setup_redirect_links($threadid, $operator, $token)
 {
-	global $page, $webimroot, $settings;
-	loadsettings();
+	global $page, $webimroot;
 
 	$operator_in_isolation = in_isolation($operator);
 
@@ -395,7 +386,7 @@ function setup_redirect_links($threadid, $operator, $token)
 
 	$groupscount = 0;
 	$groups = array();
-	if ($settings['enablegroups'] == "1") {
+	if (Settings::get('enablegroups') == "1") {
 		$groupslist = $operator_in_isolation?get_groups_for_operator($operator, true):get_groups(true);
 		foreach ($groupslist as $group) {
 			if ($group['inumofagents'] == 0) {
@@ -417,7 +408,7 @@ function setup_redirect_links($threadid, $operator, $token)
 	$params = array('thread' => $threadid, 'token' => $token);
 	foreach ($operators as $agent) {
 		$params['nextAgent'] = $agent['operatorid'];
-		$status = $agent['time'] < $settings['online_timeout']
+		$status = $agent['time'] < Settings::get('online_timeout')
 				? ($agent['istatus'] == 0
 						? getlocal("char.redirect.operator.online_suff")
 						: getlocal("char.redirect.operator.away_suff")
@@ -431,13 +422,13 @@ function setup_redirect_links($threadid, $operator, $token)
 	$page['redirectToAgent'] = $agent_list;
 
 	$group_list = "";
-	if ($settings['enablegroups'] == "1") {
+	if (Settings::get('enablegroups') == "1") {
 		$params = array('thread' => $threadid, 'token' => $token);
 		foreach ($groups as $group) {
 			$params['nextGroup'] = $group['groupid'];
-			$status = $group['ilastseen'] !== NULL && $group['ilastseen'] < $settings['online_timeout']
+			$status = $group['ilastseen'] !== NULL && $group['ilastseen'] < Settings::get('online_timeout')
 					? getlocal("char.redirect.operator.online_suff")
-					: ($group['ilastseenaway'] !== NULL && $group['ilastseenaway'] < $settings['online_timeout']
+					: ($group['ilastseenaway'] !== NULL && $group['ilastseenaway'] < Settings::get('online_timeout')
 							? getlocal("char.redirect.operator.away_suff")
 							: "");
 			$group_list .= "<li><a href=\"" . add_params($webimroot . "/operator/redirect.php", $params) .
@@ -473,19 +464,17 @@ function is_capable($perm, $operator)
 
 function in_isolation($operator)
 {
-	global $settings, $can_administrate;
-	loadsettings();
-	return (!is_capable($can_administrate, $operator) && $settings['enablegroups'] && $settings['enablegroupsisolation']);
+	global $can_administrate;
+	return (!is_capable($can_administrate, $operator) && Settings::get('enablegroups') && Settings::get('enablegroupsisolation'));
 }
 
 function prepare_menu($operator, $hasright = true)
 {
-	global $page, $settings, $can_administrate;
+	global $page, $can_administrate;
 	$page['operator'] = topage(get_operator_name($operator));
 	if ($hasright) {
-		loadsettings();
-		$page['showban'] = $settings['enableban'] == "1";
-		$page['showstat'] = $settings['enablestatistics'] == "1";
+		$page['showban'] = Settings::get('enableban') == "1";
+		$page['showstat'] = Settings::get('enablestatistics') == "1";
 		$page['showadmin'] = is_capable($can_administrate, $operator);
 		$page['currentopid'] = $operator['operatorid'];
 	}

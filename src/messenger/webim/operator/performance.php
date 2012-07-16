@@ -31,10 +31,9 @@ $options = array(
 	'updatefrequency_tracking', 'visitors_limit', 'invitation_lifetime',
 	'tracking_lifetime', 'thread_lifetime' );
 
-loadsettings();
 $params = array();
 foreach ($options as $opt) {
-	$params[$opt] = $settings[$opt];
+	$params[$opt] = Settings::get($opt);
 }
 
 if (isset($_POST['onlinetimeout'])) {
@@ -68,7 +67,7 @@ if (isset($_POST['onlinetimeout'])) {
 		$errors[] = getlocal("settings.wrong.threadlifetime");
 	}
 
-	if ($settings['enabletracking']) {
+	if (Settings::get('enabletracking')) {
 
 	    $params['updatefrequency_tracking'] = getparam('frequencytracking');
 	    if (!is_numeric($params['updatefrequency_tracking'])) {
@@ -94,9 +93,9 @@ if (isset($_POST['onlinetimeout'])) {
 
 	if (count($errors) == 0) {
 		foreach ($options as $opt) {
-			$settings[$opt] = $params[$opt];
+			Settings::set($opt,$params[$opt]);
 		}
-		update_settings();
+		Settings::update();
 		header("Location: $webimroot/operator/performance.php?stored");
 		exit;
 	}
@@ -110,7 +109,7 @@ $page['formthreadlifetime'] = $params['thread_lifetime'];
 $page['formonehostconnections'] = $params['max_connections_from_one_host'];
 $page['formthreadlifetime'] = $params['thread_lifetime'];
 
-if ($settings['enabletracking']) {
+if (Settings::get('enabletracking')) {
 
 	$page['formfrequencytracking'] = $params['updatefrequency_tracking'];
 	$page['formvisitorslimit'] = $params['visitors_limit'];
@@ -119,7 +118,7 @@ if ($settings['enabletracking']) {
 
 }
 
-$page['enabletracking'] = $settings['enabletracking'];
+$page['enabletracking'] = Settings::get('enabletracking');
 
 $page['stored'] = isset($_GET['stored']);
 

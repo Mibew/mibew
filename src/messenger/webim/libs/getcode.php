@@ -17,7 +17,6 @@
 
 function generate_button($title, $locale, $style, $invitationstyle, $group, $inner, $showhost, $forcesecure, $modsecurity)
 {
-	global $settings;
 	$link = get_app_location($showhost, $forcesecure) . "/client.php";
 	if ($locale)
 		$link = append_query($link, "locale=$locale");
@@ -30,14 +29,14 @@ function generate_button($title, $locale, $style, $invitationstyle, $group, $inn
 	$jslink = append_query("'" . $link, "url='+escape(document.location.href$modsecfix)+'&amp;referrer='+escape(document.referrer$modsecfix)");
 	$temp = get_popup($link, "$jslink",
 					  $inner, $title, "webim", "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1");
-	if ($settings['enabletracking']) {
+	if (Settings::get('enabletracking')) {
 	    $temp = preg_replace('/^(<a )/', '\1id="mibewAgentButton" ', $temp);
 	    $temp .= '<div id="mibewinvitation"></div><script type="text/javascript">var mibewInviteStyle = \'@import url(';
 	    $temp .= get_app_location($showhost, $forcesecure);
 	    $temp .= '/styles/invitations/';
-	    $temp .= ($invitationstyle?$invitationstyle:(array_key_exists('invitationstyle', $settings)?$settings['invitationstyle']:'default'));
+	    $temp .= ($invitationstyle?$invitationstyle:(Settings::get('invitationstyle')));
 	    $temp .= '/invite.css);\'; var mibewRequestTimeout = ';
-	    $temp .= $settings['updatefrequency_tracking'];
+	    $temp .= Settings::get('updatefrequency_tracking');
 	    $temp .= '*1000; var mibewRequestUrl = \'';
 	    $temp .= get_app_location($showhost, $forcesecure);
 	    $temp .= '/request.php?entry=\' + escape(document.referrer) + \'&lang=ru\'</script><script type="text/javascript" src="';

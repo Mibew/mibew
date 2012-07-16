@@ -25,8 +25,7 @@ require_once('../libs/expand.php');
 
 $operator = check_login();
 
-loadsettings();
-if ($settings['enablessl'] == "1" && $settings['forcessl'] == "1") {
+if (Settings::get('enablessl') == "1" && Settings::get('forcessl') == "1") {
 	if (!is_secure_request()) {
 		$requested = $_SERVER['PHP_SELF'];
 		if ($_SERVER['REQUEST_METHOD'] == 'GET' && $_SERVER['QUERY_STRING']) {

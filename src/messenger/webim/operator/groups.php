@@ -44,14 +44,12 @@ if (isset($_GET['act']) && $_GET['act'] == 'del') {
 
 function is_online($group)
 {
-	global $settings;
-	return $group['ilastseen'] !== NULL && $group['ilastseen'] < $settings['online_timeout'] ? "1" : "";
+	return $group['ilastseen'] !== NULL && $group['ilastseen'] < Settings::get('online_timeout') ? "1" : "";
 }
 
 function is_away($group)
 {
-	global $settings;
-	return $group['ilastseenaway'] !== NULL && $group['ilastseenaway'] < $settings['online_timeout'] ? "1" : "";
+	return $group['ilastseenaway'] !== NULL && $group['ilastseenaway'] < Settings::get('online_timeout') ? "1" : "";
 }
 
 

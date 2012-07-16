@@ -27,8 +27,7 @@ function demo_print_message($msg, $format)
 
 function demo_process_thread($act, $outformat, $lastid, $isuser, $canpost, $istyping, $postmessage)
 {
-	global $kind_for_agent, $kind_info, $kind_events, $kind_user, $kind_agent, $webimroot, $settings;
-	loadsettings();
+	global $kind_for_agent, $kind_info, $kind_events, $kind_user, $kind_agent, $webimroot;
 	if ($act == "refresh" || $act == "post") {
 		$lastid++;
 		if ($outformat == "xml") {
@@ -42,7 +41,7 @@ function demo_process_thread($act, $outformat, $lastid, $isuser, $canpost, $isty
 					"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" .
 					"<html>\n<head>\n" .
 					"<link href=\"$webimroot/styles/default/chat.css\" rel=\"stylesheet\" type=\"text/css\">\n" .
-					"<meta http-equiv=\"Refresh\" content=\"" . $settings['updatefrequency_oldchat'] . "; URL=$url&amp;sn=11\">\n" .
+					"<meta http-equiv=\"Refresh\" content=\"" . Settings::get('updatefrequency_oldchat') . "; URL=$url&amp;sn=11\">\n" .
 					"<meta http-equiv=\"Pragma\" content=\"no-cache\">\n" .
 					"<title>chat</title>\n" .
 					"</head>\n" .

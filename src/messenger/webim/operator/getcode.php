@@ -24,8 +24,6 @@ require_once('../libs/styles.php');
 $operator = check_login();
 force_password($operator);
 
-loadsettings();
-
 $imageLocales = get_image_locales_map("../locales");
 $image = verifyparam(isset($_GET['image']) ? "image" : "i", "/^\w+$/", "webim");
 if (!isset($imageLocales[$image])) {
@@ -84,7 +82,7 @@ $page['formhostname'] = $showhost;
 $page['formsecure'] = $forcesecure;
 $page['formmodsecurity'] = $modsecurity;
 
-$page['enabletracking'] = $settings['enabletracking'];
+$page['enabletracking'] = Settings::get('enabletracking');
 
 prepare_menu($operator);
 start_html_output();

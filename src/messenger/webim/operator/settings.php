@@ -33,16 +33,14 @@ $options = array(
 	'email', 'title', 'logo', 'hosturl', 'usernamepattern',
 	'chatstyle', 'chattitle', 'geolink', 'geolinkparams', 'sendmessagekey');
 
-loadsettings();
-
-if ($settings['enabletracking']) {
+if (Settings::get('enabletracking')) {
 	$options[] = 'invitationstyle';
 	$invitationstylelist = get_style_list("../styles/invitations");
 }
 
 $params = array();
 foreach ($options as $opt) {
-	$params[$opt] = $settings[$opt];
+	$params[$opt] = Settings::get($opt);
 }
 
 if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
@@ -61,7 +59,7 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
 		$params['chatstyle'] = $stylelist[0];
 	}
 
-	if ($settings['enabletracking']) {
+	if (Settings::get('enabletracking')) {
 		$params['invitationstyle'] = verifyparam("invitationstyle", "/^\w+$/", $params['invitationstyle']);
 		if (!in_array($params['invitationstyle'], $invitationstylelist)) {
 			$params['invitationstyle'] = $invitationstylelist[0];
@@ -82,9 +80,9 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
 
 	if (count($errors) == 0) {
 		foreach ($options as $opt) {
-			$settings[$opt] = $params[$opt];
+			Settings::set($opt,$params[$opt]);
 		}
-		update_settings();
+		Settings::update();
 		header("Location: $webimroot/operator/settings.php?stored");
 		exit;
 	}
@@ -102,9 +100,9 @@ $page['formchattitle'] = topage($params['chattitle']);
 $page['formsendmessagekey'] = $params['sendmessagekey'];
 $page['availableChatStyles'] = $stylelist;
 $page['stored'] = isset($_GET['stored']);
-$page['enabletracking'] = $settings['enabletracking'];
+$page['enabletracking'] = Settings::get('enabletracking');
 
-if ($settings['enabletracking']) {
+if (Settings::get('enabletracking')) {
 	$page['forminvitationstyle'] = $params['invitationstyle'];
 	$page['availableInvitationStyles'] = $invitationstylelist;
 }

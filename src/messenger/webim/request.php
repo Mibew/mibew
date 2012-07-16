@@ -21,11 +21,9 @@ require_once('libs/operator.php');
 require_once('libs/track.php');
 require_once('libs/request.php');
 
-loadsettings();
-
 $invited = FALSE;
 $operator = array();
-if ($settings['enabletracking'] == '1') {
+if (Settings::get('enabletracking') == '1') {
 
     $entry = isset($_GET['entry']) ? $_GET['entry'] : "";
     $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "";

@@ -23,8 +23,7 @@ require_once('libs/expand.php');
 require_once('libs/captcha.php');
 require_once('libs/invitation.php');
 
-loadsettings();
-if($settings['enablessl'] == "1" && $settings['forcessl'] == "1") {
+if(Settings::get('enablessl') == "1" && Settings::get('forcessl') == "1") {
 	if(!is_secure_request()) {
 		$requested = $_SERVER['PHP_SELF'];
 		if($_SERVER['REQUEST_METHOD'] == 'GET' && $_SERVER['QUERY_STRING']) {
@@ -47,7 +46,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 		$groupid = "";
 		$groupname = "";
 		$group = NULL;
-		if($settings['enablegroups'] == '1') {
+		if(Settings::get('enablegroups') == '1') {
 			$groupid = verifyparam( "group", "/^\d{1,8}$/", "");
 			if($groupid) {
 				$group = group_by_id($groupid);
@@ -67,7 +66,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 			$email = getparam("email");
 			$referrer = urldecode(getparam("referrer"));
 
-			if($settings['usercanchangename'] == "1" && isset($_POST['name'])) {
+			if(Settings::get('usercanchangename') == "1" && isset($_POST['name'])) {
 				$newname = getparam("name");
 				if($newname != $visitor['name']) {
 					$data = strtr(base64_encode(myiconv($webim_encoding,"utf-8",$newname)), '+/=', '-_,');
@@ -95,8 +94,8 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 		}
 
 		$invitation_state = invitation_state($_SESSION['visitorid']);
-		$visitor_is_invited = $settings['enabletracking'] && $invitation_state['invited'] && !$invitation_state['threadid'];
-		if($settings['enablepresurvey'] == '1' && !(isset($_POST['survey']) && $_POST['survey'] == 'on') && !$visitor_is_invited) {
+		$visitor_is_invited = Settings::get('enabletracking') && $invitation_state['invited'] && !$invitation_state['threadid'];
+		if(Settings::get('enablepresurvey') == '1' && !(isset($_POST['survey']) && $_POST['survey'] == 'on') && !$visitor_is_invited) {
 			$page = array();
 			setup_logo($group);
 			setup_survey($visitor['name'], $email, $groupid, $info, $referrer);

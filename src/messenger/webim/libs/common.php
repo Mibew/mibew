@@ -20,6 +20,7 @@ session_start();
 require_once(dirname(__FILE__) . '/converter.php');
 require_once(dirname(__FILE__) . '/config.php');
 require_once(dirname(__FILE__) . '/classes/database.php');
+require_once(dirname(__FILE__) . '/classes/settings.php');
 
 $version = '1.6.5';
 $jsver = "165";
@@ -563,85 +564,13 @@ function date_to_text($unixtime)
 $dbversion = '1.6.3';
 $featuresversion = '1.6.4';
 
-$settings = array(
-	'dbversion' => 0,
-	'featuresversion' => 0,
-	'title' => 'Your Company',
-	'hosturl' => 'http://mibew.org',
-	'logo' => '',
-	'usernamepattern' => '{name}',
-	'chatstyle' => 'default',
-	'chattitle' => 'Live Support',
-	'geolink' => 'http://api.hostip.info/get_html.php?ip={ip}',
-	'geolinkparams' => 'width=440,height=100,toolbar=0,scrollbars=0,location=0,status=1,menubar=0,resizable=1',
-	'max_uploaded_file_size' => 100000,
-	'max_connections_from_one_host' => 10,
-	'thread_lifetime' => 600,
-
-	'email' => '', /* inbox for left messages */
-	'left_messages_locale' => $home_locale,
-	'sendmessagekey' => 'center',
-
-	'enableban' => '0',
-	'enablessl' => '0',
-	'forcessl' => '0',
-	'usercanchangename' => '1',
-	'enablegroups' => '0',
-	'enablegroupsisolation' => '0',
-	'enablestatistics' => '1',
-	'enabletracking' => '0',
-	'enablepresurvey' => '1',
-	'surveyaskmail' => '0',
-	'surveyaskgroup' => '1',
-	'surveyaskmessage' => '0',
-	'enablepopupnotification' => '0',
-	'showonlineoperators' => '0',
-	'enablecaptcha' => '0',
-
-	'online_timeout' => 30, /* Timeout (in seconds) when online operator becomes offline */
-	'updatefrequency_operator' => 2,
-	'updatefrequency_chat' => 2,
-	'updatefrequency_oldchat' => 7,
-
-	'updatefrequency_tracking' => 10,
-	'visitors_limit' => 20, /* Number of visitors to look over */
-	'invitation_lifetime' => 60, /* Lifetime for invitation to chat */
-	'tracking_lifetime' => 600, /* Time to store tracked old visitors' data */
-
-);
-$settingsloaded = false;
-$settings_in_db = array();
-
-function loadsettings()
-{
-	global $settingsloaded, $settings_in_db, $settings;
-	if ($settingsloaded) {
-		return;
-	}
-	$settingsloaded = true;
-
-	$db = Database::getInstance();
-	$rows = $db->query(
-		"select vckey,vcvalue from {chatconfig}",
-		NULL,
-		array('return_rows' => Database::RETURN_ALL_ROWS)
-	);
-	foreach ($rows as $row) {
-		$name = $row['vckey'];
-		$settings[$name] = $row['vcvalue'];
-		$settings_in_db[$name] = true;
-	}
-}
-
 function getchatstyle()
 {
-	global $settings;
 	$chatstyle = verifyparam("style", "/^\w+$/", "");
 	if ($chatstyle) {
 		return $chatstyle;
 	}
-	loadsettings();
-	return $settings['chatstyle'];
+	return Settings::get('chatstyle');
 }
 
 function jspath()

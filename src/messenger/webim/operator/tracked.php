@@ -22,10 +22,9 @@ require_once('../libs/track.php');
 
 $operator = check_login();
 
-loadsettings();
 setlocale(LC_TIME, getstring("time.locale"));
 
-if ($settings['enabletracking'] == "0") {
+if (Settings::get('enabletracking') == "0") {
     die("Tracking disabled!");
 }
 

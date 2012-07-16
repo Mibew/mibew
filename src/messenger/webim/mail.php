@@ -58,10 +58,8 @@ foreach( $output as $msg ) {
 	$history .= $msg;
 }
 
-loadsettings();
-
 $subject = getstring("mail.user.history.subject");
-$body = getstring2("mail.user.history.body", array($thread['userName'],$history,$settings['title'],$settings['hosturl']) );
+$body = getstring2("mail.user.history.body", array($thread['userName'],$history,Settings::get('title'),Settings::get('hosturl')) );
 
 webim_mail($email, $webim_mailbox, $subject, $body);
 

@@ -175,7 +175,7 @@ function get_messages($threadid, $meth, $isuser, &$lastid)
 
 function print_thread_messages($thread, $token, $lastid, $isuser, $format, $agentid = null)
 {
-	global $webim_encoding, $webimroot, $connection_timeout, $settings;
+	global $webim_encoding, $webimroot, $connection_timeout;
 	$threadid = $thread['threadid'];
 	$istyping = abs($thread['current'] - $thread[$isuser ? "lpagent" : "lpuser"]) < $connection_timeout
 				&& $thread[$isuser ? "agentTyping" : "userTyping"] == "1" ? "1" : "0";
@@ -190,7 +190,6 @@ function print_thread_messages($thread, $token, $lastid, $isuser, $format, $agen
 		}
 		print("</thread>");
 	} else if ($format == "html") {
-		loadsettings();
 		$output = get_messages($threadid, "html", $isuser, $lastid);
 
 		start_html_output();
@@ -200,7 +199,7 @@ function print_thread_messages($thread, $token, $lastid, $isuser, $format, $agen
 				"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" .
 				"<html>\n<head>\n" .
 				"<link href=\"$webimroot/styles/default/chat.css\" rel=\"stylesheet\" type=\"text/css\">\n" .
-				"<meta http-equiv=\"Refresh\" content=\"" . $settings['updatefrequency_oldchat'] . "; URL=$url&amp;sn=11\">\n" .
+				"<meta http-equiv=\"Refresh\" content=\"" . Settings::get('updatefrequency_oldchat') . "; URL=$url&amp;sn=11\">\n" .
 				"<meta http-equiv=\"Pragma\" content=\"no-cache\">\n" .
 				"<title>chat</title>\n" .
 				"</head>\n" .
@@ -219,11 +218,13 @@ function print_thread_messages($thread, $token, $lastid, $isuser, $format, $agen
 
 function get_user_name($username, $addr, $id)
 {
-	global $settings;
-	loadsettings();
-	return str_replace("{addr}", $addr,
-					   str_replace("{id}", $id,
-								   str_replace("{name}", $username, $settings['usernamepattern'])));
+	return str_replace(
+		"{addr}", $addr,
+		str_replace(
+			"{id}", $id,
+			str_replace("{name}", $username, Settings::get('usernamepattern'))
+		)
+	);
 }
 
 function is_ajax_browser($browserid, $ver, $useragent)
@@ -306,27 +307,26 @@ function needsFramesrc()
 
 function setup_logo($group = NULL)
 {
-	global $page, $settings;
-	loadsettings();
+	global $page;
 	$toplevelgroup = (!$group)?array():get_top_level_group($group);
-	$page['ct.company.name'] = topage(empty($toplevelgroup['vctitle'])?$settings['title']:$toplevelgroup['vctitle']);
-	$page['ct.company.chatLogoURL'] = topage(empty($toplevelgroup['vclogo'])?$settings['logo']:$toplevelgroup['vclogo']);
-	$page['webimHost'] = topage(empty($toplevelgroup['vchosturl'])?$settings['hosturl']:$toplevelgroup['vchosturl']);
+	$page['ct.company.name'] = topage(empty($toplevelgroup['vctitle'])?Settings::get('title'):$toplevelgroup['vctitle']);
+	$page['ct.company.chatLogoURL'] = topage(empty($toplevelgroup['vclogo'])?Settings::get('logo'):$toplevelgroup['vclogo']);
+	$page['webimHost'] = topage(empty($toplevelgroup['vchosturl'])?Settings::get('hosturl'):$toplevelgroup['vchosturl']);
 }
 
 function setup_leavemessage($name, $email, $message, $groupid, $groupname, $info, $referrer, $canshowcaptcha)
 {
-	global $settings, $page;
+	global $page;
 	$page['formname'] = topage($name);
 	$page['formemail'] = topage($email);
 	$page['formmessage'] = $message ? topage($message) : "";
-	$page['showcaptcha'] = $settings["enablecaptcha"] == "1" && $canshowcaptcha ? "1" : "";
+	$page['showcaptcha'] = Settings::get("enablecaptcha") == "1" && $canshowcaptcha ? "1" : "";
 	$page['formgroupid'] = $groupid;
 	$page['formgroupname'] = $groupname;
 	$page['forminfo'] = topage($info);
 	$page['referrer'] = urlencode(topage($referrer));
 
-	if ($settings['enablegroups'] == '1') {
+	if (Settings::get('enablegroups') == '1') {
 		$groups = setup_groups_select($groupid, false);
 		if ($groups) {
 			$page['groups'] = $groups['select'];
@@ -339,7 +339,7 @@ function setup_leavemessage($name, $email, $message, $groupid, $groupname, $info
 
 function setup_survey($name, $email, $groupid, $info, $referrer)
 {
-	global $settings, $page;
+	global $page;
 
 	$page['formname'] = topage($name);
 	$page['formemail'] = topage($email);
@@ -347,7 +347,7 @@ function setup_survey($name, $email, $groupid, $info, $referrer)
 	$page['forminfo'] = topage($info);
 	$page['referrer'] = urlencode(topage($referrer));
 
-	if ($settings['enablegroups'] == '1' && $settings["surveyaskgroup"] == "1") {
+	if (Settings::get('enablegroups') == '1' && Settings::get('surveyaskgroup') == '1') {
 		$groups = setup_groups_select($groupid, true);
 		if ($groups) {
 			$page['groups'] = $groups['select'];
@@ -356,15 +356,13 @@ function setup_survey($name, $email, $groupid, $info, $referrer)
 		}
 	}
 
-	$page['showemail'] = $settings["surveyaskmail"] == "1" ? "1" : "";
-	$page['showmessage'] = $settings["surveyaskmessage"] == "1" ? "1" : "";
-	$page['showname'] = $settings['usercanchangename'] == "1" ? "1" : "";
+	$page['showemail'] = Settings::get("surveyaskmail") == "1" ? "1" : "";
+	$page['showmessage'] = Settings::get("surveyaskmessage") == "1" ? "1" : "";
+	$page['showname'] = Settings::get('usercanchangename') == "1" ? "1" : "";
 }
 
 function setup_groups_select($groupid, $markoffline)
 {
-	global $settings;
-
 	$showgroups = ($groupid == '')?true:group_has_children($groupid);
 	if (!$showgroups) {
 		return false;
@@ -384,7 +382,7 @@ function setup_groups_select($groupid, $markoffline)
 		if ($k['inumofagents'] == 0 || ($groupid && $k['parent'] != $groupid && $k['groupid'] != $groupid )) {
 			continue;
 		}
-		if ($k['ilastseen'] !== NULL && $k['ilastseen'] < $settings['online_timeout']) {
+		if ($k['ilastseen'] !== NULL && $k['ilastseen'] < Settings::get('online_timeout')) {
 			if (!$selectedgroupid) {
 				$selectedgroupid = $k['groupid']; // select first online group
 			}
@@ -408,8 +406,7 @@ function setup_groups_select($groupid, $markoffline)
 
 function setup_chatview_for_user($thread, $level)
 {
-	global $page, $webimroot, $settings;
-	loadsettings();
+	global $page, $webimroot;
 	$page = array();
 	if (! empty($thread['groupid'])) {
 		$group = group_by_id($thread['groupid']);
@@ -427,12 +424,12 @@ function setup_chatview_for_user($thread, $level)
 	$page['ct.chatThreadId'] = $thread['threadid'];
 	$page['ct.token'] = $thread['ltoken'];
 	$page['ct.user.name'] = htmlspecialchars(topage($thread['userName']));
-	$page['canChangeName'] = $settings['usercanchangename'] == "1";
-	$page['chat.title'] = topage(empty($group['vcchattitle'])?$settings['chattitle']:$group['vcchattitle']);
+	$page['canChangeName'] = Settings::get('usercanchangename') == "1";
+	$page['chat.title'] = topage(empty($group['vcchattitle'])?Settings::get('chattitle'):$group['vcchattitle']);
 	$page['chat.close.confirmation'] = getlocal('chat.close.confirmation');
 
 	setup_logo($group);
-	if ($settings['sendmessagekey'] == 'enter') {
+	if (Settings::get('sendmessagekey') == 'enter') {
 		$page['send_shortcut'] = "Enter";
 		$page['ignorectrl'] = 1;
 	} else {
@@ -443,20 +440,19 @@ function setup_chatview_for_user($thread, $level)
 	$params = "thread=" . $thread['threadid'] . "&amp;token=" . $thread['ltoken'];
 	$page['mailLink'] = "$webimroot/client.php?" . $params . "&amp;level=$level&amp;act=mailthread";
 
-	if ($settings['enablessl'] == "1" && !is_secure_request()) {
+	if (Settings::get('enablessl') == "1" && !is_secure_request()) {
 		$page['sslLink'] = get_app_location(true, true) . "/client.php?" . $params . "&amp;level=$level";
 	}
 
 	$page['isOpera95'] = is_agent_opera95();
 	$page['neediframesrc'] = needsFramesrc();
 
-	$page['frequency'] = $settings['updatefrequency_chat'];
+	$page['frequency'] = Settings::get('updatefrequency_chat');
 }
 
 function setup_chatview_for_operator($thread, $operator)
 {
-	global $page, $webimroot, $company_logo_link, $webim_encoding, $company_name, $settings;
-	loadsettings();
+	global $page, $webimroot, $company_logo_link, $webim_encoding, $company_name;
 	$page = array();
 	if (! is_null($thread['groupid'])) {
 		$group = group_by_id($thread['groupid']);
@@ -470,11 +466,11 @@ function setup_chatview_for_operator($thread, $operator)
 	$page['ct.chatThreadId'] = $thread['threadid'];
 	$page['ct.token'] = $thread['ltoken'];
 	$page['ct.user.name'] = htmlspecialchars(topage(get_user_name($thread['userName'], $thread['remote'], $thread['userid'])));
-	$page['chat.title'] = topage(empty($group['vcchattitle'])?$settings['chattitle']:$group['vcchattitle']);
+	$page['chat.title'] = topage(empty($group['vcchattitle'])?Settings::get('chattitle'):$group['vcchattitle']);
 	$page['chat.close.confirmation'] = getlocal('chat.close.confirmation');
 
 	setup_logo($group);
-	if ($settings['sendmessagekey'] == 'enter') {
+	if (Settings::get('sendmessagekey') == 'enter') {
 		$page['send_shortcut'] = "Enter";
 		$page['ignorectrl'] = 1;
 	} else {
@@ -482,14 +478,14 @@ function setup_chatview_for_operator($thread, $operator)
 		$page['ignorectrl'] = 0;
 	}
 
-	if ($settings['enablessl'] == "1" && !is_secure_request()) {
+	if (Settings::get('enablessl') == "1" && !is_secure_request()) {
 		$page['sslLink'] = get_app_location(true, true) . "/operator/agent.php?thread=" . $thread['threadid'] . "&amp;token=" . $thread['ltoken'];
 	}
 	$page['isOpera95'] = is_agent_opera95();
 	$page['neediframesrc'] = needsFramesrc();
 	$page['historyParams'] = array("userid" => "" . $thread['userid']);
 	$page['historyParamsLink'] = add_params($webimroot . "/operator/userhistory.php", $page['historyParams']);
-	if ($settings['enabletracking']) {
+	if (Settings::get('enabletracking')) {
 	    $visitor = track_get_visitor_by_threadid($thread['threadid']);
 	    $page['trackedParams'] = array("visitor" => "" . $visitor['visitorid']);
 	    $page['trackedParamsLink'] = add_params($webimroot . "/operator/tracked.php", $page['trackedParams']);
@@ -512,7 +508,7 @@ function setup_chatview_for_operator($thread, $operator)
 	$page['redirectLink'] = "$webimroot/operator/agent.php?" . $params . "&amp;act=redirect";
 
 	$page['namePostfix'] = "";
-	$page['frequency'] = $settings['updatefrequency_chat'];
+	$page['frequency'] = Settings::get('updatefrequency_chat');
 }
 
 function update_thread_access($threadid, $params)
@@ -619,8 +615,8 @@ function close_thread($thread, $isuser)
 
 function close_old_threads()
 {
-	global $state_closed, $state_left, $state_chatting, $settings;
-	if ($settings['thread_lifetime'] == 0) {
+	global $state_closed, $state_left, $state_chatting;
+	if (Settings::get('thread_lifetime') == 0) {
 		return;
 	}
 
@@ -641,7 +637,7 @@ function close_old_threads()
 			':next_revision' => next_revision(),
 			':state_closed' => $state_closed,
 			':state_left' => $state_left,
-			':thread_lifetime' => $settings['thread_lifetime']
+			':thread_lifetime' => Settings::get('thread_lifetime')
 		)
 	);
 }
@@ -721,14 +717,14 @@ function do_take_thread($threadid, $operatorId, $operatorName, $chatstart = fals
 
 function reopen_thread($threadid)
 {
-	global $state_queue, $state_loading, $state_waiting, $state_chatting, $state_closed, $state_left, $kind_events, $settings;
+	global $state_queue, $state_loading, $state_waiting, $state_chatting, $state_closed, $state_left, $kind_events;
 
 	$thread = thread_by_id($threadid);
 
 	if (!$thread)
 		return FALSE;
 
-	if ($settings['thread_lifetime'] != 0 && abs($thread['lpuser'] - time()) > $settings['thread_lifetime'] && abs($thread['lpagent'] - time()) > $settings['thread_lifetime']) {
+	if (Settings::get('thread_lifetime') != 0 && abs($thread['lpuser'] - time()) > Settings::get('thread_lifetime') && abs($thread['lpagent'] - time()) > Settings::get('thread_lifetime')) {
 		return FALSE;
 	}
 
@@ -806,8 +802,8 @@ function check_for_reassign($thread, $operator)
 
 function check_connections_from_remote($remote)
 {
-	global $settings, $state_closed, $state_left;
-	if ($settings['max_connections_from_one_host'] == 0) {
+	global $state_closed, $state_left;
+	if (Settings::get('max_connections_from_one_host') == 0) {
 		return true;
 	}
 
@@ -820,7 +816,7 @@ function check_connections_from_remote($remote)
 	);
 
 	if ($result && isset($result['opened'])) {
-		return $result['opened'] < $settings['max_connections_from_one_host'];
+		return $result['opened'] < Settings::get('max_connections_from_one_host');
 	}
 	return true;
 }

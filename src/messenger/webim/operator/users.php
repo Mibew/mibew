@@ -26,16 +26,15 @@ $status = isset($_GET['away']) ? 1 : 0;
 
 notify_operator_alive($operator['operatorid'], $status);
 
-loadsettings();
 $_SESSION["${mysqlprefix}operatorgroups"] = get_operator_groupslist($operator['operatorid']);
 
 $page = array();
 $page['havemenu'] = isset($_GET['nomenu']) ? "0" : "1";
-$page['showpopup'] = $settings['enablepopupnotification'] == '1' ? "1" : "0";
-$page['frequency'] = $settings['updatefrequency_operator'];
+$page['showpopup'] = Settings::get('enablepopupnotification') == '1' ? "1" : "0";
+$page['frequency'] = Settings::get('updatefrequency_operator');
 $page['istatus'] = $status;
-$page['showonline'] = $settings['showonlineoperators'] == '1' ? "1" : "0";
-$page['showvisitors'] = $settings['enabletracking'] == '1' ? "1" : "0";
+$page['showonline'] = Settings::get('showonlineoperators') == '1' ? "1" : "0";
+$page['showvisitors'] = Settings::get('enabletracking') == '1' ? "1" : "0";
 
 prepare_menu($operator);
 start_html_output();

@@ -21,8 +21,6 @@ require_once('../libs/operator.php');
 
 $operator = check_login();
 
-loadsettings();
-
 $visitorid = verifyparam("visitor", "/^\d{1,8}$/");
 
 if (!invitation_invite($visitorid, $operator['operatorid'])) {
@@ -31,7 +29,7 @@ if (!invitation_invite($visitorid, $operator['operatorid'])) {
 
 $page = array();
 $page['visitor'] = $visitorid;
-$page['frequency'] = $settings['updatefrequency_operator'];
+$page['frequency'] = Settings::get('updatefrequency_operator');
 
 start_html_output();
 require('../view/invite.php');

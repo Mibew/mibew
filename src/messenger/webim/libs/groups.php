@@ -37,7 +37,7 @@ function get_group_name($group)
 
 function setup_group_settings_tabs($gid, $active)
 {
-	global $page, $webimroot, $settings;
+	global $page, $webimroot;
 	if ($gid) {
 		$page['tabs'] = array(
 			getlocal("page_group.tab.main") => $active != 0 ? "$webimroot/operator/group.php?gid=$gid" : "",
@@ -50,9 +50,8 @@ function setup_group_settings_tabs($gid, $active)
 
 function get_operator_groupslist($operatorid)
 {
-	global $settings;
 	$db = Database::getInstance();
-	if ($settings['enablegroups'] == '1') {
+	if (Settings::get('enablegroups') == '1') {
 		$groupids = array(0);
 		$allgroups = $db->query(
 			"select groupid from {chatgroupoperator} where operatorid = ? order by groupid",

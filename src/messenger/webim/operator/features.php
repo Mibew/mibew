@@ -34,22 +34,21 @@ $options = array(
 	'enablepopupnotification', 'showonlineoperators',
 	'enablecaptcha');
 
-loadsettings();
-if ($settings['featuresversion'] != $featuresversion) {
-	$settings['featuresversion'] = $featuresversion;
-	update_settings();
+if (Settings::get('featuresversion') != $featuresversion) {
+	Settings::set('featuresversion',$featuresversion);
+	Settings::update();
 }
 $params = array();
 foreach ($options as $opt) {
-	$params[$opt] = $settings[$opt];
+	$params[$opt] = Settings::get($opt);
 }
 
 if (isset($_POST['sent'])) {
 	if (is_capable($can_administrate, $operator)) {
 		foreach ($options as $opt) {
-			$settings[$opt] = verifyparam($opt, "/^on$/", "") == "on" ? "1" : "0";
+			Settings::set($opt,(verifyparam($opt, "/^on$/", "") == "on" ? "1" : "0"));
 		}
-		update_settings();
+		Settings::update();
 		header("Location: $webimroot/operator/features.php?stored");
 		exit;
 	} else {

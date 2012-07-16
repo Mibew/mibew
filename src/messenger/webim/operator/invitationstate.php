@@ -21,8 +21,6 @@ require_once('../libs/operator.php');
 
 $operator = check_login();
 
-loadsettings();
-
 $visitorid = verifyparam("visitor", "/^\d{1,8}$/");
 
 $errors = array();

@@ -82,8 +82,7 @@ if( $act == "refresh" ) {
 
 } else if( $act == "rename" ) {
 
-	loadsettings();
-	if( $settings['usercanchangename'] != "1" ) {
+	if( Settings::get('usercanchangename') != "1" ) {
 		show_error("server: forbidden to change name");
 	}
 

@@ -17,8 +17,7 @@
 
 function setup_operator_settings_tabs($opId, $active)
 {
-	global $page, $webimroot, $settings;
-	loadsettings();
+	global $page, $webimroot;
 
 	if ($opId) {
 		$page['tabs'] = array(

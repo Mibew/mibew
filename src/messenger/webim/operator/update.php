@@ -49,8 +49,7 @@ $threadstate_key = array(
 function thread_to_xml($thread)
 {
 	global $state_chatting, $threadstate_to_string, $threadstate_key,
-		$webim_encoding, $operator, $settings,
-		$can_viewthreads, $can_takeover;
+		$webim_encoding, $operator, $can_viewthreads, $can_takeover;
 	$state = $threadstate_to_string[$thread['istate']];
 	$result = "<thread id=\"" . $thread['threadid'] . "\" stateid=\"$state\"";
 	if ($state == "closed")
@@ -72,11 +71,11 @@ function thread_to_xml($thread)
 		&& is_capable($can_viewthreads, $operator)) {
 		$result .= " canview=\"true\"";
 	}
-	if ($settings['enableban'] == "1") {
+	if (Settings::get('enableban') == "1") {
 		$result .= " canban=\"true\"";
 	}
 
-	$banForThread = $settings['enableban'] == "1" ? ban_for_addr($thread['remote']) : false;
+	$banForThread = Settings::get('enableban') == "1" ? ban_for_addr($thread['remote']) : false;
 	if ($banForThread) {
 		$result .= " ban=\"blocked\" banid=\"" . $banForThread['banid'] . "\"";
 	}
@@ -116,7 +115,7 @@ function thread_to_xml($thread)
 
 function print_pending_threads($groupids, $since)
 {
-	global $webim_encoding, $settings, $state_closed, $state_left;
+	global $webim_encoding, $state_closed, $state_left;
 	$db = Database::getInstance();
 
 	$revision = $since;
@@ -127,7 +126,7 @@ function print_pending_threads($groupids, $since)
 		($since <= 0
 			? "AND istate <> :state_closed AND istate <> :state_left "
 			: "") .
-		($settings['enablegroups'] == '1'
+		(Settings::get('enablegroups') == '1'
 			? "AND (groupid is NULL" . ($groupids
 				? " OR groupid IN ($groupids) OR groupid IN (SELECT parent FROM {chatgroup} WHERE groupid IN ($groupids)) "
 				: "") .
@@ -161,7 +160,7 @@ function print_pending_threads($groupids, $since)
 
 function print_operators($operator)
 {
-	global $webim_encoding, $settings;
+	global $webim_encoding;
 	echo "<operators>";
 
 	$list_options = in_isolation($operator)?array('isolated_operator_id' => $operator['operatorid']):array();
@@ -220,7 +219,7 @@ function visitor_to_xml($visitor)
 
 function print_visitors()
 {
-	global $webim_encoding, $settings, $state_closed, $state_left;
+	global $webim_encoding, $state_closed, $state_left;
 
 	$db = Database::getInstance();
 
@@ -231,14 +230,14 @@ function print_visitors()
 		"AND (threadid IS NULL OR " .
 		"(SELECT count(*) FROM {chatthread} WHERE threadid = {chatsitevisitor}.threadid " .
 		"AND istate <> {$state_closed} AND istate <> {$state_left}) = 0)",
-		array($settings['tracking_lifetime'])
+		array(Settings::get('tracking_lifetime'))
 	);
 
 // Remove old invitations
 	$db->query(
 		"UPDATE {chatsitevisitor} SET invited = 0, invitationtime = NULL, invitedby = NULL".
 		" WHERE threadid IS NULL AND (UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(invitationtime)) > ?",
-		array($settings['invitation_lifetime'])
+		array(Settings::get('invitation_lifetime'))
 	);
 
 // Remove associations of visitors with closed threads
@@ -252,7 +251,7 @@ function print_visitors()
 	$db->query(
 		"DELETE FROM {visitedpage} WHERE (UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(visittime)) > ? " .
 		" AND visitorid NOT IN (SELECT visitorid FROM {chatsitevisitor})",
-		array($settings['tracking_lifetime'])
+		array(Settings::get('tracking_lifetime'))
 	);
 
 	$query = "SELECT visitorid, userid, username, unix_timestamp(firsttime), unix_timestamp(lasttime), " .
@@ -260,7 +259,7 @@ function print_visitors()
 			 "FROM {chatsitevisitor} " .
 			 "WHERE threadid IS NULL " .
 			 "ORDER BY invited, lasttime DESC, invitations";
-	$query .= ($settings['visitors_limit'] == '0') ? "" : " LIMIT " . $settings['visitors_limit'];
+	$query .= (Settings::get('visitors_limit') == '0') ? "" : " LIMIT " . Settings::get('visitors_limit');
 	
 	$rows = $db->query($query, NULL, array('return_rows' => Database::RETURN_ALL_ROWS));
 	
@@ -282,7 +281,6 @@ $status = verifyparam("status", "/^\d{1,2}$/", 0);
 $showonline = verifyparam("showonline", "/^1$/", 0);
 $showvisitors = verifyparam("showvisitors", "/^1$/", 0);
 
-loadsettings();
 if (!isset($_SESSION["${mysqlprefix}operatorgroups"])) {
 	$_SESSION["${mysqlprefix}operatorgroups"] = get_operator_groupslist($operator['operatorid']);
 }

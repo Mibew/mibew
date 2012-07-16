@@ -37,8 +37,7 @@ if(!$lang || !locale_exists($lang)) {
 
 $groupid = verifyparam( "group", "/^\d{1,8}$/", "");
 if($groupid) {
-	loadsettings();
-	if($settings['enablegroups'] == '1') {
+	if(Settings::get('enablegroups') == '1') {
 		$group = group_by_id($groupid);
 		if(!$group) {
 			$groupid = "";

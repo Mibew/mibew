@@ -15,28 +15,16 @@
  * limitations under the License.
  */
 
-function update_settings()
-{
-	global $settings, $settings_in_db;
-	$db = Database::getInstance();
-	foreach ($settings as $key => $value) {
-		if (!isset($settings_in_db[$key])) {
-			$db->query("insert into {chatconfig} (vckey) values (?)", array($key));
-		}
-		$db->query("update {chatconfig} set vcvalue=? where vckey=?", array($value, $key));
-	}
-}
-
 function setup_settings_tabs($active)
 {
-	global $settings, $page, $webimroot;
+	global $page, $webimroot;
 	$page['tabs'] = array(
 		getlocal("page_settings.tab.main") => $active != 0 ? "$webimroot/operator/settings.php" : "",
 		getlocal("page_settings.tab.features") => $active != 1 ? "$webimroot/operator/features.php" : "",
 		getlocal("page_settings.tab.performance") => $active != 2 ? "$webimroot/operator/performance.php" : "",
 		getlocal("page_settings.tab.themes") => $active != 3 ? "$webimroot/operator/themes.php" : "",
 	);
-	if ($settings['enabletracking']) {
+	if (Settings::get('enabletracking')) {
 		$page['tabs'][getlocal("page_settings.tab.invitationthemes")] = ($active != 4 ? "$webimroot/operator/invitationthemes.php" : "");
 	}
 }

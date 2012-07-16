@@ -21,17 +21,16 @@ require_once('../libs/operator.php');
 $operator = check_login();
 force_password($operator);
 
-loadsettings();
 $isonline = is_operator_online($operator['operatorid']);
 
 $page = array(
 	'version' => $version,
 	'localeLinks' => get_locale_links("$webimroot/operator/index.php"),
-	'needUpdate' => $settings['dbversion'] != $dbversion,
+	'needUpdate' => Settings::get('dbversion') != $dbversion,
 	'needChangePassword' => $operator['vcpassword'] == md5(''),
 	'profilePage' => "$webimroot/operator/operator.php?op=".$operator['operatorid'],
 	'updateWizard' => "$webimroot/install/",
-	'newFeatures' => $settings['featuresversion'] != $featuresversion,
+	'newFeatures' => Settings::get('featuresversion') != $featuresversion,
 	'featuresPage' => "$webimroot/operator/features.php",
 	'isOnline' => $isonline
 );

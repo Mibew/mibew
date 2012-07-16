@@ -295,7 +295,7 @@ function add_canned_messages($link){
 
 function check_status()
 {
-	global $page, $webimroot, $settings, $dbversion;
+	global $page, $webimroot, $dbversion;
 
 	$page['done'][] = getlocal2("install.0.php", array(phpversion()));
 
@@ -343,9 +343,8 @@ function check_status()
 
 	mysql_close($link);
 
-	loadsettings();
-	$settings['dbversion'] = $dbversion;
-	update_settings();
+	Settings::set('dbversion', $dbversion);
+	Settings::update();
 }
 
 check_status();

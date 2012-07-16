@@ -22,7 +22,6 @@ require_once('../libs/pagination.php');
 
 $operator = check_login();
 csrfchecktoken();
-loadsettings();
 
 $stringid = verifyparam("key", "/^\d{0,9}$/", "");
 

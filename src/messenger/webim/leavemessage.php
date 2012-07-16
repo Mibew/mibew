@@ -46,8 +46,7 @@ function store_message($name, $email, $info, $message,$groupid,$referrer) {
 $groupid = "";
 $groupname = "";
 $group = NULL;
-loadsettings();
-if($settings['enablegroups'] == '1') {
+if(Settings::get('enablegroups') == '1') {
 	$groupid = verifyparam( "group", "/^\d{1,8}$/", "");
 	if($groupid) {
 		$group = group_by_id($groupid);
@@ -77,7 +76,7 @@ if( !$email ) {
 	}
 }
 
-if($settings["enablecaptcha"] == "1" && can_show_captcha()) {
+if(Settings::get("enablecaptcha") == "1" && can_show_captcha()) {
 	$captcha = getparam('captcha');
 	$original = isset($_SESSION["mibew_captcha"]) ? $_SESSION["mibew_captcha"] : "";
 	if(empty($original) || empty($captcha) || $captcha != $original) {
@@ -93,7 +92,7 @@ if( count($errors) > 0 ) {
 	exit;
 }
 
-$message_locale = $settings['left_messages_locale'];
+$message_locale = Settings::get('left_messages_locale');
 if(!locale_exists($message_locale)) {
 	$message_locale = $home_locale;
 }
@@ -115,7 +114,7 @@ if (isset($group) && !empty($group['vcemail'])) {
 }
 
 if (empty($inbox_mail)) {
-	$inbox_mail = $settings['email'];
+	$inbox_mail = Settings::get('email');
 }
 
 if($inbox_mail) {

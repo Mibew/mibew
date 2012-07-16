@@ -24,7 +24,6 @@ $operator = check_login();
 
 $page = array();
 
-loadsettings();
 setlocale(LC_TIME, getstring("time.locale"));
 
 function thread_info($id)

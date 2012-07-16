@@ -26,8 +26,6 @@ $operator = check_login();
 force_password($operator);
 csrfchecktoken();
 
-loadsettings();
-
 $errors = array();
 $page = array();
 

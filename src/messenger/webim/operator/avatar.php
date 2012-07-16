@@ -48,10 +48,9 @@ if (!$op) {
 
 		$ext = strtolower(substr($orig_filename, 1 + strrpos($orig_filename, ".")));
 		$new_file_name = "$opId.$ext";
-		loadsettings();
 
 		$file_size = $_FILES['avatarFile']['size'];
-		if ($file_size == 0 || $file_size > $settings['max_uploaded_file_size']) {
+		if ($file_size == 0 || $file_size > Settings::get('max_uploaded_file_size')) {
 			$errors[] = failed_uploading_file($orig_filename, "errors.file.size.exceeded");
 		} elseif (!in_array($ext, $valid_types)) {
 			$errors[] = failed_uploading_file($orig_filename, "errors.invalid.file.type");
