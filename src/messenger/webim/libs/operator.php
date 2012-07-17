@@ -210,9 +210,6 @@ function update_operator_avatar($operatorid, $avatar)
 	);
 }
 
-/**
- * @todo Rename create_operator_ function to create_operator and remove any usage of create_operator_
- */
 function create_operator($login, $email, $password, $localename, $commonname, $avatar)
 {
 	$db = Database::getInstance();
