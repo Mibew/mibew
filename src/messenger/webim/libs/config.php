@@ -51,4 +51,18 @@ $mail_encoding = "utf-8";
 $home_locale = "en"; /* native name will be used in this locale */
 $default_locale = "en"; /* if user does not provide known lang */
 
+/*
+ * Plugins
+ */
+$plugins_list = array();
+/* Exapmle of plugins configuration
+$plugins_list[] = array(
+	'name' => 'plugin_name',
+	'config' => array(
+		'weight' => 100,
+		'some_configurable_value' => 'value'
+	)
+)
+*/
+
 ?>

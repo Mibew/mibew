@@ -19,6 +19,7 @@ session_start();
 
 require_once(dirname(__FILE__) . '/converter.php');
 require_once(dirname(__FILE__) . '/config.php');
+require_once(dirname(__FILE__) . '/plugins.php');
 require_once(dirname(__FILE__) . '/classes/database.php');
 require_once(dirname(__FILE__) . '/classes/settings.php');
 
