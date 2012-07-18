@@ -16,9 +16,22 @@
  */
 
 /**
- * Base plugin interface
+ * Base plugin class
  */
-interface Plugin {
+abstract Class Plugin {
+
+	/**
+	 * Constructor must set this value to true after successful initialization
+	 * failures
+	 * @var boolean
+	 */
+	public $initialized = false;
+
+	/**
+	 * An array of plugin configuration
+	 * @var array
+	 */
+	public static $config = array();
 
 	/**
 	 * Returns plugin weight. Weight is used for determine loading order and as default
@@ -26,17 +39,17 @@ interface Plugin {
 	 *
 	 * @return int Plugin weight
 	 */
-	public function getWeight();
+	abstract public function getWeight();
 
 	/**
 	 * Register events
 	 */
-	public function registerEvents();
+	abstract public function registerEvents();
 
 	/**
 	 * Register listeners
 	 */
-	public function registerListeners();
+	abstract public function registerListeners();
 
 }
 

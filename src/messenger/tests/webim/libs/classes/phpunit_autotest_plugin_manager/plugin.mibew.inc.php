@@ -3,7 +3,7 @@
 /**
  * Test plugin for PHPUnit tests
  */
-Class Phpunit_autotest_plugin_managerPlugin implements Plugin{
+Class Phpunit_autotest_plugin_managerPlugin extends Plugin{
 
 	public $eventsRegistered = false;
 	public $listenersRegistered = false;
@@ -30,6 +30,10 @@ Class Phpunit_autotest_plugin_managerPlugin implements Plugin{
 
 	public function testEventListener($vars) {
 		throw new Exception();
+	}
+
+	public function __construct(){
+		$this->initialized = true;
 	}
 
 }

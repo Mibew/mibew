@@ -67,19 +67,26 @@ Class PluginManager {
 				);
 				continue;
 			}
-			// Check if plugin implements 'Plugin' interface
-			if (! in_array('Plugin', class_implements($plugin_classname))) {
+			// Check if plugin extends abstract 'Plugin' class
+			if ('Plugin' != get_parent_class($plugin_classname)) {
 				trigger_error(
-					"Plugin class '{$plugin_classname}' does not implement " .
-					"'Plugin' interface!",
+					"Plugin class '{$plugin_classname}' does not extend " .
+					"abstract 'Plugin' class!",
 					E_USER_WARNING
 				);
 				continue;
 			}
 			// Add plugin to loading queue
 			$plugin_instance = new $plugin_classname($plugin_config);
-			$loading_queue[$plugin_instance->getWeight() . "_" . $offset] = $plugin_instance;
-			$offset++;
+			if ($plugin_instance->initialized) {
+				$loading_queue[$plugin_instance->getWeight() . "_" . $offset] = $plugin_instance;
+				$offset++;
+			} else {
+				trigger_error(
+					"Plugin '{$plugin_name}' does not initialized correctly!",
+					E_USER_WARNING
+				);
+			}
 		}
 		// Sort queue in order to plugins' weights
 		uksort($loading_queue, 'strnatcmp');
