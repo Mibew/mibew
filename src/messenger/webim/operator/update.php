@@ -124,7 +124,7 @@ function print_pending_threads($groupids, $since)
 		"userid, shownmessageid, userAgent, (select vclocalname from {chatgroup} where {chatgroup}.groupid = {chatthread}.groupid) as groupname " .
 		"from {chatthread} where lrevision > :since " .
 		($since <= 0
-			? "AND istate <> :state_closed AND istate <> :state_left "
+			? "AND istate <> {$state_closed} AND istate <> {$state_left} "
 			: "") .
 		(Settings::get('enablegroups') == '1'
 			? "AND (groupid is NULL" . ($groupids
@@ -136,9 +136,7 @@ function print_pending_threads($groupids, $since)
 	$rows = $db->query(
 		$query,
 		array(
-			':since' => $since,
-			':state_closed' => $state_closed,
-			':state_left' => $state_left
+			':since' => $since
 		),
 		array('return_rows' => Database::RETURN_ALL_ROWS)
 	);
