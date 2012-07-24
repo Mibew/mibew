@@ -25,7 +25,7 @@ abstract Class Plugin {
 	 * failures
 	 * @var boolean
 	 */
-	public $initialized = false;
+	public static $initialized = false;
 
 	/**
 	 * An array of plugin configuration

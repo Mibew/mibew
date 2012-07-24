@@ -78,7 +78,7 @@ Class PluginManager {
 			}
 			// Add plugin to loading queue
 			$plugin_instance = new $plugin_classname($plugin_config);
-			if ($plugin_instance->initialized) {
+			if ($plugin_classname::$initialized) {
 				$loading_queue[$plugin_instance->getWeight() . "_" . $offset] = $plugin_instance;
 				$offset++;
 			} else {
