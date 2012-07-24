@@ -183,21 +183,25 @@ function operator_is_disabled($operator)
 function update_operator($operatorid, $login, $email, $password, $localename, $commonname)
 {
 	$db = Database::getInstance();
+	$values = array(
+		':login' => $login,
+		':localname' => $localename,
+		':commonname' => $commonname,
+		':email' => $email,
+		':jabbername' => '',
+		':operatorid' => $operatorid
+	);
+	if ($password) {
+		$values[':password'] = md5($password);
+	}
 	$db->query(
 		"update {chatoperator} set vclogin = :login, " .
 		($password ? " vcpassword=:password, " : "") .
 		"vclocalename = :localname, vccommonname = :commonname, " .
 		"vcemail = :email, vcjabbername= :jabbername " .
 		"where operatorid = :operatorid",
-		array(
-			':login' => $login,
-			':password' => $password,
-			':localname' => $localename,
-			':commonname' => $commonname,
-			':email' => $email,
-			':jabbername' => '',
-			':operatorid' => $operatorid
-		)
+		$values
+
 	);
 }
 
@@ -544,6 +548,7 @@ function get_groups_($checkaway, $operator, $order = NULL)
 		$orderby = "iweight, vclocalname";
 	}
 
+	$values = array();
 	$query = "select {chatgroup}.groupid as groupid, {chatgroup}.parent as parent, vclocalname, vclocaldescription, iweight" .
 		", (SELECT count(*) from {chatgroupoperator} where {chatgroup}.groupid = " .
 		"{chatgroupoperator}.groupid) as inumofagents" .
@@ -558,17 +563,17 @@ function get_groups_($checkaway, $operator, $order = NULL)
 			"and {chatgroupoperator}.operatorid = {chatoperator}.operatorid) as ilastseenaway"
 			: ""
 		) .
-		" from {chatgroup} " .
-		($operator
-			? ", (select distinct parent from {chatgroup}, {chatgroupoperator} " .
+		" from {chatgroup} ";
+	if ($operator) {
+		$query .= ", (select distinct parent from {chatgroup}, {chatgroupoperator} " .
 			"where {chatgroup}.groupid = {chatgroupoperator}.groupid and {chatgroupoperator}.operatorid = ?) i " .
-			"where {chatgroup}.groupid = i.parent or {chatgroup}.parent = i.parent "
-			: ""
-		) .
-		" order by " . $orderby;
+			"where {chatgroup}.groupid = i.parent or {chatgroup}.parent = i.parent ";
+		$values[] = $operator['operatorid'];
+	}
+	$query .= " order by " . $orderby;
 	$groups = $db->query(
 		$query,
-		array($operator['operatorid']),
+		$values,
 		array('return_rows' => Database::RETURN_ALL_ROWS)
 	);
 	return get_sorted_child_groups_($groups);

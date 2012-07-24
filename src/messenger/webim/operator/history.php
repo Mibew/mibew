@@ -48,9 +48,7 @@ if ($query !== false) {
 	$page['groupName'] = $groupName;
 
 	$values = array(
-		':query' => "%{$escapedQuery}%",
-		':kind_user' => $kind_user,
-		':kind_agent' => $kind_agent
+		':query' => "%{$escapedQuery}%"
 	);
 
 	$searchConditions = array();
@@ -58,6 +56,8 @@ if ($query !== false) {
 		$searchConditions[] = "({chatmessage}.tmessage LIKE :query" .
 					($searchInSystemMessages?'':" AND ({chatmessage}.ikind = :kind_user OR {chatmessage}.ikind = :kind_agent)") .
 					")";
+		$values[':kind_user'] = $kind_user;
+		$values[':kind_agent'] = $kind_agent;
 	}
 	if ($searchType == 'operator' || $searchType == 'all') {
 		$searchConditions[] = "({chatthread}.agentName LIKE :query)";

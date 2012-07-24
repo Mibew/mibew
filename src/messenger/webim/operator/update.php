@@ -135,9 +135,7 @@ function print_pending_threads($groupids, $since)
 		"ORDER BY threadid";
 	$rows = $db->query(
 		$query,
-		array(
-			':since' => $since
-		),
+		array(':since' => $since),
 		array('return_rows' => Database::RETURN_ALL_ROWS)
 	);
 

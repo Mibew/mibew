@@ -511,28 +511,26 @@ function setup_chatview_for_operator($thread, $operator)
 	$page['frequency'] = Settings::get('updatefrequency_chat');
 }
 
-function update_thread_access($threadid, $params)
-{
-	$db = Database::getInstance();
-	$clause = "";
-	$values = array();
-	foreach ($params as $k => $v) {
-		if (strlen($clause) > 0)
-			$clause .= ", ";
-		$clause .= $k . "=?";
-		$values[] = $v;
-	}
-	$values[] = $threadid;
-
-	$db->query(
-		"update {chatthread} set {$clause} where threadid = ?",
-		$values
-	);
-}
-
+/**
+ * Pings the chat thread. Updates 'lastpinguser' (or 'lastpingagent') to current timestamp. 
+ * Sends system messages when operator or user was seen more than $connection_timeout seconds ago
+ *
+ * @global int $kind_for_agent
+ * @global int $state_queue
+ * @global int $state_loading
+ * @global int $state_chatting
+ * @global int $state_waiting
+ * @global int $kind_conn
+ * @global int $connection_timeout
+ * @param array $thread Thread's array
+ * @param boolean $isuser true for user and false for operator
+ * @param boolean $istyping true if user (or agent) is typing
+ */
 function ping_thread($thread, $isuser, $istyping)
 {
 	global $kind_for_agent, $state_queue, $state_loading, $state_chatting, $state_waiting, $kind_conn, $connection_timeout;
+
+	$db = Database::getInstance();
 
 	$params = array(($isuser ? "lastpinguser" : "lastpingagent") => "CURRENT_TIMESTAMP",
 					($isuser ? "userTyping" : "agentTyping") => ($istyping ? "1" : "0"));
@@ -562,19 +560,48 @@ function ping_thread($thread, $isuser, $istyping)
 		}
 	}
 
-	update_thread_access($thread['threadid'], $params);
+	$clause = "";
+	$values = array();
+	foreach ($params as $k => $v) {
+		if (strlen($clause) > 0) {
+			$clause .= ", ";
+		}
+		if (($k == 'lastpinguser' || $k == 'lastpingagent') && $v == 'CURRENT_TIMESTAMP') {
+			$clause .= $k . " = CURRENT_TIMESTAMP";
+		}else{
+			$clause .= $k . "=?";
+			$values[] = $v;
+		}
+	}
+	$values[] = $thread['threadid'];
+
+	$db->query(
+		"update {chatthread} set {$clause} where threadid = ?",
+		$values
+	);
 }
 
 function commit_thread($threadid, $params)
 {
 	$db = Database::getInstance();
 
+	$timestamp_allowed_for = array(
+		'dtmcreated',
+		'dtmchatstarted',
+		'dtmmodified',
+		'lastpinguser',
+		'lastpingagent'
+	);
 	$query = "update {chatthread} t " .
 		"set lrevision = ?, dtmmodified = CURRENT_TIMESTAMP";
 		$values = array(next_revision());
 	foreach ($params as $k => $v) {
-		$query .= ", " . $k . "=?";
-		$values[] = $v;
+		if (in_array($k, $timestamp_allowed_for) && strcasecmp($v,'CURRENT_TIMESTAMP')) {
+			$query .= ", " . $k . " = CURRENT_TIMESTAMP";
+		} else {
+			$query .= ", " . $k . "=?";
+			$values[] = $v;
+		}
 	}
 	$query .= " where threadid = ?";
 	$values[] = $threadid;
@@ -598,12 +625,21 @@ function close_thread($thread, $isuser)
 {
 	global $state_closed, $kind_events;
 
+	$db = Database::getInstance();
+	list($message_count) = $db->query(
+		"SELECT COUNT(*) FROM {chatmessage} WHERE {chatmessage}.threadid = ? AND ikind = 1",
+		array($thread['threadid']),
+		array(
+			'return_rows' => Database::RETURN_ONE_ROW,
+			'fetch_type' => Database::FETCH_NUM
+		)
+	);
 	if ($thread['istate'] != $state_closed) {
 		commit_thread(
 			$thread['threadid'],
 			array(
 				'istate' => $state_closed,
-				'messageCount' => "(SELECT COUNT(*) FROM {chatmessage} WHERE {chatmessage}.threadid = t.threadid AND ikind = 1)"
+				'messageCount' => $message_count
 			)
 		);
 	}
