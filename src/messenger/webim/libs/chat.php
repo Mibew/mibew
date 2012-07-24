@@ -661,10 +661,13 @@ function close_old_threads()
 	$query = "update {chatthread} set lrevision = :next_revision, " .
 		"dtmmodified = CURRENT_TIMESTAMP, istate = :state_closed " .
 		"where istate <> :state_closed and istate <> :state_left " .
-		"and lastpingagent <> 0 and lastpinguser <> 0 and " .
+		"and ((lastpingagent <> 0 and lastpinguser <> 0 and " .
 		"(ABS(UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lastpinguser)) > ".
 		":thread_lifetime and " .
 		"ABS(UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lastpingagent)) > ".
+		":thread_lifetime)) or " .
+		"lastpingagent = 0 and lastpinguser <> 0 and " .
+		"ABS(UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lastpinguser)) > ".
 		":thread_lifetime)";
 
 	$db->query(
