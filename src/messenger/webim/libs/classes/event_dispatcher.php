@@ -139,10 +139,10 @@ Class EventDispatcher {
 	 * Triggers the event
 	 *
 	 * @param string $event_name Event's name
-	 * @param array $arguments Arguments passed to listener
+	 * @param array &$arguments Arguments passed to listener
 	 * @return boolean true on success or false on failure
 	 */
-	public function triggerEvent($event_name, $arguments = array()){
+	public function triggerEvent($event_name, &$arguments = array()){
 		// Check event exists
 		if (! array_key_exists($event_name, $this->events)) {
 			trigger_error("Event '{$event_name}' does not exists!", E_USER_WARNING);

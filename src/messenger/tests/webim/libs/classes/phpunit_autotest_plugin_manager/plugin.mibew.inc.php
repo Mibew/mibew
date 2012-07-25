@@ -28,8 +28,8 @@ Class Phpunit_autotest_plugin_managerPlugin extends Plugin{
 		}
 	}
 
-	public function testEventListener($vars) {
-		throw new Exception();
+	public function testEventListener(&$vars) {
+		$vars['test'] = 'some_test_value';
 	}
 
 	public function __construct(){

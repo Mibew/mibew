@@ -139,17 +139,14 @@ class EventDispatcherTest extends PHPUnit_Framework_TestCase {
 		// Following code wait for trigger user error, which converts by PHPUnit to an
 		// Exception
 		try{
-			$dispatcher->triggerEvent('unregistered_event', array());
+			$dispatcher->triggerEvent('unregistered_event');
 			$this->fail("Error expected!");
 		} catch(Exception $e) {}
 
-		// Try to thrigger registered event
-		// Wait for exception thrown by
-		// Phpunit_autotest_plugin_managerPlugin::testEventListener()
-		try{
-			$dispatcher->triggerEvent('some_another_test_event', array());
-			$this->fail("Exception excpected!");
-		} catch(Exception $e) {}
+		// Try to trigger registered event
+		$test_array = array();
+		$dispatcher->triggerEvent('some_another_test_event', $test_array);
+		$this->assertEquals('some_test_value', $test_array['test']);
 	}
 
 }
