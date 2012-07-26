@@ -60,6 +60,8 @@ Class EventDispatcher {
 	/**
 	 * Attaches listener function to event.
 	 *
+	 * All event listeners must receive one argument of array type by reference.
+	 *
 	 * @param string $event_name Event's name
 	 * @param Plugin $plugin Plugin object, that handles the event
 	 * @param string $listener Plugins method, that handles the event
