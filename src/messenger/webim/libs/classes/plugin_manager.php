@@ -56,7 +56,7 @@ Class PluginManager {
 			$plugin_config = isset($plugin['config']) ? $plugin['config'] : array();
 			$plugin_classname = ucfirst($plugin_name) . "Plugin";
 			// Try to load plugin file
-			if (! (include_once $plugin_name."/plugin.mibew.inc.php")) {
+			if (! (include_once $plugin_name."/".$plugin_name."_plugin.php")) {
 				trigger_error("Cannot load plugin file!", E_USER_ERROR);
 			}
 			// Check plugin class name
