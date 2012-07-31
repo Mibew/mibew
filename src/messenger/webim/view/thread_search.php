@@ -47,7 +47,7 @@ function tpl_content() { global $page, $webimroot;
 				</div>
 				<div id="searchbutton">
 					<input type="image" name="search" src='<?php echo $webimroot.getlocal("image.button.search") ?>' alt='<?php echo getlocal("button.search") ?>'/>
-				</div><br />
+				</div><br clear="all"/>
 				<div class="searchctrl" id="inSystemMessages"<?php echo ((form_value('type') != 'all' && form_value('type') != 'message')?' style="display: none;"':'')?>>
 					<input type="checkbox" name="insystemmessages" <?php echo (form_value('insystemmessages')?'checked="checked"':'') ?>/> <?php echo getlocal("page_search.search.type.in_system_messages") ?>
 				</div>
