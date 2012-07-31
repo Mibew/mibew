@@ -254,7 +254,7 @@ Class Database{
 	 */
 	public function query($query, $values = NULL, $params = array()){
 		try{
-			$query = preg_replace("/\{(\S+)\}/", $this->tablesPrefix."$1", $query);
+			$query = preg_replace("/\{(\w+)\}/", $this->tablesPrefix."$1", $query);
 
 			$query_key = md5($query);
 			if (! array_key_exists($query_key, $this->preparedStatements)) {
