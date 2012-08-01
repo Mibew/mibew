@@ -25,13 +25,13 @@ abstract Class Plugin {
 	 * failures
 	 * @var boolean
 	 */
-	public static $initialized = false;
+	public $initialized = false;
 
 	/**
 	 * An array of plugin configuration
 	 * @var array
 	 */
-	public static $config = array();
+	protected $config = array();
 
 	/**
 	 * Returns plugin weight. Weight is used for determine loading order and as default

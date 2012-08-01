@@ -11,6 +11,37 @@ class PluginManagerTest extends PHPUnit_Framework_TestCase {
 
 	public function testLoadPlugins() {
 		set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__FILE__));
+
+		// Try to load plugin that does not exists
+		// Following code wait for trigger user error, which converts by PHPUnit to an
+		// Exception
+		try {
+			PluginManager::loadPlugins(
+				array(
+					array(
+						'name' => 'missed_plugin'
+					)
+				)
+			);
+			$this->fail("Exception must be thrown");
+		} catch(Exception $e) {}
+
+		// Try to load plugin with an absent plugin in dependences list
+		// Following code wait for trigger user warning, which converts by PHPUnit to an
+		// Exception
+		try {
+			PluginManager::loadPlugins(
+				array(
+					array(
+						'name' => 'phpunit_autotest_plugin_manager',
+						'dependences' => array('missed_plugin')
+					)
+				)
+			);
+			$this->fail("Exception must be thrown");
+		} catch(Exception $e) {}
+
+		// Try to load correct plugin
 		PluginManager::loadPlugins(
 			array(
 				array(
@@ -18,11 +49,28 @@ class PluginManagerTest extends PHPUnit_Framework_TestCase {
 				)
 			)
 		);
+
+		// Check if plugin initialized correctry
 		if(empty($GLOBALS['phpunit_autotest_plugin_manager'])) {
 			$this->fail('Plugin not loaded and initialize correctly');
 		}
 	}
 
+	/**
+	 * @depends testLoadPlugins
+	 */
+	public function testGetPlugin() {
+		// Try to get plugin with wrong name
+		// Following code wait for trigger user warning, which converts by PHPUnit to an
+		// Exception
+		try {
+			PluginManager::getPlugin('wrong_plugin_name');
+			$this->fail("Exception must be thrown");
+		} catch(Exception $e) {}
+
+		// Try to get loaded plugin
+		PluginManager::getPlugin('phpunit_autotest_plugin_manager');
+	}
 }
 
 ?>

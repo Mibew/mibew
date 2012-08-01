@@ -33,7 +33,7 @@ Class Phpunit_autotest_plugin_managerPlugin extends Plugin{
 	}
 
 	public function __construct(){
-		self::$initialized = true;
+		$this->initialized = true;
 	}
 
 }

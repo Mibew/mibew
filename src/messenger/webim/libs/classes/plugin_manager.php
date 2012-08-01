@@ -20,6 +20,24 @@
  */
 Class PluginManager {
 
+	protected static $loaded_plugins = array();
+
+	/**
+	 * Returns plugin object
+	 *
+	 * @param string $plugin_name
+	 * @return Plugin
+	 */
+	public static function getPlugin($plugin_name) {
+		if (empty(self::$loaded_plugins[$plugin_name])) {
+			trigger_error(
+				"Plugin '{$plugin_name}' does not initialized!",
+				E_USER_WARNING
+			);
+		}
+		return self::$loaded_plugins[$plugin_name];
+	}
+
 	/**
 	 * Loads plugins and invokes Plugin::registerEvents() and Plugin::registerListeners()
 	 *
@@ -27,8 +45,11 @@ Class PluginManager {
 	 * <code>
 	 * $plugins_list = array();
 	 * $plugins_list[] = array(
-	 *	'name' => 'plugin_name', // Obligatory value
-	 *	'config' => array( // Pass to plugin constructor
+	 *	'name' => 'plugin_name',      // Obligatory value
+	 *	'dependences' => array(       // Dependences of the plugin
+	 *		'another_plugin_name'
+	 *	),
+	 *	'config' => array(            // Pass to plugin constructor
 	 *		'weight' => 100,
 	 *		'some_configurable_value' => 'value'
 	 *	)
@@ -54,7 +75,21 @@ Class PluginManager {
 			}
 			$plugin_name = $plugin['name'];
 			$plugin_config = isset($plugin['config']) ? $plugin['config'] : array();
+			$plugin_dependences = isset($plugin['dependences'])
+				? $plugin['dependences']
+				: array();
 			$plugin_classname = ucfirst($plugin_name) . "Plugin";
+			// Check plugin dependences
+			foreach ($plugin_dependences as $dependence) {
+				if (empty(self::$loaded_plugins[$dependence])) {
+					trigger_error(
+						"Plugin '{$dependence}' not loaded yet, but " .
+						"exists in '{$plugin_name}' dependences list!",
+						E_USER_WARNING
+					);
+					continue 2;
+				}
+			}
 			// Try to load plugin file
 			if (! (include_once $plugin_name."/".$plugin_name."_plugin.php")) {
 				trigger_error("Cannot load plugin file!", E_USER_ERROR);
@@ -78,7 +113,9 @@ Class PluginManager {
 			}
 			// Add plugin to loading queue
 			$plugin_instance = new $plugin_classname($plugin_config);
-			if ($plugin_classname::$initialized) {
+			if ($plugin_instance->initialized) {
+				// Store plugin instance
+				self::$loaded_plugins[$plugin_name] = $plugin_instance;
 				$loading_queue[$plugin_instance->getWeight() . "_" . $offset] = $plugin_instance;
 				$offset++;
 			} else {
