@@ -40,6 +40,13 @@ Class MibewAPI {
 	 */
 	protected $interaction = NULL;
 
+	/**
+	 * Returns MibewAPI object
+	 *
+	 * @param string $interaction_type A name of the interaction type
+	 * @return MibeAPI object
+	 * @throws MibewAPIException
+	 */
 	public static function getAPI($interaction_type) {
 		$class_name = "MibewAPI".  ucfirst($interaction_type) . "Interaction";
 		if (! class_exists($class_name)) {
@@ -54,6 +61,11 @@ Class MibewAPI {
 		return self::$interactions[$interaction_type];
 	}
 
+	/**
+	 * Class constructor
+	 *
+	 * @param MibewAPIInteraction $interaction_type Interaction type object
+	 */
 	protected function __construct(MibewAPIInteraction $interaction_type) {
 		$this->interaction = $interaction_type;
 	}
