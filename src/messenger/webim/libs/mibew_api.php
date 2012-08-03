@@ -67,7 +67,7 @@ Class MibewAPI {
 	 */
 	public function checkPackage($package, $trusted_signatures) {
 		// Check signature
-		if (empty($package['signature'])) {
+		if (! isset($package['signature'])) {
 			throw new MibewAPIException(
 				"Package signature is empty",
 				MibewAPIException::EMPTY_SIGNATURE
@@ -298,7 +298,7 @@ Class MibewAPI {
 						MibewAPIException::RESULT_FUNCTION_ALREADY_EXISTS
 					);
 				}
-				// Furst 'result' function found
+				// First 'result' function found
 				$result_function = $function;
 			}
 		}

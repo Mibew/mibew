@@ -260,20 +260,6 @@ class MibewAPITest extends PHPUnit_Framework_TestCase {
 			);
 		}
 
-		// Wrong package. Signature element is empty.
-		$wrong_package = array('signature' => '');
-
-		// Try to catch MibewAPIException with MibewAPIException::EMPTY_SIGNATURE code
-		try {
-			$api->checkPackage($wrong_package, $trusted_signatures);
-			$this->fail("Exception must be thrown");
-		} catch (MibewAPIException $e) {
-			$this->assertEquals(
-				MibewAPIException::EMPTY_SIGNATURE,
-				$e->getCode()
-			);
-		}
-
 		// Wrong package. Signature is wrong.
 		$wrong_package = array('signature' => 'wrong_signature');
 
