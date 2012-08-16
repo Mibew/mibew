@@ -270,7 +270,7 @@ Class MibewAPI {
 	 *
 	 * @param string $token Token of the result package
 	 * @param array $result_arguments Arguments of result function
-	 * @return Result package
+	 * @return array Result package
 	 */
 	public function buildResult($token, $result_arguments) {
 		$arguments = $result_arguments + $this->interaction->getDefaultObligatoryArguments();
@@ -298,7 +298,7 @@ Class MibewAPI {
 	 * @return mixed Function array if 'result' function found and NULL otherwise
 	 * @throws MibewAPIException
 	 */
-	public function getResultFunction ($functions_list, $existence) {
+	public function getResultFunction ($functions_list, $existence = null) {
 		$result_function = null;
 		// Try to find 'result' function
 		foreach ($functions_list as $function) {
