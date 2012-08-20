@@ -34,7 +34,7 @@ abstract class RequestProcessor {
 
 	/**
 	 * Instance of the MibewAPI class
-	 * @var type
+	 * @var MibewAPI
 	 */
 	protected $mibewAPI = null;
 
@@ -202,7 +202,7 @@ abstract class RequestProcessor {
 				// TODO: May be add exception if $callback = null
 
 				// Store callback
-				$this->storeCallback($callback);
+				$this->saveCallback($token, $callback);
 
 				// Send asynchronous request
 				$this->sendAsyncRequest($request);
@@ -380,6 +380,14 @@ abstract class RequestProcessor {
 	 * @return MibewAPI
 	 */
 	protected abstract function getMibewAPIInstance();
+
+	/**
+	 * Stores callback function
+	 *
+	 * @param string $token Request token
+	 * @param array $callback Callback function array
+	 */
+	protected abstract function saveCallback($token, $callback);
 
 	/**
 	 * Loads callback function
