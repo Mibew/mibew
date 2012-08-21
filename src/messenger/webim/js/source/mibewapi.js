@@ -12,7 +12,6 @@
  * @constructor
  * @param {MibewAPIInteraction} interaction An object that represents
  * interaction type
- * @todo Think about error code
  */
 function MibewAPI(interaction) {
 
@@ -73,17 +72,19 @@ MibewAPI.prototype.checkFunction = function(functionObject, filterReservedFuncti
         );
     }
     var obligatoryArgumentsCount = 0;
+    var obligatoryArgumentsList = this.interaction.getObligatoryArguments(
+        functionObject['function']
+    );
     argumentsLoop:
     for (var argName in functionObject.arguments){
-        for (var i = 0; i < this.interaction.obligatoryArguments.length; i++) {
-            if (argName == this.interaction.obligatoryArguments[i]) {
+        for (var i = 0; i < obligatoryArgumentsList.length; i++) {
+            if (argName == obligatoryArgumentsList[i]) {
                 obligatoryArgumentsCount++;
                 continue argumentsLoop;
             }
         }
     }
-    if (obligatoryArgumentsCount !=
-            this.interaction.obligatoryArguments.length) {
+    if (obligatoryArgumentsCount != obligatoryArgumentsList.length) {
         throw new Error(
             "Not all obligatory arguments are set in '" +
             functionObject["function"] + "' function"
@@ -222,7 +223,7 @@ MibewAPI.prototype.getResultFunction = function(functionsList, existance){
  */
 MibewAPI.prototype.buildResult = function(resultArguments, token) {
     var mergedArguments = resultArguments;
-    var defaultArguments = this.interaction.getDefaultObligatoryArguments();
+    var defaultArguments = this.interaction.getDefaultObligatoryArguments('result');
     for (var argName in defaultArguments) {
         if (! defaultArguments.hasOwnProperty(argName)) {
             continue;
@@ -282,23 +283,103 @@ MibewAPI.prototype.decodePackage = function(encodedPackage){
  */
 function MibewAPIInteraction(){
     /**
-     * Abligatory arguments in called functions
+     * Defines obligatory arguments and default values for them
+     *
+     * Keys of the array are function names ('*' for all functions). Values are
+     * arrays of obligatory arguments with key for name of an argument and value
+     * for default value.
+     *
+     * For example:
+     * <code>
+     * this.obligatoryArguments = {
+     *      '*': {
+     *          'return': {},
+     *          'references': {}
+     *      },
+     *      'result': {
+     *          'errorCode': 0
+     *      }
+     * }
+     * </code>
+     * @type Object
+     * @private
+     */
+    this.obligatoryArguments = {};
+
+    /**
+     * Reserved function's names
+     *
+     * Defines reserved(system) function's names described in the Mibew API.
+     * @type Array
      */
     this.reservedFunctionNames =  [];
-    /**
-     * Reserved function names
-     */
-    this.obligatoryArguments = [];
-    /**
-     * Returns default values of obligatory arguments
-     *
-     * @returns {Object} An object fields names are obligatory arguments and
-     * values are default values of them
-     */
-    this.getDefaultObligatoryArguments = function(){
-        return {}
-    }
 }
+
+/**
+ * Returns obligatory arguments for the functionName function
+ *
+ * @param {String} functionName Function name
+ * @returns {Array} An array of obligatory arguments
+ */
+MibewAPIInteraction.prototype.getObligatoryArguments = function(functionName) {
+    var obligatoryArguments = [];
+    // Add obligatory for all functions arguments
+    if (typeof this.obligatoryArguments['*'] == 'object' &&
+        this.obligatoryArguments['*'] instanceof Array) {
+        for (var arg in this.obligatoryArguments['*']) {
+            if (! this.obligatoryArguments['*'].hasOwnProperty(arg)) {
+                continue;
+            }
+            obligatoryArguments.push(arg);
+        }
+    }
+    // Add obligatory arguments for given function
+    if (typeof this.obligatoryArguments[functionName] == 'object' &&
+        this.obligatoryArguments[functionName] instanceof Array) {
+        for (var arg in this.obligatoryArguments[functionName]) {
+            if (! this.obligatoryArguments[functionName].hasOwnProperty(arg)) {
+                continue;
+            }
+            obligatoryArguments.push(arg);
+        }
+    }
+    return obligatoryArguments;
+}
+
+/**
+ * Returns default values of obligatory arguments for the functionName function
+ *
+ * @param {String} functionName Function name
+ * @returns {Object} An object fields names are obligatory arguments and
+ * values are default values of them
+ */
+MibewAPIInteraction.prototype.getDefaultObligatoryArguments = function(functionName) {
+    var obligatoryArguments = [];
+    // Add obligatory for all functions arguments
+    if (typeof this.obligatoryArguments['*'] == 'object' &&
+        this.obligatoryArguments['*'] instanceof Array) {
+        for (var arg in this.obligatoryArguments['*']) {
+            if (! this.obligatoryArguments['*'].hasOwnProperty(arg)) {
+                continue;
+            }
+            obligatoryArguments[arg] = this.obligatoryArguments['*'][arg];
+        }
+    }
+    // Add obligatory arguments for given function
+    if (typeof this.obligatoryArguments[functionName] == 'object' &&
+        this.obligatoryArguments[functionName] instanceof Array) {
+        for (var arg in this.obligatoryArguments[functionName]) {
+            if (! this.obligatoryArguments[functionName].hasOwnProperty(arg)) {
+                continue;
+            }
+            obligatoryArguments[arg] = this.obligatoryArguments[functionName][arg];
+        }
+    }
+    return obligatoryArguments;
+}
+/**
+ * End of MibewAPIInteraction class
+ */
 
 /**
  * Represents Window to core interaction type
@@ -307,21 +388,16 @@ function MibewAPIInteraction(){
  * @todo Think about real values!
  */
 function MibewAPIWindowToCoreInteraction() {
+    this.obligatoryArguments = {
+        '*': {
+            'return': {},
+            'references': {}
+        }
+    };
+
     this.reservedFunctionNames = [
         'result'
     ];
-
-    this.obligatoryArguments = [
-        'return',
-        'references'
-    ];
-
-    this.getDefaultObligatoryArguments = function(){
-        return {
-            "return" : {},
-            "references" : {}
-        }
-    }
 }
 MibewAPIWindowToCoreInteraction.prototype = new MibewAPIInteraction();
 

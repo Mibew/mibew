@@ -201,7 +201,7 @@ Class MibewAPI {
 			);
 		}
 		$unset_arguments = array_diff(
-			$this->interaction->obligatoryArguments,
+			$this->interaction->getObligatoryArguments($function['function']),
 			array_keys($function['arguments'])
 		);
 		if (! empty($unset_arguments)) {
@@ -273,7 +273,7 @@ Class MibewAPI {
 	 * @return array Result package
 	 */
 	public function buildResult($token, $result_arguments) {
-		$arguments = $result_arguments + $this->interaction->getDefaultObligatoryArguments();
+		$arguments = $result_arguments + $this->interaction->getDefaultObligatoryArguments('result');
 		$package = array(
 			'token' => $token,
 			'functions' => array(
@@ -438,44 +438,130 @@ Class MibewAPIExecutionContext {
  */
 abstract class MibewAPIInteraction {
 	/**
-	 * Abligatory arguments in called functions
-	 * @var array
+	 * Defines obligatory arguments and default values for them
+	 *
+	 * @var array Keys of the array are function names ('*' for all functions). Values are arrays of obligatory
+	 * arguments with key for name of an argument and value for default value.
+	 *
+	 * For example:
+	 * <code>
+	 * protected $obligatoryArguments = array(
+	 *		'*' => array(                          // Obligatory arguments for all functions are
+	 *			'return' => array(),               // 'return' with array() by default and
+	 *			'references' => array()            // 'references' with array() by default
+	 *		),
+	 *		'result' => array(                     // There is an additional argument for the result function
+	 *			'errorCode' => 0                   // This is 'error_code' with 0 by default
+	 *		)
+	 * );
+	 * </code>
 	 */
-	public $obligatoryArguments;
-	/**
-	 * Reserved function names
-	 * @var array
-	 */
-	public $reservedFunctionNames;
+	protected $obligatoryArguments = array();
 
 	/**
-	 * Returns default values of obligatory arguments
+	 * Reserved function's names
 	 *
+	 * Defines reserved(system) function's names described in the Mibew API.
+	 * @var array
+	 */
+	public $reservedFunctionNames = array();
+
+	/**
+	 * Returns obligatory arguments for the $function_name function
+	 *
+	 * @param string $function_name Function name
+	 * @return array An array of obligatory arguments
+	 */
+	public function getObligatoryArguments($function_name) {
+		$obligatory_arguments = array();
+		// Add obligatory for all functions arguments
+		if (! empty($this->obligatoryArguments['*'])) {
+			$obligatory_arguments = array_merge(
+				$obligatory_arguments,
+				array_keys($this->obligatoryArguments['*'])
+			);
+		}
+		// Add obligatory arguments for given function
+		if (! empty($this->obligatoryArguments[$function_name])) {
+			$obligatory_arguments = array_merge(
+				$obligatory_arguments,
+				array_keys($this->obligatoryArguments[$function_name])
+			);
+		}
+		return array_unique($obligatory_arguments);
+	}
+
+	/**
+	 * Returns default values of obligatory arguments for the $function_name function
+	 *
+	 * @param string $function_name Function name
 	 * @return array Associative array with keys are obligatory arguments and values are default
 	 * values of them
 	 */
-	abstract public function getDefaultObligatoryArguments();
+	public function getDefaultObligatoryArguments($function_name) {
+		$obligatory_arguments = array();
+		// Add obligatory for all functions arguments
+		if (! empty($this->obligatoryArguments['*'])) {
+			$obligatory_arguments = array_merge($obligatory_arguments, $this->obligatoryArguments['*']);
+		}
+		// Add obligatory arguments for given function
+		if (! empty($this->obligatoryArguments[$function_name])) {
+			$obligatory_arguments = array_merge($obligatory_arguments, $this->obligatoryArguments[$function_name]);
+		}
+		return $obligatory_arguments;
+	}
 }
 
 /**
  * Implements Base Mibew Interaction
  */
 class MibewAPIBaseInteraction extends MibewAPIInteraction {
-	public $obligatoryArguments = array(
-		'references',
-		'return'
+	/**
+	 * Defines obligatory arguments and default values for them
+	 * @var array
+	 * @see MibewAPIInteraction::$obligatoryArgumnents
+	 */
+	protected $obligatoryArguments = array(
+		'*' => array(
+			'references' => array(),
+			'return' => array()
+		)
 	);
 
+	/**
+	 * Reserved function's names
+	 * @var array
+	 * @see MibewAPIInteraction::$reservedFunctionNames
+	 */
 	public $reservedFunctionNames = array(
 		'result'
 	);
+}
 
-	public function getDefaultObligatoryArguments() {
-		return array(
+/**
+ * Implements Mibew Core - Mibew Chat Window interaction
+ */
+class MibewAPIWindowInteraction extends MibewAPIInteraction {
+	/**
+	 * Defines obligatory arguments and default values for them
+	 * @var array
+	 * @see MibewAPIInteraction::$obligatoryArgumnents
+	 */
+	protected $obligatoryArguments = array(
+		'*' => array(
 			'references' => array(),
 			'return' => array()
-		);
-	}
+		)
+	);
+
+	/**
+	 * Reserved function's names
+	 * @var array
+	 * @see MibewAPIInteraction::$reservedFunctionNames
+	 */
+	public $reservedFunctionNames = array(
+		'result'
+	);
 }
 
 /**
