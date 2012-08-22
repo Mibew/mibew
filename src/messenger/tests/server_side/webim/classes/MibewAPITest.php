@@ -1,8 +1,8 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../webim/libs/classes/mibew_api.php';
-require_once dirname(__FILE__) . '/../../../webim/libs/classes/mibew_api_interaction.php';
-require_once dirname(__FILE__) . '/../../../webim/libs/classes/mibew_api_window_interaction.php';
+require_once dirname(__FILE__) . '/../../../../webim/libs/classes/mibew_api.php';
+require_once dirname(__FILE__) . '/../../../../webim/libs/classes/mibew_api_interaction.php';
+require_once dirname(__FILE__) . '/../../../../webim/libs/classes/mibew_api_window_interaction.php';
 
 /**
  * Test class for MibewAPI.

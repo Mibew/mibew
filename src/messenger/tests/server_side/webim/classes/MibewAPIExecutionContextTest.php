@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../webim/libs/classes/mibew_api_execution_context.php';
+require_once dirname(__FILE__) . '/../../../../webim/libs/classes/mibew_api_execution_context.php';
 
 /**
  * Test class for MibewAPIExecutionContext.
