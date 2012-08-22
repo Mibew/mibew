@@ -383,7 +383,7 @@ MibewAPIInteraction.prototype.getObligatoryArgumentsDefaults = function(function
  * @constructor
  * @todo Think about real values!
  */
-function MibewAPIWindowToCoreInteraction() {
+function MibewAPICoreInteraction() {
     this.obligatoryArguments = {
         '*': {
             'return': {},
@@ -395,7 +395,7 @@ function MibewAPIWindowToCoreInteraction() {
         'result'
     ];
 }
-MibewAPIWindowToCoreInteraction.prototype = new MibewAPIInteraction();
+MibewAPICoreInteraction.prototype = new MibewAPIInteraction();
 
 /**
  * Implements functions execution context
