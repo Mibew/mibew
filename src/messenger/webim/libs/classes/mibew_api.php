@@ -274,7 +274,7 @@ Class MibewAPI {
 	 * @return array Result package
 	 */
 	public function buildResult($token, $result_arguments) {
-		$arguments = $result_arguments + $this->interaction->getDefaultObligatoryArguments('result');
+		$arguments = $result_arguments + $this->interaction->getObligatoryArgumentsDefaults('result');
 		$package = array(
 			'token' => $token,
 			'functions' => array(

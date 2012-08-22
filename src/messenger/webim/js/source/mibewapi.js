@@ -223,7 +223,7 @@ MibewAPI.prototype.getResultFunction = function(functionsList, existance){
  */
 MibewAPI.prototype.buildResult = function(resultArguments, token) {
     var mergedArguments = resultArguments;
-    var defaultArguments = this.interaction.getDefaultObligatoryArguments('result');
+    var defaultArguments = this.interaction.getObligatoryArgumentsDefaults('result');
     for (var argName in defaultArguments) {
         if (! defaultArguments.hasOwnProperty(argName)) {
             continue;
@@ -353,7 +353,7 @@ MibewAPIInteraction.prototype.getObligatoryArguments = function(functionName) {
  * @returns {Object} An object fields names are obligatory arguments and
  * values are default values of them
  */
-MibewAPIInteraction.prototype.getDefaultObligatoryArguments = function(functionName) {
+MibewAPIInteraction.prototype.getObligatoryArgumentsDefaults = function(functionName) {
     var obligatoryArguments = [];
     // Add obligatory for all functions arguments
     if (typeof this.obligatoryArguments['*'] == 'object' &&

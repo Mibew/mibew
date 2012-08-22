@@ -80,7 +80,7 @@ abstract class MibewAPIInteraction {
 	 * @return array Associative array with keys are obligatory arguments and values are default
 	 * values of them
 	 */
-	public function getDefaultObligatoryArguments($function_name) {
+	public function getObligatoryArgumentsDefaults($function_name) {
 		$obligatory_arguments = array();
 		// Add obligatory for all functions arguments
 		if (! empty($this->obligatoryArguments['*'])) {
