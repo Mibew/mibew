@@ -324,8 +324,7 @@ function MibewAPIInteraction(){
 MibewAPIInteraction.prototype.getObligatoryArguments = function(functionName) {
     var obligatoryArguments = [];
     // Add obligatory for all functions arguments
-    if (typeof this.obligatoryArguments['*'] == 'object' &&
-        this.obligatoryArguments['*'] instanceof Array) {
+    if (typeof this.obligatoryArguments['*'] == 'object') {
         for (var arg in this.obligatoryArguments['*']) {
             if (! this.obligatoryArguments['*'].hasOwnProperty(arg)) {
                 continue;
@@ -334,8 +333,7 @@ MibewAPIInteraction.prototype.getObligatoryArguments = function(functionName) {
         }
     }
     // Add obligatory arguments for given function
-    if (typeof this.obligatoryArguments[functionName] == 'object' &&
-        this.obligatoryArguments[functionName] instanceof Array) {
+    if (typeof this.obligatoryArguments[functionName] == 'object') {
         for (var arg in this.obligatoryArguments[functionName]) {
             if (! this.obligatoryArguments[functionName].hasOwnProperty(arg)) {
                 continue;
@@ -354,10 +352,9 @@ MibewAPIInteraction.prototype.getObligatoryArguments = function(functionName) {
  * values are default values of them
  */
 MibewAPIInteraction.prototype.getObligatoryArgumentsDefaults = function(functionName) {
-    var obligatoryArguments = [];
+    var obligatoryArguments = {};
     // Add obligatory for all functions arguments
-    if (typeof this.obligatoryArguments['*'] == 'object' &&
-        this.obligatoryArguments['*'] instanceof Array) {
+    if (typeof this.obligatoryArguments['*'] == 'object') {
         for (var arg in this.obligatoryArguments['*']) {
             if (! this.obligatoryArguments['*'].hasOwnProperty(arg)) {
                 continue;
@@ -366,8 +363,7 @@ MibewAPIInteraction.prototype.getObligatoryArgumentsDefaults = function(function
         }
     }
     // Add obligatory arguments for given function
-    if (typeof this.obligatoryArguments[functionName] == 'object' &&
-        this.obligatoryArguments[functionName] instanceof Array) {
+    if (typeof this.obligatoryArguments[functionName] == 'object') {
         for (var arg in this.obligatoryArguments[functionName]) {
             if (! this.obligatoryArguments[functionName].hasOwnProperty(arg)) {
                 continue;
