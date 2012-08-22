@@ -1,6 +1,8 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../webim/libs/mibew_api.php';
+require_once dirname(__FILE__) . '/../../../webim/libs/classes/mibew_api.php';
+require_once dirname(__FILE__) . '/../../../webim/libs/classes/mibew_api_interaction.php';
+require_once dirname(__FILE__) . '/../../../webim/libs/classes/mibew_api_window_interaction.php';
 
 /**
  * Test class for MibewAPI.
@@ -9,15 +11,15 @@ require_once dirname(__FILE__) . '/../../../webim/libs/mibew_api.php';
 class MibewAPITest extends PHPUnit_Framework_TestCase {
 
 	public function testGetAPI() {
-		$mibew_api = MibewAPI::getAPI('base');
-		$this->assertEquals($mibew_api, MibewAPI::getAPI('base'));
+		$mibew_api = MibewAPI::getAPI('MibewAPIWindowInteraction');
+		$this->assertEquals($mibew_api, MibewAPI::getAPI('MibewAPIWindowInteraction'));
 	}
 
 	/**
 	 * @depends testGetAPI
 	 */
 	public function testCheckFunction() {
-		$api = MibewAPI::getAPI('base');
+		$api = MibewAPI::getAPI('MibewAPIWindowInteraction');
 
 		// Wrong function. Function name is absent
 		$wrong_function = array();
@@ -165,7 +167,7 @@ class MibewAPITest extends PHPUnit_Framework_TestCase {
 	 * @depends testCheckFunction
 	 */
 	public function testCheckRequest($correct_function) {
-		$api = MibewAPI::getAPI('base');
+		$api = MibewAPI::getAPI('MibewAPIWindowInteraction');
 
 		// Wrong request. Its 'token' element is absent.
 		$wrong_request = array();
@@ -243,7 +245,7 @@ class MibewAPITest extends PHPUnit_Framework_TestCase {
 	 * @depends testCheckRequest
 	 */
 	public function testCheckPackage($correct_request) {
-		$api = MibewAPI::getAPI('base');
+		$api = MibewAPI::getAPI('MibewAPIWindowInteraction');
 
 		$trusted_signatures = array('some_trusted_signature');
 		// Wrong package. Signature element is absent.
@@ -415,7 +417,7 @@ class MibewAPITest extends PHPUnit_Framework_TestCase {
 	 * @depends testCheckPackage
 	 */
 	public function testEncodePackage($correct_package) {
-		$api = MibewAPI::getAPI('base');
+		$api = MibewAPI::getAPI('MibewAPIWindowInteraction');
 
 		// Get package values
 		$requests = $correct_package['requests'];
@@ -437,7 +439,7 @@ class MibewAPITest extends PHPUnit_Framework_TestCase {
 	 * @depends testEncodePackage
 	 */
 	public function testDecodePackage($vars) {
-		$api = MibewAPI::getAPI('base');
+		$api = MibewAPI::getAPI('MibewAPIWindowInteraction');
 
 		// Try to catch MibewAPIException with MibewAPIException::NOT_VALID_JSON code
 		try {
@@ -470,7 +472,7 @@ class MibewAPITest extends PHPUnit_Framework_TestCase {
 	 * @depends testGetAPI
 	 */
 	public function testGetResultFunction() {
-		$api = MibewAPI::getAPI('base');
+		$api = MibewAPI::getAPI('MibewAPIWindowInteraction');
 
 		// Wrong functions list. More than one result function.
 		$functions_list = array(
@@ -578,7 +580,7 @@ class MibewAPITest extends PHPUnit_Framework_TestCase {
 	 * @depends testGetAPI
 	 */
 	public function testBuildResult() {
-		$api = MibewAPI::getAPI('base');
+		$api = MibewAPI::getAPI('MibewAPIWindowInteraction');
 
 		$token = 'some_test_token';
 		$package = array(

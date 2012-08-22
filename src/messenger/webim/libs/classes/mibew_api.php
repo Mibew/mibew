@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+//require_once('mibew_api_interaction.php');
+
 /**
  * Implements Mibew API specification version 1.0
  *
@@ -43,31 +45,30 @@ Class MibewAPI {
 	/**
 	 * Returns MibewAPI object
 	 *
-	 * @param string $interaction_type A name of the interaction type
+	 * @param string $class_name A name of the interaction type class
 	 * @return MibeAPI object
 	 * @throws MibewAPIException
 	 */
-	public static function getAPI($interaction_type) {
-		$class_name = "MibewAPI".  ucfirst($interaction_type) . "Interaction";
+	public static function getAPI($class_name) {
 		if (! class_exists($class_name)) {
 			throw new MibewAPIException(
 				"Wrong interaction type",
 				MibewAPIException::WRONG_INTERACTION_TYPE
 			);
 		}
-		if (empty(self::$interactions[$interaction_type])) {
-			self::$interactions[$interaction_type] = new self(new $class_name());
+		if (empty(self::$interactions[$class_name])) {
+			self::$interactions[$class_name] = new self(new $class_name());
 		}
-		return self::$interactions[$interaction_type];
+		return self::$interactions[$class_name];
 	}
 
 	/**
 	 * Class constructor
 	 *
-	 * @param MibewAPIInteraction $interaction_type Interaction type object
+	 * @param MibewAPIInteraction $interaction Interaction type object
 	 */
-	protected function __construct(MibewAPIInteraction $interaction_type) {
-		$this->interaction = $interaction_type;
+	protected function __construct(MibewAPIInteraction $interaction) {
+		$this->interaction = $interaction;
 	}
 
 	/**
@@ -330,238 +331,6 @@ Class MibewAPI {
 		}
 		return $result_function;
 	}
-}
-
-/**
- * Implements functions execution context
- */
-Class MibewAPIExecutionContext {
-	/**
-	 * Values which returns after execution of all functions in request
-	 * @var array
-	 */
-	protected $return = array();
-
-	/**
-	 * Results of execution of all function in request
-	 * @var array
-	 */
-	protected $functions_results = array();
-
-	/**
-	 * Returns requets results
-	 *
-	 * @return array Request results
-	 * @see MibewAPIExecutionContext::$return
-	 */
-	public function getResults () {
-		return $this->return;
-	}
-
-	/**
-	 * Build arguments list by replace all references by values of execution context
-	 *
-	 * @param array $function Function array. See MibewAPI for details.
-	 * @return array Arguments list
-	 * @throws MibewAPIException
-	 */
-	public function getArgumentsList ($function) {
-		$arguments = $function['arguments'];
-		$references = $function['arguments']['references'];
-		foreach ($references as $variable => $func_num) {
-			// Check target function in context
-			if (! isset($this->functions_results[$func_num - 1])) {
-				// Wrong function num
-				throw new MibewAPIException(
-					"Wrong reference in '{$function['function']}' function. " .
-					"Function #{$func_num} does not call yet.",
-					MibewAPIException::WRONG_FUNCTION_NUM_IN_REFERENCE
-				);
-			}
-
-			// Check reference
-			if (empty($arguments[$variable])) {
-				// Empty argument that should contains reference
-				throw new MibewAPIException(
-					"Wrong reference in '{$function['function']}' function. " .
-					"Empty {$variable} argument.",
-					MibewAPIException::EMPTY_VARIABLE_IN_REFERENCE
-				);
-			}
-			$reference_to = $arguments[$variable];
-
-			// Check target value
-			if (! isset($this->functions_results[$func_num - 1][$reference_to])) {
-				// Undefined target value
-				throw new MibewAPIException(
-					"Wrong reference in '{$function['function']}' function. " .
-					"There is no '{$reference_to}' argument in #{$func_num} " .
-					"function results",
-					MibewAPIException::VARIABLE_IS_UNDEFINED_IN_REFERENCE
-				);
-			}
-
-			// Replace reference by target value
-			$arguments[$variable] = $this->functions_results[$func_num - 1][$reference_to];
-		}
-		return $arguments;
-	}
-
-	/**
-	 * Stores functions results in execution context and add values to request result
-	 *
-	 * @param array $function Function array. See MibewAPI for details.
-	 * @param array $results Associative array of the function results.
-	 * @throws MibewAPIException
-	 */
-	public function storeFunctionResults ($function, $results) {
-		// Add value to request results
-		foreach ($function['arguments']['return'] as $name => $alias) {
-			if (! isset($results[$name])) {
-				// Value that defined in 'return' argument is undefined
-				throw new MibewAPIException(
-					"Variable with name '{$name}' is undefined in the " .
-					"results of the '{$function['function']}' function",
-					MibewAPIException::VARIABLE_IS_UNDEFINED_IN_RESULT
-				);
-			}
-			$this->return[$alias] = $results[$name];
-		}
-		// Store function results in execution context
-		$this->functions_results[] = $results;
-	}
-
-}
-
-/**
- * Encapsulates interaction type
- */
-abstract class MibewAPIInteraction {
-	/**
-	 * Defines obligatory arguments and default values for them
-	 *
-	 * @var array Keys of the array are function names ('*' for all functions). Values are arrays of obligatory
-	 * arguments with key for name of an argument and value for default value.
-	 *
-	 * For example:
-	 * <code>
-	 * protected $obligatoryArguments = array(
-	 *		'*' => array(                          // Obligatory arguments for all functions are
-	 *			'return' => array(),               // 'return' with array() by default and
-	 *			'references' => array()            // 'references' with array() by default
-	 *		),
-	 *		'result' => array(                     // There is an additional argument for the result function
-	 *			'errorCode' => 0                   // This is 'error_code' with 0 by default
-	 *		)
-	 * );
-	 * </code>
-	 */
-	protected $obligatoryArguments = array();
-
-	/**
-	 * Reserved function's names
-	 *
-	 * Defines reserved(system) function's names described in the Mibew API.
-	 * @var array
-	 */
-	public $reservedFunctionNames = array();
-
-	/**
-	 * Returns obligatory arguments for the $function_name function
-	 *
-	 * @param string $function_name Function name
-	 * @return array An array of obligatory arguments
-	 */
-	public function getObligatoryArguments($function_name) {
-		$obligatory_arguments = array();
-		// Add obligatory for all functions arguments
-		if (! empty($this->obligatoryArguments['*'])) {
-			$obligatory_arguments = array_merge(
-				$obligatory_arguments,
-				array_keys($this->obligatoryArguments['*'])
-			);
-		}
-		// Add obligatory arguments for given function
-		if (! empty($this->obligatoryArguments[$function_name])) {
-			$obligatory_arguments = array_merge(
-				$obligatory_arguments,
-				array_keys($this->obligatoryArguments[$function_name])
-			);
-		}
-		return array_unique($obligatory_arguments);
-	}
-
-	/**
-	 * Returns default values of obligatory arguments for the $function_name function
-	 *
-	 * @param string $function_name Function name
-	 * @return array Associative array with keys are obligatory arguments and values are default
-	 * values of them
-	 */
-	public function getDefaultObligatoryArguments($function_name) {
-		$obligatory_arguments = array();
-		// Add obligatory for all functions arguments
-		if (! empty($this->obligatoryArguments['*'])) {
-			$obligatory_arguments = array_merge($obligatory_arguments, $this->obligatoryArguments['*']);
-		}
-		// Add obligatory arguments for given function
-		if (! empty($this->obligatoryArguments[$function_name])) {
-			$obligatory_arguments = array_merge($obligatory_arguments, $this->obligatoryArguments[$function_name]);
-		}
-		return $obligatory_arguments;
-	}
-}
-
-/**
- * Implements Base Mibew Interaction
- */
-class MibewAPIBaseInteraction extends MibewAPIInteraction {
-	/**
-	 * Defines obligatory arguments and default values for them
-	 * @var array
-	 * @see MibewAPIInteraction::$obligatoryArgumnents
-	 */
-	protected $obligatoryArguments = array(
-		'*' => array(
-			'references' => array(),
-			'return' => array()
-		)
-	);
-
-	/**
-	 * Reserved function's names
-	 * @var array
-	 * @see MibewAPIInteraction::$reservedFunctionNames
-	 */
-	public $reservedFunctionNames = array(
-		'result'
-	);
-}
-
-/**
- * Implements Mibew Core - Mibew Chat Window interaction
- */
-class MibewAPIWindowInteraction extends MibewAPIInteraction {
-	/**
-	 * Defines obligatory arguments and default values for them
-	 * @var array
-	 * @see MibewAPIInteraction::$obligatoryArgumnents
-	 */
-	protected $obligatoryArguments = array(
-		'*' => array(
-			'references' => array(),
-			'return' => array()
-		)
-	);
-
-	/**
-	 * Reserved function's names
-	 * @var array
-	 * @see MibewAPIInteraction::$reservedFunctionNames
-	 */
-	public $reservedFunctionNames = array(
-		'result'
-	);
 }
 
 /**
