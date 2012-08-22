@@ -1,5 +1,5 @@
-// Testing MibewAPI class
-module("MibewAPI");
+// Testing MibewAPIInteraction class
+module('MibewAPIInteraction');
 
 /**
  * Represents test interaction type
@@ -7,23 +7,69 @@ module("MibewAPI");
  * @constructor
  */
 function MibewAPITestInteraction() {
+
+    this.obligatoryArguments = {
+        '*': {
+            'return': {},
+            'references': {}
+        },
+        'foo': {
+            'bar': 127
+        }
+    };
+
     this.reservedFunctionNames = [
         'result'
     ];
 
-    this.obligatoryArguments = [
-        'return',
-        'references'
-    ];
-
-    this.getDefaultObligatoryArguments = function(){
-        return {
-            "return" : {},
-            "references" : {}
-        }
-    }
 }
 MibewAPITestInteraction.prototype = new MibewAPIInteraction();
+
+// Tests for the getObligatoryArguments method
+test('getObligatoryArguments', function(){
+    var interaction = new MibewAPITestInteraction();
+    // Arguments for all function
+    deepEqual(
+        interaction.getObligatoryArguments('some_function'),
+        ['return', 'references'],
+        'Test with arguments for all functions'
+    );
+
+    // Arguments for specific function
+    deepEqual(
+        interaction.getObligatoryArguments('foo'),
+        ['return', 'references', 'bar'],
+        'Test with arguments for specific function'
+    );
+});
+
+// Tests for the getObligatoryArgumentsDefaults method
+test('getObligatoryArgumentsDefaults', function(){
+    var interaction = new MibewAPITestInteraction();
+    // Default values for arguments for all function
+    deepEqual(
+        interaction.getObligatoryArgumentsDefaults('some_function'),
+        {
+            'return': {},
+            'references': {}
+        },
+        'Test with default values for arguments for all functions'
+    );
+
+    // Default values for arguments for specific function
+    deepEqual(
+        interaction.getObligatoryArgumentsDefaults('foo'),
+        {
+            'return': {},
+            'references': {},
+            'bar': 127
+        },
+        'Test with default values for arguments for specific function'
+    );
+});
+
+// Testing MibewAPI class
+module("MibewAPI");
 
 // Tests for the class constructor
 test("constructor", function(){
