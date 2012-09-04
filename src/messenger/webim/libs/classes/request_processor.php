@@ -65,9 +65,8 @@ abstract class RequestProcessor {
 	 *  - 'trusted_signatures': array of trusted signatures. Uses for identify another
 	 *    side of interaction.
 	 * And may contains following (if not default values will be used)
-	 *  - 'event_prefixport': prefix that uses for all registered by the class events. The default value is the class
+	 *  - 'event_prefix': prefix that uses for all registered by the class events. The default value is the class
 	 *    name with first character in lower case
-	 * @todo think about errors' level
 	 */
 	public function __construct($config) {
 		// Check signature
@@ -334,7 +333,10 @@ abstract class RequestProcessor {
 		if (is_null($result_function)) {
 			// Execute functions
 			foreach ($request['functions'] as $function) {
-				$this->processFunction($function, $context);
+				if (! $this->processFunction($function, $context)) {
+					// Stop if errorCode is set and not equals to 0
+					break;
+				}
 			}
 			return $context->getResults();
 		} else {
@@ -347,8 +349,8 @@ abstract class RequestProcessor {
 	 * Process function
 	 *
 	 * @param array $function 'Function' array. See Mibew API for details
-	 * @param MibewAPIExecutionContext Execution context
-	 * @return array Result of function call
+	 * @param MibewAPIExecutionContext &$context Execution context
+	 * @return boolean lase if function returns errorCode and errorCode differs from 0.
 	 */
 	protected function processFunction($function, MibewAPIExecutionContext &$context) {
 		// Get function arguments with replaced references
@@ -372,6 +374,9 @@ abstract class RequestProcessor {
 
 		// Add function results to execution context
 		$context->storeFunctionResults($function, $results);
+
+		// Check errorCode
+		return empty($results['errorCode']);
 	}
 
 	/**
