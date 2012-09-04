@@ -28,6 +28,9 @@ class MibewAPIWindowInteraction extends MibewAPIInteraction {
 		'*' => array(
 			'references' => array(),
 			'return' => array()
+		),
+		'result' => array(
+			'errorCode' => 0
 		)
 	);
 

@@ -388,6 +388,9 @@ function MibewAPICoreInteraction() {
         '*': {
             'return': {},
             'references': {}
+        },
+        'result': {
+            'errorCode': 0
         }
     };
 
