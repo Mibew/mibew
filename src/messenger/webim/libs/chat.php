@@ -684,8 +684,7 @@ function thread_by_id($id)
 		"nextagent,shownmessageid,userid, " .
 		"userAgent,groupid from {chatthread} where threadid = :threadid",
 		array(
-			':threadid' => $id,
-			':now' => time()
+			':threadid' => $id
 		),
 		array('return_rows' => Database::RETURN_ONE_ROW)
 	);
