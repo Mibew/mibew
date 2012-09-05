@@ -92,7 +92,7 @@ function select_with_pagintation($fields, $table, $conditions, $order, $countfie
 	$db = Database::getInstance();
 
 	list($count) = $db->query(
-		"select count(". ($countfields ? $countfieds : "*") .") from {$table} " .
+		"select count(". ($countfields ? $countfields : "*") .") from {$table} " .
 		"where " . (count($conditions)  ? implode(" and ", $conditions) : "") .
 		($order ? " " . $order : ""),
 		$values,
