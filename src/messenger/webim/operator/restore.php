@@ -42,9 +42,13 @@ if (isset($_POST['loginoremail'])) {
 
 		$db = Database::getInstance();
 		$db->query(
-			"update {chatoperator} set dtmrestore = CURRENT_TIMESTAMP, " .
-			"vcrestoretoken = ? where operatorid = ?",
-			array($token, $torestore['operatorid'])
+			"update {chatoperator} set dtmrestore = :now, " .
+			"vcrestoretoken = :token where operatorid = :operatorid",
+			array(
+				':now' => time(),
+				':token' => $token,
+				':operatorid' => $torestore['operatorid']
+			)
 		);
 
 		$href = get_app_location(true, false) . "/operator/resetpwd.php?id=" . $torestore['operatorid'] . "&token=$token";

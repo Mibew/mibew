@@ -55,26 +55,28 @@ if (isset($_POST['address'])) {
 
 	if (count($errors) == 0) {
 		$db = Database::getInstance();
-		$utime = time() + $days * 24 * 60 * 60;
+		$now = time();
+		$till_time = $now + $days * 24 * 60 * 60;
 		if (!$banId) {
 			$db->query(
 				"insert into {chatban} (dtmcreated,dtmtill,address,comment) " .
-				"values (CURRENT_TIMESTAMP,FROM_UNIXTIME(?),?,?)",
+				"values (:now,:till,:address,:comment)",
 				array(
-					$utime,
-					$address,
-					 $comment
+					':now' => $now,
+					':till' => $till_time,
+					':address' => $address,
+					':comment' => $comment
 				)
 			);
 		} else {
 			$db->query(
-				"update {chatban} set dtmtill = FROM_UNIXTIME(?),address = ?, " .
-				"comment = ? where banid = ?",
+				"update {chatban} set dtmtill = :till,address = :address, " .
+				"comment = :comment where banid = :banid",
 				array(
-					$utime,
-					$address,
-					$comment,
-					$banId
+					':till' => $till_time,
+					':address' => $address,
+					':comment' => $comment,
+					':banid' => $banId
 				)
 			);
 		}
@@ -97,9 +99,12 @@ if (isset($_POST['address'])) {
 	$banId = verifyparam('id', "/^\d{1,9}$/");
 	$db = Database::getInstance();
 	$ban = $db->query(
-		"select banid,(unix_timestamp(dtmtill)-unix_timestamp(CURRENT_TIMESTAMP))" .
-		" as days,address,comment from {chatban} where banid = ?",
-		array($banId),
+		"select banid,(dtmtill - :now)" .
+		" as days,address,comment from {chatban} where banid = :banid",
+		array(
+			':banid' => $banId,
+			':now' => time()
+		),
 		array('return_rows' => Database::RETURN_ONE_ROW)
 	);
 

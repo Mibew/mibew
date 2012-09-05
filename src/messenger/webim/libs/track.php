@@ -27,9 +27,12 @@ function track_visitor($visitorid, $entry, $referer)
 	} else {
 		$db = Database::getInstance();
 		$db->query(
-			"update {chatsitevisitor} set lasttime = CURRENT_TIMESTAMP " .
-			"where visitorid=?",
-			array($visitor['visitorid'])
+			"update {chatsitevisitor} set lasttime = :now " .
+			"where visitorid = :visitorid",
+			array(
+				':vidsitorid' => $visitor['visitorid'],
+				':now' => time()
+			)
 		);
 		track_visit_page($visitor['visitorid'], $referer);
 		return $visitor['visitorid'];
@@ -43,12 +46,13 @@ function track_visitor_start($entry, $referer)
 	$db = Database::getInstance();
 	$db->query(
 		"insert into {chatsitevisitor} (userid,username,firsttime,lasttime,entry,details) ".
-		"values (?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ?, ?)",
+		"values (:userid, :username, :now, :now, :entry, :details)",
 		array(
-			$visitor['id'],
-			$visitor['name'],
-			$entry,
-			track_build_details()
+			':userid' => $visitor['id'],
+			':username' => $visitor['name'],
+			':now' => time(),
+			':entry' => $entry,
+			':details' => track_build_details()
 		)
 	);
 
@@ -97,13 +101,20 @@ function track_visit_page($visitorid, $page)
 	if ( $lastpage['address'] != $page ) {
 		$db->query(
 			"insert into {visitedpage} (visitorid, address, visittime) " .
-			"values (?, ?, CURRENT_TIMESTAMP)",
-			array($visitorid, $page)
+			"values (:visitorid, :page, :now)",
+			array(
+				':visitorid' => $visitorid,
+				':page' => $page,
+				':now' => time()
+			)
 		);
 		$db->query(
 			"insert into {visitedpagestatistics} (address, visittime) " .
-			"values (?, CURRENT_TIMESTAMP)",
-			array($page)
+			"values (:page, :now)",
+			array(
+				':page' =>  $page,
+				':now' => time()
+			)
 		);
 	}
 }
@@ -112,7 +123,7 @@ function track_get_path($visitor)
 {
 	$db = Database::getInstance();
 	$query_result = $db->query(
-		"select address, UNIX_TIMESTAMP(visittime) as visittime from {visitedpage} " .
+		"select address, visittime from {visitedpage} " .
 		"where visitorid = ?",
 		array($visitor['visitorid']),
 		array('return_rows' => Database::RETURN_ALL_ROWS)

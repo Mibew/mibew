@@ -64,20 +64,21 @@ function next_revision()
 function post_message_($threadid, $kind, $message, $from = null, $utime = null, $opid = null)
 {
 	$db = Database::getInstance();
+
 	$query = "insert into {chatmessage} " .
 		"(threadid,ikind,tmessage,tname,agentId,dtmcreated) " .
-		"values (?,?,?,?,?,".($utime?"FROM_UNIXTIME(?)":"CURRENT_TIMESTAMP").")";
+		"values (:threadid,:kind,:message,:name,:agentid,:created)";
+
 	 $values = array(
-		$threadid,
-		$kind,
-		$message,
-		($from ? $from : "null"),
-		($opid ? $opid : 0)
+		':threadid' => $threadid,
+		':kind' => $kind,
+		':message' => $message,
+		':name' => ($from ? $from : "null"),
+		':agentid' => ($opid ? $opid : 0),
+		':created' => ($utime ? $utime : time())
 	);
-	if ($utime) {
-		$values[] = $utime;
-	}
-	 $db->query($query, $values);
+
+	$db->query($query, $values);
 	return $db->insertedId();
 }
 
@@ -135,7 +136,7 @@ function get_messages($threadid, $meth, $isuser, &$lastid)
 	$db = Database::getInstance();
 
 	$msgs = $db->query(
-		"select messageid,ikind,unix_timestamp(dtmcreated) as created,tname,tmessage from {chatmessage} " .
+		"select messageid,ikind,dtmcreated as created,tname,tmessage from {chatmessage} " .
 		"where threadid = :threadid and messageid > :lastid " .
 		($isuser ? "and ikind <> {$kind_for_agent} " : "") .
 		"order by messageid",
@@ -177,7 +178,7 @@ function print_thread_messages($thread, $token, $lastid, $isuser, $format, $agen
 {
 	global $webim_encoding, $webimroot, $connection_timeout;
 	$threadid = $thread['threadid'];
-	$istyping = abs($thread['current'] - $thread[$isuser ? "lpagent" : "lpuser"]) < $connection_timeout
+	$istyping = abs(time() - $thread[$isuser ? "lpagent" : "lpuser"]) < $connection_timeout
 				&& $thread[$isuser ? "agentTyping" : "userTyping"] == "1" ? "1" : "0";
 
 	if ($format == "xml") {
@@ -532,11 +533,10 @@ function ping_thread($thread, $isuser, $istyping)
 
 	$db = Database::getInstance();
 
-	$params = array(($isuser ? "lastpinguser" : "lastpingagent") => "CURRENT_TIMESTAMP",
+	$params = array(($isuser ? "lastpinguser" : "lastpingagent") => time(),
 					($isuser ? "userTyping" : "agentTyping") => ($istyping ? "1" : "0"));
 
 	$lastping = $thread[$isuser ? "lpagent" : "lpuser"];
-	$current = $thread['current'];
 
 	if ($thread['istate'] == $state_loading && $isuser) {
 		$params['istate'] = $state_queue;
@@ -544,7 +544,7 @@ function ping_thread($thread, $isuser, $istyping)
 		return;
 	}
 
-	if ($lastping > 0 && abs($current - $lastping) > $connection_timeout) {
+	if ($lastping > 0 && abs(time() - $lastping) > $connection_timeout) {
 		$params[$isuser ? "lastpingagent" : "lastpinguser"] = "0";
 		if (!$isuser) {
 			$message_to_post = getstring_("chat.status.user.dead", $thread['locale']);
@@ -566,12 +566,8 @@ function ping_thread($thread, $isuser, $istyping)
 		if (strlen($clause) > 0) {
 			$clause .= ", ";
 		}
-		if (($k == 'lastpinguser' || $k == 'lastpingagent') && $v == 'CURRENT_TIMESTAMP') {
-			$clause .= $k . " = CURRENT_TIMESTAMP";
-		}else{
-			$clause .= $k . "=?";
-			$values[] = $v;
-		}
+		$clause .= $k . "=?";
+		$values[] = $v;
 	}
 	$values[] = $thread['threadid'];
 
@@ -585,24 +581,18 @@ function commit_thread($threadid, $params)
 {
 	$db = Database::getInstance();
 
-	$timestamp_allowed_for = array(
-		'dtmcreated',
-		'dtmchatstarted',
-		'dtmmodified',
-		'lastpinguser',
-		'lastpingagent'
-	);
 	$query = "update {chatthread} t " .
-		"set lrevision = ?, dtmmodified = CURRENT_TIMESTAMP";
-		$values = array(next_revision());
-	foreach ($params as $k => $v) {
-		if (in_array($k, $timestamp_allowed_for) && strcasecmp($v,'CURRENT_TIMESTAMP')) {
-			$query .= ", " . $k . " = CURRENT_TIMESTAMP";
-		} else {
-			$query .= ", " . $k . "=?";
-			$values[] = $v;
-		}
+		"set lrevision = ?, dtmmodified = ?";
+
+	$values = array();
+	$values[] = next_revision();
+	$values[] = time();
+
+	foreach ($params as $name => $value) {
+		$query .= ", {$name} = ?" ;
+		$values[] = $value;
 	}
+
 	$query .= " where threadid = ?";
 	$values[] = $threadid;
 
@@ -659,21 +649,22 @@ function close_old_threads()
 	$db = Database::getInstance();
 
 	$query = "update {chatthread} set lrevision = :next_revision, " .
-		"dtmmodified = CURRENT_TIMESTAMP, istate = :state_closed " .
+		"dtmmodified = :now, istate = :state_closed " .
 		"where istate <> :state_closed and istate <> :state_left " .
 		"and ((lastpingagent <> 0 and lastpinguser <> 0 and " .
-		"(ABS(UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lastpinguser)) > ".
+		"(ABS(:now - lastpinguser) > ".
 		":thread_lifetime and " .
-		"ABS(UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lastpingagent)) > ".
+		"ABS(:now - lastpingagent) > ".
 		":thread_lifetime)) or " .
 		"lastpingagent = 0 and lastpinguser <> 0 and " .
-		"ABS(UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lastpinguser)) > ".
+		"ABS(:now - lastpinguser) > ".
 		":thread_lifetime)";
 
 	$db->query(
 		$query,
 		array(
 			':next_revision' => next_revision(),
+			':now' => time(),
 			':state_closed' => $state_closed,
 			':state_left' => $state_left,
 			':thread_lifetime' => Settings::get('thread_lifetime')
@@ -686,13 +677,16 @@ function thread_by_id($id)
 	$db = Database::getInstance();
 	return $db->query(
 		"select threadid,userName,agentName,agentId,lrevision,istate,ltoken,userTyping, " .
-		"agentTyping,unix_timestamp(dtmmodified) as modified, " .
-		"unix_timestamp(dtmcreated) as created, " .
-		"unix_timestamp(dtmchatstarted) as chatstarted,remote,referer,locale," .
-		"unix_timestamp(lastpinguser) as lpuser,unix_timestamp(lastpingagent) as lpagent," .
-		"unix_timestamp(CURRENT_TIMESTAMP) as current,nextagent,shownmessageid,userid, " .
-		"userAgent,groupid from {chatthread} where threadid = ?",
-		array($id),
+		"agentTyping,dtmmodified as modified, " .
+		"dtmcreated as created, " .
+		"dtmchatstarted as chatstarted,remote,referer,locale," .
+		"lastpinguser as lpuser,lastpingagent as lpagent," .
+		"nextagent,shownmessageid,userid, " .
+		"userAgent,groupid from {chatthread} where threadid = :threadid",
+		array(
+			':threadid' => $id,
+			':now' => time()
+		),
 		array('return_rows' => Database::RETURN_ONE_ROW)
 	);
 }
@@ -702,8 +696,11 @@ function ban_for_addr($addr)
 	$db = Database::getInstance();
 	return $db->query(
 		"select banid,comment from {chatban} " .
-		"where unix_timestamp(dtmtill) > unix_timestamp(CURRENT_TIMESTAMP) AND address = ?",
-		array($addr),
+		"where dtmtill > :now AND address = :addr",
+		array(
+			':addr' => $addr,
+			':now' => time()
+		),
 		array('return_rows' => Database::RETURN_ONE_ROW)
 	);
 }
@@ -712,26 +709,49 @@ function create_thread($groupid, $username, $remoteHost, $referer, $lang, $useri
 {
 	$db = Database::getInstance();
 
-	$query = "insert into {chatthread} (userName,userid,ltoken,remote,referer, " .
-		"lrevision,locale,userAgent,dtmcreated,dtmmodified,istate" .
-		($groupid ? ",groupid" : "") . ") values " .
-		"(?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?" .
-		($groupid ? ", ?" : "") . ")";
+	$query = "insert into {chatthread} (" .
+			"userName, " .
+			"userid, " .
+			"ltoken, " .
+			"remote, " .
+			"referer, " .
+			"lrevision, " .
+			"locale, " .
+			"userAgent, " .
+			"dtmcreated, " .
+			"dtmmodified, " .
+			"istate" .
+			($groupid ? ", groupid" : "") .
+		") values (" .
+			":username, " .
+			":userid, " .
+			":ltoken, " .
+			":remote," .
+			":referer, " .
+			":lrevision, " .
+			":locale, " .
+			":useragent, " .
+			":now, " .
+			":now, " .
+			":istate" .
+			($groupid ? ", :groupid" : "") .
+		")";
 
 	$values = array(
-		$username,
-		$userid,
-		next_token(),
-		$remoteHost,
-		$referer,
-		next_revision(),
-		$lang,
-		$userbrowser,
-		$initialState
+		':username' => $username,
+		':userid' => $userid,
+		':ltoken' => next_token(),
+		':remote' => $remoteHost,
+		':referer' => $referer,
+		':lrevision' => next_revision(),
+		':locale' => $lang,
+		':useragent' => $userbrowser,
+		':now' => time(),
+		':istate' => $initialState
 	);
 
 	if ($groupid) {
-		$values[] = $groupid;
+		$values[':groupid'] = $groupid;
 	}
 
 	$db->query($query, $values);
@@ -749,7 +769,7 @@ function do_take_thread($threadid, $operatorId, $operatorName, $chatstart = fals
 			"agentId" => $operatorId,
 			"agentName" => $operatorName);
 	if ($chatstart){
-		$params['dtmchatstarted'] = "CURRENT_TIMESTAMP";
+		$params['dtmchatstarted'] = time();
 	}
 	commit_thread($threadid, $params);
 }

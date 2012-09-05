@@ -43,7 +43,7 @@ if (isset($_GET['act']) && $_GET['act'] == 'del') {
 }
 
 $blockedList = $db->query(
-	"select banid,unix_timestamp(dtmtill) as till,address,comment from {chatban}",
+	"select banid, dtmtill as till,address,comment from {chatban}",
 	NULL,
 	array('return_rows' => Database::RETURN_ONE_ROW)
 );

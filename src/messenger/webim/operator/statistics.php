@@ -74,9 +74,9 @@ $activetab = 0;
 $db = Database::getInstance();
 if ($statisticstype == 'bydate') {
 	$page['reportByDate'] = $db->query(
-		"select DATE(t.dtmcreated) as date, COUNT(distinct t.threadid) as threads, SUM(m.ikind = :kind_agent) as agents, SUM(m.ikind = :kind_user) as users, ROUND(AVG(unix_timestamp(t.dtmchatstarted)-unix_timestamp(t.dtmcreated)),1) as avgwaitingtime, ROUND(AVG(tmp.lastmsgtime - unix_timestamp(t.dtmchatstarted)),1) as avgchattime " .
-		"from {chatmessage} m, {chatthread} t, (SELECT i.threadid, unix_timestamp(MAX(i.dtmcreated)) AS lastmsgtime  FROM {chatmessage} i WHERE (ikind = :kind_user OR ikind = :kind_agent) GROUP BY i.threadid) tmp " .
-		"where m.threadid = t.threadid AND tmp.threadid = t.threadid AND unix_timestamp(t.dtmchatstarted) <> 0 AND unix_timestamp(m.dtmcreated) >= :start AND unix_timestamp(m.dtmcreated) < :end group by DATE(m.dtmcreated) order by m.dtmcreated desc",
+		"select DATE(FROM_UNIXTIME(t.dtmcreated)) as date, COUNT(distinct t.threadid) as threads, SUM(m.ikind = :kind_agent) as agents, SUM(m.ikind = :kind_user) as users, ROUND(AVG(t.dtmchatstarted-t.dtmcreated),1) as avgwaitingtime, ROUND(AVG(tmp.lastmsgtime - t.dtmchatstarted),1) as avgchattime " .
+		"from {chatmessage} m, {chatthread} t, (SELECT i.threadid, MAX(i.dtmcreated) AS lastmsgtime  FROM {chatmessage} i WHERE (ikind = :kind_user OR ikind = :kind_agent) GROUP BY i.threadid) tmp " .
+		"where m.threadid = t.threadid AND tmp.threadid = t.threadid AND t.dtmchatstarted <> 0 AND m.dtmcreated >= :start AND m.dtmcreated < :end group by DATE(FROM_UNIXTIME(m.dtmcreated)) order by m.dtmcreated desc",
 		array(
 			':kind_agent' => $kind_agent,
 			':kind_user' => $kind_user,
@@ -87,9 +87,9 @@ if ($statisticstype == 'bydate') {
 	);
 	
 	$page['reportByDateTotal'] = $db->query(
-		"select DATE(t.dtmcreated) as date, COUNT(distinct t.threadid) as threads, SUM(m.ikind = :kind_agent) as agents, SUM(m.ikind = :kind_user) as users, ROUND(AVG(unix_timestamp(t.dtmchatstarted)-unix_timestamp(t.dtmcreated)),1) as avgwaitingtime, ROUND(AVG(tmp.lastmsgtime - unix_timestamp(t.dtmchatstarted)),1) as avgchattime " .
-		"from {chatmessage} m, {chatthread} t, (SELECT i.threadid, unix_timestamp(MAX(i.dtmcreated)) AS lastmsgtime FROM {chatmessage} i WHERE (ikind = :kind_user OR ikind = :kind_agent) GROUP BY i.threadid) tmp " .
-		"where m.threadid = t.threadid AND tmp.threadid = t.threadid AND unix_timestamp(t.dtmchatstarted) <> 0 AND unix_timestamp(m.dtmcreated) >= :start AND unix_timestamp(m.dtmcreated) < :end",
+		"select DATE(FROM_UNIXTIME(t.dtmcreated)) as date, COUNT(distinct t.threadid) as threads, SUM(m.ikind = :kind_agent) as agents, SUM(m.ikind = :kind_user) as users, ROUND(AVG(t.dtmchatstarted-t.dtmcreated),1) as avgwaitingtime, ROUND(AVG(tmp.lastmsgtime - t.dtmchatstarted),1) as avgchattime " .
+		"from {chatmessage} m, {chatthread} t, (SELECT i.threadid, MAX(i.dtmcreated) AS lastmsgtime FROM {chatmessage} i WHERE (ikind = :kind_user OR ikind = :kind_agent) GROUP BY i.threadid) tmp " .
+		"where m.threadid = t.threadid AND tmp.threadid = t.threadid AND t.dtmchatstarted <> 0 AND m.dtmcreated >= :start AND m.dtmcreated < :end",
 		array(
 			':kind_agent' => $kind_agent,
 			':kind_user' => $kind_user,
@@ -104,8 +104,8 @@ if ($statisticstype == 'bydate') {
 		"select vclocalename as name, COUNT(distinct threadid) as threads, " .
 		"SUM(ikind = :kind_agent) as msgs, AVG(CHAR_LENGTH(tmessage)) as avglen " .
 		"from {chatmessage}, {chatoperator} " .
-		"where agentId = operatorid AND unix_timestamp(dtmcreated) >= :start " .
-		"AND unix_timestamp(dtmcreated) < :end group by operatorid",
+		"where agentId = operatorid AND dtmcreated >= :start " .
+		"AND dtmcreated < :end group by operatorid",
 		array(
 			':kind_agent' => $kind_agent,
 			':start' => $start,
@@ -117,8 +117,8 @@ if ($statisticstype == 'bydate') {
 } elseif($statisticstype == 'bypage') {
 	$page['reportByPage'] = $db->query(
 		"SELECT COUNT(DISTINCT p.pageid) as visittimes, p.address, COUNT(DISTINCT t.threadid) as chattimes " .
-		"FROM {visitedpagestatistics} p LEFT OUTER JOIN {chatthread} t ON (p.address = t.referer AND DATE(p.visittime) = DATE(t.dtmcreated)) " .
-		"WHERE unix_timestamp(p.visittime) >= :start AND unix_timestamp(p.visittime) < :end GROUP BY p.address",
+		"FROM {visitedpagestatistics} p LEFT OUTER JOIN {chatthread} t ON (p.address = t.referer AND DATE(FROM_UNIXTIME(p.visittime)) = DATE(FROM_UNIXTIME(t.dtmcreated))) " .
+		"WHERE p.visittime >= :start AND p.visittime < :end GROUP BY p.address",
 		array(':start' => $start, ':end' => $end),
 		array('return_rows' => Database::RETURN_ALL_ROWS)
 	);

@@ -97,7 +97,7 @@ function get_operators_list($options)
 		$orderby = "vclogin";
 	}
 
-	$query = "select distinct {chatoperator}.operatorid, vclogin, vclocalename, vccommonname, istatus, idisabled, (unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
+	$query = "select distinct {chatoperator}.operatorid, vclogin, vclocalename, vccommonname, istatus, idisabled, (:now - dtmlastvisited) as time " .
 		 "from {chatoperator}" .
 		 (
 		 empty($options['isolated_operator_id']) ? "" :
@@ -111,13 +111,17 @@ function get_operators_list($options)
 		 ) .
 		 " order by " . $orderby;
 
+	$values = array(
+		':now' => time()
+	);
+
+	if (! empty($options['isolated_operator_id'])) {
+		$values[':operatorid'] = $options['isolated_operator_id'];
+	}
+
 	$operators = $db->query(
 		$query,
-		(
-			empty($options['isolated_operator_id']) 
-			? array()
-			: array(':operatorid' => $options['isolated_operator_id'])
-		),
+		$values,
 		array('return_rows' => Database::RETURN_ALL_ROWS)
 	);
 
@@ -129,9 +133,9 @@ function operator_get_all()
 	$db = Database::getInstance();
 	return $operators = $db->query(
 		"select operatorid, vclogin, vclocalename, vccommonname, istatus, idisabled, " .
-		"(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
+		"(:now - dtmlastvisited) as time " .
 		"from {chatoperator} order by vclogin",
-		NULL,
+		array(':now' => time()),
 		array('return_rows' => Database::RETURN_ALL_ROWS)
 	);
 }
@@ -141,21 +145,24 @@ function get_operators_from_adjacent_groups($operator)
 	$db = Database::getInstance();
 	$query = "select distinct {chatoperator}.operatorid, vclogin, vclocalename,vccommonname, " .
 		"istatus, idisabled, " .
-		"(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
+		"(:now - dtmlastvisited) as time " .
 		"from {chatoperator}, {chatgroupoperator} " .
 		"where {chatoperator}.operatorid = {chatgroupoperator}.operatorid " .
 		"and {chatgroupoperator}.groupid in " .
 		"(select g.groupid from {chatgroup} g, " .
 		"(select distinct parent from {chatgroup}, {chatgroupoperator} " .
 		"where {chatgroup}.groupid = {chatgroupoperator}.groupid " .
-		"and {chatgroupoperator}.operatorid = ?) i " .
+		"and {chatgroupoperator}.operatorid = :operatorid) i " .
 		"where g.groupid = i.parent or g.parent = i.parent " .
 		") order by vclogin";
 	
 	
 	return $db->query(
 		$query,
-		array($operator['operatorid']),
+		array(
+			':operatorid' => $operator['operatorid'],
+			':now' => time()
+		),
 		array('return_rows' => Database::RETURN_ALL_ROWS)
 	);
 }
@@ -245,9 +252,13 @@ function notify_operator_alive($operatorid, $istatus)
 {
 	$db = Database::getInstance();
 	$db->query(
-		"update {chatoperator} set istatus = ?, dtmlastvisited = CURRENT_TIMESTAMP " .
-		"where operatorid = ?",
-		array($istatus, $operatorid)
+		"update {chatoperator} set istatus = :istatus, dtmlastvisited = :now " .
+		"where operatorid = :operatorid",
+		array(
+			':istatus' => $istatus,
+			':now' => time(),
+			':operatorid' => $operatorid
+		)
 	);
 }
 
@@ -255,7 +266,7 @@ function has_online_operators($groupid = "")
 {
 	$db = Database::getInstance();
 
-	$query = "select count(*) as total, min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time from {chatoperator}";
+	$query = "select count(*) as total, min(:now - dtmlastvisited) as time from {chatoperator}";
 	if ($groupid) {
 		$query .= ", {chatgroupoperator}, {chatgroup} where {chatgroup}.groupid = {chatgroupoperator}.groupid and " .
 			"({chatgroup}.groupid = :groupid or {chatgroup}.parent = :groupid) and {chatoperator}.operatorid = " .
@@ -271,7 +282,10 @@ function has_online_operators($groupid = "")
 
 	$row = $db->query(
 		$query,
-		array(':groupid'=>$groupid),
+		array(
+			':groupid'=>$groupid,
+			':now' => time()
+		),
 		array('return_rows' => Database::RETURN_ONE_ROW)
 	);
 	return $row['time'] < Settings::get('online_timeout') && $row['total'] > 0;
@@ -282,9 +296,12 @@ function is_operator_online($operatorid)
 	$db = Database::getInstance();
 	$row = $db->query(
 		"select count(*) as total, " .
-		"min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
-		"from {chatoperator} where operatorid = ?",
-		array($operatorid),
+		"min(:now - dtmlastvisited) as time " .
+		"from {chatoperator} where operatorid = :operatorid",
+		array(
+			':now' => time(),
+			':operatorid' => $operatorid
+		),
 		array('return_rows' => Database::RETURN_ONE_ROW)
 	);
 	
@@ -548,28 +565,32 @@ function get_groups_($checkaway, $operator, $order = NULL)
 		$orderby = "iweight, vclocalname";
 	}
 
-	$values = array();
+	$values = array(
+		':now' => time()
+	);
 	$query = "select {chatgroup}.groupid as groupid, {chatgroup}.parent as parent, vclocalname, vclocaldescription, iweight" .
 		", (SELECT count(*) from {chatgroupoperator} where {chatgroup}.groupid = " .
 		"{chatgroupoperator}.groupid) as inumofagents" .
-		", (SELECT min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
+		", (SELECT min(:now - dtmlastvisited) as time " .
 		"from {chatgroupoperator}, {chatoperator} where istatus = 0 and " .
 		"{chatgroup}.groupid = {chatgroupoperator}.groupid " .
 		"and {chatgroupoperator}.operatorid = {chatoperator}.operatorid) as ilastseen" .
 		($checkaway
-			? ", (SELECT min(unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time " .
+			? ", (SELECT min(:now - dtmlastvisited) as time " .
 			"from {chatgroupoperator}, {chatoperator} where istatus <> 0 and " .
 			"{chatgroup}.groupid = {chatgroupoperator}.groupid " .
 			"and {chatgroupoperator}.operatorid = {chatoperator}.operatorid) as ilastseenaway"
 			: ""
 		) .
 		" from {chatgroup} ";
+
 	if ($operator) {
 		$query .= ", (select distinct parent from {chatgroup}, {chatgroupoperator} " .
-			"where {chatgroup}.groupid = {chatgroupoperator}.groupid and {chatgroupoperator}.operatorid = ?) i " .
+			"where {chatgroup}.groupid = {chatgroupoperator}.groupid and {chatgroupoperator}.operatorid = :operatorid) i " .
 			"where {chatgroup}.groupid = i.parent or {chatgroup}.parent = i.parent ";
-		$values[] = $operator['operatorid'];
+		$values[':operatorid'] = $operator['operatorid'];
 	}
+
 	$query .= " order by " . $orderby;
 	$groups = $db->query(
 		$query,

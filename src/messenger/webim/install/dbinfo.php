@@ -37,9 +37,9 @@ $dbtables = array(
 		"userid" => "varchar(255)",
 		"agentName" => "varchar(64)",
 		"agentId" => "int NOT NULL DEFAULT 0",
-		"dtmcreated" => "datetime DEFAULT 0",
-		"dtmchatstarted" => "datetime DEFAULT 0",
-		"dtmmodified" => "datetime DEFAULT 0",
+		"dtmcreated" => "int NOT NULL DEFAULT 0",
+		"dtmchatstarted" => "int NOT NULL DEFAULT 0",
+		"dtmmodified" => "int NOT NULL DEFAULT 0",
 		"lrevision" => "int NOT NULL DEFAULT 0",
 		"istate" => "int NOT NULL DEFAULT 0",
 		"ltoken" => "int NOT NULL",
@@ -47,8 +47,8 @@ $dbtables = array(
 		"referer" => "text",
 		"nextagent" => "int NOT NULL DEFAULT 0",
 		"locale" => "varchar(8)",
-		"lastpinguser" => "datetime DEFAULT 0",
-		"lastpingagent" => "datetime DEFAULT 0",
+		"lastpinguser" => "int NOT NULL DEFAULT 0",
+		"lastpingagent" => "int NOT NULL DEFAULT 0",
 		"userTyping" => "int DEFAULT 0",
 		"agentTyping" => "int DEFAULT 0",
 		"shownmessageid" => "int NOT NULL DEFAULT 0",
@@ -63,7 +63,7 @@ $dbtables = array(
 		"ikind" => "int NOT NULL",
 		"agentId" => "int NOT NULL DEFAULT 0",
 		"tmessage" => "text NOT NULL",
-		"dtmcreated" => "datetime DEFAULT 0",
+		"dtmcreated" => "int NOT NULL DEFAULT 0",
 		"tname" => "varchar(64)"
 	),
 
@@ -74,13 +74,13 @@ $dbtables = array(
 		"vclocalename" => "varchar(64) NOT NULL",
 		"vccommonname" => "varchar(64) NOT NULL",
 		"vcemail" => "varchar(64)",
-		"dtmlastvisited" => "datetime DEFAULT 0",
+		"dtmlastvisited" => "int NOT NULL DEFAULT 0",
 		"istatus" => "int DEFAULT 0", /* 0 - online, 1 - away */
 		"idisabled" => "int DEFAULT 0",
 		"vcavatar" => "varchar(255)",
 		"vcjabbername" => "varchar(255)",
 		"iperm" => "int DEFAULT 65535",
-		"dtmrestore" => "datetime DEFAULT 0",
+		"dtmrestore" => "int NOT NULL DEFAULT 0",
 		"vcrestoretoken" => "varchar(64)",
 	),
 
@@ -95,8 +95,8 @@ $dbtables = array(
 
 	"${mysqlprefix}chatban" => array(
 		"banid" => "INT NOT NULL auto_increment PRIMARY KEY",
-		"dtmcreated" => "datetime DEFAULT 0",
-		"dtmtill" => "datetime DEFAULT 0",
+		"dtmcreated" => "int NOT NULL DEFAULT 0",
+		"dtmtill" => "int NOT NULL DEFAULT 0",
 		"address" => "varchar(255)",
 		"comment" => "varchar(255)",
 		"blockedCount" => "int DEFAULT 0"
@@ -120,12 +120,12 @@ $dbtables = array(
 		"visitorid" => "INT NOT NULL auto_increment PRIMARY KEY",
 		"userid" => "varchar(64) NOT NULL",
 		"username" => "varchar(255)",
-		"firsttime" => "datetime NOT NULL DEFAULT 0",
-		"lasttime" => "datetime NOT NULL DEFAULT 0",
+		"firsttime" => "int NOT NULL DEFAULT 0",
+		"lasttime" => "int NOT NULL DEFAULT 0",
 		"entry" => "text NOT NULL",
 		"details" => "text NOT NULL",
 		"invited" => "tinyint(1) NOT NULL DEFAULT 0",
-		"invitationtime" => "datetime",
+		"invitationtime" => "int NOT NULL DEFAULT 0",
 		"invitedby" => "INT references ${mysqlprefix}chatoperator(operatorid) on delete set null",
 		"invitations" => "INT NOT NULL DEFAULT 0",
 		"chats" => "INT NOT NULL DEFAULT 0",
@@ -135,14 +135,14 @@ $dbtables = array(
 	"${mysqlprefix}visitedpage" => array(
 		"pageid" => "INT NOT NULL auto_increment PRIMARY KEY",
 		"address" => "varchar(1024)",
-		"visittime" => "datetime NOT NULL DEFAULT 0",
+		"visittime" => "int NOT NULL DEFAULT 0",
 		"visitorid" => "INT",
 	),
 
 	"${mysqlprefix}visitedpagestatistics" => array(
 		"pageid" => "INT NOT NULL auto_increment PRIMARY KEY",
 		"address" => "varchar(1024)",
-		"visittime" => "datetime NOT NULL DEFAULT 0"
+		"visittime" => "int NOT NULL DEFAULT 0"
 	),
 );
 

@@ -88,8 +88,8 @@ function thread_to_xml($thread)
 	$result .= htmlspecialchars(htmlspecialchars(get_user_name($thread['userName'], $thread['remote'], $thread['userid']))) . "</name>";
 	$result .= "<addr>" . htmlspecialchars(get_user_addr($thread['remote'])) . "</addr>";
 	$result .= "<agent>" . htmlspecialchars(htmlspecialchars($threadoperator)) . "</agent>";
-	$result .= "<time>" . $thread['unix_timestamp(dtmcreated)'] . "000</time>";
-	$result .= "<modified>" . $thread['unix_timestamp(dtmmodified)'] . "000</modified>";
+	$result .= "<time>" . $thread['dtmcreated'] . "000</time>";
+	$result .= "<modified>" . $thread['dtmmodified'] . "000</modified>";
 
 	if ($banForThread) {
 		$result .= "<reason>" . $banForThread['comment'] . "</reason>";
@@ -119,8 +119,8 @@ function print_pending_threads($groupids, $since)
 	$db = Database::getInstance();
 
 	$revision = $since;
-	$query = "select threadid, userName, agentName, unix_timestamp(dtmcreated), userTyping, " .
-		"unix_timestamp(dtmmodified), lrevision, istate, remote, nextagent, agentId, " .
+	$query = "select threadid, userName, agentName, dtmcreated, userTyping, " .
+		"dtmmodified, lrevision, istate, remote, nextagent, agentId, " .
 		"userid, shownmessageid, userAgent, (select vclocalname from {chatgroup} where {chatgroup}.groupid = {chatthread}.groupid) as groupname " .
 		"from {chatthread} where lrevision > :since " .
 		($since <= 0
@@ -181,8 +181,8 @@ function visitor_to_xml($visitor)
 //    $result .= "<userid>" . htmlspecialchars($visitor['userid']) . "</userid>";
     $result .= "<username>" . htmlspecialchars($visitor['username']) . "</username>";
 
-    $result .= "<time>" . $visitor['unix_timestamp(firsttime)'] . "000</time>";
-    $result .= "<modified>" . $visitor['unix_timestamp(lasttime)'] . "000</modified>";
+    $result .= "<time>" . $visitor['firsttime'] . "000</time>";
+    $result .= "<modified>" . $visitor['lasttime'] . "000</modified>";
 //    $result .= "<entry>" . htmlspecialchars($visitor['entry']) . "</entry>";
 
 //    $result .= "<path>";
@@ -203,7 +203,7 @@ function visitor_to_xml($visitor)
 
     $result .= "<invitation>";
     if ($visitor['invited']) {
-	$result .= "<invitationtime>" . $visitor['unix_timestamp(invitationtime)'] . "000</invitationtime>";
+	$result .= "<invitationtime>" . $visitor['invitationtime'] . "000</invitationtime>";
 	$operator = get_operator_name(operator_by_id($visitor['invitedby']));
 	$result .= "<operator>" . htmlspecialchars(htmlspecialchars($operator)) . "</operator>";
     }
@@ -222,18 +222,24 @@ function print_visitors()
 // Remove old visitors
 	$db->query(
 		"DELETE FROM {chatsitevisitor} " .
-		"WHERE (UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lasttime)) > ? ".
+		"WHERE (:now - lasttime) > :lifetime ".
 		"AND (threadid IS NULL OR " .
 		"(SELECT count(*) FROM {chatthread} WHERE threadid = {chatsitevisitor}.threadid " .
 		"AND istate <> {$state_closed} AND istate <> {$state_left}) = 0)",
-		array(Settings::get('tracking_lifetime'))
+		array(
+			':lifetime' => Settings::get('tracking_lifetime'),
+			':now' => time()
+		)
 	);
 
 // Remove old invitations
 	$db->query(
 		"UPDATE {chatsitevisitor} SET invited = 0, invitationtime = NULL, invitedby = NULL".
-		" WHERE threadid IS NULL AND (UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(invitationtime)) > ?",
-		array(Settings::get('invitation_lifetime'))
+		" WHERE threadid IS NULL AND (:now - invitationtime) > :lifetime",
+		array(
+			':lifetime' => Settings::get('invitation_lifetime'),
+			':now' => time()
+		)
 	);
 
 // Remove associations of visitors with closed threads
@@ -245,13 +251,16 @@ function print_visitors()
 
 // Remove old visitors' tracks
 	$db->query(
-		"DELETE FROM {visitedpage} WHERE (UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(visittime)) > ? " .
+		"DELETE FROM {visitedpage} WHERE (:now - visittime) > :lifetime " .
 		" AND visitorid NOT IN (SELECT visitorid FROM {chatsitevisitor})",
-		array(Settings::get('tracking_lifetime'))
+		array(
+			':lifetime' => Settings::get('tracking_lifetime'),
+			':now' => time()
+		)
 	);
 
-	$query = "SELECT visitorid, userid, username, unix_timestamp(firsttime), unix_timestamp(lasttime), " .
-			 "entry, details, invited, unix_timestamp(invitationtime), invitedby, invitations, chats " .
+	$query = "SELECT visitorid, userid, username, firsttime, lasttime, " .
+			 "entry, details, invited, invitationtime, invitedby, invitations, chats " .
 			 "FROM {chatsitevisitor} " .
 			 "WHERE threadid IS NULL " .
 			 "ORDER BY invited, lasttime DESC, invitations";

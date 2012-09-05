@@ -40,8 +40,8 @@ function threads_by_userid($userid)
 	}
 	
 	return $db->query(
-		"select unix_timestamp(dtmcreated) as created, " .
-		"unix_timestamp(dtmmodified) as modified, threadid, remote, agentName, userName " .
+		"select dtmcreated as created, " .
+		"dtmmodified as modified, threadid, remote, agentName, userName " .
 		"from {chatthread} " .
 		"where userid=? order by created DESC",
 		array($userid),

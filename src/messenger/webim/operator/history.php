@@ -47,6 +47,8 @@ if ($query !== false) {
 	}
 	$page['groupName'] = $groupName;
 
+	$escapedQuery = $escapedQuery?$escapedQuery:'';
+
 	$values = array(
 		':query' => "%{$escapedQuery}%"
 	);
@@ -66,8 +68,8 @@ if ($query !== false) {
 		$searchConditions[] = "({chatthread}.userName LIKE :query)";
 		$searchConditions[] = "({chatthread}.remote LIKE :query)";
 	}
-	select_with_pagintation("DISTINCT unix_timestamp({chatthread}.dtmcreated) as created, " .
-		"unix_timestamp({chatthread}.dtmmodified) as modified, {chatthread}.threadid, " .
+	select_with_pagintation("DISTINCT {chatthread}.dtmcreated as created, " .
+		"{chatthread}.dtmmodified as modified, {chatthread}.threadid, " .
 		"{chatthread}.remote, {chatthread}.agentName, {chatthread}.userName, groupid, " .
 		"messageCount as size",
 		"{chatthread}, {chatmessage}",
@@ -75,7 +77,7 @@ if ($query !== false) {
 			"{chatmessage}.threadid = {chatthread}.threadid",
 			"(" . implode(' or ', $searchConditions)  .  ")"
 		),
-		"order by created DESC",
+		"order by {chatthread}.dtmcreated DESC",
 		"DISTINCT {chatthread}.dtmcreated", $values);
 
 	$page['formq'] = topage($query);

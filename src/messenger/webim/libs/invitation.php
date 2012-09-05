@@ -35,9 +35,13 @@ function invitation_invite($visitorid, $operatorid)
 	if (!invitation_check($visitorid)) {
 		$db = Database::getInstance();
 		$db->query(
-			"update {chatsitevisitor} set invited = 1, invitedby = ?, " .
-			"invitationtime = now(), invitations = invitations + 1 where visitorid = ?",
-			array($operatorid, $visitorid)
+			"update {chatsitevisitor} set invited = 1, invitedby = :operatorid, " .
+			"invitationtime = :now, invitations = invitations + 1 where visitorid = :visitorid",
+			array(
+				':operatorid' => $operatorid,
+				':visitorid' => $visitorid,
+				':now' => time()
+			)
 		);
 		return invitation_check($visitorid);
 	} else {

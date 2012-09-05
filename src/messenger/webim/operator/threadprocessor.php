@@ -31,7 +31,7 @@ function thread_info($id)
 	$db = Database::getInstance();
 	return $db->query(
 		"select userName,agentName,remote,userAgent," .
-		"unix_timestamp(dtmmodified) as modified, unix_timestamp(dtmcreated) as created," .
+		"dtmmodified as modified, dtmcreated as created," .
 		"vclocalname as groupName " .
 		"from {chatthread} left join {chatgroup} on {chatthread}.groupid = {chatgroup}.groupid " .
 		"where threadid = ?",

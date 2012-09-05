@@ -86,7 +86,7 @@ if ($act == "silentcreateall") {
 		}
 
 		if (in_array("${mysqlprefix}chatthread.dtmchatstarted", $absent_columns)) {
-			runsql("ALTER TABLE ${mysqlprefix}chatthread ADD dtmchatstarted datetime DEFAULT 0 AFTER dtmcreated", $link);
+			runsql("ALTER TABLE ${mysqlprefix}chatthread ADD dtmchatstarted int NOT NULL DEFAULT 0 AFTER dtmcreated", $link);
 			runsql("update ${mysqlprefix}chatthread set dtmchatstarted = dtmcreated", $link);
 		}
 
@@ -142,7 +142,7 @@ if ($act == "silentcreateall") {
 		}
 
 		if (in_array("${mysqlprefix}chatoperator.dtmrestore", $absent_columns)) {
-			runsql("ALTER TABLE ${mysqlprefix}chatoperator ADD dtmrestore datetime DEFAULT 0", $link);
+			runsql("ALTER TABLE ${mysqlprefix}chatoperator ADD dtmrestore int NOT NULL DEFAULT 0", $link);
 		}
 
 		if (in_array("${mysqlprefix}chatoperator.vcrestoretoken", $absent_columns)) {
