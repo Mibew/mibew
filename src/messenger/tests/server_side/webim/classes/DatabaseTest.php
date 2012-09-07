@@ -1,7 +1,7 @@
 <?php
 
 require_once dirname(__FILE__) . '/../../../../webim/libs/classes/database.php';
-require_once dirname(__FILE__) . '/../../../../webim/libs/config.php';
+require_once dirname(__FILE__) . '/../database_config.php';
 
 /**
  * Test class for Database.
@@ -23,22 +23,22 @@ class DatabaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public static function setUpBeforeClass() {
-		global $mysqlhost, $mysqllogin, $mysqlpass, $mysqldb, $dbencoding,
-			$mysqlprefix, $use_persistent_connection, $force_charset_in_connection;
+		global $db_host, $db_name, $db_user, $db_pass, $tables_prefix,
+			$db_encoding, $force_charset_in_connection, $use_persistent_connection;
 		Database::initialize(
-			$mysqlhost,
-			$mysqllogin,
-			$mysqlpass,
+			$db_host,
+			$db_user,
+			$db_pass,
 			$use_persistent_connection,
-			$mysqldb,
-			$mysqlprefix,
+			$db_name,
+			$tables_prefix,
 			$force_charset_in_connection,
-			$dbencoding
+			$db_encoding
 		);
 		$dbh = new PDO(
-			"mysql:host={$mysqlhost};dbname={$mysqldb}",
-			$mysqllogin,
-			$mysqlpass
+			"mysql:host={$db_host};dbname={$db_name}",
+			$db_user,
+			$db_pass
 		);
 		$dbh->exec(
 			"CREATE TABLE phpunit_test_only " .
@@ -48,11 +48,11 @@ class DatabaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public static function tearDownAfterClass() {
-		global $mysqlhost, $mysqllogin, $mysqlpass, $mysqldb;
+		global $db_host, $db_user, $db_pass, $db_name;
 		$dbh = new PDO(
-			"mysql:host={$mysqlhost};dbname={$mysqldb}",
-			$mysqllogin,
-			$mysqlpass
+			"mysql:host={$db_host};dbname={$db_name}",
+			$db_user,
+			$db_pass
 		);
 		$dbh->exec("DROP TABLE phpunit_test_only");
 		$dbh = NULL;

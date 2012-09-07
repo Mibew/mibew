@@ -1,8 +1,8 @@
 <?php
 
 require_once dirname(__FILE__) . '/../../../../webim/libs/classes/settings.php';
-require_once dirname(__FILE__) . '/../../../../webim/libs/config.php';
 require_once dirname(__FILE__) . '/../../../../webim/libs/classes/database.php';
+require_once dirname(__FILE__) . '/../database_config.php';
 
 /**
  * Test class for Settings.
@@ -11,6 +11,18 @@ require_once dirname(__FILE__) . '/../../../../webim/libs/classes/database.php';
 class SettingsTest extends PHPUnit_Framework_TestCase {
 
 	public static function setUpBeforeClass() {
+		global $db_host, $db_name, $db_user, $db_pass, $tables_prefix,
+			$db_encoding, $force_charset_in_connection, $use_persistent_connection;
+		Database::initialize(
+			$db_host,
+			$db_user,
+			$db_pass,
+			$use_persistent_connection,
+			$db_name,
+			$tables_prefix,
+			$force_charset_in_connection,
+			$db_encoding
+		);
 		$db = Database::getInstance();
 		$db->query(
 			"INSERT INTO {chatconfig} (vckey, vcvalue) " .
@@ -25,6 +37,7 @@ class SettingsTest extends PHPUnit_Framework_TestCase {
 			"DELETE FROM {chatconfig} WHERE vckey = ? OR vckey = ?",
 			array('some_test_key', 'some_another_test_key')
 		);
+		Database::destroy();
 	}
 
 	public function testGet() {
