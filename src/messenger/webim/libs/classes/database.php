@@ -183,7 +183,8 @@ Class Database{
 		$instance->dbh = new PDO(
 			"mysql:host={$instance->dbHost};dbname={$instance->dbName}",
 			$instance->dbLogin,
-			$instance->dbPass
+			$instance->dbPass,
+			array(PDO::ATTR_PERSISTENT => $instance->usePersistentConnection)
 		);
 
 		if ($instance->forceCharsetInConnection) {
