@@ -111,15 +111,87 @@ Class Database{
 	protected $throwExceptions = false;
 
 	/**
-	 * Get instance of Database class. If no instance exists, creates new instance.
+	 * Get instance of Database class.
+	 *
+	 * If no instance exists, creates new instance.
+	 * Use Database::initialize() before try to get an instance. If database was not initilize coorectly triggers an
+	 * error with E_USER_ERROR level.
 	 *
 	 * @return Database
+	 * @see Database::initialize()
 	 */
 	public static function getInstance(){
 		if (is_null(self::$instance)) {
-			self::$instance = new Database();
+			trigger_error('Database was not initialized correctly', E_USER_ERROR);
 		}
 		return self::$instance;
+	}
+
+	/**
+	 * Destroy internal database object
+	 */
+	public static function destroy(){
+		if (! is_null(self::$instance)) {
+			self::$instance->__destruct();
+			self::$instance = NULL;
+		}
+	}
+
+	/**
+	 * Initialize database.
+	 *
+	 * Set internal database and connectionproperties. Create Database object. Create PDO object and store it in the
+	 * Database object.
+	 *
+	 * @param string $host Database host.
+	 * @param string $user Database user name.
+	 * @param string $pass Database for user with $name password.
+	 * @param boolean $use_pconn Control use persistent connection to the database or not.
+	 * @param string $db Database name.
+	 * @param string $prefix Database tables prefix
+	 * @param boolean $force_charset Control force charset in conection or not.
+	 * @param string $encoding Contains connection encoding. Using only if $force_charset = true.
+	 */
+	public static function initialize($host, $user, $pass, $use_pconn, $db, $prefix, $force_charset = false, $encoding = 'utf8') {
+		// Check PDO
+		if (! extension_loaded('PDO')) {
+			throw new Exception('PDO extension is not loaded');
+		}
+
+		if (! extension_loaded('pdo_mysql')) {
+			throw new Exception('pdo_mysql extension is not loaded');
+		}
+
+		// Check if initialization
+		if (! is_null(self::$instance)) {
+			throw new Exception('Database already initialized');
+		}
+
+		// Create database instance
+		$instance = new Database();
+		// Set database and connection properties
+		$instance->dbHost = $host;
+		$instance->dbLogin = $user;
+		$instance->dbPass = $pass;
+		$instance->dbName = $db;
+		$instance->dbEncoding = $encoding;
+		$instance->tablesPrefix = $prefix;
+		$instance->forceCharsetInConnection = $force_charset;
+		$instance->usePersistentConnection = $use_pconn;
+
+		// Create PDO object
+		$instance->dbh = new PDO(
+			"mysql:host={$instance->dbHost};dbname={$instance->dbName}",
+			$instance->dbLogin,
+			$instance->dbPass
+		);
+
+		if ($instance->forceCharsetInConnection) {
+			$instance->dbh->exec("SET NAMES ".$instance->dbh->quote($instance->dbEncoding));
+		}
+
+		// Store instance
+		self::$instance = $instance;
 	}
 
 	/**
@@ -128,63 +200,9 @@ Class Database{
 	private final function __clone() {}
 
 	/**
-	 * Database class constructor. Set internal database and connection
-	 * properties. Create PDO object and store it in the Database object.
-	 *
-	 * @global string $mysqlhost Contains mysql host. defined in
-	 *   libs/config.php
-	 * @global string $mysqllogin Contains mysql login. Defined in
-	 *   libs/config.php
-	 * @global string $mysqlpass Contains mysql password. Defined in
-	 *   libs/config.php
-	 * @global string $mysqldb Contains mysql database name. Defined in
-	 *   libs/config.php
-	 * @global string $dbencoding Contains connection encoding. Defined in
-	 *   libs/config.php
-	 * @global string $mysqlprefix Contains mysql tables prefix. Defined in
-	 *   libs/config.php
-	 * @global boolean $force_charset_in_connection Control force charset in
-	 *   conection or not. Defined in libs/config.php
-	 * @global boolean $use_persistent_connection Control use persistent
-	 *   connection to the database or not. Defined in libs/config.php
+	 * Forbid external object creation
 	 */
-	protected function __construct(){
-		global $mysqlhost, $mysqllogin, $mysqlpass, $mysqldb, $dbencoding,
-			$mysqlprefix, $force_charset_in_connection, $use_persistent_connection;
-		try{
-			if (! extension_loaded('PDO')) {
-				throw new Exception('PDO extension is not loaded');
-			}
-
-			if (! extension_loaded('pdo_mysql')) {
-				throw new Exception('pdo_mysql extension is not loaded');
-			}
-
-			// Set database and connection properties
-			$this->dbHost = $mysqlhost;
-			$this->dbLogin = $mysqllogin;
-			$this->dbPass = $mysqlpass;
-			$this->dbName = $mysqldb;
-			$this->dbEncoding = $dbencoding;
-			$this->tablesPrefix = $mysqlprefix;
-			$this->forceCharsetInConnection = $force_charset_in_connection;
-			$this->usePersistentConnection = $use_persistent_connection;
-
-			// Create PDO object
-			$this->dbh = new PDO(
-				"mysql:host={$this->dbHost};dbname={$this->dbName}",
-				$this->dbLogin,
-				$this->dbPass
-			);
-
-			if ($this->forceCharsetInConnection) {
-				$this->dbh->exec("SET NAMES ".$this->dbh->quote($this->dbEncoding));
-			}
-
-		} catch(Exception $e) {
-			$this->handleError($e);
-		}
-	}
+	protected function __construct() {}
 
 	/**
 	 * Handles errors

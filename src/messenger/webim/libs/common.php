@@ -26,6 +26,18 @@ require_once(dirname(__FILE__) . '/classes/settings.php');
 $version = '1.6.5';
 $jsver = "165";
 
+// Initialize the database
+Database::initialize(
+	$mysqlhost,
+	$mysqllogin,
+	$mysqlpass,
+	$use_persistent_connection,
+	$mysqldb,
+	$mysqlprefix,
+	$force_charset_in_connection,
+	$dbencoding
+);
+
 function myiconv($in_enc, $out_enc, $string)
 {
 	global $_utf8win1251, $_win1251utf8;

@@ -22,16 +22,19 @@ class DatabaseTest extends PHPUnit_Framework_TestCase {
 		$this->object = Database::getInstance();
 	}
 
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 */
-	protected function tearDown() {
-		$this->object->__destruct();
-	}
-
 	public static function setUpBeforeClass() {
-		global $mysqlhost, $mysqllogin, $mysqlpass, $mysqldb;
+		global $mysqlhost, $mysqllogin, $mysqlpass, $mysqldb, $dbencoding,
+			$mysqlprefix, $use_persistent_connection, $force_charset_in_connection;
+		Database::initialize(
+			$mysqlhost,
+			$mysqllogin,
+			$mysqlpass,
+			$use_persistent_connection,
+			$mysqldb,
+			$mysqlprefix,
+			$force_charset_in_connection,
+			$dbencoding
+		);
 		$dbh = new PDO(
 			"mysql:host={$mysqlhost};dbname={$mysqldb}",
 			$mysqllogin,
@@ -53,12 +56,29 @@ class DatabaseTest extends PHPUnit_Framework_TestCase {
 		);
 		$dbh->exec("DROP TABLE phpunit_test_only");
 		$dbh = NULL;
+		Database::destroy();
 	}
 
 	public function testGetInstance() {
 		$anotherDatabaseInstance = Database::getInstance();
 		$this->assertSame($this->object, $anotherDatabaseInstance);
 		$anotherDatabaseInstance = NULL;
+	}
+
+	public function testErrorInfo() {
+		$this->object->throwExeptions(true);
+		$this->assertFalse($this->object->errorInfo());
+		try{
+			$this->object->query("SOME_FAKE_QUERY");
+			$this->fail('Exception must be thrown!');
+		} catch(Exception $e) {
+			$errorInfo = $this->object->errorInfo();
+			$this->assertEquals('42000', $errorInfo[0]);
+			$this->assertEquals(1064, $errorInfo[1]);
+		}
+		$this->object->query("SELECT 'test_value'");
+		$errorInfo = $this->object->errorInfo();
+		$this->assertEquals('00000', $errorInfo[0]);
 	}
 
 	public function testQuery() {
@@ -139,22 +159,6 @@ class DatabaseTest extends PHPUnit_Framework_TestCase {
 			array('return_rows' => Database::RETURN_ONE_ROW)
 		);
 		$this->assertEquals($mysqlprefix.'test', $result['field_name']);
-	}
-
-	public function testErrorInfo() {
-		$this->object->throwExeptions(true);
-		$this->assertFalse($this->object->errorInfo());
-		try{
-			$this->object->query("SOME_FAKE_QUERY");
-			$this->fail('Exception must be thrown!');
-		} catch(Exception $e) {
-			$errorInfo = $this->object->errorInfo();
-			$this->assertEquals('42000', $errorInfo[0]);
-			$this->assertEquals(1064, $errorInfo[1]);
-		}
-		$this->object->query("SELECT 'test_value'");
-		$errorInfo = $this->object->errorInfo();
-		$this->assertEquals('00000', $errorInfo[0]);
 	}
 
 	public function testInsertedId() {
