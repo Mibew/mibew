@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * WARNING: Do not use the same values as in the mibew config file!
+ * Tests may truncate databses they use and all data will be lost!
+ *
+ * Use at least default $tables prefix
+ */
+
 $db_host = "";
 $db_user = "";
 $db_pass = "";
