@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-require_once('../libs/common.php');
-require_once('../libs/classes/database.php');
+require_once('../libs/init.php');
 
 $db = Database::getInstance();
 

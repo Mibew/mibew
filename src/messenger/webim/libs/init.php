@@ -15,12 +15,18 @@
  * limitations under the License.
  */
 
+// Initialize user session
 session_start();
 
+// Include configuration file
 require_once(dirname(__FILE__) . '/config.php');
-require_once(dirname(__FILE__) . '/plugins.php');
+
+// Include system classes
 require_once(dirname(__FILE__) . '/classes/database.php');
 require_once(dirname(__FILE__) . '/classes/settings.php');
+require_once(dirname(__FILE__) . '/classes/event_dispatcher.php');
+require_once(dirname(__FILE__) . '/classes/plugin_manager.php');
+require_once(dirname(__FILE__) . '/classes/plugin.php');
 
 // Include common libs
 require_once(dirname(__FILE__) . '/common/constants.php');
@@ -51,6 +57,11 @@ if (function_exists("date_default_timezone_set")) {
 	// TODO try to get timezone from config.php/session etc.
 	// autodetect timezone
 	@date_default_timezone_set(function_exists("date_default_timezone_get") ? @date_default_timezone_get() : "GMT");
+}
+
+if (! empty($plugins_list)) {
+	// Variable $plugins_config defined in libs/config.php
+	PluginManager::loadPlugins($plugins_list);
 }
 
 ?>

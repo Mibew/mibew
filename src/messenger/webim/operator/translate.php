@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-require_once('../libs/common.php');
+require_once('../libs/init.php');
 require_once('../libs/operator.php');
 require_once('../libs/pagination.php');
 
