@@ -231,7 +231,25 @@ function create_table($id, $link)
 	mysql_query($query, $link) or show_install_err(' Query failed: ' . mysql_error($link));
 
 	if ($id == "${mysqlprefix}chatoperator") {
-		create_operator("admin", "", "", "Administrator", "Administrator", "");
+		// Create First Administrator
+		mysql_query(
+			"INSERT INTO ${mysqlprefix}chatoperator ( " .
+				"vclogin, " .
+				"vcpassword, " .
+				"vclocalename, " .
+				"vccommonname, " .
+				"vcavatar, " .
+				"vcemail " .
+			") values ( " .
+				"'admin', " .
+				"MD5(''), " .
+				"'', " .
+				"'Administrator', " .
+				"'Administrator', " .
+				"''" .
+			")",
+			$link
+		);
 	} else if ($id == "${mysqlprefix}chatrevision") {
 		$result = mysql_query("INSERT INTO ${mysqlprefix}chatrevision VALUES (1)", $link);
 		if (! $result) {

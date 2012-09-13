@@ -15,8 +15,15 @@
  * limitations under the License.
  */
 
-require_once('../libs/common.php');
-require_once('../libs/operator.php');
+session_start();
+
+require_once('../libs/config.php');
+// Include common functions
+require_once('../libs/common/constants.php');
+require_once('../libs/common/locale.php');
+require_once('../libs/common/misc.php');
+require_once('../libs/common/response.php');
+// Include database structure
 require_once('dbinfo.php');
 
 function runsql($query, $link)

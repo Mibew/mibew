@@ -15,8 +15,17 @@
  * limitations under the License.
  */
 
-require_once('../libs/common.php');
-require_once('../libs/settings.php');
+session_start();
+
+require_once('../libs/config.php');
+
+// Include common functions
+require_once('../libs/common/constants.php');
+require_once('../libs/common/locale.php');
+require_once('../libs/common/misc.php');
+require_once('../libs/common/response.php');
+require_once('../libs/common/string.php');
+// Include database structure
 require_once('dbinfo.php');
 
 $page = array(
@@ -295,7 +304,7 @@ function add_canned_messages($link){
 
 function check_status()
 {
-	global $page, $webimroot, $dbversion;
+	global $page, $webimroot, $dbversion, $mysqlprefix;
 
 	$page['done'][] = getlocal2("install.0.php", array(phpversion()));
 
@@ -341,10 +350,15 @@ function check_status()
 
 	$page['show_small_login'] = true;
 
+	// Update current dbversion
+	$res = mysql_query("select COUNT(*) as count from ${mysqlprefix}chatconfig where vckey = 'dbversion'", $link);
+	if(mysql_result($res, 0, 'count') == 0) {
+		mysql_query("insert into ${mysqlprefix}chatconfig (vckey) values ('dbversion')", $link);
+	}
+
+	mysql_query("update ${mysqlprefix}chatconfig set vcvalue = '{$dbversion}' where vckey='dbversion'", $link);
 	mysql_close($link);
 
-	Settings::set('dbversion', $dbversion);
-	Settings::update();
 }
 
 check_status();
