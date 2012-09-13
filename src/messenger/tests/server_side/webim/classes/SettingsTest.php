@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) . '/../../../../webim/libs/classes/settings.php';
 require_once dirname(__FILE__) . '/../../../../webim/libs/classes/database.php';
-require_once dirname(__FILE__) . '/../database_config.php';
+require_once dirname(__FILE__) . '/../config.php';
 
 /**
  * Test class for Settings.
