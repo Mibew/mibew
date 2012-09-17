@@ -30,7 +30,7 @@ function track_visitor($visitorid, $entry, $referer)
 			"update {chatsitevisitor} set lasttime = :now " .
 			"where visitorid = :visitorid",
 			array(
-				':vidsitorid' => $visitor['visitorid'],
+				':visitorid' => $visitor['visitorid'],
 				':now' => time()
 			)
 		);
