@@ -267,10 +267,12 @@ function has_online_operators($groupid = "")
 	$db = Database::getInstance();
 
 	$query = "select count(*) as total, min(:now - dtmlastvisited) as time from {chatoperator}";
+	$values = array(':now' => time());
 	if ($groupid) {
 		$query .= ", {chatgroupoperator}, {chatgroup} where {chatgroup}.groupid = {chatgroupoperator}.groupid and " .
 			"({chatgroup}.groupid = :groupid or {chatgroup}.parent = :groupid) and {chatoperator}.operatorid = " .
 			"{chatgroupoperator}.operatorid and istatus = 0";
+		$values[':groupid'] = $groupid;
 	} else {
 		if (Settings::get('enablegroups') == 1) {
 			$query .= ", {chatgroupoperator} where {chatoperator}.operatorid = " .
@@ -282,10 +284,7 @@ function has_online_operators($groupid = "")
 
 	$row = $db->query(
 		$query,
-		array(
-			':groupid'=>$groupid,
-			':now' => time()
-		),
+		$values,
 		array('return_rows' => Database::RETURN_ONE_ROW)
 	);
 	return $row['time'] < Settings::get('online_timeout') && $row['total'] > 0;
