@@ -380,6 +380,44 @@ abstract class RequestProcessor {
 	}
 
 	/**
+	 * Sends synchronous request
+	 *
+	 * @param array $request The 'request' array. See Mibew API for details
+	 * @return mixed response array or boolean false on failure
+	 */
+	protected function sendSyncRequest($request) {
+		trigger_error('Method sendSyncRequest does not implement!', E_USER_WARNING);
+	}
+
+	/**
+	 * Sends asynchronous request
+	 *
+	 * @param array $request The 'request' array. See Mibew API for details
+	 * @return boolean true on success or false on failure
+	 */
+	protected function sendAsyncRequest($request) {
+		trigger_error('Method sendAsyncRequest does not implement!', E_USER_WARNING);
+	}
+
+	/**
+	 * Sends synchronous responses
+	 *
+	 * @param array $responses An array of the 'Request' arrays. See Mibew API for details
+	 */
+	protected function sendSyncResponses($responses) {
+		trigger_error('Method sendSyncResponses does not implement!', E_USER_WARNING);
+	}
+
+	/**
+	 * Sends asynchronous responses
+	 *
+	 * @param array $responses An array of the 'Request' arrays. See Mibew API for details
+	 */
+	protected function sendAsyncResponses($responses) {
+		trigger_error('Method sendAsyncResponses does not implement!', E_USER_WARNING);
+	}
+
+	/**
 	 * Creates and returns an instance of the MibewAPI class.
 	 *
 	 * @return MibewAPI
@@ -411,36 +449,6 @@ abstract class RequestProcessor {
 	 * @see RequestProcessor::registerEvents()
 	 */
 	protected abstract function processorCall(&$func);
-
-	/**
-	 * Sends synchronous request
-	 *
-	 * @param array $request The 'request' array. See Mibew API for details
-	 * @return mixed response array or boolean false on failure
-	 */
-	protected abstract function sendSyncRequest($request);
-
-	/**
-	 * Sends asynchronous request
-	 *
-	 * @param array $request The 'request' array. See Mibew API for details
-	 * @return boolean true on success or false on failure
-	 */
-	protected abstract function sendAsyncRequest($request);
-
-	/**
-	 * Sends synchronous responses
-	 *
-	 * @param array $responses An array of the 'Request' arrays. See Mibew API for details
-	 */
-	protected abstract function sendSyncResponses($responses);
-
-	/**
-	 * Sends asynchronous responses
-	 *
-	 * @param array $responses An array of the 'Request' arrays. See Mibew API for details
-	 */
-	protected abstract function sendAsyncResponses($responses);
 }
 
 class RequestProcessorException extends Exception {
