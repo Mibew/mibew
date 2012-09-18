@@ -133,10 +133,11 @@ abstract class RequestProcessor {
 
 				if ($need_result) {
 					// There is callback function
-					// TODO: Think about callback functions nature
-					$object = $callback['object'];
-					$method = $callback['method'];
-					$object->$method($arguments);
+					$function = $callback['function'];
+					$arguments += empty($callback['arguments'])
+						? array()
+						: unserialize($callback['arguments']);
+					call_user_func_array($function, $arguments);
 				} else {
 					// There is no callback function
 					$this->responses[] = $this->mibewAPI->buildResult(
@@ -197,11 +198,10 @@ abstract class RequestProcessor {
 			);
 
 			if ($async) {
-				// TODO: Think about callbacks
-				// TODO: May be add exception if $callback = null
-
 				// Store callback
-				$this->saveCallback($token, $callback);
+				if (! is_null($callback)) {
+					$this->saveCallback($token, $callback);
+				}
 
 				// Send asynchronous request
 				$this->sendAsyncRequest($request);
