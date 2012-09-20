@@ -126,20 +126,46 @@ abstract class RequestProcessor {
 			// Clear responses
 			$this->responses = array();
 			foreach ($package['requests'] as $request) {
-				// Try to load callback function for this token
-				$callback = $this->loadCallback($request['token']);
-				$need_result = ! is_null($callback);
-				$arguments = $this->processRequest($request, $need_result);
+				if ($package['async']) {
+					// Asynchronous request
+					// Try to load callback function for this token
+					$callback = $this->loadCallback($request['token']);
 
-				if ($need_result) {
-					// There is callback function
-					$function = $callback['function'];
-					$arguments += empty($callback['arguments'])
-						? array()
-						: unserialize($callback['arguments']);
-					call_user_func_array($function, $arguments);
+					// Try to get result function
+					$result_function = $this->mibewAPI->getResultFunction($request['functions']);
+
+					// Callback exists but result function does not
+					if (! is_null($callback) && is_null($result_function)) {
+						throw new RequestProcessorException(
+							"There is no 'result' function in request",
+							RequestProcessorException::NO_RESULT_FUNCTION
+						);
+					}
+
+					if (! is_null($result_function)) {
+						if (! is_null($callback)) {
+							// There are callback function and result function
+							$arguments = $this->processRequest($request, true);
+							$function = $callback['function'];
+							$arguments += empty($callback['arguments'])
+								? array()
+								: $callback['arguments'];
+							call_user_func_array($function, $arguments);
+						}
+					} else {
+						// Process request
+						$arguments = $this->processRequest($request, false);
+						// Send response
+						$this->responses[] = $this->mibewAPI->buildResult(
+							$request['token'],
+							$arguments
+						);
+					}
 				} else {
-					// There is no callback function
+					// Synchronous request
+					// Process request
+					$arguments = $this->processRequest($request, false);
+					// Send response
 					$this->responses[] = $this->mibewAPI->buildResult(
 						$request['token'],
 						$arguments
