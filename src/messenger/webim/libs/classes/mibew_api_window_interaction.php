@@ -26,6 +26,8 @@ class MibewAPIWindowInteraction extends MibewAPIInteraction {
 	 */
 	protected $obligatoryArguments = array(
 		'*' => array(
+			'threadId' => null,
+			'token' => null,
 			'references' => array(),
 			'return' => array()
 		),

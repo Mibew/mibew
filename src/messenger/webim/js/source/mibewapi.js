@@ -386,6 +386,8 @@ MibewAPIInteraction.prototype.getObligatoryArgumentsDefaults = function(function
 function MibewAPICoreInteraction() {
     this.obligatoryArguments = {
         '*': {
+            'threadId': null,
+            'token': null,
             'return': {},
             'references': {}
         },
