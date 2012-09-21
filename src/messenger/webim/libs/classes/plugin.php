@@ -48,6 +48,13 @@ abstract Class Plugin {
 
 	/**
 	 * Register listeners
+	 *
+	 * Event listener take one argument by reference. For example:
+	 * <code>
+	 *   public function testListener(&$arguments) {
+	 *      $arguments['result'] = 'Test string';
+	 *   }
+	 * </code>
 	 */
 	abstract public function registerListeners();
 
