@@ -1,9 +1,9 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../../webim/libs/classes/thread.php';
-require_once dirname(__FILE__) . '/../../../../webim/libs/classes/database.php';
-require_once dirname(__FILE__) . '/../../../../webim/libs/classes/settings.php';
-require_once dirname(__FILE__) . '/../../../../webim/libs/common/locale.php';
+require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/thread.php';
+require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/database.php';
+require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/settings.php';
+require_once dirname(__FILE__) . '/../../../../../webim/libs/common/locale.php';
 require_once dirname(__FILE__) . '/../config.php';
 
 /**

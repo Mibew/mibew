@@ -1,7 +1,7 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../../webim/libs/classes/plugin_manager.php';
-require_once dirname(__FILE__) . '/../../../../webim/libs/classes/plugin.php';
+require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/plugin_manager.php';
+require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/plugin.php';
 
 /**
  * Test class for PluginManager.
@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/../../../../webim/libs/classes/plugin.php';
 class PluginManagerTest extends PHPUnit_Framework_TestCase {
 
 	public function testLoadPlugins() {
-		set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__FILE__));
+		set_include_path(get_include_path() . PATH_SEPARATOR . realpath(dirname(__FILE__) . '/../../plugins/'));
 
 		// Try to load plugin that does not exists
 		// Following code wait for trigger user error, which converts by PHPUnit to an
