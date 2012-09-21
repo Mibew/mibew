@@ -222,7 +222,7 @@ Class Thread {
 	 * @param int $id ID of the thread to load
 	 * @return boolean|Thread Returns an object of the Thread class or boolean false on failure
 	 */
-	public static function load($id) {
+	public static function load($id, $last_token = null) {
 		// Check $id
 		if (empty($id)) {
 			return false;
@@ -234,6 +234,12 @@ Class Thread {
 		// Check if something went wrong
 		if ($thread->id != $id) {
 			return false;
+		}
+		// Check last token
+		if (! is_null($last_token)) {
+			if ($thread->lastToken != $last_token) {
+				return false;
+			}
 		}
 		return $thread;
 	}
