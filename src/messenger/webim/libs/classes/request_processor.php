@@ -453,6 +453,10 @@ abstract class RequestProcessor {
 	/**
 	 * Stores callback function
 	 *
+	 * Callback is an associative array with following keys
+	 *  - 'function': function name to call
+	 *  - 'arguments': additional arguments, that passed to the callback function
+	 *
 	 * @param string $token Request token
 	 * @param array $callback Callback function array
 	 */
@@ -460,6 +464,10 @@ abstract class RequestProcessor {
 
 	/**
 	 * Loads callback function
+	 *
+	 * Callback is an associative array with following keys
+	 *  - 'function': function name to call
+	 *  - 'arguments': additional arguments, that passed to the callback function
 	 *
 	 * @param string $token Token of the request related to callback function
 	 * @return mixed callback function array or null if callback function not exists
