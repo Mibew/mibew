@@ -20,7 +20,7 @@
  *
  * Register events (see RequestProcessor::registerEvents() for details):
  *  - <eventPrefix>RequestReceived
- *  - <eventPrefix>ReceiveRequestError
+ *  - <eventPrefix>RequestError
  *  - <eventPrefix>ResponseReceived
  *  - <eventPrefix>CallError
  *  - <eventPrefix>FunctionCall
@@ -99,7 +99,7 @@ abstract class RequestProcessor {
 	 * Proccess received packages
 	 *
 	 * On any error function returns only boolean false. To handle error add listener to the
-	 * "<eventPrefix>ReceiveRequestError" event.
+	 * "<eventPrefix>RequestError" event.
 	 *
 	 * @param string $package Encoded package
 	 * @return boolean true if request processed succussfully or false on failure
@@ -279,7 +279,7 @@ abstract class RequestProcessor {
 	 *    package structure
 	 *
 	 *
-	 * 2. "<eventPrefix>ReceiveRequestError" - triggers when error occurs during received
+	 * 2. "<eventPrefix>RequestError" - triggers when error occurs during received
 	 * request processing.
 	 *
 	 * An associative array passed to event handler have following keys:
