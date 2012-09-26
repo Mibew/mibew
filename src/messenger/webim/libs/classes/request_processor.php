@@ -150,8 +150,9 @@ abstract class RequestProcessor {
 							$arguments += empty($callback['arguments'])
 								? array()
 								: $callback['arguments'];
-							call_user_func_array($function, $arguments);
+							call_user_func_array($function, array($arguments));
 						}
+						return true;
 					} else {
 						// Process request
 						$arguments = $this->processRequest($request, false);
