@@ -131,29 +131,25 @@ abstract class RequestProcessor {
 					// Try to load callback function for this token
 					$callback = $this->loadCallback($request['token']);
 
-					// Try to get result function
-					$result_function = $this->mibewAPI->getResultFunction($request['functions']);
-
-					// Callback exists but result function does not
-					if (! is_null($callback) && is_null($result_function)) {
-						throw new RequestProcessorException(
-							"There is no 'result' function in request",
-							RequestProcessorException::NO_RESULT_FUNCTION
-						);
-					}
-
-					if (! is_null($result_function)) {
-						if (! is_null($callback)) {
-							// There are callback function and result function
-							$arguments = $this->processRequest($request, true);
-							$function = $callback['function'];
-							$arguments += empty($callback['arguments'])
-								? array()
-								: $callback['arguments'];
-							call_user_func_array($function, array($arguments));
-						}
+					if (! is_null($callback)) {
+						// There is callback function. Try to get result arguments
+						$arguments = $this->processRequest($request, true);
+						$function = $callback['function'];
+						$arguments += empty($callback['arguments'])
+							? array()
+							: $callback['arguments'];
+						call_user_func_array($function, array($arguments));
 						return true;
 					} else {
+						// Try to get result function
+						$result_function = $this->mibewAPI->getResultFunction($request['functions']);
+
+						if (! is_null($result_function)) {
+							// There is result function but no callback
+							return true;
+						}
+
+						// There is no result function
 						// Process request
 						$arguments = $this->processRequest($request, false);
 						// Send response
@@ -250,13 +246,6 @@ abstract class RequestProcessor {
 				if ($request['token'] == $token) {
 					$result = $this->processRequest($request, true);
 				}
-			}
-
-			if (is_null($result)) {
-				throw new RequestProcessorException(
-					"There is no 'result' function in response",
-					RequestProcessorException::NO_RESULT_FUNCTION
-				);
 			}
 		} catch (Exception $e) {
 			// Trigger error event
@@ -488,13 +477,9 @@ abstract class RequestProcessor {
 
 class RequestProcessorException extends Exception {
 	/**
-	 * Result function is absent
-	 */
-	const NO_RESULT_FUNCTION = 1;
-	/**
 	 * Wrong function arguments
 	 */
-	const WRONG_ARGUMENTS = 2;
+	const WRONG_ARGUMENTS = 1;
 }
 
 ?>
