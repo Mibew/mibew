@@ -19,13 +19,14 @@ require_once('libs/init.php');
 require_once('libs/chat.php');
 require_once('libs/operator.php');
 require_once('libs/groups.php');
+require_once('libs/classes/thread.php');
 
 $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "";
 if($referer && isset($_SESSION['threadid'])) {
-	$thread = thread_by_id($_SESSION['threadid']);
-    if ($thread && $thread['istate'] != $state_closed) {
-        $msg = getstring2_("chat.client.visited.page", array($referer), $thread['locale']);
-        post_message_($thread['threadid'], $kind_for_agent,$msg);
+	$thread = Thread::load($_SESSION['threadid']);
+    if ($thread && $thread->state != Thread::STATE_CLOSED) {
+        $msg = getstring2_("chat.client.visited.page", array($referer), $thread->locale);
+		$thread->postMessage(Thread::KIND_FOR_AGENT, $msg);
     }
 }
 

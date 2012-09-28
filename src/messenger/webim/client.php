@@ -22,6 +22,7 @@ require_once('libs/groups.php');
 require_once('libs/expand.php');
 require_once('libs/captcha.php');
 require_once('libs/invitation.php');
+require_once('libs/classes/thread.php');
 
 if(Settings::get('enablessl') == "1" && Settings::get('forcessl') == "1") {
 	if(!is_secure_request()) {
@@ -39,7 +40,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 
 	$thread = NULL;
 	if( isset($_SESSION['threadid']) ) {
-		$thread = reopen_thread($_SESSION['threadid']);
+		$thread = Thread::reopen($_SESSION['threadid']);
 	}
 
 	if( !$thread ) {
@@ -106,36 +107,53 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 		$remoteHost = get_remote_host();
 		$userbrowser = $_SERVER['HTTP_USER_AGENT'];
 
-		if(!check_connections_from_remote($remoteHost)) {
+		if(Thread::connectionLimitReached($remoteHost)) {
 			die("number of connections from your IP is exceeded, try again later");
 		}
-		$thread = create_thread($groupid,$visitor['name'], $remoteHost, $referrer,$current_locale,$visitor['id'], $userbrowser,$state_loading);
-		$_SESSION['threadid'] = $thread['threadid'];
+		$thread = Thread::create();
+		$thread->groupId = $groupid;
+		$thread->userName = $visitor['name'];
+		$thread->remote = $remoteHost;
+		$thread->referer = $referrer;
+		$thread->locale = $current_locale;
+		$thread->userId = $visitor['id'];
+		$thread->userAgent = $userbrowser;
+		$thread->state = Thread::STATE_LOADING;
+		$thread->save();
 
-		$operator = invitation_accept($_SESSION['visitorid'], $thread['threadid']);
+		$_SESSION['threadid'] = $thread->id;
+
+		$operator = invitation_accept($_SESSION['visitorid'], $thread->id);
 		if ($operator) {
 		    $operator = operator_by_id($operator);
 		    $operatorName = ($current_locale == $home_locale) ? $operator['vclocalename'] : $operator['vccommonname'];
-		    post_message_($thread['threadid'], $kind_for_agent, getstring2('chat.visitor.invitation.accepted', array($operatorName)));
+			$thread->postMessage(
+				Thread::KIND_FOR_AGENT,
+				getstring2('chat.visitor.invitation.accepted', array($operatorName))
+			);
 		}
 
 		if( $referrer ) {
-			post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.came.from',array($referrer)));
+			$thread->postMessage(
+				Thread::KIND_FOR_AGENT,
+				getstring2('chat.came.from',array($referrer))
+			);
 		}
-		post_message_($thread['threadid'],$kind_info,getstring('chat.wait'));
+		$thread->postMessage(Thread::KIND_INFO, getstring('chat.wait'));
 		if($email) {
-			post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.email',array($email)));
+			$thread->postMessage(Thread::KIND_FOR_AGENT, getstring2('chat.visitor.email',array($email)));
 		}
 		if($info) {
-			post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.info',array($info)));
+			$thread->postMessage(Thread::KIND_FOR_AGENT, getstring2('chat.visitor.info',array($info)));
 		}
 		if($firstmessage) {
-			$postedid = post_message_($thread['threadid'],$kind_user,$firstmessage,$visitor['name']);
-			commit_thread( $thread['threadid'], array('shownmessageid' => $postedid));
+			$postedid = $thread->postMessage(Thread::KIND_USER, $firstmessage, $visitor['name']);
+			$thread->shownMessageId = $postedid;
+			$thread->save();
 		}
 	}
-	$threadid = $thread['threadid'];
-	$token = $thread['ltoken'];
+	$threadid = $thread->id;
+	$token = $thread->lastToken;
 	$level = get_remote_level($_SERVER['HTTP_USER_AGENT']);
 	$chatstyle = verifyparam( "style", "/^\w+$/", "");
 	header("Location: $webimroot/client.php?thread=$threadid&token=$token&level=$level".($chatstyle ? "&style=$chatstyle" : ""));
@@ -146,8 +164,8 @@ $token = verifyparam( "token", "/^\d{1,8}$/");
 $threadid = verifyparam( "thread", "/^\d{1,8}$/");
 $level = verifyparam( "level", "/^(ajaxed|simple|old)$/");
 
-$thread = thread_by_id($threadid);
-if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] ) {
+$thread = Thread::load($threadid, $token);
+if (! $thread) {
 	die("wrong thread");
 }
 

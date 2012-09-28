@@ -21,6 +21,7 @@ require_once('../libs/userinfo.php');
 require_once('../libs/operator.php');
 require_once('../libs/groups.php');
 require_once('../libs/track.php');
+require_once('../libs/classes/thread.php');
 
 $operator = get_logged_in();
 if (!$operator) {
@@ -30,25 +31,25 @@ if (!$operator) {
 }
 
 $threadstate_to_string = array(
-	$state_queue => "wait",
-	$state_waiting => "prio",
-	$state_chatting => "chat",
-	$state_closed => "closed",
-	$state_loading => "wait",
-	$state_left => "closed"
+	Thread::STATE_QUEUE => "wait",
+	Thread::STATE_WAITING => "prio",
+	Thread::STATE_CHATTING => "chat",
+	Thread::STATE_CLOSED => "closed",
+	Thread::STATE_LOADING => "wait",
+	Thread::STATE_LEFT => "closed"
 );
 
 $threadstate_key = array(
-	$state_queue => "chat.thread.state_wait",
-	$state_waiting => "chat.thread.state_wait_for_another_agent",
-	$state_chatting => "chat.thread.state_chatting_with_agent",
-	$state_closed => "chat.thread.state_closed",
-	$state_loading => "chat.thread.state_loading"
+	Thread::STATE_QUEUE => "chat.thread.state_wait",
+	Thread::STATE_WAITING => "chat.thread.state_wait_for_another_agent",
+	Thread::STATE_CHATTING => "chat.thread.state_chatting_with_agent",
+	Thread::STATE_CLOSED => "chat.thread.state_closed",
+	Thread::STATE_LOADING => "chat.thread.state_loading"
 );
 
 function thread_to_xml($thread)
 {
-	global $state_chatting, $threadstate_to_string, $threadstate_key,
+	global $threadstate_to_string, $threadstate_key,
 		$webim_encoding, $operator, $can_viewthreads, $can_takeover;
 	$state = $threadstate_to_string[$thread['istate']];
 	$result = "<thread id=\"" . $thread['threadid'] . "\" stateid=\"$state\"";
@@ -64,7 +65,7 @@ function thread_to_xml($thread)
 		$threadoperator = "- " . $thread['groupname'] . " -";
 	}
 
-	if (!($thread['istate'] == $state_chatting && $thread['agentId'] != $operator['operatorid'] && !is_capable($can_takeover, $operator))) {
+	if (!($thread['istate'] == Thread::STATE_CHATTING && $thread['agentId'] != $operator['operatorid'] && !is_capable($can_takeover, $operator))) {
 		$result .= " canopen=\"true\"";
 	}
 	if ($thread['agentId'] != $operator['operatorid'] && $thread['nextagent'] != $operator['operatorid']
@@ -115,7 +116,7 @@ function thread_to_xml($thread)
 
 function print_pending_threads($groupids, $since)
 {
-	global $webim_encoding, $state_closed, $state_left;
+	global $webim_encoding;
 	$db = Database::getInstance();
 
 	$revision = $since;
@@ -124,7 +125,7 @@ function print_pending_threads($groupids, $since)
 		"userid, shownmessageid, userAgent, (select vclocalname from {chatgroup} where {chatgroup}.groupid = {chatthread}.groupid) as groupname " .
 		"from {chatthread} where lrevision > :since " .
 		($since <= 0
-			? "AND istate <> {$state_closed} AND istate <> {$state_left} "
+			? "AND istate <> " . Thread::STATE_CLOSED . " AND istate <> " . Thread::STATE_LEFT . " "
 			: "") .
 		(Settings::get('enablegroups') == '1'
 			? "AND (groupid is NULL" . ($groupids
@@ -215,7 +216,7 @@ function visitor_to_xml($visitor)
 
 function print_visitors()
 {
-	global $webim_encoding, $state_closed, $state_left;
+	global $webim_encoding;
 
 	$db = Database::getInstance();
 
@@ -225,7 +226,7 @@ function print_visitors()
 		"WHERE (:now - lasttime) > :lifetime ".
 		"AND (threadid IS NULL OR " .
 		"(SELECT count(*) FROM {chatthread} WHERE threadid = {chatsitevisitor}.threadid " .
-		"AND istate <> {$state_closed} AND istate <> {$state_left}) = 0)",
+		"AND istate <> " . Thread::STATE_CLOSED . " AND istate <> " . Thread::STATE_LEFT . ") = 0)",
 		array(
 			':lifetime' => Settings::get('tracking_lifetime'),
 			':now' => time()
@@ -246,7 +247,7 @@ function print_visitors()
 	$db->query(
 		"UPDATE {chatsitevisitor} SET threadid = NULL WHERE threadid IS NOT NULL AND" .
 		" (SELECT count(*) FROM {chatthread} WHERE threadid = {chatsitevisitor}.threadid" .
-		" AND istate <> {$state_closed} AND istate <> {$state_left}) = 0"
+		" AND istate <> " . Thread::STATE_CLOSED . " AND istate <> " . Thread::STATE_LEFT . ") = 0"
 	);
 
 // Remove old visitors' tracks
@@ -289,7 +290,7 @@ $showvisitors = verifyparam("showvisitors", "/^1$/", 0);
 if (!isset($_SESSION["${mysqlprefix}operatorgroups"])) {
 	$_SESSION["${mysqlprefix}operatorgroups"] = get_operator_groupslist($operator['operatorid']);
 }
-close_old_threads();
+Thread::closeOldThreads();
 $groupids = $_SESSION["${mysqlprefix}operatorgroups"];
 
 start_xml_output();

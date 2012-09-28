@@ -20,6 +20,7 @@ require_once('libs/chat.php');
 require_once('libs/expand.php');
 require_once('libs/groups.php');
 require_once('libs/notify.php');
+require_once('libs/classes/thread.php');
 
 $errors = array();
 $page = array();
@@ -27,14 +28,14 @@ $page = array();
 $token = verifyparam( "token", "/^\d{1,8}$/");
 $threadid = verifyparam( "thread", "/^\d{1,8}$/");
 
-$thread = thread_by_id($threadid);
-if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] ) {
+$thread = Thread::load($threadid, $token);
+if (! $thread) {
 	die("wrong thread");
 }
 
 $email = getparam('email');
 $page['email'] = $email;
-$group = is_null($thread['groupid'])?NULL:group_by_id($thread['groupid']);
+$group = is_null($thread->groupId)?NULL:group_by_id($thread->groupId);
 if( !$email ) {
 	$errors[] = no_field("form.field.email");
 } else if( !is_valid_email($email)) {
@@ -43,8 +44,8 @@ if( !$email ) {
 
 if( count($errors) > 0 ) {
 	$page['formemail'] = $email;
-	$page['ct.chatThreadId'] = $thread['threadid'];
-	$page['ct.token'] = $thread['ltoken'];
+	$page['ct.chatThreadId'] = $thread->id;
+	$page['ct.token'] = $thread->lastToken;
 	$page['level'] = "";
 	setup_logo($group);
 	expand("styles/dialogs", getchatstyle(), "mail.tpl");
@@ -59,7 +60,10 @@ foreach( $output as $msg ) {
 }
 
 $subject = getstring("mail.user.history.subject");
-$body = getstring2("mail.user.history.body", array($thread['userName'],$history,Settings::get('title'),Settings::get('hosturl')) );
+$body = getstring2(
+	"mail.user.history.body",
+	array($thread->userName, $history, Settings::get('title'), Settings::get('hosturl'))
+);
 
 webim_mail($email, $webim_mailbox, $subject, $body);
 

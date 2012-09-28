@@ -19,6 +19,7 @@ require_once('../libs/init.php');
 require_once('../libs/chat.php');
 require_once('../libs/operator.php');
 require_once('../libs/pagination.php');
+require_once('../libs/classes/thread.php');
 
 $operator = check_login();
 $page = array('banId' => '');
@@ -118,11 +119,11 @@ if (isset($_POST['address'])) {
 	}
 } else if (isset($_GET['thread'])) {
 	$threadid = verifyparam('thread', "/^\d{1,9}$/");
-	$thread = thread_by_id($threadid);
+	$thread = Thread::load($threadid);
 	if ($thread) {
-		$page['thread'] = topage($thread['userName']);
+		$page['thread'] = topage($thread->userName);
 		$page['threadid'] = $threadid;
-		$page['formaddress'] = topage($thread['remote']);
+		$page['formaddress'] = topage($thread->remote);
 		$page['formdays'] = 15;
 	}
 }

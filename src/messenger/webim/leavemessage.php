@@ -21,26 +21,39 @@ require_once('libs/expand.php');
 require_once('libs/groups.php');
 require_once('libs/captcha.php');
 require_once('libs/notify.php');
+require_once('libs/classes/thread.php');
 
 $errors = array();
 $page = array();
 
 function store_message($name, $email, $info, $message,$groupid,$referrer) {
-	global $state_left, $current_locale, $kind_for_agent, $kind_user;
+	global $current_locale;
+
 	$remoteHost = get_remote_host();
 	$userbrowser = $_SERVER['HTTP_USER_AGENT'];
 	$visitor = visitor_from_request();
-	$thread = create_thread($groupid,$name,$remoteHost,$referrer,$current_locale,$visitor['id'], $userbrowser,$state_left);
+
+	$thread = Thread::create();
+	$thread->groupId = $groupid;
+	$thread->userName = $name;
+	$thread->remote = $remoteHost;
+	$thread->referer = $referrer;
+	$thread->locale = $current_locale;
+	$thread->userId = $visitor['id'];
+	$thread->userAgent = $userbrowser;
+	$thread->state = Thread::STATE_LEFT;
+	$thread->save();
+
 	if( $referrer ) {
-		post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.came.from',array($referrer)));
+		$thread->postMessage(Thread::KIND_FOR_AGENT,getstring2('chat.came.from',array($referrer)));
 	}
 	if($email) {
-		post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.email',array($email)));
+		$thread->postMessage(Thread::KIND_FOR_AGENT, getstring2('chat.visitor.email',array($email)));
 	}
 	if($info) {
-		post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.info',array($info)));
+		$thread->postMessage(Thread::KIND_FOR_AGENT, getstring2('chat.visitor.info',array($info)));
 	}
-	post_message_($thread['threadid'],$kind_user,$message,$name);
+	$thread->postMessage(Thread::KIND_USER, $message, $name);
 }
 
 $groupid = "";

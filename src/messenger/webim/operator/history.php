@@ -58,8 +58,8 @@ if ($query !== false) {
 		$searchConditions[] = "({chatmessage}.tmessage LIKE :query" .
 					($searchInSystemMessages?'':" AND ({chatmessage}.ikind = :kind_user OR {chatmessage}.ikind = :kind_agent)") .
 					")";
-		$values[':kind_user'] = $kind_user;
-		$values[':kind_agent'] = $kind_agent;
+		$values[':kind_user'] = Thread::KIND_USER;
+		$values[':kind_agent'] = Thread::KIND_AGENT;
 	}
 	if ($searchType == 'operator' || $searchType == 'all') {
 		$searchConditions[] = "({chatthread}.agentName LIKE :query)";

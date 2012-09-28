@@ -18,6 +18,7 @@
 require_once('libs/init.php');
 require_once('libs/chat.php');
 require_once('libs/operator.php');
+require_once('libs/classes/thread.php');
 
 $act = verifyparam( "act", "/^(refresh|post|rename|close|ping)$/");
 $token = verifyparam( "token", "/^\d{1,9}$/");
@@ -33,8 +34,8 @@ if($threadid == 0 && ($token == 123 || $token == 124)) {
 	exit;
 }
 
-$thread = thread_by_id($threadid);
-if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] ) {
+$thread = Thread::load($threadid, $token);
+if (! $thread) {
 	die("wrong thread");
 }
 
@@ -50,11 +51,11 @@ function show_error($message) {
 	exit;
 }
 
-ping_thread($thread, $isuser,$istyping);
+$thread->ping($isuser, $istyping);
 
 if( !$isuser && $act != "rename" ) {
 	$operator = check_login();
-	check_for_reassign($thread,$operator);
+	$thread->checkForReassign($operator);
 }
 
 if( $act == "refresh" ) {
@@ -66,16 +67,22 @@ if( $act == "refresh" ) {
 	$lastid = verifyparam( "lastid", "/^\d{1,9}$/", -1);
 	$message = getrawparam('message');
 
-	$kind = $isuser ? $kind_user : $kind_agent;
-	$from = $isuser ? $thread['userName'] : $thread['agentName'];
+	$kind = $isuser ? Thread::KIND_USER : Thread::KIND_AGENT;
+	$from = $isuser ? $thread->userName : $thread->agentName;
 
-	if(!$isuser && $operator['operatorid'] != $thread['agentId']) {
+	if(!$isuser && $operator['operatorid'] != $thread->agentId) {
 		show_error("cannot send");
 	}
 
-	$postedid = post_message_($threadid,$kind,$message,$from,null,$isuser ? null : $operator['operatorid'] );
-	if($isuser && $thread["shownmessageid"] == 0) {
-		commit_thread( $thread['threadid'], array('shownmessageid' => $postedid));
+	$postedid = $thread->postMessage(
+		$kind,
+		$message,
+		$from,
+		$isuser ? null : $operator['operatorid']
+	);
+	if($isuser && $thread->shownMessageId == 0) {
+		$thread->shownMessageId = $postedid;
+		$thread->save();
 	}
 	print_thread_messages($thread, $token, $lastid, $isuser, $outformat, $isuser ? null : $operator['operatorid']);
 	exit;
@@ -88,7 +95,7 @@ if( $act == "refresh" ) {
 
 	$newname = getrawparam('name');
 
-	rename_user($thread, $newname);
+	$thread->renameUser($newname);
 	$data = strtr(base64_encode(myiconv($webim_encoding,"utf-8",$newname)), '+/=', '-_,');
 	setcookie($namecookie, $data, time()+60*60*24*365);
 	show_ok_result("rename");
@@ -98,8 +105,8 @@ if( $act == "refresh" ) {
 
 } else if( $act == "close" ) {
 
-	if( $isuser || $thread['agentId'] == $operator['operatorid']) {
-		close_thread($thread, $isuser);
+	if( $isuser || $thread->agentId == $operator['operatorid']) {
+		$thread->close($isuser);
 	}
 	show_ok_result("closed");
 

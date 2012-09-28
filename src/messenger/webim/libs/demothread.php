@@ -27,7 +27,7 @@ function demo_print_message($msg, $format)
 
 function demo_process_thread($act, $outformat, $lastid, $isuser, $canpost, $istyping, $postmessage)
 {
-	global $kind_for_agent, $kind_info, $kind_events, $kind_user, $kind_agent, $webimroot;
+	global $webimroot;
 	if ($act == "refresh" || $act == "post") {
 		$lastid++;
 		if ($outformat == "xml") {
@@ -51,29 +51,29 @@ function demo_process_thread($act, $outformat, $lastid, $isuser, $canpost, $isty
 		}
 		if ($lastid == 1) {
 			demo_print_message(
-				array('ikind' => $kind_for_agent, 'created' => time() - 15, 'tname' => '',
+				array('ikind' => Thread::KIND_FOR_AGENT, 'created' => time() - 15, 'tname' => '',
 					 'tmessage' => getstring2('chat.came.from', array("http://google.com"))), $outformat);
 			demo_print_message(
-				array('ikind' => $kind_info, 'created' => time() - 15, 'tname' => '',
+				array('ikind' => Thread::KIND_INFO, 'created' => time() - 15, 'tname' => '',
 					 'tmessage' => getstring('chat.wait')), $outformat);
 			demo_print_message(
-				array('ikind' => $kind_events, 'created' => time() - 10, 'tname' => '',
+				array('ikind' => Thread::KIND_EVENTS, 'created' => time() - 10, 'tname' => '',
 					 'tmessage' => getstring2("chat.status.operator.joined", array("Administrator"))), $outformat);
 			demo_print_message(
-				array('ikind' => $kind_agent, 'created' => time() - 9, 'tname' => 'Administrator',
+				array('ikind' => Thread::KIND_AGENT, 'created' => time() - 9, 'tname' => 'Administrator',
 					 'tmessage' => getstring("demo.chat.welcome")), $outformat);
 			demo_print_message(
-				array('ikind' => $kind_user, 'created' => time() - 5, 'tname' => getstring("chat.default.username"),
+				array('ikind' => Thread::KIND_USER, 'created' => time() - 5, 'tname' => getstring("chat.default.username"),
 					 'tmessage' => getstring("demo.chat.question")), $outformat);
 			if ($canpost && $outformat == 'xml') {
 				demo_print_message(
-					array('ikind' => $kind_info, 'created' => time() - 5, 'tname' => '',
+					array('ikind' => Thread::KIND_INFO, 'created' => time() - 5, 'tname' => '',
 						 'tmessage' => 'Hint: type something in message field to see typing notification'), $outformat);
 			}
 		}
 		if ($act == 'post') {
 			demo_print_message(
-				array('ikind' => $isuser ? $kind_user : $kind_agent, 'created' => time(), 'tmessage' => $postmessage,
+				array('ikind' => $isuser ? Thread::KIND_USER : Thread::KIND_AGENT, 'created' => time(), 'tmessage' => $postmessage,
 					 'tname' => $isuser ? getstring("chat.default.username") : "Administrator"), $outformat);
 		}
 		if ($outformat == "xml") {

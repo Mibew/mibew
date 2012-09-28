@@ -22,6 +22,7 @@ require_once('../libs/groups.php');
 require_once('../libs/operator.php');
 require_once('../libs/pagination.php');
 require_once('../libs/expand.php');
+require_once('../libs/classes/thread.php');
 
 $operator = check_login();
 
@@ -49,8 +50,8 @@ if (!isset($_GET['token'])) {
 		exit;
 	}
 
-	$thread = thread_by_id($threadid);
-	if (!$thread || !isset($thread['ltoken'])) {
+	$thread = Thread::load($threadid);
+	if (!$thread || !isset($thread->lastToken)) {
 		$errors = array(getlocal("thread.error.wrong_thread"));
 		start_html_output();
 		expand("../styles/dialogs", getchatstyle(), "error.tpl");
@@ -60,7 +61,7 @@ if (!isset($_GET['token'])) {
 	$viewonly = verifyparam("viewonly", "/^true$/", false);
 
 	$forcetake = verifyparam("force", "/^true$/", false);
-	if (!$viewonly && $thread['istate'] == $state_chatting && $operator['operatorid'] != $thread['agentId']) {
+	if (!$viewonly && $thread->state == Thread::STATE_CHATTING && $operator['operatorid'] != $thread->agentId) {
 
 		if (!is_capable($can_takeover, $operator)) {
 			$errors = array(getlocal("thread.error.cannot_take_over"));
@@ -71,7 +72,9 @@ if (!isset($_GET['token'])) {
 
 		if ($forcetake == false) {
 			$page = array(
-				'user' => topage($thread['userName']), 'agent' => topage($thread['agentName']), 'link' => $_SERVER['PHP_SELF'] . "?thread=$threadid&amp;force=true"
+				'user' => topage($thread->userName),
+				'agent' => topage($thread->agentName),
+				'link' => $_SERVER['PHP_SELF'] . "?thread=$threadid&amp;force=true"
 			);
 			start_html_output();
 			require('../view/confirm.php');
@@ -80,7 +83,7 @@ if (!isset($_GET['token'])) {
 	}
 
 	if (!$viewonly) {
-		if(! take_thread($thread, $operator)){
+		if(! $thread->take($operator)){
 			$errors = array(getlocal("thread.error.cannot_take"));
 			start_html_output();
 			expand("../styles/dialogs", getchatstyle(), "error.tpl");
@@ -93,19 +96,19 @@ if (!isset($_GET['token'])) {
 		exit;
 	}
 
-	$token = $thread['ltoken'];
+	$token = $thread->lastToken;
 	header("Location: $webimroot/operator/agent.php?thread=$threadid&token=$token&level=$remote_level");
 	exit;
 }
 
 $token = verifyparam("token", "/^\d{1,8}$/");
 
-$thread = thread_by_id($threadid);
-if (!$thread || !isset($thread['ltoken']) || $token != $thread['ltoken']) {
+$thread = Thread::load($threadid, $token);
+if (!$thread) {
 	die("wrong thread");
 }
 
-if ($thread['agentId'] != $operator['operatorid'] && !is_capable($can_viewthreads, $operator)) {
+if ($thread->agentId != $operator['operatorid'] && !is_capable($can_viewthreads, $operator)) {
 	$errors = array("Cannot view threads");
 	start_html_output();
 	expand("../styles/dialogs", getchatstyle(), "error.tpl");

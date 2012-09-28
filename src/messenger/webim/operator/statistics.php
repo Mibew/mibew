@@ -78,8 +78,8 @@ if ($statisticstype == 'bydate') {
 		"from {chatmessage} m, {chatthread} t, (SELECT i.threadid, MAX(i.dtmcreated) AS lastmsgtime  FROM {chatmessage} i WHERE (ikind = :kind_user OR ikind = :kind_agent) GROUP BY i.threadid) tmp " .
 		"where m.threadid = t.threadid AND tmp.threadid = t.threadid AND t.dtmchatstarted <> 0 AND m.dtmcreated >= :start AND m.dtmcreated < :end group by DATE(FROM_UNIXTIME(m.dtmcreated)) order by m.dtmcreated desc",
 		array(
-			':kind_agent' => $kind_agent,
-			':kind_user' => $kind_user,
+			':kind_agent' => Thread::KIND_AGENT,
+			':kind_user' => Thread::KIND_USER,
 			':start' => $start,
 			':end' => $end
 		),
@@ -91,8 +91,8 @@ if ($statisticstype == 'bydate') {
 		"from {chatmessage} m, {chatthread} t, (SELECT i.threadid, MAX(i.dtmcreated) AS lastmsgtime FROM {chatmessage} i WHERE (ikind = :kind_user OR ikind = :kind_agent) GROUP BY i.threadid) tmp " .
 		"where m.threadid = t.threadid AND tmp.threadid = t.threadid AND t.dtmchatstarted <> 0 AND m.dtmcreated >= :start AND m.dtmcreated < :end",
 		array(
-			':kind_agent' => $kind_agent,
-			':kind_user' => $kind_user,
+			':kind_agent' => Thread::KIND_AGENT,
+			':kind_user' => Thread::KIND_USER,
 			':start' => $start,
 			':end' => $end
 		),
@@ -107,7 +107,7 @@ if ($statisticstype == 'bydate') {
 		"where agentId = operatorid AND dtmcreated >= :start " .
 		"AND dtmcreated < :end group by operatorid",
 		array(
-			':kind_agent' => $kind_agent,
+			':kind_agent' => Thread::KIND_AGENT,
 			':start' => $start,
 			':end' => $end
 		),

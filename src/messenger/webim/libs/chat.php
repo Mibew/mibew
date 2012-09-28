@@ -16,75 +16,14 @@
  */
 
 require_once(dirname(__FILE__).'/track.php');
-
-$connection_timeout = 30; // sec
+require_once(dirname(__FILE__).'/classes/thread.php');
 
 $namecookie = "WEBIM_Data";
 $usercookie = "WEBIM_UserID";
 
-$state_queue = 0;
-$state_waiting = 1;
-$state_chatting = 2;
-$state_closed = 3;
-$state_loading = 4;
-$state_left = 5;
-
-$kind_user = 1;
-$kind_agent = 2;
-$kind_for_agent = 3;
-$kind_info = 4;
-$kind_conn = 5;
-$kind_events = 6;
-$kind_avatar = 7;
-
-$kind_to_string = array($kind_user => "user", $kind_agent => "agent", $kind_for_agent => "hidden",
-						$kind_info => "inf", $kind_conn => "conn", $kind_events => "event", $kind_avatar => "avatar");
-
 function get_user_id()
 {
 	return (time() + microtime()) . rand(0, 99999999);
-}
-
-function next_token()
-{
-	return rand(99999, 99999999);
-}
-
-function next_revision()
-{
-	$db = Database::getInstance();
-	$db->query("update {chatrevision} set id=LAST_INSERT_ID(id+1)");
-	$val = $db->insertedId();
-	return $val;
-}
-
-/**
- * @todo Think about post_message_ and post_message diffrence
- */
-function post_message_($threadid, $kind, $message, $from = null, $utime = null, $opid = null)
-{
-	$db = Database::getInstance();
-
-	$query = "insert into {chatmessage} " .
-		"(threadid,ikind,tmessage,tname,agentId,dtmcreated) " .
-		"values (:threadid,:kind,:message,:name,:agentid,:created)";
-
-	 $values = array(
-		':threadid' => $threadid,
-		':kind' => $kind,
-		':message' => $message,
-		':name' => ($from ? $from : "null"),
-		':agentid' => ($opid ? $opid : 0),
-		':created' => ($utime ? $utime : time())
-	);
-
-	$db->query($query, $values);
-	return $db->insertedId();
-}
-
-function post_message($threadid, $kind, $message, $from = null, $agentid = null)
-{
-	return post_message_($threadid, $kind, $message, $from, null, $agentid);
 }
 
 function prepare_html_message($text, $allow_formating)
@@ -102,28 +41,30 @@ function prepare_html_message($text, $allow_formating)
 
 function message_to_html($msg)
 {
-	global $kind_to_string, $kind_user, $kind_agent, $kind_avatar;
-	if ($msg['ikind'] == $kind_avatar) return "";
+	if ($msg['ikind'] == Thread::KIND_AVATAR) {
+		return "";
+	}
 	$message = "<span>" . date("H:i:s", $msg['created']) . "</span> ";
-	$kind = $kind_to_string{$msg['ikind']};
+	$kind = Thread::kindToString($msg['ikind']);
 	if ($msg['tname'])
 		$message .= "<span class='n$kind'>" . htmlspecialchars($msg['tname']) . "</span>: ";
-	$allow_formating = ($msg['ikind'] != $kind_user && $msg['ikind'] != $kind_agent);
+	$allow_formating = ($msg['ikind'] != Thread::KIND_USER && $msg['ikind'] != Thread::KIND_AGENT);
 	$message .= "<span class='m$kind'>" . prepare_html_message($msg['tmessage'], $allow_formating) . "</span><br/>";
 	return $message;
 }
 
 function message_to_text($msg)
 {
-	global $kind_user, $kind_agent, $kind_info, $kind_avatar;
-	if ($msg['ikind'] == $kind_avatar) return "";
+	if ($msg['ikind'] == Thread::KIND_AVATAR) {
+		return "";
+	}
 	$message_time = date("H:i:s ", $msg['created']);
-	if ($msg['ikind'] == $kind_user || $msg['ikind'] == $kind_agent) {
+	if ($msg['ikind'] == Thread::KIND_USER || $msg['ikind'] == Thread::KIND_AGENT) {
 		if ($msg['tname'])
 			return $message_time . $msg['tname'] . ": " . $msg['tmessage'] . "\n";
 		else
 			return $message_time . $msg['tmessage'] . "\n";
-	} else if ($msg['ikind'] == $kind_info) {
+	} else if ($msg['ikind'] == Thread::KIND_INFO) {
 		return $message_time . $msg['tmessage'] . "\n";
 	} else {
 		return $message_time . "[" . $msg['tmessage'] . "]\n";
@@ -132,14 +73,14 @@ function message_to_text($msg)
 
 function get_messages($threadid, $meth, $isuser, &$lastid)
 {
-	global $kind_for_agent, $kind_avatar, $webim_encoding;
+	global $webim_encoding;
 	$db = Database::getInstance();
 
 	$msgs = $db->query(
 		"select messageid,ikind,dtmcreated as created,tname,tmessage from {chatmessage} " .
 		"where threadid = :threadid and messageid > :lastid " .
-		($isuser ? "and ikind <> {$kind_for_agent} " : "") .
-		"order by messageid",
+		($isuser ? "and ikind <> ". Thread::KIND_FOR_AGENT : "") .
+		" order by messageid",
 		array(
 			':threadid' => $threadid,
 			':lastid' => $lastid,
@@ -153,14 +94,14 @@ function get_messages($threadid, $meth, $isuser, &$lastid)
 		$message = "";
 		if ($meth == 'xml') {
 			switch ($msg['ikind']) {
-				case $kind_avatar:
+				case Thread::KIND_AVATAR:
 					$message = "<avatar>" . myiconv($webim_encoding, "utf-8", escape_with_cdata($msg['tmessage'])) . "</avatar>";
 					break;
 				default:
 					$message = "<message>" . myiconv($webim_encoding, "utf-8", escape_with_cdata(message_to_html($msg))) . "</message>\n";
 			}
 		} else {
-			if ($msg['ikind'] != $kind_avatar) {
+			if ($msg['ikind'] != Thread::KIND_AVATAR) {
 				$message = (($meth == 'text') ? message_to_text($msg) : topage(message_to_html($msg)));
 			}
 		}
@@ -176,16 +117,16 @@ function get_messages($threadid, $meth, $isuser, &$lastid)
 
 function print_thread_messages($thread, $token, $lastid, $isuser, $format, $agentid = null)
 {
-	global $webim_encoding, $webimroot, $connection_timeout;
-	$threadid = $thread['threadid'];
-	$istyping = abs(time() - $thread[$isuser ? "lpagent" : "lpuser"]) < $connection_timeout
-				&& $thread[$isuser ? "agentTyping" : "userTyping"] == "1" ? "1" : "0";
+	global $webim_encoding, $webimroot;
+	$threadid = $thread->id;
+	$istyping = abs(time() - $isuser ? $thread->lastPingAgent : $thread->lastPingUser) < Thread::CONNECTION_TIMEOUT
+				&& (($isuser ? $thread->agentTyping : $thread->userTyping) == "1") ? "1" : "0";
 
 	if ($format == "xml") {
 		$output = get_messages($threadid, "xml", $isuser, $lastid);
 
 		start_xml_output();
-		print("<thread lastid=\"$lastid\" typing=\"" . $istyping . "\" canpost=\"" . (($isuser || $agentid != null && $agentid == $thread['agentId']) ? 1 : 0) . "\">");
+		print("<thread lastid=\"$lastid\" typing=\"" . $istyping . "\" canpost=\"" . (($isuser || $agentid != null && $agentid == $thread->agentId) ? 1 : 0) . "\">");
 		foreach ($output as $msg) {
 			print $msg;
 		}
@@ -409,8 +350,8 @@ function setup_chatview_for_user($thread, $level)
 {
 	global $page, $webimroot;
 	$page = array();
-	if (! empty($thread['groupid'])) {
-		$group = group_by_id($thread['groupid']);
+	if (! empty($thread->groupId)) {
+		$group = group_by_id($thread->groupId);
 		$group = get_top_level_group($group);
 	} else {
 		$group = array();
@@ -418,13 +359,13 @@ function setup_chatview_for_user($thread, $level)
 	$page['agent'] = false;
 	$page['user'] = true;
 	$page['canpost'] = true;
-	$nameisset = getstring("chat.default.username") != $thread['userName'];
+	$nameisset = getstring("chat.default.username") != $thread->userName;
 	$page['displ1'] = $nameisset ? "none" : "inline";
 	$page['displ2'] = $nameisset ? "inline" : "none";
 	$page['level'] = $level;
-	$page['ct.chatThreadId'] = $thread['threadid'];
-	$page['ct.token'] = $thread['ltoken'];
-	$page['ct.user.name'] = htmlspecialchars(topage($thread['userName']));
+	$page['ct.chatThreadId'] = $thread->id;
+	$page['ct.token'] = $thread->lastToken;
+	$page['ct.user.name'] = htmlspecialchars(topage($thread->userName));
 	$page['canChangeName'] = Settings::get('usercanchangename') == "1";
 	$page['chat.title'] = topage(empty($group['vcchattitle'])?Settings::get('chattitle'):$group['vcchattitle']);
 	$page['chat.close.confirmation'] = getlocal('chat.close.confirmation');
@@ -438,7 +379,7 @@ function setup_chatview_for_user($thread, $level)
 		$page['ignorectrl'] = 0;
 	}
 
-	$params = "thread=" . $thread['threadid'] . "&amp;token=" . $thread['ltoken'];
+	$params = "thread=" . $thread->id . "&amp;token=" . $thread->lastToken;
 	$page['mailLink'] = "$webimroot/client.php?" . $params . "&amp;level=$level&amp;act=mailthread";
 
 	if (Settings::get('enablessl') == "1" && !is_secure_request()) {
@@ -455,18 +396,18 @@ function setup_chatview_for_operator($thread, $operator)
 {
 	global $page, $webimroot, $company_logo_link, $webim_encoding, $company_name;
 	$page = array();
-	if (! is_null($thread['groupid'])) {
-		$group = group_by_id($thread['groupid']);
+	if (! is_null($thread->groupId)) {
+		$group = group_by_id($thread->groupId);
 		$group = get_top_level_group($group);
 	} else {
 		$group = array();
 	}
 	$page['agent'] = true;
 	$page['user'] = false;
-	$page['canpost'] = $thread['agentId'] == $operator['operatorid'];
-	$page['ct.chatThreadId'] = $thread['threadid'];
-	$page['ct.token'] = $thread['ltoken'];
-	$page['ct.user.name'] = htmlspecialchars(topage(get_user_name($thread['userName'], $thread['remote'], $thread['userid'])));
+	$page['canpost'] = $thread->agentId == $operator['operatorid'];
+	$page['ct.chatThreadId'] = $thread->id;
+	$page['ct.token'] = $thread->lastToken;
+	$page['ct.user.name'] = htmlspecialchars(topage(get_user_name($thread->userName, $thread->remote, $thread->userId)));
 	$page['chat.title'] = topage(empty($group['vcchattitle'])?Settings::get('chattitle'):$group['vcchattitle']);
 	$page['chat.close.confirmation'] = getlocal('chat.close.confirmation');
 
@@ -480,22 +421,22 @@ function setup_chatview_for_operator($thread, $operator)
 	}
 
 	if (Settings::get('enablessl') == "1" && !is_secure_request()) {
-		$page['sslLink'] = get_app_location(true, true) . "/operator/agent.php?thread=" . $thread['threadid'] . "&amp;token=" . $thread['ltoken'];
+		$page['sslLink'] = get_app_location(true, true) . "/operator/agent.php?thread=" . $thread->id . "&amp;token=" . $thread->lastToken;
 	}
 	$page['isOpera95'] = is_agent_opera95();
 	$page['neediframesrc'] = needsFramesrc();
-	$page['historyParams'] = array("userid" => "" . $thread['userid']);
+	$page['historyParams'] = array("userid" => "" . $thread->userId);
 	$page['historyParamsLink'] = add_params($webimroot . "/operator/userhistory.php", $page['historyParams']);
 	if (Settings::get('enabletracking')) {
-	    $visitor = track_get_visitor_by_threadid($thread['threadid']);
+	    $visitor = track_get_visitor_by_threadid($thread->id);
 	    $page['trackedParams'] = array("visitor" => "" . $visitor['visitorid']);
 	    $page['trackedParamsLink'] = add_params($webimroot . "/operator/tracked.php", $page['trackedParams']);
 	}
 	$predefinedres = "";
-	$canned_messages = load_canned_messages($thread['locale'], 0);
-	if ($thread['groupid']) {
+	$canned_messages = load_canned_messages($thread->locale, 0);
+	if ($thread->groupId) {
 		$canned_messages = array_merge(
-			load_canned_messages($thread['locale'], $thread['groupid']),
+			load_canned_messages($thread->locale, $thread->groupId),
 			$canned_messages
 		);
 	};
@@ -505,189 +446,11 @@ function setup_chatview_for_operator($thread, $operator)
 	}
 	$page['predefinedAnswers'] = $predefinedres;
 	$page['fullPredefinedAnswers'] = json_encode($fullAnswers);
-	$params = "thread=" . $thread['threadid'] . "&amp;token=" . $thread['ltoken'];
+	$params = "thread=" . $thread->id . "&amp;token=" . $thread->lastToken;
 	$page['redirectLink'] = "$webimroot/operator/agent.php?" . $params . "&amp;act=redirect";
 
 	$page['namePostfix'] = "";
 	$page['frequency'] = Settings::get('updatefrequency_chat');
-}
-
-/**
- * Pings the chat thread. Updates 'lastpinguser' (or 'lastpingagent') to current timestamp. 
- * Sends system messages when operator or user was seen more than $connection_timeout seconds ago
- *
- * @global int $kind_for_agent
- * @global int $state_queue
- * @global int $state_loading
- * @global int $state_chatting
- * @global int $state_waiting
- * @global int $kind_conn
- * @global int $connection_timeout
- * @param array $thread Thread's array
- * @param boolean $isuser true for user and false for operator
- * @param boolean $istyping true if user (or agent) is typing
- */
-function ping_thread($thread, $isuser, $istyping)
-{
-	global $kind_for_agent, $state_queue, $state_loading, $state_chatting, $state_waiting, $kind_conn, $connection_timeout;
-
-	$db = Database::getInstance();
-
-	$params = array(($isuser ? "lastpinguser" : "lastpingagent") => time(),
-					($isuser ? "userTyping" : "agentTyping") => ($istyping ? "1" : "0"));
-
-	$lastping = $thread[$isuser ? "lpagent" : "lpuser"];
-
-	if ($thread['istate'] == $state_loading && $isuser) {
-		$params['istate'] = $state_queue;
-		commit_thread($thread['threadid'], $params);
-		return;
-	}
-
-	if ($lastping > 0 && abs(time() - $lastping) > $connection_timeout) {
-		$params[$isuser ? "lastpingagent" : "lastpinguser"] = "0";
-		if (!$isuser) {
-			$message_to_post = getstring_("chat.status.user.dead", $thread['locale']);
-			post_message_($thread['threadid'], $kind_for_agent, $message_to_post, null, $lastping + $connection_timeout);
-		} else if ($thread['istate'] == $state_chatting) {
-
-			$message_to_post = getstring_("chat.status.operator.dead", $thread['locale']);
-			post_message_($thread['threadid'], $kind_conn, $message_to_post, null, $lastping + $connection_timeout);
-			$params['istate'] = $state_waiting;
-			$params['nextagent'] = 0;
-			commit_thread($thread['threadid'], $params);
-			return;
-		}
-	}
-
-	$clause = "";
-	$values = array();
-	foreach ($params as $k => $v) {
-		if (strlen($clause) > 0) {
-			$clause .= ", ";
-		}
-		$clause .= $k . "=?";
-		$values[] = $v;
-	}
-	$values[] = $thread['threadid'];
-
-	$db->query(
-		"update {chatthread} set {$clause} where threadid = ?",
-		$values
-	);
-}
-
-function commit_thread($threadid, $params)
-{
-	$db = Database::getInstance();
-
-	$query = "update {chatthread} t " .
-		"set lrevision = ?, dtmmodified = ?";
-
-	$values = array();
-	$values[] = next_revision();
-	$values[] = time();
-
-	foreach ($params as $name => $value) {
-		$query .= ", {$name} = ?" ;
-		$values[] = $value;
-	}
-
-	$query .= " where threadid = ?";
-	$values[] = $threadid;
-
-	$db->query($query, $values);
-}
-
-function rename_user($thread, $newname)
-{
-	global $kind_events;
-
-	commit_thread($thread['threadid'], array('userName' => $newname));
-
-	if ($thread['userName'] != $newname) {
-		post_message_($thread['threadid'], $kind_events,
-					  getstring2_("chat.status.user.changedname", array($thread['userName'], $newname), $thread['locale']));
-	}
-}
-
-function close_thread($thread, $isuser)
-{
-	global $state_closed, $kind_events;
-
-	$db = Database::getInstance();
-	list($message_count) = $db->query(
-		"SELECT COUNT(*) FROM {chatmessage} WHERE {chatmessage}.threadid = ? AND ikind = 1",
-		array($thread['threadid']),
-		array(
-			'return_rows' => Database::RETURN_ONE_ROW,
-			'fetch_type' => Database::FETCH_NUM
-		)
-	);
-	if ($thread['istate'] != $state_closed) {
-		commit_thread(
-			$thread['threadid'],
-			array(
-				'istate' => $state_closed,
-				'messageCount' => $message_count
-			)
-		);
-	}
-
-	$message = $isuser ? getstring2_("chat.status.user.left", array($thread['userName']), $thread['locale'])
-			: getstring2_("chat.status.operator.left", array($thread['agentName']), $thread['locale']);
-	post_message_($thread['threadid'], $kind_events, $message);
-}
-
-function close_old_threads()
-{
-	global $state_closed, $state_left, $state_chatting;
-	if (Settings::get('thread_lifetime') == 0) {
-		return;
-	}
-
-	$db = Database::getInstance();
-
-	$query = "update {chatthread} set lrevision = :next_revision, " .
-		"dtmmodified = :now, istate = :state_closed " .
-		"where istate <> :state_closed and istate <> :state_left " .
-		"and ((lastpingagent <> 0 and lastpinguser <> 0 and " .
-		"(ABS(:now - lastpinguser) > ".
-		":thread_lifetime and " .
-		"ABS(:now - lastpingagent) > ".
-		":thread_lifetime)) or " .
-		"lastpingagent = 0 and lastpinguser <> 0 and " .
-		"ABS(:now - lastpinguser) > ".
-		":thread_lifetime)";
-
-	$db->query(
-		$query,
-		array(
-			':next_revision' => next_revision(),
-			':now' => time(),
-			':state_closed' => $state_closed,
-			':state_left' => $state_left,
-			':thread_lifetime' => Settings::get('thread_lifetime')
-		)
-	);
-}
-
-function thread_by_id($id)
-{
-	$db = Database::getInstance();
-	return $db->query(
-		"select threadid,userName,agentName,agentId,lrevision,istate,ltoken,userTyping, " .
-		"agentTyping,dtmmodified as modified, " .
-		"dtmcreated as created, " .
-		"dtmchatstarted as chatstarted,remote,referer,locale," .
-		"lastpinguser as lpuser,lastpingagent as lpagent," .
-		"nextagent,shownmessageid,userid, " .
-		"userAgent,groupid from {chatthread} where threadid = :threadid",
-		array(
-			':threadid' => $id
-		),
-		array('return_rows' => Database::RETURN_ONE_ROW)
-	);
 }
 
 function ban_for_addr($addr)
@@ -702,181 +465,6 @@ function ban_for_addr($addr)
 		),
 		array('return_rows' => Database::RETURN_ONE_ROW)
 	);
-}
-
-function create_thread($groupid, $username, $remoteHost, $referer, $lang, $userid, $userbrowser, $initialState)
-{
-	$db = Database::getInstance();
-
-	$query = "insert into {chatthread} (" .
-			"userName, " .
-			"userid, " .
-			"ltoken, " .
-			"remote, " .
-			"referer, " .
-			"lrevision, " .
-			"locale, " .
-			"userAgent, " .
-			"dtmcreated, " .
-			"dtmmodified, " .
-			"istate" .
-			($groupid ? ", groupid" : "") .
-		") values (" .
-			":username, " .
-			":userid, " .
-			":ltoken, " .
-			":remote," .
-			":referer, " .
-			":lrevision, " .
-			":locale, " .
-			":useragent, " .
-			":now, " .
-			":now, " .
-			":istate" .
-			($groupid ? ", :groupid" : "") .
-		")";
-
-	$values = array(
-		':username' => $username,
-		':userid' => $userid,
-		':ltoken' => next_token(),
-		':remote' => $remoteHost,
-		':referer' => $referer,
-		':lrevision' => next_revision(),
-		':locale' => $lang,
-		':useragent' => $userbrowser,
-		':now' => time(),
-		':istate' => $initialState
-	);
-
-	if ($groupid) {
-		$values[':groupid'] = $groupid;
-	}
-
-	$db->query($query, $values);
-	$id = $db->insertedId();
-
-	$newthread = thread_by_id($id);
-	return $newthread;
-}
-
-function do_take_thread($threadid, $operatorId, $operatorName, $chatstart = false)
-{
-	global $state_chatting;
-	$params = array("istate" => $state_chatting,
-			"nextagent" => 0,
-			"agentId" => $operatorId,
-			"agentName" => $operatorName);
-	if ($chatstart){
-		$params['dtmchatstarted'] = time();
-	}
-	commit_thread($threadid, $params);
-}
-
-function reopen_thread($threadid)
-{
-	global $state_queue, $state_loading, $state_waiting, $state_chatting, $state_closed, $state_left, $kind_events;
-
-	$thread = thread_by_id($threadid);
-
-	if (!$thread)
-		return FALSE;
-
-	if (Settings::get('thread_lifetime') != 0 && abs($thread['lpuser'] - time()) > Settings::get('thread_lifetime') && abs($thread['lpagent'] - time()) > Settings::get('thread_lifetime')) {
-		return FALSE;
-	}
-
-	if ($thread['istate'] == $state_closed || $thread['istate'] == $state_left)
-		return FALSE;
-
-	if ($thread['istate'] != $state_chatting && $thread['istate'] != $state_queue && $thread['istate'] != $state_loading) {
-		commit_thread(
-			$threadid,
-			array("istate" => $state_waiting, "nextagent" => 0)
-		);
-	}
-
-	post_message_($thread['threadid'], $kind_events, getstring_("chat.status.user.reopenedthread", $thread['locale']));
-	return $thread;
-}
-
-function take_thread($thread, $operator)
-{
-	global $state_queue, $state_loading, $state_waiting, $state_chatting, $kind_events, $kind_avatar, $home_locale;
-
-	$state = $thread['istate'];
-	$threadid = $thread['threadid'];
-	$message_to_post = "";
-	$chatstart = $thread['chatstarted'] == 0;
-
-	$operatorName = ($thread['locale'] == $home_locale) ? $operator['vclocalename'] : $operator['vccommonname'];
-
-	if ($state == $state_queue || $state == $state_waiting || $state == $state_loading) {
-		do_take_thread($threadid, $operator['operatorid'], $operatorName, $chatstart);
-
-		if ($state == $state_waiting) {
-			if ($operatorName != $thread['agentName']) {
-				$message_to_post = getstring2_("chat.status.operator.changed", array($operatorName, $thread['agentName']), $thread['locale']);
-			} else {
-				$message_to_post = getstring2_("chat.status.operator.returned", array($operatorName), $thread['locale']);
-			}
-		} else {
-			$message_to_post = getstring2_("chat.status.operator.joined", array($operatorName), $thread['locale']);
-		}
-	} else if ($state == $state_chatting) {
-		if ($operator['operatorid'] != $thread['agentId']) {
-			do_take_thread($threadid, $operator['operatorid'], $operatorName, $chatstart);
-			$message_to_post = getstring2_("chat.status.operator.changed", array($operatorName, $thread['agentName']), $thread['locale']);
-		}
-	} else {
-		return false;
-	}
-
-	if ($message_to_post) {
-		post_message($threadid, $kind_events, $message_to_post);
-		post_message($threadid, $kind_avatar, $operator['vcavatar'] ? $operator['vcavatar'] : "");
-	}
-	return true;
-}
-
-function check_for_reassign($thread, $operator)
-{
-	global $state_waiting, $home_locale, $kind_events, $kind_avatar;
-	$operatorName = ($thread['locale'] == $home_locale) ? $operator['vclocalename'] : $operator['vccommonname'];
-	if ($thread['istate'] == $state_waiting &&
-		($thread['nextagent'] == $operator['operatorid']
-		 || $thread['agentId'] == $operator['operatorid'])) {
-		do_take_thread($thread['threadid'], $operator['operatorid'], $operatorName);
-		if ($operatorName != $thread['agentName']) {
-			$message_to_post = getstring2_("chat.status.operator.changed", array($operatorName, $thread['agentName']), $thread['locale']);
-		} else {
-			$message_to_post = getstring2_("chat.status.operator.returned", array($operatorName), $thread['locale']);
-		}
-
-		post_message($thread['threadid'], $kind_events, $message_to_post);
-		post_message($thread['threadid'], $kind_avatar, $operator['vcavatar'] ? $operator['vcavatar'] : "");
-	}
-}
-
-function check_connections_from_remote($remote)
-{
-	global $state_closed, $state_left;
-	if (Settings::get('max_connections_from_one_host') == 0) {
-		return true;
-	}
-
-	$db = Database::getInstance();
-	$result = $db->query(
-		"select count(*) as opened from {chatthread} " .
-		"where remote = ? AND istate <> ? AND istate <> ?",
-		array($remote, $state_closed, $state_left),
-		array('return_rows' => Database::RETURN_ONE_ROW)
-	);
-
-	if ($result && isset($result['opened'])) {
-		return $result['opened'] < Settings::get('max_connections_from_one_host');
-	}
-	return true;
 }
 
 function visitor_from_request()

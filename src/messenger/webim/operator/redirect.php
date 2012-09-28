@@ -20,14 +20,15 @@ require_once('../libs/operator.php');
 require_once('../libs/chat.php');
 require_once('../libs/expand.php');
 require_once('../libs/groups.php');
+require_once('../libs/classes/thread.php');
 
 $operator = check_login();
 
 $threadid = verifyparam("thread", "/^\d{1,8}$/");
 $token = verifyparam("token", "/^\d{1,8}$/");
 
-$thread = thread_by_id($threadid);
-if (!$thread || !isset($thread['ltoken']) || $token != $thread['ltoken']) {
+$thread = Thread::load($threadid, $token);
+if (! $thread) {
 	die("wrong thread");
 }
 
@@ -40,12 +41,21 @@ if (isset($_GET['nextGroup'])) {
 
 	if ($nextGroup) {
 		$page['message'] = getlocal2("chat.redirected.group.content", array(topage(get_group_name($nextGroup))));
-		if ($thread['istate'] == $state_chatting) {
-			commit_thread($threadid,
-						  array("istate" => $state_waiting, "nextagent" => 0, "groupid" => $nextid, "agentId" => 0, "agentName" => "''"));
-			post_message_($thread['threadid'], $kind_events,
-						  getstring2_("chat.status.operator.redirect",
-									  array(get_operator_name($operator)), $thread['locale']));
+		if ($thread->state == Thread::STATE_CHATTING) {
+			$thread->state = Thread::STATE_WAITING;
+			$thread->nextAgent = 0;
+			$thread->groupId = $nextid;
+			$thread->agentId = 0;
+			$thread->agentName = "''";
+
+			$thread->postMessage(
+				Thread::KIND_EVENTS,
+				getstring2_(
+					"chat.status.operator.redirect",
+					array(get_operator_name($operator)),
+					$thread->locale
+				)
+			);
 		} else {
 			$errors[] = getlocal("chat.redirect.cannot");
 		}
@@ -59,27 +69,34 @@ if (isset($_GET['nextGroup'])) {
 
 	if ($nextOperator) {
 		$page['message'] = getlocal2("chat.redirected.content", array(topage(get_operator_name($nextOperator))));
-		if ($thread['istate'] == $state_chatting) {
-			$threadupdate = array("istate" => $state_waiting, "nextagent" => $nextid, "agentId" => 0);
-			if ($thread['groupid'] != 0) {
+		if ($thread->state == Thread::STATE_CHATTING) {
+			$thread->state = Thread::STATE_WAITING;
+			$thread->nextAgent = $nextid;
+			$thread->agentId = 0;
+			if ($thread->groupId != 0) {
 				$db = Database::getInstance();
 				list($groups_count) = $db->query(
 					"select count(*) AS count from {chatgroupoperator} " .
 					"where operatorid = ? and groupid = ?",
-					array($nextid, $thread['groupid']),
+					array($nextid, $thread->groupId),
 					array(
 						'return_rows' => Database::RETURN_ONE_ROW, 
 						'fetch_type' => Database::FETCH_NUM
 					)
 				);
 				if ($groups_count === 0) {
-					$threadupdate['groupid'] = 0;
+					$thread->groupId = 0;
 				}
 			}
-			commit_thread($threadid, $threadupdate);
-			post_message_($thread['threadid'], $kind_events,
-						  getstring2_("chat.status.operator.redirect",
-									  array(get_operator_name($operator)), $thread['locale']));
+			$thread->save();
+			$thread->postMessage(
+				Thread::KIND_EVENTS,
+				getstring2_(
+					"chat.status.operator.redirect",
+					array(get_operator_name($operator)),
+					$thread->locale
+				)
+			);
 		} else {
 			$errors[] = getlocal("chat.redirect.cannot");
 		}
