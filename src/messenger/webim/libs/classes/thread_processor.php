@@ -225,28 +225,6 @@ class ThreadProcessor extends RequestProcessor {
 	}
 
 	/**
-	 * Return message kind name corresponding to kind code
-	 *
-	 * @param int $message_kind Message kind. One of the Thread::KIND_* constants
-	 * @return string kind name
-	 */
-	protected function kindToString($message_kind) {
-		$kind_names = array(
-			Thread::KIND_USER => 'user',
-			Thread::KIND_AGENT => 'agent',
-			Thread::KIND_FOR_AGENT => 'hidden',
-			Thread::KIND_INFO => 'inf',
-			Thread::KIND_CONN => 'conn',
-			Thread::KIND_EVENTS => 'event',
-			Thread::KIND_AVATAR => 'avatar'
-		);
-		if (! array_key_exists($message_kind, $kind_names)) {
-			return '';
-		}
-		return $kind_names[$message_kind];
-	}
-
-	/**
 	 * Theme message to display in chat window
 	 *
 	 * @param array $message Message array
@@ -262,7 +240,7 @@ class ThreadProcessor extends RequestProcessor {
 
 		// Prepare messages fields
 		$creation_date = date("H:i:s", $message['created']);
-		$kind_name = $this->kindToString($message['ikind']);
+		$kind_name = Thread::kindToString($message['ikind']);
 		$sender_name = $message['tname']
 			? "<span class='n{$kind_name}'>" . htmlspecialchars($message['tname']) . "</span>: "
 			: '';
