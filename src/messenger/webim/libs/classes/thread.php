@@ -310,6 +310,31 @@ Class Thread {
 	}
 
 	/**
+	 * Check if connection limit reached
+	 *
+	 * @param string $remote User IP
+	 * @return boolean TRUE if connection limit reached and FALSE otherwise
+	 */
+	public static function connectionLimitReached($remote) {
+		if (Settings::get('max_connections_from_one_host') == 0) {
+			return false;
+		}
+
+		$db = Database::getInstance();
+		$result = $db->query(
+			"select count(*) as opened from {chatthread} " .
+			"where remote = ? AND istate <> ? AND istate <> ?",
+			array($remote, Thread::STATE_CLOSED, Thread::STATE_LEFT),
+			array('return_rows' => Database::RETURN_ONE_ROW)
+		);
+
+		if ($result && isset($result['opened'])) {
+			return $result['opened'] >= Settings::get('max_connections_from_one_host');
+		}
+		return false;
+	}
+
+	/**
 	 * Return next revision number (last revision number plus one)
 	 *
 	 * @return int revision number
