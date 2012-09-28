@@ -213,6 +213,7 @@ Class Thread {
 		if (empty($thread->id)) {
 			return false;
 		}
+		$thread->lastToken = self::nextToken();
 		return $thread;
 	}
 
@@ -318,6 +319,15 @@ Class Thread {
 		$db->query("update {chatrevision} set id=LAST_INSERT_ID(id+1)");
 		$val = $db->insertedId();
 		return $val;
+	}
+
+	/**
+	 * Create thread token
+	 *
+	 * @return int Thread token
+	 */
+	protected static function nextToken() {
+		return rand(99999, 99999999);
 	}
 
 	/**
