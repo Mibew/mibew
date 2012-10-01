@@ -145,6 +145,7 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 		// Check thread
 		$this->assertNotEmpty($thread);
 		$this->assertNotEmpty($thread->id);
+		$this->assertNotEmpty($thread->lastToken);
 
 		// Check if thread in database
 		$this->assertEquals(1, $this->_helper_getThreadCount($thread->id));
@@ -195,8 +196,8 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 		// assertTrue use instead of assertEmpty because of PHPUnit don't work correctly with __isset magic method
 
 		// Property exists in internal Thread::$propertyMap property but not set
-		$this->assertTrue(empty($thread->lastToken));
-		$this->assertFalse(isset($thread->lastToken));
+		$this->assertTrue(empty($thread->lastRevision));
+		$this->assertFalse(isset($thread->lastRevision));
 
 		// Property does not exists
 		$this->assertTrue(empty($thread->someFakeProp));
