@@ -186,6 +186,54 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(0, $this->_helper_getThreadCount($threadid));
 	}
 
+	public function testCreateFromDbInfo() {
+		// Check incomplete fields list
+		$fields_list = array(
+			'threadid' => 1
+		);
+		$thread = Thread::createFromDbInfo($fields_list);
+		$this->assertFalse($thread);
+
+		// Check complete fields list
+		$fields_list = array(
+			'threadid' => 10,
+
+			'lrevision' => 189,
+			'istate' => Thread::STATE_QUEUE,
+			'ltoken' => 19908,
+
+			'nextagent' => 0,
+			'groupid' => 0,
+
+			'shownmessageid' => 0,
+			'messageCount' => 0,
+
+			'dtmcreated' => time() - 100,
+			'dtmmodified' => time() - 90,
+			'dtmchatstarted' => 0,
+
+			'agentId' => 0,
+			'agentName' => '',
+			'agentTyping' => 0,
+			'lastpingagent' => 0,
+
+			'locale' => 'en',
+
+			'userid' => 1112,
+			'userName' => 'Guest',
+			'userTyping' => 0,
+			'lastpinguser' => time() - 10,
+
+			'remote' => '127.0.0.1',
+			'referer' => 'http://google.com',
+			'userAgent' => 'Mozilla FireFox'
+		);
+		$thread = Thread::createFromDbInfo($fields_list);
+		$this->assertInstanceOf('Thread', $thread);
+
+		unset($thread);
+	}
+
 	public function test__isset() {
 		// Create new thread
 		$thread = Thread::create();

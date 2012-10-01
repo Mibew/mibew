@@ -218,6 +218,31 @@ Class Thread {
 	}
 
 	/**
+	 * Create thread object from database info.
+	 *
+	 * @param array $thread_info Associative array of Thread info from database. It must contains ALL thread table's
+	 * FIELDS from the database.
+	 * @return boolean|Thread Returns an object of the Thread class or boolean false on failure
+	 */
+	public static function createFromDbInfo($thread_info) {
+		// Create new empty thread
+		$thread = new self();
+
+		// Check thread fields
+		$obligatory_fields = array_values($thread->propertyMap);
+		foreach($obligatory_fields as $field) {
+			if (!array_key_exists($field, $thread_info)) {
+				// Obligatory field is missing
+				unset($thread);
+				return false;
+			}
+			// Copy field to Thread object
+			$thread->threadInfo[$field] = $thread_info[$field];
+		}
+		return $thread;
+	}
+
+	/**
 	 * Load thread from database
 	 *
 	 * @param int $id ID of the thread to load
