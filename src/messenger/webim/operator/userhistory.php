@@ -38,12 +38,11 @@ function threads_by_userid($userid)
 	if ($userid == "") {
 		return null;
 	}
-	
+
 	return $db->query(
-		"select dtmcreated as created, " .
-		"dtmmodified as modified, threadid, remote, agentName, userName " .
+		"select {chatthread}.* " .
 		"from {chatthread} " .
-		"where userid=? order by created DESC",
+		"where userid=? order by dtmcreated DESC",
 		array($userid),
 		array('return_rows' => Database::RETURN_ALL_ROWS)
 	);
@@ -53,6 +52,9 @@ $found = threads_by_userid($userid);
 
 prepare_menu($operator);
 setup_pagination($found, 6);
+foreach ($page['pagination.items'] as $key => $item) {
+	$page['pagination.items'][$key] = Thread::createFromDbInfo($item);
+}
 start_html_output();
 require('../view/userhistory.php');
 ?>
