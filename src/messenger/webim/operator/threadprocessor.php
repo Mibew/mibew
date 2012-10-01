@@ -29,14 +29,17 @@ setlocale(LC_TIME, getstring("time.locale"));
 function thread_info($id)
 {
 	$db = Database::getInstance();
-	return $db->query(
-		"select userName,agentName,remote,userAgent," .
-		"dtmmodified as modified, dtmcreated as created," .
-		"vclocalname as groupName " .
+	$thread_info = $db->query(
+		"select {chatthread}.*, {chatgroup}.vclocalname as groupName " .
 		"from {chatthread} left join {chatgroup} on {chatthread}.groupid = {chatgroup}.groupid " .
 		"where threadid = ?",
 		array($id),
 		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
+	$thread = Thread::createFromDbInfo($thread_info);
+	return array(
+		'thread' => $thread,
+		'groupName' => $thread_info['groupName']
 	);
 }
 
@@ -45,7 +48,7 @@ if (isset($_GET['threadid'])) {
 	$threadid = verifyparam("threadid", "/^(\d{1,9})?$/", "");
 	$lastid = -1;
 	$page['threadMessages'] = get_messages($threadid, "html", false, $lastid);
-	$page['thread'] = thread_info($threadid);
+	$page['thread_info'] = thread_info($threadid);
 }
 
 prepare_menu($operator, false);

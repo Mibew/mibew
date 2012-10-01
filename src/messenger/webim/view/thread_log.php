@@ -18,7 +18,8 @@
 $page['title'] = getlocal("thread.chat_log");
 
 function tpl_content() { global $page, $webimroot, $errors;
-$chatthread = $page['thread'];
+$chatthreadinfo = $page['thread_info'];
+$chatthread = $page['thread_info']['thread'];
 ?>
 
 <?php echo getlocal("thread.intro") ?>
@@ -32,7 +33,7 @@ $chatthread = $page['thread'];
 			<?php echo getlocal("page.analysis.search.head_name") ?>:
 		</div> 
 		<div class="wvalue">
-			<?php echo topage(htmlspecialchars($chatthread['userName'])) ?>
+			<?php echo topage(htmlspecialchars($chatthread->userName)) ?>
 		</div>
 		<br clear="all"/>
 		
@@ -40,7 +41,7 @@ $chatthread = $page['thread'];
 			<?php echo getlocal("page.analysis.search.head_host") ?>:
 		</div>
 		<div class="wvalue">
-			<?php echo get_user_addr(topage($chatthread['remote'])) ?>
+			<?php echo get_user_addr(topage($chatthread->remote)) ?>
 		</div>
 		<br clear="all"/>
 
@@ -48,26 +49,26 @@ $chatthread = $page['thread'];
 			<?php echo getlocal("page.analysis.search.head_browser") ?>:
 		</div>
 		<div class="wvalue">
-			<?php echo get_useragent_version(topage($chatthread['userAgent'])) ?>
+			<?php echo get_useragent_version(topage($chatthread->userAgent)) ?>
 		</div>
 		<br clear="all"/>
 
-		<?php if( $chatthread['groupName'] ) { ?>
+		<?php if( $chatthreadinfo['groupName'] ) { ?>
 			<div class="wlabel">
 				<?php echo getlocal("page.analysis.search.head_group") ?>:
 			</div>
 			<div class="wvalue">
-				<?php echo topage(htmlspecialchars($chatthread['groupName'])) ?>
+				<?php echo topage(htmlspecialchars($chatthreadinfo['groupName'])) ?>
 			</div>
 			<br clear="all"/>
 		<?php } ?>
 
-		<?php if( $chatthread['agentName'] ) { ?>
+		<?php if( $chatthread->agentName ) { ?>
 			<div class="wlabel">
 				<?php echo getlocal("page.analysis.search.head_operator") ?>:
 			</div>
 			<div class="wvalue">
-				<?php echo topage(htmlspecialchars($chatthread['agentName'])) ?>
+				<?php echo topage(htmlspecialchars($chatthread->agentName)) ?>
 			</div>
 			<br clear="all"/>
 		<?php } ?>
@@ -76,8 +77,8 @@ $chatthread = $page['thread'];
 			<?php echo getlocal("page.analysis.search.head_time") ?>:
 		</div>
 		<div class="wvalue">
-			<?php echo date_diff_to_text($chatthread['modified']-$chatthread['created']) ?> 
-				(<?php echo date_to_text($chatthread['created']) ?>)
+			<?php echo date_diff_to_text($chatthread->modified-$chatthread->created) ?>
+				(<?php echo date_to_text($chatthread->created) ?>)
 		</div>
 		<br clear="all"/>
 </div>
