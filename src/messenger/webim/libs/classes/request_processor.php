@@ -139,14 +139,14 @@ abstract class RequestProcessor {
 							? array()
 							: $callback['arguments'];
 						call_user_func_array($function, array($arguments));
-						return true;
+						continue;
 					} else {
 						// Try to get result function
 						$result_function = $this->mibewAPI->getResultFunction($request['functions']);
 
 						if (! is_null($result_function)) {
 							// There is result function but no callback
-							return true;
+							continue;
 						}
 
 						// There is no result function
@@ -170,10 +170,13 @@ abstract class RequestProcessor {
 				}
 			}
 
-			if ($request_package['async']) {
-				$this->sendAsyncResponses($this->responses);
-			} else {
-				$this->sendSyncResponses($this->responses);
+			if (count($this->responses) != 0) {
+				// Send responses
+				if ($request_package['async']) {
+					$this->sendAsyncResponses($this->responses);
+				} else {
+					$this->sendSyncResponses($this->responses);
+				}
 			}
 
 			// Output response
