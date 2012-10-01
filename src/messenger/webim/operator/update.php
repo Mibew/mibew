@@ -47,28 +47,31 @@ $threadstate_key = array(
 	Thread::STATE_LOADING => "chat.thread.state_loading"
 );
 
-function thread_to_xml($thread)
+function thread_to_xml($thread_info)
 {
 	global $threadstate_to_string, $threadstate_key,
 		$webim_encoding, $operator, $can_viewthreads, $can_takeover;
-	$state = $threadstate_to_string[$thread['istate']];
-	$result = "<thread id=\"" . $thread['threadid'] . "\" stateid=\"$state\"";
+
+	$thread = $thread_info['thread'];
+
+	$state = $threadstate_to_string[$thread->state];
+	$result = "<thread id=\"" . $thread->id . "\" stateid=\"$state\"";
 	if ($state == "closed")
 		return $result . "/>";
 
-	$state = getstring($threadstate_key[$thread['istate']]);
-	$nextagent = $thread['nextagent'] != 0 ? operator_by_id($thread['nextagent']) : null;
+	$state = getstring($threadstate_key[$thread->state]);
+	$nextagent = $thread->nextAgent != 0 ? operator_by_id($thread->nextAgent) : null;
 	$threadoperator = $nextagent ? get_operator_name($nextagent)
-			: ($thread['agentName'] ? $thread['agentName'] : "-");
+			: ($thread->agentName ? $thread->agentName : "-");
 
-	if ($threadoperator == "-" && $thread['groupname']) {
-		$threadoperator = "- " . $thread['groupname'] . " -";
+	if ($threadoperator == "-" && $thread_info['groupname']) {
+		$threadoperator = "- " . $thread_info['groupname'] . " -";
 	}
 
-	if (!($thread['istate'] == Thread::STATE_CHATTING && $thread['agentId'] != $operator['operatorid'] && !is_capable($can_takeover, $operator))) {
+	if (!($thread->state == Thread::STATE_CHATTING && $thread->agentId != $operator['operatorid'] && !is_capable($can_takeover, $operator))) {
 		$result .= " canopen=\"true\"";
 	}
-	if ($thread['agentId'] != $operator['operatorid'] && $thread['nextagent'] != $operator['operatorid']
+	if ($thread->agentId != $operator['operatorid'] && $thread->nextAgent != $operator['operatorid']
 		&& is_capable($can_viewthreads, $operator)) {
 		$result .= " canview=\"true\"";
 	}
@@ -76,33 +79,35 @@ function thread_to_xml($thread)
 		$result .= " canban=\"true\"";
 	}
 
-	$banForThread = Settings::get('enableban') == "1" ? ban_for_addr($thread['remote']) : false;
+	$banForThread = Settings::get('enableban') == "1" ? ban_for_addr($thread->remote) : false;
 	if ($banForThread) {
 		$result .= " ban=\"blocked\" banid=\"" . $banForThread['banid'] . "\"";
 	}
 
-	$result .= " state=\"$state\" typing=\"" . $thread['userTyping'] . "\">";
+	$result .= " state=\"$state\" typing=\"" . $thread->userTyping . "\">";
 	$result .= "<name>";
 	if ($banForThread) {
 		$result .= htmlspecialchars(getstring('chat.client.spam.prefix'));
 	}
-	$result .= htmlspecialchars(htmlspecialchars(get_user_name($thread['userName'], $thread['remote'], $thread['userid']))) . "</name>";
-	$result .= "<addr>" . htmlspecialchars(get_user_addr($thread['remote'])) . "</addr>";
+	$result .= htmlspecialchars(
+		htmlspecialchars(get_user_name($thread->userName, $thread->remote, $thread->userId))
+	) . "</name>";
+	$result .= "<addr>" . htmlspecialchars(get_user_addr($thread->remote)) . "</addr>";
 	$result .= "<agent>" . htmlspecialchars(htmlspecialchars($threadoperator)) . "</agent>";
-	$result .= "<time>" . $thread['dtmcreated'] . "000</time>";
-	$result .= "<modified>" . $thread['dtmmodified'] . "000</modified>";
+	$result .= "<time>" . $thread->created . "000</time>";
+	$result .= "<modified>" . $thread->modified . "000</modified>";
 
 	if ($banForThread) {
 		$result .= "<reason>" . $banForThread['comment'] . "</reason>";
 	}
 
-	$userAgent = get_useragent_version($thread['userAgent']);
+	$userAgent = get_useragent_version($thread->userAgent);
 	$result .= "<useragent>" . $userAgent . "</useragent>";
-	if ($thread["shownmessageid"] != 0) {
+	if ($thread->shownMessageId != 0) {
 		$db = Database::getInstance();
 		$line = $db->query(
 			"select tmessage from {chatmessage} where messageid = ?",
-			array($thread["shownmessageid"]),
+			array($thread->shownMessageId),
 			array('return_rows' => Database::RETURN_ONE_ROW)
 		);
 		if ($line) {
@@ -120,9 +125,8 @@ function print_pending_threads($groupids, $since)
 	$db = Database::getInstance();
 
 	$revision = $since;
-	$query = "select threadid, userName, agentName, dtmcreated, userTyping, " .
-		"dtmmodified, lrevision, istate, remote, nextagent, agentId, " .
-		"userid, shownmessageid, userAgent, (select vclocalname from {chatgroup} where {chatgroup}.groupid = {chatthread}.groupid) as groupname " .
+	$query = "select {chatthread}.*, " .
+		"(select vclocalname from {chatgroup} where {chatgroup}.groupid = {chatthread}.groupid) as groupname " .
 		"from {chatthread} where lrevision > :since " .
 		($since <= 0
 			? "AND istate <> " . Thread::STATE_CLOSED . " AND istate <> " . Thread::STATE_LEFT . " "
@@ -142,10 +146,16 @@ function print_pending_threads($groupids, $since)
 
 	$output = array();
 	foreach ($rows as $row) {
-		$thread = thread_to_xml($row);
-		$output[] = $thread;
-		if ($row['lrevision'] > $revision)
-			$revision = $row['lrevision'];
+		$thread = Thread::createFromDbInfo($row);
+		$thread_info = array(
+			'thread' => $thread,
+			'groupName' => $row['groupname']
+		);
+		$thread_as_xml = thread_to_xml($thread_info);
+		$output[] = $thread_as_xml;
+		if ($thread->lastRevision > $revision) {
+			$revision = $thread->lastRevision;
+		}
 	}
 
 	echo "<threads revision=\"$revision\" time=\"" . time() . "000\">";
