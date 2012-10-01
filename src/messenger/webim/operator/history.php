@@ -68,10 +68,9 @@ if ($query !== false) {
 		$searchConditions[] = "({chatthread}.userName LIKE :query)";
 		$searchConditions[] = "({chatthread}.remote LIKE :query)";
 	}
-	select_with_pagintation("DISTINCT {chatthread}.dtmcreated as created, " .
-		"{chatthread}.dtmmodified as modified, {chatthread}.threadid, " .
-		"{chatthread}.remote, {chatthread}.agentName, {chatthread}.userName, groupid, " .
-		"messageCount as size",
+
+	// Load threads
+	select_with_pagintation("DISTINCT {chatthread}.*",
 		"{chatthread}, {chatmessage}",
 		array(
 			"{chatmessage}.threadid = {chatthread}.threadid",
@@ -79,6 +78,11 @@ if ($query !== false) {
 		),
 		"order by {chatthread}.dtmcreated DESC",
 		"DISTINCT {chatthread}.dtmcreated", $values);
+
+	// Build Thread object
+	foreach ($page['pagination.items'] as $key => $item) {
+		$page['pagination.items'][$key] = Thread::createFromDbInfo($item);
+	}
 
 	$page['formq'] = topage($query);
 } else {
