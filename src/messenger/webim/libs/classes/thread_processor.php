@@ -238,8 +238,32 @@ class ThreadProcessor extends RequestProcessor {
 		$messages = $thread->getMessages($is_user, $last_message_id);
 		if (! empty($messages)) {
 			foreach($messages as $key => $msg) {
+				// Check if message is avatar
+				if ($msg['ikind'] == Thread::KIND_AVATAR) {
+					// Update avatar
+					$this->responses[] = array(
+						'token' => md5(time() . rand()),
+						'functions' => array(
+							array(
+								'function' => 'setupAvatar',
+								'arguments' => array(
+									'threadId' => $thread->id,
+									'token' => $thread->lastToken,
+									'return' => array(),
+									'references' => array(),
+									'imageLink' => $msg['tmessage']
+								)
+							)
+						)
+					);
+					unset($messages[$key]);
+					continue;
+				}
+
+				// Theme message
 				$messages[$key] = Thread::themeMessage($msg);
 			}
+			// Send messages
 			$this->responses[] = array(
 				'token' => md5(time() . rand()),
 				'functions' => array(
