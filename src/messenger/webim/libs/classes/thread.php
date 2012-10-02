@@ -382,6 +382,55 @@ Class Thread {
 	}
 
 	/**
+	 * Theme message to display in chat window
+	 *
+	 * @param array $message Message array
+	 * @return string Ready to display themed message
+	 */
+	public static function themeMessage($message) {
+		global $webim_encoding;
+
+		// No theming for avatars
+		if ($message['ikind'] == Thread::KIND_AVATAR) {
+			return '';
+		}
+
+		// Prepare messages fields
+		$creation_date = date("H:i:s", $message['created']);
+		$kind_name = Thread::kindToString($message['ikind']);
+		$sender_name = $message['tname']
+			? "<span class='n{$kind_name}'>" . htmlspecialchars($message['tname']) . "</span>: "
+			: '';
+
+		// Prepare message text
+		// Escape special chars
+		$text = htmlspecialchars($message['tmessage']);
+		// Replace URL's by <a> tags
+		$text = preg_replace('/(https?|ftp):\/\/\S*/', '<a href="$0" target="_blank">$0</a>', $text);
+		// Add <br> tags instead of \n chars
+		$text = str_replace("\n", "<br/>", $text);
+		// Span and storng tags available for system messages
+		if ($message['ikind'] != Thread::KIND_USER && $message['ikind'] != Thread::KIND_AGENT) {
+			$text = preg_replace('/&lt;(span|strong)&gt;(.*)&lt;\/\1&gt;/U', '<$1>$2</$1>', $text);
+			$text = preg_replace(
+				'/&lt;span class=&quot;(.*)&quot;&gt;(.*)&lt;\/span&gt;/U',
+				'<span class="$1">$2</span>',
+				$text
+			);
+		}
+
+		// Build result message
+		$result = sprintf(
+			"<span>%s</span> %s<span class='m%s'>%s</span><br/>",
+			$creation_date,
+			$sender_name,
+			$kind_name,
+			$text
+		);
+		return myiconv($webim_encoding, "utf-8", $result);
+	}
+
+	/**
 	 * Return next revision number (last revision number plus one)
 	 *
 	 * @return int revision number
