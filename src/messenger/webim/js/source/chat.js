@@ -59,220 +59,734 @@ var FrameUtils = {
   }
 };
 
-Ajax.ChatThreadUpdater = Class.create();
-Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
+ChatServer = Class.create();
+/**
+ * @todo Think about error handling
+ */
+ChatServer.prototype = {
+  /**
+   * @constructor
+   */
+  initialize: function(options) {
+      var chatServer = this;
 
-  initialize: function(_options) {
-    this.setOptions(_options);
-    this._options.onComplete = this.requestComplete.bind(this);
-    this._options.onException = this.handleException.bind(this);
-    this._options.onTimeout = this.handleTimeout.bind(this);
-    this._options.timeout = 5000;
-    this.updater = {};
-    this.frequency = (this._options.frequency || 2);
-    this.lastupdate = 0;
-    this.cansend = true;
-    this.skipNextsound = true;
-    this.focused = true;
-    this.ownThread = this._options.message != null;
-	FrameUtils.initFrame(this._options.container);
-    if( this._options.message ) {
-		this._options.message.onkeydown = this.handleKeyDown.bind(this);
-		this._options.message.onfocus = (function() { this.focused = true; }).bind(this);
-		this._options.message.onblur = (function() { this.focused = false; }).bind(this)
-	}
-    this.update();
+      /**
+       * Update timer
+       */
+      this.updateTimer = null;
+
+      /**
+       * Options for the ChatServer object
+       * @private
+       * @todo Check onResponseError handler
+       */
+      this.options = {
+          // Server gateway URL
+          servl: "",
+          // Frequency for automatic updater
+          requestsFrequency: 2,
+          // Call on request timeout
+          onTimeout: function() {},
+          // Call when transport error was caught
+          onTransportError: function(e) {},
+          // Call when callFunctions related error was caught
+          onCallError: function(e) {},
+          // Call when update related error was caught
+          onUpdateError: function(e) {},
+          // Call when response related error was caught
+          onResponseError: function(e) {}
+      }.extend(options);
+
+      /**
+       * Binds request's token and callback function
+       * @type Object
+       * @private
+       */
+      this.callbacks = {};
+
+      /**
+       * Array of periodically called functions
+       * @type Array
+       * @private
+       */
+      this.callPeriodically = [];
+
+      /**
+       * Options for an Ajax.Request object
+       * @type Array
+       * @private
+       */
+      this.ajaxOptions = {
+          _method: 'post',
+          asynchronous: true,
+          timeout: 5000,
+          onComplete: chatServer.receiveResponse.bind(chatServer),
+          onException: chatServer.onTransportError.bind(chatServer),
+          onTimeout: chatServer.onTimeout.bind(chatServer)
+      }
+
+      /**
+       * An object of the Ajax.Request class
+       * @type Ajax.Request
+       * @private
+       */
+      this.ajaxRequest = null;
+
+      /**
+       * This buffer store requests and responses between sending packages
+       * @private
+       */
+      this.buffer = [];
+
+      /**
+       * Contains object of registered functions handlers
+       * @private
+       */
+      this.functions = {}
+
+      /**
+       * An instance of the MibewAPI class
+       * @type MibewAPI
+       * @private
+       */
+      this.mibewAPI = new MibewAPI(new MibewAPICoreInteraction());
   },
 
-  handleException: function(_request, ex) {
-  	this.setStatus("offline, reconnecting");
-	this.stopUpdate();
-	this.timer = setTimeout(this.update.bind(this), 1000);
+  /**
+   * Make call to the chat server
+   *
+   * @param {Oblect[]} functionsList List of the function objects. See Mibew API
+   * for details.
+   * @param {Function} callbackFunction
+   * @param {Boolean} forceSend Force requests buffer send right after call
+   * @returns {Boolean} boolean true on success and false on failure
+   */
+  callFunctions: function(functionsList, callbackFunction, forceSend) {
+      try {
+        // Check function objects
+        if (!(functionsList instanceof Array)) {
+            throw new Error("The first arguments must be an array");
+        }
+        for (var i in functionsList) {
+            // Filter 'Prototype' properties
+            if (! functionsList.hasOwnProperty(i)) {
+                continue;
+            }
+            this.mibewAPI.checkFunction(functionsList[i], false);
+        }
+
+        // Generate request token
+        var token = this.generateToken();
+        // Store callback function
+        this.callbacks[token] = callbackFunction;
+
+        // Add request to buffer
+        this.buffer.push({
+            'token': token,
+            'functions': functionsList
+        });
+        if (forceSend) {
+            // Force update
+            this.update();
+        }
+      } catch (e) {
+          // Handle errors
+          this.options.onCallError(e);
+          return false;
+      }
+      return true;
   },
 
-  handleTimeout: function(_request) {
-  	this.setStatus("timeout, reconnecting");
-	this.stopUpdate();
-	this.timer = setTimeout(this.update.bind(this), 1000);
+  /**
+   * Call function at every request to build functions list
+   *
+   * @param {Function} functionsListBuilder Call before every request to build a
+   * list of functions that must be called
+   * @param {Function} callbackFunction Call after response received
+   */
+  callFunctionsPeriodically: function(functionsListBuilder, callbackFunction) {
+      this.callPeriodically.push({
+          functionsListBuilder: functionsListBuilder,
+          callbackFunction: callbackFunction
+      });
   },
 
-  updateOptions: function(act) {
-    this._options.parameters = 'act='+act+'&thread=' + (this._options.threadid || 0) +
-			'&token=' + (this._options.token || 0)+
-    		'&lastid=' + (this._options.lastid || 0);
-    if( this._options.user )
-    	this._options.parameters += "&user=true";
-	if( act == 'refresh' && this._options.message && this._options.message.value != '' )
-    	this._options.parameters += "&typed=1";
+  /**
+   * Generates unique request token
+   *
+   * @private
+   * @returns {String} Request token
+   */
+  generateToken: function() {
+      var token;
+      do {
+          // Create token
+          token = "wnd" +
+              (new Date()).getTime().toString() +
+              (Math.round(Math.random() * 50)).toString();
+      // Check token uniqueness
+      } while(token in this.callbacks);
+      return token;
   },
 
-  enableInput: function(val) {
-	if( this._options.message )
-		this._options.message.disabled = !val;
+  /**
+   * Process request
+   *
+   * @param {Object} requestObject Request object. See Mibew API for details.
+   * @private
+   */
+  processRequest: function(requestObject) {
+      var context = new MibewAPIExecutionContext();
+
+      // Get result function
+      var resultFunction = this.mibewAPI.getResultFunction(
+        requestObject.functions,
+        this.callbacks.hasOwnProperty(requestObject.token)
+      );
+
+      if (resultFunction === null) {
+          // Result function not found
+          for (var i in requestObject.functions) {
+              if (! requestObject.functions.hasOwnProperty(i)) {
+                  continue;
+              }
+              // Execute functions
+              this.processFunction(requestObject.functions[i], context);
+              // Build and store result
+              this.buffer.push(this.mibewAPI.buildResult(
+                context.getResults(),
+                requestObject.token
+              ));
+          }
+      } else {
+          // Result function found
+          if (this.callbacks.hasOwnProperty(requestObject.token)) {
+              // Invoke callback
+              this.callbacks[requestObject.token](resultFunction.arguments);
+              // Remove callback
+              delete this.callbacks[requestObject.token];
+          }
+      }
   },
 
-  stopUpdate: function() {
-    this.enableInput(true);
-  	if( this.updater._options )
-	    this.updater._options.onComplete = undefined;
-    clearTimeout(this.timer);
+  /**
+   * Process function
+   *
+   * @param {Object} functionObject Function object. See Mibew API for details
+   * @param {MibewAPIExecutionContext} context Execution context
+   * @private
+   */
+  processFunction: function(functionObject, context) {
+      if (! this.functions.hasOwnProperty(functionObject["function"])) {
+          return;
+      }
+      // Get function arguments with replaced refences
+      var functionArguments = context.getArgumentsList(functionObject);
+
+      var results = {};
+      for (var i in this.functions[functionObject["function"]]) {
+          if (! this.functions[functionObject["function"]].hasOwnProperty(i)) {
+              continue;
+          }
+          // Get results
+          results.extend(this.functions[functionObject["function"]][i](
+            functionArguments
+          ));
+      }
+
+      // Add function results to the execution context
+      context.storeFunctionResults(functionObject, results);
   },
 
+  /**
+   * Send the request to the chat server
+   *
+   * @param {Object[]} requestsList Array of requests that must be sent to the
+   * chat server
+   * @private
+   */
+  sendRequests: function(requestsList) {
+      // Create new AJAX request
+      this.ajaxRequest = new Ajax.Request(
+        this.options.servl,
+        this.ajaxOptions.extend({
+            parameters: 'data=' + this.mibewAPI.encodePackage(requestsList)
+        })
+      );
+  },
+
+  /**
+   * Sets up next automatic updater iteration
+   */
+  runUpdater: function() {
+      if (this.updateTimer == null) {
+        this.update();
+      }
+      this.updateTimer = setTimeout(
+        this.update.bind(this),
+        this.options.requestsFrequency * 1000
+      );
+  },
+
+  /**
+   * Restarts the automatic updater
+   */
+  restartUpdater: function() {
+      // Clear timeout
+      if (this.updateTimer) {
+          clearTimeout(this.updateTimer);
+      }
+      // Clear request onComplete callback
+      if (this.ajaxRequest._options) {
+          this.ajaxRequest._options.onComplete = undefined;
+      }
+      // Update thread
+      this.update();
+      // Restart updater. Try to reconnect after a while
+      this.updateTimer = setTimeout(
+        this.update.bind(this),
+        1000
+      );
+  },
+
+  /**
+   * Send request for update thread and client code's requests
+   * @private
+   */
   update: function() {
-    this.updateOptions("refresh");
-    this.updater = new Ajax.Request(this._options.servl, this._options);
+      if (this.updateTimer) {
+          clearTimeout(this.updateTimer);
+      }
+      for (var i = 0; i < this.callPeriodically.length; i++) {
+          this.callFunctions(
+            this.callPeriodically[i].functionsListBuilder(),
+            this.callPeriodically[i].callbackFunction
+          );
+      }
+      // Check buffer length
+      if (this.buffer.length == 0) {
+          // Rerun updater later
+          this.runUpdater();
+          return;
+      }
+      try {
+          // Send requests
+          this.sendRequests(this.buffer);
+          // Clear requests buffer
+          this.buffer = [];
+      } catch (e) {
+          // Handle errors
+          this.options.onUpdateError(e);
+      }
   },
 
-  requestComplete: function(_response) {
-    try {
+  /**
+   * Process response from the Core
+   *
+   * @param {String} responseObject The response object provided by
+   * Ajax.Request class
+   * @private
+   */
+  receiveResponse: function(responseObject) {
+      // Do not parse empty responses
+      if (responseObject.response == '') {
+          this.runUpdater();
+      }
+      try {
+          var packageObject = this.mibewAPI.decodePackage(responseObject.response);
+          for (var i in packageObject.requests) {
+              this.processRequest(packageObject.requests[i]);
+          }
+      } catch (e) {
+          this.options.onResponseError(e);
+      } finally {
+          this.runUpdater();
+      }
+  },
+
+  /**
+   * Add function that can be called by the Core
+   *
+   * @param {String} functionName Name of the function
+   * @param {Function} handler Provided function
+   */
+  registerFunction: function(functionName, handler) {
+      if (!(functionName in this.functions)) {
+          this.functions[functionName] = [];
+      }
+      this.functions[functionName].push(handler);
+  },
+
+  /**
+   * Call on all AJAX transport errors
+   * @param {Ajax.Request} transport AJAX Transport object
+   * @param {Error} e Error object
+   */
+  onTransportError: function (transport, e) {
+      this.restartUpdater();
+      this.options.onTransportError(e);
+  },
+
+  /**
+   * Call on all timeouts
+   */
+  onTimeout: function(transport) {
+      this.restartUpdater();
+      this.options.onTimeout()
+  }
+}
+
+ChatThreadUpdater = Class.create();
+ChatThreadUpdater.prototype = {
+  /**
+   * @constructor
+   * @todo Add error handlers to chatServer
+   * @todo Think about code format
+   */
+  initialize: function(chatServer, thread, options) {
+    /**
+     * Array of options
+     * @type Array
+     * @private
+     */
+    this._options = options;
+
+    /**
+     * An instance of the Thread class
+     * @type ChatThread
+     */
+    this.thread = {
+        threadid: 0,
+        token: 0,
+        lastid: 0,
+        user: false
+    }.extend(thread || {});
+
+    /**
+     * An instance of the ChatServer class
+     * @type ChatServer
+     */
+    this.chatServer = chatServer;
+
+    /**
+     * Indicates if user can post messages
+     * @type Boolean
+     */
+    this.cansend = true;
+
+    /**
+     * Indicates if next message's sound must be skipped
+     * @type Boolean
+     */
+    this.skipNextsound = true;
+
+    /**
+     * Indicates if message input area ihn focus
+     * @type Boolean
+     */
+    this.focused = true;
+
+    /**
+     * Indicates the thread belong to this operator
+     * @type Boolean
+     */
+    this.ownThread = this._options.message != null;
+
+    FrameUtils.initFrame(this._options.container);
+    if (this._options.message) {
+        this._options.message.onkeydown = this.handleKeyDown.bind(this);
+        this._options.message.onfocus = (function() {this.focused = true;}).bind(this);
+        this._options.message.onblur = (function() {this.focused = false;}).bind(this);
+    }
+
+    // Add periodic functions
+    this.chatServer.callFunctionsPeriodically(
+        this.updateFunctionBuilder.bind(this),
+        this.updateChatState.bind(this)
+    );
+
+    // Register functions
+    this.chatServer.registerFunction(
+        'updateMessages',
+        this.updateMessages.bind(this)
+    );
+    this.chatServer.registerFunction(
+        'setupAvatar',
+        this.setupAvatar.bind(this)
+    );
+
+    this.chatServer.runUpdater();
+  },
+
+  /**
+   * Exception handler. Updates status message
+   */
+  handleException: function(e) {
+        this.setStatus("offline, reconnecting");
         this.enableInput(true);
-    	this.cansend = true;
-    	var xmlRoot = Ajax.getXml(_response);
-        if( xmlRoot && xmlRoot.tagName == 'thread' ) {
-          this.updateContent( xmlRoot );
-    	} else {
-    	  this.handleError(_response, xmlRoot, 'refresh messages failed');
-    	}
-	} catch (e) {
-    }
-    this.skipNextsound = false;
-    this.timer = setTimeout(this.update.bind(this), this.frequency * 1000);
   },
 
+  /**
+   * Timeout handler. Updates status message
+   */
+  handleTimeout: function() {
+        this.setStatus("timeout, reconnecting");
+        this.enableInput(true);
+  },
+
+  /**
+   * Enables or disables input field
+   * @param {Boolean} val Use boolean true for enable input and false otherwise
+   */
+  enableInput: function(val) {
+      if( this._options.message ) {
+          this._options.message.disabled = !val;
+      }
+  },
+
+  /**
+   * Load new messages by restarting thread updater.
+   */
+  refresh: function() {
+    this.chatServer.restartUpdater();
+  },
+
+  /**
+   * Sends message to the chat server
+   * @param {String} msg Message for send
+   */
   postMessage: function(msg) {
-    if( msg == "" || !this.cansend) {
-		return;
-    }
-    this.cansend = false;
-    this.stopUpdate();
-    this.skipNextsound = true;
-    this.updateOptions("post");
-    var postOptions = {}.extend(this._options);
-    postOptions.parameters += "&message=" + encodeURIComponent(msg);
-    postOptions.onComplete = (function(presponse) {
-    	this.requestComplete( presponse );
-    	if( this._options.message ) {
-    		this._options.message.value = '';
-    		this._options.message.focus();
-    	}
-    }).bind(this);
-    if( myRealAgent != 'opera' )
-    	this.enableInput(false);
-    this.updater = new Ajax.Request(this._options.servl, postOptions);
+      // Check if message can be sent
+      if(msg == "" || !this.cansend) {
+          return;
+      }
+      // Disable message sending
+      this.cansend = false;
+      // Disable next sound
+      this.skipNextsound = true;
+      // Disable input
+      if(myRealAgent != 'opera') {
+          this.enableInput(false);
+      }
+      // Post message
+      this.chatServer.callFunctions(
+        [{
+            "function": "post",
+            "arguments": {
+                "references": {},
+                "return": {},
+                "message": msg,
+                "threadId": this.thread.threadid,
+                "token": this.thread.token,
+                "user": this.thread.user
+            }
+        }],
+        (function(){
+            this.enableInput(true);
+            this.cansend = true;
+            this.skipNextsound = false;
+            if(this._options.message) {
+                this._options.message.value = '';
+                this._options.message.focus();
+            }
+        }).bind(this),
+        true
+      );
   },
 
+  /**
+   * Change user name
+   * @param {String} newname A new user name
+   */
   changeName: function(newname) {
-    this.skipNextsound = true;
-    new Ajax.Request(this._options.servl, {parameters:'act=rename&thread=' + (this._options.threadid || 0) +
-    	'&token=' + (this._options.token || 0) + '&name=' + encodeURIComponent(newname)});
+      this.skipNextsound = true;
+      this.chatServer.callFunctions(
+        [{
+            "function": "rename",
+            "arguments": {
+                "references": {},
+                "return": {},
+                "threadId": this.thread.threadid,
+                "token": this.thread.token,
+                "name": newname
+            }
+        }],
+        (function(args){
+            if (args.errorCode) {
+                this.handleError(args, 'cannot rename');
+            }
+        }).bind(this),
+        true
+      );
   },
 
-  onThreadClosed: function(_response) {
-	var xmlRoot = Ajax.getXml(_response);
-    if( xmlRoot && xmlRoot.tagName == 'closed' ) {
-	  setTimeout('window.close()', 2000);
-	} else {
-	  this.handleError(_response, xmlRoot, 'cannot close');
-	}
-  },
-
+  /**
+   * Send request for close chat to the core
+   */
   closeThread: function() {
-	if(typeof Chat.localizedStrings.closeConfirmation != 'undefined' && Chat.localizedStrings.closeConfirmation){
-		if(! confirm(Chat.localizedStrings.closeConfirmation)){
-		    return false;
-		}
-	}
-	var _params = 'act=close&thread=' + (this._options.threadid || 0) + '&token=' + (this._options.token || 0);
-	if( this._options.user )
-    	_params += "&user=true";
-    new Ajax.Request(this._options.servl, {parameters:_params, onComplete: this.onThreadClosed.bind(this)});
+      // Show confirmation message if can
+      if(this._options.localizedStrings.closeConfirmation){
+          if(! confirm(this._options.localizedStrings.closeConfirmation)){
+              return;
+          }
+      }
+      // Send request
+      this.chatServer.callFunctions(
+        [{
+            "function": "close",
+            "arguments": {
+                "references": {},
+                "return": {"closed": "closed"},
+                "threadId": this.thread.threadid,
+                "token": this.thread.token,
+                "lastId": this.thread.lastid,
+                "user": this.thread.user
+            }
+        }],
+        this.onThreadClosed.bind(this),
+        true
+      );
   },
 
+  /**
+   * Callback function for close chat request.
+   *
+   * Close chat window if closing success or warn on fail
+   */
+  onThreadClosed: function(args) {
+      if (args.closed) {
+          window.close();
+      } else {
+          this.handleError(args, 'cannot close');
+      }
+  },
+
+  /**
+   * Add message to the message window
+   * @param {Object} _target Target DOM element
+   * @param {String} message HTML message to insert
+   */
   processMessage: function(_target, message) {
-	var destHtml = NodeUtils.getNodeText(message);
-	FrameUtils.insertIntoFrame(_target, destHtml );
+      FrameUtils.insertIntoFrame(_target, message);
   },
 
+  /**
+   * Displays typing status
+   * @param {Boolean} istyping Indicates the other side of conversation is
+   * typing a message or not
+   */
   showTyping: function(istyping) {
   	if( $("typingdiv") ) {
 		$("typingdiv").style.display=istyping ? 'inline' : 'none';
   	}
   },
 
-  setupAvatar: function(avatar) {
-	var imageLink = NodeUtils.getNodeText(avatar);
-	if( this._options.avatar && this._options.user ) {
-		this._options.avatar.innerHTML = imageLink != ""
-			? "<img src=\""+Chat.webimRoot+"/images/free.gif\" width=\"7\" height=\"1\" border=\"0\" alt=\"\" /><img src=\""
-				+imageLink+ "\" border=\"0\" alt=\"\"/>"
-			: "";
+  /**
+   * Update operator's avatar
+   * @param {Array} args Array of arguments passed from the core
+   */
+  setupAvatar: function(args) {
+      if (this._options.avatar && this.thread.user) {
+          this._options.avatar.innerHTML = args.imageLink != ""
+              ? "<img src=\""+this._options.webimRoot+"/images/free.gif\" width=\"7\" height=\"1\" border=\"0\" alt=\"\" /><img src=\""
+                    +args.imageLink+ "\" border=\"0\" alt=\"\"/>"
+              : "";
 	}
   },
 
-  updateContent: function(xmlRoot) {
-	var haveMessage = false;
-
-   	var result_div = this._options.container;
-	var _lastid = NodeUtils.getAttrValue(xmlRoot, "lastid");
-	if( _lastid ) {
-		this._options.lastid = _lastid;
-	}
-
-	var typing = NodeUtils.getAttrValue(xmlRoot, "typing");
-	if( typing ) {
-		this.showTyping(typing == '1');
-	}
-
-	var canpost = NodeUtils.getAttrValue(xmlRoot, "canpost");
-	if( canpost ) {
-		if( canpost == '1' && !this.ownThread || this.ownThread && canpost != '1' ) {
-			window.location.href = window.location.href;
-		}
-	}
-
-	for( var i = 0; i < xmlRoot.childNodes.length; i++ ) {
-		var node = xmlRoot.childNodes[i];
-		if( node.tagName == 'message' ) {
-        	haveMessage = true;
-			this.processMessage(result_div, node);
-		} else if( node.tagName == 'avatar' ) {
-			this.setupAvatar(node);
-        }
-	}
-	if(window.location.search.indexOf('trace=on')>=0) {
-		var val = "updated";
-		if(this.lastupdate > 0) {
-			var seconds = ((new Date()).getTime() - this.lastupdate)/1000;
-			val = val + ", " + seconds + " secs";
-			if(seconds > 10) {
-				alert(val);
-			}
-		}
-		this.lastupdate = (new Date()).getTime();
-		this.setStatus(val);
-	} else {
-		this.clearStatus();
-	}
-	if( haveMessage ) {
-		FrameUtils.scrollDown(this._options.container);
-		if(!this.skipNextsound) {
-			var tsound = $('soundimg');
-			if(tsound == null || tsound.className.match(new RegExp("\\bisound\\b")) ) {
-				playSound(Chat.webimRoot+'/sounds/new_message.wav');
-			}
-		}
-		if( !this.focused ) {
-			window.focus();
-		}
-	}
+  /**
+   * Add new messages to chat window
+   * @param {Object} args object of function arguments passed from the server
+   * @todo Fix skipNextSound
+   */
+  updateMessages: function(args){
+      // Update last message id
+      if (args.lastId) {
+          this.thread.lastid = args.lastId;
+      }
+      // Add messages
+      for (var i = 0; i < args.messages.length; i++) {
+          // TODO: Add template engine
+          this.processMessage(this._options.container, args.messages[i]);
+      }
+      // Clear status string
+      this.clearStatus();
+      // There are some new messages
+      if (args.messages.length > 0) {
+          FrameUtils.scrollDown(this._options.container);
+          if (!this.skipNextsound) {
+              var tsound = $('soundimg');
+              if (tsound == null || tsound.className.match(new RegExp("\\bisound\\b"))) {
+                  playSound(this._options.webimRoot+'/sounds/new_message.wav');
+              }
+          }
+          if (!this.focused) {
+              window.focus();
+          }
+      }
+      this.skipNextsound = false;
   },
 
+  /**
+   * Build update function to call at the core
+   */
+  updateFunctionBuilder: function() {
+      return [
+          {
+              "function": "update",
+              "arguments": {
+                  "return": {'typing': 'typing', 'canPost': 'canPost'},
+                  "references": {},
+                  "threadId": this.thread.threadid,
+                  "token": this.thread.token,
+                  "lastId": this.thread.lastid,
+                  "typed": (this._options.message && this._options.message.value != ''),
+                  "user": this.thread.user
+              }
+          }
+      ];
+  },
+
+  /**
+   * Set current chat state message
+   * @param {Array} args Array of arguments passed from the core
+   */
+  updateChatState: function(args) {
+      if (args.errorCode) {
+          // Something went wrong
+          this.handleError(args, 'refresh failed');
+          return;
+      }
+      // Update typing indicator
+      if (typeof args.typing != 'undefined') {
+          this.showTyping(args.typing);
+      }
+
+      // Check if user can post messages
+      if (typeof args.canPost != 'undefined') {
+          if ((args.canPost && !this.ownThread) || (this.ownThread && ! args.canPost)) {
+              // Refresh the page
+              window.location.href = window.location.href;
+          }
+      }
+  },
+
+  /**
+   * Check if send key (Enter or Ctrl+Enter) pressed
+   * @param {Boolean} ctrlpressed Indicates ctrl key is pressed or not
+   * @param {Number} key Key code
+   */
   isSendkey: function(ctrlpressed, key) {
 	  return ((key==13 && (ctrlpressed || this._options.ignorectrl)) || (key==10));
   },
-  
+
+  /**
+   * Key down handler
+   *
+   * @param {Object} k Event object
+   */
   handleKeyDown: function(k) {
-	if( k ){ ctrl=k.ctrlKey;k=k.which; } else { k=event.keyCode;ctrl=event.ctrlKey;	}
+	if( k ){ctrl=k.ctrlKey;k=k.which;} else {k=event.keyCode;ctrl=event.ctrlKey;}
 	if( this._options.message && this.isSendkey(ctrl, k) ) {
 		var mmsg = this._options.message.value;
 		if( this._options.ignorectrl ) {
@@ -284,14 +798,26 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
 	return true;
   },
 
-  handleError: function(_response, xmlRoot, _action) {
-	if( xmlRoot && xmlRoot.tagName == 'error' ) {
-	  this.setStatus(NodeUtils.getNodeValue(xmlRoot,"descr"));
-	} else {
-	  this.setStatus("reconnecting");
-	}
+  /**
+   * Update status message
+   *
+   * @param {Array} args Array of arguments. Must contain 'errorCode' and
+   * 'errorMessage' keys
+   * @param {String} descr Error description
+   */
+  handleError: function(args, descr) {
+      if (args.errorCode) {
+          this.setStatus(args.errorMessage);
+      } else {
+          this.setStatus('reconnecting');
+      }
   },
 
+  /**
+   * Displays status div and sets the status string into it
+   *
+   * @param {String} k Status string
+   */
   showStatusDiv: function(k) {
   	if( $("engineinfo") ) {
 		$("engineinfo").style.display='inline';
@@ -299,6 +825,11 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
   	}
   },
 
+  /**
+   * Sets the status
+   *
+   * @param {String} k Status string
+   */
   setStatus: function(k) {
 	if( this.statusTimeout )
 		clearTimeout(this.statusTimeout);
@@ -306,11 +837,13 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
 	this.statusTimeout = setTimeout(this.clearStatus.bind(this), 4000);
   },
 
+  /**
+   * Hide the status string
+   */
   clearStatus: function() {
 	$("engineinfo").style.display='none';
   }
-});
-
+}
 
 var Chat = {
   threadUpdater : {},
@@ -368,8 +901,7 @@ Behaviour.register({
 	},
 	'a#refresh' : function(el) {
 		el.onclick = function() {
-		    Chat.threadUpdater.stopUpdate();
-			Chat.threadUpdater.update();
+                    Chat.threadUpdater.refresh();
 		};
 	},
 	'a#togglesound' : function(el) {
@@ -396,9 +928,17 @@ Behaviour.register({
 });
 
 EventHelper.register(window, 'onload', function(){
-  Chat.webimRoot = threadParams.wroot;
-  Chat.cssfile = threadParams.cssfile;
-  Chat.predefinedAnswers = (typeof predefinedAnswers != 'undefined')?predefinedAnswers:Array();
-  Chat.localizedStrings = localizedStrings;
-  Chat.threadUpdater = new Ajax.ChatThreadUpdater(({ignorectrl:-1,container:myRealAgent=='safari'?self.frames[0]:$("chatwnd"),avatar:$("avatarwnd"),message:$("msgwnd")}).extend( threadParams || {} ));
+  Chat.cssfile = chatParams.cssfile;
+  Chat.predefinedAnswers = chatParams.predefinedAnswers || [];
+  Chat.localizedStrings = chatParams.localizedStrings;
+  Chat.threadUpdater = new ChatThreadUpdater(
+    new ChatServer(chatParams.serverParams),
+    chatParams.threadParams,
+    {
+        ignorectrl: -1,
+        container: myRealAgent=='safari'?self.frames[0]:$("chatwnd"),
+        avatar: $("avatarwnd"),
+        message: $("msgwnd")
+    }.extend(chatParams.threadUpdaterParams || {})
+  );
 });

@@ -53,10 +53,10 @@ if( count($errors) > 0 ) {
 }
 
 $history = "";
-$lastid = -1;
-$output = get_messages( $threadid,"text",true,$lastid );
-foreach( $output as $msg ) {
-	$history .= $msg;
+$last_id = -1;
+$messages = $thread->getMessages(true, $last_id);
+foreach ($messages as $msg) {
+	$history .= message_to_text($msg);
 }
 
 $subject = getstring("mail.user.history.subject");

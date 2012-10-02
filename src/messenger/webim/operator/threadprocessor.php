@@ -45,10 +45,20 @@ function thread_info($id)
 
 
 if (isset($_GET['threadid'])) {
+	// Load thread info
 	$threadid = verifyparam("threadid", "/^(\d{1,9})?$/", "");
+	$thread_info = thread_info($threadid);
+	$page['thread_info'] = $thread_info;
+
+	// Build messages list
 	$lastid = -1;
-	$page['threadMessages'] = get_messages($threadid, "html", false, $lastid);
-	$page['thread_info'] = thread_info($threadid);
+	$messages = $thread_info['thread']->getMessages(false, $lastid);
+	foreach ($messages as $msg) {
+		if ($msg['ikind'] == Thread::KIND_AVATAR) {
+			continue;
+		}
+		$page['threadMessages'][] = Thread::themeMessage($msg);
+	}
 }
 
 prepare_menu($operator, false);

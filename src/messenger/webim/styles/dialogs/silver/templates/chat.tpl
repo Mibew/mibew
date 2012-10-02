@@ -6,16 +6,31 @@
 	<link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon" />
 	<link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" media="all" />
 	<script type="text/javascript" src="${webimroot}/js/${jsver}/common.js"></script>
+        <script type="text/javascript" src="${webimroot}/js/${jsver}/mibewapi.js"></script>
+        <script type="text/javascript" src="${webimroot}/js/${jsver}/json2.js"></script>
 	<script type="text/javascript" src="${webimroot}/js/${jsver}/brws.js"></script>
 	<script type="text/javascript">
 		<!--
-		var localizedStrings = {closeConfirmation:"${page:chat.close.confirmation}"};
-${if:agent}${if:canpost}
-		var predefinedAnswers = ${page:fullPredefinedAnswers};
-${endif:canpost}${endif:agent}
-		var threadParams = {
-			servl:"${webimroot}/thread.php",wroot:"${webimroot}",frequency:${page:frequency},${if:user}user:"true",${endif:user}threadid:${page:ct.chatThreadId},token:${page:ct.token},cssfile:"${tplroot}/chat.css",ignorectrl:${page:ignorectrl}
-		};
+                var chatParams = {
+                    cssfile: "${tplroot}/chat.css",
+                    ${if:agent}${if:canpost}
+                    predefinedAnswers: ${page:fullPredefinedAnswers},
+                    ${endif:canpost}${endif:agent}
+                    threadParams: {
+                        user:${if:user}true${else:user}false${endif:user},
+                        threadid:${page:ct.chatThreadId},
+                        token:${page:ct.token}
+                    },
+                    serverParams: {
+                        servl: "${webimroot}/thread.php",
+                        requestsFrequency: ${page:frequency}
+                    },
+                    threadUpdaterParams: {
+                        webimRoot: "${webimroot}",
+                        ignorectrl:${page:ignorectrl},
+                        localizedStrings: {closeConfirmation:"${page:chat.close.confirmation}"}
+                    }
+                }
 		var stxt = 10;
 		function getClientHeight() {
 			return document.compatMode=='CSS1Compat' || !window.opera?document.documentElement.clientHeight:document.body.clientHeight;

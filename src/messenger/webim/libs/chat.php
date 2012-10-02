@@ -26,33 +26,6 @@ function get_user_id()
 	return (time() + microtime()) . rand(0, 99999999);
 }
 
-function prepare_html_message($text, $allow_formating)
-{
-	$escaped_text = htmlspecialchars($text);
-	$text_w_links = preg_replace('/(https?|ftp):\/\/\S*/', '<a href="$0" target="_blank">$0</a>', $escaped_text);
-	$multiline = str_replace("\n", "<br/>", $text_w_links);
-	if (! $allow_formating) {
-		return $multiline;
-	}
-	$formated = preg_replace('/&lt;(span|strong)&gt;(.*)&lt;\/\1&gt;/U', '<$1>$2</$1>', $multiline);
-	$formated = preg_replace('/&lt;span class=&quot;(.*)&quot;&gt;(.*)&lt;\/span&gt;/U', '<span class="$1">$2</span>', $formated);
-	return $formated;
-}
-
-function message_to_html($msg)
-{
-	if ($msg['ikind'] == Thread::KIND_AVATAR) {
-		return "";
-	}
-	$message = "<span>" . date("H:i:s", $msg['created']) . "</span> ";
-	$kind = Thread::kindToString($msg['ikind']);
-	if ($msg['tname'])
-		$message .= "<span class='n$kind'>" . htmlspecialchars($msg['tname']) . "</span>: ";
-	$allow_formating = ($msg['ikind'] != Thread::KIND_USER && $msg['ikind'] != Thread::KIND_AGENT);
-	$message .= "<span class='m$kind'>" . prepare_html_message($msg['tmessage'], $allow_formating) . "</span><br/>";
-	return $message;
-}
-
 function message_to_text($msg)
 {
 	if ($msg['ikind'] == Thread::KIND_AVATAR) {
@@ -68,93 +41,6 @@ function message_to_text($msg)
 		return $message_time . $msg['tmessage'] . "\n";
 	} else {
 		return $message_time . "[" . $msg['tmessage'] . "]\n";
-	}
-}
-
-function get_messages($threadid, $meth, $isuser, &$lastid)
-{
-	global $webim_encoding;
-	$db = Database::getInstance();
-
-	$msgs = $db->query(
-		"select messageid,ikind,dtmcreated as created,tname,tmessage from {chatmessage} " .
-		"where threadid = :threadid and messageid > :lastid " .
-		($isuser ? "and ikind <> ". Thread::KIND_FOR_AGENT : "") .
-		" order by messageid",
-		array(
-			':threadid' => $threadid,
-			':lastid' => $lastid,
-		),
-		array('return_rows' => Database::RETURN_ALL_ROWS)
-		
-	);
-
-	$messages = array();
-	foreach ($msgs as $msg) {
-		$message = "";
-		if ($meth == 'xml') {
-			switch ($msg['ikind']) {
-				case Thread::KIND_AVATAR:
-					$message = "<avatar>" . myiconv($webim_encoding, "utf-8", escape_with_cdata($msg['tmessage'])) . "</avatar>";
-					break;
-				default:
-					$message = "<message>" . myiconv($webim_encoding, "utf-8", escape_with_cdata(message_to_html($msg))) . "</message>\n";
-			}
-		} else {
-			if ($msg['ikind'] != Thread::KIND_AVATAR) {
-				$message = (($meth == 'text') ? message_to_text($msg) : topage(message_to_html($msg)));
-			}
-		}
-
-		$messages[] = $message;
-		if ($msg['messageid'] > $lastid) {
-			$lastid = $msg['messageid'];
-		}
-	}
-
-	return $messages;
-}
-
-function print_thread_messages($thread, $token, $lastid, $isuser, $format, $agentid = null)
-{
-	global $webim_encoding, $webimroot;
-	$threadid = $thread->id;
-	$istyping = abs(time() - $isuser ? $thread->lastPingAgent : $thread->lastPingUser) < Thread::CONNECTION_TIMEOUT
-				&& (($isuser ? $thread->agentTyping : $thread->userTyping) == "1") ? "1" : "0";
-
-	if ($format == "xml") {
-		$output = get_messages($threadid, "xml", $isuser, $lastid);
-
-		start_xml_output();
-		print("<thread lastid=\"$lastid\" typing=\"" . $istyping . "\" canpost=\"" . (($isuser || $agentid != null && $agentid == $thread->agentId) ? 1 : 0) . "\">");
-		foreach ($output as $msg) {
-			print $msg;
-		}
-		print("</thread>");
-	} else if ($format == "html") {
-		$output = get_messages($threadid, "html", $isuser, $lastid);
-
-		start_html_output();
-		$url = "$webimroot/thread.php?act=refresh&amp;thread=$threadid&amp;token=$token&amp;html=on&amp;user=" . ($isuser ? "true" : "false");
-
-		print(
-				"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" .
-				"<html>\n<head>\n" .
-				"<link href=\"$webimroot/styles/default/chat.css\" rel=\"stylesheet\" type=\"text/css\">\n" .
-				"<meta http-equiv=\"Refresh\" content=\"" . Settings::get('updatefrequency_oldchat') . "; URL=$url&amp;sn=11\">\n" .
-				"<meta http-equiv=\"Pragma\" content=\"no-cache\">\n" .
-				"<title>chat</title>\n" .
-				"</head>\n" .
-				"<body bgcolor='#FFFFFF' text='#000000' link='#C28400' vlink='#C28400' alink='#C28400' onload=\"if( location.hash != '#aend' ){location.hash='#aend';}\">" .
-				"<table width='100%' cellspacing='0' cellpadding='0' border='0'><tr><td valign='top' class='message'>");
-
-		foreach ($output as $msg) {
-			print $msg;
-		}
-
-		print(
-				"</td></tr></table><a name='aend'></a>" .
-				"</body></html>");
 	}
 }
 
