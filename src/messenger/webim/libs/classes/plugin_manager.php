@@ -20,6 +20,10 @@
  */
 Class PluginManager {
 
+	/**
+	 * Contains all loaded plugins
+	 * @var array
+	 */
 	protected static $loaded_plugins = array();
 
 	/**
@@ -36,6 +40,17 @@ Class PluginManager {
 			);
 		}
 		return self::$loaded_plugins[$plugin_name];
+	}
+
+	/**
+	 * Returns associative array of loaded plugins.
+	 *
+	 * Key represents plugin's name and value contains Plugin object
+	 *
+	 * @return array
+	 */
+	public static function getAllPlugins() {
+		return self::$loaded_plugins;
 	}
 
 	/**

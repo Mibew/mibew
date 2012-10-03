@@ -71,6 +71,18 @@ class PluginManagerTest extends PHPUnit_Framework_TestCase {
 		// Try to get loaded plugin
 		PluginManager::getPlugin('phpunit_autotest_plugin_manager');
 	}
+
+	/**
+	 * @depends testGetPlugin
+	 */
+	public function testGetAllPlugins() {
+		// Get loaded plugin
+		$plugin = PluginManager::getPlugin('phpunit_autotest_plugin_manager');
+		// Build plugins list to comparison
+		$plugins_list = array('phpunit_autotest_plugin_manager' => $plugin);
+		// Check loaded plugins list
+		$this->assertEquals($plugins_list, PluginManager::getAllPlugins());
+	}
 }
 
 ?>
