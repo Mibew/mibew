@@ -927,13 +927,18 @@ Behaviour.register({
 	}
 });
 
+var pluginManager = new PluginManager();
+
 EventHelper.register(window, 'onload', function(){
+  var chatServer = new ChatServer(chatParams.serverParams);
+  var thread = chatParams.threadParams;
+  chatParams.initPlugins(pluginManager, thread, chatServer);
   Chat.cssfile = chatParams.cssfile;
   Chat.predefinedAnswers = chatParams.predefinedAnswers || [];
   Chat.localizedStrings = chatParams.localizedStrings;
   Chat.threadUpdater = new ChatThreadUpdater(
-    new ChatServer(chatParams.serverParams),
-    chatParams.threadParams,
+    chatServer,
+    thread,
     {
         ignorectrl: -1,
         container: myRealAgent=='safari'?self.frames[0]:$("chatwnd"),

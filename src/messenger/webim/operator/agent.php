@@ -124,6 +124,11 @@ if ($pparam == "redirect") {
 	setup_redirect_links($threadid, $operator, $token);
 	expand("../styles/dialogs", getchatstyle(), "redirect.tpl");
 } else {
+	// Load JavaScript plugins and JavaScripts, CSS files required by them
+	$page['additional_css'] = get_additional_css('chatWindow');
+	$page['additional_js'] = get_additional_js('chatWindow');
+	$page['js_plugins'] = get_js_plugins('chatWindow');
+	// Expand page
 	expand("../styles/dialogs", getchatstyle(), "chat.tpl");
 }
 

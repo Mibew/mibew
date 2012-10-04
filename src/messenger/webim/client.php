@@ -175,6 +175,11 @@ $pparam = verifyparam( "act", "/^(mailthread)$/", "default");
 if( $pparam == "mailthread" ) {
 	expand("styles/dialogs", getchatstyle(), "mail.tpl");
 } else if( $level == "ajaxed" ) {
+	// Load JavaScript plugins and JavaScripts, CSS files required by them
+	$page['additional_css'] = get_additional_css('chatWindow');
+	$page['additional_js'] = get_additional_js('chatWindow');
+	$page['js_plugins'] = get_js_plugins('chatWindow');
+	// Expand page
 	expand("styles/dialogs", getchatstyle(), "chat.tpl");
 } else if( $level == "simple" ) {
 	expand("styles/dialogs", getchatstyle(), "chatsimple.tpl");

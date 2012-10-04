@@ -4,8 +4,11 @@
 <title>${msg:chat.window.title.agent}</title>
 <link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="${tplroot}/chat.css">
+${page:additional_css}
+${page:additional_js}
 <script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/common.js"></script>
 <script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/mibewapi.js"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/pluginmanager.js"></script>
 <script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/json2.js"></script>
 <script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/brws.js"></script>
 <script type="text/javascript" language="javascript"><!--
@@ -27,6 +30,9 @@ var chatParams = {
         webimRoot: "${webimroot}",
         ignorectrl:${page:ignorectrl},
         localizedStrings: {closeConfirmation:"${page:chat.close.confirmation}"}
+    },
+    initPlugins: function(pluginManager, thread, chatServer) {
+        ${page:js_plugins}
     }
 }
 //-->
@@ -92,7 +98,6 @@ var chatParams = {
 
 </head>
 <body bgcolor="#FFFFFF" text="#000000" link="#C28400" vlink="#C28400" alink="#C28400" style="margin:0px;">
-
 <table width="100%" style="height:100%;" cellspacing="0" cellpadding="0" border="0">
 <tr>
 <td valign="top">

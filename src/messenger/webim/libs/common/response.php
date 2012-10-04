@@ -64,6 +64,81 @@ function topage($text)
 	return myiconv($webim_encoding, getoutputenc(), $text);
 }
 
+/**
+ * Load additional CSS files, required by plugins, and build HTML code to include them
+ *
+ * @param string $page_name CSS files load to this page
+ * @return string HTML block of 'link' tags
+ */
+function get_additional_css($page_name) {
+	$method = $page_name . 'AddCss';
+	$plugins = PluginManager::getAllPlugins();
+	$result = array();
+	// Check all plugins
+	foreach ($plugins as $plugin) {
+		if (is_callable(array($plugin, $method))) {
+			// Try to invoke '<$page_name>AddCss' method
+			$css_list = $plugin->$method();
+			foreach ($css_list as $css) {
+				// Add script tag for each javascript file
+				$result[] = '<link rel="stylesheet" type="text/css" href="' . $css . '">';
+			}
+		}
+	}
+	return implode("\n", $result);
+}
+
+/**
+ * Load additional JavaScript files, required by plugins, and build HTML code to include them
+ *
+ * @param string $page_name JavaScript files load to this page
+ * @return string HTML block of 'script' tags
+ */
+function get_additional_js($page_name) {
+	$method = $page_name . 'AddJs';
+	$plugins = PluginManager::getAllPlugins();
+	$result = array();
+	// Check all plugins
+	foreach ($plugins as $plugin) {
+		if (is_callable(array($plugin, $method))) {
+			// Try to invoke '<$page_name>AddJs' method
+			$js_list = $plugin->$method();
+			foreach ($js_list as $js) {
+				// Add script tag for each javascript file
+				$result[] = '<script type="text/javascript" src="' . $js . '"></script>';
+			}
+		}
+	}
+	return implode("\n", $result);
+}
+
+/**
+ * Build Javascript code that initialize JavaScript plugins
+ *
+ * @param string $page_name Plugins initialize at this page
+ * @return string JavaScript initialization block
+ */
+function get_js_plugins($page_name) {
+	$method = $page_name . 'AddJsPlugins';
+	$plugins = PluginManager::getAllPlugins();
+	$result = array();
+	// Check all plugins
+	foreach ($plugins as $plugin) {
+		if (is_callable(array($plugin, $method))) {
+			// Try to invoke '<$page_name>AddJsPlugins' method
+			$js_plugins = $plugin->$method();
+			foreach ($js_plugins as $js_plugin) {
+				// Add plugin's initialization code
+				$constructor = $js_plugin['constructor'];
+				array_unshift($js_plugin['init_values'], 'thread', 'chatServer');
+				$init_values = implode(', ', $js_plugin['init_values']);
+				$result[] = "pluginManager.addPlugin('{$constructor}', new {$constructor}({$init_values}));";
+			}
+		}
+	}
+	return implode("\n", $result);
+}
+
 function no_field($key)
 {
 	return getlocal2("errors.required", array(getlocal($key)));

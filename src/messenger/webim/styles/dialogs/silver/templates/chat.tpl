@@ -5,8 +5,11 @@
 	<title>${msg:chat.window.title.agent}</title>	
 	<link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon" />
 	<link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" media="all" />
+        ${page:additional_css}
+        ${page:additional_js}
 	<script type="text/javascript" src="${webimroot}/js/${jsver}/common.js"></script>
         <script type="text/javascript" src="${webimroot}/js/${jsver}/mibewapi.js"></script>
+        <script type="text/javascript" src="${webimroot}/js/${jsver}/pluginmanager.js"></script>
         <script type="text/javascript" src="${webimroot}/js/${jsver}/json2.js"></script>
 	<script type="text/javascript" src="${webimroot}/js/${jsver}/brws.js"></script>
 	<script type="text/javascript">
@@ -29,6 +32,9 @@
                         webimRoot: "${webimroot}",
                         ignorectrl:${page:ignorectrl},
                         localizedStrings: {closeConfirmation:"${page:chat.close.confirmation}"}
+                    },
+                    initPlugins: function(pluginManager, thread, chatServer) {
+                        ${page:js_plugins}
                     }
                 }
 		var stxt = 10;
