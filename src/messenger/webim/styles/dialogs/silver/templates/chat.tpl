@@ -8,6 +8,7 @@
         ${page:additional_css}
         ${page:additional_js}
 	<script type="text/javascript" src="${webimroot}/js/${jsver}/common.js"></script>
+        <script type="text/javascript" src="${webimroot}/js/${jsver}/thread.js"></script>
         <script type="text/javascript" src="${webimroot}/js/${jsver}/mibewapi.js"></script>
         <script type="text/javascript" src="${webimroot}/js/${jsver}/pluginmanager.js"></script>
         <script type="text/javascript" src="${webimroot}/js/${jsver}/json2.js"></script>

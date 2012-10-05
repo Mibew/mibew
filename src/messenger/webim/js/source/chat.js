@@ -439,28 +439,27 @@ ChatServer.prototype = {
 ChatThreadUpdater = Class.create();
 ChatThreadUpdater.prototype = {
   /**
+   * Create an instance of ChatThreadUpdater
    * @constructor
+   * @param {ChatServer} chatServer An instance of ChatServer class
+   * @param {Thread} thread Thread object
+   * @param {Object} options Additional configuration options
    * @todo Add error handlers to chatServer
    * @todo Think about code format
    */
   initialize: function(chatServer, thread, options) {
     /**
-     * Array of options
-     * @type Array
+     * Additional options
+     * @type Object
      * @private
      */
     this._options = options;
 
     /**
      * An instance of the Thread class
-     * @type ChatThread
+     * @type Thread
      */
-    this.thread = {
-        threadid: 0,
-        token: 0,
-        lastid: 0,
-        user: false
-    }.extend(thread || {});
+    this.thread = thread;
 
     /**
      * An instance of the ChatServer class
@@ -931,7 +930,7 @@ var pluginManager = new PluginManager();
 
 EventHelper.register(window, 'onload', function(){
   var chatServer = new ChatServer(chatParams.serverParams);
-  var thread = chatParams.threadParams;
+  var thread = new Thread(chatParams.threadParams);
   chatParams.initPlugins(pluginManager, thread, chatServer);
   Chat.cssfile = chatParams.cssfile;
   Chat.predefinedAnswers = chatParams.predefinedAnswers || [];
