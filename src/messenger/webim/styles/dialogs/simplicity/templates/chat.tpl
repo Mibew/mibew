@@ -38,6 +38,7 @@ var chatParams = {
 }
 //-->
 </script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/chatserver.js"></script>
 <script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/chat.js"></script>
 <style type="text/css">
 .isound { background: url(${tplroot}/images/buttons/sound.gif) no-repeat; width: 19px; height: 19px; }

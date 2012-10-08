@@ -79,6 +79,7 @@
 		window.onresize = setTrueHeight;		
 		//-->
 	</script>
+	<script type="text/javascript" src="${webimroot}/js/${jsver}/chatserver.js"></script>
 	<script type="text/javascript" src="${webimroot}/js/${jsver}/chat.js"></script>
 </head>
 <body class="body">
