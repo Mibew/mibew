@@ -39,7 +39,9 @@ var chatParams = {
 //-->
 </script>
 <script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/chatserver.js"></script>
-<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/chat.js"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/chatview.js"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/chatcontroller.js"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/chatinit.js"></script>
 <style type="text/css">
 .tplimage {
 	background: transparent url(${tplroot}/images/wmchat.png) no-repeat scroll 0px 0px;

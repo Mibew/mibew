@@ -80,7 +80,9 @@
 		//-->
 	</script>
 	<script type="text/javascript" src="${webimroot}/js/${jsver}/chatserver.js"></script>
-	<script type="text/javascript" src="${webimroot}/js/${jsver}/chat.js"></script>
+	<script type="text/javascript" src="${webimroot}/js/${jsver}/chatview.js"></script>
+	<script type="text/javascript" src="${webimroot}/js/${jsver}/chatcontroller.js"></script>
+	<script type="text/javascript" src="${webimroot}/js/${jsver}/chatinit.js"></script>
 </head>
 <body class="body">
 	<div id="top">
