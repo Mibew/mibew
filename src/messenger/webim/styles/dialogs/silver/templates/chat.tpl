@@ -15,29 +15,29 @@
 	<script type="text/javascript" src="${webimroot}/js/${jsver}/brws.js"></script>
 	<script type="text/javascript">
 		<!--
-                var chatParams = {
-                    cssfile: "${tplroot}/chat.css",
-                    ${if:agent}${if:canpost}
-                    predefinedAnswers: ${page:fullPredefinedAnswers},
-                    ${endif:canpost}${endif:agent}
-                    threadParams: {
-                        user:${if:user}true${else:user}false${endif:user},
-                        threadid:${page:ct.chatThreadId},
-                        token:${page:ct.token}
-                    },
-                    serverParams: {
-                        servl: "${webimroot}/thread.php",
-                        requestsFrequency: ${page:frequency}
-                    },
-                    threadUpdaterParams: {
-                        webimRoot: "${webimroot}",
-                        ignorectrl:${page:ignorectrl},
-                        localizedStrings: {closeConfirmation:"${page:chat.close.confirmation}"}
-                    },
-                    initPlugins: function(pluginManager, thread, chatServer) {
-                        ${page:js_plugins}
-                    }
-                }
+		var chatParams = {
+			cssfile: "${tplroot}/chat.css",
+			localizedStrings: {closeConfirmation:"${page:chat.close.confirmation}"},
+			${if:agent}${if:canpost}
+			predefinedAnswers: ${page:fullPredefinedAnswers},
+			${endif:canpost}${endif:agent}
+			threadParams: {
+				user:${if:user}true${else:user}false${endif:user},
+				threadid:${page:ct.chatThreadId},
+				token:${page:ct.token}
+			},
+			serverParams: {
+				servl: "${webimroot}/thread.php",
+				requestsFrequency: ${page:frequency}
+			},
+			controllerParams: {
+				webimRoot: "${webimroot}",
+				ignorectrl:${page:ignorectrl}
+			},
+			initPlugins: function(pluginManager, thread, chatServer) {
+				${page:js_plugins}
+			}
+		}
 		var stxt = 10;
 		function getClientHeight() {
 			return document.compatMode=='CSS1Compat' || !window.opera?document.documentElement.clientHeight:document.body.clientHeight;

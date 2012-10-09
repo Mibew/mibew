@@ -15,6 +15,7 @@ ${page:additional_js}
 <script type="text/javascript" language="javascript"><!--
 var chatParams = {
     cssfile: "${tplroot}/chat.css",
+    localizedStrings: {closeConfirmation:"${page:chat.close.confirmation}"},
     ${if:agent}${if:canpost}
     predefinedAnswers: ${page:fullPredefinedAnswers},
     ${endif:canpost}${endif:agent}
@@ -27,10 +28,9 @@ var chatParams = {
         servl: "${webimroot}/thread.php",
         requestsFrequency: ${page:frequency}
     },
-    threadUpdaterParams: {
+    controllerParams: {
         webimRoot: "${webimroot}",
-        ignorectrl:${page:ignorectrl},
-        localizedStrings: {closeConfirmation:"${page:chat.close.confirmation}"}
+        ignorectrl:${page:ignorectrl}
     },
     initPlugins: function(pluginManager, thread, chatServer) {
         ${page:js_plugins}
