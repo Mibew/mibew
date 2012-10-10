@@ -54,7 +54,7 @@ if (isset($_GET['threadid'])) {
 	$lastid = -1;
 	$messages = $thread_info['thread']->getMessages(false, $lastid);
 	foreach ($messages as $msg) {
-		if ($msg['ikind'] == Thread::KIND_AVATAR) {
+		if ($msg['kind'] == Thread::KIND_AVATAR) {
 			continue;
 		}
 		$page['threadMessages'][] = Thread::themeMessage($msg);

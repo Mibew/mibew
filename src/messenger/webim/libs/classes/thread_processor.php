@@ -239,7 +239,7 @@ class ThreadProcessor extends RequestProcessor {
 		if (! empty($messages)) {
 			foreach($messages as $key => $msg) {
 				// Check if message is avatar
-				if ($msg['ikind'] == Thread::KIND_AVATAR) {
+				if ($msg['kind'] == Thread::KIND_AVATAR) {
 					// Update avatar
 					$this->responses[] = array(
 						'token' => md5(time() . rand()),
@@ -251,7 +251,7 @@ class ThreadProcessor extends RequestProcessor {
 									'token' => $thread->lastToken,
 									'return' => array(),
 									'references' => array(),
-									'imageLink' => $msg['tmessage']
+									'imageLink' => $msg['message']
 								)
 							)
 						)

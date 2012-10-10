@@ -391,26 +391,26 @@ Class Thread {
 		global $webim_encoding;
 
 		// No theming for avatars
-		if ($message['ikind'] == Thread::KIND_AVATAR) {
+		if ($message['kind'] == Thread::KIND_AVATAR) {
 			return '';
 		}
 
 		// Prepare messages fields
 		$creation_date = date("H:i:s", $message['created']);
-		$kind_name = Thread::kindToString($message['ikind']);
-		$sender_name = $message['tname']
-			? "<span class='n{$kind_name}'>" . htmlspecialchars($message['tname']) . "</span>: "
+		$kind_name = Thread::kindToString($message['kind']);
+		$sender_name = $message['name']
+			? "<span class='n{$kind_name}'>" . htmlspecialchars($message['name']) . "</span>: "
 			: '';
 
 		// Prepare message text
 		// Escape special chars
-		$text = htmlspecialchars($message['tmessage']);
+		$text = htmlspecialchars($message['message']);
 		// Replace URL's by <a> tags
 		$text = preg_replace('/(https?|ftp):\/\/\S*/', '<a href="$0" target="_blank">$0</a>', $text);
 		// Add <br> tags instead of \n chars
 		$text = str_replace("\n", "<br/>", $text);
 		// Span and storng tags available for system messages
-		if ($message['ikind'] != Thread::KIND_USER && $message['ikind'] != Thread::KIND_AGENT) {
+		if ($message['kind'] != Thread::KIND_USER && $message['kind'] != Thread::KIND_AGENT) {
 			$text = preg_replace('/&lt;(span|strong)&gt;(.*)&lt;\/\1&gt;/U', '<$1>$2</$1>', $text);
 			$text = preg_replace(
 				'/&lt;span class=&quot;(.*)&quot;&gt;(.*)&lt;\/span&gt;/U',
@@ -675,7 +675,8 @@ Class Thread {
 
 		// Load messages
 		$messages = $db->query(
-			"select messageid,ikind,dtmcreated as created,tname,tmessage from {chatmessage} " .
+			"select messageid as id, ikind as kind, dtmcreated as created, tname as name, tmessage as message " .
+			"from {chatmessage} " .
 			"where threadid = :threadid and messageid > :lastid " .
 			($is_user ? "and ikind <> " . self::KIND_FOR_AGENT : "") .
 			" order by messageid",
@@ -688,8 +689,8 @@ Class Thread {
 
 		foreach ($messages as $msg) {
 			// Get last message ID
-			if ($msg['messageid'] > $last_id) {
-				$last_id = $msg['messageid'];
+			if ($msg['id'] > $last_id) {
+				$last_id = $msg['id'];
 			}
 		}
 

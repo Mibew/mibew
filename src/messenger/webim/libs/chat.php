@@ -28,19 +28,19 @@ function get_user_id()
 
 function message_to_text($msg)
 {
-	if ($msg['ikind'] == Thread::KIND_AVATAR) {
+	if ($msg['kind'] == Thread::KIND_AVATAR) {
 		return "";
 	}
 	$message_time = date("H:i:s ", $msg['created']);
-	if ($msg['ikind'] == Thread::KIND_USER || $msg['ikind'] == Thread::KIND_AGENT) {
-		if ($msg['tname'])
-			return $message_time . $msg['tname'] . ": " . $msg['tmessage'] . "\n";
+	if ($msg['kind'] == Thread::KIND_USER || $msg['kind'] == Thread::KIND_AGENT) {
+		if ($msg['name'])
+			return $message_time . $msg['name'] . ": " . $msg['message'] . "\n";
 		else
-			return $message_time . $msg['tmessage'] . "\n";
-	} else if ($msg['ikind'] == Thread::KIND_INFO) {
-		return $message_time . $msg['tmessage'] . "\n";
+			return $message_time . $msg['message'] . "\n";
+	} else if ($msg['kind'] == Thread::KIND_INFO) {
+		return $message_time . $msg['message'] . "\n";
 	} else {
-		return $message_time . "[" . $msg['tmessage'] . "]\n";
+		return $message_time . "[" . $msg['message'] . "]\n";
 	}
 }
 

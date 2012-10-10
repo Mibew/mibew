@@ -607,48 +607,48 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 		// Create messages
 		// The first
 		$first_message = array(
-			'ikind' => Thread::KIND_USER,
-			'tmessage' => 'The first message',
+			'kind' => Thread::KIND_USER,
+			'message' => 'The first message',
 			'created' => time(),
-			'tname' => 'System message only for agent'
+			'name' => 'System message only for agent'
 		);
 		// The second
 		$second_message = array(
-			'ikind' => Thread::KIND_AGENT,
-			'tmessage' => 'The second message',
+			'kind' => Thread::KIND_AGENT,
+			'message' => 'The second message',
 			'created' => time(),
-			'tname' => 'User'
+			'name' => 'User'
 		);
 		// The third
 		$third_message = array(
-			'ikind' => Thread::KIND_FOR_AGENT,
-			'tmessage' => 'The third message',
+			'kind' => Thread::KIND_FOR_AGENT,
+			'message' => 'The third message',
 			'created' => time(),
-			'tname' => 'Agent'
+			'name' => 'Agent'
 		);
 
 		// Send messages
 		// The first
-		$first_message['messageid'] = $thread->postMessage(
-			$first_message['ikind'],
-			$first_message['tmessage'],
-			$first_message['tname'],
+		$first_message['id'] = $thread->postMessage(
+			$first_message['kind'],
+			$first_message['message'],
+			$first_message['name'],
 			12,
 			$first_message['created']
 		);
 		// The second
-		$second_message['messageid'] = $thread->postMessage(
-			$second_message['ikind'],
-			$second_message['tmessage'],
-			$second_message['tname'],
+		$second_message['id'] = $thread->postMessage(
+			$second_message['kind'],
+			$second_message['message'],
+			$second_message['name'],
 			14,
 			$second_message['created']
 		);
 		// The third
-		$third_message['messageid'] = $thread->postMessage(
-			$third_message['ikind'],
-			$third_message['tmessage'],
-			$third_message['tname'],
+		$third_message['id'] = $thread->postMessage(
+			$third_message['kind'],
+			$third_message['message'],
+			$third_message['name'],
 			16,
 			$third_message['created']
 		);
@@ -660,7 +660,7 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 			$thread->getMessages(false, $last_id)
 		);
 		// Check last message id
-		$this->assertEquals($third_message['messageid'], $last_id);
+		$this->assertEquals($third_message['id'], $last_id);
 
 		// Check messages for user with ids starts from $msg_id
 		$last_id = $msg_id;
@@ -669,16 +669,16 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 			$thread->getMessages(true, $last_id)
 		);
 		// Check last message id
-		$this->assertEquals($second_message['messageid'], $last_id);
+		$this->assertEquals($second_message['id'], $last_id);
 
 		// Check messages for agent with ids starts from first message's id
-		$last_id = $first_message['messageid'];
+		$last_id = $first_message['id'];
 		$this->assertEquals(
 			array($second_message, $third_message),
 			$thread->getMessages(false, $last_id)
 		);
 		// Check last message id
-		$this->assertEquals($third_message['messageid'], $last_id);
+		$this->assertEquals($third_message['id'], $last_id);
 
 		// Delete thread
 		$thread->delete();
