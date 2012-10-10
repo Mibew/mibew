@@ -7,7 +7,6 @@
  */
 
 var chatController = null;
-var pluginManager = new PluginManager();
 
 Behaviour.register({
     '#postmessage a' : function(el) {
@@ -68,18 +67,31 @@ Behaviour.register({
 });
 
 EventHelper.register(window, 'onload', function(){
-    FrameUtils.options.cssfile = chatParams.cssfile;
-    var chatServer = new ChatServer(chatParams.serverParams);
-    var thread = new Thread(chatParams.threadParams);
-    chatParams.initPlugins(pluginManager, thread, chatServer);
-    var chatView = new ChatView(
-        chatParams.localizedStrings,
-        chatParams.predefinedAnswers || []
-    );
-    chatController = new ChatController(
-        chatServer,
-        chatView,
-        thread,
-        {ignorectrl: -1}.extend(chatParams.controllerParams || {})
-    );
+    $LAB
+    .setOptions({BasePath: chatParams.jsBasePath})
+    .script('json2.js').wait()
+    .script('mibewapi.js').wait()
+    .script('chatserver.js')
+    .script('thread.js')
+    .script('pluginmanager.js')
+    .script('brws.js').wait()
+    .script('chatcontroller.js')
+    .script('chatview.js')
+    .wait(function() {
+        FrameUtils.options.cssfile = chatParams.cssfile;
+        var chatServer = new ChatServer(chatParams.serverParams);
+        var thread = new Thread(chatParams.threadParams);
+        var pluginManager = new PluginManager();
+        chatParams.initPlugins(pluginManager, thread, chatServer);
+        var chatView = new ChatView(
+            chatParams.localizedStrings,
+            chatParams.predefinedAnswers || []
+        );
+        chatController = new ChatController(
+            chatServer,
+            chatView,
+            thread,
+            {ignorectrl: -1}.extend(chatParams.controllerParams || {})
+        );
+    });
 });
