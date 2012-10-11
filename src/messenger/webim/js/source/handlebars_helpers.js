@@ -11,11 +11,19 @@
  *
  * This helper provide an ability to apply several helpers to single Handlebars
  * expression
+ *
+ * Example of helper usage:
+ * <code>
+ * {{apply text "emHelper, strongHelper"}}
+ * </code>
+ * In the example above helpers will apply to text one after another: first
+ * 'emHelper' and second 'strongHelper'.
  */
 Handlebars.registerHelper('apply', function(text, helpers) {
     var result = text;
     var validHelperName = /^[0-9A-z_]+$/;
     helpers = helpers.split(/\s*,\s*/);
+    // Apply helpers one after another
     for (var prop in helpers) {
         if (! helpers.hasOwnProperty(prop) ||
             ! validHelperName.test(helpers[prop])) {
@@ -26,7 +34,7 @@ Handlebars.registerHelper('apply', function(text, helpers) {
                 "Unregistered helper '" + helpers[prop] + "'!"
             );
         }
-        result = Handlebars.helpers[helpers[prop]](result);
+        result = Handlebars.helpers[helpers[prop]](result).toString();
     }
     return new Handlebars.SafeString(result);
 });
