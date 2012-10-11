@@ -727,7 +727,7 @@ Class Thread {
 			':threadid' => $this->id,
 			':kind' => $kind,
 			':message' => $message,
-			':name' => ($from ? $from : "null"),
+			':name' => ($from ? $from : NULL),
 			':agentid' => ($opid ? $opid : 0),
 			':created' => ($time ? $time : time())
 		);
