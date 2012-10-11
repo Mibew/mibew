@@ -847,6 +847,8 @@ Class Thread {
 	public function renameUser($new_name) {
 		// Rename only if a new name is realy new
 		if ($this->userName != $new_name) {
+			// Save old name
+			$old_name = $this->userName;
 			// Rename user
 			$this->userName = $new_name;
 			$this->save();
@@ -854,7 +856,7 @@ Class Thread {
 			// Send message about renaming
 			$message = getstring2_(
 				"chat.status.user.changedname",
-				array($this->userName, $new_name),
+				array($old_name, $new_name),
 				$this->locale
 			);
 			$this->postMessage(self::KIND_EVENTS, $message);
