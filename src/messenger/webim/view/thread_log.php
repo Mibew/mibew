@@ -17,6 +17,27 @@
 
 $page['title'] = getlocal("thread.chat_log");
 
+function tpl_header() { global $page, $webimroot, $jsver; ?>
+<script type="text/javascript" src="<?php echo($webimroot); ?>/js/<?php echo($jsver); ?>/common.js"></script>
+<script type="text/javascript" src="<?php echo($webimroot); ?>/js/<?php echo($jsver); ?>/handlebars.js"></script>
+<script type="text/javascript" src="<?php echo($webimroot); ?>/js/<?php echo($jsver); ?>/handlebars_helpers.js"></script>
+<script type="text/javascript" src="<?php echo($webimroot); ?>/js/<?php echo($jsver); ?>/messageview.js"></script>
+<script type="text/javascript" src="<?php echo($webimroot); ?>/js/templates/compiled/message.tpl.js"></script>
+<script type="text/javascript"><!--
+	EventHelper.register(window, 'onload', function() {
+		var threadMessages = <?php echo($page['threadMessages']); ?>;
+		var messageEl = document.getElementById('message');
+		var messageView = new MessageView();
+		for (var index in threadMessages) {
+			if (! threadMessages.hasOwnProperty(index)) {
+				continue;
+			}
+			messageEl.innerHTML += messageView.themeMessage(threadMessages[index]);
+		}
+	});
+// --></script>
+<?php }
+
 function tpl_content() { global $page, $webimroot, $errors;
 $chatthreadinfo = $page['thread_info'];
 $chatthread = $page['thread_info']['thread'];
@@ -83,7 +104,7 @@ $chatthread = $page['thread_info']['thread'];
 		<br clear="all"/>
 </div>
 
-<div class="message">
+<div class="message" id="message">
 <?php 
 	foreach( $page['threadMessages'] as $message ) {
 		echo $message;

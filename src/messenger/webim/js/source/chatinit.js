@@ -6,7 +6,7 @@
  * License: http://mibew.org/license.php
  */
 
-var chatController = null;
+var chatController = {};
 
 Behaviour.register({
     '#postmessage a' : function(el) {
@@ -73,6 +73,7 @@ EventHelper.register(window, 'onload', function(){
     .script('mibewapi.js').wait()
     .script('chatserver.js')
     .script('thread.js')
+    .script('messageview.js')
     .script('pluginmanager.js')
     .script('brws.js').wait()
     .script('chatcontroller.js')
@@ -84,7 +85,8 @@ EventHelper.register(window, 'onload', function(){
         var pluginManager = new PluginManager();
         chatParams.initPlugins(pluginManager, thread, chatServer);
         var chatView = new ChatView(
-            chatParams.localizedStrings,
+            new MessageView(),
+            chatParams.localizedStrings || {},
             chatParams.predefinedAnswers || []
         );
         chatController = new ChatController(

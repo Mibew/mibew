@@ -360,77 +360,6 @@ Class Thread {
 	}
 
 	/**
-	 * Return message kind name corresponding to kind code
-	 *
-	 * @param int $message_kind Message kind. One of the Thread::KIND_* constants
-	 * @return string kind's full name or its shortening
-	 */
-	public static function kindToString($message_kind) {
-		$kind_names = array(
-			Thread::KIND_USER => 'user',
-			Thread::KIND_AGENT => 'agent',
-			Thread::KIND_FOR_AGENT => 'hidden',
-			Thread::KIND_INFO => 'inf',
-			Thread::KIND_CONN => 'conn',
-			Thread::KIND_EVENTS => 'event',
-			Thread::KIND_AVATAR => 'avatar'
-		);
-		if (! array_key_exists($message_kind, $kind_names)) {
-			return '';
-		}
-		return $kind_names[$message_kind];
-	}
-
-	/**
-	 * Theme message to display in chat window
-	 *
-	 * @param array $message Message array
-	 * @return string Ready to display themed message
-	 */
-	public static function themeMessage($message) {
-		global $webim_encoding;
-
-		// No theming for avatars
-		if ($message['kind'] == Thread::KIND_AVATAR) {
-			return '';
-		}
-
-		// Prepare messages fields
-		$creation_date = date("H:i:s", $message['created']);
-		$kind_name = Thread::kindToString($message['kind']);
-		$sender_name = $message['name']
-			? "<span class='n{$kind_name}'>" . htmlspecialchars($message['name']) . "</span>: "
-			: '';
-
-		// Prepare message text
-		// Escape special chars
-		$text = htmlspecialchars($message['message']);
-		// Replace URL's by <a> tags
-		$text = preg_replace('/(https?|ftp):\/\/\S*/', '<a href="$0" target="_blank">$0</a>', $text);
-		// Add <br> tags instead of \n chars
-		$text = str_replace("\n", "<br/>", $text);
-		// Span and storng tags available for system messages
-		if ($message['kind'] != Thread::KIND_USER && $message['kind'] != Thread::KIND_AGENT) {
-			$text = preg_replace('/&lt;(span|strong)&gt;(.*)&lt;\/\1&gt;/U', '<$1>$2</$1>', $text);
-			$text = preg_replace(
-				'/&lt;span class=&quot;(.*)&quot;&gt;(.*)&lt;\/span&gt;/U',
-				'<span class="$1">$2</span>',
-				$text
-			);
-		}
-
-		// Build result message
-		$result = sprintf(
-			"<span>%s</span> %s<span class='m%s'>%s</span><br/>",
-			$creation_date,
-			$sender_name,
-			$kind_name,
-			$text
-		);
-		return myiconv($webim_encoding, "utf-8", $result);
-	}
-
-	/**
 	 * Return next revision number (last revision number plus one)
 	 *
 	 * @return int revision number
@@ -664,12 +593,14 @@ Class Thread {
 	/**
 	 * Load messages from database corresponding to the thread those ID's more than $lastid
 	 *
+	 * @global $webim_encoding
 	 * @param boolean $is_user Boolean TRUE if messages loads for user and boolean FALSE if they loads for operator.
 	 * @param int $lastid ID of the last loaded message.
 	 * @return array Array of messages
 	 * @see Thread::postMessage()
 	 */
 	public function getMessages($is_user, &$last_id) {
+		global $webim_encoding;
 
 		$db = Database::getInstance();
 
@@ -687,7 +618,10 @@ Class Thread {
 			array('return_rows' => Database::RETURN_ALL_ROWS)
 		);
 
-		foreach ($messages as $msg) {
+		foreach ($messages as $key => $msg) {
+			// Change message fields encoding
+			$messages[$key]['name'] = myiconv($webim_encoding, "utf-8", $msg['name']);
+			$messages[$key]['message'] = myiconv($webim_encoding, "utf-8", $msg['message']);
 			// Get last message ID
 			if ($msg['id'] > $last_id) {
 				$last_id = $msg['id'];

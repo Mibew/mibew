@@ -8,6 +8,9 @@
         ${page:additional_css}
 	<script type="text/javascript" src="${webimroot}/js/${jsver}/common.js"></script>
 	<script type="text/javascript" src="${webimroot}/js/${jsver}/LAB.js"></script>
+	<script type="text/javascript" src="${webimroot}/js/${jsver}/handlebars.js"></script>
+	<script type="text/javascript" src="${webimroot}/js/${jsver}/handlebars_helpers.js"></script>
+	<script type="text/javascript" src="${tplroot}/js/compiled/message.tpl.js"></script>
 	${page:additional_js}
 	<script type="text/javascript">
 		<!--

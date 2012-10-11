@@ -94,13 +94,18 @@ ChatView.prototype = {
      */
     messageContainer: null,
 
+    messageView: null,
+
     /**
      * Create an instance of ChatView
+     * @todo Document it!
      * @constructor
      */
-    initialize: function(localizedStrings, predefinedAnswers) {
+    initialize: function(messageView, localizedStrings, predefinedAnswers) {
         this.localizedStrings = localizedStrings || {};
         this.predefinedAnswers = predefinedAnswers || [];
+
+        this.messageView = messageView;
 
         this.messageContainer = (myRealAgent == 'safari')
             ? self.frames[0]
@@ -220,7 +225,8 @@ ChatView.prototype = {
      * @private
      */
     outputMessage: function(message) {
-        FrameUtils.insertIntoFrame(this.messageContainer, message);
+        var themedMessage = this.messageView.themeMessage(message);
+        FrameUtils.insertIntoFrame(this.messageContainer, themedMessage);
     },
 
     /**

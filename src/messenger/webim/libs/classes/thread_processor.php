@@ -259,9 +259,6 @@ class ThreadProcessor extends RequestProcessor {
 					unset($messages[$key]);
 					continue;
 				}
-
-				// Theme message
-				$messages[$key] = Thread::themeMessage($msg);
 			}
 			// Send messages
 			$this->responses[] = array(
