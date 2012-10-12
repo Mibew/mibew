@@ -21,9 +21,11 @@
  * Register events (see RequestProcessor::registerEvents() for details):
  *  - threadRequestReceived
  *  - threadReceiveRequestError
- *  - threadResponseReceived
  *  - threadCallError
  *  - threadFunctionCall
+ *
+ * WARNING:
+ *  threadResponseReceived registered but never called because of asynchronous nature of Core-to-Window interaction
  *
  * Implements Singleton pattern
  */
