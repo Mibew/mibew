@@ -396,7 +396,7 @@ ChatController.prototype = {
         var index = answerSelect.selectedIndex;
         if(index != 0) {
             this.view.displayPredefinedAnswer(index-1);
-            this.view.resetSelect(answerSelect);
+            this.view.resetSelectedIndex(answerSelect);
         }
     },
 
