@@ -64,7 +64,7 @@ function thread_to_xml($thread_info)
 	$threadoperator = $nextagent ? get_operator_name($nextagent)
 			: ($thread->agentName ? $thread->agentName : "-");
 
-	if ($threadoperator == "-" && $thread_info['groupname']) {
+	if ($threadoperator == "-" && ! empty($thread_info['groupname'])) {
 		$threadoperator = "- " . $thread_info['groupname'] . " -";
 	}
 
