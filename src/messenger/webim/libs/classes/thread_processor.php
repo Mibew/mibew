@@ -205,6 +205,40 @@ class ThreadProcessor extends RequestProcessor {
 	}
 
 	/**
+	 * Sends asynchronous request
+	 *
+	 * @param array $request The 'request' array. See Mibew API for details
+	 * @return boolean true on success or false on failure
+	 */
+	protected function sendAsyncRequest($request) {
+		// Define empty thread id and thread token
+		$thread_id = null;
+		$token = null;
+		foreach ($request['functions'] as $function) {
+			// Save thread id and thread token from first function in package
+			if (is_null($thread_id)) {
+				$thread_id = $function['arguments']['threadId'];
+				$token = $function['arguments']['token'];
+				continue;
+			}
+			// Check thread id and thread token for the remaining functions
+			if ($thread_id != $function['arguments']['threadId'] || $token != $function['arguments']['token']) {
+				throw new Exception(
+					'Various thread id or thread token in different functions in one package!',
+					ThreadProcessorException::VARIOUS_THREAD_ID
+				);
+			}
+		}
+		// Save request to database
+		$db = Database::getInstance();
+		$db->query(
+			"INSERT INTO {chatrequestbuffer} (request, threadid) VALUES (:request, :threadid)",
+			array(':request' => serialize($request), ':threadid' => $thread_id)
+		);
+		return true;
+	}
+
+	/**
 	 * Load stored requests to window from database
 	 *
 	 * @param Thread $thread Requests loads for this thread
@@ -216,14 +250,19 @@ class ThreadProcessor extends RequestProcessor {
 		$requests = $db->query(
 			"SELECT request FROM {chatrequestbuffer} WHERE threadid = :threadid",
 			array(':threadid' => $thread->id),
-			array('return_rows' => Database::RETURN_ALL_ROWS, 'fetch_type' => Database::FETCH_NUM)
+			array('return_rows' => Database::RETURN_ALL_ROWS)
 		);
-		// Remove got messages from database
+		// Remove got requests from database
 		$db->query(
 			"DELETE FROM {chatrequestbuffer} WHERE threadid = :threadid",
 			array(':threadid' => $thread->id)
 		);
-		return $requests;
+		// Unserialize requests
+		$result = array();
+		foreach($requests as $request_info) {
+			$result[] =  unserialize($request_info['request']);
+		}
+		return $result;
 	}
 
 	/**
@@ -458,6 +497,10 @@ class ThreadProcessorException extends Exception {
 	 * User rename forbidden by system configurations
 	 */
 	const ERROR_FORBIDDEN_RENAME = 4;
+	/**
+	 * Various thread ids or thread tokens in different functions in one package
+	 */
+	const VARIOUS_THREAD_ID = 5;
 }
 
 ?>
