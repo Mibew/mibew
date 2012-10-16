@@ -214,6 +214,7 @@ Class Thread {
 			return false;
 		}
 		$thread->lastToken = self::nextToken();
+		$thread->created = time();
 		return $thread;
 	}
 
