@@ -3,7 +3,7 @@
 /**
  * Test plugin for PHPUnit tests
  */
-Class Request_processor_testPlugin extends Plugin{
+Class RequestProcessorTestPlugin extends Plugin{
 
 	public $callList = array();
 

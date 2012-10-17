@@ -3,7 +3,7 @@
 /**
  * Test plugin for PHPUnit tests
  */
-Class Phpunit_autotest_plugin_managerPlugin extends Plugin{
+Class PhpunitAutotestPluginManagerPlugin extends Plugin{
 
 	public $eventsRegistered = false;
 	public $listenersRegistered = false;

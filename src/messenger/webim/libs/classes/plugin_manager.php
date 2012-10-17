@@ -93,7 +93,9 @@ Class PluginManager {
 			$plugin_dependences = isset($plugin['dependences'])
 				? $plugin['dependences']
 				: array();
-			$plugin_classname = ucfirst($plugin_name) . "Plugin";
+			$plugin_name_parts = explode('_', $plugin_name);
+			$plugin_name_parts = array_map('ucfirst', $plugin_name_parts);
+			$plugin_classname = implode('', $plugin_name_parts) . "Plugin";
 			// Check plugin dependences
 			foreach ($plugin_dependences as $dependence) {
 				if (empty(self::$loaded_plugins[$dependence])) {

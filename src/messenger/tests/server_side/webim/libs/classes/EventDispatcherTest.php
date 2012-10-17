@@ -13,7 +13,7 @@ class EventDispatcherTest extends PHPUnit_Framework_TestCase {
 	protected static $plugin = null;
 
 	public static function setUpBeforeClass() {
-		self::$plugin = new Phpunit_autotest_plugin_managerPlugin();
+		self::$plugin = new PhpunitAutotestPluginManagerPlugin();
 	}
 
 	public static function tearDownAfterClass() {
