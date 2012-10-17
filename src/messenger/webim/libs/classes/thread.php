@@ -526,28 +526,31 @@ Class Thread {
 			}
 		}
 
-		$this->save();
+		$this->save(false);
 	}
 
 	/**
 	 * Save the thread to the database
+	 *
+	 * @param boolean $update_revision Indicates if last modified time and last revision should be updated
 	 */
-	public function save(){
+	public function save($update_revision = true){
 		$db = Database::getInstance();
 
-		$query = "update {chatthread} t " .
-			"set lrevision = ?, dtmmodified = ?";
+		// Update modified time and last revision if need
+		if ($update_revision) {
+			$this->lastRevision = $this->nextRevision();
+			$this->modified = time();
+		}
 
 		$values = array();
-		$values[] = $this->nextRevision();
-		$values[] = time();
-
+		$set_clause = array();
 		foreach ($this->updatedFields as $field_name) {
-			$query .= ", {$field_name} = ?" ;
+			$set_clause[] = "{$field_name} = ?";
 			$values[] = $this->threadInfo[$field_name];
 		}
 
-		$query .= " where threadid = ?";
+		$query = "update {chatthread} t set " . implode(', ', $set_clause) . " where threadid = ?";
 		$values[] = $this->id;
 		$db->query($query, $values);
 	}

@@ -298,7 +298,6 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 		$thread = Thread::create();
 
 		// Update thread values
-		$thread->lastRevision = $last_revision = 10;
 		$thread->state = $state = Thread::STATE_CHATTING;
 		$thread->lastToken = $last_token = 11;
 
@@ -309,7 +308,6 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 		$thread->messageCount = $message_count = 15;
 
 		$thread->created = $created = time() - 200;
-		$thread->modified = $modified = time() - 190;
 		$thread->chatStarted = $chat_started = time() - 180;
 
 		$thread->agentId = $agent_id = 16;
@@ -336,7 +334,6 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 		$thread_info = $this->_helper_getThreadInfo($thread->id);
 
 		// Check values
-		$this->assertEquals($thread_info['lrevision'],$last_revision);
 		$this->assertEquals($thread_info['istate'], $state);
 		$this->assertEquals($thread_info['ltoken'], $last_token);
 
@@ -347,7 +344,6 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($thread_info['messageCount'], $message_count);
 
 		$this->assertEquals($thread_info['dtmcreated'], $created);
-		$this->assertEquals($thread_info['dtmmodified'], $modified);
 		$this->assertEquals($thread_info['dtmchatstarted'], $chat_started);
 
 		$this->assertEquals($thread_info['agentId'], $agent_id);
