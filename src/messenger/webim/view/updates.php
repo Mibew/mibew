@@ -21,7 +21,7 @@ $page['menuid'] = "updates";
 
 function tpl_header() { global $page, $webimroot, $jsver;
 ?>	
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/libs/jquery.min.js"></script>
 <script type="text/javascript" language="javascript" src="http://mibew.org/latestWebim.js"></script>
 <script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/<?php echo $jsver ?>/update.js"></script>
 <?php

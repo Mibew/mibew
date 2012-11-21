@@ -21,7 +21,7 @@ $page['menuid'] = "operators";
 
 function tpl_header() { global $page, $webimroot;
 ?>	
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/libs/jquery.min.js"></script>
 <?php
 }
 
