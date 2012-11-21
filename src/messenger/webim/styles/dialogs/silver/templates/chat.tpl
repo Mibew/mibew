@@ -9,7 +9,7 @@
 	<script type="text/javascript" src="${webimroot}/js/${jsver}/common.js"></script>
 	<script type="text/javascript" src="${webimroot}/js/libs/LAB.js"></script>
         <script type="text/javascript" src="${webimroot}/js/libs/json2.js"></script>
-	<script type="text/javascript" src="${webimroot}/js/${jsver}/handlebars.js"></script>
+	<script type="text/javascript" src="${webimroot}/js/libs/handlebars.js"></script>
 	<script type="text/javascript" src="${webimroot}/js/${jsver}/handlebars_helpers.js"></script>
 	<script type="text/javascript" src="${tplroot}/js/compiled/message.tpl.js"></script>
 	${page:additional_js}

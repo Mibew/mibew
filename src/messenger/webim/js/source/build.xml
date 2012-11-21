@@ -45,10 +45,6 @@
 		  <arg value="--js"/>
 		  <arg value="pluginmanager.js"/>
 	  <arg value="--module"/>
-		<arg value="handlebars:1:common"/>
-		  <arg value="--js"/>
-		  <arg value="handlebars.js"/>
-	  <arg value="--module"/>
 		<arg value="handlebars_helpers:1:common"/>
 		  <arg value="--js"/>
 		  <arg value="handlebars_helpers.js"/>
