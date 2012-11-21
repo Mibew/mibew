@@ -69,7 +69,6 @@ Behaviour.register({
 EventHelper.register(window, 'onload', function(){
     $LAB
     .setOptions({BasePath: chatParams.jsBasePath})
-    .script('json2.js').wait()
     .script('mibewapi.js').wait()
     .script('chatserver.js')
     .script('thread.js')

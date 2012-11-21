@@ -37,10 +37,6 @@
 			  <arg value="--js"/>
 			  <arg value="invite_op.js"/>
 	  <arg value="--module"/>
-		<arg value="json2:1:common"/>
-		  <arg value="--js"/>
-		  <arg value="json2.js"/>
-	  <arg value="--module"/>
 		<arg value="mibew_api:1:common"/>
 		  <arg value="--js"/>
 		  <arg value="mibew_api.js"/>
