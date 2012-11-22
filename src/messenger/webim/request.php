@@ -48,7 +48,7 @@ if (Settings::get('enabletracking') == '1') {
 
 $response = array();
 if ($invited !== FALSE) {
-    $response['load']['mibewInvitationScript'] = get_app_location(true, is_secure_request()) . '/js/invite.js';
+    $response['load']['mibewInvitationScript'] = get_app_location(true, is_secure_request()) . '/js/compiled/invite.js';
     $response['handlers'][] = 'mibewInviteOnResponse';
     $response['dependences']['mibewInviteOnResponse'] = array('mibewInvitationScript');
     $locale = isset($_GET['lang']) ? $_GET['lang'] : '';

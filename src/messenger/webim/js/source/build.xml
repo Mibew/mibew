@@ -56,7 +56,7 @@
 
 	<java jar="${closure.c}" fork="true">
 	  <arg value="--module_output_path_prefix"/>
-	  <arg value="../"/>
+	  <arg value="../compiled/"/>
 	  <arg value="--module"/>
 		<arg value="invite:1"/>
 		  <arg value="--js"/>

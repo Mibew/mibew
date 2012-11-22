@@ -41,7 +41,7 @@ function generate_button($title, $locale, $style, $invitationstyle, $group, $inn
 	    $temp .= get_app_location($showhost, $forcesecure);
 	    $temp .= '/request.php?entry=\' + escape(document.referrer) + \'&lang=ru\'</script><script type="text/javascript" src="';
 	    $temp .= get_app_location($showhost, $forcesecure);
-	    $temp .= '/js/request.js"></script><script type="text/javascript">mibewMakeRequest();</script>';
+	    $temp .= '/js/compiled/request.js"></script><script type="text/javascript">mibewMakeRequest();</script>';
 	}
 	return "<!-- mibew button -->" . $temp . "<!-- / mibew button -->";
 }
