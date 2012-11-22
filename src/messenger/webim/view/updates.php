@@ -19,11 +19,11 @@ require_once("inc_menu.php");
 $page['title'] = getlocal("updates.title");
 $page['menuid'] = "updates";
 
-function tpl_header() { global $page, $webimroot, $jsver;
+function tpl_header() { global $page, $webimroot;
 ?>	
 <script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/libs/jquery.min.js"></script>
 <script type="text/javascript" language="javascript" src="http://mibew.org/latestWebim.js"></script>
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/<?php echo $jsver ?>/update.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/compiled/update.js"></script>
 <?php
 }
 

@@ -21,11 +21,6 @@
 $version = '1.6.5';
 
 /**
- * Current version of Mibew Messenger's JavaScript
- */
-$jsver = "164";
-
-/**
  * Current version of database structure
  */
 $dbversion = '1.6.3';

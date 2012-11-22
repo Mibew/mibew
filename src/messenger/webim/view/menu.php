@@ -19,11 +19,11 @@ require_once("inc_menu.php");
 $page['title'] = getlocal("topMenu.admin");
 $page['menuid'] = "main";
 
-function tpl_header() { global $page, $webimroot, $jsver;
+function tpl_header() { global $page, $webimroot;
 	if(isset($page) && isset($page['localeLinks'])) {
 ?>	
 <script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/libs/jquery.min.js"></script>
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/<?php echo $jsver ?>/locale.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/compiled/locale.js"></script>
 <?php
 	}
 }

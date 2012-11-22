@@ -17,16 +17,16 @@
 
 $page['title'] = getlocal("invitation.title");
 
-function tpl_header() { global $page, $webimroot, $jsver;
+function tpl_header() { global $page, $webimroot;
 ?>
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/<?php echo $jsver ?>/common.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/compiled/common.js"></script>
 <script type="text/javascript" language="javascript"><!--
 var updaterOptions = {
 	url:"<?php echo $webimroot ?>/operator/invitationstate.php",wroot:"<?php echo $webimroot ?>",
 	agentservl:"<?php echo $webimroot ?>/operator/agent.php", frequency:<?php echo $page['frequency'] ?>,
 	visitor: "<?php echo $page['visitor'] ?>" };
 //--></script>
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/<?php echo $jsver ?>/invite_op.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/compiled/invite_op.js"></script>
 <?php
 }
 

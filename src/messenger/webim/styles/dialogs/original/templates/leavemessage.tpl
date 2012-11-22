@@ -20,8 +20,8 @@
 .isubmit { background-position:0px -39px; width: 40px; height: 35px; }
 .isubmitrest { background-position:-31px -39px; width: 10px; height: 35px;}
 </style>
-<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/common.js"></script>
-<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/leavemessage.js"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/compiled/common.js"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/compiled/leavemessage.js"></script>
 <script type="text/javascript">
 ${if:groups}
     var groupDescriptions = ${page:group.descriptions};

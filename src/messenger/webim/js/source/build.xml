@@ -2,7 +2,7 @@
 
 <project basedir="." default="update" name="Obfuscator">
   <property name="closure.c" value="/usr/local/closure/compiler.jar" />
-  <property name="webim.location" value="../164" />
+  <property name="webim.location" value="../compiled" />
 
   <target name="update">
 	<java jar="${closure.c}" fork="true">
@@ -52,11 +52,6 @@
 		<arg value="chatserver:1:common"/>
 		  <arg value="--js"/>
 		  <arg value="chatserver.js"/>
-	</java>
-
-	<java jar="${closure.c}" fork="true">
-	  <arg value="--module_output_path_prefix"/>
-	  <arg value="../compiled/"/>
 	  <arg value="--module"/>
 		<arg value="invite:1"/>
 		  <arg value="--js"/>

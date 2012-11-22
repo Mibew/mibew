@@ -5,17 +5,17 @@
 <link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="${tplroot}/chat.css">
 ${page:additional_css}
-<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/common.js"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/compiled/common.js"></script>
 <script type="text/javascript" language="javascript" src="${webimroot}/js/libs/LAB.js"></script>
 <script type="text/javascript" language="javascript" src="${webimroot}/js/libs/json2.js"></script>
 <script type="text/javascript" language="javascript" src="${webimroot}/js/libs/handlebars.js"></script>
-<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/handlebars_helpers.js"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/compiled/handlebars_helpers.js"></script>
 <script type="text/javascript" language="javascript" src="${tplroot}/js/compiled/message.tpl.js"></script>
 ${page:additional_js}
 <script type="text/javascript" language="javascript"><!--
 var chatParams = {
     cssfile: "${tplroot}/chat.css",
-    jsBasePath: "${webimroot}/js/${jsver}/",
+    jsBasePath: "${webimroot}/js/compiled/",
     localizedStrings: {closeConfirmation:"${page:chat.close.confirmation}"},
     ${if:agent}${if:canpost}
     predefinedAnswers: ${page:fullPredefinedAnswers},
@@ -39,7 +39,7 @@ var chatParams = {
 }
 //-->
 </script>
-<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/chatinit.js"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/compiled/chatinit.js"></script>
 <style type="text/css">
 .tplimage {
 	background: transparent url(${tplroot}/images/wmchat.png) no-repeat scroll 0px 0px;

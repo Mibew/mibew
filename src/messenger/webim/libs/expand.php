@@ -42,14 +42,12 @@ function expand_condition($matches)
 
 function expand_var($matches)
 {
-	global $page, $webimroot, $jsver, $errors, $current_style;
+	global $page, $webimroot, $errors, $current_style;
 	$prefix = $matches[1];
 	$var = $matches[2];
 	if (!$prefix) {
 		if ($var == 'webimroot') {
 			return $webimroot;
-		} else if ($var == 'jsver') {
-			return $jsver;
 		} else if ($var == 'tplroot') {
 			return "$webimroot/styles/dialogs/$current_style";
 		} else if ($var == 'styleid') {

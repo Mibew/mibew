@@ -4,8 +4,8 @@
 	<title>${msg:leavemessage.title}</title>
 	<link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
 	<link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" />
-	<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/common.js"></script>
-	<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/leavemessage.js"></script>
+	<script type="text/javascript" language="javascript" src="${webimroot}/js/compiled/common.js"></script>
+	<script type="text/javascript" language="javascript" src="${webimroot}/js/compiled/leavemessage.js"></script>
 	<script type="text/javascript">
 ${if:groups}
 	    var groupDescriptions = ${page:group.descriptions};

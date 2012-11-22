@@ -34,8 +34,8 @@
 	text-decoration:none;
 }
 </style>
-<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/common.js"></script>
-<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/survey.js"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/compiled/common.js"></script>
+<script type="text/javascript" language="javascript" src="${webimroot}/js/compiled/survey.js"></script>
 <script type="text/javascript">
 ${if:groups}
     var groupDescriptions = ${page:group.descriptions};

@@ -20,9 +20,9 @@ $page['title'] = getlocal("clients.title");
 $page['menuid'] = "users";
 
 
-function tpl_header() { global $page, $webimroot, $jsver;
+function tpl_header() { global $page, $webimroot;
 ?>	
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/<?php echo $jsver ?>/common.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/compiled/common.js"></script>
 <script type="text/javascript" language="javascript"><!--
 var localized = new Array(
     "<?php echo getlocal("pending.table.speak") ?>",
@@ -43,7 +43,7 @@ var updaterOptions = {
 	showonline: <?php echo $page['showonline'] ?>, showvisitors: <?php echo $page['showvisitors'] ?>, novisitors: "<?php echo getlocal("visitors.no_visitors") ?>",
 	trackedservl:"<?php echo $webimroot ?>/operator/tracked.php", inviteservl:"<?php echo $webimroot ?>/operator/invite.php" };
 //--></script>
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/<?php echo $jsver ?>/users.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/compiled/users.js"></script>
 <?php
 }
 

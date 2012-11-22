@@ -45,8 +45,7 @@ function get_gifimage_size($filename)
 
 function jspath()
 {
-	global $jsver;
-	return "js/$jsver";
+	return "js/compiled";
 }
 
 function div($a, $b)

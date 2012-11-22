@@ -21,14 +21,14 @@ if(isset($page) && isset($page['localeLinks'])) {
 $page['title'] = getlocal("install.title");
 $page['fixedwrap'] = true;
 
-function tpl_header() { global $page, $webimroot, $jsver;
+function tpl_header() { global $page, $webimroot;
 	if($page['soundcheck']) {
 ?>
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/<?php echo $jsver ?>/common.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/compiled/common.js"></script>
 <script type="text/javascript" language="javascript"><!--
 var wroot ="<?php echo $webimroot ?>";
 //--></script>
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/<?php echo $jsver ?>/soundcheck.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/compiled/soundcheck.js"></script>
 <?php
 	}
 }

@@ -17,11 +17,11 @@
 
 $page['title'] = getlocal("thread.chat_log");
 
-function tpl_header() { global $page, $webimroot, $jsver; ?>
-<script type="text/javascript" src="<?php echo($webimroot); ?>/js/<?php echo($jsver); ?>/common.js"></script>
-<script type="text/javascript" src="<?php echo($webimroot); ?>/js/<?php echo($jsver); ?>/handlebars.js"></script>
-<script type="text/javascript" src="<?php echo($webimroot); ?>/js/<?php echo($jsver); ?>/handlebars_helpers.js"></script>
-<script type="text/javascript" src="<?php echo($webimroot); ?>/js/<?php echo($jsver); ?>/messageview.js"></script>
+function tpl_header() { global $page, $webimroot; ?>
+<script type="text/javascript" src="<?php echo($webimroot); ?>/js/compiled/common.js"></script>
+<script type="text/javascript" src="<?php echo($webimroot); ?>/js/compiled/handlebars.js"></script>
+<script type="text/javascript" src="<?php echo($webimroot); ?>/js/compiled/handlebars_helpers.js"></script>
+<script type="text/javascript" src="<?php echo($webimroot); ?>/js/compiled/messageview.js"></script>
 <script type="text/javascript" src="<?php echo($webimroot); ?>/js/templates/compiled/message.tpl.js"></script>
 <script type="text/javascript"><!--
 	EventHelper.register(window, 'onload', function() {
