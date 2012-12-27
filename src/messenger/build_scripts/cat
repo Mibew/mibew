@@ -1,0 +1,12 @@
+#!/bin/sh
+
+files=$1
+
+if [ -e $files ]
+then
+    cat /dev/null > $2
+    for file in $files
+    do
+        cat $file >> $2
+    done
+fi
