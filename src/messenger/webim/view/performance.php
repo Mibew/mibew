@@ -69,15 +69,6 @@ require_once('inc_errors.php');
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.frequencyoldchat') ?></div>
-			<div class="fvalue">
-				<input type="text" name="frequencyoldchat" size="40" value="<?php echo form_value('frequencyoldchat') ?>" class="formauth"/>
-			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.frequencyoldchat.description') ?></div>
-			<br clear="all"/>
-		</div>
-
-		<div class="field">
 			<div class="flabel"><?php echo getlocal('settings.onehostconnections') ?></div>
 			<div class="fvalue">
 				<input type="text" name="onehostconnections" size="40" value="<?php echo form_value('onehostconnections') ?>" class="formauth"/>

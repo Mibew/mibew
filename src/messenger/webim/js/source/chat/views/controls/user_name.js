@@ -1,0 +1,109 @@
+/**
+ * @preserve This file is part of Mibew Messenger project.
+ * http://mibew.org
+ * 
+ * Copyright (c) 2005-2011 Mibew Messenger Community
+ * License: http://mibew.org/license.php
+ */
+
+(function(Mibew, Handlebars, _) {
+
+    Mibew.Views.UserNameControl = Mibew.Views.Control.extend(
+        /** @lends Mibew.Views.UserNameControl.prototype */
+        {
+            /**
+             * Template function
+             * @type Function
+             */
+            template: Handlebars.templates.user_name_control,
+
+            /**
+             * Map ui events to view methods
+             * The view inherits events from
+             * {@link Mibew.Views.Control.prototype.events}.
+             * @type Object
+             */
+            events: _.extend(
+                {},
+                Mibew.Views.Control.prototype.events,
+                {
+                    'click .user-name-control-set': 'changeName',
+                    'click .user-name-control-change': 'showNameInput',
+                    'keydown #user-name-control-input': 'inputKeyDown'
+                }
+            ),
+
+            /**
+             * Define shortcuts for ui elements
+             * @type Object
+             */
+            ui: {
+                'nameInput': '#user-name-control-input'
+            },
+
+            /**
+             * View initializer
+             */
+            initialize: function() {
+                // Hide name input on every user name change
+                Mibew.Objects.Models.user.on(
+                    'change:name',
+                    this.hideNameInput,
+                    this
+                );
+
+                // Show or hide name input by default
+                this.nameInput = Mibew.Objects.Models.user.get('defaultName');
+            },
+
+            /**
+             * Override Backbone.Marionette.ItemView.serializeData to pass some
+             * extra fields to template.
+             * @returns {Object} Template data
+             */
+            serializeData: function() {
+                var data = this.model.toJSON();
+                data.user = Mibew.Objects.Models.user.toJSON();
+                data.nameInput = this.nameInput;
+                return data;
+            },
+
+            /**
+             * Handles key down event on the name input
+             * @param {Event} e Event object
+             */
+            inputKeyDown: function(e) {
+                var key = e.which;
+                if (key == 13 || key == 10) {
+                    // Change name after Enter key pressed
+                    this.changeName();
+                }
+            },
+
+            /**
+             * Hide name input and rerender the view
+             */
+            hideNameInput: function() {
+                this.nameInput = false;
+                this.render();
+            },
+
+            /**
+             * Show name input and rerender the view
+             */
+            showNameInput: function() {
+                this.nameInput = true;
+                this.render();
+            },
+
+            /**
+             * Change user name
+             */
+            changeName: function () {
+                var newName = this.ui.nameInput.val();
+                this.model.changeName(newName);
+            }
+        }
+    );
+
+})(Mibew, Handlebars, _);

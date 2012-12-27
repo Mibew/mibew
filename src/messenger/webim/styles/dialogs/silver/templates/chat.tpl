@@ -1,203 +1,155 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-	<title>${msg:chat.window.title.agent}</title>	
-	<link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon" />
-	<link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" media="all" />
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <title>${msg:chat.window.title.agent}</title>
+        <link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon" />
+        <link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" media="all" />
+        <!--[if IE 7]>
+            <link rel="stylesheet" type="text/css" href="${tplroot}/chat_ie7.css" media="all" />
+        <![endif]-->
         ${page:additional_css}
-	<script type="text/javascript" src="${webimroot}/js/compiled/common.js"></script>
-	<script type="text/javascript" src="${webimroot}/js/libs/LAB.js"></script>
-        <script type="text/javascript" src="${webimroot}/js/libs/json2.js"></script>
-	<script type="text/javascript" src="${webimroot}/js/libs/handlebars.js"></script>
-	<script type="text/javascript" src="${webimroot}/js/compiled/handlebars_helpers.js"></script>
-	<script type="text/javascript" src="${tplroot}/js/compiled/message.tpl.js"></script>
-	${page:additional_js}
-	<script type="text/javascript">
-		<!--
-		var chatParams = {
-			cssfile: "${tplroot}/chat.css",
-			jsBasePath: "${webimroot}/js/compiled/",
-			localizedStrings: {closeConfirmation:"${page:chat.close.confirmation}"},
-			${if:agent}${if:canpost}
-			predefinedAnswers: ${page:fullPredefinedAnswers},
-			${endif:canpost}${endif:agent}
-			threadParams: {
-				user:${if:user}true${else:user}false${endif:user},
-				threadid:${page:ct.chatThreadId},
-				token:${page:ct.token}
-			},
-			serverParams: {
-				servl: "${webimroot}/thread.php",
-				requestsFrequency: ${page:frequency}
-			},
-			controllerParams: {
-				webimRoot: "${webimroot}",
-				ignorectrl:${page:ignorectrl}
-			},
-			initPlugins: function(pluginManager, thread, chatServer) {
-				${page:js_plugins}
-			}
-		}
-		var stxt = 10;
-		function getClientHeight() {
-			return document.compatMode=='CSS1Compat' || !window.opera?document.documentElement.clientHeight:document.body.clientHeight;
-		}
-		function getClientWidth() {
-			return document.compatMode=='CSS1Compat' || !window.opera?document.documentElement.clientWidth:document.body.clientWidth;
-		}
-		function setTrueHeight() {
-			chatHeight = getClientHeight();
-			someHeight = chatHeight-document.getElementById("top").offsetHeight-document.getElementById("chatheader").offsetHeight-document.getElementById("message").offsetHeight-document.getElementById("send").offsetHeight-1;
-			document.getElementById("chat").style.height = (someHeight) + "px";
-			document.getElementById("chatwnd").style.height = (someHeight-38) + "px";
-			${if:user}
-				document.getElementById("avatar-wrapper").style.height = (someHeight-39) + "px";
-			${endif:user}
 
-			chatWidth = getClientWidth();
-			${if:user}
-				someWidth = chatWidth-28-120;
-			${else:user}
-				someWidth = chatWidth-28;
-			${endif:user}
-			document.getElementById("chatwnd").style.width = (someWidth) + "px";
-		}
-		function enlargeFontSize() {
-			stxt += 2;
-			if (stxt > 14) {
-				stxt = 14;
-			}
-			window.chatwnd.document.getElementById("content").style.fontSize = (stxt) + "px";
-		}
-		function reduceFontSize() {
-			stxt -= 2;
-			if (stxt < 8) {
-				stxt = 8;
-			}
-			window.chatwnd.document.getElementById("content").style.fontSize = (stxt) + "px";
-		}
-		window.onresize = setTrueHeight;		
-		//-->
-	</script>
-	<script type="text/javascript" src="${webimroot}/js/compiled/chatinit.js"></script>
-</head>
-<body class="body">
-	<div id="top">
-		<div id="logo">
-			${if:ct.company.chatLogoURL}
-				${if:webimHost}
-					<a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">
-						<img onload="setTrueHeight();" src="${page:ct.company.chatLogoURL}" alt=""/>
-					</a>
-				${else:webimHost}
-					<img onload="setTrueHeight();" src="${page:ct.company.chatLogoURL}" alt=""/>
-				${endif:webimHost}
-			${else:ct.company.chatLogoURL}
-				${if:webimHost}
-					<a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">
-						<img onload="setTrueHeight();" src="${tplroot}/images/default-logo.gif" alt=""/>
-					</a>
-				${else:webimHost}
-					<img onload="setTrueHeight();" src="${tplroot}/images/default-logo.gif" alt=""/>
-				${endif:webimHost}
-			${endif:ct.company.chatLogoURL}
-			&nbsp;
-			<div id="page-title">${page:chat.title}</div>
-			<div class="clear">&nbsp;</div>
-		</div>
-	</div>
-	<div id="chatheader">
-		<div class="bgc"><div class="bgl"><div class="bgr">
-			${if:agent}
-				<div id="changename2">
-					${if:historyParams}
-						${msg:chat.window.chatting_with}
-						<a href="${page:historyParamsLink}" target="_blank" title="${msg:page.analysis.userhistory.title}" onclick="this.newWindow = window.open('${page:historyParamsLink}', 'UserHistory', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=703,height=380,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">${page:ct.user.name}</a>
-					${else:historyParams}
-						${msg:chat.window.chatting_with} <strong>${page:ct.user.name}</strong>
-					${endif:historyParams}
-				</div>
-			${endif:agent}
-			${if:user}
-				${if:canChangeName}
-					<div id="changename1" style="display:${page:displ1};">
-						<div class="you">${msg:chat.client.name}</div>
-						<div class="input-name"><input id="uname" type="text" size="12" value="${page:ct.user.name}" class="username" /></div>
-						<a class="changename" href="javascript:void(0)" onclick="return false;" title="${msg:chat.client.changename}"><img class="tplimage iexec" src="${webimroot}/images/free.gif" alt="&gt;&gt;" /></a>
-					</div>
-					<div id="changename2" style="display:${page:displ2};">
-						<div class="you2">${msg:chat.client.name}</div>
-						<a id="unamelink" href="javascript:void(0)" onclick="return false;" title="${msg:chat.client.changename}">${page:ct.user.name}</a>
-						<a class="changename" href="javascript:void(0)" onclick="return false;" title="${msg:chat.client.changename}"><img class="tplimage ichangeuser" src="${webimroot}/images/free.gif" alt="" /></a>
-					</div>
-				${else:canChangeName}
-					<div id="changename1"><div id="you">${msg:chat.client.name}&nbsp;${page:ct.user.name}</div></div>
-				${endif:canChangeName}
-			${endif:user}
-			<div class="buttons">
-				<a href="javascript:void(0)" onclick="reduceFontSize();"><img class="tplimage fontreduce" src="${webimroot}/images/free.gif" alt="Reduce font&nbsp;" /></a>
-				<a href="javascript:void(0)" onclick="enlargeFontSize();"><img class="tplimage fontenlarge" src="${webimroot}/images/free.gif" alt="Enlarge font&nbsp;" /></a>
-				<img class="empty" src="${webimroot}/images/free.gif" alt="" />
-				${if:user}
-					<a href="${page:mailLink}&amp;style=${styleid}" target="_blank" title="${msg:chat.window.toolbar.mail_history}" onclick="this.newWindow = window.open('${page:mailLink}&amp;style=${styleid}', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=254,resizable=0'); if (this.newWindow != null) {this.newWindow.focus();this.newWindow.opener=window;}return false;"><img class="tplimage iemail" src="${webimroot}/images/free.gif" alt="Mail&nbsp;"/></a>
-				${endif:user}
-				${if:agent}
-					${if:canpost}
-						<a href="${page:redirectLink}&amp;style=${styleid}" title="${msg:chat.window.toolbar.redirect_user}"><img class="tplimage isend" src="${webimroot}/images/free.gif" alt="Redirect&nbsp;" /></a>
-					${endif:canpost}
-					${if:historyParams}
-						<a href="${page:historyParamsLink}" target="_blank" title="${msg:page.analysis.userhistory.title}" onclick="this.newWindow = window.open('${page:historyParamsLink}', 'UserHistory', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=720,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><img class="tplimage ihistory" src="${webimroot}/images/free.gif" alt="History&nbsp;"/></a>
-					${endif:historyParams}
-				${endif:agent}
-				<a id="togglesound" href="javascript:void(0)" onclick="return false;" title="Turn off sound"><img id="soundimg" class="tplimage isound" src="${webimroot}/images/free.gif" alt="Sound&nbsp;" /></a>
-				<a id="refresh" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.toolbar.refresh}"><img class="tplimage irefresh" src="${webimroot}/images/free.gif" alt="Refresh&nbsp;" /></a>
-				${if:sslLink}
-					<a href="${page:sslLink}&amp;style=${styleid}" title="SSL" ><img class="tplimage issl" src="${webimroot}/images/free.gif" alt="SSL&nbsp;"/></a>
-				${endif:sslLink}
-				<a class="closethread" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.close_title}"><img class="tplimage iclosewin" src="${webimroot}/images/free.gif" alt="${msg:chat.window.close_title}"/></a>
-			</div>
-		</div></div></div>
-	</div>
-	<div id="chat">
-		<div class="bgl"><div class="bgr"><div class="sdwbgc"><div class="sdwbgl"><div class="sdwbgr">
-			<iframe onload="setTrueHeight();" id="chatwnd" name="chatwnd" src="${if:neediframesrc}${webimroot}/images/blank.html${endif:neediframesrc}" frameborder="0" style="overflow:auto;">
-				Sorry, your browser does not support iframes; try a browser that supports W3 standards.
-			</iframe>
-			<div id="inf">
-				<div id="engineinfo" style="display:none;"></div>
-				<div id="typingdiv" style="display:none;">${msg:typing.remote}</div>
-			</div>
-			${if:user}
-				<div id="avatar-wrapper">
-					<div id="avatarwnd">&nbsp;</div>
-				</div>
-			${endif:user}
-			</div></div></div></div></div>
-	</div>
-	<div id="message">
-	${if:canpost}
-		<div class="bgc"><div class="bgl"><div class="bgr">
-			<textarea id="msgwnd" class="message" tabindex="0" rows="4" cols="10"></textarea>
-		</div></div></div>
-	${endif:canpost}
-	</div>
-	<div id="send">
-	${if:canpost}
-		<div id="postmessage">
-			<div id="predefined-wrapper">
-				${if:agent}
-					<select id="predefined" size="1" class="answer">
-					<option>${msg:chat.window.predefined.select_answer}</option>
-					${page:predefinedAnswers}
-					</select>
-				${endif:agent}
-			</div>
-			<a id="sndmessagelnk" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.send_message}">${msg:chat.window.send_message_short,send_shortcut}</a>
-			<div class="clear">&nbsp;</div>
-		</div>
-	${endif:canpost}
-		<div id="footer">${msg:chat.window.poweredby} <a id="poweredByLink" href="http://mibew.org" title="Mibew Community" target="_blank">mibew.org</a></div>
-	</div>
-</body>
+        <!-- External libs -->
+        <script type="text/javascript" src="${webimroot}/js/libs/jquery.min.js"></script>
+        <script type="text/javascript" src="${webimroot}/js/libs/json2.js"></script>
+        <script type="text/javascript" src="${webimroot}/js/libs/underscore-min.js"></script>
+        <script type="text/javascript" src="${webimroot}/js/libs/backbone-min.js"></script>
+        <script type="text/javascript" src="${webimroot}/js/libs/backbone.marionette.min.js"></script>
+        <script type="text/javascript" src="${webimroot}/js/libs/handlebars.js"></script>
+
+        <!-- Javascript templates -->
+        <script type="text/javascript" src="${tplroot}/js/compiled/templates.js"></script>
+
+        <!-- Application files -->
+        <script type="text/javascript" src="${webimroot}/js/compiled/mibewapi.js"></script>
+        <script type="text/javascript" src="${webimroot}/js/compiled/default_app.js"></script>
+        <script type="text/javascript" src="${webimroot}/js/compiled/chat_app.js"></script>
+
+        <!-- Add style scripts -->
+        <script type="text/javascript" src="${tplroot}/js/compiled/scripts.js"></script>
+
+        ${page:additional_js}
+        <script type="text/javascript"><!--
+            Mibew.Localization.set({
+                'chat.close.confirmation': "${page:chat.close.confirmation}",
+                'typing.remote': "${msg:typing.remote}",
+                'chat.window.predefined.select_answer': "${msg:chat.window.predefined.select_answer}",
+                'chat.window.send_message': "${msg:chat.window.send_message}",
+                'chat.window.send_message_short_and_shortcut': "${msg:chat.window.send_message_short,send_shortcut}",
+                'chat.window.close_title': "${msg:chat.window.close_title}",
+                'chat.window.toolbar.refresh': "${msg:chat.window.toolbar.refresh}",
+                'chat.window.toolbar.mail_history': "${msg:chat.window.toolbar.mail_history}",
+                'chat.window.toolbar.redirect_user': "${msg:chat.window.toolbar.redirect_user}",
+                'page.analysis.userhistory.title': "${msg:page.analysis.userhistory.title}",
+                'chat.client.name': "${msg:chat.client.name}",
+                'chat.client.changename': "${msg:chat.client.changename}",
+                'chat.window.toolbar.turn_off_sound': "${msg:chat.window.toolbar.turn_off_sound}",
+                'chat.window.toolbar.turn_on_sound': "${msg:chat.window.toolbar.turn_on_sound}"
+            });
+        //--></script>
+
+        <!-- Run application -->
+        <script type="text/javascript"><!--
+            jQuery(document).ready(function(){
+                Mibew.Application.start({
+                    user: {
+                        ${if:user}
+                        name: "${page:ct.user.name}",
+                        canChangeName: ${if:canChangeName}true${else:canChangeName}false${endif:canChangeName},
+                        defaultName: ("${page:ct.user.name}" == "${msg:chat.default.username}"),
+                        ${endif:user}
+                        canPost: ${if:canpost}true${else:canpost}false${endif:canpost},
+                        isAgent: ${if:agent}true${else:agent}false${endif:agent}
+                    },
+                    server: {
+                        url: "${webimroot}/thread.php",
+                        requestsFrequency: ${page:frequency}
+                    },
+                    thread: {
+                        threadId:${page:ct.chatThreadId},
+                        token:${page:ct.token}
+                    },
+                    messageForm: {
+                        ${if:agent}${if:canpost}
+                        predefinedAnswers: ${page:predefinedAnswers},
+                        ${endif:canpost}${endif:agent}
+                        ignoreCtrl:${if:ignorectrl}true${else:ignorectrl}false${endif:ignorectrl}
+                    },
+                    links: {
+                        mailLink: "${page:mailLink}",
+                        redirectLink: "${page:redirectLink}",
+                        historyLink: "${page:historyParamsLink}",
+                        sslLink: "${page:sslLink}"
+                    },
+                    page: {
+                        style: '${styleid}',
+                        webimRoot: '${webimroot}',
+                        tplRoot: '${tplroot}'
+                    },
+                    plugins: ${page:js_plugin_options}
+                });
+            });
+        //--></script>
+
+    </head>
+    <body>
+
+        <!-- Chat window top. Includes logo and some info about company -->
+        <div id="top">
+            <div id="logo">
+                ${if:ct.company.chatLogoURL}
+                    ${if:webimHost}
+                        <a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">
+                            <img src="${page:ct.company.chatLogoURL}" alt=""/>
+                        </a>
+                    ${else:webimHost}
+                        <img src="${page:ct.company.chatLogoURL}" alt=""/>
+                    ${endif:webimHost}
+                ${else:ct.company.chatLogoURL}
+                    ${if:webimHost}
+                        <a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">
+                            <img src="${tplroot}/images/default-logo.gif" alt=""/>
+                        </a>
+                    ${else:webimHost}
+                        <img src="${tplroot}/images/default-logo.gif" alt=""/>
+                    ${endif:webimHost}
+                ${endif:ct.company.chatLogoURL}
+                &nbsp;
+                <div id="page-title">${page:chat.title}</div>
+                <div class="clear">&nbsp;</div>
+            </div>
+        </div>
+
+        <!-- Chat header -->
+        <div id="chat-header">
+            <div class="bgc"><div class="bgl"><div class="bgr">
+                <!-- Chat controls region -->
+                <div id="controls-region"></div>
+            </div></div></div>
+        </div>
+
+        <!-- Chat region -->
+        <div id="chat">
+            <div class="bgl"><div class="bgr"><div class="sdwbgc"><div class="sdwbgl"><div class="sdwbgr">
+                ${if:user}
+                <div id="avatar-region"></div>
+                ${endif:user}
+                <!-- Chat messages region -->
+                <div id="messages-region"></div>
+                <!-- Chat status region -->
+                <div id="status-region"></div>
+            </div></div></div></div></div>
+        </div>
+
+        <!-- Message form region -->
+        <div id="message-form-region"></div>
+
+        <!-- Footer links -->
+        <div id="footer">${msg:chat.window.poweredby} <a id="poweredByLink" href="http://mibew.org" title="Mibew Community" target="_blank">mibew.org</a></div>
+
+        <!-- Hidden region for some sound element -->
+        <div id="sound-region"></div>
+
+    </body>
 </html>

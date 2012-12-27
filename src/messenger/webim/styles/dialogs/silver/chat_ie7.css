@@ -1,0 +1,10 @@
+/* controls */
+.control,
+.user-name-control-set,
+.user-name-control-change,
+.user-name-control-input-bg
+{
+    display: inline;
+    zoom: 1;
+}
+/* ------------------ */

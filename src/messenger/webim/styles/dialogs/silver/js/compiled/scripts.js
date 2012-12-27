@@ -1,0 +1,2 @@
+(function(a){var c=null,g=null,b,f=function(){null==c&&(c=a("#messages-region"),g=a("#avatar-region"));if(0!=c.size()){var d,e=0;a("body > *").not("#chat").each(function(){e+=a(this).outerHeight(!0)});e+=a("#chat").outerHeight(!0)-a("#messages-region").innerHeight();d=a(window).height()-e;var b=parseInt(c.css("minHeight"));b>=d&&(d=b);c.innerHeight(d);g.innerHeight(d)}};a(document).ready(f);a(window).load(function(){f();a("#messages-region").scrollTop(a("#messages-region").prop("scrollHeight"))}).resize(function(){b&&
+clearTimeout(b);b=setTimeout(f,0)})})($);

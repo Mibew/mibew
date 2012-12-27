@@ -75,15 +75,6 @@ function is_ajax_browser($browserid, $ver, $useragent)
 	return false;
 }
 
-function is_old_browser($browserid, $ver)
-{
-	if ($browserid == "opera")
-		return $ver < 7.0;
-	if ($browserid == "msie")
-		return $ver < 5.0;
-	return false;
-}
-
 $knownAgents = array("opera", "msie", "chrome", "safari", "firefox", "netscape", "mozilla");
 
 function get_remote_level($useragent)
@@ -95,12 +86,12 @@ function get_remote_level($useragent)
 			if (preg_match("/" . $agent . "[\\s\/]?(\\d+(\\.\\d+)?)/", $useragent, $matches)) {
 				$ver = $matches[1];
 
-				if (is_ajax_browser($agent, $ver, $useragent))
+				if (is_ajax_browser($agent, $ver, $useragent)) {
 					return "ajaxed";
-				else if (is_old_browser($agent, $ver))
+				} else {
 					return "old";
+				}
 
-				return "simple";
 			}
 		}
 	}
@@ -318,7 +309,6 @@ function setup_chatview_for_operator($thread, $operator)
 	    $page['trackedParams'] = array("visitor" => "" . $visitor['visitorid']);
 	    $page['trackedParamsLink'] = add_params($webimroot . "/operator/tracked.php", $page['trackedParams']);
 	}
-	$predefinedres = "";
 	$canned_messages = load_canned_messages($thread->locale, 0);
 	if ($thread->groupId) {
 		$canned_messages = array_merge(
@@ -326,12 +316,19 @@ function setup_chatview_for_operator($thread, $operator)
 			$canned_messages
 		);
 	};
+
+	// Get predefined answers
+	$predefined_answers = array();
 	foreach ($canned_messages as $answer) {
-		$predefinedres .= "<option>" . htmlspecialchars(topage($answer['vctitle']?$answer['vctitle']:cutstring($answer['vcvalue'], 97, '...'))) . "</option>";
-		$fullAnswers[] = myiconv($webim_encoding, getoutputenc(), $answer['vcvalue']);
+		$predefined_answers[] = array(
+			'short' => htmlspecialchars(
+				topage($answer['vctitle']?$answer['vctitle']:cutstring($answer['vcvalue'], 97, '...'))
+			),
+			'full' => myiconv($webim_encoding, getoutputenc(), $answer['vcvalue'])
+		);
 	}
-	$page['predefinedAnswers'] = $predefinedres;
-	$page['fullPredefinedAnswers'] = json_encode($fullAnswers);
+	$page['predefinedAnswers'] = json_encode($predefined_answers);
+
 	$params = "thread=" . $thread->id . "&amp;token=" . $thread->lastToken;
 	$page['redirectLink'] = "$webimroot/operator/agent.php?" . $params . "&amp;act=redirect";
 

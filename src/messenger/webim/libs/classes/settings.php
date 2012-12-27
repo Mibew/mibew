@@ -95,7 +95,6 @@ Class Settings {
 			'online_timeout' => 30, /* Timeout (in seconds) when online operator becomes offline */
 			'updatefrequency_operator' => 2,
 			'updatefrequency_chat' => 2,
-			'updatefrequency_oldchat' => 7,
 
 			'updatefrequency_tracking' => 10,
 			'visitors_limit' => 20, /* Number of visitors to look over */

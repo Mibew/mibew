@@ -1,469 +1,457 @@
 html, body {
-	height: 100%;
+    height: 100%;
 }
 body {
-	margin: 0;
-	padding: 0;
-	font: normal 11px Tahoma;
-	line-height: 1;
-	background: transparent !important;
-}
-.body {
-	min-width: 500px;
+    margin: 0;
+    padding: 0;
+    font: normal 11px Tahoma;
+    line-height: 1;
+    min-width: 500px;
+    background-color: #F1F2F2;
 }
 a {
-	text-decoration: underline;
-	color: #008AD9;
+    text-decoration: underline;
+    color: #008AD9;
 }
 a:hover {
-	text-decoration: none;
+    text-decoration: none;
 }
 img {
-	vertical-align: bottom;
-	border: 0 none;
+    vertical-align: bottom;
+    border: 0 none;
 }
 .clear {
-	clear: both;
-	height: 0;
-	font-size: 0;
-	line-height: 0;
+    clear: both;
+    height: 0;
+    font-size: 0;
+    line-height: 0;
+    display: block;
+    visibility: hidden;
 }
 
 /* layout chat */
 #top {
-	position: relative;
-	padding: 5px 14px;
-	background: #FFF url("images/topbg.gif") scroll repeat-x 0 100%;
-	_zoom:1; /* IE6 fix */
+    position: relative;
+    padding: 5px 14px;
+    background: #FFF url("images/topbg.gif") scroll repeat-x 0 100%;
+    _zoom:1; /* IE6 fix */
 }
-#chatheader {
-	position: relative;
-	padding: 0 10px;
-	background: #F1F2F2 url("images/chatheaderbg.gif") scroll repeat-x 0 0;
-	_zoom:1; /* IE6 fix */
+#chat-header {
+    position: relative;
+    padding: 0 10px;
+    background: #F1F2F2 url("images/chatheaderbg.gif") scroll repeat-x 0 0;
+    _zoom:1; /* IE6 fix */
 }
 #chat {
-	padding: 0 10px;
-	background: #F1F2F2;
+    padding: 0 10px;
+    background: #F1F2F2;
 }
 #message {
-	padding: 0 10px;
-	background: #F1F2F2;
+    padding: 0 10px;
+    background: #F1F2F2;
 }
 #send {
-	padding: 0 10px 5px;
-	background: #FFF url("images/bottombg.gif") scroll repeat-x 0 0;
+    padding: 0 10px 5px;
+    background: #FFF url("images/bottombg.gif") scroll repeat-x 0 0;
 }
 #footer {
-	width: 400px;
-	margin: 0 auto;
-	padding-top: 5px;
-	text-align: center;
-	color: #999;
+    width: 400px;
+    margin: 0 auto;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    color: #999;
 }
 #footer a {
-	color: #999;
+    color: #999;
 }
 /* ----------- */
 
 /* #chatheader */
-#chatheader .bgc {
-	background: #FFF url("images/chatheaderbgc.gif") scroll repeat-x 0 0;
+#chat-header .bgc {
+    background: #FFF url("images/chatheaderbgc.gif") scroll repeat-x 0 0;
 }
-#chatheader .bgl {
-	background: transparent url("images/chatheaderbgl.gif") scroll no-repeat 0 0;
-	_zoom:1; /* IE6 fix */
+#chat-header .bgl {
+    background: transparent url("images/chatheaderbgl.gif") scroll no-repeat 0 0;
+    _zoom:1; /* IE6 fix */
 }
-#chatheader .bgr {
-	height: 42px;
-	background: transparent url("images/chatheaderbgr.gif") scroll no-repeat 100% 0;
+#chat-header .bgr {
+    height: 42px;
+    background: transparent url("images/chatheaderbgr.gif") scroll no-repeat 100% 0;
 }
 #logo {
-	font: normal 17px Arial;
-	color: #495151;
+    font: normal 17px Arial;
+    color: #495151;
 }
 #logo a {
-	float: left;
-	text-decoration: none;
+    float: left;
+    text-decoration: none;
 }
 #page-title {
-	position: absolute;
-	right: 14px;
-	bottom: 5px;
-	text-align: right;
+    position: absolute;
+    right: 14px;
+    bottom: 5px;
+    text-align: right;
 }
 /* ----------- */
 
-/* buttons & username */
-.buttons {
-	position: absolute;
-	top: 15px;
-	right: 25px;
+/* controls */
+#controls-region {
+    padding-right: 25px;
 }
-.tplimage {
-	width: 16px;
-	height: 16px;
-	margin: 0 0 0 11px;
-	background: transparent url("images/buttons.gif") scroll no-repeat 0 0;
+.control {
+    display: inline-block;
+    margin: 15px 0 0 11px;
+    cursor: pointer;
+    float: right;
 }
-.empty {
-	width: 2px;
-	height: 16px;
-	margin: 0 0 0 11px;
+.control-config {
+    display: none;
 }
-.fontreduce {
-	background-position: -160px -16px;
+.tpl-image {
+    width: 16px;
+    height: 16px;
+    background: transparent url("images/buttons.gif") scroll no-repeat 0 0;
 }
-a:hover .fontreduce {
-	background-position: -160px 0;
+.close-control .tpl-image {
+    background-position: -128px -16px;
 }
-.fontenlarge {
-	background-position: -176px -16px;
+.active-close-control .tpl-image {
+    background-position: -128px 0;
 }
-a:hover .fontenlarge {
-	background-position: -176px 0;
+.refresh-control .tpl-image {
+    background-position: -80px -16px;
 }
-.iemail {
-	background-position: -32px -16px;
+.active-refresh-control .tpl-image {
+    background-position: -80px 0;
 }
-a:hover .iemail {
-	background-position: -32px 0;
+.secure-mode-control .tpl-image {
+    background-position: -144px -16px;
 }
-.isend {
-	background-position: -96px -16px;
+.active-secure-mode-control .tpl-image {
+    background-position: -144px 0;
 }
-a:hover .isend {
-	background-position: -96px 0;
+.history-control .tpl-image {
+    background-position: -112px -16px;
 }
-.ihistory {
-	background-position: -112px -16px;
+.active-history-control .tpl-image {
+    background-position: -112px 0;
 }
-a:hover .ihistory {
-	background-position: -112px 0;
+.sound-control .sound-control-on {
+    background-position: -48px -16px;
 }
-.isound {
-	background-position: -48px -16px;
+.active-sound-control .sound-control-on {
+    background-position: -48px 0;
 }
-a:hover .isound {
-	background-position: -48px 0;
+.sound-control .sound-control-off {
+    background-position: -64px -16px;
 }
-.inosound {
-	background-position: -64px -16px;
+.active-sound-control .sound-control-off {
+    background-position: -64px 0;
 }
-a:hover .inosound {
-	background-position: -64px 0;
+.send-mail-control .tpl-image {
+    background-position: -32px -16px;
 }
-.irefresh {
-	background-position: -80px -16px;
+.active-send-mail-control .tpl-image {
+    background-position: -32px 0;
 }
-a:hover .irefresh {
-	background-position: -80px 0;
+.redirect-control .tpl-image {
+    background-position: -96px -16px;
 }
-.issl {
-	background-position: -144px -16px;
+.active-redirect-control .tpl-image {
+    background-position: -96px 0;
 }
-a:hover .issl {
-	background-position: -144px 0;
+.user-name-control {
+    font-size: 14px;
+    cursor: auto;
+    float: left;
+    line-height: 22px;
+    margin-top: 12px;
 }
-.iclosewin {
-	background-position: -128px -16px;
+.user-name-control-set {
+    display: inline-block;
+    vertical-align: middle;
+    background-position: 0 -16px;
 }
-a:hover .iclosewin {
-	background-position: -128px 0;
+.user-name-control-set:hover {
+    background-position: 0 0;
 }
-.iexec {
-	background-position: 0 -16px;
+.user-name-control-change {
+    display: inline-block;
+    vertical-align: middle;
+    background-position: -16px -16px;
 }
-a:hover .iexec {
-	background-position: 0 0;
+.user-name-control-change:hover {
+    background-position: -16px 0;
 }
-.ichangeuser {
-	background-position: -16px -16px;
+.user-name-control-input-bg {
+    width: 95px;
+    height: 16px;
+    padding: 3px;
+    background: #FFF url("images/input_name.gif") scroll no-repeat 0 0;
+    display: inline-block;
+    _background-color: transparent;
 }
-a:hover .ichangeuser {
-	background-position: -16px 0;
+#user-name-control-input {
+    width: 95px;
+    height: 16px;
+    margin: 0;
+    padding: 0;
+    border: 0 none;
+    font: normal 12px Tahoma;
 }
-#changename1 {
-	position: absolute;
-	top: 12px;
-	left: 25px;
-	height: 24px;
-	padding: 0 0 0 35px;
-	font-size: 14px;
+.user-name-control-prefix {
+    padding-right: 10px;
 }
-.input-name {
-	width: 95px;
-	height: 16px;
-	padding: 3px;
-	background: #FFF url("images/input_name.gif") scroll no-repeat 0 0;
-	_background-color: transparent;
-}
-#uname {
-	width: 95px;
-	height: 16px;
-	margin: 0;
-	padding: 0;
-	border: 0 none;
-	font: normal 12px Tahoma;
-}
-.changename {
-	position: absolute;
-	top: 3px;
-	right: -27px;
-}
-#changename2 {
-	position: absolute;
-	top: 12px;
-	left: 25px;
-	height: 24px;
-	padding-top: 2px;
-	font-size: 14px;
-}
-#unamelink {
-	margin-left: 35px;
-	font: normal 12px Tahoma;
-}
-.you {
-	position: absolute;
-	bottom: 6px;
-	left: 0;
-}
-.you2 {
-	position: absolute;
-	bottom: 8px;
-	left: 0;
-}
+
 /* ------------------ */
 
 /* #chat */
 #chat .bgl {
-	background: #FFF url("images/chatbgl.gif") scroll repeat-y 0 0;
+    background: #FFF url("images/chatbgl.gif") scroll repeat-y 0 0;
 }
 #chat .bgr {
-	background: transparent url("images/chatbgr.gif") scroll repeat-y 100% 0;
+    background: transparent url("images/chatbgr.gif") scroll repeat-y 100% 0;
 }
 #chat .sdwbgc {
-	background: transparent url("images/sdwbgc.png") scroll repeat-x 0 100%;
+    background: transparent url("images/sdwbgc.png") scroll repeat-x 0 100%;
 }
 #chat .sdwbgl {
-	background: transparent url("images/sdwbgl.png") scroll no-repeat 0 100%;
+    background: transparent url("images/sdwbgl.png") scroll no-repeat 0 100%;
 }
 #chat .sdwbgr {
-	position: relative;
-	padding: 0 4px 38px;
-	background: transparent url("images/sdwbgr.png") scroll no-repeat 100% 100%;
-	_zoom:1; /* IE6 fix */
+    position: relative;
+    padding: 0 4px 40px;
+    background: transparent url("images/sdwbgr.png") scroll no-repeat 100% 100%;
+    _zoom:1; /* IE6 fix */
 }
-#inf {
-	position: absolute;
-	bottom: 20px;
-	left: 14px;
-	font-size: 12px;
-	color: #333;
+#status-region {
+    position: absolute;
+    bottom: 20px;
+    left: 14px;
+    font-size: 12px;
+    color: #333;
 }
-#avatar-wrapper {
-	position: absolute;
-	top: 0;
-	right: 4px;
-	width: 120px;
-	background: #EEE url("images/avatarbg.gif") scroll repeat-y 100% 0;
+.status {
+    float: left;
+    padding-right: 10px;
 }
-#avatarwnd {
-	width: 100px;
-	height: 100px;
-	margin: 10px auto 0 auto;
-	text-align: center;
-	background: transparent url("images/avatar.jpg") scroll no-repeat 50% 10px;
-	line-height: 0;
-	font-size: 0;
+#avatar-region {
+    float: right;
+    height: 200px;
+    background: #EEE url("images/avatarbg.gif") scroll repeat-y 100% 0;
 }
-#content {
-	padding: 10px;
-	font: normal 10px Tahoma;
-	line-height: 1.8em;
-	color: #999;
+.avatar {
+    width: 100px;
+    height: 100px;
+    margin: 10px 10px 0 10px;
+    text-align: center;
+    line-height: 0;
+    font-size: 0;
+    overflow: hidden;
 }
-#content .minf {
-	font-size: 1.1em;
-	color: #7BAA0F;
+.default-avatar {
+    background: transparent url("images/avatar.jpg") scroll no-repeat 50% 10px;
+    width: 100px;
+    height: 100px;
 }
-#content .mhidden, 
-#content .mevent {
-	font-size: 1.1em;
+.avatar img {
+    max-width: 100px;
+    border: none;
 }
-#content .nagent {
-	font-size: 1.1em;
-	font-weight: bold;
-	color: #000;
+#messages-region {
+    height: 200px;
+    min-height: 150px;
+    overflow-y: auto;
+    padding: 10px 10px 0;
+    font: normal 10px Tahoma;
+    line-height: 1.8em;
+    color: #999;
 }
-#content .nuser {
-	font-size: 1.1em;
-	font-weight: bold;
-	color: #DA251D;
+#messages-region .minf {
+    font-size: 1.1em;
+    color: #7BAA0F;
 }
-#content .magent, 
-#content .muser {
-	font-size: 1.1em;
-	color: #000;
+#messages-region .mhidden,
+#messages-region .mevent {
+    font-size: 1.1em;
+}
+#messages-region .nagent {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #000;
+}
+#messages-region .nuser {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #DA251D;
+}
+#messages-region .magent,
+#messages-region .muser {
+    font-size: 1.1em;
+    color: #000;
 }
 /* ----- */
 
 /* #message */
 #message .bgc {
-	background: #FFF url("images/message.png") scroll repeat-x 0 -95px;
+    background: #FFF url("images/message.png") scroll repeat-x 0 -95px;
 }
 #message .bgl {
-	background: transparent url("images/message.png") scroll no-repeat 0 0;
+    background: transparent url("images/message.png") scroll no-repeat 0 0;
 }
 #message .bgr {
-	height: 58px;
-	padding: 14px 14px 23px;
-	background: transparent url("images/message.png") scroll no-repeat 100% -190px;
+    height: 58px;
+    padding: 14px 14px 23px;
+    background: transparent url("images/message.png") scroll no-repeat 100% -190px;
 }
-#msgwnd {
-	overflow: auto;
-	width: 100%;
-	height: 100%;
-	margin: 0;
-	padding: 0;
-	font: normal 12px Tahoma;
-	border: 0 none;
-	background: transparent;
-	resize: none; /* disable resize textarea in google chrome, safari and firefox 4 */
+#message-input {
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font: normal 12px Tahoma;
+    border: 0 none;
+    background: transparent;
+    resize: none; /* disable resize textarea in google chrome, safari and firefox 4 */
 }
 /* -------- */
 
 /* #send */
 #postmessage {
 }
-#sndmessagelnk {
-	float: right;
-	width: 190px;
-	height: 33px;
-	font: normal 17px Arial;
-	line-height: 30px;
-	text-align: center;
-	text-decoration: none;
-	color: #495151;
-	background: url("images/submit.gif") no-repeat 0 0 transparent;
+#send-message {
+    float: right;
+    width: 190px;
+    height: 33px;
+    font: normal 17px Arial;
+    line-height: 30px;
+    text-align: center;
+    text-decoration: none;
+    color: #495151;
+    background: url("images/submit.gif") no-repeat 0 0 transparent;
 }
-#sndmessagelnk:hover {
-	color: #000;
-	background: url("images/submit.gif") no-repeat -190px 0 transparent;
+#send-message:hover {
+    color: #000;
+    background: url("images/submit.gif") no-repeat -190px 0 transparent;
 }
 #predefined-wrapper {
-	float: left;
-	padding: 5px 0 0 3px;
+    float: left;
+    padding: 5px 0 0 3px;
 }
 #predefined {
-	width: 200px;
+    width: 200px;
 }
 /* ----- */
 
 /* error.tpl */
 #top2 {
-	position: relative;
-	padding: 5px 14px;
-	background: #FFF url("images/logobg.gif") scroll repeat-x 0 100%;
-	_zoom:1; /* IE6 fix */
+    position: relative;
+    padding: 5px 14px;
+    background: #FFF url("images/logobg.gif") scroll repeat-x 0 100%;
+    _zoom:1; /* IE6 fix */
 }
 .bgbody {
-	background: #FFF !important;
+    background: #FFF !important;
 }
 .wndb {
-	background: #FFF url("images/wndb.gif") scroll repeat-x 0 100%;
+    background: #FFF url("images/wndb.gif") scroll repeat-x 0 100%;
 }
 .wndl {
-	background: transparent url("images/chatbgl.gif") scroll repeat-y 0 0;
+    background: transparent url("images/chatbgl.gif") scroll repeat-y 0 0;
 }
 .wndr {
-	background: transparent url("images/chatbgr.gif") scroll repeat-y 100% 0;
+    background: transparent url("images/chatbgr.gif") scroll repeat-y 100% 0;
 }
 .wndt {
-	background: transparent url("images/wndt.gif") scroll repeat-x 0 0;
+    background: transparent url("images/wndt.gif") scroll repeat-x 0 0;
 }
 .wndtl {
-	background: transparent url("images/wndtl.gif") scroll no-repeat 0 0;
+    background: transparent url("images/wndtl.gif") scroll no-repeat 0 0;
 }
 .wndtr {
-	background: transparent url("images/wndtr.gif") scroll no-repeat 100% 0;
+    background: transparent url("images/wndtr.gif") scroll no-repeat 100% 0;
 }
 .wndbl {
-	background: transparent url("images/wndbl.gif") scroll no-repeat 0 100%;
+    background: transparent url("images/wndbl.gif") scroll no-repeat 0 100%;
 }
 .wndbr {
-	position: relative;
-	padding: 14px;
-	background: transparent url("images/wndbr.gif") scroll no-repeat 100% 100%;
+    position: relative;
+    padding: 14px;
+    background: transparent url("images/wndbr.gif") scroll no-repeat 100% 100%;
 }
 .wndbr .buttons {
-	top: 14px;
+    top: 14px;
 }
 #headers {
-	padding: 0 10px;
-	background: #F1F2F2;
+    padding: 0 10px;
+    background: #F1F2F2;
 }
 #content-wrapper {
-	padding: 10px 14px 50px;
-	background: transparent url("images/content.gif") scroll repeat-x 0 -2px;
+    padding: 10px 14px 50px;
+    background: transparent url("images/content.gif") scroll repeat-x 0 -2px;
 }
 #content-wrapper {
-	font: normal 13px Arial;
+    font: normal 13px Arial;
 }
 .messagetxt {
-	padding: 0 60px 0 0;
-	font: normal 13px Arial;
+    padding: 0 60px 0 0;
+    font: normal 13px Arial;
 }
 /* --------- */
 
 /* redirect.tpl */
 .left {
-	float: left;
-	width: 49%;
+    float: left;
+    width: 49%;
 }
 .right {
-	float: right;
-	width: 49%;
+    float: right;
+    width: 49%;
 }
 .center {
-	padding-top: 30px;
-	text-align: center;
+    padding-top: 30px;
+    text-align: center;
 }
 ul {
-	margin: 10px 0;
-	padding: 0 0 0 10px;
-	list-style: none outside none;
+    margin: 10px 0;
+    padding: 0 0 0 10px;
+    list-style: none outside none;
 }
 ul li {
-	margin: 0 0 4px;
-	padding: 0 0 0 10px;
-	list-style: none outside none;
-	background: transparent url("images/list.gif") scroll no-repeat 0 5px;
+    margin: 0 0 4px;
+    padding: 0 0 0 10px;
+    list-style: none outside none;
+    background: transparent url("images/list.gif") scroll no-repeat 0 5px;
 }
 /* ------------ */
 
 /* other */
 .form {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	border-collapse: collapse;
-	vertical-align: top;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-collapse: collapse;
+    vertical-align: top;
 }
 .form td {
-	margin: 0;
-	padding: 5px;
-	border: 0;
-	border-collapse: collapse;
-	vertical-align: top;
+    margin: 0;
+    padding: 5px;
+    border: 0;
+    border-collapse: collapse;
+    vertical-align: top;
 }
-#content-wrapper #sndmessagelnk {
-	float: left;
-	margin-top: 10px;
+#content-wrapper #send-message {
+    float: left;
+    margin-top: 10px;
 }
-#content-wrapper input, 
-#content-wrapper textarea, 
+#content-wrapper input,
+#content-wrapper textarea,
 .wndbr input {
-	border: 1px solid #BBC4C4;
+    border: 1px solid #BBC4C4;
+}
+#sound-region {
+    display: none;
 }
 /* ----- */

@@ -33,14 +33,14 @@ if (!in_array($preview, $stylelist)) {
 	$preview = $stylelist[0];
 }
 
-$show = verifyparam("show", "/^(chat|chatsimple|nochat|mail|mailsent|survey|leavemessage|leavemessagesent|redirect|redirected|agentchat|agentrochat|error)$/", "");
+$show = verifyparam("show", "/^(chat|nochat|mail|mailsent|survey|leavemessage|leavemessagesent|redirect|redirected|agentchat|agentrochat|error)$/", "");
 $showerrors = verifyparam("showerr", "/^on$/", "") == "on";
 $errors = array();
 if ($showerrors || $show == 'error') {
 	$errors[] = "Test error";
 }
 
-if ($show == 'chat' || $show == 'mail' || $show == 'leavemessage' || $show == 'leavemessagesent' || $show == 'chatsimple' || $show == 'nochat') {
+if ($show == 'chat' || $show == 'mail' || $show == 'leavemessage' || $show == 'leavemessagesent' || $show == 'nochat') {
 	setup_chatview_for_user(array('threadid' => 0, 'userName' => getstring("chat.default.username"), 'ltoken' => 123), "ajaxed");
 	$page['mailLink'] = "$webimroot/operator/themes.php?preview=$preview&amp;show=mail";
 	$page['info'] = "";
@@ -85,7 +85,6 @@ if ($show == 'redirect' || $show == 'redirected' || $show == 'agentchat' || $sho
 
 $templateList = array(
 	array('label' => getlocal("page.preview.userchat"), 'id' => 'chat', 'h' => 480, 'w' => 640),
-	array('label' => getlocal("page.preview.chatsimple"), 'id' => 'chatsimple', 'h' => 480, 'w' => 640),
 	array('label' => getlocal("page.preview.nochat"), 'id' => 'nochat', 'h' => 480, 'w' => 640),
 	array('label' => getlocal("page.preview.survey"), 'id' => 'survey', 'h' => 480, 'w' => 640),
 	array('label' => getlocal("page.preview.leavemessage"), 'id' => 'leavemessage', 'h' => 480, 'w' => 640),
@@ -107,7 +106,7 @@ $page['canshowerrors'] = $template == 'leavemessage' || $template == 'mail' || $
 $page['formshowerr'] = $showerrors;
 $page['availablePreviews'] = $stylelist;
 $page['availableTemplates'] = array(
-	"chat", "chatsimple", "nochat",
+	"chat", "nochat",
 	"survey", "leavemessage", "leavemessagesent",
 	"mail", "mailsent",
 	"redirect", "redirected",

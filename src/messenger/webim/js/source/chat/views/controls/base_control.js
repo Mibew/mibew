@@ -1,0 +1,110 @@
+/**
+ * @preserve This file is part of Mibew Messenger project.
+ * http://mibew.org
+ * 
+ * Copyright (c) 2005-2011 Mibew Messenger Community
+ * License: http://mibew.org/license.php
+ */
+
+(function(Mibew, Backbone, Handlebars) {
+
+    /**
+     * @class Represents default control. Implement some basic functionality.
+     */
+    Mibew.Views.Control = Backbone.Marionette.ItemView.extend(
+        /** @lends Mibew.Views.Control.prototype */
+        {
+            /**
+             * Template function
+             * @type Function
+             */
+            template: Handlebars.templates.control,
+
+            /**
+             * Map model events to the view methods
+             * @type Object
+             */
+            modelEvents: {
+                'change': 'render'
+            },
+            /**
+             * Map ui events to view methods. Use as default for all child
+             * views.
+             * @type Object
+             */
+            events: {
+                'mouseover': 'mouseOver',
+                'mouseleave': 'mouseLeave'
+            },
+
+            /**
+             * Generate hash of view's DOM element attributes. Add default CSS
+             * classes whose names based on the result of model's 'getModelType'
+             * method.
+             */
+            attributes: function() {
+                // Init classes list
+                var classes = [];
+
+                // Add default for all controls CSS class
+                classes.push('control');
+
+                // Add CSS class from className properti of the view
+                if (this.className) {
+                    classes.push(this.className);
+                    // Prevent using className property instead of result of
+                    // this method
+                    this.className = '';
+                }
+
+                // Add CSS class based on model type
+                var controlType = this.getDashedControlType();
+                if (controlType) {
+                    classes.push(controlType);
+                }
+                return {
+                    'class': classes.join(' ')
+                }
+            },
+
+            /**
+             * Handles mouse over event on the control. Add 'active' CSS class
+             * to the view's DOM element.
+             */
+            mouseOver: function() {
+                var controlType = this.getDashedControlType();
+                this.$el.addClass(
+                    'active' +
+                    (controlType ? '-' + controlType : '' )
+                );
+            },
+
+            /**
+             * Handles mouse leave event on the control. Remove 'active' CSS
+             * class from the view's DOM element.
+             */
+            mouseLeave: function() {
+                var controlType = this.getDashedControlType();
+                this.$el.removeClass(
+                    'active' +
+                    (controlType ? '-' + controlType : '' )
+                );
+            },
+
+            /**
+             * Create dasherized version of the model type or use cached one.
+             * @returns {Strring} Model type
+             */
+            getDashedControlType: function() {
+                if (typeof this.dashedControlType == 'undefined') {
+                    // There is no control type in the cache
+                    this.dashedControlType = Mibew.Utils.toDashFormat(
+                        this.model.getModelType()
+                    ) || '';
+                }
+                return this.dashedControlType;
+            }
+        }
+    );
+
+})(Mibew, Backbone, Handlebars);

@@ -113,30 +113,30 @@ function get_additional_js($page_name) {
 }
 
 /**
- * Build Javascript code that initialize JavaScript plugins
+ * Build Javascript code that contains initializing options for JavaScript plugins
  *
  * @param string $page_name Plugins initialize at this page
- * @return string JavaScript initialization block
+ * @return string JavaScript options block
  */
-function get_js_plugins($page_name) {
-	$method = $page_name . 'AddJsPlugins';
+function get_js_plugin_options($page_name) {
+	$method = $page_name . 'AddJsPluginOptions';
 	$plugins = PluginManager::getAllPlugins();
 	$result = array();
 	// Check all plugins
 	foreach ($plugins as $plugin) {
 		if (is_callable(array($plugin, $method))) {
-			// Try to invoke '<$page_name>AddJsPlugins' method
+			// Try to invoke '<$page_name>AddJsPluginOptions' method
 			$js_plugins = $plugin->$method();
-			foreach ($js_plugins as $js_plugin) {
-				// Add plugin's initialization code
-				$constructor = $js_plugin['constructor'];
-				array_unshift($js_plugin['init_values'], 'thread', 'chatServer');
-				$init_values = implode(', ', $js_plugin['init_values']);
-				$result[] = "pluginManager.addPlugin('{$constructor}', new {$constructor}({$init_values}));";
+			foreach ($js_plugins as $js_plugin => $js_options) {
+				// Add plugin's initialization options code
+				if (empty($result[$js_plugin])) {
+					$result[$js_plugin] = array();
+				}
+				$result[$js_plugin] = array_merge($result[$js_plugin], $js_options);
 			}
 		}
 	}
-	return implode("\n", $result);
+	return json_encode($result);
 }
 
 function no_field($key)
