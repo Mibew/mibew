@@ -74,7 +74,6 @@ var HtmlGenerationUtils = {
   },
 
   viewOpenCell: function(username,servlet,id,canview,canopen,ban,message,cantakenow,tracked,trackedlink) {
-  		var cellsCount = 2;
   		var link = servlet+"?thread="+id;
  		var gen = '<td>';
  		if(canopen || canview ) {
@@ -83,31 +82,33 @@ var HtmlGenerationUtils = {
 			gen += '<a href="#">' + username + '</a>';
 		}
 		gen += '</td>';
-		if( canopen ) {
-			gen += '<td class="icon">';
-			gen += HtmlGenerationUtils.popupLink( link, localized[0], "ImCenter"+id, '<img src="'+webimRoot+'/images/tbliclspeak.gif" width="15" height="15" border="0" alt="'+localized[0]+'">', 640, 480, null);
-			gen += '</td>';
-			cellsCount++;
-		}
-		if( canview ) {
-			gen += '<td class="icon">';
-			gen += HtmlGenerationUtils.popupLink( link+"&viewonly=true", localized[1], "ImCenter"+id, '<img src="'+webimRoot+'/images/tbliclread.gif" width="15" height="15" border="0" alt="'+localized[1]+'">', 640, 480, null);
-			gen += '</td>';
-			cellsCount++;
-		}
-		if ( tracked ) {
-			gen += '<td class="icon">';
-			gen += HtmlGenerationUtils.popupLink( trackedlink+"?thread="+id, localized[6], "ImTracked"+id, '<img src="'+webimRoot+'/images/tblictrack.gif" width="15" height="15" border="0" alt="'+localized[6]+'">', 640, 480, null);
-			gen += '</td>';
-			cellsCount++;
-		}
 		if( message != "" ) {
-			gen += '</tr><tr><td class="firstmessage" colspan="'+cellsCount+'"><a href="javascript:void(0)" title="'+message+'" onclick="alert(this.title);return false;">';
+			gen += '</tr><tr><td class="firstmessage" colspan="2"><a href="javascript:void(0)" title="'+message+'" onclick="alert(this.title);return false;">';
 			gen += message.length > 30 ? message.substring(0,30) + '...' : message;
 			gen += '</a></td>';
 		}
 
   		return HtmlGenerationUtils.generateOneRowTable(gen);
+  },
+  viewActionsCell: function(servlet,id,canview,canopen,tracked,trackedlink) {
+		var link = servlet+"?thread="+id;
+		var gen = '';
+		if( canopen ) {
+			gen += '<td class="icon">';
+			gen += HtmlGenerationUtils.popupLink( link, localized[0], "ImCenter"+id, '<img src="'+webimRoot+'/images/tbliclspeak.gif" width="15" height="15" border="0" alt="'+localized[0]+'">', 640, 480, null);
+			gen += '</td>';
+		}
+		if( canview ) {
+			gen += '<td class="icon">';
+			gen += HtmlGenerationUtils.popupLink( link+"&viewonly=true", localized[1], "ImCenter"+id, '<img src="'+webimRoot+'/images/tbliclread.gif" width="15" height="15" border="0" alt="'+localized[1]+'">', 640, 480, null);
+			gen += '</td>';
+		}
+		if ( tracked ) {
+			gen += '<td class="icon">';
+			gen += HtmlGenerationUtils.popupLink( trackedlink+"?thread="+id, localized[6], "ImTracked"+id, '<img src="'+webimRoot+'/images/tblictrack.gif" width="15" height="15" border="0" alt="'+localized[6]+'">', 640, 480, null);
+			gen += '</td>';
+		}
+ 		return gen;
   },
   banCell: function(id,banid){
       return '<td class="icon">'+
@@ -202,6 +203,7 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 	}
 
 	var vname = NodeUtils.getNodeValue(node,"name");
+	var actions = HtmlGenerationUtils.viewActionsCell(this._options.agentservl,id,canview,canopen,this._options.showvisitors, this._options.trackedservl);
 	var vaddr = NodeUtils.getNodeValue(node,"addr");
 	var vtime = NodeUtils.getNodeValue(node,"time");
 	var agent = NodeUtils.getNodeValue(node,"agent");
@@ -214,8 +216,9 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 	}
 
 	if(canban) {
-		etc += HtmlGenerationUtils.banCell(id,banid);
+		actions += HtmlGenerationUtils.banCell(id,banid);
 	}
+	actions = HtmlGenerationUtils.generateOneRowTable(actions);
 	etc = HtmlGenerationUtils.generateOneRowTable(etc);
 
 	var startRow = CommonUtils.getRow("t"+stateid, this.t);
@@ -232,6 +235,7 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 		row.id = "thr"+id;
 		this.threadTimers[id] = new Array(vtime,modified,stateid);
 		CommonUtils.insertCell(row, "name", "visitor", null, null, HtmlGenerationUtils.viewOpenCell(vname,this._options.agentservl,id,canview,canopen,ban,message,stateid!='chat',this._options.showvisitors, this._options.trackedservl));
+		CommonUtils.insertCell(row, "actions", "visitor", "center", null, actions);
 		CommonUtils.insertCell(row, "contid", "visitor", "center", null, vaddr );
 		CommonUtils.insertCell(row, "state", "visitor", "center", null, vstate );
 		CommonUtils.insertCell(row, "op", "visitor", "center", null, agent );
@@ -245,6 +249,7 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 		this.threadTimers[id] = new Array(vtime,modified,stateid);
 		row.className = (ban == "blocked" && stateid != "chat") ? "ban" : "in"+stateid;
 		setcell(this.t, row,"name",HtmlGenerationUtils.viewOpenCell(vname,this._options.agentservl,id,canview,canopen,ban,message,stateid!='chat',this._options.showvisitors, this._options.trackedservl));
+		setcell(this.t, row, "actions", actions);
 		setcell(this.t, row,"contid",vaddr);
 		setcell(this.t, row,"state",vstate);
 		setcell(this.t, row,"op",agent);

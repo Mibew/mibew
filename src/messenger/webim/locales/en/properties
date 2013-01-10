@@ -416,6 +416,7 @@ pending.status.online=Up to date
 pending.status.setaway=Set status as "Away" 
 pending.status.setonline=Set status as "Available"  
 pending.table.ban=Ban this visitor
+pending.table.head.actions=Actions
 pending.table.head.contactid=Visitor's address
 pending.table.head.etc=Misc
 pending.table.head.name=Name

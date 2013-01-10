@@ -416,6 +416,7 @@ pending.status.online=Доступен
 pending.status.setaway=Выставить статус "Отошел"
 pending.status.setonline=Выставить статус "Доступен"
 pending.table.ban=Пометить посетителя как нежелательного
+pending.table.head.actions=Действия
 pending.table.head.contactid=Адрес посетителя
 pending.table.head.etc=Разное
 pending.table.head.name=Имя
