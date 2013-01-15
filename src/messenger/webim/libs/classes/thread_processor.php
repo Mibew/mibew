@@ -119,7 +119,7 @@ class ThreadProcessor extends RequestProcessor {
 	 * @return MibewAPI
 	 */
 	protected function getMibewAPIInstance() {
-		return MibewAPI::getAPI('MibewAPIWindowInteraction');
+		return MibewAPI::getAPI('MibewAPIChatInteraction');
 	}
 
 	/**

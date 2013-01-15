@@ -18,7 +18,7 @@
 /**
  * Implements Mibew Core - Mibew Chat Window interaction
  */
-class MibewAPIWindowInteraction extends MibewAPIInteraction {
+class MibewAPIChatInteraction extends MibewAPIInteraction {
 	/**
 	 * Defines obligatory arguments and default values for them
 	 * @var array

@@ -21,7 +21,7 @@ require_once('libs/operator.php');
 require_once('libs/classes/thread.php');
 require_once('libs/classes/mibew_api.php');
 require_once('libs/classes/mibew_api_interaction.php');
-require_once('libs/classes/mibew_api_window_interaction.php');
+require_once('libs/classes/mibew_api_chat_interaction.php');
 require_once('libs/classes/mibew_api_execution_context.php');
 require_once('libs/classes/thread_processor.php');
 
