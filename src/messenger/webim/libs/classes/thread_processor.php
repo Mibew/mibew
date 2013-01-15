@@ -155,7 +155,7 @@ class ThreadProcessor extends RequestProcessor {
 			}
 			// Check thread id and thread token for the remaining functions
 			if ($thread_id != $function['arguments']['threadId'] || $token != $function['arguments']['token']) {
-				throw new Exception(
+				throw new ThreadProcessorException(
 					'Various thread id or thread token in different functions in one package!',
 					ThreadProcessorException::VARIOUS_THREAD_ID
 				);
