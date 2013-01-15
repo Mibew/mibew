@@ -453,6 +453,30 @@ abstract class RequestProcessor {
 	}
 
 	/**
+	 * Dispatcher of the functions, provided by the RequestProcessor (or inherited) classes as an external API.
+	 *
+	 * All API methods names starts with 'api' prefix.
+	 * It calls before '<eventPrefix>FunctionCall' event triggers.
+	 *
+	 * @param array &$func Function array equals to array, passed to the '<eventPrefix>FunctionCall' event.
+	 * @see RequestProcessor::registerEvents()
+	 * @todo Create some unit tests
+	 */
+	protected function processorCall(&$func) {
+		$method_name = 'api' . ucfirst($func['function']);
+		if (is_callable(array($this, $method_name))) {
+			try {
+				$func['results'] = $this->$method_name($func['arguments']);
+			} catch(RequestProcessorException $e) {
+				$func['results'] = array(
+					'errorCode' => $e->getCode(),
+					'errorMessage' => $e->getMessage()
+				);
+			}
+		}
+	}
+
+	/**
 	 * Sends synchronous request
 	 *
 	 * @param array $request The 'request' array. See Mibew API for details
@@ -496,16 +520,6 @@ abstract class RequestProcessor {
 	 * @return MibewAPI
 	 */
 	protected abstract function getMibewAPIInstance();
-
-	/**
-	 * Dispatcher of the functions, provided by the RequestProcessor (or inherited) classes as an external API.
-	 *
-	 * It calls before '<eventPrefix>FunctionCall' event triggers.
-	 *
-	 * @param array &$func Function array equals to array, passed to the '<eventPrefix>FunctionCall' event.
-	 * @see RequestProcessor::registerEvents()
-	 */
-	protected abstract function processorCall(&$func);
 }
 
 class RequestProcessorException extends Exception {

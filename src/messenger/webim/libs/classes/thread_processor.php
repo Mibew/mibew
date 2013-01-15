@@ -123,41 +123,17 @@ class ThreadProcessor extends RequestProcessor {
 	}
 
 	/**
-	 * Dispatcher of the functions, provided by the RequestProcessor (or inherited) classes as an external API.
-	 *
-	 * All API methods names starts with 'api' prefix.
-	 * It calls before 'threadFunctionCall' event triggers.
-	 *
-	 * @param array &$func Function array equals to array, passed to the '<eventPrefix>FunctionCall' event.
-	 * @see RequestProcessor::registerEvents()
-	 * @todo Add function to auto create errors to the MibewAPI
-	 */
-	protected function processorCall(&$func) {
-		$method_name = 'api' . ucfirst($func['function']);
-		if (is_callable(array($this, $method_name))) {
-			try {
-				$func['results'] = $this->$method_name($func['arguments']);
-			} catch(ThreadProcessorException $e) {
-				$func['results'] = array(
-					'errorCode' => $e->getCode(),
-					'errorMessage' => $e->getMessage()
-				);
-			}
-		}
-	}
-
-	/**
 	 * Sends asynchronous responses
 	 *
 	 * @param array $responses An array of the 'Request' arrays. See Mibew API for details
 	 */
 	protected function sendAsyncResponses($responses) {
 		header("Content-type: text/plain; charset=UTF-8");
-			echo($this->mibewAPI->encodePackage(
-				$responses,
-				$this->config['signature'],
-				true
-			));
+		echo($this->mibewAPI->encodePackage(
+			$responses,
+			$this->config['signature'],
+			true
+		));
 	}
 
 	/**
@@ -436,7 +412,7 @@ class ThreadProcessor extends RequestProcessor {
 	}
 }
 
-class ThreadProcessorException extends Exception {
+class ThreadProcessorException extends RequestProcessorException {
 	/**
 	 * Wrong arguments set for an API function
 	 */
