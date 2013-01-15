@@ -63,11 +63,11 @@ $dbtables = array(
 		"request" => "text NOT NULL"
 	),
 
-	"${mysqlprefix}chatrequestcallback" => array(
+	"${mysqlprefix}requestcallback" => array(
 		"callbackid" => "int NOT NULL auto_increment PRIMARY KEY",
 		"token" => "varchar(64) NOT NULL DEFAULT ''",
 		"function" => "varchar(64) NOT NULL",
-		"arguments" => "varchar(64)"
+		"arguments" => "varchar(1024)"
 	),
 
 	"${mysqlprefix}chatmessage" => array(
@@ -170,14 +170,14 @@ $dbtables_indexes = array(
 	"${mysqlprefix}chatrequestbuffer" => array(
 		"threadid" => "threadid"
 	),
-	"${mysqlprefix}chatrequestcallback" => array(
-		"token" => "token"
-	),
 	"${mysqlprefix}chatmessage" => array(
 		"idx_agentid" => "agentid"
 	),
 	"${mysqlprefix}chatsitevisitor" => array(
 		"threadid" => "threadid"
+	),
+	"${mysqlprefix}requestcallback" => array(
+		"token" => "token"
 	),
 	"${mysqlprefix}visitedpage" => array(
 		"visitorid" => "visitorid"
@@ -195,7 +195,6 @@ $memtables = array();
 $dbtables_can_update = array(
 	"${mysqlprefix}chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount", "nextagent", "shownmessageid", "userid", "userAgent", "groupid", "dtmchatstarted"),
 	"${mysqlprefix}chatrequestbuffer" => array("requestid", "threadid", "request"),
-	"${mysqlprefix}chatrequestcallback" => array("callbackid", "token", "function", "arguments"),
 	"${mysqlprefix}chatmessage" => array("agentId"),
 	"${mysqlprefix}chatoperator" => array("vcavatar", "vcjabbername", "iperm", "istatus", "idisabled", "vcemail", "dtmrestore", "vcrestoretoken"),
 	"${mysqlprefix}chatban" => array(),
@@ -203,6 +202,7 @@ $dbtables_can_update = array(
 	"${mysqlprefix}chatgroupoperator" => array(),
 	"${mysqlprefix}chatresponses" => array("vctitle"),
 	"${mysqlprefix}chatsitevisitor" => array(),
+	"${mysqlprefix}requestcallback" => array("callbackid", "token", "function", "arguments"),
 	"${mysqlprefix}visitedpage" => array(),
 	"${mysqlprefix}visitedpagestatistics" => array(),
 );

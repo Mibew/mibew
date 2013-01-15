@@ -399,6 +399,60 @@ abstract class RequestProcessor {
 	}
 
 	/**
+	 * Stores callback function
+	 *
+	 * Callback is an associative array with following keys
+	 *  - 'function': function name to call
+	 *  - 'arguments': additional arguments, that passed to the callback function
+	 *
+	 * @param string $token Request token
+	 * @param array $callback Callback function array
+	 * @todo Create some unit tests
+	 */
+	protected function saveCallback($token, $callback) {
+		$db = Database::getInstance();
+		$db->query(
+			"INSERT INTO {requestcallback} ( ".
+				"token, function, arguments ".
+			") VALUES ( " .
+				":token, :function, :arguments" .
+			")",
+			array(
+				':token' => $token,
+				':function' => $callback['function'],
+				':arguments' => serialize($callback['arguments'])
+			)
+		);
+	}
+
+	/**
+	 * Loads callback function
+	 *
+	 * Callback is an associative array with following keys
+	 *  - 'function': function name to call
+	 *  - 'arguments': additional arguments, that passed to the callback function
+	 *
+	 * @param string $token Token of the request related to callback function
+	 * @return mixed callback function array or null if callback function not exists
+	 * @todo Create some unit tests
+	 */
+	protected function loadCallback($token) {
+		$db = Database::getInstance();
+		$callback = $db->query(
+			"SELECT * FROM {requestcallback} WHERE token = :token",
+			array(':token' => $token),
+			array('return_rows' => Database::RETURN_ONE_ROW)
+		);
+		if (! $callback) {
+			return null;
+		}
+		return array(
+			'function' => $callback['function'],
+			'arguments' => unserialize($callback['arguments'])
+		);
+	}
+
+	/**
 	 * Sends synchronous request
 	 *
 	 * @param array $request The 'request' array. See Mibew API for details
@@ -442,30 +496,6 @@ abstract class RequestProcessor {
 	 * @return MibewAPI
 	 */
 	protected abstract function getMibewAPIInstance();
-
-	/**
-	 * Stores callback function
-	 *
-	 * Callback is an associative array with following keys
-	 *  - 'function': function name to call
-	 *  - 'arguments': additional arguments, that passed to the callback function
-	 *
-	 * @param string $token Request token
-	 * @param array $callback Callback function array
-	 */
-	protected abstract function saveCallback($token, $callback);
-
-	/**
-	 * Loads callback function
-	 *
-	 * Callback is an associative array with following keys
-	 *  - 'function': function name to call
-	 *  - 'arguments': additional arguments, that passed to the callback function
-	 *
-	 * @param string $token Token of the request related to callback function
-	 * @return mixed callback function array or null if callback function not exists
-	 */
-	protected abstract function loadCallback($token);
 
 	/**
 	 * Dispatcher of the functions, provided by the RequestProcessor (or inherited) classes as an external API.

@@ -123,50 +123,6 @@ class ThreadProcessor extends RequestProcessor {
 	}
 
 	/**
-	 * Stores callback function
-	 *
-	 * @param string $token Request token
-	 * @param array $callback Callback function array
-	 */
-	protected function saveCallback($token, $callback) {
-		$db = Database::getInstance();
-		$db->query(
-			"INSERT INTO {chatrequestcallback} ( ".
-				"token, function, arguments ".
-			") VALUES ( " .
-				":token, :function, :arguments" .
-			")",
-			array(
-				':token' => $token,
-				':functionname' => $callback['function'],
-				':arguments' => serialize($callback['arguments'])
-			)
-		);
-	}
-
-	/**
-	 * Loads callback function
-	 *
-	 * @param string $token Token of the request related to callback function
-	 * @return mixed callback function array or null if callback function not exists
-	 */
-	protected function loadCallback($token) {
-		$db = Database::getInstance();
-		$callback = $db->query(
-			"SELECT * FROM {chatrequestcallback} WHERE token = :token",
-			array(':token' => $token),
-			array('return_rows' => Database::RETURN_ONE_ROW)
-		);
-		if (! $callback) {
-			return null;
-		}
-		return array(
-			'function' => $callback['function'],
-			'arguments' => unserialize($callback['arguments'])
-		);
-	}
-
-	/**
 	 * Dispatcher of the functions, provided by the RequestProcessor (or inherited) classes as an external API.
 	 *
 	 * All API methods names starts with 'api' prefix.
