@@ -126,7 +126,8 @@
                 this.ui.message
                     // Set empty value
                     .val('')
-                    // And manually trigger change event
+                    // And manually trigger jQuery change event on the message
+                    // text area
                     .change();
             },
 
@@ -161,7 +162,8 @@
                     message
                         // Set new value
                         .val(this.model.get('predefinedAnswers')[index-1].full)
-                        // And manually trigger change event
+                        // And manually trigger jQuery change event on the
+                        // message text area
                         .change();
                     message.focus();
                     // Reset predefined answer selector
