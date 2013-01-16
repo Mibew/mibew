@@ -29,7 +29,7 @@
  *
  * Implements Singleton pattern
  */
-class ThreadProcessor extends RequestProcessor {
+class ThreadProcessor extends ClientSideProcessor {
 
 	/**
 	 * An instance of the ThreadProcessor class
@@ -61,7 +61,10 @@ class ThreadProcessor extends RequestProcessor {
 		$thread = Thread::load($thread_id, $last_token);
 		// Check thread
 		if (! $thread) {
-			throw new ThreadProcessorException('Wrong thread', ThreadProcessorException::ERROR_WRONG_THREAD);
+			throw new ThreadProcessorException(
+				'Wrong thread',
+				ThreadProcessorException::ERROR_WRONG_THREAD
+			);
 		}
 		// Return thread
 		return $thread;
@@ -103,37 +106,12 @@ class ThreadProcessor extends RequestProcessor {
 	}
 
 	/**
-	 * Call function at window side
-	 *
-	 * @param array $functions Array of functions to call. See Mibew API for details.
-	 * @param array|null $callback callback array for synchronous requests.
-	 * @return mixed request result or boolean false on failure.
-	 */
-	public function call($functions, $callback = null) {
-		return parent::call($functions, true, $callback);
-	}
-
-	/**
 	 * Creates and returns an instance of the MibewAPI class.
 	 *
 	 * @return MibewAPI
 	 */
 	protected function getMibewAPIInstance() {
 		return MibewAPI::getAPI('MibewAPIChatInteraction');
-	}
-
-	/**
-	 * Sends asynchronous responses
-	 *
-	 * @param array $responses An array of the 'Request' arrays. See Mibew API for details
-	 */
-	protected function sendAsyncResponses($responses) {
-		header("Content-type: text/plain; charset=UTF-8");
-		echo($this->mibewAPI->encodePackage(
-			$responses,
-			$this->config['signature'],
-			true
-		));
 	}
 
 	/**
@@ -161,40 +139,9 @@ class ThreadProcessor extends RequestProcessor {
 				);
 			}
 		}
-		// Save request to database
-		$db = Database::getInstance();
-		$db->query(
-			"INSERT INTO {chatrequestbuffer} (request, threadid) VALUES (:request, :threadid)",
-			array(':request' => serialize($request), ':threadid' => $thread_id)
-		);
+		// Store request in buffer
+		$this->addRequestToBuffer('thread_'.$thread_id, $request);
 		return true;
-	}
-
-	/**
-	 * Load stored requests to window from database
-	 *
-	 * @param Thread $thread Requests loads for this thread
-	 * @return array Array of requests to $thread thread
-	 */
-	protected function getStoredRequests(Thread $thread) {
-		$db = Database::getInstance();
-		// Get requests from database
-		$requests = $db->query(
-			"SELECT request FROM {chatrequestbuffer} WHERE threadid = :threadid",
-			array(':threadid' => $thread->id),
-			array('return_rows' => Database::RETURN_ALL_ROWS)
-		);
-		// Remove got requests from database
-		$db->query(
-			"DELETE FROM {chatrequestbuffer} WHERE threadid = :threadid",
-			array(':threadid' => $thread->id)
-		);
-		// Unserialize requests
-		$result = array();
-		foreach($requests as $request_info) {
-			$result[] =  unserialize($request_info['request']);
-		}
-		return $result;
 	}
 
 	/**
@@ -285,7 +232,7 @@ class ThreadProcessor extends RequestProcessor {
 		$this->sendMessages($thread, $args['user'], $args['lastId']);
 
 		// Load stored requests
-		$stored_requests = $this->getStoredRequests($thread);
+		$stored_requests = $this->getRequestsFromBuffer('thread_'.$thread->id);
 		if ($stored_requests !== false) {
 			$this->responses = array_merge($this->responses, $stored_requests);
 		}

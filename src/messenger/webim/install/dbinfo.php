@@ -57,9 +57,9 @@ $dbtables = array(
 		"groupid" => "int references ${mysqlprefix}chatgroup(groupid)",
 	),
 
-	"${mysqlprefix}chatrequestbuffer" => array(
+	"${mysqlprefix}requestbuffer" => array(
 		"requestid" => "int NOT NULL auto_increment PRIMARY KEY",
-		"threadid" => "int NOT NULL references ${mysqlprefix}chatthread(threadid)",
+		"requestkey" => "varchar(128) NOT NULL",
 		"request" => "text NOT NULL"
 	),
 
@@ -167,8 +167,8 @@ $dbtables_indexes = array(
 		"groupid" => "groupid",
 		"operatorid" => "operatorid"
 	),
-	"${mysqlprefix}chatrequestbuffer" => array(
-		"threadid" => "threadid"
+	"${mysqlprefix}requestbuffer" => array(
+		"requestkey" => "requestkey"
 	),
 	"${mysqlprefix}chatmessage" => array(
 		"idx_agentid" => "agentid"
@@ -194,7 +194,7 @@ $memtables = array();
 
 $dbtables_can_update = array(
 	"${mysqlprefix}chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount", "nextagent", "shownmessageid", "userid", "userAgent", "groupid", "dtmchatstarted"),
-	"${mysqlprefix}chatrequestbuffer" => array("requestid", "threadid", "request"),
+	"${mysqlprefix}requestbuffer" => array("requestid", "requestkey", "request"),
 	"${mysqlprefix}chatmessage" => array("agentId"),
 	"${mysqlprefix}chatoperator" => array("vcavatar", "vcjabbername", "iperm", "istatus", "idisabled", "vcemail", "dtmrestore", "vcrestoretoken"),
 	"${mysqlprefix}chatban" => array(),
