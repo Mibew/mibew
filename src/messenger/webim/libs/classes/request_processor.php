@@ -214,6 +214,7 @@ abstract class RequestProcessor {
 			}
 			foreach ($functions as $function) {
 				$this->mibewAPI->checkFunction($function, true);
+				$this->checkFunction($function);
 			}
 
 			// Create request
@@ -513,6 +514,15 @@ abstract class RequestProcessor {
 	protected function sendAsyncResponses($responses) {
 		trigger_error('Method sendAsyncResponses does not implement!', E_USER_WARNING);
 	}
+
+	/**
+	 * Additional validation for functions that called via call method
+	 *
+	 * If something wrong function should throw an Exception.
+	 *
+	 * @param Array $function A Function array
+	 */
+	protected function checkFunction($function) {}
 
 	/**
 	 * Creates and returns an instance of the MibewAPI class.

@@ -124,24 +124,64 @@ class ThreadProcessor extends ClientSideProcessor {
 		// Define empty thread id and thread token
 		$thread_id = null;
 		$token = null;
+		$recipient = null;
 		foreach ($request['functions'] as $function) {
 			// Save thread id and thread token from first function in package
 			if (is_null($thread_id)) {
 				$thread_id = $function['arguments']['threadId'];
 				$token = $function['arguments']['token'];
+				$recipient = $function['arguments']['recipient'];
 				continue;
 			}
 			// Check thread id and thread token for the remaining functions
-			if ($thread_id != $function['arguments']['threadId'] || $token != $function['arguments']['token']) {
+			if ($thread_id != $function['arguments']['threadId']
+				|| $token != $function['arguments']['token']) {
 				throw new ThreadProcessorException(
 					'Various thread id or thread token in different functions in one package!',
 					ThreadProcessorException::VARIOUS_THREAD_ID
 				);
 			}
+			// Check request recipient
+			if ($recipient !== $function['arguments']['recipient']) {
+				throw new ThreadProcessorException(
+					'Various recipient in different functions in one package!',
+					ThreadProcessorException::VARIOUS_RECIPIENT
+				);
+			}
 		}
 		// Store request in buffer
-		$this->addRequestToBuffer('thread_'.$thread_id, $request);
+		if ($recipient == 'agent' || $recipient == 'both') {
+			$this->addRequestToBuffer('thread_agent_'.$thread_id, $request);
+		}
+		if ($recipient == 'user' || $recipient == 'both') {
+			$this->addRequestToBuffer('thread_user_'.$thread_id, $request);
+		}
 		return true;
+	}
+
+	/**
+	 * Additional validation for functions that called via call method
+	 *
+	 * @param Array $function A Function array
+	 */
+	protected function checkFunction($function) {
+		// Check recipient argument existance
+		if (! array_key_exists('recipient', $function['arguments'])) {
+			throw new ThreadProcessorException(
+				"'recipient' argument is not set in function '{function['function]}'!",
+				ThreadProcessorException::EMPTY_RECIPIENT
+			);
+		}
+		$recipient = $function['arguments']['recipient'];
+		// Check recipient value
+		if ($recipient != 'agent'
+			&& $recipient != 'both'
+			&& $recipient != 'user') {
+			throw new ThreadProcessorException(
+				"Wrong recipient value '{$recipient}'! It should be one of 'agent', 'user', 'both'",
+				ThreadProcessorException::WRONG_RECIPIENT_VALUE
+			);
+		}
 	}
 
 	/**
@@ -231,10 +271,22 @@ class ThreadProcessor extends ClientSideProcessor {
 		// Update messages
 		$this->sendMessages($thread, $args['user'], $args['lastId']);
 
+		// Create requests key
+		$requests_key = false;
+		if ($args['user']) {
+			$requests_key = 'thread_user_'.$thread->id;
+		} else {
+			if ($operator['operatorid'] == $thread->agentId) {
+				$requests_key = 'thread_agent_'.$thread->id;
+			}
+		}
+
 		// Load stored requests
-		$stored_requests = $this->getRequestsFromBuffer('thread_'.$thread->id);
-		if ($stored_requests !== false) {
-			$this->responses = array_merge($this->responses, $stored_requests);
+		if ($requests_key !== false) {
+			$stored_requests = $this->getRequestsFromBuffer($requests_key);
+			if ($stored_requests !== false) {
+				$this->responses = array_merge($this->responses, $stored_requests);
+			}
 		}
 
 		// Get status values
@@ -361,25 +413,37 @@ class ThreadProcessor extends ClientSideProcessor {
 
 class ThreadProcessorException extends RequestProcessorException {
 	/**
+	 * 'recipient' argument is not set
+	 */
+	const EMPTY_RECIPIENT = 1;
+	/**
 	 * Wrong arguments set for an API function
 	 */
-	const ERROR_WRONG_ARGUMENTS = 1;
+	const ERROR_WRONG_ARGUMENTS = 2;
 	/**
 	 * Thread cannot be loaded
 	 */
-	const ERROR_WRONG_THREAD = 2;
+	const ERROR_WRONG_THREAD = 3;
 	/**
 	 * Message cannot be send
 	 */
-	const ERROR_CANNOT_SEND = 3;
+	const ERROR_CANNOT_SEND = 4;
 	/**
 	 * User rename forbidden by system configurations
 	 */
-	const ERROR_FORBIDDEN_RENAME = 4;
+	const ERROR_FORBIDDEN_RENAME = 5;
+	/**
+	 * Various recipient in different functions in one package
+	 */
+	const VARIOUS_RECIPIENT = 6;
 	/**
 	 * Various thread ids or thread tokens in different functions in one package
 	 */
-	const VARIOUS_THREAD_ID = 5;
+	const VARIOUS_THREAD_ID = 7;
+	/**
+	 * Wrong recipient value
+	 */
+	const WRONG_RECIPIENT_VALUE = 8;
 }
 
 ?>
