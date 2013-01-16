@@ -81,7 +81,7 @@
          * @type MibewAPI
          * @private
          */
-        this.mibewAPI = new MibewAPI(new MibewAPICoreInteraction());
+        this.mibewAPI = new MibewAPI(new this.options['interactionType']());
     }
 
     /**

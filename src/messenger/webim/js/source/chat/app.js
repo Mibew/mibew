@@ -6,7 +6,7 @@
  * License: http://mibew.org/license.php
  */
 
-(function (Mibew, Backbone) {
+(function (Mibew, Backbone, _) {
 
     // Create application instance
     var App = new Backbone.Marionette.Application();
@@ -31,7 +31,12 @@
 
 
         // Initialize Server, Thread and User
-        objs.server = new Mibew.Server(options.server);
+        objs.server = new Mibew.Server(_.extend(
+            {
+                'interactionType': MibewAPIChatInteraction
+            },
+            options.server
+        ));
         objs.thread = new Mibew.Thread(options.thread);
         models.user = new Mibew.Models.User(options.user);
 
@@ -169,4 +174,4 @@
     });
 
     Mibew.Application = App;
-})(Mibew, Backbone);
+})(Mibew, Backbone, _);

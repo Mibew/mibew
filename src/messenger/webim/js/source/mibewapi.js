@@ -377,30 +377,6 @@ MibewAPIInteraction.prototype.getObligatoryArgumentsDefaults = function(function
  * End of MibewAPIInteraction class
  */
 
-/**
- * Represents Window to core interaction type
- *
- * @constructor
- * @todo Think about real values!
- */
-function MibewAPICoreInteraction() {
-    this.obligatoryArguments = {
-        '*': {
-            'threadId': null,
-            'token': null,
-            'return': {},
-            'references': {}
-        },
-        'result': {
-            'errorCode': 0
-        }
-    };
-
-    this.reservedFunctionNames = [
-        'result'
-    ];
-}
-MibewAPICoreInteraction.prototype = new MibewAPIInteraction();
 
 /**
  * Implements functions execution context
