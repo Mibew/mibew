@@ -129,13 +129,21 @@
 
 
     <!-- Build JavaScript application -->
-    <target name="app_js">
+    <target name="app_js" depends="core_handlebars">
         <echo>Build "${app_name}" JavaScript application</echo>
 
         <!-- Initialization code goes first. Preserve header comment but strip
              empty lines -->
         <concat destfile="${js_path}/compiled/${app_name}_app.js" eol="lf">
+
+            <!-- Append application static initialization code -->
             <filelist dir="${js_path}/compiled/${app_name}" files="init.js" />
+
+            <!-- Append templates -->
+            <filelist dir="${js_path}/templates/compiled" files="${app_name}_app.tpl.js" />
+            <!-- For some reasons handlebars do not add trailing semicolon.
+            Add it manually -->
+            <string>;</string>
 
             <!-- Apply filters -->
             <filterchain>
@@ -255,6 +263,18 @@
     <!-- Compile Handlebars templates of the Core -->
     <target name="core_handlebars">
         <echo>Compile Handlebars templates of the Core</echo>
+        <!-- Build applications templates -->
+        <apply executable="handlebars">
+            <arg value="-m"/>
+            <arg value="-f"/>
+            <targetfile />
+            <dirset dir=".">
+                <include name="${js_path}/templates/source/*" />
+            </dirset>
+            <mapper type="regexp" from="^(.*)/source/(.*)$$" to="\1/compiled/\2_app.tpl.js" />
+        </apply>
+
+        <!-- Build misc files -->
         <apply executable="handlebars">
             <arg value="-m"/>
             <arg value="-f"/>
@@ -264,6 +284,7 @@
             </fileset>
             <mapper type="regexp" from="^(.*)/source/(.*)\.handlebars$$" to="\1/compiled/\2.tpl.js" />
         </apply>
+
         <echo>Done</echo>
     </target>
 

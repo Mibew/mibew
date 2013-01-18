@@ -18,7 +18,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.control,
+            template: Handlebars.templates.default_control,
 
             /**
              * Map model events to the view methods
