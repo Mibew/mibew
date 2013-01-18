@@ -9,7 +9,7 @@
 (function(Mibew, Backbone) {
 
     /**
-     * @class Represents a user
+     * @class Represents an user
      */
     Mibew.Models.User = Backbone.Model.extend(
         /** @lends Mibew.Models.User.prototype */
@@ -27,37 +27,10 @@
                 isAgent: false,
 
                 /**
-                 * Indicates if user can post messages or not.
-                 * @type Boolean
-                 */
-                canPost: true,
-
-                /**
-                 * Indicates if user typing a message at the moment.
-                 * @type Boolean
-                 */
-                typing: false,
-
-                /**
                  * Represents user name.
-                 * Not applicable for agents.
                  * @type String
                  */
-                name: '',
-
-                /**
-                 * Indicates if user can change name or not.
-                 * Not applicable for agents.
-                 * @type Boolean
-                 */
-                canChangeName: false,
-
-                /**
-                 * Indicates if user have default name.
-                 * Not applicable for agents.
-                 * @type Boolean
-                 */
-                dafaultName: true
+                name: ''
             }
         }
     );

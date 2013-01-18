@@ -38,7 +38,7 @@
             options.server
         ));
         objs.thread = new Mibew.Thread(options.thread);
-        models.user = new Mibew.Models.User(options.user);
+        models.user = new Mibew.Models.ChatUser(options.user);
 
 
         // Initialize Page
