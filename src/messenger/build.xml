@@ -9,14 +9,17 @@
 
     <!-- Help message about all available targets -->
     <target name="usage">
-        <echo>Available targets:</echo>
-        <echo>styles_handlebars - Compile Handlebars templates for dialogs styles</echo>
-        <echo>styles_js - Compile JavaScript files for all dialogs styles</echo>
-        <echo>styles_all - Run styles_handlebars and styles_js tasks</echo>
-        <echo>chat_app_js - Build JavaScript files related to chat application</echo>
-        <echo>default_app_js - Build JavaScript files related to default application</echo>
-        <echo>core_handlebars - Compile Handlebars templates of the Core</echo>
-        <echo>all - Build everything</echo>
+        <echo>Available targets:
+        styles_handlebars - Compile Handlebars templates for dialogs styles
+        styles_js - Compile JavaScript files for all dialogs styles
+        styles_all - Run styles_handlebars and styles_js tasks
+
+        default_app_js - Build JavaScript files related to default application
+        chat_app_js - Build JavaScript files related to chat application
+
+        core_handlebars - Compile Handlebars templates of the Core
+
+        all - Build everything</echo>
     </target>
 
 
