@@ -221,6 +221,17 @@ function update_operator_avatar($operatorid, $avatar)
 	);
 }
 
+/**
+ * Create new operator
+ *
+ * @param string $login Operator's login
+ * @param string $email Operator's
+ * @param string $password Operator's password
+ * @param string $localename Operator's local name
+ * @param string $commonname Operator's international name
+ * @param string $avatar Operator's avatar
+ * @return array Operator's array
+ */
 function create_operator($login, $email, $password, $localename, $commonname, $avatar)
 {
 	$db = Database::getInstance();
@@ -248,6 +259,13 @@ function create_operator($login, $email, $password, $localename, $commonname, $a
 	);
 }
 
+/**
+ * Set current status of the operator('available' or 'away')
+ *
+ * @param int $operatorid Id of the operator
+ * @param int $istatus Operator status: '0' means 'available' and '1' means
+ * 'away'
+ */
 function notify_operator_alive($operatorid, $istatus)
 {
 	$db = Database::getInstance();
@@ -262,6 +280,11 @@ function notify_operator_alive($operatorid, $istatus)
 	);
 }
 
+/**
+ * Indicates if at least one operator of the group is online
+ * @param int $groupid Id of the group
+ * @return boolean true if the group have online operators and false otherwise
+ */
 function has_online_operators($groupid = "")
 {
 	$db = Database::getInstance();
@@ -290,6 +313,12 @@ function has_online_operators($groupid = "")
 	return $row['time'] < Settings::get('online_timeout') && $row['total'] > 0;
 }
 
+/**
+ * Indicates if operator online or not
+ *
+ * @param int $operatorid Id of the operator
+ * @return boolean true if operator is online and false otherwise
+ */
 function is_operator_online($operatorid)
 {
 	$db = Database::getInstance();
@@ -307,6 +336,14 @@ function is_operator_online($operatorid)
 	return $row['time'] < Settings::get('online_timeout') && $row['total'] == 1;
 }
 
+/**
+ * Returns name of the operator. Choose between vclocalname and vccommonname
+ *
+ * @global string $home_locale Code of the operator's home locale
+ * @global string $current_locale Code of the current locale
+ * @param array $operator Operator's array
+ * @return string Operator's name
+ */
 function get_operator_name($operator)
 {
 	global $home_locale, $current_locale;
