@@ -268,6 +268,7 @@ function create_operator($login, $email, $password, $localename, $commonname, $a
  */
 function notify_operator_alive($operatorid, $istatus)
 {
+	global $mysqlprefix;
 	$db = Database::getInstance();
 	$db->query(
 		"update {chatoperator} set istatus = :istatus, dtmlastvisited = :now " .
@@ -278,6 +279,11 @@ function notify_operator_alive($operatorid, $istatus)
 			':operatorid' => $operatorid
 		)
 	);
+	if (isset($_SESSION["${mysqlprefix}operator"])) {
+		if ($_SESSION["${mysqlprefix}operator"]['operatorid'] == $operatorid) {
+			$_SESSION["${mysqlprefix}operator"]['istatus'] = $istatus;
+		}
+	}
 }
 
 /**
