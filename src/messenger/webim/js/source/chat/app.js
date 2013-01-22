@@ -55,14 +55,14 @@
             controls.userName = new Mibew.Models.UserNameControl({
                 weight: 220
             });
-            ctrlsCollection.push(controls.userName);
+            ctrlsCollection.add(controls.userName);
 
             // Create mail control
             controls.sendMail = new Mibew.Models.SendMailControl({
                 weight: 200,
                 link: options.links.mailLink
             });
-            ctrlsCollection.push(controls.sendMail);
+            ctrlsCollection.add(controls.sendMail);
         }
 
         // Create controls only for agent
@@ -71,40 +71,40 @@
                 weight: 200,
                 link: options.links.redirectLink
             });
-            ctrlsCollection.push(controls.redirect);
+            ctrlsCollection.add(controls.redirect);
 
             controls.history = new Mibew.Models.HistoryControl({
                 weight: 180,
                 link: options.links.historyLink
             });
-            ctrlsCollection.push(controls.history);
+            ctrlsCollection.add(controls.history);
         }
 
         // Create toggle sound button
         controls.sound = new Mibew.Models.SoundControl({
             weight: 160
         });
-        ctrlsCollection.push(controls.sound);
+        ctrlsCollection.add(controls.sound);
 
         // Create refresh button
         controls.refresh = new Mibew.Models.RefreshControl({
             weight: 140
         });
-        ctrlsCollection.push(controls.refresh);
+        ctrlsCollection.add(controls.refresh);
 
         if (options.links.sslLink) {
             controls.secureMode = new Mibew.Models.SecureModeControl({
                 weight: 120,
                 link: options.links.sslLink
             });
-            ctrlsCollection.push(controls.secureMode);
+            ctrlsCollection.add(controls.secureMode);
         }
 
         // Create close button
         controls.close = new Mibew.Models.CloseControl({
             weight: 100
         });
-        ctrlsCollection.push(controls.close);
+        ctrlsCollection.add(controls.close);
 
         objs.Collections.controls = ctrlsCollection;
 
