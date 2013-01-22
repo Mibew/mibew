@@ -32,6 +32,9 @@
                 // Build options object
                 var options = _.extend({model: item}, itemViewOptions);
                 // Try to find special view for this model
+                if (typeof item.getModelType != 'function') {
+                    return new ItemViewType(options);
+                }
                 var modelType = item.getModelType();
                 if (modelType && Mibew.Views[modelType]) {
                     return new Mibew.Views[modelType](options);
