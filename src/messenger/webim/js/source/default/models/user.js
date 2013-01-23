@@ -6,12 +6,12 @@
  * License: http://mibew.org/license.php
  */
 
-(function(Mibew, Backbone) {
+(function(Mibew) {
 
     /**
      * @class Represents an user
      */
-    Mibew.Models.User = Backbone.Model.extend(
+    Mibew.Models.User = Mibew.Models.Base.extend(
         /** @lends Mibew.Models.User.prototype */
         {
             /**
@@ -35,4 +35,4 @@
         }
     );
 
-})(Mibew, Backbone);
+})(Mibew);
