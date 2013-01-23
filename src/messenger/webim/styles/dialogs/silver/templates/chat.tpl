@@ -67,7 +67,7 @@
                         requestsFrequency: ${page:frequency}
                     },
                     thread: {
-                        threadId:${page:ct.chatThreadId},
+                        id:${page:ct.chatThreadId},
                         token:${page:ct.token}
                     },
                     messageForm: {

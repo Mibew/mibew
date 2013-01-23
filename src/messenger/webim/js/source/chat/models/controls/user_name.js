@@ -29,7 +29,7 @@
             changeName: function(newName) {
                 // Get thread and user objects
                 var user = Mibew.Objects.Models.user;
-                var thread = Mibew.Objects.thread;
+                var thread = Mibew.Objects.Models.thread;
                 // Store old name in closure
                 var oldName = user.get('name');
                 // Check if name should be changed
@@ -44,8 +44,8 @@
                         "arguments": {
                             "references": {},
                             "return": {},
-                            "threadId": thread.threadId,
-                            "token": thread.token,
+                            "threadId": thread.get('id'),
+                            "token": thread.get('token'),
                             "name": newName
                         }
                     }],

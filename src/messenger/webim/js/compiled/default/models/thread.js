@@ -5,4 +5,4 @@
  Copyright (c) 2005-2011 Mibew Messenger Community
  License: http://mibew.org/license.php
 */
-(function(b){b.Thread=function(a){this.threadId=a.threadId||0;this.token=a.token||0;this.lastId=a.lastId||0}})(Mibew);
+(function(a){a.Models.Thread=a.Models.Base.extend({defaults:{id:0,token:0,lastId:0}})})(Mibew);

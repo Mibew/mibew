@@ -39,7 +39,7 @@
              */
             postMessage: function(msg) {
                 // Get thread and user objects
-                var thread = Mibew.Objects.thread;
+                var thread = Mibew.Objects.Models.thread;
                 var user = Mibew.Objects.Models.user;
 
                 // Check if user can post a message
@@ -61,8 +61,8 @@
                             "references": {},
                             "return": {},
                             "message": msg,
-                            "threadId": thread.threadId,
-                            "token": thread.token,
+                            "threadId": thread.get('id'),
+                            "token": thread.get('token'),
                             "user": (! user.get('isAgent'))
                         }
                     }],

@@ -32,7 +32,7 @@
              */
             closeThread: function() {
                 // Get thread and user objects
-                var thread = Mibew.Objects.thread;
+                var thread = Mibew.Objects.Models.thread;
                 var user = Mibew.Objects.Models.user;
                 // Send request to the server
                 Mibew.Objects.server.callFunctions(
@@ -41,9 +41,9 @@
                         "arguments": {
                             "references": {},
                             "return": {"closed": "closed"},
-                            "threadId": thread.threadId,
-                            "token": thread.token,
-                            "lastId": thread.lastId,
+                            "threadId": thread.get('id'),
+                            "token": thread.get('token'),
+                            "lastId": thread.get('lastId'),
                             "user": (! user.get('isAgent'))
                         }
                     }],

@@ -37,7 +37,7 @@
             },
             options.server
         ));
-        objs.thread = new Mibew.Thread(options.thread);
+        models.thread = new Mibew.Models.Thread(options.thread);
         models.user = new Mibew.Models.ChatUser(options.user);
 
 

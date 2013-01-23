@@ -46,7 +46,7 @@
 
                 // Update last message id
                 if (args.lastId) {
-                    Mibew.Objects.thread.lastId = args.lastId;
+                    Mibew.Objects.Models.thread.set({lastId: args.lastId});
                 }
 
                 // Get all new messages
@@ -72,7 +72,7 @@
              */
             updateFunctionBuilder: function() {
                 // Get thread and user objects
-                var thread = Mibew.Objects.thread;
+                var thread = Mibew.Objects.Models.thread;
                 var user = Mibew.Objects.Models.user;
 
                 // Build functions list
@@ -85,9 +85,9 @@
                                 'canPost': 'canPost'
                             },
                             "references": {},
-                            "threadId": thread.threadId,
-                            "token": thread.token,
-                            "lastId": thread.lastId,
+                            "threadId": thread.get('id'),
+                            "token": thread.get('token'),
+                            "lastId": thread.get('lastId'),
                             "typed": user.get('typing'),
                             "user": (! user.get('isAgent'))
                         }
