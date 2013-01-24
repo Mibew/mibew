@@ -1,0 +1,3 @@
+<FilesMatch "\.(ini|tpl|handlebars)$">
+    Deny from all
+</FilesMatch>
