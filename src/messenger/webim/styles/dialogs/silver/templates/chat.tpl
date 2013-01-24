@@ -32,7 +32,7 @@
         ${page:additional_js}
         <script type="text/javascript"><!--
             Mibew.Localization.set({
-                'chat.close.confirmation': "${page:chat.close.confirmation}",
+                'chat.close.confirmation': "${msg:chat.close.confirmation}",
                 'typing.remote': "${msg:typing.remote}",
                 'chat.window.predefined.select_answer': "${msg:chat.window.predefined.select_answer}",
                 'chat.window.send_message': "${msg:chat.window.send_message}",

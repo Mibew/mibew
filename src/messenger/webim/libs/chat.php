@@ -245,7 +245,6 @@ function setup_chatview_for_user($thread, $level)
 	$page['ct.user.name'] = htmlspecialchars(topage($thread->userName));
 	$page['canChangeName'] = Settings::get('usercanchangename') == "1";
 	$page['chat.title'] = topage(empty($group['vcchattitle'])?Settings::get('chattitle'):$group['vcchattitle']);
-	$page['chat.close.confirmation'] = getlocal('chat.close.confirmation');
 
 	setup_logo($group);
 	if (Settings::get('sendmessagekey') == 'enter') {
@@ -295,7 +294,6 @@ function setup_chatview_for_operator($thread, $operator)
 	$page['ct.token'] = $thread->lastToken;
 	$page['ct.user.name'] = htmlspecialchars(topage(get_user_name($thread->userName, $thread->remote, $thread->userId)));
 	$page['chat.title'] = topage(empty($group['vcchattitle'])?Settings::get('chattitle'):$group['vcchattitle']);
-	$page['chat.close.confirmation'] = getlocal('chat.close.confirmation');
 
 	setup_logo($group);
 	if (Settings::get('sendmessagekey') == 'enter') {
