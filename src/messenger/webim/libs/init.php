@@ -29,6 +29,7 @@ require_once(dirname(__FILE__) . '/classes/plugin_manager.php');
 require_once(dirname(__FILE__) . '/classes/plugin.php');
 
 // Include common libs
+require_once(dirname(__FILE__) . '/common/configurations.php');
 require_once(dirname(__FILE__) . '/common/constants.php');
 require_once(dirname(__FILE__) . '/common/csrf.php');
 require_once(dirname(__FILE__) . '/common/datetime.php');

@@ -267,6 +267,15 @@ function setup_chatview_for_user($thread, $level)
 	$page['neediframesrc'] = needsFramesrc();
 
 	$page['frequency'] = Settings::get('updatefrequency_chat');
+
+	// Load dialogs style options
+	$style_config = get_dialogs_style_config(getchatstyle());
+	$page['chatStyles.chatWindowParams'] = $style_config['chat']['window_params'];
+	$page['chatStyles.mailWindowParams'] = $style_config['mail']['window_params'];
+
+	// Load core style options
+	$style_config = get_core_style_config();
+	$page['coreStyles.historyWindowParams'] = $style_config['history']['window_params'];
 }
 
 function setup_chatview_for_operator($thread, $operator)
@@ -334,6 +343,15 @@ function setup_chatview_for_operator($thread, $operator)
 
 	$page['namePostfix'] = "";
 	$page['frequency'] = Settings::get('updatefrequency_chat');
+
+	// Load dialogs style options
+	$style_config = get_dialogs_style_config(getchatstyle());
+	$page['chatStyles.chatWindowParams'] = $style_config['chat']['window_params'];
+	$page['chatStyles.mailWindowParams'] = $style_config['mail']['window_params'];
+
+	// Load core style options
+	$style_config = get_core_style_config();
+	$page['coreStyles.historyWindowParams'] = $style_config['history']['window_params'];
 }
 
 function ban_for_addr($addr)

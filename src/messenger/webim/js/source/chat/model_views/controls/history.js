@@ -39,13 +39,10 @@
              */
             showHistory: function() {
                 var user = Mibew.Objects.Models.user;
+                var page = Mibew.Objects.Models.page;
                 var link = this.model.get('link');
                 if (user.get('isAgent') && link) {
-                    // TODO: Create wiki docs for it
-                    var winParams = this.$el
-                        .find('.control-config')
-                        .eq(0)
-                        .data('win-params');
+                    var winParams = page.get('historyWindowParams');
 
                     // TODO: Kill &amp; at the server side
                     link = link.replace('&amp;', '&', 'g');

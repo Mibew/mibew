@@ -85,7 +85,10 @@
                     page: {
                         style: '${styleid}',
                         webimRoot: '${webimroot}',
-                        tplRoot: '${tplroot}'
+                        tplRoot: '${tplroot}',
+                        chatWindowParams: "${page:chatStyles.chatWindowParams}",
+                        mailWindowParams: "${page:chatStyles.mailWindowParams}",
+                        historyWindowParams: "${page:coreStyles.historyWindowParams}"
                     },
                     plugins: ${page:js_plugin_options}
                 });

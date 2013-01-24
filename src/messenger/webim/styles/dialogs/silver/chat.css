@@ -105,9 +105,6 @@ img {
     cursor: pointer;
     float: right;
 }
-.control-config {
-    display: none;
-}
 .tpl-image {
     width: 16px;
     height: 16px;

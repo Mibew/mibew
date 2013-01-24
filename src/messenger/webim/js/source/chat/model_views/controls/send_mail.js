@@ -38,13 +38,10 @@
              * Load and display send mail window
              */
             sendMail: function() {
-                var link = this.model.get('link')
+                var link = this.model.get('link');
+                var page = Mibew.Objects.Models.page;
                 if (link) {
-                    // TODO: Create wiki docs for it
-                    var winParams = this.$el
-                        .find('.control-config')
-                        .eq(0)
-                        .data('win-params');
+                    var winParams = page.get('mailWindowParams');
 
                     var style = Mibew.Objects.Models.page.get('style');
 
