@@ -54,9 +54,9 @@
         var minutes = d.getMinutes().toString();
         var seconds = d.getSeconds().toString();
         // Add leading zero if needed
-        hours = hours > 10 ? hours : '0' + hours;
-        minutes = minutes > 10 ? minutes : '0' + minutes;
-        seconds = seconds > 10 ? seconds : '0' + seconds;
+        hours = hours < 10 ? '0' + hours : hours;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
         // Build result string
         return hours + ':' + minutes + ':' + seconds;
     });
