@@ -149,7 +149,7 @@ function print_pending_threads($groupids, $since)
 		$thread = Thread::createFromDbInfo($row);
 		$thread_info = array(
 			'thread' => $thread,
-			'groupName' => $row['groupname']
+			'groupname' => $row['groupname']
 		);
 		$thread_as_xml = thread_to_xml($thread_info);
 		$output[] = $thread_as_xml;

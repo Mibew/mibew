@@ -46,7 +46,8 @@ if (isset($_GET['nextGroup'])) {
 			$thread->nextAgent = 0;
 			$thread->groupId = $nextid;
 			$thread->agentId = 0;
-			$thread->agentName = "''";
+			$thread->agentName = '';
+			$thread->save();
 
 			$thread->postMessage(
 				Thread::KIND_EVENTS,
