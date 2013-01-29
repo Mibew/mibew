@@ -9,7 +9,7 @@
 (function(Mibew){
     /**
      * Create an instance of thread
-     * @constructor
+     * @class
      */
     Mibew.Models.Thread = Mibew.Models.Base.extend(
         /** @lends Mibew.Models.Thread.prototype */
@@ -36,8 +36,43 @@
                  * Last message id received by the thread
                  * @type Number
                  */
-                lastId: 0
-            }
+                lastId: 0,
+
+                /**
+                 * Thread's state
+                 * @type Number
+                 */
+                state: null
+            },
+
+            /** Thread state constants */
+
+            /**
+             * User in the users queue
+             */
+            STATE_QUEUE: 0,
+            /**
+             * User waiting for operator
+             */
+            STATE_WAITING: 1,
+            /**
+             * Conversation in progress
+             */
+            STATE_CHATTING: 2,
+            /**
+             * Thread closed
+             */
+            STATE_CLOSED: 3,
+            /**
+             * Thread just created
+             */
+            STATE_LOADING: 4,
+            /**
+             * User left message without starting a conversation
+             */
+            STATE_LEFT: 5
+
+            /** End of thread state constants */
         }
     );
 })(Mibew);

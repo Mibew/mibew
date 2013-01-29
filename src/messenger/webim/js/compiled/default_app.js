@@ -20,7 +20,7 @@ b.Server.prototype.registerFunction=function(a,b){a in this.functions||(this.fun
 (function(a){a.Models.Control=a.Models.Base.extend({defaults:{title:"",weight:0}})})(Mibew);
 (function(a,b){a.Models.Page=b.Model.extend()})(Mibew,Backbone);
 (function(a,b){a.Models.Sound=b.Model.extend({play:function(a){this.set({file:a});this.trigger("sound:play",this)}})})(Mibew,Backbone);
-(function(a){a.Models.Thread=a.Models.Base.extend({defaults:{id:0,token:0,lastId:0}})})(Mibew);
+(function(a){a.Models.Thread=a.Models.Base.extend({defaults:{id:0,token:0,lastId:0,state:null},STATE_QUEUE:0,STATE_WAITING:1,STATE_CHATTING:2,STATE_CLOSED:3,STATE_LOADING:4,STATE_LEFT:5})})(Mibew);
 (function(a){a.Models.User=a.Models.Base.extend({defaults:{isAgent:!1,name:""}})})(Mibew);
 (function(a,b){a.Collections.Controls=b.Collection.extend({comparator:function(a){return a.get("weight")}})})(Mibew,Backbone);
 (function(b,c,d){b.Views.Control=c.Marionette.ItemView.extend({template:d.templates.default_control,modelEvents:{change:"render"},events:{mouseover:"mouseOver",mouseleave:"mouseLeave"},attributes:function(){var a=[];a.push("control");this.className&&(a.push(this.className),this.className="");var b=this.getDashedControlType();b&&a.push(b);return{"class":a.join(" ")}},mouseOver:function(){var a=this.getDashedControlType();this.$el.addClass("active"+(a?"-"+a:""))},mouseLeave:function(){var a=this.getDashedControlType();
