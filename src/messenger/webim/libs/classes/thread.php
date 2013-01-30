@@ -169,50 +169,37 @@ Class Thread {
 	protected $updatedFields = array();
 
 	/**
-	 * Load thread from database or create a new one in the database if $id is empty.
-	 *
-	 * @param int $id ID of the thread to load
+	 * Forbid create instance from outside of the class
 	 */
-	protected function __construct($id = null) {
-		// Get database object
-		$db = Database::getInstance();
-
-		if (! empty($id)) {
-			// Load thread
-			$thread_info = $db->query(
-				"select * from {chatthread} where threadid = :threadid",
-				array(
-					':threadid' => $id
-				),
-				array('return_rows' => Database::RETURN_ONE_ROW)
-			);
-
-			if (! $thread_info) {
-				return;
-			}
-
-			$this->threadInfo = $thread_info;
-		} else {
-			// Create thread
-			$db->query("insert into {chatthread} (threadid) values (NULL)");
-			// Set initial values
-			// In this case Thread::$threadInfo array use because id of a thread should not be update
-			$this->threadInfo['threadid'] = $db->insertedId();
-		}
-	}
+	protected function __construct() {}
 
 	/**
 	 * Create new empty thread in database
 	 *
-	 * @return boolean|Thread Returns an object of the Thread class or boolean false on failure
+	 * @return boolean|Thread Returns an object of the Thread class or boolean
+	 * false on failure
 	 */
 	public static function create() {
+		// Get database object
+		$db = Database::getInstance();
+
 		// Create new empty thread
 		$thread = new self();
+
+		// Create thread
+		$db->query("insert into {chatthread} (threadid) values (NULL)");
+
+		// Set thread Id
+		// In this case Thread::$threadInfo array use because id of a thread
+		// should not be update
+		$thread->threadInfo['threadid'] = $db->insertedId();
+
 		// Check if something went wrong
 		if (empty($thread->id)) {
 			return false;
 		}
+
+		// Set initial values
 		$thread->lastToken = self::nextToken();
 		$thread->created = time();
 		return $thread;
@@ -221,9 +208,11 @@ Class Thread {
 	/**
 	 * Create thread object from database info.
 	 *
-	 * @param array $thread_info Associative array of Thread info from database. It must contains ALL thread table's
+	 * @param array $thread_info Associative array of Thread info from database.
+	 * It must contains ALL thread table's
 	 * FIELDS from the database.
-	 * @return boolean|Thread Returns an object of the Thread class or boolean false on failure
+	 * @return boolean|Thread Returns an object of the Thread class or boolean
+	 * false on failure
 	 */
 	public static function createFromDbInfo($thread_info) {
 		// Create new empty thread
@@ -247,7 +236,8 @@ Class Thread {
 	 * Load thread from database
 	 *
 	 * @param int $id ID of the thread to load
-	 * @return boolean|Thread Returns an object of the Thread class or boolean false on failure
+	 * @return boolean|Thread Returns an object of the Thread class or boolean
+	 * false on failure
 	 */
 	public static function load($id, $last_token = null) {
 		// Check $id
@@ -255,13 +245,34 @@ Class Thread {
 			return false;
 		}
 
+		// Get database object
+		$db = Database::getInstance();
+
+		// Create new empty thread
+		$thread = new self();
+
 		// Load thread
-		$thread = new self($id);
+		$thread_info = $db->query(
+			"select * from {chatthread} where threadid = :threadid",
+			array(
+				':threadid' => $id
+			),
+			array('return_rows' => Database::RETURN_ONE_ROW)
+		);
+
+		// There is no thread with such id in database
+		if (! $thread_info) {
+			return;
+		}
+
+		// Store thread properties
+		$thread->threadInfo = $thread_info;
 
 		// Check if something went wrong
 		if ($thread->id != $id) {
 			return false;
 		}
+
 		// Check last token
 		if (! is_null($last_token)) {
 			if ($thread->lastToken != $last_token) {
