@@ -46,6 +46,20 @@ function get_core_style_config() {
 	$config += array(
 		'history' => array(
 			'window_params' => ''
+		),
+		'users' => array(
+			'thread_tag' => 'div',
+			'visitor_tag' => 'div'
+		),
+		'tracked' => array(
+			'user_window_params' => '',
+			'visitor_window_params' => ''
+		),
+		'invitation' => array(
+			'window_params' => ''
+		),
+		'ban' => array(
+			'window_params' => ''
 		)
 	);
 

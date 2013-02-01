@@ -1,0 +1,27 @@
+<td class="visitor">
+    <div><a href="javascript:void(0);" class="user-name open-dialog" title="{{#if canOpen}}{{L10n "pending.table.speak"}}{{else}}{{L10n "pending.table.view"}}{{/if}}">{{#if ban}}{{L10n "chat.client.spam.prefix"}}&nbsp;{{/if}}{{userName}}</a></div>
+    {{#if firstMessage}}<div class="first-message"><a href="javascript:void(0);" title="{{firstMessage}}">{{firstMessagePreview}}</a></div>{{/if}}
+</td>
+<td class="visitor">
+    <div class="default-thread-controls inline-block">
+        {{#if canOpen}}
+            <div class="control open-dialog open-control inline-block" title="{{L10n "pending.table.speak"}}"></div>
+        {{/if}}
+        {{#if canView}}
+            <div class="control view-control inline-block" title="{{L10n "pending.table.view"}}"></div>
+        {{/if}}
+        {{#if tracked}}
+            <div class="control track-control inline-block" title="{{L10n "pending.table.tracked"}}"></div>
+        {{/if}}
+        {{#if canBan}}
+            <div class="control ban-control inline-block" title="{{L10n "pending.table.ban"}}"></div>
+        {{/if}}
+    </div>
+    <div class="thread-controls inline-block"></div>
+</td>
+<td class="visitor">{{#if userIp}}<a href="javascript:void(0);" class="geo-link" title="GeoLocation">{{remote}}</a>{{else}}{{remote}}{{/if}}</td>
+<td class="visitor">{{stateDesc}}</td>
+<td class="visitor">{{agentName}}</td>
+<td class="visitor">{{formatTimeSince totalTime}}</td>
+<td class="visitor">{{#unless chatting}}{{formatTimeSince waitingTime}}{{else}}-{{/unless}}</td>
+<td class="visitor">{{#if ban}}{{ban.reason}}{{else}}{{userAgent}}{{/if}}</td>

@@ -1,0 +1,16 @@
+<td class="visitor">
+    {{#unless invitationInfo}}<a href="javascript:void(0);" class="invite-link" title="{{L10n "pending.table.invite"}}">{{userName}}</a>{{else}}{{userName}}{{/unless}}
+</td>
+<td class="visitor">
+    <div class="default-visitor-controls inline-block">
+        <div class="control track-control inline-block" title="{{L10n "pending.table.tracked"}}"></div>
+    </div>
+    <div class="visitor-controls inline-block"></div>
+</td>
+<td class="visitor">{{#if userIp}}<a href="javascript:void(0);" class="geo-link" title="GeoLocation">{{remote}}</a>{{else}}{{remote}}{{/if}}</td>
+<td class="visitor">{{formatTimeSince firstTime}}</td>
+<td class="visitor">{{formatTimeSince lastTime}}</td>
+<td class="visitor">{{#if invitationInfo}}{{invitationInfo.agentName}}{{else}}-{{/if}}</td>
+<td class="visitor">{{#if invitationInfo}}{{formatTimeSince invitationInfo.time}}{{else}}-{{/if}}</td>
+<td class="visitor">{{invitations}} / {{chats}}</td>
+<td class="visitor">{{userAgent}}</td>

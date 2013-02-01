@@ -35,6 +35,22 @@ $page['frequency'] = Settings::get('updatefrequency_operator');
 $page['istatus'] = $status;
 $page['showonline'] = Settings::get('showonlineoperators') == '1' ? "1" : "0";
 $page['showvisitors'] = Settings::get('enabletracking') == '1' ? "1" : "0";
+$page['agentId'] = $operator['operatorid'];
+$page['geoLink'] = Settings::get('geolink');
+$page['geoWindowParams'] = Settings::get('geolinkparams');
+
+// Load dialogs style options
+$style_config = get_dialogs_style_config(getchatstyle());
+$page['chatStyles.chatWindowParams'] = $style_config['chat']['window_params'];
+
+// Load core style options
+$style_config = get_core_style_config();
+$page['coreStyles.threadTag'] = $style_config['users']['thread_tag'];
+$page['coreStyles.visitorTag'] = $style_config['users']['visitor_tag'];
+$page['coreStyles.trackedUserWindowParams'] = $style_config['tracked']['user_window_params'];
+$page['coreStyles.trackedVisitorWindowParams'] = $style_config['tracked']['visitor_window_params'];
+$page['coreStyles.inviteWindowParams'] = $style_config['invitation']['window_params'];
+$page['coreStyles.banWindowParams'] = $style_config['ban']['window_params'];
 
 prepare_menu($operator);
 start_html_output();

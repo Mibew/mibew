@@ -16,6 +16,7 @@
 
         default_app_js - Build JavaScript files related to default application
         chat_app_js - Build JavaScript files related to chat application
+        users_app_js - Build JavaScript files related to users application
 
         core_handlebars - Compile Handlebars templates of the Core
 
@@ -263,6 +264,14 @@
         <echo>Chat JavaScript application built.</echo>
     </target>
 
+    <!-- Compile and concatenate JavaScript files related to users application -->
+    <target name="users_app_js" depends="default_app_js">
+        <antcall target="app_js">
+            <param name="app_name" value="users" />
+        </antcall>
+        <echo>Users JavaScript application built.</echo>
+    </target>
+
     <!-- Compile Handlebars templates of the Core -->
     <target name="core_handlebars">
         <echo>Compile Handlebars templates of the Core</echo>
@@ -292,7 +301,7 @@
     </target>
 
     <!-- Build all project -->
-    <target name="all" depends="core_handlebars,chat_app_js,styles_all">
+    <target name="all" depends="chat_app_js,users_app_js,styles_all">
         <echo>Mibew Messenger built.</echo>
     </target>
 

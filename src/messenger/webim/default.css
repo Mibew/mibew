@@ -86,6 +86,10 @@ a {
 	height:40px;
 }
 
+.inline-block {
+	display: inline-block;
+}
+
 #footer {
 	background: white url(images/footer.gif) bottom repeat-x;
 	font-size:11px;
@@ -557,8 +561,11 @@ table.awaiting td.visitor {
 	border-bottom: 1px solid #ccc;
 	padding: 10px 8px;
 	margin: 0px;
+        text-align: center;
 }
-
+table.awaiting .no-threads, table.awaiting .no-visitors  {
+    height: 30px;
+}
 .awaiting .visitor a { color: #296685; }
 .awaiting tr:hover .visitor, .awaiting tr:hover .visitor a { color: #1D485E; }
 
@@ -571,27 +578,26 @@ table.awaiting td.visitor {
 .awaiting tr.inchat:hover .visitor, .awaiting tr.inchat:hover .visitor a { color: #444; } 
 .awaiting tr.inchat a { text-decoration: none; }
 
-.firstmessage {
+.first-message {
 	text-align: right;
 	font-size: 0.8em;
 	padding-right: 10px;
 }
 
-.firstmessage a {
+.first-message a {
 	text-decoration: none;
 }
 
-.firstmessage a:hover {
+.first-message a:hover {
 	text-decoration: underline;
+}
+
+#status-panel-region {
+    margin: 10px;
 }
 
 #connstatus {
 	float:right;
-	margin: 10px 10px;
-}
-
-#connlinks {
-	margin: 10px 10px;
 }
 
 #connlinks a {
@@ -603,11 +609,63 @@ table.awaiting td.visitor {
 	text-decoration: underline;
 }
 
+.default-thread-controls {
+	width: 100px;
+}
+
+.default-visitor-controls {
+	width: 20px;
+}
+
+.default-thread-controls .control,
+.default-visitor-controls .control {
+	height: 15px;
+	width: 15px;
+	margin: 0 2px;
+	border: none;
+	cursor: pointer;
+}
+
+.open-control {
+	background: no-repeat top left url('images/tbliclspeak.gif');
+}
+
+.view-control {
+	background: no-repeat top left url('images/tbliclread.gif');
+}
+
+.track-control {
+	background: no-repeat top left url('images/tblictrack.gif');
+}
+
+.ban-control {
+	background: no-repeat top left url('images/ban.gif');
+}
+
+#sound-region {
+	display: none;
+}
+
 /* online operators */
 
-#onlineoperators {
+#agents-region {
 	padding-right: 10px;
 	float: right;
+}
+.agent-status-away, .agent-status-online {
+	display: inline-block;
+	height: 12px;
+	width: 12px;
+	border: none;
+	background-repeat: no-repeat;
+        margin-left: 5px;
+        margin-right: 2px;
+}
+.agent-status-away {
+	background-image: url("images/opaway.gif");
+}
+.agent-status-online {
+	background-image: url("images/oponline.gif");
 }
 
 /* search */
