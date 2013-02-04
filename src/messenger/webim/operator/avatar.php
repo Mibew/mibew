@@ -73,8 +73,8 @@ if (!$op) {
 	if (count($errors) == 0) {
 		update_operator_avatar($op['operatorid'], $avatar);
 
-		if ($opId && $avatar && $_SESSION["${mysqlprefix}operator"] && $operator['operatorid'] == $opId) {
-			$_SESSION["${mysqlprefix}operator"]['vcavatar'] = $avatar;
+		if ($opId && $avatar && $_SESSION[$session_prefix."operator"] && $operator['operatorid'] == $opId) {
+			$_SESSION[$session_prefix."operator"]['vcavatar'] = $avatar;
 		}
 		header("Location: $webimroot/operator/avatar.php?op=$opId");
 		exit;

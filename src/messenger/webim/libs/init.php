@@ -21,6 +21,9 @@ session_start();
 // Include configuration file
 require_once(dirname(__FILE__) . '/config.php');
 
+// Include system constants file
+require_once(dirname(__FILE__) . '/common/constants.php');
+
 // Include system classes
 require_once(dirname(__FILE__) . '/classes/database.php');
 require_once(dirname(__FILE__) . '/classes/settings.php');
@@ -30,7 +33,6 @@ require_once(dirname(__FILE__) . '/classes/plugin.php');
 
 // Include common libs
 require_once(dirname(__FILE__) . '/common/configurations.php');
-require_once(dirname(__FILE__) . '/common/constants.php');
 require_once(dirname(__FILE__) . '/common/csrf.php');
 require_once(dirname(__FILE__) . '/common/datetime.php');
 require_once(dirname(__FILE__) . '/common/forms.php');

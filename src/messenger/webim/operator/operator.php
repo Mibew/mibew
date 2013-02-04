@@ -81,7 +81,7 @@ if ((isset($_POST['login']) || !is_capable($can_administrate, $operator)) && iss
 			// update the session password
 			if (!empty($password) && $opId == $operator['operatorid']) {
 				$toDashboard = $operator['vcpassword'] == md5('') && $password != '';
-				$_SESSION["${mysqlprefix}operator"]['vcpassword'] = md5($password);
+				$_SESSION[$session_prefix."operator"]['vcpassword'] = md5($password);
 				if($toDashboard) {
 					header("Location: $webimroot/operator/index.php");
 					exit;

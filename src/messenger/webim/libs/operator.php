@@ -268,7 +268,7 @@ function create_operator($login, $email, $password, $localename, $commonname, $a
  */
 function notify_operator_alive($operatorid, $istatus)
 {
-	global $mysqlprefix;
+	global $session_prefix;
 	$db = Database::getInstance();
 	$db->query(
 		"update {chatoperator} set istatus = :istatus, dtmlastvisited = :now " .
@@ -279,9 +279,9 @@ function notify_operator_alive($operatorid, $istatus)
 			':operatorid' => $operatorid
 		)
 	);
-	if (isset($_SESSION["${mysqlprefix}operator"])) {
-		if ($_SESSION["${mysqlprefix}operator"]['operatorid'] == $operatorid) {
-			$_SESSION["${mysqlprefix}operator"]['istatus'] = $istatus;
+	if (isset($_SESSION[$session_prefix."operator"])) {
+		if ($_SESSION[$session_prefix."operator"]['operatorid'] == $operatorid) {
+			$_SESSION[$session_prefix."operator"]['istatus'] = $istatus;
 		}
 	}
 }
@@ -369,13 +369,13 @@ function append_query($link, $pv)
 
 function check_login($redirect = true)
 {
-	global $webimroot, $mysqlprefix;
-	if (!isset($_SESSION["${mysqlprefix}operator"])) {
+	global $webimroot, $session_prefix;
+	if (!isset($_SESSION[$session_prefix."operator"])) {
 		if (isset($_COOKIE['webim_lite'])) {
 			list($login, $pwd) = preg_split("/,/", $_COOKIE['webim_lite'], 2);
 			$op = operator_by_login($login);
 			if ($op && isset($pwd) && isset($op['vcpassword']) && md5($op['vcpassword']) == $pwd && !operator_is_disabled($op)) {
-				$_SESSION["${mysqlprefix}operator"] = $op;
+				$_SESSION[$session_prefix."operator"] = $op;
 				return $op;
 			}
 		}
@@ -391,7 +391,7 @@ function check_login($redirect = true)
 			return null;
 		}
 	}
-	return $_SESSION["${mysqlprefix}operator"];
+	return $_SESSION[$session_prefix."operator"];
 }
 
 // Force the admin to set a password after the installation
@@ -407,14 +407,14 @@ function force_password($operator)
 
 function get_logged_in()
 {
-	global $mysqlprefix;
-	return isset($_SESSION["${mysqlprefix}operator"]) ? $_SESSION["${mysqlprefix}operator"] : FALSE;
+	global $session_prefix;
+	return isset($_SESSION[$session_prefix."operator"]) ? $_SESSION[$session_prefix."operator"] : FALSE;
 }
 
 function login_operator($operator, $remember)
 {
-	global $webimroot, $mysqlprefix;
-	$_SESSION["${mysqlprefix}operator"] = $operator;
+	global $webimroot, $session_prefix;
+	$_SESSION[$session_prefix."operator"] = $operator;
 	if ($remember) {
 		$value = $operator['vclogin'] . "," . md5($operator['vcpassword']);
 		setcookie('webim_lite', $value, time() + 60 * 60 * 24 * 1000, "$webimroot/");
@@ -426,8 +426,8 @@ function login_operator($operator, $remember)
 
 function logout_operator()
 {
-	global $webimroot, $mysqlprefix;
-	unset($_SESSION["${mysqlprefix}operator"]);
+	global $webimroot, $session_prefix;
+	unset($_SESSION[$session_prefix."operator"]);
 	unset($_SESSION['backpath']);
 	if (isset($_COOKIE['webim_lite'])) {
 		setcookie('webim_lite', '', time() - 3600, "$webimroot/");

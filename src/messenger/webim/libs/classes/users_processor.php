@@ -153,7 +153,7 @@ class UsersProcessor extends ClientSideProcessor {
 	/**
 	 * Return updated threads list. API function
 	 *
-	 * @global string $mysqlprefix Database tables prefix
+	 * @global string $session_prefix Session vars prefix
 	 * @global int $can_viewthreads View threads permission code
 	 * @global int $can_takeover Take threads over permission code
 	 * @param array $args Associative array of arguments. It must contains
@@ -164,17 +164,17 @@ class UsersProcessor extends ClientSideProcessor {
 	 *  - 'threads': array of threads changes
 	 */
 	protected function apiUpdateThreads($args) {
-		global $mysqlprefix, $can_viewthreads, $can_takeover;
+		global $session_prefix, $can_viewthreads, $can_takeover;
 
 		$operator = self::checkOperator($args['agentId']);
 
 		$since = $args['revision'];
 		// Get operator groups
-		if (!isset($_SESSION["${mysqlprefix}operatorgroups"])) {
-			$_SESSION["${mysqlprefix}operatorgroups"]
+		if (!isset($_SESSION[$session_prefix."operatorgroups"])) {
+			$_SESSION[$session_prefix."operatorgroups"]
 				= get_operator_groupslist($operator['operatorid']);
 		}
-		$groupids = $_SESSION["${mysqlprefix}operatorgroups"];
+		$groupids = $_SESSION[$session_prefix."operatorgroups"];
 
 		$db = Database::getInstance();
 		$query = "select t.*, " .

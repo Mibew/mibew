@@ -30,5 +30,10 @@ $dbversion = '1.6.3';
  */
 $featuresversion = '1.6.4';
 
+/**
+ * Prefix for session variables.
+ * Provide an ability to instal several mibew instances on one server.
+ */
+$session_prefix = md5($mysqlhost.'##'.$mysqldb.'##'.$mysqlprefix) . '_';
 
 ?>
