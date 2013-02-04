@@ -18,24 +18,28 @@
 $page['title'] = getlocal("thread.chat_log");
 
 function tpl_header() { global $page, $webimroot; ?>
-<script type="text/javascript" src="<?php echo($webimroot); ?>/js/compiled/common.js"></script>
-<script type="text/javascript" src="<?php echo($webimroot); ?>/js/compiled/handlebars.js"></script>
-<script type="text/javascript" src="<?php echo($webimroot); ?>/js/compiled/handlebars_helpers.js"></script>
-<script type="text/javascript" src="<?php echo($webimroot); ?>/js/compiled/messageview.js"></script>
-<script type="text/javascript" src="<?php echo($webimroot); ?>/js/templates/compiled/message.tpl.js"></script>
+
+<!-- External libs -->
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/json2.js"></script>
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/underscore-min.js"></script>
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/backbone-min.js"></script>
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/backbone.marionette.min.js"></script>
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/handlebars.js"></script>
+
+<!-- Application files -->
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/compiled/mibewapi.js"></script>
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/compiled/default_app.js"></script>
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/compiled/thread_log_app.js"></script>
+
+<!-- Start application -->
 <script type="text/javascript"><!--
-	EventHelper.register(window, 'onload', function() {
-		var threadMessages = <?php echo($page['threadMessages']); ?>;
-		var messageEl = document.getElementById('message');
-		var messageView = new MessageView();
-		for (var index in threadMessages) {
-			if (! threadMessages.hasOwnProperty(index)) {
-				continue;
-			}
-			messageEl.innerHTML += messageView.themeMessage(threadMessages[index]);
-		}
+	jQuery(document).ready(function(){
+		Mibew.Application.start({
+			messages: <?php echo($page['threadMessages']); ?>
+		});
 	});
-// --></script>
+//--></script>
 <?php }
 
 function tpl_content() { global $page, $webimroot, $errors;
@@ -104,13 +108,7 @@ $chatthread = $page['thread_info']['thread'];
 		<br clear="all"/>
 </div>
 
-<div class="message" id="message">
-<?php 
-	foreach( $page['threadMessages'] as $message ) {
-		echo $message;
-	}
-?>
-</div>
+<div class="message" id="messages-region"></div>
 </div>
 
 <br />
