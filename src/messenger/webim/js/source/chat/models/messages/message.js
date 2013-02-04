@@ -23,7 +23,36 @@
                  * @type String
                  */
                 message: ''
-            }
+            },
+
+            /** Message kind constants */
+
+            /** Message sent by user. */
+            KIND_USER: 1,
+
+            /** Message sent by operator */
+            KIND_AGENT: 2,
+
+            /** Hidden system message to operator */
+            KIND_FOR_AGENT: 3,
+
+            /** System messages for user and operator */
+            KIND_INFO: 4,
+
+            /** Message for user if operator have connection problems */
+            KIND_CONN: 5,
+
+            /** System message about some events (like rename). */
+            KIND_EVENTS: 6,
+
+            /**
+             * Message with operators avatar
+             *
+             * This kind of message leaved only for compatibility with core
+             */
+            KIND_AVATAR: 7
+
+            /** End of message kind constants */
         }
     );
 

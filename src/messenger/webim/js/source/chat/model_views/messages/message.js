@@ -65,8 +65,8 @@
                 var messageKind = this.model.get('kind');
 
                 // Add message fields
-                msg.allowFormatting = (messageKind != this.KIND_USER
-                    && messageKind != this.KIND_AGENT);
+                msg.allowFormatting = (messageKind != this.model.KIND_USER
+                    && messageKind != this.model.KIND_AGENT);
                 msg.kindName = this.kindToString(messageKind);
                 msg.message = this.escapeString(msg.message);
 
@@ -79,22 +79,22 @@
              * @returns {String} Kind name
              */
             kindToString: function(kind) {
-                if (kind == this.KIND_USER) {
+                if (kind == this.model.KIND_USER) {
                     return "user";
                 }
-                if (kind == this.KIND_AGENT) {
+                if (kind == this.model.KIND_AGENT) {
                     return "agent";
                 }
-                if (kind == this.KIND_FOR_AGENT) {
+                if (kind == this.model.KIND_FOR_AGENT) {
                     return "hidden";
                 }
-                if (kind == this.KIND_INFO) {
+                if (kind == this.model.KIND_INFO) {
                     return "inf";
                 }
-                if (kind == this.KIND_CONN) {
+                if (kind == this.model.KIND_CONN) {
                     return "conn";
                 }
-                if (kind == this.KIND_EVENTS) {
+                if (kind == this.model.KIND_EVENTS) {
                     return "event";
                 }
                 return "";
@@ -114,36 +114,7 @@
                         return badCharList[chr] || "&amp;";
                     }
                 );
-            },
-
-            /** Message kind constants */
-
-            /** Message sent by user. */
-            KIND_USER: 1,
-
-            /** Message sent by operator */
-            KIND_AGENT: 2,
-
-            /** Hidden system message to operator */
-            KIND_FOR_AGENT: 3,
-
-            /** System messages for user and operator */
-            KIND_INFO: 4,
-
-            /** Message for user if operator have connection problems */
-            KIND_CONN: 5,
-
-            /** System message about some events (like rename). */
-            KIND_EVENTS: 6,
-
-            /**
-             * Message with operators avatar
-             *
-             * This kind of message leaved only for compatibility with core
-             */
-            KIND_AVATAR: 7
-
-            /** End of message kind constants */
+            }
         }
     );
 
