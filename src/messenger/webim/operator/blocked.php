@@ -45,7 +45,7 @@ if (isset($_GET['act']) && $_GET['act'] == 'del') {
 $blockedList = $db->query(
 	"select banid, dtmtill as till,address,comment from {chatban}",
 	NULL,
-	array('return_rows' => Database::RETURN_ONE_ROW)
+	array('return_rows' => Database::RETURN_ALL_ROWS)
 );
 
 setup_pagination($blockedList);
