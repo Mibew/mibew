@@ -1,0 +1,3 @@
+<span>{{formatTime created}}</span>
+{{#if name}}<span class='n{{kindName}}'>{{name}}</span>: {{/if}}
+<span class='m{{kindName}}'>{{#if allowFormatting}}{{apply message "urlReplace, nl2br, allowTags"}}{{else}}{{apply message "urlReplace, nl2br"}}{{/if}}</span><br/>
