@@ -223,48 +223,51 @@ function setup_groups_select($groupid, $markoffline)
 	);
 }
 
-function setup_chatview_for_user($thread, $level)
-{
-	global $page, $webimroot;
-	$page = array();
+/**
+ * Set up some page variables for chat for user
+ *
+ * @global array $page The page array. Use to pass values to page templates.
+ * @param Thread $thread thread object
+ */
+function setup_chatview(Thread $thread) {
+	global $page;
+
+	// Get group info
 	if (! empty($thread->groupId)) {
 		$group = group_by_id($thread->groupId);
 		$group = get_top_level_group($group);
 	} else {
 		$group = array();
 	}
-	$page['agent'] = false;
-	$page['user'] = true;
-	$page['canpost'] = true;
-	$nameisset = getstring("chat.default.username") != $thread->userName;
-	$page['displ1'] = $nameisset ? "none" : "inline";
-	$page['displ2'] = $nameisset ? "inline" : "none";
-	$page['level'] = $level;
+
+	// Set thread params
 	$page['ct.chatThreadId'] = $thread->id;
 	$page['ct.token'] = $thread->lastToken;
-	$page['ct.user.name'] = htmlspecialchars(topage($thread->userName));
-	$page['canChangeName'] = Settings::get('usercanchangename') == "1";
-	$page['chat.title'] = topage(empty($group['vcchattitle'])?Settings::get('chattitle'):$group['vcchattitle']);
+	$page['chat.title'] = topage(
+		empty($group['vcchattitle'])
+			? Settings::get('chattitle')
+			: $group['vcchattitle']
+	);
 
+	// Setup logo
 	setup_logo($group);
+
+	// Set enter key shortcut
 	if (Settings::get('sendmessagekey') == 'enter') {
 		$page['send_shortcut'] = "Enter";
 		$page['ignorectrl'] = 1;
 	} else {
-		$page['send_shortcut'] = is_mac_opera() ? "&#8984;-Enter" : "Ctrl-Enter";
+		$page['send_shortcut'] = is_mac_opera()
+			? "&#8984;-Enter"
+			: "Ctrl-Enter";
 		$page['ignorectrl'] = 0;
 	}
 
-	$params = "thread=" . $thread->id . "&amp;token=" . $thread->lastToken;
-	$page['mailLink'] = "$webimroot/client.php?" . $params . "&amp;level=$level&amp;act=mailthread";
-
-	if (Settings::get('enablessl') == "1" && !is_secure_request()) {
-		$page['sslLink'] = get_app_location(true, true) . "/client.php?" . $params . "&amp;level=$level";
-	}
-
+	// Set some browser info
 	$page['isOpera95'] = is_agent_opera95();
 	$page['neediframesrc'] = needsFramesrc();
 
+	// Set refresh frequency
 	$page['frequency'] = Settings::get('updatefrequency_chat');
 
 	// Load dialogs style options
@@ -277,45 +280,82 @@ function setup_chatview_for_user($thread, $level)
 	$page['coreStyles.historyWindowParams'] = $style_config['history']['window_params'];
 }
 
-function setup_chatview_for_operator($thread, $operator)
-{
-	global $page, $webimroot, $company_logo_link, $webim_encoding, $company_name;
+/**
+ * Set up some page variables for chat for user
+ *
+ * @global array $page The page array. Use to pass values to page templates.
+ * @global string $webimroot Root URL path for Mibew
+ * @param Thread $thread thread object
+ * @param string $level Chat level. Indicates ajax or old chat window should
+ * be used
+ */
+function setup_chatview_for_user(Thread $thread, $level) {
+	global $page, $webimroot;
 	$page = array();
-	if (! is_null($thread->groupId)) {
-		$group = group_by_id($thread->groupId);
-		$group = get_top_level_group($group);
-	} else {
-		$group = array();
+
+	setup_chatview($thread);
+
+	// Set user info
+	$page['agent'] = false;
+	$page['user'] = true;
+	$page['canpost'] = true;
+	$page['level'] = $level;
+	$page['ct.user.name'] = htmlspecialchars(topage($thread->userName));
+	$page['canChangeName'] = Settings::get('usercanchangename') == "1";
+
+	$params = "thread=" . $thread->id . "&amp;token=" . $thread->lastToken;
+
+	// Set link to send mail page
+	$page['mailLink'] = "$webimroot/client.php?" . $params . "&amp;level=$level&amp;act=mailthread";
+
+	// Set SSL link
+	if (Settings::get('enablessl') == "1" && !is_secure_request()) {
+		$page['sslLink'] = get_app_location(true, true) . "/client.php?" . $params . "&amp;level=$level";
 	}
+}
+
+/**
+ * Set up some page variables for chat for operator
+ *
+ * @global array $page The page array. Use to pass values to page templates.
+ * @global string $webimroot Root URL path for Mibew
+ * @global string $webim_encoding Current Mibew encoding
+ * @param Thread $thread thread object
+ * @param string $level Chat level. Indicates ajax or old chat window should
+ * be used
+ */
+function setup_chatview_for_operator(Thread $thread, $operator) {
+	global $page, $webimroot, $webim_encoding;
+	$page = array();
+
+	setup_chatview($thread);
+
+	// Set operator info
 	$page['agent'] = true;
 	$page['user'] = false;
 	$page['canpost'] = $thread->agentId == $operator['operatorid'];
-	$page['ct.chatThreadId'] = $thread->id;
-	$page['ct.token'] = $thread->lastToken;
 	$page['ct.user.name'] = htmlspecialchars(topage(get_user_name($thread->userName, $thread->remote, $thread->userId)));
-	$page['chat.title'] = topage(empty($group['vcchattitle'])?Settings::get('chattitle'):$group['vcchattitle']);
 
-	setup_logo($group);
-	if (Settings::get('sendmessagekey') == 'enter') {
-		$page['send_shortcut'] = "Enter";
-		$page['ignorectrl'] = 1;
-	} else {
-		$page['send_shortcut'] = is_mac_opera() ? "&#8984;-Enter" : "Ctrl-Enter";
-		$page['ignorectrl'] = 0;
-	}
-
+	// Set SSL link
 	if (Settings::get('enablessl') == "1" && !is_secure_request()) {
 		$page['sslLink'] = get_app_location(true, true) . "/operator/agent.php?thread=" . $thread->id . "&amp;token=" . $thread->lastToken;
 	}
-	$page['isOpera95'] = is_agent_opera95();
-	$page['neediframesrc'] = needsFramesrc();
-	$page['historyParams'] = array("userid" => "" . $thread->userId);
-	$page['historyParamsLink'] = add_params($webimroot . "/operator/userhistory.php", $page['historyParams']);
+
+	// Set history window params
+	$page['historyParams'] = array("userid" => (string)$thread->userId);
+	$page['historyParamsLink'] = add_params(
+		$webimroot . "/operator/userhistory.php",
+		$page['historyParams']
+	);
+
+	// Set tracking params
 	if (Settings::get('enabletracking')) {
 	    $visitor = track_get_visitor_by_threadid($thread->id);
 	    $page['trackedParams'] = array("visitor" => "" . $visitor['visitorid']);
 	    $page['trackedParamsLink'] = add_params($webimroot . "/operator/tracked.php", $page['trackedParams']);
 	}
+
+	// Get predefined answers
 	$canned_messages = load_canned_messages($thread->locale, 0);
 	if ($thread->groupId) {
 		$canned_messages = array_merge(
@@ -324,7 +364,6 @@ function setup_chatview_for_operator($thread, $operator)
 		);
 	};
 
-	// Get predefined answers
 	$predefined_answers = array();
 	foreach ($canned_messages as $answer) {
 		$predefined_answers[] = array(
@@ -336,20 +375,11 @@ function setup_chatview_for_operator($thread, $operator)
 	}
 	$page['predefinedAnswers'] = json_encode($predefined_answers);
 
+	// Set link to user redirection page
 	$params = "thread=" . $thread->id . "&amp;token=" . $thread->lastToken;
 	$page['redirectLink'] = "$webimroot/operator/agent.php?" . $params . "&amp;act=redirect";
 
 	$page['namePostfix'] = "";
-	$page['frequency'] = Settings::get('updatefrequency_chat');
-
-	// Load dialogs style options
-	$style_config = get_dialogs_style_config(getchatstyle());
-	$page['chatStyles.chatWindowParams'] = $style_config['chat']['window_params'];
-	$page['chatStyles.mailWindowParams'] = $style_config['mail']['window_params'];
-
-	// Load core style options
-	$style_config = get_core_style_config();
-	$page['coreStyles.historyWindowParams'] = $style_config['history']['window_params'];
 }
 
 function ban_for_addr($addr)
