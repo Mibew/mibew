@@ -95,6 +95,23 @@ class ThreadProcessor extends ClientSideProcessor {
 	}
 
 	/**
+	 * Check if operator logged in
+	 *
+	 * @return array Operators info array
+	 * @throws ThreadProcessorException If operator not logged in.
+	 */
+	public static function checkOperator() {
+		$operator = get_logged_in();
+		if (!$operator) {
+			throw new ThreadProcessorException(
+				"Operator not logged in!",
+				ThreadProcessorException::ERROR_AGENT_NOT_LOGGED_IN
+			);
+		}
+		return $operator;
+	}
+
+	/**
 	 * Class constructor
 	 *
 	 * Do not use directly __construct method! Use ThreadProcessor::getInstance() instead!
@@ -264,7 +281,7 @@ class ThreadProcessor extends ClientSideProcessor {
 		self::checkParams($args, array('user', 'typed', 'lastId'));
 
 		if (! $args['user']) {
-			$operator = check_login();
+			$operator = self::checkOperator();
 			$thread->checkForReassign($operator);
 		}
 
@@ -324,7 +341,7 @@ class ThreadProcessor extends ClientSideProcessor {
 
 		// Get operator's array
 		if (! $args['user']) {
-			$operator = check_login();
+			$operator = self::checkOperator();
 		}
 
 		// Check message can be sent
@@ -399,7 +416,7 @@ class ThreadProcessor extends ClientSideProcessor {
 
 		// Load operator
 		if (! $args['user']) {
-			$operator = check_login();
+			$operator = self::checkOperator();
 		}
 
 		// Close thread
@@ -419,33 +436,37 @@ class ThreadProcessorException extends RequestProcessorException {
 	 */
 	const EMPTY_RECIPIENT = 1;
 	/**
+	 * Operator is not logged in
+	 */
+	const ERROR_AGENT_NOT_LOGGED_IN = 2;
+	/**
 	 * Wrong arguments set for an API function
 	 */
-	const ERROR_WRONG_ARGUMENTS = 2;
+	const ERROR_WRONG_ARGUMENTS = 3;
 	/**
 	 * Thread cannot be loaded
 	 */
-	const ERROR_WRONG_THREAD = 3;
+	const ERROR_WRONG_THREAD = 4;
 	/**
 	 * Message cannot be send
 	 */
-	const ERROR_CANNOT_SEND = 4;
+	const ERROR_CANNOT_SEND = 5;
 	/**
 	 * User rename forbidden by system configurations
 	 */
-	const ERROR_FORBIDDEN_RENAME = 5;
+	const ERROR_FORBIDDEN_RENAME = 6;
 	/**
 	 * Various recipient in different functions in one package
 	 */
-	const VARIOUS_RECIPIENT = 6;
+	const VARIOUS_RECIPIENT = 7;
 	/**
 	 * Various thread ids or thread tokens in different functions in one package
 	 */
-	const VARIOUS_THREAD_ID = 7;
+	const VARIOUS_THREAD_ID = 8;
 	/**
 	 * Wrong recipient value
 	 */
-	const WRONG_RECIPIENT_VALUE = 8;
+	const WRONG_RECIPIENT_VALUE = 9;
 }
 
 ?>
