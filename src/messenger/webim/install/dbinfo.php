@@ -59,7 +59,8 @@ $dbtables = array(
 
 	"${mysqlprefix}requestbuffer" => array(
 		"requestid" => "int NOT NULL auto_increment PRIMARY KEY",
-		"requestkey" => "varchar(128) NOT NULL",
+		// Use MD5 hashes as keys
+		"requestkey" => "char(32) NOT NULL",
 		"request" => "text NOT NULL"
 	),
 

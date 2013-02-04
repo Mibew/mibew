@@ -60,7 +60,7 @@ abstract class ClientSideProcessor extends RequestProcessor {
 		$db = Database::getInstance();
 		$db->query(
 			"INSERT INTO {requestbuffer} (request, requestkey) VALUES (:request, :key)",
-			array(':request' => serialize($request), ':key' => $key)
+			array(':request' => serialize($request), ':key' => md5($key))
 		);
 	}
 
@@ -72,6 +72,9 @@ abstract class ClientSideProcessor extends RequestProcessor {
 	 */
 	protected function getRequestsFromBuffer($key) {
 		$db = Database::getInstance();
+
+		$key = md5($key);
+
 		// Get requests from database
 		$requests = $db->query(
 			"SELECT request FROM {requestbuffer} WHERE requestkey = :key",
