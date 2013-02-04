@@ -342,53 +342,14 @@ class UsersProcessor extends ClientSideProcessor {
 		// Check access
 		self::checkOperator($args['agentId']);
 
+		// Close old invitations
+		invitation_close_old();
+
+		// Remove old visitors and visitors tracks
+		track_remove_old_visitors();
+		track_remove_old_tracks();
+
 		$db = Database::getInstance();
-
-		// Remove old visitors
-		$db->query(
-			"DELETE FROM {chatsitevisitor} " .
-			"WHERE (:now - lasttime) > :lifetime ".
-			"AND (threadid IS NULL OR " .
-			"(SELECT count(*) FROM {chatthread} " .
-				"WHERE threadid = {chatsitevisitor}.threadid " .
-				"AND istate <> " . Thread::STATE_CLOSED . " " .
-				"AND istate <> " . Thread::STATE_LEFT . ") = 0)",
-			array(
-				':lifetime' => Settings::get('tracking_lifetime'),
-				':now' => time()
-			)
-		);
-
-		// Remove old invitations
-		$db->query(
-			"UPDATE {chatsitevisitor} SET invited = 0, " .
-				"invitationtime = NULL, invitedby = NULL".
-			" WHERE threadid IS NULL AND (:now - invitationtime) > :lifetime",
-			array(
-				':lifetime' => Settings::get('invitation_lifetime'),
-				':now' => time()
-			)
-		);
-
-		// Remove associations of visitors with closed threads
-		$db->query(
-			"UPDATE {chatsitevisitor} SET threadid = NULL " .
-			"WHERE threadid IS NOT NULL AND " .
-			" (SELECT count(*) FROM {chatthread} " .
-				"WHERE threadid = {chatsitevisitor}.threadid" .
-				" AND istate <> " . Thread::STATE_CLOSED . " " .
-				" AND istate <> " . Thread::STATE_LEFT . ") = 0"
-		);
-
-		// Remove old visitors' tracks
-		$db->query(
-			"DELETE FROM {visitedpage} WHERE (:now - visittime) > :lifetime " .
-			" AND visitorid NOT IN (SELECT visitorid FROM {chatsitevisitor})",
-			array(
-				':lifetime' => Settings::get('tracking_lifetime'),
-				':now' => time()
-			)
-		);
 
 		// Load visitors
 		$query = "SELECT visitorid, userid, username, firsttime, lasttime, " .

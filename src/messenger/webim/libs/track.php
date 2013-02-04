@@ -151,4 +151,50 @@ function track_retrieve_details($visitor)
     return unserialize($visitor['details']);
 }
 
+/**
+ * Remove old visitors
+ */
+function track_remove_old_visitors() {
+	$db = Database::getInstance();
+
+	// Remove associations of visitors with closed threads
+	$db->query(
+		"UPDATE {chatsitevisitor} SET threadid = NULL " .
+		"WHERE threadid IS NOT NULL AND " .
+		" (SELECT count(*) FROM {chatthread} " .
+			"WHERE threadid = {chatsitevisitor}.threadid" .
+			" AND istate <> " . Thread::STATE_CLOSED . " " .
+			" AND istate <> " . Thread::STATE_LEFT . ") = 0"
+	);
+
+	// Remove old visitors
+	$db->query(
+		"DELETE FROM {chatsitevisitor} " .
+		"WHERE (:now - lasttime) > :lifetime ".
+		"AND threadid IS NULL",
+		array(
+			':lifetime' => Settings::get('tracking_lifetime'),
+			':now' => time()
+		)
+	);
+}
+
+/**
+ * Remove old tracks
+ */
+function track_remove_old_tracks() {
+	$db = Database::getInstance();
+
+	// Remove old visitors' tracks
+	$db->query(
+		"DELETE FROM {visitedpage} WHERE (:now - visittime) > :lifetime " .
+		" AND visitorid NOT IN (SELECT visitorid FROM {chatsitevisitor})",
+		array(
+			':lifetime' => Settings::get('tracking_lifetime'),
+			':now' => time()
+		)
+	);
+}
+
+
 ?>

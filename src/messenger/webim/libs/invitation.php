@@ -82,4 +82,22 @@ function invitation_accept($visitorid, $threadid)
 	}
 }
 
+/**
+ * Close old invitations
+ */
+function invitation_close_old() {
+	$db = Database::getInstance();
+
+	// Remove old invitations
+	$db->query(
+		"UPDATE {chatsitevisitor} SET invited = 0, " .
+			"invitationtime = NULL, invitedby = NULL".
+		" WHERE threadid IS NULL AND (:now - invitationtime) > :lifetime",
+		array(
+			':lifetime' => Settings::get('invitation_lifetime'),
+			':now' => time()
+		)
+	);
+}
+
 ?>
