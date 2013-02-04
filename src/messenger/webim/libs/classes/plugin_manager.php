@@ -146,7 +146,6 @@ Class PluginManager {
 		uksort($loading_queue, 'strnatcmp');
 		// Add events and listeners
 		foreach ($loading_queue as $plugin) {
-			$plugin->registerEvents();
 			$plugin->registerListeners();
 		}
 	}

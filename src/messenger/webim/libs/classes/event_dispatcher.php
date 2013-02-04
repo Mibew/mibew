@@ -72,15 +72,14 @@ Class EventDispatcher {
 	 * @see Plugin::getWeight()
 	 */
 	public function attachListener($event_name, Plugin $plugin, $listener, $priority = null){
-		// Check event exists
-		if (! array_key_exists($event_name, $this->events)) {
-			trigger_error("Event '{$event_name}' does not exists!", E_USER_WARNING);
-			return false;
-		}
 		// Check method is callable
 		if (! is_callable(array($plugin, $listener))) {
 			trigger_error("Method '{$listener}' is not callable!", E_USER_WARNING);
 			return false;
+		}
+		// Create empty array for event listener if it not exists
+		if (! array_key_exists($event_name, $this->events)) {
+			$this->events[$event_name] = array();
 		}
 		// Check priority
 		if (is_null($priority)) {
@@ -106,7 +105,6 @@ Class EventDispatcher {
 	public function detachListener($event_name, Plugin $plugin, $listener){
 		// Check event exists
 		if (! array_key_exists($event_name, $this->events)) {
-			trigger_error("Event '{$event_name}' does not exists!", E_USER_WARNING);
 			return false;
 		}
 		// Search event and $plugin->$listener
@@ -121,23 +119,6 @@ Class EventDispatcher {
 	}
 
 	/**
-	 * Registers new event
-	 *
-	 * @param string $event_name Event's name
-	 * @return boolean true on success or false on failure
-	 */
-	public function registerEvent($event_name){
-		// Check event exists
-		if (array_key_exists($event_name, $this->events)) {
-			trigger_error("Event '{$event_name}' already exists!", E_USER_WARNING);
-			return false;
-		}
-		// register event
-		$this->events[$event_name] = array();
-		return true;
-	}
-
-	/**
 	 * Triggers the event
 	 *
 	 * @param string $event_name Event's name
@@ -145,10 +126,9 @@ Class EventDispatcher {
 	 * @return boolean true on success or false on failure
 	 */
 	public function triggerEvent($event_name, &$arguments = array()){
-		// Check event exists
+		// Check event listeners exists
 		if (! array_key_exists($event_name, $this->events)) {
-			trigger_error("Event '{$event_name}' does not exists!", E_USER_WARNING);
-			return false;
+			return true;
 		}
 		// Sorting listeners by priority
 		uksort($this->events[$event_name], 'strnatcmp');
@@ -158,6 +138,7 @@ Class EventDispatcher {
 			$listener = $event['listener'];
 			$plugin->$listener($arguments);
 		}
+		return true;
 	}
 
 }

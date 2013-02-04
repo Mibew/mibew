@@ -18,14 +18,16 @@
 /**
  * Incapsulates thread api and thread processing functions.
  *
- * Register events (see RequestProcessor::registerEvents() for details):
+ * Event triggered by the class (see description of the RequestProcessor class
+ * for details):
  *  - threadRequestReceived
  *  - threadReceiveRequestError
  *  - threadCallError
  *  - threadFunctionCall
  *
  * WARNING:
- *  threadResponseReceived registered but never called because of asynchronous nature of Core-to-Window interaction
+ *  threadResponseReceived registered but never called because of asynchronous
+ *  nature of Core-to-Window interaction
  *
  * Implements Singleton pattern
  */

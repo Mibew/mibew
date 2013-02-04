@@ -18,7 +18,8 @@
 /**
  * Incapsulates awaiting users list api related functions.
  *
- * Register events (see RequestProcessor::registerEvents() for details):
+ * Events triggered by the class (see description of the RequestProcessor class
+ * for details):
  *  - usersRequestReceived
  *  - usersReceiveRequestError
  *  - usersCallError

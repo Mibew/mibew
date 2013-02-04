@@ -42,11 +42,6 @@ abstract Class Plugin {
 	abstract public function getWeight();
 
 	/**
-	 * Register events
-	 */
-	abstract public function registerEvents();
-
-	/**
 	 * Register listeners
 	 *
 	 * Event listener take one argument by reference. For example:

@@ -19,13 +19,8 @@ Class RequestProcessorTestPlugin extends Plugin{
 		return 10;
 	}
 
-	public function registerEvents() {
-		$dispatcher = EventDispatcher::getInstance();
-		$dispatcher->registerEvent('testRequestProcessorCallback');
-	}
-
 	public function registerListeners() {
-		$registered_events = array(
+		$processor_events = array(
 			'testRequestReceived',
 			'testRequestError',
 			'testResponseReceived',
@@ -34,7 +29,7 @@ Class RequestProcessorTestPlugin extends Plugin{
 			'testRequestProcessorCallback'
 		);
 		$dispatcher = EventDispatcher::getInstance();
-		foreach ($registered_events as $event) {
+		foreach ($processor_events as $event) {
 			$dispatcher->attachListener($event, $this, $event);
 		}
 	}

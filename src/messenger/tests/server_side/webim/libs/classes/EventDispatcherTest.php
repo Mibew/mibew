@@ -31,37 +31,7 @@ class EventDispatcherTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * @depends testGetInstance
 	 */
-	public function testRegisterEvent($dispatcher) {
-		// Try to register new event
-		$this->assertTrue($dispatcher->registerEvent('some_test_event'));
-		$this->assertTrue($dispatcher->registerEvent('some_another_test_event'));
-
-		// Try to register already registered event
-		// Following code wait for trigger user error, which converts by PHPUnit to an
-		// Exception
-		try{
-			$dispatcher->registerEvent('some_test_event');
-			$this->fail("Error expected!");
-		} catch(Exception $e) {}
-		return $dispatcher;
-	}
-
-	/**
-	 * @depends testRegisterEvent
-	 */
 	public function testAttachListener($dispatcher) {
-		// Try to attach listener to unregistered event
-		// Following code wait for trigger user error, which converts by PHPUnit to an
-		// Exception
-		try{
-			$dispatcher->attachListener(
-				'unreginstered_event',
-				self::$plugin,
-				'testEventListener'
-			);
-			$this->fail("Error expected!");
-		} catch(Exception $e) {}
-
 		// Try to Attach wrong method as listener to event
 		// Following code wait for trigger user error, which converts by PHPUnit to an
 		// Exception
@@ -74,7 +44,7 @@ class EventDispatcherTest extends PHPUnit_Framework_TestCase {
 			$this->fail("Error expected!");
 		} catch(Exception $e) {}
 
-		// Try to attach listener to registered event
+		// Try to attach listener to event
 		$this->assertTrue(
 			$dispatcher->attachListener(
 				'some_test_event',
@@ -83,7 +53,7 @@ class EventDispatcherTest extends PHPUnit_Framework_TestCase {
 			)
 		);
 
-		// Try to attach listener to registered event
+		// Try to attach listener to event
 		$this->assertTrue(
 			$dispatcher->attachListener(
 				'some_another_test_event',
@@ -99,18 +69,6 @@ class EventDispatcherTest extends PHPUnit_Framework_TestCase {
 	 * @depends testAttachListener
 	 */
 	public function testDetachListener($dispatcher) {
-		// Try to detach listener for unregistered event.
-		// Following code wait for trigger user error, which converts by PHPUnit to an
-		// Exception
-		try{
-			$dispatcher->detachListener(
-				'unreginstered_event',
-				self::$plugin,
-				'testEventListener'
-			);
-			$this->fail("Error expected!");
-		} catch(Exception $e) {}
-
 		// Try to detach listner that was not attached to registerd event
 		$this->assertFalse(
 			$dispatcher->detachListener(
@@ -135,14 +93,6 @@ class EventDispatcherTest extends PHPUnit_Framework_TestCase {
 	 * @depends testDetachListener
 	 */
 	public function testTriggerEvent($dispatcher) {
-		// Try to trigger unregistered event
-		// Following code wait for trigger user error, which converts by PHPUnit to an
-		// Exception
-		try{
-			$dispatcher->triggerEvent('unregistered_event');
-			$this->fail("Error expected!");
-		} catch(Exception $e) {}
-
 		// Try to trigger registered event
 		$test_array = array();
 		$dispatcher->triggerEvent('some_another_test_event', $test_array);

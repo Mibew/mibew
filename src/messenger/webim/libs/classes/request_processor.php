@@ -18,7 +18,7 @@
 /**
  * Implements abstract class for request processing
  *
- * Register events (see RequestProcessor::registerEvents() for details):
+ * Following events can be triggered by the class:
  *  - <eventPrefix>RequestReceived
  *  - <eventPrefix>RequestError
  *  - <eventPrefix>ResponseReceived
@@ -27,8 +27,62 @@
  *
  * <eventPrefix> variable specifies in RequestProcessor::__construct()
  *
+ *
+ * Full description of triggered events:
+ *
+ * 1. "<eventPrefix>RequestReceived" - triggers when request decoded and
+ * validate successfully, before execution functions from request.
+ *
+ * An associative array passed to event handler have following keys:
+ *  - 'package' : decoded and validated package array. See Mibew API for details
+ * of the package structure
+ *
+ *
+ * 2. "<eventPrefix>RequestError" - triggers when error occurs during received
+ * request processing.
+ *
+ * An associative array passed to event handler have following keys:
+ *  - 'exception' : an object of Exception (or inherited) class related to
+ * occurred error.
+ *
+ *
+ * 3. "<eventPrefix>ResponseReceived" - triggers when request sent successfully,
+ * and response received.
+ *
+ * An associative array passed to event handler have following keys:
+ *  - 'package' : decoded and validated response package array. See Mibew API
+ * for details of the package structure.
+ *
+ *
+ * 4. "<eventPrefix>CallError" - triggers when error occurs in
+ * call() method.
+ *
+ * An associative array passed to event handler have following keys:
+ *  - 'exception' : an object of Exception (or inherited) class related to
+ * occurred error.
+ *
+ *
+ * 5. "<eventPrefix>FunctionCall" - triggers when function from request calls.
+ *
+ * An associative array passed to event handler is 'function' array. See Mibew
+ * API for detail of the 'function' array structure.
+ *
+ * If function wants to return some results, it should add results to the
+ * 'results' element of the function array.
+ *
+ * Example of the event handler:
+ * <code>
+ * public function callHandler(&$function) {
+ *	if ($function['function'] == 'microtime') {
+ *		$as_float = empty($function['arguments']['as_float'])
+ *			? false
+ *			: $function['arguments']['as_float'];
+ *		$function['results']['time'] = microtime($as_float);
+ *	}
+ * }
+ * </code>
+ *
  * @see RequestProcessor::__construct()
- * @see RequestProcessor::registerEvents()
  */
 abstract class RequestProcessor {
 
@@ -39,7 +93,7 @@ abstract class RequestProcessor {
 	protected $mibewAPI = null;
 
 	/**
-	 * Prefix that uses for all registered by the class events.
+	 * Prefix that uses for all events triggered by the class.
 	 * @var string
 	 */
 	protected $eventPrefix = '';
@@ -65,8 +119,9 @@ abstract class RequestProcessor {
 	 *  - 'trusted_signatures': array of trusted signatures. Uses for identify another
 	 *    side of interaction.
 	 * And may contains following (if not default values will be used)
-	 *  - 'event_prefix': prefix that uses for all registered by the class events. The default value is the class
-	 *    name with first character in lower case
+	 *  - 'event_prefix': prefix that uses for all events triggered by the
+	 *    class. The default value is the class name with first character in
+	 *    lower case
 	 */
 	public function __construct($config) {
 		// Check signature
@@ -90,9 +145,6 @@ abstract class RequestProcessor {
 
 		// Store config
 		$this->config = $config;
-
-		// Register Events
-		$this->registerEvents();
 	}
 
 	/**
@@ -261,70 +313,6 @@ abstract class RequestProcessor {
 	}
 
 	/**
-	 * Register events
-	 *
-	 * Registered Events:
-	 *
-	 * 1. "<eventPrefix>RequestReceived" - triggers when request decoded and validate
-	 * successfully, before execution functions from request.
-	 *
-	 * An associative array passed to event handler have following keys:
-	 *  - 'package' : decoded and validated package array. See Mibew API for details of the
-	 *    package structure
-	 *
-	 *
-	 * 2. "<eventPrefix>RequestError" - triggers when error occurs during received
-	 * request processing.
-	 *
-	 * An associative array passed to event handler have following keys:
-	 *  - 'exception' : an object of Exception (or inherited) class related to occurred error.
-	 *
-	 *
-	 * 3. "<eventPrefix>ResponseReceived" - triggers when request sent successfully, and
-	 * response received.
-	 *
-	 * An associative array passed to event handler have following keys:
-	 *  - 'package' : decoded and validated response package array. See Mibew API for details of
-	 *    the package structure.
-	 *
-	 *
-	 * 4. "<eventPrefix>CallError" - triggers when error occurs in
-	 * call() method.
-	 *
-	 * An associative array passed to event handler have following keys:
-	 *  - 'exception' : an object of Exception (or inherited) class related to occurred error.
-	 *
-	 *
-	 * 5. "<eventPrefix>FunctionCall" - triggers when function from request calls.
-	 *
-	 * An associative array passed to event handler is 'function' array. See Mibew API for
-	 * detail of the 'function' array structure.
-	 *
-	 * If function wants to return some results, it should add results to the 'results' element
-	 * of the function array.
-	 *
-	 * Example of the event handler:
-	 * <code>
-	 * public function callHandler(&$function) {
-	 *	if ($function['function'] == 'microtime') {
-	 *		$as_float = empty($function['arguments']['as_float'])
-	 *			? false
-	 *			: $function['arguments']['as_float'];
-	 *		$function['results']['time'] = microtime($as_float);
-	 *	}
-	 * }
-	 * </code>
-	 */
-	protected function registerEvents() {
-		$dispatcher = EventDispatcher::getInstance();
-		$dispatcher->registerEvent($this->eventPrefix . 'RequestReceived');
-		$dispatcher->registerEvent($this->eventPrefix . 'RequestError');
-		$dispatcher->registerEvent($this->eventPrefix . 'ResponseReceived');
-		$dispatcher->registerEvent($this->eventPrefix . 'CallError');
-		$dispatcher->registerEvent($this->eventPrefix . 'FunctionCall');
-	}
-
-	/**
 	 * Process request
 	 *
 	 * @param array $request 'Requests' array. See Mibew API for details.
@@ -460,7 +448,6 @@ abstract class RequestProcessor {
 	 * It calls before '<eventPrefix>FunctionCall' event triggers.
 	 *
 	 * @param array &$func Function array equals to array, passed to the '<eventPrefix>FunctionCall' event.
-	 * @see RequestProcessor::registerEvents()
 	 * @todo Create some unit tests
 	 */
 	protected function processorCall(&$func) {
