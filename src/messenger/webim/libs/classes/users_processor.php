@@ -114,7 +114,7 @@ class UsersProcessor extends ClientSideProcessor {
 		$operator = get_logged_in();
 		if (!$operator) {
 			throw new UsersProcessorException(
-				getstring("agent.not_logged_in"),
+				"Operator not logged in!",
 				UsersProcessorException::ERROR_AGENT_NOT_LOGGED_IN
 			);
 		}
