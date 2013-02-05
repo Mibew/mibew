@@ -154,6 +154,15 @@
                     // Play sound
                     Mibew.Objects.Models.sound.play(path);
                 }
+
+                // Show popup notification if need
+                if (Mibew.Objects.Models.page.get('showPopup')) {
+                    this.once('render', function() {
+                        alert(
+                            Mibew.Localization.get('pending.popup_notification')
+                        );
+                    })
+                }
             },
 
             /**

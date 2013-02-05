@@ -102,6 +102,7 @@ function tpl_header() { global $page, $webimroot;
 			page: {
 				showOnlineOperators: <?php echo($page['showonline']?'true':'false'); ?>,
 				showVisitors: <?php echo ($page['showvisitors']?'true':'false'); ?>,
+				showPopup: <?php echo($page['showpopup']?'true':'false')?>,
 
 				threadTag: "<?php echo $page['coreStyles.threadTag']; ?>",
 				visitorTag: "<?php echo $page['coreStyles.visitorTag']; ?>",
