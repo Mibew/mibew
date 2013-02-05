@@ -22,6 +22,11 @@ $page['menuid'] = "users";
 
 function tpl_header() { global $page, $webimroot;
 ?>
+
+<!-- Plugins CSS files -->
+<?php echo $page['additional_css']; ?>
+
+
 <!-- External libs -->
 <script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/json2.js"></script>
@@ -35,6 +40,11 @@ function tpl_header() { global $page, $webimroot;
 <script type="text/javascript" src="<?php echo $webimroot ?>/js/compiled/default_app.js"></script>
 <script type="text/javascript" src="<?php echo $webimroot ?>/js/compiled/users_app.js"></script>
 
+<!-- Plugins JavaScript files -->
+<?php echo $page['additional_js']; ?>
+
+
+<!-- Localization constants -->
 <script type="text/javascript"><!--
 	Mibew.Localization.set({
 		'pending.table.speak': "<?php echo getlocal('pending.table.speak') ?>",
@@ -108,7 +118,8 @@ function tpl_header() { global $page, $webimroot;
 				trackedVisitorWindowParams: "<?php echo $page['coreStyles.trackedVisitorWindowParams']; ?>",
 				banWindowParams: "<?php echo $page['coreStyles.banWindowParams']; ?>",
 				inviteWindowParams: "<?php echo $page['coreStyles.inviteWindowParams']; ?>"
-			}
+			},
+			plugins: <?php echo $page['js_plugin_options']; ?>
 		});
 	});
 //--></script>
