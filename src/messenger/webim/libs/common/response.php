@@ -65,78 +65,98 @@ function topage($text)
 }
 
 /**
- * Load additional CSS files, required by plugins, and build HTML code to include them
+ * Load additional CSS files, required by plugins, and build HTML code to
+ * include them
+ *
+ * Triggers 'pageAddCSS' and pass listeners associative array with
+ * following keys:
+ *  - 'page': string, name of page to which CSS files will be attached.
+ *  - 'js': array, with CSS files paths. Modify this array to add or remove
+ *    additional CSS files.
  *
  * @param string $page_name CSS files load to this page
  * @return string HTML block of 'link' tags
  */
 function get_additional_css($page_name) {
-	$method = $page_name . 'AddCss';
-	$plugins = PluginManager::getAllPlugins();
+	// Prepare event arguments array
+	$args = array(
+		'page' => $page_name,
+		'css' => array()
+	);
+
+	// Trigger event
+	$dispatcher = EventDispatcher::getInstance();
+	$dispatcher->triggerEvent('pageAddCSS', $args);
+
+	// Build resulting css list
 	$result = array();
-	// Check all plugins
-	foreach ($plugins as $plugin) {
-		if (is_callable(array($plugin, $method))) {
-			// Try to invoke '<$page_name>AddCss' method
-			$css_list = $plugin->$method();
-			foreach ($css_list as $css) {
-				// Add script tag for each javascript file
-				$result[] = '<link rel="stylesheet" type="text/css" href="' . $css . '">';
-			}
-		}
+	foreach($args['css'] as $css) {
+		$result[] = '<link rel="stylesheet" type="text/css" href="'.$css.'">';
 	}
+
 	return implode("\n", $result);
 }
 
 /**
- * Load additional JavaScript files, required by plugins, and build HTML code to include them
+ * Load additional JavaScript files, required by plugins, and build HTML code
+ * to include them
+ *
+ * Triggers 'pageAddJS' and pass listeners associative array with
+ * following keys:
+ *  - 'page': string, name of page to which JavaScript files will be attached.
+ *  - 'js': array, with JavaScript files paths. Modify this array to add or
+ *    remove additional JavaScript files.
  *
  * @param string $page_name JavaScript files load to this page
  * @return string HTML block of 'script' tags
  */
 function get_additional_js($page_name) {
-	$method = $page_name . 'AddJs';
-	$plugins = PluginManager::getAllPlugins();
+	// Prepare event arguments array
+	$args = array(
+		'page' => $page_name,
+		'js' => array()
+	);
+
+	// Trigger event
+	$dispatcher = EventDispatcher::getInstance();
+	$dispatcher->triggerEvent('pageAddJS', $args);
+
+	// Build resulting css list
 	$result = array();
-	// Check all plugins
-	foreach ($plugins as $plugin) {
-		if (is_callable(array($plugin, $method))) {
-			// Try to invoke '<$page_name>AddJs' method
-			$js_list = $plugin->$method();
-			foreach ($js_list as $js) {
-				// Add script tag for each javascript file
-				$result[] = '<script type="text/javascript" src="' . $js . '"></script>';
-			}
-		}
+	foreach($args['js'] as $js) {
+		$result[] = '<script type="text/javascript" src="'.$js.'"></script>';
 	}
+
 	return implode("\n", $result);
 }
 
+
 /**
- * Build Javascript code that contains initializing options for JavaScript plugins
+ * Build Javascript code that contains initializing options for JavaScript
+ * plugins
+ *
+ * Triggers 'pageAddJSPluginOptions' and pass listeners associative array with
+ * following keys:
+ *  - 'page': string, name of page at which plugins will work.
+ *  - 'plugins': associative array, whose keys are plugins names and values are
+ *    plugins options. Modify this array to add or change plugins options
  *
  * @param string $page_name Plugins initialize at this page
  * @return string JavaScript options block
  */
 function get_js_plugin_options($page_name) {
-	$method = $page_name . 'AddJsPluginOptions';
-	$plugins = PluginManager::getAllPlugins();
-	$result = array();
-	// Check all plugins
-	foreach ($plugins as $plugin) {
-		if (is_callable(array($plugin, $method))) {
-			// Try to invoke '<$page_name>AddJsPluginOptions' method
-			$js_plugins = $plugin->$method();
-			foreach ($js_plugins as $js_plugin => $js_options) {
-				// Add plugin's initialization options code
-				if (empty($result[$js_plugin])) {
-					$result[$js_plugin] = array();
-				}
-				$result[$js_plugin] = array_merge($result[$js_plugin], $js_options);
-			}
-		}
-	}
-	return json_encode($result);
+	// Prepare event arguments array
+	$args = array(
+		'page' => $page_name,
+		'plugins' => array()
+	);
+
+	// Trigger event
+	$dispatcher = EventDispatcher::getInstance();
+	$dispatcher->triggerEvent('pageAddJSPluginOptions', $args);
+
+	// Return encoded options
+	return json_encode($args['plugins']);
 }
 
 function no_field($key)
