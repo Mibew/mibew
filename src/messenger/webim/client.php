@@ -176,9 +176,9 @@ if( $pparam == "mailthread" ) {
 	expand("styles/dialogs", getchatstyle(), "mail.tpl");
 } else if( $level == "ajaxed" ) {
 	// Load JavaScript plugins and JavaScripts, CSS files required by them
-	$page['additional_css'] = get_additional_css('chatWindow');
-	$page['additional_js'] = get_additional_js('chatWindow');
-	$page['js_plugin_options'] = get_js_plugin_options('chatWindow');
+	$page['additional_css'] = get_additional_css('client_chat_window');
+	$page['additional_js'] = get_additional_js('client_chat_window');
+	$page['js_plugin_options'] = get_js_plugin_options('client_chat_window');
 	// Expand page
 	expand("styles/dialogs", getchatstyle(), "chat.tpl");
 } else if( $level == "old" ) {
