@@ -216,29 +216,6 @@ class ThreadProcessor extends ClientSideProcessor {
 	protected function sendMessages(Thread $thread, $is_user, $last_message_id) {
 		$messages = $thread->getMessages($is_user, $last_message_id);
 		if (! empty($messages)) {
-			foreach($messages as $key => $msg) {
-				// Check if message is avatar
-				if ($msg['kind'] == Thread::KIND_AVATAR) {
-					// Update avatar
-					$this->responses[] = array(
-						'token' => md5(time() . rand()),
-						'functions' => array(
-							array(
-								'function' => 'setupAvatar',
-								'arguments' => array(
-									'threadId' => $thread->id,
-									'token' => $thread->lastToken,
-									'return' => array(),
-									'references' => array(),
-									'imageLink' => $msg['message']
-								)
-							)
-						)
-					);
-					unset($messages[$key]);
-					continue;
-				}
-			}
 			// Send messages
 			$this->responses[] = array(
 				'token' => md5(time() . rand()),

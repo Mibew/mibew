@@ -53,13 +53,7 @@ if (isset($_GET['threadid'])) {
 	// Build messages list
 	$lastid = -1;
 	$messages = $thread_info['thread']->getMessages(false, $lastid);
-	$result = array();
-	foreach ($messages as $msg) {
-		if ($msg['kind'] != Thread::KIND_AVATAR) {
-			$result[] = $msg;
-		}
-	}
-	$page['threadMessages'] = json_encode($result);
+	$page['threadMessages'] = json_encode($messages);
 }
 
 prepare_menu($operator, false);

@@ -17,6 +17,13 @@
 
 require_once(dirname(__FILE__).'/track.php');
 require_once(dirname(__FILE__).'/classes/thread.php');
+require_once(dirname(__FILE__).'/classes/mibew_api.php');
+require_once(dirname(__FILE__).'/classes/mibew_api_interaction.php');
+require_once(dirname(__FILE__).'/classes/mibew_api_chat_interaction.php');
+require_once(dirname(__FILE__).'/classes/mibew_api_execution_context.php');
+require_once(dirname(__FILE__).'/classes/request_processor.php');
+require_once(dirname(__FILE__).'/classes/client_side_processor.php');
+require_once(dirname(__FILE__).'/classes/thread_processor.php');
 
 $namecookie = "WEBIM_Data";
 $usercookie = "WEBIM_UserID";
@@ -28,9 +35,6 @@ function get_user_id()
 
 function message_to_text($msg)
 {
-	if ($msg['kind'] == Thread::KIND_AVATAR) {
-		return "";
-	}
 	$message_time = date("H:i:s ", $msg['created']);
 	if ($msg['kind'] == Thread::KIND_USER || $msg['kind'] == Thread::KIND_AGENT) {
 		if ($msg['name'])

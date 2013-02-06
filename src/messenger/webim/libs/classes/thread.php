@@ -71,10 +71,6 @@ Class Thread {
 	 * System message about some events (like rename).
 	 */
 	const KIND_EVENTS = 6;
-	/**
-	 * Message with operators avatar
-	 */
-	const KIND_AVATAR = 7;
 
 	/**
 	 * Messaging window connection timeout.
@@ -601,7 +597,9 @@ Class Thread {
 
 			// Send messages
 			$this->postMessage(self::KIND_EVENTS, $message_to_post);
-			$this->postMessage(self::KIND_AVATAR, $operator['vcavatar'] ? $operator['vcavatar'] : "");
+			$this->setupAvatar(
+				$operator['vcavatar'] ? $operator['vcavatar'] : ""
+			);
 		}
 	}
 
@@ -662,7 +660,6 @@ Class Thread {
 	 * @see Thread::KIND_INFO
 	 * @see Thread::KIND_CONN
 	 * @see Thread::KIND_EVENTS
-	 * @see Thread::KIND_AVATAR
 	 * @see Thread::getMessages()
 	 */
 	public function postMessage($kind, $message, $from = null, $opid = null, $time = null) {
@@ -783,7 +780,9 @@ Class Thread {
 		// Send message
 		if ($message) {
 			$this->postMessage(self::KIND_EVENTS, $message);
-			$this->postMessage(self::KIND_AVATAR, $operator['vcavatar'] ? $operator['vcavatar'] : "");
+			$this->setupAvatar(
+				$operator['vcavatar'] ? $operator['vcavatar'] : ""
+			);
 		}
 		return true;
 	}
@@ -810,6 +809,27 @@ Class Thread {
 			);
 			$this->postMessage(self::KIND_EVENTS, $message);
 		}
+	}
+
+	/**
+	 * Set operator avatar in the user's chat window
+	 * @param string $link URL of the new operator avatar
+	 */
+	protected function setupAvatar($link) {
+		$processor = ThreadProcessor::getInstance();
+		$processor->call(array(
+			array(
+				'function' => 'setupAvatar',
+				'arguments' => array(
+					'threadId' => $this->id,
+					'token' => $this->lastToken,
+					'return' => array(),
+					'references' => array(),
+					'recipient' => 'user',
+					'imageLink' => $link
+				)
+			)
+		));
 	}
 }
 

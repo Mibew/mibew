@@ -43,14 +43,7 @@
             KIND_CONN: 5,
 
             /** System message about some events (like rename). */
-            KIND_EVENTS: 6,
-
-            /**
-             * Message with operators avatar
-             *
-             * This kind of message leaved only for compatibility with core
-             */
-            KIND_AVATAR: 7
+            KIND_EVENTS: 6
 
             /** End of message kind constants */
         }

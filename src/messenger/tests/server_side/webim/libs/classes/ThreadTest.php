@@ -2,6 +2,7 @@
 
 require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/thread.php';
 require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/database.php';
+require_once dirname(__FILE__) . '/thread_processor_mock.php';
 require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/settings.php';
 require_once dirname(__FILE__) . '/../../../../../webim/libs/common/locale.php';
 require_once dirname(__FILE__) . '/../config.php';
@@ -759,8 +760,8 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(Thread::STATE_CHATTING, $thread_info['istate']);
 		$this->assertEquals(Thread::STATE_CHATTING, $thread->state);
 
-		// Check sent messages
-		$this->assertEquals(2, $this->_helper_getTotalMessagesCount($last_msg_id));
+		// Check sent message
+		$this->assertEquals(1, $this->_helper_getTotalMessagesCount($last_msg_id));
 
 		// Check messages text:
 		// Thread::KIND_EVENTS message
@@ -770,10 +771,6 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 			$last_msg_id
 		);
 		$this->assertEquals(1, $message_count);
-		// Thread::KIND_AVATAR message
-		$message_count = $this->_helper_getMessagesCount(Thread::KIND_AVATAR, 'avatar', $last_msg_id);
-		$this->assertEquals(1, $message_count);
-
 
 		// Update last message id
 		$last_msg_id = $this->_helper_getLastMessageId();
@@ -1141,8 +1138,8 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 		// Check chat started time
 		$this->assertFalse(empty($thread->chatStarted));
 		$this->assertFalse(empty($thread_info['dtmchatstarted']));
-		// Two messages must be sent
-		$this->assertEquals(2, $this->_helper_getTotalMessagesCount($last_msg_id));
+		// One messages must be sent
+		$this->assertEquals(1, $this->_helper_getTotalMessagesCount($last_msg_id));
 		// Check messages text
 		$message_count = $this->_helper_getMessagesCount(
 			Thread::KIND_EVENTS,
@@ -1154,13 +1151,6 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 			$last_msg_id
 		);
 		$this->assertEquals(1, $message_count);
-		$message_count = $this->_helper_getMessagesCount(
-			Thread::KIND_AVATAR,
-			$operator['vcavatar'],
-			$last_msg_id
-		);
-		$this->assertEquals(1, $message_count);
-
 
 		// Get last message id
 		$last_msg_id = $this->_helper_getLastMessageId();
@@ -1178,8 +1168,8 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 		// Check agent id
 		$this->assertEquals(2, $thread->agentId);
 		$this->assertEquals(2, $thread_info['agentId']);
-		// Two messages must be sent
-		$this->assertEquals(2, $this->_helper_getTotalMessagesCount($last_msg_id));
+		// One message must be sent
+		$this->assertEquals(1, $this->_helper_getTotalMessagesCount($last_msg_id));
 		// Check messages text
 		$message_count = $this->_helper_getMessagesCount(
 			Thread::KIND_EVENTS,
@@ -1187,13 +1177,6 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 			$last_msg_id
 		);
 		$this->assertEquals(1, $message_count);
-		$message_count = $this->_helper_getMessagesCount(
-			Thread::KIND_AVATAR,
-			$operator['vcavatar'],
-			$last_msg_id
-		);
-		$this->assertEquals(1, $message_count);
-
 
 		// Get last message id
 		$last_msg_id = $this->_helper_getLastMessageId();
@@ -1210,8 +1193,8 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 		// Check thread state
 		$this->assertEquals(Thread::STATE_CHATTING, $thread->state);
 		$this->assertEquals(Thread::STATE_CHATTING, $thread_info['istate']);
-		// Two messages must be sent
-		$this->assertEquals(2, $this->_helper_getTotalMessagesCount($last_msg_id));
+		// One message must be sent
+		$this->assertEquals(1, $this->_helper_getTotalMessagesCount($last_msg_id));
 		// Check messages text
 		$message_count = $this->_helper_getMessagesCount(
 			Thread::KIND_EVENTS,
@@ -1220,12 +1203,6 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 				array($operator['vclocalename'], 'Agent'),
 				$thread->locale
 			),
-			$last_msg_id
-		);
-		$this->assertEquals(1, $message_count);
-		$message_count = $this->_helper_getMessagesCount(
-			Thread::KIND_AVATAR,
-			$operator['vcavatar'],
 			$last_msg_id
 		);
 		$this->assertEquals(1, $message_count);
@@ -1244,8 +1221,8 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 		// Check thread state
 		$this->assertEquals(Thread::STATE_CHATTING, $thread->state);
 		$this->assertEquals(Thread::STATE_CHATTING, $thread_info['istate']);
-		// Two messages must be sent
-		$this->assertEquals(2, $this->_helper_getTotalMessagesCount($last_msg_id));
+		// One message must be sent
+		$this->assertEquals(1, $this->_helper_getTotalMessagesCount($last_msg_id));
 		// Check messages text
 		$message_count = $this->_helper_getMessagesCount(
 			Thread::KIND_EVENTS,
@@ -1253,13 +1230,6 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 			$last_msg_id
 		);
 		$this->assertEquals(1, $message_count);
-		$message_count = $this->_helper_getMessagesCount(
-			Thread::KIND_AVATAR,
-			$operator['vcavatar'],
-			$last_msg_id
-		);
-		$this->assertEquals(1, $message_count);
-
 
 		// Delete thread
 		$thread->delete();
