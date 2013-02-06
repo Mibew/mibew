@@ -169,8 +169,56 @@
         }));
 
 
-        // Run server updater
-        objs.server.runUpdater();
+        // TODO: May be move it somewhere else
+        // Periodically call update function at the server side
+        objs.server.callFunctionsPeriodically(
+            function() {
+                // Get thread and user objects
+                var thread = Mibew.Objects.Models.thread;
+                var user = Mibew.Objects.Models.user;
+
+                // Build functions list
+                return [
+                    {
+                        "function": "update",
+                        "arguments": {
+                            "return": {
+                                'typing': 'typing',
+                                'canPost': 'canPost'
+                            },
+                            "references": {},
+                            "threadId": thread.get('id'),
+                            "token": thread.get('token'),
+                            "lastId": thread.get('lastId'),
+                            "typed": user.get('typing'),
+                            "user": (! user.get('isAgent'))
+                        }
+                    }
+                ]
+            },
+            function(args) {
+                // Check if there was an error
+                if (args.errorCode) {
+                    Mibew.Objects.Models.Status.message.setMessage(
+                        args.errorMessage || 'refresh failed'
+                    );
+                    return;
+                }
+                // Update typing status
+                if (args.typing) {
+                    Mibew.Objects.Models.Status.typing.show();
+                }
+                // Update user
+                Mibew.Objects.Models.user.set({
+                    canPost: args.canPost || false
+                });
+            }
+        );
+    });
+
+    App.on('start', function() {
+        // Run Server updater
+        Mibew.Objects.server.runUpdater();
     });
 
     Mibew.Application = App;

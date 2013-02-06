@@ -24,25 +24,18 @@
              * Collection initializer.
              */
             initialize: function() {
-                // Add periodic functions
+                // Periodically try to get new messages
                 Mibew.Objects.server.callFunctionsPeriodically(
-                    _.bind(this.updateFunctionBuilder, this),
-                    _.bind(this.updateChatState, this)
-                );
-
-                // Register API functions
-                Mibew.Objects.server.registerFunction(
-                    'updateMessages',
-                    _.bind(this.apiUpdateMessages, this)
+                    _.bind(this.updateMessagesFunctionBuilder, this),
+                    _.bind(this.updateMessages, this)
                 );
             },
 
             /**
              * Update messages if they are exist.
-             * This is an API function.
              * @param args {Object} An object of passed arguments
              */
-            apiUpdateMessages: function(args) {
+            updateMessages: function(args) {
 
                 // Update last message id
                 if (args.lastId) {
@@ -66,11 +59,11 @@
             },
 
             /**
-             * Builds update function, that should be called periodically at
-             * the server side
+             * Builds updateMessages function, that should be called
+             * periodically at the server side
              * @returns {Object[]} Array of functions objects
              */
-            updateFunctionBuilder: function() {
+            updateMessagesFunctionBuilder: function() {
                 // Get thread and user objects
                 var thread = Mibew.Objects.Models.thread;
                 var user = Mibew.Objects.Models.user;
@@ -78,43 +71,20 @@
                 // Build functions list
                 return [
                     {
-                        "function": "update",
+                        "function": "updateMessages",
                         "arguments": {
                             "return": {
-                                'typing': 'typing',
-                                'canPost': 'canPost'
+                                'messages': 'messages',
+                                'lastId': 'lastId'
                             },
                             "references": {},
                             "threadId": thread.get('id'),
                             "token": thread.get('token'),
                             "lastId": thread.get('lastId'),
-                            "typed": user.get('typing'),
                             "user": (! user.get('isAgent'))
                         }
                     }
                 ];
-            },
-
-            /**
-             * Updates chat status
-             * @param {Object} args Arguments passed from the server
-             */
-            updateChatState: function(args) {
-                // Check if there was an error
-                if (args.errorCode) {
-                    Mibew.Objects.Models.Status.message.setMessage(
-                        args.errorMessage || 'refresh failed'
-                    );
-                    return;
-                }
-                // Update typing status
-                if (args.typing) {
-                    Mibew.Objects.Models.Status.typing.show();
-                }
-                // Update user
-                Mibew.Objects.Models.user.set({
-                    canPost: args.canPost || false
-                });
             },
 
             /**

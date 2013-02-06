@@ -204,39 +204,6 @@ class ThreadProcessor extends ClientSideProcessor {
 	}
 
 	/**
-	 * Send new messages to window
-	 *
-	 * Call updateMessages at window side
-	 *
-	 * @global string $webim_encoding
-	 * @param Thread $thread Messages sends to this thread
-	 * @param boolead $is_user TRUE if messages sends to user and FALSE otherwise
-	 * @param int $last_message_id Id of the last sent message
-	 */
-	protected function sendMessages(Thread $thread, $is_user, $last_message_id) {
-		$messages = $thread->getMessages($is_user, $last_message_id);
-		if (! empty($messages)) {
-			// Send messages
-			$this->responses[] = array(
-				'token' => md5(time() . rand()),
-				'functions' => array(
-					array(
-						'function' => 'updateMessages',
-						'arguments' => array(
-							'threadId' => $thread->id,
-							'token' => $thread->lastToken,
-							'return' => array(),
-							'references' => array(),
-							'messages' => $messages,
-							'lastId' => $last_message_id
-						)
-					)
-				)
-			);
-		}
-	}
-
-	/**
 	 * Update chat window state. API function
 	 *
 	 * Call periodically by chat window
@@ -255,7 +222,7 @@ class ThreadProcessor extends ClientSideProcessor {
 		$thread = self::getThread($args['threadId'], $args['token']);
 
 		// Check variables
-		self::checkParams($args, array('user', 'typed', 'lastId'));
+		self::checkParams($args, array('user', 'typed'));
 
 		if (! $args['user']) {
 			$operator = self::checkOperator();
@@ -263,9 +230,6 @@ class ThreadProcessor extends ClientSideProcessor {
 		}
 
 		$thread->ping($args['user'], $args['typed']);
-
-		// Update messages
-		$this->sendMessages($thread, $args['user'], $args['lastId']);
 
 		// Create requests key
 		$requests_key = false;
@@ -296,6 +260,40 @@ class ThreadProcessor extends ClientSideProcessor {
 		return array(
 			'typing' => $is_typing,
 			'canPost' => $can_post
+		);
+	}
+
+	/**
+	 * Send new messages to window. API function
+	 *
+	 * @param array $args Associative array of arguments. It must contains following keys:
+	 *  - 'threadId': Id of the thread related to chat window
+	 *  - 'token': last thread token
+	 *  - 'user': TRUE if window used by user and FALSE otherwise
+	 *  - 'lastId': last sent message id
+	 */
+	protected function apiUpdateMessages($args) {
+		// Load thread
+		$thread = self::getThread($args['threadId'], $args['token']);
+
+		// Check variables
+		self::checkParams($args, array('user', 'lastId'));
+
+		// Check access
+		if (! $args['user']) {
+			self::checkOperator();
+		}
+
+		// Send new messages
+		$last_message_id = $args['lastId'];
+		$messages = $thread->getMessages($args['user'], $last_message_id);
+		if (empty($messages)) {
+			$messages = array();
+		}
+
+		return array(
+			'messages' => $messages,
+			'lastId' => $last_message_id
 		);
 	}
 
