@@ -1,3 +1,5 @@
+Options -Indexes
+
 <IfModule mod_security.c>
 SecFilterEngine Off
 SecFilterScanPOST Off
