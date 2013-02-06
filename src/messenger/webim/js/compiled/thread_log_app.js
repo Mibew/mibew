@@ -1,4 +1,4 @@
-;/*
+/*
  This file is part of Mibew Messenger project.
  http://mibew.org
  Copyright (c) 2005-2011 Mibew Messenger Community

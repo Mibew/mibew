@@ -28,6 +28,8 @@
     <!-- Compile Handlebars templates for dialogs styles -->
     <target name="styles_handlebars">
         <echo>Compile Handlebars templates for dialogs styles</echo>
+
+        <!-- Compile templates -->
         <apply executable="handlebars">
             <arg value="-m"/>
             <arg value="-f"/>
@@ -35,8 +37,26 @@
             <dirset dir=".">
                 <include name="${dialogs_styles_path}/*/handlebars_templates" />
             </dirset>
-            <mapper type="glob" from="*/handlebars_templates" to="*/js/compiled/templates.js" />
+            <mapper type="glob" from="*/handlebars_templates" to="*/js/compiled/templates_tmp.js" />
         </apply>
+
+        <!-- Appent license info -->
+        <move todir="${dialogs_styles_path}" overwrite="true">
+            <fileset dir="${dialogs_styles_path}"/>
+            <mapper type="glob" from="*/js/compiled/templates_tmp.js" to="*/js/compiled/templates.js"/>
+
+            <filterchain>
+                <!-- Remove comments -->
+                <stripjavacomments />
+                <!-- Add header -->
+                <concatfilter prepend="compiled_templates_header.txt" />
+                <!-- Skip empty lines -->
+                <linecontainsregexp negate="true">
+                    <regexp pattern="^\s+$$" />
+                </linecontainsregexp>
+            </filterchain>
+        </move>
+
         <echo>Done</echo>
     </target>
 
@@ -137,29 +157,16 @@
     <target name="app_js" depends="core_handlebars">
         <echo>Build "${app_name}" JavaScript application</echo>
 
-        <!-- Initialization code goes first. Preserve header comment but strip
-             empty lines -->
+        <!-- Remove old application file -->
+        <delete file="${js_path}/compiled/${app_name}_app.js" />
+
+        <!-- Append application files to the result file -->
         <concat destfile="${js_path}/compiled/${app_name}_app.js" eol="lf">
             <!-- Append templates -->
             <filelist dir="${js_path}/templates/compiled" files="${app_name}_app.tpl.js" />
-            <!-- For some reasons handlebars do not add trailing semicolon.
-            Add it manually -->
-            <string>;</string>
 
             <!-- Append application static initialization code -->
             <filelist dir="${js_path}/compiled/${app_name}" files="init.js" />
-
-            <!-- Apply filters -->
-            <filterchain>
-                <!-- Skip empty lines -->
-                <linecontainsregexp negate="true">
-                    <regexp pattern="^\s+$$" />
-                </linecontainsregexp>
-            </filterchain>
-        </concat>
-
-        <!-- Append application files to the result file -->
-        <concat destfile="${js_path}/compiled/${app_name}_app.js" eol="lf" append="true">
 
             <!-- Include files from ${js_path}/compiled/${app_name}/ -->
             <fileset dir="${js_path}/compiled/${app_name}">
@@ -290,7 +297,7 @@
             <dirset dir=".">
                 <include name="${js_path}/templates/source/*" />
             </dirset>
-            <mapper type="regexp" from="^(.*)/source/(.*)$$" to="\1/compiled/\2_app.tpl.js" />
+            <mapper type="regexp" from="^(.*)/source/(.*)$$" to="\1/compiled/\2_app_tmp.tpl.js" />
         </apply>
 
         <!-- Build misc files -->
@@ -301,8 +308,31 @@
             <fileset dir=".">
                 <include name="${js_path}/templates/source/*.handlebars" />
             </fileset>
-            <mapper type="regexp" from="^(.*)/source/(.*)\.handlebars$$" to="\1/compiled/\2.tpl.js" />
+            <mapper type="regexp" from="^(.*)/source/(.*)\.handlebars$$" to="\1/compiled/\2_tmp.tpl.js" />
         </apply>
+
+        <!-- Add licanse info -->
+        <move todir="${js_path}/templates/compiled" overwrite="true">
+            <fileset dir="${js_path}/templates/compiled">
+                <include name="*_tmp.tpl.js" />
+            </fileset>
+            <mapper type="glob" from="*_tmp.tpl.js" to="*.tpl.js"/>
+
+            <filterchain>
+                <!-- Remove comments -->
+                <stripjavacomments />
+                <!-- For some reasons handlebars do not add trailing semicolon.
+                Assume that where is only one line in file and add semicolon
+                manually -->
+                <suffixlines suffix=";" />
+                <!-- Add header -->
+                <concatfilter prepend="compiled_templates_header.txt" />
+                <!-- Skip empty lines -->
+                <linecontainsregexp negate="true">
+                    <regexp pattern="^\s+$$" />
+                </linecontainsregexp>
+            </filterchain>
+        </move>
 
         <echo>Done</echo>
     </target>
