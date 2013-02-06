@@ -40,30 +40,13 @@ function tpl_content() { global $page, $webimroot;
 				<select name="preview" onchange="this.form.submit();"><?php foreach($page['availablePreviews'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("preview") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			</div>
 		</div>
-		<div class="field">
-			<div class="flabel"><?php echo getlocal("page.preview.choosetpl") ?></div>
-			<div class="fvaluenodesc">
-				<select name="template" onchange="this.form.submit();"><?php foreach($page['availableTemplates'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("template") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
-			</div>
-		</div>
-<?php if( $page['canshowerrors'] ) { ?>
-		<div class="field">
-			<div class="flabel"><?php echo getlocal("page.preview.showerr") ?></div>
-			<div class="fvaluenodesc">
-				<input type="checkbox" name="showerr" value="on"<?php echo form_value_cb('showerr') ? " checked=\"checked\"" : "" ?> onchange="this.form.submit();"/>
-			</div>
-		</div>
-<?php } ?>
-<?php foreach( $page['previewList'] as $pp ) { ?>
+<?php foreach($page['screenshotsList'] as $screenshot) { ?>
 		<div class="field">
 			<div class="flabel">
-			<?php echo htmlspecialchars($pp['label']) ?>
-			<a href="<?php echo $page['showlink'] ?><?php echo $pp['id'] ?>" target="_blank" title="in separate window" onclick="this.newWindow = window.open('<?php echo $page['showlink'] ?><?php echo $pp['id'] ?>', '<?php echo $pp['id'] ?>', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=<?php echo $pp['w'] ?>,height=<?php echo $pp['h'] ?>,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">link</a>
+				<?php echo($screenshot['description']); ?>
 			</div>
 			<div class="fvalueframe">
-			<iframe id="sample<?php echo $pp['id'] ?>" width="<?php echo $pp['w'] ?>" height="<?php echo $pp['h'] ?>" src="<?php echo $page['showlink'] ?><?php echo $pp['id'] ?>" frameborder="0" scrolling="no">
-				No iframes
-			</iframe>
+				<img class="screenshot" alt="<?php echo($screenshot['name']); ?>" src="<?php echo($screenshot['file']); ?>" />
 			</div>
 		</div>
 <?php } ?>

@@ -30,97 +30,25 @@ $stylelist = get_style_list("../styles/dialogs");
 
 $preview = verifyparam("preview", "/^\w+$/", "default");
 if (!in_array($preview, $stylelist)) {
-	$preview = $stylelist[0];
+	$style_names = array_keys($stylelist);
+	$preview = $stylelist[$style_names[0]];
 }
 
-$show = verifyparam("show", "/^(chat|nochat|mail|mailsent|survey|leavemessage|leavemessagesent|redirect|redirected|agentchat|agentrochat|error)$/", "");
-$showerrors = verifyparam("showerr", "/^on$/", "") == "on";
-$errors = array();
-if ($showerrors || $show == 'error') {
-	$errors[] = "Test error";
-}
+$style_config = get_dialogs_style_config($preview);
 
-if ($show == 'chat' || $show == 'mail' || $show == 'leavemessage' || $show == 'leavemessagesent' || $show == 'nochat') {
-	setup_chatview_for_user(array('threadid' => 0, 'userName' => getstring("chat.default.username"), 'ltoken' => 123), "ajaxed");
-	$page['mailLink'] = "$webimroot/operator/themes.php?preview=$preview&amp;show=mail";
-	$page['info'] = "";
-	expand("../styles/dialogs", "$preview", "$show.tpl");
-	exit;
+$screenshots = array();
+foreach($style_config['screenshots'] as $name => $desc) {
+	$screenshots[] = array(
+		'name' => $name,
+		'file' => $webimroot . '/styles/dialogs/' . $preview
+			. '/screenshots/' . $name . '.png',
+		'description' => $desc
+	);
 }
-if ($show == 'survey') {
-	setup_survey("Visitor", "", "", "", "http://google.com");
-	setup_logo();
-	expand("../styles/dialogs", "$preview", "$show.tpl");
-	exit;
-}
-if ($show == 'mailsent' || $show == 'error') {
-	$page['email'] = "admin@yourdomain.com";
-	setup_logo();
-	expand("../styles/dialogs", "$preview", "$show.tpl");
-	exit;
-}
-if ($show == 'redirect' || $show == 'redirected' || $show == 'agentchat' || $show == 'agentrochat') {
-	setup_chatview_for_operator(
-		array(
-			 'threadid' => 0,
-			 'userName' => getstring("chat.default.username"),
-			 'remote' => "1.2.3.4",
-			 'agentId' => 1,
-			 'groupid' => 0,
-			 'userid' => 'visitor1',
-			 'locale' => $current_locale,
-			 'ltoken' => $show == 'agentrochat' ? 124 : 123),
-		array(
-			 'operatorid' => ($show == 'agentrochat' ? 2 : 1),
-		));
-	if ($show == 'redirect') {
-		setup_redirect_links(0, $operator, $show == 'agentrochat' ? 124 : 123);
-	} elseif ($show == 'redirected') {
-		$page['message'] = getlocal2("chat.redirected.content", array("Administrator"));
-	}
-	$page['redirectLink'] = "$webimroot/operator/themes.php?preview=$preview&amp;show=redirect";
-	expand("../styles/dialogs", "$preview", "$show.tpl");
-	exit;
-}
-
-$templateList = array(
-	array('label' => getlocal("page.preview.userchat"), 'id' => 'chat', 'h' => 480, 'w' => 640),
-	array('label' => getlocal("page.preview.nochat"), 'id' => 'nochat', 'h' => 480, 'w' => 640),
-	array('label' => getlocal("page.preview.survey"), 'id' => 'survey', 'h' => 480, 'w' => 640),
-	array('label' => getlocal("page.preview.leavemessage"), 'id' => 'leavemessage', 'h' => 480, 'w' => 640),
-	array('label' => getlocal("page.preview.leavemessagesent"), 'id' => 'leavemessagesent', 'h' => 480, 'w' => 640),
-	array('label' => getlocal("page.preview.mail"), 'id' => 'mail', 'h' => 254, 'w' => 603),
-	array('label' => getlocal("page.preview.mailsent"), 'id' => 'mailsent', 'h' => 254, 'w' => 603),
-	array('label' => getlocal("page.preview.redirect"), 'id' => 'redirect', 'h' => 480, 'w' => 640),
-	array('label' => getlocal("page.preview.redirected"), 'id' => 'redirected', 'h' => 480, 'w' => 640),
-	array('label' => getlocal("page.preview.agentchat"), 'id' => 'agentchat', 'h' => 480, 'w' => 640),
-	array('label' => getlocal("page.preview.agentrochat"), 'id' => 'agentrochat', 'h' => 480, 'w' => 640),
-	array('label' => getlocal("page.preview.error"), 'id' => 'error', 'h' => 480, 'w' => 640),
-);
-
-$template = verifyparam("template", "/^\w+$/", "chat");
 
 $page['formpreview'] = $preview;
-$page['formtemplate'] = $template;
-$page['canshowerrors'] = $template == 'leavemessage' || $template == 'mail' || $template == 'all';
-$page['formshowerr'] = $showerrors;
 $page['availablePreviews'] = $stylelist;
-$page['availableTemplates'] = array(
-	"chat", "nochat",
-	"survey", "leavemessage", "leavemessagesent",
-	"mail", "mailsent",
-	"redirect", "redirected",
-	"agentchat", "agentrochat", "error",
-	"all");
-
-$page['showlink'] = "$webimroot/operator/themes.php?preview=$preview&amp;" . ($showerrors ? "showerr=on&amp;" : "") . "show=";
-
-$page['previewList'] = array();
-foreach ($templateList as $tpl) {
-	if ($tpl['id'] == $template || $template == 'all') {
-		$page['previewList'][] = $tpl;
-	}
-}
+$page['screenshotsList'] = $screenshots;
 
 prepare_menu($operator);
 start_html_output();

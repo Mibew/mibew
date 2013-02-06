@@ -87,7 +87,8 @@ function get_dialogs_style_config($style) {
 		),
 		'mail' => array(
 			'window_params' => ''
-		)
+		),
+		'screenshots' => array()
 	);
 
 	return $config;

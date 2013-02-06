@@ -922,6 +922,11 @@ table.awaiting .no-threads, table.awaiting .no-visitors  {
 	font-size: 11px;
 }
 
+/* themes */
+.screenshot {
+	border: solid 1px #BBBBBB;
+}
+
 /* updates */
 
 #news {
