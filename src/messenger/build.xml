@@ -140,15 +140,14 @@
         <!-- Initialization code goes first. Preserve header comment but strip
              empty lines -->
         <concat destfile="${js_path}/compiled/${app_name}_app.js" eol="lf">
-
-            <!-- Append application static initialization code -->
-            <filelist dir="${js_path}/compiled/${app_name}" files="init.js" />
-
             <!-- Append templates -->
             <filelist dir="${js_path}/templates/compiled" files="${app_name}_app.tpl.js" />
             <!-- For some reasons handlebars do not add trailing semicolon.
             Add it manually -->
             <string>;</string>
+
+            <!-- Append application static initialization code -->
+            <filelist dir="${js_path}/compiled/${app_name}" files="init.js" />
 
             <!-- Apply filters -->
             <filterchain>
@@ -236,7 +235,6 @@
 
             <!-- Apply filters -->
             <filterchain>
-                <stripjavacomments />
                 <!-- Skip empty lines -->
                 <linecontainsregexp negate="true">
                     <regexp pattern="^\s+$$" />
