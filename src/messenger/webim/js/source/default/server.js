@@ -262,9 +262,6 @@
      * Sets up next automatic updater iteration
      */
     Mibew.Server.prototype.runUpdater = function() {
-        if (this.updateTimer == null) {
-            this.update();
-        }
         this.updateTimer = setTimeout(
             _.bind(this.update, this),
             this.options.requestsFrequency * 1000
@@ -283,8 +280,6 @@
         if (this.ajaxRequest) {
             this.ajaxRequest.abort();
         }
-        // Update thread
-        this.update();
         // Restart updater. Try to reconnect after a while
         this.updateTimer = setTimeout(
             _.bind(this.update, this),
