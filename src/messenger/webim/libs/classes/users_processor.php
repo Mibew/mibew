@@ -25,6 +25,10 @@
  *  - usersCallError
  *  - usersFunctionCall
  *
+ * Also triggers follow events (see description of apiUpdateVisitors method):
+ *  - usersUpdateVisitorsLoad
+ *  - usersUpdateVisitorsAlter
+ *
  * WARNING:
  *  usersResponseReceived registered but never called because of asynchronous
  *  nature of Core-to-Window interaction
@@ -331,7 +335,21 @@ class UsersProcessor extends ClientSideProcessor {
 	}
 
 	/**
-	 * Return updated visitors list. API function
+	 * Return updated visitors list. API function.
+	 *
+	 * Triggers following events:
+	 *  1. 'usersUpdateVisitorsLoad': provide the ability to plugins to load,
+	 *     sort and limiting visitors list. Associative array pass to event
+	 *     lister have following keys:
+	 *      - 'visitors': array of visitors arrays. Each visitor array must
+	 *        contain at least following keys: 'id', 'userName', 'userAgent',
+	 *        'userIp', 'remote', 'firstTime', 'lastTime', 'invitations',
+	 *        'chats', 'invitationInfo'. If there are no visitors an empty array
+	 *        should be used.
+	 *
+	 *  2. 'usersUpdateVisitorsAlter': provide the ability to alter visitors
+	 *     list. Associative array pass to event lister have following keys:
+	 *      - 'visitors': array of visitors arrays.
 	 *
 	 * @param array $args Associative array of arguments. It must contains
 	 * following keys:
@@ -350,71 +368,91 @@ class UsersProcessor extends ClientSideProcessor {
 		track_remove_old_visitors();
 		track_remove_old_tracks();
 
-		$db = Database::getInstance();
+		// Get instance of event dispatcher
+		$dispatcher = EventDispatcher::getInstance();
 
-		// Load visitors
-		$query = "SELECT visitorid, userid, username, firsttime, lasttime, " .
-			"entry, details, invited, invitationtime, invitedby, " .
-			"invitations, chats " .
-			"FROM {chatsitevisitor} " .
-			"WHERE threadid IS NULL " .
-			"ORDER BY invited, lasttime DESC, invitations";
-		$query .= (Settings::get('visitors_limit') == '0')
-			? ""
-			: " LIMIT " . Settings::get('visitors_limit');
-
-		$rows = $db->query(
-			$query,
-			NULL,
-			array('return_rows' => Database::RETURN_ALL_ROWS)
+		// Trigger load event
+		$arguments = array(
+			'visitors' => false
 		);
+		$dispatcher->triggerEvent('usersUpdateVisitorsLoad', $arguments);
 
-		$visitors = array();
-		foreach ($rows as $row) {
+		// Check if visiors list loaded by plugins
+		if (! is_array($arguments['visitors'])) {
+			// Load visitors list
+			$db = Database::getInstance();
+			// Load visitors
+			$query = "SELECT visitorid, userid, username, firsttime, " .
+				"lasttime,entry, details, invited, invitationtime, " .
+				"invitedby, invitations, chats " .
+				"FROM {chatsitevisitor} " .
+				"WHERE threadid IS NULL " .
+				"ORDER BY invited, lasttime DESC, invitations";
+			$query .= (Settings::get('visitors_limit') == '0')
+				? ""
+				: " LIMIT " . Settings::get('visitors_limit');
 
-			// Get visitor details
-			$details = track_retrieve_details($row);
-
-			// Get user agent
-			$user_agent = get_useragent_version($details['user_agent']);
-
-			// Get user ip
-			if (preg_match("/(\\d+\\.\\d+\\.\\d+\\.\\d+)/", $details['remote_host'], $matches) != 0) {
-				$user_ip = $matches[1];
-			} else {
-				$user_ip = false;
-			}
-
-			// Get invitation info
-			if ($row['invited']) {
-				$agent_name  = get_operator_name(
-					operator_by_id($row['invitedby'])
-				);
-				$invitation_info = array(
-					'time' => $row['invitationtime'],
-					'agentName' => $agent_name
-				);
-			} else {
-				$invitation_info = false;
-			}
-
-			// Create resulting visitor structure
-			$visitors[] = array(
-				'id' => (int)$row['visitorid'],
-				'userName' => $row['username'],
-				'userAgent' => $user_agent,
-				'userIp' => $user_ip,
-				'remote' => $details['remote_host'],
-				'firstTime' => $row['firsttime'],
-				'lastTime' => $row['lasttime'],
-				'invitations' => (int)$row['invitations'],
-				'chats' => (int)$row['chats'],
-				'invitationInfo' => $invitation_info
+			$rows = $db->query(
+				$query,
+				NULL,
+				array('return_rows' => Database::RETURN_ALL_ROWS)
 			);
+
+			$visitors = array();
+			foreach ($rows as $row) {
+
+				// Get visitor details
+				$details = track_retrieve_details($row);
+
+				// Get user agent
+				$user_agent = get_useragent_version($details['user_agent']);
+
+				// Get user ip
+				if (preg_match("/(\\d+\\.\\d+\\.\\d+\\.\\d+)/", $details['remote_host'], $matches) != 0) {
+					$user_ip = $matches[1];
+				} else {
+					$user_ip = false;
+				}
+
+				// Get invitation info
+				if ($row['invited']) {
+					$agent_name  = get_operator_name(
+						operator_by_id($row['invitedby'])
+					);
+					$invitation_info = array(
+						'time' => $row['invitationtime'],
+						'agentName' => $agent_name
+					);
+				} else {
+					$invitation_info = false;
+				}
+
+				// Create resulting visitor structure
+				$visitors[] = array(
+					'id' => (int)$row['visitorid'],
+					'userName' => $row['username'],
+					'userAgent' => $user_agent,
+					'userIp' => $user_ip,
+					'remote' => $details['remote_host'],
+					'firstTime' => $row['firsttime'],
+					'lastTime' => $row['lasttime'],
+					'invitations' => (int)$row['invitations'],
+					'chats' => (int)$row['chats'],
+					'invitationInfo' => $invitation_info
+				);
+			}
+		} else {
+			$visitors = $arguments['visitors'];
 		}
 
-		return array(
+		// Provide ability to alter visitors list
+		$arguments = array(
 			'visitors' => $visitors
+		);
+		$dispatcher->triggerEvent('usersUpdateVisitorsAlter', $arguments);
+
+		return array(
+			'visitors' => $arguments['visitors']
 		);
 	}
 
