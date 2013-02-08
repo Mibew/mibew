@@ -83,7 +83,8 @@ function tpl_header() { global $page, $webimroot;
 		'chat.thread.state_chatting_with_agent': "<?php echo getlocal('chat.thread.state_chatting_with_agent'); ?>",
 		'chat.thread.state_closed': "<?php echo getlocal('chat.thread.state_closed'); ?>",
 		'chat.thread.state_loading': "<?php echo getlocal('chat.thread.state_loading'); ?>",
-		'chat.client.spam.prefix': "<?php echo getstring('chat.client.spam.prefix'); ?>"
+		'chat.client.spam.prefix': "<?php echo getstring('chat.client.spam.prefix'); ?>",
+		'pending.errors.network': "<?php echo getlocal('pending.errors.network'); ?>"
 	});
 //--></script>
 

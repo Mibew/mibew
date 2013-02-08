@@ -408,6 +408,7 @@ page_settings.tab.main=General
 page_settings.tab.performance=Performance
 page_settings.tab.themes=Chat themes preview
 page_settings.tab.invitationthemes=Invitation themes preview
+pending.errors.network=Network problems detected. Please refresh the page.
 pending.menu.hide=Hide menu >>
 pending.menu.show=Show menu >>
 pending.popup_notification=A new visitor is waiting for an answer.

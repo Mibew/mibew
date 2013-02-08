@@ -8,6 +8,26 @@
 
 (function(Mibew, Backbone, _){
 
+    /**
+     * Represent count of bad AJAX request
+     * @type Number
+     */
+    var badRequestsCount = 0;
+
+    /**
+     * Increase badRequestsCount and show reconnect message if need.
+     * Calls on every bad request.
+     */
+    var requestErrorHandler = function() {
+        // Increase bad requests count
+        badRequestsCount++;
+        // Check if there is
+        if (badRequestsCount == 10) {
+            alert(Mibew.Localization.get('pending.errors.network'));
+            badRequestsCount = 0;
+        }
+    }
+
     // Create application instance
     var App = new Backbone.Marionette.Application();
 
@@ -30,7 +50,11 @@
 
         // Initialize Server, Thread and User
         objs.server = new Mibew.Server(_.extend(
-            {'interactionType': MibewAPIUsersInteraction},
+            {
+                'interactionType': MibewAPIUsersInteraction,
+                onTimeout: requestErrorHandler,
+                onTransportError: requestErrorHandler
+            },
             options.server
         ));
 

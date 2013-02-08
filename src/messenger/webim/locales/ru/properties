@@ -408,6 +408,7 @@ page_settings.tab.main=Общее
 page_settings.tab.performance=Производительность
 page_settings.tab.themes=Просмотр стилей диалогов
 page_settings.tab.invitationthemes=Просмотр стилей приглашений
+pending.errors.network=Обнаружены проблемы с сетью. Пожалуйста, перезагрузите страницу.
 pending.menu.hide=Спрятать меню >>
 pending.menu.show=Показать меню >>
 pending.popup_notification=Новый посетитель ожидает ответа. 
