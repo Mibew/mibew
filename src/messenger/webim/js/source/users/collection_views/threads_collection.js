@@ -64,13 +64,13 @@
 
             /**
              * View initializer.
-             * @todo Do something with timer. Do not render whole view!
              */
             initialize: function() {
-                // Rerender view to keep timers in items views working
-                window.setInterval(_.bind(this.renderCollection, this), 2 * 1000);
+                // Update time in timers
+                window.setInterval(_.bind(this.updateTimers, this), 2 * 1000);
                 // Register events
                 this.on('itemview:before:render', this.updateStyles, this);
+                this.on('render', this.updateTimers, this);
             },
 
             /**
@@ -127,6 +127,13 @@
                         childView.$el.addClass(childView.lastStyles[i]);
                     }
                 }
+            },
+
+            /**
+             * Updates time in timers
+             */
+            updateTimers: function() {
+                Mibew.Utils.updateTimers(this.$el, '.timesince');
             },
 
             /**

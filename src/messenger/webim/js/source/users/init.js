@@ -6,7 +6,7 @@
  * License: http://mibew.org/license.php
  */
 
-(function(Mibew){
+(function(Mibew, $){
 
     /**
      * @namespace Holds application region constructors
@@ -30,4 +30,34 @@
         newWindow.opener = window;
     }
 
-})(Mibew);
+    /**
+     * Update time in timers
+     * @param {Object} $el jQuery DOM object
+     * @param {String} selector Selector string
+     */
+    Mibew.Utils.updateTimers = function($el, selector) {
+        $el.find(selector).each(function(){
+            // Get timestamp
+            var timestamp = $(this).data('timestamp');
+            if (! timestamp) {
+                return;
+            }
+            // Get time diff
+            var diff = Math.round((new Date()).getTime() / 1000) - timestamp;
+            // Get time parts
+            var seconds = diff % 60;
+            var minutes = Math.floor(diff / 60) % 60;
+            var hours = Math.floor(diff / (60 * 60));
+            // Get result parts
+            var result = [];
+            if (hours > 0) {
+                result.push(hours);
+            }
+            result.push(minutes < 10 ? '0' + minutes : minutes);
+            result.push(seconds < 10 ? '0' + seconds : seconds);
+            // Build result string
+            $(this).html(result.join(':'));
+        });
+    }
+
+})(Mibew, jQuery);
