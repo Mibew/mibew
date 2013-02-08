@@ -176,43 +176,43 @@
             </fileset>
 
             <!-- Include models files -->
-            <fileset dir="${js_path}/compiled/${app_name}/models">
-                <include name="**/base*.js" />
+            <fileset dir="${js_path}/compiled/${app_name}">
+                <include name="models/**/base*.js" />
             </fileset>
-            <fileset dir="${js_path}/compiled/${app_name}/models">
-                <include name="**/*.js" />
+            <fileset dir="${js_path}/compiled/${app_name}">
+                <include name="models/**/*.js" />
                 <!-- Exclude base files -->
-                <exclude name="**/base*.js" />
+                <exclude name="models/**/base*.js" />
             </fileset>
 
             <!-- Include collections files -->
-            <fileset dir="${js_path}/compiled/${app_name}/collections">
-                <include name="**/base*.js" />
+            <fileset dir="${js_path}/compiled/${app_name}">
+                <include name="collections/**/base*.js" />
             </fileset>
-            <fileset dir="${js_path}/compiled/${app_name}/collections">
-                <include name="**/*.js" />
+            <fileset dir="${js_path}/compiled/${app_name}">
+                <include name="collections/**/*.js" />
                 <!-- Exclude base files -->
-                <exclude name="**/base*.js" />
+                <exclude name="collections/**/base*.js" />
             </fileset>
 
             <!-- Include models views files -->
-            <fileset dir="${js_path}/compiled/${app_name}/model_views">
-                <include name="**/base*.js" />
+            <fileset dir="${js_path}/compiled/${app_name}">
+                <include name="model_views/**/base*.js" />
             </fileset>
-            <fileset dir="${js_path}/compiled/${app_name}/model_views">
-                <include name="**/*.js" />
+            <fileset dir="${js_path}/compiled/${app_name}">
+                <include name="model_views/**/*.js" />
                 <!-- Exclude base files -->
-                <exclude name="**/base*.js" />
+                <exclude name="model_views/**/base*.js" />
             </fileset>
 
             <!-- Include collections views files -->
-            <fileset dir="${js_path}/compiled/${app_name}/collection_views">
-                <include name="**/base*.js" />
+            <fileset dir="${js_path}/compiled/${app_name}">
+                <include name="collection_views/**/base*.js" />
             </fileset>
-            <fileset dir="${js_path}/compiled/${app_name}/collection_views">
-                <include name="**/*.js" />
+            <fileset dir="${js_path}/compiled/${app_name}">
+                <include name="collection_views/**/*.js" />
                 <!-- Exclude base files -->
-                <exclude name="**/base*.js" />
+                <exclude name="collection_views/**/base*.js" />
             </fileset>
 
             <!-- Include all other files -->
