@@ -17,6 +17,7 @@
 
 function generate_button($title, $locale, $style, $invitationstyle, $group, $inner, $showhost, $forcesecure, $modsecurity)
 {
+	global $visitorcookie;
 	$link = get_app_location($showhost, $forcesecure) . "/client.php";
 	if ($locale)
 		$link = append_query($link, "locale=$locale");
@@ -39,7 +40,9 @@ function generate_button($title, $locale, $style, $invitationstyle, $group, $inn
 	    $temp .= Settings::get('updatefrequency_tracking');
 	    $temp .= '*1000; var mibewRequestUrl = \'';
 	    $temp .= get_app_location($showhost, $forcesecure);
-	    $temp .= '/request.php?entry=\' + escape(document.referrer) + \'&lang=ru\'</script><script type="text/javascript" src="';
+	    $temp .= '/request.php?entry=\' + escape(document.referrer) + \'&lang=ru\'; ';
+	    $temp .= ' var mibewVisitorCookieName = \''.$visitorcookie.'\'';
+	    $temp .= '</script><script type="text/javascript" src="';
 	    $temp .= get_app_location($showhost, $forcesecure);
 	    $temp .= '/js/compiled/request.js"></script><script type="text/javascript">mibewMakeRequest();</script>';
 	}

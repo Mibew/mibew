@@ -85,6 +85,21 @@ function track_get_visitor_by_threadid($threadid)
 	);
 }
 
+/**
+ * Load visitor info by user id.
+ *
+ * @param string $user_id User id
+ * @return boolean|array Visitor array or boolean false if visitor not exists
+ */
+function track_get_visitor_by_user_id($user_id) {
+	$db = Database::getInstance();
+	return $db->query(
+		"select * from {chatsitevisitor} where userid = ?",
+		array($user_id),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
+}
+
 function track_visit_page($visitorid, $page)
 {
 	$db = Database::getInstance();
@@ -196,5 +211,19 @@ function track_remove_old_tracks() {
 	);
 }
 
+/**
+ * Return user id by visitor id.
+ *
+ * @param int $visitorid Id of the visitor
+ * @return string|boolean user id or boolean false if there is no visitor with
+ * specified visitor id
+ */
+function track_get_user_id($visitorid) {
+	$visitor = track_get_visitor_by_id($visitorid);
+	if (! $visitor) {
+		return false;
+	}
+	return $visitor['userid'];
+}
 
 ?>

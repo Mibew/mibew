@@ -1,10 +1,25 @@
+/**
+ * @preserve This file is part of Mibew Messenger project.
+ * http://mibew.org
+ *
+ * Copyright (c) 2005-2011 Mibew Messenger Community
+ * License: http://mibew.org/license.php
+ */
+
 var mibewRequestedScripts = new Array();
 var mibewHandlers = new Array();
 var mibewHandlersDependences = new Array();
 
 function mibewMakeRequest()
 {
-	mibewDoLoadScript(mibewRequestUrl + '&rnd=' + Math.random(), 'responseScript');
+	// Try to get user id from local cookie
+	var userId = mibewReadCookie(mibewVisitorCookieName);
+
+	mibewDoLoadScript(
+		mibewRequestUrl + '&rnd=' + Math.random()
+			+ ((userId !== false) ? '&user_id=' + userId : ''),
+		'responseScript'
+	);
 }
 
 function mibewOnResponse(response)
@@ -95,4 +110,46 @@ function mibewCanRunHandler(handlerName)
 		}
 	}
 	return true;
+}
+
+/**
+ * Create session cookie for top level domain with path equals to '/'.
+ *
+ * @param {String} name Cookie name
+ * @param {String} value Cookie value
+ */
+function mibewCreateCookie(name, value) {
+    var domainParts = /([^\.]+\.[^\.]+)$/.exec(document.location.hostname);
+    var domain = domainParts[1];
+    document.cookie = "" + name + "=" + value + "; "
+        + "path=/; "
+        + (domain ? ("domain=" + domain + ";") : '');
+}
+
+/**
+ * Try to read cookie.
+ *
+ * @param {String} name Cookie name
+ * @returns {String|Boolean} Cookie value or boolean false if cookie with
+ * specified name does not exist
+ */
+function mibewReadCookie(name) {
+    var cookies = document.cookie.split('; ');
+    var nameForSearch = name + '=';
+    var value = false;
+    for (var i = 0; i < cookies.length; i++) {
+        if (cookies[i].indexOf(nameForSearch) != -1) {
+            value = cookies[i].substr(nameForSearch.length);
+            break;
+        }
+    }
+    return value;
+}
+
+/**
+ * Update user id. API function
+ * @param {Object} response Data object from server
+ */
+function mibewUpdateUserId(response) {
+    mibewCreateCookie(mibewVisitorCookieName, response.user.id);
 }

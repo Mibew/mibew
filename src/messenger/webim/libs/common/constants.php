@@ -36,4 +36,9 @@ $featuresversion = '1.6.4';
  */
 $session_prefix = md5($mysqlhost.'##'.$mysqldb.'##'.$mysqlprefix) . '_';
 
+/**
+ * Name for cookie to track visitor
+ */
+$visitorcookie = "WEBIM_VisitorID";
+
 ?>
