@@ -19,14 +19,37 @@ $page['title'] = getlocal("invitation.title");
 
 function tpl_header() { global $page, $webimroot;
 ?>
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/compiled/common.js"></script>
-<script type="text/javascript" language="javascript"><!--
-var updaterOptions = {
-	url:"<?php echo $webimroot ?>/operator/invitationstate.php",wroot:"<?php echo $webimroot ?>",
-	agentservl:"<?php echo $webimroot ?>/operator/agent.php", frequency:<?php echo $page['frequency'] ?>,
-	visitor: "<?php echo $page['visitor'] ?>" };
+
+<!-- External libs -->
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/json2.js"></script>
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/underscore-min.js"></script>
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/backbone-min.js"></script>
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/backbone.marionette.min.js"></script>
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/handlebars.js"></script>
+
+<!-- Application files -->
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/compiled/mibewapi.js"></script>
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/compiled/default_app.js"></script>
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/compiled/invite_app.js"></script>
+
+
+<script type="text/javascript"><!--
+	jQuery(document).ready(function(){
+		Mibew.Application.start({
+			server: {
+				url: "<?php echo $webimroot ?>/operator/invitationstate.php",
+				requestsFrequency: <?php echo $page['frequency'] ?>
+			},
+
+			visitorId: "<?php echo $page['visitor'] ?>",
+
+			chatLink: "<?php echo $webimroot ?>/operator/agent.php"
+		});
+	});
 //--></script>
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/compiled/invite_op.js"></script>
+
+
 <?php
 }
 

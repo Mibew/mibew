@@ -16,6 +16,7 @@
 
         default_app_js - Build JavaScript files related to default application
         chat_app_js - Build JavaScript files related to chat application
+        invite_app_js - Build JavaScript files related to invite application
         thread_log_app_js - Build JavaScript files related to thread log application
         users_app_js - Build JavaScript files related to users application
 
@@ -270,6 +271,16 @@
         <echo>Chat JavaScript application built.</echo>
     </target>
 
+
+    <!-- Compile and concatenate JavaScript files related to invite application -->
+    <target name="invite_app_js" depends="default_app_js">
+        <antcall target="app_js">
+            <param name="app_name" value="invite" />
+        </antcall>
+        <echo>Invite JavaScript application built.</echo>
+    </target>
+
+
     <!-- Compile and concatenate JavaScript files related to users application -->
     <target name="users_app_js" depends="default_app_js">
         <antcall target="app_js">
@@ -338,7 +349,7 @@
     </target>
 
     <!-- Build all project -->
-    <target name="all" depends="chat_app_js,thread_log_app_js,users_app_js,styles_all">
+    <target name="all" depends="chat_app_js,invite_app_js,thread_log_app_js,users_app_js,styles_all">
         <echo>Mibew Messenger built.</echo>
     </target>
 

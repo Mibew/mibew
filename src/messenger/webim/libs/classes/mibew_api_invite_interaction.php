@@ -15,17 +15,34 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/invitation.php');
-require_once('../libs/operator.php');
-require_once('../libs/classes/mibew_api.php');
-require_once('../libs/classes/mibew_api_interaction.php');
-require_once('../libs/classes/mibew_api_invite_interaction.php');
-require_once('../libs/classes/mibew_api_execution_context.php');
-require_once('../libs/classes/client_side_processor.php');
-require_once('../libs/classes/invite_processor.php');
+/**
+ * Implements Mibew Core - Mibew invitation waiting window interaction
+ */
+class MibewAPIInviteInteraction extends MibewAPIInteraction {
+	/**
+	 * Defines obligatory arguments and default values for them
+	 * @var array
+	 * @see MibewAPIInteraction::$obligatoryArgumnents
+	 */
+	protected $obligatoryArguments = array(
+		'*' => array(
+			'references' => array(),
+			'return' => array(),
+			'visitorId' => null
+		),
+		'result' => array(
+			'errorCode' => 0
+		)
+	);
 
-$processor = InviteProcessor::getInstance();
-$processor->receiveRequest($_POST['data']);
+	/**
+	 * Reserved function's names
+	 * @var array
+	 * @see MibewAPIInteraction::$reservedFunctionNames
+	 */
+	public $reservedFunctionNames = array(
+		'result'
+	);
+}
 
 ?>
