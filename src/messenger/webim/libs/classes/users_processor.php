@@ -29,10 +29,6 @@
  *  - usersUpdateVisitorsLoad
  *  - usersUpdateVisitorsAlter
  *
- * WARNING:
- *  usersResponseReceived registered but never called because of asynchronous
- *  nature of Core-to-Window interaction
- *
  * Implements Singleton pattern
  */
 class UsersProcessor extends ClientSideProcessor {
@@ -44,7 +40,7 @@ class UsersProcessor extends ClientSideProcessor {
 	protected static $instance = null;
 
 	/**
-	 * Return an instance of the ThreadProcessor class.
+	 * Return an instance of the UsersProcessor class.
 	 * @return UsersProcessor
 	 */
 	public static function getInstance() {
@@ -57,7 +53,8 @@ class UsersProcessor extends ClientSideProcessor {
 	/**
 	 * Class constructor
 	 *
-	 * Do not use directly __construct method! Use ThreadProcessor::getInstance() instead!
+	 * Do not use directly __construct method! Use UsersProcessor::getInstance()
+	 * instead!
 	 * @todo Think about why the method is not protected
 	 */
 	public function __construct() {
@@ -354,6 +351,7 @@ class UsersProcessor extends ClientSideProcessor {
 	 * @param array $args Associative array of arguments. It must contains
 	 * following keys:
 	 *  - 'agentId': Id of the agent related to users window
+	 *
 	 * @return array Array of results. It contains following keys:
 	 *  - 'visitors': array of visitors on the site
 	 */
@@ -460,9 +458,11 @@ class UsersProcessor extends ClientSideProcessor {
 	 * Return updated operators list. API function
 	 *
 	 * @global string $webim_encoding Encoding for the current locale
+	 *
 	 * @param array $args Associative array of arguments. It must contains
 	 * following keys:
 	 *  - 'agentId': Id of the agent related to users window
+	 *
 	 * @return array Array of results. It contains following keys:
 	 *  - 'operators': array of online operators
 	 */
@@ -514,8 +514,8 @@ class UsersProcessor extends ClientSideProcessor {
 
 	/**
 	 * Update chat window state. API function
+	 * Call periodically by chat window.
 	 *
-	 * Call periodically by chat window
 	 * @param array $args Associative array of arguments. It must contains
 	 * following keys:
 	 *  - 'agentId': Id of the agent related to users window
@@ -543,6 +543,7 @@ class UsersProcessor extends ClientSideProcessor {
 	 * @param array $args Associative array of arguments. It must contains
 	 * following keys:
 	 *  - 'agentId': Id of the agent related to users window
+	 *
 	 * @return array Array of results. It contains following keys:
 	 *  - 'time': current server time
 	 */
