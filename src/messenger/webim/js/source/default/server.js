@@ -259,12 +259,21 @@
     }
 
     /**
-     * Sets up next automatic updater iteration
+     * Start automatic updater
      */
     Mibew.Server.prototype.runUpdater = function() {
+        this.update();
+    }
+
+    /**
+     * Call Mibew.Server.update after specified timeout
+     * @param {Number} time Timeout in seconds
+     * @private
+     */
+    Mibew.Server.prototype.updateAfter = function(time) {
         this.updateTimer = setTimeout(
             _.bind(this.update, this),
-            this.options.requestsFrequency * 1000
+            time * 1000
         );
     }
 
@@ -281,14 +290,11 @@
             this.ajaxRequest.abort();
         }
         // Restart updater. Try to reconnect after a while
-        this.updateTimer = setTimeout(
-            _.bind(this.update, this),
-            this.options.reconnectPause * 1000
-        );
+        this.updateAfter(this.options.reconnectPause);
     }
 
     /**
-     * Send request for update thread and client code's requests
+     * Send request to server
      * @private
      */
     Mibew.Server.prototype.update = function() {
@@ -304,7 +310,7 @@
         // Check buffer length
         if (this.buffer.length == 0) {
             // Rerun updater later
-            this.runUpdater();
+            this.updateAfter(this.options.requestsFrequency);
             return;
         }
         try {
@@ -329,7 +335,7 @@
     Mibew.Server.prototype.receiveResponse = function(data, textStatus, jqXHR) {
         // Do not parse empty responses
         if (data == '') {
-            this.runUpdater();
+            this.updateAfter(this.options.requestsFrequency);
         }
         try {
             var packageObject = this.mibewAPI.decodePackage(data);
@@ -341,7 +347,7 @@
         } catch (e) {
             this.options.onResponseError(e);
         } finally {
-            this.runUpdater();
+            this.updateAfter(this.options.requestsFrequency);
         }
     }
 
