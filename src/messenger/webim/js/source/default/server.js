@@ -51,11 +51,18 @@
         this.callbacks = {};
 
         /**
-         * Array of periodically called functions
-         * @type Array
+         * Contains periodically called functions
+         * @type Object
          * @private
          */
-        this.callPeriodically = [];
+        this.callPeriodically = {};
+
+        /**
+         * Id of the last added periodically called function
+         * @type Number
+         * @private
+         */
+        this.callPeriodicallyLastId = 0;
 
         /**
          * An object of the jqXHR class
@@ -72,9 +79,17 @@
 
         /**
          * Contains object of registered functions handlers
+         * @type Object
          * @private
          */
         this.functions = {}
+
+        /**
+         * Id of the last registered function
+         * @type Number
+         * @private
+         */
+        this.functionsLastId = 0;
 
         /**
          * An instance of the MibewAPI class
@@ -99,12 +114,7 @@
             if (!(functionsList instanceof Array)) {
                 throw new Error("The first arguments must be an array");
             }
-            // TODO: Try to use 'for' loop instead of 'for in' loop
-            for (var i in functionsList) {
-                // Filter 'Prototype' properties
-                if (! functionsList.hasOwnProperty(i)) {
-                    continue;
-                }
+            for (var i = 0; i < functionsList.length; i++) {
                 this.mibewAPI.checkFunction(functionsList[i], false);
             }
 
@@ -136,12 +146,27 @@
      * @param {Function} functionsListBuilder Call before every request to build
      * a list of functions that must be called
      * @param {Function} callbackFunction Call after response received
+     * @returns {Number} Id of added functions
      */
     Mibew.Server.prototype.callFunctionsPeriodically = function(functionsListBuilder, callbackFunction) {
-        this.callPeriodically.push({
+        this.callPeriodicallyLastId++;
+        this.callPeriodically[this.callPeriodicallyLastId] = {
             functionsListBuilder: functionsListBuilder,
             callbackFunction: callbackFunction
-        });
+        };
+        return this.callPeriodicallyLastId;
+    }
+
+    /**
+     * Stop calling function at every request.
+     *
+     * @param {Number} id Id of the periodically called function, returned by
+     * Mibew.Server.callFunctionsPeriodically method
+     */
+    Mibew.Server.prototype.stopCallFunctionsPeriodically = function(id) {
+        if (id in this.callPeriodically) {
+            delete this.callPeriodically[id];
+        }
     }
 
     /**
@@ -301,7 +326,10 @@
         if (this.updateTimer) {
             clearTimeout(this.updateTimer);
         }
-        for (var i = 0; i < this.callPeriodically.length; i++) {
+        for (var i in this.callPeriodically) {
+            if (! this.callPeriodically.hasOwnProperty(i)) {
+                continue;
+            }
             this.callFunctions(
                 this.callPeriodically[i].functionsListBuilder(),
                 this.callPeriodically[i].callbackFunction
@@ -356,13 +384,36 @@
      *
      * @param {String} functionName Name of the function
      * @param {Function} handler Provided function
+     * @returns {Number} Id of registered function
      */
     Mibew.Server.prototype.registerFunction = function(functionName, handler) {
+        this.functionsLastId++;
         if (!(functionName in this.functions)) {
-            this.functions[functionName] = [];
+            this.functions[functionName] = {};
         }
-        this.functions[functionName].push(handler);
+        this.functions[functionName][this.functionsLastId] = handler;
+        return this.functionsLastId;
     }
+
+    /**
+     * Remove function that can be called by Server
+     *
+     * @param {Number} id Id of function returned by
+     * Mibew.Server.registerFunction method
+     */
+    Mibew.Server.prototype.unregisterFunction = function(id) {
+        for (var i in this.functions) {
+            if (! this.functions.hasOwnProperty(i)) {
+                continue;
+            }
+            if (id in this.functions[i]) {
+                delete this.functions[i][id];
+            }
+            if (_.isEmpty(this.functions[i])) {
+                delete this.functions[i];
+            }
+        }
+    },
 
     /**
      * Call on AJAX errors
