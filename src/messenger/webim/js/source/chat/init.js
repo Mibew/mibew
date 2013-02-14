@@ -23,4 +23,10 @@
      */
     Mibew.Objects.Models.Status = {};
 
+    /**
+     * Create application instance.
+     * @type Backbone.Marionette.Application
+     */
+    Mibew.Application = new Backbone.Marionette.Application();
+
 })(Mibew);

@@ -6,10 +6,10 @@
  * License: http://mibew.org/license.php
  */
 
-(function (Mibew, Backbone, _) {
+(function (Mibew, _) {
 
-    // Create application instance
-    var App = new Backbone.Marionette.Application();
+    // Create shortcut for application
+    var App = Mibew.Application;
 
     // Define regions
     App.addRegions({
@@ -221,5 +221,4 @@
         Mibew.Objects.server.runUpdater();
     });
 
-    Mibew.Application = App;
-})(Mibew, Backbone, _);
+})(Mibew, _);
