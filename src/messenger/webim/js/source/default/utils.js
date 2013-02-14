@@ -46,4 +46,13 @@
         return parts.join('-');
     }
 
+    /**
+     * Check if email address valid or not
+     * @param {String} email Address to check
+     * @returns {Boolean} true if address is valid and false otherwise
+     */
+    Mibew.Utils.checkEmail = function(email) {
+        return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
+    }
+
 })(Mibew);
