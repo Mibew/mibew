@@ -36,6 +36,8 @@ if(Settings::get('enablessl') == "1" && Settings::get('forcessl') == "1") {
 	}
 }
 
+$page = array();
+
 if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 
 	$thread = NULL;
@@ -175,7 +177,10 @@ if (! $thread) {
 	die("wrong thread");
 }
 
-setup_chatview_for_user($thread, $level);
+$page = array_merge_recursive(
+	$page,
+	setup_chatview_for_user($thread, $level)
+);
 
 $pparam = verifyparam( "act", "/^(mailthread)$/", "default");
 if( $pparam == "mailthread" ) {

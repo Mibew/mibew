@@ -39,6 +39,7 @@ if (Settings::get('enablessl') == "1" && Settings::get('forcessl') == "1") {
 }
 
 $threadid = verifyparam("thread", "/^\d{1,8}$/");
+$page = array();
 
 if (!isset($_GET['token'])) {
 
@@ -115,7 +116,10 @@ if ($thread->agentId != $operator['operatorid'] && !is_capable($can_viewthreads,
 	exit;
 }
 
-setup_chatview_for_operator($thread, $operator);
+$page = array_merge_recursive(
+	$page,
+	setup_chatview_for_operator($thread, $operator)
+);
 
 start_html_output();
 
