@@ -137,27 +137,43 @@ function setup_logo($group = NULL)
 	$page['webimHost'] = topage(empty($toplevelgroup['vchosturl'])?Settings::get('hosturl'):$toplevelgroup['vchosturl']);
 }
 
-function setup_leavemessage($name, $email, $message, $groupid, $groupname, $info, $referrer, $canshowcaptcha)
-{
-	global $page;
-	$page['formname'] = topage($name);
-	$page['formemail'] = topage($email);
-	$page['formmessage'] = $message ? topage($message) : "";
-	$page['showcaptcha'] = Settings::get("enablecaptcha") == "1" && $canshowcaptcha ? "1" : "";
-	$page['formgroupid'] = $groupid;
-	$page['formgroupname'] = $groupname;
-	$page['forminfo'] = topage($info);
-	$page['referrer'] = urlencode(topage($referrer));
+/**
+ * Prepare data to display leave message form
+ *
+ * @param string $name User name
+ * @param string $email User email
+ * @param string $message First message text
+ * @param int $groupid Id of selected group
+ * @param string $groupname Name of selected group
+ * @param string $info User info
+ * @param string $referrer URL of referrer page
+ * @return array Array of leave message form data
+ *
+ * @todo Think about $info param. It seems to this param is meaningless.
+ */
+function setup_leavemessage($name, $email, $message, $groupid, $groupname, $info, $referrer) {
+	$data = array();
+
+	$canshowcaptcha = can_show_captcha();
+	$data['formname'] = topage($name);
+	$data['formemail'] = topage($email);
+	$data['formmessage'] = $message ? topage($message) : "";
+	$data['showcaptcha'] = Settings::get("enablecaptcha") == "1" && $canshowcaptcha ? "1" : "";
+	$data['formgroupid'] = $groupid;
+	$data['formgroupname'] = $groupname;
+	$data['forminfo'] = topage($info);
+	$data['referrer'] = urlencode(topage($referrer));
 
 	if (Settings::get('enablegroups') == '1') {
 		$groups = setup_groups_select($groupid, false);
 		if ($groups) {
-			$page['groups'] = $groups['select'];
-			$page['group.descriptions'] = json_encode($groups['descriptions']);
-			$page['default.department.description'] = $groups['defaultdescription'];
+			$data['groups'] = $groups['select'];
+			$data['group.descriptions'] = json_encode($groups['descriptions']);
+			$data['default.department.description'] = $groups['defaultdescription'];
 		}
 	}
 
+	return $data;
 }
 
 /**
@@ -170,7 +186,7 @@ function setup_leavemessage($name, $email, $message, $groupid, $groupname, $info
  * @param string $referrer URL of referrer page
  * @return array Array of survey data
  *
- * @todo Think about $info param. It seems to be meaningless.
+ * @todo Think about $info param. It seems to this param is meaningless.
  */
 function setup_survey($name, $email, $groupid, $info, $referrer) {
 	$data = array();

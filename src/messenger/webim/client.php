@@ -89,7 +89,10 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 		if(!has_online_operators($groupid)) {
 			$page = array();
 			setup_logo($group);
-			setup_leavemessage($visitor['name'],$email,$firstmessage,$groupid,$groupname,$info,$referrer,can_show_captcha());
+			$page = array_merge_recursive(
+				$page,
+				setup_leavemessage($visitor['name'],$email,$firstmessage,$groupid,$groupname,$info,$referrer)
+			);
 			expand("styles/dialogs", getchatstyle(), "leavemessage.tpl");
 			exit;
 		}
