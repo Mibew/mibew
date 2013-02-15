@@ -99,7 +99,10 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 		if(Settings::get('enablepresurvey') == '1' && !(isset($_POST['survey']) && $_POST['survey'] == 'on') && !$visitor_is_invited) {
 			$page = array();
 			setup_logo($group);
-			setup_survey($visitor['name'], $email, $groupid, $info, $referrer);
+			$page = array_merge_recursive(
+				$page,
+				setup_survey($visitor['name'], $email, $groupid, $info, $referrer)
+			);
 			expand("styles/dialogs", getchatstyle(), "survey.tpl");
 			exit;
 		}

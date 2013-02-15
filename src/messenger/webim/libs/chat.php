@@ -160,28 +160,41 @@ function setup_leavemessage($name, $email, $message, $groupid, $groupname, $info
 
 }
 
-function setup_survey($name, $email, $groupid, $info, $referrer)
-{
-	global $page;
+/**
+ * Prepare data to dispaly pre-chat survey
+ *
+ * @param string $name User name
+ * @param string $email User email
+ * @param int $groupid Id of selected group
+ * @param string $info User info
+ * @param string $referrer URL of referrer page
+ * @return array Array of survey data
+ *
+ * @todo Think about $info param. It seems to be meaningless.
+ */
+function setup_survey($name, $email, $groupid, $info, $referrer) {
+	$data = array();
 
-	$page['formname'] = topage($name);
-	$page['formemail'] = topage($email);
-	$page['formgroupid'] = $groupid;
-	$page['forminfo'] = topage($info);
-	$page['referrer'] = urlencode(topage($referrer));
+	$data['formname'] = topage($name);
+	$data['formemail'] = topage($email);
+	$data['formgroupid'] = $groupid;
+	$data['forminfo'] = topage($info);
+	$data['referrer'] = urlencode(topage($referrer));
 
 	if (Settings::get('enablegroups') == '1' && Settings::get('surveyaskgroup') == '1') {
 		$groups = setup_groups_select($groupid, true);
 		if ($groups) {
-			$page['groups'] = $groups['select'];
-			$page['group.descriptions'] = json_encode($groups['descriptions']);
-			$page['default.department.description'] = $groups['defaultdescription'];
+			$data['groups'] = $groups['select'];
+			$data['group.descriptions'] = json_encode($groups['descriptions']);
+			$data['default.department.description'] = $groups['defaultdescription'];
 		}
 	}
 
-	$page['showemail'] = Settings::get("surveyaskmail") == "1" ? "1" : "";
-	$page['showmessage'] = Settings::get("surveyaskmessage") == "1" ? "1" : "";
-	$page['showname'] = Settings::get('usercanchangename') == "1" ? "1" : "";
+	$data['showemail'] = Settings::get("surveyaskmail") == "1" ? "1" : "";
+	$data['showmessage'] = Settings::get("surveyaskmessage") == "1" ? "1" : "";
+	$data['showname'] = Settings::get('usercanchangename') == "1" ? "1" : "";
+
+	return $data;
 }
 
 function setup_groups_select($groupid, $markoffline)
