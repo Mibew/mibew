@@ -216,6 +216,26 @@
                 <exclude name="collection_views/**/base*.js" />
             </fileset>
 
+            <!-- Include regions files -->
+            <fileset dir="${js_path}/compiled/${app_name}">
+                <include name="regions/**/base*.js" />
+            </fileset>
+            <fileset dir="${js_path}/compiled/${app_name}">
+                <include name="regions/**/*.js" />
+                <!-- Exclude base files -->
+                <exclude name="regions/**/base*.js" />
+            </fileset>
+
+            <!-- Include layouts files -->
+            <fileset dir="${js_path}/compiled/${app_name}">
+                <include name="layouts/**/base*.js" />
+            </fileset>
+            <fileset dir="${js_path}/compiled/${app_name}">
+                <include name="layouts/**/*.js" />
+                <!-- Exclude base files -->
+                <exclude name="layouts/**/base*.js" />
+            </fileset>
+
             <!-- Include all other files -->
             <fileset dir="${js_path}/compiled/${app_name}">
                 <include name="**/base*.js" />
@@ -223,16 +243,21 @@
                 <exclude name="collections/**/base*.js" />
                 <exclude name="model_views/**/base*.js" />
                 <exclude name="collection_views/**/base*.js" />
+                <exclude name="regions/**/base*.js" />
+                <exclude name="layouts/**/base*.js" />
             </fileset>
             <fileset dir="${js_path}/compiled/${app_name}">
                 <include name="**/*.js" />
                 <!-- Exclude files from ${js_path}/compiled/${app_name}/ -->
                 <exclude name="*.js" />
-                <!-- Exclude models, collections and views files -->
+                <!-- Exclude models, collections, views, regions and layouts
+                     files -->
                 <exclude name="models/**/*.js" />
                 <exclude name="collections/**/*.js" />
                 <exclude name="model_views/**/*.js" />
                 <exclude name="collection_views/**/*.js" />
+                <exclude name="regions/**/*.js" />
+                <exclude name="layouts/**/*.js" />
                 <!-- Exclude base files -->
                 <exclude name="**/base*.js" />
             </fileset>
