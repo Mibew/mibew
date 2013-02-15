@@ -19,16 +19,6 @@
     Mibew.Layouts = {};
 
     /**
-     * @namespace Holds instances of control models
-     */
-    Mibew.Objects.Models.Controls = {};
-
-    /**
-     * @namespace Holds instances of status models
-     */
-    Mibew.Objects.Models.Status = {};
-
-    /**
      * Create application instance.
      * @type Backbone.Marionette.Application
      */
