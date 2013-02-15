@@ -1,39 +1,62 @@
-(function($){
+(function(Mibew, $){
 
-    var $msgRegion = null;
-    var $avatarRegion = null;
+    /**
+     * Total height of elements exclude #messages-region or false if it is not
+     * calculated yet
+     * @type Number|Boolean
+     */
+    var delta = false;
+
+    /**
+     * Timer id
+     * @type Number
+     */
     var t;
 
-    var getHeight = function() {
-        var elementsHeight = 0;
-        $('body > *').not('#chat').each(function () {
-            elementsHeight += $(this).outerHeight(true);
-        });
-
-        elementsHeight += ($('#chat').outerHeight(true)
-            - $('#messages-region').innerHeight());
-
-        return ($(window).height() - elementsHeight);
-    }
-
+    /**
+     * Stretch #messages-region to fill the window
+     */
     var updateHeight = function() {
-        if ($msgRegion == null) {
-            $msgRegion = $('#messages-region');
-            $avatarRegion = $('#avatar-region');
-        }
-        if ($msgRegion.size() == 0) {
+        if ($('#messages-region').size() == 0) {
             return;
         }
-        var newHeight = getHeight();
-        var minHeight = parseInt($msgRegion.css('minHeight'));
+        // Create shortcut for #messages-region
+        var $msgs = $('#messages-region');
+        var $ava = $('#avatar-region');
 
-        if (minHeight >= newHeight) {
-            newHeight = minHeight;
+        // Calculate delta
+        if (delta === false) {
+            var max = 0;
+            $('body > *').each(function() {
+                var $el = $(this);
+                var pos = $el.offset();
+                var height = $el.height();
+                if (max < (pos.top + height)) {
+                    max = pos.top + height
+                }
+            });
+            delta = max - $msgs.height();
         }
-        $msgRegion.innerHeight(newHeight);
-        $avatarRegion.innerHeight(newHeight);
+
+        // Check new height
+        var newHeight = $(window).height() - delta;
+
+        if (newHeight < parseInt($msgs.css('minHeight'))) {
+            return;
+        }
+
+        // Update messages region height
+        $msgs.height(newHeight);
+
+        // Update avatar region height
+        if ($ava.size() > 0) {
+            $ava.height($msgs.innerHeight());
+        }
     }
 
+    /**
+     * Fix bug with window resize event
+     */
     var updateHeightWrapper = function() {
         if (t) {
             clearTimeout(t);
@@ -41,15 +64,49 @@
         t = setTimeout(updateHeight, 0);
     }
 
-    $(document).ready(updateHeight);
-    $(window)
-        .load(function() {
-            updateHeight();
-            // Scroll messages region to bottom
-            $('#messages-region').scrollTop(
-                $('#messages-region').prop('scrollHeight')
-            );
-        })
-        .resize(updateHeightWrapper);
+    // Stretch messages region after chat page initialize
+    Mibew.Application.addInitializer(function() {
+        /**
+         * Contains total count of images on the page
+         * @type Number
+         */
+        var totalImagesCount = $('img').size();
 
-})($);
+        /**
+         * Contains count of loaded images
+         * @type Number
+         */
+        var imagesLoaded = 0;
+
+        /**
+         * Run then image loaded. If all images loaded run resizer.
+         * @type Function
+         */
+        var imageLoadCallback = function() {
+            imagesLoaded++;
+            if (totalImagesCount == imagesLoaded) {
+                updateHeight();
+                // Scroll messages region to bottom
+                $('#messages-region').scrollTop(
+                    $('#messages-region').prop('scrollHeight')
+                );
+                // Stretch messages region on resize
+                $(window).resize(updateHeightWrapper);
+            }
+        }
+
+        // Change size of message region only after all images will be loaded
+        $('img').each(function(){
+            // Shortcut for current image element
+            var $el = $(this);
+            // Check if image already loaded and cached.
+            // Cached image have height and do not triggers load event.
+            if ($el.height() > 0) {
+                imageLoadCallback();
+            } else {
+                $el.load(imageLoadCallback);
+            }
+        });
+    });
+
+})(Mibew, $);
