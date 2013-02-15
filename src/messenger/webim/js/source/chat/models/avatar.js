@@ -30,11 +30,30 @@
              * Model initializer.
              */
             initialize: function() {
+
+                /**
+                 * Contain ids of registered by the model api functions
+                 * @type Array
+                 */
+                this.registeredFunctions = [];
+
                 // Register API function
-                Mibew.Objects.server.registerFunction(
-                    'setupAvatar',
-                    _.bind(this.apiSetupAvatar, this)
+                this.registeredFunctions.push(
+                    Mibew.Objects.server.registerFunction(
+                        'setupAvatar',
+                        _.bind(this.apiSetupAvatar, this)
+                    )
                 );
+            },
+
+            // Model finalizer
+            finalize: function() {
+                // Unregister api functions
+                for(var i = 0; i < this.registeredFunctions.length; i++) {
+                    Mibew.Objects.server.unregisterFunction(
+                        this.registeredFunctions[i]
+                    );
+                }
             },
 
             /**

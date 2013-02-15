@@ -24,11 +24,32 @@
              * Collection initializer.
              */
             initialize: function() {
+
+                /**
+                 * Contains ids of periodically called functions
+                 * @type Array
+                 */
+                this.periodicallyCalled = [];
+
                 // Periodically try to get new messages
-                Mibew.Objects.server.callFunctionsPeriodically(
-                    _.bind(this.updateMessagesFunctionBuilder, this),
-                    _.bind(this.updateMessages, this)
+                this.periodicallyCalled.push(
+                    Mibew.Objects.server.callFunctionsPeriodically(
+                        _.bind(this.updateMessagesFunctionBuilder, this),
+                        _.bind(this.updateMessages, this)
+                    )
                 );
+            },
+
+            /**
+             * Collection finalizer
+             */
+            finalize: function() {
+                // Stop call functions periodically
+                for (var i = 0; i < this.periodicallyCalled.length; i++) {
+                    Mibew.Objects.server.stopCallFunctionsPeriodically(
+                        this.periodicallyCalled[i]
+                    );
+                }
             },
 
             /**

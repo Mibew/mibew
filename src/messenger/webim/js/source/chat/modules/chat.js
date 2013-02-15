@@ -18,6 +18,12 @@
      */
     Mibew.Objects.Models.Status = {};
 
+    /**
+     * Contains ids of periodically called functions
+     * @type Array
+     */
+    var periodicallyCalled = [];
+
 
     // Create shortcut for Application object
     var app = Mibew.Application;
@@ -42,6 +48,7 @@
 
         // Show layout at page
         app.mainRegion.show(layout);
+
 
         // Initialize Thread and User
         models.thread = new Mibew.Models.Thread(options.thread);
@@ -177,49 +184,97 @@
 
         // TODO: May be move it somewhere else
         // Periodically call update function at the server side
-        objs.server.callFunctionsPeriodically(
-            function() {
-                // Get thread and user objects
-                var thread = Mibew.Objects.Models.thread;
-                var user = Mibew.Objects.Models.user;
+        periodicallyCalled.push(
+            objs.server.callFunctionsPeriodically(
+                function() {
+                    // Get thread and user objects
+                    var thread = Mibew.Objects.Models.thread;
+                    var user = Mibew.Objects.Models.user;
 
-                // Build functions list
-                return [
-                    {
-                        "function": "update",
-                        "arguments": {
-                            "return": {
-                                'typing': 'typing',
-                                'canPost': 'canPost'
-                            },
-                            "references": {},
-                            "threadId": thread.get('id'),
-                            "token": thread.get('token'),
-                            "lastId": thread.get('lastId'),
-                            "typed": user.get('typing'),
-                            "user": (! user.get('isAgent'))
+                    // Build functions list
+                    return [
+                        {
+                            "function": "update",
+                            "arguments": {
+                                "return": {
+                                    'typing': 'typing',
+                                    'canPost': 'canPost'
+                                },
+                                "references": {},
+                                "threadId": thread.get('id'),
+                                "token": thread.get('token'),
+                                "lastId": thread.get('lastId'),
+                                "typed": user.get('typing'),
+                                "user": (! user.get('isAgent'))
+                            }
                         }
+                    ]
+                },
+                function(args) {
+                    // Check if there was an error
+                    if (args.errorCode) {
+                        Mibew.Objects.Models.Status.message.setMessage(
+                            args.errorMessage || 'refresh failed'
+                        );
+                        return;
                     }
-                ]
-            },
-            function(args) {
-                // Check if there was an error
-                if (args.errorCode) {
-                    Mibew.Objects.Models.Status.message.setMessage(
-                        args.errorMessage || 'refresh failed'
-                    );
-                    return;
+                    // Update typing status
+                    if (args.typing) {
+                        Mibew.Objects.Models.Status.typing.show();
+                    }
+                    // Update user
+                    Mibew.Objects.Models.user.set({
+                        canPost: args.canPost || false
+                    });
                 }
-                // Update typing status
-                if (args.typing) {
-                    Mibew.Objects.Models.Status.typing.show();
-                }
-                // Update user
-                Mibew.Objects.Models.user.set({
-                    canPost: args.canPost || false
-                });
-            }
+            )
         );
+
+    });
+
+
+    // Add module finalizer
+    chat.addFinalizer(function() {
+        // Close layout
+        Mibew.Objects.chatLayout.close();
+
+
+        // Stop call functions periodically
+        for (var i = 0; i < periodicallyCalled.length; i++) {
+            Mibew.Objects.server.stopCallFunctionsPeriodically(
+                periodicallyCalled[i]
+            );
+        }
+
+        // Run models finalizers
+        // TODO: may be automate this process
+        // Finalize avatar model
+        if (typeof Mibew.Objects.Models.avatar != 'undefined') {
+            Mibew.Objects.Models.avatar.finalize();
+        }
+
+        // Run collections finalizers
+        // Finalize messages collection
+        Mibew.Objects.Collections.messages.finalize();
+
+        // Clean up memory
+        // Delete layout
+        delete Mibew.Objects.chatLayout;
+
+        // Delete models
+        delete Mibew.Objects.Models.thread;
+        delete Mibew.Objects.Models.user;
+        delete Mibew.Objects.Models.page;
+        delete Mibew.Objects.Models.avatar;
+        delete Mibew.Objects.Models.messageForm;
+        delete Mibew.Objects.Models.sound;
+        delete Mibew.Objects.Models.Controls;
+        delete Mibew.Objects.Models.Status;
+
+        // Delete collections
+        delete Mibew.Objects.Collections.messages;
+        delete Mibew.Objects.Collections.controls;
+        delete Mibew.Objects.Collections.status;
     });
 
 })(Mibew);
