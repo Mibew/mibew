@@ -14,6 +14,11 @@
     Mibew.Regions = {};
 
     /**
+     * @namespace Holds application layouts constructors
+     */
+    Mibew.Layouts = {};
+
+    /**
      * @namespace Holds instances of control models
      */
     Mibew.Objects.Models.Controls = {};

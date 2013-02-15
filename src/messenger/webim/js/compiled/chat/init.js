@@ -5,4 +5,4 @@
  Copyright (c) 2005-2011 Mibew Messenger Community
  License: http://mibew.org/license.php
 */
-(function(a){a.Regions={};a.Objects.Models.Controls={};a.Objects.Models.Status={};a.Application=new Backbone.Marionette.Application})(Mibew);
+(function(a){a.Regions={};a.Layouts={};a.Objects.Models.Controls={};a.Objects.Models.Status={};a.Application=new Backbone.Marionette.Application})(Mibew);

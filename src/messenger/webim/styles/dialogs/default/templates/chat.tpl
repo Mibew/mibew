@@ -45,7 +45,8 @@
                 'chat.client.name': "${msg:chat.client.name}",
                 'chat.client.changename': "${msg:chat.client.changename}",
                 'chat.window.toolbar.turn_off_sound': "${msg:chat.window.toolbar.turn_off_sound}",
-                'chat.window.toolbar.turn_on_sound': "${msg:chat.window.toolbar.turn_on_sound}"
+                'chat.window.toolbar.turn_on_sound': "${msg:chat.window.toolbar.turn_on_sound}",
+                'chat.window.poweredby': "${msg:chat.window.poweredby}"
             });
         //--></script>
 
@@ -90,6 +91,11 @@
                         mailWindowParams: "${page:chatStyles.mailWindowParams}",
                         historyWindowParams: "${page:coreStyles.historyWindowParams}"
                     },
+                    layoutsData: {
+                        chat: {
+                            user: ${if:user}true${else:user}false${endif:user}
+                        }
+                    },
                     plugins: ${page:js_plugin_options}
                 });
             });
@@ -124,35 +130,6 @@
             </div>
         </div>
 
-        <!-- Chat header -->
-        <div id="chat-header">
-            <div class="bgc"><div class="bgl"><div class="bgr">
-                <!-- Chat controls region -->
-                <div id="controls-region"></div>
-            </div></div></div>
-        </div>
-
-        <!-- Chat region -->
-        <div id="chat">
-            <div class="bgl"><div class="bgr"><div class="sdwbgc"><div class="sdwbgl"><div class="sdwbgr">
-                ${if:user}
-                <div id="avatar-region"></div>
-                ${endif:user}
-                <!-- Chat messages region -->
-                <div id="messages-region"></div>
-                <!-- Chat status region -->
-                <div id="status-region"></div>
-            </div></div></div></div></div>
-        </div>
-
-        <!-- Message form region -->
-        <div id="message-form-region"></div>
-
-        <!-- Footer links -->
-        <div id="footer">${msg:chat.window.poweredby} <a id="poweredByLink" href="http://mibew.org" title="Mibew Community" target="_blank">mibew.org</a></div>
-
-        <!-- Hidden region for some sound element -->
-        <div id="sound-region"></div>
-
+        <div id="main-region"></div>
     </body>
 </html>

@@ -13,12 +13,7 @@
 
     // Define regions
     App.addRegions({
-        controlsRegion: '#controls-region',
-        avatarRegion: '#avatar-region',
-        messagesRegion: Mibew.Regions.Messages,
-        statusRegion: '#status-region',
-        messageFormRegion: '#message-form-region',
-        soundRegion: '#sound-region'
+        mainRegion: '#main-region'
     });
 
     // Initialize application
@@ -29,6 +24,15 @@
         var controls = Mibew.Objects.Models.Controls;
         var status = Mibew.Objects.Models.Status;
 
+        // Create instance of the chat layout
+        // Use undocumented feature of layouts: passing model to layout
+        var layout = new Mibew.Layouts.Chat({
+            model: new Backbone.Model(options.layoutsData.chat || {})
+        });
+        Mibew.Objects.chatLayout = layout;
+
+        // Show layout at page
+        App.mainRegion.show(layout);
 
         // Initialize Server, Thread and User
         objs.server = new Mibew.Server(_.extend(
@@ -109,7 +113,7 @@
         objs.Collections.controls = ctrlsCollection;
 
         // Display controls
-        App.controlsRegion.show(new Mibew.Views.ControlsCollection({
+        layout.controlsRegion.show(new Mibew.Views.ControlsCollection({
             collection: ctrlsCollection
         }));
 
@@ -128,7 +132,7 @@
         ]);
 
         // Display status bar
-        App.statusRegion.show(new Mibew.Views.StatusCollection({
+        layout.statusRegion.show(new Mibew.Views.StatusCollection({
             collection: objs.Collections.status
         }));
 
@@ -136,7 +140,7 @@
         // Initialize avatar only for user
         if (! models.user.get('isAgent')) {
             models.avatar = new Mibew.Models.Avatar();
-            App.avatarRegion.show(new Mibew.Views.Avatar({
+            layout.avatarRegion.show(new Mibew.Views.Avatar({
                 model: models.avatar
             }));
         }
@@ -152,22 +156,21 @@
         );
 
         // Display message processor
-        App.messageFormRegion.show(new Mibew.Views.MessageForm({
+        layout.messageFormRegion.show(new Mibew.Views.MessageForm({
             model: models.messageForm
         }));
 
         // Display messages
-        App.messagesRegion.show(new Mibew.Views.MessagesCollection({
+        layout.messagesRegion.show(new Mibew.Views.MessagesCollection({
             collection: objs.Collections.messages
         }));
 
 
         // Initialize sounds
         models.sound = new Mibew.Models.Sound();
-        App.soundRegion.show(new Mibew.Views.Sound({
+        layout.soundRegion.show(new Mibew.Views.Sound({
             model: models.sound
         }));
-
 
         // TODO: May be move it somewhere else
         // Periodically call update function at the server side

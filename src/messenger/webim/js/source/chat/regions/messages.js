@@ -15,12 +15,6 @@
         /** @lends Mibew.Regions.Message */
         {
             /**
-             * DOM element for the region
-             * @type String
-             */
-            el: '#messages-region',
-
-            /**
              * Show view event handler. Register handler to view's
              * 'after:item:added' event.
              * @param {Backbone.Marionette.ItemView} view View to show in region
