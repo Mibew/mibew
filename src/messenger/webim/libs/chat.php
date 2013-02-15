@@ -229,6 +229,7 @@ function setup_groups_select($groupid, $markoffline)
 	$val = "";
 	$selectedgroupid = $groupid;
 	$groupdescriptions = array();
+	$defaultdescription = "";
 	foreach ($allgroups as $k) {
 		$groupname = $k['vclocalname'];
 		if ($k['inumofagents'] == 0 || ($groupid && $k['parent'] != $groupid && $k['groupid'] != $groupid )) {
