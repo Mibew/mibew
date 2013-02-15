@@ -30,14 +30,14 @@
                 {},
                 Mibew.Views.Control.prototype.events,
                 {
-                    'click': 'close'
+                    'click': 'closeThread'
                 }
             ),
 
             /**
              * Display confirmation dialog and close chat window
              */
-            close: function() {
+            closeThread: function() {
                 // Show confirmation message if can
                 var confirmMessage = Mibew.Localization.get('chat.close.confirmation');
                 if (confirmMessage !== false) {
