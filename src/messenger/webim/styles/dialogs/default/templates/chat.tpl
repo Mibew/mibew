@@ -108,15 +108,15 @@
         <!-- Chat window top. Includes logo and some info about company -->
         <div id="top">
             <div id="logo">
-                ${if:ct.company.chatLogoURL}
+                ${if:company.chatLogoURL}
                     ${if:webimHost}
                         <a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">
-                            <img src="${page:ct.company.chatLogoURL}" alt=""/>
+                            <img src="${page:company.chatLogoURL}" alt=""/>
                         </a>
                     ${else:webimHost}
-                        <img src="${page:ct.company.chatLogoURL}" alt=""/>
+                        <img src="${page:company.chatLogoURL}" alt=""/>
                     ${endif:webimHost}
-                ${else:ct.company.chatLogoURL}
+                ${else:company.chatLogoURL}
                     ${if:webimHost}
                         <a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">
                             <img src="${tplroot}/images/default-logo.gif" alt=""/>
@@ -124,7 +124,7 @@
                     ${else:webimHost}
                         <img src="${tplroot}/images/default-logo.gif" alt=""/>
                     ${endif:webimHost}
-                ${endif:ct.company.chatLogoURL}
+                ${endif:company.chatLogoURL}
                 &nbsp;
                 <div id="page-title">${page:chat.title}</div>
                 <div class="clear">&nbsp;</div>

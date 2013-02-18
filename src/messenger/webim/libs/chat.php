@@ -139,13 +139,15 @@ function setup_logo($group = NULL) {
 
 	$toplevelgroup = (!$group)?array():get_top_level_group($group);
 
-	$data['ct.company.name'] = topage(empty($toplevelgroup['vctitle'])
-		? Settings::get('title')
-		: $toplevelgroup['vctitle']);
+	$data['company'] = array(
+		'name' => topage(empty($toplevelgroup['vctitle'])
+			? Settings::get('title')
+			: $toplevelgroup['vctitle']),
 
-	$data['ct.company.chatLogoURL'] = topage(empty($toplevelgroup['vclogo'])
-		? Settings::get('logo')
-		: $toplevelgroup['vclogo']);
+		'chatLogoURL' => topage(empty($toplevelgroup['vclogo'])
+			? Settings::get('logo')
+			: $toplevelgroup['vclogo'])
+	);
 
 	$data['webimHost'] = topage(empty($toplevelgroup['vchosturl'])
 		? Settings::get('hosturl')
