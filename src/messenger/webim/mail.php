@@ -47,7 +47,10 @@ if( count($errors) > 0 ) {
 	$page['ct.chatThreadId'] = $thread->id;
 	$page['ct.token'] = $thread->lastToken;
 	$page['level'] = "";
-	setup_logo($group);
+	$page = array_merge_recursive(
+		$page,
+		setup_logo($group)
+	);
 	expand("styles/dialogs", getchatstyle(), "mail.tpl");
 	exit;
 }
@@ -67,7 +70,10 @@ $body = getstring2(
 
 webim_mail($email, $webim_mailbox, $subject, $body);
 
-setup_logo($group);
+$page = array_merge_recursive(
+	$page,
+	setup_logo($group)
+);
 expand("styles/dialogs", getchatstyle(), "mailsent.tpl");
 exit;
 ?>

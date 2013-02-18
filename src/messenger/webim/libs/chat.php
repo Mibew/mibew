@@ -128,13 +128,30 @@ function needsFramesrc()
 	return strstr($useragent, "safari/");
 }
 
-function setup_logo($group = NULL)
-{
-	global $page;
+/**
+ * Prepare logo data
+ *
+ * @param array $group Group info
+ * @return array Array of logo data
+ */
+function setup_logo($group = NULL) {
+	$data = array();
+
 	$toplevelgroup = (!$group)?array():get_top_level_group($group);
-	$page['ct.company.name'] = topage(empty($toplevelgroup['vctitle'])?Settings::get('title'):$toplevelgroup['vctitle']);
-	$page['ct.company.chatLogoURL'] = topage(empty($toplevelgroup['vclogo'])?Settings::get('logo'):$toplevelgroup['vclogo']);
-	$page['webimHost'] = topage(empty($toplevelgroup['vchosturl'])?Settings::get('hosturl'):$toplevelgroup['vchosturl']);
+
+	$data['ct.company.name'] = topage(empty($toplevelgroup['vctitle'])
+		? Settings::get('title')
+		: $toplevelgroup['vctitle']);
+
+	$data['ct.company.chatLogoURL'] = topage(empty($toplevelgroup['vclogo'])
+		? Settings::get('logo')
+		: $toplevelgroup['vclogo']);
+
+	$data['webimHost'] = topage(empty($toplevelgroup['vchosturl'])
+		? Settings::get('hosturl')
+		: $toplevelgroup['vchosturl']);
+
+	return $data;
 }
 
 /**
@@ -284,7 +301,10 @@ function setup_chatview(Thread $thread) {
 	);
 
 	// Setup logo
-	setup_logo($group);
+	$data = array_merge_recursive(
+		$data,
+		setup_logo($group)
+	);
 
 	// Set enter key shortcut
 	if (Settings::get('sendmessagekey') == 'enter') {

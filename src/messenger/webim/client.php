@@ -89,10 +89,9 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 		}
 
 		if(!has_online_operators($groupid)) {
-			$page = array();
-			setup_logo($group);
+			// Create page array
 			$page = array_merge_recursive(
-				$page,
+				setup_logo($group),
 				setup_leavemessage($visitor['name'],$email,$firstmessage,$groupid,$groupname,$info,$referrer)
 			);
 			expand("styles/dialogs", getchatstyle(), "leavemessage.tpl");
@@ -102,10 +101,9 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 		$invitation_state = invitation_state($_SESSION['visitorid']);
 		$visitor_is_invited = Settings::get('enabletracking') && $invitation_state['invited'] && !$invitation_state['threadid'];
 		if(Settings::get('enablepresurvey') == '1' && !(isset($_POST['survey']) && $_POST['survey'] == 'on') && !$visitor_is_invited) {
-			$page = array();
-			setup_logo($group);
+			// Create page array
 			$page = array_merge_recursive(
-				$page,
+				setup_logo($group),
 				setup_survey($visitor['name'], $email, $groupid, $info, $referrer)
 			);
 			expand("styles/dialogs", getchatstyle(), "survey.tpl");

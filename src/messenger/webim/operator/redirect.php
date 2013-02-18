@@ -106,7 +106,10 @@ if (isset($_GET['nextGroup'])) {
 	}
 }
 
-setup_logo();
+$page = array_merge_recursive(
+	$page,
+	setup_logo()
+);
 if (count($errors) > 0) {
 	expand("../styles/dialogs", getchatstyle(), "error.tpl");
 } else {

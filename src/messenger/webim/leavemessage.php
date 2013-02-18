@@ -101,9 +101,9 @@ if(Settings::get("enablecaptcha") == "1" && can_show_captcha()) {
 if( count($errors) > 0 ) {
 	$page = array_merge_recursive(
 		$page,
+		setup_logo($group),
 		setup_leavemessage($visitor_name,$email,$message,$groupid,$groupname,$info,$referrer)
 	);
-	setup_logo($group);
 	expand("styles/dialogs", getchatstyle(), "leavemessage.tpl");
 	exit;
 }
@@ -137,6 +137,9 @@ if($inbox_mail) {
 	webim_mail($inbox_mail, $email, $subject, $body);
 }
 
-setup_logo($group);
+$page = array_merge_recursive(
+	$page,
+	setup_logo($group)
+);
 expand("styles/dialogs", getchatstyle(), "leavemessagesent.tpl");
 ?>
