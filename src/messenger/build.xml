@@ -3,6 +3,7 @@
 
     <property name="webim_path" value="webim" />
     <property name="closure.c" value="/opt/closure/compiler.jar" />
+    <property name="handlebars" value="handlebars" />
     <property name="dialogs_styles_path" value="${webim_path}/styles/dialogs" />
     <property name="js_path" value="${webim_path}/js" />
 
@@ -31,7 +32,7 @@
         <echo>Compile Handlebars templates for dialogs styles</echo>
 
         <!-- Compile templates -->
-        <apply executable="handlebars">
+        <apply executable="${handlebars}">
             <arg value="-m"/>
             <arg value="-f"/>
             <targetfile />
@@ -326,7 +327,7 @@
     <target name="core_handlebars">
         <echo>Compile Handlebars templates of the Core</echo>
         <!-- Build applications templates -->
-        <apply executable="handlebars">
+        <apply executable="${handlebars}">
             <arg value="-m"/>
             <arg value="-f"/>
             <targetfile />
@@ -337,7 +338,7 @@
         </apply>
 
         <!-- Build misc files -->
-        <apply executable="handlebars">
+        <apply executable="${handlebars}">
             <arg value="-m"/>
             <arg value="-f"/>
             <targetfile />
