@@ -102,7 +102,8 @@ function expandtext($text)
 
 function expand($basedir, $style, $filename)
 {
-	global $expand_include_path, $current_style;
+	global $expand_include_path, $current_style, $page;
+	$page = array_flatten_recursive($page);
 	start_html_output();
 	if (!is_dir("$basedir/$style")) {
 		$style = "default";
