@@ -293,9 +293,20 @@ function setup_chatview(Thread $thread) {
 		$group = array();
 	}
 
+	// Create some empty arrays
+	$data['chat'] = array(
+		'messageForm' => array(),
+		'links' => array(),
+		'windowsParams' => array(),
+		'layoutData' => array()
+	);
+
 	// Set thread params
-	$data['chat.thread.id'] = $thread->id;
-	$data['chat.thread.token'] = $thread->lastToken;
+	$data['chat']['thread'] = array(
+		'id' => $thread->id,
+		'token' => $thread->lastToken
+	);
+
 	$data['chat.title'] = topage(
 		empty($group['vcchattitle'])
 			? Settings::get('chattitle')
@@ -311,12 +322,12 @@ function setup_chatview(Thread $thread) {
 	// Set enter key shortcut
 	if (Settings::get('sendmessagekey') == 'enter') {
 		$data['send_shortcut'] = "Enter";
-		$data['ignorectrl'] = 1;
+		$data['chat']['messageForm']['ignoreCtrl'] = true;
 	} else {
 		$data['send_shortcut'] = is_mac_opera()
 			? "&#8984;-Enter"
 			: "Ctrl-Enter";
-		$data['ignorectrl'] = 0;
+		$data['chat']['messageForm']['ignoreCtrl'] = false;
 	}
 
 	// Set some browser info
@@ -328,11 +339,13 @@ function setup_chatview(Thread $thread) {
 
 	// Load dialogs style options
 	$style_config = get_dialogs_style_config(getchatstyle());
-	$data['chatStyles.mailWindowParams'] = $style_config['mail']['window_params'];
+	$data['chat']['windowsParams']['mail']
+		= $style_config['mail']['window_params'];
 
 	// Load core style options
 	$style_config = get_core_style_config();
-	$data['coreStyles.historyWindowParams'] = $style_config['history']['window_params'];
+	$data['chat']['windowsParams']['history']
+		= $style_config['history']['window_params'];
 
 	return $data;
 }
@@ -351,22 +364,32 @@ function setup_chatview_for_user(Thread $thread, $level) {
 
 	$data = setup_chatview($thread);
 
-	// Set user info
-	$data['agent'] = false;
-	$data['user'] = true;
-	$data['canpost'] = true;
 	$data['level'] = $level;
-	$data['chat.user.name'] = htmlspecialchars(topage($thread->userName));
-	$data['canChangeName'] = Settings::get('usercanchangename') == "1";
+
+	// Set user info
+	$data['chat']['layoutData']['user'] = true;
+	$data['chat']['user'] = array(
+		'name' => htmlspecialchars(topage($thread->userName)),
+		'canChangeName' => (bool)(Settings::get('usercanchangename') == "1"),
+		'defaultName' => (bool)(getstring("chat.default.username")
+			!= $thread->userName),
+		'canPost' => true,
+		'isAgent' => false
+	);
 
 	$params = "thread=" . $thread->id . "&amp;token=" . $thread->lastToken;
 
 	// Set link to send mail page
-	$data['mailLink'] = "$webimroot/client.php?" . $params . "&amp;level=$level&amp;act=mailthread";
+	$data['chat']['links']['mail'] = "$webimroot/client.php?"
+		. $params
+		. "&amp;level=$level&amp;act=mailthread";
 
 	// Set SSL link
 	if (Settings::get('enablessl') == "1" && !is_secure_request()) {
-		$data['sslLink'] = get_app_location(true, true) . "/client.php?" . $params . "&amp;level=$level";
+		$data['chat']['links']['ssl'] = get_app_location(true, true)
+			. "/client.php?"
+			. $params
+			. "&amp;level=$level";
 	}
 
 	return $data;
@@ -388,53 +411,80 @@ function setup_chatview_for_operator(Thread $thread, $operator) {
 	$data = setup_chatview($thread);
 
 	// Set operator info
-	$data['agent'] = true;
-	$data['user'] = false;
-	$data['canpost'] = $thread->agentId == $operator['operatorid'];
-	$data['chat.user.name'] = htmlspecialchars(topage(get_user_name($thread->userName, $thread->remote, $thread->userId)));
+	$data['chat']['layoutData']['user'] = false;
+	$data['chat']['user'] = array(
+		'name' => htmlspecialchars(
+			topage(
+				get_user_name(
+					$thread->userName,
+					$thread->remote,
+					$thread->userId
+				)
+			)
+		),
+		'canPost' => (bool)($thread->agentId == $operator['operatorid']),
+		'isAgent' => true
+	);
 
 	// Set SSL link
 	if (Settings::get('enablessl') == "1" && !is_secure_request()) {
-		$data['sslLink'] = get_app_location(true, true) . "/operator/agent.php?thread=" . $thread->id . "&amp;token=" . $thread->lastToken;
+		$data['chat']['links']['ssl'] = get_app_location(true, true)
+			. "/operator/agent.php?thread="
+			. $thread->id
+			. "&amp;token="
+			. $thread->lastToken;
 	}
 
 	// Set history window params
-	$data['historyParams'] = array("userid" => (string)$thread->userId);
-	$data['historyParamsLink'] = add_params(
+	$history_link_params = array("userid" => (string)$thread->userId);
+	$data['chat']['links']['history'] = add_params(
 		$webimroot . "/operator/userhistory.php",
-		$data['historyParams']
+		$history_link_params
 	);
 
 	// Set tracking params
 	if (Settings::get('enabletracking')) {
 	    $visitor = track_get_visitor_by_threadid($thread->id);
-	    $data['trackedParams'] = array("visitor" => "" . $visitor['visitorid']);
-	    $data['trackedParamsLink'] = add_params($webimroot . "/operator/tracked.php", $data['trackedParams']);
-	}
-
-	// Get predefined answers
-	$canned_messages = load_canned_messages($thread->locale, 0);
-	if ($thread->groupId) {
-		$canned_messages = array_merge(
-			load_canned_messages($thread->locale, $thread->groupId),
-			$canned_messages
-		);
-	};
-
-	$predefined_answers = array();
-	foreach ($canned_messages as $answer) {
-		$predefined_answers[] = array(
-			'short' => htmlspecialchars(
-				topage($answer['vctitle']?$answer['vctitle']:cutstring($answer['vcvalue'], 97, '...'))
-			),
-			'full' => myiconv($webim_encoding, getoutputenc(), $answer['vcvalue'])
+		$tracked_link_params = array("visitor" => "" . $visitor['visitorid']);
+		$data['chat']['links']['tracked'] = add_params(
+			$webimroot . "/operator/tracked.php",
+			$tracked_link_params
 		);
 	}
-	$data['predefinedAnswers'] = json_encode($predefined_answers);
 
+	// Check if agent can post messages
+	if ($thread->agentId == $operator['operatorid']) {
+		// Get predefined answers
+		$canned_messages = load_canned_messages($thread->locale, 0);
+		if ($thread->groupId) {
+			$canned_messages = array_merge(
+				load_canned_messages($thread->locale, $thread->groupId),
+				$canned_messages
+			);
+		};
+
+		$predefined_answers = array();
+		foreach ($canned_messages as $answer) {
+			$predefined_answers[] = array(
+				'short' => htmlspecialchars(
+					topage($answer['vctitle']
+						? $answer['vctitle']
+						: cutstring($answer['vcvalue'], 97, '...'))
+				),
+				'full' => myiconv(
+					$webim_encoding,
+					getoutputenc(),
+					$answer['vcvalue']
+				)
+			);
+		}
+		$data['chat']['messageForm']['predefinedAnswers'] = $predefined_answers;
+	}
 	// Set link to user redirection page
 	$params = "thread=" . $thread->id . "&amp;token=" . $thread->lastToken;
-	$data['redirectLink'] = "$webimroot/operator/agent.php?" . $params . "&amp;act=redirect";
+	$data['chat']['links']['redirect'] = "$webimroot/operator/agent.php?"
+		. $params
+		. "&amp;act=redirect";
 
 	$data['namePostfix'] = "";
 

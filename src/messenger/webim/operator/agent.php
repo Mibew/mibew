@@ -132,6 +132,8 @@ if ($pparam == "redirect") {
 	$page['additional_css'] = get_additional_css('agent_chat_window');
 	$page['additional_js'] = get_additional_js('agent_chat_window');
 	$page['js_plugin_options'] = get_js_plugin_options('agent_chat_window');
+	// Build js application options
+	$page['chatModule'] = json_encode($page['chat']);
 	// Expand page
 	expand("../styles/dialogs", getchatstyle(), "chat.tpl");
 }

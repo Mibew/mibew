@@ -63,40 +63,7 @@
                         webimRoot: '${webimroot}',
                         tplRoot: '${tplroot}'
                     },
-                    chatModule: {
-                        user: {
-                            ${if:user}
-                            name: "${page:chat.user.name}",
-                            canChangeName: ${if:canChangeName}true${else:canChangeName}false${endif:canChangeName},
-                            defaultName: ("${page:chat.user.name}" == "${msg:chat.default.username}"),
-                            ${endif:user}
-                            canPost: ${if:canpost}true${else:canpost}false${endif:canpost},
-                            isAgent: ${if:agent}true${else:agent}false${endif:agent}
-                        },
-                        thread: {
-                            id:${page:chat.thread.id},
-                            token:${page:chat.thread.token}
-                        },
-                        messageForm: {
-                            ${if:agent}${if:canpost}
-                            predefinedAnswers: ${page:predefinedAnswers},
-                            ${endif:canpost}${endif:agent}
-                            ignoreCtrl:${if:ignorectrl}true${else:ignorectrl}false${endif:ignorectrl}
-                        },
-                        links: {
-                            mail: "${page:mailLink}",
-                            redirect: "${page:redirectLink}",
-                            history: "${page:historyParamsLink}",
-                            ssl: "${page:sslLink}"
-                        },
-                        windowsParams: {
-                            mail: "${page:chatStyles.mailWindowParams}",
-                            history: "${page:coreStyles.historyWindowParams}"
-                        },
-                        layoutData: {
-                            user: ${if:user}true${else:user}false${endif:user}
-                        }
-                    },
+                    chatModule: ${page:chatModule},
                     plugins: ${page:js_plugin_options}
                 });
             });
