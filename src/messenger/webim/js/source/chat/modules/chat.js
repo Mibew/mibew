@@ -40,24 +40,19 @@
         var controls = Mibew.Objects.Models.Controls;
         var status = Mibew.Objects.Models.Status;
 
-        // Create instance of the chat layout
-        // Use undocumented feature of layouts: passing model to layout
-        var layout = new Mibew.Layouts.Chat({
-            model: new Backbone.Model(chatOptions.layoutData || {})
-        });
-        Mibew.Objects.chatLayout = layout;
-
-        // Show layout at page
-        app.mainRegion.show(layout);
-
-
         // Initialize Thread and User
         models.thread = new Mibew.Models.Thread(chatOptions.thread);
         models.user = new Mibew.Models.ChatUser(chatOptions.user);
 
-
         // Initialize Page
         models.page = new Mibew.Models.Page(options.page);
+
+        // Create instance of the chat layout
+        var layout = new Mibew.Layouts.Chat();
+        Mibew.Objects.chatLayout = layout;
+
+        // Show layout at page
+        app.mainRegion.show(layout);
 
 
         // Initialize controls

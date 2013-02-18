@@ -297,8 +297,7 @@ function setup_chatview(Thread $thread) {
 	$data['chat'] = array(
 		'messageForm' => array(),
 		'links' => array(),
-		'windowsParams' => array(),
-		'layoutData' => array()
+		'windowsParams' => array()
 	);
 
 	// Set thread params
@@ -367,7 +366,6 @@ function setup_chatview_for_user(Thread $thread, $level) {
 	$data['level'] = $level;
 
 	// Set user info
-	$data['chat']['layoutData']['user'] = true;
 	$data['chat']['user'] = array(
 		'name' => htmlspecialchars(topage($thread->userName)),
 		'canChangeName' => (bool)(Settings::get('usercanchangename') == "1"),
@@ -411,7 +409,6 @@ function setup_chatview_for_operator(Thread $thread, $operator) {
 	$data = setup_chatview($thread);
 
 	// Set operator info
-	$data['chat']['layoutData']['user'] = false;
 	$data['chat']['user'] = array(
 		'name' => htmlspecialchars(
 			topage(

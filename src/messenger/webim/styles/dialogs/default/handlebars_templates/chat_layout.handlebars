@@ -9,9 +9,9 @@
 {{! Chat region}}
 <div id="chat">
     <div class="bgl"><div class="bgr"><div class="sdwbgc"><div class="sdwbgl"><div class="sdwbgr">
-        {{#if user}}
+        {{#unless user.isAgent}}
         <div id="avatar-region"></div>
-        {{/if}}
+        {{/unless}}
         {{! Chat messages region}}
         <div id="messages-region"></div>
         {{! Chat status region}}

@@ -34,6 +34,22 @@
                 statusRegion: '#status-region',
                 messageFormRegion: '#message-form-region',
                 soundRegion: '#sound-region'
+            },
+
+            /**
+             * Override Backbone.Marionette.ItemView.serializeData to pass some
+             * extra fields to template.
+             *
+             * Use undocumented feature of layouts: passing data to template via
+             * serializeData method.
+             *
+             * @returns {Object} Template data
+             */
+            serializeData: function() {
+                var user = Mibew.Objects.Models.user.toJSON();
+                return {
+                    user: user
+                }
             }
         }
     );
