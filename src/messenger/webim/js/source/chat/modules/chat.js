@@ -34,6 +34,7 @@
     // Add module initializer
     chat.addInitializer(function(options) {
         // Create some shortcuts
+        var chatOptions = options.chatModule;
         var objs = Mibew.Objects;
         var models = Mibew.Objects.Models;
         var controls = Mibew.Objects.Models.Controls;
@@ -42,7 +43,7 @@
         // Create instance of the chat layout
         // Use undocumented feature of layouts: passing model to layout
         var layout = new Mibew.Layouts.Chat({
-            model: new Backbone.Model(options.layoutsData.chat || {})
+            model: new Backbone.Model(chatOptions.layoutData || {})
         });
         Mibew.Objects.chatLayout = layout;
 
@@ -51,8 +52,8 @@
 
 
         // Initialize Thread and User
-        models.thread = new Mibew.Models.Thread(options.thread);
-        models.user = new Mibew.Models.ChatUser(options.user);
+        models.thread = new Mibew.Models.Thread(chatOptions.thread);
+        models.user = new Mibew.Models.ChatUser(chatOptions.user);
 
 
         // Initialize Page
@@ -74,7 +75,8 @@
             // Create mail control
             controls.sendMail = new Mibew.Models.SendMailControl({
                 weight: 200,
-                link: options.links.mailLink
+                link: chatOptions.links.mail,
+                windowParams: chatOptions.windowsParams.mail
             });
             ctrlsCollection.add(controls.sendMail);
         }
@@ -83,13 +85,14 @@
         if (models.user.get('isAgent')) {
             controls.redirect = new Mibew.Models.RedirectControl({
                 weight: 200,
-                link: options.links.redirectLink
+                link: chatOptions.links.redirect
             });
             ctrlsCollection.add(controls.redirect);
 
             controls.history = new Mibew.Models.HistoryControl({
                 weight: 180,
-                link: options.links.historyLink
+                link: chatOptions.links.history,
+                windowParams: chatOptions.windowsParams.history
             });
             ctrlsCollection.add(controls.history);
         }
@@ -106,10 +109,10 @@
         });
         ctrlsCollection.add(controls.refresh);
 
-        if (options.links.sslLink) {
+        if (chatOptions.links.ssl) {
             controls.secureMode = new Mibew.Models.SecureModeControl({
                 weight: 120,
-                link: options.links.sslLink
+                link: chatOptions.links.ssl
             });
             ctrlsCollection.add(controls.secureMode);
         }
@@ -162,7 +165,7 @@
 
         // Create message processor model
         models.messageForm = new Mibew.Models.MessageForm(
-            options.messageForm
+            chatOptions.messageForm
         );
 
         // Display message processor

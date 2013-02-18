@@ -39,10 +39,9 @@
              */
             showHistory: function() {
                 var user = Mibew.Objects.Models.user;
-                var page = Mibew.Objects.Models.page;
                 var link = this.model.get('link');
                 if (user.get('isAgent') && link) {
-                    var winParams = page.get('historyWindowParams');
+                    var winParams = this.model.get('windowParams');
 
                     // TODO: Kill &amp; at the server side
                     link = link.replace('&amp;', '&', 'g');

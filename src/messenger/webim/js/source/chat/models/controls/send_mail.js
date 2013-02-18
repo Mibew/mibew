@@ -29,7 +29,13 @@
                      * An URL of the Mail page or false by default.
                      * @type String|Boolean
                      */
-                    link: false
+                    link: false,
+
+                    /**
+                     * Params string for send mail popup window
+                     * @type String
+                     */
+                    windowParams: ''
                 }
             ),
             /**

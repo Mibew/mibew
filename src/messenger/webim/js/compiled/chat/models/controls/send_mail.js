@@ -5,4 +5,4 @@
  Copyright (c) 2005-2011 Mibew Messenger Community
  License: http://mibew.org/license.php
 */
-(function(a,b){a.Models.SendMailControl=a.Models.Control.extend({defaults:b.extend({},a.Models.Control.prototype.defaults,{link:!1}),getModelType:function(){return"SendMailControl"}})})(Mibew,_);
+(function(a,b){a.Models.SendMailControl=a.Models.Control.extend({defaults:b.extend({},a.Models.Control.prototype.defaults,{link:!1,windowParams:""}),getModelType:function(){return"SendMailControl"}})})(Mibew,_);

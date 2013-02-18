@@ -46,7 +46,7 @@ MibewAPIChatInteraction=function(){this.obligatoryArguments={"*":{threadId:null,
  Copyright (c) 2005-2011 Mibew Messenger Community
  License: http://mibew.org/license.php
 */
-(function(a,b){a.Models.HistoryControl=a.Models.Control.extend({defaults:b.extend({},a.Models.Control.prototype.defaults,{link:!1}),getModelType:function(){return"HistoryControl"}})})(Mibew,_);
+(function(a,b){a.Models.HistoryControl=a.Models.Control.extend({defaults:b.extend({},a.Models.Control.prototype.defaults,{link:!1,windowParams:""}),getModelType:function(){return"HistoryControl"}})})(Mibew,_);
 /*
  This file is part of Mibew Messenger project.
  http://mibew.org
@@ -74,7 +74,7 @@ MibewAPIChatInteraction=function(){this.obligatoryArguments={"*":{threadId:null,
  Copyright (c) 2005-2011 Mibew Messenger Community
  License: http://mibew.org/license.php
 */
-(function(a,b){a.Models.SendMailControl=a.Models.Control.extend({defaults:b.extend({},a.Models.Control.prototype.defaults,{link:!1}),getModelType:function(){return"SendMailControl"}})})(Mibew,_);
+(function(a,b){a.Models.SendMailControl=a.Models.Control.extend({defaults:b.extend({},a.Models.Control.prototype.defaults,{link:!1,windowParams:""}),getModelType:function(){return"SendMailControl"}})})(Mibew,_);
 /*
  This file is part of Mibew Messenger project.
  http://mibew.org
@@ -153,7 +153,7 @@ a);this.trigger("multiple:add");return a}})})(Mibew,Backbone,_);
  Copyright (c) 2005-2011 Mibew Messenger Community
  License: http://mibew.org/license.php
 */
-(function(b,c,e){b.Views.HistoryControl=b.Views.Control.extend({template:c.templates.history_control,events:e.extend({},b.Views.Control.prototype.events,{click:"showHistory"}),showHistory:function(){var d=b.Objects.Models.user,c=b.Objects.Models.page,a=this.model.get("link");d.get("isAgent")&&a&&(d=c.get("historyWindowParams"),a=a.replace("&amp;","&","g"),a=window.open(a,"UserHistory",d),null!==a&&(a.focus(),a.opener=window))}})})(Mibew,Handlebars,_);
+(function(b,d,e){b.Views.HistoryControl=b.Views.Control.extend({template:d.templates.history_control,events:e.extend({},b.Views.Control.prototype.events,{click:"showHistory"}),showHistory:function(){var c=b.Objects.Models.user,a=this.model.get("link");c.get("isAgent")&&a&&(c=this.model.get("windowParams"),a=a.replace("&amp;","&","g"),a=window.open(a,"UserHistory",c),null!==a&&(a.focus(),a.opener=window))}})})(Mibew,Handlebars,_);
 /*
  This file is part of Mibew Messenger project.
  http://mibew.org
@@ -182,7 +182,7 @@ window.location.href=b.replace(/\&amp\;/g,"&")+(c?"&style="+c:"")}}})})(Mibew,Ha
  Copyright (c) 2005-2011 Mibew Messenger Community
  License: http://mibew.org/license.php
 */
-(function(b,e,f){b.Views.SendMailControl=b.Views.Control.extend({template:e.templates.send_mail_control,events:f.extend({},b.Views.Control.prototype.events,{click:"sendMail"}),sendMail:function(){var a=this.model.get("link"),c=b.Objects.Models.page;if(a){var c=c.get("mailWindowParams"),d=b.Objects.Models.page.get("style"),a=a.replace(/\&amp\;/g,"&")+(d?"&style="+d:""),a=window.open(a,"ForwardMail",c);null!==a&&(a.focus(),a.opener=window)}}})})(Mibew,Handlebars,_);
+(function(b,d,e){b.Views.SendMailControl=b.Views.Control.extend({template:d.templates.send_mail_control,events:e.extend({},b.Views.Control.prototype.events,{click:"sendMail"}),sendMail:function(){var a=this.model.get("link"),c=b.Objects.Models.page;if(a){var d=this.model.get("windowParams"),c=c.get("style"),a=a.replace(/\&amp\;/g,"&")+(c?"&style="+c:""),a=window.open(a,"ForwardMail",d);null!==a&&(a.focus(),a.opener=window)}}})})(Mibew,Handlebars,_);
 /*
  This file is part of Mibew Messenger project.
  http://mibew.org
@@ -257,13 +257,13 @@ c=""!=this.ui.message.val();c!=a.get("typing")&&a.set({typing:c})},setFocus:func
  Copyright (c) 2005-2011 Mibew Messenger Community
  License: http://mibew.org/license.php
 */
-(function(a){a.Objects.Models.Controls={};a.Objects.Models.Status={};var j=[],k=a.Application,l=k.module("Chat",{startWithParent:!1});l.addInitializer(function(c){var g=a.Objects,d=a.Objects.Models,b=a.Objects.Models.Controls,h=a.Objects.Models.Status,f=new a.Layouts.Chat({model:new Backbone.Model(c.layoutsData.chat||{})});a.Objects.chatLayout=f;k.mainRegion.show(f);d.thread=new a.Models.Thread(c.thread);d.user=new a.Models.ChatUser(c.user);d.page=new a.Models.Page(c.page);var e=new a.Collections.Controls;
-d.user.get("isAgent")||(b.userName=new a.Models.UserNameControl({weight:220}),e.add(b.userName),b.sendMail=new a.Models.SendMailControl({weight:200,link:c.links.mailLink}),e.add(b.sendMail));d.user.get("isAgent")&&(b.redirect=new a.Models.RedirectControl({weight:200,link:c.links.redirectLink}),e.add(b.redirect),b.history=new a.Models.HistoryControl({weight:180,link:c.links.historyLink}),e.add(b.history));b.sound=new a.Models.SoundControl({weight:160});e.add(b.sound);b.refresh=new a.Models.RefreshControl({weight:140});
-e.add(b.refresh);c.links.sslLink&&(b.secureMode=new a.Models.SecureModeControl({weight:120,link:c.links.sslLink}),e.add(b.secureMode));b.close=new a.Models.CloseControl({weight:100});e.add(b.close);g.Collections.controls=e;f.controlsRegion.show(new a.Views.ControlsCollection({collection:e}));h.message=new a.Models.StatusMessage({hideTimeout:5E3});h.typing=new a.Models.StatusTyping({hideTimeout:5E3});g.Collections.status=new a.Collections.Status([h.message,h.typing]);f.statusRegion.show(new a.Views.StatusCollection({collection:g.Collections.status}));
-d.user.get("isAgent")||(d.avatar=new a.Models.Avatar,f.avatarRegion.show(new a.Views.Avatar({model:d.avatar})));g.Collections.messages=new a.Collections.Messages;d.messageForm=new a.Models.MessageForm(c.messageForm);f.messageFormRegion.show(new a.Views.MessageForm({model:d.messageForm}));f.messagesRegion.show(new a.Views.MessagesCollection({collection:g.Collections.messages}));d.sound=new a.Models.Sound;f.soundRegion.show(new a.Views.Sound({model:d.sound}));j.push(g.server.callFunctionsPeriodically(function(){var b=
-a.Objects.Models.thread,c=a.Objects.Models.user;return[{"function":"update",arguments:{"return":{typing:"typing",canPost:"canPost"},references:{},threadId:b.get("id"),token:b.get("token"),lastId:b.get("lastId"),typed:c.get("typing"),user:!c.get("isAgent")}}]},function(b){b.errorCode?a.Objects.Models.Status.message.setMessage(b.errorMessage||"refresh failed"):(b.typing&&a.Objects.Models.Status.typing.show(),a.Objects.Models.user.set({canPost:b.canPost||!1}))}))});l.addFinalizer(function(){a.Objects.chatLayout.close();
-for(var c=0;c<j.length;c++)a.Objects.server.stopCallFunctionsPeriodically(j[c]);"undefined"!=typeof a.Objects.Models.avatar&&a.Objects.Models.avatar.finalize();a.Objects.Collections.messages.finalize();delete a.Objects.chatLayout;delete a.Objects.Models.thread;delete a.Objects.Models.user;delete a.Objects.Models.page;delete a.Objects.Models.avatar;delete a.Objects.Models.messageForm;delete a.Objects.Models.sound;delete a.Objects.Models.Controls;delete a.Objects.Models.Status;delete a.Objects.Collections.messages;
-delete a.Objects.Collections.controls;delete a.Objects.Collections.status})})(Mibew);
+(function(a){a.Objects.Models.Controls={};a.Objects.Models.Status={};var j=[],k=a.Application,l=k.module("Chat",{startWithParent:!1});l.addInitializer(function(b){var e=b.chatModule,g=a.Objects,d=a.Objects.Models,c=a.Objects.Models.Controls,h=a.Objects.Models.Status,f=new a.Layouts.Chat({model:new Backbone.Model(e.layoutData||{})});a.Objects.chatLayout=f;k.mainRegion.show(f);d.thread=new a.Models.Thread(e.thread);d.user=new a.Models.ChatUser(e.user);d.page=new a.Models.Page(b.page);b=new a.Collections.Controls;
+d.user.get("isAgent")||(c.userName=new a.Models.UserNameControl({weight:220}),b.add(c.userName),c.sendMail=new a.Models.SendMailControl({weight:200,link:e.links.mail,windowParams:e.windowsParams.mail}),b.add(c.sendMail));d.user.get("isAgent")&&(c.redirect=new a.Models.RedirectControl({weight:200,link:e.links.redirect}),b.add(c.redirect),c.history=new a.Models.HistoryControl({weight:180,link:e.links.history,windowParams:e.windowsParams.history}),b.add(c.history));c.sound=new a.Models.SoundControl({weight:160});
+b.add(c.sound);c.refresh=new a.Models.RefreshControl({weight:140});b.add(c.refresh);e.links.ssl&&(c.secureMode=new a.Models.SecureModeControl({weight:120,link:e.links.ssl}),b.add(c.secureMode));c.close=new a.Models.CloseControl({weight:100});b.add(c.close);g.Collections.controls=b;f.controlsRegion.show(new a.Views.ControlsCollection({collection:b}));h.message=new a.Models.StatusMessage({hideTimeout:5E3});h.typing=new a.Models.StatusTyping({hideTimeout:5E3});g.Collections.status=new a.Collections.Status([h.message,
+h.typing]);f.statusRegion.show(new a.Views.StatusCollection({collection:g.Collections.status}));d.user.get("isAgent")||(d.avatar=new a.Models.Avatar,f.avatarRegion.show(new a.Views.Avatar({model:d.avatar})));g.Collections.messages=new a.Collections.Messages;d.messageForm=new a.Models.MessageForm(e.messageForm);f.messageFormRegion.show(new a.Views.MessageForm({model:d.messageForm}));f.messagesRegion.show(new a.Views.MessagesCollection({collection:g.Collections.messages}));d.sound=new a.Models.Sound;
+f.soundRegion.show(new a.Views.Sound({model:d.sound}));j.push(g.server.callFunctionsPeriodically(function(){var b=a.Objects.Models.thread,c=a.Objects.Models.user;return[{"function":"update",arguments:{"return":{typing:"typing",canPost:"canPost"},references:{},threadId:b.get("id"),token:b.get("token"),lastId:b.get("lastId"),typed:c.get("typing"),user:!c.get("isAgent")}}]},function(b){b.errorCode?a.Objects.Models.Status.message.setMessage(b.errorMessage||"refresh failed"):(b.typing&&a.Objects.Models.Status.typing.show(),
+a.Objects.Models.user.set({canPost:b.canPost||!1}))}))});l.addFinalizer(function(){a.Objects.chatLayout.close();for(var b=0;b<j.length;b++)a.Objects.server.stopCallFunctionsPeriodically(j[b]);"undefined"!=typeof a.Objects.Models.avatar&&a.Objects.Models.avatar.finalize();a.Objects.Collections.messages.finalize();delete a.Objects.chatLayout;delete a.Objects.Models.thread;delete a.Objects.Models.user;delete a.Objects.Models.page;delete a.Objects.Models.avatar;delete a.Objects.Models.messageForm;delete a.Objects.Models.sound;
+delete a.Objects.Models.Controls;delete a.Objects.Models.Status;delete a.Objects.Collections.messages;delete a.Objects.Collections.controls;delete a.Objects.Collections.status})})(Mibew);
 /*
  This file is part of Mibew Messenger project.
  http://mibew.org

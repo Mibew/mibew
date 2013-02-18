@@ -29,7 +29,13 @@
                      * An URL of the History page or false by default.
                      * @type String|Boolean
                      */
-                    link: false
+                    link: false,
+
+                    /**
+                     * Params string for history popup window
+                     * @type String
+                     */
+                    windowParams: ''
                 }
             ),
 

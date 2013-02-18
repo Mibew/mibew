@@ -54,45 +54,46 @@
         <script type="text/javascript"><!--
             jQuery(document).ready(function(){
                 Mibew.Application.start({
-                    user: {
-                        ${if:user}
-                        name: "${page:ct.user.name}",
-                        canChangeName: ${if:canChangeName}true${else:canChangeName}false${endif:canChangeName},
-                        defaultName: ("${page:ct.user.name}" == "${msg:chat.default.username}"),
-                        ${endif:user}
-                        canPost: ${if:canpost}true${else:canpost}false${endif:canpost},
-                        isAgent: ${if:agent}true${else:agent}false${endif:agent}
-                    },
                     server: {
                         url: "${webimroot}/thread.php",
                         requestsFrequency: ${page:frequency}
                     },
-                    thread: {
-                        id:${page:ct.chatThreadId},
-                        token:${page:ct.token}
-                    },
-                    messageForm: {
-                        ${if:agent}${if:canpost}
-                        predefinedAnswers: ${page:predefinedAnswers},
-                        ${endif:canpost}${endif:agent}
-                        ignoreCtrl:${if:ignorectrl}true${else:ignorectrl}false${endif:ignorectrl}
-                    },
-                    links: {
-                        mailLink: "${page:mailLink}",
-                        redirectLink: "${page:redirectLink}",
-                        historyLink: "${page:historyParamsLink}",
-                        sslLink: "${page:sslLink}"
-                    },
                     page: {
                         style: '${styleid}',
                         webimRoot: '${webimroot}',
-                        tplRoot: '${tplroot}',
-                        chatWindowParams: "${page:chatStyles.chatWindowParams}",
-                        mailWindowParams: "${page:chatStyles.mailWindowParams}",
-                        historyWindowParams: "${page:coreStyles.historyWindowParams}"
+                        tplRoot: '${tplroot}'
                     },
-                    layoutsData: {
-                        chat: {
+                    chatModule: {
+                        user: {
+                            ${if:user}
+                            name: "${page:ct.user.name}",
+                            canChangeName: ${if:canChangeName}true${else:canChangeName}false${endif:canChangeName},
+                            defaultName: ("${page:ct.user.name}" == "${msg:chat.default.username}"),
+                            ${endif:user}
+                            canPost: ${if:canpost}true${else:canpost}false${endif:canpost},
+                            isAgent: ${if:agent}true${else:agent}false${endif:agent}
+                        },
+                        thread: {
+                            id:${page:ct.chatThreadId},
+                            token:${page:ct.token}
+                        },
+                        messageForm: {
+                            ${if:agent}${if:canpost}
+                            predefinedAnswers: ${page:predefinedAnswers},
+                            ${endif:canpost}${endif:agent}
+                            ignoreCtrl:${if:ignorectrl}true${else:ignorectrl}false${endif:ignorectrl}
+                        },
+                        links: {
+                            mail: "${page:mailLink}",
+                            redirect: "${page:redirectLink}",
+                            history: "${page:historyParamsLink}",
+                            ssl: "${page:sslLink}"
+                        },
+                        windowsParams: {
+                            mail: "${page:chatStyles.mailWindowParams}",
+                            history: "${page:coreStyles.historyWindowParams}"
+                        },
+                        layoutData: {
                             user: ${if:user}true${else:user}false${endif:user}
                         }
                     },

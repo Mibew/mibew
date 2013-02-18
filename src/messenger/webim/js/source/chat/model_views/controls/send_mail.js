@@ -41,9 +41,9 @@
                 var link = this.model.get('link');
                 var page = Mibew.Objects.Models.page;
                 if (link) {
-                    var winParams = page.get('mailWindowParams');
+                    var winParams = this.model.get('windowParams');
 
-                    var style = Mibew.Objects.Models.page.get('style');
+                    var style = page.get('style');
 
                     // TODO: Kill &amp; at the server side
                     link = link.replace(/\&amp\;/g, '&')

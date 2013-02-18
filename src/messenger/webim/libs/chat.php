@@ -306,7 +306,6 @@ function setup_chatview(Thread $thread) {
 
 	// Load dialogs style options
 	$style_config = get_dialogs_style_config(getchatstyle());
-	$data['chatStyles.chatWindowParams'] = $style_config['chat']['window_params'];
 	$data['chatStyles.mailWindowParams'] = $style_config['mail']['window_params'];
 
 	// Load core style options
