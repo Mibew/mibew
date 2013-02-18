@@ -45,7 +45,7 @@ if( !$email ) {
 if( count($errors) > 0 ) {
 	$page['formemail'] = $email;
 	$page['chat.thread.id'] = $thread->id;
-	$page['ct.token'] = $thread->lastToken;
+	$page['chat.thread.token'] = $thread->lastToken;
 	$page['level'] = "";
 	$page = array_merge_recursive(
 		$page,

@@ -75,7 +75,7 @@
                         },
                         thread: {
                             id:${page:chat.thread.id},
-                            token:${page:ct.token}
+                            token:${page:chat.thread.token}
                         },
                         messageForm: {
                             ${if:agent}${if:canpost}

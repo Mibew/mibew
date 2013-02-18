@@ -295,7 +295,7 @@ function setup_chatview(Thread $thread) {
 
 	// Set thread params
 	$data['chat.thread.id'] = $thread->id;
-	$data['ct.token'] = $thread->lastToken;
+	$data['chat.thread.token'] = $thread->lastToken;
 	$data['chat.title'] = topage(
 		empty($group['vcchattitle'])
 			? Settings::get('chattitle')
