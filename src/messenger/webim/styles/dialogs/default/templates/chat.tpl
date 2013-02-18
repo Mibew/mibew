@@ -74,7 +74,7 @@
                             isAgent: ${if:agent}true${else:agent}false${endif:agent}
                         },
                         thread: {
-                            id:${page:ct.chatThreadId},
+                            id:${page:chat.thread.id},
                             token:${page:ct.token}
                         },
                         messageForm: {

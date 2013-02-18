@@ -8,7 +8,7 @@
 <body class="bgbody">
 
 	<form name="mailThreadForm" method="post" action="${webimroot}/mail.php"><input type="hidden" name="style" value="${styleid}"/>
-	<input type="hidden" name="thread" value="${page:ct.chatThreadId}"/><input type="hidden" name="token" value="${page:ct.token}"/><input type="hidden" name="level" value="${page:level}"/>
+	<input type="hidden" name="thread" value="${page:chat.thread.id}"/><input type="hidden" name="token" value="${page:ct.token}"/><input type="hidden" name="level" value="${page:level}"/>
 
 	<div id="top2">
 		<div id="logo">
