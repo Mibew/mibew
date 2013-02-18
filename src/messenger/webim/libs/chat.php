@@ -356,7 +356,7 @@ function setup_chatview_for_user(Thread $thread, $level) {
 	$data['user'] = true;
 	$data['canpost'] = true;
 	$data['level'] = $level;
-	$data['ct.user.name'] = htmlspecialchars(topage($thread->userName));
+	$data['chat.user.name'] = htmlspecialchars(topage($thread->userName));
 	$data['canChangeName'] = Settings::get('usercanchangename') == "1";
 
 	$params = "thread=" . $thread->id . "&amp;token=" . $thread->lastToken;
@@ -391,7 +391,7 @@ function setup_chatview_for_operator(Thread $thread, $operator) {
 	$data['agent'] = true;
 	$data['user'] = false;
 	$data['canpost'] = $thread->agentId == $operator['operatorid'];
-	$data['ct.user.name'] = htmlspecialchars(topage(get_user_name($thread->userName, $thread->remote, $thread->userId)));
+	$data['chat.user.name'] = htmlspecialchars(topage(get_user_name($thread->userName, $thread->remote, $thread->userId)));
 
 	// Set SSL link
 	if (Settings::get('enablessl') == "1" && !is_secure_request()) {

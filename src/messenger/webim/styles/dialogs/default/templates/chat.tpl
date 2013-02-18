@@ -66,9 +66,9 @@
                     chatModule: {
                         user: {
                             ${if:user}
-                            name: "${page:ct.user.name}",
+                            name: "${page:chat.user.name}",
                             canChangeName: ${if:canChangeName}true${else:canChangeName}false${endif:canChangeName},
-                            defaultName: ("${page:ct.user.name}" == "${msg:chat.default.username}"),
+                            defaultName: ("${page:chat.user.name}" == "${msg:chat.default.username}"),
                             ${endif:user}
                             canPost: ${if:canpost}true${else:canpost}false${endif:canpost},
                             isAgent: ${if:agent}true${else:agent}false${endif:agent}
