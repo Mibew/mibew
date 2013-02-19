@@ -36,6 +36,17 @@ if(Settings::get('enablessl') == "1" && Settings::get('forcessl') == "1") {
 	}
 }
 
+
+// Do not support old browsers at all
+if (get_remote_level($_SERVER['HTTP_USER_AGENT']) == 'old') {
+	// Create page array
+	$page = array_merge_recursive(
+		setup_logo()
+	);
+	expand("styles/dialogs", getchatstyle(), "nochat.tpl");
+	exit;
+}
+
 $page = array();
 
 if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
@@ -160,15 +171,13 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 	}
 	$threadid = $thread->id;
 	$token = $thread->lastToken;
-	$level = get_remote_level($_SERVER['HTTP_USER_AGENT']);
 	$chatstyle = verifyparam( "style", "/^\w+$/", "");
-	header("Location: $webimroot/client.php?thread=$threadid&token=$token&level=$level".($chatstyle ? "&style=$chatstyle" : ""));
+	header("Location: $webimroot/client.php?thread=$threadid&token=$token".($chatstyle ? "&style=$chatstyle" : ""));
 	exit;
 }
 
 $token = verifyparam( "token", "/^\d{1,8}$/");
 $threadid = verifyparam( "thread", "/^\d{1,8}$/");
-$level = verifyparam( "level", "/^(ajaxed|old)$/");
 
 $thread = Thread::load($threadid, $token);
 if (! $thread) {
@@ -177,13 +186,13 @@ if (! $thread) {
 
 $page = array_merge_recursive(
 	$page,
-	setup_chatview_for_user($thread, $level)
+	setup_chatview_for_user($thread)
 );
 
 $pparam = verifyparam( "act", "/^(mailthread)$/", "default");
 if( $pparam == "mailthread" ) {
 	expand("styles/dialogs", getchatstyle(), "mail.tpl");
-} else if( $level == "ajaxed" ) {
+} else {
 	// Load JavaScript plugins and JavaScripts, CSS files required by them
 	$page['additional_css'] = get_additional_css('client_chat_window');
 	$page['additional_js'] = get_additional_js('client_chat_window');
@@ -192,8 +201,6 @@ if( $pparam == "mailthread" ) {
 	$page['chatModule'] = json_encode($page['chat']);
 	// Expand page
 	expand("styles/dialogs", getchatstyle(), "chat.tpl");
-} else if( $level == "old" ) {
-	expand("styles/dialogs", getchatstyle(), "nochat.tpl");
 }
 
 ?>

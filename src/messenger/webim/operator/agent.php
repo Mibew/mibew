@@ -98,7 +98,7 @@ if (!isset($_GET['token'])) {
 	}
 
 	$token = $thread->lastToken;
-	header("Location: $webimroot/operator/agent.php?thread=$threadid&token=$token&level=$remote_level");
+	header("Location: $webimroot/operator/agent.php?thread=$threadid&token=$token");
 	exit;
 }
 

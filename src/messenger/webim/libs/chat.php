@@ -99,7 +99,7 @@ function get_remote_level($useragent)
 			}
 		}
 	}
-	return "simple";
+	return "ajaxed";
 }
 
 function is_agent_opera95()
@@ -354,16 +354,13 @@ function setup_chatview(Thread $thread) {
  *
  * @global string $webimroot Root URL path for Mibew
  * @param Thread $thread thread object
- * @param string $level Chat level. Indicates ajax or old chat window should
  * be used
  * @return array Array of chat view data
  */
-function setup_chatview_for_user(Thread $thread, $level) {
+function setup_chatview_for_user(Thread $thread) {
 	global $webimroot;
 
 	$data = setup_chatview($thread);
-
-	$data['level'] = $level;
 
 	// Set user info
 	$data['chat']['user'] = array(
@@ -380,14 +377,13 @@ function setup_chatview_for_user(Thread $thread, $level) {
 	// Set link to send mail page
 	$data['chat']['links']['mail'] = "$webimroot/client.php?"
 		. $params
-		. "&amp;level=$level&amp;act=mailthread";
+		. "&amp;act=mailthread";
 
 	// Set SSL link
 	if (Settings::get('enablessl') == "1" && !is_secure_request()) {
 		$data['chat']['links']['ssl'] = get_app_location(true, true)
 			. "/client.php?"
-			. $params
-			. "&amp;level=$level";
+			. $params;
 	}
 
 	return $data;
@@ -399,8 +395,6 @@ function setup_chatview_for_user(Thread $thread, $level) {
  * @global string $webimroot Root URL path for Mibew
  * @global string $webim_encoding Current Mibew encoding
  * @param Thread $thread thread object
- * @param string $level Chat level. Indicates ajax or old chat window should
- * be used
  * @return array Array of chat view data
  */
 function setup_chatview_for_operator(Thread $thread, $operator) {
