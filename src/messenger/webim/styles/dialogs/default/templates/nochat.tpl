@@ -5,7 +5,7 @@
 	<link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
 	<link rel="stylesheet" type="text/css" href="${tplroot}/chat.css"/>
 </head>
-<body class="bgbody">
+<body>
 	<div id="top2">
 		<div id="logo">
 			${if:company.chatLogoURL}

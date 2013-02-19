@@ -17,7 +17,7 @@
 	    }
 	</script>
 </head>
-<body class="bgbody">
+<body>
 	<div id="top2">
 		<div id="logo">
 			${if:company.chatLogoURL}

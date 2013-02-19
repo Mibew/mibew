@@ -5,7 +5,7 @@
 	<link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
 	<link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" />
 </head>
-<body class="bgbody">
+<body>
 
 	<form name="mailThreadForm" method="post" action="${webimroot}/mail.php"><input type="hidden" name="style" value="${styleid}"/>
 	<input type="hidden" name="thread" value="${page:chat.thread.id}"/><input type="hidden" name="token" value="${page:chat.thread.token}"/><input type="hidden" name="level" value="${page:level}"/>

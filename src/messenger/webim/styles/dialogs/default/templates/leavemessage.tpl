@@ -12,7 +12,7 @@ ${if:groups}
 ${endif:groups}
 	</script>
 </head>
-<body class="bgbody">
+<body>
 
 	<form name="leaveMessageForm" method="post" action="${webimroot}/leavemessage.php">
 	<input type="hidden" name="style" value="${styleid}"/>

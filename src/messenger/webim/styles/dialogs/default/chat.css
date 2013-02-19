@@ -349,9 +349,6 @@ img {
     background: #FFF url("images/logobg.gif") scroll repeat-x 0 100%;
     _zoom:1; /* IE6 fix */
 }
-.bgbody {
-    background: #FFF !important;
-}
 .wndb {
     background: #FFF url("images/wndb.gif") scroll repeat-x 0 100%;
 }
