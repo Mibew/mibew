@@ -470,20 +470,28 @@ MibewAPIExecutionContext.prototype.getResults = function(){
  */
 MibewAPIExecutionContext.prototype.storeFunctionResults = function(functionObject, results) {
     var alias;
-    // Add value to request results
-    for (var argName in functionObject.arguments["return"]) {
-        if (! functionObject.arguments["return"].hasOwnProperty(argName)) {
-            continue;
+    // Check if function return correct results
+    if (!results.errorCode) {
+        // Add value to request results
+        for (var argName in functionObject.arguments["return"]) {
+            if (! functionObject.arguments["return"].hasOwnProperty(argName)) {
+                continue;
+            }
+            alias = functionObject.arguments["return"][argName];
+            if (typeof results[argName] == "undefined") {
+                throw new Error(
+                    "Variable with name '" + argName + "' is undefined in " +
+                    "the results of the '" + functionObject['function'] +
+                    "' function"
+                );
+            }
+            this.returnValues[alias] = results[argName];
         }
-        alias = functionObject.arguments["return"][argName];
-        if (typeof results[argName] == "undefined") {
-            throw new Error(
-                "Variable with name '" + argName + "' is undefined in " +
-                "the results of the '" + functionObject['function'] +
-                "' function"
-            );
-        }
-        this.returnValues[alias] = results[argName];
+    } else {
+        // Something went wrong during function execution
+        // Store error code and error message
+        this.returnValues.errorCode = results.errorCode;
+        this.returnValues.errorMessage = results.errorMessage || '';
     }
     // Store function results in execution context
     this.functionsResults.push(results);

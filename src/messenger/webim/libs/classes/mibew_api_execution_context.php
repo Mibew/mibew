@@ -98,18 +98,29 @@ Class MibewAPIExecutionContext {
 	 * @throws MibewAPIException
 	 */
 	public function storeFunctionResults ($function, $results) {
-		// Add value to request results
-		foreach ($function['arguments']['return'] as $name => $alias) {
-			if (! isset($results[$name])) {
-				// Value that defined in 'return' argument is undefined
-				throw new MibewAPIException(
-					"Variable with name '{$name}' is undefined in the " .
-					"results of the '{$function['function']}' function",
-					MibewAPIException::VARIABLE_IS_UNDEFINED_IN_RESULT
-				);
+		// Check if function return correct results
+		if (empty($results['errorCode'])) {
+			// Add value to request results
+			foreach ($function['arguments']['return'] as $name => $alias) {
+				if (! isset($results[$name])) {
+					// Value that defined in 'return' argument is undefined
+					throw new MibewAPIException(
+						"Variable with name '{$name}' is undefined in the " .
+						"results of the '{$function['function']}' function",
+						MibewAPIException::VARIABLE_IS_UNDEFINED_IN_RESULT
+					);
+				}
+				$this->return[$alias] = $results[$name];
 			}
-			$this->return[$alias] = $results[$name];
+		} else {
+			// Something went wrong during function execution
+			// Store error code and error message
+			$this->return['errorCode'] = $results['errorCode'];
+			$this->return['errorMessage'] = empty($results['errorMessage'])
+				? ''
+				: $results['errorMessage'];
 		}
+
 		// Store function results in execution context
 		$this->functions_results[] = $results;
 	}
