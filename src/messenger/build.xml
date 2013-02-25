@@ -33,7 +33,6 @@
 
         <!-- Compile templates -->
         <apply executable="${handlebars}">
-            <arg value="-m"/>
             <arg value="-f"/>
             <targetfile />
             <dirset dir=".">
@@ -42,13 +41,32 @@
             <mapper type="glob" from="*/handlebars_templates" to="*/js/compiled/templates_tmp.js" />
         </apply>
 
-        <!-- Appent license info -->
+        <!-- Use closule compiler instead of handlebars minifyer (-m flag)
+             because of handlebars not insert line breaks.
+             Very long lines are cutted by ant and this brings problems -->
+        <apply executable="java">
+            <arg value="-jar" />
+            <arg value="${closure.c}" />
+            <arg value="--js" />
+            <srcfile />
+            <arg value="--js_output_file" />
+            <targetfile />
+            <fileset dir=".">
+                <include name="${dialogs_styles_path}/*/js/compiled/templates_tmp.js" />
+            </fileset>
+            <mapper type="glob" from="*_tmp.js" to="*_tmp.c.js" />
+        </apply>
+
+        <!-- Add license info. Use move because of it is the best way to append
+             some info to files -->
         <move todir="${dialogs_styles_path}" overwrite="true">
             <fileset dir="${dialogs_styles_path}"/>
-            <mapper type="glob" from="*/js/compiled/templates_tmp.js" to="*/js/compiled/templates.js"/>
+            <mapper type="glob" from="*/js/compiled/templates_tmp.c.js" to="*/js/compiled/templates.js"/>
 
             <filterchain>
-                <!-- Remove comments -->
+                <!-- Remove old comments. There is no strip JavaScript comments
+                     filter in ant, but luckily comments in Java and in
+                     JavaScript have the same syntax -->
                 <stripjavacomments />
                 <!-- Add header -->
                 <concatfilter prepend="compiled_templates_header.txt" />
@@ -58,6 +76,13 @@
                 </linecontainsregexp>
             </filterchain>
         </move>
+
+        <!-- Remove all temporary files -->
+        <delete>
+            <fileset dir=".">
+                <include name="${dialogs_styles_path}/*/js/compiled/templates_tmp.js" />
+            </fileset>
+        </delete>
 
         <echo>Done</echo>
     </target>
@@ -326,9 +351,8 @@
     <!-- Compile Handlebars templates of the Core -->
     <target name="core_handlebars">
         <echo>Compile Handlebars templates of the Core</echo>
-        <!-- Build applications templates -->
+        <!-- Compile applications templates -->
         <apply executable="${handlebars}">
-            <arg value="-m"/>
             <arg value="-f"/>
             <targetfile />
             <dirset dir=".">
@@ -339,7 +363,6 @@
 
         <!-- Build misc files -->
         <apply executable="${handlebars}">
-            <arg value="-m"/>
             <arg value="-f"/>
             <targetfile />
             <fileset dir=".">
@@ -348,20 +371,35 @@
             <mapper type="regexp" from="^(.*)/source/(.*)\.handlebars$$" to="\1/compiled/\2_tmp.tpl.js" />
         </apply>
 
-        <!-- Add licanse info -->
+        <!-- Use closule compiler instead of handlebars minifyer (-m flag)
+             because of handlebars not insert line breaks.
+             Very long lines are cutted by ant and this brings problems -->
+        <apply executable="java">
+            <arg value="-jar" />
+            <arg value="${closure.c}" />
+            <arg value="--js" />
+            <srcfile />
+            <arg value="--js_output_file" />
+            <targetfile />
+            <fileset dir=".">
+                <include name="${js_path}/templates/compiled/*_app_tmp.tpl.js" />
+            </fileset>
+            <mapper type="glob" from="*_app_tmp.tpl.js" to="*_app_tmp.c.tpl.js" />
+        </apply>
+
+        <!-- Add license info. Use move because of it is the best way to append
+             some info to files -->
         <move todir="${js_path}/templates/compiled" overwrite="true">
             <fileset dir="${js_path}/templates/compiled">
-                <include name="*_tmp.tpl.js" />
+                <include name="*_tmp.c.tpl.js" />
             </fileset>
-            <mapper type="glob" from="*_tmp.tpl.js" to="*.tpl.js"/>
+            <mapper type="glob" from="*_tmp.c.tpl.js" to="*.tpl.js"/>
 
             <filterchain>
-                <!-- Remove comments -->
+                <!-- Remove old comments. There is no strip JavaScript comments
+                     filter in ant, but luckily comments in Java and in
+                     JavaScript have the same syntax -->
                 <stripjavacomments />
-                <!-- For some reasons handlebars do not add trailing semicolon.
-                Assume that where is only one line in file and add semicolon
-                manually -->
-                <suffixlines suffix=";" />
                 <!-- Add header -->
                 <concatfilter prepend="compiled_templates_header.txt" />
                 <!-- Skip empty lines -->
@@ -370,6 +408,13 @@
                 </linecontainsregexp>
             </filterchain>
         </move>
+
+        <!-- Remove all temporary files. -->
+        <delete>
+            <fileset dir="${js_path}/templates/compiled">
+                <include name="*_tmp.tpl.js" />
+            </fileset>
+        </delete>
 
         <echo>Done</echo>
     </target>
