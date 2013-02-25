@@ -73,7 +73,7 @@ function create_group($group)
 		"vccommondescription,vcemail,vctitle,vcchattitle,vchosturl,vclogo,iweight) " .
 		"values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 		array(
-			($group['parent'] ? (int)$group['parent'] : 'NULL'),
+			($group['parent'] ? (int)$group['parent'] : NULL),
 			$group['name'],
 			$group['description'],
 			$group['commonname'],
@@ -113,7 +113,7 @@ function update_group($group)
 		"vccommonname = ?, vccommondescription = ?, vcemail = ?, vctitle = ?, " .
 		"vcchattitle = ?, vchosturl = ?, vclogo = ?, iweight = ? where groupid = ?",
 		array(
-			($group['parent'] ? (int)$group['parent'] : 'NULL'),
+			($group['parent'] ? (int)$group['parent'] : NULL),
 			$group['name'],
 			$group['description'],
 			$group['commonname'],
