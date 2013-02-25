@@ -64,10 +64,6 @@
             <mapper type="glob" from="*/js/compiled/templates_tmp.c.js" to="*/js/compiled/templates.js"/>
 
             <filterchain>
-                <!-- Remove old comments. There is no strip JavaScript comments
-                     filter in ant, but luckily comments in Java and in
-                     JavaScript have the same syntax -->
-                <stripjavacomments />
                 <!-- Add header -->
                 <concatfilter prepend="compiled_templates_header.txt" />
                 <!-- Skip empty lines -->
@@ -396,10 +392,6 @@
             <mapper type="glob" from="*_tmp.c.tpl.js" to="*.tpl.js"/>
 
             <filterchain>
-                <!-- Remove old comments. There is no strip JavaScript comments
-                     filter in ant, but luckily comments in Java and in
-                     JavaScript have the same syntax -->
-                <stripjavacomments />
                 <!-- Add header -->
                 <concatfilter prepend="compiled_templates_header.txt" />
                 <!-- Skip empty lines -->
