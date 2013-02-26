@@ -110,6 +110,12 @@ img {
     height: 16px;
     background: transparent url("images/buttons.gif") scroll no-repeat 0 0;
 }
+.iclosewin {
+	background-position: -128px -16px;
+}
+a:hover .iclosewin {
+	background-position: -128px 0;
+}
 .close-control .tpl-image {
     background-position: -128px -16px;
 }
@@ -377,6 +383,8 @@ img {
 }
 .wndbr .buttons {
     top: 14px;
+    position: absolute;
+    right: 25px;
 }
 #headers {
     padding: 0 10px;

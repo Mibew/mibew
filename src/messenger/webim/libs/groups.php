@@ -104,4 +104,28 @@ function get_top_level_group($group)
 	return is_null($group['parent'])?$group:group_by_id($group['parent']);
 }
 
+/**
+ * Try to load email for specified group or for its parent.
+ * @param int $group_id Group id
+ * @return string|boolean Email address or false if there is no email
+ */
+function get_group_email($group_id) {
+	// Try to get group email
+	$group = group_by_id($group_id);
+	if ($group && !empty($group['vcemail'])) {
+		return $group['vcemail'];
+	}
+
+	// Try to get parent group email
+	if (! is_null($group['parent'])) {
+		$group = group_by_id($group['parent']);
+		if ($group && !empty($group['vcemail'])) {
+			return $group['vcemail'];
+		}
+	}
+
+	// There is no email
+	return false;
+}
+
 ?>

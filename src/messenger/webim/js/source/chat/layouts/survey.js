@@ -9,31 +9,23 @@
 (function(Mibew, Backbone){
 
     /**
-     * Represents chat layout
+     * Represents survey layout
      */
-    Mibew.Layouts.Chat = Backbone.Marionette.Layout.extend(
-        /** @lends Mibew.Layouts.Chat.prototype */
+    Mibew.Layouts.Survey = Backbone.Marionette.Layout.extend(
+        /** @lends Mibew.Layouts.Survey.prototype */
         {
             /**
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.chat_layout,
+            template: Handlebars.templates.survey_layout,
 
             /**
              * Regions list
              * @type Object
              */
             regions: {
-                controlsRegion: '#controls-region',
-                avatarRegion: '#avatar-region',
-                messagesRegion: {
-                    selector: '#messages-region',
-                    regionType: Mibew.Regions.Messages
-                },
-                statusRegion: '#status-region',
-                messageFormRegion: '#message-form-region',
-                soundRegion: '#sound-region'
+                surveyFormRegion: '#content-wrapper'
             },
 
             /**
@@ -46,10 +38,8 @@
              * @returns {Object} Template data
              */
             serializeData: function() {
-                var models = Mibew.Objects.Models;
                 return {
-                    page: models.page.toJSON(),
-                    user: models.user.toJSON()
+                    page: Mibew.Objects.Models.page.toJSON()
                 }
             }
         }

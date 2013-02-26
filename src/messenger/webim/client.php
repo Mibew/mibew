@@ -47,8 +47,6 @@ if (get_remote_level($_SERVER['HTTP_USER_AGENT']) == 'old') {
 	exit;
 }
 
-$page = array();
-
 if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 
 	$thread = NULL;
@@ -57,6 +55,8 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 	}
 
 	if( !$thread ) {
+
+		// Load group info
 		$groupid = "";
 		$groupname = "";
 		$group = NULL;
@@ -72,102 +72,58 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 			}
 		}
 
+		// Get visitor info
 		$visitor = visitor_from_request();
-		
-		if(isset($_POST['survey']) && $_POST['survey'] == 'on') {
-			$firstmessage = getparam("message");
-			$info = getparam("info");
-			$email = getparam("email");
-			$referrer = urldecode(getparam("referrer"));
+		$info = getgetparam('info');
+		$email = getgetparam('email');
 
-			if(Settings::get('usercanchangename') == "1" && isset($_POST['name'])) {
-				$newname = getparam("name");
-				if($newname != $visitor['name']) {
-					$data = strtr(base64_encode(myiconv($webim_encoding,"utf-8",$newname)), '+/=', '-_,');
-					setcookie($namecookie, $data, time()+60*60*24*365);
-					$visitor['name'] = $newname;
-				}
-			}
-		} else {
-			$firstmessage = NULL;
-			$info = getgetparam('info');
-			$email = getgetparam('email');
-			$referrer = isset($_GET['url']) ? $_GET['url'] :
-				(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "");
-			if(isset($_GET['referrer']) && $_GET['referrer']) {
-				$referrer .= "\n".$_GET['referrer'];
-			}
+		// Get referrer
+		$referrer = isset($_GET['url'])
+			? $_GET['url']
+			: (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "");
+
+		if(isset($_GET['referrer']) && $_GET['referrer']) {
+			$referrer .= "\n".$_GET['referrer'];
 		}
 
+		// Check if there are online operators
 		if(!has_online_operators($groupid)) {
-			// Create page array
+			// Display leave message page
 			$page = array_merge_recursive(
 				setup_logo($group),
-				setup_leavemessage($visitor['name'],$email,$firstmessage,$groupid,$groupname,$info,$referrer)
+				setup_leavemessage(
+					$visitor['name'],
+					$email,
+					$groupid,
+					$info,
+					$referrer
+				)
 			);
-			expand("styles/dialogs", getchatstyle(), "leavemessage.tpl");
+			$page['leaveMessageOptions'] = json_encode($page['leaveMessage']);
+			expand("styles/dialogs", getchatstyle(), "chat.tpl");
 			exit;
 		}
 
+		// Get invitation info
 		$invitation_state = invitation_state($_SESSION['visitorid']);
-		$visitor_is_invited = Settings::get('enabletracking') && $invitation_state['invited'] && !$invitation_state['threadid'];
-		if(Settings::get('enablepresurvey') == '1' && !(isset($_POST['survey']) && $_POST['survey'] == 'on') && !$visitor_is_invited) {
-			// Create page array
+		$visitor_is_invited = Settings::get('enabletracking')
+			&& $invitation_state['invited']
+			&& !$invitation_state['threadid'];
+
+		// Check if survey should be displayed
+		if(Settings::get('enablepresurvey') == '1' && !$visitor_is_invited) {
+			// Display prechat survey
 			$page = array_merge_recursive(
 				setup_logo($group),
 				setup_survey($visitor['name'], $email, $groupid, $info, $referrer)
 			);
-			expand("styles/dialogs", getchatstyle(), "survey.tpl");
+			$page['surveyOptions'] = json_encode($page['survey']);
+			expand("styles/dialogs", getchatstyle(), "chat.tpl");
 			exit;
 		}
 
-		$remoteHost = get_remote_host();
-		$userbrowser = $_SERVER['HTTP_USER_AGENT'];
-
-		if(Thread::connectionLimitReached($remoteHost)) {
-			die("number of connections from your IP is exceeded, try again later");
-		}
-		$thread = Thread::create();
-		$thread->groupId = $groupid;
-		$thread->userName = $visitor['name'];
-		$thread->remote = $remoteHost;
-		$thread->referer = $referrer;
-		$thread->locale = $current_locale;
-		$thread->userId = $visitor['id'];
-		$thread->userAgent = $userbrowser;
-		$thread->state = Thread::STATE_LOADING;
-		$thread->save();
-
-		$_SESSION['threadid'] = $thread->id;
-
-		$operator = invitation_accept($_SESSION['visitorid'], $thread->id);
-		if ($operator) {
-		    $operator = operator_by_id($operator);
-		    $operatorName = ($current_locale == $home_locale) ? $operator['vclocalename'] : $operator['vccommonname'];
-			$thread->postMessage(
-				Thread::KIND_FOR_AGENT,
-				getstring2('chat.visitor.invitation.accepted', array($operatorName))
-			);
-		}
-
-		if( $referrer ) {
-			$thread->postMessage(
-				Thread::KIND_FOR_AGENT,
-				getstring2('chat.came.from',array($referrer))
-			);
-		}
-		$thread->postMessage(Thread::KIND_INFO, getstring('chat.wait'));
-		if($email) {
-			$thread->postMessage(Thread::KIND_FOR_AGENT, getstring2('chat.visitor.email',array($email)));
-		}
-		if($info) {
-			$thread->postMessage(Thread::KIND_FOR_AGENT, getstring2('chat.visitor.info',array($info)));
-		}
-		if($firstmessage) {
-			$postedid = $thread->postMessage(Thread::KIND_USER, $firstmessage, $visitor['name']);
-			$thread->shownMessageId = $postedid;
-			$thread->save();
-		}
+		// Start chat thread
+		$thread = chat_start_for_user($groupid, $visitor['id'], $visitor['name'], $referrer, $info);
 	}
 	$threadid = $thread->id;
 	$token = $thread->lastToken;
@@ -184,21 +140,14 @@ if (! $thread) {
 	die("wrong thread");
 }
 
-$page = array_merge_recursive(
-	$page,
-	setup_chatview_for_user($thread)
-);
+$page = setup_chatview_for_user($thread);
 
 $pparam = verifyparam( "act", "/^(mailthread)$/", "default");
 if( $pparam == "mailthread" ) {
 	expand("styles/dialogs", getchatstyle(), "mail.tpl");
 } else {
-	// Load JavaScript plugins and JavaScripts, CSS files required by them
-	$page['additional_css'] = get_additional_css('client_chat_window');
-	$page['additional_js'] = get_additional_js('client_chat_window');
-	$page['js_plugin_options'] = get_js_plugin_options('client_chat_window');
 	// Build js application options
-	$page['chatModule'] = json_encode($page['chat']);
+	$page['chatOptions'] = json_encode($page['chat']);
 	// Expand page
 	expand("styles/dialogs", getchatstyle(), "chat.tpl");
 }

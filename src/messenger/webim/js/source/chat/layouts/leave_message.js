@@ -9,31 +9,24 @@
 (function(Mibew, Backbone){
 
     /**
-     * Represents chat layout
+     * Represents leave message page layout
      */
-    Mibew.Layouts.Chat = Backbone.Marionette.Layout.extend(
-        /** @lends Mibew.Layouts.Chat.prototype */
+    Mibew.Layouts.LeaveMessage = Backbone.Marionette.Layout.extend(
+        /** @lends Mibew.Layouts.LeaveMessage.prototype */
         {
             /**
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.chat_layout,
+            template: Handlebars.templates.leave_message_layout,
 
             /**
              * Regions list
              * @type Object
              */
             regions: {
-                controlsRegion: '#controls-region',
-                avatarRegion: '#avatar-region',
-                messagesRegion: {
-                    selector: '#messages-region',
-                    regionType: Mibew.Regions.Messages
-                },
-                statusRegion: '#status-region',
-                messageFormRegion: '#message-form-region',
-                soundRegion: '#sound-region'
+                leaveMessageFormRegion: '#content-wrapper',
+                descriptionRegion: '#description-region'
             },
 
             /**
@@ -46,10 +39,8 @@
              * @returns {Object} Template data
              */
             serializeData: function() {
-                var models = Mibew.Objects.Models;
                 return {
-                    page: models.page.toJSON(),
-                    user: models.user.toJSON()
+                    page: Mibew.Objects.Models.page.toJSON()
                 }
             }
         }

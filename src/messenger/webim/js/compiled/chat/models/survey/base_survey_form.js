@@ -5,4 +5,4 @@
  Copyright (c) 2005-2011 Mibew Messenger Community
  License: http://mibew.org/license.php
 */
-EventHelper.register(window,"onload",function(){MessageForm=new ClientForm(document.leaveMessageForm)});
+(function(a){a.Models.BaseSurveyForm=a.Models.Base.extend({defaults:{name:"",email:"",message:"",info:"",referrer:"",groupId:null,groups:null}})})(Mibew);

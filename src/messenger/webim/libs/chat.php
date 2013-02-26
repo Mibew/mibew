@@ -157,40 +157,91 @@ function setup_logo($group = NULL) {
 }
 
 /**
+ * Prepare values common for chat, prechat survey form and leave message form.
+ * @return array
+ */
+function prepare_chat_app_data() {
+	$data = array();
+
+	// Set enter key shortcut
+	if (Settings::get('sendmessagekey') == 'enter') {
+		$data['send_shortcut'] = "Enter";
+	} else {
+		$data['send_shortcut'] = is_mac_opera()
+			? "&#8984;-Enter"
+			: "Ctrl-Enter";
+	}
+
+	// Set refresh frequency
+	$data['frequency'] = Settings::get('updatefrequency_chat');
+
+	// Load JavaScript plugins and JavaScripts, CSS files required by them
+	$data['additional_css'] = get_additional_css('client_chat_window');
+	$data['additional_js'] = get_additional_js('client_chat_window');
+	$data['js_plugin_options'] = get_js_plugin_options('client_chat_window');
+
+	// Set some localized strings
+	$data['localized'] = array(
+		'email.required' => no_field("form.field.email"),
+		'name.required' => no_field("form.field.name"),
+		'message.required' => no_field("form.field.message"),
+		'wrong.email' => wrong_field("form.field.email")
+	);
+
+	return $data;
+}
+
+/**
  * Prepare data to display leave message form
  *
  * @param string $name User name
  * @param string $email User email
- * @param string $message First message text
- * @param int $groupid Id of selected group
- * @param string $groupname Name of selected group
+ * @param int $group_id Id of selected group
  * @param string $info User info
  * @param string $referrer URL of referrer page
  * @return array Array of leave message form data
- *
- * @todo Think about $info param. It seems to this param is meaningless.
  */
-function setup_leavemessage($name, $email, $message, $groupid, $groupname, $info, $referrer) {
-	$data = array();
+function setup_leavemessage($name, $email, $group_id, $info, $referrer) {
+	$data = prepare_chat_app_data();
 
-	$canshowcaptcha = can_show_captcha();
-	$data['formname'] = topage($name);
-	$data['formemail'] = topage($email);
-	$data['formmessage'] = $message ? topage($message) : "";
-	$data['showcaptcha'] = Settings::get("enablecaptcha") == "1" && $canshowcaptcha ? "1" : "";
-	$data['formgroupid'] = $groupid;
-	$data['formgroupname'] = $groupname;
-	$data['forminfo'] = topage($info);
-	$data['referrer'] = urlencode(topage($referrer));
+	// Create some empty arrays
+	$data['leaveMessage'] = array();
+
+	$group = group_by_id($group_id);
+	$group_name = '';
+	if ($group) {
+		$group_name = get_group_name($group);
+	}
+
+	$data['leaveMessage']['leaveMessageForm'] = array(
+		'name' => topage($name),
+		'email' => topage($email),
+		'groupId' => $group_id,
+		'groupName' => $group_name,
+		'info' => topage($info),
+		'referrer' => topage($referrer),
+		'showCaptcha' => (bool)(Settings::get("enablecaptcha") == "1"
+			&& can_show_captcha())
+	);
+
+	$data['page.title'] = (empty($group_name)?'':$group_name.': ')
+		. getlocal('leavemessage.title');
+	$data['leaveMessage']['page'] = array(
+		'title' => $data['page.title']
+	);
 
 	if (Settings::get('enablegroups') == '1') {
-		$groups = setup_groups_select($groupid, false);
+		$groups = setup_groups_select($group_id, false);
 		if ($groups) {
-			$data['groups'] = $groups['select'];
-			$data['group.descriptions'] = json_encode($groups['descriptions']);
-			$data['default.department.description'] = $groups['defaultdescription'];
+			$data['leaveMessage']['leaveMessageForm']['groups'] = array(
+				'select' => $groups['select'],
+				'descriptions' => $groups['descriptions'],
+				'defaultDescription' => $groups['defaultdescription']
+			);
 		}
 	}
+
+	$data['startFrom'] = 'leaveMessage';
 
 	return $data;
 }
@@ -200,34 +251,47 @@ function setup_leavemessage($name, $email, $message, $groupid, $groupname, $info
  *
  * @param string $name User name
  * @param string $email User email
- * @param int $groupid Id of selected group
+ * @param int $group_id Id of selected group
  * @param string $info User info
  * @param string $referrer URL of referrer page
  * @return array Array of survey data
- *
- * @todo Think about $info param. It seems to this param is meaningless.
  */
-function setup_survey($name, $email, $groupid, $info, $referrer) {
-	$data = array();
+function setup_survey($name, $email, $group_id, $info, $referrer) {
+	$data = prepare_chat_app_data();
 
-	$data['formname'] = topage($name);
-	$data['formemail'] = topage($email);
-	$data['formgroupid'] = $groupid;
-	$data['forminfo'] = topage($info);
-	$data['referrer'] = urlencode(topage($referrer));
+	// Create some empty arrays
+	$data['survey'] = array();
 
-	if (Settings::get('enablegroups') == '1' && Settings::get('surveyaskgroup') == '1') {
-		$groups = setup_groups_select($groupid, true);
+	$data['survey']['surveyForm'] = array(
+		'name' => topage($name),
+		'groupId' => $group_id,
+		'email' => topage($email),
+		'info' => topage($info),
+		'referrer' => topage($referrer),
+		'showEmail' => (bool)(Settings::get("surveyaskmail") == "1"),
+		'showMessage' => (bool)(Settings::get("surveyaskmessage") == "1"),
+		'canChangeName' => (bool)(Settings::get('usercanchangename') == "1")
+	);
+
+	$data['page.title'] = getlocal('presurvey.title');
+	$data['survey']['page'] = array(
+		'title' => $data['page.title']
+	);
+
+	if (Settings::get('enablegroups') == '1'
+			&& Settings::get('surveyaskgroup') == '1') {
+
+		$groups = setup_groups_select($group_id, true);
 		if ($groups) {
-			$data['groups'] = $groups['select'];
-			$data['group.descriptions'] = json_encode($groups['descriptions']);
-			$data['default.department.description'] = $groups['defaultdescription'];
+			$data['survey']['surveyForm']['groups'] = array(
+				'select' => $groups['select'],
+				'descriptions' => $groups['descriptions'],
+				'defaultDescription' => $groups['defaultdescription'],
+			);
 		}
 	}
 
-	$data['showemail'] = Settings::get("surveyaskmail") == "1" ? "1" : "";
-	$data['showmessage'] = Settings::get("surveyaskmessage") == "1" ? "1" : "";
-	$data['showname'] = Settings::get('usercanchangename') == "1" ? "1" : "";
+	$data['startFrom'] = 'survey';
 
 	return $data;
 }
@@ -283,7 +347,7 @@ function setup_groups_select($groupid, $markoffline)
  * @return array Array of chat view data
  */
 function setup_chatview(Thread $thread) {
-	$data = array();
+	$data = prepare_chat_app_data();
 
 	// Get group info
 	if (! empty($thread->groupId)) {
@@ -306,10 +370,13 @@ function setup_chatview(Thread $thread) {
 		'token' => $thread->lastToken
 	);
 
-	$data['chat.title'] = topage(
+	$data['page.title'] = topage(
 		empty($group['vcchattitle'])
 			? Settings::get('chattitle')
 			: $group['vcchattitle']
+	);
+	$data['chat']['page'] = array(
+		'title' => $data['page.title']
 	);
 
 	// Setup logo
@@ -320,21 +387,14 @@ function setup_chatview(Thread $thread) {
 
 	// Set enter key shortcut
 	if (Settings::get('sendmessagekey') == 'enter') {
-		$data['send_shortcut'] = "Enter";
 		$data['chat']['messageForm']['ignoreCtrl'] = true;
 	} else {
-		$data['send_shortcut'] = is_mac_opera()
-			? "&#8984;-Enter"
-			: "Ctrl-Enter";
 		$data['chat']['messageForm']['ignoreCtrl'] = false;
 	}
 
 	// Set some browser info
 	$data['isOpera95'] = is_agent_opera95();
 	$data['neediframesrc'] = needsFramesrc();
-
-	// Set refresh frequency
-	$data['frequency'] = Settings::get('updatefrequency_chat');
 
 	// Load dialogs style options
 	$style_config = get_dialogs_style_config(getchatstyle());
@@ -345,6 +405,8 @@ function setup_chatview(Thread $thread) {
 	$style_config = get_core_style_config();
 	$data['chat']['windowsParams']['history']
 		= $style_config['history']['window_params'];
+
+	$data['startFrom'] = 'chat';
 
 	return $data;
 }
@@ -529,6 +591,77 @@ function get_remote_host()
 		$extAddr = $_SERVER['REMOTE_ADDR'] . ' (' . $_SERVER['HTTP_X_FORWARDED_FOR'] . ')';
 	}
 	return isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $extAddr;
+}
+
+/**
+ * Start chat thread for user
+ *
+ * @global string $current_locale Current locale code
+ * @param int $group_id Id of group related to thread
+ * @param string $visitor_id Id of the visitor
+ * @param string $visitor_name Name of the visitor
+ * @param string $referrer Page user came from
+ * @param string $info User info
+ */
+function chat_start_for_user($group_id, $visitor_id, $visitor_name, $referrer, $info) {
+	global $current_locale;
+
+	// Get user info
+	$remote_host = get_remote_host();
+	$user_browser = $_SERVER['HTTP_USER_AGENT'];
+
+	// Check connection limit
+	if(Thread::connectionLimitReached($remote_host)) {
+		die("number of connections from your IP is exceeded, try again later");
+	}
+
+	// Create thread
+	$thread = Thread::create();
+	$thread->groupId = $group_id;
+	$thread->userName = $visitor_name;
+	$thread->remote = $remote_host;
+	$thread->referer = $referrer;
+	$thread->locale = $current_locale;
+	$thread->userId = $visitor_id;
+	$thread->userAgent = $user_browser;
+	$thread->state = Thread::STATE_LOADING;
+	$thread->save();
+
+	$_SESSION['threadid'] = $thread->id;
+
+	// Check if invitation accept
+	$operator = invitation_accept($_SESSION['visitorid'], $thread->id);
+	if ($operator) {
+		$operator = operator_by_id($operator);
+		$operator_name = get_operator_name($operator);
+		$thread->postMessage(
+			Thread::KIND_FOR_AGENT,
+			getstring2(
+				'chat.visitor.invitation.accepted',
+				array($operator_name)
+			)
+		);
+	}
+
+	// Send some messages
+	if ($referrer) {
+		$thread->postMessage(
+			Thread::KIND_FOR_AGENT,
+			getstring2('chat.came.from',array($referrer))
+		);
+	}
+
+	$thread->postMessage(Thread::KIND_INFO, getstring('chat.wait'));
+
+	// TODO: May be move sending this message somewhere else?
+	if ($info) {
+		$thread->postMessage(
+			Thread::KIND_FOR_AGENT,
+			getstring2('chat.visitor.info',array($info))
+		);
+	}
+
+	return $thread;
 }
 
 ?>

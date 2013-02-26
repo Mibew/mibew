@@ -403,6 +403,254 @@ class ThreadProcessor extends ClientSideProcessor {
 			'closed' => true
 		);
 	}
+
+	/**
+	 * Process submitted prechat survey.
+	 *
+	 * @global string $namecookie Name of cookie that store visitor name
+	 * @param array $args Associative array of arguments. It must contains
+	 * following keys:
+	 *  - 'threadId': for this function this param equals to null;
+	 *  - 'token': for this function this param equals to null;
+	 *  - 'name': string, user name;
+	 *  - 'email': string, user email;
+	 *  - 'message': string, first user message;
+	 *  - 'info': string, some info about user;
+	 *  - 'referrer': page user came from;
+	 *  - 'groupId': selected group id.
+	 * @return array Array of results. It contains following keys:
+	 *  - 'next': string, indicates what module run next;
+	 *  - 'options': options array for next module.
+	 */
+	protected function apiProcessSurvey($args) {
+		global $namecookie;
+
+		$visitor = visitor_from_request();
+
+		// Get form values
+		$first_message = $args['message'];
+		$info = $args['info'];
+		$email = $args['email'];
+		$referrer = $args['referrer'];
+
+		// Verify group id
+		$group_id = '';
+		$group = NULL;
+		if(Settings::get('enablegroups') == '1') {
+			if (preg_match("/^\d{1,8}$/", $args['groupId']) != 0) {
+				$group = group_by_id($args['groupId']);
+				if ($group) {
+					$group_id = $args['groupId'];
+				}
+			}
+		}
+
+		if(Settings::get('usercanchangename') == "1" && !empty($args['name'])) {
+			$newname = $args['name'];
+			if($newname != $visitor['name']) {
+				$data = strtr(
+					base64_encode(myiconv($webim_encoding,"utf-8",$newname)),
+					'+/=',
+					'-_,'
+				);
+				setcookie($namecookie, $data, time()+60*60*24*365);
+				$visitor['name'] = $newname;
+			}
+		}
+
+		// Check if there are online operators
+		if(!has_online_operators($group_id)) {
+			// Display leave message page
+			$client_data = setup_leavemessage(
+				$visitor['name'],
+				$email,
+				$group_id,
+				$info,
+				$referrer
+			);
+			$options = $client_data['leaveMessage'];
+			$options['page'] += setup_logo($group);
+			return array(
+				'next' => 'leaveMessage',
+				'options' => $options
+			);
+		}
+
+		// Initialize dialog
+		$thread = chat_start_for_user(
+			$group_id,
+			$visitor['id'],
+			$visitor['name'],
+			$referrer,
+			$info
+		);
+
+		// Send some messages
+		if($email) {
+			$thread->postMessage(
+				Thread::KIND_FOR_AGENT,
+				getstring2('chat.visitor.email',array($email))
+			);
+		}
+
+		if($first_message) {
+			$posted_id = $thread->postMessage(
+				Thread::KIND_USER,
+				$first_message,
+				$visitor['name']
+			);
+			$thread->shownMessageId = $posted_id;
+			$thread->save();
+		}
+
+		// Prepare chat options
+		$client_data = setup_chatview_for_user($thread);
+		$options = $client_data['chat'];
+		$options['page'] += setup_logo($group);
+
+		return array(
+			'next' => 'chat',
+			'options' => $options
+		);
+	}
+
+	/**
+	 * Process submitted leave message form.
+	 *
+	 * Send message to operator email and create special meil thread.
+	 * @global string $home_locale Code of the home locale
+	 * @global string $current_locale Code of the current locale
+	 * @param array $args Associative array of arguments. It must contains
+	 * following keys:
+	 *  - 'threadId': for this function this param equals to null;
+	 *  - 'token': for this function this param equals to null;
+	 *  - 'name': string, user name;
+	 *  - 'email': string, user email;
+	 *  - 'message': string, user message;
+	 *  - 'info': string, some info about user;
+	 *  - 'referrer': string, page user came from;
+	 *  - 'captcha': string, captcha value;
+	 *  - 'groupId': selected group id.
+	 *
+	 * @throws ThreadProcessorException Can throw an exception if captcha or
+	 * email is wrong.
+	 */
+	protected function apiProcessLeaveMessage($args) {
+		global $home_locale, $current_locale;
+
+		// Check captcha
+		if(Settings::get('enablecaptcha') == '1' && can_show_captcha()) {
+			$captcha = $args['captcha'];
+			$original = isset($_SESSION["mibew_captcha"])
+				? $_SESSION["mibew_captcha"]
+				: '';
+			unset($_SESSION['mibew_captcha']);
+			if(empty($original) || empty($captcha) || $captcha != $original) {
+				throw new ThreadProcessorException(
+					getlocal('errors.captcha'),
+					ThreadProcessorException::ERROR_WRONG_CAPTCHA
+				);
+			}
+		}
+
+		// Get form fields
+		$email = $args['email'];
+		$name = $args['name'];
+		$message = $args['message'];
+		$info = $args['info'];
+		$referrer = $args['referrer'];
+
+		if( !is_valid_email($email)) {
+			throw new ThreadProcessorException(
+				wrong_field("form.field.email"),
+				ThreadProcessorException::ERROR_WRONG_EMAIL
+			);
+		}
+
+		// Verify group id
+		$group_id = '';
+		if(Settings::get('enablegroups') == '1') {
+			if (preg_match("/^\d{1,8}$/", $args['groupId']) != 0) {
+				$group = group_by_id($args['groupId']);
+				if ($group) {
+					$group_id = $args['groupId'];
+				}
+			}
+		}
+
+		// Create thread for left message
+		$remote_host = get_remote_host();
+		$user_browser = $_SERVER['HTTP_USER_AGENT'];
+		$visitor = visitor_from_request();
+
+		// Get message locale
+		$message_locale = Settings::get('left_messages_locale');
+		if(!locale_exists($message_locale)) {
+			$message_locale = $home_locale;
+		}
+
+		// Create thread
+		$thread = Thread::create();
+		$thread->groupId = $groupid;
+		$thread->userName = $name;
+		$thread->remote = $remote_host;
+		$thread->referer = $referrer;
+		$thread->locale = $current_locale;
+		$thread->userId = $visitor['id'];
+		$thread->userAgent = $user_browser;
+		$thread->state = Thread::STATE_LEFT;
+		$thread->save();
+
+		// Send some messages
+		if ($referrer) {
+			$thread->postMessage(
+				Thread::KIND_FOR_AGENT,
+				getstring2('chat.came.from', array($referrer))
+			);
+		}
+		if($email) {
+			$thread->postMessage(
+				Thread::KIND_FOR_AGENT,
+				getstring2('chat.visitor.email', array($email))
+			);
+		}
+		if($info) {
+			$thread->postMessage(
+				Thread::KIND_FOR_AGENT,
+				getstring2('chat.visitor.info', array($info))
+			);
+		}
+		$thread->postMessage(Thread::KIND_USER, $message, $name);
+
+		// Get email for message
+		$inbox_mail = get_group_email($group_id);
+
+		if (empty($inbox_mail)) {
+			$inbox_mail = Settings::get('email');
+		}
+
+		// Send email
+		if($inbox_mail) {
+			// Prepare message to send by email
+			$subject = getstring2_("leavemail.subject",
+				array($args['name']),
+				$message_locale
+			);
+			$body = getstring2_(
+				"leavemail.body",
+				array(
+					$args['name'],
+					$email,
+					$message,
+					$info ? $info."\n" : ""
+				),
+				$message_locale
+			);
+
+			// Send
+			webim_mail($inbox_mail, $email, $subject, $body);
+		}
+	}
 }
 
 class ThreadProcessorException extends RequestProcessorException {
@@ -442,6 +690,14 @@ class ThreadProcessorException extends RequestProcessorException {
 	 * Wrong recipient value
 	 */
 	const WRONG_RECIPIENT_VALUE = 9;
+	/**
+	 * Wrong captcha value
+	 */
+	const ERROR_WRONG_CAPTCHA = 10;
+	/**
+	 * Wrong email address
+	 */
+	const ERROR_WRONG_EMAIL = 11;
 }
 
 ?>

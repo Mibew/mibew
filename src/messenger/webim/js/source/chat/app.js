@@ -18,14 +18,29 @@
 
     // Initialize application
     app.addInitializer(function(options){
-        // Initialize Server, Thread and User
+        // Initialize Server
         Mibew.Objects.server = new Mibew.Server(_.extend(
-            {
-                'interactionType': MibewAPIChatInteraction
-            },
+            {'interactionType': MibewAPIChatInteraction},
             options.server
         ));
-        app.Chat.start(options);
+
+        // Initialize Page
+        Mibew.Objects.Models.page = new Mibew.Models.Page(options.page);
+
+        switch (options.startFrom) {
+            case 'chat':
+                app.Chat.start(options.chatOptions);
+                break;
+            case 'survey':
+                app.Survey.start(options.surveyOptions);
+                break;
+            case 'leaveMessage':
+                app.LeaveMessage.start(options.leaveMessageOptions);
+                break;
+            default:
+                throw new Error('Dont know how to start!');
+                break;
+        }
     });
 
     app.on('start', function() {

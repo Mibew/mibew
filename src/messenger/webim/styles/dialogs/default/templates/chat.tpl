@@ -46,7 +46,29 @@
                 'chat.client.changename': "${msg:chat.client.changename}",
                 'chat.window.toolbar.turn_off_sound': "${msg:chat.window.toolbar.turn_off_sound}",
                 'chat.window.toolbar.turn_on_sound': "${msg:chat.window.toolbar.turn_on_sound}",
-                'chat.window.poweredby': "${msg:chat.window.poweredby}"
+                'chat.window.poweredby': "${msg:chat.window.poweredby}",
+                'chat.mailthread.sent.close': "${msg:chat.mailthread.sent.close}",
+                'form.field.department': "${msg:form.field.department}",
+                'form.field.department.description': "${msg:form.field.department.description}",
+                'form.field.email': "${msg:form.field.email}",
+                'form.field.name': "${msg:form.field.name}",
+                'form.field.message': "${msg:form.field.message}",
+                'leavemessage.close': "${msg:leavemessage.close}",
+                'leavemessage.descr': "${msg:leavemessage.descr}",
+                'leavemessage.sent.message': "${msg:leavemessage.sent.message}",
+                'leavemessage.error.email.required': '${page:localized.email.required}',
+                'leavemessage.error.name.required': '${page:localized.name.required}',
+                'leavemessage.error.message.required': '${page:localized.message.required}',
+                'leavemessage.error.wrong.email': '${page:localized.wrong.email}',
+                'errors.captcha': '${msg:errors.captcha}',
+                'mailthread.perform': "${msg:mailthread.perform}",
+                'presurvey.name': "${msg:presurvey.name}",
+                'presurvey.mail': "${msg:presurvey.mail}",
+                'presurvey.question': "${msg:presurvey.question}",
+                'presurvey.submit': "${msg:presurvey.submit}",
+                'presurvey.error.wrong_email': "${msg:presurvey.error.wrong_email}",
+                'presurvey.title': "${msg:presurvey.title}",
+                'presurvey.intro': '${msg:presurvey.intro}'
             });
         //--></script>
 
@@ -61,9 +83,24 @@
                     page: {
                         style: '${styleid}',
                         webimRoot: '${webimroot}',
-                        tplRoot: '${tplroot}'
+                        tplRoot: '${tplroot}',
+                        company: {
+                            name: '${page:company.name}',
+                            chatLogoURL: '${page:company.chatLogoURL}'
+                        },
+                        webimHost: '${page:webimHost}',
+                        title: '${page:page.title}'
                     },
-                    chatModule: ${page:chatModule},
+                    ${if:chatOptions}
+                        chatOptions: ${page:chatOptions},
+                    ${endif:chatOptions}
+                    ${if:surveyOptions}
+                        surveyOptions: ${page:surveyOptions},
+                    ${endif:surveyOptions}
+                    ${if:leaveMessageOptions}
+                        leaveMessageOptions: ${page:leaveMessageOptions},
+                    ${endif:leaveMessageOptions}
+                    startFrom: "${page:startFrom}",
                     plugins: ${page:js_plugin_options}
                 });
             });
@@ -71,33 +108,6 @@
 
     </head>
     <body>
-
-        <!-- Chat window top. Includes logo and some info about company -->
-        <div id="top">
-            <div id="logo">
-                ${if:company.chatLogoURL}
-                    ${if:webimHost}
-                        <a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">
-                            <img src="${page:company.chatLogoURL}" alt=""/>
-                        </a>
-                    ${else:webimHost}
-                        <img src="${page:company.chatLogoURL}" alt=""/>
-                    ${endif:webimHost}
-                ${else:company.chatLogoURL}
-                    ${if:webimHost}
-                        <a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">
-                            <img src="${tplroot}/images/default-logo.gif" alt=""/>
-                        </a>
-                    ${else:webimHost}
-                        <img src="${tplroot}/images/default-logo.gif" alt=""/>
-                    ${endif:webimHost}
-                ${endif:company.chatLogoURL}
-                &nbsp;
-                <div id="page-title">${page:chat.title}</div>
-                <div class="clear">&nbsp;</div>
-            </div>
-        </div>
-
         <div id="main-region"></div>
     </body>
 </html>

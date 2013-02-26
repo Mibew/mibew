@@ -18,6 +18,10 @@
 require_once('libs/init.php');
 require_once('libs/chat.php');
 require_once('libs/operator.php');
+require_once('libs/invitation.php');
+require_once('libs/groups.php');
+require_once('libs/captcha.php');
+require_once('libs/notify.php');
 require_once('libs/classes/thread.php');
 require_once('libs/classes/mibew_api.php');
 require_once('libs/classes/mibew_api_interaction.php');
