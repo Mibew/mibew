@@ -37,7 +37,7 @@
 	<div id="headers">
 		<div class="wndb"><div class="wndl"><div class="wndr"><div class="wndt"><div class="wndtl"><div class="wndtr"><div class="wndbl"><div class="wndbr">
 			<div class="buttons">
-				<a href="javascript:window.close();" title="${msg:mailthread.close}"><img class="tplimage iclosewin" src="${webimroot}/images/free.gif" alt="${msg:mailthread.close}" /></a>
+				<a href="javascript:window.close();" title="${msg:mailthread.close}"><img class="tpl-image iclosewin" src="${webimroot}/images/free.gif" alt="${msg:mailthread.close}" /></a>
 			</div>
 			<div class="messagetxt">
 				<strong>${msg:mailthread.enter_email}</strong>

@@ -33,7 +33,7 @@
 	<div id="headers">
 		<div class="wndb"><div class="wndl"><div class="wndr"><div class="wndt"><div class="wndtl"><div class="wndtr"><div class="wndbl"><div class="wndbr">
 			<div class="buttons">
-				<a href="javascript:window.close();" title="${msg:chat.redirected.close}"><img class="tplimage iclosewin" src="${webimroot}/images/free.gif" alt="${msg:chat.redirected.close}" /></a>
+				<a href="javascript:window.close();" title="${msg:chat.redirected.close}"><img class="tpl-image iclosewin" src="${webimroot}/images/free.gif" alt="${msg:chat.redirected.close}" /></a>
 			</div>
 			<div class="messagetxt">${page:message}</div>
 		</div></div></div></div></div></div></div></div>
