@@ -4,11 +4,10 @@
  Copyright (c) 2005-2011 Mibew Messenger Community
  License: http://mibew.org/license.php
 */
-(function(){var h=Handlebars.template,m=Handlebars.templates=Handlebars.templates||{};m.default_control=h(function(a,b,c,l,g){this.compilerInfo=[2,">= 1.0.0-rc.3"];c=c||a.helpers;g=g||{};l=this.escapeExpression;a="<strong>";(c=c.title)?c=c.call(b,{hash:{},data:g}):(c=b.title,c="function"===typeof c?c.apply(b):c);return a+=l(c)+"</strong>"});m.sound=h(function(a,b,c,l,g){this.compilerInfo=[2,">= 1.0.0-rc.3"];c=c||a.helpers;g=g||{};var d=this.escapeExpression;return(a=c["if"].call(b,b.file,{hash:{},
-inverse:this.noop,fn:this.program(1,function(a,b){var k,f;k='\n<audio autoplay src="';(f=c.file)?f=f.call(a,{hash:{},data:b}):(f=a.file,f="function"===typeof f?f.apply(a):f);k+=d(f)+'">\n    <embed src="';(f=c.file)?f=f.call(a,{hash:{},data:b}):(f=a.file,f="function"===typeof f?f.apply(a):f);return k+=d(f)+'" hidden="true" autostart="true" loop="false" />\n</audio>\n'},g),data:g}))||0===a?a:""});m.message=h(function(a,b,c,l,g){this.compilerInfo=[2,">= 1.0.0-rc.3"];c=c||a.helpers;g=g||{};var d,j=this.escapeExpression,
-h=c.helperMissing;a={hash:{},data:g};a="<span>"+(j((d=c.formatTime,d?d.call(b,b.created,a):h.call(b,"formatTime",b.created,a)))+"</span>\n");if((d=c["if"].call(b,b.name,{hash:{},inverse:this.noop,fn:this.program(1,function(a,f){var b,e;b="<span class='n";(e=c.kindName)?e=e.call(a,{hash:{},data:f}):(e=a.kindName,e="function"===typeof e?e.apply(a):e);b+=j(e)+"'>";(e=c.name)?e=e.call(a,{hash:{},data:f}):(e=a.name,e="function"===typeof e?e.apply(a):e);return b+=j(e)+"</span>: "},g),data:g}))||0===d)a+=
-d;a+="\n<span class='m";(d=c.kindName)?d=d.call(b,{hash:{},data:g}):(d=b.kindName,d="function"===typeof d?d.apply(b):d);a+=j(d)+"'>";if((d=c["if"].call(b,b.allowFormatting,{hash:{},inverse:this.program(5,function(a,b){var d,e;e={hash:{},data:b};return j((d=c.apply,d?d.call(a,a.message,"urlReplace, nl2br",e):h.call(a,"apply",a.message,"urlReplace, nl2br",e)))},g),fn:this.program(3,function(a,b){var d,e;e={hash:{},data:b};return j((d=c.apply,d?d.call(a,a.message,"urlReplace, nl2br, allowTags",e):h.call(a,
-"apply",a.message,"urlReplace, nl2br, allowTags",e)))},g),data:g}))||0===d)a+=d;return a+="</span><br/>"})})();
+(function(){var k=Handlebars.template,l=Handlebars.templates=Handlebars.templates||{};l.default_control=k(function(a,b,e,h,f){this.compilerInfo=[2,">= 1.0.0-rc.3"];e=e||a.helpers;f=f||{};h=this.escapeExpression;a="<strong>";(e=e.title)?e=e.call(b,{hash:{},data:f}):(e=b.title,e="function"===typeof e?e.apply(b):e);return a+=h(e)+"</strong>"});l.message=k(function(a,b,e,h,f){this.compilerInfo=[2,">= 1.0.0-rc.3"];e=e||a.helpers;f=f||{};var c,g=this.escapeExpression,j=e.helperMissing;a={hash:{},data:f};
+a="<span>"+(g((c=e.formatTime,c?c.call(b,b.created,a):j.call(b,"formatTime",b.created,a)))+"</span>\n");if((c=e["if"].call(b,b.name,{hash:{},inverse:this.noop,fn:this.program(1,function(a,c){var b,d;b="<span class='n";(d=e.kindName)?d=d.call(a,{hash:{},data:c}):(d=a.kindName,d="function"===typeof d?d.apply(a):d);b+=g(d)+"'>";(d=e.name)?d=d.call(a,{hash:{},data:c}):(d=a.name,d="function"===typeof d?d.apply(a):d);return b+=g(d)+"</span>: "},f),data:f}))||0===c)a+=c;a+="\n<span class='m";(c=e.kindName)?
+c=c.call(b,{hash:{},data:f}):(c=b.kindName,c="function"===typeof c?c.apply(b):c);a+=g(c)+"'>";if((c=e["if"].call(b,b.allowFormatting,{hash:{},inverse:this.program(5,function(a,b){var c,d;d={hash:{},data:b};return g((c=e.apply,c?c.call(a,a.message,"urlReplace, nl2br",d):j.call(a,"apply",a.message,"urlReplace, nl2br",d)))},f),fn:this.program(3,function(a,c){var b,d;d={hash:{},data:c};return g((b=e.apply,b?b.call(a,a.message,"urlReplace, nl2br, allowTags",d):j.call(a,"apply",a.message,"urlReplace, nl2br, allowTags",
+d)))},f),data:f}))||0===c)a+=c;return a+="</span><br/>"})})();
 /*
  This file is part of Mibew Messenger project.
  http://mibew.org
@@ -52,7 +51,8 @@ else try{this.sendRequests(this.buffer),this.buffer=[]}catch(c){this.options.onU
  Copyright (c) 2005-2011 Mibew Messenger Community
  License: http://mibew.org/license.php
 */
-(function(b){b.Utils={};b.Utils.toUpperCaseFirst=function(a){return"string"!=typeof a?!1:""===a?a:a.substring(0,1).toUpperCase()+a.substring(1)};b.Utils.toDashFormat=function(a){if("string"!=typeof a)return!1;a=a.match(/((?:[A-Z]?[a-z]+)|(?:[A-Z][a-z]*))/g);for(var b=0;b<a.length;b++)a[b]=a[b].toLowerCase();return a.join("-")};b.Utils.checkEmail=function(a){return/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(a)}})(Mibew);
+(function(b,c){b.Utils={};b.Utils.toUpperCaseFirst=function(a){return"string"!=typeof a?!1:""===a?a:a.substring(0,1).toUpperCase()+a.substring(1)};b.Utils.toDashFormat=function(a){if("string"!=typeof a)return!1;a=a.match(/((?:[A-Z]?[a-z]+)|(?:[A-Z][a-z]*))/g);for(var b=0;b<a.length;b++)a[b]=a[b].toLowerCase();return a.join("-")};b.Utils.checkEmail=function(a){return/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(a)};
+b.Utils.playSound=function(a){c("body").append('<audio autoplay style="display: none;"><source src="'+a+'" type="audio/x-wav" /><embed src="'+a+'" type="audio/x-wav" hidden="true" autostart="true" loop="false" /></audio>')}})(Mibew,$);
 /*
  This file is part of Mibew Messenger project.
  http://mibew.org
@@ -81,13 +81,6 @@ else try{this.sendRequests(this.buffer),this.buffer=[]}catch(c){this.options.onU
  License: http://mibew.org/license.php
 */
 (function(a,b){a.Models.Page=b.Model.extend()})(Mibew,Backbone);
-/*
- This file is part of Mibew Messenger project.
- http://mibew.org
- Copyright (c) 2005-2011 Mibew Messenger Community
- License: http://mibew.org/license.php
-*/
-(function(a,b){a.Models.Sound=b.Model.extend({play:function(a){this.set({file:a});this.trigger("sound:play",this)}})})(Mibew,Backbone);
 /*
  This file is part of Mibew Messenger project.
  http://mibew.org
@@ -125,13 +118,6 @@ this.$el.removeClass("active"+(a?"-"+a:""))},getDashedControlType:function(){"un
 */
 (function(c,d,e){var f={"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;","'":"&#x27;","`":"&#x60;"},g=/[&<>'"`]/g;c.Views.Message=d.Marionette.ItemView.extend({template:e.templates.message,className:"message",modelEvents:{change:"render"},serializeData:function(){var a=this.model.toJSON(),b=this.model.get("kind");a.allowFormatting=b!=this.model.KIND_USER&&b!=this.model.KIND_AGENT;a.kindName=this.kindToString(b);a.message=this.escapeString(a.message);return a},kindToString:function(a){return a==this.model.KIND_USER?
 "user":a==this.model.KIND_AGENT?"agent":a==this.model.KIND_FOR_AGENT?"hidden":a==this.model.KIND_INFO?"inf":a==this.model.KIND_CONN?"conn":a==this.model.KIND_EVENTS?"event":""},escapeString:function(a){return a.replace(g,function(a){return f[a]||"&amp;"})}})})(Mibew,Backbone,Handlebars);
-/*
- This file is part of Mibew Messenger project.
- http://mibew.org
- Copyright (c) 2005-2011 Mibew Messenger Community
- License: http://mibew.org/license.php
-*/
-(function(a,b,c){a.Views.Sound=b.Marionette.ItemView.extend({template:c.templates.sound,className:"sound-player",modelEvents:{"sound:play":"render"}})})(Mibew,Backbone,Handlebars);
 /*
  This file is part of Mibew Messenger project.
  http://mibew.org

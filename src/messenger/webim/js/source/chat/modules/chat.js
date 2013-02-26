@@ -175,12 +175,6 @@
         }));
 
 
-        // Initialize sounds
-        models.sound = new Mibew.Models.Sound();
-        layout.soundRegion.show(new Mibew.Views.Sound({
-            model: models.sound
-        }));
-
         // TODO: May be move it somewhere else
         // Periodically call update function at the server side
         periodicallyCalled.push(
@@ -271,7 +265,6 @@
         delete Mibew.Objects.Models.page;
         delete Mibew.Objects.Models.avatar;
         delete Mibew.Objects.Models.messageForm;
-        delete Mibew.Objects.Models.sound;
         delete Mibew.Objects.Models.Controls;
         delete Mibew.Objects.Models.Status;
 

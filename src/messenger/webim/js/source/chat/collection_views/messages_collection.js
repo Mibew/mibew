@@ -64,7 +64,7 @@
                         if (path) {
                             path += '/sounds/new_message.wav';
                             // Play sound
-                            Mibew.Objects.Models.sound.play(path);
+                            Mibew.Utils.playSound(path);
                         }
                     }
                 }

@@ -153,7 +153,7 @@ function tpl_content() { global $page, $webimroot;
 
 <div id="status-panel-region"></div>
 <div id="agents-region"></div>
-<div id="sound-region"></div>
+
 <?php 
 } /* content */
 

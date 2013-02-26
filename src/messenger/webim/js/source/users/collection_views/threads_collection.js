@@ -159,7 +159,7 @@
                 if (path) {
                     path += '/sounds/new_user.wav';
                     // Play sound
-                    Mibew.Objects.Models.sound.play(path);
+                    Mibew.Utils.playSound(path);
                 }
 
                 // Show popup notification if need

@@ -6,7 +6,7 @@
  * License: http://mibew.org/license.php
  */
 
-(function(Mibew){
+(function(Mibew, $){
 
     /**
      * @namespace Holds utility functions
@@ -55,4 +55,16 @@
         return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
     }
 
-})(Mibew);
+    /**
+     * Play .wav sound file
+     * @param {String} file File path
+     */
+    Mibew.Utils.playSound = function (file) {
+        var soundHTML = '<audio autoplay style="display: none;">' +
+            '<source src="' + file + '" type="audio/x-wav" />' +
+            '<embed src="' + file + '" type="audio/x-wav" hidden="true" autostart="true" loop="false" />' +
+            '</audio>';
+        $('body').append(soundHTML);
+    }
+
+})(Mibew, $);

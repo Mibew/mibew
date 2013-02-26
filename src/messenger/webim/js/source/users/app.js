@@ -36,8 +36,7 @@
         agentsRegion: '#agents-region',
         statusPanelRegion: '#status-panel-region',
         threadsRegion: '#threads-region',
-        visitorsRegion: '#visitors-region',
-        soundRegion: '#sound-region'
+        visitorsRegion: '#visitors-region'
     });
 
     // Initialize application
@@ -91,12 +90,6 @@
                 collection: colls.agents
             }));
         }
-
-        // Initialize sounds
-        models.sound = new Mibew.Models.Sound();
-        App.soundRegion.show(new Mibew.Views.Sound({
-            model: models.sound
-        }));
 
         // Periodically call update function at the server side
         objs.server.callFunctionsPeriodically(

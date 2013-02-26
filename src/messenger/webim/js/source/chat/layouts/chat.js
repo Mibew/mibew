@@ -32,8 +32,7 @@
                     regionType: Mibew.Regions.Messages
                 },
                 statusRegion: '#status-region',
-                messageFormRegion: '#message-form-region',
-                soundRegion: '#sound-region'
+                messageFormRegion: '#message-form-region'
             },
 
             /**
