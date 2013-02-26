@@ -1,12 +1,11 @@
-Behaviour.register({
-	'a#check-nv' : function(el) {
-		el.onclick = function() {
-			playSound(wroot + '/sounds/new_user.wav');
-		};
-	},
-	'a#check-nm' : function(el) {
-		el.onclick = function() {
-			playSound(wroot + '/sounds/new_message.wav')
-		};
-	}
-});
+(function(Mibew, $) {
+    $(document).ready(function() {
+        $('#check-nv').click(function(){
+            Mibew.Utils.playSound('../sounds/new_user.wav');
+        });
+
+        $('#check-nm').click(function() {
+            Mibew.Utils.playSound('../sounds/new_message.wav');
+        });
+    });
+})(Mibew, $);

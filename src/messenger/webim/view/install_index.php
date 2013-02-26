@@ -24,10 +24,19 @@ $page['fixedwrap'] = true;
 function tpl_header() { global $page, $webimroot;
 	if($page['soundcheck']) {
 ?>
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/compiled/common.js"></script>
-<script type="text/javascript" language="javascript"><!--
-var wroot ="<?php echo $webimroot ?>";
-//--></script>
+
+<!-- External libs -->
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/json2.js"></script>
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/underscore-min.js"></script>
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/backbone-min.js"></script>
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/backbone.marionette.min.js"></script>
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/handlebars.js"></script>
+
+<!-- Default application files -->
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/compiled/mibewapi.js"></script>
+<script type="text/javascript" src="<?php echo $webimroot ?>/js/compiled/default_app.js"></script>
+
 <script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/compiled/soundcheck.js"></script>
 <?php
 	}

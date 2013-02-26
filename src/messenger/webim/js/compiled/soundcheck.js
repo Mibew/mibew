@@ -1,1 +1,1 @@
-Behaviour.register({"a#check-nv":function(a){a.onclick=function(){playSound(wroot+"/sounds/new_user.wav")}},"a#check-nm":function(a){a.onclick=function(){playSound(wroot+"/sounds/new_message.wav")}}});
+(function(b,a){a(document).ready(function(){a("#check-nv").click(function(){b.Utils.playSound("../sounds/new_user.wav")});a("#check-nm").click(function(){b.Utils.playSound("../sounds/new_message.wav")})})})(Mibew,$);
