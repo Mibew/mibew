@@ -65,7 +65,7 @@
     }
 
     // Stretch messages region after chat page initialize
-    Mibew.Application.addInitializer(function() {
+    Mibew.Application.Chat.addInitializer(function() {
         /**
          * Contains total count of images on the page
          * @type Number
