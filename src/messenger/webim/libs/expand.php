@@ -65,18 +65,25 @@ function expand_var($matches)
 			}
 		}
 
-	} else if ($prefix == 'msg:' || $prefix == 'url:') {
+	} else if ($prefix == 'msg:' || $prefix == 'msgjs:' || $prefix == 'url:') {
+		$message = '';
 		if (strpos($var, ",") !== false) {
 			$pos = strpos($var, ",");
 			$param = substr($var, $pos + 1);
 			$var = substr($var, 0, $pos);
-			return getlocal2($var, array($page[$param]));
+			$message = getlocal2($var, array($page[$param]));
+		} else {
+			$message = getlocal($var);
 		}
-		return getlocal($var);
+		if ($prefix == 'msgjs:') {
+			return json_encode($message);
+		}
+		return $message;
 	} else if ($prefix == 'form:') {
 		return form_value($var);
-	} else if ($prefix == 'page:') {
-		return isset($page[$var]) ? $page[$var] : "";
+	} else if ($prefix == 'page:' || $prefix == 'pagejs:') {
+		$message = isset($page[$var]) ? $page[$var] : "";
+		return ($prefix == 'pagejs:') ? json_encode($message) : $message;
 	} else if ($prefix == 'if:' || $prefix == 'else:' || $prefix == 'endif:' || $prefix == 'ifnot:') {
 		return "<!-- wrong $prefix:$var -->";
 	}
