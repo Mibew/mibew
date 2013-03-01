@@ -1,5 +1,0 @@
-#!/bin/sh
-
-cd webim/js/source
-ant
-rm -rf bin
