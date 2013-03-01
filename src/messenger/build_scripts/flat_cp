@@ -1,0 +1,39 @@
+#!/bin/sh
+
+#
+# Copy file and flatten its name by replace '/' by '_'. For more
+# details see examples below.
+#
+# Usage:
+#
+#   flat_cp [from] [to_dir] [cut_from]
+#   from     - source file
+#   to_dir   - target file
+#   cut_from - part of source file path. Only part after
+#              cut_from will be used for target file name.
+#
+# Examples:
+#   If execute the command:
+#
+#   $ flat cp /home/user/application/templates/controls/radio \
+#       /home/user/application/compiled_templates "templates"
+#
+#   the file from '/home/user/application/templates/controls/radio'
+#   will be copied to '/home/user/application/compiled_templates/controls_radio'
+#
+
+source_file=$1
+cut_from=$(sed -r "s/\/+$//" <<< "$3")
+
+if [ $cut_from ]
+then
+    cut_from=$(sed -r "s/\//\\\\\//g" <<< "$cut_from")
+    target_file_name=$(sed -r "s/^(.*)$cut_from\/(.*)$/\2/" <<< "$source_file")
+else
+    target_file_name=$source_file
+fi
+
+target_file_name=$(sed -r "s/\//_/g" <<< "$target_file_name")
+target_file=$(sed -r "s/\/?$//" <<< "$2")"/"$target_file_name
+
+cp $source_file $target_file
