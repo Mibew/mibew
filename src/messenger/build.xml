@@ -88,7 +88,7 @@
 
             <filterchain>
                 <!-- Add header -->
-                <concatfilter prepend="compiled_templates_header.txt" />
+                <concatfilter prepend="tools/compiled_templates_header.txt" />
                 <!-- Skip empty lines -->
                 <linecontainsregexp negate="true">
                     <regexp pattern="^\s+$$" />
