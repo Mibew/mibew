@@ -42,7 +42,7 @@
         </apply>
 
         <!-- Flatten templates directory structure -->
-        <apply executable="build_scripts/flat_cp" force="true">
+        <apply executable="tools/flat_cp" force="true">
             <srcfile />
             <targetfile />
             <arg value="handlebars_templates" />
@@ -150,7 +150,7 @@
         <!-- Concatenate all scripts in one file. Use special script for
              expanding wildcards. -->
         <echo>Concatenate JavaScript files</echo>
-        <apply executable="build_scripts/cat">
+        <apply executable="tools/cat">
             <srcfile suffix="/*.js"/>
             <targetfile />
             <dirset dir=".">
