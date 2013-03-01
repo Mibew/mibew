@@ -180,7 +180,7 @@
 
 
     <!-- Compile all JavaScript files of the Mibew Core -->
-    <target name="compile_js">
+    <target name="core_js">
         <echo>Compile JavaScript files of the Mibew Core</echo>
 
         <!-- Copy directory tree from source to compiled -->
@@ -336,7 +336,7 @@
 
 
     <!-- Build JavaScript files related to default application -->
-    <target name="default_app_js" depends="compile_js">
+    <target name="default_app_js" depends="core_js">
         <antcall target="app_js">
             <param name="app_name" value="default" />
         </antcall>
