@@ -18,7 +18,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.history_control,
+            template: Handlebars.templates.chat_controls_history,
 
             /**
              * Map ui events to view methods

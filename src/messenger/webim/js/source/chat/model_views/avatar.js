@@ -18,7 +18,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.avatar,
+            template: Handlebars.templates.chat_avatar,
 
             /**
              * Class name for view's DOM element

@@ -9,16 +9,16 @@
 (function(Mibew, Handlebars) {
 
     /**
-     * @class Represents status message view
+     * @class Represents message view
      */
-    Mibew.Views.StatusMessage = Mibew.Views.Status.extend(
-        /** @lends Mibew.Views.StatusMessage.prototype */
+    Mibew.Views.Message = Mibew.Views.Message.extend(
+        /** @lends Mibew.Views.Message.prototype */
         {
             /**
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.chat_status_message
+            template: Handlebars.templates.chat_message
         }
     );
 

@@ -18,7 +18,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.status_typing
+            template: Handlebars.templates.chat_status_typing
         }
     );
 
