@@ -45,7 +45,7 @@ if (!$op) {
 		$errors[] = getlocal('page_agent.cannot_modify');
 
 	} else if (isset($_FILES['avatarFile']) && $_FILES['avatarFile']['name']) {
-		$valid_types = array("gif", "jpg", "png", "tif");
+		$valid_types = array("gif", "jpg", "png", "tif", "jpeg");
 
 		$orig_filename = $_FILES['avatarFile']['name'];
 		$tmp_file_name = $_FILES['avatarFile']['tmp_name'];
@@ -65,7 +65,7 @@ if (!$op) {
 			if (file_exists($full_file_path)) {
 				unlink($full_file_path);
 			}
-			if (!move_uploaded_file($_FILES['avatarFile']['tmp_name'], $full_file_path)) {
+			if (!@move_uploaded_file($_FILES['avatarFile']['tmp_name'], $full_file_path)) {
 				$errors[] = failed_uploading_file($orig_filename, "errors.file.move.error");
 			} else {
 				$avatar = "$webimroot/images/avatar/$new_file_name";

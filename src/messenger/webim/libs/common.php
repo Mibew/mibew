@@ -349,7 +349,7 @@ function connect()
 		die('Mysql extension is not loaded');
 	}
 	$link = @mysql_connect($mysqlhost, $mysqllogin, $mysqlpass)
-			or die('Could not connect: ' . mysql_error());
+		or die('Could not connect: ' . mysql_error());
 	mysql_select_db($mysqldb, $link) or die('Could not select database');
 	if ($force_charset_in_connection) {
 		mysql_query("SET NAMES '$dbencoding'", $link);
@@ -392,7 +392,7 @@ function db_build_select($fields, $table, $conditions, $orderandgroup)
 function db_rows_count($table, $conditions, $countfields, $link)
 {
 	$result = mysql_query(db_build_select("count(" . ($countfields ? $countfields : "*") . ")", $table, $conditions, ""), $link)
-			or die(' Count query failed: ' . mysql_error($link));
+		or die(' Count query failed: ' . mysql_error($link));
 	$line = mysql_fetch_array($result, MYSQL_NUM);
 	mysql_free_result($result);
 	return $line[0];
@@ -542,9 +542,9 @@ function get_app_location($showhost, $issecure)
 function is_secure_request()
 {
 	return
-			isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443'
-			|| isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on"
-			|| isset($_SERVER["HTTP_HTTPS"]) && $_SERVER["HTTP_HTTPS"] == "on";
+		isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443'
+		|| isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on"
+		|| isset($_SERVER["HTTP_HTTPS"]) && $_SERVER["HTTP_HTTPS"] == "on";
 }
 
 function get_month_selection($fromtime, $totime)
@@ -713,7 +713,7 @@ function print_csrf_token_input()
 {
 	setcsrftoken();
 
-	echo "<input name='csrf_token' type='hidden' value='" . $_SESSION['csrf_token'] . "' />";
+	echo "<input name='csrf_token' type='hidden' value='" . $_SESSION['csrf_token'] . "' />\n";
 }
 
 /* print csrf token in url format */
