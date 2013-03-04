@@ -56,7 +56,7 @@
                 {},
                 BaseView.prototype.modelEvents,
                 {
-                    'submit:error': 'showError submitError'
+                    'submit:error': 'hideAjaxLoader showError submitError'
                 }
             ),
 
@@ -64,6 +64,8 @@
              * Update model fields and call model.submit() method.
              */
             submitForm: function() {
+                this.showAjaxLoader();
+
                 // Update model fields
                 var values = {};
 

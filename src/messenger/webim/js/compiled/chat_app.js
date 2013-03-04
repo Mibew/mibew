@@ -164,8 +164,8 @@ a);this.trigger("multiple:add");return a}})})(Mibew,Backbone,_);
  Copyright (c) 2005-2011 Mibew Messenger Community
  License: http://mibew.org/license.php
 */
-(function(c,d){c.Views.BaseSurveyForm=d.Marionette.ItemView.extend({events:{'change select[name="group"]':"changeGroupDescription","submit form":"preventSubmit"},ui:{groupSelect:'select[name="group"]',groupDescription:"#groupDescription",name:'input[name="name"]',email:'input[name="email"]',message:'textarea[name="message"]',errors:".errors"},modelEvents:{invalid:"showError","submit:error":"showError"},preventSubmit:function(a){a.preventDefault()},changeGroupDescription:function(){var a=this.ui.groupSelect.prop("selectedIndex"),
-a=this.model.get("groups")[a].description||"";this.ui.groupDescription.text(a)},showError:function(a,b){this.ui.errors.html("string"==typeof b?b:b.message)}})})(Mibew,Backbone);
+(function(c,d){c.Views.BaseSurveyForm=d.Marionette.ItemView.extend({events:{'change select[name="group"]':"changeGroupDescription","submit form":"preventSubmit"},ui:{groupSelect:'select[name="group"]',groupDescription:"#groupDescription",name:'input[name="name"]',email:'input[name="email"]',message:'textarea[name="message"]',errors:".errors",ajaxLoader:"#ajax-loader"},modelEvents:{invalid:"hideAjaxLoader showError","submit:error":"hideAjaxLoader showError"},preventSubmit:function(a){a.preventDefault()},
+changeGroupDescription:function(){var a=this.ui.groupSelect.prop("selectedIndex"),a=this.model.get("groups")[a].description||"";this.ui.groupDescription.text(a)},showError:function(a,b){this.ui.errors.html("string"==typeof b?b:b.message)},serializeData:function(){var a=this.model.toJSON();a.page=c.Objects.Models.page.toJSON();return a},showAjaxLoader:function(){this.ui.ajaxLoader.show()},hideAjaxLoader:function(){this.ui.ajaxLoader.hide()}})})(Mibew,Backbone);
 /*
  This file is part of Mibew Messenger project.
  http://mibew.org
@@ -244,8 +244,8 @@ this.model.toJSON();a.user=b.Objects.Models.user.toJSON();a.nameInput=this.nameI
  Copyright (c) 2005-2011 Mibew Messenger Community
  License: http://mibew.org/license.php
 */
-(function(d,e,b){var c=d.Views.BaseSurveyForm;d.Views.LeaveMessageForm=c.extend({template:e.templates.leave_message_form,events:b.extend({},c.prototype.events,{"click #send-message":"submitForm"}),ui:b.extend({},c.prototype.ui,{captcha:'input[name="captcha"]',captchaImg:"#captcha-img"}),modelEvents:b.extend({},c.prototype.modelEvents,{"submit:error":"showError submitError"}),submitForm:function(){var a={};this.model.get("groups")&&(a.groupId=this.ui.groupSelect.val());a.name=this.ui.name.val()||"";
-a.email=this.ui.email.val()||"";a.message=this.ui.message.val()||"";this.model.get("showCaptcha")&&(a.captcha=this.ui.captcha.val()||"");this.model.set(a,{validate:!0});this.model.submit()},submitError:function(a,c){if(c.code==a.ERROR_WRONG_CAPTCHA&&a.get("showCaptcha")){var b=this.ui.captchaImg.attr("src"),b=b.replace(/\?d\=[0-9]+/,"");this.ui.captchaImg.attr("src",b+"?d="+(new Date).getTime())}}})})(Mibew,Handlebars,_);
+(function(d,e,b){var c=d.Views.BaseSurveyForm;d.Views.LeaveMessageForm=c.extend({template:e.templates.leave_message_form,events:b.extend({},c.prototype.events,{"click #send-message":"submitForm"}),ui:b.extend({},c.prototype.ui,{captcha:'input[name="captcha"]',captchaImg:"#captcha-img"}),modelEvents:b.extend({},c.prototype.modelEvents,{"submit:error":"hideAjaxLoader showError submitError"}),submitForm:function(){this.showAjaxLoader();var a={};this.model.get("groups")&&(a.groupId=this.ui.groupSelect.val());
+a.name=this.ui.name.val()||"";a.email=this.ui.email.val()||"";a.message=this.ui.message.val()||"";this.model.get("showCaptcha")&&(a.captcha=this.ui.captcha.val()||"");this.model.set(a,{validate:!0});this.model.submit()},submitError:function(a,c){if(c.code==a.ERROR_WRONG_CAPTCHA&&a.get("showCaptcha")){var b=this.ui.captchaImg.attr("src"),b=b.replace(/\?d\=[0-9]+/,"");this.ui.captchaImg.attr("src",b+"?d="+(new Date).getTime())}}})})(Mibew,Handlebars,_);
 /*
  This file is part of Mibew Messenger project.
  http://mibew.org
@@ -290,8 +290,8 @@ disableInput:function(){this.ui.message.attr("disabled","disabled")},clearInput:
  Copyright (c) 2005-2011 Mibew Messenger Community
  License: http://mibew.org/license.php
 */
-(function(b,d,e){var c=b.Views.BaseSurveyForm;b.Views.SurveyForm=c.extend({template:d.templates.survey_form,events:e.extend({},c.prototype.events,{"click #submit-survey":"submitForm"}),submitForm:function(){var a={};this.model.get("groups")&&(a.groupId=this.ui.groupSelect.val());this.model.get("canChangeName")&&(a.name=this.ui.name.val()||"");this.model.get("showEmail")&&(a.email=this.ui.email.val()||"");this.model.get("showMessage")&&(a.message=this.ui.message.val()||"");this.model.set(a,{validate:!0});
-this.model.submit()}})})(Mibew,Handlebars,_);
+(function(b,d,e){var c=b.Views.BaseSurveyForm;b.Views.SurveyForm=c.extend({template:d.templates.survey_form,events:e.extend({},c.prototype.events,{"click #submit-survey":"submitForm"}),submitForm:function(){this.showAjaxLoader();var a={};this.model.get("groups")&&(a.groupId=this.ui.groupSelect.val());this.model.get("canChangeName")&&(a.name=this.ui.name.val()||"");this.model.get("showEmail")&&(a.email=this.ui.email.val()||"");this.model.get("showMessage")&&(a.message=this.ui.message.val()||"");this.model.set(a,
+{validate:!0});this.model.submit()}})})(Mibew,Handlebars,_);
 /*
  This file is part of Mibew Messenger project.
  http://mibew.org

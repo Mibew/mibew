@@ -33,7 +33,8 @@
                 name: 'input[name="name"]',
                 email: 'input[name="email"]',
                 message: 'textarea[name="message"]',
-                errors: '.errors'
+                errors: '.errors',
+                ajaxLoader: '#ajax-loader'
             },
 
             /**
@@ -41,8 +42,8 @@
              * @type Object
              */
             modelEvents: {
-                'invalid': 'showError',
-                'submit:error': 'showError'
+                'invalid': 'hideAjaxLoader showError',
+                'submit:error': 'hideAjaxLoader showError'
             },
 
             /**
@@ -76,6 +77,34 @@
                 }
                 // TODO: Think about moving this to template
                 this.ui.errors.html(errorMessage);
+            },
+
+            /**
+             * Override Backbone.Marionette.ItemView.serializeData to pass some
+             * extra fields to template.
+             *
+             * Pass page data to template.
+             *
+             * @returns {Object} Template data
+             */
+            serializeData: function() {
+                var data = this.model.toJSON();
+                data.page = Mibew.Objects.Models.page.toJSON();
+                return data;
+            },
+
+            /**
+             * Shows ajax loader
+             */
+            showAjaxLoader: function() {
+                this.ui.ajaxLoader.show();
+            },
+
+            /**
+             * Hide ajax loader
+             */
+            hideAjaxLoader: function() {
+                this.ui.ajaxLoader.hide();
             }
         }
     );

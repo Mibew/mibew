@@ -42,6 +42,8 @@
              * method.
              */
             submitForm: function() {
+                this.showAjaxLoader();
+
                 var values = {};
 
                 // Update group id

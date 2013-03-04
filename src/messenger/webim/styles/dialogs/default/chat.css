@@ -453,7 +453,10 @@ ul li {
 .wndbr input {
     border: 1px solid #BBC4C4;
 }
-#sound-region {
+#ajax-loader {
     display: none;
+    position: absolute;
+    top: 200px;
+    left: 250px;
 }
 /* ----- */
