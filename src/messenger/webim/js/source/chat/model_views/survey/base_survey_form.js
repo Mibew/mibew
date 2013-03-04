@@ -56,9 +56,11 @@
              * Change group description
              */
             changeGroupDescription: function() {
-                var groupId = this.ui.groupSelect.prop('selectedIndex');
-                var descriptions = this.model.get('groups').descriptions || [];
-                this.ui.groupDescription.text(descriptions[groupId] || '');
+                var selectedIndex = this.ui.groupSelect.prop('selectedIndex');
+                var description = this.model
+                    .get('groups')[selectedIndex]
+                    .description || '';
+                this.ui.groupDescription.text(description);
             },
 
             /**

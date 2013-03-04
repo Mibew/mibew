@@ -58,14 +58,16 @@
                 /**
                  * Available groups list.
                  *
-                 * Contains following keys:
-                 *  - 'select': string, HTML code for select box;
-                 *  - 'descriptions': array, groups descriptions;
-                 *  - 'defaultDescription': string, description for group that
-                 *    selected by default.
+                 * Contains objects with following keys:
+                 *  - 'id': int, group id;
+                 *  - 'name': string, group name;
+                 *  - 'description': string, group description;
+                 *  - 'online': boolean, indicates if group online;
+                 *  - 'selected': boolean, indicates if group selected
+                 *    by default.
                  *
                  * If there is no available groups this field is equal to null.
-                 * @type Object
+                 * @type Array
                  * @todo Create HTML code at client side
                  */
                 groups: null

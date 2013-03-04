@@ -231,14 +231,8 @@ function setup_leavemessage($name, $email, $group_id, $info, $referrer) {
 	);
 
 	if (Settings::get('enablegroups') == '1') {
-		$groups = setup_groups_select($group_id, false);
-		if ($groups) {
-			$data['leaveMessage']['leaveMessageForm']['groups'] = array(
-				'select' => $groups['select'],
-				'descriptions' => $groups['descriptions'],
-				'defaultDescription' => $groups['defaultdescription']
-			);
-		}
+		$data['leaveMessage']['leaveMessageForm']['groups']
+			= prepare_groups_select($group_id);
 	}
 
 	$data['startFrom'] = 'leaveMessage';
@@ -280,15 +274,8 @@ function setup_survey($name, $email, $group_id, $info, $referrer) {
 
 	if (Settings::get('enablegroups') == '1'
 			&& Settings::get('surveyaskgroup') == '1') {
-
-		$groups = setup_groups_select($group_id, true);
-		if ($groups) {
-			$data['survey']['surveyForm']['groups'] = array(
-				'select' => $groups['select'],
-				'descriptions' => $groups['descriptions'],
-				'defaultDescription' => $groups['defaultdescription'],
-			);
-		}
+		$data['survey']['surveyForm']['groups']
+			= prepare_groups_select($group_id);
 	}
 
 	$data['startFrom'] = 'survey';
@@ -296,48 +283,81 @@ function setup_survey($name, $email, $group_id, $info, $referrer) {
 	return $data;
 }
 
-function setup_groups_select($groupid, $markoffline)
-{
-	$showgroups = ($groupid == '')?true:group_has_children($groupid);
-	if (!$showgroups) {
+/**
+ * Prepare groups list to build group select box.
+ *
+ * If $group_id specified groups list will consist of group with id equals to
+ * $group_id and its children.
+ *
+ * @param int $group_id Id of selected group
+ * @return array|boolean Array of groups info arrays or boolean false if there
+ * are no suitable groups.
+ * Group info array contain following keys:
+ *  - 'id': int, group id;
+ *  - 'name': string, group name;
+ *  - 'description': string, group description;
+ *  - 'online': boolean, indicates if group online;
+ *  - 'selected': boolean, indicates if group selected by default.
+ */
+function prepare_groups_select($group_id) {
+	$show_groups = ($group_id == '')
+		? true
+		: group_has_children($group_id);
+
+	if (!$show_groups) {
 		return false;
 	}
 
-	$allgroups = get_groups(false);
+	$all_groups = get_groups(false);
 
-	if (empty($allgroups)) {
+	if (empty($all_groups)) {
 		return false;
 	}
 
-	$val = "";
-	$selectedgroupid = $groupid;
-	$groupdescriptions = array();
-	$defaultdescription = "";
-	foreach ($allgroups as $k) {
-		$groupname = $k['vclocalname'];
-		if ($k['inumofagents'] == 0 || ($groupid && $k['parent'] != $groupid && $k['groupid'] != $groupid )) {
+	$groups_list = array();
+	$selected_group_id = $group_id;
+
+	foreach($all_groups as $group) {
+		$group_is_empty = (bool)($group['inumofagents'] == 0);
+		$group_related_with_specified = (empty($group_id)
+			|| $group['parent'] == $group_id
+			|| $group['groupid'] == $group_id);
+
+		if ($group_is_empty || !$group_related_with_specified) {
 			continue;
 		}
-		if ($k['ilastseen'] !== NULL && $k['ilastseen'] < Settings::get('online_timeout')) {
-			if (!$selectedgroupid) {
-				$selectedgroupid = $k['groupid']; // select first online group
-			}
-		} else {
-			$groupname .= $markoffline?" (offline)":"";
+
+		if (group_is_online($group) && !$selected_group_id) {
+			$selected_group_id = $group['groupid'];
 		}
-		$isselected = $k['groupid'] == $selectedgroupid;
-		if ($isselected) {
-			$defaultdescription = $k['vclocaldescription'];
-		}
-		$val .= "<option value=\"" . $k['groupid'] . "\"" . ($isselected ? " selected=\"selected\"" : "") . ">$groupname</option>";
-		$groupdescriptions[] = $k['vclocaldescription'];
+
+		$groups_list[] = array(
+			'id' => $group['groupid'],
+			'name' => get_group_name($group),
+			'description' => get_group_description($group),
+			'online' => group_is_online($group),
+			'selected' => (bool)($group['groupid'] == $selected_group_id)
+		);
 	}
 
-	return array(
-		'select' => $val,
-		'descriptions' => $groupdescriptions,
-		'defaultdescription' => $defaultdescription
-	);
+	// One group must be selected by default
+	if (! empty($groups_list)) {
+		// Check if there is selected group
+		$selected_group_present = false;
+		foreach($groups_list as $group) {
+			if ($group['selected']) {
+				$selected_group_present = true;
+				break;
+			}
+		}
+
+		// If there is no selected group select the first one
+		if (! $selected_group_present) {
+			$groups_list[0]['selected'] = true;
+		}
+	}
+
+	return $groups_list;
 }
 
 /**

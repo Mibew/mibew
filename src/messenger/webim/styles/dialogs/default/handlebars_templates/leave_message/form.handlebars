@@ -18,11 +18,19 @@
     {{#if groups}}
         <tr>
             <td class="text"><strong>{{L10n "form.field.department"}}</strong></td>
-            <td><select name="group" style="min-width:200px;">{{{groups.select}}}</select></td>
+            <td>
+                <select name="group" style="min-width:200px;">
+                    {{#each groups}}
+                        <option value="{{this.id}}" {{#if this.selected}}selected="selected"{{/if}}>{{this.name}}</option>
+                    {{/each}}
+                </select>
+            </td>
         </tr>
         <tr>
             <td class="text"><strong>{{L10n "form.field.department.description"}}</strong></td>
-            <td class="text" id="groupDescription">{{groups.defaultDescription}}</td>
+            <td class="text" id="groupDescription">
+                {{#each groups}}{{#if this.selected}}{{this.description}}{{/if}}{{/each}}
+            </td>
         </tr>
     {{/if}}
         <tr>
