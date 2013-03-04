@@ -128,4 +128,36 @@ function get_group_email($group_id) {
 	return false;
 }
 
+/**
+ * Check if group online
+ *
+ * @param array $group Associative group array. Should contain 'ilastseen' key.
+ * @return bool
+ */
+function group_is_online($group) {
+	return ($group['ilastseen'] !== NULL
+		&& $group['ilastseen'] < Settings::get('online_timeout'));
+}
+
+/**
+ * Return local or common group description depending on current locale.
+ *
+ * @global string $home_locale Code of the home locale
+ * @global string $current_locale Code of the current locale
+ * @param array $group Associative group array. Should contain following keys:
+ *  - 'vccommondescription': string, contain common description of the group;
+ *  - 'vclocaldescription': string, contain local description of the group.
+ * @return string Group description
+ */
+function get_group_description($group) {
+	global $home_locale, $current_locale;
+	if ($home_locale == $current_locale
+			|| !isset($group['vccommondescription'])
+			|| !$group['vccommondescription']) {
+		return $group['vclocaldescription'];
+	} else {
+		return $group['vccommondescription'];
+	}
+}
+
 ?>
