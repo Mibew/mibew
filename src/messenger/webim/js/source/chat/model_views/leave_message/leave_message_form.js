@@ -92,6 +92,14 @@
                 this.model.submit();
             },
 
+            /**
+             * Handler function for model 'submitError' event.
+             * Update captcha img if captcha field has wrong value.
+             *
+             * @param {Mibew.Models.LeaveMessageForm} model Form model
+             * @param {Object} error Error object, contains 'code' and 'message'
+             * fields
+             */
             submitError: function(model, error) {
                 if (error.code == model.ERROR_WRONG_CAPTCHA && model.get('showCaptcha')) {
                     var src = this.ui.captchaImg.attr('src');
