@@ -1,22 +1,18 @@
 <?php
 /*
- * This file is part of Mibew Messenger project.
- * 
- * Copyright (c) 2005-2011 Mibew Messenger Community
- * All rights reserved. The contents of this file are subject to the terms of
- * the Eclipse Public License v1.0 which accompanies this distribution, and
- * is available at http://www.eclipse.org/legal/epl-v10.html
- * 
- * Alternatively, the contents of this file may be used under the terms of
- * the GNU General Public License Version 2 or later (the "GPL"), in which case
- * the provisions of the GPL are applicable instead of those above. If you wish
- * to allow use of your version of this file only under the terms of the GPL, and
- * not to allow others to use your version of this file under the terms of the
- * EPL, indicate your decision by deleting the provisions above and replace them
- * with the notice and other provisions required by the GPL.
- * 
- * Contributors:
- *    Evgeny Gryaznov - initial API and implementation
+ * Copyright 2005-2013 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 $isrtl = getlocal("localedirection") == 'rtl';
@@ -87,7 +83,7 @@ $isrtl = getlocal("localedirection") == 'rtl';
    	<div class="empty_inner" style="">&#160;</div>
 </div>
 <div id="footer">
-	<p id="legal"><a href="http://mibew.org/" class="flink">Mibew Messenger</a> <?php echo $version ?> | (c) 2011 mibew.org</p>
+	<p id="legal"><a href="http://mibew.org/" target="_blank" class="flink">Mibew Messenger</a> <?php echo $version ?> | (c) 2011 mibew.org</p>
 </div>
 </body>
 </html>

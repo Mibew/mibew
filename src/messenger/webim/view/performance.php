@@ -1,22 +1,18 @@
 <?php
 /*
- * This file is part of Mibew Messenger project.
- * 
- * Copyright (c) 2005-2011 Mibew Messenger Community
- * All rights reserved. The contents of this file are subject to the terms of
- * the Eclipse Public License v1.0 which accompanies this distribution, and
- * is available at http://www.eclipse.org/legal/epl-v10.html
- * 
- * Alternatively, the contents of this file may be used under the terms of
- * the GNU General Public License Version 2 or later (the "GPL"), in which case
- * the provisions of the GPL are applicable instead of those above. If you wish
- * to allow use of your version of this file only under the terms of the GPL, and
- * not to allow others to use your version of this file under the terms of the
- * EPL, indicate your decision by deleting the provisions above and replace them
- * with the notice and other provisions required by the GPL.
- * 
- * Contributors:
- *    Evgeny Gryaznov - initial API and implementation
+ * Copyright 2005-2013 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 require_once("inc_menu.php");
@@ -39,7 +35,7 @@ require_once('inc_errors.php');
 <?php } ?>
 
 <form name="performance" method="post" action="<?php echo $webimroot ?>/operator/performance.php">
-
+<?php print_csrf_token_input() ?>
 	<div>
 <?php print_tabbar(); ?>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
@@ -90,6 +86,15 @@ require_once('inc_errors.php');
 			<br clear="all"/>
 		</div>
 
+		<div class="field">
+			<div class="flabel"><?php echo getlocal('settings.threadlifetime') ?></div>
+			<div class="fvalue">
+				<input type="text" name="threadlifetime" size="40" value="<?php echo form_value('threadlifetime') ?>" class="formauth"/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('settings.threadlifetime.description') ?></div>
+			<br clear="all"/>
+		</div>
+		
 		<div class="fbutton">
 			<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
 		</div>

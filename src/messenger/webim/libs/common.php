@@ -1,22 +1,18 @@
 <?php
 /*
- * This file is part of Mibew Messenger project.
- * 
- * Copyright (c) 2005-2011 Mibew Messenger Community
- * All rights reserved. The contents of this file are subject to the terms of
- * the Eclipse Public License v1.0 which accompanies this distribution, and
- * is available at http://www.eclipse.org/legal/epl-v10.html
- * 
- * Alternatively, the contents of this file may be used under the terms of
- * the GNU General Public License Version 2 or later (the "GPL"), in which case
- * the provisions of the GPL are applicable instead of those above. If you wish
- * to allow use of your version of this file only under the terms of the GPL, and
- * not to allow others to use your version of this file under the terms of the
- * EPL, indicate your decision by deleting the provisions above and replace them
- * with the notice and other provisions required by the GPL.
- * 
- * Contributors:
- *    Evgeny Gryaznov - initial API and implementation
+ * Copyright 2005-2013 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 session_start();
@@ -24,8 +20,8 @@ session_start();
 require_once(dirname(__FILE__) . '/converter.php');
 require_once(dirname(__FILE__) . '/config.php');
 
-$version = '1.6.4';
-$jsver = "164";
+$version = '1.6.5';
+$jsver = "165";
 
 function myiconv($in_enc, $out_enc, $string)
 {
@@ -349,7 +345,7 @@ function connect()
 		die('Mysql extension is not loaded');
 	}
 	$link = @mysql_connect($mysqlhost, $mysqllogin, $mysqlpass)
-			 or die('Could not connect: ' . mysql_error());
+		or die('Could not connect: ' . mysql_error());
 	mysql_select_db($mysqldb, $link) or die('Could not select database');
 	if ($force_charset_in_connection) {
 		mysql_query("SET NAMES '$dbencoding'", $link);
@@ -392,7 +388,7 @@ function db_build_select($fields, $table, $conditions, $orderandgroup)
 function db_rows_count($table, $conditions, $countfields, $link)
 {
 	$result = mysql_query(db_build_select("count(" . ($countfields ? $countfields : "*") . ")", $table, $conditions, ""), $link)
-	or die(' Count query failed: ' . mysql_error($link));
+		or die(' Count query failed: ' . mysql_error($link));
 	$line = mysql_fetch_array($result, MYSQL_NUM);
 	mysql_free_result($result);
 	return $line[0];
@@ -454,7 +450,7 @@ function no_field($key)
 function failed_uploading_file($filename, $key)
 {
 	return getlocal2("errors.failed.uploading.file",
-					 array($filename, getlocal($key)));
+		array($filename, getlocal($key)));
 }
 
 function wrong_field($key)
@@ -542,9 +538,9 @@ function get_app_location($showhost, $issecure)
 function is_secure_request()
 {
 	return
-			isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443'
-			|| isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on"
-			|| isset($_SERVER["HTTP_HTTPS"]) && $_SERVER["HTTP_HTTPS"] == "on";
+		isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443'
+		|| isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on"
+		|| isset($_SERVER["HTTP_HTTPS"]) && $_SERVER["HTTP_HTTPS"] == "on";
 }
 
 function get_month_selection($fromtime, $totime)
@@ -615,6 +611,7 @@ $settings = array(
 	'geolinkparams' => 'width=440,height=100,toolbar=0,scrollbars=0,location=0,status=1,menubar=0,resizable=1',
 	'max_uploaded_file_size' => 100000,
 	'max_connections_from_one_host' => 10,
+	'thread_lifetime' => 600,
 
 	'email' => '', /* inbox for left messages */
 	'left_messages_locale' => $home_locale,
@@ -686,6 +683,50 @@ function jspath()
 {
 	global $jsver;
 	return "js/$jsver";
+}
+
+/* authorization token check for CSRF attack */
+function csrfchecktoken()
+{
+	setcsrftoken();
+
+	// check the turing code for post requests and del requests
+	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		//if token match
+		if (!isset($_POST['csrf_token']) || ($_POST['csrf_token'] != $_SESSION['csrf_token'])) {
+
+			die("CSRF failure");
+		}
+	} else if (isset($_GET['act'])) {
+		if (($_GET['act'] == 'del' || $_GET['act'] == 'delete') && $_GET['csrf_token'] != $_SESSION['csrf_token']) {
+
+			die("CSRF failure");
+		}
+	}
+}
+
+/* print csrf token as a hidden field*/
+function print_csrf_token_input()
+{
+	setcsrftoken();
+
+	echo "<input name='csrf_token' type='hidden' value='" . $_SESSION['csrf_token'] . "' />\n";
+}
+
+/* print csrf token in url format */
+function print_csrf_token_in_url()
+{
+	setcsrftoken();
+
+	echo "&amp;csrf_token=" . $_SESSION['csrf_token'];
+}
+
+/* set csrf token */
+function setcsrftoken()
+{
+	if (!isset($_SESSION['csrf_token'])) {
+		$_SESSION['csrf_token'] = sha1(rand(10000000, 99999999));
+	}
 }
 
 ?>

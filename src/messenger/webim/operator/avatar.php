@@ -1,22 +1,18 @@
 <?php
 /*
- * This file is part of Mibew Messenger project.
- * 
- * Copyright (c) 2005-2011 Mibew Messenger Community
- * All rights reserved. The contents of this file are subject to the terms of
- * the Eclipse Public License v1.0 which accompanies this distribution, and
- * is available at http://www.eclipse.org/legal/epl-v10.html
- * 
- * Alternatively, the contents of this file may be used under the terms of
- * the GNU General Public License Version 2 or later (the "GPL"), in which case
- * the provisions of the GPL are applicable instead of those above. If you wish
- * to allow use of your version of this file only under the terms of the GPL, and
- * not to allow others to use your version of this file under the terms of the
- * EPL, indicate your decision by deleting the provisions above and replace them
- * with the notice and other provisions required by the GPL.
- * 
- * Contributors:
- *    Evgeny Gryaznov - initial API and implementation
+ * Copyright 2005-2013 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 require_once('../libs/common.php');
@@ -24,6 +20,7 @@ require_once('../libs/operator.php');
 require_once('../libs/operator_settings.php');
 
 $operator = check_login();
+csrfchecktoken();
 
 $opId = verifyparam("op", "/^\d{1,9}$/");
 $page = array('opid' => $opId, 'avatar' => '');
@@ -44,7 +41,7 @@ if (!$op) {
 		$errors[] = getlocal('page_agent.cannot_modify');
 
 	} else if (isset($_FILES['avatarFile']) && $_FILES['avatarFile']['name']) {
-		$valid_types = array("gif", "jpg", "png", "tif");
+		$valid_types = array("gif", "jpg", "png", "tif", "jpeg");
 
 		$orig_filename = $_FILES['avatarFile']['name'];
 		$tmp_file_name = $_FILES['avatarFile']['tmp_name'];
@@ -64,7 +61,7 @@ if (!$op) {
 			if (file_exists($full_file_path)) {
 				unlink($full_file_path);
 			}
-			if (!move_uploaded_file($_FILES['avatarFile']['tmp_name'], $full_file_path)) {
+			if (!@move_uploaded_file($_FILES['avatarFile']['tmp_name'], $full_file_path)) {
 				$errors[] = failed_uploading_file($orig_filename, "errors.file.move.error");
 			} else {
 				$avatar = "$webimroot/images/avatar/$new_file_name";
