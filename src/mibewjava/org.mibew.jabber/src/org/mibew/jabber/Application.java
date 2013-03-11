@@ -39,7 +39,7 @@ public class Application {
 		    }
 		});
 
-		MibewConnection conn = new MibewConnection("http://localhost:8080/webim/", "admin", "");
+		MibewConnection conn = new MibewConnection("http://localhost:8080/webim/", "admin", "1");
 		if(!conn.connect()) {
 			System.err.println("Wrong server, login or password.");
 			return;
@@ -49,14 +49,14 @@ public class Application {
 			@Override
 			public void threadCreated(MibewThread thread) {
 				try {
-					chat.sendMessage(thread.fId + ": " + thread.fAddress + " " + thread.fClientName);
+					chat.sendMessage(thread.getId() + ": " + thread.getAddress() + " " + thread.getClientName());
 				} catch (XMPPException e) {
 					e.printStackTrace();
 				}
 			}
 			
 		});
-		mt.track();
+		//mt.track();
 
 		connection.disconnect();
 	}

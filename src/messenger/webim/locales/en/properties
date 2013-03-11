@@ -432,6 +432,7 @@ permission.viewthreads=View another operator's chat thread
 permissions.intro=Change restrictions and available features for this operator.
 permissions.title=Permissions
 presurvey.error.wrong_email=Wrong email address.
+presurvey.department=Choose Department:
 presurvey.intro=Thank you for contacting us. Please fill out the form below and click the Start Chat button.
 presurvey.mail=Email:
 presurvey.name=Name:
@@ -519,7 +520,7 @@ settings.invitationlifetime=Invitation lifetime
 settings.invitationstyle.description=A preview for invitation style is available <a href="invitationthemes.php">here</a>
 settings.invitationstyle=Select a style for your invitation
 settings.leavemessage_captcha.description=Protection against automated spam (captcha)
-settings.leavemessage_captcha=Force visitorOD to enter a verification code when leaving message
+settings.leavemessage_captcha=Force visitor to enter a verification code when leaving message
 settings.logo.description=Enter http address of your company logo
 settings.logo=Your company logo
 settings.no.title=Please enter your company title

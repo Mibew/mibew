@@ -43,16 +43,9 @@ P: for $phpfile (grep { /\.php$/ } @allfiles) {
 	if($comment =~ /\[external\]/) {
 		next P;
 	};
-	die "no contributors in $phpfile" unless $comment =~ /Contributors:/;
-	$newcomment = $comment;
-	$newcomment =~ s/\s\*\s//g;
-	$newcomment =~ s/^\/\*//;
-	$newcomment =~ s/\*\/$//;
-	$newcomment =~ s/.*(Contributors:)/$1/s;
-	$newcomment =~ s/^\s+//;
-	$newcomment =~ s/\s+$//;
-	$newcomment = "$php_header\n\n$newcomment";
+	$newcomment = "$php_header";
 	$newcomment =~ s/^/ * /gm;
+	$newcomment =~ s/\s+$//gm;
 	$newcomment = "/*\n$newcomment\n */";
 	
 	$content =~ s/^(<\?php\n)\/\*.*?\*\//$1$newcomment/s;
