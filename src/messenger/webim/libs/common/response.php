@@ -159,6 +159,24 @@ function get_js_plugin_options($page_name) {
 	return json_encode($args['plugins']);
 }
 
+/**
+ * Get additional plugins data for specified page
+ *
+ * @param string $page_name Plugins initialize at this page
+ * @return array Associative array of plugins data. It contains following keys:
+ *  - 'additional_css': contains results of the 'get_additional_css function
+ *  - 'additional_js': contains results of the 'get_additional_js' function
+ *  - 'js_plugin_options': contains results of the 'get_js_plugin_options'
+ *    function
+ */
+function get_plugins_data($page_name) {
+	return array(
+		'additional_css' => get_additional_css($page_name),
+		'additional_js' => get_additional_js($page_name),
+		'js_plugin_options' => get_js_plugin_options($page_name)
+	);
+}
+
 function no_field($key)
 {
 	return getlocal2("errors.required", array(getlocal($key)));

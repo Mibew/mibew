@@ -199,6 +199,9 @@ function prepare_chat_app_data() {
 function setup_leavemessage($name, $email, $group_id, $info, $referrer) {
 	$data = prepare_chat_app_data();
 
+	// Load JavaScript plugins and JavaScripts, CSS files required by them
+	$data = array_merge_recursive($data, get_plugins_data('client_chat_window'));
+
 	// Create some empty arrays
 	$data['leaveMessage'] = array();
 
@@ -247,6 +250,9 @@ function setup_leavemessage($name, $email, $group_id, $info, $referrer) {
  */
 function setup_survey($name, $email, $group_id, $info, $referrer) {
 	$data = prepare_chat_app_data();
+
+	// Load JavaScript plugins and JavaScripts, CSS files required by them
+	$data = array_merge_recursive($data, get_plugins_data('client_chat_window'));
 
 	// Create some empty arrays
 	$data['survey'] = array();
@@ -440,9 +446,7 @@ function setup_chatview_for_user(Thread $thread) {
 	$data = setup_chatview($thread);
 
 	// Load JavaScript plugins and JavaScripts, CSS files required by them
-	$data['additional_css'] = get_additional_css('client_chat_window');
-	$data['additional_js'] = get_additional_js('client_chat_window');
-	$data['js_plugin_options'] = get_js_plugin_options('client_chat_window');
+	$data = array_merge_recursive($data, get_plugins_data('client_chat_window'));
 
 	// Set user info
 	$data['chat']['user'] = array(
@@ -485,9 +489,7 @@ function setup_chatview_for_operator(Thread $thread, $operator) {
 	$data = setup_chatview($thread);
 
 	// Load JavaScript plugins and JavaScripts, CSS files required by them
-	$data['additional_css'] = get_additional_css('agent_chat_window');
-	$data['additional_js'] = get_additional_js('agent_chat_window');
-	$data['js_plugin_options'] = get_js_plugin_options('agent_chat_window');
+	$data = array_merge_recursive($data, get_plugins_data('agent_chat_window'));
 
 	// Set operator info
 	$data['chat']['user'] = array(
