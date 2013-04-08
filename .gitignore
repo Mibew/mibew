@@ -7,3 +7,7 @@ src/mibewjava/.idea/workspace.xml
 src/mibewjava/org.mibew.notifier/resources/
 mibew.ini
 .DS_Store
+
+# No index actual configuration files
+src/messenger/webim/libs/config.php
+src/messenger/tests/server_side/webim/libs/config.php

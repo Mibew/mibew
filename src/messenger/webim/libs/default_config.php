@@ -15,6 +15,13 @@
  * limitations under the License.
  */
 
+
+/*
+ * IMPORTANT: Before install mibew copy this file to config.php and fill
+ * it with your own settings!
+ */
+
+
 /*
  *  Application path on server
  */
@@ -28,10 +35,10 @@ $webim_encoding = "utf-8";
 /*
  *  MySQL Database parameters
  */
-$mysqlhost = "localhost";
-$mysqldb = "webim_db";
-$mysqllogin = "webim_lite";
-$mysqlpass = "123";
+$mysqlhost = "";
+$mysqldb = "";
+$mysqllogin = "";
+$mysqlpass = "";
 $mysqlprefix = "";
 
 $dbencoding = "utf8";
