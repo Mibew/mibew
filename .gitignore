@@ -11,3 +11,7 @@ mibew.ini
 # No index actual configuration files
 src/messenger/webim/libs/config.php
 src/messenger/tests/server_side/webim/libs/config.php
+
+# No index plugins
+src/messenger/webim/plugins/*
+!src/messenger/webim/plugins/.keep
