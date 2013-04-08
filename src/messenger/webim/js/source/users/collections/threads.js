@@ -126,7 +126,7 @@
                         var remove = [];
 
                         // Update threads list
-                        this.update(args.threads, {remove: false, sort: false});
+                        this.set(args.threads, {remove: false, sort: false});
 
                         // Get closed and left thread. Collect them into
                         // remove array

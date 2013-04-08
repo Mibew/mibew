@@ -102,7 +102,7 @@
                     this.trigger('before:update:visitors', args.visitors);
 
                     // Update collection
-                    this.update(args.visitors);
+                    this.set(args.visitors);
 
                     // Trigger event
                     this.trigger('after:update:visitors');

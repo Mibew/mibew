@@ -59,7 +59,7 @@
              * @param {Object} args Arguments from the server
              */
             updateOperators: function(args) {
-                this.update(args.operators);
+                this.set(args.operators);
             }
         }
     );
