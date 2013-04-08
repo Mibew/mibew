@@ -6,12 +6,12 @@
  * License: http://mibew.org/license.php
  */
 
-(function(Mibew, Backbone, Handlebars, _) {
+(function(Mibew, Handlebars, _) {
 
     /**
      * @class Represents visitors list
      */
-    Mibew.Views.VisitorsCollection = Backbone.Marionette.CompositeView.extend(
+    Mibew.Views.VisitorsCollection = Mibew.Views.CompositeBase.extend(
         /** @lends Mibew.Views.VisitorsCollection.prototype */
         {
             template: Handlebars.templates.visitors_collection,
@@ -79,4 +79,4 @@
         }
     );
 
-})(Mibew, Backbone, Handlebars, _);
+})(Mibew, Handlebars, _);

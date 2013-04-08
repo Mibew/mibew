@@ -6,12 +6,12 @@
  * License: http://mibew.org/license.php
  */
 
-(function(Mibew, Backbone, Handlebars, _) {
+(function(Mibew, Handlebars, _) {
 
     /**
      * @class Represents threads list
      */
-    Mibew.Views.ThreadsCollection = Backbone.Marionette.CompositeView.extend(
+    Mibew.Views.ThreadsCollection = Mibew.Views.CompositeBase.extend(
         /** @lends Mibew.Views.ThreadsCollection.prototype */
         {
             template: Handlebars.templates.threads_collection,
@@ -257,4 +257,4 @@
         }
     );
 
-})(Mibew, Backbone, Handlebars, _);
+})(Mibew, Handlebars, _);
