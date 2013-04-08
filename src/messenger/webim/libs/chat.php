@@ -175,11 +175,6 @@ function prepare_chat_app_data() {
 	// Set refresh frequency
 	$data['frequency'] = Settings::get('updatefrequency_chat');
 
-	// Load JavaScript plugins and JavaScripts, CSS files required by them
-	$data['additional_css'] = get_additional_css('client_chat_window');
-	$data['additional_js'] = get_additional_js('client_chat_window');
-	$data['js_plugin_options'] = get_js_plugin_options('client_chat_window');
-
 	// Set some localized strings
 	$data['localized'] = array(
 		'email.required' => no_field("form.field.email"),
@@ -444,6 +439,11 @@ function setup_chatview_for_user(Thread $thread) {
 
 	$data = setup_chatview($thread);
 
+	// Load JavaScript plugins and JavaScripts, CSS files required by them
+	$data['additional_css'] = get_additional_css('client_chat_window');
+	$data['additional_js'] = get_additional_js('client_chat_window');
+	$data['js_plugin_options'] = get_js_plugin_options('client_chat_window');
+
 	// Set user info
 	$data['chat']['user'] = array(
 		'name' => htmlspecialchars(topage($thread->userName)),
@@ -483,6 +483,11 @@ function setup_chatview_for_operator(Thread $thread, $operator) {
 	global $webimroot, $webim_encoding;
 
 	$data = setup_chatview($thread);
+
+	// Load JavaScript plugins and JavaScripts, CSS files required by them
+	$data['additional_css'] = get_additional_css('agent_chat_window');
+	$data['additional_js'] = get_additional_js('agent_chat_window');
+	$data['js_plugin_options'] = get_js_plugin_options('agent_chat_window');
 
 	// Set operator info
 	$data['chat']['user'] = array(
