@@ -486,6 +486,8 @@ settings.chatstyle.description=Предпросмотр всех страниц каждого стиля доступен 
 settings.chatstyle=Выберите вид вашего чат окна
 settings.company.title.description=Введите название Вашей компании
 settings.company.title=Название компании
+settings.cronkey=Ключ безопасности cron
+settings.cronkey.description=Для запуска cron используйте ссылку <a href="{0}">{0}</a>.
 settings.email.description=Введите адрес электронной почты для получения сообщений от системы
 settings.email=Адрес электронной почты
 settings.enableban.description=С ее помощью можно блокировать атаки с определенных адресов
@@ -557,6 +559,7 @@ settings.usernamepattern.description=Укажите как отобразить имя посетителя опера
 settings.usernamepattern=Отображаемое имя посетителя
 settings.visitorslimit.description=Укажите количество выводимых в списке отслеживаемых посетителей сайта. По умолчанию, 20. Укажите 0 для снятия ограничения (не рекомендуется).
 settings.visitorslimit=Ограничение на число выводимых в списке отслеживаемых посетителей
+settings.wrong.cronkey=Используйте только Латинские буквы(верхнего и нижнего регистра) и цифры в ключе безопасности cron.
 settings.wrong.email=Введите правильный адрес электронной почты
 settings.wrong.onehostconnections=Поле "Максимальное количество диалогов" должно быть числом
 settings.wrong.threadlifetime=Поле "Время жизни диалога" должно быть числом

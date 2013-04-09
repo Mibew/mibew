@@ -114,6 +114,15 @@ require_once('inc_errors.php');
 		</div>
 
 		<div class="field">
+			<div class="flabel"><?php echo getlocal('settings.cronkey') ?></div>
+			<div class="fvalue">
+				<input type="text" name="cronkey" size="40" value="<?php echo form_value('cronkey') ?>" class="formauth"/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal2('settings.cronkey.description', array($page['cron_path'])) ?></div>
+			<br clear="all"/>
+		</div>
+
+		<div class="field">
 			<div class="flabel"><?php echo getlocal('settings.chatstyle') ?></div>
 			<div class="fvalue">
 				<select name="chatstyle" ><?php foreach($page['availableChatStyles'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("chatstyle") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>

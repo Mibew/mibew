@@ -487,6 +487,8 @@ settings.chatstyle.description=A preview all pages for each style is available <
 settings.chatstyle=Select a style for your chat windows
 settings.company.title.description=Enter your company title
 settings.company.title=Company title
+settings.cronkey=Cron security key
+settings.cronkey.description=To run cron use link <a href="{0}">{0}</a>.
 settings.email.description=Enter an email to receive system messages
 settings.email=Email
 settings.enableban.description=Using it you can block attacks from specific IPs
@@ -555,6 +557,7 @@ settings.usernamepattern.description=How to build visitor's identifying string f
 settings.usernamepattern=Visitor's identifier
 settings.visitorslimit.description=Specify the number of items to display in tracked visitors list. Default is 20. Set 0 for all visitors (not recommended).
 settings.visitorslimit=Limit for tracked visitors list
+settings.wrong.cronkey=Use only Latin letters(upper and lower case) and numbers in cron key.
 settings.wrong.email=Enter a valid email address
 settings.wrong.onehostconnections="Max number of threads" field should be a number
 settings.wrong.threadlifetime="Thread lifetime" field should be a number

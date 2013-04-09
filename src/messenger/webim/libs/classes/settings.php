@@ -52,9 +52,11 @@ Class Settings {
 	/**
 	 * Settings class constructor. Set default values and load setting from database.
 	 * @global $home_locale Specifies home locale. Defined in libs/config.php
+	 * @global $default_cron_key Default value for cron security key. Defined
+	 * in libs/common/constants.php
 	 */
 	protected function __construct() {
-		global $home_locale;
+		global $home_locale, $default_cron_key;
 		// Set default values
 		$this->settings = array(
 			'dbversion' => 0,
@@ -100,6 +102,8 @@ Class Settings {
 			'visitors_limit' => 20, /* Number of visitors to look over */
 			'invitation_lifetime' => 60, /* Lifetime for invitation to chat */
 			'tracking_lifetime' => 600, /* Time to store tracked old visitors' data */
+
+			'cron_key' => $default_cron_key
 		);
 
 		// Load values from database

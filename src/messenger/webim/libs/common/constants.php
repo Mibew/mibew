@@ -37,6 +37,15 @@ $featuresversion = '1.6.4';
 $session_prefix = md5($mysqlhost.'##'.$mysqldb.'##'.$mysqlprefix) . '_';
 
 /**
+ * Default value for cron security key.
+ * Another value can be set at operator/settings.php page.
+ */
+$default_cron_key = md5(
+	$mysqlhost . '##' . $mysqldb . '##' . $mysqllogin. '##' .
+	$mysqlpass . '##' . $mysqlprefix . '##'
+);
+
+/**
  * Name for cookie to track visitor
  */
 $visitorcookie = "WEBIM_VisitorID";

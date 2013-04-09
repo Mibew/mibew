@@ -31,7 +31,8 @@ $stylelist = get_style_list("../styles/dialogs");
 
 $options = array(
 	'email', 'title', 'logo', 'hosturl', 'usernamepattern',
-	'chatstyle', 'chattitle', 'geolink', 'geolinkparams', 'sendmessagekey');
+	'chatstyle', 'chattitle', 'geolink', 'geolinkparams',
+	'sendmessagekey', 'cron_key');
 
 if (Settings::get('enabletracking')) {
 	$options[] = 'invitationstyle';
@@ -53,6 +54,7 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
 	$params['geolink'] = getparam('geolink');
 	$params['geolinkparams'] = getparam('geolinkparams');
 	$params['sendmessagekey'] = verifyparam('sendmessagekey', "/^c?enter$/");
+	$params['cron_key'] = getparam('cronkey');
 
 	$params['chatstyle'] = verifyparam("chatstyle", "/^\w+$/", $params['chatstyle']);
 	if (!in_array($params['chatstyle'], $stylelist)) {
@@ -78,6 +80,10 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
 		}
 	}
 
+	if (preg_match("/^[0-9A-z]*$/", $params['cron_key']) == 0) {
+		$errors[] = getlocal("settings.wrong.cronkey");
+	}
+
 	if (count($errors) == 0) {
 		foreach ($options as $opt) {
 			Settings::set($opt,$params[$opt]);
@@ -101,6 +107,15 @@ $page['formsendmessagekey'] = $params['sendmessagekey'];
 $page['availableChatStyles'] = $stylelist;
 $page['stored'] = isset($_GET['stored']);
 $page['enabletracking'] = Settings::get('enabletracking');
+$page['formcronkey'] = $params['cron_key'];
+
+$page['cron_path'] = (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off')
+	? 'http://'
+	: 'https://';
+$page['cron_path'] .= $_SERVER['SERVER_NAME'] . $webimroot . '/cron.php';
+$page['cron_path'] .= empty($params['cron_key'])
+	? ''
+	: '?cron_key='.$params['cron_key'];
 
 if (Settings::get('enabletracking')) {
 	$page['forminvitationstyle'] = $params['invitationstyle'];
