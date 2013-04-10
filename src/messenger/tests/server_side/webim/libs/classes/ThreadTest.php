@@ -4,6 +4,7 @@ require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/thread.php'
 require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/database.php';
 require_once dirname(__FILE__) . '/thread_processor_mock.php';
 require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/settings.php';
+require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/event_dispatcher.php';
 require_once dirname(__FILE__) . '/../../../../../webim/libs/common/locale.php';
 require_once dirname(__FILE__) . '/../config.php';
 
@@ -433,6 +434,11 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 
 		unset($another_thread);
 
+
+		// Reload thread because values in database was changed
+		// in Thread::reopen method called above, but values in $thread object
+		// are still the same
+		$thread = Thread::load($thread->id);
 
 		// Try to reopen thread with Thread::STATE_QUEUE state
 		$thread->nextAgent = 2;

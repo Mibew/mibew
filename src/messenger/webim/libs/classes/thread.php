@@ -162,7 +162,7 @@ Class Thread {
 	 * Do not use this property manually!
 	 * @var array
 	 */
-	protected $updatedFields = array();
+	protected $changedFields = array();
 
 	/**
 	 * Forbid create instance from outside of the class
@@ -412,8 +412,11 @@ Class Thread {
 	/**
 	 * Implementation of the magic __set method
 	 *
-	 * Check if variable with name $name exists in the Thread::$propertyMap array before setting.
-	 * If it does not exist triggers an error with E_USER_NOTICE level and value will NOT set.
+	 * Check if variable with name $name exists in the Thread::$propertyMap
+	 * array before setting. If it does not exist triggers an error
+	 * with E_USER_NOTICE level and value will NOT set. If previous value is
+	 * equal to new value the property will NOT be update and NOT update in
+	 * database when Thread::save method call.
 	 *
 	 * @param string $name Property name
 	 * @param mixed $value Property value
@@ -427,10 +430,16 @@ Class Thread {
 		}
 
 		$field_name = $this->propertyMap[$name];
+
+		if (array_key_exists($field_name, $this->threadInfo)
+			&& ($this->threadInfo[$field_name] === $value)) {
+			return;
+		}
+
 		$this->threadInfo[$field_name] = $value;
 
-		if (! in_array($field_name, $this->updatedFields)) {
-			$this->updatedFields[] = $field_name;
+		if (! in_array($name, $this->changedFields)) {
+			$this->changedFields[] = $name;
 		}
 	}
 
@@ -550,16 +559,33 @@ Class Thread {
 			$this->modified = time();
 		}
 
+		// Do not save thread if nothing changed
+		if (empty($this->changedFields)) {
+			return;
+		}
+
 		$values = array();
 		$set_clause = array();
-		foreach ($this->updatedFields as $field_name) {
-			$set_clause[] = "{$field_name} = ?";
-			$values[] = $this->threadInfo[$field_name];
+		foreach ($this->changedFields as $field_name) {
+			$field_db_name = $this->propertyMap[$field_name];
+			$set_clause[] = "{$field_db_name} = ?";
+			$values[] = $this->threadInfo[$field_db_name];
 		}
 
 		$query = "update {chatthread} t set " . implode(', ', $set_clause) . " where threadid = ?";
 		$values[] = $this->id;
 		$db->query($query, $values);
+
+		// Trigger thread changed event
+		$args = array(
+			'thread' => $this,
+			'changed_fields' => $this->changedFields
+		);
+		$dispatcher = EventDispatcher::getInstance();
+		$dispatcher->triggerEvent('threadChanged', $args);
+
+		// Clear updated fields
+		$this->changedFields = array();
 	}
 
 	/**
