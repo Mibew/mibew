@@ -119,29 +119,89 @@ function get_locale_links($href)
 	return $localeLinks;
 }
 
-function load_messages($locale)
-{
-	global $messages, $webim_encoding, $output_encoding;
-	$hash = array();
+/**
+ * Load localized messages id some service locale info.
+ *
+ * @global array $messages Localized messages array
+ * @global array $output_encoding Array of mapping locales to output encodings
+ *
+ * @param string $locale Name of a locale whose messages should be loaded.
+ */
+function load_messages($locale) {
+	global $messages, $output_encoding;
+
+	$locale_file = dirname(__FILE__) . "/../../locales/{$locale}/properties";
+	$locale_data = read_locale_file($locale_file);
+
+	if (! is_null($locale_data['output_encoding'])) {
+		$output_encoding[$locale] = $locale_data['output_encoding'];
+	}
+
+	$messages[$locale] = $locale_data['messages'];
+}
+
+/**
+ * Read and parse locale file.
+ *
+ * @global string $webim_encoding Internal Mibew encoding. Defined in
+ * libs/config.php.
+ *
+ * @param string $path Locale file path
+ * @return array Associative array with following keys:
+ *  - 'encoding': string, one of service field from locale file, determines
+ *    encoding of strings in the locale file. If there is no 'encoding' field in
+ *    the locale file, this variable will be equal to $webim_encoding.
+ *
+ *  - 'output_encoding': string, one of service field from locale file,
+ *    determines in what encoding document should be output for this locale.
+ *    If there is no 'output_encoding' field in the locale file, this variable
+ *    will bew equal to NULL.
+ *
+ *  - 'messages': associative array of localized strings. The keys of the array
+ *    are localization keys and the values of the array are localized strings.
+ *    All localized strings have internal Mibew encoding(see $webim_encoding
+ *    value in libs/config.php).
+ */
+function read_locale_file($path) {
+	global $webim_encoding;
+
+	// Set default values
 	$current_encoding = $webim_encoding;
-	$fp = fopen(dirname(__FILE__) . "/../../locales/$locale/properties", "r");
+	$output_encoding = null;
+	$messages = array();
+
+	$fp = fopen($path, "r");
 	while (!feof($fp)) {
 		$line = fgets($fp, 4096);
-		$keyval = preg_split("/=/", $line, 2);
-		if (isset($keyval[1])) {
-			if ($keyval[0] == 'encoding') {
-				$current_encoding = trim($keyval[1]);
-			} else if ($keyval[0] == 'output_encoding') {
-				$output_encoding[$locale] = trim($keyval[1]);
+		// Try to get key and value from locale file line
+		$line_parts = preg_split("/=/", $line, 2);
+		if (count($line_parts) == 2) {
+			$key = $line_parts[0];
+			$value = $line_parts[1];
+			// Check if key is service field and treat it as
+			// localized string otherwise
+			if ($key == 'encoding') {
+				$current_encoding = trim($value);
+			} else if ($key == 'output_encoding') {
+				$output_encoding = trim($value);
 			} else if ($current_encoding == $webim_encoding) {
-				$hash[$keyval[0]] = str_replace("\\n", "\n", trim($keyval[1]));
+				$messages[$key] = str_replace("\\n", "\n", trim($value));
 			} else {
-				$hash[$keyval[0]] = myiconv($current_encoding, $webim_encoding, str_replace("\\n", "\n", trim($keyval[1])));
+				$messages[$key] = myiconv(
+					$current_encoding,
+					$webim_encoding,
+					str_replace("\\n", "\n", trim($value))
+				);
 			}
 		}
 	}
 	fclose($fp);
-	$messages[$locale] = $hash;
+
+	return array(
+		'encoding' => $current_encoding,
+		'output_encoding' => $output_encoding,
+		'messages' => $messages
+	);
 }
 
 function getoutputenc()
