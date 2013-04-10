@@ -18,14 +18,16 @@
 $ifregexp = "/\\\${(if|ifnot):([\w\.]+)}(.*?)(\\\${else:\\2}.*?)?\\\${endif:\\2}/s";
 $expand_include_path = "";
 $current_style = "";
+$flatten_page = array();
+
 
 function check_condition($condition)
 {
-	global $errors, $page;
+	global $errors, $page, $flatten_page;
 	if ($condition == 'errors') {
 		return isset($errors) && count($errors) > 0;
 	}
-	return isset($page[$condition]) && $page[$condition];
+	return isset($flatten_page[$condition]) && $flatten_page[$condition];
 }
 
 function expand_condition($matches)
@@ -42,7 +44,8 @@ function expand_condition($matches)
 
 function expand_var($matches)
 {
-	global $page, $webimroot, $errors, $current_style;
+	global $page, $webimroot, $errors, $current_style, $flatten_page;
+
 	$prefix = $matches[1];
 	$var = $matches[2];
 	if (!$prefix) {
@@ -71,7 +74,7 @@ function expand_var($matches)
 			$pos = strpos($var, ",");
 			$param = substr($var, $pos + 1);
 			$var = substr($var, 0, $pos);
-			$message = getlocal2($var, array($page[$param]));
+			$message = getlocal2($var, array($flatten_page[$param]));
 		} else {
 			$message = getlocal($var);
 		}
@@ -82,7 +85,7 @@ function expand_var($matches)
 	} else if ($prefix == 'form:') {
 		return form_value($var);
 	} else if ($prefix == 'page:' || $prefix == 'pagejs:') {
-		$message = isset($page[$var]) ? $page[$var] : "";
+		$message = isset($flatten_page[$var]) ? $flatten_page[$var] : "";
 		return ($prefix == 'pagejs:') ? json_encode($message) : $message;
 	} else if ($prefix == 'if:' || $prefix == 'else:' || $prefix == 'endif:' || $prefix == 'ifnot:') {
 		return "<!-- wrong $prefix:$var -->";
@@ -109,8 +112,10 @@ function expandtext($text)
 
 function expand($basedir, $style, $filename)
 {
-	global $expand_include_path, $current_style, $page;
-	$page = array_flatten_recursive($page);
+	global $page, $expand_include_path, $current_style, $flatten_page;
+
+	$flatten_page = array_flatten_recursive($page);
+
 	start_html_output();
 	if (!is_dir("$basedir/$style")) {
 		$style = "default";
