@@ -114,7 +114,7 @@ function select_with_pagintation($fields, $table, $conditions, $order, $countfie
 			array('return_rows' => Database::RETURN_ALL_ROWS)
 		);
 	} else {
-		$page['pagination.items'] = false;
+		$page['pagination.items'] = array();
 	}
 }
 
