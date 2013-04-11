@@ -47,10 +47,8 @@ if ($query !== false) {
 	}
 	$page['groupName'] = $groupName;
 
-	$escapedQuery = $escapedQuery?$escapedQuery:'';
-
 	$values = array(
-		':query' => "%{$escapedQuery}%"
+		':query' => "%{$query}%"
 	);
 
 	$searchConditions = array();
