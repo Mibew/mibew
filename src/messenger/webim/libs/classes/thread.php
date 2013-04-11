@@ -18,7 +18,22 @@
 /**
  * Represents a chat thread
  *
- * @todo Think about STATE_* and KIND_* constant systems and may be simplifies them.
+ * Events triggered by the class
+ *  - threadChanged
+ *
+ * Full description of triggered events:
+ *
+ * 1. "threadChanged" - triggers just after thread saved and only if some thread
+ * fields were changed before.
+ *
+ * An associative array passed to event handler has following keys:
+ *  - 'thread': Thread object that was chanded.
+ *  - 'changed_fields': list of changed fields. Names of the fields correspond
+ *    to class properties (see Thread::propertyMap for details) NOT to fields
+ *    names in database.
+ *
+ * @todo Think about STATE_* and KIND_* constant systems and may be simplifies
+ * them.
  */
 Class Thread {
 
