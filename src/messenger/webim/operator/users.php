@@ -52,10 +52,8 @@ $page['coreStyles.trackedVisitorWindowParams'] = $style_config['tracked']['visit
 $page['coreStyles.inviteWindowParams'] = $style_config['invitation']['window_params'];
 $page['coreStyles.banWindowParams'] = $style_config['ban']['window_params'];
 
-// Get additional files
-$page['additional_css'] = get_additional_css('users');
-$page['additional_js'] = get_additional_js('users');
-$page['js_plugin_options'] = get_js_plugin_options('users');
+// Get additional plugins data
+$page = array_merge($page, get_plugins_data('users'));
 
 prepare_menu($operator);
 start_html_output();

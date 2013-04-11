@@ -130,6 +130,37 @@ function get_additional_js($page_name) {
 	return implode("\n", $result);
 }
 
+/**
+ * Add additional localized strings for JavaScript application
+ *
+ * Triggers 'pageAddLocalizedStrings' and pass listeners associative array with
+ * following keys:
+ *  - 'page': string, name of page to which localized strings will be added.
+ *  - 'localized_strings': associative array with localized strings.
+ *
+ * @param string $page_name Localized strings add to this page
+ * @return string JSON encoded localized strings
+ */
+function get_additional_localized_strings($page_name) {
+	// Prepare event arguments array
+	$args = array(
+		'page' => $page_name,
+		'localized_strings' => array()
+	);
+
+	// Trigger event
+	$dispatcher = EventDispatcher::getInstance();
+	$dispatcher->triggerEvent('pageAddLocalizedStrings', $args);
+
+	// Build result
+	$result = array();
+	if (! empty($args['localized_strings'])
+		&& is_array($args['localized_strings'])) {
+		$result = $args['localized_strings'];
+	}
+
+	return json_encode($result);
+}
 
 /**
  * Build Javascript code that contains initializing options for JavaScript
@@ -166,6 +197,8 @@ function get_js_plugin_options($page_name) {
  * @return array Associative array of plugins data. It contains following keys:
  *  - 'additional_css': contains results of the 'get_additional_css function
  *  - 'additional_js': contains results of the 'get_additional_js' function
+ *  - 'additional_localized_strings': contains results of the
+ *    'get_additional_localized_strings' function
  *  - 'js_plugin_options': contains results of the 'get_js_plugin_options'
  *    function
  */
@@ -173,6 +206,7 @@ function get_plugins_data($page_name) {
 	return array(
 		'additional_css' => get_additional_css($page_name),
 		'additional_js' => get_additional_js($page_name),
+		'additional_localized_strings' => get_additional_localized_strings($page_name),
 		'js_plugin_options' => get_js_plugin_options($page_name)
 	);
 }

@@ -46,6 +46,7 @@ function tpl_header() { global $page, $webimroot;
 
 <!-- Localization constants -->
 <script type="text/javascript"><!--
+	// Localized strings for the core
 	Mibew.Localization.set({
 		'pending.table.speak': "<?php echo getlocal('pending.table.speak') ?>",
 		'pending.table.view': "<?php echo getlocal('pending.table.view') ?>",
@@ -86,6 +87,8 @@ function tpl_header() { global $page, $webimroot;
 		'chat.client.spam.prefix': "<?php echo getstring('chat.client.spam.prefix'); ?>",
 		'pending.errors.network': "<?php echo getlocal('pending.errors.network'); ?>"
 	});
+	// Plugins localization
+	Mibew.Localization.set(<?php echo $page['additional_localized_strings']; ?>);
 //--></script>
 
 <script type="text/javascript"><!--

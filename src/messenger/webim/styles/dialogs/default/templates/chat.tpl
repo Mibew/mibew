@@ -31,6 +31,7 @@
 
         ${page:additional_js}
         <script type="text/javascript"><!--
+            // Localized strings for the core
             Mibew.Localization.set({
                 'chat.close.confirmation': ${msgjs:chat.close.confirmation},
                 'typing.remote': ${msgjs:typing.remote},
@@ -70,6 +71,8 @@
                 'presurvey.title': ${msgjs:presurvey.title},
                 'presurvey.intro': ${msgjs:presurvey.intro}
             });
+            // Plugins localization
+            Mibew.Localization.set(${page:additional_localized_strings});
         //--></script>
 
         <!-- Run application -->
