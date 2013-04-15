@@ -657,17 +657,19 @@ function chat_start_for_user($group_id, $visitor_id, $visitor_name, $referrer, $
 	$_SESSION['threadid'] = $thread->id;
 
 	// Check if invitation accept
-	$operator = invitation_accept($_SESSION['visitorid'], $thread->id);
-	if ($operator) {
-		$operator = operator_by_id($operator);
-		$operator_name = get_operator_name($operator);
-		$thread->postMessage(
-			Thread::KIND_FOR_AGENT,
-			getstring2(
-				'chat.visitor.invitation.accepted',
-				array($operator_name)
-			)
-		);
+	if (Settings::get('enabletracking')) {
+		$operator = invitation_accept($_SESSION['visitorid'], $thread->id);
+		if ($operator) {
+			$operator = operator_by_id($operator);
+			$operator_name = get_operator_name($operator);
+			$thread->postMessage(
+				Thread::KIND_FOR_AGENT,
+				getstring2(
+					'chat.visitor.invitation.accepted',
+					array($operator_name)
+				)
+			);
+		}
 	}
 
 	// Send some messages
