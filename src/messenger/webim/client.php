@@ -105,10 +105,13 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 		}
 
 		// Get invitation info
-		$invitation_state = invitation_state($_SESSION['visitorid']);
-		$visitor_is_invited = Settings::get('enabletracking')
-			&& $invitation_state['invited']
-			&& !$invitation_state['threadid'];
+		if (Settings::get('enabletracking')) {
+			$invitation_state = invitation_state($_SESSION['visitorid']);
+			$visitor_is_invited = $invitation_state['invited']
+				&& !$invitation_state['threadid'];
+		} else {
+			$visitor_is_invited = false;
+		}
 
 		// Check if survey should be displayed
 		if(Settings::get('enablepresurvey') == '1' && !$visitor_is_invited) {
