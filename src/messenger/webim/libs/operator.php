@@ -367,8 +367,26 @@ function append_query($link, $pv)
 	return "$link$infix$pv";
 }
 
-function check_login($redirect = true)
-{
+/**
+ * Check if operator is logged in or not.
+ *
+ * It can automatically redirect operators, who not logged in to the login page.
+ * Triggers 'operatorCheckLoginFail' event when check failed and pass into it
+ * an associative array with folloing keys:
+ *  - 'requested_page': string, page where login check was failed.
+ *
+ * @global string $webimroot Path of the mibew instalation from server root.
+ * It defined in libs/config.php
+ * @global string $session_prefix Use as prefix for all session variables to
+ * allow many instalation of the mibew messenger at one server. It defined in
+ * libs/common/constants.php
+ *
+ * @param boolean $redirect Indicates if operator should be redirected to
+ * login page. Default value is true.
+ * @return null|array Array with operator info if operator is logged in and
+ * null otherwise.
+ */
+function check_login($redirect = true) {
 	global $webimroot, $session_prefix;
 	if (!isset($_SESSION[$session_prefix."operator"])) {
 		if (isset($_COOKIE['webim_lite'])) {
@@ -379,10 +397,19 @@ function check_login($redirect = true)
 				return $op;
 			}
 		}
+
+		// Get requested page
 		$requested = $_SERVER['PHP_SELF'];
 		if ($_SERVER['REQUEST_METHOD'] == 'GET' && $_SERVER['QUERY_STRING']) {
 			$requested .= "?" . $_SERVER['QUERY_STRING'];
 		}
+
+		// Trigger fail event
+		$args = array('requested_page' => $requested);
+		$dispatcher = EventDispatcher::getInstance();
+		$dispatcher->triggerEvent('operatorCheckLoginFail', $args);
+
+		// Redirect operator if need
 		if ($redirect) {
 			$_SESSION['backpath'] = $requested;
 			header("Location: $webimroot/operator/login.php");
