@@ -645,12 +645,20 @@ Class Thread {
 	}
 
 	/**
-	 * Load messages from database corresponding to the thread those ID's more than $lastid
+	 * Load messages from database corresponding to the thread those ID's more
+	 * than $lastid
 	 *
 	 * @global $webim_encoding
-	 * @param boolean $is_user Boolean TRUE if messages loads for user and boolean FALSE if they loads for operator.
+	 * @param boolean $is_user Boolean TRUE if messages loads for user
+	 * and boolean FALSE if they loads for operator.
 	 * @param int $lastid ID of the last loaded message.
-	 * @return array Array of messages
+	 * @return array Array of messages. Every message is associative array with
+	 * following keys:
+	 *  - 'id': int, message id;
+	 *  - 'kind': int, message kind, see Thread::KIND_* for details;
+	 *  - 'created': int, unix timestamp when message was created;
+	 *  - 'name': string, name of sender;
+	 *  - 'message': string, message text.
 	 * @see Thread::postMessage()
 	 */
 	public function getMessages($is_user, &$last_id) {
