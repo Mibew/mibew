@@ -19,6 +19,30 @@
              */
             defaults : {
                 /**
+                 * Message ID
+                 * @type Number
+                 */
+                id: 0,
+
+                /**
+                 * Message kind. See Mibew.Models.Message.KIND_* for details
+                 * @type Number
+                 */
+                kind: null,
+
+                /**
+                 * Unix timestamp when message was created
+                 * @type Number
+                 */
+                created: 0,
+
+                /**
+                 * Name of the message sender
+                 * @type String
+                 */
+                name: '',
+
+                /**
                  * Text of the message
                  * @type String
                  */
