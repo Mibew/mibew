@@ -48,15 +48,7 @@ if (isset($_GET['act'])) {
 		}
 
 		if (count($errors) == 0) {
-			$db = Database::getInstance();
-			$db->query(
-				"delete from {chatgroupoperator} where operatorid = ?",
-				array($operatorid)
-			);
-			$db->query(
-				"delete from {chatoperator} where operatorid = ?",
-				array($operatorid)
-			);
+			delete_operator($operatorid);
 			header("Location: $webimroot/operator/operators.php");
 			exit;
 		}

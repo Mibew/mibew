@@ -260,6 +260,34 @@ function create_operator($login, $email, $password, $localename, $commonname, $a
 }
 
 /**
+ * Delete operator
+ *
+ * This function remove operator and associations with groups for this operator
+ * from datatabse.
+ * It trigger 'operatorDelete' event and pass to event listeners associative
+ * array with following keys:
+ *  - 'id': int, deleted operator ID.
+ *
+ * @param int $operator_id Operator ID
+ */
+function delete_operator($operator_id) {
+	$db = Database::getInstance();
+	$db->query(
+		"delete from {chatgroupoperator} where operatorid = ?",
+		array($operator_id)
+	);
+	$db->query(
+		"delete from {chatoperator} where operatorid = ?",
+		array($operator_id)
+	);
+
+	// Trigger 'operatorDelete' event
+	$dispatcher = EventDispatcher::getInstance();
+	$args = array('id' => $operator_id);
+	$dispatcher->triggerEvent('operatorDelete', $args);
+}
+
+/**
  * Set current status of the operator('available' or 'away')
  *
  * @param int $operatorid Id of the operator
