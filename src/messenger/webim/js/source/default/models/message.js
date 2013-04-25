@@ -19,12 +19,6 @@
              */
             defaults : {
                 /**
-                 * Message ID
-                 * @type Number
-                 */
-                id: 0,
-
-                /**
                  * Message kind. See Mibew.Models.Message.KIND_* for details
                  * @type Number
                  */
