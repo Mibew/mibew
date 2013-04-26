@@ -26,9 +26,9 @@ $page = array('opid' => '');
 $errors = array();
 $opId = '';
 
-if ((isset($_POST['login']) || !is_capable($can_administrate, $operator)) && isset($_POST['password'])) {
+if ((isset($_POST['login']) || !is_capable(CAN_ADMINISTRATE, $operator)) && isset($_POST['password'])) {
 	$opId = verifyparam("opid", "/^(\d{1,9})?$/", "");
-	if (is_capable($can_administrate, $operator)) {
+	if (is_capable(CAN_ADMINISTRATE, $operator)) {
 		$login = getparam('login');
 	} else {
 		$login = $operator['vclogin'];
@@ -65,8 +65,8 @@ if ((isset($_POST['login']) || !is_capable($can_administrate, $operator)) && iss
 		($opId && $existing_operator && $opId != $existing_operator['operatorid']))
 		$errors[] = getlocal("page_agent.error.duplicate_login");
 
-	$canmodify = ($opId == $operator['operatorid'] && is_capable($can_modifyprofile, $operator))
-				 || is_capable($can_administrate, $operator);
+	$canmodify = ($opId == $operator['operatorid'] && is_capable(CAN_MODIFYPROFILE, $operator))
+				 || is_capable(CAN_ADMINISTRATE, $operator);
 	if (!$canmodify) {
 		$errors[] = getlocal('page_agent.cannot_modify');
 	}
@@ -120,16 +120,16 @@ if ((isset($_POST['login']) || !is_capable($can_administrate, $operator)) && iss
 	}
 }
 
-if (!$opId && !is_capable($can_administrate, $operator)) {
+if (!$opId && !is_capable(CAN_ADMINISTRATE, $operator)) {
 	$errors[] = getlocal("page_agent.error.forbidden_create");
 }
 
-$canmodify = ($opId == $operator['operatorid'] && is_capable($can_modifyprofile, $operator))
-			 || is_capable($can_administrate, $operator);
+$canmodify = ($opId == $operator['operatorid'] && is_capable(CAN_MODIFYPROFILE, $operator))
+			 || is_capable(CAN_ADMINISTRATE, $operator);
 
 $page['stored'] = isset($_GET['stored']);
 $page['canmodify'] = $canmodify ? "1" : "";
-$page['canchangelogin'] = is_capable($can_administrate, $operator);
+$page['canchangelogin'] = is_capable(CAN_ADMINISTRATE, $operator);
 $page['needChangePassword'] = $operator['vcpassword'] == md5('');
 
 prepare_menu($operator);

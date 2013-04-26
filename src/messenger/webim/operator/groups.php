@@ -28,7 +28,7 @@ if (isset($_GET['act']) && $_GET['act'] == 'del') {
 		$errors[] = getlocal("page.groups.error.cannot_delete");
 	}
 
-	if (!is_capable($can_administrate, $operator)) {
+	if (!is_capable(CAN_ADMINISTRATE, $operator)) {
 		$errors[] = getlocal("page.groups.error.forbidden_remove");
 	}
 
@@ -59,7 +59,7 @@ $sort['desc'] = (verifyparam("sortdirection", "/^(desc|asc)$/", "desc") == "desc
 $page['groups'] = get_sorted_groups($sort);
 $page['formsortby'] = $sort['by'];
 $page['formsortdirection'] = $sort['desc']?'desc':'asc';
-$page['canmodify'] = is_capable($can_administrate, $operator);
+$page['canmodify'] = is_capable(CAN_ADMINISTRATE, $operator);
 $page['availableOrders'] = array(
 	array('id' => 'name', 'name' => getlocal('form.field.groupname')),
 	array('id' => 'lastseen', 'name' => getlocal('page_agents.status')),

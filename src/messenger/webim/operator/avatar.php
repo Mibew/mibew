@@ -26,8 +26,8 @@ $opId = verifyparam("op", "/^\d{1,9}$/");
 $page = array('opid' => $opId, 'avatar' => '');
 $errors = array();
 
-$canmodify = ($opId == $operator['operatorid'] && is_capable($can_modifyprofile, $operator))
-			 || is_capable($can_administrate, $operator);
+$canmodify = ($opId == $operator['operatorid'] && is_capable(CAN_MODIFYPROFILE, $operator))
+			 || is_capable(CAN_ADMINISTRATE, $operator);
 
 $op = operator_by_id($opId);
 

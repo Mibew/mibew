@@ -64,7 +64,7 @@ if (!isset($_GET['token'])) {
 	$forcetake = verifyparam("force", "/^true$/", false);
 	if (!$viewonly && $thread->state == Thread::STATE_CHATTING && $operator['operatorid'] != $thread->agentId) {
 
-		if (!is_capable($can_takeover, $operator)) {
+		if (!is_capable(CAN_TAKEOVER, $operator)) {
 			$errors = array(getlocal("thread.error.cannot_take_over"));
 			start_html_output();
 			expand("../styles/dialogs", getchatstyle(), "error.tpl");
@@ -90,7 +90,7 @@ if (!isset($_GET['token'])) {
 			expand("../styles/dialogs", getchatstyle(), "error.tpl");
 			exit;
 		}
-	} else if (!is_capable($can_viewthreads, $operator)) {
+	} else if (!is_capable(CAN_VIEWTHREADS, $operator)) {
 		$errors = array(getlocal("thread.error.cannot_view"));
 		start_html_output();
 		expand("../styles/dialogs", getchatstyle(), "error.tpl");
@@ -109,7 +109,7 @@ if (!$thread) {
 	die("wrong thread");
 }
 
-if ($thread->agentId != $operator['operatorid'] && !is_capable($can_viewthreads, $operator)) {
+if ($thread->agentId != $operator['operatorid'] && !is_capable(CAN_VIEWTHREADS, $operator)) {
 	$errors = array("Cannot view threads");
 	start_html_output();
 	expand("../styles/dialogs", getchatstyle(), "error.tpl");

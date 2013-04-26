@@ -30,7 +30,7 @@ if (isset($_GET['act'])) {
 	}
 
 	if ($_GET['act'] == 'del') {
-		if (!is_capable($can_administrate, $operator)) {
+		if (!is_capable(CAN_ADMINISTRATE, $operator)) {
 			$errors[] = getlocal("page_agents.error.forbidden_remove");
 		}
 
@@ -55,7 +55,7 @@ if (isset($_GET['act'])) {
 	}
 	if ($_GET['act'] == 'disable' || $_GET['act'] == 'enable') {
 		$act_disable = ($_GET['act'] == 'disable');
-		if (!is_capable($can_administrate, $operator)) {
+		if (!is_capable(CAN_ADMINISTRATE, $operator)) {
 			$errors[] = $act_disable?getlocal('page_agents.disable.not.allowed'):getlocal('page_agents.enable.not.allowed');
 		}
 
@@ -95,7 +95,7 @@ if (in_isolation($operator)) {
 	$list_options['isolated_operator_id'] = $operator['operatorid'];
 }
 $page['allowedAgents'] = get_operators_list($list_options);
-$page['canmodify'] = is_capable($can_administrate, $operator);
+$page['canmodify'] = is_capable(CAN_ADMINISTRATE, $operator);
 $page['availableOrders'] = array(
 	array('id' => 'login', 'name' => getlocal('page_agents.login')),
 	array('id' => 'localename', 'name' => getlocal('page_agents.agent_name')),

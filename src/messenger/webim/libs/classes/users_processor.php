@@ -156,8 +156,6 @@ class UsersProcessor extends ClientSideProcessor {
 	 * Return updated threads list. API function
 	 *
 	 * @global string $session_prefix Session vars prefix
-	 * @global int $can_viewthreads View threads permission code
-	 * @global int $can_takeover Take threads over permission code
 	 * @param array $args Associative array of arguments. It must contains
 	 * following keys:
 	 *  - 'agentId': Id of the agent related to users window
@@ -166,7 +164,7 @@ class UsersProcessor extends ClientSideProcessor {
 	 *  - 'threads': array of threads changes
 	 */
 	protected function apiUpdateThreads($args) {
-		global $session_prefix, $can_viewthreads, $can_takeover;
+		global $session_prefix;
 
 		$operator = self::checkOperator($args['agentId']);
 
@@ -221,11 +219,11 @@ class UsersProcessor extends ClientSideProcessor {
 			// Calculate agent permissions
 			$can_open = !($thread->state == Thread::STATE_CHATTING
 				&& $thread->agentId != $operator['operatorid']
-				&& !is_capable($can_takeover, $operator));
+				&& !is_capable(CAN_TAKEOVER, $operator));
 
 			$can_view = ($thread->agentId != $operator['operatorid']
 				&& $thread->nextAgent != $operator['operatorid']
-				&& is_capable($can_viewthreads, $operator));
+				&& is_capable(CAN_VIEWTHREADS, $operator));
 
 			$can_ban = (Settings::get('enableban') == "1");
 

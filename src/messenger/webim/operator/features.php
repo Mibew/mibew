@@ -44,7 +44,7 @@ foreach ($options as $opt) {
 }
 
 if (isset($_POST['sent'])) {
-	if (is_capable($can_administrate, $operator)) {
+	if (is_capable(CAN_ADMINISTRATE, $operator)) {
 		foreach ($options as $opt) {
 			Settings::set($opt,(verifyparam($opt, "/^on$/", "") == "on" ? "1" : "0"));
 		}
@@ -56,7 +56,7 @@ if (isset($_POST['sent'])) {
 	}
 }
 
-$page['canmodify'] = is_capable($can_administrate, $operator);
+$page['canmodify'] = is_capable(CAN_ADMINISTRATE, $operator);
 $page['stored'] = isset($_GET['stored']);
 foreach ($options as $opt) {
 	$page["form$opt"] = $params[$opt] == "1";

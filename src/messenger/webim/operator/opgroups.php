@@ -44,7 +44,7 @@ $page = array('opid' => $opId);
 $page['groups'] = $operator_in_isolation?get_all_groups_for_operator($operator):get_all_groups();
 $errors = array();
 
-$canmodify = is_capable($can_administrate, $operator);
+$canmodify = is_capable(CAN_ADMINISTRATE, $operator);
 
 $op = operator_by_id($opId);
 

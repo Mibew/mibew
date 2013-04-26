@@ -15,19 +15,43 @@
  * limitations under the License.
  */
 
-$can_administrate = 0;
-$can_takeover = 1;
-$can_viewthreads = 2;
-$can_modifyprofile = 3;
+/** Permissions constants */
 
-$can_count = 4;
+/**
+ * Operator can administer Mibew instalation
+ */
+define('CAN_ADMINISTRATE', 0);
 
-$permission_ids = array(
-	$can_administrate => "admin",
-	$can_takeover => "takeover",
-	$can_viewthreads => "viewthreads",
-	$can_modifyprofile => "modifyprofile"
-);
+/**
+ * Operator can take over threads
+ */
+define('CAN_TAKEOVER', 1);
+
+/**
+ * Operator can view threads of other operators
+ */
+define('CAN_VIEWTHREADS', 2);
+
+/**
+ * Operator can modify own profile
+ */
+define('CAN_MODIFYPROFILE', 3);
+
+/** End of permissions constants */
+
+/**
+ * Map numerical permissions ids onto string names.
+ * @return array Associativa array whose keys are numerical permission ids and
+ * values are string permission names.
+ */
+function permission_ids() {
+	return array(
+		CAN_ADMINISTRATE => "admin",
+		CAN_TAKEOVER => "takeover",
+		CAN_VIEWTHREADS => "viewthreads",
+		CAN_MODIFYPROFILE => "modifyprofile"
+	);
+}
 
 function operator_by_login($login)
 {
@@ -555,13 +579,11 @@ function setup_redirect_links($threadid, $operator, $token)
 	$page['redirectToGroup'] = $group_list;
 }
 
-$permission_list = array();
-
 function get_permission_list()
 {
-	global $permission_list, $permission_ids;
+	static $permission_list = array();
 	if (count($permission_list) == 0) {
-		foreach ($permission_ids as $permid) {
+		foreach (permission_ids() as $permid) {
 			$permission_list[] = array(
 				'id' => $permid,
 				'descr' => getlocal("permission.$permid")
@@ -579,18 +601,17 @@ function is_capable($perm, $operator)
 
 function in_isolation($operator)
 {
-	global $can_administrate;
-	return (!is_capable($can_administrate, $operator) && Settings::get('enablegroups') && Settings::get('enablegroupsisolation'));
+	return (!is_capable(CAN_ADMINISTRATE, $operator) && Settings::get('enablegroups') && Settings::get('enablegroupsisolation'));
 }
 
 function prepare_menu($operator, $hasright = true)
 {
-	global $page, $can_administrate;
+	global $page;
 	$page['operator'] = topage(get_operator_name($operator));
 	if ($hasright) {
 		$page['showban'] = Settings::get('enableban') == "1";
 		$page['showstat'] = Settings::get('enablestatistics') == "1";
-		$page['showadmin'] = is_capable($can_administrate, $operator);
+		$page['showadmin'] = is_capable(CAN_ADMINISTRATE, $operator);
 		$page['currentopid'] = $operator['operatorid'];
 	}
 }
