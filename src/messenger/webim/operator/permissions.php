@@ -22,15 +22,6 @@ require_once('../libs/operator_settings.php');
 $operator = check_login();
 csrfchecktoken();
 
-function update_operator_permissions($operatorid, $newvalue)
-{
-	$db = Database::getInstance();
-	$db->query(
-		"update {chatoperator} set iperm = ? where operatorid = ?",
-		array($newvalue, $operatorid)
-	);
-}
-
 $opId = verifyparam("op", "/^\d{1,9}$/");
 $page = array('opid' => $opId, 'canmodify' => is_capable(CAN_ADMINISTRATE, $operator) ? "1" : "");
 $errors = array();

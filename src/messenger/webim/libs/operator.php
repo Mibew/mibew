@@ -53,6 +53,19 @@ function permission_ids() {
 	);
 }
 
+/**
+ * Set new permissions to operator
+ * @param int $operator_id Operator ID
+ * @param int $perm New permissions value
+ */
+function update_operator_permissions($operator_id, $perm) {
+	$db = Database::getInstance();
+	$db->query(
+		"update {chatoperator} set iperm = ? where operatorid = ?",
+		array($perm, $operator_id)
+	);
+}
+
 function operator_by_login($login)
 {
 	$db = Database::getInstance();
