@@ -24,6 +24,7 @@ csrfchecktoken();
 
 if (isset($_GET['act'])) {
 
+	$errors = array();
 	$operatorid = isset($_GET['id']) ? $_GET['id'] : "";
 	if (!preg_match("/^\d+$/", $operatorid)) {
 		$errors[] = getlocal("no_such_operator");
