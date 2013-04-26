@@ -19,6 +19,9 @@ session_start();
 
 require_once('../libs/config.php');
 
+// Include some classes
+require_once('../libs/classes/plugin_manager.php');
+
 // Include common functions
 require_once('../libs/common/constants.php');
 require_once('../libs/common/locale.php');
