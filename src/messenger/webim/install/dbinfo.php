@@ -93,7 +93,7 @@ $dbtables = array(
 		"idisabled" => "int DEFAULT 0",
 		"vcavatar" => "varchar(255)",
 		"vcjabbername" => "varchar(255)",
-		"iperm" => "int DEFAULT 65535",
+		"iperm" => "int DEFAULT 0", /* Do not grant all privileges by default */
 		"dtmrestore" => "int NOT NULL DEFAULT 0",
 		"vcrestoretoken" => "varchar(64)",
 	),
@@ -254,6 +254,7 @@ function create_table($id, $link)
 
 	if ($id == "${mysqlprefix}chatoperator") {
 		// Create First Administrator
+		// Grant all privileges by default only for First Administrator
 		mysql_query(
 			"INSERT INTO ${mysqlprefix}chatoperator ( " .
 				"vclogin, " .
@@ -261,14 +262,16 @@ function create_table($id, $link)
 				"vclocalename, " .
 				"vccommonname, " .
 				"vcavatar, " .
-				"vcemail " .
+				"vcemail, " .
+				"iperm " .
 			") values ( " .
 				"'admin', " .
 				"MD5(''), " .
 				"'', " .
 				"'Administrator', " .
 				"'Administrator', " .
-				"''" .
+				"'', " .
+				"65535" .
 			")",
 			$link
 		);
