@@ -63,13 +63,69 @@
                     Mibew.Objects.Models.thread.set({lastId: args.lastId});
                 }
 
+                // Use shortcut for KIND_PLUGIN
+                var kindPlugin = Mibew.Models.Message.prototype.KIND_PLUGIN;
+
                 // Get all new messages
                 var newMessages = [];
+                var messageData, pluginName, eventName, eventArgs;
                 for(var i = 0, length = args.messages.length; i < length; i++) {
-                    // Store message
-                    newMessages.push(
-                        new Mibew.Models.Message(args.messages[i])
-                    );
+                    messageData = args.messages[i];
+                    if (messageData.kind != kindPlugin) {
+                        // Message have one of the core kinds. Just store it.
+                        newMessages.push(
+                            new Mibew.Models.Message(messageData)
+                        );
+                        continue;
+                    }
+
+                    // Message have KIND_PLUGIN kind and need to be processed
+                    // by plugins to know how to display it.
+                    //
+                    // Message treat as data object with following fields:
+                    //  - 'plugin': string, name of the plugin which sent the
+                    //    message;
+                    //  - 'data': object, some data sent by the plugin.
+
+                    // Check if message is an real Object
+                    if ((typeof messageData.message != 'object')
+                        || (messageData.message === null)) {
+                        continue;
+                    }
+
+                    // Prepare event name.
+                    //
+                    // If plugin name was specified it will be
+                    // 'process:<plugin_name>:plugin:message' and
+                    // 'process:plugin:message' otherwise.
+                    pluginName = messageData.message.plugin || false;
+                    eventName = 'process:'
+                        + ((pluginName !== false) ? pluginName + ':' : '')
+                        + 'plugin:message';
+
+                    // Prepare event arguments.
+                    //
+                    // It is an object with following fields:
+                    //  - 'messageData': object which contains message data
+                    //    passed from server.
+                    //  - 'model': message model initialized by the plugin or
+                    //    boolean false if message should not be displayed. By
+                    //    default it field equals to boolean false.
+                    eventArgs = {
+                        'messageData': messageData,
+                        'model': false
+                    }
+
+                    // Trigger event. See description of eventName and eventArgs
+                    // above.
+                    this.trigger(eventName, eventArgs);
+
+                    if (eventArgs.model) {
+                        // Store custom plugin message in the collection
+                        newMessages.push(
+                            eventArgs.model
+                        );
+                    }
                 }
 
                 // Add new messages to the message collection if there are any

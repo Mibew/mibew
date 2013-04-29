@@ -97,6 +97,9 @@
                 if (kind == this.model.KIND_EVENTS) {
                     return "event";
                 }
+                if (kind == this.model.KIND_PLUGIN) {
+                    return "plugin";
+                }
                 return "";
             },
 

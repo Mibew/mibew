@@ -86,6 +86,10 @@ Class Thread {
 	 * System message about some events (like rename).
 	 */
 	const KIND_EVENTS = 6;
+	/**
+	 * Message sent by a plugin.
+	 */
+	const KIND_PLUGIN = 7;
 
 	/**
 	 * Messaging window connection timeout.
@@ -658,7 +662,8 @@ Class Thread {
 	 *  - 'kind': int, message kind, see Thread::KIND_* for details;
 	 *  - 'created': int, unix timestamp when message was created;
 	 *  - 'name': string, name of sender;
-	 *  - 'message': string, message text.
+	 *  - 'message': associative array with message data if kind equals to
+	 *    Thread::KIND_PLUGIN and message text string otherwise.
 	 * @see Thread::postMessage()
 	 */
 	public function getMessages($is_user, &$last_id) {
@@ -668,7 +673,8 @@ Class Thread {
 
 		// Load messages
 		$messages = $db->query(
-			"select messageid as id, ikind as kind, dtmcreated as created, tname as name, tmessage as message " .
+			"select messageid as id, ikind as kind, dtmcreated as created, " .
+			" tname as name, tmessage as message " .
 			"from {chatmessage} " .
 			"where threadid = :threadid and messageid > :lastid " .
 			($is_user ? "and ikind <> " . self::KIND_FOR_AGENT : "") .
@@ -681,9 +687,28 @@ Class Thread {
 		);
 
 		foreach ($messages as $key => $msg) {
-			// Change message fields encoding
-			$messages[$key]['name'] = myiconv($webim_encoding, "utf-8", $msg['name']);
-			$messages[$key]['message'] = myiconv($webim_encoding, "utf-8", $msg['message']);
+			// Change sender name encoding
+			$messages[$key]['name'] = myiconv(
+				$webim_encoding,
+				"utf-8",
+				$msg['name']
+			);
+
+			// Process message body
+			if ($messages[$key]['kind'] == self::KIND_PLUGIN) {
+				// Treat plugin message body as an associative array
+				$messages[$key]['message'] = unserialize(
+					$messages[$key]['message']
+				);
+			} else {
+				// Change message body encoding for core messages kinds
+				$messages[$key]['message'] = myiconv(
+					$webim_encoding,
+					"utf-8",
+					$msg['message']
+				);
+			}
+
 			// Get last message ID
 			if ($msg['id'] > $last_id) {
 				$last_id = $msg['id'];
@@ -696,11 +721,24 @@ Class Thread {
 	/**
 	 * Send the messsage
 	 *
+	 * Message body, passed as $message argument can be either string or
+	 * associative array. It depends on $kind argument value.
+	 * If $kind equals to Thread:KIND_PLUGIN $message must be an associative
+	 * array with following keys:
+	 *  - 'plugin': string, name of the plugin which send the message;
+	 *  - 'data': associative array, arbitrary message data.
+	 * Message body in this case will automatically serialized and unserialized
+	 * then it needed.
+	 *
+	 * On the other hand, if $kind argument NOT equals to Thread::KIND_PLUGIN
+	 * $message must be a string, representing message text.
+	 *
 	 * @param int $kind Message kind. One of the Thread::KIND_*
-	 * @param string $message Message body
+	 * @param string|array $message Message body
 	 * @param string|null $from Sender name
 	 * @param int|null $opid operator id. Use NULL for system messages
-	 * @param int|null $time unix timestamp of the send time. Use NULL for current time.
+	 * @param int|null $time unix timestamp of the send time. Use NULL for
+	 * current time.
 	 * @return int Message ID
 	 *
 	 * @see Thread::KIND_USER
@@ -709,6 +747,7 @@ Class Thread {
 	 * @see Thread::KIND_INFO
 	 * @see Thread::KIND_CONN
 	 * @see Thread::KIND_EVENTS
+	 * @see Thread::KIND_PLUGIN
 	 * @see Thread::getMessages()
 	 */
 	public function postMessage($kind, $message, $from = null, $opid = null, $time = null) {
@@ -717,6 +756,12 @@ Class Thread {
 		$query = "INSERT INTO {chatmessage} " .
 			"(threadid,ikind,tmessage,tname,agentId,dtmcreated) " .
 			"VALUES (:threadid,:kind,:message,:name,:agentid,:created)";
+
+		// Serialize message body for messages with kind equals to
+		// Thread::KIND_PLUGIN
+		if ($kind == self::KIND_PLUGIN) {
+			$message = serialize($message);
+		}
 
 		$values = array(
 			':threadid' => $this->id,

@@ -61,7 +61,10 @@
             KIND_CONN: 5,
 
             /** System message about some events (like rename). */
-            KIND_EVENTS: 6
+            KIND_EVENTS: 6,
+
+            /** Message sent by a plugin */
+            KIND_PLUGIN: 7
 
             /** End of message kind constants */
         }
