@@ -725,20 +725,71 @@ Class Thread {
 	/**
 	 * Send the messsage
 	 *
-	 * Message body, passed as $message argument can be either string or
-	 * associative array. It depends on $kind argument value.
-	 * If $kind equals to Thread:KIND_PLUGIN $message must be an associative
-	 * array with following keys:
-	 *  - 'plugin': string, name of the plugin which send the message;
-	 *  - 'data': associative array, arbitrary message data.
-	 * Message body in this case will automatically serialized and unserialized
-	 * then it needed.
+	 * Use to send message with one of the core kinds(not Thread::KIND_PLUGIN).
+	 * Trigger error with 'E_USER_WARNING' level if $kind equals to
+	 * Thread::KIND_PLUGIN.
 	 *
-	 * On the other hand, if $kind argument NOT equals to Thread::KIND_PLUGIN
-	 * $message must be a string, representing message text.
+	 * To send plugin message use Thread::postPluginMessage instead.
+	 *
+	 * @param int $kind Message kind. One of the Thread::KIND_* but not
+	 * Thread::KIND_PLUGIN
+	 * @param string $message Message body
+	 * @param string|null $from Sender name
+	 * @param int|null $opid operator id. Use NULL for system messages
+	 * @param int|null $time unix timestamp of the send time. Use NULL for
+	 * current time.
+	 * @return int|boolean Message ID or boolean false on failure.
+	 *
+	 * @see Thread::KIND_USER
+	 * @see Thread::KIND_AGENT
+	 * @see Thread::KIND_FOR_AGENT
+	 * @see Thread::KIND_INFO
+	 * @see Thread::KIND_CONN
+	 * @see Thread::KIND_EVENTS
+	 * @see Thread::KIND_PLUGIN
+	 * @see Thread::getMessages()
+	 * @see Thread::postPluginMessage()
+	 */
+	public function postMessage($kind, $message, $from = null, $opid = null, $time = null) {
+		// Check message kind. It can not be equal to Thread::KIND_PLUGIN
+		if ($kind == self::KIND_PLUGIN) {
+			trigger_error(
+				'Use Thread::postPluginMessage to send plugins messages',
+				E_USER_WARNING
+			);
+			return false;
+		}
+
+		// Send message
+		return $this->saveMessage($kind, $message, $from, $opid, $time);
+	}
+
+	/**
+	 * Send plugin messsage
+	 *
+	 * @param string $plugin Plugin name. Use to determine which plugin sent
+	 * the message.
+	 * @param array $data Message data. Can contain arbitrary structure.
+	 * @param int|null $time unix timestamp of the send time. Use NULL for
+	 * current time.
+	 * @return int Message ID
+	 *
+	 * @see Thread::getMessages()
+	 */
+	public function postPluginMessage($plugin, $data, $time = null) {
+		$message = serialize(array(
+			'plugin' => $plugin,
+			'data' => $data
+		));
+
+		return $this->saveMessage(self::KIND_PLUGIN, $message, null, null, $time);
+	}
+
+	/**
+	 * Save the messsage in database
 	 *
 	 * @param int $kind Message kind. One of the Thread::KIND_*
-	 * @param string|array $message Message body
+	 * @param string $message Message body
 	 * @param string|null $from Sender name
 	 * @param int|null $opid operator id. Use NULL for system messages
 	 * @param int|null $time unix timestamp of the send time. Use NULL for
@@ -754,18 +805,12 @@ Class Thread {
 	 * @see Thread::KIND_PLUGIN
 	 * @see Thread::getMessages()
 	 */
-	public function postMessage($kind, $message, $from = null, $opid = null, $time = null) {
+	protected function saveMessage($kind, $message, $from = null, $opid = null, $time = null) {
 		$db = Database::getInstance();
 
 		$query = "INSERT INTO {chatmessage} " .
 			"(threadid,ikind,tmessage,tname,agentId,dtmcreated) " .
 			"VALUES (:threadid,:kind,:message,:name,:agentid,:created)";
-
-		// Serialize message body for messages with kind equals to
-		// Thread::KIND_PLUGIN
-		if ($kind == self::KIND_PLUGIN) {
-			$message = serialize($message);
-		}
 
 		$values = array(
 			':threadid' => $this->id,
