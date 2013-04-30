@@ -114,6 +114,7 @@ confirm.take.yes=Yes. I'm sure
 content.blocked=Here you can block malicious visitors.
 content.history=Search the dialogs history.
 content.logoff=Log out of the system.
+cron.check.setup=Enshure that cron was set up correctly or run it <a href="{0}">manually</a>.
 data.saved=Changes saved
 demo.chat.question=There are so many browsers to choose from. Which ones do you recommend? 
 demo.chat.welcome=Hello. How may I help you?

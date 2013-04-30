@@ -20,6 +20,7 @@ require_once('../libs/operator.php');
 require_once('../libs/chat.php');
 require_once('../libs/userinfo.php');
 require_once('../libs/pagination.php');
+require_once('../libs/cron.php');
 
 $operator = check_login();
 force_password($operator);
@@ -91,6 +92,7 @@ if ($query !== false) {
 
 $page['formtype'] = $searchType;
 $page['forminsystemmessages'] = $searchInSystemMessages;
+$page['cron_path'] = cron_get_uri(Settings::get('cron_key'));
 
 prepare_menu($operator);
 start_html_output();
