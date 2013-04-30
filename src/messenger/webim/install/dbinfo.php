@@ -204,12 +204,6 @@ $dbtables_indexes = array(
 	)
 );
 
-$dbtables_indexes = array(
-	"${mysqlprefix}chatmessage" => array(
-		"idx_agentid" => "agentid"
-	)
-);
-
 $memtables = array();
 
 $dbtables_can_update = array(
