@@ -53,8 +53,8 @@ if ($query !== false) {
 
 	$searchConditions = array();
 	if ($searchType == 'message' || $searchType == 'all') {
-		$searchConditions[] = "({chatmessage}.tmessage LIKE :query" .
-					($searchInSystemMessages?'':" AND ({chatmessage}.ikind = :kind_user OR {chatmessage}.ikind = :kind_agent)") .
+		$searchConditions[] = "({indexedchatmessage}.tmessage LIKE :query" .
+					($searchInSystemMessages?'':" AND ({indexedchatmessage}.ikind = :kind_user OR {indexedchatmessage}.ikind = :kind_agent)") .
 					")";
 		if (! $searchInSystemMessages) {
 			$values[':kind_user'] = Thread::KIND_USER;
@@ -71,9 +71,9 @@ if ($query !== false) {
 
 	// Load threads
 	select_with_pagintation("DISTINCT {chatthread}.*",
-		"{chatthread}, {chatmessage}",
+		"{chatthread}, {indexedchatmessage}",
 		array(
-			"{chatmessage}.threadid = {chatthread}.threadid",
+			"{indexedchatmessage}.threadid = {chatthread}.threadid",
 			"(" . implode(' or ', $searchConditions)  .  ")"
 		),
 		"order by {chatthread}.dtmcreated DESC",

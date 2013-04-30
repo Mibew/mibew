@@ -75,7 +75,7 @@ $db = Database::getInstance();
 if ($statisticstype == 'bydate') {
 	$page['reportByDate'] = $db->query(
 		"select DATE(FROM_UNIXTIME(t.dtmcreated)) as date, COUNT(distinct t.threadid) as threads, SUM(m.ikind = :kind_agent) as agents, SUM(m.ikind = :kind_user) as users, ROUND(AVG(t.dtmchatstarted-t.dtmcreated),1) as avgwaitingtime, ROUND(AVG(tmp.lastmsgtime - t.dtmchatstarted),1) as avgchattime " .
-		"from {chatmessage} m, {chatthread} t, (SELECT i.threadid, MAX(i.dtmcreated) AS lastmsgtime  FROM {chatmessage} i WHERE (ikind = :kind_user OR ikind = :kind_agent) GROUP BY i.threadid) tmp " .
+		"from {indexedchatmessage} m, {chatthread} t, (SELECT i.threadid, MAX(i.dtmcreated) AS lastmsgtime  FROM {indexedchatmessage} i WHERE (ikind = :kind_user OR ikind = :kind_agent) GROUP BY i.threadid) tmp " .
 		"where m.threadid = t.threadid AND tmp.threadid = t.threadid AND t.dtmchatstarted <> 0 AND m.dtmcreated >= :start AND m.dtmcreated < :end group by DATE(FROM_UNIXTIME(m.dtmcreated)) order by m.dtmcreated desc",
 		array(
 			':kind_agent' => Thread::KIND_AGENT,
@@ -88,7 +88,7 @@ if ($statisticstype == 'bydate') {
 	
 	$page['reportByDateTotal'] = $db->query(
 		"select DATE(FROM_UNIXTIME(t.dtmcreated)) as date, COUNT(distinct t.threadid) as threads, SUM(m.ikind = :kind_agent) as agents, SUM(m.ikind = :kind_user) as users, ROUND(AVG(t.dtmchatstarted-t.dtmcreated),1) as avgwaitingtime, ROUND(AVG(tmp.lastmsgtime - t.dtmchatstarted),1) as avgchattime " .
-		"from {chatmessage} m, {chatthread} t, (SELECT i.threadid, MAX(i.dtmcreated) AS lastmsgtime FROM {chatmessage} i WHERE (ikind = :kind_user OR ikind = :kind_agent) GROUP BY i.threadid) tmp " .
+		"from {indexedchatmessage} m, {chatthread} t, (SELECT i.threadid, MAX(i.dtmcreated) AS lastmsgtime FROM {indexedchatmessage} i WHERE (ikind = :kind_user OR ikind = :kind_agent) GROUP BY i.threadid) tmp " .
 		"where m.threadid = t.threadid AND tmp.threadid = t.threadid AND t.dtmchatstarted <> 0 AND m.dtmcreated >= :start AND m.dtmcreated < :end",
 		array(
 			':kind_agent' => Thread::KIND_AGENT,
@@ -103,7 +103,7 @@ if ($statisticstype == 'bydate') {
 	$page['reportByAgent'] = $db->query(
 		"select vclocalename as name, COUNT(distinct threadid) as threads, " .
 		"SUM(ikind = :kind_agent) as msgs, AVG(CHAR_LENGTH(tmessage)) as avglen " .
-		"from {chatmessage}, {chatoperator} " .
+		"from {indexedchatmessage}, {chatoperator} " .
 		"where agentId = operatorid AND dtmcreated >= :start " .
 		"AND dtmcreated < :end group by operatorid",
 		array(

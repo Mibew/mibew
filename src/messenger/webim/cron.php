@@ -15,7 +15,10 @@
  * limitations under the License.
  */
 
+// Initialize librariess
 require_once('libs/init.php');
+require_once('libs/classes/thread.php');
+require_once('libs/cron.php');
 
 $cron_key = empty($_GET['cron_key']) ? '' : $_GET['cron_key'];
 
@@ -23,6 +26,11 @@ $cron_key = empty($_GET['cron_key']) ? '' : $_GET['cron_key'];
 if ($cron_key != Settings::get('cron_key')) {
 	die();
 }
+
+set_time_limit(0);
+
+// Run cron jobs of the core
+cron_index_messages();
 
 // Trigger cron event
 $dispatcher = EventDispatcher::getInstance();

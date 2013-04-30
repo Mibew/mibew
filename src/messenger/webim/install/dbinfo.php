@@ -71,7 +71,23 @@ $dbtables = array(
 		"arguments" => "varchar(1024)"
 	),
 
+	// Temporal message storage. Contain only messages for for open threads.
+	// There is cron job that clean up this table and move messages of the core
+	// kinds to ${mysqlprefix}indexedchatmessage. Plugins messages must be
+	// converted to one of the core kinds before move.
 	"${mysqlprefix}chatmessage" => array(
+		"messageid" => "int NOT NULL auto_increment PRIMARY KEY",
+		"threadid" => "int NOT NULL references ${mysqlprefix}chatthread(threadid)",
+		"ikind" => "int NOT NULL",
+		"agentId" => "int NOT NULL DEFAULT 0",
+		"tmessage" => "text NOT NULL",
+		"dtmcreated" => "int NOT NULL DEFAULT 0",
+		"tname" => "varchar(64)"
+	),
+
+	// Indexed messages used for search, history and statistics.
+	// Contain messages only of the Core kinds.
+	"${mysqlprefix}indexedchatmessage" => array(
 		"messageid" => "int NOT NULL auto_increment PRIMARY KEY",
 		"threadid" => "int NOT NULL references ${mysqlprefix}chatthread(threadid)",
 		"ikind" => "int NOT NULL",
@@ -174,6 +190,9 @@ $dbtables_indexes = array(
 	"${mysqlprefix}chatmessage" => array(
 		"idx_agentid" => "agentid"
 	),
+	"${mysqlprefix}indexedchatmessage" => array(
+		"agentid" => "agentid"
+	),
 	"${mysqlprefix}chatsitevisitor" => array(
 		"threadid" => "threadid"
 	),
@@ -197,6 +216,7 @@ $dbtables_can_update = array(
 	"${mysqlprefix}chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount", "nextagent", "shownmessageid", "userid", "userAgent", "groupid", "dtmchatstarted"),
 	"${mysqlprefix}requestbuffer" => array("requestid", "requestkey", "request"),
 	"${mysqlprefix}chatmessage" => array("agentId"),
+	"${mysqlprefix}indexedchatmessage" => array(),
 	"${mysqlprefix}chatoperator" => array("vcavatar", "vcjabbername", "iperm", "istatus", "idisabled", "vcemail", "dtmrestore", "vcrestoretoken"),
 	"${mysqlprefix}chatban" => array(),
 	"${mysqlprefix}chatgroup" => array("vcemail", "iweight", "parent", "vctitle", "vcchattitle", "vclogo", "vchosturl"),

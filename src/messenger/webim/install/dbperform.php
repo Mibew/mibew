@@ -225,6 +225,10 @@ if ($act == "silentcreateall") {
 			runsql("ALTER TABLE ${mysqlprefix}chatmessage ADD INDEX idx_agentid (agentid)", $link);
 		}
 
+		if (in_array("${mysqlprefix}indexedchatmessage.agentid", $absent_indexes)) {
+			runsql("ALTER TABLE ${mysqlprefix}indexedchatmessage ADD INDEX (agentid)", $link);
+		}
+
 		if (in_array("${mysqlprefix}chatsitevisitor.threadid", $absent_indexes)) {
 			runsql("ALTER TABLE ${mysqlprefix}chatsitevisitor ADD INDEX (threadid)", $link);
 		}
