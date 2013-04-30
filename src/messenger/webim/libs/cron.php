@@ -37,6 +37,10 @@
  *  - 'kind': int, indexed message kind. It must be one of the core messages
  *    kinds, not Thread::KIND_PLUGIN.
  *  - 'message': string, text of indexed message.
+ *  - 'sender_name': string, name of person who sent the message. This field is
+ *    arbitrary and do not use for some messages kinds.
+ *  - 'operator_id': int, ID of the operator who send the message. This field is
+ *    arbitrary and do not use for some messages kinds.
  *
  * If the 'result' element equals to boolean false message will be skipped.
  *
@@ -120,6 +124,14 @@ function cron_index_messages() {
 			// Update message
 			$messages[$key]['ikind'] = $event_args['result']['kind'];
 			$messages[$key]['tmessage'] = $event_args['result']['message'];
+
+			if (array_key_exists('sender_name', $event_args['result'])) {
+				$messages[$key]['tname'] = $event_args['result']['sender_name'];
+			}
+
+			if (array_key_exists('operator_id', $event_args['result'])) {
+				$messages[$key]['agentId'] = $event_args['result']['operator_id'];
+			}
 		}
 
 		// Check is there some messages that should be saved
