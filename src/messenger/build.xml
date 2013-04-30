@@ -1,4 +1,4 @@
-<project name="mibew messenger" default="usage">
+<project name="mibew messenger" default="all">
 
 
     <property name="webim_path" value="webim" />
@@ -8,27 +8,8 @@
     <property name="js_path" value="${webim_path}/js" />
 
 
-    <!-- Help message about all available targets -->
-    <target name="usage">
-        <echo>Available targets:
-        styles_handlebars - Compile Handlebars templates for dialogs styles
-        styles_js - Compile JavaScript files for all dialogs styles
-        styles_all - Run styles_handlebars and styles_js tasks
-
-        default_app_js - Build JavaScript files related to default application
-        chat_app_js - Build JavaScript files related to chat application
-        invite_app_js - Build JavaScript files related to invite application
-        thread_log_app_js - Build JavaScript files related to thread log application
-        users_app_js - Build JavaScript files related to users application
-
-        core_handlebars - Compile Handlebars templates of the Core
-
-        all - Build everything</echo>
-    </target>
-
-
     <!-- Compile Handlebars templates for dialogs styles -->
-    <target name="styles_handlebars">
+    <target name="styles_handlebars" description="Compile Handlebars templates for dialogs styles">
         <echo>Flatten templates directory structure</echo>
 
         <!-- Use system 'mkdir' instead of ant 'mkdir' task because it do not
@@ -119,7 +100,7 @@
 
 
     <!-- Compile and concatenate JavaScript files for dialog styles -->
-    <target name="styles_js">
+    <target name="styles_js" description="Compile JavaScript files for all dialogs styles">
         <echo>Compile and concatenate JavaScript files for dialogs styles:</echo>
 
         <!-- Create temporary directories for compiled JavaScript files -->
@@ -174,7 +155,7 @@
 
 
     <!-- Build all stuff related to dialogs styles -->
-    <target name="styles_all" depends="styles_handlebars,styles_js">
+    <target name="styles_all" depends="styles_handlebars,styles_js" description="Run styles_handlebars and styles_js targets">
         <echo>Dialogs styles built.</echo>
     </target>
 
@@ -336,7 +317,7 @@
 
 
     <!-- Build JavaScript files related to default application -->
-    <target name="default_app_js" depends="core_js">
+    <target name="default_app_js" depends="core_js" description="Build JavaScript files related to default application">
         <antcall target="app_js">
             <param name="app_name" value="default" />
         </antcall>
@@ -345,7 +326,7 @@
 
 
     <!-- Compile and concatenate JavaScript files related to chat application -->
-    <target name="chat_app_js" depends="default_app_js">
+    <target name="chat_app_js" depends="default_app_js" description="Build JavaScript files related to chat application">
         <antcall target="app_js">
             <param name="app_name" value="chat" />
         </antcall>
@@ -354,7 +335,7 @@
 
 
     <!-- Compile and concatenate JavaScript files related to invite application -->
-    <target name="invite_app_js" depends="default_app_js">
+    <target name="invite_app_js" depends="default_app_js" description="Build JavaScript files related to invite application">
         <antcall target="app_js">
             <param name="app_name" value="invite" />
         </antcall>
@@ -363,23 +344,25 @@
 
 
     <!-- Compile and concatenate JavaScript files related to users application -->
-    <target name="users_app_js" depends="default_app_js">
+    <target name="users_app_js" depends="default_app_js" description="Build JavaScript files related to users application">
         <antcall target="app_js">
             <param name="app_name" value="users" />
         </antcall>
         <echo>Users JavaScript application built.</echo>
     </target>
 
+
     <!-- Compile and concatenate JavaScript files related to thread log application -->
-    <target name="thread_log_app_js" depends="default_app_js">
+    <target name="thread_log_app_js" depends="default_app_js" description="Build JavaScript files related to thread log application">
         <antcall target="app_js">
             <param name="app_name" value="thread_log" />
         </antcall>
         <echo>Thread log JavaScript application built.</echo>
     </target>
 
+
     <!-- Compile Handlebars templates of the Core -->
-    <target name="core_handlebars">
+    <target name="core_handlebars" description="Compile Handlebars templates of the Core">
         <echo>Compile Handlebars templates of the Core</echo>
         <!-- Compile applications templates -->
         <apply executable="${handlebars}">
@@ -445,8 +428,9 @@
         <echo>Done</echo>
     </target>
 
+
     <!-- Build all project -->
-    <target name="all" depends="chat_app_js,invite_app_js,thread_log_app_js,users_app_js,styles_all">
+    <target name="all" depends="chat_app_js,invite_app_js,thread_log_app_js,users_app_js,styles_all" description="Build everything">
         <echo>Mibew Messenger built.</echo>
     </target>
 
