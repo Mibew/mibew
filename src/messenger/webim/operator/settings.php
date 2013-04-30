@@ -19,6 +19,7 @@ require_once('../libs/init.php');
 require_once('../libs/operator.php');
 require_once('../libs/settings.php');
 require_once('../libs/styles.php');
+require_once('../libs/cron.php');
 
 $operator = check_login();
 force_password($operator);
@@ -109,13 +110,7 @@ $page['stored'] = isset($_GET['stored']);
 $page['enabletracking'] = Settings::get('enabletracking');
 $page['formcronkey'] = $params['cron_key'];
 
-$page['cron_path'] = (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off')
-	? 'http://'
-	: 'https://';
-$page['cron_path'] .= $_SERVER['SERVER_NAME'] . $webimroot . '/cron.php';
-$page['cron_path'] .= empty($params['cron_key'])
-	? ''
-	: '?cron_key='.$params['cron_key'];
+$page['cron_path'] = cron_get_uri($params['cron_key']);
 
 if (Settings::get('enabletracking')) {
 	$page['forminvitationstyle'] = $params['invitationstyle'];
@@ -126,4 +121,5 @@ prepare_menu($operator);
 setup_settings_tabs(0);
 start_html_output();
 require('../view/settings.php');
+
 ?>
