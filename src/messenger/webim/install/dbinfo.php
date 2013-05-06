@@ -57,6 +57,16 @@ $dbtables = array(
 		"groupid" => "int references ${mysqlprefix}chatgroup(groupid)",
 	),
 
+	"${mysqlprefix}chatthreadstatistics" => array(
+		"statid" => "int NOT NULL auto_increment PRIMARY KEY",
+		"date" => "int NOT NULL DEFAULT 0",
+		"threads" => "int NOT NULL DEFAULT 0",
+		"operatormessages" => "int NOT NULL DEFAULT 0",
+		"usermessages" => "int NOT NULL DEFAULT 0",
+		"averagewaitingtime" => "FLOAT(10, 1) NOT NULL DEFAULT 0",
+		"averagechattime" => "FLOAT(10, 1) NOT NULL DEFAULT 0"
+	),
+
 	"${mysqlprefix}requestbuffer" => array(
 		"requestid" => "int NOT NULL auto_increment PRIMARY KEY",
 		// Use MD5 hashes as keys
@@ -112,6 +122,15 @@ $dbtables = array(
 		"iperm" => "int DEFAULT 0", /* Do not grant all privileges by default */
 		"dtmrestore" => "int NOT NULL DEFAULT 0",
 		"vcrestoretoken" => "varchar(64)",
+	),
+
+	"${mysqlprefix}chatoperatorstatistics" => array(
+		"statid" => "int NOT NULL auto_increment PRIMARY KEY",
+		"date" => "int NOT NULL DEFAULT 0",
+		"operatorid" => "int NOT NULL",
+		"threads" => "int NOT NULL DEFAULT 0",
+		"messages" => "int NOT NULL DEFAULT 0",
+		"averagelength" => "FLOAT(10, 1) NOT NULL DEFAULT 0"
 	),
 
 	"${mysqlprefix}chatrevision" => array(
@@ -180,6 +199,9 @@ $dbtables_indexes = array(
 	"${mysqlprefix}chatgroup" => array(
 		"parent" => "parent"
 	),
+	"${mysqlprefix}chatoperatorstatistics" => array(
+		"operatorid" => "operatorid"
+	),
 	"${mysqlprefix}chatgroupoperator" => array(
 		"groupid" => "groupid",
 		"operatorid" => "operatorid"
@@ -208,10 +230,12 @@ $memtables = array();
 
 $dbtables_can_update = array(
 	"${mysqlprefix}chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount", "nextagent", "shownmessageid", "userid", "userAgent", "groupid", "dtmchatstarted"),
+	"${mysqlprefix}chatthreadstatistics" => array(),
 	"${mysqlprefix}requestbuffer" => array("requestid", "requestkey", "request"),
 	"${mysqlprefix}chatmessage" => array("agentId"),
 	"${mysqlprefix}indexedchatmessage" => array(),
 	"${mysqlprefix}chatoperator" => array("vcavatar", "vcjabbername", "iperm", "istatus", "idisabled", "vcemail", "dtmrestore", "vcrestoretoken"),
+	"${mysqlprefix}chatoperatorstatistics" => array(),
 	"${mysqlprefix}chatban" => array(),
 	"${mysqlprefix}chatgroup" => array("vcemail", "iweight", "parent", "vctitle", "vcchattitle", "vclogo", "vchosturl"),
 	"${mysqlprefix}chatgroupoperator" => array(),

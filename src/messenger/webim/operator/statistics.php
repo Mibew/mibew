@@ -19,6 +19,7 @@ require_once('../libs/init.php');
 require_once('../libs/chat.php');
 require_once('../libs/operator.php');
 require_once('../libs/statistics.php');
+require_once('../libs/cron.php');
 
 $operator = check_login();
 force_password($operator);
@@ -35,6 +36,10 @@ $page['type'] = $statisticstype;
 $page['showbydate'] = ($statisticstype == 'bydate');
 $page['showbyagent'] = ($statisticstype == 'byagent');
 $page['showbypage'] = ($statisticstype == 'bypage');
+
+$page['noresults'] = false;
+$page['cron_path'] = cron_get_uri(Settings::get('cron_key'));
+
 $errors = array();
 
 if (isset($_GET['startday'])) {
@@ -74,45 +79,61 @@ $activetab = 0;
 $db = Database::getInstance();
 if ($statisticstype == 'bydate') {
 	$page['reportByDate'] = $db->query(
-		"select DATE(FROM_UNIXTIME(t.dtmcreated)) as date, COUNT(distinct t.threadid) as threads, SUM(m.ikind = :kind_agent) as agents, SUM(m.ikind = :kind_user) as users, ROUND(AVG(t.dtmchatstarted-t.dtmcreated),1) as avgwaitingtime, ROUND(AVG(tmp.lastmsgtime - t.dtmchatstarted),1) as avgchattime " .
-		"from {indexedchatmessage} m, {chatthread} t, (SELECT i.threadid, MAX(i.dtmcreated) AS lastmsgtime  FROM {indexedchatmessage} i WHERE (ikind = :kind_user OR ikind = :kind_agent) GROUP BY i.threadid) tmp " .
-		"where m.threadid = t.threadid AND tmp.threadid = t.threadid AND t.dtmchatstarted <> 0 AND m.dtmcreated >= :start AND m.dtmcreated < :end group by DATE(FROM_UNIXTIME(m.dtmcreated)) order by m.dtmcreated desc",
+		"SELECT DATE(FROM_UNIXTIME(date)) AS date, " .
+			"threads, " .
+			"operatormessages AS agents, " .
+			"usermessages AS users, " .
+			"averagewaitingtime AS avgwaitingtime, " .
+			"averagechattime AS avgchattime " .
+		"FROM {chatthreadstatistics} s " .
+		"WHERE s.date >= :start " .
+			"AND s.date < :end " .
+		"ORDER BY s.date DESC",
 		array(
-			':kind_agent' => Thread::KIND_AGENT,
-			':kind_user' => Thread::KIND_USER,
 			':start' => $start,
 			':end' => $end
 		),
 		array('return_rows' => Database::RETURN_ALL_ROWS)
 	);
-	
+
+	$page['noresults'] = empty($page['reportByDate']);
+
 	$page['reportByDateTotal'] = $db->query(
-		"select DATE(FROM_UNIXTIME(t.dtmcreated)) as date, COUNT(distinct t.threadid) as threads, SUM(m.ikind = :kind_agent) as agents, SUM(m.ikind = :kind_user) as users, ROUND(AVG(t.dtmchatstarted-t.dtmcreated),1) as avgwaitingtime, ROUND(AVG(tmp.lastmsgtime - t.dtmchatstarted),1) as avgchattime " .
-		"from {indexedchatmessage} m, {chatthread} t, (SELECT i.threadid, MAX(i.dtmcreated) AS lastmsgtime FROM {indexedchatmessage} i WHERE (ikind = :kind_user OR ikind = :kind_agent) GROUP BY i.threadid) tmp " .
-		"where m.threadid = t.threadid AND tmp.threadid = t.threadid AND t.dtmchatstarted <> 0 AND m.dtmcreated >= :start AND m.dtmcreated < :end",
+		"SELECT DATE(FROM_UNIXTIME(date)) AS date, " .
+			"SUM(threads) AS threads, " .
+			"SUM(operatormessages) AS agents, " .
+			"SUM(usermessages) AS users, " .
+			"ROUND(SUM(averagewaitingtime * s.threads) / SUM(s.threads),1) AS avgwaitingtime, " .
+			"ROUND(SUM(averagechattime * s.threads) / SUM(s.threads),1) AS avgchattime " .
+		"FROM {chatthreadstatistics} s " .
+		"WHERE s.date >= :start " .
+			"AND s.date < :end",
 		array(
-			':kind_agent' => Thread::KIND_AGENT,
-			':kind_user' => Thread::KIND_USER,
 			':start' => $start,
 			':end' => $end
 		),
 		array('return_rows' => Database::RETURN_ONE_ROW)
 	);
+
 	$activetab = 0;
 } elseif($statisticstype == 'byagent') {
 	$page['reportByAgent'] = $db->query(
-		"select vclocalename as name, COUNT(distinct threadid) as threads, " .
-		"SUM(ikind = :kind_agent) as msgs, AVG(CHAR_LENGTH(tmessage)) as avglen " .
-		"from {indexedchatmessage}, {chatoperator} " .
-		"where agentId = operatorid AND dtmcreated >= :start " .
-		"AND dtmcreated < :end group by operatorid",
+		"SELECT o.vclocalename AS name, " .
+			"s.threads AS threads, " .
+			"s.messages AS msgs, " .
+			"s.averagelength AS avglen " .
+		"FROM {chatoperatorstatistics} s, {chatoperator} o " .
+		"WHERE s.operatorid = o.operatorid " .
+			"AND s.date >= :start " .
+			"AND s.date < :end " .
+		"GROUP BY s.operatorid",
 		array(
-			':kind_agent' => Thread::KIND_AGENT,
 			':start' => $start,
 			':end' => $end
 		),
 		array('return_rows' => Database::RETURN_ALL_ROWS)
 	);
+	$page['noresults'] = empty($page['reportByAgent']);
 	$activetab = 1;
 } elseif($statisticstype == 'bypage') {
 	$page['reportByPage'] = $db->query(

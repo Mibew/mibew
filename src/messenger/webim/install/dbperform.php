@@ -237,6 +237,9 @@ if ($act == "silentcreateall") {
 			runsql("ALTER TABLE ${mysqlprefix}visitedpage ADD INDEX (visitorid)", $link);
 		}
 
+		if (in_array("${mysqlprefix}chatoperatorstatistics.operatorid", $absent_indexes)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatoperatorstatistics ADD INDEX (operatorid)", $link);
+		}
 	}
 }
 

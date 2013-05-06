@@ -24,6 +24,10 @@ $page['menuid'] = "statistics";
 function tpl_content() { global $page, $webimroot, $errors;
 ?>
 
+<?php if($page['noresults']) { ?>
+<div id="formmessage"><?php echo getlocal2("cron.check.setup", array($page['cron_path'])) ?></div>
+<?php } ?>
+
 <?php echo getlocal("statistics.description") ?>
 <br />
 <br />

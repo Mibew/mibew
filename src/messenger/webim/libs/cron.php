@@ -203,6 +203,123 @@ function cron_index_messages() {
 }
 
 /**
+ * Calculate aggregated 'by thread' and 'by operator' statistics
+ */
+function cron_calculate_statistics() {
+	// Prepare database
+	$db = Database::getInstance();
+	$db->throwExeptions(true);
+
+	try {
+		// Start transaction
+		$db->query('START TRANSACTION');
+
+		// Build 'by thread' statistics
+		// Get last record date
+		$result = $db->query(
+			"SELECT MAX(date) as start FROM {chatthreadstatistics}",
+			array(),
+			array('return_rows' => Database::RETURN_ONE_ROW)
+		);
+
+		$start = empty($result['start']) ? 0 : $result['start'];
+
+		// Reset statistics for the last day, because cron can be ran many
+		// times in a day.
+		$result = $db->query(
+			"DELETE FROM {chatthreadstatistics} WHERE date = :start",
+			array(':start' => $start)
+		);
+
+		// Calculate 'by thread' statistics
+		$db->query(
+			"INSERT INTO {chatthreadstatistics} ( " .
+				"date, threads, operatormessages, usermessages, " .
+				"averagewaitingtime, averagechattime " .
+			") SELECT (FLOOR(t.dtmcreated / (24*60*60)) * 24*60*60) AS date, " .
+				"COUNT(distinct t.threadid) AS threads, " .
+				"SUM(m.ikind = :kind_agent) AS operators, " .
+				"SUM(m.ikind = :kind_user) AS users, " .
+				"ROUND(AVG(t.dtmchatstarted-t.dtmcreated),1) as avgwaitingtime, " .
+				// Prevent negative values of avgchattime field.
+				// If avgchattime < 0 it becomes to zero.
+				// For random value 'a' result of expression ((abs(a) + a) / 2)
+				// equals to 'a' if 'a' more than zero
+				// and equals to zero otherwise
+				"ROUND(AVG( " .
+					"ABS(tmp.lastmsgtime-t.dtmchatstarted) + " .
+					"(tmp.lastmsgtime-t.dtmchatstarted) " .
+				")/2,1) as avgchattime " .
+			"FROM {indexedchatmessage} m, " .
+				"{chatthread} t, " .
+				"(SELECT i.threadid, MAX(i.dtmcreated) AS lastmsgtime " .
+					"FROM {indexedchatmessage} i " .
+					"WHERE (ikind = :kind_user OR ikind = :kind_agent) " .
+					"GROUP BY i.threadid) tmp " .
+			"WHERE m.threadid = t.threadid " .
+				"AND tmp.threadid = t.threadid " .
+				"AND t.dtmchatstarted <> 0 " .
+				"AND m.dtmcreated > :start " .
+			"GROUP BY date " .
+			"ORDER BY date",
+			array(
+				':kind_agent' => Thread::KIND_AGENT,
+				':kind_user' => Thread::KIND_USER,
+				':start' => $start
+			)
+		);
+
+		// Build 'by operator' statistics
+		// Get last record date
+		$result = $db->query(
+			"SELECT MAX(date) as start FROM {chatoperatorstatistics}",
+			array(),
+			array('return_rows' => Database::RETURN_ONE_ROW)
+		);
+
+		$start = empty($result['start']) ? 0 : $result['start'];
+
+		// Reset statistics for the last day, because cron can be ran many
+		// times in a day.
+		$result = $db->query(
+			"DELETE FROM {chatoperatorstatistics} WHERE date = :start",
+			array(':start' => $start)
+		);
+
+		// Caclculate 'by operator' statistics
+		$db->query(
+			"INSERT INTO {chatoperatorstatistics} ( " .
+				"date, operatorid, threads, messages, averagelength" .
+			") SELECT (FLOOR(m.dtmcreated / (24*60*60)) * 24*60*60) AS date, " .
+				"o.operatorid AS opid, " .
+				"COUNT(distinct m.threadid) AS threads, " .
+				"SUM(m.ikind = :kind_agent) AS msgs, " .
+				"AVG(CHAR_LENGTH(m.tmessage)) AS avglen " .
+			"FROM {indexedchatmessage} m, {chatoperator} o " .
+			"WHERE m.agentId = o.operatorid " .
+				"AND m.dtmcreated > :start " .
+			"GROUP BY date " .
+			"ORDER BY date",
+			array(
+				':kind_agent' => Thread::KIND_AGENT,
+				':start' => $start
+			)
+		);
+	} catch(Exception $e) {
+		// Something went wrong: warn and rollback transaction.
+		trigger_error(
+			'Statistics calculating faild: ' . $e->getMessage(),
+			E_USER_WARNING
+		);
+		$db->query('ROLLBACK');
+		return;
+	}
+
+	// Commit transaction
+	$db->query('COMMIT');
+}
+
+/**
  * Generates cron URI
  *
  * @global string $webimroot Path of the mibew instalation from server root.

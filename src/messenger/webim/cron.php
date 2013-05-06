@@ -31,6 +31,7 @@ set_time_limit(0);
 
 // Run cron jobs of the core
 cron_index_messages();
+cron_calculate_statistics();
 
 // Trigger cron event
 $dispatcher = EventDispatcher::getInstance();
