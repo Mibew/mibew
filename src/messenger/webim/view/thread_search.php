@@ -21,7 +21,7 @@ $page['menuid'] = "history";
 
 function tpl_content() { global $page, $webimroot;
 ?>
-<?php if (! $page['pagination.items']) { ?>
+<?php if ($page['pagination'] && !$page['pagination.items']) { ?>
 <div id="formmessage"><?php echo getlocal2("cron.check.setup", array($page['cron_path'])) ?></div>
 <?php } ?>
 
