@@ -18,6 +18,7 @@
 // Initialize librariess
 require_once('libs/init.php');
 require_once('libs/classes/thread.php');
+require_once('libs/track.php');
 require_once('libs/cron.php');
 
 $cron_key = empty($_GET['cron_key']) ? '' : $_GET['cron_key'];

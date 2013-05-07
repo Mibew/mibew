@@ -137,12 +137,17 @@ if ($statisticstype == 'bydate') {
 	$activetab = 1;
 } elseif($statisticstype == 'bypage') {
 	$page['reportByPage'] = $db->query(
-		"SELECT COUNT(DISTINCT p.pageid) as visittimes, p.address, COUNT(DISTINCT t.threadid) as chattimes " .
-		"FROM {visitedpagestatistics} p LEFT OUTER JOIN {chatthread} t ON (p.address = t.referer AND DATE(FROM_UNIXTIME(p.visittime)) = DATE(FROM_UNIXTIME(t.dtmcreated))) " .
-		"WHERE p.visittime >= :start AND p.visittime < :end GROUP BY p.address",
+		"SELECT SUM(visits) as visittimes, " .
+			"address, " .
+			"SUM(chats) as chattimes " .
+		"FROM {visitedpagestatistics} " .
+		"WHERE date >= :start " .
+			"AND date < :end " .
+		"GROUP BY address",
 		array(':start' => $start, ':end' => $end),
 		array('return_rows' => Database::RETURN_ALL_ROWS)
 	);
+	$page['noresults'] = empty($page['reportByPage']);
 	$activetab = 2;
 }
 $page['showresults'] = count($errors) == 0;

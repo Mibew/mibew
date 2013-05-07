@@ -186,12 +186,16 @@ $dbtables = array(
 		"address" => "varchar(1024)",
 		"visittime" => "int NOT NULL DEFAULT 0",
 		"visitorid" => "INT",
+		// Indicates if path included in 'by page' statistics
+		"calculated" => "tinyint NOT NULL DEFAULT 0"
 	),
 
 	"${mysqlprefix}visitedpagestatistics" => array(
 		"pageid" => "INT NOT NULL auto_increment PRIMARY KEY",
+		"date" => "int NOT NULL DEFAULT 0",
 		"address" => "varchar(1024)",
-		"visittime" => "int NOT NULL DEFAULT 0"
+		"visits" => "int NOT NULL DEFAULT 0",
+		"chats" => "int NOT NULL DEFAULT 0"
 	),
 );
 

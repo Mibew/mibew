@@ -123,14 +123,6 @@ function track_visit_page($visitorid, $page)
 				':now' => time()
 			)
 		);
-		$db->query(
-			"insert into {visitedpagestatistics} (address, visittime) " .
-			"values (:page, :now)",
-			array(
-				':page' =>  $page,
-				':now' => time()
-			)
-		);
 	}
 }
 
@@ -202,8 +194,11 @@ function track_remove_old_tracks() {
 
 	// Remove old visitors' tracks
 	$db->query(
-		"DELETE FROM {visitedpage} WHERE (:now - visittime) > :lifetime " .
-		" AND visitorid NOT IN (SELECT visitorid FROM {chatsitevisitor})",
+		"DELETE FROM {visitedpage} " .
+		"WHERE (:now - visittime) > :lifetime " .
+			// Remove only tracks that are included in statistics
+			"AND calculated = 1 " .
+			"AND visitorid NOT IN (SELECT visitorid FROM {chatsitevisitor}) ",
 		array(
 			':lifetime' => Settings::get('tracking_lifetime'),
 			':now' => time()

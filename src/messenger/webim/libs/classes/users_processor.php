@@ -360,9 +360,8 @@ class UsersProcessor extends ClientSideProcessor {
 		// Close old invitations
 		invitation_close_old();
 
-		// Remove old visitors and visitors tracks
+		// Remove old visitors
 		track_remove_old_visitors();
-		track_remove_old_tracks();
 
 		// Get instance of event dispatcher
 		$dispatcher = EventDispatcher::getInstance();
