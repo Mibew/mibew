@@ -45,7 +45,7 @@ function setup_statistics_tabs($active)
 function calculate_thread_statistics() {
 	// Prepare database
 	$db = Database::getInstance();
-	$db->throwExeptions(true);
+	$db_throw_exceptions = $db->throwExeptions(true);
 
 	try {
 		// Start transaction
@@ -111,11 +111,17 @@ function calculate_thread_statistics() {
 			E_USER_WARNING
 		);
 		$db->query('ROLLBACK');
+
+		// Set throw exceptions back
+		$db->throwExeptions($db_throw_exceptions);
 		return;
 	}
 
 	// Commit transaction
 	$db->query('COMMIT');
+
+	// Set throw exceptions back
+	$db->throwExeptions($db_throw_exceptions);
 }
 
 /**
@@ -124,7 +130,7 @@ function calculate_thread_statistics() {
 function calculate_operator_statistics() {
 	// Prepare database
 	$db = Database::getInstance();
-	$db->throwExeptions(true);
+	$db_throw_exceptions = $db->throwExeptions(true);
 
 	try {
 		// Start transaction
@@ -172,11 +178,17 @@ function calculate_operator_statistics() {
 			E_USER_WARNING
 		);
 		$db->query('ROLLBACK');
+
+		// Set throw exceptions back
+		$db->throwExeptions($db_throw_exceptions);
 		return;
 	}
 
 	// Commit transaction
 	$db->query('COMMIT');
+
+	// Set throw exceptions back
+	$db->throwExeptions($db_throw_exceptions);
 }
 
 /**
@@ -185,7 +197,7 @@ function calculate_operator_statistics() {
 function calculate_page_statistics() {
 	// Prepare database
 	$db = Database::getInstance();
-	$db->throwExeptions(true);
+	$db_throw_exceptions = $db->throwExeptions(true);
 
 	try {
 		// Start transaction
@@ -277,11 +289,17 @@ function calculate_page_statistics() {
 			E_USER_WARNING
 		);
 		$db->query('ROLLBACK');
+
+		// Set throw exceptions back
+		$db->throwExeptions($db_throw_exceptions);
 		return;
 	}
 
 	// Commit transaction
 	$db->query('COMMIT');
+
+	// Set throw exceptions back
+	$db->throwExeptions($db_throw_exceptions);
 }
 
 ?>
