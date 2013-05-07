@@ -19,6 +19,7 @@
 require_once('libs/init.php');
 require_once('libs/classes/thread.php');
 require_once('libs/track.php');
+require_once('libs/statistics.php');
 require_once('libs/cron.php');
 
 $cron_key = empty($_GET['cron_key']) ? '' : $_GET['cron_key'];
@@ -32,7 +33,11 @@ set_time_limit(0);
 
 // Run cron jobs of the core
 cron_index_messages();
-cron_calculate_statistics();
+
+calculate_thread_statistics();
+calculate_operator_statistics();
+calculate_page_statistics();
+
 
 // Trigger cron event
 $dispatcher = EventDispatcher::getInstance();
