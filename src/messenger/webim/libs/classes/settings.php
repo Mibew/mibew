@@ -103,7 +103,14 @@ Class Settings {
 			'invitation_lifetime' => 60, /* Lifetime for invitation to chat */
 			'tracking_lifetime' => 600, /* Time to store tracked old visitors' data */
 
-			'cron_key' => $default_cron_key
+			'cron_key' => $default_cron_key,
+
+			// System values are listed below. They cannot be changed via
+			// administrative interface. Start names for these values from
+			// underscore sign(_).
+
+			// Unix timestamp when cron job ran last time.
+			'_last_cron_run' => 0
 		);
 
 		// Load values from database

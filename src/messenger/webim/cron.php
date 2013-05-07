@@ -38,9 +38,12 @@ calculate_thread_statistics();
 calculate_operator_statistics();
 calculate_page_statistics();
 
-
 // Trigger cron event
 $dispatcher = EventDispatcher::getInstance();
 $dispatcher->triggerEvent('cronRun');
+
+// Update time of last cron run
+Settings::set('_last_cron_run', time());
+Settings::update();
 
 ?>
