@@ -37,8 +37,8 @@ $page['showbydate'] = ($statisticstype == 'bydate');
 $page['showbyagent'] = ($statisticstype == 'byagent');
 $page['showbypage'] = ($statisticstype == 'bypage');
 
-$page['noresults'] = false;
 $page['cron_path'] = cron_get_uri(Settings::get('cron_key'));
+$page['last_cron_run'] = Settings::get('_last_cron_run');
 
 $errors = array();
 
@@ -96,8 +96,6 @@ if ($statisticstype == 'bydate') {
 		array('return_rows' => Database::RETURN_ALL_ROWS)
 	);
 
-	$page['noresults'] = empty($page['reportByDate']);
-
 	$page['reportByDateTotal'] = $db->query(
 		"SELECT DATE(FROM_UNIXTIME(date)) AS date, " .
 			"SUM(threads) AS threads, " .
@@ -133,7 +131,6 @@ if ($statisticstype == 'bydate') {
 		),
 		array('return_rows' => Database::RETURN_ALL_ROWS)
 	);
-	$page['noresults'] = empty($page['reportByAgent']);
 	$activetab = 1;
 } elseif($statisticstype == 'bypage') {
 	$page['reportByPage'] = $db->query(
@@ -147,7 +144,6 @@ if ($statisticstype == 'bydate') {
 		array(':start' => $start, ':end' => $end),
 		array('return_rows' => Database::RETURN_ALL_ROWS)
 	);
-	$page['noresults'] = empty($page['reportByPage']);
 	$activetab = 2;
 }
 $page['showresults'] = count($errors) == 0;

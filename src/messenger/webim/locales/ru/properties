@@ -114,7 +114,6 @@ confirm.take.yes=Да, я уверен
 content.blocked=Здесь можно защищаться от спама и вредных посетителей.
 content.history=Поиск по истории диалогов.
 content.logoff=Покинуть систему.
-cron.check.setup=Убедитесь, что cron настроен правильно или запустите его <a href="{0}">вручную</a>.
 data.saved=Изменения сохранены
 demo.chat.question=Посоветуйте мне, пожалуйста, хороший браузер? 
 demo.chat.welcome=Здравствуйте! Чем я могу Вам помочь?
@@ -396,7 +395,7 @@ page_login.operator.disabled=Ваша учетная запись временно заблокированна. Пожалу
 page_login.password=Пароль:
 page_login.remember=Запомнить
 page_login.title=Вход в систему
-page_search.intro=На данной странице можно осуществить поиск диалогов по имени пользователя, имени оператора или фразе, встречающейся в сообщении.
+page_search.intro=На данной странице можно осуществить поиск диалогов по имени пользователя, имени оператора или фразе, встречающейся в сообщении. Последний раз сообщения индексировались {0}. Вы можете выполнить индексацию <a href="{1}" target="_blank">вручную</a>.
 page_search.type.all=везде
 page_search.search.type.in_system_messages=Искать в системных сообщениях
 page_search.type.message=в сообщениях
@@ -567,7 +566,7 @@ settings.wrong.threadlifetime=Поле "Время жизни диалога" должно быть числом
 site.title=mibew.org
 site.url=http://mibew.org
 statistics.dates=Выберите даты
-statistics.description=Различные отчеты по посетителям и использованию мессенджера.
+statistics.description=Различные отчеты по посетителям и использованию мессенджера. Последний раз статистика собиралась {0}. Вы можете собрать ее <a href="{1}" target="_blank">вручную</a>.
 statistics.from=С:
 statistics.till=По:
 statistics.title=Статистика

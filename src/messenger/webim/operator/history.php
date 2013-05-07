@@ -93,6 +93,7 @@ if ($query !== false) {
 $page['formtype'] = $searchType;
 $page['forminsystemmessages'] = $searchInSystemMessages;
 $page['cron_path'] = cron_get_uri(Settings::get('cron_key'));
+$page['last_cron_run'] = Settings::get('_last_cron_run');
 
 prepare_menu($operator);
 start_html_output();

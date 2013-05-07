@@ -114,7 +114,6 @@ confirm.take.yes=Yes. I'm sure
 content.blocked=Here you can block malicious visitors.
 content.history=Search the dialogs history.
 content.logoff=Log out of the system.
-cron.check.setup=Enshure that cron was set up correctly or run it <a href="{0}">manually</a>.
 data.saved=Changes saved
 demo.chat.question=There are so many browsers to choose from. Which ones do you recommend? 
 demo.chat.welcome=Hello. How may I help you?
@@ -396,7 +395,7 @@ page_login.login=Login:
 page_login.password=Password:
 page_login.remember=Remember
 page_login.title=Login
-page_search.intro=Search the chat history for a specified user, an operator or a specified phrase in messages.
+page_search.intro=Search the chat history for a specified user, an operator or a specified phrase in messages. Last time messages was indexed {0}. You can index them <a href="{1}" target="_blank">manually</a>.
 page_search.type.all=everywhere
 page_search.search.type.in_system_messages=Search in system messages
 page_search.type.message=in messages
@@ -565,7 +564,7 @@ settings.wrong.threadlifetime="Thread lifetime" field should be a number
 site.title=mibew.org
 site.url=http://mibew.org
 statistics.dates=Select dates
-statistics.description=From this page you can generate a variety of usage reports.
+statistics.description=From this page you can generate a variety of usage reports. Last time statistics was calculated {0}. You can calculate it <a href="{1}" target="_blank">manually</a>.
 statistics.from=From:
 statistics.till=Till:
 statistics.title=Statistics
