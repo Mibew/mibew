@@ -29,6 +29,9 @@ if ($cron_key != Settings::get('cron_key')) {
 	die();
 }
 
+// Determine use or not quiet mode
+$quiet = isset($_GET['q']);
+
 set_time_limit(0);
 
 // Run cron jobs of the core
@@ -45,5 +48,10 @@ $dispatcher->triggerEvent('cronRun');
 // Update time of last cron run
 Settings::set('_last_cron_run', time());
 Settings::update();
+
+if (! $quiet) {
+	// TODO: May be localize it
+	echo('All cron jobs done.');
+}
 
 ?>
