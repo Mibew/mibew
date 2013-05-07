@@ -217,11 +217,21 @@ Class Database{
 	}
 
 	/**
-	 * Set if exceptions must be process into the class or thrown.
-	 * @param boolean $value
+	 * Set if exceptions must be process into the class or thrown and return
+	 * previous value.
+	 *
+	 * If called without arguments just return previous value without changing
+	 * anything.
+	 *
+	 * @param boolean $value Value that should be set. This argument is optional
+	 * @return bool Previous value
 	 */
-	public function throwExeptions($value){
-		$this->throwExceptions = $value;
+	public function throwExeptions(){
+		$last_value = $this->throwExceptions;
+		if (func_num_args() > 0) {
+			$this->throwExceptions = func_get_arg(0);
+		}
+		return $last_value;
 	}
 
 	/**
