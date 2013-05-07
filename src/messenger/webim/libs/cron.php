@@ -63,7 +63,7 @@
  */
 function cron_index_messages() {
 	$db = Database::getInstance();
-	$db->throwExeptions(true);
+	$db_throw_exceptions = $db->throwExeptions(true);
 
 	try {
 		// Start transaction
@@ -195,11 +195,17 @@ function cron_index_messages() {
 			E_USER_WARNING
 		);
 		$db->query('ROLLBACK');
+
+		// Set throw exceptions back
+		$db->throwExeptions($db_throw_exceptions);
 		return;
 	}
 
 	// Commit transaction
 	$db->query('COMMIT');
+
+	// Set throw exceptions back
+	$db->throwExeptions($db_throw_exceptions);
 }
 
 /**
