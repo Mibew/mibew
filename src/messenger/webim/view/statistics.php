@@ -24,7 +24,7 @@ $page['menuid'] = "statistics";
 function tpl_content() { global $page, $webimroot, $errors;
 ?>
 
-<?php echo getlocal2("statistics.description", array(date_to_text($page['last_cron_run']), $page['cron_path'])) ?>
+<?php echo getlocal2("statistics.description.full", array(date_to_text($page['last_cron_run']), $page['cron_path'])) ?>
 <br />
 <br />
 <?php 

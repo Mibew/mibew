@@ -566,7 +566,8 @@ settings.wrong.threadlifetime=Поле "Время жизни диалога" должно быть числом
 site.title=mibew.org
 site.url=http://mibew.org
 statistics.dates=Выберите даты
-statistics.description=Различные отчеты по посетителям и использованию мессенджера. Последний раз статистика собиралась {0}. Вы можете собрать ее <a href="{1}" target="_blank">вручную</a>.
+statistics.description=Различные отчеты по посетителям и использованию мессенджера.
+statistics.description.full=Различные отчеты по посетителям и использованию мессенджера. Последний раз статистика собиралась {0}. Вы можете собрать ее <a href="{1}" target="_blank">вручную</a>.
 statistics.from=С:
 statistics.till=По:
 statistics.title=Статистика

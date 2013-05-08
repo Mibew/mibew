@@ -564,7 +564,8 @@ settings.wrong.threadlifetime="Thread lifetime" field should be a number
 site.title=mibew.org
 site.url=http://mibew.org
 statistics.dates=Select dates
-statistics.description=From this page you can generate a variety of usage reports. Last time statistics was calculated {0}. You can calculate it <a href="{1}" target="_blank">manually</a>.
+statistics.description=From this page you can generate a variety of usage reports.
+statistics.description.full=From this page you can generate a variety of usage reports. Last time statistics was calculated {0}. You can calculate it <a href="{1}" target="_blank">manually</a>.
 statistics.from=From:
 statistics.till=Till:
 statistics.title=Statistics
