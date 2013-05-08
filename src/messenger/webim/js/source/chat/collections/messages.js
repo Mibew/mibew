@@ -121,6 +121,12 @@
                     this.trigger(eventName, eventArgs);
 
                     if (eventArgs.model) {
+                        // Check if plugin set message id
+                        if (! eventArgs.model.get('id')) {
+                            // Message must have an id, set it
+                            eventArgs.model.set({'id': messageData.id});
+                        }
+
                         // Store custom plugin message in the collection
                         newMessages.push(
                             eventArgs.model
