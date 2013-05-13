@@ -59,13 +59,7 @@ function calculate_thread_statistics() {
 		);
 
 		$start = empty($result['start']) ? 0 : $result['start'];
-
-		// Reset statistics for the last day, because cron can be ran many
-		// times in a day.
-		$result = $db->query(
-			"DELETE FROM {chatthreadstatistics} WHERE date = :start",
-			array(':start' => $start)
-		);
+		$today = floor(time() / (24*60*60)) * 24*60*60;
 
 		// Calculate statistics
 		$db->query(
@@ -95,13 +89,16 @@ function calculate_thread_statistics() {
 			"WHERE m.threadid = t.threadid " .
 				"AND tmp.threadid = t.threadid " .
 				"AND t.dtmchatstarted <> 0 " .
-				"AND m.dtmcreated > :start " .
+				"AND (m.dtmcreated - :start) > 24*60*60 " .
+				// Calculate statistics only for threads that older than one day
+				"AND (:today - m.dtmcreated) > 24*60*60 " .
 			"GROUP BY date " .
 			"ORDER BY date",
 			array(
 				':kind_agent' => Thread::KIND_AGENT,
 				':kind_user' => Thread::KIND_USER,
-				':start' => $start
+				':start' => $start,
+				':today' => $today
 			)
 		);
 	} catch(Exception $e) {
