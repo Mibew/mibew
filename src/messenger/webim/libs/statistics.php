@@ -197,15 +197,23 @@ function calculate_page_statistics() {
 		// Start transaction
 		$db->query('START TRANSACTION');
 
-		$visited_pages = $db->query(
-			"SELECT FLOOR(p.visittime / (24*60*60)) * 24*60*60 AS date, " .
+		// Get last record date
+		$result = $db->query(
+			"SELECT MAX(date) as start FROM {visitedpagestatistics}",
+			array(),
+			array('return_rows' => Database::RETURN_ONE_ROW)
+		);
+
+		$start = empty($result['start']) ? 0 : $result['start'];
+		$today = floor(time() / (24*60*60)) * 24*60*60;
+
+		// Calculate statistics
+		$db->query(
+			"INSERT INTO {visitedpagestatistics} (" .
+				"date, address, visits, chats" .
+			") SELECT FLOOR(p.visittime / (24*60*60)) * 24*60*60 AS date, " .
 				"p.address AS address, " .
-				// 'visittimes' is not calculated pages count. It means that
-				// 'visittimes' is count of NEW visited pages, not total count.
 				"COUNT(DISTINCT p.pageid) AS visittimes, " .
-				// 'chattimes' is total count of threads related with a page
-				// address, not a visited page row. It means that 'chattimes' is
-				// TOTAL chats count from this page, not only new.
 				"COUNT(DISTINCT t.threadid) AS chattimes " .
 			"FROM {visitedpage} p " .
 				"LEFT OUTER JOIN {chatthread} t ON (" .
@@ -213,66 +221,25 @@ function calculate_page_statistics() {
 					"AND DATE(FROM_UNIXTIME(p.visittime)) = " .
 						"DATE(FROM_UNIXTIME(t.dtmcreated))) " .
 			"WHERE p.calculated = 0 " .
+				"AND (p.visittime - :start) > 24*60*60 " .
+				"AND (:today - p.visittime) > 24*60*60 " .
 			"GROUP BY date, address " .
 			"ORDER BY date",
-			array(),
-			array('return_rows' => Database::RETURN_ALL_ROWS)
+			array(
+				':start' => $start,
+				':today' => $today
+			)
 		);
 
-		foreach($visited_pages as $visited_page) {
-			// Check is there statistics for current visited page in database.
-			$count_result = $db->query(
-				"SELECT COUNT(*) AS count " .
-				"FROM {visitedpagestatistics} " .
-				"WHERE date = :date AND address = :address",
-				array(
-					':date' => $visited_page['date'],
-					':address' => $visited_page['address']
-				),
-				array('return_rows' => Database::RETURN_ONE_ROW)
-			);
-
-			if (! empty($count_result['count'])) {
-				// Stat already in database. Update it.
-				$db->query(
-					"UPDATE {visitedpagestatistics} SET " .
-						"visits = visits + :visits, " .
-						// Do not add chat because of it is total count of chats
-						// related with this page.
-						// TODO: Think about old threads removing. In current
-						// configuration it can cause problems with wrong
-						// 'by page' statistics.
-						"chats = :chats " .
-					"WHERE date = :date " .
-						"AND address = :address " .
-					"LIMIT 1",
-					array(
-						':date' => $visited_page['date'],
-						':address' => $visited_page['address'],
-						':visits' => $visited_page['visittimes'],
-						':chats' => $visited_page['chattimes']
-					)
-				);
-			} else {
-				// Create stat row in database.
-				$db->query(
-					"INSERT INTO {visitedpagestatistics} (" .
-						"date, address, visits, chats" .
-					") VALUES ( " .
-						":date, :address, :visits, :chats" .
-					")",
-					array(
-						':date' => $visited_page['date'],
-						':address' => $visited_page['address'],
-						':visits' => $visited_page['visittimes'],
-						':chats' => $visited_page['chattimes']
-					)
-				);
-			}
-		}
-
 		// Mark all visited pages as 'calculated'
-		$db->query("UPDATE {visitedpage} SET calculated = 1");
+		$db->query(
+			"UPDATE {visitedpage} SET calculated = 1 " .
+			"WHERE (:today - visittime) > 24*60*60 " .
+				"AND calculated = 0",
+			array(
+				':today' => $today
+			)
+		);
 
 		// Remove old tracks from the system
 		track_remove_old_tracks();
