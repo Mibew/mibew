@@ -141,13 +141,7 @@ function calculate_operator_statistics() {
 		);
 
 		$start = empty($result['start']) ? 0 : $result['start'];
-
-		// Reset statistics for the last day, because cron can be ran many
-		// times in a day.
-		$result = $db->query(
-			"DELETE FROM {chatoperatorstatistics} WHERE date = :start",
-			array(':start' => $start)
-		);
+		$today = floor(time() / (24*60*60)) * 24*60*60;
 
 		// Caclculate statistics
 		$db->query(
@@ -160,12 +154,15 @@ function calculate_operator_statistics() {
 				"AVG(CHAR_LENGTH(m.tmessage)) AS avglen " .
 			"FROM {indexedchatmessage} m, {chatoperator} o " .
 			"WHERE m.agentId = o.operatorid " .
-				"AND m.dtmcreated > :start " .
+				"AND (m.dtmcreated - :start) > 24*60*60 " .
+				// Calculate statistics only for messages that older one day
+				"AND (:today - m.dtmcreated) > 24*60*60 " .
 			"GROUP BY date " .
 			"ORDER BY date",
 			array(
 				':kind_agent' => Thread::KIND_AGENT,
-				':start' => $start
+				':start' => $start,
+				':today' => $today
 			)
 		);
 	} catch(Exception $e) {
