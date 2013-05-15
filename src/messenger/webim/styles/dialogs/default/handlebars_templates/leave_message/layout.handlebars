@@ -2,14 +2,13 @@
 <div id="top2">
     <div id="logo">
         {{#if page.company.chatLogoURL}}
-            {{! Use 'unless' instead of 'if' because of the bug with nested 'if else' in handlebars 1.0.0-rc.3}}
-            {{#unless page.webimHost}}
-                <img src="{{page.company.chatLogoURL}}" alt=""/>
-            {{else}}
+            {{#if page.webimHost}}
                 <a onclick="window.open('{{page.webimHost}}');return false;" href="{{page.webimHost}}">
                     <img src="{{page.company.chatLogoURL}}" alt=""/>
                 </a>
-            {{/unless}}
+            {{else}}
+                <img src="{{page.company.chatLogoURL}}" alt=""/>
+            {{/if}}
         {{else}}
             {{#if page.webimHost}}
                 <a onclick="window.open('{{page.webimHost}}');return false;" href="{{page.webimHost}}">
