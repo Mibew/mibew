@@ -1,8 +1,8 @@
 /*
- This file is part of Mibew Messenger project.
- http://mibew.org
- Copyright (c) 2005-2011 Mibew Messenger Community
- License: http://mibew.org/license.php
+ Copyright 2005-2013 the original author or authors.
+ Licensed under the Apache License, Version 2.0 (the "License").
+ You may obtain a copy of the License at
+      http://www.apache.org/licenses/LICENSE-2.0
 */
 (function(){var k=Handlebars.template,l=Handlebars.templates=Handlebars.templates||{};l.default_control=k(function(a,b,e,h,f){this.compilerInfo=[3,">= 1.0.0-rc.4"];e=e||a.helpers;f=f||{};h=this.escapeExpression;a="<strong>";(e=e.title)?e=e.call(b,{hash:{},data:f}):(e=b.title,e="function"===typeof e?e.apply(b):e);return a+=h(e)+"</strong>"});l.message=k(function(a,b,e,h,f){this.compilerInfo=[3,">= 1.0.0-rc.4"];e=e||a.helpers;f=f||{};var c,g=this.escapeExpression,j=e.helperMissing;a={hash:{},data:f};
 a="<span>"+(g((c=e.formatTime,c?c.call(b,b.created,a):j.call(b,"formatTime",b.created,a)))+"</span>\n");if((c=e["if"].call(b,b.name,{hash:{},inverse:this.noop,fn:this.program(1,function(a,c){var b,d;b="<span class='n";(d=e.kindName)?d=d.call(a,{hash:{},data:c}):(d=a.kindName,d="function"===typeof d?d.apply(a):d);b+=g(d)+"'>";(d=e.name)?d=d.call(a,{hash:{},data:c}):(d=a.name,d="function"===typeof d?d.apply(a):d);return b+=g(d)+"</span>: "},f),data:f}))||0===c)a+=c;a+="\n<span class='m";(c=e.kindName)?

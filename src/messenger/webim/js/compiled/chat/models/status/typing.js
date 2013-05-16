@@ -1,8 +1,8 @@
 /*
- This file is part of Mibew Messenger project.
- http://mibew.org
+ Copyright 2005-2013 the original author or authors.
 
- Copyright (c) 2005-2011 Mibew Messenger Community
- License: http://mibew.org/license.php
+ Licensed under the Apache License, Version 2.0 (the "License").
+ You may obtain a copy of the License at
+     http://www.apache.org/licenses/LICENSE-2.0
 */
 (function(a,b){a.Models.StatusTyping=a.Models.Status.extend({defaults:b.extend({},a.Models.Status.prototype.defaults,{visible:!1,hideTimeout:2E3}),getModelType:function(){return"StatusTyping"},show:function(){this.set({visible:!0});this.autoHide()}})})(Mibew,_);

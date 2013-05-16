@@ -1,8 +1,8 @@
 /*
- This file is part of Mibew Messenger project.
- http://mibew.org
+ Copyright 2005-2013 the original author or authors.
 
- Copyright (c) 2005-2011 Mibew Messenger Community
- License: http://mibew.org/license.php
+ Licensed under the Apache License, Version 2.0 (the "License").
+ You may obtain a copy of the License at
+     http://www.apache.org/licenses/LICENSE-2.0
 */
 (function(b,c,d){b.Views.Agent=c.Marionette.ItemView.extend({template:d.templates.agent,tagName:"span",className:"agent",modelEvents:{change:"render"},initialize:function(){this.isModelLast=this.isModelFirst=!1},serializeData:function(){var a=this.model.toJSON();a.isFirst=this.isModelFirst;a.isLast=this.isModelLast;return a}})})(Mibew,Backbone,Handlebars);

@@ -1,9 +1,9 @@
 /**
- * @preserve This file is part of Mibew Messenger project.
- * http://mibew.org
+ * @preserve Copyright 2005-2013 the original author or authors.
  *
- * Copyright (c) 2005-2011 Mibew Messenger Community
- * License: http://mibew.org/license.php
+ * Licensed under the Apache License, Version 2.0 (the "License").
+ * You may obtain a copy of the License at
+ *     http://www.apache.org/licenses/LICENSE-2.0
  */
 
 (function(Mibew, MibewAPI, $, _) {

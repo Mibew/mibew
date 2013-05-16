@@ -1,9 +1,9 @@
 /*
- This file is part of Mibew Messenger project.
- http://mibew.org
+ Copyright 2005-2013 the original author or authors.
 
- Copyright (c) 2005-2011 Mibew Messenger Community
- License: http://mibew.org/license.php
+ Licensed under the Apache License, Version 2.0 (the "License").
+ You may obtain a copy of the License at
+     http://www.apache.org/licenses/LICENSE-2.0
 */
 function MibewAPI(a){this.protocolVersion="1.0";if("object"!=typeof a||!(a instanceof MibewAPIInteraction))throw Error("Wrong interaction type");this.interaction=a}
 MibewAPI.prototype.checkFunction=function(a,b){if("undefined"==typeof a["function"]||""==a["function"])throw Error("Cannot call for function with no name");if(b)for(var c=0;c<this.interaction.reservedFunctionNames.length;c++)if(a["function"]==this.interaction.reservedFunctionNames[c])throw Error("'"+a["function"]+"' is reserved function name");if("object"!=typeof a.arguments)throw Error("There are no arguments in '"+a["function"]+"' function");var d=0,f=this.interaction.getObligatoryArguments(a["function"]),

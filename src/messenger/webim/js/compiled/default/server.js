@@ -1,9 +1,9 @@
 /*
- This file is part of Mibew Messenger project.
- http://mibew.org
+ Copyright 2005-2013 the original author or authors.
 
- Copyright (c) 2005-2011 Mibew Messenger Community
- License: http://mibew.org/license.php
+ Licensed under the Apache License, Version 2.0 (the "License").
+ You may obtain a copy of the License at
+     http://www.apache.org/licenses/LICENSE-2.0
 */
 (function(b,f,g,e){b.Server=function(a){this.updateTimer=null;this.options=e.extend({url:"",requestsFrequency:2,reconnectPause:1,onTimeout:function(){},onTransportError:function(){},onCallError:function(){},onUpdateError:function(){},onResponseError:function(){}},a);this.callbacks={};this.callPeriodically={};this.callPeriodicallyLastId=0;this.ajaxRequest=null;this.buffer=[];this.functions={};this.functionsLastId=0;this.mibewAPI=new f(new this.options.interactionType)};b.Server.prototype.callFunctions=
 function(a,c,b){try{if(!(a instanceof Array))throw Error("The first arguments must be an array");for(var d=0;d<a.length;d++)this.mibewAPI.checkFunction(a[d],!1);var e=this.generateToken();this.callbacks[e]=c;this.buffer.push({token:e,functions:a});b&&this.update()}catch(f){return this.options.onCallError(f),!1}return!0};b.Server.prototype.callFunctionsPeriodically=function(a,c){this.callPeriodicallyLastId++;this.callPeriodically[this.callPeriodicallyLastId]={functionsListBuilder:a,callbackFunction:c};

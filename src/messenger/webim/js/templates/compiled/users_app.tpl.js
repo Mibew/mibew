@@ -1,8 +1,8 @@
 /*
- This file is part of Mibew Messenger project.
- http://mibew.org
- Copyright (c) 2005-2011 Mibew Messenger Community
- License: http://mibew.org/license.php
+ Copyright 2005-2013 the original author or authors.
+ Licensed under the Apache License, Version 2.0 (the "License").
+ You may obtain a copy of the License at
+      http://www.apache.org/licenses/LICENSE-2.0
 */
 (function(){var l=Handlebars.template,m=Handlebars.templates=Handlebars.templates||{};m.agent=l(function(b,c,e,a,d){this.compilerInfo=[3,">= 1.0.0-rc.4"];e=e||b.helpers;d=d||{};var f=e.helperMissing,h=this.escapeExpression;b='<span class="agent-status-';if((a=e["if"].call(c,c.away,{hash:{},inverse:this.program(3,function(){return"online"},d),fn:this.program(1,function(){return"away"},d),data:d}))||0===a)b+=a;b+=' inline-block" title="';if((a=e["if"].call(c,c.away,{hash:{},inverse:this.program(7,function(a,
 b){var c,g;g={hash:{},data:b};return h((c=e.L10n,c?c.call(a,"pending.status.online",g):f.call(a,"L10n","pending.status.online",g)))},d),fn:this.program(5,function(a,b){var c,g;g={hash:{},data:b};return h((c=e.L10n,c?c.call(a,"pending.status.away",g):f.call(a,"L10n","pending.status.away",g)))},d),data:d}))||0===a)b+=a;b+='"></span>';(a=e.name)?a=a.call(c,{hash:{},data:d}):(a=c.name,a="function"===typeof a?a.apply(c):a);b+=h(a);if((a=e.unless.call(c,c.isLast,{hash:{},inverse:this.noop,fn:this.program(9,

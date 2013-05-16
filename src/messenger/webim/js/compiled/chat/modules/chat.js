@@ -1,9 +1,9 @@
 /*
- This file is part of Mibew Messenger project.
- http://mibew.org
+ Copyright 2005-2013 the original author or authors.
 
- Copyright (c) 2005-2011 Mibew Messenger Community
- License: http://mibew.org/license.php
+ Licensed under the Apache License, Version 2.0 (the "License").
+ You may obtain a copy of the License at
+     http://www.apache.org/licenses/LICENSE-2.0
 */
 (function(a){a.Objects.Models.Controls={};a.Objects.Models.Status={};var j=[],l=a.Application,k=l.module("Chat",{startWithParent:!1});k.addInitializer(function(b){var f=a.Objects,d=a.Objects.Models,c=a.Objects.Models.Controls,h=a.Objects.Models.Status;b.page&&d.page.set(b.page);d.thread=new a.Models.Thread(b.thread);d.user=new a.Models.ChatUser(b.user);var g=new a.Layouts.Chat;f.chatLayout=g;l.mainRegion.show(g);var e=new a.Collections.Controls;d.user.get("isAgent")||(c.userName=new a.Models.UserNameControl({weight:220}),
 e.add(c.userName),c.sendMail=new a.Models.SendMailControl({weight:200,link:b.links.mail,windowParams:b.windowsParams.mail}),e.add(c.sendMail));d.user.get("isAgent")&&(c.redirect=new a.Models.RedirectControl({weight:200,link:b.links.redirect}),e.add(c.redirect),c.history=new a.Models.HistoryControl({weight:180,link:b.links.history,windowParams:b.windowsParams.history}),e.add(c.history));c.sound=new a.Models.SoundControl({weight:160});e.add(c.sound);c.refresh=new a.Models.RefreshControl({weight:140});

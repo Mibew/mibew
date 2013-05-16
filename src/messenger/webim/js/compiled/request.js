@@ -1,9 +1,9 @@
 /*
- This file is part of Mibew Messenger project.
- http://mibew.org
+ Copyright 2005-2013 the original author or authors.
 
- Copyright (c) 2005-2011 Mibew Messenger Community
- License: http://mibew.org/license.php
+ Licensed under the Apache License, Version 2.0 (the "License").
+ You may obtain a copy of the License at
+     http://www.apache.org/licenses/LICENSE-2.0
 */
 var mibewRequestedScripts=[],mibewHandlers=[],mibewHandlersDependences=[];function mibewMakeRequest(){var a=mibewReadCookie(mibewVisitorCookieName);mibewDoLoadScript(mibewRequestUrl+"&rnd="+Math.random()+(!1!==a?"&user_id="+a:""),"responseScript")}
 function mibewOnResponse(a){var b=a.load,c=a.handlers,d=a.data;a=a.dependences;for(id in b)b[id]in mibewRequestedScripts||(mibewRequestedScripts[id]=[],mibewRequestedScripts[id].url=b[id],mibewRequestedScripts[id].status="loading",mibewLoadScript(id));for(handler in a)handler in mibewHandlersDependences||(mibewHandlersDependences[handler]=a[handler]);for(b=0;b<c.length;b++){var e=c[b];if(mibewCanRunHandler(c[b]))window[e](d);else c[b]in mibewHandlers||(mibewHandlers[e]=function(){window[e](d)})}mibewCleanUpAfterRequest();

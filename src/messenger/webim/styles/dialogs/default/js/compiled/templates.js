@@ -1,8 +1,8 @@
 /*
- This file is part of Mibew Messenger project.
- http://mibew.org
- Copyright (c) 2005-2011 Mibew Messenger Community
- License: http://mibew.org/license.php
+ Copyright 2005-2013 the original author or authors.
+ Licensed under the Apache License, Version 2.0 (the "License").
+ You may obtain a copy of the License at
+      http://www.apache.org/licenses/LICENSE-2.0
 */
 (function(){var r=Handlebars.template,s=Handlebars.templates=Handlebars.templates||{};s.chat_avatar=r(function(a,d,f,b,c){this.compilerInfo=[3,">= 1.0.0-rc.4"];f=f||a.helpers;c=c||{};var g=this.escapeExpression;return(a=f["if"].call(d,d.imageLink,{hash:{},inverse:this.program(3,function(){return'<div class="default-avatar"></div>'},c),fn:this.program(1,function(a,b){var d,c;d='<img src="';(c=f.imageLink)?c=c.call(a,{hash:{},data:b}):(c=a.imageLink,c="function"===typeof c?c.apply(a):c);return d+=g(c)+
 '" border="0" alt="" />'},c),data:c}))||0===a?a:""});s.chat_controls_close=r(function(a,d,f,b,c){this.compilerInfo=[3,">= 1.0.0-rc.4"];f=f||a.helpers;c=c||{};var g;a=f.helperMissing;b=this.escapeExpression;c={hash:{},data:c};return d='<div class="tpl-image" title="'+(b((g=f.L10n,g?g.call(d,"chat.window.close_title",c):a.call(d,"L10n","chat.window.close_title",c)))+'"></div>')});s.chat_controls_history=r(function(a,d,f,b,c){this.compilerInfo=[3,">= 1.0.0-rc.4"];f=f||a.helpers;c=c||{};var g;a=f.helperMissing;
