@@ -22,29 +22,23 @@ $page['fixedwrap'] = true;
 function tpl_content() { global $page, $webimroot, $errors;
 ?>
 
-<p>Mibew Messenger is distributed under the terms of the Eclipse Public License (or
-the General Public License, this means that you can choose one of two, and use it
-accordingly) with the following special exception.</p>
+<p>Copyright 2005-2013 the original author or authors.</p>
 
 <br/>
 
-<b>License exception:</b>
-<p>No one may remove, alter or hide any copyright notices or links to the community
-site ("http://mibew.org") contained within the Program. Any derivative work
-must include this license exception.</p>
+<p>Licensed under the <b>Apache License, Version 2.0</b> (the "License").</p>
 
 <br/>
 
-<p>Eclipse Public License:<br/>
-<a href="<?php echo $webimroot ?>/epl-v10.html">Local version</a> or <a href="http://www.eclipse.org/legal/epl-v10.html">http://www.eclipse.org/legal/epl-v10.html</a>
-</p>
+<p>You may obtain a copy of the License at <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
 
 <br/>
 
-<p>
-General Public License:<br/>
-<a href="<?php echo $webimroot ?>/gpl-2.0.txt">Local version</a> or <a href="http://www.gnu.org/copyleft/gpl.html">http://www.gnu.org/copyleft/gpl.html</a>
-</p>
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</p>
 
 <?php 
 } /* content */
