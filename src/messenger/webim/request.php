@@ -19,7 +19,6 @@ require_once('libs/init.php');
 require_once('libs/invitation.php');
 require_once('libs/operator.php');
 require_once('libs/track.php');
-require_once('libs/request.php');
 
 $invited = FALSE;
 $operator = array();
@@ -81,7 +80,7 @@ if ($invited !== FALSE) {
 }
 
 start_js_output();
-echo build_js_response($response);
+echo build_widget_response($response);
 
 exit;
 ?>

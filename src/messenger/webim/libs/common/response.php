@@ -239,4 +239,30 @@ function add_params($servlet, $params)
 	return $servlet;
 }
 
+/**
+ * Builds JSONP response to the Mibew widget
+ *
+ * @param array $response Response data. It can contain following items:
+ * - 'load': associative array, specify files which must be loaded. Array keys
+ *   are file aliases and values are URLs. One can use file alias to specify
+ *   dependences (described below).
+ * - 'handlers': array, handlers which must be called (described below).
+ * - 'dependences': array, specify dependences between handlers and loaded
+ *   files. Array keys are handlers names and values are arrays of file aliases
+ *   from load item. Handler function will call only after all specified files
+ *   loaded.
+ * - 'data': associative array, arbitrary structure which will be passed to all
+ *   functions, specified in 'handlers' item.
+ * @return string JSONP response that ready to send to the widget
+ */
+function build_widget_response($response) {
+	$result = $response + array(
+		'load' => array(),
+		'handlers' => array(),
+		'dependences' => array(),
+		'data' => array()
+	);
+	return "mibewOnResponse(" . json_encode($result) . ");";
+}
+
 ?>
