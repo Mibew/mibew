@@ -211,18 +211,11 @@ function cron_index_messages() {
 /**
  * Generates cron URI
  *
- * @global string $webimroot Path of the mibew instalation from server root.
- * It defined in libs/config.php
  * @param string $cron_key Cron security key
  * @return string Cron URI
  */
 function cron_get_uri($cron_key) {
-	global $webimroot;
-
-	$path = (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off')
-		? 'http://'
-		: 'https://';
-	$path .= $_SERVER['SERVER_NAME'] . $webimroot . '/cron.php';
+	$path = get_app_location(true, is_secure_request()) . '/cron.php';
 	$path .= empty($cron_key)
 		? ''
 		: '?cron_key='.$cron_key;
