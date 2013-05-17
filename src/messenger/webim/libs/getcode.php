@@ -18,7 +18,8 @@
 function generate_button($title, $locale, $style, $invitationstyle, $group, $inner, $showhost, $forcesecure, $modsecurity)
 {
 	global $visitorcookie;
-	$link = get_app_location($showhost, $forcesecure) . "/client.php";
+	$app_location = get_app_location($showhost, $forcesecure);
+	$link = $app_location . "/client.php";
 	if ($locale)
 		$link = append_query($link, "locale=$locale");
 	if ($style)
@@ -31,20 +32,37 @@ function generate_button($title, $locale, $style, $invitationstyle, $group, $inn
 	$temp = get_popup($link, "$jslink",
 					  $inner, $title, "webim", "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1");
 	if (Settings::get('enabletracking')) {
-	    $temp = preg_replace('/^(<a )/', '\1id="mibewAgentButton" ', $temp);
-	    $temp .= '<div id="mibewinvitation"></div><script type="text/javascript">var mibewInviteStyle = \'@import url(';
-	    $temp .= get_app_location($showhost, $forcesecure);
-	    $temp .= '/styles/invitations/';
-	    $temp .= ($invitationstyle?$invitationstyle:(Settings::get('invitationstyle')));
-	    $temp .= '/invite.css);\'; var mibewRequestTimeout = ';
-	    $temp .= Settings::get('updatefrequency_tracking');
-	    $temp .= '*1000; var mibewRequestUrl = \'';
-	    $temp .= get_app_location($showhost, $forcesecure);
-	    $temp .= '/request.php?entry=\' + escape(document.referrer) + \'&lang=ru\'; ';
-	    $temp .= ' var mibewVisitorCookieName = \''.$visitorcookie.'\'';
-	    $temp .= '</script><script type="text/javascript" src="';
-	    $temp .= get_app_location($showhost, $forcesecure);
-	    $temp .= '/js/compiled/request.js"></script><script type="text/javascript">mibewMakeRequest();</script>';
+		$widget_data = array();
+
+		// URL of file with additional CSS rules for invitation popup
+		$widget_data['inviteStyle'] = $app_location . '/styles/invitations/' .
+			($invitationstyle
+				? $invitationstyle
+				: (Settings::get('invitationstyle'))
+			) .	'/invite.css';
+
+		// Time between requests to the server in milliseconds
+		$widget_data['requestTimeout'] = Settings::get('updatefrequency_tracking')
+			* 1000;
+
+		// URL for requests
+		$widget_data['requestURL'] = $app_location . '/widget.php';
+
+		// Locale for invitation
+		$widget_data['locale'] = $locale;
+
+		// Name of the cookie to track user. Use if third-party cookie blocked
+		$widget_data['visitorCookieName'] = $visitorcookie;
+
+		// Build additional button code
+	    $temp = preg_replace('/^(<a )/', '\1id="mibewAgentButton" ', $temp) .
+			'<div id="mibewinvitation"></div>' .
+			'<script type="text/javascript" src="' .
+				$app_location .	'/js/compiled/widget.js' .
+			'"></script>' .
+			'<script type="text/javascript">' .
+				'Mibew.Widget.init('.json_encode($widget_data).')' .
+			'</script>';
 	}
 	return "<!-- mibew button -->" . $temp . "<!-- / mibew button -->";
 }

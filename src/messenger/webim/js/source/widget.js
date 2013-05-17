@@ -1,0 +1,374 @@
+/**
+ * @preserve Copyright 2005-2013 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License").
+ * You may obtain a copy of the License at
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ */
+
+/**
+ * @namespace Holds all Mibew functionality
+ */
+var Mibew = {};
+
+(function(Mibew){
+
+    /**
+     * @namespace Holds objects instances
+     */
+    Mibew.Objects = {};
+
+    /**
+     * Create new widget
+     * @constructor
+     * @todo Add options validation
+     */
+    Mibew.Widget = function(options) {
+        /**
+         * Holds all scripts that must be loaded
+         * @type Object
+         * @private
+         */
+        this.requestedScripts = {};
+
+        /**
+         * List of handlers that must be called
+         * @type Array
+         * @private
+         */
+        this.handlers = [];
+
+        /**
+         * List of dependences between handlers and scripts
+         * @type Object
+         * @private
+         */
+        this.handlersDependences = {};
+
+        /**
+         * URL for requests
+         * @type String
+         */
+        this.requestURL = options.requestURL;
+
+        /**
+         * Timeout between requests to server
+         * @type Number
+         */
+        this.requestTimeout = options.requestTimeout;
+
+        /**
+         * Name of tracking cookie
+         * @type String
+         */
+        this.visitorCookieName = options.visitorCookieName;
+
+        /**
+         * URL of file with additional CSS rules for invitation
+         * @type String
+         */
+        this.inviteStyle = options.inviteStyle;
+
+        /**
+         * Locale of the Widget
+         * @type String
+         */
+        this.locale = options.locale;
+
+        // Load additional styles
+        var styleSheet = document.createElement('link');
+        styleSheet.setAttribute('rel', 'stylesheet');
+        styleSheet.setAttribute('type', 'text/css');
+        styleSheet.setAttribute('href', options.inviteStyle);
+        document.getElementsByTagName('head')[0].appendChild(styleSheet);
+    }
+
+    /**
+     * Make request to the server.
+     * @private
+     */
+    Mibew.Widget.prototype.makeRequest = function() {
+        // Try to get user id from local cookie
+        var userId = Mibew.Utils.readCookie(this.visitorCookieName);
+
+        this.doLoadScript(
+            this.requestURL
+                + '?entry=' + escape(document.referrer)
+                + '&locale=' + this.locale
+                + '&rnd=' + Math.random()
+                + ((userId !== false) ? '&user_id=' + userId : ''),
+            'responseScript'
+        );
+    }
+
+    /**
+     * Parse server response. Called as JSONP callback function
+     * @param {Object} response Data got from server
+     */
+    Mibew.Widget.prototype.onResponse = function(response) {
+        // Create some shortcuts
+        var load = response.load;
+        var handlers = response.handlers;
+        var data = response.data;
+        var dependences = response.dependences;
+        var context = this;
+
+        // Update list of scripts that must be loaded
+        for(var id in load){
+            if (! load.hasOwnProperty(id)) {
+                continue;
+            }
+            // Check if script already loaded
+            if (! (load[id] in this.requestedScripts)) {
+                this.requestedScripts[id] = {};
+                this.requestedScripts[id].url = load[id];
+                this.requestedScripts[id].status = 'loading';
+                this.loadScript(id);
+            }
+        }
+
+        // Update list of dependences
+        for(var handler in dependences){
+            if (! dependences.hasOwnProperty(handler)) {
+                continue;
+            }
+            // Check if dependences for this handler already stored
+            if (! (handler in this.handlersDependences)) {
+                this.handlersDependences[handler] = dependences[handler];
+            }
+        }
+
+        // Process all recieved handlers. Run handler if all dependences loaded
+        // and add it to handlers list otherwise.
+        for (var i = 0; i < handlers.length; i++) {
+            // Create shortcuts
+            var handlerName = handlers[i];
+
+            // TODO: Allow to run objects methods
+            if (this.canRunHandler(handlerName)) {
+                Mibew.APIFunctions[handlerName](data);
+            } else {
+                if (! (handlerName in this.handlers)) {
+                    this.handlers[handlerName] = function(){
+                        Mibew.APIFunctions[handlerName](data);
+                    };
+                }
+            }
+        }
+
+        this.cleanUpAfterRequest();
+
+        // Make new request after timeout
+        window.setTimeout(
+            function() {
+                context.makeRequest();
+            },
+            this.requestTimeout);
+    }
+
+    /**
+     * Remove dynamically loaded request script from DOM
+     * @private
+     */
+    Mibew.Widget.prototype.cleanUpAfterRequest = function() {
+        document.getElementsByTagName('head')[0]
+            .removeChild(document.getElementById('responseScript'));
+    }
+
+    /**
+     * Load script and add handler for script onLoad event
+     * @param {String} id Identifier of the script to load
+     * @private
+     */
+    Mibew.Widget.prototype.loadScript = function(id) {
+        // Store context
+        var context = this;
+        // Load script by adding script tag to DOM
+        var script = this.doLoadScript(this.requestedScripts[id].url, id);
+
+        // Check if script loaded
+        script.onload = function(){
+            context.scriptReady(id);
+        }
+        // Do it in crossbrowser way
+        script.onreadystatechange = function(){
+            if (this.readyState == 'complete' || this.readyState == 'loaded') {
+                context.scriptReady(id);
+            }
+        }
+    }
+
+    /**
+     * Dynamically add script tag to DOM
+     * @param {String} url URL of the script to load
+     * @param {String} id Identifier of the script to load
+     * @private
+     */
+    Mibew.Widget.prototype.doLoadScript = function(url, id) {
+        var script = document.createElement('script');
+        script.setAttribute('type', 'text/javascript');
+        script.setAttribute('src', url);
+        script.setAttribute('id', id);
+        document.getElementsByTagName('head')[0].appendChild(script);
+        return script;
+    }
+
+    /**
+     * Event listener for script onLoad event. Run handlers which have no
+     * unload dependences.
+     * @param {String} id Identifier of the loaded script
+     */
+    Mibew.Widget.prototype.scriptReady = function(id) {
+        this.requestedScripts[id].status = 'ready';
+        for (var handlerName in this.handlers) {
+            if (! this.handlers.hasOwnProperty(handlerName)) {
+                continue;
+            }
+            if(this.canRunHandler(handlerName)){
+                this.handlers[handlerName]();
+                delete this.handlers[handlerName];
+            }
+        }
+    }
+
+    /**
+     * Check if handler can be run
+     */
+    Mibew.Widget.prototype.canRunHandler = function(handlerName) {
+        var dependences = this.handlersDependences[handlerName];
+        // Check for dependencess
+        for(var i = 0; i < dependences.length; i++){
+            if(this.requestedScripts[dependences[i]].status != 'ready'){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+
+    /**
+     * Helper function which create new widget object, store it into
+     * Mibew.Objects.widget and run automatic requests.
+     */
+    Mibew.Widget.init = function(options) {
+        Mibew.Objects.widget = new Mibew.Widget(options);
+        Mibew.Objects.widget.makeRequest();
+    }
+
+    /**
+     * @namespace Holds utility functions
+     */
+    Mibew.Utils = {};
+
+    /**
+     * Create session cookie for top level domain with path equals to '/'.
+     *
+     * @param {String} name Cookie name
+     * @param {String} value Cookie value
+     */
+    Mibew.Utils.createCookie = function(name, value) {
+        var domainParts = /([^\.]+\.[^\.]+)$/.exec(document.location.hostname);
+        var domain = domainParts[1];
+        document.cookie = "" + name + "=" + value + "; "
+            + "path=/; "
+            + (domain ? ("domain=" + domain + ";") : '');
+    }
+
+    /**
+     * Try to read cookie.
+     *
+     * @param {String} name Cookie name
+     * @returns {String|Boolean} Cookie value or boolean false if cookie with
+     * specified name does not exist
+     */
+    Mibew.Utils.readCookie = function(name) {
+        var cookies = document.cookie.split('; ');
+        var nameForSearch = name + '=';
+        var value = false;
+        for (var i = 0; i < cookies.length; i++) {
+            if (cookies[i].indexOf(nameForSearch) != -1) {
+                value = cookies[i].substr(nameForSearch.length);
+                break;
+            }
+        }
+        return value;
+    }
+
+    /**
+     * @namespace Holds functions that can be called by the Core
+     */
+    Mibew.APIFunctions = {};
+
+    /**
+     * Update user id. API function
+     * @param {Object} response Data object from server
+     */
+    Mibew.APIFunctions.updateUserId = function(response) {
+        Mibew.Utils.createCookie(
+            Mibew.Objects.widget.visitorCookieName,
+            response.user.id
+        );
+    }
+
+    /**
+     * Show invitation popup
+     * @param {Object} response Data passed from server
+     */
+    Mibew.APIFunctions.inviteOnResponse = function(response) {
+        var message = response.invitation.message;
+        var operator = response.invitation.operator;
+        var avatar = response.invitation.avatar;
+
+        var popuptext = '<div id="mibewinvitationpopup">';
+        popuptext += '<div id="mibewinvitationclose">'
+            + '<a href="javascript:void(0);" onclick="Mibew.Invitation.hide();">'
+            + '&times;</a></div>';
+        if (operator) {
+            popuptext += '<h1 onclick="Mibew.Invitation.accept();">'
+                + operator
+                + '</h1>';
+        }
+        if (avatar) {
+            popuptext += '<img id="mibewinvitationavatar" src="' + avatar
+                + '" title="' + operator
+                + '" alt="' + operator
+                + '" onclick="Mibew.Invitation.accept();" />';
+        }
+        popuptext += '<p onclick="Mibew.Invitation.accept();">'
+            + message
+            + '</p>';
+        popuptext += '<div style="clear: both;"></div></div>';
+
+        var invitationdiv = document.getElementById("mibewinvitation");
+        if (invitationdiv) {
+                invitationdiv.innerHTML = popuptext;
+        }
+    }
+
+    /**
+     * @namespace Holds invitation stuff
+     */
+    Mibew.Invitation = {};
+
+    /**
+     * Hide invitation popup
+     */
+    Mibew.Invitation.hide = function() {
+        var invitationPopup = document.getElementById('mibewinvitationpopup');
+        if (invitationPopup) {
+            invitationPopup.style.display = 'none';
+        }
+    }
+
+    /**
+     * Accept invitation and open chat window
+     */
+    Mibew.Invitation.accept = function() {
+        if (document.getElementById('mibewAgentButton')) {
+            document.getElementById('mibewAgentButton').onclick();
+            Mibew.Invitation.hide();
+        }
+    }
+
+})(Mibew);

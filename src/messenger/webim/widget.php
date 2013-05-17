@@ -61,18 +61,17 @@ if (Settings::get('enabletracking') == '1') {
 
 	if ($user_id !== false) {
 		// Update local cookie value at target site
-		$response['handlers'][] = 'mibewUpdateUserId';
-		$response['dependences']['mibewUpdateUserId'] = array();
+		$response['handlers'][] = 'updateUserId';
+		$response['dependences']['updateUserId'] = array();
 		$response['data']['user']['id'] = $user_id;
 	}
 
 }
 
 if ($invited !== FALSE) {
-    $response['load']['mibewInvitationScript'] = get_app_location(true, is_secure_request()) . '/js/compiled/invite.js';
-    $response['handlers'][] = 'mibewInviteOnResponse';
-    $response['dependences']['mibewInviteOnResponse'] = array('mibewInvitationScript');
-    $locale = isset($_GET['lang']) ? $_GET['lang'] : '';
+    $response['handlers'][] = 'inviteOnResponse';
+    $response['dependences']['inviteOnResponse'] = array();
+    $locale = isset($_GET['locale']) ? $_GET['locale'] : '';
     $operatorName = ($locale == $home_locale) ? $operator['vclocalename'] : $operator['vccommonname'];
     $response['data']['invitation']['operator'] = htmlspecialchars($operatorName);
     $response['data']['invitation']['message'] = getlocal("invitation.message");

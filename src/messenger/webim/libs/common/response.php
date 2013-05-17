@@ -262,7 +262,7 @@ function build_widget_response($response) {
 		'dependences' => array(),
 		'data' => array()
 	);
-	return "mibewOnResponse(" . json_encode($result) . ");";
+	return "Mibew.Objects.widget.onResponse(" . json_encode($result) . ");";
 }
 
 ?>
