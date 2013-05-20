@@ -55,10 +55,6 @@ if (Settings::get('enabletracking') == '1') {
 		$_SESSION['visitorid'] = $visitorid;
 	}
 
-	if ($invited !== FALSE) {
-		$operator = operator_by_id($invited);
-	}
-
 	if ($user_id !== false) {
 		// Update local cookie value at target site
 		$response['handlers'][] = 'updateUserId';
@@ -66,16 +62,25 @@ if (Settings::get('enabletracking') == '1') {
 		$response['data']['user']['id'] = $user_id;
 	}
 
-}
+	// Check if visitor just invited to chat
+	if ($invited !== FALSE) {
+		$operator = operator_by_id($invited);
+		$response['handlers'][] = 'inviteOnResponse';
+		$response['dependences']['inviteOnResponse'] = array();
+		$locale = isset($_GET['locale']) ? $_GET['locale'] : '';
+		$operatorName = ($locale == $home_locale)
+			? $operator['vclocalename']
+			: $operator['vccommonname'];
+		$response['data']['invitation']['operator'] = htmlspecialchars($operatorName);
+		$response['data']['invitation']['message'] = getlocal("invitation.message");
+		$response['data']['invitation']['avatar'] = htmlspecialchars($operator['vcavatar']);
+	}
 
-if ($invited !== FALSE) {
-    $response['handlers'][] = 'inviteOnResponse';
-    $response['dependences']['inviteOnResponse'] = array();
-    $locale = isset($_GET['locale']) ? $_GET['locale'] : '';
-    $operatorName = ($locale == $home_locale) ? $operator['vclocalename'] : $operator['vccommonname'];
-    $response['data']['invitation']['operator'] = htmlspecialchars($operatorName);
-    $response['data']['invitation']['message'] = getlocal("invitation.message");
-    $response['data']['invitation']['avatar'] = htmlspecialchars($operator['vcavatar']);
+	// Check if visitor reject invitation
+	$invitation_state = invitation_state($visitorid);
+	if ($invitation_state['invited'] && ! empty($_GET['invitation_rejected'])) {
+		invitation_reject($visitorid);
+	}
 }
 
 start_js_output();

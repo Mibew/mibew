@@ -386,7 +386,7 @@ var Mibew = {};
 
         var popuptext = '<div id="mibewinvitationpopup">';
         popuptext += '<div id="mibewinvitationclose">'
-            + '<a href="javascript:void(0);" onclick="Mibew.Invitation.hide();">'
+            + '<a href="javascript:void(0);" onclick="Mibew.Invitation.reject();">'
             + '&times;</a></div>';
         if (operator) {
             popuptext += '<h1 onclick="Mibew.Invitation.accept();">'
@@ -433,6 +433,11 @@ var Mibew = {};
             document.getElementById('mibewAgentButton').onclick();
             Mibew.Invitation.hide();
         }
+    }
+
+    Mibew.Invitation.reject = function() {
+        Mibew.Objects.widget.sendToServer({'invitation_rejected': 1});
+        Mibew.Invitation.hide();
     }
 
 })(Mibew);

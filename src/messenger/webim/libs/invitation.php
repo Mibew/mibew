@@ -83,6 +83,21 @@ function invitation_accept($visitorid, $threadid)
 }
 
 /**
+ * Inviation was rejected by visitor
+ *
+ * @param int $visitor_id ID of the visitor
+ */
+function invitation_reject($visitor_id) {
+	$db = Database::getInstance();
+	$db->query(
+		"UPDATE {chatsitevisitor} SET invited = 0, " .
+			"invitationtime = NULL, invitedby = NULL " .
+		"WHERE visitorid = ?",
+		array($visitor_id)
+	);
+}
+
+/**
  * Close old invitations
  */
 function invitation_close_old() {
