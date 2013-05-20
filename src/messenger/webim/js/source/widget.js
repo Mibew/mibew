@@ -75,6 +75,13 @@ var Mibew = {};
          */
         this.locale = options.locale;
 
+        /**
+         * Data that must be sent to the server with next request
+         * @type Object
+         * @private
+         */
+        this.dataToSend = {};
+
         // Load additional styles
         var styleSheet = document.createElement('link');
         styleSheet.setAttribute('rel', 'stylesheet');
@@ -91,14 +98,73 @@ var Mibew = {};
         // Try to get user id from local cookie
         var userId = Mibew.Utils.readCookie(this.visitorCookieName);
 
+        // Prepare GET params list
+        this.dataToSend.entry = escape(document.referrer),
+        this.dataToSend.locale = this.locale;
+        this.dataToSend.rnd = Math.random();
+        if (userId !== false) {
+            this.dataToSend.user_id = userId;
+        } else {
+            // Enshure that there is not user_id field
+            if (this.dataToSend.user_id) {
+                delete this.dataToSend.user_id;
+            }
+        }
+
         this.doLoadScript(
             this.requestURL
-                + '?entry=' + escape(document.referrer)
-                + '&locale=' + this.locale
-                + '&rnd=' + Math.random()
-                + ((userId !== false) ? '&user_id=' + userId : ''),
+                + '?' + this.getQuery(),
             'responseScript'
         );
+
+        // Clean up request data
+        this.dataToSend = {};
+    }
+
+    /**
+     * Build GET request params list
+     *
+     * @returns String GET params list
+     */
+    Mibew.Widget.prototype.getQuery = function() {
+        var query = [];
+        for(var index in this.dataToSend) {
+            if (! this.dataToSend.hasOwnProperty(index)) {
+                continue;
+            }
+            query.push(index + '=' + this.dataToSend[index]);
+        }
+        return query.join('&');
+    }
+
+    /**
+     * Send arbitrary data to the Server as GET params
+     *
+     * @param {Object} data List of data that should be sent to the server.
+     * Properties of this object will automatically transform to GET params.
+     * Values must be strings or numbers. Strings will be automatically escaped
+     * before add to query.
+     * Do not use properties with following names: 'entry', 'locale', 'rnd',
+     * 'user_id'. They are reserved by the system and will be overridden by it.
+     */
+    Mibew.Widget.prototype.sendToServer = function(data) {
+        for(var index in data) {
+            if (! data.hasOwnProperty(index)) {
+                continue;
+            }
+
+            var value = data[index];
+            // Only strings and numbers can be passed to the server
+            if ((typeof value !== 'string') && (typeof value !== 'number')) {
+                continue;
+            }
+            // Escape string to add in URL later
+            if (typeof value === 'string') {
+                value = encodeURIComponent(value);
+            }
+
+            this.dataToSend[index] = value;
+        }
     }
 
     /**
@@ -244,8 +310,6 @@ var Mibew = {};
         }
         return true;
     }
-
-
 
     /**
      * Helper function which create new widget object, store it into
