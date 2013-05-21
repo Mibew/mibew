@@ -35,6 +35,7 @@ if (Settings::get('enabletracking') == '1') {
 		// Session started. Track visitor
 		$invited = invitation_check($_SESSION['visitorid']);
 		$visitorid = track_visitor($_SESSION['visitorid'], $entry, $referer);
+		$visitor = track_get_visitor_by_id($visitorid);
 	} else {
 		$visitor = track_get_visitor_by_user_id($user_id);
 		if ($visitor !== false) {
@@ -47,7 +48,6 @@ if (Settings::get('enabletracking') == '1') {
 			// Start tracking session
 			$visitorid = track_visitor_start($entry, $referer);
 			$visitor = track_get_visitor_by_id($visitorid);
-			$user_id = $visitor['userid'];
 		}
 	}
 
@@ -55,11 +55,11 @@ if (Settings::get('enabletracking') == '1') {
 		$_SESSION['visitorid'] = $visitorid;
 	}
 
-	if ($user_id !== false) {
+	if ($user_id === false) {
 		// Update local cookie value at target site
 		$response['handlers'][] = 'updateUserId';
 		$response['dependences']['updateUserId'] = array();
-		$response['data']['user']['id'] = $user_id;
+		$response['data']['user']['id'] = $visitor['userid'];
 	}
 
 	// Check if visitor just invited to chat
