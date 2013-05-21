@@ -185,7 +185,7 @@ var Mibew = {};
                 continue;
             }
             // Check if script already loaded
-            if (! (load[id] in this.requestedScripts)) {
+            if (! (id in this.requestedScripts)) {
                 this.requestedScripts[id] = {};
                 this.requestedScripts[id].url = load[id];
                 this.requestedScripts[id].status = 'loading';
