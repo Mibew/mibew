@@ -71,9 +71,12 @@ if (Settings::get('enabletracking') == '1') {
 		$operatorName = ($locale == $home_locale)
 			? $operator['vclocalename']
 			: $operator['vccommonname'];
-		$response['data']['invitation']['operator'] = htmlspecialchars($operatorName);
-		$response['data']['invitation']['message'] = getlocal("invitation.message");
-		$response['data']['invitation']['avatar'] = htmlspecialchars($operator['vcavatar']);
+		$response['data']['invitation'] = array(
+			'operator' => htmlspecialchars($operatorName),
+			'avatar' => htmlspecialchars($operator['vcavatar']),
+			'url' => get_app_location(true, is_secure_request())
+				. '/client.php?act=invitation'
+		);
 	}
 
 	// Check if visitor reject invitation

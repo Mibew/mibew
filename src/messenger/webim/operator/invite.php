@@ -17,20 +17,23 @@
 
 require_once('../libs/init.php');
 require_once('../libs/invitation.php');
+require_once('../libs/track.php');
 require_once('../libs/operator.php');
+require_once('../libs/classes/thread.php');
 
 $operator = check_login();
 
 $visitorid = verifyparam("visitor", "/^\d{1,8}$/");
 
-if (!invitation_invite($visitorid, $operator['operatorid'])) {
+$thread = invitation_invite($visitorid, $operator);
+if (!$thread) {
     die("Invitation failed!");
 }
 
-$page = array();
-$page['visitor'] = $visitorid;
-$page['frequency'] = Settings::get('updatefrequency_operator');
+// Open chat window for operator
+$redirect_to = $webimroot .
+	'/operator/agent.php?thread=' . $thread->id .
+	'&token=' . $thread->lastToken;
+header('Location: ' . $redirect_to);
 
-start_html_output();
-require('../view/invite.php');
 ?>

@@ -103,6 +103,9 @@
                     ${if:leaveMessageOptions}
                         leaveMessageOptions: ${page:leaveMessageOptions},
                     ${endif:leaveMessageOptions}
+                    ${if:invitationOptions}
+                        invitationOptions: ${page:invitationOptions},
+                    ${endif:invitationOptions}
                     startFrom: "${page:startFrom}",
                     plugins: ${page:js_plugin_options}
                 });

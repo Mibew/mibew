@@ -61,6 +61,31 @@ Class Thread {
 	 * User left message without starting a conversation
 	 */
 	const STATE_LEFT = 5;
+	/**
+	 * Visitor was invited to chat by operator
+	 */
+	const STATE_INVITED = 6;
+
+	/**
+	 * Visitor was not invited to chat
+	 */
+	const INVITATION_NOT_INVITED = 0;
+	/**
+	 * Operator invited visitor and wait for reaction.
+	 */
+	const INVITATION_WAIT = 1;
+	/**
+	 * Invitation was accepted by visitor
+	 */
+	const INVITATION_ACCEPTED = 2;
+	/**
+	 * Invitation was rejected by visitor
+	 */
+	const INVITATION_REJECTED = 3;
+	/**
+	 * Invitation was ignored by visitor. Invitation was automatically closed.
+	 */
+	const INVITATION_IGNORED = 4;
 
 	/**
 	 * Message sent by user
@@ -106,6 +131,8 @@ Class Thread {
 	 *  - 'id': id of the thread
 	 *  - 'lastRevision': last revision number
 	 *  - 'state': state of the thread. See Thread::STATE_*
+	 *  - 'invitationState': state of invitation. See INVITATION_* constants,
+	 *    defined in libs/invitation.php
 	 *  - 'lastToken': last chat token
 	 *  - 'nextAgent': id of the next agent(agent that change current agent in the chat)
 	 *  - 'groupId': id of the group related to the thread
@@ -138,6 +165,7 @@ Class Thread {
 
 		'lastRevision' => 'lrevision',
 		'state' => 'istate',
+		'invitationState' => 'invitationstate',
 		'lastToken' => 'ltoken',
 
 		'nextAgent' => 'nextagent',

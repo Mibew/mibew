@@ -460,3 +460,40 @@ ul li {
     left: 250px;
 }
 /* ----- */
+
+/* Invitations */
+#invitation-messages-region {
+    height: 150px;
+    min-height: 150px;
+    width: 398px;
+    overflow-y: auto;
+    padding: 0px;
+    font: normal 10px Tahoma;
+    line-height: 1.8em;
+    color: #999;
+    background-color: #FFFFFF;
+}
+#invitation-messages-region .minf {
+    font-size: 1.1em;
+    color: #7BAA0F;
+}
+#invitation-messages-region .mhidden,
+#invitation-messages-region .mevent {
+    font-size: 1.1em;
+}
+#invitation-messages-region .nagent {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #000;
+}
+#invitation-messages-region .nuser {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #DA251D;
+}
+#invitation-messages-region .magent,
+#invitation-messages-region .muser {
+    font-size: 1.1em;
+    color: #000;
+}
+/* ----- */

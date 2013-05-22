@@ -5,5 +5,5 @@
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(a,d){var c=a.Application;c.addRegions({mainRegion:"#main-region"});c.addInitializer(function(b){a.PluginOptions=b.plugins||{};a.Objects.server=new a.Server(d.extend({interactionType:MibewAPIChatInteraction},b.server));a.Objects.Models.page=new a.Models.Page(b.page);switch(b.startFrom){case "chat":c.Chat.start(b.chatOptions);break;case "survey":c.Survey.start(b.surveyOptions);break;case "leaveMessage":c.LeaveMessage.start(b.leaveMessageOptions);break;default:throw Error("Dont know how to start!");
-}});c.on("start",function(){a.Objects.server.runUpdater()})})(Mibew,_);
+(function(b,d){var c=b.Application;c.addRegions({mainRegion:"#main-region"});c.addInitializer(function(a){b.PluginOptions=a.plugins||{};b.Objects.server=new b.Server(d.extend({interactionType:MibewAPIChatInteraction},a.server));b.Objects.Models.page=new b.Models.Page(a.page);switch(a.startFrom){case "chat":c.Chat.start(a.chatOptions);break;case "survey":c.Survey.start(a.surveyOptions);break;case "leaveMessage":c.LeaveMessage.start(a.leaveMessageOptions);break;case "invitation":c.Invitation.start(a.invitationOptions);
+break;default:throw Error("Dont know how to start!");}});c.on("start",function(){b.Objects.server.runUpdater()})})(Mibew,_);

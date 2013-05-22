@@ -128,6 +128,10 @@ if ($act == "silentcreateall") {
 			runsql("ALTER TABLE ${mysqlprefix}chatthread ADD userid varchar(255) DEFAULT \"\"", $link);
 		}
 
+		if (in_array("${mysqlprefix}chatthread.invitationstate", $absent_columns)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatthread ADD invitationstate int NOT NULL DEFAULT 0 AFTER istate", $link);
+		}
+
 		if (in_array("${mysqlprefix}chatoperator.iperm", $absent_columns)) {
 			runsql("ALTER TABLE ${mysqlprefix}chatoperator ADD iperm int DEFAULT 65535", $link);
 		}

@@ -380,28 +380,36 @@ var Mibew = {};
      * @param {Object} response Data passed from server
      */
     Mibew.APIFunctions.inviteOnResponse = function(response) {
-        var message = response.invitation.message;
         var operator = response.invitation.operator;
         var avatar = response.invitation.avatar;
+        var url = response.invitation.url;
 
-        var popuptext = '<div id="mibewinvitationpopup">';
+        var popuptext = '<div id="mibewinvitationpopup" style="display: none;">';
         popuptext += '<div id="mibewinvitationclose">'
             + '<a href="javascript:void(0);" onclick="Mibew.Invitation.reject();">'
             + '&times;</a></div>';
+
+        // Add operator name
         if (operator) {
             popuptext += '<h1 onclick="Mibew.Invitation.accept();">'
                 + operator
                 + '</h1>';
         }
+
+        // Add operator avatar
         if (avatar) {
             popuptext += '<img id="mibewinvitationavatar" src="' + avatar
                 + '" title="' + operator
                 + '" alt="' + operator
                 + '" onclick="Mibew.Invitation.accept();" />';
         }
-        popuptext += '<p onclick="Mibew.Invitation.accept();">'
-            + message
-            + '</p>';
+
+        // Translate message from the thread related with invitation into iframe
+        if (url) {
+            popuptext += '<iframe id="mibewinvitationframe" src="' + url
+                + '" onload="Mibew.Invitation.show();"></iframe>';
+        }
+
         popuptext += '<div style="clear: both;"></div></div>';
 
         var invitationdiv = document.getElementById("mibewinvitation");
@@ -416,12 +424,22 @@ var Mibew = {};
     Mibew.Invitation = {};
 
     /**
-     * Hide invitation popup
+     * Hide invitation popup and remove it from DOM
      */
     Mibew.Invitation.hide = function() {
         var invitationPopup = document.getElementById('mibewinvitationpopup');
         if (invitationPopup) {
-            invitationPopup.style.display = 'none';
+            invitationPopup.parentNode.removeChild(invitationPopup);
+        }
+    }
+
+    /**
+     * Display invitation popup
+     */
+    Mibew.Invitation.show = function() {
+        var invitationPopup = document.getElementById('mibewinvitationpopup');
+        if (invitationPopup) {
+            invitationPopup.style.display = 'block';
         }
     }
 

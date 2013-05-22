@@ -80,3 +80,10 @@
     cursor: pointer !important;
     float: left !important;
 }
+
+#mibewinvitationframe {
+    width: 398px;
+    height: 150px;
+    overflow: hidden;
+    border: 1px solid #000;
+}

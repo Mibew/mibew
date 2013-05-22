@@ -183,6 +183,7 @@ class UsersProcessor extends ClientSideProcessor {
 			" from {chatthread} t left outer join {chatgroup} g on " .
 			" t.groupid = g.groupid " .
 			" where t.lrevision > :since " .
+			" AND t.istate <> " . Thread::STATE_INVITED .
 			($since == 0
 				// Select only active threads at first time when lrevision = 0
 				? " AND t.istate <> " . Thread::STATE_CLOSED .
@@ -377,19 +378,35 @@ class UsersProcessor extends ClientSideProcessor {
 			// Load visitors list
 			$db = Database::getInstance();
 			// Load visitors
-			$query = "SELECT visitorid, userid, username, firsttime, " .
-				"lasttime,entry, details, invited, invitationtime, " .
-				"invitedby, invitations, chats " .
-				"FROM {chatsitevisitor} " .
-				"WHERE threadid IS NULL " .
-				"ORDER BY invited, lasttime DESC, invitations";
+			$query = "SELECT v.visitorid, " .
+					"v.userid, " .
+					"v.username, " .
+					"v.firsttime, " .
+					"v.lasttime, " .
+					"v.entry, " .
+					"v.details, " .
+					"t.invitationstate, " .
+					"t.dtmcreated AS invitationtime, " .
+					"t.agentId AS invitedby, " .
+					"v.invitations, " .
+					"v.chats " .
+				"FROM {chatsitevisitor} v " .
+					"LEFT OUTER JOIN {chatthread} t " .
+						"ON t.threadid = v.threadid " .
+				"WHERE v.threadid IS NULL " .
+					"OR (t.istate = :state_invited " .
+						"AND t.invitationstate = :invitation_wait)" .
+				"ORDER BY t.invitationstate, v.lasttime DESC, v.invitations";
 			$query .= (Settings::get('visitors_limit') == '0')
 				? ""
 				: " LIMIT " . Settings::get('visitors_limit');
 
 			$rows = $db->query(
 				$query,
-				NULL,
+				array(
+					':state_invited' => Thread::STATE_INVITED,
+					':invitation_wait' => Thread::INVITATION_WAIT
+				),
 				array('return_rows' => Database::RETURN_ALL_ROWS)
 			);
 
@@ -410,6 +427,7 @@ class UsersProcessor extends ClientSideProcessor {
 				}
 
 				// Get invitation info
+				$row['invited'] = ($row['invitationstate'] == Thread::INVITATION_WAIT);
 				if ($row['invited']) {
 					$agent_name  = get_operator_name(
 						operator_by_id($row['invitedby'])

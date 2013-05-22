@@ -341,6 +341,13 @@ disableInput:function(){this.ui.message.attr("disabled","disabled")},clearInput:
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
+(function(a,b){a.Layouts.Invitation=b.Marionette.Layout.extend({template:Handlebars.templates.invitation_layout,regions:{messagesRegion:{selector:"#invitation-messages-region",regionType:a.Regions.Messages}}})})(Mibew,Backbone);
+/*
+ Copyright 2005-2013 the original author or authors.
+ Licensed under the Apache License, Version 2.0 (the "License").
+ You may obtain a copy of the License at
+     http://www.apache.org/licenses/LICENSE-2.0
+*/
 (function(a,b){a.Layouts.LeaveMessage=b.Marionette.Layout.extend({template:Handlebars.templates.leave_message_layout,regions:{leaveMessageFormRegion:"#content-wrapper",descriptionRegion:"#description-region"},serializeData:function(){return{page:a.Objects.Models.page.toJSON()}}})})(Mibew,Backbone);
 /*
  Copyright 2005-2013 the original author or authors.
@@ -368,6 +375,15 @@ delete a.Objects.Collections.messages;delete a.Objects.Collections.controls;dele
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
+(function(a){var d=[],e=a.Application,b=e.module("Invitation",{startWithParent:!1});b.addInitializer(function(f){var c=a.Objects,b=a.Objects.Models;b.thread=new a.Models.Thread(f.thread);b.user=new a.Models.ChatUser(f.user);c.invitationLayout=new a.Layouts.Invitation;e.mainRegion.show(c.invitationLayout);c.Collections.messages=new a.Collections.Messages;c.invitationLayout.messagesRegion.show(new a.Views.MessagesCollection({collection:c.Collections.messages}));d.push(c.server.callFunctionsPeriodically(function(){var b=
+a.Objects.Models.thread;return[{"function":"update",arguments:{"return":{},references:{},threadId:b.get("id"),token:b.get("token"),lastId:b.get("lastId"),typed:!1,user:!0}}]},function(){}))});b.on("start",function(){a.Objects.server.restartUpdater()});b.addFinalizer(function(){a.Objects.invitationLayout.close();for(var b=0;b<d.length;b++)a.Objects.server.stopCallFunctionsPeriodically(d[b]);a.Objects.Collections.messages.finalize();delete a.Objects.invitationLayout;delete a.Objects.Models.thread;delete a.Objects.Models.user;
+delete a.Objects.Collections.messages})})(Mibew);
+/*
+ Copyright 2005-2013 the original author or authors.
+ Licensed under the Apache License, Version 2.0 (the "License").
+ You may obtain a copy of the License at
+     http://www.apache.org/licenses/LICENSE-2.0
+*/
 (function(a){var e=a.Application,f=e.module("LeaveMessage",{startWithParent:!1});f.addInitializer(function(d){var b=a.Objects,c=a.Objects.Models;d.page&&c.page.set(d.page);b.leaveMessageLayout=new a.Layouts.LeaveMessage;e.mainRegion.show(b.leaveMessageLayout);c.leaveMessageForm=new a.Models.LeaveMessageForm(d.leaveMessageForm);b.leaveMessageLayout.leaveMessageFormRegion.show(new a.Views.LeaveMessageForm({model:c.leaveMessageForm}));b.leaveMessageLayout.descriptionRegion.show(new a.Views.LeaveMessageDescription);
 c.leaveMessageForm.on("submit:complete",function(){b.leaveMessageLayout.leaveMessageFormRegion.close();b.leaveMessageLayout.descriptionRegion.close();b.leaveMessageLayout.descriptionRegion.show(new a.Views.LeaveMessageSentDescription)})});f.addFinalizer(function(){a.Objects.leaveMessageLayout.close();delete a.Objects.Models.leaveMessageForm})})(Mibew);
 /*
@@ -383,5 +399,5 @@ c.leaveMessageForm.on("submit:complete",function(){b.leaveMessageLayout.leaveMes
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(a,d){var c=a.Application;c.addRegions({mainRegion:"#main-region"});c.addInitializer(function(b){a.PluginOptions=b.plugins||{};a.Objects.server=new a.Server(d.extend({interactionType:MibewAPIChatInteraction},b.server));a.Objects.Models.page=new a.Models.Page(b.page);switch(b.startFrom){case "chat":c.Chat.start(b.chatOptions);break;case "survey":c.Survey.start(b.surveyOptions);break;case "leaveMessage":c.LeaveMessage.start(b.leaveMessageOptions);break;default:throw Error("Dont know how to start!");
-}});c.on("start",function(){a.Objects.server.runUpdater()})})(Mibew,_);
+(function(b,d){var c=b.Application;c.addRegions({mainRegion:"#main-region"});c.addInitializer(function(a){b.PluginOptions=a.plugins||{};b.Objects.server=new b.Server(d.extend({interactionType:MibewAPIChatInteraction},a.server));b.Objects.Models.page=new b.Models.Page(a.page);switch(a.startFrom){case "chat":c.Chat.start(a.chatOptions);break;case "survey":c.Survey.start(a.surveyOptions);break;case "leaveMessage":c.LeaveMessage.start(a.leaveMessageOptions);break;case "invitation":c.Invitation.start(a.invitationOptions);
+break;default:throw Error("Dont know how to start!");}});c.on("start",function(){b.Objects.server.runUpdater()})})(Mibew,_);

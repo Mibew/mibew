@@ -70,7 +70,11 @@
             /**
              * User left message without starting a conversation
              */
-            STATE_LEFT: 5
+            STATE_LEFT: 5,
+            /**
+             * Visitor was invited to chat by operator
+             */
+            STATE_INVITED: 6
 
             /** End of thread state constants */
         }

@@ -642,8 +642,30 @@ function chat_start_for_user($group_id, $visitor_id, $visitor_name, $referrer, $
 		die("number of connections from your IP is exceeded, try again later");
 	}
 
-	// Create thread
-	$thread = Thread::create();
+	// Check if visitor was invited to chat
+	$is_invited = false;
+	if (Settings::get('enabletracking')) {
+		$invitation_state = invitation_state($_SESSION['visitorid']);
+		if ($invitation_state['invited']) {
+			$is_invited = true;
+		}
+	}
+
+	// Get thread object
+	if ($is_invited) {
+		// Get thread from invitation
+		$thread = invitation_accept($_SESSION['visitorid']);
+		if (! $thread) {
+			die("Cannot start thread");
+		}
+		$thread->state = Thread::STATE_CHATTING;
+	} else {
+		// Create thread
+		$thread = Thread::create();
+		$thread->state = Thread::STATE_LOADING;
+	}
+
+	// Update thread fields
 	$thread->groupId = $group_id;
 	$thread->userName = $visitor_name;
 	$thread->remote = $remote_host;
@@ -651,36 +673,31 @@ function chat_start_for_user($group_id, $visitor_id, $visitor_name, $referrer, $
 	$thread->locale = $current_locale;
 	$thread->userId = $visitor_id;
 	$thread->userAgent = $user_browser;
-	$thread->state = Thread::STATE_LOADING;
 	$thread->save();
 
 	$_SESSION['threadid'] = $thread->id;
 
-	// Check if invitation accept
-	if (Settings::get('enabletracking')) {
-		$operator = invitation_accept($_SESSION['visitorid'], $thread->id);
-		if ($operator) {
-			$operator = operator_by_id($operator);
-			$operator_name = get_operator_name($operator);
-			$thread->postMessage(
-				Thread::KIND_FOR_AGENT,
-				getstring2(
-					'chat.visitor.invitation.accepted',
-					array($operator_name)
-				)
-			);
-		}
-	}
-
-	// Send some messages
-	if ($referrer) {
+	// Send several messages
+	if ($is_invited) {
+		$operator = operator_by_id($thread->agentId);
+		$operator_name = get_operator_name($operator);
 		$thread->postMessage(
 			Thread::KIND_FOR_AGENT,
-			getstring2('chat.came.from',array($referrer))
+			getstring2(
+				'chat.visitor.invitation.accepted',
+				array($operator_name)
+			)
 		);
-	}
+	} else {
+		if ($referrer) {
+			$thread->postMessage(
+				Thread::KIND_FOR_AGENT,
+				getstring2('chat.came.from',array($referrer))
+			);
+		}
 
-	$thread->postMessage(Thread::KIND_INFO, getstring('chat.wait'));
+		$thread->postMessage(Thread::KIND_INFO, getstring('chat.wait'));
+	}
 
 	// TODO: May be move sending this message somewhere else?
 	if ($info) {

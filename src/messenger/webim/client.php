@@ -47,6 +47,24 @@ if (get_remote_level($_SERVER['HTTP_USER_AGENT']) == 'old') {
 	exit;
 }
 
+if (verifyparam("act", "/^(invitation)$/", "default") == 'invitation') {
+	// Check if user invited to chat
+	$invitation_state = invitation_state($_SESSION['visitorid']);
+
+	if ($invitation_state['invited'] && $invitation_state['threadid']) {
+		$thread = Thread::load($invitation_state['threadid']);
+
+		// Prepare page
+		$page = setup_invitation_view($thread);
+
+		// Build js application options
+		$page['invitationOptions'] = json_encode($page['invitation']);
+		// Expand page
+		expand("styles/dialogs", getchatstyle(), "chat.tpl");
+		exit;
+	}
+}
+
 if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 
 	$thread = NULL;
@@ -107,8 +125,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 		// Get invitation info
 		if (Settings::get('enabletracking')) {
 			$invitation_state = invitation_state($_SESSION['visitorid']);
-			$visitor_is_invited = $invitation_state['invited']
-				&& !$invitation_state['threadid'];
+			$visitor_is_invited = $invitation_state['invited'];
 		} else {
 			$visitor_is_invited = false;
 		}

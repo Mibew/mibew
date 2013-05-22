@@ -40,6 +40,9 @@
             case 'leaveMessage':
                 app.LeaveMessage.start(options.leaveMessageOptions);
                 break;
+            case 'invitation':
+                app.Invitation.start(options.invitationOptions);
+                break;
             default:
                 throw new Error('Dont know how to start!');
                 break;
