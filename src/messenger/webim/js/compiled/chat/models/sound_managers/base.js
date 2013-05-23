@@ -5,4 +5,4 @@
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(a){a.Views.MessagesCollection=a.Views.CollectionBase.extend({itemView:a.Views.Message,className:"messages-collection"})})(Mibew);
+(function(b,a){b.Models.BaseSoundManager=a.Model.extend({defaults:{enabled:!0},play:function(a){this.get("enabled")&&b.Utils.playSound(a)}})})(Mibew,Backbone);

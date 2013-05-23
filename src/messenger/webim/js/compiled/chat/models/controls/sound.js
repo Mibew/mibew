@@ -5,4 +5,4 @@
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(a,b){a.Models.SoundControl=a.Models.Control.extend({defaults:b.extend({},a.Models.Control.prototype.defaults,{enabled:!0}),getModelType:function(){return"SoundControl"}})})(Mibew,_);
+(function(a,c){a.Models.SoundControl=a.Models.Control.extend({defaults:c.extend({},a.Models.Control.prototype.defaults,{enabled:!0}),toggle:function(){var b=!this.get("enabled");a.Objects.Models.soundManager.set({enabled:b});this.set({enabled:b})},getModelType:function(){return"SoundControl"}})})(Mibew,_);

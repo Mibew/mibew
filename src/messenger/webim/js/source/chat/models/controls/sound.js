@@ -33,6 +33,19 @@
             ),
 
             /**
+             * Toggles sound control state
+             */
+            toggle: function() {
+                var enabled = ! this.get('enabled');
+
+                // Toggle sound manager state
+                Mibew.Objects.Models.soundManager.set({'enabled': enabled});
+
+                // Update self state
+                this.set({'enabled': enabled});
+            },
+
+            /**
              * Returns model type
              * @returns {String} Model type
              */

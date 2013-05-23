@@ -38,9 +38,7 @@
              * Toggle sound state
              */
             toggle: function() {
-                this.model.set({
-                    enabled: !this.model.get('enabled')
-                });
+                this.model.toggle();
             }
         }
     );

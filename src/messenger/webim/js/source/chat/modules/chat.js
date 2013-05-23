@@ -174,6 +174,7 @@
             collection: objs.Collections.messages
         }));
 
+        models.soundManager = new Mibew.Models.ChatSoundManager();
 
         // TODO: May be move it somewhere else
         // Periodically call update function at the server side
