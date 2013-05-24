@@ -49,7 +49,9 @@ if ($query !== false) {
 	$page['groupName'] = $groupName;
 
 	$values = array(
-		':query' => "%{$query}%"
+		':query' => "%{$query}%",
+		':invitation_accepted' => Thread::INVITATION_ACCEPTED,
+		':invitation_not_invited' => Thread::INVITATION_NOT_INVITED
 	);
 
 	$searchConditions = array();
@@ -75,6 +77,8 @@ if ($query !== false) {
 		"{chatthread}, {indexedchatmessage}",
 		array(
 			"{indexedchatmessage}.threadid = {chatthread}.threadid",
+			"({chatthread}.invitationstate = :invitation_accepted " .
+				"OR {chatthread}.invitationstate = :invitation_not_invited)",
 			"(" . implode(' or ', $searchConditions)  .  ")"
 		),
 		"order by {chatthread}.dtmcreated DESC",

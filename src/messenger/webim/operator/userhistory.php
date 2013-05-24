@@ -40,10 +40,17 @@ function threads_by_userid($userid)
 	}
 
 	return $db->query(
-		"select {chatthread}.* " .
-		"from {chatthread} " .
-		"where userid=? order by dtmcreated DESC",
-		array($userid),
+		"SELECT {chatthread}.* " .
+		"FROM {chatthread} " .
+		"WHERE userid=:user_id " .
+			"AND (invitationstate = :invitation_accepted " .
+				"OR invitationstate = :invitation_not_invited) " .
+		"ORDER BY dtmcreated DESC",
+		array(
+			':user_id' => $userid,
+			':invitation_accepted' => Thread::INVITATION_ACCEPTED,
+			':invitation_not_invited' => Thread::INVITATION_NOT_INVITED
+		),
 		array('return_rows' => Database::RETURN_ALL_ROWS)
 	);
 }
