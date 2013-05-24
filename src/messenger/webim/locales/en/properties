@@ -222,8 +222,6 @@ installed.login_link=Proceed to the login page
 installed.message=<b>Application installed successfully.</b>
 installed.notice=You can logon as <b>admin</b> with empty password.<br/><br/><font color="#c13030"><b>!!! For security reasons please change your password immediately and remove the {0} folder from your server.</b></font>
 invitation.message=Hello, how can I help you?
-invitation.sent=Invitation sent to visitor. Please wait for a while.
-invitation.title=Invitation
 lang.choose=Choose your language
 leavemail.body=Your have a message from {0}:\n\n{2}\n\nHis email: {1}\n{3}\n--- \nRegards,\nMibew
 leavemail.subject=Question from {0}
