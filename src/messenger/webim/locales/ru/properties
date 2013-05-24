@@ -82,6 +82,7 @@ chat.visitor.email=E-Mail: {0}
 chat.visitor.info=О Посетителе: {0}
 chat.visitor.invitation.accepted=Посетитель принял приглашение от оператора {0}
 chat.visitor.invitation.canceled=Оператор отменил приглашение
+chat.visitor.invitation.ignored=Посетитель проигнорировал приглашение и оно было закрыто автоматически
 chat.visitor.invitation.rejected=Посетитель отклонил приглашение
 chat.visitor.invitation.sent=Оператор {0} пригласил посетителя на странице {1}
 chat.wait=Пожалуйста, подождите немного, к Вам присоединится оператор..

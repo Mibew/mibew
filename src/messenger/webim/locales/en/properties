@@ -82,6 +82,7 @@ chat.visitor.email=E-Mail: {0}
 chat.visitor.info=Info: {0}
 chat.visitor.invitation.accepted=Visitor accepted invitation from operator {0}
 chat.visitor.invitation.canceled=Operator canceled invitation
+chat.visitor.invitation.ignored=Visitor ignored invitation and it was closed automatically
 chat.visitor.invitation.rejected=Visitor rejected invitation
 chat.visitor.invitation.sent=Operator {0} invites visitor at {1} page
 chat.wait=Thank you for contacting us. An operator will be with you shortly.

@@ -215,6 +215,21 @@ function invitation_reject($visitor_id) {
 function invitation_close_old() {
 	$db = Database::getInstance();
 
+	// Get all threads to close
+	$threads = $db->query(
+		"SELECT * FROM {chatthread} " .
+		"WHERE istate = :state_invited " .
+			"AND invitationstate = :invitation_wait " .
+			"AND (:now - dtmcreated) > :lifetime",
+		array(
+			':invitation_wait' => Thread::INVITATION_WAIT,
+			':state_invited' => Thread::STATE_INVITED,
+			':lifetime' => Settings::get('invitation_lifetime'),
+			':now' => time()
+		),
+		array('return_rows' => Database::RETURN_ALL_ROWS)
+	);
+
 	// Remove old invitations
 	$db->query(
 		"UPDATE {chatsitevisitor} v, {chatthread} t SET " .
@@ -233,6 +248,17 @@ function invitation_close_old() {
 			':now' => time()
 		)
 	);
+
+	// Iterate over all threads and send messages to operator about close by
+	// timeout
+	foreach($threads as $thread_info) {
+		$thread = Thread::createFromDbInfo($thread_info);
+		$thread->postMessage(
+			Thread::KIND_FOR_AGENT,
+			getstring_('chat.visitor.invitation.ignored', $thread->locale)
+		);
+		unset($thread);
+	}
 }
 
 /**
