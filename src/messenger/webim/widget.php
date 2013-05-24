@@ -66,8 +66,8 @@ if (Settings::get('enabletracking') == '1') {
 	if (! $invitation_state['invited']
 		&& ! empty($_SESSION['invitation_threadid'])
 	) {
-		$response['handlers'][] = 'inviteOnClose';
-		$response['dependences']['inviteOnClose'] = array();
+		$response['handlers'][] = 'invitationClose';
+		$response['dependences']['invitationClose'] = array();
 		unset($_SESSION['invitation_threadid']);
 	}
 
@@ -84,17 +84,17 @@ if (Settings::get('enabletracking') == '1') {
 		// Get operator info
 		$operator = operator_by_id($thread->agentId);
 		$locale = isset($_GET['locale']) ? $_GET['locale'] : '';
-		$operatorName = ($locale == $home_locale)
+		$operator_name = ($locale == $home_locale)
 			? $operator['vclocalename']
 			: $operator['vccommonname'];
 
 		// Show invitation dialog at widget side
-		$response['handlers'][] = 'inviteOnResponse';
-		$response['dependences']['inviteOnResponse'] = array();
+		$response['handlers'][] = 'invitationCreate';
+		$response['dependences']['invitationCreate'] = array();
 		$response['data']['invitation'] = array(
-			'operator' => htmlspecialchars($operatorName),
-			'avatar' => htmlspecialchars($operator['vcavatar']),
-			'url' => get_app_location(true, is_secure_request())
+			'operatorName' => htmlspecialchars($operator_name),
+			'avatarUrl' => htmlspecialchars($operator['vcavatar']),
+			'threadUrl' => get_app_location(true, is_secure_request())
 				. '/client.php?act=invitation'
 		);
 

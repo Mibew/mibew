@@ -320,6 +320,7 @@ var Mibew = {};
         Mibew.Objects.widget.makeRequest();
     }
 
+
     /**
      * @namespace Holds utility functions
      */
@@ -359,6 +360,99 @@ var Mibew = {};
         return value;
     }
 
+
+    /**
+     * @namespace Holds invitation stuff
+     */
+    Mibew.Invitation = {};
+
+    /**
+     * Create invitation popup
+     * @param {Object} options Popup options. It can contain following items:
+     *  - 'operatorName': String, name of the operator who invite visitor to
+     *    chat;
+     *  - 'avatarUrl' String, URL of operator's avatar;
+     *  - 'threadUrl': String, URL of the invitation thread which must be
+     *    dispaly in invitation iframe.
+     */
+    Mibew.Invitation.create = function (options) {
+        var operatorName = options.operatorName;
+        var avatarUrl = options.avatarUrl;
+        var threadUrl = options.threadUrl;
+
+        var popuptext = '<div id="mibewinvitationpopup" style="display: none;">';
+        popuptext += '<div id="mibewinvitationclose">'
+            + '<a href="javascript:void(0);" onclick="Mibew.Invitation.reject();">'
+            + '&times;</a></div>';
+
+        // Add operator name
+        if (operatorName) {
+            popuptext += '<h1 onclick="Mibew.Invitation.accept();">'
+                + operatorName
+                + '</h1>';
+        }
+
+        // Add operator avatar
+        if (avatarUrl) {
+            popuptext += '<img id="mibewinvitationavatar" src="' + avatarUrl
+                + '" title="' + operatorName
+                + '" alt="' + operatorName
+                + '" onclick="Mibew.Invitation.accept();" />';
+        }
+
+        // Broadcast message from the thread related with invitation into iframe
+        if (threadUrl) {
+            popuptext += '<iframe id="mibewinvitationframe" src="' + threadUrl
+                + '" onload="Mibew.Invitation.show();"></iframe>';
+        }
+
+        popuptext += '<div style="clear: both;"></div></div>';
+
+        var invitationdiv = document.getElementById("mibewinvitation");
+        if (invitationdiv) {
+                invitationdiv.innerHTML = popuptext;
+        }
+    }
+
+    /**
+     * Display invitation popup
+     */
+    Mibew.Invitation.show = function() {
+        var invitationPopup = document.getElementById('mibewinvitationpopup');
+        if (invitationPopup) {
+            invitationPopup.style.display = 'block';
+        }
+    }
+
+    /**
+     * Hide invitation popup and remove it from DOM
+     */
+    Mibew.Invitation.hide = function() {
+        var invitationPopup = document.getElementById('mibewinvitationpopup');
+        if (invitationPopup) {
+            invitationPopup.parentNode.removeChild(invitationPopup);
+        }
+    }
+
+    /**
+     * Accept invitation and open chat window
+     */
+    Mibew.Invitation.accept = function() {
+        if (document.getElementById('mibewAgentButton')) {
+            document.getElementById('mibewAgentButton').onclick();
+            Mibew.Invitation.hide();
+        }
+    }
+
+    /**
+     * Visitor rejects invitation
+     */
+    Mibew.Invitation.reject = function() {
+        Mibew.Objects.widget.sendToServer({'invitation_rejected': 1});
+        Mibew.Invitation.hide();
+    }
+
+
     /**
      * @namespace Holds functions that can be called by the Core
      */
@@ -377,91 +471,16 @@ var Mibew = {};
 
     /**
      * Show invitation popup
-     * @param {Object} response Data passed from server
+     * @param {Object} data Response data passed from server
      */
-    Mibew.APIFunctions.inviteOnResponse = function(response) {
-        var operator = response.invitation.operator;
-        var avatar = response.invitation.avatar;
-        var url = response.invitation.url;
-
-        var popuptext = '<div id="mibewinvitationpopup" style="display: none;">';
-        popuptext += '<div id="mibewinvitationclose">'
-            + '<a href="javascript:void(0);" onclick="Mibew.Invitation.reject();">'
-            + '&times;</a></div>';
-
-        // Add operator name
-        if (operator) {
-            popuptext += '<h1 onclick="Mibew.Invitation.accept();">'
-                + operator
-                + '</h1>';
-        }
-
-        // Add operator avatar
-        if (avatar) {
-            popuptext += '<img id="mibewinvitationavatar" src="' + avatar
-                + '" title="' + operator
-                + '" alt="' + operator
-                + '" onclick="Mibew.Invitation.accept();" />';
-        }
-
-        // Translate message from the thread related with invitation into iframe
-        if (url) {
-            popuptext += '<iframe id="mibewinvitationframe" src="' + url
-                + '" onload="Mibew.Invitation.show();"></iframe>';
-        }
-
-        popuptext += '<div style="clear: both;"></div></div>';
-
-        var invitationdiv = document.getElementById("mibewinvitation");
-        if (invitationdiv) {
-                invitationdiv.innerHTML = popuptext;
-        }
+    Mibew.APIFunctions.invitationCreate = function(data) {
+        Mibew.Invitation.create(data.invitation);
     }
 
     /**
      * Close invitation popup
      */
-    Mibew.APIFunctions.inviteOnClose = function() {
-        Mibew.Invitation.hide();
-    }
-
-    /**
-     * @namespace Holds invitation stuff
-     */
-    Mibew.Invitation = {};
-
-    /**
-     * Hide invitation popup and remove it from DOM
-     */
-    Mibew.Invitation.hide = function() {
-        var invitationPopup = document.getElementById('mibewinvitationpopup');
-        if (invitationPopup) {
-            invitationPopup.parentNode.removeChild(invitationPopup);
-        }
-    }
-
-    /**
-     * Display invitation popup
-     */
-    Mibew.Invitation.show = function() {
-        var invitationPopup = document.getElementById('mibewinvitationpopup');
-        if (invitationPopup) {
-            invitationPopup.style.display = 'block';
-        }
-    }
-
-    /**
-     * Accept invitation and open chat window
-     */
-    Mibew.Invitation.accept = function() {
-        if (document.getElementById('mibewAgentButton')) {
-            document.getElementById('mibewAgentButton').onclick();
-            Mibew.Invitation.hide();
-        }
-    }
-
-    Mibew.Invitation.reject = function() {
-        Mibew.Objects.widget.sendToServer({'invitation_rejected': 1});
+    Mibew.APIFunctions.invitationClose = function() {
         Mibew.Invitation.hide();
     }
 
