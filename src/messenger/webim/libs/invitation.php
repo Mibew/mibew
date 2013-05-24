@@ -59,8 +59,9 @@ function invitation_state($visitor_id) {
 function invitation_invite($visitor_id, $operator) {
 	global $current_locale;
 
-	// The visitor already invited
-	if (invitation_check($visitor_id)) {
+	// Check if visitor already invited
+	$invitation_state = invitation_state($visitor_id);
+	if ($invitation_state['invited']) {
 		return false;
 	}
 
@@ -126,35 +127,6 @@ function invitation_invite($visitor_id, $operator) {
 
 	return $thread;
 }
-
-/**
- * Check if visitor already invited
- *
- * @param int $visitor_id ID of the visitor to check
- * @return int|boolean ID of the operator who invite the visitor or boolean
- * false if the visitor was not invited.
- */
-function invitation_check($visitor_id) {
-	$db = Database::getInstance();
-	$result = $db->query(
-		"SELECT t.agentId AS invitedby " .
-		"FROM {chatsitevisitor} v, {chatthread} t " .
-		"WHERE v.threadid = t.threadid " .
-			"AND v.visitorid = :visitor_id " .
-			// Check only for new invitations. Refactor this place later
-			"AND v.lasttime < t.dtmcreated " .
-			"AND t.istate = :state_invited " .
-			"AND t.invitationstate = :invitation_wait ",
-		array(
-			':visitor_id' => $visitor_id,
-			':state_invited' => Thread::STATE_INVITED,
-			':invitation_wait' => Thread::INVITATION_WAIT
-		),
-		array('return_rows' => Database::RETURN_ONE_ROW)
-	);
-	return empty($result['invitedby']) ? false : $result['invitedby'];
-}
-
 
 /**
  * Invitation was accepted by visitor

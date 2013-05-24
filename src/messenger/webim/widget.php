@@ -33,7 +33,7 @@ if (Settings::get('enabletracking') == '1') {
 	if (isset($_SESSION['visitorid'])
 			&& preg_match('/^[0-9]+$/', $_SESSION['visitorid'])) {
 		// Session started. Track visitor
-		$invited = invitation_check($_SESSION['visitorid']);
+		$invitation_state = invitation_state($_SESSION['visitorid']);
 		$visitorid = track_visitor($_SESSION['visitorid'], $entry, $referer);
 		$visitor = track_get_visitor_by_id($visitorid);
 	} else {
@@ -42,7 +42,7 @@ if (Settings::get('enabletracking') == '1') {
 			// Session not started but visitor exist in database.
 			// Probably third-party cookies disabled by the browser.
 			// Use tracking by local cookie at target site
-			$invited = invitation_check($visitor['visitorid']);
+			$invitation_state = invitation_state($visitor['visitorid']);
 			$visitorid = track_visitor($visitor['visitorid'], $entry, $referer);
 		} else {
 			// Start tracking session
@@ -62,21 +62,43 @@ if (Settings::get('enabletracking') == '1') {
 		$response['data']['user']['id'] = $visitor['userid'];
 	}
 
+	// Check if invitation closed
+	if (! $invitation_state['invited']
+		&& ! empty($_SESSION['invitation_threadid'])
+	) {
+		$response['handlers'][] = 'inviteOnClose';
+		$response['dependences']['inviteOnClose'] = array();
+		unset($_SESSION['invitation_threadid']);
+	}
+
 	// Check if visitor just invited to chat
-	if ($invited !== FALSE) {
-		$operator = operator_by_id($invited);
-		$response['handlers'][] = 'inviteOnResponse';
-		$response['dependences']['inviteOnResponse'] = array();
+	$is_invited = $invitation_state['invited']
+		&& (empty($_SESSION['invitation_threadid'])
+			? true
+			: ($_SESSION['invitation_threadid'] != $invitation_state['threadid']));
+
+	if ($is_invited) {
+		// Load invitation thread
+		$thread = Thread::load($invitation_state['threadid']);
+
+		// Get operator info
+		$operator = operator_by_id($thread->agentId);
 		$locale = isset($_GET['locale']) ? $_GET['locale'] : '';
 		$operatorName = ($locale == $home_locale)
 			? $operator['vclocalename']
 			: $operator['vccommonname'];
+
+		// Show invitation dialog at widget side
+		$response['handlers'][] = 'inviteOnResponse';
+		$response['dependences']['inviteOnResponse'] = array();
 		$response['data']['invitation'] = array(
 			'operator' => htmlspecialchars($operatorName),
 			'avatar' => htmlspecialchars($operator['vcavatar']),
 			'url' => get_app_location(true, is_secure_request())
 				. '/client.php?act=invitation'
 		);
+
+		$_SESSION['invitation_threadid'] = $thread->id;
 	}
 
 	// Check if visitor reject invitation

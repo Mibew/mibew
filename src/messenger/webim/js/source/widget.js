@@ -419,6 +419,13 @@ var Mibew = {};
     }
 
     /**
+     * Close invitation popup
+     */
+    Mibew.APIFunctions.inviteOnClose = function() {
+        Mibew.Invitation.hide();
+    }
+
+    /**
      * @namespace Holds invitation stuff
      */
     Mibew.Invitation = {};

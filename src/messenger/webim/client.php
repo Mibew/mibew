@@ -47,7 +47,9 @@ if (get_remote_level($_SERVER['HTTP_USER_AGENT']) == 'old') {
 	exit;
 }
 
-if (verifyparam("act", "/^(invitation)$/", "default") == 'invitation') {
+if (verifyparam("act", "/^(invitation)$/", "default") == 'invitation'
+	&& Settings::get('enabletracking')
+) {
 	// Check if user invited to chat
 	$invitation_state = invitation_state($_SESSION['visitorid']);
 

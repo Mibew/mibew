@@ -859,9 +859,40 @@ Class Thread {
 	 * @param boolean $is_user Boolean TRUE if user initiate thread closing or boolean FALSE otherwise
 	 */
 	public function close($is_user) {
-		$db = Database::getInstance();
+		// Send message about closing
+		if ($is_user) {
+			$this->postMessage(
+				self::KIND_EVENTS,
+				getstring2_(
+					"chat.status.user.left",
+					array($this->userName),
+					$this->locale
+				)
+			);
+		} else {
+			if ($this->state == self::STATE_INVITED) {
+				$this->postMessage(
+					self::KIND_FOR_AGENT,
+					getstring_(
+						"chat.visitor.invitation.canceled",
+						$this->locale
+					)
+				);
+			} else {
+				$this->postMessage(
+					self::KIND_EVENTS,
+					getstring2_(
+						"chat.status.operator.left",
+						array($this->agentName),
+						$this->locale
+					)
+				);
+			}
+		}
 
 		// Get messages count
+		$db = Database::getInstance();
+
 		list($message_count) = $db->query(
 			"SELECT COUNT(*) FROM {chatmessage} WHERE {chatmessage}.threadid = :threadid AND ikind = :kind_user",
 			array(
@@ -880,15 +911,6 @@ Class Thread {
 			$this->messageCount = $message_count;
 			$this->save();
 		}
-
-		// Send message about closing
-		$message = '';
-		if ($is_user) {
-			$message = getstring2_("chat.status.user.left", array($this->userName), $this->locale);
-		} else {
-			$message = getstring2_("chat.status.operator.left", array($this->agentName), $this->locale);
-		}
-		$this->postMessage(self::KIND_EVENTS, $message);
 	}
 
 	/**
