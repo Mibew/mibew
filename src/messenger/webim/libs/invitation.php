@@ -242,7 +242,7 @@ function invitation_close_old() {
  * @return array Array of invitation data
  */
 function setup_invitation_view(Thread $thread) {
-	$data = array();
+	$data = prepare_chat_app_data();
 
 	// Set refresh frequency
 	$data['frequency'] = Settings::get('updatefrequency_chat');
