@@ -20,7 +20,6 @@ require_once('libs/invitation.php');
 require_once('libs/operator.php');
 require_once('libs/track.php');
 
-$invited = FALSE;
 $operator = array();
 $response = array();
 if (Settings::get('enabletracking') == '1') {
@@ -33,7 +32,6 @@ if (Settings::get('enabletracking') == '1') {
 	if (isset($_SESSION['visitorid'])
 			&& preg_match('/^[0-9]+$/', $_SESSION['visitorid'])) {
 		// Session started. Track visitor
-		$invitation_state = invitation_state($_SESSION['visitorid']);
 		$visitorid = track_visitor($_SESSION['visitorid'], $entry, $referer);
 		$visitor = track_get_visitor_by_id($visitorid);
 	} else {
@@ -42,7 +40,6 @@ if (Settings::get('enabletracking') == '1') {
 			// Session not started but visitor exist in database.
 			// Probably third-party cookies disabled by the browser.
 			// Use tracking by local cookie at target site
-			$invitation_state = invitation_state($visitor['visitorid']);
 			$visitorid = track_visitor($visitor['visitorid'], $entry, $referer);
 		} else {
 			// Start tracking session
@@ -61,6 +58,9 @@ if (Settings::get('enabletracking') == '1') {
 		$response['dependences']['updateUserId'] = array();
 		$response['data']['user']['id'] = $visitor['userid'];
 	}
+
+	// Get invitation state
+	$invitation_state = invitation_state($visitorid);
 
 	// Check if invitation closed
 	if (! $invitation_state['invited']
@@ -102,7 +102,6 @@ if (Settings::get('enabletracking') == '1') {
 	}
 
 	// Check if visitor reject invitation
-	$invitation_state = invitation_state($visitorid);
 	if ($invitation_state['invited'] && ! empty($_GET['invitation_rejected'])) {
 		invitation_reject($visitorid);
 	}
