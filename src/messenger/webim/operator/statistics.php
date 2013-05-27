@@ -40,6 +40,8 @@ $page['showbypage'] = ($statisticstype == 'bypage');
 $page['cron_path'] = cron_get_uri(Settings::get('cron_key'));
 $page['last_cron_run'] = Settings::get('_last_cron_run');
 
+$page['show_invitations_info'] = (bool)Settings::get('enabletracking');
+
 $errors = array();
 
 if (isset($_GET['startday'])) {
@@ -81,6 +83,11 @@ if ($statisticstype == 'bydate') {
 	$page['reportByDate'] = $db->query(
 		"SELECT DATE(FROM_UNIXTIME(date)) AS date, " .
 			"threads, " .
+			"missedthreads, " .
+			"sentinvitations, " .
+			"acceptedinvitations, " .
+			"rejectedinvitations, " .
+			"ignoredinvitations, " .
 			"operatormessages AS agents, " .
 			"usermessages AS users, " .
 			"averagewaitingtime AS avgwaitingtime, " .
@@ -99,6 +106,11 @@ if ($statisticstype == 'bydate') {
 	$page['reportByDateTotal'] = $db->query(
 		"SELECT DATE(FROM_UNIXTIME(date)) AS date, " .
 			"SUM(threads) AS threads, " .
+			"SUM(missedthreads) AS missedthreads, " .
+			"SUM(sentinvitations) AS sentinvitations, " .
+			"SUM(acceptedinvitations) AS acceptedinvitations, " .
+			"SUM(rejectedinvitations) AS rejectedinvitations, " .
+			"SUM(ignoredinvitations) AS ignoredinvitations, " .
 			"SUM(operatormessages) AS agents, " .
 			"SUM(usermessages) AS users, " .
 			"ROUND(SUM(averagewaitingtime * s.threads) / SUM(s.threads),1) AS avgwaitingtime, " .

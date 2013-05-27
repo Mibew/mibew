@@ -62,45 +62,172 @@ function calculate_thread_statistics() {
 		$today = floor(time() / (24*60*60)) * 24*60*60;
 
 		// Calculate statistics
-		$db->query(
-			"INSERT INTO {chatthreadstatistics} ( " .
-				"date, threads, operatormessages, usermessages, " .
-				"averagewaitingtime, averagechattime " .
-			") SELECT (FLOOR(t.dtmcreated / (24*60*60)) * 24*60*60) AS date, " .
-				"COUNT(distinct t.threadid) AS threads, " .
-				"SUM(m.ikind = :kind_agent) AS operators, " .
-				"SUM(m.ikind = :kind_user) AS users, " .
-				"ROUND(AVG(t.dtmchatstarted-t.dtmcreated),1) as avgwaitingtime, " .
+		// Get base threads info
+		$db_results = $db->query(
+			"SELECT (FLOOR(t.dtmcreated / (24*60*60)) * 24*60*60) AS date, " .
+				"COUNT(t.threadid) AS threads, " .
+				"tmp.operator_msgs AS operator_msgs, " .
+				"tmp.user_msgs AS user_msgs, " .
 				// Prevent negative values of avgchattime field.
 				// If avgchattime < 0 it becomes to zero.
 				// For random value 'a' result of expression ((abs(a) + a) / 2)
 				// equals to 'a' if 'a' more than zero
 				// and equals to zero otherwise
 				"ROUND(AVG( " .
-					"ABS(tmp.lastmsgtime-t.dtmchatstarted) + " .
-					"(tmp.lastmsgtime-t.dtmchatstarted) " .
-				")/2,1) as avgchattime " .
-			"FROM {indexedchatmessage} m, " .
-				"{chatthread} t, " .
-				"(SELECT i.threadid, MAX(i.dtmcreated) AS lastmsgtime " .
-					"FROM {indexedchatmessage} i " .
-					"WHERE (ikind = :kind_user OR ikind = :kind_agent) " .
-					"GROUP BY i.threadid) tmp " .
-			"WHERE m.threadid = t.threadid " .
-				"AND tmp.threadid = t.threadid " .
-				"AND t.dtmchatstarted <> 0 " .
-				"AND (m.dtmcreated - :start) > 24*60*60 " .
+					"ABS(tmp.last_msg_time - t.dtmchatstarted) + " .
+					"(tmp.last_msg_time - t.dtmchatstarted) " .
+				")/2,1) as avg_chat_time " .
+			"FROM {chatthread} t, " .
+				"(SELECT SUM(m.ikind = :kind_agent) AS operator_msgs, " .
+					"SUM(m.ikind = :kind_user) AS user_msgs, " .
+					"MAX(m.dtmcreated) as last_msg_time, " .
+					"threadid " .
+				"FROM {indexedchatmessage} m " .
+				// Calculate only users' and operators' messages
+				"WHERE m.ikind = :kind_user " .
+					"OR m.ikind = :kind_agent " .
+				"GROUP BY m.threadid) tmp " .
+			"WHERE t.threadid = tmp.threadid " .
+				"AND (t.dtmcreated - :start) > 24*60*60 " .
 				// Calculate statistics only for threads that older than one day
-				"AND (:today - m.dtmcreated) > 24*60*60 " .
-			"GROUP BY date " .
-			"ORDER BY date",
+				"AND (:today - t.dtmcreated) > 24*60*60 " .
+				// Ignore threads when operator does not start chat
+				"AND t.dtmchatstarted <> 0 " .
+				// Ignore not accepted invitations
+				"AND (t.invitationstate = :not_invited " .
+					"OR t.invitationstate = :invitation_accepted) " .
+			"GROUP BY date",
 			array(
-				':kind_agent' => Thread::KIND_AGENT,
-				':kind_user' => Thread::KIND_USER,
 				':start' => $start,
-				':today' => $today
-			)
+				':today' => $today,
+				':not_invited' => Thread::INVITATION_NOT_INVITED,
+				':invitation_accepted' => Thread::INVITATION_ACCEPTED,
+				':kind_agent' => Thread::KIND_AGENT,
+				':kind_user' => Thread::KIND_USER
+			),
+			array('return_rows' => Database::RETURN_ALL_ROWS)
 		);
+
+		// Store statistics data
+		$statistics = extend_statistics_info(array(), $db_results);
+
+		// Get info about missed threads
+		$db_results = $db->query(
+			"SELECT (FLOOR(dtmcreated / (24*60*60)) * 24*60*60) AS date, " .
+				"COUNT(*) as missed_threads " .
+			"FROM {chatthread} " .
+			"WHERE (dtmcreated - :start) > 24*60*60 " .
+				// Calculate statistics only for threads that older than one day
+				"AND (:today - dtmcreated) > 24*60*60 " .
+				// Ignore threads when operator does not start chat
+				"AND dtmchatstarted = 0 " .
+				// Ignore not accepted invitations
+				"AND invitationstate = :not_invited " .
+			"GROUP BY date ORDER BY date DESC",
+			array(
+				':start' => $start,
+				':today' => $today,
+				':not_invited' => Thread::INVITATION_NOT_INVITED
+			),
+			array('return_rows' => Database::RETURN_ALL_ROWS)
+		);
+
+		// Add average waiting time to statistics data
+		$statistics = extend_statistics_info($statistics, $db_results);
+
+		// Get info about average chat time and missed threads count.
+		$db_results = $db->query(
+			"SELECT (FLOOR(dtmcreated / (24*60*60)) * 24*60*60) AS date, " .
+				"ROUND(AVG(dtmchatstarted-dtmcreated),1) AS avg_waiting_time,
+				SUM(dtmchatstarted = 0) AS missed_threads " .
+			"FROM {chatthread} " .
+			"WHERE (dtmcreated - :start) > 24*60*60 " .
+				// Calculate statistics only for threads that older than one day
+				"AND (:today - dtmcreated) > 24*60*60 " .
+				// Ignore threads when operator does not start chat
+				"AND dtmchatstarted <> 0 " .
+				// Ignore all invitations
+				"AND invitationstate = :not_invited " .
+			"GROUP BY date",
+			array(
+				':start' => $start,
+				':today' => $today,
+				':not_invited' => Thread::INVITATION_NOT_INVITED
+			),
+			array('return_rows' => Database::RETURN_ALL_ROWS)
+		);
+
+		// Add average waiting time to statistics data
+		$statistics = extend_statistics_info($statistics, $db_results);
+
+		// Get invitation info
+		$db_results = $db->query(
+			"SELECT (FLOOR(dtmcreated / (24*60*60)) * 24*60*60) AS date, " .
+				"COUNT(*) AS invitation_sent, " .
+				"SUM(invitationstate = :invitation_accepted) AS invitation_accepted, " .
+				"SUM(invitationstate = :invitation_rejected) AS invitation_rejected, " .
+				"SUM(invitationstate = :invitation_ignored) AS invitation_ignored " .
+			"FROM {chatthread} " .
+			"WHERE (dtmcreated - :start) > 24*60*60 " .
+				// Calculate statistics only for threads that older than one day
+				"AND (:today - dtmcreated) > 24*60*60 " .
+				"AND (invitationstate = :invitation_accepted " .
+					"OR invitationstate = :invitation_rejected " .
+					"OR invitationstate = :invitation_ignored) " .
+			"GROUP BY date",
+			array(
+				':start' => $start,
+				':today' => $today,
+				':invitation_accepted' => Thread::INVITATION_ACCEPTED,
+				':invitation_rejected' => Thread::INVITATION_REJECTED,
+				':invitation_ignored' => Thread::INVITATION_IGNORED
+			),
+			array('return_rows' => Database::RETURN_ALL_ROWS)
+		);
+
+		// Add invitation info to statistics data
+		$statistics = extend_statistics_info($statistics, $db_results);
+
+		// Sort statistics by date before save it in the database
+		ksort($statistics);
+
+		foreach($statistics as $row) {
+			// Add default values
+			$row += array(
+				'threads' => 0,
+				'missed_threads' => 0,
+				'operator_msgs' => 0,
+				'user_msgs' => 0,
+				'avg_chat_time' => 0,
+				'avg_waiting_time' => 0,
+				'invitation_sent' => 0,
+				'invitation_accepted' => 0,
+				'invitation_rejected' => 0,
+				'invitation_ignored' => 0
+			);
+
+			// Prepare data for insert
+			$insert_data = array();
+			foreach($row as $field_name => $field_value) {
+				$insert_data[':' . $field_name] = $field_value;
+			}
+
+			// Store data in database
+			$db->query(
+				"INSERT INTO {chatthreadstatistics} (" .
+					"date, threads, missedthreads, sentinvitations, " .
+					"acceptedinvitations, rejectedinvitations, " .
+					"ignoredinvitations, operatormessages, usermessages, " .
+					"averagewaitingtime, averagechattime " .
+				") VALUES (" .
+					":date, :threads, :missed_threads, :invitation_sent, " .
+					":invitation_accepted, :invitation_rejected, " .
+					":invitation_ignored, :operator_msgs, :user_msgs, " .
+					":avg_waiting_time, :avg_chat_time " .
+				")",
+				$insert_data
+			);
+		}
 	} catch(Exception $e) {
 		// Something went wrong: warn and rollback transaction.
 		trigger_error(
@@ -261,6 +388,26 @@ function calculate_page_statistics() {
 
 	// Set throw exceptions back
 	$db->throwExeptions($db_throw_exceptions);
+}
+
+/**
+ * Add info from $additional_info to $stat_info using value of 'date' item as
+ * a key.
+ *
+ * @param array $stat_info Statistics info
+ * @param array $additional_info Data that must be added to statistics info
+ * @return array Extended statistics info
+ */
+function extend_statistics_info($stat_info, $additional_info) {
+	$result = $stat_info;
+	foreach($additional_info as $row) {
+		$date = $row['date'];
+		if (empty($result[$date])) {
+			$result[$date] = array();
+		}
+		$result[$date] += $row;
+	}
+	return $result;
 }
 
 ?>

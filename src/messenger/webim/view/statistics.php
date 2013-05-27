@@ -81,6 +81,8 @@ require_once('inc_errors.php');
 </th><th>
 	<?php echo getlocal("report.bydate.2") ?>
 </th><th>
+	<?php echo getlocal("report.bydate.7") ?>
+</th><th>
 	<?php echo getlocal("report.bydate.3") ?>
 </th><th>
 	<?php echo getlocal("report.bydate.4") ?>
@@ -88,7 +90,19 @@ require_once('inc_errors.php');
 	<?php echo getlocal("report.bydate.5") ?>
 </th><th>
 	<?php echo getlocal("report.bydate.6") ?>
-</th></tr>
+</th>
+<?php if ($page['show_invitations_info']) { ?>
+<th>
+	<?php echo getlocal("report.bydate.8") ?>
+</th><th>
+	<?php echo getlocal("report.bydate.9") ?>
+</th><th>
+	<?php echo getlocal("report.bydate.10") ?>
+</th><th>
+	<?php echo getlocal("report.bydate.11") ?>
+</th>
+<?php } ?>
+</tr>
 </thead>
 <tbody>
 <?php if( $page['reportByDate'] ) { ?>
@@ -96,23 +110,37 @@ require_once('inc_errors.php');
 	<tr>
 		<td><?php echo $row['date'] ?></td>
 		<td><?php echo $row['threads'] ?></td>
+		<td><?php echo $row['missedthreads'] ?></td>
 		<td><?php echo $row['agents'] ?></td>
 		<td><?php echo $row['users'] ?></td>
 		<td><?php echo $row['avgwaitingtime'] ?></td>
 		<td><?php echo $row['avgchattime'] ?></td>
+		<?php if ($page['show_invitations_info']) { ?>
+		<td><?php echo $row['sentinvitations'] ?></td>
+		<td><?php echo $row['acceptedinvitations'] ?></td>
+		<td><?php echo $row['rejectedinvitations'] ?></td>
+		<td><?php echo $row['ignoredinvitations'] ?></td>
+		<?php } ?>
 	</tr>
 	<?php } ?>
 	<tr>
 		<td><b><?php echo getlocal("report.total") ?></b></td>
 		<td><?php echo $page['reportByDateTotal']['threads'] ?></td>
+		<td><?php echo $page['reportByDateTotal']['missedthreads'] ?></td>
 		<td><?php echo $page['reportByDateTotal']['agents'] ?></td>
 		<td><?php echo $page['reportByDateTotal']['users'] ?></td>
 		<td><?php echo $page['reportByDateTotal']['avgwaitingtime'] ?></td>
 		<td><?php echo $page['reportByDateTotal']['avgchattime'] ?></td>
+		<?php if ($page['show_invitations_info']) { ?>
+		<td><?php echo $page['reportByDateTotal']['sentinvitations'] ?></td>
+		<td><?php echo $page['reportByDateTotal']['acceptedinvitations'] ?></td>
+		<td><?php echo $page['reportByDateTotal']['rejectedinvitations'] ?></td>
+		<td><?php echo $page['reportByDateTotal']['ignoredinvitations'] ?></td>
+		<?php } ?>
 	</tr>
 <?php } else { ?>
 	<tr>
-	<td colspan="6">
+	<td colspan="<?php $page['show_invitations_info'] ? 11 : 7; ?>">
 		<?php echo getlocal("report.no_items") ?>
 	</td>
 	</tr>

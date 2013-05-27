@@ -132,6 +132,26 @@ if ($act == "silentcreateall") {
 			runsql("ALTER TABLE ${mysqlprefix}chatthread ADD invitationstate int NOT NULL DEFAULT 0 AFTER istate", $link);
 		}
 
+		if (in_array("${mysqlprefix}chatthreadstatistics.missedthreads", $absent_columns)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatthreadstatistics ADD missedthreads int NOT NULL DEFAULT 0 AFTER threads", $link);
+		}
+
+		if (in_array("${mysqlprefix}chatthreadstatistics.sentinvitations", $absent_columns)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatthreadstatistics ADD sentinvitations int NOT NULL DEFAULT 0 AFTER missedthreads", $link);
+		}
+
+		if (in_array("${mysqlprefix}chatthreadstatistics.acceptedinvitations", $absent_columns)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatthreadstatistics ADD acceptedinvitations int NOT NULL DEFAULT 0 AFTER sentinvitations", $link);
+		}
+
+		if (in_array("${mysqlprefix}chatthreadstatistics.rejectedinvitations", $absent_columns)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatthreadstatistics ADD rejectedinvitations int NOT NULL DEFAULT 0 AFTER acceptedinvitations", $link);
+		}
+
+		if (in_array("${mysqlprefix}chatthreadstatistics.ignoredinvitations", $absent_columns)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatthreadstatistics ADD ignoredinvitations int NOT NULL DEFAULT 0 AFTER rejectedinvitations", $link);
+		}
+
 		if (in_array("${mysqlprefix}chatoperator.iperm", $absent_columns)) {
 			runsql("ALTER TABLE ${mysqlprefix}chatoperator ADD iperm int DEFAULT 65535", $link);
 		}

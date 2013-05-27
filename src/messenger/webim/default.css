@@ -1,5 +1,6 @@
 /*
  * Copyright 2005-2013 Evgeny Gryaznov
+ * Copyright 2013 Simushev Dmitriy
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -484,9 +485,9 @@ table.list, table.translate, table.statistics {
 }
 
 table.list th, table.translate th, table.statistics th {
-	font-size: 1.2em;
+	font-size: 1em;
 	font-weight: normal;
-	padding: 10px 8px;
+	padding: 10px 6px;
 	border-bottom: 2px solid #2F7598;
 }
 
