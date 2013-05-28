@@ -270,28 +270,121 @@ function calculate_operator_statistics() {
 		$start = empty($result['start']) ? 0 : $result['start'];
 		$today = floor(time() / (24*60*60)) * 24*60*60;
 
+		$statistics = array();
+
 		// Caclculate statistics
-		$db->query(
-			"INSERT INTO {chatoperatorstatistics} ( " .
-				"date, operatorid, threads, messages, averagelength" .
-			") SELECT (FLOOR(m.dtmcreated / (24*60*60)) * 24*60*60) AS date, " .
-				"o.operatorid AS opid, " .
+		// Get base operator's info
+		$db_results = $db->query(
+			"SELECT (FLOOR(m.dtmcreated / (24*60*60)) * 24*60*60) AS date, " .
+				"m.agentId AS operator_id, " .
 				"COUNT(distinct m.threadid) AS threads, " .
-				"SUM(m.ikind = :kind_agent) AS msgs, " .
-				"AVG(CHAR_LENGTH(m.tmessage)) AS avglen " .
-			"FROM {indexedchatmessage} m, {chatoperator} o " .
-			"WHERE m.agentId = o.operatorid " .
+				"COUNT(m.messageid) AS messages, " .
+				"AVG(CHAR_LENGTH(m.tmessage)) AS avg_msg_length " .
+			// Use {indexedchatmessage} as base table because of one thread can
+			// be related with more than one operator (they can change each
+			// other during conversation).
+			"FROM {indexedchatmessage} m, {chatthread} t " .
+			"WHERE m.ikind = :kind_agent " .
+				"AND  m.threadid = t.threadid " .
 				"AND (m.dtmcreated - :start) > 24*60*60 " .
 				// Calculate statistics only for messages that older one day
 				"AND (:today - m.dtmcreated) > 24*60*60 " .
-			"GROUP BY date " .
-			"ORDER BY date",
+				// Ignore not accepted invitations
+				"AND (t.invitationstate = :not_invited " .
+					"OR t.invitationstate = :invitation_accepted) " .
+			"GROUP BY date, operator_id",
 			array(
-				':kind_agent' => Thread::KIND_AGENT,
 				':start' => $start,
-				':today' => $today
-			)
+				':today' => $today,
+				':not_invited' => Thread::INVITATION_NOT_INVITED,
+				':invitation_accepted' => Thread::INVITATION_ACCEPTED,
+				':kind_agent' => Thread::KIND_AGENT
+			),
+			array('return_rows' => Database::RETURN_ALL_ROWS)
 		);
+
+		// Store retrieved data as statistics info
+		foreach($db_results as $result) {
+			// Cast types of some fields
+			$result['avg_msg_length'] = (float)$result['avg_msg_length'];
+			$result['messages'] = (int)$result['messages'];
+
+			$statistics[$result['date'] . '_' . $result['operator_id']] = $result;
+		}
+
+		// Get info about invitations
+		$db_results = $db->query(
+			"SELECT (FLOOR(dtmcreated / (24*60*60)) * 24*60*60) AS date, " .
+				"agentId as operator_id, " .
+				"COUNT(threadid) AS invitation_sent, " .
+				"SUM(invitationstate = :invitation_accepted) AS invitation_accepted, " .
+				"SUM(invitationstate = :invitation_rejected) AS invitation_rejected, " .
+				"SUM(invitationstate = :invitation_ignored) AS invitation_ignored " .
+			"FROM {chatthread} " .
+			"WHERE (dtmcreated - :start) > 24*60*60 " .
+				// Calculate statistics only for threads that older than one day
+				"AND (:today - dtmcreated) > 24*60*60 " .
+				// Check if thread has related operator
+				"AND agentId != 0 " .
+				// Ignore not accepted invitations
+				"AND (invitationstate = :invitation_accepted " .
+					"OR invitationstate = :invitation_rejected " .
+					"OR invitationstate = :invitation_ignored) " .
+			"GROUP BY date, operator_id",
+			array(
+				':start' => $start,
+				':today' => $today,
+				':invitation_accepted' => Thread::INVITATION_ACCEPTED,
+				':invitation_rejected' => Thread::INVITATION_REJECTED,
+				':invitation_ignored' => Thread::INVITATION_IGNORED
+			),
+			array('return_rows' => Database::RETURN_ALL_ROWS)
+		);
+
+		// Store retrieved data as statistics info
+		foreach($db_results as $result) {
+			$key = $result['date'] . '_' . $result['operator_id'];
+			if (empty($statistics[$key])) {
+				$statistics[$key] = array();
+			}
+			$statistics[$key] += $result;
+		}
+
+		// Sort statistics by date before save it in the database
+		ksort($statistics);
+
+		foreach($statistics as $row) {
+			// Set default values
+			$row += array(
+				'threads' => 0,
+				'messages' => 0,
+				'avg_msg_length' => 0,
+				'invitation_sent' => 0,
+				'invitation_accepted' => 0,
+				'invitation_rejected' => 0,
+				'invitation_ignored' => 0
+			);
+
+			// Prepare data for insert
+			$insert_data = array();
+			foreach($row as $field_name => $field_value) {
+				$insert_data[':' . $field_name] = $field_value;
+			}
+
+			$db->query(
+				"INSERT INTO {chatoperatorstatistics} (" .
+					"date, operatorid, threads, messages, averagelength, " .
+					"sentinvitations, acceptedinvitations, " .
+					"rejectedinvitations, ignoredinvitations " .
+				") VALUES (".
+					":date, :operator_id, :threads, :messages, " .
+					":avg_msg_length, :invitation_sent, " .
+					":invitation_accepted, :invitation_rejected, " .
+					":invitation_ignored " .
+				")",
+				$insert_data
+			);
+		}
 	} catch(Exception $e) {
 		// Something went wrong: warn and rollback transaction.
 		trigger_error(

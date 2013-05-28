@@ -164,7 +164,22 @@ require_once('inc_errors.php');
 	<?php echo getlocal("report.byoperator.3") ?>
 </th><th>
 	<?php echo getlocal("report.byoperator.4") ?>
-</th></tr>
+</th>
+<?php if ($page['show_invitations_info']) { ?>
+<th>
+	<?php echo getlocal("report.byoperator.5") ?>
+</th>
+<th>
+	<?php echo getlocal("report.byoperator.6") ?>
+</th>
+<th>
+	<?php echo getlocal("report.byoperator.7") ?>
+</th>
+<th>
+	<?php echo getlocal("report.byoperator.8") ?>
+</th>
+<?php } ?>
+</tr>
 </thead>
 <tbody>
 <?php if( $page['reportByAgent'] ) { ?>
@@ -174,11 +189,17 @@ require_once('inc_errors.php');
 		<td><?php echo $row['threads'] ?></td>
 		<td><?php echo $row['msgs'] ?></td>
     	<td><?php echo $row['avglen'] ?></td>
+		<?php if ($page['show_invitations_info']) { ?>
+		<td><?php echo $row['sentinvitations'] ?></td>
+		<td><?php echo $row['acceptedinvitations'] ?></td>
+		<td><?php echo $row['rejectedinvitations'] ?></td>
+		<td><?php echo $row['ignoredinvitations'] ?></td>
+		<?php } ?>
 	</tr>
 	<?php } ?>
 <?php } else { ?>
 	<tr>
-	<td colspan="4">
+	<td colspan="<?php echo($page['show_invitations_info'] ? 8 : 4); ?>">
 		<?php echo getlocal("report.no_items") ?>
 	</td>
 	</tr>

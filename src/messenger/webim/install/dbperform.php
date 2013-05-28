@@ -184,6 +184,22 @@ if ($act == "silentcreateall") {
 			runsql("ALTER TABLE ${mysqlprefix}chatoperator ADD vcrestoretoken varchar(64)", $link);
 		}
 
+		if (in_array("${mysqlprefix}chatoperatorstatistics.sentinvitations", $absent_columns)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatoperatorstatistics ADD sentinvitations int NOT NULL DEFAULT 0", $link);
+		}
+
+		if (in_array("${mysqlprefix}chatoperatorstatistics.acceptedinvitations", $absent_columns)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatoperatorstatistics ADD acceptedinvitations int NOT NULL DEFAULT 0", $link);
+		}
+
+		if (in_array("${mysqlprefix}chatoperatorstatistics.rejectedinvitations", $absent_columns)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatoperatorstatistics ADD rejectedinvitations int NOT NULL DEFAULT 0", $link);
+		}
+
+		if (in_array("${mysqlprefix}chatoperatorstatistics.ignoredinvitations", $absent_columns)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatoperatorstatistics ADD ignoredinvitations int NOT NULL DEFAULT 0", $link);
+		}
+
 		if (in_array("${mysqlprefix}chatresponses.vctitle", $absent_columns)) {
 			runsql("ALTER TABLE ${mysqlprefix}chatresponses ADD vctitle varchar(100) NOT NULL DEFAULT '' AFTER groupid", $link);
 		}

@@ -136,7 +136,11 @@ $dbtables = array(
 		"operatorid" => "int NOT NULL",
 		"threads" => "int NOT NULL DEFAULT 0",
 		"messages" => "int NOT NULL DEFAULT 0",
-		"averagelength" => "FLOAT(10, 1) NOT NULL DEFAULT 0"
+		"averagelength" => "FLOAT(10, 1) NOT NULL DEFAULT 0",
+		"sentinvitations" => "int NOT NULL DEFAULT 0",
+		"acceptedinvitations" => "int NOT NULL DEFAULT 0",
+		"rejectedinvitations" => "int NOT NULL DEFAULT 0",
+		"ignoredinvitations" => "int NOT NULL DEFAULT 0"
 	),
 
 	"${mysqlprefix}chatrevision" => array(
@@ -242,7 +246,7 @@ $dbtables_can_update = array(
 	"${mysqlprefix}chatmessage" => array("agentId"),
 	"${mysqlprefix}indexedchatmessage" => array(),
 	"${mysqlprefix}chatoperator" => array("vcavatar", "vcjabbername", "iperm", "istatus", "idisabled", "vcemail", "dtmrestore", "vcrestoretoken"),
-	"${mysqlprefix}chatoperatorstatistics" => array(),
+	"${mysqlprefix}chatoperatorstatistics" => array("sentinvitations", "acceptedinvitations", "rejectedinvitations", "ignoredinvitations"),
 	"${mysqlprefix}chatban" => array(),
 	"${mysqlprefix}chatgroup" => array("vcemail", "iweight", "parent", "vctitle", "vcchattitle", "vclogo", "vchosturl"),
 	"${mysqlprefix}chatgroupoperator" => array(),

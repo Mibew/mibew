@@ -129,9 +129,15 @@ if ($statisticstype == 'bydate') {
 } elseif($statisticstype == 'byagent') {
 	$page['reportByAgent'] = $db->query(
 		"SELECT o.vclocalename AS name, " .
-			"s.threads AS threads, " .
-			"s.messages AS msgs, " .
-			"s.averagelength AS avglen " .
+			"SUM(s.threads) AS threads, " .
+			"SUM(s.messages) AS msgs, " .
+			"ROUND( " .
+				"SUM(s.averagelength * s.messages) / SUM(s.messages), " .
+				"1) AS avglen, " .
+			"SUM(sentinvitations) AS sentinvitations, " .
+			"SUM(acceptedinvitations) AS acceptedinvitations, " .
+			"SUM(rejectedinvitations) AS rejectedinvitations, " .
+			"SUM(ignoredinvitations) AS ignoredinvitations " .
 		"FROM {chatoperatorstatistics} s, {chatoperator} o " .
 		"WHERE s.operatorid = o.operatorid " .
 			"AND s.date >= :start " .
