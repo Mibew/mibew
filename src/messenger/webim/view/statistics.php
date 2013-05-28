@@ -140,7 +140,7 @@ require_once('inc_errors.php');
 	</tr>
 <?php } else { ?>
 	<tr>
-	<td colspan="<?php $page['show_invitations_info'] ? 11 : 7; ?>">
+	<td colspan="<?php echo($page['show_invitations_info'] ? 11 : 7); ?>">
 		<?php echo getlocal("report.no_items") ?>
 	</td>
 	</tr>
