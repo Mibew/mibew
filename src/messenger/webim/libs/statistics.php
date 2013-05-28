@@ -66,8 +66,8 @@ function calculate_thread_statistics() {
 		$db_results = $db->query(
 			"SELECT (FLOOR(t.dtmcreated / (24*60*60)) * 24*60*60) AS date, " .
 				"COUNT(t.threadid) AS threads, " .
-				"tmp.operator_msgs AS operator_msgs, " .
-				"tmp.user_msgs AS user_msgs, " .
+				"SUM(tmp.operator_msgs) AS operator_msgs, " .
+				"SUM(tmp.user_msgs) AS user_msgs, " .
 				// Prevent negative values of avgchattime field.
 				// If avgchattime < 0 it becomes to zero.
 				// For random value 'a' result of expression ((abs(a) + a) / 2)
