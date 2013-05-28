@@ -154,7 +154,11 @@ if ($statisticstype == 'bydate') {
 	$page['reportByPage'] = $db->query(
 		"SELECT SUM(visits) as visittimes, " .
 			"address, " .
-			"SUM(chats) as chattimes " .
+			"SUM(chats) as chattimes, " .
+			"SUM(sentinvitations) AS sentinvitations, " .
+			"SUM(acceptedinvitations) AS acceptedinvitations, " .
+			"SUM(rejectedinvitations) AS rejectedinvitations, " .
+			"SUM(ignoredinvitations) AS ignoredinvitations " .
 		"FROM {visitedpagestatistics} " .
 		"WHERE date >= :start " .
 			"AND date < :end " .

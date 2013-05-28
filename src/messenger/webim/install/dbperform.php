@@ -240,6 +240,22 @@ if ($act == "silentcreateall") {
 			runsql("ALTER TABLE ${mysqlprefix}chatgroup ADD vchosturl varchar(255) DEFAULT ''", $link);
 		}
 
+		if (in_array("${mysqlprefix}visitedpagestatistics.sentinvitations", $absent_columns)) {
+			runsql("ALTER TABLE ${mysqlprefix}visitedpagestatistics ADD sentinvitations int NOT NULL DEFAULT 0", $link);
+		}
+
+		if (in_array("${mysqlprefix}visitedpagestatistics.acceptedinvitations", $absent_columns)) {
+			runsql("ALTER TABLE ${mysqlprefix}visitedpagestatistics ADD acceptedinvitations int NOT NULL DEFAULT 0", $link);
+		}
+
+		if (in_array("${mysqlprefix}visitedpagestatistics.rejectedinvitations", $absent_columns)) {
+			runsql("ALTER TABLE ${mysqlprefix}visitedpagestatistics ADD rejectedinvitations int NOT NULL DEFAULT 0", $link);
+		}
+
+		if (in_array("${mysqlprefix}visitedpagestatistics.ignoredinvitations", $absent_columns)) {
+			runsql("ALTER TABLE ${mysqlprefix}visitedpagestatistics ADD ignoredinvitations int NOT NULL DEFAULT 0", $link);
+		}
+
 // Add absent indexes
 		$absent_indexes = array();
 		foreach ($dbtables_indexes as $id => $indexes) {

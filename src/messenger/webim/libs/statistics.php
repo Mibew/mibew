@@ -427,29 +427,203 @@ function calculate_page_statistics() {
 		$start = empty($result['start']) ? 0 : $result['start'];
 		$today = floor(time() / (24*60*60)) * 24*60*60;
 
+		$statistics = array();
+
 		// Calculate statistics
-		$db->query(
-			"INSERT INTO {visitedpagestatistics} (" .
-				"date, address, visits, chats" .
-			") SELECT FLOOR(p.visittime / (24*60*60)) * 24*60*60 AS date, " .
-				"p.address AS address, " .
-				"COUNT(DISTINCT p.pageid) AS visittimes, " .
-				"COUNT(DISTINCT t.threadid) AS chattimes " .
-			"FROM {visitedpage} p " .
-				"LEFT OUTER JOIN {chatthread} t ON (" .
-					"p.address = t.referer " .
-					"AND DATE(FROM_UNIXTIME(p.visittime)) = " .
-						"DATE(FROM_UNIXTIME(t.dtmcreated))) " .
-			"WHERE p.calculated = 0 " .
-				"AND (p.visittime - :start) > 24*60*60 " .
-				"AND (:today - p.visittime) > 24*60*60 " .
-			"GROUP BY date, address " .
-			"ORDER BY date",
+		// Get main pages info
+		$db_results = $db->query(
+			"SELECT FLOOR(visittime / (24*60*60)) * 24*60*60 AS date, " .
+				"address, " .
+				"COUNT(DISTINCT pageid) AS visits " .
+			"FROM {visitedpage} ".
+			"WHERE calculated = 0 " .
+				"AND (visittime - :start) > 24*60*60 " .
+				"AND (:today - visittime) > 24*60*60 " .
+			"GROUP BY date, address",
 			array(
 				':start' => $start,
 				':today' => $today
-			)
+			),
+			array('return_rows' => Database::RETURN_ALL_ROWS)
 		);
+
+		foreach($db_results as $result) {
+			$statistics[$result['date'] . '_' . $result['address']] = $result;
+		}
+
+		// Get total chats count
+		$db_results = $db->query(
+			"SELECT FLOOR(p.visittime / (24*60*60)) * 24*60*60 AS date, " .
+				"p.address AS address, " .
+				"COUNT(DISTINCT t.threadid) AS chats " .
+			"FROM {visitedpage} p, {chatthread} t, " .
+				"(SELECT " .
+					"COUNT(*) AS msgs, " .
+					"m.threadid " .
+				"FROM {indexedchatmessage} m " .
+				"WHERE m.ikind = :kind_user OR m.ikind = :kind_agent " .
+				"GROUP BY m.threadid) tmp " .
+			"WHERE t.referer = p.address " .
+				"AND p.calculated = 0 " .
+				"AND t.threadid = tmp.threadid " .
+				"AND tmp.msgs > 0 " .
+				"AND t.dtmchatstarted <> 0 " .
+				"AND (p.visittime - :start) > 24*60*60 " .
+				"AND (:today - p.visittime) > 24*60*60 " .
+				"AND DATE(FROM_UNIXTIME(p.visittime)) " .
+					"= DATE(FROM_UNIXTIME(t.dtmcreated)) " .
+				"AND (t.invitationstate = :not_invited " .
+					"OR t.invitationstate = :invitation_accepted) " .
+			"GROUP BY date, address",
+			array(
+				':start' => $start,
+				':today' => $today,
+				':not_invited' => Thread::INVITATION_NOT_INVITED,
+				':invitation_accepted' => Thread::INVITATION_ACCEPTED,
+				':kind_agent' => Thread::KIND_AGENT,
+				':kind_user' => Thread::KIND_USER
+			),
+			array('return_rows' => Database::RETURN_ALL_ROWS)
+		);
+
+		// Store info in statistics data
+		foreach($db_results as $result) {
+			$key = $result['date'] . '_' . $result['address'];
+			if (empty($statistics[$key])) {
+				$statistics[$key] = array();
+			}
+			$statistics[$key] += $result;
+		}
+
+		// Get info about accepted invitations
+		$db_results = $db->query(
+			"SELECT FLOOR(p.visittime / (24*60*60)) * 24*60*60 AS date, " .
+				"p.address AS address, " .
+				"COUNT(DISTINCT t.threadid) AS invitations_accepted " .
+			"FROM {visitedpage} p, {chatthread} t " .
+			"WHERE t.referer = p.address " .
+				"AND p.calculated = 0 " .
+				"AND (p.visittime - :start) > 24*60*60 " .
+				"AND (:today - p.visittime) > 24*60*60 " .
+				"AND DATE(FROM_UNIXTIME(p.visittime)) " .
+					"= DATE(FROM_UNIXTIME(t.dtmcreated)) " .
+				"AND t.invitationstate = :invitation_accepted " .
+			"GROUP BY date, address",
+			array(
+				':start' => $start,
+				':today' => $today,
+				':invitation_accepted' => Thread::INVITATION_ACCEPTED
+			),
+			array('return_rows' => Database::RETURN_ALL_ROWS)
+		);
+
+		// Store info in statistics data
+		foreach($db_results as $result) {
+			$key = $result['date'] . '_' . $result['address'];
+			if (empty($statistics[$key])) {
+				$statistics[$key] = array();
+			}
+			$statistics[$key] += $result;
+		}
+
+		// Get info about rejected invitations
+		$db_results = $db->query(
+			"SELECT FLOOR(p.visittime / (24*60*60)) * 24*60*60 AS date, " .
+				"p.address AS address, " .
+				"COUNT(DISTINCT t.threadid) AS invitations_rejected " .
+			"FROM {visitedpage} p, {chatthread} t " .
+			"WHERE t.referer = p.address " .
+				"AND p.calculated = 0 " .
+				"AND (p.visittime - :start) > 24*60*60 " .
+				"AND (:today - p.visittime) > 24*60*60 " .
+				"AND DATE(FROM_UNIXTIME(p.visittime)) " .
+					"= DATE(FROM_UNIXTIME(t.dtmcreated)) " .
+				"AND t.invitationstate = :invitation_rejected " .
+			"GROUP BY date, address",
+			array(
+				':start' => $start,
+				':today' => $today,
+				':invitation_rejected' => Thread::INVITATION_REJECTED
+			),
+			array('return_rows' => Database::RETURN_ALL_ROWS)
+		);
+
+		// Store info in statistics data
+		foreach($db_results as $result) {
+			$key = $result['date'] . '_' . $result['address'];
+			if (empty($statistics[$key])) {
+				$statistics[$key] = array();
+			}
+			$statistics[$key] += $result;
+		}
+
+		// Get info about ignored invitations
+		$db_results = $db->query(
+			"SELECT FLOOR(p.visittime / (24*60*60)) * 24*60*60 AS date, " .
+				"p.address AS address, " .
+				"COUNT(DISTINCT t.threadid) AS invitations_ignored " .
+			"FROM {visitedpage} p, {chatthread} t " .
+			"WHERE t.referer = p.address " .
+				"AND p.calculated = 0 " .
+				"AND (p.visittime - :start) > 24*60*60 " .
+				"AND (:today - p.visittime) > 24*60*60 " .
+				"AND DATE(FROM_UNIXTIME(p.visittime)) " .
+					"= DATE(FROM_UNIXTIME(t.dtmcreated)) " .
+				"AND t.invitationstate = :invitation_ignored " .
+			"GROUP BY date, address",
+			array(
+				':start' => $start,
+				':today' => $today,
+				':invitation_ignored' => Thread::INVITATION_IGNORED
+			),
+			array('return_rows' => Database::RETURN_ALL_ROWS)
+		);
+
+		// Store info in statistics data
+		foreach($db_results as $result) {
+			$key = $result['date'] . '_' . $result['address'];
+			if (empty($statistics[$key])) {
+				$statistics[$key] = array();
+			}
+			$statistics[$key] += $result;
+		}
+
+		// Sort statistics by date before save it in the database
+		ksort($statistics);
+
+		foreach($statistics as $row) {
+			// Set default values
+			$row += array(
+				'visits' => 0,
+				'chats' => 0,
+				'invitations_accepted' => 0,
+				'invitations_rejected' => 0,
+				'invitations_ignored' => 0
+			);
+
+			$row['invitations_sent'] = $row['invitations_accepted']
+				+ $row['invitations_rejected']
+				+ $row['invitations_ignored'];
+
+			// Prepare data for insert
+			$insert_data = array();
+			foreach($row as $field_name => $field_value) {
+				$insert_data[':' . $field_name] = $field_value;
+			}
+
+			$db->query(
+				"INSERT INTO {visitedpagestatistics} (" .
+					"date, address, visits, chats, " .
+					"sentinvitations, acceptedinvitations, " .
+					"rejectedinvitations, ignoredinvitations " .
+				") VALUES (".
+					":date, :address, :visits, :chats, :invitations_sent, " .
+					":invitations_accepted, :invitations_rejected, " .
+					":invitations_ignored " .
+				")",
+				$insert_data
+			);
+		}
 
 		// Mark all visited pages as 'calculated'
 		$db->query(

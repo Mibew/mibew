@@ -202,7 +202,11 @@ $dbtables = array(
 		"date" => "int NOT NULL DEFAULT 0",
 		"address" => "varchar(1024)",
 		"visits" => "int NOT NULL DEFAULT 0",
-		"chats" => "int NOT NULL DEFAULT 0"
+		"chats" => "int NOT NULL DEFAULT 0",
+		"sentinvitations" => "int NOT NULL DEFAULT 0",
+		"acceptedinvitations" => "int NOT NULL DEFAULT 0",
+		"rejectedinvitations" => "int NOT NULL DEFAULT 0",
+		"ignoredinvitations" => "int NOT NULL DEFAULT 0"
 	),
 );
 
@@ -254,7 +258,7 @@ $dbtables_can_update = array(
 	"${mysqlprefix}chatsitevisitor" => array(),
 	"${mysqlprefix}requestcallback" => array("callbackid", "token", "function", "arguments"),
 	"${mysqlprefix}visitedpage" => array(),
-	"${mysqlprefix}visitedpagestatistics" => array(),
+	"${mysqlprefix}visitedpagestatistics" => array("sentinvitations", "acceptedinvitations", "rejectedinvitations", "ignoredinvitations"),
 );
 
 function show_install_err($text)

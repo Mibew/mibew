@@ -221,7 +221,19 @@ require_once('inc_errors.php');
 	<?php echo getlocal("report.bypage.2") ?>
 </th><th>
 	<?php echo getlocal("report.bypage.3") ?>
-</th></tr>
+</th>
+<?php if ($page['show_invitations_info']) { ?>
+<th>
+	<?php echo getlocal("report.bypage.4") ?>
+</th><th>
+	<?php echo getlocal("report.bypage.5") ?>
+</th><th>
+	<?php echo getlocal("report.bypage.6") ?>
+</th><th>
+	<?php echo getlocal("report.bypage.7") ?>
+</th>
+<?php } ?>
+</tr>
 </thead>
 <tbody>
 <?php if( $page['reportByPage'] ) { ?>
@@ -230,11 +242,17 @@ require_once('inc_errors.php');
 		<td><a href="<?php echo htmlspecialchars($row['address']) ?>"><?php echo htmlspecialchars($row['address']) ?></a></td>
 		<td><?php echo $row['visittimes'] ?></td>
 		<td><?php echo $row['chattimes'] ?></td>
+		<?php if ($page['show_invitations_info']) { ?>
+		<td><?php echo $row['sentinvitations'] ?></td>
+		<td><?php echo $row['acceptedinvitations'] ?></td>
+		<td><?php echo $row['rejectedinvitations'] ?></td>
+		<td><?php echo $row['ignoredinvitations'] ?></td>
+		<?php } ?>
 	</tr>
 	<?php } ?>
 <?php } else { ?>
 	<tr>
-	<td colspan="3">
+	<td colspan="<?php echo($page['show_invitations_info'] ? 7 : 3); ?>">
 		<?php echo getlocal("report.no_items") ?>
 	</td>
 	</tr>
