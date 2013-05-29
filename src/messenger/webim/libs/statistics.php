@@ -109,7 +109,11 @@ function calculate_thread_statistics() {
 		);
 
 		// Store statistics data
-		$statistics = extend_statistics_info(array(), $db_results);
+		$statistics = extend_statistics_info(
+			array(),
+			$db_results,
+			array('date')
+		);
 
 		// Get info about missed threads
 		$db_results = $db->query(
@@ -132,14 +136,17 @@ function calculate_thread_statistics() {
 			array('return_rows' => Database::RETURN_ALL_ROWS)
 		);
 
-		// Add average waiting time to statistics data
-		$statistics = extend_statistics_info($statistics, $db_results);
+		// Add info about missed threads to statistics data
+		$statistics = extend_statistics_info(
+			$statistics,
+			$db_results,
+			array('date')
+		);
 
-		// Get info about average chat time and missed threads count.
+		// Get info about average waiting time.
 		$db_results = $db->query(
 			"SELECT (FLOOR(dtmcreated / (24*60*60)) * 24*60*60) AS date, " .
-				"ROUND(AVG(dtmchatstarted-dtmcreated),1) AS avg_waiting_time,
-				SUM(dtmchatstarted = 0) AS missed_threads " .
+				"ROUND(AVG(dtmchatstarted-dtmcreated),1) AS avg_waiting_time " .
 			"FROM {chatthread} " .
 			"WHERE (dtmcreated - :start) > 24*60*60 " .
 				// Calculate statistics only for threads that older than one day
@@ -158,15 +165,19 @@ function calculate_thread_statistics() {
 		);
 
 		// Add average waiting time to statistics data
-		$statistics = extend_statistics_info($statistics, $db_results);
+		$statistics = extend_statistics_info(
+			$statistics,
+			$db_results,
+			array('date')
+		);
 
 		// Get invitation info
 		$db_results = $db->query(
 			"SELECT (FLOOR(dtmcreated / (24*60*60)) * 24*60*60) AS date, " .
-				"COUNT(*) AS invitation_sent, " .
-				"SUM(invitationstate = :invitation_accepted) AS invitation_accepted, " .
-				"SUM(invitationstate = :invitation_rejected) AS invitation_rejected, " .
-				"SUM(invitationstate = :invitation_ignored) AS invitation_ignored " .
+				"COUNT(*) AS invitations_sent, " .
+				"SUM(invitationstate = :invitation_accepted) AS invitations_accepted, " .
+				"SUM(invitationstate = :invitation_rejected) AS invitations_rejected, " .
+				"SUM(invitationstate = :invitation_ignored) AS invitations_ignored " .
 			"FROM {chatthread} " .
 			"WHERE (dtmcreated - :start) > 24*60*60 " .
 				// Calculate statistics only for threads that older than one day
@@ -186,7 +197,11 @@ function calculate_thread_statistics() {
 		);
 
 		// Add invitation info to statistics data
-		$statistics = extend_statistics_info($statistics, $db_results);
+		$statistics = extend_statistics_info(
+			$statistics,
+			$db_results,
+			array('date')
+		);
 
 		// Sort statistics by date before save it in the database
 		ksort($statistics);
@@ -200,10 +215,10 @@ function calculate_thread_statistics() {
 				'user_msgs' => 0,
 				'avg_chat_time' => 0,
 				'avg_waiting_time' => 0,
-				'invitation_sent' => 0,
-				'invitation_accepted' => 0,
-				'invitation_rejected' => 0,
-				'invitation_ignored' => 0
+				'invitations_sent' => 0,
+				'invitations_accepted' => 0,
+				'invitations_rejected' => 0,
+				'invitations_ignored' => 0
 			);
 
 			// Prepare data for insert
@@ -220,9 +235,9 @@ function calculate_thread_statistics() {
 					"ignoredinvitations, operatormessages, usermessages, " .
 					"averagewaitingtime, averagechattime " .
 				") VALUES (" .
-					":date, :threads, :missed_threads, :invitation_sent, " .
-					":invitation_accepted, :invitation_rejected, " .
-					":invitation_ignored, :operator_msgs, :user_msgs, " .
+					":date, :threads, :missed_threads, :invitations_sent, " .
+					":invitations_accepted, :invitations_rejected, " .
+					":invitations_ignored, :operator_msgs, :user_msgs, " .
 					":avg_waiting_time, :avg_chat_time " .
 				")",
 				$insert_data
@@ -270,8 +285,6 @@ function calculate_operator_statistics() {
 		$start = empty($result['start']) ? 0 : $result['start'];
 		$today = floor(time() / (24*60*60)) * 24*60*60;
 
-		$statistics = array();
-
 		// Caclculate statistics
 		// Get base operator's info
 		$db_results = $db->query(
@@ -304,22 +317,20 @@ function calculate_operator_statistics() {
 		);
 
 		// Store retrieved data as statistics info
-		foreach($db_results as $result) {
-			// Cast types of some fields
-			$result['avg_msg_length'] = (float)$result['avg_msg_length'];
-			$result['messages'] = (int)$result['messages'];
-
-			$statistics[$result['date'] . '_' . $result['operator_id']] = $result;
-		}
+		$statistics = extend_statistics_info(
+			array(),
+			$db_results,
+			array('date', 'operator_id')
+		);
 
 		// Get info about invitations
 		$db_results = $db->query(
 			"SELECT (FLOOR(dtmcreated / (24*60*60)) * 24*60*60) AS date, " .
 				"agentId as operator_id, " .
-				"COUNT(threadid) AS invitation_sent, " .
-				"SUM(invitationstate = :invitation_accepted) AS invitation_accepted, " .
-				"SUM(invitationstate = :invitation_rejected) AS invitation_rejected, " .
-				"SUM(invitationstate = :invitation_ignored) AS invitation_ignored " .
+				"COUNT(threadid) AS invitations_sent, " .
+				"SUM(invitationstate = :invitation_accepted) AS invitations_accepted, " .
+				"SUM(invitationstate = :invitation_rejected) AS invitations_rejected, " .
+				"SUM(invitationstate = :invitation_ignored) AS invitations_ignored " .
 			"FROM {chatthread} " .
 			"WHERE (dtmcreated - :start) > 24*60*60 " .
 				// Calculate statistics only for threads that older than one day
@@ -342,13 +353,11 @@ function calculate_operator_statistics() {
 		);
 
 		// Store retrieved data as statistics info
-		foreach($db_results as $result) {
-			$key = $result['date'] . '_' . $result['operator_id'];
-			if (empty($statistics[$key])) {
-				$statistics[$key] = array();
-			}
-			$statistics[$key] += $result;
-		}
+		$statistics = extend_statistics_info(
+			$statistics,
+			$db_results,
+			array('date', 'operator_id')
+		);
 
 		// Sort statistics by date before save it in the database
 		ksort($statistics);
@@ -359,10 +368,10 @@ function calculate_operator_statistics() {
 				'threads' => 0,
 				'messages' => 0,
 				'avg_msg_length' => 0,
-				'invitation_sent' => 0,
-				'invitation_accepted' => 0,
-				'invitation_rejected' => 0,
-				'invitation_ignored' => 0
+				'invitations_sent' => 0,
+				'invitations_accepted' => 0,
+				'invitations_rejected' => 0,
+				'invitations_ignored' => 0
 			);
 
 			// Prepare data for insert
@@ -378,9 +387,9 @@ function calculate_operator_statistics() {
 					"rejectedinvitations, ignoredinvitations " .
 				") VALUES (".
 					":date, :operator_id, :threads, :messages, " .
-					":avg_msg_length, :invitation_sent, " .
-					":invitation_accepted, :invitation_rejected, " .
-					":invitation_ignored " .
+					":avg_msg_length, :invitations_sent, " .
+					":invitations_accepted, :invitations_rejected, " .
+					":invitations_ignored " .
 				")",
 				$insert_data
 			);
@@ -447,9 +456,12 @@ function calculate_page_statistics() {
 			array('return_rows' => Database::RETURN_ALL_ROWS)
 		);
 
-		foreach($db_results as $result) {
-			$statistics[$result['date'] . '_' . $result['address']] = $result;
-		}
+		// Store info in statistics data
+		$statistics = extend_statistics_info(
+			array(),
+			$db_results,
+			array('date', 'address')
+		);
 
 		// Get total chats count
 		$db_results = $db->query(
@@ -487,13 +499,11 @@ function calculate_page_statistics() {
 		);
 
 		// Store info in statistics data
-		foreach($db_results as $result) {
-			$key = $result['date'] . '_' . $result['address'];
-			if (empty($statistics[$key])) {
-				$statistics[$key] = array();
-			}
-			$statistics[$key] += $result;
-		}
+		$statistics = extend_statistics_info(
+			$statistics,
+			$db_results,
+			array('date', 'address')
+		);
 
 		// Get info about accepted invitations
 		$db_results = $db->query(
@@ -518,13 +528,11 @@ function calculate_page_statistics() {
 		);
 
 		// Store info in statistics data
-		foreach($db_results as $result) {
-			$key = $result['date'] . '_' . $result['address'];
-			if (empty($statistics[$key])) {
-				$statistics[$key] = array();
-			}
-			$statistics[$key] += $result;
-		}
+		$statistics = extend_statistics_info(
+			$statistics,
+			$db_results,
+			array('date', 'address')
+		);
 
 		// Get info about rejected invitations
 		$db_results = $db->query(
@@ -549,13 +557,11 @@ function calculate_page_statistics() {
 		);
 
 		// Store info in statistics data
-		foreach($db_results as $result) {
-			$key = $result['date'] . '_' . $result['address'];
-			if (empty($statistics[$key])) {
-				$statistics[$key] = array();
-			}
-			$statistics[$key] += $result;
-		}
+		$statistics = extend_statistics_info(
+			$statistics,
+			$db_results,
+			array('date', 'address')
+		);
 
 		// Get info about ignored invitations
 		$db_results = $db->query(
@@ -580,13 +586,11 @@ function calculate_page_statistics() {
 		);
 
 		// Store info in statistics data
-		foreach($db_results as $result) {
-			$key = $result['date'] . '_' . $result['address'];
-			if (empty($statistics[$key])) {
-				$statistics[$key] = array();
-			}
-			$statistics[$key] += $result;
-		}
+		$statistics = extend_statistics_info(
+			$statistics,
+			$db_results,
+			array('date', 'address')
+		);
 
 		// Sort statistics by date before save it in the database
 		ksort($statistics);
@@ -658,21 +662,39 @@ function calculate_page_statistics() {
 }
 
 /**
- * Add info from $additional_info to $stat_info using value of 'date' item as
- * a key.
+ * Add info from $additional_info to $stat_info using specified keys.
  *
+ * Triggers an error with E_WARNING level if row of $additional_info array does
+ * not contain one of specified keys.
  * @param array $stat_info Statistics info
  * @param array $additional_info Data that must be added to statistics info
- * @return array Extended statistics info
+ * @param array $keys List of keys.
+ * @return array|boolean Extended statistics info or boolean false on failure
  */
-function extend_statistics_info($stat_info, $additional_info) {
+function extend_statistics_info($stat_info, $additional_info, $keys) {
 	$result = $stat_info;
 	foreach($additional_info as $row) {
-		$date = $row['date'];
-		if (empty($result[$date])) {
-			$result[$date] = array();
+		// Build key field
+		$key_field = array();
+		foreach($keys as $key) {
+			if (!array_key_exists($key, $row)) {
+				trigger_error(
+					"There is no '{$key}' key in additional_info row!",
+					E_USER_WARNING
+				);
+				return false;
+			}
+			$key_field[] = $row[$key];
 		}
-		$result[$date] += $row;
+		$key_field = implode('_', $key_field);
+
+		// Index info
+		if (empty($result[$key_field])) {
+			$result[$key_field] = array();
+		}
+
+		// Extend info
+		$result[$key_field] += $row;
 	}
 	return $result;
 }
