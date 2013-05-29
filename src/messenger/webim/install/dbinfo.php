@@ -128,6 +128,8 @@ $dbtables = array(
 		"iperm" => "int DEFAULT 0", /* Do not grant all privileges by default */
 		"dtmrestore" => "int NOT NULL DEFAULT 0",
 		"vcrestoretoken" => "varchar(64)",
+		// Use to start chat with specified operator
+		"code" => "varchar(64) DEFAULT ''"
 	),
 
 	"${mysqlprefix}chatoperatorstatistics" => array(
@@ -249,7 +251,7 @@ $dbtables_can_update = array(
 	"${mysqlprefix}requestbuffer" => array("requestid", "requestkey", "request"),
 	"${mysqlprefix}chatmessage" => array("agentId"),
 	"${mysqlprefix}indexedchatmessage" => array(),
-	"${mysqlprefix}chatoperator" => array("vcavatar", "vcjabbername", "iperm", "istatus", "idisabled", "vcemail", "dtmrestore", "vcrestoretoken"),
+	"${mysqlprefix}chatoperator" => array("vcavatar", "vcjabbername", "iperm", "istatus", "idisabled", "vcemail", "dtmrestore", "vcrestoretoken", "code"),
 	"${mysqlprefix}chatoperatorstatistics" => array("sentinvitations", "acceptedinvitations", "rejectedinvitations", "ignoredinvitations"),
 	"${mysqlprefix}chatban" => array(),
 	"${mysqlprefix}chatgroup" => array("vcemail", "iweight", "parent", "vctitle", "vcchattitle", "vclogo", "vchosturl"),

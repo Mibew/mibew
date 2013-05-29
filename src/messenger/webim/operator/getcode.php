@@ -52,6 +52,9 @@ $showhost = verifyparam("hostname", "/^on$/", "") == "on";
 $forcesecure = verifyparam("secure", "/^on$/", "") == "on";
 $modsecurity = verifyparam("modsecurity", "/^on$/", "") == "on";
 
+$code_type = verifyparam("codetype", "/^(button|operator_code)$/", "button");
+$operator_code = ($code_type == "operator_code");
+
 $lang = verifyparam("lang", "/^[\w-]{2,5}$/", "");
 if (!$lang || !in_array($lang, $image_locales))
 	$lang = in_array($current_locale, $image_locales) ? $current_locale : $image_locales[0];
@@ -66,12 +69,17 @@ if ($groupid) {
 $message = get_image($imagehref, $size[0], $size[1]);
 
 $page = array();
-$page['buttonCode'] = generate_button("", $lang, $style, $invitationstyle, $groupid, $message, $showhost, $forcesecure, $modsecurity);
+$page['buttonCode'] = generate_button("", $lang, $style, $invitationstyle, $groupid, $message, $showhost, $forcesecure, $modsecurity, $operator_code);
 $page['availableImages'] = array_keys($imageLocales);
 $page['availableLocales'] = $image_locales;
 $page['availableChatStyles'] = $stylelist;
 $page['availableInvitationStyles'] = $invitationstylelist;
 $page['groups'] = get_groups_list();
+
+$page['availableCodeTypes'] = array(
+	'button' => getlocal('page.gen_button.button'),
+	'operator_code' => getlocal('page.gen_button.operator_code')
+);
 
 $page['formgroup'] = $groupid;
 $page['formstyle'] = $style;
@@ -81,8 +89,10 @@ $page['formlang'] = $lang;
 $page['formhostname'] = $showhost;
 $page['formsecure'] = $forcesecure;
 $page['formmodsecurity'] = $modsecurity;
+$page['formcodetype'] = $code_type;
 
 $page['enabletracking'] = Settings::get('enabletracking');
+$page['operator_code'] = $operator_code;
 
 prepare_menu($operator);
 start_html_output();

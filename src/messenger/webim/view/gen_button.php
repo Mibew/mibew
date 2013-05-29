@@ -41,19 +41,26 @@ require_once('inc_errors.php');
 		</div>
 
 		<div class="fieldinrow">
-			<div class="flabel"><?php echo getlocal("page.gen_button.choose_image") ?></div>
+			<div class="flabel"><?php echo getlocal("page.gen_button.choose_style") ?></div>
 			<div class="fvaluenodesc">
-				<select name="i" onchange="this.form.submit();"><?php foreach($page['availableImages'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("image") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+				<select name="style" onchange="this.form.submit();"><?php foreach($page['availableChatStyles'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("style") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
 			</div>
 		</div>
 		<br clear="all"/>
 
-
-
 		<div class="fieldinrow">
-			<div class="flabel"><?php echo getlocal("page.gen_button.choose_style") ?></div>
+			<div class="flabel"><?php echo getlocal("page.gen_button.choose_type") ?></div>
 			<div class="fvaluenodesc">
-				<select name="style" onchange="this.form.submit();"><?php foreach($page['availableChatStyles'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("style") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
+				<select name="codetype" onchange="this.form.submit();"><?php foreach($page['availableCodeTypes'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("codetype") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
+			</div>
+		</div>
+		<br clear="all"/>
+
+<?php if(! $page['operator_code']) { ?>
+		<div class="fieldinrow">
+			<div class="flabel"><?php echo getlocal("page.gen_button.choose_image") ?></div>
+			<div class="fvaluenodesc">
+				<select name="i" onchange="this.form.submit();"><?php foreach($page['availableImages'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("image") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			</div>
 		</div>
 
@@ -66,6 +73,7 @@ require_once('inc_errors.php');
 		</div>
 <?php } ?>
 		<br clear="all"/>
+<?php } ?>
 
 		<div class="fieldinrow">
 			<div class="flabel"><?php echo getlocal("page.gen_button.choose_group") ?></div>

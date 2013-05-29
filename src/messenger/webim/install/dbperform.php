@@ -184,6 +184,10 @@ if ($act == "silentcreateall") {
 			runsql("ALTER TABLE ${mysqlprefix}chatoperator ADD vcrestoretoken varchar(64)", $link);
 		}
 
+		if (in_array("${mysqlprefix}chatoperator.code", $absent_columns)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatoperator ADD code varchar(64) DEFAULT ''", $link);
+		}
+
 		if (in_array("${mysqlprefix}chatoperatorstatistics.sentinvitations", $absent_columns)) {
 			runsql("ALTER TABLE ${mysqlprefix}chatoperatorstatistics ADD sentinvitations int NOT NULL DEFAULT 0", $link);
 		}

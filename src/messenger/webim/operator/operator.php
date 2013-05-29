@@ -38,6 +38,7 @@ if ((isset($_POST['login']) || !is_capable(CAN_ADMINISTRATE, $operator)) && isse
 	$passwordConfirm = getparam('passwordConfirm');
 	$localname = getparam('name');
 	$commonname = getparam('commonname');
+	$code = getparam('code');
 
 	if (!$localname)
 		$errors[] = no_field("form.field.agent_name");
@@ -53,6 +54,10 @@ if ((isset($_POST['login']) || !is_capable(CAN_ADMINISTRATE, $operator)) && isse
 
 	if ($email != '' && !is_valid_email($email))
 		$errors[] = wrong_field("form.field.mail");
+
+	if ($code != '' && (! preg_match("/^[A-z0-9_]+$/", $code))) {
+		$errors[] = getlocal("page_agent.error.wrong_agent_code");
+	}
 
 	if (!$opId && !$password)
 		$errors[] = no_field("form.field.password");
@@ -73,11 +78,11 @@ if ((isset($_POST['login']) || !is_capable(CAN_ADMINISTRATE, $operator)) && isse
 
 	if (count($errors) == 0) {
 		if (!$opId) {
-			$newop = create_operator($login, $email, $password, $localname, $commonname, "");
+			$newop = create_operator($login, $email, $password, $localname, $commonname, "", $code);
 			header("Location: $webimroot/operator/avatar.php?op=" . $newop['operatorid']);
 			exit;
 		} else {
-			update_operator($opId, $login, $email, $password, $localname, $commonname);
+			update_operator($opId, $login, $email, $password, $localname, $commonname, $code);
 			// update the session password
 			if (!empty($password) && $opId == $operator['operatorid']) {
 				$toDashboard = $operator['vcpassword'] == md5('') && $password != '';
@@ -95,6 +100,7 @@ if ((isset($_POST['login']) || !is_capable(CAN_ADMINISTRATE, $operator)) && isse
 		$page['formname'] = topage($localname);
 		$page['formemail'] = topage($email);
 		$page['formcommonname'] = topage($commonname);
+		$page['formcode'] = topage($code);
 		$page['opid'] = topage($opId);
 	}
 
@@ -116,6 +122,7 @@ if ((isset($_POST['login']) || !is_capable(CAN_ADMINISTRATE, $operator)) && isse
 		$page['formname'] = topage($op['vclocalename']);
 		$page['formemail'] = topage($op['vcemail']);
 		$page['formcommonname'] = topage($op['vccommonname']);
+		$page['formcode'] = topage($op['code']);
 		$page['opid'] = topage($op['operatorid']);
 	}
 }

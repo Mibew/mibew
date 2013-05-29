@@ -107,6 +107,14 @@ require_once('inc_errors.php');
 			<br clear="all"/>
 		</div>
 
+		<div class="field">
+			<div class="flabel"><?php echo getlocal('form.field.agent_code') ?></div>
+			<div class="fvalue">
+				<input type="text" name="code" size="40" value="<?php echo form_value('code') ?>" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.agent_code.description') ?></div>
+			<br clear="all"/>
+		</div>
 <?php if($page['canmodify']) { ?>
 		<div class="fbutton">
 			<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>

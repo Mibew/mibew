@@ -97,6 +97,21 @@ function operator_by_id($id)
 }
 
 /**
+ * Load operator info by specified operators code
+ * @param string $code Operators code
+ * @return array|boolean Operators info array or boolean false if there is no
+ * operator with specified code.
+ */
+function operator_by_code($code) {
+	$db = Database::getInstance();
+	return $db->query(
+		"select * from {chatoperator} where code = ?",
+		array($code),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
+}
+
+/**
  * Get list of operators taking into account $options
  * @param array $options Associative array of options. It can contains following keys:
  *  - 'sort': an associative array of sorting options.
@@ -134,7 +149,7 @@ function get_operators_list($options)
 		$orderby = "vclogin";
 	}
 
-	$query = "select distinct {chatoperator}.operatorid, vclogin, vclocalename, vccommonname, istatus, idisabled, (:now - dtmlastvisited) as time " .
+	$query = "select distinct {chatoperator}.operatorid, vclogin, vclocalename, vccommonname, code, istatus, idisabled, (:now - dtmlastvisited) as time " .
 		 "from {chatoperator}" .
 		 (
 		 empty($options['isolated_operator_id']) ? "" :
@@ -165,11 +180,10 @@ function get_operators_list($options)
 	return $operators;
 }
 
-function operator_get_all()
-{
+function operator_get_all() {
 	$db = Database::getInstance();
 	return $operators = $db->query(
-		"select operatorid, vclogin, vclocalename, vccommonname, istatus, idisabled, " .
+		"select operatorid, vclogin, vclocalename, vccommonname, istatus, code, idisabled, " .
 		"(:now - dtmlastvisited) as time " .
 		"from {chatoperator} order by vclogin",
 		array(':now' => time()),
@@ -181,7 +195,7 @@ function get_operators_from_adjacent_groups($operator)
 {
 	$db = Database::getInstance();
 	$query = "select distinct {chatoperator}.operatorid, vclogin, vclocalename,vccommonname, " .
-		"istatus, idisabled, " .
+		"istatus, idisabled, code, " .
 		"(:now - dtmlastvisited) as time " .
 		"from {chatoperator}, {chatgroupoperator} " .
 		"where {chatoperator}.operatorid = {chatgroupoperator}.operatorid " .
@@ -224,8 +238,22 @@ function operator_is_disabled($operator)
 	return $operator['idisabled'] == '1';
 }
 
-function update_operator($operatorid, $login, $email, $password, $localename, $commonname)
-{
+/**
+ * Update existing operator's info.
+ *
+ * If $password argument is empty operators password will not be changed.
+ *
+ * @param int $operatorid ID of operator to update
+ * @param string $login Operator's login
+ * @param string $email Operator's
+ * @param string $password Operator's password
+ * @param string $localename Operator's local name
+ * @param string $commonname Operator's international name
+ * @param string $avatar Operator's avatar
+ * @param string $code Operator's code which use to start chat with specified
+ * operator
+ */
+function update_operator($operatorid, $login, $email, $password, $localename, $commonname, $code) {
 	$db = Database::getInstance();
 	$values = array(
 		':login' => $login,
@@ -233,7 +261,8 @@ function update_operator($operatorid, $login, $email, $password, $localename, $c
 		':commonname' => $commonname,
 		':email' => $email,
 		':jabbername' => '',
-		':operatorid' => $operatorid
+		':operatorid' => $operatorid,
+		':code' => $code
 	);
 	if ($password) {
 		$values[':password'] = md5($password);
@@ -242,7 +271,7 @@ function update_operator($operatorid, $login, $email, $password, $localename, $c
 		"update {chatoperator} set vclogin = :login, " .
 		($password ? " vcpassword=:password, " : "") .
 		"vclocalename = :localname, vccommonname = :commonname, " .
-		"vcemail = :email, vcjabbername= :jabbername " .
+		"vcemail = :email, code = :code, vcjabbername= :jabbername " .
 		"where operatorid = :operatorid",
 		$values
 
@@ -267,23 +296,29 @@ function update_operator_avatar($operatorid, $avatar)
  * @param string $localename Operator's local name
  * @param string $commonname Operator's international name
  * @param string $avatar Operator's avatar
+ * @param string $code Operator's code which use to start chat with specified
+ * operator
  * @return array Operator's array
  */
-function create_operator($login, $email, $password, $localename, $commonname, $avatar)
-{
+function create_operator($login, $email, $password, $localename, $commonname, $avatar, $code) {
 	$db = Database::getInstance();
 	$db->query(
-		"insert into {chatoperator} " .
-		"(vclogin,vcpassword,vclocalename,vccommonname,vcavatar,vcemail,vcjabbername) " .
-		"values (?, ?, ?, ?, ?, ?, ?)",
+		"INSERT INTO {chatoperator} (" .
+			"vclogin, vcpassword, vclocalename, vccommonname, vcavatar, " .
+			"vcemail, code, vcjabbername " .
+		") VALUES (" .
+			":login, :pass, :localename, :commonname, :avatar, " .
+			":email, :code, :jabber".
+		")",
 		array(
-			$login,
-			md5($password),
-			$localename,
-			$commonname,
-			$avatar,
-			$email,
-			''
+			':login' => $login,
+			':pass' => md5($password),
+			':localename' => $localename,
+			':commonname' => $commonname,
+			':avatar' => $avatar,
+			':email' => $email,
+			':code' => $code,
+			':jabber' => ''
 		)
 	);
 

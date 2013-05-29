@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-function generate_button($title, $locale, $style, $invitationstyle, $group, $inner, $showhost, $forcesecure, $modsecurity)
+function generate_button($title, $locale, $style, $invitationstyle, $group, $inner, $showhost, $forcesecure, $modsecurity, $operator_code)
 {
 	global $visitorcookie;
 	$app_location = get_app_location($showhost, $forcesecure);
@@ -29,8 +29,23 @@ function generate_button($title, $locale, $style, $invitationstyle, $group, $inn
 
 	$modsecfix = $modsecurity ? ".replace('http://','').replace('https://','')" : "";
 	$jslink = append_query("'" . $link, "url='+escape(document.location.href$modsecfix)+'&amp;referrer='+escape(document.referrer$modsecfix)");
+	$popup_options = "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1";
+
+	// Generate operator code field
+	if ($operator_code) {
+		$form_on_submit = "if(navigator.userAgent.toLowerCase().indexOf('opera') != -1 " .
+			"&amp;&amp; window.event.preventDefault) window.event.preventDefault();" .
+			"this.newWindow = window.open({$jslink} + '&amp;operator_code=' + document.getElementById('mibewOperatorCodeField').value, 'webim', '{$popup_options}');" .
+			"this.newWindow.focus();this.newWindow.opener=window;return false;";
+		$temp = '<form action="" onsubmit="' . $form_on_submit . '" id="mibewOperatorCodeForm">' .
+			'<input type="text" id="mibewOperatorCodeField" />' .
+			'</form>';
+		return "<!-- mibew operator code field -->" . $temp . "<!-- / mibew operator code field -->";
+	}
+
+	// Generate button
 	$temp = get_popup($link, "$jslink",
-					  $inner, $title, "webim", "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1");
+					$inner, $title, "webim", $popup_options);
 	if (Settings::get('enabletracking')) {
 		$widget_data = array();
 
@@ -55,7 +70,7 @@ function generate_button($title, $locale, $style, $invitationstyle, $group, $inn
 		$widget_data['visitorCookieName'] = $visitorcookie;
 
 		// Build additional button code
-	    $temp = preg_replace('/^(<a )/', '\1id="mibewAgentButton" ', $temp) .
+		$temp = preg_replace('/^(<a )/', '\1id="mibewAgentButton" ', $temp) .
 			'<div id="mibewinvitation"></div>' .
 			'<script type="text/javascript" src="' .
 				$app_location .	'/js/compiled/widget.js' .

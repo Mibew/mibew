@@ -479,6 +479,7 @@ class ThreadProcessor extends ClientSideProcessor {
 		// Initialize dialog
 		$thread = chat_start_for_user(
 			$group_id,
+			false,
 			$visitor['id'],
 			$visitor['name'],
 			$referrer,

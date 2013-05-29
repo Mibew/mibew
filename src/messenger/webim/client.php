@@ -92,6 +92,14 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 			}
 		}
 
+		// Get operator code
+		$operator_code = empty($_GET['operator_code'])
+			? ''
+			: $_GET['operator_code'];
+		if (! preg_match("/^[A-z0-9_]+$/", $operator_code)) {
+			$operator_code = false;
+		}
+
 		// Get visitor info
 		$visitor = visitor_from_request();
 		$info = getgetparam('info');
@@ -132,8 +140,17 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 			$visitor_is_invited = false;
 		}
 
+		// Get operator info
+		$requested_operator = false;
+		if ($operator_code) {
+			$requested_operator = operator_by_code($operator_code);
+		}
+
 		// Check if survey should be displayed
-		if(Settings::get('enablepresurvey') == '1' && !$visitor_is_invited) {
+		if(Settings::get('enablepresurvey') == '1'
+			&& !$visitor_is_invited
+			&& !$requested_operator
+		) {
 			// Display prechat survey
 			$page = array_merge_recursive(
 				setup_logo($group),
@@ -145,7 +162,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 		}
 
 		// Start chat thread
-		$thread = chat_start_for_user($groupid, $visitor['id'], $visitor['name'], $referrer, $info);
+		$thread = chat_start_for_user($groupid, $requested_operator, $visitor['id'], $visitor['name'], $referrer, $info);
 	}
 	$threadid = $thread->id;
 	$token = $thread->lastToken;

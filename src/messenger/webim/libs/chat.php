@@ -625,12 +625,13 @@ function get_remote_host()
  *
  * @global string $current_locale Current locale code
  * @param int $group_id Id of group related to thread
+ * @param array $requested_operator Array of requested operator info
  * @param string $visitor_id Id of the visitor
  * @param string $visitor_name Name of the visitor
  * @param string $referrer Page user came from
  * @param string $info User info
  */
-function chat_start_for_user($group_id, $visitor_id, $visitor_name, $referrer, $info) {
+function chat_start_for_user($group_id, $requested_operator, $visitor_id, $visitor_name, $referrer, $info) {
 	global $current_locale;
 
 	// Get user info
@@ -651,6 +652,14 @@ function chat_start_for_user($group_id, $visitor_id, $visitor_name, $referrer, $
 		}
 	}
 
+	// Get info about requested operator
+	$requested_operator_online = false;
+	if ($requested_operator) {
+		$requested_operator_online = is_operator_online(
+			$requested_operator['operatorid']
+		);
+	}
+
 	// Get thread object
 	if ($is_invited) {
 		// Get thread from invitation
@@ -663,6 +672,9 @@ function chat_start_for_user($group_id, $visitor_id, $visitor_name, $referrer, $
 		// Create thread
 		$thread = Thread::create();
 		$thread->state = Thread::STATE_LOADING;
+		if ($requested_operator && $requested_operator_online) {
+			$thread->nextAgent = $requested_operator['operatorid'];
+		}
 	}
 
 	// Update thread fields
@@ -695,8 +707,17 @@ function chat_start_for_user($group_id, $visitor_id, $visitor_name, $referrer, $
 				getstring2('chat.came.from',array($referrer))
 			);
 		}
-
-		$thread->postMessage(Thread::KIND_INFO, getstring('chat.wait'));
+		if ($requested_operator && !$requested_operator_online) {
+			$thread->postMessage(
+				Thread::KIND_INFO,
+				getstring2(
+					'chat.requested_operator.offline',
+					array(get_operator_name($requested_operator))
+				)
+			);
+		} else {
+			$thread->postMessage(Thread::KIND_INFO, getstring('chat.wait'));
+		}
 	}
 
 	// TODO: May be move sending this message somewhere else?
