@@ -40,7 +40,20 @@
                  * Text of the message
                  * @type String
                  */
-                message: ''
+                message: '',
+
+                /**
+                 * Name of the plugin which sent the message. If message was not
+                 * sent by a plugin it equals to an empty string.
+                 * @type String
+                 */
+                plugin: '',
+
+                /**
+                 * Set of arbitrary data attached to the message.
+                 * @type Object
+                 */
+                data: {}
             },
 
             /** Message kind constants */

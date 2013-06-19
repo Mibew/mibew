@@ -18,8 +18,16 @@
 
     // Initialize application
     App.addInitializer(function(options){
+        // Create new empty messages collection and store it
+        var messages = new Mibew.Collections.Messages();
+        Mibew.Objects.Collections.messages = messages;
+
+        // Update messages in the collection
+        messages.updateMessages(options.messages);
+
+        // Dispaly collection
         App.messagesRegion.show(new Mibew.Views.MessagesCollection({
-            collection: new Mibew.Collections.Messages(options.messages)
+            collection: messages
         }));
     });
 

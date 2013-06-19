@@ -326,11 +326,17 @@ class ThreadProcessor extends ClientSideProcessor {
 
 		// Set fields
 		$kind = $args['user'] ? Thread::KIND_USER : Thread::KIND_AGENT;
-		$from = $args['user'] ? $thread->userName : $thread->agentName;
-		$opid = $args['user'] ? null : $operator['operatorid'];
+		if ($args['user']) {
+			$msg_options = array('name' => $thread->userName);
+		} else {
+			$msg_options = array(
+				'name' => $thread->agentName,
+				'operator_id' => $operator['operatorid']
+			);
+		}
 
 		// Post message
-		$posted_id = $thread->postMessage($kind, $args['message'], $from, $opid);
+		$posted_id = $thread->postMessage($kind, $args['message'], $msg_options);
 
 		// Update shownMessageId
 		if($args['user'] && $thread->shownMessageId == 0) {
@@ -498,7 +504,7 @@ class ThreadProcessor extends ClientSideProcessor {
 			$posted_id = $thread->postMessage(
 				Thread::KIND_USER,
 				$first_message,
-				$visitor['name']
+				array('name' => $visitor['name'])
 			);
 			$thread->shownMessageId = $posted_id;
 			$thread->save();
@@ -621,7 +627,7 @@ class ThreadProcessor extends ClientSideProcessor {
 				getstring2('chat.visitor.info', array($info))
 			);
 		}
-		$thread->postMessage(Thread::KIND_USER, $message, $name);
+		$thread->postMessage(Thread::KIND_USER, $message, array('name'=>$name));
 
 		// Get email for message
 		$inbox_mail = get_group_email($group_id);

@@ -81,15 +81,10 @@
 
                     // Message have KIND_PLUGIN kind and need to be processed
                     // by plugins to know how to display it.
-                    //
-                    // Message treat as data object with following fields:
-                    //  - 'plugin': string, name of the plugin which sent the
-                    //    message;
-                    //  - 'data': object, some data sent by the plugin.
 
                     // Check if message is an real Object
-                    if ((typeof messageData.message != 'object')
-                        || (messageData.message === null)) {
+                    if ((typeof messageData.data != 'object')
+                        || (messageData.data === null)) {
                         continue;
                     }
 
@@ -98,7 +93,7 @@
                     // If plugin name was specified it will be
                     // 'process:<plugin_name>:plugin:message' and
                     // 'process:plugin:message' otherwise.
-                    pluginName = messageData.message.plugin || false;
+                    pluginName = messageData.plugin || false;
                     eventName = 'process:'
                         + ((pluginName !== false) ? pluginName + ':' : '')
                         + 'plugin:message';

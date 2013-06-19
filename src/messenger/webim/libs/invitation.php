@@ -122,8 +122,10 @@ function invitation_invite($visitor_id, $operator) {
 	$thread->postMessage(
 		Thread::KIND_AGENT,
 		getlocal("invitation.message"),
-		$operator_name,
-		$operator['operatorid']
+		array(
+			'name' => $operator_name,
+			'operator_id' => $operator['operatorid']
+		)
 	);
 
 	return $thread;

@@ -5,4 +5,4 @@
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(b,c){var a=new c.Marionette.Application;a.addRegions({messagesRegion:"#messages-region"});a.addInitializer(function(c){a.messagesRegion.show(new b.Views.MessagesCollection({collection:new b.Collections.Messages(c.messages)}))});b.Application=a})(Mibew,Backbone);
+(function(a,c){var b=new c.Marionette.Application;b.addRegions({messagesRegion:"#messages-region"});b.addInitializer(function(c){var d=new a.Collections.Messages;a.Objects.Collections.messages=d;d.updateMessages(c.messages);b.messagesRegion.show(new a.Views.MessagesCollection({collection:d}))});a.Application=b})(Mibew,Backbone);

@@ -127,6 +127,11 @@ $dbtables = array(
 		"agentId" => "int NOT NULL DEFAULT 0",
 		// Message text body.
 		"tmessage" => "text NOT NULL",
+		// Name of the plugin which sent the message. If message was not sent by
+		// a plugin this field equals to an empty string.
+		"plugin" => "varchar(256) NOT NULL DEFAULT ''",
+		// Arbitrary serialized data related with message.
+		"data" => "text",
 		// Unix timestamp when message was created.
 		"dtmcreated" => "int NOT NULL DEFAULT 0",
 		// Name of the message sender.
@@ -266,7 +271,7 @@ $dbtables_can_update = array(
 	"${mysqlprefix}chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount", "nextagent", "shownmessageid", "userid", "userAgent", "groupid", "dtmchatstarted", "invitationstate"),
 	"${mysqlprefix}chatthreadstatistics" => array("missedthreads", "sentinvitations", "acceptedinvitations", "rejectedinvitations", "ignoredinvitations"),
 	"${mysqlprefix}requestbuffer" => array("requestid", "requestkey", "request"),
-	"${mysqlprefix}chatmessage" => array("agentId"),
+	"${mysqlprefix}chatmessage" => array("agentId", "plugin", "data"),
 	"${mysqlprefix}chatoperator" => array("vcavatar", "vcjabbername", "iperm", "istatus", "idisabled", "vcemail", "dtmrestore", "vcrestoretoken", "code"),
 	"${mysqlprefix}chatoperatorstatistics" => array("sentinvitations", "acceptedinvitations", "rejectedinvitations", "ignoredinvitations"),
 	"${mysqlprefix}chatban" => array(),

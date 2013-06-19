@@ -4,7 +4,7 @@
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(a,b){a.Collections.Messages=b.Collection.extend({model:a.Models.Message})})(Mibew,Backbone,_);
+(function(d,e){d.Collections.Messages=e.Collection.extend({model:d.Models.Message,updateMessages:function(b){for(var c=[],a=0;a<b.length;a++)b[a].message&&c.push(b[a]);0<c.length&&this.add(c)}})})(Mibew,Backbone,_);
 /*
  Copyright 2005-2013 the original author or authors.
  Licensed under the Apache License, Version 2.0 (the "License").
@@ -18,4 +18,4 @@
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(b,c){var a=new c.Marionette.Application;a.addRegions({messagesRegion:"#messages-region"});a.addInitializer(function(c){a.messagesRegion.show(new b.Views.MessagesCollection({collection:new b.Collections.Messages(c.messages)}))});b.Application=a})(Mibew,Backbone);
+(function(a,c){var b=new c.Marionette.Application;b.addRegions({messagesRegion:"#messages-region"});b.addInitializer(function(c){var d=new a.Collections.Messages;a.Objects.Collections.messages=d;d.updateMessages(c.messages);b.messagesRegion.show(new a.Views.MessagesCollection({collection:d}))});a.Application=b})(Mibew,Backbone);

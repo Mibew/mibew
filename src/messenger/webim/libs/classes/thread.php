@@ -563,9 +563,10 @@ Class Thread {
 					$this->postMessage(
 						self::KIND_CONN,
 						$message_to_post,
-						null,
-						null,
-						$last_ping_other_side + self::CONNECTION_TIMEOUT
+						array(
+							'created' => $last_ping_other_side
+								+ self::CONNECTION_TIMEOUT
+						)
 					);
 
 					// And update thread
@@ -582,9 +583,10 @@ Class Thread {
 				$this->postMessage(
 					self::KIND_FOR_AGENT,
 					$message_to_post,
-					null,
-					null,
-					$last_ping_other_side + self::CONNECTION_TIMEOUT
+					array(
+						'created' => $last_ping_other_side
+							+ self::CONNECTION_TIMEOUT
+					)
 				);
 			}
 		}
@@ -690,8 +692,10 @@ Class Thread {
 	 *  - 'kind': int, message kind, see Thread::KIND_* for details;
 	 *  - 'created': int, unix timestamp when message was created;
 	 *  - 'name': string, name of sender;
-	 *  - 'message': associative array with message data if kind equals to
-	 *    Thread::KIND_PLUGIN and message text string otherwise.
+	 *  - 'message': string, message text;
+	 *  - 'plugin': string, name of the plugin which sent the message or an
+	 *    empty string if message was not sent by a plugin.
+	 *  - 'data' array, arbitrary data attached to the message
 	 * @see Thread::postMessage()
 	 */
 	public function getMessages($is_user, &$last_id) {
@@ -702,7 +706,7 @@ Class Thread {
 		// Load messages
 		$messages = $db->query(
 			"select messageid as id, ikind as kind, dtmcreated as created, " .
-			" tname as name, tmessage as message " .
+			" tname as name, tmessage as message, plugin, data " .
 			"from {chatmessage} " .
 			"where threadid = :threadid and messageid > :lastid " .
 			($is_user ? "and ikind <> " . self::KIND_FOR_AGENT : "") .
@@ -722,20 +726,21 @@ Class Thread {
 				$msg['name']
 			);
 
-			// Process message body
-			if ($messages[$key]['kind'] == self::KIND_PLUGIN) {
-				// Treat plugin message body as an associative array
-				$messages[$key]['message'] = unserialize(
-					$messages[$key]['message']
+			// Process data attached to the message
+			if (! empty($messages[$key]['data'])) {
+				$messages[$key]['data'] = unserialize(
+					$messages[$key]['data']
 				);
 			} else {
-				// Change message body encoding for core messages kinds
-				$messages[$key]['message'] = myiconv(
-					$webim_encoding,
-					"utf-8",
-					$msg['message']
-				);
+				$messages[$key]['data'] = array();
 			}
+
+			// Change message body encoding
+			$messages[$key]['message'] = myiconv(
+				$webim_encoding,
+				"utf-8",
+				$msg['message']
+			);
 
 			// Get last message ID
 			if ($msg['id'] > $last_id) {
@@ -749,20 +754,30 @@ Class Thread {
 	/**
 	 * Send the messsage
 	 *
-	 * Use to send message with one of the core kinds(not Thread::KIND_PLUGIN).
-	 * Trigger error with 'E_USER_WARNING' level if $kind equals to
-	 * Thread::KIND_PLUGIN.
+	 * One can attach arbitrary data to the message by setting 'data' item
+	 * in the $options array. DO NOT serialize data manually - it will be
+	 * automatically coverted to array and serialized before save in database
+	 * and unserialized after retreive form database.
 	 *
-	 * To send plugin message use Thread::postPluginMessage instead.
+	 * One can also set plugin item of the $options array to indicate that
+	 * message was sent by a plugin.
 	 *
-	 * @param int $kind Message kind. One of the Thread::KIND_* but not
-	 * Thread::KIND_PLUGIN
+	 * @param int $kind Message kind. One of the Thread::KIND_*
 	 * @param string $message Message body
-	 * @param string|null $from Sender name
-	 * @param int|null $opid operator id. Use NULL for system messages
-	 * @param int|null $time unix timestamp of the send time. Use NULL for
-	 * current time.
-	 * @return int|boolean Message ID or boolean false on failure.
+	 * @param array $options List of additional options. It may contain
+	 * following items:
+	 *  - 'name': string, name of the message sender.
+	 *  - 'operator_id': int, ID of the operator who sent the message. For
+	 *    system messages do not set this field.
+	 *  - 'created': int, unix timestamp of the send time. If you want to set
+	 *    current time do not set this field.
+	 *  - 'plugin': string, name of the plugin which sent the message. If
+	 *    message was not sent by a plugin do not set this field.
+	 *  - 'data': array with arbitrary data related with message. This value
+	 *    will be converted to array and serialized before save. If there is no
+	 *    such data do not set this field.
+	 *
+	 * @return int Message ID
 	 *
 	 * @see Thread::KIND_USER
 	 * @see Thread::KIND_AGENT
@@ -774,39 +789,11 @@ Class Thread {
 	 * @see Thread::getMessages()
 	 * @see Thread::postPluginMessage()
 	 */
-	public function postMessage($kind, $message, $from = null, $opid = null, $time = null) {
-		// Check message kind. It can not be equal to Thread::KIND_PLUGIN
-		if ($kind == self::KIND_PLUGIN) {
-			trigger_error(
-				'Use Thread::postPluginMessage to send plugins messages',
-				E_USER_WARNING
-			);
-			return false;
-		}
+	public function postMessage($kind, $message, $options = array()) {
+		$options = is_array($options) ? $options : array();
 
 		// Send message
-		return $this->saveMessage($kind, $message, $from, $opid, $time);
-	}
-
-	/**
-	 * Send plugin messsage
-	 *
-	 * @param string $plugin Plugin name. Use to determine which plugin sent
-	 * the message.
-	 * @param array $data Message data. Can contain arbitrary structure.
-	 * @param int|null $time unix timestamp of the send time. Use NULL for
-	 * current time.
-	 * @return int Message ID
-	 *
-	 * @see Thread::getMessages()
-	 */
-	public function postPluginMessage($plugin, $data, $time = null) {
-		$message = serialize(array(
-			'plugin' => $plugin,
-			'data' => $data
-		));
-
-		return $this->saveMessage(self::KIND_PLUGIN, $message, null, null, $time);
+		return $this->saveMessage($kind, $message, $options);
 	}
 
 	/**
@@ -814,10 +801,19 @@ Class Thread {
 	 *
 	 * @param int $kind Message kind. One of the Thread::KIND_*
 	 * @param string $message Message body
-	 * @param string|null $from Sender name
-	 * @param int|null $opid operator id. Use NULL for system messages
-	 * @param int|null $time unix timestamp of the send time. Use NULL for
-	 * current time.
+	 * @param array $options List of additional options. It may contain
+	 * following items:
+	 *  - 'name': string, name of the message sender.
+	 *  - 'operator_id': int, ID of the operator who sent the message. For
+	 *    system messages do not set this field.
+	 *  - 'created': int, unix timestamp of the send time. If you want to set
+	 *    current time do not set this field.
+	 *  - 'plugin': string, name of the plugin which sent the message. If
+	 *    message was not sent by a plugin do not set this field.
+	 *  - 'data': array with arbitrary data related with message. This value
+	 *    will be converted to array and serialized before save. If there is no
+	 *    such data do not set this field.
+	 *
 	 * @return int Message ID
 	 *
 	 * @see Thread::KIND_USER
@@ -829,22 +825,42 @@ Class Thread {
 	 * @see Thread::KIND_PLUGIN
 	 * @see Thread::getMessages()
 	 */
-	protected function saveMessage($kind, $message, $from = null, $opid = null, $time = null) {
+	protected function saveMessage($kind, $message, $options = array()) {
 		$db = Database::getInstance();
 
-		$query = "INSERT INTO {chatmessage} " .
-			"(threadid,ikind,tmessage,tname,agentId,dtmcreated) " .
-			"VALUES (:threadid,:kind,:message,:name,:agentid,:created)";
+		// Add default values to options
+		$options += array(
+			'name' => null,
+			'operator_id' => 0,
+			'created' => time(),
+			'plugin' => '',
+			'data' => array()
+		);
+
+		// Prepare message data
+		$options['data'] = serialize((array)$options['data']);
+
+		// Prepare query
+		$query = "INSERT INTO {chatmessage} (" .
+				"threadid, ikind, tmessage, tname, agentId, " .
+				"dtmcreated, plugin, data" .
+			") VALUES (" .
+				":threadid, :kind, :message, :name, :agentid, " .
+				":created, :plugin, :data" .
+			")";
 
 		$values = array(
 			':threadid' => $this->id,
 			':kind' => $kind,
 			':message' => $message,
-			':name' => ($from ? $from : NULL),
-			':agentid' => ($opid ? $opid : 0),
-			':created' => ($time ? $time : time())
+			':name' => $options['name'],
+			':agentid' => $options['operator_id'],
+			':created' => $options['created'],
+			':plugin' => $options['plugin'],
+			':data' => $options['data']
 		);
 
+		// Execute query
 		$db->query($query, $values);
 		return $db->insertedId();
 	}

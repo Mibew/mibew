@@ -91,6 +91,14 @@ if ($act == "silentcreateall") {
 			runsql("update ${mysqlprefix}chatmessage, ${mysqlprefix}chatoperator set agentId = operatorid where agentId = 0 AND ikind = 2 AND (vclocalename = tname OR vccommonname = tname)", $link);
 		}
 
+		if (in_array("${mysqlprefix}chatmessage.plugin", $absent_columns)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatmessage ADD plugin varchar(256) NOT NULL DEFAULT '' AFTER tmessage", $link);
+		}
+
+		if (in_array("${mysqlprefix}chatmessage.data", $absent_columns)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatmessage ADD data text AFTER plugin", $link);
+		}
+
 		if (in_array("${mysqlprefix}chatthread.agentId", $absent_columns)) {
 			runsql("ALTER TABLE ${mysqlprefix}chatthread ADD agentId int NOT NULL DEFAULT 0 AFTER agentName", $link);
 			runsql("update ${mysqlprefix}chatthread, ${mysqlprefix}chatoperator set agentId = operatorid where agentId = 0 AND (vclocalename = agentName OR vccommonname = agentName)", $link);

@@ -202,6 +202,7 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 
 			'lrevision' => 189,
 			'istate' => Thread::STATE_QUEUE,
+			'invitationstate' => Thread::INVITATION_NOT_INVITED,
 			'ltoken' => 19908,
 
 			'nextagent' => 0,
@@ -574,15 +575,19 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 			'agentId' => 12,
 			'tmessage' => 'New message text',
 			'dtmcreated' => time(),
-			'tname' => 'Sender name'
+			'tname' => 'Sender name',
+			'plugin' => '',
+			'data' => array()
 		);
 
 		$message['messageid'] = $thread->postMessage(
 			$message['ikind'],
 			$message['tmessage'],
-			$message['tname'],
-			$message['agentId'],
-			$message['dtmcreated']
+			array(
+				'name' => $message['tname'],
+				'operator_id' => $message['agentId'],
+				'created' => $message['dtmcreated']
+			)
 		);
 		// Load message info from database
 		$msg_info = $db->query(
@@ -590,6 +595,8 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 			array($message['messageid']),
 			array('return_rows' => Database::RETURN_ONE_ROW)
 		);
+		$msg_info['data'] = unserialize($msg_info['data']);
+
 		// Check values
 		$this->assertEquals($message, $msg_info);
 
@@ -613,21 +620,27 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 			'kind' => Thread::KIND_USER,
 			'message' => 'The first message',
 			'created' => time(),
-			'name' => 'System message only for agent'
+			'name' => 'System message only for agent',
+			'plugin' => 'f_test_plg',
+			'data' => array('msg_num' => 1)
 		);
 		// The second
 		$second_message = array(
 			'kind' => Thread::KIND_AGENT,
 			'message' => 'The second message',
 			'created' => time(),
-			'name' => 'User'
+			'name' => 'User',
+			'plugin' => 'f_test_plg',
+			'data' => array('msg_num' => 1)
 		);
 		// The third
 		$third_message = array(
 			'kind' => Thread::KIND_FOR_AGENT,
 			'message' => 'The third message',
 			'created' => time(),
-			'name' => 'Agent'
+			'name' => 'Agent',
+			'plugin' => 'f_test_plg',
+			'data' => array('msg_num' => 1)
 		);
 
 		// Send messages
@@ -635,25 +648,37 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 		$first_message['id'] = $thread->postMessage(
 			$first_message['kind'],
 			$first_message['message'],
-			$first_message['name'],
-			12,
-			$first_message['created']
+			array(
+				'name' => $first_message['name'],
+				'operator_id' => 12,
+				'created' => $first_message['created'],
+				'plugin' => $second_message['plugin'],
+				'data' => $second_message['data']
+			)
 		);
 		// The second
 		$second_message['id'] = $thread->postMessage(
 			$second_message['kind'],
 			$second_message['message'],
-			$second_message['name'],
-			14,
-			$second_message['created']
+			array(
+				'name' => $second_message['name'],
+				'operator_id' => 14,
+				'created' => $second_message['created'],
+				'plugin' => $second_message['plugin'],
+				'data' => $second_message['data']
+			)
 		);
 		// The third
 		$third_message['id'] = $thread->postMessage(
 			$third_message['kind'],
 			$third_message['message'],
-			$third_message['name'],
-			16,
-			$third_message['created']
+			array(
+				'name' => $third_message['name'],
+				'operator_id' => 16,
+				'created' => $third_message['created'],
+				'plugin' => $second_message['plugin'],
+				'data' => $second_message['data']
+			)
 		);
 
 		// Check messages for agent with ids starts from $msg_id

@@ -18,7 +18,29 @@
              * Default contructor for model
              * @type Function
              */
-            model: Mibew.Models.Message
+            model: Mibew.Models.Message,
+
+            /**
+             * Update messages in collection.
+             *
+             * Skip messages with empty text body.
+             * @param rawMessages {Array} Array of row message models data.
+             */
+            updateMessages: function(rawMessages) {
+                // Reject all messages with empty text body
+                var newMessages = [];
+                for(var i = 0; i < rawMessages.length; i++) {
+                    if (! rawMessages[i].message) {
+                        continue;
+                    }
+                    newMessages.push(rawMessages[i]);
+                }
+
+                // Add new messages to the collection
+                if (newMessages.length > 0) {
+                    this.add(newMessages);
+                }
+            }
         }
     );
 
