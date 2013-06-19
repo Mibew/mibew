@@ -31,30 +31,57 @@ $dbtables = array(
 		"vchosturl" => "varchar(255) DEFAULT ''",
 	),
 
+	// Chat threads
 	"${mysqlprefix}chatthread" => array(
+		// ID of the thread.
 		"threadid" => "int NOT NULL auto_increment PRIMARY KEY",
+		// Name of the user in chat.
 		"userName" => "varchar(64) NOT NULL",
+		// ID of the user. This field is foreign key for
+		// {chatsitevisitor}.userid
 		"userid" => "varchar(255)",
+		// Name of the operator who took place in the chat.
 		"agentName" => "varchar(64)",
+		// ID of the operator who took place in the chat.
 		"agentId" => "int NOT NULL DEFAULT 0",
+		// Unix timestamp of the moment when the thread was created.
 		"dtmcreated" => "int NOT NULL DEFAULT 0",
+		// Unix timestamp of the moment when chat actually started.
 		"dtmchatstarted" => "int NOT NULL DEFAULT 0",
+		// Unix timestamp of the last thread modification.
 		"dtmmodified" => "int NOT NULL DEFAULT 0",
+		// ID of the last thread revision.
 		"lrevision" => "int NOT NULL DEFAULT 0",
+		// State of the thread. It is one of Thread::STATE_* constants.
 		"istate" => "int NOT NULL DEFAULT 0",
+		// State of invitation related with the thread. It is one of
+		// Thread::INVITATION_* constants.
 		"invitationstate" => "int NOT NULL DEFAULT 0",
+		// Last token of the thread.
 		"ltoken" => "int NOT NULL",
+		// IP address of the user.
 		"remote" => "varchar(255)",
+		// Page from which chat thread was started.
 		"referer" => "text",
+		// ID of the operator who will next in the chat.
 		"nextagent" => "int NOT NULL DEFAULT 0",
+		// Code of chat locale.
 		"locale" => "varchar(8)",
+		// Unix timestamp of the last request from user's window to server.
 		"lastpinguser" => "int NOT NULL DEFAULT 0",
+		// Unix timestamp of the last request from operator's window to server.
 		"lastpingagent" => "int NOT NULL DEFAULT 0",
+		// Indicates if user typing or not. It can take two values 0 and 1.
 		"userTyping" => "int DEFAULT 0",
+		// Indicates if operator typing or not. It can take two values 0 and 1.
 		"agentTyping" => "int DEFAULT 0",
+		// ID of shown message in the chat.
 		"shownmessageid" => "int NOT NULL DEFAULT 0",
+		// User agent description that took from 'User-Agent' HTTP header.
 		"userAgent" => "varchar(255)",
+		// Total count of messages related with the thread.
 		"messageCount" => "varchar(16)",
+		// ID of the group at Mibew side related with the thread.
 		"groupid" => "int references ${mysqlprefix}chatgroup(groupid)",
 	),
 
@@ -89,12 +116,20 @@ $dbtables = array(
 
 	// Store chat thread messages
 	"${mysqlprefix}chatmessage" => array(
+		// Message ID.
 		"messageid" => "int NOT NULL auto_increment PRIMARY KEY",
+		// ID of the thread related with the message.
 		"threadid" => "int NOT NULL references ${mysqlprefix}chatthread(threadid)",
+		// Message kind. It is one of Thread::KIND_* constants.
 		"ikind" => "int NOT NULL",
+		// ID of operator who sent the message. This value will be ignored for
+		// system messages and messages which sent by users.
 		"agentId" => "int NOT NULL DEFAULT 0",
+		// Message text body.
 		"tmessage" => "text NOT NULL",
+		// Unix timestamp when message was created.
 		"dtmcreated" => "int NOT NULL DEFAULT 0",
+		// Name of the message sender.
 		"tname" => "varchar(64)"
 	),
 
