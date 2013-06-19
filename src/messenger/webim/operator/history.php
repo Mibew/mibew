@@ -56,8 +56,8 @@ if ($query !== false) {
 
 	$searchConditions = array();
 	if ($searchType == 'message' || $searchType == 'all') {
-		$searchConditions[] = "({indexedchatmessage}.tmessage LIKE :query" .
-					($searchInSystemMessages?'':" AND ({indexedchatmessage}.ikind = :kind_user OR {indexedchatmessage}.ikind = :kind_agent)") .
+		$searchConditions[] = "({chatmessage}.tmessage LIKE :query" .
+					($searchInSystemMessages?'':" AND ({chatmessage}.ikind = :kind_user OR {chatmessage}.ikind = :kind_agent)") .
 					")";
 		if (! $searchInSystemMessages) {
 			$values[':kind_user'] = Thread::KIND_USER;
@@ -74,9 +74,9 @@ if ($query !== false) {
 
 	// Load threads
 	select_with_pagintation("DISTINCT {chatthread}.*",
-		"{chatthread}, {indexedchatmessage}",
+		"{chatthread}, {chatmessage}",
 		array(
-			"{indexedchatmessage}.threadid = {chatthread}.threadid",
+			"{chatmessage}.threadid = {chatthread}.threadid",
 			"({chatthread}.invitationstate = :invitation_accepted " .
 				"OR {chatthread}.invitationstate = :invitation_not_invited)",
 			"(" . implode(' or ', $searchConditions)  .  ")"
@@ -96,8 +96,6 @@ if ($query !== false) {
 
 $page['formtype'] = $searchType;
 $page['forminsystemmessages'] = $searchInSystemMessages;
-$page['cron_path'] = cron_get_uri(Settings::get('cron_key'));
-$page['last_cron_run'] = Settings::get('_last_cron_run');
 
 prepare_menu($operator);
 start_html_output();

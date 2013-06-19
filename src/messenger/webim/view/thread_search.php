@@ -22,7 +22,7 @@ $page['menuid'] = "history";
 function tpl_content() { global $page, $webimroot;
 ?>
 
-<?php echo getlocal2("page_search.intro", array(date_to_text($page['last_cron_run']), $page['cron_path'])) ?>
+<?php echo getlocal("page_search.intro") ?>
 <br />
 <br />
 

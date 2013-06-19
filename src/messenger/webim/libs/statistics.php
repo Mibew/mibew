@@ -82,7 +82,7 @@ function calculate_thread_statistics() {
 					"SUM(m.ikind = :kind_user) AS user_msgs, " .
 					"MAX(m.dtmcreated) as last_msg_time, " .
 					"threadid " .
-				"FROM {indexedchatmessage} m " .
+				"FROM {chatmessage} m " .
 				// Calculate only users' and operators' messages
 				"WHERE m.ikind = :kind_user " .
 					"OR m.ikind = :kind_agent " .
@@ -293,10 +293,10 @@ function calculate_operator_statistics() {
 				"COUNT(distinct m.threadid) AS threads, " .
 				"COUNT(m.messageid) AS messages, " .
 				"AVG(CHAR_LENGTH(m.tmessage)) AS avg_msg_length " .
-			// Use {indexedchatmessage} as base table because of one thread can
+			// Use {chatmessage} as base table because of one thread can
 			// be related with more than one operator (they can change each
 			// other during conversation).
-			"FROM {indexedchatmessage} m, {chatthread} t " .
+			"FROM {chatmessage} m, {chatthread} t " .
 			"WHERE m.ikind = :kind_agent " .
 				"AND  m.threadid = t.threadid " .
 				"AND (m.dtmcreated - :start) > 24*60*60 " .
@@ -472,7 +472,7 @@ function calculate_page_statistics() {
 				"(SELECT " .
 					"COUNT(*) AS msgs, " .
 					"m.threadid " .
-				"FROM {indexedchatmessage} m " .
+				"FROM {chatmessage} m " .
 				"WHERE m.ikind = :kind_user OR m.ikind = :kind_agent " .
 				"GROUP BY m.threadid) tmp " .
 			"WHERE t.referer = p.address " .

@@ -35,8 +35,6 @@ $quiet = isset($_GET['q']);
 set_time_limit(0);
 
 // Run cron jobs of the core
-cron_index_messages();
-
 calculate_thread_statistics();
 calculate_operator_statistics();
 calculate_page_statistics();

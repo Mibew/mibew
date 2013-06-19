@@ -684,8 +684,6 @@ Class Thread {
 	 * @param boolean $is_user Boolean TRUE if messages loads for user
 	 * and boolean FALSE if they loads for operator.
 	 * @param int $lastid ID of the last loaded message.
-	 * @param boolean $indexed Indicates if indexed messages be should returned.
-	 * Default value is false.
 	 * @return array Array of messages. Every message is associative array with
 	 * following keys:
 	 *  - 'id': int, message id;
@@ -696,18 +694,16 @@ Class Thread {
 	 *    Thread::KIND_PLUGIN and message text string otherwise.
 	 * @see Thread::postMessage()
 	 */
-	public function getMessages($is_user, &$last_id, $indexed = false) {
+	public function getMessages($is_user, &$last_id) {
 		global $webim_encoding;
 
 		$db = Database::getInstance();
-
-		$messages_table = $indexed ? '{indexedchatmessage}' : '{chatmessage}';
 
 		// Load messages
 		$messages = $db->query(
 			"select messageid as id, ikind as kind, dtmcreated as created, " .
 			" tname as name, tmessage as message " .
-			"from " . $messages_table . " " .
+			"from {chatmessage} " .
 			"where threadid = :threadid and messageid > :lastid " .
 			($is_user ? "and ikind <> " . self::KIND_FOR_AGENT : "") .
 			" order by messageid",

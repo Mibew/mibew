@@ -404,7 +404,7 @@ page_login.login=Login:
 page_login.password=Password:
 page_login.remember=Remember
 page_login.title=Login
-page_search.intro=Search the chat history for a specified user, an operator or a specified phrase in messages. Last time messages was indexed {0}. You can index them <a href="{1}" target="_blank">manually</a>.
+page_search.intro=Search the chat history for a specified user, an operator or a specified phrase in messages.
 page_search.type.all=everywhere
 page_search.search.type.in_system_messages=Search in system messages
 page_search.type.message=in messages

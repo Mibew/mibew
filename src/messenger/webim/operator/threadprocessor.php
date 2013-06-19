@@ -52,7 +52,7 @@ if (isset($_GET['threadid'])) {
 
 	// Build messages list
 	$lastid = -1;
-	$messages = $thread_info['thread']->getMessages(false, $lastid, true);
+	$messages = $thread_info['thread']->getMessages(false, $lastid);
 	$page['threadMessages'] = json_encode($messages);
 }
 
