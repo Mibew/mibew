@@ -54,16 +54,17 @@ Class PluginManager {
 	}
 
 	/**
-	 * Loads plugins and invokes Plugin::registerEvents() and Plugin::registerListeners()
+	 * Loads plugins.
 	 *
-	 * @param array $plugins_list List of plugins' names and configurations. For example:
+	 * The method checks dependences and plugin avaiulability before loading and
+	 * invokes Plugin::registerListeners() after loading.
+	 *
+	 * @param array $plugins_list List of plugins' names and configurations.
+	 * For example:
 	 * <code>
 	 * $plugins_list = array();
 	 * $plugins_list[] = array(
 	 *	'name' => 'plugin_name',      // Obligatory value
-	 *	'dependences' => array(       // Dependences of the plugin
-	 *		'another_plugin_name'
-	 *	),
 	 *	'config' => array(            // Pass to plugin constructor
 	 *		'weight' => 100,
 	 *		'some_configurable_value' => 'value'
@@ -71,7 +72,6 @@ Class PluginManager {
 	 * )
 	 * </code>
 	 *
-	 * @see Plugin::registerEvents()
 	 * @see Plugin::registerListeners()
 	 */
 	public static function loadPlugins($plugins_list){
@@ -90,23 +90,12 @@ Class PluginManager {
 			}
 			$plugin_name = $plugin['name'];
 			$plugin_config = isset($plugin['config']) ? $plugin['config'] : array();
-			$plugin_dependences = isset($plugin['dependences'])
-				? $plugin['dependences']
-				: array();
+
+			// Build name of the plugin class
 			$plugin_name_parts = explode('_', $plugin_name);
 			$plugin_name_parts = array_map('ucfirst', $plugin_name_parts);
 			$plugin_classname = implode('', $plugin_name_parts) . "Plugin";
-			// Check plugin dependences
-			foreach ($plugin_dependences as $dependence) {
-				if (empty(self::$loaded_plugins[$dependence])) {
-					trigger_error(
-						"Plugin '{$dependence}' not loaded yet, but " .
-						"exists in '{$plugin_name}' dependences list!",
-						E_USER_WARNING
-					);
-					continue 2;
-				}
-			}
+
 			// Try to load plugin file
 			if (! (include_once $plugin_name."/".$plugin_name."_plugin.php")) {
 				trigger_error("Cannot load plugin file!", E_USER_ERROR);
@@ -114,7 +103,7 @@ Class PluginManager {
 			// Check plugin class name
 			if (! class_exists($plugin_classname)) {
 				trigger_error(
-					"Plugin class '{$plugin_classname}' does not defined!",
+					"Plugin class '{$plugin_classname}' is undefined!",
 					E_USER_WARNING
 				);
 				continue;
@@ -128,6 +117,23 @@ Class PluginManager {
 				);
 				continue;
 			}
+
+			// Check plugin dependences
+			$plugin_dependences = call_user_func(array(
+				$plugin_classname,
+				'getDependences'
+			));
+			foreach ($plugin_dependences as $dependence) {
+				if (empty(self::$loaded_plugins[$dependence])) {
+					trigger_error(
+						"Plugin '{$dependence}' was not loaded yet, but " .
+						"exists in '{$plugin_name}' dependences list!",
+						E_USER_WARNING
+					);
+					continue 2;
+				}
+			}
+
 			// Add plugin to loading queue
 			$plugin_instance = new $plugin_classname($plugin_config);
 			if ($plugin_instance->initialized) {
@@ -137,7 +143,7 @@ Class PluginManager {
 				$offset++;
 			} else {
 				trigger_error(
-					"Plugin '{$plugin_name}' does not initialized correctly!",
+					"Plugin '{$plugin_name}' was not initialized correctly!",
 					E_USER_WARNING
 				);
 			}

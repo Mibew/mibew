@@ -24,7 +24,7 @@ class PluginManagerTest extends PHPUnit_Framework_TestCase {
 				)
 			);
 			$this->fail("Exception must be thrown");
-		} catch(Exception $e) {}
+		} catch(PHPUnit_Framework_Error_Warning $e) {}
 
 		// Try to load plugin with an absent plugin in dependences list
 		// Following code wait for trigger user warning, which converts by PHPUnit to an
@@ -33,13 +33,12 @@ class PluginManagerTest extends PHPUnit_Framework_TestCase {
 			PluginManager::loadPlugins(
 				array(
 					array(
-						'name' => 'phpunit_autotest_plugin_manager',
-						'dependences' => array('missed_plugin')
+						'name' => 'phpunit_autotest_plugin_manager_dependence'
 					)
 				)
 			);
 			$this->fail("Exception must be thrown");
-		} catch(Exception $e) {}
+		} catch(PHPUnit_Framework_Error_Warning $e) {}
 
 		// Try to load correct plugin
 		PluginManager::loadPlugins(

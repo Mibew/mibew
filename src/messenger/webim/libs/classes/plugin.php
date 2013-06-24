@@ -53,6 +53,17 @@ abstract Class Plugin {
 	 */
 	abstract public function registerListeners();
 
+	/**
+	 * Returns list of plugin's dependences.
+	 *
+	 * Each element of dependenses list is a string with a plugin name.
+	 * If plugin have no dependenses do not override this method.
+	 *
+	 * @return array List of plugin's dependences.
+	 */
+	public static function getDependences() {
+		return array();
+	}
 }
 
 ?>
