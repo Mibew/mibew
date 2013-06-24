@@ -214,6 +214,7 @@ class ThreadTest extends PHPUnit_Framework_TestCase {
 			'dtmcreated' => time() - 100,
 			'dtmmodified' => time() - 90,
 			'dtmchatstarted' => 0,
+			'dtmclosed' => time(),
 
 			'agentId' => 0,
 			'agentName' => '',

@@ -202,13 +202,15 @@ function invitation_reject($visitor_id) {
 		"UPDATE {chatsitevisitor} v, {chatthread} t SET " .
 			"v.threadid = NULL, " .
 			"t.invitationstate = :invitation_rejected, " .
-			"t.istate = :state_closed " .
+			"t.istate = :state_closed, " .
+			"t.dtmclosed = :now " .
 		"WHERE t.threadid = v.threadid " .
 			"AND visitorid = :visitor_id",
 		array(
 			':invitation_rejected' => Thread::INVITATION_REJECTED,
 			':state_closed' => Thread::STATE_CLOSED,
-			':visitor_id' => $visitor_id
+			':visitor_id' => $visitor_id,
+			':now' => time()
 		)
 	);
 }
@@ -239,6 +241,7 @@ function invitation_close_old() {
 		"UPDATE {chatsitevisitor} v, {chatthread} t SET " .
 			"t.invitationstate = :invitation_ignored, " .
 			"t.istate = :state_closed, " .
+			"t.dtmclosed = :now, " .
 			"v.threadid = NULL " .
 		"WHERE t.istate = :state_invited " .
 			"AND t.invitationstate = :invitation_wait " .

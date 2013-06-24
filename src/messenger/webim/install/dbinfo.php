@@ -50,6 +50,8 @@ $dbtables = array(
 		"dtmchatstarted" => "int NOT NULL DEFAULT 0",
 		// Unix timestamp of the last thread modification.
 		"dtmmodified" => "int NOT NULL DEFAULT 0",
+		// Unix timestamp of the moment when the thread was closed.
+		"dtmclosed" => "int NOT NULL DEFAULT 0",
 		// ID of the last thread revision.
 		"lrevision" => "int NOT NULL DEFAULT 0",
 		// State of the thread. It is one of Thread::STATE_* constants.
@@ -268,7 +270,7 @@ $dbtables_indexes = array(
 $memtables = array();
 
 $dbtables_can_update = array(
-	"${mysqlprefix}chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount", "nextagent", "shownmessageid", "userid", "userAgent", "groupid", "dtmchatstarted", "invitationstate"),
+	"${mysqlprefix}chatthread" => array("agentId", "userTyping", "agentTyping", "messageCount", "nextagent", "shownmessageid", "userid", "userAgent", "groupid", "dtmchatstarted", "dtmclosed", "invitationstate"),
 	"${mysqlprefix}chatthreadstatistics" => array("missedthreads", "sentinvitations", "acceptedinvitations", "rejectedinvitations", "ignoredinvitations"),
 	"${mysqlprefix}requestbuffer" => array("requestid", "requestkey", "request"),
 	"${mysqlprefix}chatmessage" => array("agentId", "plugin", "data"),

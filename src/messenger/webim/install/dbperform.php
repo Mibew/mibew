@@ -109,6 +109,11 @@ if ($act == "silentcreateall") {
 			runsql("update ${mysqlprefix}chatthread set dtmchatstarted = dtmcreated", $link);
 		}
 
+		if (in_array("${mysqlprefix}chatthread.dtmclosed", $absent_columns)) {
+			runsql("ALTER TABLE ${mysqlprefix}chatthread ADD dtmclosed int NOT NULL DEFAULT 0 AFTER dtmmodified", $link);
+			runsql("update ${mysqlprefix}chatthread set dtmclosed = dtmmodified", $link);
+		}
+
 		if (in_array("${mysqlprefix}chatthread.agentTyping", $absent_columns)) {
 			runsql("ALTER TABLE ${mysqlprefix}chatthread ADD agentTyping int DEFAULT 0", $link);
 		}

@@ -606,6 +606,7 @@ class ThreadProcessor extends ClientSideProcessor {
 		$thread->userId = $visitor['id'];
 		$thread->userAgent = $user_browser;
 		$thread->state = Thread::STATE_LEFT;
+		$thread->closed = time();
 		$thread->save();
 
 		// Send some messages

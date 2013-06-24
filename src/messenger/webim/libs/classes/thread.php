@@ -140,6 +140,7 @@ Class Thread {
 	 *  - 'messageCount': count of user's messages related to the thread
 	 *  - 'created': unix timestamp of the thread creation
 	 *  - 'modified': unix timestamp of the thread's last modification
+	 *  - 'closed': unix timestamp of the moment when the thread was closed
 	 *  - 'chatStarted': unix timestamp of related to thread chat started
 	 *  - 'agentId': id of an operator who take part in the chat
 	 *  - 'agentName': name of an operator who take part in the chat
@@ -177,6 +178,7 @@ Class Thread {
 		'created' => 'dtmcreated',
 		'modified' => 'dtmmodified',
 		'chatStarted' => 'dtmchatstarted',
+		'closed' => 'dtmclosed',
 
 		'agentId' => 'agentId',
 		'agentName' => 'agentName',
@@ -369,7 +371,7 @@ Class Thread {
 		$db = Database::getInstance();
 
 		$query = "update {chatthread} set lrevision = :next_revision, " .
-			"dtmmodified = :now, istate = :state_closed " .
+			"dtmmodified = :now, dtmclosed = :now, istate = :state_closed " .
 			"where istate <> :state_closed and istate <> :state_left " .
 			"and ((lastpingagent <> 0 and lastpinguser <> 0 and " .
 			"(ABS(:now - lastpinguser) > :thread_lifetime and " .
@@ -920,6 +922,7 @@ Class Thread {
 		// Close thread if it's not already closed
 		if ($this->state != self::STATE_CLOSED) {
 			$this->state = self::STATE_CLOSED;
+			$this->closed = time();
 			$this->messageCount = $message_count;
 			$this->save();
 		}
