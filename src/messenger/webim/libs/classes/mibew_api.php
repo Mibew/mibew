@@ -239,30 +239,22 @@ Class MibewAPI {
 	 * @throws MibewAPIException
 	 */
 	public function decodePackage($package, $trusted_signatures) {
+		// Try to decode package
 		$decoded_package = urldecode($package);
-		// JSON regular expression
-		$pcre_regex = '/
-		(?(DEFINE)
-		(?<number>   -? (?= [1-9]|0(?!\d) ) \d+ (\.\d+)? ([eE] [+-]? \d+)? )
-		(?<boolean>   true | false | null )
-		(?<string>    " ([^"\\\\]* | \\\\ ["\\\\bfnrt\/] | \\\\ u [0-9a-f]{4} )* " )
-		(?<array>     \[  (?:  (?&json)  (?: , (?&json)  )*  )?  \s* \] )
-		(?<pair>      \s* (?&string) \s* : (?&json)  )
-		(?<object>    \{  (?:  (?&pair)  (?: , (?&pair)  )*  )?  \s* \} )
-		(?<json>   \s* (?: (?&number) | (?&boolean) | (?&string) | (?&array) | (?&object) ) \s* )
-		)
-		\A (?&json) \Z
-		/six';
-		// Check JSON
-		if (!preg_match($pcre_regex, $decoded_package)) {
+		$decoded_package = json_decode($decoded_package, true);
+
+		// Check package
+		$json_error_code = json_last_error();
+		if ($json_error_code != JSON_ERROR_NONE) {
 			// Not valid JSON
 			throw new MibewAPIException(
-				"Package have not valid json structure",
+				"Package have invalid json structure. " .
+					"JSON error code is '" . $json_error_code . "'",
 				MibewAPIException::NOT_VALID_JSON
 			);
 		}
-		$decoded_package = json_decode($decoded_package, true);
 		$this->checkPackage($decoded_package, $trusted_signatures);
+
 		return $decoded_package;
 	}
 
