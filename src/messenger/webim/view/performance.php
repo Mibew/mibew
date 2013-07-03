@@ -85,7 +85,16 @@ require_once('inc_errors.php');
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.threadlifetime.description') ?></div>
 			<br clear="all"/>
 		</div>
-		
+
+		<div class="field">
+			<div class="flabel"><?php echo getlocal('settings.statistics_aggregation_interval') ?></div>
+			<div class="fvalue">
+				<input type="text" name="statistics_aggregation_interval" size="40" value="<?php echo form_value('statistics_aggregation_interval') ?>" class="formauth"/>
+			</div>
+			<div class="fdescr"> &mdash; <?php echo getlocal('settings.statistics_aggregation_interval.description') ?></div>
+			<br clear="all"/>
+		</div>
+
 <?php if ($page['enabletracking']) { ?>
 		<div class="field">
 			<div class="flabel"><?php echo getlocal('settings.frequencytracking') ?></div>

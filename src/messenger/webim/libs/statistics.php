@@ -47,6 +47,8 @@ function calculate_thread_statistics() {
 	$db = Database::getInstance();
 	$db_throw_exceptions = $db->throwExeptions(true);
 
+	$interval = Settings::get('statistics_aggregation_interval');
+
 	try {
 		// Start transaction
 		$db->query('START TRANSACTION');
@@ -59,12 +61,12 @@ function calculate_thread_statistics() {
 		);
 
 		$start = empty($result['start']) ? 0 : $result['start'];
-		$today = floor(time() / (24*60*60)) * 24*60*60;
+		$today = floor(time() / $interval) * $interval;
 
 		// Calculate statistics
 		// Get base threads info
 		$db_results = $db->query(
-			"SELECT (FLOOR(t.dtmcreated / (24*60*60)) * 24*60*60) AS date, " .
+			"SELECT (FLOOR(t.dtmcreated / :interval) * :interval) AS date, " .
 				"COUNT(t.threadid) AS threads, " .
 				"SUM(tmp.operator_msgs) AS operator_msgs, " .
 				"SUM(tmp.user_msgs) AS user_msgs, " .
@@ -88,9 +90,10 @@ function calculate_thread_statistics() {
 					"OR m.ikind = :kind_agent " .
 				"GROUP BY m.threadid) tmp " .
 			"WHERE t.threadid = tmp.threadid " .
-				"AND (t.dtmcreated - :start) > 24*60*60 " .
-				// Calculate statistics only for threads that older than one day
-				"AND (:today - t.dtmcreated) > 24*60*60 " .
+				"AND (t.dtmcreated - :start) > :interval " .
+				// Calculate statistics only for threads that older than
+				// statistics_aggregation_interval
+				"AND (:today - t.dtmcreated) > :interval " .
 				// Ignore threads when operator does not start chat
 				"AND t.dtmchatstarted <> 0 " .
 				// Ignore not accepted invitations
@@ -100,6 +103,7 @@ function calculate_thread_statistics() {
 			array(
 				':start' => $start,
 				':today' => $today,
+				':interval' => $interval,
 				':not_invited' => Thread::INVITATION_NOT_INVITED,
 				':invitation_accepted' => Thread::INVITATION_ACCEPTED,
 				':kind_agent' => Thread::KIND_AGENT,
@@ -117,12 +121,13 @@ function calculate_thread_statistics() {
 
 		// Get info about missed threads
 		$db_results = $db->query(
-			"SELECT (FLOOR(dtmcreated / (24*60*60)) * 24*60*60) AS date, " .
+			"SELECT (FLOOR(dtmcreated / :interval) * :interval) AS date, " .
 				"COUNT(*) as missed_threads " .
 			"FROM {chatthread} " .
-			"WHERE (dtmcreated - :start) > 24*60*60 " .
-				// Calculate statistics only for threads that older than one day
-				"AND (:today - dtmcreated) > 24*60*60 " .
+			"WHERE (dtmcreated - :start) > :interval " .
+				// Calculate statistics only for threads that older than
+				// statistics_aggregation_interval
+				"AND (:today - dtmcreated) > :interval " .
 				// Ignore threads when operator does not start chat
 				"AND dtmchatstarted = 0 " .
 				// Ignore not accepted invitations
@@ -131,6 +136,7 @@ function calculate_thread_statistics() {
 			array(
 				':start' => $start,
 				':today' => $today,
+				':interval' => $interval,
 				':not_invited' => Thread::INVITATION_NOT_INVITED
 			),
 			array('return_rows' => Database::RETURN_ALL_ROWS)
@@ -145,12 +151,13 @@ function calculate_thread_statistics() {
 
 		// Get info about average waiting time.
 		$db_results = $db->query(
-			"SELECT (FLOOR(dtmcreated / (24*60*60)) * 24*60*60) AS date, " .
+			"SELECT (FLOOR(dtmcreated / :interval) * :interval) AS date, " .
 				"ROUND(AVG(dtmchatstarted-dtmcreated),1) AS avg_waiting_time " .
 			"FROM {chatthread} " .
-			"WHERE (dtmcreated - :start) > 24*60*60 " .
-				// Calculate statistics only for threads that older than one day
-				"AND (:today - dtmcreated) > 24*60*60 " .
+			"WHERE (dtmcreated - :start) > :interval " .
+				// Calculate statistics only for threads that older than
+				// statistics_aggregation_interval
+				"AND (:today - dtmcreated) > :interval " .
 				// Ignore threads when operator does not start chat
 				"AND dtmchatstarted <> 0 " .
 				// Ignore all invitations
@@ -159,6 +166,7 @@ function calculate_thread_statistics() {
 			array(
 				':start' => $start,
 				':today' => $today,
+				':interval' => $interval,
 				':not_invited' => Thread::INVITATION_NOT_INVITED
 			),
 			array('return_rows' => Database::RETURN_ALL_ROWS)
@@ -173,15 +181,16 @@ function calculate_thread_statistics() {
 
 		// Get invitation info
 		$db_results = $db->query(
-			"SELECT (FLOOR(dtmcreated / (24*60*60)) * 24*60*60) AS date, " .
+			"SELECT (FLOOR(dtmcreated / :interval) * :interval) AS date, " .
 				"COUNT(*) AS invitations_sent, " .
 				"SUM(invitationstate = :invitation_accepted) AS invitations_accepted, " .
 				"SUM(invitationstate = :invitation_rejected) AS invitations_rejected, " .
 				"SUM(invitationstate = :invitation_ignored) AS invitations_ignored " .
 			"FROM {chatthread} " .
-			"WHERE (dtmcreated - :start) > 24*60*60 " .
-				// Calculate statistics only for threads that older than one day
-				"AND (:today - dtmcreated) > 24*60*60 " .
+			"WHERE (dtmcreated - :start) > :interval " .
+				// Calculate statistics only for threads that older than
+				// statistics_aggregation_interval
+				"AND (:today - dtmcreated) > :interval " .
 				"AND (invitationstate = :invitation_accepted " .
 					"OR invitationstate = :invitation_rejected " .
 					"OR invitationstate = :invitation_ignored) " .
@@ -189,6 +198,7 @@ function calculate_thread_statistics() {
 			array(
 				':start' => $start,
 				':today' => $today,
+				':interval' => $interval,
 				':invitation_accepted' => Thread::INVITATION_ACCEPTED,
 				':invitation_rejected' => Thread::INVITATION_REJECTED,
 				':invitation_ignored' => Thread::INVITATION_IGNORED
@@ -271,6 +281,8 @@ function calculate_operator_statistics() {
 	$db = Database::getInstance();
 	$db_throw_exceptions = $db->throwExeptions(true);
 
+	$interval = Settings::get('statistics_aggregation_interval');
+
 	try {
 		// Start transaction
 		$db->query('START TRANSACTION');
@@ -283,12 +295,12 @@ function calculate_operator_statistics() {
 		);
 
 		$start = empty($result['start']) ? 0 : $result['start'];
-		$today = floor(time() / (24*60*60)) * 24*60*60;
+		$today = floor(time() / $interval) * $interval;
 
 		// Caclculate statistics
 		// Get base operator's info
 		$db_results = $db->query(
-			"SELECT (FLOOR(m.dtmcreated / (24*60*60)) * 24*60*60) AS date, " .
+			"SELECT (FLOOR(m.dtmcreated / :interval) * :interval) AS date, " .
 				"m.agentId AS operator_id, " .
 				"COUNT(distinct m.threadid) AS threads, " .
 				"COUNT(m.messageid) AS messages, " .
@@ -299,9 +311,10 @@ function calculate_operator_statistics() {
 			"FROM {chatmessage} m, {chatthread} t " .
 			"WHERE m.ikind = :kind_agent " .
 				"AND  m.threadid = t.threadid " .
-				"AND (m.dtmcreated - :start) > 24*60*60 " .
-				// Calculate statistics only for messages that older one day
-				"AND (:today - m.dtmcreated) > 24*60*60 " .
+				"AND (m.dtmcreated - :start) > :interval " .
+				// Calculate statistics only for messages that older
+				// statistics_aggregation_interval
+				"AND (:today - m.dtmcreated) > :interval " .
 				// Ignore not accepted invitations
 				"AND (t.invitationstate = :not_invited " .
 					"OR t.invitationstate = :invitation_accepted) " .
@@ -309,6 +322,7 @@ function calculate_operator_statistics() {
 			array(
 				':start' => $start,
 				':today' => $today,
+				':interval' => $interval,
 				':not_invited' => Thread::INVITATION_NOT_INVITED,
 				':invitation_accepted' => Thread::INVITATION_ACCEPTED,
 				':kind_agent' => Thread::KIND_AGENT
@@ -325,16 +339,17 @@ function calculate_operator_statistics() {
 
 		// Get info about invitations
 		$db_results = $db->query(
-			"SELECT (FLOOR(dtmcreated / (24*60*60)) * 24*60*60) AS date, " .
+			"SELECT (FLOOR(dtmcreated / :interval) * :interval) AS date, " .
 				"agentId as operator_id, " .
 				"COUNT(threadid) AS invitations_sent, " .
 				"SUM(invitationstate = :invitation_accepted) AS invitations_accepted, " .
 				"SUM(invitationstate = :invitation_rejected) AS invitations_rejected, " .
 				"SUM(invitationstate = :invitation_ignored) AS invitations_ignored " .
 			"FROM {chatthread} " .
-			"WHERE (dtmcreated - :start) > 24*60*60 " .
-				// Calculate statistics only for threads that older than one day
-				"AND (:today - dtmcreated) > 24*60*60 " .
+			"WHERE (dtmcreated - :start) > :interval " .
+				// Calculate statistics only for threads that older than
+				// statistics_aggregation_interval
+				"AND (:today - dtmcreated) > :interval " .
 				// Check if thread has related operator
 				"AND agentId != 0 " .
 				// Ignore not accepted invitations
@@ -345,6 +360,7 @@ function calculate_operator_statistics() {
 			array(
 				':start' => $start,
 				':today' => $today,
+				':interval' => $interval,
 				':invitation_accepted' => Thread::INVITATION_ACCEPTED,
 				':invitation_rejected' => Thread::INVITATION_REJECTED,
 				':invitation_ignored' => Thread::INVITATION_IGNORED
@@ -422,6 +438,8 @@ function calculate_page_statistics() {
 	$db = Database::getInstance();
 	$db_throw_exceptions = $db->throwExeptions(true);
 
+	$interval = Settings::get('statistics_aggregation_interval');
+
 	try {
 		// Start transaction
 		$db->query('START TRANSACTION');
@@ -434,24 +452,25 @@ function calculate_page_statistics() {
 		);
 
 		$start = empty($result['start']) ? 0 : $result['start'];
-		$today = floor(time() / (24*60*60)) * 24*60*60;
+		$today = floor(time() / $interval) * $interval;
 
 		$statistics = array();
 
 		// Calculate statistics
 		// Get main pages info
 		$db_results = $db->query(
-			"SELECT FLOOR(visittime / (24*60*60)) * 24*60*60 AS date, " .
+			"SELECT FLOOR(visittime / :interval) * :interval AS date, " .
 				"address, " .
 				"COUNT(DISTINCT pageid) AS visits " .
 			"FROM {visitedpage} ".
 			"WHERE calculated = 0 " .
-				"AND (visittime - :start) > 24*60*60 " .
-				"AND (:today - visittime) > 24*60*60 " .
+				"AND (visittime - :start) > :interval " .
+				"AND (:today - visittime) > :interval " .
 			"GROUP BY date, address",
 			array(
 				':start' => $start,
-				':today' => $today
+				':today' => $today,
+				':interval' => $interval
 			),
 			array('return_rows' => Database::RETURN_ALL_ROWS)
 		);
@@ -465,7 +484,7 @@ function calculate_page_statistics() {
 
 		// Get total chats count
 		$db_results = $db->query(
-			"SELECT FLOOR(p.visittime / (24*60*60)) * 24*60*60 AS date, " .
+			"SELECT FLOOR(p.visittime / :interval) * :interval AS date, " .
 				"p.address AS address, " .
 				"COUNT(DISTINCT t.threadid) AS chats " .
 			"FROM {visitedpage} p, {chatthread} t, " .
@@ -480,8 +499,8 @@ function calculate_page_statistics() {
 				"AND t.threadid = tmp.threadid " .
 				"AND tmp.msgs > 0 " .
 				"AND t.dtmchatstarted <> 0 " .
-				"AND (p.visittime - :start) > 24*60*60 " .
-				"AND (:today - p.visittime) > 24*60*60 " .
+				"AND (p.visittime - :start) > :interval " .
+				"AND (:today - p.visittime) > :interval " .
 				"AND DATE(FROM_UNIXTIME(p.visittime)) " .
 					"= DATE(FROM_UNIXTIME(t.dtmcreated)) " .
 				"AND (t.invitationstate = :not_invited " .
@@ -490,6 +509,7 @@ function calculate_page_statistics() {
 			array(
 				':start' => $start,
 				':today' => $today,
+				':interval' => $interval,
 				':not_invited' => Thread::INVITATION_NOT_INVITED,
 				':invitation_accepted' => Thread::INVITATION_ACCEPTED,
 				':kind_agent' => Thread::KIND_AGENT,
@@ -507,14 +527,14 @@ function calculate_page_statistics() {
 
 		// Get info about accepted invitations
 		$db_results = $db->query(
-			"SELECT FLOOR(p.visittime / (24*60*60)) * 24*60*60 AS date, " .
+			"SELECT FLOOR(p.visittime / :interval) * :interval AS date, " .
 				"p.address AS address, " .
 				"COUNT(DISTINCT t.threadid) AS invitations_accepted " .
 			"FROM {visitedpage} p, {chatthread} t " .
 			"WHERE t.referer = p.address " .
 				"AND p.calculated = 0 " .
-				"AND (p.visittime - :start) > 24*60*60 " .
-				"AND (:today - p.visittime) > 24*60*60 " .
+				"AND (p.visittime - :start) > :interval " .
+				"AND (:today - p.visittime) > :interval " .
 				"AND DATE(FROM_UNIXTIME(p.visittime)) " .
 					"= DATE(FROM_UNIXTIME(t.dtmcreated)) " .
 				"AND t.invitationstate = :invitation_accepted " .
@@ -522,6 +542,7 @@ function calculate_page_statistics() {
 			array(
 				':start' => $start,
 				':today' => $today,
+				':interval' => $interval,
 				':invitation_accepted' => Thread::INVITATION_ACCEPTED
 			),
 			array('return_rows' => Database::RETURN_ALL_ROWS)
@@ -536,14 +557,14 @@ function calculate_page_statistics() {
 
 		// Get info about rejected invitations
 		$db_results = $db->query(
-			"SELECT FLOOR(p.visittime / (24*60*60)) * 24*60*60 AS date, " .
+			"SELECT FLOOR(p.visittime / :interval) * :interval AS date, " .
 				"p.address AS address, " .
 				"COUNT(DISTINCT t.threadid) AS invitations_rejected " .
 			"FROM {visitedpage} p, {chatthread} t " .
 			"WHERE t.referer = p.address " .
 				"AND p.calculated = 0 " .
-				"AND (p.visittime - :start) > 24*60*60 " .
-				"AND (:today - p.visittime) > 24*60*60 " .
+				"AND (p.visittime - :start) > :interval " .
+				"AND (:today - p.visittime) > :interval " .
 				"AND DATE(FROM_UNIXTIME(p.visittime)) " .
 					"= DATE(FROM_UNIXTIME(t.dtmcreated)) " .
 				"AND t.invitationstate = :invitation_rejected " .
@@ -551,6 +572,7 @@ function calculate_page_statistics() {
 			array(
 				':start' => $start,
 				':today' => $today,
+				':interval' => $interval,
 				':invitation_rejected' => Thread::INVITATION_REJECTED
 			),
 			array('return_rows' => Database::RETURN_ALL_ROWS)
@@ -565,14 +587,14 @@ function calculate_page_statistics() {
 
 		// Get info about ignored invitations
 		$db_results = $db->query(
-			"SELECT FLOOR(p.visittime / (24*60*60)) * 24*60*60 AS date, " .
+			"SELECT FLOOR(p.visittime / :interval) * :interval AS date, " .
 				"p.address AS address, " .
 				"COUNT(DISTINCT t.threadid) AS invitations_ignored " .
 			"FROM {visitedpage} p, {chatthread} t " .
 			"WHERE t.referer = p.address " .
 				"AND p.calculated = 0 " .
-				"AND (p.visittime - :start) > 24*60*60 " .
-				"AND (:today - p.visittime) > 24*60*60 " .
+				"AND (p.visittime - :start) > :interval " .
+				"AND (:today - p.visittime) > :interval " .
 				"AND DATE(FROM_UNIXTIME(p.visittime)) " .
 					"= DATE(FROM_UNIXTIME(t.dtmcreated)) " .
 				"AND t.invitationstate = :invitation_ignored " .
@@ -580,6 +602,7 @@ function calculate_page_statistics() {
 			array(
 				':start' => $start,
 				':today' => $today,
+				':interval' => $interval,
 				':invitation_ignored' => Thread::INVITATION_IGNORED
 			),
 			array('return_rows' => Database::RETURN_ALL_ROWS)
@@ -632,10 +655,11 @@ function calculate_page_statistics() {
 		// Mark all visited pages as 'calculated'
 		$db->query(
 			"UPDATE {visitedpage} SET calculated = 1 " .
-			"WHERE (:today - visittime) > 24*60*60 " .
+			"WHERE (:today - visittime) > :interval " .
 				"AND calculated = 0",
 			array(
-				':today' => $today
+				':today' => $today,
+				':interval' => $interval
 			)
 		);
 

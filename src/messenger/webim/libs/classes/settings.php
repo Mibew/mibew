@@ -98,6 +98,8 @@ Class Settings {
 			'updatefrequency_operator' => 2,
 			'updatefrequency_chat' => 2,
 
+			'statistics_aggregation_interval' => 24*60*60,
+
 			'updatefrequency_tracking' => 10,
 			'visitors_limit' => 20, /* Number of visitors to look over */
 			'invitation_lifetime' => 60, /* Lifetime for invitation to chat */

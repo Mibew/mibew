@@ -95,6 +95,7 @@ if ($statisticstype == 'bydate') {
 		"FROM {chatthreadstatistics} s " .
 		"WHERE s.date >= :start " .
 			"AND s.date < :end " .
+		"GROUP BY DATE(FROM_UNIXTIME(date)) " .
 		"ORDER BY s.date DESC",
 		array(
 			':start' => $start,

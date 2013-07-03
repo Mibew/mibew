@@ -29,7 +29,7 @@ $options = array(
 	'online_timeout', 'updatefrequency_operator', 'updatefrequency_chat',
 	'max_connections_from_one_host',
 	'updatefrequency_tracking', 'visitors_limit', 'invitation_lifetime',
-	'tracking_lifetime', 'thread_lifetime' );
+	'tracking_lifetime', 'thread_lifetime', 'statistics_aggregation_interval');
 
 $params = array();
 foreach ($options as $opt) {
@@ -60,6 +60,11 @@ if (isset($_POST['onlinetimeout'])) {
 	$params['thread_lifetime'] = getparam('threadlifetime');
 	if (!is_numeric($params['thread_lifetime'])) {
 		$errors[] = getlocal("settings.wrong.threadlifetime");
+	}
+
+	$params['statistics_aggregation_interval'] = getparam('statistics_aggregation_interval');
+	if (!is_numeric($params['statistics_aggregation_interval'])) {
+		$errors[] = wrong_field("settings.statistics_aggregation_interval");
 	}
 
 	if (Settings::get('enabletracking')) {
@@ -101,6 +106,7 @@ $page['formfrequencyoperator'] = $params['updatefrequency_operator'];
 $page['formfrequencychat'] = $params['updatefrequency_chat'];
 $page['formonehostconnections'] = $params['max_connections_from_one_host'];
 $page['formthreadlifetime'] = $params['thread_lifetime'];
+$page['formstatistics_aggregation_interval'] = $params['statistics_aggregation_interval'];
 
 if (Settings::get('enabletracking')) {
 
