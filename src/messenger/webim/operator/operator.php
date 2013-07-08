@@ -52,8 +52,9 @@ if ((isset($_POST['login']) || !is_capable(CAN_ADMINISTRATE, $operator)) && isse
 		$errors[] = getlocal("page_agent.error.wrong_login");
 	}
 
-	if ($email != '' && !is_valid_email($email))
+	if ($email == '' || !is_valid_email($email)) {
 		$errors[] = wrong_field("form.field.mail");
+	}
 
 	if ($code != '' && (! preg_match("/^[A-z0-9_]+$/", $code))) {
 		$errors[] = getlocal("page_agent.error.wrong_agent_code");
