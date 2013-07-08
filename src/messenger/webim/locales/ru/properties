@@ -347,6 +347,7 @@ page_agent.cannot_modify=Вы не можете изменять профиль этого оператора.
 page_agent.clear_avatar=Удалить аватарку
 page_agent.create_new=Создание нового оператора.
 page_agent.error.duplicate_login=Выберите другой логин, т.к. оператор с введенным логином уже зарегистрирован в системе.
+page_agent.error.duplicate_email=Выберите другой адрес электронной почты, т.к. оператор с введенным адресом уже зарегистрирован в системе.
 page_agent.error.forbidden_create=Вы не можете создавать операторов.
 page_agent.error.wrong_login=Логин должен состоять из латинских символов, цифр и знака подчеркивания.
 page_agent.error.wrong_agent_code=Код должен состоять из латинских символов, цифр и знака подчеркивания.

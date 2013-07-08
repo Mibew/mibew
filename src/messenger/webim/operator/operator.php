@@ -71,6 +71,17 @@ if ((isset($_POST['login']) || !is_capable(CAN_ADMINISTRATE, $operator)) && isse
 		($opId && $existing_operator && $opId != $existing_operator['operatorid']))
 		$errors[] = getlocal("page_agent.error.duplicate_login");
 
+	// Check if operator with specified email already exists in the database
+	$existing_operator = operator_by_email($email);
+	if (
+		// Create operator with email already in database
+		(!$opId && $existing_operator) ||
+		// Update operator email to existing one
+		($opId && $existing_operator && $opId != $existing_operator['operatorid'])
+	) {
+		$errors[] = getlocal("page_agent.error.duplicate_email");
+	}
+
 	$canmodify = ($opId == $operator['operatorid'] && is_capable(CAN_MODIFYPROFILE, $operator))
 				 || is_capable(CAN_ADMINISTRATE, $operator);
 	if (!$canmodify) {

@@ -347,6 +347,7 @@ page_agent.cannot_modify=You are not allowed to change this person's profile.
 page_agent.clear_avatar=Remove avatar
 page_agent.create_new=You can create a new operator here.
 page_agent.error.duplicate_login=Please choose another login because an operator with that login is already registered in the system.
+page_agent.error.duplicate_email=Please choose another email because an operator with that email is already registered in the system.
 page_agent.error.forbidden_create=You are not allowed to create operators.
 page_agent.error.wrong_login=Login should contain only latin characters, numbers and underscore symbol.
 page_agent.error.wrong_agent_code=Code should contain only latin characters, numbers and underscore symbol.
