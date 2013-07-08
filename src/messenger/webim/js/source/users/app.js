@@ -72,7 +72,7 @@
         }));
 
         // Initialize visitors collection
-        if (options.page.showOnlineOperators) {
+        if (options.page.showVisitors) {
             colls.visitors = new Mibew.Collections.Visitors();
             App.visitorsRegion.show(new Mibew.Views.VisitorsCollection({
                 collection: colls.visitors
