@@ -82,7 +82,7 @@ function operator_by_email($mail)
 	return $db->query(
 		"select * from {chatoperator} where vcemail = ?",
 		array($mail),
-		array('return_rows', Database::RETURN_ONE_ROW)
+		array('return_rows' => Database::RETURN_ONE_ROW)
 	);
 }
 
