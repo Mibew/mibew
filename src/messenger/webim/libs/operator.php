@@ -538,8 +538,24 @@ function get_logged_in()
 	return isset($_SESSION[$session_prefix."operator"]) ? $_SESSION[$session_prefix."operator"] : FALSE;
 }
 
-function login_operator($operator, $remember)
-{
+/**
+ * Log in operator
+ *
+ * Triggers 'operatorLogin' event after operator logged in and pass to it an
+ * associative array with following items:
+ *  - 'operator': array of the logged in operator info;
+ *  - 'remember': boolean, indicates if system should remember operator.
+ *
+ * @global string $webimroot Path of the mibew instalation from server root.
+ * It defined in libs/config.php
+ * @global string $session_prefix Use as prefix for all session variables to
+ * allow many instalation of the mibew messenger at one server. It defined in
+ * libs/common/constants.php
+ *
+ * @param array $operator Operators info
+ * @param boolean $remember Indicates if system should remember operator
+ */
+function login_operator($operator, $remember) {
 	global $webimroot, $session_prefix;
 	$_SESSION[$session_prefix."operator"] = $operator;
 	if ($remember) {
@@ -549,16 +565,38 @@ function login_operator($operator, $remember)
 	} else if (isset($_COOKIE['webim_lite'])) {
 		setcookie('webim_lite', '', time() - 3600, "$webimroot/");
 	}
+
+	// Trigger login event
+	$args = array(
+		'operator' => $operator,
+		'remember' => $remember
+	);
+	$dispatcher = EventDispatcher::getInstance();
+	$dispatcher->triggerEvent('operatorLogin', $args);
 }
 
-function logout_operator()
-{
+/**
+ * Log out current operator
+ *
+ * Triggers 'operatorLogout' event after operator logged out.
+ *
+ * @global string $webimroot Path of the mibew instalation from server root.
+ * It defined in libs/config.php
+ * @global string $session_prefix Use as prefix for all session variables to
+ * allow many instalation of the mibew messenger at one server. It defined in
+ * libs/common/constants.php
+ */
+function logout_operator() {
 	global $webimroot, $session_prefix;
 	unset($_SESSION[$session_prefix."operator"]);
 	unset($_SESSION['backpath']);
 	if (isset($_COOKIE['webim_lite'])) {
 		setcookie('webim_lite', '', time() - 3600, "$webimroot/");
 	}
+
+	// Trigger logout event
+	$dispatcher = EventDispatcher::getInstance();
+	$dispatcher->triggerEvent('operatorLogout');
 }
 
 function setup_redirect_links($threadid, $operator, $token)
