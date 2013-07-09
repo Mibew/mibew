@@ -57,7 +57,11 @@ if ($groupid) {
 
 $allgroups = in_isolation($operator)?get_all_groups_for_operator($operator):get_all_groups();
 $page['groups'] = array();
-$page['groups'][] = array('groupid' => '', 'vclocalname' => getlocal("page.gen_button.default_group"));
+$page['groups'][] = array(
+	'groupid' => '',
+	'vclocalname' => getlocal("page.gen_button.default_group"),
+	'level' => 0
+);
 foreach ($allgroups as $g) {
 	$page['groups'][] = $g;
 }
