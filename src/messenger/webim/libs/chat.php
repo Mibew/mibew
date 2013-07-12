@@ -689,6 +689,11 @@ function chat_start_for_user($group_id, $requested_operator, $visitor_id, $visit
 
 	$_SESSION['threadid'] = $thread->id;
 
+	// Bind thread to the visitor
+	if (Settings::get('enabletracking')) {
+		track_visitor_bind_thread($visitor_id, $thread);
+	}
+
 	// Send several messages
 	if ($is_invited) {
 		$operator = operator_by_id($thread->agentId);

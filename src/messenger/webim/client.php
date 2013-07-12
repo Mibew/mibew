@@ -22,6 +22,7 @@ require_once('libs/groups.php');
 require_once('libs/expand.php');
 require_once('libs/captcha.php');
 require_once('libs/invitation.php');
+require_once('libs/track.php');
 require_once('libs/classes/thread.php');
 
 if(Settings::get('enablessl') == "1" && Settings::get('forcessl') == "1") {

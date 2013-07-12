@@ -221,4 +221,24 @@ function track_get_user_id($visitorid) {
 	return $visitor['userid'];
 }
 
+/**
+ * Bind chat thread with visitor
+ *
+ * @param string $user_id User ID ({chatsitevisitor}.userid field) of the
+ * visitor.
+ * @param Thread $thread Chat thread object
+ */
+function track_visitor_bind_thread($user_id, $thread) {
+	$db = Database::getInstance();
+	$db->query(
+		'UPDATE {chatsitevisitor} ' .
+		'SET threadid = :thread_id ' .
+		'WHERE userid = :user_id',
+		array(
+			':thread_id' => $thread->id,
+			':user_id' => $user_id
+		)
+	);
+}
+
 ?>
