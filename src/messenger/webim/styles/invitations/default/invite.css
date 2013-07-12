@@ -87,3 +87,8 @@
     border: 1px solid #000;
     background-color: #FFFFFF;
 }
+#mibewinvitationaccept {
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+}

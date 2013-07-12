@@ -59,6 +59,7 @@ function tpl_content() { global $page, $webimroot;
 		</div>
 		<h1 onclick="void(0);"><?php echo $page['operatorName'] ?></h1>
 		<div id="mibewinvitationframe"><?php echo getlocal("invitation.message"); ?></div>
+		<div id="mibewinvitationaccept" onclick="void(0);"><?php echo getlocal("invitation.accept.caption"); ?></div>
 		<div style="clear: both;"></div>
 	</div>
 </div>

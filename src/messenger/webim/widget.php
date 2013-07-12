@@ -95,7 +95,8 @@ if (Settings::get('enabletracking') == '1') {
 			'operatorName' => htmlspecialchars($operator_name),
 			'avatarUrl' => htmlspecialchars($operator['vcavatar']),
 			'threadUrl' => get_app_location(true, is_secure_request())
-				. '/client.php?act=invitation'
+				. '/client.php?act=invitation',
+			'acceptCaption' => getlocal('invitation.accept.caption')
 		);
 
 		$_SESSION['invitation_threadid'] = $thread->id;

@@ -374,11 +374,13 @@ var Mibew = {};
      *  - 'avatarUrl' String, URL of operator's avatar;
      *  - 'threadUrl': String, URL of the invitation thread which must be
      *    dispaly in invitation iframe.
+     *  - 'acceptCaption': String, caption for accept button.
      */
     Mibew.Invitation.create = function (options) {
         var operatorName = options.operatorName;
         var avatarUrl = options.avatarUrl;
         var threadUrl = options.threadUrl;
+        var acceptCaption = options.acceptCaption;
 
         var popuptext = '<div id="mibewinvitationpopup" style="display: none;">';
         popuptext += '<div id="mibewinvitationclose">'
@@ -404,6 +406,14 @@ var Mibew = {};
         if (threadUrl) {
             popuptext += '<iframe id="mibewinvitationframe" src="' + threadUrl
                 + '" onload="Mibew.Invitation.show();"></iframe>';
+        }
+
+        // Add accept button if acceptCaption set
+        if (acceptCaption) {
+            popuptext += '<div id="mibewinvitationaccept"'
+                + ' onclick="Mibew.Invitation.accept();">'
+                + acceptCaption
+                + '</div>';
         }
 
         popuptext += '<div style="clear: both;"></div></div>';

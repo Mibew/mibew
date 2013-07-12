@@ -226,6 +226,7 @@ installed.login_link=Войти в систему
 installed.message=<b>Установка успешно завершена. </b>
 installed.notice=Вы можете войти в систему как <b>admin</b> с пустым паролем.<br/><br/><font color="#c13030"><b>!!! В целях безопасности, удалите, пожалуйста, каталог {0} с вашего сервера и поменяйте пароль.</b></font>
 invitation.message=Здравствуйте! Могу ли я Вам помочь?
+invitation.accept.caption=Ответить
 lang.choose=Выберите ваш язык
 leavemail.body=Ваш посетитель '{0}' оставил сообщение:\n\n{2}\n\nЕmail: {1}\n{3}\n--- \nС уважением,\nВаш Веб Мессенджер
 leavemail.subject=Вопрос от {0}
