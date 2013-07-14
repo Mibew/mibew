@@ -21,11 +21,16 @@
     /**
      * Open new window
      * @param {String} link URL address of page to open
-     * @param {String} id Id of new window
+     * @param {String} id ID of new window. Value of the ID can contain only
+     * alphanumeric characters and underscore sign. Any other characters will
+     * be stripped. It helps to avoid problems with popup windows in IE7-9.
      * @param {String} params Window params passed to window.open method
      */
     Mibew.Popup.open = function(link, id, params) {
+        // Filter window ID to avoid problems in IE7-9
+        id = id.replace(/[^A-z0-9_]+/g, '');
         var newWindow = window.open(link, id, params);
+
         newWindow.focus();
         newWindow.opener = window;
     }
