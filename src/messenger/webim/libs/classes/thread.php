@@ -370,14 +370,43 @@ Class Thread {
 
 		$db = Database::getInstance();
 
-		$query = "update {chatthread} set lrevision = :next_revision, " .
-			"dtmmodified = :now, dtmclosed = :now, istate = :state_closed " .
-			"where istate <> :state_closed and istate <> :state_left " .
-			"and ((lastpingagent <> 0 and lastpinguser <> 0 and " .
-			"(ABS(:now - lastpinguser) > :thread_lifetime and " .
-			"ABS(:now - lastpingagent) > :thread_lifetime)) or " .
-			"(lastpingagent = 0 and lastpinguser <> 0 and " .
-			"ABS(:now - lastpinguser) > :thread_lifetime))";
+		$query = "UPDATE {chatthread} SET " .
+				"lrevision = :next_revision, " .
+				"dtmmodified = :now, " .
+				"dtmclosed = :now, " .
+				"istate = :state_closed " .
+			"WHERE istate <> :state_closed " .
+				"AND istate <> :state_left " .
+				// Check created timestamp
+				"AND ABS(:now - dtmcreated) > :thread_lifetime " .
+				// Check pings
+				"AND ( " .
+					"( " .
+						// Both user and operator have no connection problems.
+						// Check all pings.
+						"lastpingagent <> 0 " .
+						"AND lastpinguser <> 0 " .
+						"AND ABS(:now - lastpinguser) > :thread_lifetime " .
+						"AND ABS(:now - lastpingagent) > :thread_lifetime " .
+					") OR ( " .
+						// Only operator have connection problems.
+						// Check user's ping.
+						"lastpingagent = 0 " .
+						"AND lastpinguser <> 0 " .
+						"AND ABS(:now - lastpinguser) > :thread_lifetime " .
+					") OR ( " .
+						// Only user have connection problems.
+						// Check operator's ping.
+						"lastpinguser = 0 " .
+						"AND lastpingagent <> 0 " .
+						"AND ABS(:now - lastpingagent) > :thread_lifetime " .
+					") OR ( " .
+						// Both user and operator have connection problems.
+						// Just close thread.
+						"lastpinguser = 0 " .
+						"AND lastpingagent = 0 " .
+					") " .
+				")";
 
 		$db->query(
 			$query,
