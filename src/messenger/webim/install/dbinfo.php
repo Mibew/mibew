@@ -81,7 +81,7 @@ $dbtables = array(
 		"shownmessageid" => "int NOT NULL DEFAULT 0",
 		// User agent description that took from 'User-Agent' HTTP header.
 		"userAgent" => "varchar(255)",
-		// Total count of messages related with the thread.
+		// Total count of user's messages related with the thread.
 		"messageCount" => "varchar(16)",
 		// ID of the group at Mibew side related with the thread.
 		"groupid" => "int references ${mysqlprefix}chatgroup(groupid)",
