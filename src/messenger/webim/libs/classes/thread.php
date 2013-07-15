@@ -559,6 +559,10 @@ Class Thread {
 	 * @param boolean $is_typing Indicates if user or operator is typing a message.
 	 */
 	public function ping($is_user, $is_typing) {
+		// Indicates if revision ID of the thread should be updated on save.
+		// Update revision leads to rerender thread in threads list at client
+		// side. Do it on every ping is too costly.
+		$update_revision = false;
 		// Last ping time of other side
 		$last_ping_other_side = 0;
 		// Update last ping time
@@ -603,6 +607,10 @@ Class Thread {
 					// And update thread
 					$this->state = self::STATE_WAITING;
 					$this->nextAgent = 0;
+
+					// Significant fields of the thread (state and nextAgent)
+					// are changed. Update revision ID on save.
+					$update_revision = true;
 				}
 			} else {
 				// _Other_ side is user
@@ -622,7 +630,7 @@ Class Thread {
 			}
 		}
 
-		$this->save(false);
+		$this->save($update_revision);
 	}
 
 	/**
