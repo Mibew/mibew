@@ -249,7 +249,6 @@ function operator_is_disabled($operator)
  * @param string $password Operator's password
  * @param string $localename Operator's local name
  * @param string $commonname Operator's international name
- * @param string $avatar Operator's avatar
  * @param string $code Operator's code which use to start chat with specified
  * operator
  */
