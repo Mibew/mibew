@@ -64,6 +64,8 @@ mailthread.close
 mailthread.enter_email
 mailthread.perform
 mailthread.title
+notify.new.subject
+notify.new.text
 output_charset
 output_encoding
 page.chat.old_browser.close
