@@ -2,7 +2,7 @@
 
 <project basedir="." default="update" name="Obfuscator">
   <property name="closure.c" value="/usr/local/closure/compiler.jar" />
-  <property name="webim.location" value="../164" />
+  <property name="webim.location" value="../165" />
 
   <target name="update">
 	<java jar="${closure.c}" fork="true">
