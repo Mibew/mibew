@@ -11,6 +11,8 @@ app.title=Live Support
 ban.error.duplicate=Addresse {0} ist schon vorhanden, klicke <a href="ban.php?id={1}">hier</a> um die Addresse zu ändern.
 button.delete=Löschen
 button.enter=OK
+button.offline.bottom=Nachricht hinterlassen
+button.offline=offline
 button.save=Speichern
 button.search=Suchen
 canned.actions.del=entfernen
