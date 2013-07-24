@@ -595,8 +595,8 @@ function date_to_text($unixtime)
 	return strftime($date_format . " " . getlocal("time.timeformat"), $unixtime);
 }
 
-$dbversion = '1.6.3';
-$featuresversion = '1.6.4';
+$dbversion = '1.6.5';
+$featuresversion = '1.6.5';
 
 $settings = array(
 	'dbversion' => 0,
