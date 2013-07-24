@@ -1,12 +1,12 @@
-  1.7.0
-  -----
-  [+] notifications log view, jabber notifications about new visitor (server part, requires Mibew-Jabber gate)
-  [+] switched to google closure compiler for Javascript compression, jQuery 1.4.2 
-
   1.6.5
   -----
   [+] Apache 2 license
-  [!] csrf fixes
+  [+] switched to google closure compiler for Javascript compression, jQuery 1.4.2
+  [+] improve database schema (add indexes, fix compatibility with MySQL 5.5)
+  [+] silver skin (thanks to Alekin Pavel)
+  [+] informational banner on empty password of administrator
+  [!] CSRF fixes
+  [!] close old threads by timeout
 
   1.6.4
   -----
