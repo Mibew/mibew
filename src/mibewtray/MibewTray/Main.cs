@@ -43,7 +43,7 @@ namespace webImTray {
 
         void navigateThere() {
 #if DEBUG
-            webBrowser1.Navigate("http://openwebim.org/webim/operator/users.php?nomenu");
+            webBrowser1.Navigate("http://demo.mibew.org/operator/users.php?nomenu");
 #else
             webBrowser1.Navigate(Options.WebIMServer + Options.PENDING_USERS_PAGE);
 #endif

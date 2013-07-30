@@ -14,7 +14,7 @@ namespace webImTray {
         static OptionsPanel[] panels = new OptionsPanel[] { 
             new OptionsGeneralPanel(), 
             new OptionsConnectionPanel(),
-            new OptionsSoundsPanel(),
+        //    new OptionsSoundsPanel(),
             new About()
         };
 
@@ -85,7 +85,7 @@ namespace webImTray {
         }
 
         private void openWebIMSite(object sender, LinkLabelLinkClickedEventArgs e) {
-            System.Diagnostics.Process.Start("http://openwebim.org/");
+            System.Diagnostics.Process.Start("http://mibew.org/");
         }
 
         private void applyChanges() {

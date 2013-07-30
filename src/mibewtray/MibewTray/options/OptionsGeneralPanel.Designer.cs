@@ -30,15 +30,9 @@ namespace webImTray {
             this.hideWhenStarted = new System.Windows.Forms.CheckBox();
             this.autoStart = new System.Windows.Forms.CheckBox();
             this.showInTaskBar = new System.Windows.Forms.CheckBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.showOptions = new System.Windows.Forms.CheckBox();
-            this.showHide = new System.Windows.Forms.CheckBox();
             this.languageBox = new System.Windows.Forms.GroupBox();
             this.languageSelector = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.languageBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,40 +66,6 @@ namespace webImTray {
             this.showInTaskBar.UseVisualStyleBackColor = true;
             this.showInTaskBar.CheckedChanged += new System.EventHandler(this.checkboxChanged);
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.textBox2);
-            this.groupBox2.Controls.Add(this.textBox1);
-            this.groupBox2.Controls.Add(this.showOptions);
-            this.groupBox2.Controls.Add(this.showHide);
-            resources.ApplyResources(this.groupBox2, "groupBox2");
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.TabStop = false;
-            // 
-            // textBox2
-            // 
-            resources.ApplyResources(this.textBox2, "textBox2");
-            this.textBox2.Name = "textBox2";
-            // 
-            // textBox1
-            // 
-            resources.ApplyResources(this.textBox1, "textBox1");
-            this.textBox1.Name = "textBox1";
-            // 
-            // showOptions
-            // 
-            resources.ApplyResources(this.showOptions, "showOptions");
-            this.showOptions.Name = "showOptions";
-            this.showOptions.UseVisualStyleBackColor = true;
-            this.showOptions.CheckedChanged += new System.EventHandler(this.checkboxChanged);
-            // 
-            // showHide
-            // 
-            resources.ApplyResources(this.showHide, "showHide");
-            this.showHide.Name = "showHide";
-            this.showHide.UseVisualStyleBackColor = true;
-            this.showHide.CheckedChanged += new System.EventHandler(this.checkboxChanged);
-            // 
             // languageBox
             // 
             this.languageBox.Controls.Add(this.languageSelector);
@@ -125,13 +85,10 @@ namespace webImTray {
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.languageBox);
-            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "OptionsGeneralPanel";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.languageBox.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -143,11 +100,6 @@ namespace webImTray {
         private System.Windows.Forms.CheckBox showInTaskBar;
         private System.Windows.Forms.CheckBox autoStart;
         private System.Windows.Forms.CheckBox hideWhenStarted;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.CheckBox showOptions;
-        private System.Windows.Forms.CheckBox showHide;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.GroupBox languageBox;
         private System.Windows.Forms.ComboBox languageSelector;
     }

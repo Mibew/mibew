@@ -9,7 +9,7 @@ using System.Globalization;
 namespace webImTray {
     class Options {
 
-        public const string DEFAULT_SERVER = "http://openwebim.org/webim";
+        public const string DEFAULT_SERVER = "http://demo.mibew.org";
         public const string PENDING_USERS_PAGE = "/operator/users.php?nomenu";
         public const string HISTORY_PAGE = "/operator/history.php";
         public const string SETTINGS_PAGE = "/operator/operators.php";
