@@ -20,9 +20,9 @@ INSTALLATION
 7. Logon as
                   user: admin
                   password: <empty>
-7. Get button code and setup it on your site.
-8. Change your password and name.
-9. Wait for your visitors on 'Pending users' page.
+8. Get button code and setup it on your site.
+9. Change your password and name.
+10. Wait for your visitors on 'Pending users' page.
 
 On unix/linux platforms change the owner of /webim/images/avatar folder 
 to the user, under which the web server is running (for instance, www).
