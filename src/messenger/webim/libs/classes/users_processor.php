@@ -443,6 +443,7 @@ class UsersProcessor extends ClientSideProcessor {
 				// Create resulting visitor structure
 				$visitors[] = array(
 					'id' => (int)$row['visitorid'],
+					'userId' => $row['userid'],
 					'userName' => $row['username'],
 					'userAgent' => $user_agent,
 					'userIp' => $user_ip,
