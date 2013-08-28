@@ -107,7 +107,16 @@ ${if:showmessage}
 		</tr>
 		<tr><td height="7" colspan="3"></td></tr>
 ${endif:showmessage}			
-		
+
+${if:showcaptcha}
+		<tr>
+		    <td class="text"><img src="captcha.php"/></td>
+		    <td width="20"></td>
+			<td><input type="text" name="captcha" size="50" maxlength="15" value="" class="field"/></td>
+		</tr>
+		<tr><td height="7" colspan="3"></td></tr>
+${endif:showcaptcha}
+
 	</table></td><td bgcolor="#E8A400"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td><img class="tplimage icrnlb" src="${webimroot}/images/free.gif" border="0" alt=""/></td><td style="background-image: url(${tplroot}/images/winbg.gif)" class="bgcy"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td><td><img class="tplimage icrnrb" src="${webimroot}/images/free.gif" border="0" alt=""/></td></tr></table>
 
 </td>

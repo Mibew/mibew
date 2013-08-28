@@ -139,6 +139,12 @@ ${if:showmessage}
 				</td>
 			</tr>
 ${endif:showmessage}			
+${if:showcaptcha}
+			<tr>
+				<td class="text"><img src="captcha.php"/></td>
+				<td><input type="text" name="captcha" size="50" maxlength="15" value="" class="username"/></td>
+			</tr>
+${endif:showcaptcha}
 			<tr>
 				<td colspan="2" align="right">
 					<table cellspacing="0" cellpadding="0" border="0">

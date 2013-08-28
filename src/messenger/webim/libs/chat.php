@@ -308,7 +308,7 @@ function setup_leavemessage($name, $email, $message, $groupid, $groupname, $info
 	$page['referrer'] = urlencode(topage($referrer));
 }
 
-function setup_survey($name, $email, $groupid, $info, $referrer)
+function setup_survey($name, $email, $groupid, $info, $referrer, $canshowcaptcha)
 {
 	global $settings, $page;
 
@@ -317,6 +317,7 @@ function setup_survey($name, $email, $groupid, $info, $referrer)
 	$page['formgroupid'] = $groupid;
 	$page['forminfo'] = topage($info);
 	$page['referrer'] = urlencode(topage($referrer));
+	$page['showcaptcha'] = ($settings["surveyaskcaptcha"] == "1" && $canshowcaptcha) ? "1" : "";
 
 	if ($settings['enablegroups'] == '1' && $settings["surveyaskgroup"] == "1") {
 		$link = connect();

@@ -39,7 +39,9 @@
 		</div></div></div></div></div></div></div></div>
 	</div>
 	<div id="content-wrapper">
-	
+		${if:errors}
+			${errors}
+		${endif:errors}
 		<form name="surveyForm" method="post" action="${webimroot}/client.php" />
 		<input type="hidden" name="style" value="${styleid}"/>
 		<input type="hidden" name="info" value="${form:info}"/>
@@ -72,6 +74,12 @@
 				<td valign="top"><textarea name="message" tabindex="0" cols="45" rows="2">${form:message}</textarea></td>
 			</tr>
 		${endif:showmessage}			
+                ${if:showcaptcha}
+                        <tr>
+                                <td><img src="captcha.php"/></td>
+                                <td><input type="text" name="captcha" size="50" maxlength="15" value="" class="username"/></td>
+                        </tr>
+                ${endif:showcaptcha}
 		</table>		
 		<a href="javascript:document.surveyForm.submit();" class="but" id="sndmessagelnk">${msg:presurvey.submit}</a>
 		<div class="clear">&nbsp;</div>

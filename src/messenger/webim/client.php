@@ -65,6 +65,16 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 			$info = getparam("info");
 			$email = getparam("email");
 			$referrer = urldecode(getparam("referrer"));
+			if ($settings["surveyaskcaptcha"] == "1") {
+				$captcha = getparam('captcha');
+				$original = isset($_SESSION["mibew_captcha"])
+					? $_SESSION["mibew_captcha"]
+					: "";
+				$survey_captcha_failed = empty($original)
+					|| empty($captcha)
+					|| $captcha != $original;
+				unset($_SESSION['mibew_captcha']);
+			}
 
 			if($settings['usercanchangename'] == "1" && isset($_POST['name'])) {
 				$newname = getparam("name");
@@ -93,10 +103,18 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 			exit;
 		}
 
-		if($settings['enablepresurvey'] == '1' && !(isset($_POST['survey']) && $_POST['survey'] == 'on')) {
+		$show_survey = $settings['enablepresurvey'] == '1'
+			&& (
+			    !(isset($_POST['survey']) && $_POST['survey'] == 'on')
+			    || ($settings["surveyaskcaptcha"] == "1" && !empty($survey_captcha_failed))
+			);
+		if($show_survey) {
 			$page = array();
 			setup_logo();
-			setup_survey($visitor['name'], $email, $groupid, $info, $referrer);
+			if (!empty($survey_captcha_failed)) {
+			    $errors[] = getlocal('errors.captcha');
+			}
+			setup_survey($visitor['name'], $email, $groupid, $info, $referrer, can_show_captcha());
 			expand("styles", getchatstyle(), "survey.tpl");
 			exit;
 		}

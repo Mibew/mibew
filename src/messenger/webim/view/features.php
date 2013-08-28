@@ -173,6 +173,15 @@ require_once('inc_errors.php');
 				<div class="fdescr"> &mdash; <?php echo getlocal('settings.survey.askmessage.description') ?></div>
 				<br clear="all"/>
 			</div>
+
+			<div class="subfield undersurvey">
+				<div class="flabel"><?php echo getlocal('settings.survey.askcaptcha') ?></div>
+				<div class="fvalue">
+					<input type="checkbox" name="surveyaskcaptcha" value="on"<?php echo form_value_cb('surveyaskcaptcha') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+				</div>
+				<div class="fdescr"> &mdash; <?php echo getlocal('settings.survey.askcaptcha.description') ?></div>
+				<br clear="all"/>
+			</div>
 		</div>
 
 		<div class="field">

@@ -63,6 +63,12 @@
 								<td><textarea name="message" class="field" tabindex="0" cols="45" rows="2" style="overflow:auto">${form:message}</textarea></td>
 							</tr>
 						${endif:showmessage}
+                                                ${if:showcaptcha}
+                                                    <tr>
+                                                            <td class="text"><img src="captcha.php"/></td>
+                                                            <td><input type="text" name="captcha" size="50" maxlength="15" value="" class="field"/></td>
+                                                    </tr>
+                                                ${endif:showcaptcha}
 					</table>
 				</td>
 			</tr>

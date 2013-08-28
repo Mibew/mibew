@@ -628,6 +628,7 @@ $settings = array(
 	'surveyaskmail' => '0',
 	'surveyaskgroup' => '1',
 	'surveyaskmessage' => '0',
+	'surveyaskcaptcha' => '0',
 	'enablepopupnotification' => '0',
 	'showonlineoperators' => '0',
 	'enablecaptcha' => '0',
