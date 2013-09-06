@@ -23,13 +23,13 @@ $page['headertitle'] = getlocal("app.title");
 $page['show_small_login'] = true;
 $page['fixedwrap'] = true;
 
-function tpl_content() { 
+function tpl_content() {
 	global $page, $webimroot, $errors;
 	
 	if($page['isdone']) {
 ?>
 <div id="loginpane">
-	<div class="header">	
+	<div class="header">
 		<h2><?php echo getlocal("restore.sent.title") ?></h2>
 	</div>
 
@@ -37,29 +37,29 @@ function tpl_content() {
 		<?php echo getlocal("restore.sent") ?>
 		<br/>
 		<br/>
-		<a href="login.php"><?php echo getlocal("restore.back_to_login") ?></a>
+		<a href="<?php echo $webimroot ?>/operator/login.php"><?php echo getlocal("restore.back_to_login") ?></a>
 	</div>
-</div>	
-	
-<?php 		
+</div>
+
+<?php
 	} else {
 ?>
 
 <form name="restoreForm" method="post" action="<?php echo $webimroot ?>/operator/restore.php">
 	<div id="loginpane">
 
-	<div class="header">	
+	<div class="header">
 		<h2><?php echo getlocal("restore.title") ?></h2>
 	</div>
 
 	<div class="fieldForm">
-	
+
 		<?php echo getlocal("restore.intro") ?><br/><br/>
 
-<?php 
+<?php
 require_once('inc_errors.php');
 ?>
-	
+
 		<div class="field">
 			<div class="fleftlabel"><?php echo getlocal("restore.emailorlogin") ?></div>
 			<div class="fvalue">
@@ -71,11 +71,11 @@ require_once('inc_errors.php');
 		<div class="fbutton">
 			<table class="submitbutton"><tr>
 				<td><a href="javascript:document.restoreForm.submit();">
-					<img src='<?php echo $webimroot ?>/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
+					<img src="<?php echo $webimroot ?>/images/submit.gif" width="40" height="35" border="0" alt="" /></a></td>
 				<td class="submit"><a href="javascript:document.restoreForm.submit();">
 					<?php echo getlocal("restore.submit") ?></a></td>
 				<td><a href="javascript:document.restoreForm.submit();">
-					<img src='<?php echo $webimroot ?>/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
+					<img src="<?php echo $webimroot ?>/images/submitrest.gif" width="10" height="35" border="0" alt="" /></a></td>
 			</tr></table>
 
 			<div class="links">
@@ -85,10 +85,10 @@ require_once('inc_errors.php');
 
 	</div>
 
-	</div>		
+	</div>
 </form>
 
-<?php 
+<?php
 	}
 } /* content */
 

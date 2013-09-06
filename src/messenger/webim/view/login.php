@@ -75,7 +75,7 @@ require_once('inc_errors.php');
 			<input type="image" name="login" src="<?php echo $webimroot . htmlspecialchars(getlocal("image.button.login")) ?>" alt="<?php echo htmlspecialchars(getlocal("button.enter")) ?>"/>
 
 			<div class="links">
-				<a href="restore.php"><?php echo getlocal("restore.pwd.message") ?></a><br/>
+				<a href="<?php echo $webimroot ?>/operator/restore.php"><?php echo getlocal("restore.pwd.message") ?></a><br/>
 			</div>
 		</div>
 

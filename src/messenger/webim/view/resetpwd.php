@@ -37,7 +37,7 @@ function tpl_content() {
 		<?php echo getlocal("resetpwd.changed") ?>
 		<br/>
 		<br/>
-		<a href="login.php?login=<?php echo urlencode($page['loginname']) ?>"><?php echo getlocal("resetpwd.login") ?></a>
+		<a href="<?php echo $webimroot ?>/operator/login.php?login=<?php echo urlencode($page['loginname']) ?>"><?php echo getlocal("resetpwd.login") ?></a>
 	</div>
 </div>
 
@@ -91,11 +91,11 @@ require_once('inc_errors.php');
 			</tr></table>
 
 			<div class="links">
-				<a href="login.php"><?php echo getlocal("restore.back_to_login") ?></a>
+				<a href="<?php echo $webimroot ?>/operator/login.php"><?php echo getlocal("restore.back_to_login") ?></a>
 			</div>
 		</div>
 <?php } else { ?>
-		<a href="login.php"><?php echo getlocal("restore.back_to_login") ?></a>
+		<a href="<?php echo $webimroot ?>/operator/login.php"><?php echo getlocal("restore.back_to_login") ?></a>
 <?php } ?>
 	</div>
 
