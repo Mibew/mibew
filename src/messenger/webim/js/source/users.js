@@ -35,19 +35,19 @@ Class.inherit( Ajax.PeriodicalUpdater, Ajax.Base, {
   },
 
   stopUpdate: function() {
-  	if( this.updater._options )
+	if( this.updater._options )
 	    this.updater._options.onComplete = undefined;
     clearTimeout(this.timer);
   },
 
   update: function() {
     if( this._options.updateParams )
-    	this._options.parameters = (this._options.updateParams)();
+	this._options.parameters = (this._options.updateParams)();
     this.updater = new Ajax.Request(this._options.url, this._options);
   },
 
   requestComplete: function(presponse) {
-  	try {
+	try {
 		var xmlRoot = Ajax.getXml(presponse);
 		if( xmlRoot ) {
 	      (this._options.updateContent || Ajax.emptyFunction)( xmlRoot );
@@ -64,9 +64,9 @@ Class.inherit( Ajax.PeriodicalUpdater, Ajax.Base, {
 var HtmlGenerationUtils = {
 
   popupLink: function(link, title, wndid, inner, width, height,linkclass) {
-  	return '<a href="'+link+'"'+(linkclass != null ? ' class="'+linkclass+'"' : '')+' target="_blank" title="'+title+'" onclick="this.newWindow = window.open(\''+link+'\', \''+
-  			wndid+'\', \'toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width='+width+',height='+height+',resizable=1\');this.newWindow.focus();this.newWindow.opener=window;return false;">'+
-  			inner+'</a>';
+	return '<a href="'+link+'"'+(linkclass != null ? ' class="'+linkclass+'"' : '')+' target="_blank" title="'+title+'" onclick="this.newWindow = window.open(\''+link+'\', \''+
+			wndid+'\', \'toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width='+width+',height='+height+',resizable=1\');this.newWindow.focus();this.newWindow.opener=window;return false;">'+
+			inner+'</a>';
   },
 
   generateOneRowTable: function(content) {
@@ -74,10 +74,10 @@ var HtmlGenerationUtils = {
   },
 
   viewOpenCell: function(username,servlet,id,canview,canopen,ban,message,cantakenow) {
-  		var cellsCount = 2;
-  		var link = servlet+"?thread="+id;
- 		var gen = '<td>';
- 		if(canopen || canview ) {
+		var cellsCount = 2;
+		var link = servlet+"?thread="+id;
+		var gen = '<td>';
+		if(canopen || canview ) {
 			gen += HtmlGenerationUtils.popupLink( (cantakenow||!canview) ? link : link+"&viewonly=true", localized[canopen ? 0 : 1], "ImCenter"+id, username, 640, 480, null);
 		} else {
 			gen += '<a href="#">' + username + '</a>';
@@ -100,7 +100,7 @@ var HtmlGenerationUtils = {
 			gen += message.length > 30 ? message.substring(0,30) + '...' : message;
 			gen += '</a></td>';
 		}
-  		return HtmlGenerationUtils.generateOneRowTable(gen);
+		return HtmlGenerationUtils.generateOneRowTable(gen);
   },
   banCell: function(id,banid){
       return '<td class="icon">'+
@@ -125,11 +125,11 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
   },
 
   updateParams: function() {
-  	return "since=" + this._options.lastrevision + "&status=" + this._options.istatus + (this._options.showonline ? "&showonline=1" : "");
+	return "since=" + this._options.lastrevision + "&status=" + this._options.istatus + (this._options.showonline ? "&showonline=1" : "");
   },
 
   setStatus: function(msg) {
-  	this._options.status.innerHTML = msg;
+	this._options.status.innerHTML = msg;
   },
 
   handleError: function(s) {
@@ -236,7 +236,7 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 			return false;
 		}
 		return startRow.rowIndex+1 < endRow.rowIndex;
-  	}
+	}
 	var _status = $("statustd");
 	if( _status) {
 		var notempty = queueNotEmpty(this.t, "twait") || queueNotEmpty(this.t, "tprio") || queueNotEmpty(this.t, "tchat");
@@ -308,11 +308,11 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 		}
 	}
   },
-  
+
   updateOperators: function(root) {
-  	var div = $('onlineoperators');
-  	if (!div)
-  		return;
+	var div = $('onlineoperators');
+	if (!div)
+		return;
 
 	var names = [];
 	
@@ -380,5 +380,5 @@ EventHelper.register(window, 'onload', function(){
   new Ajax.ThreadListUpdater(({table:$("threadlist"),status:$("connstatus"),istatus:0}).extend(updaterOptions || {}));
   if(!updaterOptions.havemenu) {
 	  togglemenu();
-  }	 
+  }
 });

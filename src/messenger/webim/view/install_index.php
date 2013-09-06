@@ -39,7 +39,7 @@ function tpl_content() { global $page, $webimroot, $errors;
 <br/>
 <br/>
 
-<?php 
+<?php
 require_once('inc_errors.php');
 ?>
 
@@ -70,7 +70,7 @@ require_once('inc_errors.php');
 <a href="<?php echo $webimroot ?>/license.php"><?php echo getlocal("install.license") ?></a>
 
 
-<?php 
+<?php
 } /* content */
 
 require_once('../view/inc_main.php');

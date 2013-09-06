@@ -97,7 +97,7 @@ $chatthread = $page['thread'];
 <br />
 
 
-<?php 
+<?php
 } /* content */
 
 require_once('inc_main.php');

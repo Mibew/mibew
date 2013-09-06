@@ -22,12 +22,12 @@ $page['fixedwrap'] = true;
 function tpl_content() { global $page, $webimroot, $errors;
 ?>
 
-<?php 
+<?php
 require_once('inc_errors.php');
 ?>
 <?php echo getlocal("install.err.back") ?>
 
-<?php 
+<?php
 } /* content */
 
 require_once('../view/inc_main.php');

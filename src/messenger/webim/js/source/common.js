@@ -171,7 +171,7 @@ var Ajax = {
   },
 
   getError: function(_response) {
-  	return _response.statusText || "connection error N" + _response.status;
+	return _response.statusText || "connection error N" + _response.status;
   },
 
   emptyFunction: function() {}
@@ -274,9 +274,9 @@ Class.inherit( Ajax.Request, Ajax.Base, {
   },
 
   handleTimeout: function() {
-  	if(this.finished) { return; }
-  	this.finished = true;
-  	(this._options.onTimeout || Ajax.emptyFunction)(this);
+	if(this.finished) { return; }
+	this.finished = true;
+	(this._options.onTimeout || Ajax.emptyFunction)(this);
   },
 
   respondToReadyState: function(readystate) {
@@ -285,9 +285,9 @@ Class.inherit( Ajax.Request, Ajax.Base, {
     if (event == 'Complete') {
       try {
 		if(!this.finished) {
-	        this.finished = true;
-	      	if(this._options.timeout) { clearTimeout(this.transportTimer); }
-	      	(this._options.onComplete || Ajax.emptyFunction)(this.transport);
+		this.finished = true;
+		if(this._options.timeout) { clearTimeout(this.transportTimer); }
+		(this._options.onComplete || Ajax.emptyFunction)(this.transport);
 	    }
       } catch (e) {
         this.dispatchException(e);
@@ -468,41 +468,41 @@ var NodeUtils = {
 
 var CommonUtils = {
   getRow: function(_id,_table) {
-  	var _row = _table.rows[_id];
-  	if( _row != null )
-  		return _row;
-  	if( _table.rows['head'] != null )
-  		return null;
+	var _row = _table.rows[_id];
+	if( _row != null )
+		return _row;
+	if( _table.rows['head'] != null )
+		return null;
 
-  	for( k=0; k < _table.rows.length; k++ ) {
-  		if( _table.rows[k].id == _id )
-  			return _table.rows[k];
-  	}
-  	return null;
+	for( k=0; k < _table.rows.length; k++ ) {
+		if( _table.rows[k].id == _id )
+			return _table.rows[k];
+	}
+	return null;
   },
 
   getCell: function(_id,_row,_table) {
-  	var _cell = _row.cells[_id];
-  	if( _cell != null )
-  		return _cell;
-  	if( _table.rows['head'] != null )
-  		return null;
-  	for( k=0; k < _row.cells.length; k++ ) {
-  		if( _row.cells[k].id == _id )
-  			return _row.cells[k];
-  	}
-  	return null;
+	var _cell = _row.cells[_id];
+	if( _cell != null )
+		return _cell;
+	if( _table.rows['head'] != null )
+		return null;
+	for( k=0; k < _row.cells.length; k++ ) {
+		if( _row.cells[k].id == _id )
+			return _row.cells[k];
+	}
+	return null;
   },
 
   insertCell: function(_row,_id,_className,_align,_height, _inner) {
-  	var cell = _row.insertCell(-1);
-  	cell.id = _id;
-  	if(_align)
-  		cell.align = _align;
-  	cell.className = _className;
-  	if(_height)
-  		cell.height = _height;
-  	cell.innerHTML = _inner;
+	var cell = _row.insertCell(-1);
+	cell.id = _id;
+	if(_align)
+		cell.align = _align;
+	cell.className = _className;
+	if(_height)
+		cell.height = _height;
+	cell.innerHTML = _inner;
   }
 };
 
@@ -510,7 +510,7 @@ function playSound(wav_file) {
   var player = document.createElement("div");
   var agt = navigator.userAgent.toLowerCase();
   if(agt.indexOf('opera') != -1) {
-  	player.style = "position: absolute; left: 0px; top: -200px;";
+	player.style = "position: absolute; left: 0px; top: -200px;";
   }
   document.body.appendChild(player);
   player.innerHTML = '<audio autoplay src="'+wav_file+'"><embed src="'+wav_file+'" hidden="true" autostart="true" loop="false"></audio>';
