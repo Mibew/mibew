@@ -69,7 +69,7 @@ require_once('inc_errors.php');
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('form.field.ban_comment') ?></div>
+			<div class="flabel"><?php echo getlocal('form.field.ban_comment') ?><span class="required">*</span></div>
 			<div class="fvalue">
 				<input type="text" name="comment" size="40" value="<?php echo form_value('comment') ?>" class="formauth"/>
 			</div>
