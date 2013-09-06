@@ -68,12 +68,12 @@ if(count($page['groups']) > 0) {
 	foreach( $page['groups'] as $grp ) { ?>
 <tr>
 	<td class="notlast">
-		<a href="<?php echo $webimroot ?>/operator/group.php?gid=<?php echo urlencode($grp['groupid']) ?>" id="ti<?php echo htmlspecialchars($grp['groupid']) ?>" class="man">
-			<?php echo htmlspecialchars(topage($grp['vclocalname'])) ?>
+		<a href="<?php echo $webimroot ?>/operator/group.php?gid=<?php echo urlencode($grp['groupid']) ?>" id="ti<?php echo safe_htmlspecialchars($grp['groupid']) ?>" class="man">
+			<?php echo safe_htmlspecialchars(topage($grp['vclocalname'])) ?>
 		</a>
 	</td>
 	<td class="notlast">
-		<?php echo $grp['vclocaldescription'] ? htmlspecialchars(topage($grp['vclocaldescription'])) : "&lt;none&gt;" ?>
+		<?php echo $grp['vclocaldescription'] ? safe_htmlspecialchars(topage($grp['vclocaldescription'])) : "&lt;none&gt;" ?>
 	</td>
 	<td class="notlast">
 <?php if(is_online($grp)) { ?>
@@ -86,12 +86,12 @@ if(count($page['groups']) > 0) {
 	</td>
 	<td>
 		<a href="<?php echo $webimroot ?>/operator/groupmembers.php?gid=<?php echo urlencode($grp['groupid']) ?>">
-			<?php echo htmlspecialchars(topage($grp['inumofagents'])) ?>
+			<?php echo safe_htmlspecialchars(topage($grp['inumofagents'])) ?>
 		</a>
 	</td>
 <?php if($page['canmodify']) { ?>
 	<td>
-		<a href="<?php echo $webimroot ?>/operator/groups.php?act=del&amp;gid=<?php echo urlencode($grp['groupid']) ?><?php print_csrf_token_in_url() ?>" id="i<?php echo htmlspecialchars($grp['groupid']) ?>" class="removelink">
+		<a href="<?php echo $webimroot ?>/operator/groups.php?act=del&amp;gid=<?php echo urlencode($grp['groupid']) ?><?php print_csrf_token_in_url() ?>" id="i<?php echo safe_htmlspecialchars($grp['groupid']) ?>" class="removelink">
 			remove
 		</a>
 	</td>

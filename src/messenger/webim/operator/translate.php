@@ -189,9 +189,9 @@ if ($show == 's1') {
 
 foreach ($allkeys as $key) {
 	if ($key != 'output_charset') {
-		$tsource = htmlspecialchars($lang1[$key]);
+		$tsource = safe_htmlspecialchars($lang1[$key]);
 		if (isset($lang2[$key])) {
-			$value = htmlspecialchars($lang2[$key]);
+			$value = safe_htmlspecialchars($lang2[$key]);
 			if (get_auxiliary($lang2[$key]) != get_auxiliary($lang1[$key])) {
 				$value = "<font color=\"#6030c1\"><b>$value</b></font> <strong>(wrong formatting)</strong>";
 			}

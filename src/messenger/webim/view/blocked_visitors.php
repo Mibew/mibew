@@ -37,7 +37,7 @@ require_once('inc_errors.php');
 
 <div class="tabletool">
 	<img src="<?php echo $webimroot ?>/images/buttons/createban.gif" border="0" alt=""/>
-	<a href="<?php echo $webimroot ?>/operator/ban.php" title="<?php echo htmlspecialchars(getlocal("page_bans.add")) ?>">
+	<a href="<?php echo $webimroot ?>/operator/ban.php" title="<?php echo safe_htmlspecialchars(getlocal("page_bans.add")) ?>">
 		<?php echo getlocal("page_bans.add") ?>
 	</a>
 </div>
@@ -64,8 +64,8 @@ if( $page['pagination.items'] ) {
 	foreach( $page['pagination.items'] as $b ) { ?>
 	<tr>
 	<td class="notlast">
-		<a href="ban.php?id=<?php echo urlencode($b['banid']) ?>" class="man" id="ti<?php echo htmlspecialchars($b['banid']) ?>">
-		   	<?php echo htmlspecialchars($b['address']) ?>
+		<a href="ban.php?id=<?php echo urlencode($b['banid']) ?>" class="man" id="ti<?php echo safe_htmlspecialchars($b['banid']) ?>">
+		   	<?php echo safe_htmlspecialchars($b['address']) ?>
 	   	</a>
 	</td>
 	<td class="notlast">
@@ -74,14 +74,14 @@ if( $page['pagination.items'] ) {
 	<td>
 <?php 
 	if( strlen(topage($b['comment'])) > 30 ) { 
-		echo htmlspecialchars(substr(topage($b['comment']),0,30));
+		echo safe_htmlspecialchars(substr(topage($b['comment']),0,30));
 	} else {
-		echo htmlspecialchars(topage($b['comment']));
+		echo safe_htmlspecialchars(topage($b['comment']));
 	} 
 ?>
 	</td>
 	<td>
-		<a class="removelink" id="i<?php echo htmlspecialchars($b['banid']) ?>" href="<?php echo $webimroot ?>/operator/blocked.php?act=del&amp;id=<?php echo urlencode($b['banid']) ?><?php print_csrf_token_in_url() ?>">
+		<a class="removelink" id="i<?php echo safe_htmlspecialchars($b['banid']) ?>" href="<?php echo $webimroot ?>/operator/blocked.php?act=del&amp;id=<?php echo urlencode($b['banid']) ?><?php print_csrf_token_in_url() ?>">
 			remove
 		</a>
 	</td>

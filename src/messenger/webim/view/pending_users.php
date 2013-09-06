@@ -25,17 +25,17 @@ function tpl_header() { global $page, $webimroot, $jsver;
 <script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/<?php echo $jsver ?>/common.js"></script>
 <script type="text/javascript" language="javascript"><!--
 var localized = new Array(
-    "<?php echo htmlspecialchars(getlocal("pending.table.speak")) ?>",
-    "<?php echo htmlspecialchars(getlocal("pending.table.view")) ?>",
-    "<?php echo htmlspecialchars(getlocal("pending.table.ban")) ?>",
-    "<?php echo htmlspecialchars(getlocal("pending.menu.show")) ?>",
-    "<?php echo htmlspecialchars(getlocal("pending.menu.hide")) ?>",
-    "<?php echo htmlspecialchars(getlocal("pending.popup_notification")) ?>"
+    "<?php echo safe_htmlspecialchars(getlocal("pending.table.speak")) ?>",
+    "<?php echo safe_htmlspecialchars(getlocal("pending.table.view")) ?>",
+    "<?php echo safe_htmlspecialchars(getlocal("pending.table.ban")) ?>",
+    "<?php echo safe_htmlspecialchars(getlocal("pending.menu.show")) ?>",
+    "<?php echo safe_htmlspecialchars(getlocal("pending.menu.hide")) ?>",
+    "<?php echo safe_htmlspecialchars(getlocal("pending.popup_notification")) ?>"
 );
 var updaterOptions = {
 	url:"<?php echo $webimroot ?>/operator/update.php",wroot:"<?php echo $webimroot ?>",
-	agentservl:"<?php echo $webimroot ?>/operator/agent.php", frequency:<?php echo htmlspecialchars($page['frequency']) ?>, istatus:<?php echo htmlspecialchars($page['istatus']) ?>,
-	noclients:"<?php echo htmlspecialchars(getlocal("clients.no_clients")) ?>", havemenu: <?php echo htmlspecialchars($page['havemenu']) ?>, showpopup: <?php echo htmlspecialchars($page['showpopup']) ?>, showonline: <?php echo htmlspecialchars($page['showonline']) ?> };
+	agentservl:"<?php echo $webimroot ?>/operator/agent.php", frequency:<?php echo safe_htmlspecialchars($page['frequency']) ?>, istatus:<?php echo safe_htmlspecialchars($page['istatus']) ?>,
+	noclients:"<?php echo safe_htmlspecialchars(getlocal("clients.no_clients")) ?>", havemenu: <?php echo safe_htmlspecialchars($page['havemenu']) ?>, showpopup: <?php echo safe_htmlspecialchars($page['showpopup']) ?>, showonline: <?php echo safe_htmlspecialchars($page['showonline']) ?> };
 //--></script>
 <script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/<?php echo $jsver ?>/users.js"></script>
 <?php

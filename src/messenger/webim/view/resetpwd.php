@@ -46,8 +46,8 @@ function tpl_content() {
 ?>
 
 <form name="resetForm" method="post" action="<?php echo $webimroot ?>/operator/resetpwd.php">
-<input type="hidden" name="id" value="<?php echo htmlspecialchars($page['id']) ?>"/>
-<input type="hidden" name="token" value="<?php echo htmlspecialchars($page['token']) ?>"/>
+<input type="hidden" name="id" value="<?php echo safe_htmlspecialchars($page['id']) ?>"/>
+<input type="hidden" name="token" value="<?php echo safe_htmlspecialchars($page['token']) ?>"/>
 
 	<div id="loginpane">
 

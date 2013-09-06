@@ -41,7 +41,7 @@ require_once('inc_errors.php');
 
 <form name="groupForm" method="post" action="<?php echo $webimroot ?>/operator/group.php">
 <?php print_csrf_token_input() ?>
-<input type="hidden" name="gid" value="<?php echo htmlspecialchars($page['grid']) ?>"/>
+<input type="hidden" name="gid" value="<?php echo safe_htmlspecialchars($page['grid']) ?>"/>
 	<div>
 <?php print_tabbar(); ?>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
@@ -93,7 +93,7 @@ require_once('inc_errors.php');
 		</div>
 		
 		<div class="fbutton">
-			<input type="image" name="save" value="" src="<?php echo $webimroot . htmlspecialchars(getlocal("image.button.save")) ?>" alt="<?php echo htmlspecialchars(getlocal("button.save")) ?>"/>
+			<input type="image" name="save" value="" src="<?php echo $webimroot . safe_htmlspecialchars(getlocal("image.button.save")) ?>" alt="<?php echo safe_htmlspecialchars(getlocal("button.save")) ?>"/>
 		</div>
 	</div>
 

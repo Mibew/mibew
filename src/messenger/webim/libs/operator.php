@@ -305,8 +305,8 @@ function setup_redirect_links($threadid, $token)
 				)
 				: "";
 		$agent_list .= "<li><a href=\"" . add_params($webimroot . "/operator/redirect.php", $params) .
-					   "\" title=\"" . htmlspecialchars(topage(get_operator_name($agent))) . "\">" .
-					   htmlspecialchars(topage(get_operator_name($agent))) .
+					   "\" title=\"" . safe_htmlspecialchars(topage(get_operator_name($agent))) . "\">" .
+					   safe_htmlspecialchars(topage(get_operator_name($agent))) .
 					   "</a> $status</li>";
 	}
 	$page['redirectToAgent'] = $agent_list;
@@ -322,8 +322,8 @@ function setup_redirect_links($threadid, $token)
 							? getlocal("char.redirect.operator.away_suff")
 							: "");
 			$group_list .= "<li><a href=\"" . add_params($webimroot . "/operator/redirect.php", $params) .
-						   "\" title=\"" . htmlspecialchars(topage(get_group_name($group))) . "\">" .
-						   htmlspecialchars(topage(get_group_name($group))) .
+						   "\" title=\"" . safe_htmlspecialchars(topage(get_group_name($group))) . "\">" .
+						   safe_htmlspecialchars(topage(get_group_name($group))) .
 						   "</a> $status</li>";
 		}
 	}

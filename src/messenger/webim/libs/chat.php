@@ -82,7 +82,7 @@ function post_message($threadid, $kind, $message, $from = null, $agentid = null)
 
 function prepare_html_message($text)
 {
-	$escaped_text = htmlspecialchars($text);
+	$escaped_text = safe_htmlspecialchars($text);
 	$text_w_links = preg_replace('/(http|ftp):\/\/\S*/', '<a href="$0" target="_blank">$0</a>', $escaped_text);
 	$multiline = str_replace("\n", "<br/>", $text_w_links);
 	return $multiline;
@@ -95,7 +95,7 @@ function message_to_html($msg)
 	$message = "<span>" . date("H:i:s", $msg['created']) . "</span> ";
 	$kind = $kind_to_string{$msg['ikind']};
 	if ($msg['tname'])
-		$message .= "<span class=\"n$kind\">" . htmlspecialchars($msg['tname']) . "</span>: ";
+		$message .= "<span class=\"n$kind\">" . safe_htmlspecialchars($msg['tname']) . "</span>: ";
 	$message .= "<span class=\"m$kind\">" . prepare_html_message($msg['tmessage']) . "</span><br/>";
 	return $message;
 }
@@ -166,7 +166,7 @@ function print_thread_messages($thread, $token, $lastid, $isuser, $format, $agen
 		$output = get_messages($threadid, "xml", $isuser, $lastid);
 
 		start_xml_output();
-		print("<thread lastid=\"$lastid\" typing=\"" . htmlspecialchars($istyping) . "\" canpost=\"" . (($isuser || $agentid != null && $agentid == $thread['agentId']) ? 1 : 0) . "\">");
+		print("<thread lastid=\"$lastid\" typing=\"" . safe_htmlspecialchars($istyping) . "\" canpost=\"" . (($isuser || $agentid != null && $agentid == $thread['agentId']) ? 1 : 0) . "\">");
 		foreach ($output as $msg) {
 			print $msg;
 		}
@@ -176,13 +176,13 @@ function print_thread_messages($thread, $token, $lastid, $isuser, $format, $agen
 		$output = get_messages($threadid, "html", $isuser, $lastid);
 
 		start_html_output();
-		$url = "$webimroot/thread.php?act=refresh&amp;thread=" . htmlspecialchars($threadid) . "&amp;token=" . htmlspecialchars($token) . "&amp;html=on&amp;user=" . ($isuser ? "true" : "false");
+		$url = "$webimroot/thread.php?act=refresh&amp;thread=" . safe_htmlspecialchars($threadid) . "&amp;token=" . safe_htmlspecialchars($token) . "&amp;html=on&amp;user=" . ($isuser ? "true" : "false");
 
 		print(
 				"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" .
 				"<html>\n<head>\n" .
 				"<link href=\"$webimroot/styles/default/chat.css\" rel=\"stylesheet\" type=\"text/css\">\n" .
-				"<meta http-equiv=\"Refresh\" content=\"" . htmlspecialchars($settings['updatefrequency_oldchat']) . "; URL=$url&amp;sn=11\">\n" .
+				"<meta http-equiv=\"Refresh\" content=\"" . safe_htmlspecialchars($settings['updatefrequency_oldchat']) . "; URL=$url&amp;sn=11\">\n" .
 				"<meta http-equiv=\"Pragma\" content=\"no-cache\">\n" .
 				"<title>chat</title>\n" .
 				"</head>\n" .
@@ -290,9 +290,9 @@ function setup_logo()
 {
 	global $page, $settings;
 	loadsettings();
-	$page['ct.company.name'] = htmlspecialchars(topage($settings['title']));
-	$page['ct.company.chatLogoURL'] = htmlspecialchars(topage($settings['logo']));
-	$page['webimHost'] = htmlspecialchars(topage($settings['hosturl']));
+	$page['ct.company.name'] = safe_htmlspecialchars(topage($settings['title']));
+	$page['ct.company.chatLogoURL'] = safe_htmlspecialchars(topage($settings['logo']));
+	$page['webimHost'] = safe_htmlspecialchars(topage($settings['hosturl']));
 }
 
 function setup_leavemessage($name, $email, $message, $groupid, $groupname, $info, $referrer, $canshowcaptcha)
@@ -337,7 +337,7 @@ function setup_survey($name, $email, $groupid, $info, $referrer, $canshowcaptcha
 				$groupname .= " (offline)";
 			}
 			$isselected = $k['groupid'] == $groupid;
-			$val .= "<option value=\"" . htmlspecialchars($k['groupid']) . "\"" . ($isselected ? " selected=\"selected\"" : "") . ">" . htmlspecialchars($groupname) . "</option>";
+			$val .= "<option value=\"" . safe_htmlspecialchars($k['groupid']) . "\"" . ($isselected ? " selected=\"selected\"" : "") . ">" . safe_htmlspecialchars($groupname) . "</option>";
 		}
 		$page['groups'] = $val;
 	}
@@ -359,11 +359,11 @@ function setup_chatview_for_user($thread, $level)
 	$page['displ1'] = $nameisset ? "none" : "inline";
 	$page['displ2'] = $nameisset ? "inline" : "none";
 	$page['level'] = $level;
-	$page['ct.chatThreadId'] = htmlspecialchars($thread['threadid']);
-	$page['ct.token'] = htmlspecialchars($thread['ltoken']);
-	$page['ct.user.name'] = htmlspecialchars(topage($thread['userName']));
+	$page['ct.chatThreadId'] = safe_htmlspecialchars($thread['threadid']);
+	$page['ct.token'] = safe_htmlspecialchars($thread['ltoken']);
+	$page['ct.user.name'] = safe_htmlspecialchars(topage($thread['userName']));
 	$page['canChangeName'] = $settings['usercanchangename'] == "1";
-	$page['chat.title'] = htmlspecialchars(topage($settings['chattitle']));
+	$page['chat.title'] = safe_htmlspecialchars(topage($settings['chattitle']));
 
 	setup_logo();
 	if ($settings['sendmessagekey'] == 'enter') {
@@ -375,10 +375,10 @@ function setup_chatview_for_user($thread, $level)
 	}
 
 	$params = "thread=" . $thread['threadid'] . "&token=" . $thread['ltoken'];
-	$page['mailLink'] = htmlspecialchars("$webimroot/client.php?" . $params . "&level=$level&act=mailthread");
+	$page['mailLink'] = safe_htmlspecialchars("$webimroot/client.php?" . $params . "&level=$level&act=mailthread");
 
 	if ($settings['enablessl'] == "1" && !is_secure_request()) {
-		$page['sslLink'] = htmlspecialchars(get_app_location(true, true) . "/client.php?" . $params . "&level=$level");
+		$page['sslLink'] = safe_htmlspecialchars(get_app_location(true, true) . "/client.php?" . $params . "&level=$level");
 	}
 
 	$page['isOpera95'] = is_agent_opera95();
@@ -420,10 +420,10 @@ function setup_chatview_for_operator($thread, $operator)
 	$page['agent'] = true;
 	$page['user'] = false;
 	$page['canpost'] = $thread['agentId'] == $operator['operatorid'];
-	$page['ct.chatThreadId'] = htmlspecialchars($thread['threadid']);
-	$page['ct.token'] = htmlspecialchars($thread['ltoken']);
-	$page['ct.user.name'] = htmlspecialchars(topage(get_user_name($thread['userName'], $thread['remote'], $thread['userid'])));
-	$page['chat.title'] = htmlspecialchars(topage($settings['chattitle']));
+	$page['ct.chatThreadId'] = safe_htmlspecialchars($thread['threadid']);
+	$page['ct.token'] = safe_htmlspecialchars($thread['ltoken']);
+	$page['ct.user.name'] = safe_htmlspecialchars(topage(get_user_name($thread['userName'], $thread['remote'], $thread['userid'])));
+	$page['chat.title'] = safe_htmlspecialchars(topage($settings['chattitle']));
 
 	setup_logo();
 	if ($settings['sendmessagekey'] == 'enter') {
@@ -435,20 +435,20 @@ function setup_chatview_for_operator($thread, $operator)
 	}
 
 	if ($settings['enablessl'] == "1" && !is_secure_request()) {
-		$page['sslLink'] = htmlspecialchars(get_app_location(true, true) . "/operator/agent.php?thread=" . $thread['threadid'] . "&token=" . $thread['ltoken']);
+		$page['sslLink'] = safe_htmlspecialchars(get_app_location(true, true) . "/operator/agent.php?thread=" . $thread['threadid'] . "&token=" . $thread['ltoken']);
 	}
 	$page['isOpera95'] = is_agent_opera95();
 	$page['neediframesrc'] = needsFramesrc();
 	$page['historyParams'] = array("userid" => "" . $thread['userid']);
-	$page['historyParamsLink'] = htmlspecialchars(add_params($webimroot . "/operator/userhistory.php", $page['historyParams']));
+	$page['historyParamsLink'] = safe_htmlspecialchars(add_params($webimroot . "/operator/userhistory.php", $page['historyParams']));
 	$predefinedres = "";
 	$canned_messages = load_canned_messages($thread['locale'], $thread['groupid']);
 	foreach ($canned_messages as $answer) {
-		$predefinedres .= "<option>" . htmlspecialchars(topage($answer['vcvalue'])) . "</option>";
+		$predefinedres .= "<option>" . safe_htmlspecialchars(topage($answer['vcvalue'])) . "</option>";
 	}
 	$page['predefinedAnswers'] = $predefinedres;
 	$params = "thread=" . $thread['threadid'] . "&token=" . $thread['ltoken'];
-	$page['redirectLink'] = htmlspecialchars("$webimroot/operator/agent.php?" . $params . "&act=redirect");
+	$page['redirectLink'] = safe_htmlspecialchars("$webimroot/operator/agent.php?" . $params . "&act=redirect");
 
 	$page['namePostfix'] = "";
 	$page['frequency'] = $settings['updatefrequency_chat'];

@@ -27,7 +27,7 @@ $isrtl = getlocal("localedirection") == 'rtl';
 		tpl_header();
 ?>
 <title>
-	<?php echo htmlspecialchars($page['title']) ?> - <?php echo getlocal("app.title") ?>
+	<?php echo safe_htmlspecialchars($page['title']) ?> - <?php echo getlocal("app.title") ?>
 </title>
 <link href="<?php echo $webimroot ?>/default.css" rel="stylesheet" type="text/css" />
 <!--[if lte IE 6]><script language="JavaScript" type="text/javascript" src="<?php echo $webimroot ?>/<?php echo jspath() ?>/ie.js"></script><![endif]-->
@@ -37,10 +37,10 @@ $isrtl = getlocal("localedirection") == 'rtl';
 	<div id="header">
 		<div id="title">
 			<h1><img src="<?php echo $webimroot ?>/images/logo.gif" alt="" width="32" height="32" class="left" />
-				<a href="#"><?php echo isset($page['headertitle']) ? htmlspecialchars($page['headertitle']) : htmlspecialchars($page['title']) ?></a></h1>
+				<a href="#"><?php echo isset($page['headertitle']) ? safe_htmlspecialchars($page['headertitle']) : safe_htmlspecialchars($page['title']) ?></a></h1>
 		</div>
 <?php if(isset($page) && isset($page['operator'])) { ?>
-		<div id="path"><p><?php echo getlocal2("menu.operator",array(htmlspecialchars($page['operator']))) ?></p></div>
+		<div id="path"><p><?php echo getlocal2("menu.operator",array(safe_htmlspecialchars($page['operator']))) ?></p></div>
 <?php } else if(isset($page) && isset($page['show_small_login'])) { ?>
 		<div id="loginsmallpane">
 			<form name="smallLogin" method="post" action="<?php echo $webimroot ?>/operator/login.php">
@@ -83,7 +83,7 @@ $isrtl = getlocal("localedirection") == 'rtl';
 	<div class="empty_inner" style="">&#160;</div>
 </div>
 <div id="footer">
-	<p id="legal"><a href="http://mibew.org/" target="_blank" class="flink">Mibew Messenger</a> <?php echo htmlspecialchars($version) ?> | (c) 2011-2013 mibew.org</p>
+	<p id="legal"><a href="http://mibew.org/" target="_blank" class="flink">Mibew Messenger</a> <?php echo safe_htmlspecialchars($version) ?> | (c) 2011-2013 mibew.org</p>
 </div>
 </body>
 </html>

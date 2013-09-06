@@ -33,13 +33,13 @@ require_once('inc_errors.php');
 
 <form name="avatarForm" method="post" action="<?php echo $webimroot ?>/operator/avatar.php" enctype="multipart/form-data">
 <?php print_csrf_token_input() ?>
-<input type="hidden" name="op" value="<?php echo htmlspecialchars($page['opid']) ?>"/>
+<input type="hidden" name="op" value="<?php echo safe_htmlspecialchars($page['opid']) ?>"/>
 	<div>
 <?php print_tabbar(); ?>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
 	<p>
-		<b><?php echo htmlspecialchars($page['currentop']) ?>&lrm;</b>
+		<b><?php echo safe_htmlspecialchars($page['currentop']) ?>&lrm;</b>
 	</p>
 
 	<div class="fieldForm">
@@ -48,7 +48,7 @@ require_once('inc_errors.php');
 		<div class="field">
 			<div class="flabel"><?php echo getlocal('form.field.avatar.current') ?></div>
 			<div class="fvalue">
-				<img src="<?php echo htmlspecialchars($page['avatar']) ?>" alt="cannot load avatar"/><br/>
+				<img src="<?php echo safe_htmlspecialchars($page['avatar']) ?>" alt="cannot load avatar"/><br/>
 <?php if($page['canmodify']) { ?>
                 <a class="formauth" href="<?php echo $webimroot ?>/operator/avatar.php?op=<?php echo urlencode($page['opid']) ?>&amp;delete=true">
                     <?php echo getlocal("page_agent.clear_avatar") ?>
@@ -77,7 +77,7 @@ require_once('inc_errors.php');
 		</div>
 
 		<div class="fbutton">
-			<input type="image" name="save" value="" src="<?php echo $webimroot . htmlspecialchars(getlocal("image.button.save")) ?>" alt="<?php echo htmlspecialchars(getlocal("button.save")) ?>"/>
+			<input type="image" name="save" value="" src="<?php echo $webimroot . safe_htmlspecialchars(getlocal("image.button.save")) ?>" alt="<?php echo safe_htmlspecialchars(getlocal("button.save")) ?>"/>
 		</div>
 <?php } ?>
 	</div>

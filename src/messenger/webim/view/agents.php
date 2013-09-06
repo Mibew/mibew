@@ -38,7 +38,7 @@ require_once('inc_errors.php');
 <?php if($page['canmodify']) { ?>
 <div class="tabletool">
 	<img src="<?php echo $webimroot ?>/images/buttons/createagent.gif" border="0" alt="" />
-	<a href="<?php echo $webimroot ?>/operator/operator.php" title="<?php echo htmlspecialchars(getlocal("page_agents.new_agent")) ?>">
+	<a href="<?php echo $webimroot ?>/operator/operator.php" title="<?php echo safe_htmlspecialchars(getlocal("page_agents.new_agent")) ?>">
 		<?php echo getlocal("page_agents.new_agent") ?>
 	</a>
 </div>
@@ -64,12 +64,12 @@ require_once('inc_errors.php');
 <?php foreach( $page['allowedAgents'] as $a ) { ?>
 <tr>
 	<td class="notlast">
-   		<a id="ti<?php echo htmlspecialchars($a['operatorid']) ?>" href="<?php echo $webimroot ?>/operator/operator.php?op=<?php echo urlencode($a['operatorid']) ?>" class="man">
-   			<?php echo htmlspecialchars(topage($a['vclogin'])) ?>
+   		<a id="ti<?php echo safe_htmlspecialchars($a['operatorid']) ?>" href="<?php echo $webimroot ?>/operator/operator.php?op=<?php echo urlencode($a['operatorid']) ?>" class="man">
+   			<?php echo safe_htmlspecialchars(topage($a['vclogin'])) ?>
    		</a>
 	</td>
 	<td class="notlast">
-   		<?php echo htmlspecialchars(topage($a['vclocalename'])) ?> / <?php echo htmlspecialchars(topage($a['vccommonname'])) ?>
+   		<?php echo safe_htmlspecialchars(topage($a['vclocalename'])) ?> / <?php echo safe_htmlspecialchars(topage($a['vccommonname'])) ?>
 	</td>
 	<td class="notlast">
 <?php if(operator_is_available($a)) { ?>
@@ -82,7 +82,7 @@ require_once('inc_errors.php');
 	</td>
 <?php if($page['canmodify']) { ?>
 	<td>
-  <a class="removelink" id="i<?php echo htmlspecialchars($a['operatorid']) ?>" href="<?php echo $webimroot ?>/operator/operators.php?act=del&amp;id=<?php echo urlencode($a['operatorid']) ?><?php print_csrf_token_in_url() ?>">
+  <a class="removelink" id="i<?php echo safe_htmlspecialchars($a['operatorid']) ?>" href="<?php echo $webimroot ?>/operator/operators.php?act=del&amp;id=<?php echo urlencode($a['operatorid']) ?><?php print_csrf_token_in_url() ?>">
 			remove
 		</a>
 	</td>

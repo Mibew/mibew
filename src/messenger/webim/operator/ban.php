@@ -54,7 +54,7 @@ if (isset($_POST['address'])) {
 
 	if ((!$banId && $existing_ban) ||
 		($banId && $existing_ban && $banId != $existing_ban['banid'])) {
-		$errors[] = getlocal2("ban.error.duplicate", array(htmlspecialchars($address), htmlspecialchars($existing_ban['banid'])));
+		$errors[] = getlocal2("ban.error.duplicate", array(safe_htmlspecialchars($address), safe_htmlspecialchars($existing_ban['banid'])));
 	}
 
 	if (count($errors) == 0) {

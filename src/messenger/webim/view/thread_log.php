@@ -32,7 +32,7 @@ $chatthread = $page['thread'];
 			<?php echo getlocal("page.analysis.search.head_name") ?>:
 		</div> 
 		<div class="wvalue">
-			<?php echo topage(htmlspecialchars($chatthread['userName'])) ?>
+			<?php echo topage(safe_htmlspecialchars($chatthread['userName'])) ?>
 		</div>
 		<br clear="all"/>
 		
@@ -57,7 +57,7 @@ $chatthread = $page['thread'];
 				<?php echo getlocal("page.analysis.search.head_group") ?>:
 			</div>
 			<div class="wvalue">
-				<?php echo topage(htmlspecialchars($chatthread['groupName'])) ?>
+				<?php echo topage(safe_htmlspecialchars($chatthread['groupName'])) ?>
 			</div>
 			<br clear="all"/>
 		<?php } ?>
@@ -67,7 +67,7 @@ $chatthread = $page['thread'];
 				<?php echo getlocal("page.analysis.search.head_operator") ?>:
 			</div>
 			<div class="wvalue">
-				<?php echo topage(htmlspecialchars($chatthread['agentName'])) ?>
+				<?php echo topage(safe_htmlspecialchars($chatthread['agentName'])) ?>
 			</div>
 			<br clear="all"/>
 		<?php } ?>

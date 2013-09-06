@@ -37,7 +37,7 @@ require_once('inc_errors.php');
 		<?php echo getlocal("canned.locale") ?><br/>
 		<select name="lang" onchange="this.form.submit();"><?php
 			foreach($page['locales'] as $k) {
-				echo "<option value=\"" . htmlspecialchars($k["id"]) . "\"".($k["id"] == form_value("lang") ? " selected=\"selected\"" : "").">" . htmlspecialchars($k["name"]) . "</option>";
+				echo "<option value=\"" . safe_htmlspecialchars($k["id"]) . "\"".($k["id"] == form_value("lang") ? " selected=\"selected\"" : "").">" . safe_htmlspecialchars($k["name"]) . "</option>";
 			} ?></select>
 	</div>
 
@@ -46,7 +46,7 @@ require_once('inc_errors.php');
 		<?php echo getlocal("canned.group") ?><br/>
 		<select name="group" onchange="this.form.submit();"><?php
 			foreach($page['groups'] as $k) {
-				echo "<option value=\"" . htmlspecialchars($k["groupid"]) . "\"".($k["groupid"] == form_value("group") ? " selected=\"selected\"" : "").">" . htmlspecialchars($k["vclocalname"]) . "</option>";
+				echo "<option value=\"" . safe_htmlspecialchars($k["groupid"]) . "\"".($k["groupid"] == form_value("group") ? " selected=\"selected\"" : "").">" . safe_htmlspecialchars($k["vclocalname"]) . "</option>";
 			} ?></select>
 	</div>
 <?php } ?>
@@ -82,7 +82,7 @@ if( $page['pagination.items'] ) {
 	foreach( $page['pagination.items'] as $localstr ) { ?>
 	<tr>
 		<td>
-			<?php echo str_replace("\n", "<br/>",htmlspecialchars(topage($localstr['vcvalue']))) ?>
+			<?php echo str_replace("\n", "<br/>",safe_htmlspecialchars(topage($localstr['vcvalue']))) ?>
 		</td>
 		<td>
 			<a href="<?php echo $webimroot ?>/operator/cannededit.php?key=<?php echo urlencode($localstr['id']) ?>" target="_blank"

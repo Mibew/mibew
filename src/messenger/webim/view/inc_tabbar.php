@@ -25,8 +25,8 @@ function print_tabbar($maxwidth = 4) {
 		$tabbar2 = array();
 		for($i = 0; $i < $len; $i++) {
 			$tabbar2[] = $i != $selected
-				? "<li><a href=\"" . htmlspecialchars($tabbar[$i]['link']) . "\">" . htmlspecialchars($tabbar[$i]['title']) . "</a></li>\n"
-				: "<li class=\"active\"><a href=\"#\">" . htmlspecialchars($tabbar[$i]['title']) . "</a></li>\n";
+				? "<li><a href=\"" . safe_htmlspecialchars($tabbar[$i]['link']) . "\">" . safe_htmlspecialchars($tabbar[$i]['title']) . "</a></li>\n"
+				: "<li class=\"active\"><a href=\"#\">" . safe_htmlspecialchars($tabbar[$i]['title']) . "</a></li>\n";
 		}
 
 		if($len > $maxwidth) { // && $len - $selected > $maxwidth

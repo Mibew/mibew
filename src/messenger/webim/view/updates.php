@@ -41,7 +41,7 @@ function tpl_content() { global $page, $webimroot;
 		</div>
 		
 		<?php echo getlocal("updates.current")?><br/>
-			<div id="cver"><?php echo htmlspecialchars($page['version']) ?></div>
+			<div id="cver"><?php echo safe_htmlspecialchars($page['version']) ?></div>
 
 		<br/>
 
@@ -52,13 +52,13 @@ function tpl_content() { global $page, $webimroot;
 			
 		<?php echo getlocal("updates.installed_locales")?><br/>
 			<?php foreach( $page['localizations'] as $loc ) { ?>
-				<?php echo htmlspecialchars($loc) ?>
+				<?php echo safe_htmlspecialchars($loc) ?>
 			<?php } ?>
 
 		<br/><br/>
 
 		<?php echo getlocal("updates.env")?><br/>
-			PHP <?php echo htmlspecialchars($page['phpVersion']) ?>
+			PHP <?php echo safe_htmlspecialchars($page['phpVersion']) ?>
 
 	</div><div class="formbottom"><div class="formbottomi"></div></div></div>
 </div>

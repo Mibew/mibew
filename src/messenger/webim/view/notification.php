@@ -32,7 +32,7 @@ $notification = $page['notification'];
 			<?php echo getlocal("notification.label.to") ?>:
 		</div> 
 		<div class="wvalue">
-			<?php echo topage(htmlspecialchars($notification['vcto'])) ?>
+			<?php echo topage(safe_htmlspecialchars($notification['vcto'])) ?>
 		</div>
 		<br clear="all"/>
 
@@ -48,7 +48,7 @@ $notification = $page['notification'];
 			<?php echo getlocal("notification.label.subj") ?>:
 		</div>
 		<div class="wvalue">
-			<?php echo topage(htmlspecialchars($notification['vcsubject'])) ?>
+			<?php echo topage(safe_htmlspecialchars($notification['vcsubject'])) ?>
 		</div>
 		<br clear="all"/>
 </div>

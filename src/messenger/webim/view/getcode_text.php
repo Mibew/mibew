@@ -41,7 +41,7 @@ require_once('inc_errors.php');
 		<div class="fieldinrow">
 			<div class="flabel"><?php echo getlocal("page.gen_button.choose_locale") ?></div>
 			<div class="fvaluenodesc">
-				<select name="lang" onchange="this.form.submit();"><?php foreach($page['availableLocales'] as $k) { echo "<option value=\"" . htmlspecialchars($k) . "\"".($k == form_value("lang") ? " selected=\"selected\"" : "").">" . htmlspecialchars($k) . "</option>"; } ?></select>
+				<select name="lang" onchange="this.form.submit();"><?php foreach($page['availableLocales'] as $k) { echo "<option value=\"" . safe_htmlspecialchars($k) . "\"".($k == form_value("lang") ? " selected=\"selected\"" : "").">" . safe_htmlspecialchars($k) . "</option>"; } ?></select>
 			</div>
 		</div>
 
@@ -49,7 +49,7 @@ require_once('inc_errors.php');
 		<div class="fieldinrow">
 			<div class="flabel"><?php echo getlocal("page.gen_button.choose_group") ?></div>
 			<div class="fvaluenodesc">
-				<select name="group" onchange="this.form.submit();"><?php foreach($page['groups'] as $k) { echo "<option value=\"" . htmlspecialchars($k['groupid']) . "\"".($k['groupid'] == form_value("group") ? " selected=\"selected\"" : "").">" . htmlspecialchars($k['vclocalname']) . "</option>"; } ?></select>
+				<select name="group" onchange="this.form.submit();"><?php foreach($page['groups'] as $k) { echo "<option value=\"" . safe_htmlspecialchars($k['groupid']) . "\"".($k['groupid'] == form_value("group") ? " selected=\"selected\"" : "").">" . safe_htmlspecialchars($k['vclocalname']) . "</option>"; } ?></select>
 			</div>
 		</div>
 <?php } ?>
@@ -58,7 +58,7 @@ require_once('inc_errors.php');
 		<div class="fieldinrow">
 			<div class="flabel"><?php echo getlocal("page.gen_button.choose_style") ?></div>
 			<div class="fvaluenodesc">
-				<select name="style" onchange="this.form.submit();"><?php foreach($page['availableStyles'] as $k => $v) { echo "<option value=\"" . htmlspecialchars($k) . "\"".($k == form_value("style") ? " selected=\"selected\"" : "").">" . htmlspecialchars($v) . "</option>"; } ?></select>
+				<select name="style" onchange="this.form.submit();"><?php foreach($page['availableStyles'] as $k => $v) { echo "<option value=\"" . safe_htmlspecialchars($k) . "\"".($k == form_value("style") ? " selected=\"selected\"" : "").">" . safe_htmlspecialchars($v) . "</option>"; } ?></select>
 			</div>
 		</div>
 		<br clear="all"/>
@@ -91,7 +91,7 @@ require_once('inc_errors.php');
 		<div class="field">
 			<div class="flabel"><?php echo getlocal("page.gen_button.code") ?></div>
 			<div class="fvaluewithta" dir="ltr">
-				<textarea cols="44" rows="15"><?php echo htmlspecialchars($page['buttonCode']) ?></textarea>
+				<textarea cols="44" rows="15"><?php echo safe_htmlspecialchars($page['buttonCode']) ?></textarea>
 			</div>
 			<div class="fdescr"><?php echo getlocal("page.gen_button.code.description") ?></div>
 			<br clear="all"/>

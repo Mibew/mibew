@@ -23,13 +23,13 @@ function generate_pagination_link($page, $title, $raw = false)
 	$lnk = $_SERVER['REQUEST_URI'];
 	$href = preg_replace("/\?page=\d+\&/", "?", preg_replace("/\&page=\d+/", "", $lnk));
 	$href .= strstr($href, "?") ? "&page=$page" : "?page=$page";
-	return "<a href=\"" . htmlspecialchars($href) . "\" class=\"pagelink\">" . ($raw ? $title : htmlspecialchars($title)) . "</a>";
+	return "<a href=\"" . safe_htmlspecialchars($href) . "\" class=\"pagelink\">" . ($raw ? $title : safe_htmlspecialchars($title)) . "</a>";
 }
 
 function generate_pagination_image($id, $alt)
 {
 	global $webimroot;
-	return "<img src=\"$webimroot/images/$id.gif\" border=\"0\" alt=\"" . htmlspecialchars($alt) . "\"/>";
+	return "<img src=\"$webimroot/images/$id.gif\" border=\"0\" alt=\"" . safe_htmlspecialchars($alt) . "\"/>";
 }
 
 function prepare_pagination($items_count, $default_items_per_page = 15)

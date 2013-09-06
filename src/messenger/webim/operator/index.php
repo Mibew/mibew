@@ -30,7 +30,7 @@ $page = array(
 	'localeLinks' => get_locale_links("$webimroot/operator/index.php"),
 	'needUpdate' => $settings['dbversion'] != $dbversion,
 	'needChangePassword' => $operator['vcpassword'] == md5(''),
-	'profilePage' => "$webimroot/operator/operator.php?op=".htmlspecialchars($operator['operatorid']),
+	'profilePage' => "$webimroot/operator/operator.php?op=".safe_htmlspecialchars($operator['operatorid']),
 	'updateWizard' => "$webimroot/install/",
 	'newFeatures' => $settings['featuresversion'] != $featuresversion,
 	'featuresPage' => "$webimroot/operator/features.php",

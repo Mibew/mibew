@@ -59,7 +59,7 @@ function verifyparam($name, $regexp, $default = null)
 		if (isset($default))
 			return $default;
 	}
-	echo "<html><head></head><body>Wrong parameter used or absent: " . htmlspecialchars($name) . "</body></html>";
+	echo "<html><head></head><body>Wrong parameter used or absent: " . safe_htmlspecialchars($name) . "</body></html>";
 	exit;
 }
 
@@ -425,7 +425,7 @@ function form_value($key)
 {
 	global $page;
 	if (isset($page) && isset($page["form$key"]))
-		return htmlspecialchars($page["form$key"]);
+		return safe_htmlspecialchars($page["form$key"]);
 	return "";
 }
 
@@ -454,7 +454,7 @@ function no_field($key)
 function failed_uploading_file($filename, $key)
 {
 	return getlocal2("errors.failed.uploading.file",
-		array(htmlspecialchars($filename), getlocal($key)));
+		array(safe_htmlspecialchars($filename), getlocal($key)));
 }
 
 function wrong_field($key)
@@ -473,8 +473,8 @@ function get_popup($href, $jshref, $message, $title, $wndName, $options)
 function get_image($href, $width, $height)
 {
 	if ($width != 0 && $height != 0)
-		return "<img src=\"" . htmlspecialchars($href) . "\" border=\"0\" width=\"" . htmlspecialchars($width) . "\" height=\"" . htmlspecialchars($height) . "\" alt=\"\"/>";
-	return "<img src=\"" . htmlspecialchars($href) . "\" border=\"0\" alt=\"\"/>";
+		return "<img src=\"" . safe_htmlspecialchars($href) . "\" border=\"0\" width=\"" . safe_htmlspecialchars($width) . "\" height=\"" . safe_htmlspecialchars($height) . "\" alt=\"\"/>";
+	return "<img src=\"" . safe_htmlspecialchars($href) . "\" border=\"0\" alt=\"\"/>";
 }
 
 function get_gifimage_size($filename)
@@ -780,7 +780,7 @@ function sanitize_string($string, $tags_level = 'high', $attr_level = 'high')
 				}
 
 				$replacement = '<' . $elements[1][$key] . $new_attributes . '>';
-				$string = preg_replace( '/' . reg_escape($elements[0][$key]) . '/', $replacement, $string );
+				$string = preg_replace( '/' . sanitize_reg_escape($elements[0][$key]) . '/', $replacement, $string );
 
 			}
 		}
@@ -790,7 +790,8 @@ function sanitize_string($string, $tags_level = 'high', $attr_level = 'high')
 	return $string;
 }
 
-function reg_escape ($string) {
+function sanitize_reg_escape($string)
+{
 
 	$conversions = array(	"^" => "\^",
 				"[" => "\[",
@@ -810,6 +811,14 @@ function reg_escape ($string) {
 	);
 
 	return strtr($string, $conversions);
+}
+
+/* wrapper for htmlspecialchars with single quotes conversion enabled
+   by default */
+
+function safe_htmlspecialchars($string)
+{
+    return htmlspecialchars($string, ENT_QUOTES);
 }
 
 ?>

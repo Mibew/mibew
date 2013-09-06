@@ -40,13 +40,13 @@ function tpl_content() { global $page, $webimroot, $current_locale, $menuItemsCo
 <br/>
 
 <?php if( $page['needChangePassword'] ) { ?>
-<div id="formmessage"><?php echo getlocal("error.no_password") ?> <?php echo getlocal2("error.no_password.visit_profile", array(htmlspecialchars($page['profilePage']))) ?></div>
+<div id="formmessage"><?php echo getlocal("error.no_password") ?> <?php echo getlocal2("error.no_password.visit_profile", array(safe_htmlspecialchars($page['profilePage']))) ?></div>
 <br/>
 <?php } else if( $page['needUpdate'] ) { ?>
-<div id="formmessage"><?php echo getlocal2("install.updatedb",array(htmlspecialchars($page['updateWizard']))) ?></div>
+<div id="formmessage"><?php echo getlocal2("install.updatedb",array(safe_htmlspecialchars($page['updateWizard']))) ?></div>
 <br/>
-<?php } else if($page['newFeatures']) { ?>
-<div><div id="formmessage"><?php echo getlocal2("install.newfeatures",array(htmlspecialchars($page['featuresPage'], $version))) ?></div></div>
+<?php } else if($page['newFeatures'] ) { ?>
+<div><div id="formmessage"><?php echo getlocal2("install.newfeatures",array(safe_htmlspecialchars($page['featuresPage']), safe_htmlspecialchars($version))) ?></div></div>
 <br/>
 <?php } ?>
 
@@ -188,7 +188,7 @@ $menuItemsCount = 2;
 	<b><?php echo getlocal("lang.choose") ?></b></h2>
 	<ul class="locales">
 <?php foreach($page['localeLinks'] as $id => $title) { ?>
-		<li<?php echo $current_locale == $id ? " class=\"active\"" : "" ?> ><a href="?locale=<?php echo urlencode($id) ?>"><?php echo htmlspecialchars($title) ?></a></li>
+		<li<?php echo $current_locale == $id ? " class=\"active\"" : "" ?> ><a href="?locale=<?php echo urlencode($id) ?>"><?php echo safe_htmlspecialchars($title) ?></a></li>
 <?php } ?>
 	</ul>
 </div>

@@ -34,12 +34,12 @@ function tpl_content() { global $page, $webimroot;
 		<?php echo getlocal("translate.direction") ?><br/>
 		<select name="source" onchange="this.form.submit();"><?php 
 			foreach($page['availableLocales'] as $k) { 
-				echo "<option value=\"" . htmlspecialchars($k["id"]) . "\"".($k["id"] == form_value("source") ? " selected=\"selected\"" : "").">" . htmlspecialchars($k["name"]) . "</option>";
+				echo "<option value=\"" . safe_htmlspecialchars($k["id"]) . "\"".($k["id"] == form_value("source") ? " selected=\"selected\"" : "").">" . safe_htmlspecialchars($k["name"]) . "</option>";
 			} ?></select>
 		=&gt;
 		<select name="target" onchange="this.form.submit();"><?php
 			foreach($page['availableLocales'] as $k) { 
-				echo "<option value=\"" . htmlspecialchars($k["id"]) . "\"".($k["id"] == form_value("target") ? " selected=\"selected\"" : "").">" . htmlspecialchars($k["name"]) . "</option>";
+				echo "<option value=\"" . safe_htmlspecialchars($k["id"]) . "\"".($k["id"] == form_value("target") ? " selected=\"selected\"" : "").">" . safe_htmlspecialchars($k["name"]) . "</option>";
 			} ?></select>
 	</div>
 
@@ -47,7 +47,7 @@ function tpl_content() { global $page, $webimroot;
 		<?php echo getlocal("translate.sort") ?><br/>
 		<select name="sort" onchange="this.form.submit();"><?php
 			foreach($page['availableOrders'] as $k) {
-				echo "<option value=\"" . htmlspecialchars($k["id"]) . "\"".($k["id"] == form_value("sort") ? " selected=\"selected\"" : "").">" . htmlspecialchars($k["name"]) . "</option>";
+				echo "<option value=\"" . safe_htmlspecialchars($k["id"]) . "\"".($k["id"] == form_value("sort") ? " selected=\"selected\"" : "").">" . safe_htmlspecialchars($k["name"]) . "</option>";
 			} ?></select>
 	</div>
 
@@ -55,7 +55,7 @@ function tpl_content() { global $page, $webimroot;
 		<?php echo getlocal("translate.show") ?><br/>
 		<select name="show" onchange="this.form.submit();"><?php 
 			foreach($page['showOptions'] as $k) { 
-				echo "<option value=\"" . htmlspecialchars($k["id"]) . "\"".($k["id"] == form_value("show") ? " selected=\"selected\"" : "").">" . htmlspecialchars($k["name"]) . "</option>";
+				echo "<option value=\"" . safe_htmlspecialchars($k["id"]) . "\"".($k["id"] == form_value("show") ? " selected=\"selected\"" : "").">" . safe_htmlspecialchars($k["name"]) . "</option>";
 			} ?></select>
 	</div>
 
@@ -78,9 +78,9 @@ if( $page['pagination'] ) {
 	<tr class="header"><th>
 		Key
 	</th><th>
-		<?php echo htmlspecialchars(topage($page['title1'])) ?>
+		<?php echo safe_htmlspecialchars(topage($page['title1'])) ?>
 	</th><th>
-		<?php echo htmlspecialchars(topage($page['title2'])) ?>
+		<?php echo safe_htmlspecialchars(topage($page['title2'])) ?>
 	</th></tr>
 </thead>
 <tbody>
@@ -89,7 +89,7 @@ if( $page['pagination.items'] ) {
 	foreach( $page['pagination.items'] as $localstr ) { ?>
 	<tr>
 		<td>
-			<a href="<?php echo $webimroot ?>/operator/translate.php?source=<?php echo urlencode($page['lang1']) ?>&amp;target=<?php echo urlencode($page['lang2']) ?>&amp;key=<?php echo urlencode($localstr['id']) ?>" target="_blank" onclick="this.newWindow = window.open('<?php echo $webimroot ?>/operator/translate.php?source=<?php echo urlencode($page['lang1']) ?>&amp;target=<?php echo urlencode($page['lang2']) ?>&amp;key=<?php echo urlencode($localstr['id']) ?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo htmlspecialchars(topage($localstr['id'])) ?></a>
+			<a href="<?php echo $webimroot ?>/operator/translate.php?source=<?php echo urlencode($page['lang1']) ?>&amp;target=<?php echo urlencode($page['lang2']) ?>&amp;key=<?php echo urlencode($localstr['id']) ?>" target="_blank" onclick="this.newWindow = window.open('<?php echo $webimroot ?>/operator/translate.php?source=<?php echo urlencode($page['lang1']) ?>&amp;target=<?php echo urlencode($page['lang2']) ?>&amp;key=<?php echo urlencode($localstr['id']) ?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo safe_htmlspecialchars(topage($localstr['id'])) ?></a>
 		</td>
 		<td>
 			<?php echo topage($localstr['l1']) ?>

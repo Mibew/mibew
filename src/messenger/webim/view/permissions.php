@@ -36,24 +36,24 @@ require_once('inc_errors.php');
 
 <form name="permissionsForm" method="post" action="<?php echo $webimroot ?>/operator/permissions.php">
 <?php print_csrf_token_input() ?>
-<input type="hidden" name="op" value="<?php echo htmlspecialchars($page['opid']) ?>"/>
+<input type="hidden" name="op" value="<?php echo safe_htmlspecialchars($page['opid']) ?>"/>
 	<div>
 <?php print_tabbar(); ?>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
 	<p>
-		<b><?php echo htmlspecialchars($page['currentop']) ?>&lrm;</b>
+		<b><?php echo safe_htmlspecialchars($page['currentop']) ?>&lrm;</b>
 	</p>
 <?php foreach( $page['permissionsList'] as $pm ) { ?>
 	<label>
-		<input type="checkbox" name="permissions<?php echo htmlspecialchars($pm['id']) ?>" value="on"<?php echo form_value_mb('permissions',$pm['id']) ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/> <?php echo htmlspecialchars($pm['descr']) ?>
+		<input type="checkbox" name="permissions<?php echo safe_htmlspecialchars($pm['id']) ?>" value="on"<?php echo form_value_mb('permissions',$pm['id']) ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/> <?php echo safe_htmlspecialchars($pm['descr']) ?>
 	</label>
 	<br/>
 <?php } ?>
 
 <?php if($page['canmodify']) { ?>
 	<div class="fbutton">
-		<input type="image" name="save" value="" src="<?php echo $webimroot . htmlspecialchars(getlocal("image.button.save")) ?>" alt="<?php echo htmlspecialchars(getlocal("button.save")) ?>"/>
+		<input type="image" name="save" value="" src="<?php echo $webimroot . safe_htmlspecialchars(getlocal("image.button.save")) ?>" alt="<?php echo safe_htmlspecialchars(getlocal("button.save")) ?>"/>
 	</div>
 <?php } ?>
 	</div><div class="formbottom"><div class="formbottomi"></div></div></div>

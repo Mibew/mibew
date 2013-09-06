@@ -50,9 +50,9 @@ function get_user_addr($addr)
 	global $settings;
 	if ($settings['geolink'] && preg_match("/(\\d+\\.\\d+\\.\\d+\\.\\d+)/", $addr, $matches)) {
 		$userip = $matches[1];
-		return get_popup(htmlspecialchars(str_replace("{ip}", $userip, $settings['geolink'])), '', htmlspecialchars($addr), "GeoLocation", htmlspecialchars("ip$userip"), htmlspecialchars($settings['geolinkparams']));
+		return get_popup(safe_htmlspecialchars(str_replace("{ip}", $userip, $settings['geolink'])), '', safe_htmlspecialchars($addr), "GeoLocation", safe_htmlspecialchars("ip$userip"), safe_htmlspecialchars($settings['geolinkparams']));
 	}
-	return htmlspecialchars($addr);
+	return safe_htmlspecialchars($addr);
 }
 
 ?>
