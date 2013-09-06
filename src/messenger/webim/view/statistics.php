@@ -25,7 +25,7 @@ function tpl_content() { global $page, $webimroot, $errors;
 <?php echo getlocal("statistics.description") ?>
 <br />
 <br />
-<?php 
+<?php
 require_once('inc_errors.php');
 ?>
 
@@ -39,18 +39,18 @@ require_once('inc_errors.php');
 			<div class="fvaluenodesc">
 				<div class="searchctrl">
 					<?php echo getlocal("statistics.from") ?>
-					<select name="startday"><?php foreach($page['availableDays'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("startday") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
-			
-					<select name="startmonth"><?php foreach($page['availableMonth'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("startmonth") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
+					<select name="startday"><?php foreach($page['availableDays'] as $k) { echo "<option value=\"" . htmlspecialchars($k) . "\"".($k == form_value("startday") ? " selected=\"selected\"" : "").">" . htmlspecialchars($k) . "</option>"; } ?></select>
+
+					<select name="startmonth"><?php foreach($page['availableMonth'] as $k => $v) { echo "<option value=\"" . htmlspecialchars($k) . "\"".($k == form_value("startmonth") ? " selected=\"selected\"" : "").">" . htmlspecialchars($v) . "</option>"; } ?></select>
 				</div>
 				<div class="searchctrl">
 					<?php echo getlocal("statistics.till") ?>
-					<select name="endday"><?php foreach($page['availableDays'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("endday") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
-			
-					<select name="endmonth"><?php foreach($page['availableMonth'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("endmonth") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
+					<select name="endday"><?php foreach($page['availableDays'] as $k) { echo "<option value=\"" . htmlspecialchars($k) . "\"".($k == form_value("endday") ? " selected=\"selected\"" : "").">" . htmlspecialchars($k) . "</option>"; } ?></select>
+
+					<select name="endmonth"><?php foreach($page['availableMonth'] as $k => $v) { echo "<option value=\"" . htmlspecialchars($k) . "\"".($k == form_value("endmonth") ? " selected=\"selected\"" : "").">" . htmlspecialchars($v) . "</option>"; } ?></select>
 				</div>
 				<div id="searchbutton">
-					<input type="image" name="search" src='<?php echo $webimroot.getlocal("image.button.search") ?>' alt='<?php echo getlocal("button.search") ?>'/>
+					<input type="image" name="search" src="<?php echo $webimroot . htmlspecialchars(getlocal("image.button.search")) ?>" alt="<?php echo htmlspecialchars(getlocal("button.search")) ?>"/>
 				</div>
 			</div>
 			<br clear="all"/>
@@ -84,17 +84,17 @@ require_once('inc_errors.php');
 <?php if( $page['reportByDate'] ) { ?>
 	<?php foreach( $page['reportByDate'] as $row ) { ?>
 	<tr>
-		<td><?php echo $row['date'] ?></td>
-		<td><?php echo $row['threads'] ?></td>
-		<td><?php echo $row['agents'] ?></td>
-		<td><?php echo $row['users'] ?></td>
+		<td><?php echo htmlspecialchars($row['date']) ?></td>
+		<td><?php echo htmlspecialchars($row['threads']) ?></td>
+		<td><?php echo htmlspecialchars($row['agents']) ?></td>
+		<td><?php echo htmlspecialchars($row['users']) ?></td>
 	</tr>
 	<?php } ?>
 	<tr>
 		<td><b><?php echo getlocal("report.total") ?></b></td>
-		<td><?php echo $page['reportByDateTotal']['threads'] ?></td>
-		<td><?php echo $page['reportByDateTotal']['agents'] ?></td>
-		<td><?php echo $page['reportByDateTotal']['users'] ?></td>
+		<td><?php echo htmlspecialchars($page['reportByDateTotal']['threads']) ?></td>
+		<td><?php echo htmlspecialchars($page['reportByDateTotal']['agents']) ?></td>
+		<td><?php echo htmlspecialchars($page['reportByDateTotal']['users']) ?></td>
 	</tr>
 <?php } else { ?>
 	<tr>
@@ -122,14 +122,14 @@ require_once('inc_errors.php');
 	<?php echo getlocal("report.byoperator.4") ?>
 </th></tr>
 </thead>
-<tbody>	
+<tbody>
 <?php if( $page['reportByAgent'] ) { ?>
 	<?php foreach( $page['reportByAgent'] as $row ) { ?>
 	<tr>
 		<td><?php echo topage(htmlspecialchars($row['name'])) ?></td>
-		<td><?php echo $row['threads'] ?></td>
-		<td><?php echo $row['msgs'] ?></td>
-    	<td><?php echo $row['avglen'] ?></td>
+		<td><?php echo htmlspecialchars($row['threads']) ?></td>
+		<td><?php echo htmlspecialchars($row['msgs']) ?></td>
+		<td><?php echo htmlspecialchars($row['avglen']) ?></td>
 	</tr>
 	<?php } ?>
 <?php } else { ?>
@@ -144,7 +144,7 @@ require_once('inc_errors.php');
 
 <?php } ?>
 
-<?php 
+<?php
 } /* content */
 
 require_once('inc_main.php');

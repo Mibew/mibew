@@ -24,44 +24,45 @@ $page['menuid'] = "groups";
 function tpl_content() { global $page, $webimroot, $errors;
 ?>
 
-<?php echo getlocal("page.groupmembers.intro") ?>
+<?php echo htmlspecialchars(getlocal("page.groupmembers.intro")) ?>
 <br />
 <br />
-<?php 
+<?php
 require_once('inc_errors.php');
 ?>
 <?php if( $page['stored'] ) { ?>
-<div id="formmessage"><?php echo getlocal("data.saved") ?></div>
+<div id="formmessage"><?php echo htmlspecialchars(getlocal("data.saved")) ?></div>
 <?php } ?>
 
 <form name="membersForm" method="post" action="<?php echo $webimroot ?>/operator/groupmembers.php">
-<input type="hidden" name="gid" value="<?php echo $page['groupid'] ?>"/>
+<?php print_csrf_token_input() ?>
+<input type="hidden" name="gid" value="<?php echo htmlspecialchars($page['groupid']) ?>"/>
 	<div>
 <?php print_tabbar(); ?>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
 	<p>
-		<b><?php echo $page['currentgroup'] ?></b>
+		<b><?php echo htmlspecialchars($page['currentgroup']) ?></b>
 	</p>
 <?php foreach( $page['operators'] as $pm ) { ?>
 	<div class="field">
 		<div class="fvaluenodesc">
-			<input type="checkbox" name="op<?php echo $pm['operatorid'] ?>" value="on"<?php echo form_value_mb('op',$pm['operatorid']) ? " checked=\"checked\"" : "" ?>/> 
-			<?php echo htmlspecialchars(topage($pm['vclocalename'])) ?> (<a href="operator.php?op=<?php echo $pm['operatorid'] ?>"
+			<input type="checkbox" name="op<?php echo htmlspecialchars($pm['operatorid']) ?>" value="on"<?php echo form_value_mb('op',$pm['operatorid']) ? " checked=\"checked\"" : "" ?>/>
+			<?php echo htmlspecialchars(topage($pm['vclocalename'])) ?> (<a href="operator.php?op=<?php echo urlencode($pm['operatorid']) ?>"
 				><?php echo htmlspecialchars(topage($pm['vclogin'])) ?></a>)
 		</div>
 	</div>
 <?php } ?>
 
 	<div class="fbutton">
-		<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
+		<input type="image" name="save" value="" src="<?php echo $webimroot . htmlspecialchars(getlocal("image.button.save")) ?>" alt="<?php echo htmlspecialchars(getlocal("button.save")) ?>"/>
 	</div>
 
 	</div><div class="formbottom"><div class="formbottomi"></div></div></div>
-	</div>		
+	</div>
 </form>
 
-<?php 
+<?php
 } /* content */
 
 require_once('inc_main.php');

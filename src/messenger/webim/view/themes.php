@@ -37,13 +37,13 @@ function tpl_content() { global $page, $webimroot;
 		<div class="field">
 			<div class="flabel"><?php echo getlocal("page.preview.choose") ?></div>
 			<div class="fvaluenodesc">
-				<select name="preview" onchange="this.form.submit();"><?php foreach($page['availablePreviews'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("preview") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+				<select name="preview" onchange="this.form.submit();"><?php foreach($page['availablePreviews'] as $k) { echo "<option value=\"" . htmlspecialchars($k) . "\"".($k == form_value("preview") ? " selected=\"selected\"" : "").">" . htmlspecialchars($k) . "</option>"; } ?></select>
 			</div>
 		</div>
 		<div class="field">
 			<div class="flabel"><?php echo getlocal("page.preview.choosetpl") ?></div>
 			<div class="fvaluenodesc">
-				<select name="template" onchange="this.form.submit();"><?php foreach($page['availableTemplates'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("template") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+				<select name="template" onchange="this.form.submit();"><?php foreach($page['availableTemplates'] as $k) { echo "<option value=\"" . htmlspecialchars($k) . "\"".($k == form_value("template") ? " selected=\"selected\"" : "").">" . htmlspecialchars($k) . "</option>"; } ?></select>
 			</div>
 		</div>
 <?php if( $page['canshowerrors'] ) { ?>
@@ -58,10 +58,10 @@ function tpl_content() { global $page, $webimroot;
 		<div class="field">
 			<div class="flabel">
 			<?php echo htmlspecialchars($pp['label']) ?>
-			<a href="<?php echo $page['showlink'] ?><?php echo $pp['id'] ?>" target="_blank" title="in separate window" onclick="this.newWindow = window.open('<?php echo $page['showlink'] ?><?php echo $pp['id'] ?>', '<?php echo $pp['id'] ?>', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=<?php echo $pp['w'] ?>,height=<?php echo $pp['h'] ?>,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">link</a>
+			<a href="<?php echo htmlspecialchars($page['showlink']) ?><?php echo htmlspecialchars($pp['id']) ?>" target="_blank" title="in separate window" onclick="this.newWindow = window.open('<?php echo htmlspecialchars($page['showlink']) ?><?php echo htmlspecialchars($pp['id']) ?>', '<?php echo htmlspecialchars($pp['id']) ?>', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=<?php echo htmlspecialchars($pp['w']) ?>,height=<?php echo htmlspecialchars($pp['h']) ?>,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">link</a>
 			</div>
 			<div class="fvalueframe">
-			<iframe id="sample<?php echo $pp['id'] ?>" width="<?php echo $pp['w'] ?>" height="<?php echo $pp['h'] ?>" src="<?php echo $page['showlink'] ?><?php echo $pp['id'] ?>" frameborder="0" scrolling="no">
+			<iframe id="sample<?php echo htmlspecialchars($pp['id']) ?>" width="<?php echo htmlspecialchars($pp['w']) ?>" height="<?php echo htmlspecialchars($pp['h']) ?>" src="<?php echo $page['showlink'] ?><?php echo htmlspecialchars($pp['id']) ?>" frameborder="0" scrolling="no">
 				No iframes
 			</iframe>
 			</div>
@@ -70,10 +70,10 @@ function tpl_content() { global $page, $webimroot;
 	</div>
 	
 	</div><div class="formbottom"><div class="formbottomi"></div></div></div>
-	</div>		
+	</div>
 </form>
 
-<?php 
+<?php
 } /* content */
 
 require_once('inc_main.php');

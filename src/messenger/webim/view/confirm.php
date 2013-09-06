@@ -23,16 +23,16 @@ function tpl_content() { global $page, $webimroot;
 <div id="confirmpane">
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
-		<?php echo getlocal2("confirm.take.message",array($page['user'], $page['agent'])) ?><br/><br/>
+		<?php echo getlocal2("confirm.take.message",array(htmlspecialchars($page['user']), htmlspecialchars($page['agent']))) ?><br/><br/>
 		<br/>
 
 		<div>
 		<table class="nicebutton"><tr>
-			<td><a href="<?php echo $page['link'] ?>">
+			<td><a href="<?php echo htmlspecialchars($page['link']) ?>">
 				<img src='<?php echo $webimroot ?>/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
-			<td class="submit"><a href="<?php echo $page['link'] ?>">
+			<td class="submit"><a href="<?php echo htmlspecialchars($page['link']) ?>">
 				<?php echo getlocal("confirm.take.yes") ?></a></td>
-			<td><a href="<?php echo $page['link'] ?>">
+			<td><a href="<?php echo htmlspecialchars($page['link']) ?>">
 				<img src='<?php echo $webimroot ?>/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
 		</tr></table>
 

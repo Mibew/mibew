@@ -33,13 +33,13 @@ function store_message($name, $email, $info, $message,$groupid,$referrer) {
 	$link = connect();
 	$thread = create_thread($groupid,$name,$remoteHost,$referrer,$current_locale,$visitor['id'], $userbrowser,$state_left,$link);
 	if( $referrer ) {
-		post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.came.from',array($referrer)),$link);
+		post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.came.from',array($referrer),true),$link);
 	}
 	if($email) {
-		post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.email',array($email)),$link);
+		post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.email',array($email),true),$link);
 	}
 	if($info) {
-		post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.info',array($info)),$link);
+		post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.info',array($info),true),$link);
 	}
 	post_message_($thread['threadid'],$kind_user,$message,$link,$name);
 	mysql_close($link);
@@ -102,8 +102,8 @@ if(!locale_exists($message_locale)) {
 
 store_message($visitor_name, $email, $info, $message, $groupid, $referrer);
 
-$subject = getstring2_("leavemail.subject", array($visitor_name), $message_locale);
-$body = getstring2_("leavemail.body", array($visitor_name,$email,$message,$info ? "$info\n" : ""), $message_locale);
+$subject = getstring2_("leavemail.subject", array($visitor_name), $message_locale,true);
+$body = getstring2_("leavemail.body", array($visitor_name,$email,$message,$info ? "$info\n" : ""), $message_locale,true);
 
 if (isset($group) && !empty($group['vcemail'])) {
 	$inbox_mail = $group['vcemail'];

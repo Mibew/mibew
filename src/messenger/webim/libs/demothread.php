@@ -53,19 +53,19 @@ function demo_process_thread($act, $outformat, $lastid, $isuser, $canpost, $isty
 		if ($lastid == 1) {
 			demo_print_message(
 				array('ikind' => $kind_for_agent, 'created' => time() - 15, 'tname' => '',
-					 'tmessage' => getstring2('chat.came.from', array("http://google.com"))), $outformat);
+					 'tmessage' => getstring2('chat.came.from', array("http://google.com"), true)), $outformat);
 			demo_print_message(
 				array('ikind' => $kind_info, 'created' => time() - 15, 'tname' => '',
 					 'tmessage' => getstring('chat.wait')), $outformat);
 			demo_print_message(
 				array('ikind' => $kind_events, 'created' => time() - 10, 'tname' => '',
-					 'tmessage' => getstring2("chat.status.operator.joined", array("Administrator"))), $outformat);
+					 'tmessage' => getstring2("chat.status.operator.joined", array("Administrator"), true)), $outformat);
 			demo_print_message(
 				array('ikind' => $kind_agent, 'created' => time() - 9, 'tname' => 'Administrator',
-					 'tmessage' => getstring("demo.chat.welcome")), $outformat);
+					 'tmessage' => getstring("demo.chat.welcome"), true), $outformat);
 			demo_print_message(
 				array('ikind' => $kind_user, 'created' => time() - 5, 'tname' => getstring("chat.default.username"),
-					 'tmessage' => getstring("demo.chat.question")), $outformat);
+					 'tmessage' => getstring("demo.chat.question", true)), $outformat);
 			if ($canpost && $outformat == 'xml') {
 				demo_print_message(
 					array('ikind' => $kind_info, 'created' => time() - 5, 'tname' => '',

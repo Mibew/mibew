@@ -24,7 +24,7 @@ require_once('../libs/groups.php');
 $operator = get_logged_in();
 if (!$operator) {
 	start_xml_output();
-	echo "<error><descr>" . myiconv($webim_encoding, "utf-8", escape_with_cdata(getstring("agent.not_logged_in"))) . "</descr></error>";
+	echo "<error><descr>" . htmlspecialchars(htmlspecialchars(myiconv($webim_encoding, "utf-8", escape_with_cdata(getstring("agent.not_logged_in"))))) . "</descr></error>";
 	exit;
 }
 
@@ -51,7 +51,7 @@ function thread_to_xml($thread, $link)
 $webim_encoding, $operator, $settings,
 $can_viewthreads, $can_takeover, $mysqlprefix;
 	$state = $threadstate_to_string[$thread['istate']];
-	$result = "<thread id=\"" . $thread['threadid'] . "\" stateid=\"$state\"";
+	$result = "<thread id=\"" . htmlspecialchars(htmlspecialchars($thread['threadid'])) . "\" stateid=\"$state\"";
 	if ($state == "closed")
 		return $result . "/>";
 
@@ -77,10 +77,10 @@ $can_viewthreads, $can_takeover, $mysqlprefix;
 
 	$banForThread = $settings['enableban'] == "1" ? ban_for_addr_($thread['remote'], $link) : false;
 	if ($banForThread) {
-		$result .= " ban=\"blocked\" banid=\"" . $banForThread['banid'] . "\"";
+		$result .= " ban=\"blocked\" banid=\"" . htmlspecialchars(htmlspecialchars($banForThread['banid'])) . "\"";
 	}
 
-	$result .= " state=\"$state\" typing=\"" . $thread['userTyping'] . "\">";
+	$result .= " state=\"$state\" typing=\"" . htmlspecialchars(htmlspecialchars($thread['userTyping'])) . "\">";
 	$result .= "<name>";
 	if ($banForThread) {
 		$result .= htmlspecialchars(getstring('chat.client.spam.prefix'));
@@ -88,15 +88,15 @@ $can_viewthreads, $can_takeover, $mysqlprefix;
 	$result .= htmlspecialchars(htmlspecialchars(get_user_name($thread['userName'], $thread['remote'], $thread['userid']))) . "</name>";
 	$result .= "<addr>" . htmlspecialchars(get_user_addr($thread['remote'])) . "</addr>";
 	$result .= "<agent>" . htmlspecialchars(htmlspecialchars($threadoperator)) . "</agent>";
-	$result .= "<time>" . $thread['unix_timestamp(dtmcreated)'] . "000</time>";
-	$result .= "<modified>" . $thread['unix_timestamp(dtmmodified)'] . "000</modified>";
+	$result .= "<time>" . htmlspecialchars(htmlspecialchars($thread['unix_timestamp(dtmcreated)'])) . "000</time>";
+	$result .= "<modified>" . htmlspecialchars(htmlspecialchars($thread['unix_timestamp(dtmmodified)'])) . "000</modified>";
 
 	if ($banForThread) {
-		$result .= "<reason>" . $banForThread['comment'] . "</reason>";
+		$result .= "<reason>" . htmlspecialchars(htmlspecialchars($banForThread['comment'])) . "</reason>";
 	}
 
 	$userAgent = get_useragent_version($thread['userAgent']);
-	$result .= "<useragent>" . $userAgent . "</useragent>";
+	$result .= "<useragent>" . htmlspecialchars(htmlspecialchars($userAgent)) . "</useragent>";
 	if ($thread["shownmessageid"] != 0) {
 		$query = "select tmessage from ${mysqlprefix}chatmessage where messageid = " . $thread["shownmessageid"];
 		$line = select_one_row($query, $link);

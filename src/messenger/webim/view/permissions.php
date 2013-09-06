@@ -27,7 +27,7 @@ function tpl_content() { global $page, $webimroot, $errors;
 <?php echo getlocal("permissions.intro") ?>
 <br />
 <br />
-<?php 
+<?php
 require_once('inc_errors.php');
 ?>
 <?php if( $page['stored'] ) { ?>
@@ -36,31 +36,31 @@ require_once('inc_errors.php');
 
 <form name="permissionsForm" method="post" action="<?php echo $webimroot ?>/operator/permissions.php">
 <?php print_csrf_token_input() ?>
-<input type="hidden" name="op" value="<?php echo $page['opid'] ?>"/>
+<input type="hidden" name="op" value="<?php echo htmlspecialchars($page['opid']) ?>"/>
 	<div>
 <?php print_tabbar(); ?>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
 	<p>
-		<b><?php echo $page['currentop'] ?>&lrm;</b>
+		<b><?php echo htmlspecialchars($page['currentop']) ?>&lrm;</b>
 	</p>
 <?php foreach( $page['permissionsList'] as $pm ) { ?>
 	<label>
-		<input type="checkbox" name="permissions<?php echo $pm['id'] ?>" value="on"<?php echo form_value_mb('permissions',$pm['id']) ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/> <?php echo $pm['descr'] ?>
+		<input type="checkbox" name="permissions<?php echo htmlspecialchars($pm['id']) ?>" value="on"<?php echo form_value_mb('permissions',$pm['id']) ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/> <?php echo htmlspecialchars($pm['descr']) ?>
 	</label>
 	<br/>
 <?php } ?>
 
 <?php if($page['canmodify']) { ?>
 	<div class="fbutton">
-		<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
+		<input type="image" name="save" value="" src="<?php echo $webimroot . htmlspecialchars(getlocal("image.button.save")) ?>" alt="<?php echo htmlspecialchars(getlocal("button.save")) ?>"/>
 	</div>
 <?php } ?>
 	</div><div class="formbottom"><div class="formbottomi"></div></div></div>
-	</div>		
+	</div>
 </form>
 
-<?php 
+<?php
 } /* content */
 
 require_once('inc_main.php');

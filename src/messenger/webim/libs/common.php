@@ -59,7 +59,7 @@ function verifyparam($name, $regexp, $default = null)
 		if (isset($default))
 			return $default;
 	}
-	echo "<html><head></head><body>Wrong parameter used or absent: " . $name . "</body></html>";
+	echo "<html><head></head><body>Wrong parameter used or absent: " . htmlspecialchars($name) . "</body></html>";
 	exit;
 }
 
@@ -197,7 +197,7 @@ function getoutputenc()
 	return isset($output_encoding[$current_locale]) ? $output_encoding[$current_locale] : $webim_encoding;
 }
 
-function getstring_($text, $locale)
+function getstring_($text, $locale, $raw = false)
 {
 	global $messages;
 	if (!isset($messages[$locale]))
@@ -205,30 +205,33 @@ function getstring_($text, $locale)
 
 	$localized = $messages[$locale];
 	if (isset($localized[$text]))
-		return $localized[$text];
+		return $raw ? $localized[$text] : sanitize_string($localized[$text], 'low', 'moderate');
 	if ($locale != 'en') {
-		return getstring_($text, 'en');
+		return getstring_($text, 'en', $raw);
 	}
 
-	return "!" . $text;
+	return "!" . ($raw ? $text : sanitize_string($text, 'low', 'moderate'));
 }
 
-function getstring($text)
+function getstring($text, $raw = false)
 {
 	global $current_locale;
-	return getstring_($text, $current_locale);
+	$string = getstring_($text, $current_locale, true);
+	return $raw ? $string : sanitize_string($string, 'low', 'moderate');
 }
 
-function getlocal($text)
+function getlocal($text, $raw = false)
 {
 	global $current_locale, $webim_encoding;
-	return myiconv($webim_encoding, getoutputenc(), getstring_($text, $current_locale));
+	$string = myiconv($webim_encoding, getoutputenc(), getstring_($text, $current_locale), true);
+	return $raw ? $string : sanitize_string($string, 'low', 'moderate');
 }
 
-function getlocal_($text, $locale)
+function getlocal_($text, $locale, $raw = false)
 {
 	global $webim_encoding;
-	return myiconv($webim_encoding, getoutputenc(), getstring_($text, $locale));
+	$string = myiconv($webim_encoding, getoutputenc(), getstring_($text, $locale), true);
+	return $raw ? $string : sanitize_string($string, 'low', 'moderate');
 }
 
 function topage($text)
@@ -237,41 +240,42 @@ function topage($text)
 	return myiconv($webim_encoding, getoutputenc(), $text);
 }
 
-function getstring2_($text, $params, $locale)
+function getstring2_($text, $params, $locale, $raw = false)
 {
-	$string = getstring_($text, $locale);
+	$string = getstring_($text, $locale, true);
 	for ($i = 0; $i < count($params); $i++) {
 		$string = str_replace("{" . $i . "}", $params[$i], $string);
 	}
-	return $string;
+	return $raw ? $string : sanitize_string($string, 'low', 'moderate');
 }
 
-function getstring2($text, $params)
+function getstring2($text, $params, $raw = false)
 {
 	global $current_locale;
-	return getstring2_($text, $params, $current_locale);
+	$string = getstring2_($text, $params, $current_locale, true);
+	return $raw ? $string : sanitize_string($string, 'low', 'moderate');
 }
 
-function getlocal2($text, $params)
+function getlocal2($text, $params, $raw = false)
 {
 	global $current_locale, $webim_encoding;
-	$string = myiconv($webim_encoding, getoutputenc(), getstring_($text, $current_locale));
+	$string = myiconv($webim_encoding, getoutputenc(), getstring_($text, $current_locale, true));
 	for ($i = 0; $i < count($params); $i++) {
 		$string = str_replace("{" . $i . "}", $params[$i], $string);
 	}
-	return $string;
+	return $raw ? $string : sanitize_string($string, 'low', 'moderate');
 }
 
 /* prepares for Javascript string */
 function getlocalforJS($text, $params)
 {
 	global $current_locale, $webim_encoding;
-	$string = myiconv($webim_encoding, getoutputenc(), getstring_($text, $current_locale));
+	$string = myiconv($webim_encoding, getoutputenc(), getstring_($text, $current_locale, true));
 	$string = str_replace("\"", "\\\"", str_replace("\n", "\\n", $string));
 	for ($i = 0; $i < count($params); $i++) {
 		$string = str_replace("{" . $i . "}", $params[$i], $string);
 	}
-	return $string;
+	return sanitize_string($string, 'low', 'moderate');
 }
 
 /* ajax server actions use utf-8 */
@@ -450,7 +454,7 @@ function no_field($key)
 function failed_uploading_file($filename, $key)
 {
 	return getlocal2("errors.failed.uploading.file",
-		array($filename, getlocal($key)));
+		array(htmlspecialchars($filename), getlocal($key)));
 }
 
 function wrong_field($key)
@@ -469,8 +473,8 @@ function get_popup($href, $jshref, $message, $title, $wndName, $options)
 function get_image($href, $width, $height)
 {
 	if ($width != 0 && $height != 0)
-		return "<img src=\"$href\" border=\"0\" width=\"$width\" height=\"$height\" alt=\"\"/>";
-	return "<img src=\"$href\" border=\"0\" alt=\"\"/>";
+		return "<img src=\"" . htmlspecialchars($href) . "\" border=\"0\" width=\"" . htmlspecialchars($width) . "\" height=\"" . htmlspecialchars($height) . "\" alt=\"\"/>";
+	return "<img src=\"" . htmlspecialchars($href) . "\" border=\"0\" alt=\"\"/>";
 }
 
 function get_gifimage_size($filename)
@@ -728,6 +732,84 @@ function setcsrftoken()
 	if (!isset($_SESSION['csrf_token'])) {
 		$_SESSION['csrf_token'] = sha1(rand(10000000, 99999999));
 	}
+}
+
+/* simple HTML sanitation
+ *
+ * includes some code from the PHP Strip Attributes Class For XML and HTML
+ * Copyright 2009 David (semlabs.co.uk)
+ * Available under the MIT License.
+ *
+ * http://semlabs.co.uk/journal/php-strip-attributes-class-for-xml-and-html
+ *
+ */
+
+function sanitize_string($string, $tags_level = 'high', $attr_level = 'high')
+{
+	$sanitize_tags = array(
+		'high' => '',
+		'moderate' => '<span><em><strong><b><i><br>',
+		'low' => '<span><em><strong><b><i><br><p><ul><ol><li><a><font><style>'
+	);
+
+	$sanitize_attributes = array(
+		'high' => array(),
+		'moderate' => array('class', 'style', 'href', 'rel', 'id'),
+		'low' => false
+	);
+
+	$tags_level = array_key_exists($tags_level, $sanitize_tags) ? $tags_level : 'high';
+	$string = strip_tags($string, $sanitize_tags[$tags_level]);
+
+	$attr_level = array_key_exists($attr_level, $sanitize_attributes) ? $attr_level : 'high';
+	if ($sanitize_attributes[$attr_level]) {
+
+		preg_match_all("/<([^ !\/\>\n]+)([^>]*)>/i", $string, $elements);
+		foreach ($elements[1] as $key => $element) {
+			if ($elements[2][$key]) {
+
+				$new_attributes = '';
+				preg_match_all("/([^ =]+)\s*=\s*[\"|']{0,1}([^\"']*)[\"|']{0,1}/i", $elements[2][$key], $attributes );
+
+				if ($attributes[1]) {
+					foreach ($attributes[1] as $attr_key => $attr) {
+						if (in_array($attributes[1][$attr_key], $sanitize_attributes[$attr_level])) {
+							$new_attributes .= ' ' . $attributes[1][$attr_key] . '="' . $attributes[2][$attr_key] . '"';
+						}
+					}
+				}
+
+				$replacement = '<' . $elements[1][$key] . $new_attributes . '>';
+				$string = preg_replace( '/' . reg_escape($elements[0][$key]) . '/', $replacement, $string );
+
+			}
+		}
+
+	}
+
+	return $string;
+}
+
+function reg_escape ($string) {
+
+	$conversions = array(	"^" => "\^",
+				"[" => "\[",
+				"." => "\.",
+				"$" => "\$",
+				"{" => "\{",
+				"*" => "\*",
+				"(" => "\(",
+				"\\" => "\\\\",
+				"/" => "\/",
+				"+" => "\+",
+				")" => "\)",
+				"|" => "\|",
+				"?" => "\?",
+				"<" => "\<",
+				">" => "\>"
+	);
+
+	return strtr($string, $conversions);
 }
 
 ?>

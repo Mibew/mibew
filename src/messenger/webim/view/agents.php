@@ -31,14 +31,14 @@ function tpl_content() { global $page, $webimroot, $errors;
 <?php echo getlocal("page_agents.intro") ?>
 <br />
 <br />
-<?php 
+<?php
 require_once('inc_errors.php');
 ?>
 
 <?php if($page['canmodify']) { ?>
 <div class="tabletool">
 	<img src='<?php echo $webimroot ?>/images/buttons/createagent.gif' border="0" alt="" />
-	<a href='<?php echo $webimroot ?>/operator/operator.php' title="<?php echo getlocal("page_agents.new_agent") ?>">
+	<a href='<?php echo $webimroot ?>/operator/operator.php' title="<?php echo htmlspecialchars(getlocal("page_agents.new_agent")) ?>">
 		<?php echo getlocal("page_agents.new_agent") ?>
 	</a>
 </div>
@@ -64,7 +64,7 @@ require_once('inc_errors.php');
 <?php foreach( $page['allowedAgents'] as $a ) { ?>
 <tr>
 	<td class="notlast">
-   		<a id="ti<?php echo $a['operatorid'] ?>" href="<?php echo $webimroot ?>/operator/operator.php?op=<?php echo $a['operatorid'] ?>" class="man">
+   		<a id="ti<?php echo htmlspecialchars($a['operatorid']) ?>" href="<?php echo $webimroot ?>/operator/operator.php?op=<?php echo urlencode($a['operatorid']) ?>" class="man">
    			<?php echo htmlspecialchars(topage($a['vclogin'])) ?>
    		</a>
 	</td>
@@ -82,11 +82,11 @@ require_once('inc_errors.php');
 	</td>
 <?php if($page['canmodify']) { ?>
 	<td>
-  <a class="removelink" id="i<?php echo $a['operatorid'] ?>" href="<?php echo $webimroot ?>/operator/operators.php?act=del&amp;id=<?php echo $a['operatorid'] ?><?php print_csrf_token_in_url() ?>">
+  <a class="removelink" id="i<?php echo htmlspecialchars($a['operatorid']) ?>" href="<?php echo $webimroot ?>/operator/operators.php?act=del&amp;id=<?php echo urlencode($a['operatorid']) ?><?php print_csrf_token_in_url() ?>">
 			remove
 		</a>
 	</td>
-<?php } ?>	
+<?php } ?>
 </tr>
 <?php } ?>
 </tbody>
@@ -98,7 +98,7 @@ $('a.removelink').click(function(){
 });
 //--></script>
 
-<?php 
+<?php
 } /* content */
 
 require_once('inc_main.php');

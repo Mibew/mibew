@@ -78,7 +78,7 @@ if (!$group) {
 }
 
 $page['formop'] = array();
-$page['currentgroup'] = $group ? topage(htmlspecialchars($group['vclocalname'])) : "";
+$page['currentgroup'] = $group ? topage($group['vclocalname']) : "";
 
 foreach (get_group_members($groupid) as $rel) {
 	$page['formop'][] = $rel['operatorid'];

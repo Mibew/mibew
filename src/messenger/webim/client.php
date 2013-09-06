@@ -131,14 +131,14 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 		$_SESSION['threadid'] = $thread['threadid'];
 		
 		if( $referrer ) {
-			post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.came.from',array($referrer)),$link);
+			post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.came.from',array($referrer),true),$link);
 		}
-		post_message_($thread['threadid'],$kind_info,getstring('chat.wait'),$link);
+		post_message_($thread['threadid'],$kind_info,getstring('chat.wait', true),$link);
 		if($email) {
-			post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.email',array($email)),$link);
+			post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.email',array($email),true),$link);
 		}
 		if($info) {
-			post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.info',array($info)),$link);
+			post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.visitor.info',array($info),true),$link);
 		}
 		if($firstmessage) {
 			$postedid = post_message_($thread['threadid'],$kind_user,$firstmessage,$link,$visitor['name']);

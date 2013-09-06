@@ -41,29 +41,29 @@ function tpl_content() { global $page, $webimroot;
 		</div>
 		
 		<?php echo getlocal("updates.current")?><br/>
-			<div id="cver"><?php echo $page['version'] ?></div>
-			
+			<div id="cver"><?php echo htmlspecialchars($page['version']) ?></div>
+
 		<br/>
 
 		<?php echo getlocal("updates.latest")?>
 			<div id="lver"></div>
-		
+
 		<br/>
 			
 		<?php echo getlocal("updates.installed_locales")?><br/>
 			<?php foreach( $page['localizations'] as $loc ) { ?>
-				<?php echo $loc ?>
+				<?php echo htmlspecialchars($loc) ?>
 			<?php } ?>
-		
-		<br/><br/>	
-		
+
+		<br/><br/>
+
 		<?php echo getlocal("updates.env")?><br/>
-			PHP <?php echo $page['phpVersion'] ?>
+			PHP <?php echo htmlspecialchars($page['phpVersion']) ?>
 
 	</div><div class="formbottom"><div class="formbottomi"></div></div></div>
-</div>		
+</div>
 
-<?php 
+<?php
 } /* content */
 
 require_once('inc_main.php');

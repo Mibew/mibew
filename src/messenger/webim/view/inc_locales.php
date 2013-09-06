@@ -28,10 +28,10 @@ function tpl_menu() { global $page, $webimroot, $errors, $current_locale;
 				<h2><b><?php echo getlocal("lang.choose") ?></b></h2>
 				<ul class="locales">
 <?php foreach($page['localeLinks'] as $id => $title) { ?>
-					<li<?php menuloc($id)?> ><a href='?locale=<?php echo $id ?>'><?php echo $title ?></a></li>
+					<li<?php menuloc($id)?> ><a href="?locale=<?php echo urlencode($id) ?>"><?php echo htmlspecialchars($title) ?></a></li>
 <?php } ?>
 				</ul>
 			</li>
-<?php 
+<?php
 }
 ?>

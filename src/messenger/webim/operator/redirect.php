@@ -39,14 +39,14 @@ if (isset($_GET['nextGroup'])) {
 	$nextGroup = group_by_id($nextid);
 
 	if ($nextGroup) {
-		$page['message'] = getlocal2("chat.redirected.group.content", array(topage(get_group_name($nextGroup))));
+		$page['message'] = getlocal2("chat.redirected.group.content", array(htmlspecialchars(topage(get_group_name($nextGroup)))));
 		if ($thread['istate'] == $state_chatting) {
 			$link = connect();
 			commit_thread($threadid,
 						  array("istate" => $state_waiting, "nextagent" => 0, "groupid" => $nextid, "agentId" => 0, "agentName" => "''"), $link);
 			post_message_($thread['threadid'], $kind_events,
 						  getstring2_("chat.status.operator.redirect",
-									  array(get_operator_name($operator)), $thread['locale']), $link);
+									  array(get_operator_name($operator)), $thread['locale'], true), $link);
 			mysql_close($link);
 		} else {
 			$errors[] = getlocal("chat.redirect.cannot");
@@ -60,7 +60,7 @@ if (isset($_GET['nextGroup'])) {
 	$nextOperator = operator_by_id($nextid);
 
 	if ($nextOperator) {
-		$page['message'] = getlocal2("chat.redirected.content", array(topage(get_operator_name($nextOperator))));
+		$page['message'] = getlocal2("chat.redirected.content", array(htmlspecialchars(topage(get_operator_name($nextOperator)))));
 		if ($thread['istate'] == $state_chatting) {
 			$link = connect();
 			$threadupdate = array("istate" => $state_waiting, "nextagent" => $nextid, "agentId" => 0);
@@ -72,7 +72,7 @@ if (isset($_GET['nextGroup'])) {
 			commit_thread($threadid, $threadupdate, $link);
 			post_message_($thread['threadid'], $kind_events,
 						  getstring2_("chat.status.operator.redirect",
-									  array(get_operator_name($operator)), $thread['locale']), $link);
+									  array(get_operator_name($operator)), $thread['locale'], true), $link);
 			mysql_close($link);
 		} else {
 			$errors[] = getlocal("chat.redirect.cannot");

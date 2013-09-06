@@ -46,20 +46,20 @@ if( $page['pagination.items'] ) {
 	foreach( $page['pagination.items'] as $chatthread ) { ?>
 	<tr>
 		<td>
-			<a href="<?php echo $webimroot ?>/operator/threadprocessor.php?threadid=<?php echo $chatthread['threadid'] ?>" target="_blank" onclick="this.newWindow = window.open('<?php echo $webimroot ?>/operator/threadprocessor.php?threadid=<?php echo $chatthread['threadid'] ?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=720,height=520,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo topage(htmlspecialchars($chatthread['userName'])) ?></a>
+			<a href="<?php echo $webimroot ?>/operator/threadprocessor.php?threadid=<?php echo urlencode($chatthread['threadid']) ?>" target="_blank" onclick="this.newWindow = window.open('<?php echo $webimroot ?>/operator/threadprocessor.php?threadid=<?php echo urlencode($chatthread['threadid']) ?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=720,height=520,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo topage(htmlspecialchars($chatthread['userName'])) ?></a>
 		</td>
 		<td>
-        	<?php echo get_user_addr(topage($chatthread['remote'])) ?>
+		<?php echo get_user_addr(topage($chatthread['remote'])) ?>
 		</td>
 		<td>
-        	<?php if( $chatthread['agentName'] ) { ?><?php echo topage(htmlspecialchars($chatthread['agentName'])) ?><?php } ?>
+		<?php if( $chatthread['agentName'] ) { ?><?php echo topage(htmlspecialchars($chatthread['agentName'])) ?><?php } ?>
 		</td>
 		<td>
 			<?php echo date_diff_to_text($chatthread['modified']-$chatthread['created']) ?>, <?php echo date_to_text($chatthread['created']) ?>
 		</td>
 	</tr>
 <?php
-	} 
+	}
 } else {
 ?>
 	<tr>
@@ -67,8 +67,8 @@ if( $page['pagination.items'] ) {
 		<?php echo getlocal("tag.pagination.no_items") ?>
 	</td>
 	</tr>
-<?php 
-} 
+<?php
+}
 ?>
 </tbody>
 </table>
@@ -77,10 +77,10 @@ if( $page['pagination.items'] ) {
 		echo "<br/>";
 		echo generate_pagination($page['pagination']);
 	}
-} 
+}
 ?>
 
-<?php 
+<?php
 } /* content */
 
 require_once('inc_main.php');

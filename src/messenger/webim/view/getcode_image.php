@@ -41,7 +41,7 @@ require_once('inc_errors.php');
 		<div class="fieldinrow">
 			<div class="flabel"><?php echo getlocal("page.gen_button.choose_locale") ?></div>
 			<div class="fvaluenodesc">
-				<select name="lang" onchange="this.form.submit();"><?php foreach($page['availableLocales'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("lang") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+				<select name="lang" onchange="this.form.submit();"><?php foreach($page['availableLocales'] as $k) { echo "<option value=\"" . htmlspecialchars($k) . "\"" . ($k == form_value("lang") ? " selected=\"selected\"" : "").">" . htmlspecialchars($k) . "</option>"; } ?></select>
 			</div>
 		</div>
 
@@ -49,7 +49,7 @@ require_once('inc_errors.php');
 		<div class="fieldinrow">
 			<div class="flabel"><?php echo getlocal("page.gen_button.choose_group") ?></div>
 			<div class="fvaluenodesc">
-				<select name="group" onchange="this.form.submit();"><?php foreach($page['groups'] as $k) { echo "<option value=\"".$k['groupid']."\"".($k['groupid'] == form_value("group") ? " selected=\"selected\"" : "").">".$k['vclocalname']."</option>"; } ?></select>
+				<select name="group" onchange="this.form.submit();"><?php foreach($page['groups'] as $k) { echo "<option value=\"" . htmlspecialchars($k['groupid']) . "\"".($k['groupid'] == form_value("group") ? " selected=\"selected\"" : "").">" . htmlspecialchars($k['vclocalname']) . "</option>"; } ?></select>
 			</div>
 		</div>
 <?php } ?>
@@ -58,14 +58,14 @@ require_once('inc_errors.php');
 		<div class="fieldinrow">
 			<div class="flabel"><?php echo getlocal("page.gen_button.choose_image") ?></div>
 			<div class="fvaluenodesc">
-				<select name="i" onchange="this.form.submit();"><?php foreach($page['availableImages'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("image") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+				<select name="i" onchange="this.form.submit();"><?php foreach($page['availableImages'] as $k) { echo "<option value=\"" . htmlspecialchars($k) . "\"".($k == form_value("image") ? " selected=\"selected\"" : "").">" . htmlspecialchars($k) . "</option>"; } ?></select>
 			</div>
 		</div>
 
 		<div class="fieldinrow">
 			<div class="flabel"><?php echo getlocal("page.gen_button.choose_style") ?></div>
 			<div class="fvaluenodesc">
-				<select name="style" onchange="this.form.submit();"><?php foreach($page['availableStyles'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("style") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
+				<select name="style" onchange="this.form.submit();"><?php foreach($page['availableStyles'] as $k => $v) { echo "<option value=\"" . htmlspecialchars($k) . "\"".($k == form_value("style") ? " selected=\"selected\"" : "").">" . htmlspecialchars($v) . "</option>"; } ?></select>
 			</div>
 		</div>
 		<br clear="all"/>
@@ -113,7 +113,7 @@ require_once('inc_errors.php');
 	</div>
 	
 	</div><div class="formbottom"><div class="formbottomi"></div></div></div>
-	</div>		
+	</div>
 </form>
 
 <?php 

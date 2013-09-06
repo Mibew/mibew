@@ -17,7 +17,7 @@
 
 function print_tabbar($maxwidth = 4) {
 	global $page;
-	
+
 	if($page['tabs']) {
 		$tabbar = $page['tabs'];
 		$len = count($tabbar);
@@ -25,17 +25,17 @@ function print_tabbar($maxwidth = 4) {
 		$tabbar2 = array();
 		for($i = 0; $i < $len; $i++) {
 			$tabbar2[] = $i != $selected
-				? "<li><a href=\"".$tabbar[$i]['link']."\">".$tabbar[$i]['title']."</a></li>\n"
-				: "<li class=\"active\"><a href=\"#\">".$tabbar[$i]['title']."</a></li>\n";
+				? "<li><a href=\"" . htmlspecialchars($tabbar[$i]['link']) . "\">" . htmlspecialchars($tabbar[$i]['title']) . "</a></li>\n"
+				: "<li class=\"active\"><a href=\"#\">" . htmlspecialchars($tabbar[$i]['title']) . "</a></li>\n";
 		}
-		
+
 		if($len > $maxwidth) { // && $len - $selected > $maxwidth
 			if($selected < $maxwidth) {
 				$tabbar = array_splice($tabbar2, 0, $maxwidth);
 				array_splice($tabbar2, count($tabbar2),0, $tabbar);
 			} // else 3 rows menu
 		}		
-		
+
 		echo "<ul class=\"tabs\">\n";
 		$i = 0;
 		foreach($tabbar2 as $v) {
@@ -43,7 +43,7 @@ function print_tabbar($maxwidth = 4) {
 				echo "</ul><br clear=\"all\"><ul class=\"tabs\">\n";
 			}
 			echo $v;
-			$i++; 	
+			$i++;
 		}
 		echo "</ul>";
 	}

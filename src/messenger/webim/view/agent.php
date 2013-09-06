@@ -32,7 +32,7 @@ function tpl_content() { global $page, $webimroot, $errors;
 <?php } ?>
 <br />
 <br />
-<?php 
+<?php
 require_once('inc_errors.php');
 ?>
 <?php if( $page['needChangePassword'] ) { ?>
@@ -47,7 +47,7 @@ require_once('inc_errors.php');
 <?php if( $page['opid'] || $page['canmodify'] ) { ?>
 <form name="agentForm" method="post" action="<?php echo $webimroot ?>/operator/operator.php">
 <?php print_csrf_token_input() ?>
-<input type="hidden" name="opid" value="<?php echo $page['opid'] ?>"/>
+<input type="hidden" name="opid" value="<?php echo htmlspecialchars($page['opid']) ?>"/>
 <?php if(!$page['showjabber']) { ?>
 <input type="hidden" name="jabber" value="<?php echo form_value('jabber') ?>"/>
 <?php if(form_value_cb('jabbernotify')) { ?><input type="hidden" name="jabbernotify" value="on"/><?php } ?>
@@ -133,7 +133,7 @@ require_once('inc_errors.php');
 
 <?php if($page['canmodify']) { ?>
 		<div class="fbutton">
-			<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
+			<input type="image" name="save" value="" src="<?php echo $webimroot . htmlspecialchars(getlocal("image.button.save")) ?>" alt="<?php echo htmlspecialchars(getlocal("button.save")) ?>"/>
 		</div>
 <?php } ?>
 	</div>
@@ -147,7 +147,7 @@ require_once('inc_errors.php');
 
 </form>
 <?php } ?>
-<?php 
+<?php
 } /* content */
 
 require_once('inc_main.php');

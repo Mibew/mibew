@@ -36,9 +36,9 @@ function generate_button($title, $locale, $style, $group, $inner, $showhost, $fo
 		$link = append_query($link, "group=$group");
 
 	$modsecfix = $modsecurity ? ".replace('http://','').replace('https://','')" : "";
-	$jslink = append_query("'" . $link, "url='+escape(document.location.href$modsecfix)+'&amp;referrer='+escape(document.referrer$modsecfix)");
-	$temp = get_popup($link, "$jslink",
-					  $inner, $title, "webim", "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1");
+	$jslink = htmlspecialchars(append_query("'" . $link, "url='+escape(document.location.href$modsecfix)+'&referrer='+escape(document.referrer$modsecfix)"));
+	$temp = get_popup(htmlspecialchars($link), "$jslink",
+					  $inner, htmlspecialchars($title), "webim", "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1");
 	return "<!-- mibew button -->" . $temp . "<!-- / mibew button -->";
 }
 

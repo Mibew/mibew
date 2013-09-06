@@ -54,7 +54,7 @@ $notification = $page['notification'];
 </div>
 
 <div class="message">
-<?php echo topage(prepare_html_message(htmlspecialchars($notification['tmessage']))) ?>
+<?php echo topage(prepare_html_message($notification['tmessage'])) ?>
 </div>
 </div>
 
@@ -64,7 +64,7 @@ $notification = $page['notification'];
 <br />
 
 
-<?php 
+<?php
 } /* content */
 
 require_once('inc_main.php');

@@ -37,13 +37,13 @@ function tpl_content() { global $page, $webimroot;
 					<input type="text" name="q" size="80" value="<?php echo form_value('q') ?>" class="formauth"/>
 				</div>
 				<div id="searchbutton">
-					<input type="image" name="search" src='<?php echo $webimroot.getlocal("image.button.search") ?>' alt='<?php echo getlocal("button.search") ?>'/>
+					<input type="image" name="search" src="<?php echo $webimroot . htmlspecialchars(getlocal("image.button.search")) ?>" alt="<?php echo htmlspecialchars(getlocal("button.search")) ?>"/>
 				</div>
 			</div>
 			<br clear="all"/>
 		</div>
 	</div>
-	
+
 	</div><div class="formbottom"><div class="formbottomi"></div></div></div>
 </form>
 <br/>
@@ -67,33 +67,33 @@ function tpl_content() { global $page, $webimroot;
 </th></tr>
 </thead>
 <tbody>
-<?php 
+<?php
 if( $page['pagination.items'] ) {
 	foreach( $page['pagination.items'] as $chatthread ) { ?>
 	<tr>
 		<td>
-			<a href="<?php echo $webimroot ?>/operator/threadprocessor.php?threadid=<?php echo $chatthread['threadid'] ?>" target="_blank" onclick="this.newWindow = window.open('<?php echo $webimroot ?>/operator/threadprocessor.php?threadid=<?php echo $chatthread['threadid'] ?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=720,height=520,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo topage(htmlspecialchars($chatthread['userName'])) ?></a>
+			<a href="<?php echo $webimroot ?>/operator/threadprocessor.php?threadid=<?php echo urlencode($chatthread['threadid']) ?>" target="_blank" onclick="this.newWindow = window.open('<?php echo $webimroot ?>/operator/threadprocessor.php?threadid=<?php echo urlencode($chatthread['threadid']) ?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=720,height=520,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo topage(htmlspecialchars($chatthread['userName'])) ?></a>
 		</td>
 		<td>
-        	<?php echo get_user_addr(topage($chatthread['remote'])) ?>
+		<?php echo get_user_addr(topage($chatthread['remote'])) ?>
 		</td>
 		<td>
-        	<?php if( $chatthread['agentName'] ) {
-        		echo topage(htmlspecialchars($chatthread['agentName']));
-        	} else if($chatthread['groupid'] && $chatthread['groupid'] != 0 && isset($page['groupName'][$chatthread['groupid']])) {
-        		echo "- ".topage(htmlspecialchars($page['groupName'][$chatthread['groupid']]))." -";
-        	} 
-        	?>
+		<?php if( $chatthread['agentName'] ) {
+			echo topage(htmlspecialchars($chatthread['agentName']));
+		} else if($chatthread['groupid'] && $chatthread['groupid'] != 0 && isset($page['groupName'][$chatthread['groupid']])) {
+			echo "- ".topage(htmlspecialchars($page['groupName'][$chatthread['groupid']]))." -";
+		}
+		?>
 		</td>
 		<td>
-        	<?php echo topage(htmlspecialchars($chatthread['size'])) ?>
+		<?php echo topage(htmlspecialchars($chatthread['size'])) ?>
 		</td>
 		<td>
 			<?php echo date_diff_to_text($chatthread['modified']-$chatthread['created']) ?>, <?php echo date_to_text($chatthread['created']) ?>
 		</td>
 	</tr>
 <?php
-	} 
+	}
 } else {
 ?>
 	<tr>
@@ -101,20 +101,20 @@ if( $page['pagination.items'] ) {
 		<?php echo getlocal("tag.pagination.no_items") ?>
 	</td>
 	</tr>
-<?php 
-} 
+<?php
+}
 ?>
 </tbody>
 </table>
 <?php
-	if( $page['pagination.items'] ) { 
+	if( $page['pagination.items'] ) {
 		echo "<br/>";
 		echo generate_pagination($page['pagination']);
 	}
-} 
+}
 ?>
 
-<?php 
+<?php
 } /* content */
 
 require_once('inc_main.php');

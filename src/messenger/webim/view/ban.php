@@ -21,7 +21,7 @@ function tpl_content() { global $page, $webimroot, $errors;
 ?>
 
 <?php if( $page['saved'] ) { ?>
-	<?php echo getlocal2("page_ban.sent",array($page['address'])) ?>
+	<?php echo getlocal2("page_ban.sent",array(htmlspecialchars($page['address']))) ?>
 
 	<script type="text/javascript"><!--
 		setTimeout( (function() { window.close(); }), 1500 );
@@ -42,9 +42,9 @@ require_once('inc_errors.php');
 <?php } ?>
 
 <form name="banForm" method="post" action="<?php echo $webimroot ?>/operator/ban.php">
-<input type="hidden" name="banId" value="<?php echo $page['banId'] ?>"/>
+<input type="hidden" name="banId" value="<?php echo htmlspecialchars($page['banId']) ?>"/>
 <?php if( $page['threadid'] ) { ?>
-<input type="hidden" name="threadid" value="<?php echo $page['threadid'] ?>"/>
+<input type="hidden" name="threadid" value="<?php echo htmlspecialchars($page['threadid']) ?>"/>
 <?php } ?>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 	
@@ -77,7 +77,7 @@ require_once('inc_errors.php');
 		</div>
 		
 		<div class="fbutton">
-			<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
+			<input type="image" name="save" value="" src="<?php echo $webimroot . htmlspecialchars(getlocal("image.button.save")) ?>" alt="<?php echo htmlspecialchars(getlocal("button.save")) ?>"/>
 		</div>
 	</div>
 	

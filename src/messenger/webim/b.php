@@ -25,7 +25,7 @@ if($referer && isset($_SESSION['threadid'])) {
 	$link = connect();
 	$thread = thread_by_id_($_SESSION['threadid'], $link);
     if ($thread && $thread['istate'] != $state_closed) {
-        $msg = getstring2_("chat.client.visited.page", array($referer), $thread['locale']);
+        $msg = getstring2_("chat.client.visited.page", array($referer), $thread['locale'], true);
         post_message_($thread['threadid'], $kind_for_agent,$msg,$link);
     }
     mysql_close($link);

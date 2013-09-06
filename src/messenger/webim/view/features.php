@@ -22,7 +22,7 @@ $page['title'] = getlocal("settings.title");
 $page['menuid'] = "settings";
 
 function tpl_header() { global $page, $webimroot;
-?>	
+?>
 <script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/jquery-1.4.2.min.js"></script>
 <script type="text/javascript" language="javascript">
 function updateSurvey() {
@@ -61,7 +61,7 @@ function tpl_content() { global $page, $webimroot, $errors;
 <?php echo getlocal("page_settings.intro") ?>
 <br />
 <br />
-<?php 
+<?php
 require_once('inc_errors.php');
 ?>
 <?php if( $page['stored'] ) { ?>
@@ -84,7 +84,7 @@ require_once('inc_errors.php');
 			<div class="fdescr"> &mdash; <?php echo getlocal('settings.usercanchangename.description') ?></div>
 			<br clear="all"/>
 		</div>
-		
+
 		<div class="field">
 			<div class="flabel"><?php echo getlocal('settings.enablessl') ?></div>
 			<div class="fvalue">
@@ -164,7 +164,7 @@ require_once('inc_errors.php');
 				<div class="fdescr"> &mdash; <?php echo getlocal('settings.survey.askgroup.description') ?></div>
 				<br clear="all"/>
 			</div>
-			
+
 			<div class="subfield undersurvey">
 				<div class="flabel"><?php echo getlocal('settings.survey.askmessage') ?></div>
 				<div class="fvalue">
@@ -213,16 +213,16 @@ require_once('inc_errors.php');
 
     <?php if($page['canmodify']) { ?>
 		<div class="fbutton">
-			<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
+			<input type="image" name="save" value="" src="<?php echo $webimroot . htmlspecialchars(getlocal("image.button.save")) ?>" alt="<?php echo htmlspecialchars(getlocal("button.save")) ?>"/>
 		</div>
     <?php } ?>
 	</div>
 	
 	</div><div class="formbottom"><div class="formbottomi"></div></div></div>
-	</div>		
+	</div>
 </form>
 
-<?php 
+<?php
 } /* content */
 
 require_once('inc_main.php');

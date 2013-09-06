@@ -57,8 +57,8 @@ foreach( $output as $msg ) {
 	$history .= $msg;
 }
 
-$subject = getstring("mail.user.history.subject");
-$body = getstring2("mail.user.history.body", array($thread['userName'],$history) );
+$subject = getstring("mail.user.history.subject", true);
+$body = getstring2("mail.user.history.body", array($thread['userName'],$history), true);
 
 $link = connect();
 webim_mail($email, $webim_mailbox, $subject, $body, $link);

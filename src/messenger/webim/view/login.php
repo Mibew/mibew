@@ -33,18 +33,18 @@ function tpl_content() { global $page, $webimroot, $errors;
 <form name="loginForm" method="post" action="<?php echo $webimroot ?>/operator/login.php">
 	<div id="loginpane">
 
-	<div class="header">	
+	<div class="header">
 		<h2><?php echo getlocal("page_login.title") ?></h2>
 	</div>
 
 	<div class="fieldForm">
-	
+
 		<?php echo getlocal("page_login.intro") ?><br/><br/>
 
-<?php 
+<?php
 require_once('inc_errors.php');
 ?>
-	
+
 		<div class="field">
 			<div class="fleftlabel"><?php echo getlocal("page_login.login") ?></div>
 			<div class="fvalue">
@@ -72,7 +72,7 @@ require_once('inc_errors.php');
 		</div>
 
 		<div class="fbutton">
-			<input type="image" name="login" src='<?php echo $webimroot.getlocal("image.button.login") ?>' alt='<?php echo getlocal("button.enter") ?>'/>
+			<input type="image" name="login" src="<?php echo $webimroot . htmlspecialchars(getlocal("image.button.login")) ?>" alt="<?php echo htmlspecialchars(getlocal("button.enter")) ?>"/>
 
 			<div class="links">
 				<a href="restore.php"><?php echo getlocal("restore.pwd.message") ?></a><br/>
@@ -81,10 +81,10 @@ require_once('inc_errors.php');
 
 	</div>
 
-	</div>		
+	</div>
 </form>
 
-<?php 
+<?php
 } /* content */
 
 require_once('inc_main.php');

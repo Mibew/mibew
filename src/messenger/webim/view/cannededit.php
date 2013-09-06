@@ -35,16 +35,16 @@ function tpl_content() { global $page, $webimroot, $errors;
 <?php echo $page['key'] ? getlocal("cannededit.descr") : getlocal("cannednew.descr") ?>
 <br/>
 <br/>
-<?php 
+<?php
 require_once('inc_errors.php');
 ?>
 
 <form name="cannedForm" method="post" action="<?php echo $webimroot ?>/operator/cannededit.php">
 <?php print_csrf_token_input() ?>
-<input type="hidden" name="key" value="<?php echo $page['key'] ?>"/>
+<input type="hidden" name="key" value="<?php echo htmlspecialchars($page['key']) ?>"/>
 <?php if(!$page['key']) { ?>
-<input type="hidden" name="lang" value="<?php echo $page['locale'] ?>"/>
-<input type="hidden" name="group" value="<?php echo $page['groupid'] ?>"/>
+<input type="hidden" name="lang" value="<?php echo htmlspecialchars($page['locale']) ?>"/>
+<input type="hidden" name="group" value="<?php echo htmlspecialchars($page['groupid']) ?>"/>
 <?php } ?>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
@@ -55,18 +55,18 @@ require_once('inc_errors.php');
 				<textarea name="message" cols="20" rows="5" class="wide"><?php echo form_value('message') ?></textarea>
 			</div>
 		</div>
-	
+
 		<div class="fbutton">
-			<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
+			<input type="image" name="save" value="" src="<?php echo $webimroot . htmlspecialchars(getlocal("image.button.save")) ?>" alt="<?php echo htmlspecialchars(getlocal("button.save")) ?>"/>
 		</div>
 	</div>
-	
+
 	</div><div class="formbottom"><div class="formbottomi"></div></div></div>
 </form>
 
 <?php } ?>
 
-<?php 
+<?php
 } /* content */
 
 require_once('inc_main.php');

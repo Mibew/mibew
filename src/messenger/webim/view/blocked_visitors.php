@@ -37,7 +37,7 @@ require_once('inc_errors.php');
 
 <div class="tabletool">
 	<img src="<?php echo $webimroot ?>/images/buttons/createban.gif" border="0" alt=""/>
-	<a href="<?php echo $webimroot ?>/operator/ban.php" title="<?php echo getlocal("page_bans.add") ?>">
+	<a href="<?php echo $webimroot ?>/operator/ban.php" title="<?php echo htmlspecialchars(getlocal("page_bans.add")) ?>">
 		<?php echo getlocal("page_bans.add") ?>
 	</a>
 </div>
@@ -64,7 +64,7 @@ if( $page['pagination.items'] ) {
 	foreach( $page['pagination.items'] as $b ) { ?>
 	<tr>
 	<td class="notlast">
-		<a href="ban.php?id=<?php echo $b['banid'] ?>" class="man" id="ti<?php echo $b['banid'] ?>">
+		<a href="ban.php?id=<?php echo urlencode($b['banid']) ?>" class="man" id="ti<?php echo htmlspecialchars($b['banid']) ?>">
 		   	<?php echo htmlspecialchars($b['address']) ?>
 	   	</a>
 	</td>
@@ -81,7 +81,7 @@ if( $page['pagination.items'] ) {
 ?>
 	</td>
 	<td>
-		<a class="removelink" id="i<?php echo $b['banid'] ?>" href="<?php echo $webimroot ?>/operator/blocked.php?act=del&amp;id=<?php echo $b['banid'] ?>">
+		<a class="removelink" id="i<?php echo htmlspecialchars($b['banid']) ?>" href="<?php echo $webimroot ?>/operator/blocked.php?act=del&amp;id=<?php echo urlencode($b['banid']) ?>">
 			remove
 		</a>
 	</td>

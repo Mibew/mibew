@@ -35,43 +35,44 @@ function tpl_content() { global $page, $webimroot, $errors;
 <?php echo getlocal("page.translate.one") ?>
 <br/>
 <br/>
-<?php 
+<?php
 require_once('inc_errors.php');
 ?>
 
 <form name="translateForm" method="post" action="<?php echo $webimroot ?>/operator/translate.php">
 <?php print_csrf_token_input() ?>
-<input type="hidden" name="key" value="<?php echo $page['key'] ?>"/>
-<input type="hidden" name="target" value="<?php echo $page['target'] ?>"/>
+<input type="hidden" name="key" value="<?php echo htmlspecialchars($page['key']) ?>"/>
+<input type="hidden" name="target" value="<?php echo htmlspecialchars($page['target']) ?>"/>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
 	<div class="fieldForm">
 		<div class="field">
-			<div class="flabel"><?php echo $page['title1'] ?></div>
+			<div class="flabel"><?php echo htmlspecialchars($page['title1']) ?></div>
 			<div class="fvaluenodesc">
 				<textarea name="original" disabled="disabled" cols="20" rows="5" class="wide"><?php echo form_value('original') ?></textarea>
 			</div>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo $page['title2'] ?></div>
+			<div class="flabel"><?php echo htmlspecialchars($page['title2']) ?></div>
 			<div class="fvaluenodesc">
 				<textarea name="translation" cols="20" rows="5" class="wide"><?php echo form_value('translation') ?></textarea>
 			</div>
 		</div>
-	
+
 		<div class="fbutton">
-			<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
+			<input type="image" name="save" value="" src="<?php echo $webimroot . htmlspecialchars(getlocal("image.button.save")) ?>" alt="<?php echo htmlspecialchars(getlocal("button.save")) ?>"/>
 		</div>
 	</div>
-	
+
 	</div><div class="formbottom"><div class="formbottomi"></div></div></div>
 </form>
 
 <?php } ?>
 
-<?php 
+<?php
 } /* content */
 
 require_once('inc_main.php');
 ?>
+

@@ -27,7 +27,7 @@ function tpl_content() { global $page, $webimroot, $errors;
 <?php echo getlocal("page_settings.intro") ?>
 <br />
 <br />
-<?php 
+<?php
 require_once('inc_errors.php');
 ?>
 <?php if( $page['stored'] ) { ?>
@@ -96,21 +96,21 @@ require_once('inc_errors.php');
 		</div>
 		
 		<div class="fbutton">
-			<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
+			<input type="image" name="save" value="" src="<?php echo $webimroot . htmlspecialchars(getlocal("image.button.save")) ?>" alt="<?php echo htmlspecialchars(getlocal("button.save")) ?>"/>
 		</div>
 
 	</div>
-	
+
 	</div><div class="formbottom"><div class="formbottomi"></div></div></div>
-	</div>		
-	
+	</div>
+
 	<div class="asterisk">
 		<?php echo getlocal("common.asterisk_explanation") ?>
 	</div>
 
 </form>
 
-<?php 
+<?php
 } /* content */
 
 require_once('inc_main.php');

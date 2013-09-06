@@ -23,13 +23,13 @@ $page['headertitle'] = getlocal("app.title");
 $page['show_small_login'] = true;
 $page['fixedwrap'] = true;
 
-function tpl_content() { 
+function tpl_content() {
 	global $page, $webimroot, $errors;
 	
 	if($page['isdone']) {
 ?>
 <div id="loginpane">
-	<div class="header">	
+	<div class="header">
 		<h2><?php echo getlocal("resetpwd.changed.title") ?></h2>
 	</div>
 
@@ -37,32 +37,32 @@ function tpl_content() {
 		<?php echo getlocal("resetpwd.changed") ?>
 		<br/>
 		<br/>
-		<a href="login.php?login=<?php echo $page['loginname'] ?>"><?php echo getlocal("resetpwd.login") ?></a>
+		<a href="login.php?login=<?php echo urlencode($page['loginname']) ?>"><?php echo getlocal("resetpwd.login") ?></a>
 	</div>
-</div>	
-	
-<?php 		
+</div>
+
+<?php
 	} else {
 ?>
 
 <form name="resetForm" method="post" action="<?php echo $webimroot ?>/operator/resetpwd.php">
-<input type="hidden" name="id" value="<?php echo $page['id'] ?>"/>
-<input type="hidden" name="token" value="<?php echo $page['token'] ?>"/>
+<input type="hidden" name="id" value="<?php echo htmlspecialchars($page['id']) ?>"/>
+<input type="hidden" name="token" value="<?php echo htmlspecialchars($page['token']) ?>"/>
 
 	<div id="loginpane">
 
-	<div class="header">	
+	<div class="header">
 		<h2><?php echo getlocal("resetpwd.title") ?></h2>
 	</div>
 
 	<div class="fieldForm">
-	
+
 		<?php echo getlocal("resetpwd.intro") ?><br/><br/>
 
-<?php 
+<?php
 require_once('inc_errors.php');
 ?>
-	
+
 <?php if($page['showform']) { ?>
 		<div class="field">
 			<div class="fleftlabel"><?php echo getlocal('form.field.password') ?></div>
@@ -83,11 +83,11 @@ require_once('inc_errors.php');
 		<div class="fbutton">
 			<table class="submitbutton"><tr>
 				<td><a href="javascript:document.resetForm.submit();">
-					<img src='<?php echo $webimroot ?>/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
+					<img src="<?php echo $webimroot ?>/images/submit.gif" width="40" height="35" border="0" alt="" /></a></td>
 				<td class="submit"><a href="javascript:document.resetForm.submit();">
 					<?php echo getlocal("resetpwd.submit") ?></a></td>
 				<td><a href="javascript:document.resetForm.submit();">
-					<img src='<?php echo $webimroot ?>/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
+					<img src="<?php echo $webimroot ?>/images/submitrest.gif" width="10" height="35" border="0" alt="" /></a></td>
 			</tr></table>
 
 			<div class="links">
@@ -99,10 +99,10 @@ require_once('inc_errors.php');
 <?php } ?>
 	</div>
 
-	</div>		
+	</div>
 </form>
 
-<?php 
+<?php
 	}
 } /* content */
 

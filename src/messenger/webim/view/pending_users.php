@@ -21,21 +21,21 @@ $page['menuid'] = "users";
 
 
 function tpl_header() { global $page, $webimroot, $jsver;
-?>	
+?>
 <script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/<?php echo $jsver ?>/common.js"></script>
 <script type="text/javascript" language="javascript"><!--
 var localized = new Array(
-    "<?php echo getlocal("pending.table.speak") ?>",
-    "<?php echo getlocal("pending.table.view") ?>",
-    "<?php echo getlocal("pending.table.ban") ?>",
+    "<?php echo htmlspecialchars(getlocal("pending.table.speak")) ?>",
+    "<?php echo htmlspecialchars(getlocal("pending.table.view")) ?>",
+    "<?php echo htmlspecialchars(getlocal("pending.table.ban")) ?>",
     "<?php echo htmlspecialchars(getlocal("pending.menu.show")) ?>",
     "<?php echo htmlspecialchars(getlocal("pending.menu.hide")) ?>",
     "<?php echo htmlspecialchars(getlocal("pending.popup_notification")) ?>"
 );
 var updaterOptions = {
 	url:"<?php echo $webimroot ?>/operator/update.php",wroot:"<?php echo $webimroot ?>",
-	agentservl:"<?php echo $webimroot ?>/operator/agent.php", frequency:<?php echo $page['frequency'] ?>, istatus:<?php echo $page['istatus'] ?>,  
-	noclients:"<?php echo getlocal("clients.no_clients") ?>", havemenu: <?php echo $page['havemenu'] ?>, showpopup: <?php echo $page['showpopup'] ?>, showonline: <?php echo $page['showonline'] ?> };
+	agentservl:"<?php echo $webimroot ?>/operator/agent.php", frequency:<?php echo htmlspecialchars($page['frequency']) ?>, istatus:<?php echo htmlspecialchars($page['istatus']) ?>,
+	noclients:"<?php echo htmlspecialchars(getlocal("clients.no_clients")) ?>", havemenu: <?php echo htmlspecialchars($page['havemenu']) ?>, showpopup: <?php echo htmlspecialchars($page['showpopup']) ?>, showonline: <?php echo htmlspecialchars($page['showonline']) ?> };
 //--></script>
 <script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/<?php echo $jsver ?>/users.js"></script>
 <?php
@@ -59,11 +59,11 @@ function tpl_content() { global $page, $webimroot;
 <tr>
 	<th class="first"><?php echo getlocal("pending.table.head.name") ?></th>
 	<th><?php echo getlocal("pending.table.head.contactid") ?></th>
-    <th><?php echo getlocal("pending.table.head.state") ?></th>
-    <th><?php echo getlocal("pending.table.head.operator") ?></th>
-    <th><?php echo getlocal("pending.table.head.total") ?></th>
-    <th><?php echo getlocal("pending.table.head.waittime") ?></th>
-    <th><?php echo getlocal("pending.table.head.etc") ?></th>
+	<th><?php echo getlocal("pending.table.head.state") ?></th>
+	<th><?php echo getlocal("pending.table.head.operator") ?></th>
+	<th><?php echo getlocal("pending.table.head.total") ?></th>
+	<th><?php echo getlocal("pending.table.head.waittime") ?></th>
+	<th><?php echo getlocal("pending.table.head.etc") ?></th>
 </tr>
 </thead>
 <tbody>
@@ -97,7 +97,7 @@ function tpl_content() { global $page, $webimroot;
 </div>
 <?php } ?>
 
-<?php 
+<?php
 } /* content */
 
 require_once('inc_main.php');
