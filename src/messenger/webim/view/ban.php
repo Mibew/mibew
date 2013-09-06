@@ -42,6 +42,7 @@ require_once('inc_errors.php');
 <?php } ?>
 
 <form name="banForm" method="post" action="<?php echo $webimroot ?>/operator/ban.php">
+<?php print_csrf_token_input() ?>
 <input type="hidden" name="banId" value="<?php echo htmlspecialchars($page['banId']) ?>"/>
 <?php if( $page['threadid'] ) { ?>
 <input type="hidden" name="threadid" value="<?php echo htmlspecialchars($page['threadid']) ?>"/>

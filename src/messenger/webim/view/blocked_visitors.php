@@ -81,7 +81,7 @@ if( $page['pagination.items'] ) {
 ?>
 	</td>
 	<td>
-		<a class="removelink" id="i<?php echo htmlspecialchars($b['banid']) ?>" href="<?php echo $webimroot ?>/operator/blocked.php?act=del&amp;id=<?php echo urlencode($b['banid']) ?>">
+		<a class="removelink" id="i<?php echo htmlspecialchars($b['banid']) ?>" href="<?php echo $webimroot ?>/operator/blocked.php?act=del&amp;id=<?php echo urlencode($b['banid']) ?><?php print_csrf_token_in_url() ?>">
 			remove
 		</a>
 	</td>

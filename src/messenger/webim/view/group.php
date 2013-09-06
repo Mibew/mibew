@@ -40,6 +40,7 @@ require_once('inc_errors.php');
 <?php } ?>
 
 <form name="groupForm" method="post" action="<?php echo $webimroot ?>/operator/group.php">
+<?php print_csrf_token_input() ?>
 <input type="hidden" name="gid" value="<?php echo htmlspecialchars($page['grid']) ?>"/>
 	<div>
 <?php print_tabbar(); ?>

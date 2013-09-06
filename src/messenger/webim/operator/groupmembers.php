@@ -20,6 +20,7 @@ require_once('../libs/operator.php');
 require_once('../libs/groups.php');
 
 $operator = check_login();
+csrfchecktoken();
 
 function get_group_members($groupid)
 {

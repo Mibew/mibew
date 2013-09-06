@@ -21,6 +21,8 @@ require_once('../libs/operator.php');
 require_once('../libs/pagination.php');
 
 $operator = check_login();
+csrfchecktoken();
+
 $page = array('banId' => '');
 $page['saved'] = false;
 $page['thread'] = '';

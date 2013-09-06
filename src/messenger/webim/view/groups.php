@@ -91,7 +91,7 @@ if(count($page['groups']) > 0) {
 	</td>
 <?php if($page['canmodify']) { ?>
 	<td>
-		<a href="<?php echo $webimroot ?>/operator/groups.php?act=del&amp;gid=<?php echo urlencode($grp['groupid']) ?>" id="i<?php echo htmlspecialchars($grp['groupid']) ?>" class="removelink">
+		<a href="<?php echo $webimroot ?>/operator/groups.php?act=del&amp;gid=<?php echo urlencode($grp['groupid']) ?><?php print_csrf_token_in_url() ?>" id="i<?php echo htmlspecialchars($grp['groupid']) ?>" class="removelink">
 			remove
 		</a>
 	</td>
