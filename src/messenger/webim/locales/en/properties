@@ -99,7 +99,7 @@ clients.queue.chat=Visitors in dialogs
 clients.queue.prio=Priority visitors' queue
 clients.queue.wait=Waiting an operator for the first time
 clients.title=List of visitors waiting
-common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - mandatory fields
+common.asterisk_explanation=<b><span style="font-size:8.0pt;color:red">*</span></b> - mandatory fields
 company.title=Mibew Messenger Community
 confirm.take.head=Change operator
 confirm.take.message=Visitor <span style="color:blue;">{0}</span> is already being assisted by <span style="color:green;">{1}</span>.<br/> Are you really sure you want to start chatting the visitor?

@@ -99,7 +99,7 @@ clients.queue.chat=Visitatori in chat
 clients.queue.prio=Coda visitatori per priorità
 clients.queue.wait=In attesa di operatore per la prima volta
 clients.title=Lista dei visitatori in attesa
-common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - campi obbligatori
+common.asterisk_explanation=<b><span style="font-size:8.0pt;color:red">*</span></b> - campi obbligatori
 company.title=Mibew Messenger Community
 confirm.take.head=Cambia operatore
 confirm.take.message=Il visitatore <span style="color:blue;">{0}</span> è già assistito da <span style="color:green;">{1}</span>.<br/> Sei sicuro di voler iniziare una chat con lui/lei?

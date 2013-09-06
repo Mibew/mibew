@@ -99,7 +99,7 @@ clients.queue.chat=Użytkownicy w trakcie rozmowy
 clients.queue.prio=Kolejka oczekujących użytkowników
 clients.queue.wait=Osoby oczekujące po raz pierwszy na rozmowę
 clients.title=Lista oczekujących użytkowników
-common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - pola wymagane
+common.asterisk_explanation=<b><span style="font-size:8.0pt;color:red">*</span></b> - pola wymagane
 company.title=Społecznośc Mibew Komunikatora
 confirm.take.head=Zmień Operatora
 confirm.take.message=Użytkownik <span style="color:blue;">{0}</span> jest już obsługiwany przez <span style="color:green;">{1}</span>.<br/> Na pewno chcesz rozpocząć rozmowę z tym użytkownikiem?

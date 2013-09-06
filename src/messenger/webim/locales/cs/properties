@@ -70,7 +70,7 @@ chat.window.title.user=Mibew Messenger
 chat.window.toolbar.mail_history=Odeslat záznam chatu e-mailem
 chat.window.toolbar.redirect_user=Přesměrovat návštěvníka na jiného operátora
 chat.window.toolbar.refresh=Aktualizovat
-common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - povinné položky
+common.asterisk_explanation=<b><span style="font-size:8.0pt;color:red">*</span></b> - povinné položky
 company.title=Mibew Messenger Community
 confirm.take.head=Změna operátora
 confirm.take.message=Návštěvníkovi <span style="color:blue;">{0}</span> se již věnuje <span style="color:green;">{1}</span>.<br/> Jste si jisti, že chcete zahájit chat s návštěvníkem?

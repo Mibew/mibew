@@ -62,7 +62,7 @@
 ${if:errors}
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td valign="top"><img src='${webimroot}/images/icon_err.gif' width="40" height="40" border="0" alt="" /></td>
+	    <td valign="top"><img src="${webimroot}/images/icon_err.gif" width="40" height="40" border="0" alt="" /></td>
 	    <td width="10"></td>
 	    <td class="text">
 		    ${errors}
@@ -93,7 +93,7 @@ ${endif:errors}
 				<table cellspacing="0" cellpadding="0" border="0">
 					<tr>
 						<td><a href="javascript:window.close();" title="${msg:mailthread.close}"><img
-							src='${tplroot}/images/buttons/back.gif' width="25" height="25"
+							src="${tplroot}/images/buttons/back.gif" width="25" height="25"
 							border="0" alt="" /></a></td>
 						<td width="5"></td>
 						<td class="button"><a href="javascript:window.close();"
@@ -129,9 +129,9 @@ ${endif:errors}
 			</tr>
 
 			<tr>
-				<td width="30"><img src='${webimroot}/images/free.gif' width="30" height="1" border="0" alt="" /></td>
-				<td width="100%"><img src='${webimroot}/images/free.gif' width="540" height="1" border="0" alt="" /></td>
-				<td width="30"><img src='${webimroot}/images/free.gif' width="30" height="1" border="0" alt="" /></td>
+				<td width="30"><img src="${webimroot}/images/free.gif" width="30" height="1" border="0" alt="" /></td>
+				<td width="100%"><img src="${webimroot}/images/free.gif" width="540" height="1" border="0" alt="" /></td>
+				<td width="30"><img src="${webimroot}/images/free.gif" width="30" height="1" border="0" alt="" /></td>
 			</tr>
 		</table>
 

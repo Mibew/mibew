@@ -99,7 +99,7 @@ clients.queue.chat=Vizitatori in convorbire
 clients.queue.prio=Rindul vizitatoriloe de prioritate
 clients.queue.wait=Asteptam operatorul pentru prima data
 clients.title=Lista vizitatorilor in asteptare
-common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - domenii obligatorii
+common.asterisk_explanation=<b><span style="font-size:8.0pt;color:red">*</span></b> - domenii obligatorii
 company.title=Mibew Messenger Community
 confirm.take.head=Schimbati operatorul
 confirm.take.message=Vizitatorul <span style="color:blue;">{0}</span> deja este asistat de <span style="color:green;">{1}</span>.<br/>. Sunteti sigur ca vreti sa incepeti chat cu vizitatorul?

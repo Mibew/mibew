@@ -29,20 +29,20 @@ function tpl_content() { global $page, $webimroot;
 		<div>
 		<table class="nicebutton"><tr>
 			<td><a href="<?php echo htmlspecialchars($page['link']) ?>">
-				<img src='<?php echo $webimroot ?>/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
+				<img src="<?php echo $webimroot ?>/images/submit.gif" width="40" height="35" border="0" alt="" /></a></td>
 			<td class="submit"><a href="<?php echo htmlspecialchars($page['link']) ?>">
 				<?php echo getlocal("confirm.take.yes") ?></a></td>
 			<td><a href="<?php echo htmlspecialchars($page['link']) ?>">
-				<img src='<?php echo $webimroot ?>/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
+				<img src="<?php echo $webimroot ?>/images/submitrest.gif" width="10" height="35" border="0" alt="" /></a></td>
 		</tr></table>
 
 		<table class="nicebutton"><tr>
 			<td><a href="javascript:window.close();">
-				<img src='<?php echo $webimroot ?>/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
+				<img src="<?php echo $webimroot ?>/images/submit.gif" width="40" height="35" border="0" alt="" /></a></td>
 			<td class="submit"><a href="javascript:window.close();">
 				<?php echo getlocal("confirm.take.no") ?></a></td>
 			<td><a href="javascript:window.close();">
-				<img src='<?php echo $webimroot ?>/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
+				<img src="<?php echo $webimroot ?>/images/submitrest.gif" width="10" height="35" border="0" alt="" /></a></td>
 		</tr></table>
 		
 		<br clear="all"/>

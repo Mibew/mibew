@@ -37,8 +37,8 @@ require_once('inc_errors.php');
 
 <?php if($page['canmodify']) { ?>
 <div class="tabletool">
-	<img src='<?php echo $webimroot ?>/images/buttons/createagent.gif' border="0" alt="" />
-	<a href='<?php echo $webimroot ?>/operator/operator.php' title="<?php echo htmlspecialchars(getlocal("page_agents.new_agent")) ?>">
+	<img src="<?php echo $webimroot ?>/images/buttons/createagent.gif" border="0" alt="" />
+	<a href="<?php echo $webimroot ?>/operator/operator.php" title="<?php echo htmlspecialchars(getlocal("page_agents.new_agent")) ?>">
 		<?php echo getlocal("page_agents.new_agent") ?>
 	</a>
 </div>

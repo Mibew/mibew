@@ -105,7 +105,7 @@ function generate_pagination($pagination, $bottom = true)
 		} else {
 			$result .= "<br/>";
 		}
-		$result .= "<div class='pagination'>";
+		$result .= "<div class=\"pagination\">";
 		$curr_page = $pagination['page'];
 
 		$minPage = max($curr_page - $links_on_page, 1);

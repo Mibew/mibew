@@ -16,7 +16,7 @@
 						<table cellpadding="0" cellspacing="5" border="0"><tr>
 							<td class="text" nowrap>${msg:chat.client.name}</td>
 							<td><input id="uname" type="text" size="12" value="${page:ct.user.name}" class="field"></td>
-							<td><a href="javascript:void(0)" onClick="return false;" title="${msg:chat.client.changename}"><img src='${tplroot}/images/buttons/exec.gif' border="0" alt="${msg:chat.client.changename}" /></a></td>
+							<td><a href="javascript:void(0)" onClick="return false;" title="${msg:chat.client.changename}"><img src="${tplroot}/images/buttons/exec.gif" border="0" alt="${msg:chat.client.changename}" /></a></td>
 						</tr></table>
 					${else:canChangeName}
 						<table cellpadding="0" cellspacing="5" border="0"><tr><td>
@@ -28,10 +28,10 @@
 			<td align="right">
 				<table cellpadding="0" cellspacing="5" border="0"><tr>
 					<td>
-						<a href="${page:mailLink}" target="_blank" title="${msg:chat.window.toolbar.mail_history}" onClick="this.newWindow = window.open('${page:mailLink}', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=254,resizable=0');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src='${tplroot}/images/buttons/email.gif' border="0" alt="${msg:chat.window.toolbar.mail_history}" /></a>
+						<a href="${page:mailLink}" target="_blank" title="${msg:chat.window.toolbar.mail_history}" onClick="this.newWindow = window.open('${page:mailLink}', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=254,resizable=0');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src="${tplroot}/images/buttons/email.gif" border="0" alt="${msg:chat.window.toolbar.mail_history}" /></a>
 					</td>
 					<td>
-						<a id="refresh" href="javascript:void(0)" onClick="return false;" title="${msg:chat.window.toolbar.refresh}"><img src='${tplroot}/images/buttons/refresh.gif' border="0" alt="${msg:chat.window.toolbar.refresh}" /></a>
+						<a id="refresh" href="javascript:void(0)" onClick="return false;" title="${msg:chat.window.toolbar.refresh}"><img src="${tplroot}/images/buttons/refresh.gif" border="0" alt="${msg:chat.window.toolbar.refresh}" /></a>
 					</td>
 					<td>
 						<a class="closethread" href="javascript:void(0)" onClick="return false;" title="${msg:chat.window.close_title}"><img src="${tplroot}/images/buttons/closewin.gif" border="0" alt="${msg:chat.window.close_title}"/></a>

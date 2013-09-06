@@ -95,7 +95,7 @@ clients.queue.chat=Visitant dialogant
 clients.queue.prio=Visitant amb prioritat per a atenció
 clients.queue.wait=Esperant operador per primera vegada
 clients.title=Llista de visitants en espera
-common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - camps obligatoris
+common.asterisk_explanation=<b><span style="font-size:8.0pt;color:red">*</span></b> - camps obligatoris
 company.title=Mibew Messenger Comunitat
 confirm.take.head=Canviar operador
 confirm.take.message=Visitant <span style="color:blue;">{0}</span> és actualment servit per <span style="color:green;">{1}</span>.<br/>Està vostè segur que vol iniciar conversa amb els visitants?

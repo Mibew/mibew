@@ -52,7 +52,7 @@
 					</table>
 				</td>
 			    <td width="5"></td>
-			    <td><a class="closethread" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.close_title}"><img src='${tplroot}/images/buttons/closewin.gif' width="15" height="15" border="0" alt="${msg:chat.window.close_title}"/></a></td>
+			    <td><a class="closethread" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.close_title}"><img src="${tplroot}/images/buttons/closewin.gif" width="15" height="15" border="0" alt="${msg:chat.window.close_title}"/></a></td>
 			    <td width="5"></td>
 				</tr>
 				</table>
@@ -67,17 +67,17 @@
 				<tr>
 
 				<td class="text" nowrap>${msg:chat.client.name}</td>
-				<td width="10" valign="top"><img src='${webimroot}/images/free.gif' width="10" height="1" border="0" alt="" /></td>
+				<td width="10" valign="top"><img src="${webimroot}/images/free.gif" width="10" height="1" border="0" alt="" /></td>
 				<td><input id="uname" type="text" size="12" value="${page:ct.user.name}" class="field"></td>
-				<td width="5" valign="top"><img src='${webimroot}/images/free.gif' width="5" height="1" border="0" alt="" /></td>
-				<td><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.client.changename}"><img src='${tplroot}/images/buttons/exec.gif' width="25" height="25" border="0" alt="&gt;&gt;" /></a></td>
+				<td width="5" valign="top"><img src="${webimroot}/images/free.gif" width="5" height="1" border="0" alt="" /></td>
+				<td><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.client.changename}"><img src="${tplroot}/images/buttons/exec.gif" width="25" height="25" border="0" alt="&gt;&gt;" /></a></td>
 
-			    <td><img src='${tplroot}/images/buttondiv.gif' width="35" height="45" border="0" alt="" /></td>
+			    <td><img src="${tplroot}/images/buttondiv.gif" width="35" height="45" border="0" alt="" /></td>
 
-				<td><a href="${page:mailLink}" target="_blank" title="${msg:chat.window.toolbar.mail_history}" onclick="this.newWindow = window.open('${page:mailLink}', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=254,resizable=0');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src='${tplroot}/images/buttons/email.gif' width="25" height="25" border="0" alt="Mail" /></a></td>
+				<td><a href="${page:mailLink}" target="_blank" title="${msg:chat.window.toolbar.mail_history}" onclick="this.newWindow = window.open('${page:mailLink}', 'ForwardMail', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=603,height=254,resizable=0');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src="${tplroot}/images/buttons/email.gif" width="25" height="25" border="0" alt="Mail" /></a></td>
 
 				<td><a id="refresh" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.toolbar.refresh}">
-				<img src='${tplroot}/images/buttons/refresh.gif' width="25" height="25" border="0" alt="Refresh" /></a></td>
+				<img src="${tplroot}/images/buttons/refresh.gif" width="25" height="25" border="0" alt="Refresh" /></a></td>
 
 
 
@@ -100,23 +100,23 @@
 
 		<table width="585" cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td width="20" valign="top"><img src='${webimroot}${url:image.chat.history}' width="20" height="80" border="0" alt="History" /></td>
+	    <td width="20" valign="top"><img src="${webimroot}${url:image.chat.history}" width="20" height="80" border="0" alt="History" /></td>
     	<td width="565" valign="top" id="chatwndtd">
 			<table width="100%" cellspacing="0" cellpadding="0" border="0">
 			<tr>
-		    <td colspan="3" bgcolor="#A1A1A1"><img src='${webimroot}/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+		    <td colspan="3" bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td>
 			</tr>
 			<tr>
-		    <td bgcolor="#A1A1A1"><img src='${webimroot}/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+		    <td bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td>
 		    <td width="100%" bgcolor="#FFFFFF" valign="top">
 				<iframe name="chatwndiframe" width="100%" height="175" src="${webimroot}/thread.php?act=refresh&amp;thread=${page:ct.chatThreadId}&amp;token=${page:ct.token}&amp;html=on&amp;user=true" frameborder="0" style="overflow:auto;">
 				Sorry, your browser does not support iframes; try a browser that supports W3 standards.
 				</iframe>
 			</td>
-		    <td bgcolor="#A1A1A1"><img src='${webimroot}/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+		    <td bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td>
 			</tr>
 			<tr>
-		    <td colspan="3" bgcolor="#A1A1A1"><img src='${webimroot}/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+		    <td colspan="3" bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td>
 			</tr>
 			</table>
 		</td>
@@ -127,14 +127,14 @@
 		</tr>
 
 		<tr>
-	    <td width="20" valign="top"><img src='${webimroot}${url:image.chat.message}' width="20" height="85" border="0" alt="Message" /></td>
+	    <td width="20" valign="top"><img src="${webimroot}${url:image.chat.message}" width="20" height="85" border="0" alt="Message" /></td>
     	<td width="565" valign="top">
 			<table width="100%" cellspacing="0" cellpadding="0" border="0">
 			<tr>
-		    <td colspan="3" bgcolor="#A1A1A1"><img src='${webimroot}/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+		    <td colspan="3" bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td>
 			</tr>
 			<tr>
-		    <td bgcolor="#A1A1A1"><img src='${webimroot}/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+		    <td bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td>
 		    <td width="565" height="85" bgcolor="#FFFFFF" valign="top">
 				<form id="messageform" method="post" action="${webimroot}/thread.php" target="chatwndiframe">
 				<input type="hidden" name="act" value="post"/><input type="hidden" name="html" value="on"/><input type="hidden" name="thread" value="${page:ct.chatThreadId}"/><input type="hidden" name="token" value="${page:ct.token}"/><input type="hidden" name="user" value="true"/>
@@ -142,10 +142,10 @@
 				<textarea id="messagetext" cols="50" rows="4" class="message" style="width:550px;" tabindex="0"></textarea>
 				</form>
 			</td>
-		    <td bgcolor="#A1A1A1"><img src='${webimroot}/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+		    <td bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td>
 			</tr>
 			<tr>
-		    <td colspan="3" bgcolor="#A1A1A1"><img src='${webimroot}/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+		    <td colspan="3" bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td>
 			</tr>
 			</table>
 		</td>
@@ -174,12 +174,12 @@
 			<table cellspacing="0" cellpadding="0" border="0" id="postmessage">
 
 			<tr>
-		    <td><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.send_message}"><img src='${webimroot}/images/submit.gif' width="40" height="35" border="0" alt=""/></a></td>
+		    <td><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.send_message}"><img src="${webimroot}/images/submit.gif" width="40" height="35" border="0" alt=""/></a></td>
 		    <td style="background-image: url(${webimroot}/images/submitbg.gif)" valign="top" class="submit">
-				<img src='${webimroot}/images/free.gif' width="1" height="10" border="0" alt="" /><br/>
+				<img src="${webimroot}/images/free.gif" width="1" height="10" border="0" alt="" /><br/>
 				<a id="msgsend1" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.send_message}">${msg:chat.window.send_message_short,send_shortcut}</a><br/>
 			</td>
-			<td width="10"><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.send_message}"><img src='${webimroot}/images/submitrest.gif' width="10" height="35" border="0" alt=""/></a></td>
+			<td width="10"><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.send_message}"><img src="${webimroot}/images/submitrest.gif" width="10" height="35" border="0" alt=""/></a></td>
 			</tr>
 			</table>
 		</td>
@@ -190,9 +190,9 @@
 	</tr>
 
 	<tr>
-    <td width="10"><img src='${webimroot}/images/free.gif' width="10" height="1" border="0" alt="" /></td>
-    <td width="585"><img src='${webimroot}/images/free.gif' width="585" height="1" border="0" alt="" /></td>
-    <td width="5"><img src='${webimroot}/images/free.gif' width="5" height="1" border="0" alt="" /></td>
+    <td width="10"><img src="${webimroot}/images/free.gif" width="10" height="1" border="0" alt="" /></td>
+    <td width="585"><img src="${webimroot}/images/free.gif" width="585" height="1" border="0" alt="" /></td>
+    <td width="5"><img src="${webimroot}/images/free.gif" width="5" height="1" border="0" alt="" /></td>
 	</tr>
 	</table>
 

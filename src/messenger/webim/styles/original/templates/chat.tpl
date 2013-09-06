@@ -134,16 +134,16 @@ ${if:user}
 				<div id="changename1" style="display:${page:displ1};">
 					<table cellspacing="0" cellpadding="0" border="0"><tr>
 					<td class="text" nowrap>${msg:chat.client.name}</td>
-					<td width="10" valign="top"><img src='${webimroot}/images/free.gif' width="10" height="1" border="0" alt="" /></td>
+					<td width="10" valign="top"><img src="${webimroot}/images/free.gif" width="10" height="1" border="0" alt="" /></td>
 					<td><input id="uname" type="text" size="12" value="${page:ct.user.name}" class="field"></td>
-					<td width="5" valign="top"><img src='${webimroot}/images/free.gif' width="5" height="1" border="0" alt="" /></td>
+					<td width="5" valign="top"><img src="${webimroot}/images/free.gif" width="5" height="1" border="0" alt="" /></td>
 					<td><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.client.changename}"><img class="tplimage iexec" src="${webimroot}/images/free.gif" border="0" alt="&gt;&gt;" /></a></td>
 					</tr></table>
 				</div>
 				<div id="changename2" style="display:${page:displ2};">
 					<table cellspacing="0" cellpadding="0" border="0"><tr>
 					<td class="text" nowrap><a id="unamelink" href="javascript:void(0)" onclick="return false;" title="${msg:chat.client.changename}">${page:ct.user.name}</a></td>
-					<td width="10" valign="top"><img src='${webimroot}/images/free.gif' width="10" height="1" border="0" alt="" /></td>
+					<td width="10" valign="top"><img src="${webimroot}/images/free.gif" width="10" height="1" border="0" alt="" /></td>
 					<td><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.client.changename}"><img class="tplimage ichangeuser" src="${webimroot}/images/free.gif" border="0" alt="" /></a></td>
 					</tr></table>
 				</div>
@@ -155,7 +155,7 @@ ${if:user}
 	${endif:canChangeName}
 ${endif:user}
 ${if:agent}
-				<td width="10" valign="top"><img src='${webimroot}/images/free.gif' width="10" height="1" border="0" alt="" /></td>
+				<td width="10" valign="top"><img src="${webimroot}/images/free.gif" width="10" height="1" border="0" alt="" /></td>
 				<td><a class="closethread" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.close_title}">
 				<img class="tplimage iclose" src="${webimroot}/images/free.gif" border="0" alt="${msg:chat.window.close_title}"/></a></td>
 ${endif:agent}
@@ -182,7 +182,7 @@ ${if:sslLink}
 				<td><a href="${page:sslLink}&amp;style=${styleid}" title="SSL" >
 				<img class="tplimage issl" src="${webimroot}/images/free.gif" border="0" alt="SSL&nbsp;"/></a></td>
 ${endif:sslLink}
-				<td width="20" valign="top"><img src='${webimroot}/images/free.gif' width="20" height="1" border="0" alt="" /></td>
+				<td width="20" valign="top"><img src="${webimroot}/images/free.gif" width="20" height="1" border="0" alt="" /></td>
 				</tr>
 				</table>
 
@@ -216,19 +216,19 @@ ${endif:sslLink}
     	<td colspan="2" width="100%" height="100%" valign="top" id="chatwndtd">
 			<table width="100%" cellspacing="0" cellpadding="0" border="0" style="height:100%;">
 			<tr>
-		    <td colspan="3" bgcolor="#A1A1A1"><img src='${webimroot}/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+		    <td colspan="3" bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td>
 			</tr>
 			<tr>
-		    <td bgcolor="#A1A1A1"><img src='${webimroot}/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+		    <td bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td>
 		    <td width="100%" height="100%" bgcolor="#FFFFFF" valign="top">
 				<iframe id="chatwnd" width="100%" height="100%" src="${if:neediframesrc}${webimroot}/images/blank.html${endif:neediframesrc}" frameborder="0" style="overflow:auto;">
 				Sorry, your browser does not support iframes; try a browser that supports W3 standards.
 				</iframe>
 			</td>
-		    <td bgcolor="#A1A1A1"><img src='${webimroot}/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+		    <td bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td>
 			</tr>
 			<tr>
-		    <td colspan="3" bgcolor="#A1A1A1"><img src='${webimroot}/images/free.gif' width="1" height="1" border="0" alt="" /></td>
+		    <td colspan="3" bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td>
 			</tr>
 			</table>
 		</td>
@@ -289,7 +289,7 @@ ${if:canpost}
 
 		    <td><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.send_message}"><img class="tplimage isubmit" src="${webimroot}/images/free.gif" border="0" alt="" /></a></td>
 		    <td style="background-image: url(${webimroot}/images/submitbg.gif);" valign="top" class="submit">
-				<img src='${webimroot}/images/free.gif' width="1" height="10" border="0" alt="" /><br/>
+				<img src="${webimroot}/images/free.gif" width="1" height="10" border="0" alt="" /><br/>
 				<a id="sndmessagelnk" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.send_message}">${msg:chat.window.send_message_short,send_shortcut}</a><br/>
 			</td>
 			<td width="10"><a href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.send_message}"><img class="tplimage isubmitrest" src="${webimroot}/images/free.gif" border="0" alt="" /></a></td>
@@ -304,9 +304,9 @@ ${endif:canpost}
 	</tr>
 
 	<tr>
-    <td width="10"><img src='${webimroot}/images/free.gif' width="10" height="1" border="0" alt="" /></td>
-    <td width="100%"><img src='${webimroot}/images/free.gif' width="585" height="1" border="0" alt="" /></td>
-    <td width="5"><img src='${webimroot}/images/free.gif' width="5" height="1" border="0" alt="" /></td>
+    <td width="10"><img src="${webimroot}/images/free.gif" width="10" height="1" border="0" alt="" /></td>
+    <td width="100%"><img src="${webimroot}/images/free.gif" width="585" height="1" border="0" alt="" /></td>
+    <td width="5"><img src="${webimroot}/images/free.gif" width="5" height="1" border="0" alt="" /></td>
 	</tr>
 	</table>
 

@@ -46,8 +46,8 @@ function demo_process_thread($act, $outformat, $lastid, $isuser, $canpost, $isty
 					"<meta http-equiv=\"Pragma\" content=\"no-cache\">\n" .
 					"<title>chat</title>\n" .
 					"</head>\n" .
-					"<body bgcolor='#FFFFFF' text='#000000' link='#C28400' vlink='#C28400' alink='#C28400'>" .
-					"<table width='100%' cellspacing='0' cellpadding='0' border='0'><tr><td valign='top' class='message'>");
+					"<body bgcolor=\"#FFFFFF\" text=\"#000000\" link=\"#C28400\" vlink=\"#C28400\" alink=\"#C28400\">" .
+					"<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><tr><td valign=\"top\" class=\"message\">");
 
 		}
 		if ($lastid == 1) {
@@ -81,7 +81,7 @@ function demo_process_thread($act, $outformat, $lastid, $isuser, $canpost, $isty
 			print("</thread>");
 		} else {
 			print(
-					"</td></tr></table><a name='aend'></a>" .
+					"</td></tr></table><a name=\"aend\"></a>" .
 					"</body></html>");
 		}
 	}

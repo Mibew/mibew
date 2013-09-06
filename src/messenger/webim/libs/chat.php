@@ -95,8 +95,8 @@ function message_to_html($msg)
 	$message = "<span>" . date("H:i:s", $msg['created']) . "</span> ";
 	$kind = $kind_to_string{$msg['ikind']};
 	if ($msg['tname'])
-		$message .= "<span class='n$kind'>" . htmlspecialchars($msg['tname']) . "</span>: ";
-	$message .= "<span class='m$kind'>" . prepare_html_message($msg['tmessage']) . "</span><br/>";
+		$message .= "<span class=\"n$kind\">" . htmlspecialchars($msg['tname']) . "</span>: ";
+	$message .= "<span class=\"m$kind\">" . prepare_html_message($msg['tmessage']) . "</span><br/>";
 	return $message;
 }
 
@@ -186,15 +186,15 @@ function print_thread_messages($thread, $token, $lastid, $isuser, $format, $agen
 				"<meta http-equiv=\"Pragma\" content=\"no-cache\">\n" .
 				"<title>chat</title>\n" .
 				"</head>\n" .
-				"<body bgcolor='#FFFFFF' text='#000000' link='#C28400' vlink='#C28400' alink='#C28400' onload=\"if( location.hash != '#aend' ){location.hash='#aend';}\">" .
-				"<table width='100%' cellspacing='0' cellpadding='0' border='0'><tr><td valign='top' class='message'>");
+				"<body bgcolor=\"#FFFFFF\" text=\"#000000\" link=\"#C28400\" vlink=\"#C28400\" alink=\"#C28400\" onload=\"if( location.hash != '#aend' ){location.hash='#aend';}\">" .
+				"<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><tr><td valign=\"top\" class=\"message\">");
 
 		foreach ($output as $msg) {
 			print $msg;
 		}
 
 		print(
-				"</td></tr></table><a name='aend'></a>" .
+				"</td></tr></table><a name=\"aend\"></a>" .
 				"</body></html>");
 	}
 }

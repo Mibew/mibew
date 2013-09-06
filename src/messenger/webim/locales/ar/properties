@@ -99,7 +99,7 @@ clients.queue.chat=محادثة زائر
 clients.queue.prio=طابر أفضلية الزوار
 clients.queue.wait=ينتظر مقدم اخدمة من بداية الوقت
 clients.title=قائمة الزوار المنتظرين
-common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - حقل إلزامي
+common.asterisk_explanation=<b><span style="font-size:8.0pt;color:red">*</span></b> - حقل إلزامي
 company.title=Mibew Messenger مجموعة
 confirm.take.head=تغيير مقدم الخدمة
 confirm.take.message=الزائر <span style="color:blue;">{0}</span> يتحادث مع مقدم الخدمة<span style="color:green;">{1}</span>.<br/>هل ترغب في بدأ المحادثة مع الزائر؟

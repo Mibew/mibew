@@ -99,7 +99,7 @@ clients.queue.chat=Επισκέπτες σε συνομιλίες
 clients.queue.prio=Επισκέπτες στην ουρά προτεραιότητας
 clients.queue.wait=Αναμονή για το χειριστή για πρώτη φορά
 clients.title=Κατάλογος των εν αναμονή επισκεπτών
-common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - υποχρεωτικά πεδία
+common.asterisk_explanation=<b><span style="font-size:8.0pt;color:red">*</span></b> - υποχρεωτικά πεδία
 company.title=Κοινότητα Συνομιλητή Mibew
 confirm.take.head=Αλλαγή χειριστή
 confirm.take.message=Ο Επισκέπτης <span style="color:blue;">{0}</span> βοηθιέται ήδη από τον <span style="color:green;">{1}</span>.<br/> Είστε πραγματικά σίγουροι ότι θέλετε να αρχίσετε να μιλάτε με τον επισκέπτη?

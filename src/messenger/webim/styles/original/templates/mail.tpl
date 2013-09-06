@@ -80,7 +80,7 @@ ${endif:errors}
 		<tr>
 	    <td><a href="javascript:document.mailThreadForm.submit();" title="${msg:mailthread.perform}"><img class="tplimage isubmit" src="${webimroot}/images/free.gif" border="0" alt=""/></a></td>
 	    <td style="background-image: url(${webimroot}/images/submitbg.gif)" valign="top" class="submit">
-			<img src='${webimroot}/images/free.gif' width="1" height="10" border="0" alt="" /><br/>
+			<img src="${webimroot}/images/free.gif" width="1" height="10" border="0" alt="" /><br/>
 			<a href="javascript:document.mailThreadForm.submit();" title="${msg:mailthread.perform}">${msg:mailthread.perform}</a><br/>
 		</td>
 	    <td width="10"><a href="javascript:document.mailThreadForm.submit();" title="${msg:mailthread.perform}"><img class="tplimage isubmitrest" src="${webimroot}/images/free.gif" border="0" alt=""/></a></td>
@@ -104,9 +104,9 @@ ${endif:errors}
 </tr>
 
 <tr>
-<td width="30"><img src='${webimroot}/images/free.gif' width="30" height="1" border="0" alt="" /></td>
-<td width="100%"><img src='${webimroot}/images/free.gif' width="540" height="1" border="0" alt="" /></td>
-<td width="30"><img src='${webimroot}/images/free.gif' width="30" height="1" border="0" alt="" /></td>
+<td width="30"><img src="${webimroot}/images/free.gif" width="30" height="1" border="0" alt="" /></td>
+<td width="100%"><img src="${webimroot}/images/free.gif" width="540" height="1" border="0" alt="" /></td>
+<td width="30"><img src="${webimroot}/images/free.gif" width="30" height="1" border="0" alt="" /></td>
 </tr>
 </table>
 

@@ -234,8 +234,8 @@ function check_sound()
 
 	$page['soundcheck'] = true;
 	$page['done'][] = getlocal2("install.5.text", array(
-													   "<a id='check-nv' href='javascript:void(0)'>" . getlocal("install.5.newvisitor") . "</a>",
-													   "<a id='check-nm' href='javascript:void(0)'>" . getlocal("install.5.newmessage") . "</a>"
+													   "<a id=\"check-nv\" href=\"javascript:void(0)\">" . getlocal("install.5.newvisitor") . "</a>",
+													   "<a id=\"check-nm\" href=\"javascript:void(0)\">" . getlocal("install.5.newmessage") . "</a>"
 												  ));
 }
 

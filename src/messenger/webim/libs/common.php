@@ -715,7 +715,7 @@ function print_csrf_token_input()
 {
 	setcsrftoken();
 
-	echo "<input name='csrf_token' type='hidden' value='" . $_SESSION['csrf_token'] . "' />\n";
+	echo "<input name=\"csrf_token\" type=\"hidden\" value=\"" . $_SESSION['csrf_token'] . "\" />\n";
 }
 
 /* print csrf token in url format */

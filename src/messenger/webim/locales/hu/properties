@@ -99,7 +99,7 @@ clients.queue.chat=Ügyfelek beszélgetésben
 clients.queue.prio=Elsőbbségben lévő ügyfelek listája
 clients.queue.wait=Először várakoznak operátorra
 clients.title=Várakozó ügyfelek listája
-common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - kötelező mező
+common.asterisk_explanation=<b><span style="font-size:8.0pt;color:red">*</span></b> - kötelező mező
 company.title=Mibew Messenger Community
 confirm.take.head=Operátor váltása
 confirm.take.message=Az ügyfélnek<span style="color:blue;">{0}</span>már segít <span style="color:green;">{1}</span>.<br/> Biztos vagy benne, hogy beszélni akarsz az ügyféllel?

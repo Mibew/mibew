@@ -99,7 +99,7 @@ clients.queue.chat=Посетители в разговора
 clients.queue.prio=Превилигеровани очакващи посетители
 clients.queue.wait=Очакващи оператор за първи път
 clients.title=Списък с очакващи посетители
-common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - задължителни полета
+common.asterisk_explanation=<b><span style="font-size:8.0pt;color:red">*</span></b> - задължителни полета
 company.title=Mibew Messenger Community
 confirm.take.head=Смяна на оператор
 confirm.take.message=С посетителят <span style="color:blue;">{0}</span> вече говори <span style="color:green;">{1}</span>.<br/>Вие сигурни ли сте, че искате да го смените?

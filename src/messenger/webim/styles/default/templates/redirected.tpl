@@ -53,7 +53,7 @@
 			<td align="right" style="padding-right:17px;">
 				<table cellspacing="0" cellpadding="0" border="0">
 				<tr>
-					<td><a href="javascript:window.close();" title="${msg:chat.redirected.close}"><img src='${tplroot}/images/buttons/back.gif' width="25" height="25" border="0" alt="" /></a></td>
+					<td><a href="javascript:window.close();" title="${msg:chat.redirected.close}"><img src="${tplroot}/images/buttons/back.gif" width="25" height="25" border="0" alt="" /></a></td>
 					<td width="5"></td>
 					<td class="button"><a href="javascript:window.close();" title="${msg:chat.redirected.close}">${msg:chat.redirected.close}</a></td>
 				</tr>

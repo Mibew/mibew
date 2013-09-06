@@ -24,8 +24,8 @@ var FrameUtils = {
 	doc.open();
 	doc.write("<html><head>");
 	doc.write("<link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\""+Chat.cssfile+"\">");
-	doc.write("</head><body bgcolor='#FFFFFF' text='#000000' link='#C28400' vlink='#C28400' alink='#C28400'>");
-	doc.write("<table width='100%' cellspacing='0' cellpadding='0' border='0'><tr><td valign='top' class='message' id='content'></td></tr></table><a id='bottom' name='bottom'></a>");
+	doc.write("</head><body bgcolor=\"#FFFFFF\" text=#000000\" link=\"#C28400\" vlink=\"#C28400\" alink=\"#C28400\">");
+	doc.write("<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><tr><td valign=\"top\" class=\"message\" id=\"content\"></td></tr></table><a id=\"bottom\" name=\"bottom\"></a>");
 	doc.write("</body></html>");
 	doc.close();
 	frm.onload = function() {
@@ -85,7 +85,7 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
   },
 
   handleException: function(_request, ex) {
-  	this.setStatus("offline, reconnecting");
+	this.setStatus("offline, reconnecting");
 	this.stopUpdate();
 	this.timer = setTimeout(this.update.bind(this), 1000);
   },
@@ -99,11 +99,11 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
   updateOptions: function(act) {
     this._options.parameters = 'act='+act+'&thread=' + (this._options.threadid || 0) +
 			'&token=' + (this._options.token || 0)+
-    		'&lastid=' + (this._options.lastid || 0);
+		'&lastid=' + (this._options.lastid || 0);
     if( this._options.user )
-    	this._options.parameters += "&user=true";
+	this._options.parameters += "&user=true";
 	if( act == 'refresh' && this._options.message && this._options.message.value != '' )
-    	this._options.parameters += "&typed=1";
+	this._options.parameters += "&typed=1";
   },
 
   enableInput: function(val) {
@@ -113,7 +113,7 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
 
   stopUpdate: function() {
     this.enableInput(true);
-  	if( this.updater._options )
+	if( this.updater._options )
 	    this.updater._options.onComplete = undefined;
     clearTimeout(this.timer);
   },
@@ -126,13 +126,13 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
   requestComplete: function(_response) {
     try {
         this.enableInput(true);
-    	this.cansend = true;
-    	var xmlRoot = Ajax.getXml(_response);
+	this.cansend = true;
+	var xmlRoot = Ajax.getXml(_response);
         if( xmlRoot && xmlRoot.tagName == 'thread' ) {
           this.updateContent( xmlRoot );
-    	} else {
-    	  this.handleError(_response, xmlRoot, 'refresh messages failed');
-    	}
+	} else {
+	  this.handleError(_response, xmlRoot, 'refresh messages failed');
+	}
 	} catch (e) {
     }
     this.skipNextsound = false;
@@ -150,21 +150,21 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
     var postOptions = {}.extend(this._options);
     postOptions.parameters += "&message=" + encodeURIComponent(msg);
     postOptions.onComplete = (function(presponse) {
-    	this.requestComplete( presponse );
-    	if( this._options.message ) {
-    		this._options.message.value = '';
-    		this._options.message.focus();
-    	}
+	this.requestComplete( presponse );
+	if( this._options.message ) {
+		this._options.message.value = '';
+		this._options.message.focus();
+	}
     }).bind(this);
     if( myRealAgent != 'opera' )
-    	this.enableInput(false);
+	this.enableInput(false);
     this.updater = new Ajax.Request(this._options.servl, postOptions);
   },
 
   changeName: function(newname) {
     this.skipNextsound = true;
     new Ajax.Request(this._options.servl, {parameters:'act=rename&thread=' + (this._options.threadid || 0) +
-    	'&token=' + (this._options.token || 0) + '&name=' + encodeURIComponent(newname)});
+	'&token=' + (this._options.token || 0) + '&name=' + encodeURIComponent(newname)});
   },
 
   onThreadClosed: function(_response) {
@@ -179,7 +179,7 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
   closeThread: function() {
 	var _params = 'act=close&thread=' + (this._options.threadid || 0) + '&token=' + (this._options.token || 0);
 	if( this._options.user )
-    	_params += "&user=true";
+	_params += "&user=true";
     new Ajax.Request(this._options.servl, {parameters:_params, onComplete: this.onThreadClosed.bind(this)});
   },
 
@@ -189,9 +189,9 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
   },
 
   showTyping: function(istyping) {
-  	if( $("typingdiv") ) {
+	if( $("typingdiv") ) {
 		$("typingdiv").style.display=istyping ? 'inline' : 'none';
-  	}
+	}
   },
 
   setupAvatar: function(avatar) {
@@ -207,7 +207,7 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
   updateContent: function(xmlRoot) {
 	var haveMessage = false;
 
-   	var result_div = this._options.container;
+	var result_div = this._options.container;
 	var _lastid = NodeUtils.getAttrValue(xmlRoot, "lastid");
 	if( _lastid ) {
 		this._options.lastid = _lastid;
@@ -265,7 +265,7 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
   isSendkey: function(ctrlpressed, key) {
 	  return ((key==13 && (ctrlpressed || this._options.ignorectrl)) || (key==10));
   },
-  
+
   handleKeyDown: function(k) {
 	if( k ){ ctrl=k.ctrlKey;k=k.which; } else { k=event.keyCode;ctrl=event.ctrlKey;	}
 	if( this._options.message && this.isSendkey(ctrl, k) ) {

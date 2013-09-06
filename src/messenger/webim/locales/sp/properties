@@ -99,7 +99,7 @@ clients.queue.chat=Visitante dialogando
 clients.queue.prio=Visitante con prioridad para atención
 clients.queue.wait=Esperando a operador por primera vez
 clients.title=Lista de visitantes en espera
-common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - campos obligatorios
+common.asterisk_explanation=<b><span style="font-size:8.0pt;color:red">*</span></b> - campos obligatorios
 company.title=Comunidad Mibew Messenger
 confirm.take.head=Cambiar operador
 confirm.take.message=Visitante <span style="color:blue;">{0}</span> es actualmente servido por<span style="color:green;">{1}</span>.<br/> Esta usted seguro que quiere iniciar conversación con los visitantes?

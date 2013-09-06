@@ -81,7 +81,7 @@ ${if:formgroupid}<input type="hidden" name="group" value="${form:groupid}"/>${en
 				<td align="right" style="padding-right:17px;">
 					<table cellspacing="0" cellpadding="0" border="0">
 					<tr>
-					<td><a href="javascript:window.close();" title="${msg:leavemessage.close}"><img src='${tplroot}/images/buttons/back.gif' width="25" height="25" border="0" alt="" /></a></td>
+					<td><a href="javascript:window.close();" title="${msg:leavemessage.close}"><img src="${tplroot}/images/buttons/back.gif" width="25" height="25" border="0" alt="" /></a></td>
 					<td width="5"></td>
 					<td class="button"><a href="javascript:window.close();" title="${msg:leavemessage.close}">${msg:leavemessage.close}</a></td>
 					</tr>
@@ -96,7 +96,7 @@ ${if:formgroupid}<input type="hidden" name="group" value="${form:groupid}"/>${en
 ${if:errors}
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td valign="top"><img src='${webimroot}/images/icon_err.gif' width="40" height="40" border="0" alt="" /></td>
+	    <td valign="top"><img src="${webimroot}/images/icon_err.gif" width="40" height="40" border="0" alt="" /></td>
 	    <td width="10"></td>
 	    <td class="text">
 		    ${errors}
