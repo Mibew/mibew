@@ -30,7 +30,7 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 	if ($operator && isset($operator['vcpassword']) && $operator['vcpassword'] == md5($password)) {
 
 		$target = $password == ''
-				? "$webimroot/operator/operator.php?op=" . $operator['operatorid']
+				? "$webimroot/operator/operator.php?op=" . intval($operator['operatorid'])
 				: (isset($_SESSION['backpath'])
 					? $_SESSION['backpath']
 					: "$webimroot/operator/index.php");

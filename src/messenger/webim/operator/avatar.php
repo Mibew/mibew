@@ -77,7 +77,7 @@ if (!$op) {
 		if ($opId && $avatar && $_SESSION["${mysqlprefix}operator"] && $operator['operatorid'] == $opId) {
 			$_SESSION["${mysqlprefix}operator"]['vcavatar'] = $avatar;
 		}
-		header("Location: $webimroot/operator/avatar.php?op=$opId");
+		header("Location: $webimroot/operator/avatar.php?op=" . intval($opId));
 		exit;
 	} else {
 		$page['avatar'] = topage($op['vcavatar']);
@@ -86,7 +86,7 @@ if (!$op) {
 } else {
 	if (isset($_GET['delete']) && $_GET['delete'] == "true" && $canmodify) {
 		update_operator_avatar($op['operatorid'], '');
-		header("Location: $webimroot/operator/avatar.php?op=$opId");
+		header("Location: $webimroot/operator/avatar.php?op=" . intval($opId));
 		exit;
 	}
 	$page['avatar'] = topage($op['vcavatar']);

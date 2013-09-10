@@ -84,7 +84,7 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 	if (count($errors) == 0) {
 		if (!$opId) {
 			$newop = create_operator($login, $email, $jabber, $password, $localname, $commonname, $jabbernotify ? 1 : 0, "");
-			header("Location: $webimroot/operator/avatar.php?op=" . $newop['operatorid']);
+			header("Location: $webimroot/operator/avatar.php?op=" . intval($newop['operatorid']));
 			exit;
 		} else {
 			update_operator($opId, $login, $email, $jabber, $password, $localname, $commonname, $jabbernotify ? 1 : 0);
@@ -97,7 +97,7 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 					exit;
 				}
 			}
-			header("Location: $webimroot/operator/operator.php?op=$opId&stored");
+			header("Location: $webimroot/operator/operator.php?op=" . intval($opId) . "&stored");
 			exit;
 		}
 	} else {
