@@ -20,6 +20,10 @@ session_start();
 require_once(dirname(__FILE__) . '/converter.php');
 require_once(dirname(__FILE__) . '/config.php');
 
+// Sanitize path to application and remove extra slashes
+$webimroot = join("/", array_map("urlencode", preg_split('/\//', preg_replace('/\/+$/', '', preg_replace('/\/{2,}/', '/', '/' . $webimroot)))));
+
+
 $version = '1.6.5';
 $jsver = "165";
 
