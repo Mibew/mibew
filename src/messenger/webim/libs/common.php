@@ -23,6 +23,8 @@ require_once(dirname(__FILE__) . '/config.php');
 // Sanitize path to application and remove extra slashes
 $webimroot = join("/", array_map("urlencode", preg_split('/\//', preg_replace('/\/+$/', '', preg_replace('/\/{2,}/', '/', '/' . $webimroot)))));
 
+// Sanitize database tables prefix
+$mysqlprefix = preg_replace('/[^A-Za-z0-9_$]/', '', $mysqlprefix);
 
 $version = '1.6.5';
 $jsver = "165";
