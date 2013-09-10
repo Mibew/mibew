@@ -98,7 +98,7 @@ $can_viewthreads, $can_takeover, $mysqlprefix;
 	$userAgent = get_useragent_version($thread['userAgent']);
 	$result .= "<useragent>" . safe_htmlspecialchars(safe_htmlspecialchars($userAgent)) . "</useragent>";
 	if ($thread["shownmessageid"] != 0) {
-		$query = "select tmessage from ${mysqlprefix}chatmessage where messageid = " . $thread["shownmessageid"];
+		$query = "select tmessage from ${mysqlprefix}chatmessage where messageid = " . intval($thread["shownmessageid"]);
 		$line = select_one_row($query, $link);
 		if ($line) {
 			$message = preg_replace("/[\r\n\t]+/", " ", $line["tmessage"]);
@@ -116,19 +116,22 @@ function print_pending_threads($groupids, $since)
 
 	$revision = $since;
 	$output = array();
+
+	$groupids = join(",", array_map("intval", preg_split('/,/', $groupids)));
+
 	$query = "select threadid, userName, agentName, unix_timestamp(dtmcreated), userTyping, " .
 			 "unix_timestamp(dtmmodified), lrevision, istate, remote, nextagent, agentId, userid, shownmessageid, userAgent, (select vclocalname from ${mysqlprefix}chatgroup where ${mysqlprefix}chatgroup.groupid = ${mysqlprefix}chatthread.groupid) as groupname " .
-			 "from ${mysqlprefix}chatthread where lrevision > $since " .
+			 "from ${mysqlprefix}chatthread where lrevision > " . intval($since) .
 			 ($since <= 0
-					 ? "AND istate <> $state_closed AND istate <> $state_left "
+					 ? " AND istate <> " . intval($state_closed) . " AND istate <> " . intval($state_left)
 					 : "") .
 			 ($settings['enablegroups'] == '1'
-					 ? "AND (groupid is NULL" . ($groupids
+					 ? " AND (groupid is NULL" . ($groupids
 							 ? " OR groupid IN ($groupids)"
 							 : "") .
-					   ") "
+					   ")"
 					 : "") .
-			 "ORDER BY threadid";
+			 " ORDER BY threadid";
 	$rows = select_multi_assoc($query, $link);
 	foreach ($rows as $row) {
 		$thread = thread_to_xml($row, $link);

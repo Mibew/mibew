@@ -44,7 +44,7 @@ function threads_by_userid($userid)
 	$query = sprintf("select unix_timestamp(dtmcreated) as created, unix_timestamp(dtmmodified) as modified, " .
 					 " threadid, remote, agentName, userName " .
 					 "from ${mysqlprefix}chatthread " .
-					 "where userid=\"$userid\" order by created DESC", $userid);
+					 "where userid=%s order by created DESC", intval($userid));
 
 	$result = mysql_query($query, $link) or die(' Query failed: ' . mysql_error($link));
 

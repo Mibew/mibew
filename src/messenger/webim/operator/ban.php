@@ -63,16 +63,17 @@ if (isset($_POST['address'])) {
 		if (!$banId) {
 			$query = sprintf(
 				"insert into ${mysqlprefix}chatban (dtmcreated,dtmtill,address,comment) values (CURRENT_TIMESTAMP,%s,'%s','%s')",
-				"FROM_UNIXTIME($utime)",
+				"FROM_UNIXTIME(" . intval($utime) . ")",
 				mysql_real_escape_string($address, $link),
 				mysql_real_escape_string($comment, $link));
 			perform_query($query, $link);
 		} else {
 			$query = sprintf(
-				"update ${mysqlprefix}chatban set dtmtill = %s,address = '%s',comment = '%s' where banid = $banId",
-				"FROM_UNIXTIME($utime)",
+				"update ${mysqlprefix}chatban set dtmtill = %s,address = '%s',comment = '%s' where banid = %s",
+				"FROM_UNIXTIME(" . intval($utime) . ")",
 				mysql_real_escape_string($address, $link),
-				mysql_real_escape_string($comment, $link));
+				mysql_real_escape_string($comment, $link),
+				intval($banId));
 			perform_query($query, $link);
 		}
 		mysql_close($link);
@@ -94,7 +95,7 @@ if (isset($_POST['address'])) {
 } else if (isset($_GET['id'])) {
 	$banId = verifyparam('id', "/^\d{1,9}$/");
 	$link = connect();
-	$ban = select_one_row("select banid,(unix_timestamp(dtmtill)-unix_timestamp(CURRENT_TIMESTAMP)) as days,address,comment from ${mysqlprefix}chatban where banid = $banId", $link);
+	$ban = select_one_row("select banid,(unix_timestamp(dtmtill)-unix_timestamp(CURRENT_TIMESTAMP)) as days,address,comment from ${mysqlprefix}chatban where banid = " . intval($banId), $link);
 	mysql_close($link);
 
 	if ($ban) {

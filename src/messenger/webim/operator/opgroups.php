@@ -26,9 +26,9 @@ function update_operator_groups($operatorid, $newvalue)
 {
 	global $mysqlprefix;
 	$link = connect();
-	perform_query("delete from ${mysqlprefix}chatgroupoperator where operatorid = $operatorid", $link);
+	perform_query("delete from ${mysqlprefix}chatgroupoperator where operatorid = " . intval($operatorid), $link);
 	foreach ($newvalue as $groupid) {
-		perform_query("insert into ${mysqlprefix}chatgroupoperator (groupid, operatorid) values ($groupid,$operatorid)", $link);
+		perform_query(sprintf("insert into ${mysqlprefix}chatgroupoperator (groupid, operatorid) values (%s,%s)", intval($groupid), intval($operatorid)), $link);
 	}
 	mysql_close($link);
 }

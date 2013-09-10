@@ -20,7 +20,7 @@ function group_by_id($id)
 	global $mysqlprefix;
 	$link = connect();
 	$group = select_one_row(
-		"select * from ${mysqlprefix}chatgroup where groupid = $id", $link);
+		"select * from ${mysqlprefix}chatgroup where groupid = " . intval($id), $link);
 	mysql_close($link);
 	return $group;
 }
@@ -53,7 +53,7 @@ function get_operator_groupslist($operatorid, $link)
 	global $settings, $mysqlprefix;
 	if ($settings['enablegroups'] == '1') {
 		$groupids = array(0);
-		$allgroups = select_multi_assoc("select groupid from ${mysqlprefix}chatgroupoperator where operatorid = $operatorid order by groupid", $link);
+		$allgroups = select_multi_assoc("select groupid from ${mysqlprefix}chatgroupoperator where operatorid = " . intval($operatorid) . " order by groupid", $link);
 		foreach ($allgroups as $g) {
 			$groupids[] = $g['groupid'];
 		}

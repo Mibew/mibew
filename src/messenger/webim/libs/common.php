@@ -352,7 +352,7 @@ function connect()
 		or die('Could not connect: ' . mysql_error());
 	mysql_select_db($mysqldb, $link) or die('Could not select database');
 	if ($force_charset_in_connection) {
-		mysql_query("SET NAMES '$dbencoding'", $link);
+		mysql_query("SET NAMES '" . mysql_real_escape_string($dbencoding, $link) . "'", $link);
 	}
 	return $link;
 }

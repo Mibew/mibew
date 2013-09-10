@@ -35,9 +35,9 @@ if (isset($_GET['act']) && $_GET['act'] == 'del') {
 
 	if (count($errors) == 0) {
 		$link = connect();
-		perform_query("delete from ${mysqlprefix}chatgroup where groupid = $groupid", $link);
-		perform_query("delete from ${mysqlprefix}chatgroupoperator where groupid = $groupid", $link);
-		perform_query("update ${mysqlprefix}chatthread set groupid = 0 where groupid = $groupid", $link);
+		perform_query("delete from ${mysqlprefix}chatgroup where groupid = " . intval($groupid), $link);
+		perform_query("delete from ${mysqlprefix}chatgroupoperator where groupid = " . intval($groupid), $link);
+		perform_query("update ${mysqlprefix}chatthread set groupid = 0 where groupid = " . intval($groupid), $link);
 		mysql_close($link);
 		header("Location: $webimroot/operator/groups.php");
 		exit;

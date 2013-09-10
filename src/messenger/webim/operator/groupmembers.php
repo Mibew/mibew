@@ -26,7 +26,7 @@ function get_group_members($groupid)
 {
 	global $mysqlprefix;
 	$link = connect();
-	$query = "select operatorid from ${mysqlprefix}chatgroupoperator where groupid = $groupid";
+	$query = "select operatorid from ${mysqlprefix}chatgroupoperator where groupid = " . intval($groupid);
 	$result = select_multi_assoc($query, $link);
 	mysql_close($link);
 	return $result;
@@ -36,9 +36,9 @@ function update_group_members($groupid, $newvalue)
 {
 	global $mysqlprefix;
 	$link = connect();
-	perform_query("delete from ${mysqlprefix}chatgroupoperator where groupid = $groupid", $link);
+	perform_query("delete from ${mysqlprefix}chatgroupoperator where groupid = " . intval($groupid), $link);
 	foreach ($newvalue as $opid) {
-		perform_query("insert into ${mysqlprefix}chatgroupoperator (groupid, operatorid) values ($groupid,$opid)", $link);
+		perform_query(sprintf("insert into ${mysqlprefix}chatgroupoperator (groupid, operatorid) values (%s, %s)", intval($groupid), intval($opid)), $link);
 	}
 	mysql_close($link);
 }

@@ -20,12 +20,12 @@ function log_notification($locale, $kind, $to, $subj, $text, $refop, $link)
 	global $mysqlprefix;
 	$query = sprintf(
 		"insert into ${mysqlprefix}chatnotification (locale,vckind,vcto,vcsubject,tmessage,refoperator,dtmcreated) values ('%s','%s','%s','%s','%s',%s,%s)",
-		$locale,
-		$kind,
+		mysql_real_escape_string($locale, $link),
+		mysql_real_escape_string($kind, $link),
 		mysql_real_escape_string($to, $link),
 		mysql_real_escape_string($subj, $link),
 		mysql_real_escape_string($text, $link),
-		$refop ? $refop : "0",
+		$refop ? intval($refop) : "0",
 		"CURRENT_TIMESTAMP");
 
 	perform_query($query, $link);

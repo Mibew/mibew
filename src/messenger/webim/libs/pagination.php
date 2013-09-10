@@ -36,13 +36,15 @@ function prepare_pagination($items_count, $default_items_per_page = 15)
 {
 	global $page;
 
+	$items_count = intval($items_count);
+
 	if ($items_count) {
-		$items_per_page = verifyparam("items", "/^\d{1,3}$/", $default_items_per_page);
+		$items_per_page = intval(verifyparam("items", "/^\d{1,3}$/", $default_items_per_page));
 		if ($items_per_page < 2)
 			$items_per_page = 2;
 
 		$total_pages = div($items_count + $items_per_page - 1, $items_per_page);
-		$curr_page = verifyparam("page", "/^\d{1,6}$/", 1);
+		$curr_page = intval(verifyparam("page", "/^\d{1,6}$/", 1));
 
 		if ($curr_page < 1)
 			$curr_page = 1;

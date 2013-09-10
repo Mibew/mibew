@@ -41,16 +41,16 @@ function create_group($name, $descr, $commonname, $commondescr, $email)
 	$link = connect();
 	$query = sprintf(
 		"insert into ${mysqlprefix}chatgroup (vclocalname,vclocaldescription,vccommonname,vccommondescription,vcemail) values ('%s','%s','%s','%s','%s')",
-		mysql_real_escape_string($name),
-		mysql_real_escape_string($descr),
-		mysql_real_escape_string($commonname),
-		mysql_real_escape_string($commondescr),
-		mysql_real_escape_string($email));
+		mysql_real_escape_string($name, $link),
+		mysql_real_escape_string($descr, $link),
+		mysql_real_escape_string($commonname, $link),
+		mysql_real_escape_string($commondescr, $link),
+		mysql_real_escape_string($email, $link));
 
 	perform_query($query, $link);
 	$id = mysql_insert_id($link);
 
-	$newdep = select_one_row("select * from ${mysqlprefix}chatgroup where groupid = $id", $link);
+	$newdep = select_one_row("select * from ${mysqlprefix}chatgroup where groupid = " . intval($id), $link);
 	mysql_close($link);
 	return $newdep;
 }
@@ -61,12 +61,12 @@ function update_group($groupid, $name, $descr, $commonname, $commondescr, $email
 	$link = connect();
 	$query = sprintf(
 		"update ${mysqlprefix}chatgroup set vclocalname = '%s', vclocaldescription = '%s', vccommonname = '%s', vccommondescription = '%s', vcemail = '%s' where groupid = %s",
-		mysql_real_escape_string($name),
-		mysql_real_escape_string($descr),
-		mysql_real_escape_string($commonname),
-		mysql_real_escape_string($commondescr),
-		mysql_real_escape_string($email),
-		$groupid);
+		mysql_real_escape_string($name, $link),
+		mysql_real_escape_string($descr, $link),
+		mysql_real_escape_string($commonname, $link),
+		mysql_real_escape_string($commondescr, $link),
+		mysql_real_escape_string($email, $link),
+		intval($groupid));
 
 	perform_query($query, $link);
 	mysql_close($link);

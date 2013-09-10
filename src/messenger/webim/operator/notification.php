@@ -31,7 +31,7 @@ function notification_info($id)
 	$link = connect();
 	$notification = select_one_row(db_build_select(
 									   "id, locale, vckind, vcto, unix_timestamp(dtmcreated) as created, vcsubject, tmessage, refoperator", "${mysqlprefix}chatnotification",
-									   array("id = $id"), ""), $link);
+									   array("id = " . intval($id)), ""), $link);
 	mysql_close($link);
 	return $notification;
 }

@@ -26,8 +26,7 @@ function update_operator_permissions($operatorid, $newvalue)
 {
 	global $mysqlprefix;
 	$link = connect();
-	$query = "update ${mysqlprefix}chatoperator set iperm = $newvalue where operatorid = $operatorid";
-
+	$query = sprintf("update ${mysqlprefix}chatoperator set iperm = %s where operatorid = %s", intval($newvalue), intval($operatorid));
 	perform_query($query, $link);
 	mysql_close($link);
 }

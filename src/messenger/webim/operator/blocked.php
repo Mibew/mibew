@@ -38,7 +38,7 @@ if (isset($_GET['act']) && $_GET['act'] == 'del') {
 	}
 
 	if (count($errors) == 0) {
-		perform_query("delete from ${mysqlprefix}chatban where banid = $banId", $link);
+		perform_query("delete from ${mysqlprefix}chatban where banid = " . intval($banId), $link);
 		header("Location: $webimroot/operator/blocked.php");
 		exit;
 	}

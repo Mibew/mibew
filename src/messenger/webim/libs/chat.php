@@ -60,13 +60,13 @@ function post_message_($threadid, $kind, $message, $link, $from = null, $utime =
 {
 	global $mysqlprefix;
 	$query = sprintf(
-		"insert into ${mysqlprefix}chatmessage (threadid,ikind,tmessage,tname,agentId,dtmcreated) values (%s, %s,'%s',%s,%s,%s)",
-		$threadid,
-		$kind,
+		"insert into ${mysqlprefix}chatmessage (threadid,ikind,tmessage,tname,agentId,dtmcreated) values (%s,%s,'%s',%s,%s,%s)",
+		intval($threadid),
+		intval($kind),
 		mysql_real_escape_string($message, $link),
 		$from ? "'" . mysql_real_escape_string($from, $link) . "'" : "null",
-		$opid ? $opid : "0",
-		$utime ? "FROM_UNIXTIME($utime)" : "CURRENT_TIMESTAMP");
+		$opid ? intval($opid) : "0",
+		$utime ? "FROM_UNIXTIME(" . intval($utime) . ")" : "CURRENT_TIMESTAMP");
 
 	perform_query($query, $link);
 	return mysql_insert_id($link);
@@ -125,7 +125,7 @@ function get_messages($threadid, $meth, $isuser, &$lastid)
 	$query = sprintf(
 		"select messageid,ikind,unix_timestamp(dtmcreated) as created,tname,tmessage from ${mysqlprefix}chatmessage " .
 		"where threadid = %s and messageid > %s %s order by messageid",
-		$threadid, $lastid, $isuser ? "and ikind <> $kind_for_agent" : "");
+		intval($threadid), intval($lastid), $isuser ? "and ikind <> " . intval($kind_for_agent) : "");
 
 	$messages = array();
 	$msgs = select_multi_assoc($query, $link);
@@ -392,7 +392,7 @@ function load_canned_messages($locale, $groupid)
 	global $mysqlprefix;
 	$link = connect();
 	$result = select_multi_assoc(
-		"select vcvalue from ${mysqlprefix}chatresponses where locale = '$locale' " .
+		"select vcvalue from ${mysqlprefix}chatresponses where locale = '" . mysql_real_escape_string($locale, $link) . "' " .
 		"AND (groupid is NULL OR groupid = 0) order by vcvalue", $link);
 	if (count($result) == 0) {
 		foreach (explode("\n", getstring_('chat.predefined_answers', $locale)) as $answer) {
@@ -401,8 +401,8 @@ function load_canned_messages($locale, $groupid)
 	}
 	if ($groupid) {
 		$result2 = select_multi_assoc(
-			"select vcvalue from ${mysqlprefix}chatresponses where locale = '$locale' " .
-			"AND groupid = $groupid order by vcvalue", $link);
+			"select vcvalue from ${mysqlprefix}chatresponses where locale = '" . mysql_real_escape_string($locale, $link) . "' " .
+			"AND groupid = " . intval($groupid) . " order by vcvalue", $link);
 		foreach ($result as $r) {
 			$result2[] = $r;
 		}
@@ -461,11 +461,11 @@ function update_thread_access($threadid, $params, $link)
 	foreach ($params as $k => $v) {
 		if (strlen($clause) > 0)
 			$clause .= ", ";
-		$clause .= $k . "=" . $v;
+		$clause .= "`" . mysql_real_escape_string($k, $link) . "`='" . mysql_real_escape_string($v, $link) . "'";
 	}
 	perform_query(
 		"update ${mysqlprefix}chatthread set $clause " .
-		"where threadid = $threadid", $link);
+		"where threadid = " . intval($threadid), $link);
 }
 
 function ping_thread($thread, $isuser, $istyping)
@@ -509,11 +509,11 @@ function ping_thread($thread, $isuser, $istyping)
 function commit_thread($threadid, $params, $link)
 {
 	global $mysqlprefix;
-	$query = "update ${mysqlprefix}chatthread t set lrevision = " . next_revision($link) . ", dtmmodified = CURRENT_TIMESTAMP";
+	$query = "update ${mysqlprefix}chatthread t set lrevision = " . intval(next_revision($link)) . ", dtmmodified = CURRENT_TIMESTAMP";
 	foreach ($params as $k => $v) {
-		$query .= ", " . $k . "=" . $v;
+		$query .= ", `" . mysql_real_escape_string($k, $link) . "`='" . mysql_real_escape_string($v, $link) . "'";
 	}
-	$query .= " where threadid = $threadid";
+	$query .= " where threadid = " . intval($threadid);
 
 	perform_query($query, $link);
 }
@@ -555,10 +555,16 @@ function close_old_threads($link)
 		return;
 	}
 	$next_revision = next_revision($link);
-	$query = "update ${mysqlprefix}chatthread set lrevision =  $next_revision, dtmmodified = CURRENT_TIMESTAMP, istate = $state_closed " .
-			"where istate <> $state_closed and istate <> $state_left and lastpingagent <> 0 and lastpinguser <> 0 and " .
-			"(ABS(UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lastpinguser)) > " . $settings['thread_lifetime'] . " and " .
-			"ABS(UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lastpingagent)) > " . $settings['thread_lifetime'] . ")";
+	$query = sprintf("update ${mysqlprefix}chatthread set lrevision = %s, dtmmodified = CURRENT_TIMESTAMP, istate =  %s " .
+			"where istate <> %s and istate <> %s and lastpingagent <> 0 and lastpinguser <> 0 and " .
+			"(ABS(UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lastpinguser)) > %s and " .
+			"ABS(UNIX_TIMESTAMP(CURRENT_TIMESTAMP) - UNIX_TIMESTAMP(lastpingagent)) > %s)",
+			intval($next_revision),
+			intval($state_closed),
+			intval($state_closed),
+			intval($state_left),
+			intval($settings['thread_lifetime']),
+			intval($settings['thread_lifetime']));
 
 	perform_query($query, $link);
 }
@@ -569,7 +575,7 @@ function thread_by_id_($id, $link)
 	return select_one_row("select threadid,userName,agentName,agentId,lrevision,istate,ltoken,userTyping,agentTyping" .
 						  ",unix_timestamp(dtmmodified) as modified, unix_timestamp(dtmcreated) as created" .
 						  ",remote,referer,locale,unix_timestamp(lastpinguser) as lpuser,unix_timestamp(lastpingagent) as lpagent, unix_timestamp(CURRENT_TIMESTAMP) as current,nextagent,shownmessageid,userid,userAgent,groupid" .
-						  " from ${mysqlprefix}chatthread where threadid = " . $id, $link);
+						  " from ${mysqlprefix}chatthread where threadid = " . intval($id), $link);
 }
 
 function ban_for_addr_($addr, $link)
@@ -591,15 +597,16 @@ function create_thread($groupid, $username, $remoteHost, $referer, $lang, $useri
 	global $mysqlprefix;
 	$query = sprintf(
 		"insert into ${mysqlprefix}chatthread (userName,userid,ltoken,remote,referer,lrevision,locale,userAgent,dtmcreated,dtmmodified,istate" . ($groupid ? ",groupid" : "") . ") values " .
-		"('%s','%s',%s,'%s','%s',%s,'%s','%s',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,$initialState" . ($groupid ? ",$groupid" : "") . ")",
+		"('%s',%s,%s,'%s','%s',%s,'%s','%s',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,%s" . ($groupid ? "," . intval($groupid) : "") . ")",
 		mysql_real_escape_string($username, $link),
-		mysql_real_escape_string($userid, $link),
-		next_token(),
+		intval($userid),
+		intval(next_token()),
 		mysql_real_escape_string($remoteHost, $link),
 		mysql_real_escape_string($referer, $link),
-		next_revision($link),
+		intval(next_revision($link)),
 		mysql_real_escape_string($lang, $link),
-		mysql_real_escape_string($userbrowser, $link));
+		mysql_real_escape_string($userbrowser, $link),
+		intval($initialState));
 
 	perform_query($query, $link);
 	$id = mysql_insert_id($link);
@@ -710,7 +717,7 @@ function notify_operators($thread, $firstmessage, $link)
 		$groupid = $thread['groupid'];
 		$query = "select ${mysqlprefix}chatoperator.operatorid as opid, inotify, vcjabbername, vcemail, (unix_timestamp(CURRENT_TIMESTAMP)-unix_timestamp(dtmlastvisited)) as time from ${mysqlprefix}chatoperator";
 		if ($groupid) {
-			$query .= ", ${mysqlprefix}chatgroupoperator where groupid = $groupid and ${mysqlprefix}chatoperator.operatorid = ${mysqlprefix}chatgroupoperator.operatorid and istatus = 0";
+			$query .= ", ${mysqlprefix}chatgroupoperator where groupid = " . intval($groupid) . " and ${mysqlprefix}chatoperator.operatorid = ${mysqlprefix}chatgroupoperator.operatorid and istatus = 0";
 		} else {
 			$query .= " where istatus = 0";
 		}
@@ -739,7 +746,7 @@ function check_connections_from_remote($remote, $link)
 	}
 	$result = select_one_row(
 		"select count(*) as opened from ${mysqlprefix}chatthread " .
-		"where remote = '" . mysql_real_escape_string($remote, $link) . "' AND istate <> $state_closed AND istate <> $state_left", $link);
+		"where remote = '" . mysql_real_escape_string($remote, $link) . "' AND istate <> " . intval($state_closed) . " AND istate <> " . intval($state_left), $link);
 	if ($result && isset($result['opened'])) {
 		return $result['opened'] < $settings['max_connections_from_one_host'];
 	}

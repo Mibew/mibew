@@ -54,10 +54,10 @@ $page['allkinds'] = array('', 'mail', 'xmpp');
 
 $conditions = array();
 if ($kind) {
-	$conditions[] = "vckind = '$kind'";
+	$conditions[] = "vckind = '" . mysql_real_escape_string($kind, $link) . "'";
 }
 if ($lang) {
-	$conditions[] = "locale = '$lang'";
+	$conditions[] = "locale = '" . mysql_real_escape_string($lang, $link) . "'";
 }
 
 $link = connect();

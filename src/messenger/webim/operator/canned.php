@@ -33,9 +33,9 @@ function load_canned_messages($locale, $groupid)
 	global $mysqlprefix;
 	$link = connect();
 	$query = "select id, vcvalue from ${mysqlprefix}chatresponses " .
-			 "where locale = '" . $locale . "' AND (" .
+			 "where locale = '" . mysql_real_escape_string($locale, $link) . "' AND (" .
 			 ($groupid
-					 ? "groupid = $groupid"
+					 ? "groupid = " . intval($groupid)
 					 : "groupid is NULL OR groupid = 0") .
 			 ") order by vcvalue";
 
@@ -50,7 +50,7 @@ function load_canned_messages($locale, $groupid)
 				if ($i > 0) {
 					$updatequery .= ", ";
 				}
-				$updatequery .= "('" . mysql_real_escape_string($result[$i]['vcvalue'], $link) . "','$locale', NULL)";
+				$updatequery .= "('" . mysql_real_escape_string($result[$i]['vcvalue'], $link) . "','". mysql_real_escape_string($locale, $link) . "', NULL)";
 			}
 			perform_query($updatequery, $link);
 			$result = select_multi_assoc($query, $link);
@@ -108,7 +108,7 @@ if (isset($_GET['act']) && $_GET['act'] == 'delete') {
 
 	if (count($errors) == 0) {
 		$link = connect();
-		perform_query("delete from ${mysqlprefix}chatresponses where id = $key", $link);
+		perform_query("delete from ${mysqlprefix}chatresponses where id = " . intval($key), $link);
 		mysql_close($link);
 		header("Location: $webimroot/operator/canned.php?lang=$lang&group=$groupid");
 		exit;

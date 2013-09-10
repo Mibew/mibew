@@ -35,7 +35,7 @@ function thread_info($id)
 							 "unix_timestamp(dtmmodified) as modified, unix_timestamp(dtmcreated) as created," .
 							 "vclocalname as groupName " .
 							 "from ${mysqlprefix}chatthread left join ${mysqlprefix}chatgroup on ${mysqlprefix}chatthread.groupid = ${mysqlprefix}chatgroup.groupid " .
-							 "where threadid = " . $id, $link);
+							 "where threadid = " . intval($id), $link);
 	mysql_close($link);
 	return $thread;
 }
