@@ -26,6 +26,12 @@ $webimroot = join("/", array_map("urlencode", preg_split('/\//', preg_replace('/
 // Sanitize database tables prefix
 $mysqlprefix = preg_replace('/[^A-Za-z0-9_$]/', '', $mysqlprefix);
 
+// test and set default locales
+$locale_pattern = "/^[\w-]{2,5}$/";
+
+$default_locale = locale_pattern_check($default_locale) && locale_exists($default_locale) ? $default_locale : 'en';
+$home_locale = locale_pattern_check($home_locale) && locale_exists($home_locale) ? $default_locale : 'en';
+
 $version = '1.6.5';
 $jsver = "165";
 
@@ -77,21 +83,24 @@ function debugexit_print($var)
 	exit;
 }
 
-$locale_pattern = "/^[\w-]{2,5}$/";
-
 function locale_exists($locale)
 {
 	return file_exists(dirname(__FILE__) . "/../locales/$locale/properties");
 }
 
-function get_available_locales()
+function locale_pattern_check($locale)
 {
 	global $locale_pattern;
+	return preg_match($locale_pattern, $locale) && $locale != 'names';
+}
+
+function get_available_locales()
+{
 	$list = array();
 	$folder = dirname(__FILE__) . "/../locales";
 	if ($handle = opendir($folder)) {
 		while (false !== ($file = readdir($handle))) {
-			if (preg_match($locale_pattern, $file) && $file != 'names' && is_dir("$folder/$file")) {
+			if (locale_pattern_check($file) && is_dir("$folder/$file")) {
 				$list[] = $file;
 			}
 		}
