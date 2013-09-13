@@ -61,7 +61,7 @@ function verifyparam_groupid($paramid)
 	global $settings, $errors;
 	$groupid = "";
 	if ($settings['enablegroups'] == '1') {
-		$groupid = verifyparam($paramid, "/^\d{0,8}$/", "");
+		$groupid = verifyparam($paramid, "/^\d{0,10}$/", "");
 		if ($groupid) {
 			$group = group_by_id($groupid);
 			if (!$group) {

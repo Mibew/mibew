@@ -22,7 +22,7 @@ require_once('../libs/operator_settings.php');
 $operator = check_login();
 csrfchecktoken();
 
-$opId = verifyparam("op", "/^\d{1,9}$/");
+$opId = verifyparam("op", "/^\d{1,10}$/");
 $page = array('opid' => $opId, 'avatar' => '');
 $errors = array();
 

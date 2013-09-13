@@ -167,7 +167,7 @@ function print_operators()
 	echo "</operators>";
 }
 
-$since = verifyparam("since", "/^\d{1,9}$/", 0);
+$since = verifyparam("since", "/^\d{1,10}$/", 0);
 $status = verifyparam("status", "/^\d{1,2}$/", 0);
 $showonline = verifyparam("showonline", "/^1$/", 0);
 

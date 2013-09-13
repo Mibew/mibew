@@ -47,7 +47,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 		$groupid = "";
 		$groupname = "";
 		if($settings['enablegroups'] == '1') {
-			$groupid = verifyparam( "group", "/^\d{1,8}$/", "");
+			$groupid = verifyparam( "group", "/^\d{1,10}$/", "");
 			if($groupid) {
 				$group = group_by_id($groupid);
 				if(!$group) {
@@ -155,8 +155,8 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 	exit;
 }
 
-$token = verifyparam( "token", "/^\d{1,8}$/");
-$threadid = verifyparam( "thread", "/^\d{1,8}$/");
+$token = verifyparam( "token", "/^\d{1,10}$/");
+$threadid = verifyparam( "thread", "/^\d{1,10}$/");
 $level = verifyparam( "level", "/^(ajaxed|simple|old)$/");
 
 $thread = thread_by_id($threadid);

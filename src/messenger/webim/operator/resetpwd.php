@@ -22,7 +22,7 @@ require_once('../libs/settings.php');
 $errors = array();
 $page = array('version' => $version, 'showform' => true);
 
-$opId = verifyparam("id", "/^\d{1,9}$/");
+$opId = verifyparam("id", "/^\d{1,10}$/");
 $token = verifyparam("token", "/^[\dabcdef]+$/");
 
 $operator = operator_by_id($opId);

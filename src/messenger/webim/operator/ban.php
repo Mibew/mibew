@@ -30,7 +30,7 @@ $page['threadid'] = '';
 $errors = array();
 
 if (isset($_POST['address'])) {
-	$banId = verifyparam("banId", "/^(\d{1,9})?$/", "");
+	$banId = verifyparam("banId", "/^(\d{1,10})?$/", "");
 	$address = getparam("address");
 	$days = getparam("days");
 	$comment = getparam('comment');
@@ -93,7 +93,7 @@ if (isset($_POST['address'])) {
 		$page['threadid'] = $threadid;
 	}
 } else if (isset($_GET['id'])) {
-	$banId = verifyparam('id', "/^\d{1,9}$/");
+	$banId = verifyparam('id', "/^\d{1,10}$/");
 	$link = connect();
 	$ban = select_one_row("select banid,(unix_timestamp(dtmtill)-unix_timestamp(CURRENT_TIMESTAMP)) as days,address,comment from ${mysqlprefix}chatban where banid = " . intval($banId), $link);
 	mysql_close($link);
@@ -107,7 +107,7 @@ if (isset($_POST['address'])) {
 		$errors[] = "Wrong id";
 	}
 } else if (isset($_GET['thread'])) {
-	$threadid = verifyparam('thread', "/^\d{1,9}$/");
+	$threadid = verifyparam('thread', "/^\d{1,10}$/");
 	$thread = thread_by_id($threadid);
 	if ($thread) {
 		$page['thread'] = topage($thread['userName']);

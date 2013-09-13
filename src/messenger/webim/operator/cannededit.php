@@ -51,7 +51,7 @@ $operator = check_login();
 csrfchecktoken();
 loadsettings();
 
-$stringid = verifyparam("key", "/^\d{0,9}$/", "");
+$stringid = verifyparam("key", "/^\d{0,10}$/", "");
 
 $errors = array();
 $page = array();
@@ -67,7 +67,7 @@ if ($stringid) {
 	$page['locale'] = verifyparam("lang", "/^[\w-]{2,5}$/", "");
 	$page['groupid'] = "";
 	if ($settings['enablegroups'] == '1') {
-		$page['groupid'] = verifyparam("group", "/^\d{0,8}$/");
+		$page['groupid'] = verifyparam("group", "/^\d{0,10}$/");
 	}
 }
 

@@ -34,7 +34,7 @@ function update_operator_groups($operatorid, $newvalue)
 }
 
 
-$opId = verifyparam("op", "/^\d{1,9}$/");
+$opId = verifyparam("op", "/^\d{1,10}$/");
 $page = array('opid' => $opId);
 $link = connect();
 $page['groups'] = get_all_groups($link);

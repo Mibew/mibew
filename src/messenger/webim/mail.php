@@ -23,8 +23,8 @@ require_once('libs/notify.php');
 $errors = array();
 $page = array();
 
-$token = verifyparam( "token", "/^\d{1,8}$/");
-$threadid = verifyparam( "thread", "/^\d{1,8}$/");
+$token = verifyparam( "token", "/^\d{1,10}$/");
+$threadid = verifyparam( "thread", "/^\d{1,10}$/");
 
 $thread = thread_by_id($threadid);
 if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] ) {

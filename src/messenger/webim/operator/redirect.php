@@ -23,8 +23,8 @@ require_once('../libs/groups.php');
 
 $operator = check_login();
 
-$threadid = verifyparam("thread", "/^\d{1,8}$/");
-$token = verifyparam("token", "/^\d{1,8}$/");
+$threadid = verifyparam("thread", "/^\d{1,10}$/");
+$token = verifyparam("token", "/^\d{1,10}$/");
 
 $thread = thread_by_id($threadid);
 if (!$thread || !isset($thread['ltoken']) || $token != $thread['ltoken']) {
@@ -35,7 +35,7 @@ $page = array();
 $errors = array();
 
 if (isset($_GET['nextGroup'])) {
-	$nextid = verifyparam("nextGroup", "/^\d{1,8}$/");
+	$nextid = verifyparam("nextGroup", "/^\d{1,10}$/");
 	$nextGroup = group_by_id($nextid);
 
 	if ($nextGroup) {
@@ -56,7 +56,7 @@ if (isset($_GET['nextGroup'])) {
 	}
 
 } else {
-	$nextid = verifyparam("nextAgent", "/^\d{1,8}$/");
+	$nextid = verifyparam("nextAgent", "/^\d{1,10}$/");
 	$nextOperator = operator_by_id($nextid);
 
 	if ($nextOperator) {

@@ -31,7 +31,7 @@ function update_operator_permissions($operatorid, $newvalue)
 	mysql_close($link);
 }
 
-$opId = verifyparam("op", "/^\d{1,9}$/");
+$opId = verifyparam("op", "/^\d{1,10}$/");
 $page = array('opid' => $opId, 'canmodify' => is_capable($can_administrate, $operator) ? "1" : "");
 $errors = array();
 

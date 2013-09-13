@@ -37,7 +37,7 @@ if(!$lang || !locale_pattern_check($lang) || !locale_exists($lang)) {
 	$lang = $current_locale;
 }
 
-$groupid = verifyparam( "group", "/^\d{1,8}$/", "");
+$groupid = verifyparam( "group", "/^\d{1,10}$/", "");
 if($groupid) {
 	loadsettings();
 	if($settings['enablegroups'] == '1') {

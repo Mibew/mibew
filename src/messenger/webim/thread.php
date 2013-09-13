@@ -20,15 +20,15 @@ require_once('libs/chat.php');
 require_once('libs/operator.php');
 
 $act = verifyparam( "act", "/^(refresh|post|rename|close|ping)$/");
-$token = verifyparam( "token", "/^\d{1,9}$/");
-$threadid = verifyparam( "thread", "/^\d{1,9}$/");
+$token = verifyparam( "token", "/^\d{1,10}$/");
+$threadid = verifyparam( "thread", "/^\d{1,10}$/");
 $isuser = verifyparam( "user", "/^true$/", "false") == 'true';
 $outformat = ((verifyparam( "html", "/^on$/", "off") == 'on') ? "html" : "xml");
 $istyping = verifyparam( "typed", "/^1$/", "") == '1';
 
 if($threadid == 0 && ($token == 123 || $token == 124)) {
 	require_once('libs/demothread.php');
-	$lastid = verifyparam( "lastid", "/^\d{1,9}$/", 0);
+	$lastid = verifyparam( "lastid", "/^\d{1,10}$/", 0);
 	demo_process_thread($act,$outformat,$lastid,$isuser,$token == 123,$istyping,$act=="post"?getrawparam('message') : "");
 	exit;
 }
@@ -58,12 +58,12 @@ if( !$isuser && $act != "rename" ) {
 }
 
 if( $act == "refresh" ) {
-	$lastid = verifyparam( "lastid", "/^\d{1,9}$/", -1);
+	$lastid = verifyparam( "lastid", "/^\d{1,10}$/", -1);
 	print_thread_messages($thread, $token, $lastid, $isuser,$outformat, $isuser ? null : $operator['operatorid']);
 	exit;
 
 } else if( $act == "post" ) {
-	$lastid = verifyparam( "lastid", "/^\d{1,9}$/", -1);
+	$lastid = verifyparam( "lastid", "/^\d{1,10}$/", -1);
 	$message = getrawparam('message');
 
 	$kind = $isuser ? $kind_user : $kind_agent;

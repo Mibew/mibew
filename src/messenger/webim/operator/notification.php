@@ -37,7 +37,7 @@ function notification_info($id)
 }
 
 
-$notificationid = verifyparam("id", "/^(\d{1,9})$/");
+$notificationid = verifyparam("id", "/^(\d{1,10})$/");
 $page['notification'] = notification_info($notificationid);
 
 prepare_menu($operator, false);

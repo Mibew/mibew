@@ -74,7 +74,7 @@ function update_group($groupid, $name, $descr, $commonname, $commondescr, $email
 
 
 if (isset($_POST['name'])) {
-	$groupid = verifyparam("gid", "/^(\d{1,9})?$/", "");
+	$groupid = verifyparam("gid", "/^(\d{1,10})?$/", "");
 	$name = getparam('name');
 	$description = getparam('description');
 	$commonname = getparam('commonname');
@@ -112,7 +112,7 @@ if (isset($_POST['name'])) {
 	}
 
 } else if (isset($_GET['gid'])) {
-	$groupid = verifyparam('gid', "/^\d{1,9}$/");
+	$groupid = verifyparam('gid', "/^\d{1,10}$/");
 	$group = group_by_id($groupid);
 
 	if (!$group) {

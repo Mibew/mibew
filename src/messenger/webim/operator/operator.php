@@ -28,7 +28,7 @@ $opId = '';
 
 loadsettings();
 if (isset($_POST['login']) && isset($_POST['password'])) {
-	$opId = verifyparam("opid", "/^(\d{1,9})?$/", "");
+	$opId = verifyparam("opid", "/^(\d{1,10})?$/", "");
 	$login = getparam('login');
 	$email = getparam('email');
 	$jabber = getparam('jabber');
@@ -111,7 +111,7 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 	}
 
 } else if (isset($_GET['op'])) {
-	$opId = verifyparam('op', "/^\d{1,9}$/");
+	$opId = verifyparam('op', "/^\d{1,10}$/");
 	$op = operator_by_id($opId);
 
 	if (!$op) {

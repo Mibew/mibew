@@ -78,7 +78,7 @@ if (!$lang || !in_array($lang, $all_locales)) {
 
 $groupid = "";
 if ($settings['enablegroups'] == '1') {
-	$groupid = verifyparam("group", "/^\d{0,8}$/", "");
+	$groupid = verifyparam("group", "/^\d{0,10}$/", "");
 	if ($groupid) {
 		$group = group_by_id($groupid);
 		if (!$group) {

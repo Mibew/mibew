@@ -54,7 +54,7 @@ function get_operators()
 	return $result;
 }
 
-$groupid = verifyparam("gid", "/^\d{1,9}$/");
+$groupid = verifyparam("gid", "/^\d{1,10}$/");
 $page = array('groupid' => $groupid);
 $page['operators'] = get_operators();
 $errors = array();
