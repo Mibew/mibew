@@ -184,7 +184,11 @@ function load_messages($locale)
 	global $messages, $webim_encoding, $output_encoding;
 	$hash = array();
 	$current_encoding = $webim_encoding;
+	
 	$fp = fopen(dirname(__FILE__) . "/../locales/$locale/properties", "r");
+	if (!$fp) {
+		die("unable to open properties for locale");
+	}
 	while (!feof($fp)) {
 		$line = fgets($fp, 4096);
 		$keyval = preg_split("/=/", $line, 2);
