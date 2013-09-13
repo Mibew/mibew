@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+@ini_set('open_basedir', dirname(__FILE__) . '/../');
+
 session_start();
 
 require_once(dirname(__FILE__) . '/converter.php');
