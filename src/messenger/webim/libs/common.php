@@ -16,8 +16,7 @@
  */
 
 @ini_set('open_basedir', dirname(__FILE__) . '/../');
-
-session_start();
+@ini_set('session.cookie_httponly', TRUE);
 
 require_once(dirname(__FILE__) . '/converter.php');
 require_once(dirname(__FILE__) . '/config.php');
@@ -34,6 +33,8 @@ $home_locale = locale_pattern_check($home_locale) && locale_exists($home_locale)
 
 $version = '1.6.5';
 $jsver = "165";
+
+session_start();
 
 function myiconv($in_enc, $out_enc, $string)
 {
