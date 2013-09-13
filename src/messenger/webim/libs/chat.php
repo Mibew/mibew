@@ -38,11 +38,6 @@ $kind_avatar = 7;
 $kind_to_string = array($kind_user => "user", $kind_agent => "agent", $kind_for_agent => "hidden",
 						$kind_info => "inf", $kind_conn => "conn", $kind_events => "event", $kind_avatar => "avatar");
 
-function get_user_id()
-{
-	return (time() + microtime()) . rand(0, 99999999);
-}
-
 function next_token()
 {
 	return rand(99999, 99999999);
@@ -772,7 +767,7 @@ function visitor_from_request()
 	if (isset($_COOKIE[$usercookie])) {
 		$userId = $_COOKIE[$usercookie];
 	} else {
-		$userId = get_user_id();
+		$userId = uniqid('', TRUE);
 		setcookie($usercookie, $userId, time() + 60 * 60 * 24 * 365);
 	}
 	return array('id' => $userId, 'name' => $userName);
