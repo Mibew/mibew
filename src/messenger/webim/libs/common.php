@@ -188,8 +188,8 @@ function load_messages($locale)
 	$current_encoding = $webim_encoding;
 	
 	$fp = fopen(dirname(__FILE__) . "/../locales/$locale/properties", "r");
-	if (!$fp) {
-		die("unable to open properties for locale");
+	if ($fp === FALSE) {
+		die("unable to open properties for locale $locale");
 	}
 	while (!feof($fp)) {
 		$line = fgets($fp, 4096);

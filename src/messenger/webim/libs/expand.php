@@ -16,7 +16,7 @@
  */
 
 $ifregexp = "/\\\${(if|ifnot):([\w\.]+)}(.*?)(\\\${else:\\2}.*?)?\\\${endif:\\2}/s";
-$expand_include_path = "";
+$expand_include_path = dirname(__FILE__) . '/../';
 $current_style = "";
 
 function check_condition($condition)
@@ -106,7 +106,7 @@ function expand($basedir, $style, $filename)
 {
 	global $expand_include_path, $current_style;
 	start_html_output();
-	if (!is_dir("$basedir/$style")) {
+	if (!preg_match('/^\w+$/', $style) || !is_dir("$basedir/$style")) {
 		$style = "default";
 	}
 	$expand_include_path = "$basedir/$style/templates/";

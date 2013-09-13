@@ -33,7 +33,7 @@ if($referer && isset($_SESSION['threadid'])) {
 
 $image = verifyparam(isset($_GET['image']) ? "image" : "i", "/^\w+$/", "webim");
 $lang = verifyparam(isset($_GET['language']) ? "language" : "lang", "/^[\w-]{2,5}$/", "");
-if(!$lang || !locale_exists($lang)) {
+if(!$lang || !locale_pattern_check($lang) || !locale_exists($lang)) {
 	$lang = $current_locale;
 }
 
@@ -51,9 +51,11 @@ if($groupid) {
 }
 
 $image_postfix = has_online_operators($groupid) ? "on" : "off";
-$filename = "locales/${lang}/button/${image}_${image_postfix}.gif";
-
-$fp = fopen($filename, 'rb') or die("no image");
+$filename = dirname(__FILE__) . "/locales/${lang}/button/${image}_${image_postfix}.gif";
+if (!file_exists($filename)) {
+	die("no image");
+}
+$fp = fopen($filename, 'rb') or die("unable to get image");
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Pragma: no-cache");

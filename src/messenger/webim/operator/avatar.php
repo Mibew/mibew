@@ -46,8 +46,8 @@ if (!$op) {
 		$orig_filename = $_FILES['avatarFile']['name'];
 		$tmp_file_name = $_FILES['avatarFile']['tmp_name'];
 
-		$ext = strtolower(substr($orig_filename, 1 + strrpos($orig_filename, ".")));
-		$new_file_name = "$opId.$ext";
+		$ext = preg_replace('/\//', '', strtolower(substr($orig_filename, 1 + strrpos($orig_filename, "."))));
+		$new_file_name = intval($opId). ".$ext";
 		loadsettings();
 
 		$file_size = $_FILES['avatarFile']['size'];
@@ -56,7 +56,7 @@ if (!$op) {
 		} elseif (!in_array($ext, $valid_types)) {
 			$errors[] = failed_uploading_file($orig_filename, "errors.invalid.file.type");
 		} else {
-			$avatar_local_dir = "../images/avatar/";
+			$avatar_local_dir = dirname(__FILE__) . "/../images/avatar/";
 			$full_file_path = $avatar_local_dir . $new_file_name;
 			if (file_exists($full_file_path)) {
 				unlink($full_file_path);
