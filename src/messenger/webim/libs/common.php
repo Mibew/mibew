@@ -17,6 +17,9 @@
 
 @ini_set('open_basedir', dirname(__FILE__) . '/../');
 @ini_set('session.cookie_httponly', TRUE);
+if (is_secure_request()) {
+    @ini_set('session.cookie_secure', TRUE);
+}
 
 require_once(dirname(__FILE__) . '/converter.php');
 require_once(dirname(__FILE__) . '/config.php');
