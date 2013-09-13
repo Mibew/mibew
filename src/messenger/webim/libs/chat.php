@@ -597,9 +597,9 @@ function create_thread($groupid, $username, $remoteHost, $referer, $lang, $useri
 	global $mysqlprefix;
 	$query = sprintf(
 		"insert into ${mysqlprefix}chatthread (userName,userid,ltoken,remote,referer,lrevision,locale,userAgent,dtmcreated,dtmmodified,istate" . ($groupid ? ",groupid" : "") . ") values " .
-		"('%s',%s,%s,'%s','%s',%s,'%s','%s',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,%s" . ($groupid ? "," . intval($groupid) : "") . ")",
+		"('%s','%s',%s,'%s','%s',%s,'%s','%s',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,%s" . ($groupid ? "," . intval($groupid) : "") . ")",
 		mysql_real_escape_string($username, $link),
-		intval($userid),
+		mysql_real_escape_string($userid, $link),
 		intval(next_token()),
 		mysql_real_escape_string($remoteHost, $link),
 		mysql_real_escape_string($referer, $link),
