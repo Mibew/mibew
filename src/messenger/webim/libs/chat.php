@@ -40,7 +40,7 @@ $kind_to_string = array($kind_user => "user", $kind_agent => "agent", $kind_for_
 
 function next_token()
 {
-	return rand(99999, 99999999);
+	return  function_exists('openssl_random_pseudo_bytes') ? hexdec(bin2hex(openssl_random_pseudo_bytes(4))) : mt_rand(99999, 99999999);
 }
 
 function next_revision($link)
