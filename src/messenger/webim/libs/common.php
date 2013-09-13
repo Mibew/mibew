@@ -27,8 +27,6 @@ $webimroot = join("/", array_map("urlencode", preg_split('/\//', preg_replace('/
 $mysqlprefix = preg_replace('/[^A-Za-z0-9_$]/', '', $mysqlprefix);
 
 // test and set default locales
-$locale_pattern = "/^[\w-]{2,5}$/";
-
 $default_locale = locale_pattern_check($default_locale) && locale_exists($default_locale) ? $default_locale : 'en';
 $home_locale = locale_pattern_check($home_locale) && locale_exists($home_locale) ? $default_locale : 'en';
 
@@ -90,7 +88,7 @@ function locale_exists($locale)
 
 function locale_pattern_check($locale)
 {
-	global $locale_pattern;
+	$locale_pattern = "/^[\w-]{2,5}$/";
 	return preg_match($locale_pattern, $locale) && $locale != 'names';
 }
 
@@ -116,7 +114,7 @@ function get_user_locale()
 
 	if (isset($_COOKIE['webim_locale'])) {
 		$requested_lang = $_COOKIE['webim_locale'];
-		if (locale_exists($requested_lang))
+		if (locale_pattern_check($requested_lang) && locale_exists($requested_lang))
 			return $requested_lang;
 	}
 
@@ -126,12 +124,12 @@ function get_user_locale()
 			if (strlen($requested_lang) > 2)
 				$requested_lang = substr($requested_lang, 0, 2);
 
-			if (locale_exists($requested_lang))
+			if (locale_pattern_check($requested_lang) && locale_exists($requested_lang))
 				return $requested_lang;
 		}
 	}
 
-	if (locale_exists($default_locale))
+	if (locale_pattern_check($default_locale) && locale_exists($default_locale))
 		return $default_locale;
 
 	return 'en';
@@ -139,19 +137,21 @@ function get_user_locale()
 
 function get_locale()
 {
-	global $webimroot, $locale_pattern;
+	global $webimroot;
 
-	$locale = verifyparam("locale", $locale_pattern, "");
+	$locale = verifyparam("locale", "/./", "");
 
-	if ($locale && locale_exists($locale)) {
+	if ($locale && locale_pattern_check($locale) && locale_exists($locale)) {
 		$_SESSION['locale'] = $locale;
-		setcookie('webim_locale', $locale, time() + 60 * 60 * 24 * 1000, "$webimroot/");
-	} else if (isset($_SESSION['locale'])) {
-		$locale = $_SESSION['locale'];
+	}
+	else if (isset($_SESSION['locale']) && locale_pattern_check($_SESSION['locale']) && locale_exists($_SESSION['locale'])) {
+		$locale =  $_SESSION['locale'];
+	}
+	else {
+		$locale = get_user_locale();
 	}
 
-	if (!$locale || !locale_exists($locale))
-		$locale = get_user_locale();
+	setcookie('webim_locale', $locale, time() + 60 * 60 * 24 * 1000, "$webimroot/");
 	return $locale;
 }
 
