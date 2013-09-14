@@ -79,7 +79,7 @@ if (isset($_POST['address'])) {
 		mysql_close($link);
 
 		if (!$threadid) {
-			header("Location: $webimroot/operator/blocked.php");
+			header("Location: $mibewroot/operator/blocked.php");
 			exit;
 		} else {
 			$page['saved'] = true;

@@ -32,13 +32,13 @@ function update_settings()
 
 function setup_settings_tabs($active)
 {
-	global $page, $webimroot;
+	global $page, $mibewroot;
 	$page['tabselected'] = $active;
 	$page['tabs'] = array(
-		array('title' => getlocal("page_settings.tab.main"), 'link' => "$webimroot/operator/settings.php"),
-		array('title' => getlocal("page_settings.tab.features"), 'link' => "$webimroot/operator/features.php"),
-		array('title' => getlocal("page_settings.tab.performance"), 'link' => "$webimroot/operator/performance.php"),
-		array('title' => getlocal("page_settings.tab.themes"), 'link' => "$webimroot/operator/themes.php"),
+		array('title' => getlocal("page_settings.tab.main"), 'link' => "$mibewroot/operator/settings.php"),
+		array('title' => getlocal("page_settings.tab.features"), 'link' => "$mibewroot/operator/features.php"),
+		array('title' => getlocal("page_settings.tab.performance"), 'link' => "$mibewroot/operator/performance.php"),
+		array('title' => getlocal("page_settings.tab.themes"), 'link' => "$mibewroot/operator/themes.php"),
 	);
 }
 

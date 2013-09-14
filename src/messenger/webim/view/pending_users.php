@@ -20,9 +20,9 @@ $page['title'] = getlocal("clients.title");
 $page['menuid'] = "users";
 
 
-function tpl_header() { global $page, $webimroot, $jsver;
+function tpl_header() { global $page, $mibewroot, $jsver;
 ?>
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/<?php echo $jsver ?>/common.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/<?php echo $jsver ?>/common.js"></script>
 <script type="text/javascript" language="javascript"><!--
 var localized = new Array(
     "<?php echo safe_htmlspecialchars(getlocal("pending.table.speak")) ?>",
@@ -33,15 +33,15 @@ var localized = new Array(
     "<?php echo safe_htmlspecialchars(getlocal("pending.popup_notification")) ?>"
 );
 var updaterOptions = {
-	url:"<?php echo $webimroot ?>/operator/update.php",wroot:"<?php echo $webimroot ?>",
-	agentservl:"<?php echo $webimroot ?>/operator/agent.php", frequency:<?php echo safe_htmlspecialchars($page['frequency']) ?>, istatus:<?php echo safe_htmlspecialchars($page['istatus']) ?>,
+	url:"<?php echo $mibewroot ?>/operator/update.php",wroot:"<?php echo $mibewroot ?>",
+	agentservl:"<?php echo $mibewroot ?>/operator/agent.php", frequency:<?php echo safe_htmlspecialchars($page['frequency']) ?>, istatus:<?php echo safe_htmlspecialchars($page['istatus']) ?>,
 	noclients:"<?php echo safe_htmlspecialchars(getlocal("clients.no_clients")) ?>", havemenu: <?php echo safe_htmlspecialchars($page['havemenu']) ?>, showpopup: <?php echo safe_htmlspecialchars($page['showpopup']) ?>, showonline: <?php echo safe_htmlspecialchars($page['showonline']) ?> };
 //--></script>
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/<?php echo $jsver ?>/users.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/<?php echo $jsver ?>/users.js"></script>
 <?php
 }
 
-function tpl_content() { global $page, $webimroot;
+function tpl_content() { global $page, $mibewroot;
 ?>
 
 <div>

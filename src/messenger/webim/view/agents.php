@@ -19,13 +19,13 @@ require_once("inc_menu.php");
 $page['title'] = getlocal("page_agents.title");
 $page['menuid'] = "operators";
 
-function tpl_header() { global $page, $webimroot;
+function tpl_header() { global $page, $mibewroot;
 ?>	
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/jquery-1.4.2.min.js"></script>
 <?php
 }
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
 <?php echo getlocal("page_agents.intro") ?>
@@ -37,8 +37,8 @@ require_once('inc_errors.php');
 
 <?php if($page['canmodify']) { ?>
 <div class="tabletool">
-	<img src="<?php echo $webimroot ?>/images/buttons/createagent.gif" border="0" alt="" />
-	<a href="<?php echo $webimroot ?>/operator/operator.php" title="<?php echo safe_htmlspecialchars(getlocal("page_agents.new_agent")) ?>">
+	<img src="<?php echo $mibewroot ?>/images/buttons/createagent.gif" border="0" alt="" />
+	<a href="<?php echo $mibewroot ?>/operator/operator.php" title="<?php echo safe_htmlspecialchars(getlocal("page_agents.new_agent")) ?>">
 		<?php echo getlocal("page_agents.new_agent") ?>
 	</a>
 </div>
@@ -64,7 +64,7 @@ require_once('inc_errors.php');
 <?php foreach( $page['allowedAgents'] as $a ) { ?>
 <tr>
 	<td class="notlast">
-   		<a id="ti<?php echo safe_htmlspecialchars($a['operatorid']) ?>" href="<?php echo $webimroot ?>/operator/operator.php?op=<?php echo urlencode($a['operatorid']) ?>" class="man">
+   		<a id="ti<?php echo safe_htmlspecialchars($a['operatorid']) ?>" href="<?php echo $mibewroot ?>/operator/operator.php?op=<?php echo urlencode($a['operatorid']) ?>" class="man">
    			<?php echo safe_htmlspecialchars(topage($a['vclogin'])) ?>
    		</a>
 	</td>
@@ -82,7 +82,7 @@ require_once('inc_errors.php');
 	</td>
 <?php if($page['canmodify']) { ?>
 	<td>
-  <a class="removelink" id="i<?php echo safe_htmlspecialchars($a['operatorid']) ?>" href="<?php echo $webimroot ?>/operator/operators.php?act=del&amp;id=<?php echo urlencode($a['operatorid']) ?><?php print_csrf_token_in_url() ?>">
+  <a class="removelink" id="i<?php echo safe_htmlspecialchars($a['operatorid']) ?>" href="<?php echo $mibewroot ?>/operator/operators.php?act=del&amp;id=<?php echo urlencode($a['operatorid']) ?><?php print_csrf_token_in_url() ?>">
 			remove
 		</a>
 	</td>

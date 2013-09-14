@@ -110,7 +110,7 @@ if (isset($_GET['act']) && $_GET['act'] == 'delete') {
 		$link = connect();
 		perform_query("delete from ${mysqlprefix}chatresponses where id = " . intval($key), $link);
 		mysql_close($link);
-		header("Location: $webimroot/operator/canned.php?lang=" . urlencode($lang) . "&group=" . intval($groupid));
+		header("Location: $mibewroot/operator/canned.php?lang=" . urlencode($lang) . "&group=" . intval($groupid));
 		exit;
 	}
 }

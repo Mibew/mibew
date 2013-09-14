@@ -114,7 +114,7 @@ function message_to_text($msg)
 
 function get_messages($threadid, $meth, $isuser, &$lastid)
 {
-	global $kind_for_agent, $kind_avatar, $webim_encoding, $mysqlprefix;
+	global $kind_for_agent, $kind_avatar, $mibew_encoding, $mysqlprefix;
 	$link = connect();
 
 	$query = sprintf(
@@ -129,10 +129,10 @@ function get_messages($threadid, $meth, $isuser, &$lastid)
 		if ($meth == 'xml') {
 			switch ($msg['ikind']) {
 				case $kind_avatar:
-					$message = "<avatar>" . myiconv($webim_encoding, "utf-8", escape_with_cdata($msg['tmessage'])) . "</avatar>";
+					$message = "<avatar>" . myiconv($mibew_encoding, "utf-8", escape_with_cdata($msg['tmessage'])) . "</avatar>";
 					break;
 				default:
-					$message = "<message>" . myiconv($webim_encoding, "utf-8", escape_with_cdata(message_to_html($msg))) . "</message>\n";
+					$message = "<message>" . myiconv($mibew_encoding, "utf-8", escape_with_cdata(message_to_html($msg))) . "</message>\n";
 			}
 		} else {
 			if ($msg['ikind'] != $kind_avatar) {
@@ -152,7 +152,7 @@ function get_messages($threadid, $meth, $isuser, &$lastid)
 
 function print_thread_messages($thread, $token, $lastid, $isuser, $format, $agentid = null)
 {
-	global $webim_encoding, $webimroot, $connection_timeout, $settings;
+	global $mibew_encoding, $mibewroot, $connection_timeout, $settings;
 	$threadid = $thread['threadid'];
 	$istyping = abs($thread['current'] - $thread[$isuser ? "lpagent" : "lpuser"]) < $connection_timeout
 				&& $thread[$isuser ? "agentTyping" : "userTyping"] == "1" ? "1" : "0";
@@ -171,12 +171,12 @@ function print_thread_messages($thread, $token, $lastid, $isuser, $format, $agen
 		$output = get_messages($threadid, "html", $isuser, $lastid);
 
 		start_html_output();
-		$url = "$webimroot/thread.php?act=refresh&amp;thread=" . safe_htmlspecialchars($threadid) . "&amp;token=" . safe_htmlspecialchars($token) . "&amp;html=on&amp;user=" . ($isuser ? "true" : "false");
+		$url = "$mibewroot/thread.php?act=refresh&amp;thread=" . safe_htmlspecialchars($threadid) . "&amp;token=" . safe_htmlspecialchars($token) . "&amp;html=on&amp;user=" . ($isuser ? "true" : "false");
 
 		print(
 				"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" .
 				"<html>\n<head>\n" .
-				"<link href=\"$webimroot/styles/default/chat.css\" rel=\"stylesheet\" type=\"text/css\">\n" .
+				"<link href=\"$mibewroot/styles/default/chat.css\" rel=\"stylesheet\" type=\"text/css\">\n" .
 				"<meta http-equiv=\"Refresh\" content=\"" . safe_htmlspecialchars($settings['updatefrequency_oldchat']) . "; URL=$url&amp;sn=11\">\n" .
 				"<meta http-equiv=\"Pragma\" content=\"no-cache\">\n" .
 				"<title>chat</title>\n" .
@@ -287,7 +287,7 @@ function setup_logo()
 	loadsettings();
 	$page['ct.company.name'] = safe_htmlspecialchars(topage($settings['title']));
 	$page['ct.company.chatLogoURL'] = safe_htmlspecialchars(topage($settings['logo']));
-	$page['webimHost'] = safe_htmlspecialchars(topage($settings['hosturl']));
+	$page['mibewHost'] = safe_htmlspecialchars(topage($settings['hosturl']));
 }
 
 function setup_leavemessage($name, $email, $message, $groupid, $groupname, $info, $referrer, $canshowcaptcha)
@@ -344,7 +344,7 @@ function setup_survey($name, $email, $groupid, $info, $referrer, $canshowcaptcha
 
 function setup_chatview_for_user($thread, $level)
 {
-	global $page, $webimroot, $settings;
+	global $page, $mibewroot, $settings;
 	loadsettings();
 	$page = array();
 	$page['agent'] = false;
@@ -370,7 +370,7 @@ function setup_chatview_for_user($thread, $level)
 	}
 
 	$params = "thread=" . $thread['threadid'] . "&token=" . $thread['ltoken'];
-	$page['mailLink'] = safe_htmlspecialchars("$webimroot/client.php?" . $params . "&level=$level&act=mailthread");
+	$page['mailLink'] = safe_htmlspecialchars("$mibewroot/client.php?" . $params . "&level=$level&act=mailthread");
 
 	if ($settings['enablessl'] == "1" && !is_secure_request()) {
 		$page['sslLink'] = safe_htmlspecialchars(get_app_location(true, true) . "/client.php?" . $params . "&level=$level");
@@ -409,7 +409,7 @@ function load_canned_messages($locale, $groupid)
 
 function setup_chatview_for_operator($thread, $operator)
 {
-	global $page, $webimroot, $company_logo_link, $company_name, $settings;
+	global $page, $mibewroot, $company_logo_link, $company_name, $settings;
 	loadsettings();
 	$page = array();
 	$page['agent'] = true;
@@ -435,7 +435,7 @@ function setup_chatview_for_operator($thread, $operator)
 	$page['isOpera95'] = is_agent_opera95();
 	$page['neediframesrc'] = needsFramesrc();
 	$page['historyParams'] = array("userid" => "" . $thread['userid']);
-	$page['historyParamsLink'] = safe_htmlspecialchars(add_params($webimroot . "/operator/userhistory.php", $page['historyParams']));
+	$page['historyParamsLink'] = safe_htmlspecialchars(add_params($mibewroot . "/operator/userhistory.php", $page['historyParams']));
 	$predefinedres = "";
 	$canned_messages = load_canned_messages($thread['locale'], $thread['groupid']);
 	foreach ($canned_messages as $answer) {
@@ -443,7 +443,7 @@ function setup_chatview_for_operator($thread, $operator)
 	}
 	$page['predefinedAnswers'] = $predefinedres;
 	$params = "thread=" . $thread['threadid'] . "&token=" . $thread['ltoken'];
-	$page['redirectLink'] = safe_htmlspecialchars("$webimroot/operator/agent.php?" . $params . "&act=redirect");
+	$page['redirectLink'] = safe_htmlspecialchars("$mibewroot/operator/agent.php?" . $params . "&act=redirect");
 
 	$page['namePostfix'] = "";
 	$page['frequency'] = $settings['updatefrequency_chat'];
@@ -750,13 +750,13 @@ function check_connections_from_remote($remote, $link)
 
 function visitor_from_request()
 {
-	global $namecookie, $webim_encoding, $usercookie;
+	global $namecookie, $mibew_encoding, $usercookie;
 	$defaultName = getstring("chat.default.username");
 	$userName = $defaultName;
 	if (isset($_COOKIE[$namecookie])) {
 		$data = base64_decode(strtr($_COOKIE[$namecookie], '-_,', '+/='));
 		if (strlen($data) > 0) {
-			$userName = myiconv("utf-8", $webim_encoding, $data);
+			$userName = myiconv("utf-8", $mibew_encoding, $data);
 		}
 	}
 

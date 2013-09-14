@@ -17,11 +17,11 @@
 
 function setup_getcode_tabs($active)
 {
-	global $page, $webimroot;
+	global $page, $mibewroot;
 	$page['tabselected'] = $active;
 	$page['tabs'] = array(
-		array('title' => getlocal("page_getcode.tab.image"), 'link' => "$webimroot/operator/getcode.php"),
-		array('title' => getlocal("page_getcode.tab.text"), 'link' => "$webimroot/operator/gettextcode.php"),
+		array('title' => getlocal("page_getcode.tab.image"), 'link' => "$mibewroot/operator/getcode.php"),
+		array('title' => getlocal("page_getcode.tab.text"), 'link' => "$mibewroot/operator/gettextcode.php"),
 	);
 }
 
@@ -38,7 +38,7 @@ function generate_button($title, $locale, $style, $group, $inner, $showhost, $fo
 	$modsecfix = $modsecurity ? ".replace('http://','').replace('https://','')" : "";
 	$jslink = safe_htmlspecialchars(append_query("'" . $link, "url='+escape(document.location.href$modsecfix)+'&referrer='+escape(document.referrer$modsecfix)"));
 	$temp = get_popup(safe_htmlspecialchars($link), "$jslink",
-					  $inner, safe_htmlspecialchars($title), "webim", "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1");
+					  $inner, safe_htmlspecialchars($title), "mibew", "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1");
 	return "<!-- mibew button -->" . $temp . "<!-- / mibew button -->";
 }
 

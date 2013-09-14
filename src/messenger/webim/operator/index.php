@@ -27,13 +27,13 @@ mysql_close($link);
 
 $page = array(
 	'version' => $version,
-	'localeLinks' => get_locale_links("$webimroot/operator/index.php"),
+	'localeLinks' => get_locale_links("$mibewroot/operator/index.php"),
 	'needUpdate' => $settings['dbversion'] != $dbversion,
 	'needChangePassword' => check_password_hash($operator['vclogin'], '', $operator['vcpassword']),
-	'profilePage' => "$webimroot/operator/operator.php?op=".safe_htmlspecialchars($operator['operatorid']),
-	'updateWizard' => "$webimroot/install/",
+	'profilePage' => "$mibewroot/operator/operator.php?op=".safe_htmlspecialchars($operator['operatorid']),
+	'updateWizard' => "$mibewroot/install/",
 	'newFeatures' => $settings['featuresversion'] != $featuresversion,
-	'featuresPage' => "$webimroot/operator/features.php",
+	'featuresPage' => "$mibewroot/operator/features.php",
 	'isOnline' => $isonline
 );
 

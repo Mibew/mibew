@@ -42,16 +42,16 @@ function expand_condition($matches)
 
 function expand_var($matches)
 {
-	global $page, $webimroot, $jsver, $errors, $current_style;
+	global $page, $mibewroot, $jsver, $errors, $current_style;
 	$prefix = $matches[1];
 	$var = $matches[2];
 	if (!$prefix) {
-		if ($var == 'webimroot') {
-			return $webimroot;
+		if ($var == 'mibewroot') {
+			return $mibewroot;
 		} else if ($var == 'jsver') {
 			return $jsver;
 		} else if ($var == 'tplroot') {
-			return "$webimroot/styles/$current_style";
+			return "$mibewroot/styles/$current_style";
 		} else if ($var == 'styleid') {
 			return $current_style;
 		} else if ($var == 'pagination') {

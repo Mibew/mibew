@@ -27,7 +27,7 @@ loadsettings();
 setlocale(LC_TIME, getstring("time.locale"));
 
 $page = array();
-$query = isset($_GET['q']) ? myiconv(getoutputenc(), $webim_encoding, $_GET['q']) : false;
+$query = isset($_GET['q']) ? myiconv(getoutputenc(), $mibew_encoding, $_GET['q']) : false;
 
 if ($query !== false) {
 	$link = connect();

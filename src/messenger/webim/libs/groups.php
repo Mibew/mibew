@@ -36,12 +36,12 @@ function get_group_name($group)
 
 function setup_group_settings_tabs($gid, $active)
 {
-	global $page, $webimroot, $settings;
+	global $page, $mibewroot, $settings;
 	if ($gid) {
 		$page['tabselected'] = $active;
 		$page['tabs'] = array(
-			array('title' => getlocal("page_group.tab.main"), 'link' => "$webimroot/operator/group.php?gid=$gid"),
-			array('title' => getlocal("page_group.tab.members"), 'link' => "$webimroot/operator/groupmembers.php?gid=$gid"),
+			array('title' => getlocal("page_group.tab.main"), 'link' => "$mibewroot/operator/group.php?gid=$gid"),
+			array('title' => getlocal("page_group.tab.members"), 'link' => "$mibewroot/operator/groupmembers.php?gid=$gid"),
 		);
 	} else {
 		$page['tabs'] = array();

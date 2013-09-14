@@ -51,7 +51,7 @@ if (isset($_GET['act']) && $_GET['act'] == 'del') {
 		perform_query("delete from ${mysqlprefix}chatoperator where operatorid = " . intval($operatorid), $link);
 		mysql_close($link);
 
-		header("Location: $webimroot/operator/operators.php");
+		header("Location: $mibewroot/operator/operators.php");
 		exit;
 	}
 }

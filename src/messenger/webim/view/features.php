@@ -21,9 +21,9 @@ require_once("inc_tabbar.php");
 $page['title'] = getlocal("settings.title");
 $page['menuid'] = "settings";
 
-function tpl_header() { global $page, $webimroot;
+function tpl_header() { global $page, $mibewroot;
 ?>
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/jquery-1.4.2.min.js"></script>
 <script type="text/javascript" language="javascript">
 function updateSurvey() {
 	if($("#enablepresurvey").is(":checked")) {
@@ -55,7 +55,7 @@ $(function(){
 <?php
 }
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
 <?php echo getlocal("page_settings.intro") ?>
@@ -68,7 +68,7 @@ require_once('inc_errors.php');
 <div id="formmessage"><?php echo getlocal("features.saved") ?></div>
 <?php } ?>
 
-<form name="features" method="post" action="<?php echo $webimroot ?>/operator/features.php">
+<form name="features" method="post" action="<?php echo $mibewroot ?>/operator/features.php">
 <?php print_csrf_token_input() ?>
 <input type="hidden" name="sent" value="true"/>
 	<div>
@@ -213,7 +213,7 @@ require_once('inc_errors.php');
 
     <?php if($page['canmodify']) { ?>
 		<div class="fbutton">
-			<input type="image" name="save" value="" src="<?php echo $webimroot . safe_htmlspecialchars(getlocal("image.button.save")) ?>" alt="<?php echo safe_htmlspecialchars(getlocal("button.save")) ?>"/>
+			<input type="image" name="save" value="" src="<?php echo $mibewroot . safe_htmlspecialchars(getlocal("image.button.save")) ?>" alt="<?php echo safe_htmlspecialchars(getlocal("button.save")) ?>"/>
 		</div>
     <?php } ?>
 	</div>

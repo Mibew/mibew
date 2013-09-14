@@ -23,52 +23,52 @@ function menuli($name) {
 	return "";
 }
 
-function tpl_menu() { global $page, $webimroot, $errors;
+function tpl_menu() { global $page, $mibewroot, $errors;
 	if(isset($page['isOnline']) && !$page['isOnline']) { ?>
 			<li id="offwarn">
-				<img src="<?php echo $webimroot ?>/images/dash/warn.gif" alt="" width="24" height="24"/>
-				<p><?php echo getlocal2("menu.goonline",array($webimroot."/operator/users.php?nomenu")) ?></p>
+				<img src="<?php echo $mibewroot ?>/images/dash/warn.gif" alt="" width="24" height="24"/>
+				<p><?php echo getlocal2("menu.goonline",array($mibewroot."/operator/users.php?nomenu")) ?></p>
 			</li>		
 <?php }
 	if(isset($page['operator'])) { ?>
 			<li>
 				<h2><?php echo getlocal('right.main') ?></h2>
 				<ul class="submenu">
-					<li<?php menuli("main")?>><a href="<?php echo $webimroot ?>/operator/index.php"><?php echo getlocal('topMenu.main') ?></a></li>
-					<li<?php menuli("users")?>><a href="<?php echo $webimroot ?>/operator/users.php"><?php echo getlocal('topMenu.users') ?></a> <span class="small">(<a class="inner" href="<?php echo $webimroot ?>/operator/users.php?nomenu"><?php echo getlocal('topMenu.users.nomenu') ?></a>)</span></li>
-					<li<?php menuli("history")?>><a href="<?php echo $webimroot ?>/operator/history.php"><?php echo getlocal('page_analysis.search.title') ?></a></li>
+					<li<?php menuli("main")?>><a href="<?php echo $mibewroot ?>/operator/index.php"><?php echo getlocal('topMenu.main') ?></a></li>
+					<li<?php menuli("users")?>><a href="<?php echo $mibewroot ?>/operator/users.php"><?php echo getlocal('topMenu.users') ?></a> <span class="small">(<a class="inner" href="<?php echo $mibewroot ?>/operator/users.php?nomenu"><?php echo getlocal('topMenu.users.nomenu') ?></a>)</span></li>
+					<li<?php menuli("history")?>><a href="<?php echo $mibewroot ?>/operator/history.php"><?php echo getlocal('page_analysis.search.title') ?></a></li>
 <?php if(isset($page['showstat']) && $page['showstat']) { ?>
-					<li<?php menuli("statistics")?>><a href="<?php echo $webimroot ?>/operator/statistics.php"><?php echo getlocal('statistics.title') ?></a></li>
+					<li<?php menuli("statistics")?>><a href="<?php echo $mibewroot ?>/operator/statistics.php"><?php echo getlocal('statistics.title') ?></a></li>
 <?php } ?>
 <?php if(isset($page['showban']) && $page['showban']) { ?>
-					<li<?php menuli("blocked")?>><a href="<?php echo $webimroot ?>/operator/blocked.php"><?php echo getlocal('menu.blocked') ?></a></li>
+					<li<?php menuli("blocked")?>><a href="<?php echo $mibewroot ?>/operator/blocked.php"><?php echo getlocal('menu.blocked') ?></a></li>
 <?php } ?>
 				</ul>
 			</li>
 			<li>
 				<h2><?php echo getlocal('right.administration') ?></h2>
 				<ul class="submenu">
-					<li<?php menuli("canned")?>><a href="<?php echo $webimroot ?>/operator/canned.php"><?php echo getlocal('menu.canned') ?></a></li>
+					<li<?php menuli("canned")?>><a href="<?php echo $mibewroot ?>/operator/canned.php"><?php echo getlocal('menu.canned') ?></a></li>
 <?php if(isset($page['showadmin']) && $page['showadmin']) { ?>
-					<li<?php menuli("getcode")?>><a href="<?php echo $webimroot ?>/operator/getcode.php"><?php echo getlocal('leftMenu.client_gen_button') ?></a></li>
-					<li<?php menuli("operators")?>><a href="<?php echo $webimroot ?>/operator/operators.php"><?php echo getlocal('leftMenu.client_agents') ?></a></li>
+					<li<?php menuli("getcode")?>><a href="<?php echo $mibewroot ?>/operator/getcode.php"><?php echo getlocal('leftMenu.client_gen_button') ?></a></li>
+					<li<?php menuli("operators")?>><a href="<?php echo $mibewroot ?>/operator/operators.php"><?php echo getlocal('leftMenu.client_agents') ?></a></li>
 <?php if(isset($page['showgroups']) && $page['showgroups']) { ?>
-					<li<?php menuli("groups")?>><a href="<?php echo $webimroot ?>/operator/groups.php"><?php echo getlocal('menu.groups') ?></a></li>
+					<li<?php menuli("groups")?>><a href="<?php echo $mibewroot ?>/operator/groups.php"><?php echo getlocal('menu.groups') ?></a></li>
 <?php } ?>
-					<li<?php menuli("settings")?>><a href="<?php echo $webimroot ?>/operator/settings.php"><?php echo getlocal('leftMenu.client_settings') ?></a></li>
-					<li<?php menuli("translate")?>><a href="<?php echo $webimroot ?>/operator/translate.php"><?php echo getlocal('menu.translate') ?></a></li>
-					<li<?php menuli("updates")?>><a href="<?php echo $webimroot ?>/operator/updates.php"><?php echo getlocal('menu.updates') ?></a></li>
-					<li<?php menuli("notifications")?>><a href="<?php echo $webimroot ?>/operator/notifications.php"><?php echo getlocal('menu.notifications') ?></a></li>
+					<li<?php menuli("settings")?>><a href="<?php echo $mibewroot ?>/operator/settings.php"><?php echo getlocal('leftMenu.client_settings') ?></a></li>
+					<li<?php menuli("translate")?>><a href="<?php echo $mibewroot ?>/operator/translate.php"><?php echo getlocal('menu.translate') ?></a></li>
+					<li<?php menuli("updates")?>><a href="<?php echo $mibewroot ?>/operator/updates.php"><?php echo getlocal('menu.updates') ?></a></li>
+					<li<?php menuli("notifications")?>><a href="<?php echo $mibewroot ?>/operator/notifications.php"><?php echo getlocal('menu.notifications') ?></a></li>
 <?php } ?>
 <?php if(isset($page['currentopid']) && $page['currentopid']) {?>
-					<li<?php menuli("profile")?>><a href="<?php echo $webimroot ?>/operator/operator.php?op=<?php echo urlencode($page['currentopid']) ?>"><?php echo getlocal('menu.profile') ?></a></li>
+					<li<?php menuli("profile")?>><a href="<?php echo $mibewroot ?>/operator/operator.php?op=<?php echo urlencode($page['currentopid']) ?>"><?php echo getlocal('menu.profile') ?></a></li>
 <?php } ?>
 				</ul>
 			</li>
 			<li>
 				<h2><?php echo getlocal('right.other') ?></h2>
 				<ul class="submenu">
-					<li><a href="<?php echo $webimroot ?>/operator/logout.php"><?php echo getlocal('topMenu.logoff') ?></a></li>
+					<li><a href="<?php echo $mibewroot ?>/operator/logout.php"><?php echo getlocal('topMenu.logoff') ?></a></li>
 				</ul>
 			</li>
 <?php

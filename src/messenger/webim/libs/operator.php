@@ -211,7 +211,7 @@ function append_query($link, $pv)
 
 function check_login($redirect = true)
 {
-	global $webimroot, $mysqlprefix, $remember_cookie_name;
+	global $mibewroot, $mysqlprefix, $remember_cookie_name;
 	if (!isset($_SESSION["${mysqlprefix}operator"])) {
 		if (isset($_COOKIE[$remember_cookie_name])) {
 			list($login, $pwd) = preg_split('/\x0/', base64_decode($_COOKIE[$remember_cookie_name]), 2);
@@ -227,7 +227,7 @@ function check_login($redirect = true)
 		}
 		if ($redirect) {
 			$_SESSION['backpath'] = $requested;
-			header("Location: $webimroot/operator/login.php");
+			header("Location: $mibewroot/operator/login.php");
 			exit;
 		} else {
 			return null;
@@ -244,30 +244,30 @@ function get_logged_in()
 
 function login_operator($operator, $remember, $https = FALSE)
 {
-	global $webimroot, $mysqlprefix, $remember_cookie_name;
+	global $mibewroot, $mysqlprefix, $remember_cookie_name;
 	$_SESSION["${mysqlprefix}operator"] = $operator;
 	if ($remember) {
 		$value = base64_encode($operator['vclogin'] . "\x0" . calculate_password_hash($operator['vclogin'], $operator['vcpassword']));
-		setcookie($remember_cookie_name, $value, time() + 60 * 60 * 24 * 1000, "$webimroot/", NULL, $https, TRUE);
+		setcookie($remember_cookie_name, $value, time() + 60 * 60 * 24 * 1000, "$mibewroot/", NULL, $https, TRUE);
 
 	} else if (isset($_COOKIE[$remember_cookie_name])) {
-		setcookie($remember_cookie_name, '', time() - 3600, "$webimroot/");
+		setcookie($remember_cookie_name, '', time() - 3600, "$mibewroot/");
 	}
 }
 
 function logout_operator()
 {
-	global $webimroot, $mysqlprefix, $remember_cookie_name;
+	global $mibewroot, $mysqlprefix, $remember_cookie_name;
 	unset($_SESSION["${mysqlprefix}operator"]);
 	unset($_SESSION['backpath']);
 	if (isset($_COOKIE[$remember_cookie_name])) {
-		setcookie($remember_cookie_name, '', time() - 3600, "$webimroot/");
+		setcookie($remember_cookie_name, '', time() - 3600, "$mibewroot/");
 	}
 }
 
 function setup_redirect_links($threadid, $token)
 {
-	global $page, $webimroot, $settings, $mysqlprefix;
+	global $page, $mibewroot, $settings, $mysqlprefix;
 	loadsettings();
 	$link = connect();
 
@@ -306,7 +306,7 @@ function setup_redirect_links($threadid, $token)
 						: getlocal("char.redirect.operator.away_suff")
 				)
 				: "";
-		$agent_list .= "<li><a href=\"" . add_params($webimroot . "/operator/redirect.php", $params) .
+		$agent_list .= "<li><a href=\"" . add_params($mibewroot . "/operator/redirect.php", $params) .
 					   "\" title=\"" . safe_htmlspecialchars(topage(get_operator_name($agent))) . "\">" .
 					   safe_htmlspecialchars(topage(get_operator_name($agent))) .
 					   "</a> $status</li>";
@@ -323,7 +323,7 @@ function setup_redirect_links($threadid, $token)
 					: ($group['ilastseenaway'] !== NULL && $group['ilastseenaway'] < $settings['online_timeout']
 							? getlocal("char.redirect.operator.away_suff")
 							: "");
-			$group_list .= "<li><a href=\"" . add_params($webimroot . "/operator/redirect.php", $params) .
+			$group_list .= "<li><a href=\"" . add_params($mibewroot . "/operator/redirect.php", $params) .
 						   "\" title=\"" . safe_htmlspecialchars(topage(get_group_name($group))) . "\">" .
 						   safe_htmlspecialchars(topage(get_group_name($group))) .
 						   "</a> $status</li>";

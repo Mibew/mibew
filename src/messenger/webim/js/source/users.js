@@ -85,13 +85,13 @@ var HtmlGenerationUtils = {
 		gen += '</td>';
 		if( canopen ) {
 			gen += '<td class="icon">';
-			gen += HtmlGenerationUtils.popupLink( link, localized[0], "ImCenter"+id, '<img src="'+webimRoot+'/images/tbliclspeak.gif" width="15" height="15" border="0" alt="'+localized[0]+'">', 640, 480, null);
+			gen += HtmlGenerationUtils.popupLink( link, localized[0], "ImCenter"+id, '<img src="'+mibewRoot+'/images/tbliclspeak.gif" width="15" height="15" border="0" alt="'+localized[0]+'">', 640, 480, null);
 			gen += '</td>';
 			cellsCount++;
 		}
 		if( canview ) {
 			gen += '<td class="icon">';
-			gen += HtmlGenerationUtils.popupLink( link+"&viewonly=true", localized[1], "ImCenter"+id, '<img src="'+webimRoot+'/images/tbliclread.gif" width="15" height="15" border="0" alt="'+localized[1]+'">', 640, 480, null);
+			gen += HtmlGenerationUtils.popupLink( link+"&viewonly=true", localized[1], "ImCenter"+id, '<img src="'+mibewRoot+'/images/tbliclread.gif" width="15" height="15" border="0" alt="'+localized[1]+'">', 640, 480, null);
 			gen += '</td>';
 			cellsCount++;
 		}
@@ -104,7 +104,7 @@ var HtmlGenerationUtils = {
   },
   banCell: function(id,banid){
       return '<td class="icon">'+
-          HtmlGenerationUtils.popupLink( webimRoot+'/operator/ban.php?'+(banid ? 'id='+banid : 'thread='+id), localized[2], "ban"+id, '<img src="'+webimRoot+'/images/ban.gif" width="15" height="15" border="0" alt="'+localized[2]+'">', 720, 480, null)+
+          HtmlGenerationUtils.popupLink( mibewRoot+'/operator/ban.php?'+(banid ? 'id='+banid : 'thread='+id), localized[2], "ban"+id, '<img src="'+mibewRoot+'/images/ban.gif" width="15" height="15" border="0" alt="'+localized[2]+'">', 720, 480, null)+
           '</td>';
   }
 };
@@ -301,7 +301,7 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 	this.updateTimers();
 	this.setStatus(this._options.istatus ? "Away" : "Up to date");
 	if( newAdded ) {
-		playSound(webimRoot+'/sounds/new_user.wav');
+		playSound(mibewRoot+'/sounds/new_user.wav');
 		window.focus();
 		if(updaterOptions.showpopup) {
 			alert(localized[5]);
@@ -325,7 +325,7 @@ Class.inherit( Ajax.ThreadListUpdater, Ajax.Base, {
 		var isAway = NodeUtils.getAttrValue(node, 'away') != null;
 		
 		names[names.length] = 
-			'<img src="'+webimRoot+'/images/op'+(isAway ? 'away' : 'online')+
+			'<img src="'+mibewRoot+'/images/op'+(isAway ? 'away' : 'online')+
 					'.gif" width="12" height="12" border="0" alt="'+localized[1]+'"> '+ name;
 	}
 
@@ -365,7 +365,7 @@ if($("sidebar") && $("wcontent") && $("togglemenu")) {
 }
 }
 
-var webimRoot = "";
+var mibewRoot = "";
 
 Behaviour.register({
 	'#togglemenu' : function(el) {
@@ -376,7 +376,7 @@ Behaviour.register({
 });
 
 EventHelper.register(window, 'onload', function(){
-  webimRoot = updaterOptions.wroot;
+  mibewRoot = updaterOptions.wroot;
   new Ajax.ThreadListUpdater(({table:$("threadlist"),status:$("connstatus"),istatus:0}).extend(updaterOptions || {}));
   if(!updaterOptions.havemenu) {
 	  togglemenu();

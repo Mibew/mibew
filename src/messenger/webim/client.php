@@ -79,7 +79,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 			if($settings['usercanchangename'] == "1" && isset($_POST['name'])) {
 				$newname = getparam("name");
 				if($newname != $visitor['name']) {
-					$data = strtr(base64_encode(myiconv($webim_encoding,"utf-8",$newname)), '+/=', '-_,');
+					$data = strtr(base64_encode(myiconv($mibew_encoding,"utf-8",$newname)), '+/=', '-_,');
 					setcookie($namecookie, $data, time()+60*60*24*365);
 					$visitor['name'] = $newname;
 				}
@@ -151,7 +151,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 	$token = $thread['ltoken'];
 	$level = get_remote_level($_SERVER['HTTP_USER_AGENT']);
 	$chatstyle = verifyparam( "style", "/^\w+$/", "");
-	header("Location: $webimroot/client.php?thread=$threadid&token=$token&level=$level".($chatstyle ? "&style=$chatstyle" : ""));
+	header("Location: $mibewroot/client.php?thread=$threadid&token=$token&level=$level".($chatstyle ? "&style=$chatstyle" : ""));
 	exit;
 }
 

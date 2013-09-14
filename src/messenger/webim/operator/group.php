@@ -95,11 +95,11 @@ if (isset($_POST['name'])) {
 	if (count($errors) == 0) {
 		if (!$groupid) {
 			$newdep = create_group($name, $description, $commonname, $commondescription, $email);
-			header("Location: $webimroot/operator/groupmembers.php?gid=" . intval($newdep['groupid']));
+			header("Location: $mibewroot/operator/groupmembers.php?gid=" . intval($newdep['groupid']));
 			exit;
 		} else {
 			update_group($groupid, $name, $description, $commonname, $commondescription, $email);
-			header("Location: $webimroot/operator/group.php?gid=" . intval($groupid) . "&stored");
+			header("Location: $mibewroot/operator/group.php?gid=" . intval($groupid) . "&stored");
 			exit;
 		}
 	} else {

@@ -17,7 +17,7 @@
 
 $page['title'] = getlocal("notification.title");
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 $notification = $page['notification'];
 ?>
 
@@ -59,7 +59,7 @@ $notification = $page['notification'];
 </div>
 
 <br />
-<a href="<?php echo $webimroot ?>/operator/notifications.php">
+<a href="<?php echo $mibewroot ?>/operator/notifications.php">
 	<?php echo getlocal("notification.back_to_list") ?></a>
 <br />
 

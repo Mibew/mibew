@@ -62,7 +62,7 @@ if (!$op) {
 		if ($opId && $_SESSION["${mysqlprefix}operator"] && $operator['operatorid'] == $opId) {
 			$_SESSION["${mysqlprefix}operator"]['iperm'] = $new_permissions;
 		}
-		header("Location: $webimroot/operator/permissions.php?op=" . intval($opId) . "&stored");
+		header("Location: $mibewroot/operator/permissions.php?op=" . intval($opId) . "&stored");
 		exit;
 	}
 

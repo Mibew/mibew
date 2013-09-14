@@ -19,13 +19,13 @@ require_once("inc_menu.php");
 $page['title'] = getlocal("page_bans.title");
 $page['menuid'] = "blocked";
 
-function tpl_header() { global $page, $webimroot;
+function tpl_header() { global $page, $mibewroot;
 ?>	
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/jquery-1.4.2.min.js"></script>
 <?php
 }
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
 <?php echo getlocal("page_ban.intro") ?>
@@ -36,8 +36,8 @@ require_once('inc_errors.php');
 ?>
 
 <div class="tabletool">
-	<img src="<?php echo $webimroot ?>/images/buttons/createban.gif" border="0" alt=""/>
-	<a href="<?php echo $webimroot ?>/operator/ban.php" title="<?php echo safe_htmlspecialchars(getlocal("page_bans.add")) ?>">
+	<img src="<?php echo $mibewroot ?>/images/buttons/createban.gif" border="0" alt=""/>
+	<a href="<?php echo $mibewroot ?>/operator/ban.php" title="<?php echo safe_htmlspecialchars(getlocal("page_bans.add")) ?>">
 		<?php echo getlocal("page_bans.add") ?>
 	</a>
 </div>
@@ -81,7 +81,7 @@ if( $page['pagination.items'] ) {
 ?>
 	</td>
 	<td>
-		<a class="removelink" id="i<?php echo safe_htmlspecialchars($b['banid']) ?>" href="<?php echo $webimroot ?>/operator/blocked.php?act=del&amp;id=<?php echo urlencode($b['banid']) ?><?php print_csrf_token_in_url() ?>">
+		<a class="removelink" id="i<?php echo safe_htmlspecialchars($b['banid']) ?>" href="<?php echo $mibewroot ?>/operator/blocked.php?act=del&amp;id=<?php echo urlencode($b['banid']) ?><?php print_csrf_token_in_url() ?>">
 			remove
 		</a>
 	</td>

@@ -21,7 +21,7 @@ require_once("inc_tabbar.php");
 $page['title'] = getlocal("page.group.title");
 $page['menuid'] = "groups";
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
 	<?php if( $page['grid'] ) { ?>
@@ -39,7 +39,7 @@ require_once('inc_errors.php');
 <div id="formmessage"><?php echo getlocal("data.saved") ?></div>
 <?php } ?>
 
-<form name="groupForm" method="post" action="<?php echo $webimroot ?>/operator/group.php">
+<form name="groupForm" method="post" action="<?php echo $mibewroot ?>/operator/group.php">
 <?php print_csrf_token_input() ?>
 <input type="hidden" name="gid" value="<?php echo safe_htmlspecialchars($page['grid']) ?>"/>
 	<div>
@@ -93,7 +93,7 @@ require_once('inc_errors.php');
 		</div>
 		
 		<div class="fbutton">
-			<input type="image" name="save" value="" src="<?php echo $webimroot . safe_htmlspecialchars(getlocal("image.button.save")) ?>" alt="<?php echo safe_htmlspecialchars(getlocal("button.save")) ?>"/>
+			<input type="image" name="save" value="" src="<?php echo $mibewroot . safe_htmlspecialchars(getlocal("image.button.save")) ?>" alt="<?php echo safe_htmlspecialchars(getlocal("button.save")) ?>"/>
 		</div>
 	</div>
 

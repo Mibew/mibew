@@ -39,7 +39,7 @@ if (isset($_GET['act']) && $_GET['act'] == 'del') {
 		perform_query("delete from ${mysqlprefix}chatgroupoperator where groupid = " . intval($groupid), $link);
 		perform_query("update ${mysqlprefix}chatthread set groupid = 0 where groupid = " . intval($groupid), $link);
 		mysql_close($link);
-		header("Location: $webimroot/operator/groups.php");
+		header("Location: $mibewroot/operator/groups.php");
 		exit;
 	}
 }

@@ -24,7 +24,7 @@ $operator = check_login();
 loadsettings();
 
 $imageLocales = get_image_locales_map("../locales");
-$image = verifyparam(isset($_GET['image']) ? "image" : "i", "/^\w+$/", "webim");
+$image = verifyparam(isset($_GET['image']) ? "image" : "i", "/^\w+$/", "mibew");
 if (!isset($imageLocales[$image])) {
 	$errors[] = "Unknown image: $image";
 	$avail = array_keys($imageLocales);

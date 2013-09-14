@@ -92,7 +92,7 @@ if( $act == "refresh" ) {
 	$newname = getrawparam('name');
 
 	rename_user($thread, $newname);
-	$data = strtr(base64_encode(myiconv($webim_encoding,"utf-8",$newname)), '+/=', '-_,');
+	$data = strtr(base64_encode(myiconv($mibew_encoding,"utf-8",$newname)), '+/=', '-_,');
 	setcookie($namecookie, $data, time()+60*60*24*365);
 	show_ok_result("rename");
 

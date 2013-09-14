@@ -21,7 +21,7 @@ $isrtl = getlocal("localedirection") == 'rtl';
 <html xmlns="http://www.w3.org/1999/xhtml"<?php if($isrtl) { ?> dir="rtl"<?php } ?>>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="shortcut icon" href="<?php echo $webimroot ?>/images/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="<?php echo $mibewroot ?>/images/favicon.ico" type="image/x-icon"/>
 <?php
 	if(function_exists('tpl_header'))
 		tpl_header();
@@ -29,21 +29,21 @@ $isrtl = getlocal("localedirection") == 'rtl';
 <title>
 	<?php echo safe_htmlspecialchars($page['title']) ?> - <?php echo getlocal("app.title") ?>
 </title>
-<link href="<?php echo $webimroot ?>/default.css" rel="stylesheet" type="text/css" />
-<!--[if lte IE 6]><script language="JavaScript" type="text/javascript" src="<?php echo $webimroot ?>/<?php echo jspath() ?>/ie.js"></script><![endif]-->
+<link href="<?php echo $mibewroot ?>/default.css" rel="stylesheet" type="text/css" />
+<!--[if lte IE 6]><script language="JavaScript" type="text/javascript" src="<?php echo $mibewroot ?>/<?php echo jspath() ?>/ie.js"></script><![endif]-->
 </head>
 <body<?php if(!function_exists('tpl_menu')) { ?> style="min-width: 400px;"<?php } ?>>
 <div id="<?php echo (isset($page) && isset($page['fixedwrap'])) ? "fixedwrap" : (function_exists('tpl_menu') ? "wrap700" : "wrap400" )?>" class="l<?php echo getlocal("localedirection") ?>">
 	<div id="header">
 		<div id="title">
-			<h1><img src="<?php echo $webimroot ?>/images/logo.gif" alt="" width="32" height="32" class="left" />
+			<h1><img src="<?php echo $mibewroot ?>/images/logo.gif" alt="" width="32" height="32" class="left" />
 				<a href="#"><?php echo isset($page['headertitle']) ? safe_htmlspecialchars($page['headertitle']) : safe_htmlspecialchars($page['title']) ?></a></h1>
 		</div>
 <?php if(isset($page) && isset($page['operator'])) { ?>
 		<div id="path"><p><?php echo getlocal2("menu.operator",array(safe_htmlspecialchars($page['operator']))) ?></p></div>
 <?php } else if(isset($page) && isset($page['show_small_login'])) { ?>
 		<div id="loginsmallpane">
-			<form name="smallLogin" method="post" action="<?php echo $webimroot ?>/operator/login.php">
+			<form name="smallLogin" method="post" action="<?php echo $mibewroot ?>/operator/login.php">
 				<?php echo getlocal("page_login.login") ?>
 				<input type="text" name="login" size="8" class="formauth"/>
 				<input type="password" name="password" size="8" class="formauth"/>

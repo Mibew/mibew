@@ -19,14 +19,14 @@ require_once("inc_menu.php");
 $page['title'] = getlocal("page.translate.title");
 $page['menuid'] = "translate";
 
-function tpl_content() { global $page, $webimroot;
+function tpl_content() { global $page, $mibewroot;
 ?>
 
 <?php echo getlocal("page.translate.descr") ?>
 <br />
 <br />
 
-<form name="translateForm" method="get" action="<?php echo $webimroot ?>/operator/translate.php">
+<form name="translateForm" method="get" action="<?php echo $mibewroot ?>/operator/translate.php">
 	
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
@@ -89,7 +89,7 @@ if( $page['pagination.items'] ) {
 	foreach( $page['pagination.items'] as $localstr ) { ?>
 	<tr>
 		<td>
-			<a href="<?php echo $webimroot ?>/operator/translate.php?source=<?php echo urlencode($page['lang1']) ?>&amp;target=<?php echo urlencode($page['lang2']) ?>&amp;key=<?php echo urlencode($localstr['id']) ?>" target="_blank" onclick="this.newWindow = window.open('<?php echo $webimroot ?>/operator/translate.php?source=<?php echo urlencode($page['lang1']) ?>&amp;target=<?php echo urlencode($page['lang2']) ?>&amp;key=<?php echo urlencode($localstr['id']) ?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo safe_htmlspecialchars(topage($localstr['id'])) ?></a>
+			<a href="<?php echo $mibewroot ?>/operator/translate.php?source=<?php echo urlencode($page['lang1']) ?>&amp;target=<?php echo urlencode($page['lang2']) ?>&amp;key=<?php echo urlencode($localstr['id']) ?>" target="_blank" onclick="this.newWindow = window.open('<?php echo $mibewroot ?>/operator/translate.php?source=<?php echo urlencode($page['lang1']) ?>&amp;target=<?php echo urlencode($page['lang2']) ?>&amp;key=<?php echo urlencode($localstr['id']) ?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo safe_htmlspecialchars(topage($localstr['id'])) ?></a>
 		</td>
 		<td>
 			<?php echo topage($localstr['l1']) ?>

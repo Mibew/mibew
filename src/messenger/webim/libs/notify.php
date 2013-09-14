@@ -33,19 +33,19 @@ function log_notification($locale, $kind, $to, $subj, $text, $refop, $link)
 
 function mibew_mail($toaddr, $reply_to, $subject, $body, $link)
 {
-	global $webim_encoding, $webim_mailbox, $mail_encoding, $current_locale;
+	global $mibew_encoding, $mibew_mailbox, $mail_encoding, $current_locale;
 
-	$headers = "From: $webim_mailbox\r\n"
-			   . "Reply-To: " . myiconv($webim_encoding, $mail_encoding, $reply_to) . "\r\n"
+	$headers = "From: $mibew_mailbox\r\n"
+			   . "Reply-To: " . myiconv($mibew_encoding, $mail_encoding, $reply_to) . "\r\n"
 			   . "Content-Type: text/plain; charset=$mail_encoding\r\n"
 			   . 'X-Mailer: PHP/' . phpversion();
 
-	$real_subject = "=?" . $mail_encoding . "?B?" . base64_encode(myiconv($webim_encoding, $mail_encoding, $subject)) . "?=";
+	$real_subject = "=?" . $mail_encoding . "?B?" . base64_encode(myiconv($mibew_encoding, $mail_encoding, $subject)) . "?=";
 
 	$body = preg_replace("/\n/", "\r\n", $body);
 
 	log_notification($current_locale, "mail", $toaddr, $subject, $body, null, $link);
-	@mail($toaddr, $real_subject, wordwrap(myiconv($webim_encoding, $mail_encoding, $body), 70), $headers);
+	@mail($toaddr, $real_subject, wordwrap(myiconv($mibew_encoding, $mail_encoding, $body), 70), $headers);
 }
 
 function mibew_xmpp($toaddr, $subject, $text, $link)

@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>${msg:leavemessage.title}</title>
-<link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="${mibewroot}/images/favicon.ico" type="image/x-icon"/>
 <link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" />
 </head>
 <body>
 <div id="whitebg">
-	<form name="leaveMessageForm" method="post" action="${webimroot}/leavemessage.php">
+	<form name="leaveMessageForm" method="post" action="${mibewroot}/leavemessage.php">
 		<input type="hidden" name="style" value="${styleid}"/>
 		<input type="hidden" name="info" value="${form:info}"/>
 		<input type="hidden" name="referrer" value="${page:referrer}"/>

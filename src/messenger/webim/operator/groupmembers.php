@@ -74,7 +74,7 @@ if (!$group) {
 	}
 
 	update_group_members($groupid, $new_members);
-	header("Location: $webimroot/operator/groupmembers.php?gid=" . intval($groupid) . "&stored");
+	header("Location: $mibewroot/operator/groupmembers.php?gid=" . intval($groupid) . "&stored");
 	exit;
 }
 

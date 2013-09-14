@@ -25,13 +25,13 @@ function shorten($text,$len) {
 	return $text;
 }
 
-function tpl_header() { global $page, $webimroot;
+function tpl_header() { global $page, $mibewroot;
 ?>	
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/jquery-1.4.2.min.js"></script>
 <?php
 }
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
 <?php echo getlocal("page.notifications.intro") ?>
@@ -41,7 +41,7 @@ function tpl_content() { global $page, $webimroot, $errors;
 require_once('inc_errors.php');
 ?>
 
-<form name="notifyFilterForm" method="get" action="<?php echo $webimroot ?>/operator/notifications.php">
+<form name="notifyFilterForm" method="get" action="<?php echo $mibewroot ?>/operator/notifications.php">
 
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
@@ -89,7 +89,7 @@ if( $page['pagination.items'] ) {
 	foreach( $page['pagination.items'] as $b ) { ?>
 	<tr>
 	<td class="notlast">
-		<a href="<?php echo $webimroot ?>/operator/notification.php?id=<?php echo urlencode($b['id']) ?>" target="_blank" onclick="this.newWindow = window.open('<?php echo $webimroot ?>/operator/notification.php?id=<?php echo urlencode($b['id']) ?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=720,height=520,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;" class="<?php echo $b['vckind'] == 'xmpp' ? 'xmpp' : 'mail' ?>">
+		<a href="<?php echo $mibewroot ?>/operator/notification.php?id=<?php echo urlencode($b['id']) ?>" target="_blank" onclick="this.newWindow = window.open('<?php echo $mibewroot ?>/operator/notification.php?id=<?php echo urlencode($b['id']) ?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=720,height=520,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;" class="<?php echo $b['vckind'] == 'xmpp' ? 'xmpp' : 'mail' ?>">
 			<?php echo safe_htmlspecialchars(shorten(topage($b['vcto']),30)) ?>
 		</a>
 	</td>

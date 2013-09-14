@@ -18,19 +18,19 @@
 /*
  *  Application path on server
  */
-$webimroot = "/webim";
+$mibewroot = "/mibew";
 
 /*
  *  Internal encoding
  */
-$webim_encoding = "utf-8";
+$mibew_encoding = "utf-8";
 
 /*
  *  MySQL Database parameters
  */
 $mysqlhost = "localhost";
-$mysqldb = "webim_db";
-$mysqllogin = "webim_lite";
+$mysqldb = "mibew_db";
+$mysqllogin = "mibew";
 $mysqlpass = "123";
 $mysqlprefix = "";
 
@@ -40,7 +40,7 @@ $force_charset_in_connection = true;
 /*
  *  Mailbox
  */
-$webim_mailbox = "webim@yourdomain.com";
+$mibew_mailbox = "mibew@yourdomain.com";
 $mail_encoding = "utf-8";
 
 /*

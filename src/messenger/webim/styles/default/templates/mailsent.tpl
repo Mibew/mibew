@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>${msg:chat.window.title.user}</title>
-<link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="${mibewroot}/images/favicon.ico" type="image/x-icon"/>
 <link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" />
 <style type="text/css">
 #header{
@@ -25,21 +25,21 @@
 		<tr>
 			<td width="100%" height="100" style="padding-left:20px;">
 		    	${if:ct.company.chatLogoURL}
-		    		${if:webimHost}
-		            	<a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">
+		    		${if:mibewHost}
+		            	<a onclick="window.open('${page:mibewHost}');return false;" href="${page:mibewHost}">
 			            	<img src="${page:ct.company.chatLogoURL}" border="0" alt=""/>
 			            </a>
-			        ${else:webimHost}
+			        ${else:mibewHost}
 		            	<img src="${page:ct.company.chatLogoURL}" border="0" alt=""/>
-			        ${endif:webimHost}
+			        ${endif:mibewHost}
 			    ${else:ct.company.chatLogoURL}
-	    			${if:webimHost}
-	        	    	<a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">
-	        	    		<img src="${webimroot}/images/webimlogo.gif" border="0" alt=""/>
+	    			${if:mibewHost}
+	        	    	<a onclick="window.open('${page:mibewHost}');return false;" href="${page:mibewHost}">
+	        	    		<img src="${mibewroot}/images/mibewlogo.gif" border="0" alt=""/>
 	        	    	</a>
-				    ${else:webimHost}
-				    	<img src="${webimroot}/images/webimlogo.gif" border="0" alt=""/>
-				    ${endif:webimHost}
+				    ${else:mibewHost}
+				    	<img src="${mibewroot}/images/mibewlogo.gif" border="0" alt=""/>
+				    ${endif:mibewHost}
 		        ${endif:ct.company.chatLogoURL}
 			</td>
 			<td nowrap="nowrap" style="padding-right:10px"><span style="font-size:16px;font-weight:bold;color:#525252">${msg:chat.mailthread.sent.title}</span></td>

@@ -17,7 +17,7 @@
 
 $page['title'] = getlocal("thread.chat_log");
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 $chatthread = $page['thread'];
 ?>
 
@@ -92,7 +92,7 @@ $chatthread = $page['thread'];
 </div>
 
 <br />
-<a href="<?php echo $webimroot ?>/operator/history.php">
+<a href="<?php echo $mibewroot ?>/operator/history.php">
 	<?php echo getlocal("thread.back_to_search") ?></a>
 <br />
 

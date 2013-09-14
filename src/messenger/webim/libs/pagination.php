@@ -28,8 +28,8 @@ function generate_pagination_link($page, $title, $raw = false)
 
 function generate_pagination_image($id, $alt)
 {
-	global $webimroot;
-	return "<img src=\"$webimroot/images/$id.gif\" border=\"0\" alt=\"" . safe_htmlspecialchars($alt) . "\"/>";
+	global $mibewroot;
+	return "<img src=\"$mibewroot/images/$id.gif\" border=\"0\" alt=\"" . safe_htmlspecialchars($alt) . "\"/>";
 }
 
 function prepare_pagination($items_count, $default_items_per_page = 15)

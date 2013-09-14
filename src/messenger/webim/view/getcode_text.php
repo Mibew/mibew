@@ -21,7 +21,7 @@ require_once("inc_tabbar.php");
 $page['title'] = getlocal("page.gen_button.title");
 $page['menuid'] = "getcode";
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
 <?php echo getlocal("page.gen_button.intro") ?>
@@ -31,7 +31,7 @@ function tpl_content() { global $page, $webimroot, $errors;
 require_once('inc_errors.php');
 ?>
 
-<form name="buttonCodeForm" method="get" action="<?php echo $webimroot ?>/operator/gettextcode.php">
+<form name="buttonCodeForm" method="get" action="<?php echo $mibewroot ?>/operator/gettextcode.php">
 	<div>
 <?php print_tabbar(); ?>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">

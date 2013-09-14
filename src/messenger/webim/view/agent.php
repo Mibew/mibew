@@ -21,7 +21,7 @@ require_once("inc_tabbar.php");
 $page['title'] = getlocal("page_agent.title");
 $page['menuid'] = $page['opid'] == $page['currentopid'] ? "profile" : "operators";
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
 <?php if( $page['opid'] ) { ?>
@@ -45,7 +45,7 @@ require_once('inc_errors.php');
 
 
 <?php if( $page['opid'] || $page['canmodify'] ) { ?>
-<form name="agentForm" method="post" action="<?php echo $webimroot ?>/operator/operator.php">
+<form name="agentForm" method="post" action="<?php echo $mibewroot ?>/operator/operator.php">
 <?php print_csrf_token_input() ?>
 <input type="hidden" name="opid" value="<?php echo safe_htmlspecialchars($page['opid']) ?>"/>
 <?php if(!$page['showjabber']) { ?>
@@ -133,7 +133,7 @@ require_once('inc_errors.php');
 
 <?php if($page['canmodify']) { ?>
 		<div class="fbutton">
-			<input type="image" name="save" value="" src="<?php echo $webimroot . safe_htmlspecialchars(getlocal("image.button.save")) ?>" alt="<?php echo safe_htmlspecialchars(getlocal("button.save")) ?>"/>
+			<input type="image" name="save" value="" src="<?php echo $mibewroot . safe_htmlspecialchars(getlocal("image.button.save")) ?>" alt="<?php echo safe_htmlspecialchars(getlocal("button.save")) ?>"/>
 		</div>
 <?php } ?>
 	</div>

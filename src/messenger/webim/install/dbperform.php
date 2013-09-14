@@ -163,6 +163,6 @@ if ($act == "silentcreateall") {
 }
 
 mysql_close($link);
-header("Location: $webimroot/install/index.php");
+header("Location: $mibewroot/install/index.php");
 exit;
 ?>

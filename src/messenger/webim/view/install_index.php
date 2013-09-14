@@ -21,19 +21,19 @@ if(isset($page) && isset($page['localeLinks'])) {
 $page['title'] = getlocal("install.title");
 $page['fixedwrap'] = true;
 
-function tpl_header() { global $page, $webimroot, $jsver;
+function tpl_header() { global $page, $mibewroot, $jsver;
 	if($page['soundcheck']) {
 ?>
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/<?php echo $jsver ?>/common.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/<?php echo $jsver ?>/common.js"></script>
 <script type="text/javascript" language="javascript"><!--
-var wroot ="<?php echo $webimroot ?>";
+var wroot ="<?php echo $mibewroot ?>";
 //--></script>
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/<?php echo $jsver ?>/soundcheck.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/<?php echo $jsver ?>/soundcheck.js"></script>
 <?php
 	}
 }
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 <?php echo getlocal("install.message") ?>
 <br/>
@@ -67,7 +67,7 @@ require_once('inc_errors.php');
 <?php } ?>
 
 <br/>
-<a href="<?php echo $webimroot ?>/license.php"><?php echo getlocal("install.license") ?></a>
+<a href="<?php echo $mibewroot ?>/license.php"><?php echo getlocal("install.license") ?></a>
 
 
 <?php

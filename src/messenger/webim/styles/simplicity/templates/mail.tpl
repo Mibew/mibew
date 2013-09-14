@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>${msg:chat.window.title.user}</title>
-<link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="${mibewroot}/images/favicon.ico" type="image/x-icon"/>
 <link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" />
 </head>
 <body>
 <div id="whitebg">
-	<form name="mailThreadForm" method="post" action="${webimroot}/mail.php">
+	<form name="mailThreadForm" method="post" action="${mibewroot}/mail.php">
 		<input type="hidden" name="style" value="${styleid}"/>
 		<input type="hidden" name="thread" value="${page:ct.chatThreadId}"/>
 		<input type="hidden" name="token" value="${page:ct.token}"/>

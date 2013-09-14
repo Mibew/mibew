@@ -79,7 +79,7 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
 			$settings[$opt] = $params[$opt];
 		}
 		update_settings();
-		header("Location: $webimroot/operator/settings.php?stored");
+		header("Location: $mibewroot/operator/settings.php?stored");
 		exit;
 	}
 }

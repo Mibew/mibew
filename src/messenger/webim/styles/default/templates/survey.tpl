@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>${msg:presurvey.title}</title>
-<link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="${mibewroot}/images/favicon.ico" type="image/x-icon"/>
 <link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" />
 <style type="text/css">
 #header{
@@ -42,7 +42,7 @@
 <td valign="top">
 
 
-<form name="surveyForm" method="post" action="${webimroot}/client.php">
+<form name="surveyForm" method="post" action="${mibewroot}/client.php">
 <input type="hidden" name="style" value="${styleid}"/>
 <input type="hidden" name="info" value="${form:info}"/>
 <input type="hidden" name="referrer" value="${page:referrer}"/>
@@ -57,21 +57,21 @@ ${ifnot:showmessage}<input type="hidden" name="message" value="${form:message}"/
 		<tr>
 			<td width="100%" height="100" style="padding-left:20px;">
 		    	${if:ct.company.chatLogoURL}
-		    		${if:webimHost}
-		            	<a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">
+		    		${if:mibewHost}
+		            	<a onclick="window.open('${page:mibewHost}');return false;" href="${page:mibewHost}">
 			            	<img src="${page:ct.company.chatLogoURL}" border="0" alt=""/>
 			            </a>
-			        ${else:webimHost}
+			        ${else:mibewHost}
 		            	<img src="${page:ct.company.chatLogoURL}" border="0" alt=""/>
-			        ${endif:webimHost}
+			        ${endif:mibewHost}
 			    ${else:ct.company.chatLogoURL}
-	    			${if:webimHost}
-	        	    	<a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">
-	        	    		<img src="${webimroot}/images/webimlogo.gif" border="0" alt=""/>
+	    			${if:mibewHost}
+	        	    	<a onclick="window.open('${page:mibewHost}');return false;" href="${page:mibewHost}">
+	        	    		<img src="${mibewroot}/images/mibewlogo.gif" border="0" alt=""/>
 	        	    	</a>
-				    ${else:webimHost}
-				    	<img src="${webimroot}/images/webimlogo.gif" border="0" alt=""/>
-				    ${endif:webimHost}
+				    ${else:mibewHost}
+				    	<img src="${mibewroot}/images/mibewlogo.gif" border="0" alt=""/>
+				    ${endif:mibewHost}
 		        ${endif:ct.company.chatLogoURL}
 			</td>
 			<td nowrap="nowrap" style="padding-right:10px"><span style="font-size:16px;font-weight:bold;color:#525252">${msg:presurvey.title}</span></td>
@@ -100,7 +100,7 @@ ${ifnot:showmessage}<input type="hidden" name="message" value="${form:message}"/
 ${if:errors}
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td valign="top"><img src="${webimroot}/images/icon_err.gif" width="40" height="40" border="0" alt="" /></td>
+	    <td valign="top"><img src="${mibewroot}/images/icon_err.gif" width="40" height="40" border="0" alt="" /></td>
 	    <td width="10"></td>
 	    <td class="text">
 		    ${errors}

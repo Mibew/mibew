@@ -2,12 +2,12 @@
 
 <project basedir="." default="update" name="Obfuscator">
   <property name="closure.c" value="/usr/local/closure/compiler.jar" />
-  <property name="webim.location" value="../165" />
+  <property name="mibew.location" value="../165" />
 
   <target name="update">
 	<java jar="${closure.c}" fork="true">
 	  <arg value="--module_output_path_prefix"/>
-	  <arg value="${webim.location}/"/>
+	  <arg value="${mibew.location}/"/>
 	  <arg value="--module"/>
 	  	<arg value="common:1"/>
 		  <arg value="--js"/>

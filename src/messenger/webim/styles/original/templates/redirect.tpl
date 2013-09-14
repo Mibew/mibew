@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>${msg:chat.window.title.agent}</title>
-<link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="${mibewroot}/images/favicon.ico" type="image/x-icon"/>
 <link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" />
 <style type="text/css">
 .tplimage {
@@ -33,7 +33,7 @@
     <td width="50%" height="90" class="window"><h1>${msg:chat.redirect.title}</h1></td>
 	<td width="50%" align="right" valign="bottom" class="window">
 		<h2>${msg:chat.redirect.choose}</h2>
-		<img src="${webimroot}/images/free.gif" width="1" height="5" border="0" alt="" /><br/>
+		<img src="${mibewroot}/images/free.gif" width="1" height="5" border="0" alt="" /><br/>
 	</td>
 	</tr>
 	</table>
@@ -47,13 +47,13 @@
 
 	<table width="100%" style="height:100%;" cellspacing="0" cellpadding="0" border="0">
 	<tr>
-    <td width="15"><img class="tplimage icrnlt" src="${webimroot}/images/free.gif" border="0" alt=""/></td>
-	<td width="100%" style="background-image: url(${tplroot}/images/winbg.gif)" class="bgcy"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td>
-    <td width="15"><img class="tplimage icrnrt" src="${webimroot}/images/free.gif" border="0" alt=""/></td>
+    <td width="15"><img class="tplimage icrnlt" src="${mibewroot}/images/free.gif" border="0" alt=""/></td>
+	<td width="100%" style="background-image: url(${tplroot}/images/winbg.gif)" class="bgcy"><img src="${mibewroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td>
+    <td width="15"><img class="tplimage icrnrt" src="${mibewroot}/images/free.gif" border="0" alt=""/></td>
 	</tr>
 
 	<tr>
-    <td height="100%" bgcolor="#FED840"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td>
+    <td height="100%" bgcolor="#FED840"><img src="${mibewroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td>
 	<td style="background-image: url(${tplroot}/images/winbg.gif)" class="bgcy">
 
 		<table width="100%" style="height:100%;" cellspacing="0" cellpadding="0" border="0">
@@ -85,13 +85,13 @@ ${endif:redirectToGroup}
 		</table>
 
 	</td>
-    <td bgcolor="#E8A400"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td>
+    <td bgcolor="#E8A400"><img src="${mibewroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td>
 	</tr>
 
 	<tr>
-    <td><img class="tplimage icrnlb" src="${webimroot}/images/free.gif" border="0" alt=""/></td>
-	<td style="background-image: url(${tplroot}/images/winbg.gif)" class="bgcy"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td>
-    <td><img class="tplimage icrnrb" src="${webimroot}/images/free.gif" border="0" alt=""/></td>
+    <td><img class="tplimage icrnlb" src="${mibewroot}/images/free.gif" border="0" alt=""/></td>
+	<td style="background-image: url(${tplroot}/images/winbg.gif)" class="bgcy"><img src="${mibewroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td>
+    <td><img class="tplimage icrnrb" src="${mibewroot}/images/free.gif" border="0" alt=""/></td>
 	</tr>
 	</table>
 
@@ -111,7 +111,7 @@ ${endif:redirectToGroup}
     <td width="50%" align="right">
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td><a href="javascript:window.back();" title="${msg:chat.redirect.back}"><img class="tplimage iback" src="${webimroot}/images/free.gif" border="0" alt=""/></a></td>
+	    <td><a href="javascript:window.back();" title="${msg:chat.redirect.back}"><img class="tplimage iback" src="${mibewroot}/images/free.gif" border="0" alt=""/></a></td>
 	    <td width="5"></td>
 	    <td class="button"><a href="javascript:window.back();" title="${msg:chat.redirect.back}">${msg:chat.redirect.back}</a></td>
 		</tr>
@@ -125,9 +125,9 @@ ${endif:redirectToGroup}
 </tr>
 
 <tr>
-<td width="30"><img src="${webimroot}/images/free.gif" width="30" height="1" border="0" alt="" /></td>
-<td width="100%"><img src="${webimroot}/images/free.gif" width="540" height="1" border="0" alt="" /></td>
-<td width="30"><img src="${webimroot}/images/free.gif" width="30" height="1" border="0" alt="" /></td>
+<td width="30"><img src="${mibewroot}/images/free.gif" width="30" height="1" border="0" alt="" /></td>
+<td width="100%"><img src="${mibewroot}/images/free.gif" width="540" height="1" border="0" alt="" /></td>
+<td width="30"><img src="${mibewroot}/images/free.gif" width="30" height="1" border="0" alt="" /></td>
 </tr>
 </table>
 

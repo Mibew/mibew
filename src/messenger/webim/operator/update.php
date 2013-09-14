@@ -24,7 +24,7 @@ require_once('../libs/groups.php');
 $operator = get_logged_in();
 if (!$operator) {
 	start_xml_output();
-	echo "<error><descr>" . safe_htmlspecialchars(safe_htmlspecialchars(myiconv($webim_encoding, "utf-8", escape_with_cdata(getstring("agent.not_logged_in"))))) . "</descr></error>";
+	echo "<error><descr>" . safe_htmlspecialchars(safe_htmlspecialchars(myiconv($mibew_encoding, "utf-8", escape_with_cdata(getstring("agent.not_logged_in"))))) . "</descr></error>";
 	exit;
 }
 
@@ -48,7 +48,7 @@ $threadstate_key = array(
 function thread_to_xml($thread, $link)
 {
 	global $state_chatting, $threadstate_to_string, $threadstate_key,
-$webim_encoding, $operator, $settings,
+$mibew_encoding, $operator, $settings,
 $can_viewthreads, $can_takeover, $mysqlprefix;
 	$state = $threadstate_to_string[$thread['istate']];
 	$result = "<thread id=\"" . safe_htmlspecialchars(safe_htmlspecialchars($thread['threadid'])) . "\" stateid=\"$state\"";
@@ -111,7 +111,7 @@ $can_viewthreads, $can_takeover, $mysqlprefix;
 
 function print_pending_threads($groupids, $since)
 {
-	global $webim_encoding, $settings, $state_closed, $state_left, $mysqlprefix;
+	global $mibew_encoding, $settings, $state_closed, $state_left, $mysqlprefix;
 	$link = connect();
 
 	$revision = $since;
@@ -144,14 +144,14 @@ function print_pending_threads($groupids, $since)
 
 	echo "<threads revision=\"$revision\" time=\"" . time() . "000\">";
 	foreach ($output as $thr) {
-		print myiconv($webim_encoding, "utf-8", $thr);
+		print myiconv($mibew_encoding, "utf-8", $thr);
 	}
 	echo "</threads>";
 }
 
 function print_operators()
 {
-	global $webim_encoding;
+	global $mibew_encoding;
 	echo "<operators>";
 	$operators = operator_get_all();
 
@@ -159,7 +159,7 @@ function print_operators()
 		if (!operator_is_online($operator))
 			continue;
 
-		$name = myiconv($webim_encoding, "utf-8", safe_htmlspecialchars(safe_htmlspecialchars($operator['vclocalename'])));
+		$name = myiconv($mibew_encoding, "utf-8", safe_htmlspecialchars(safe_htmlspecialchars($operator['vclocalename'])));
 		$away = operator_is_away($operator) ? " away=\"1\"" : "";
 
 		echo "<operator name=\"$name\"$away/>";

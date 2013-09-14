@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>${msg:chat.window.title.user}</title>
-<link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="${mibewroot}/images/favicon.ico" type="image/x-icon"/>
 <link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" />
 <style type="text/css">
 #header{
@@ -32,28 +32,28 @@
 <tr>
 	<td valign="top" style="padding: 5px;">
 
-		<form name="mailThreadForm" method="post" action="${webimroot}/mail.php"><input type="hidden" name="style" value="${styleid}"/>
+		<form name="mailThreadForm" method="post" action="${mibewroot}/mail.php"><input type="hidden" name="style" value="${styleid}"/>
 		<input type="hidden" name="thread" value="${page:ct.chatThreadId}"/><input type="hidden" name="token" value="${page:ct.token}"/><input type="hidden" name="level" value="${page:level}"/>
 
 		<table width="100%" cellspacing="0" cellpadding="0" border="0">
 			<tr>
 				<td width="100%" height="100" style="padding-left:20px;">
 			    	${if:ct.company.chatLogoURL}
-			    		${if:webimHost}
-			            	<a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">
+			    		${if:mibewHost}
+			            	<a onclick="window.open('${page:mibewHost}');return false;" href="${page:mibewHost}">
 				            	<img src="${page:ct.company.chatLogoURL}" border="0" alt=""/>
 				            </a>
-				        ${else:webimHost}
+				        ${else:mibewHost}
 			            	<img src="${page:ct.company.chatLogoURL}" border="0" alt=""/>
-				        ${endif:webimHost}
+				        ${endif:mibewHost}
 				    ${else:ct.company.chatLogoURL}
-	    				${if:webimHost}
-	        	    		<a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">
-	        		    		<img src="${webimroot}/images/webimlogo.gif" border="0" alt=""/>
+	    				${if:mibewHost}
+	        	    		<a onclick="window.open('${page:mibewHost}');return false;" href="${page:mibewHost}">
+	        		    		<img src="${mibewroot}/images/mibewlogo.gif" border="0" alt=""/>
 	        		    	</a>
-					    ${else:webimHost}
-					    	<img src="${webimroot}/images/webimlogo.gif" border="0" alt=""/>
-					    ${endif:webimHost}
+					    ${else:mibewHost}
+					    	<img src="${mibewroot}/images/mibewlogo.gif" border="0" alt=""/>
+					    ${endif:mibewHost}
 			        ${endif:ct.company.chatLogoURL}
 				</td>
 				<td nowrap="nowrap" style="padding-right:10px"><span style="font-size:16px;font-weight:bold;color:#525252">${msg:mailthread.title}</span></td>
@@ -62,7 +62,7 @@
 ${if:errors}
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td valign="top"><img src="${webimroot}/images/icon_err.gif" width="40" height="40" border="0" alt="" /></td>
+	    <td valign="top"><img src="${mibewroot}/images/icon_err.gif" width="40" height="40" border="0" alt="" /></td>
 	    <td width="10"></td>
 	    <td class="text">
 		    ${errors}
@@ -129,9 +129,9 @@ ${endif:errors}
 			</tr>
 
 			<tr>
-				<td width="30"><img src="${webimroot}/images/free.gif" width="30" height="1" border="0" alt="" /></td>
-				<td width="100%"><img src="${webimroot}/images/free.gif" width="540" height="1" border="0" alt="" /></td>
-				<td width="30"><img src="${webimroot}/images/free.gif" width="30" height="1" border="0" alt="" /></td>
+				<td width="30"><img src="${mibewroot}/images/free.gif" width="30" height="1" border="0" alt="" /></td>
+				<td width="100%"><img src="${mibewroot}/images/free.gif" width="540" height="1" border="0" alt="" /></td>
+				<td width="30"><img src="${mibewroot}/images/free.gif" width="30" height="1" border="0" alt="" /></td>
 			</tr>
 		</table>
 

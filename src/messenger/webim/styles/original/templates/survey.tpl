@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>${msg:presurvey.title}</title>
-<link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="${mibewroot}/images/favicon.ico" type="image/x-icon"/>
 <link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" />
 <style type="text/css">
 .tplimage {
@@ -26,7 +26,7 @@
 <tr>
 <td valign="top">
 
-<form name="surveyForm" method="post" action="${webimroot}/client.php">
+<form name="surveyForm" method="post" action="${mibewroot}/client.php">
 <input type="hidden" name="style" value="${styleid}"/>
 <input type="hidden" name="info" value="${form:info}"/>
 <input type="hidden" name="referrer" value="${page:referrer}"/>
@@ -48,7 +48,7 @@ ${ifnot:showmessage}<input type="hidden" name="message" value="${form:message}"/
 ${if:errors}
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td valign="top"><img class="tplimage ierricon" src="${webimroot}/images/free.gif" border="0" alt=""/></td>
+	    <td valign="top"><img class="tplimage ierricon" src="${mibewroot}/images/free.gif" border="0" alt=""/></td>
 	    <td width="10"></td>
 	    <td class="text">
 		    ${errors}
@@ -63,7 +63,7 @@ ${endif:errors}
 <td height="60"></td>
 <td>
 
-	<table cellspacing="0" cellpadding="0" border="0"><tr><td width="15"><img class="tplimage icrnlt" src="${webimroot}/images/free.gif" border="0" alt=""/></td><td width="100%" style="background-image: url(${tplroot}/images/winbg.gif)" class="bgcy"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td><td width="15"><img class="tplimage icrnrt" src="${webimroot}/images/free.gif" border="0" alt=""/></td></tr><tr><td height="100%" bgcolor="#FED840"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td><td style="background-image: url(${tplroot}/images/winbg.gif)" class="bgcy"><table cellspacing="0" cellpadding="0" border="0">
+	<table cellspacing="0" cellpadding="0" border="0"><tr><td width="15"><img class="tplimage icrnlt" src="${mibewroot}/images/free.gif" border="0" alt=""/></td><td width="100%" style="background-image: url(${tplroot}/images/winbg.gif)" class="bgcy"><img src="${mibewroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td><td width="15"><img class="tplimage icrnrt" src="${mibewroot}/images/free.gif" border="0" alt=""/></td></tr><tr><td height="100%" bgcolor="#FED840"><img src="${mibewroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td><td style="background-image: url(${tplroot}/images/winbg.gif)" class="bgcy"><table cellspacing="0" cellpadding="0" border="0">
 		<tr>
 		    <td colspan="3" class="text">${msg:presurvey.intro}</td>
 		</tr>
@@ -101,9 +101,9 @@ ${if:showmessage}
 		<tr>
 			<td class="text">${msg:presurvey.question}</td>
 		    <td width="20"></td>
-			<td height="60" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td colspan="3" bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td><td width="100%" height="100%" bgcolor="#FFFFFF" valign="top">
+			<td height="60" valign="top"><table cellspacing="0" cellpadding="0" border="0"><tr><td colspan="3" bgcolor="#A1A1A1"><img src="${mibewroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td bgcolor="#A1A1A1"><img src="${mibewroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td><td width="100%" height="100%" bgcolor="#FFFFFF" valign="top">
 				<textarea name="message" class="field" tabindex="0" cols="45" rows="3">${form:message}</textarea>
-			</td><td bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td colspan="3" bgcolor="#A1A1A1"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr></table></td>
+			</td><td bgcolor="#A1A1A1"><img src="${mibewroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td colspan="3" bgcolor="#A1A1A1"><img src="${mibewroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr></table></td>
 		</tr>
 		<tr><td height="7" colspan="3"></td></tr>
 ${endif:showmessage}			
@@ -117,7 +117,7 @@ ${if:showcaptcha}
 		<tr><td height="7" colspan="3"></td></tr>
 ${endif:showcaptcha}
 
-	</table></td><td bgcolor="#E8A400"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td><img class="tplimage icrnlb" src="${webimroot}/images/free.gif" border="0" alt=""/></td><td style="background-image: url(${tplroot}/images/winbg.gif)" class="bgcy"><img src="${webimroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td><td><img class="tplimage icrnrb" src="${webimroot}/images/free.gif" border="0" alt=""/></td></tr></table>
+	</table></td><td bgcolor="#E8A400"><img src="${mibewroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td></tr><tr><td><img class="tplimage icrnlb" src="${mibewroot}/images/free.gif" border="0" alt=""/></td><td style="background-image: url(${tplroot}/images/winbg.gif)" class="bgcy"><img src="${mibewroot}/images/free.gif" width="1" height="1" border="0" alt="" /></td><td><img class="tplimage icrnrb" src="${mibewroot}/images/free.gif" border="0" alt=""/></td></tr></table>
 
 </td>
 <td></td>
@@ -132,12 +132,12 @@ ${endif:showcaptcha}
     <td width="33%">
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td><a href="javascript:document.surveyForm.submit();" title="${msg:presurvey.submit}"><img class="tplimage isubmit" src="${webimroot}/images/free.gif" border="0" alt=""/></a></td>
-	    <td style="background-image: url(${webimroot}/images/submitbg.gif)" valign="top" class="submit">
-			<img src="${webimroot}/images/free.gif" width="1" height="10" border="0" alt="" /><br/>
+	    <td><a href="javascript:document.surveyForm.submit();" title="${msg:presurvey.submit}"><img class="tplimage isubmit" src="${mibewroot}/images/free.gif" border="0" alt=""/></a></td>
+	    <td style="background-image: url(${mibewroot}/images/submitbg.gif)" valign="top" class="submit">
+			<img src="${mibewroot}/images/free.gif" width="1" height="10" border="0" alt="" /><br/>
 			<a href="javascript:document.surveyForm.submit();" title="${msg:presurvey.submit}">${msg:presurvey.submit}</a><br/>
 		</td>
-	    <td width="10"><a href="javascript:document.surveyForm.submit();" title="${msg:presurvey.submit}"><img class="tplimage isubmitrest" src="${webimroot}/images/free.gif" border="0" alt=""/></a></td>
+	    <td width="10"><a href="javascript:document.surveyForm.submit();" title="${msg:presurvey.submit}"><img class="tplimage isubmitrest" src="${mibewroot}/images/free.gif" border="0" alt=""/></a></td>
 		</tr>
 		</table>
 	</td>
@@ -147,7 +147,7 @@ ${endif:showcaptcha}
     <td width="33%" align="right">
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
-	    <td><a href="javascript:window.close();" title="${msg:leavemessage.close}"><img class="tplimage iback" src="${webimroot}/images/free.gif" border="0" alt=""/></a></td>
+	    <td><a href="javascript:window.close();" title="${msg:leavemessage.close}"><img class="tplimage iback" src="${mibewroot}/images/free.gif" border="0" alt=""/></a></td>
 	    <td width="5"></td>
 	    <td class="button"><a href="javascript:window.close();" title="${msg:leavemessage.close}">${msg:leavemessage.close}</a></td>
 		</tr>
@@ -161,9 +161,9 @@ ${endif:showcaptcha}
 </tr>
 
 <tr>
-<td width="30"><img src="${webimroot}/images/free.gif" width="30" height="1" border="0" alt="" /></td>
-<td width="100%"><img src="${webimroot}/images/free.gif" width="540" height="1" border="0" alt="" /></td>
-<td width="30"><img src="${webimroot}/images/free.gif" width="30" height="1" border="0" alt="" /></td>
+<td width="30"><img src="${mibewroot}/images/free.gif" width="30" height="1" border="0" alt="" /></td>
+<td width="100%"><img src="${mibewroot}/images/free.gif" width="540" height="1" border="0" alt="" /></td>
+<td width="30"><img src="${mibewroot}/images/free.gif" width="30" height="1" border="0" alt="" /></td>
 </tr>
 </table>
 

@@ -83,7 +83,7 @@ if (!isset($_GET['token'])) {
 	}
 
 	$token = $thread['ltoken'];
-	header("Location: $webimroot/operator/agent.php?thread=" . intval($threadid) . "&token=" . intval($token) . "&level=" . urlencode($remote_level));
+	header("Location: $mibewroot/operator/agent.php?thread=" . intval($threadid) . "&token=" . intval($token) . "&level=" . urlencode($remote_level));
 	exit;
 }
 

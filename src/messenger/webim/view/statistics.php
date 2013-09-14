@@ -19,7 +19,7 @@ require_once("inc_menu.php");
 $page['title'] = getlocal("statistics.title");
 $page['menuid'] = "statistics";
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
 <?php echo getlocal("statistics.description") ?>
@@ -29,7 +29,7 @@ function tpl_content() { global $page, $webimroot, $errors;
 require_once('inc_errors.php');
 ?>
 
-<form name="statisticsForm" method="get" action="<?php echo $webimroot ?>/operator/statistics.php">
+<form name="statisticsForm" method="get" action="<?php echo $mibewroot ?>/operator/statistics.php">
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
 
@@ -50,7 +50,7 @@ require_once('inc_errors.php');
 					<select name="endmonth"><?php foreach($page['availableMonth'] as $k => $v) { echo "<option value=\"" . safe_htmlspecialchars($k) . "\"".($k == form_value("endmonth") ? " selected=\"selected\"" : "").">" . safe_htmlspecialchars($v) . "</option>"; } ?></select>
 				</div>
 				<div id="searchbutton">
-					<input type="image" name="search" src="<?php echo $webimroot . safe_htmlspecialchars(getlocal("image.button.search")) ?>" alt="<?php echo safe_htmlspecialchars(getlocal("button.search")) ?>"/>
+					<input type="image" name="search" src="<?php echo $mibewroot . safe_htmlspecialchars(getlocal("image.button.search")) ?>" alt="<?php echo safe_htmlspecialchars(getlocal("button.search")) ?>"/>
 				</div>
 			</div>
 			<br clear="all"/>

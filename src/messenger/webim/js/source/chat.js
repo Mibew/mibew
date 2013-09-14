@@ -198,7 +198,7 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
 	var imageLink = NodeUtils.getNodeText(avatar);
 	if( this._options.avatar && this._options.user ) {
 		this._options.avatar.innerHTML = imageLink != ""
-			? "<img src=\""+Chat.webimRoot+"/images/free.gif\" width=\"7\" height=\"1\" border=\"0\" alt=\"\" /><img src=\""
+			? "<img src=\""+Chat.mibewRoot+"/images/free.gif\" width=\"7\" height=\"1\" border=\"0\" alt=\"\" /><img src=\""
 				+imageLink+ "\" border=\"0\" alt=\"\"/>"
 			: "";
 	}
@@ -253,7 +253,7 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
 		if(!this.skipNextsound) {
 			var tsound = $('soundimg');
 			if(tsound == null || tsound.className.match(new RegExp("\\bisound\\b")) ) {
-				playSound(Chat.webimRoot+'/sounds/new_message.wav');
+				playSound(Chat.mibewRoot+'/sounds/new_message.wav');
 			}
 		}
 		if( !this.focused ) {
@@ -391,7 +391,7 @@ Behaviour.register({
 });
 
 EventHelper.register(window, 'onload', function(){
-  Chat.webimRoot = threadParams.wroot;
+  Chat.mibewRoot = threadParams.wroot;
   Chat.cssfile = threadParams.cssfile;
   Chat.threadUpdater = new Ajax.ChatThreadUpdater(({ignorectrl:-1,container:myRealAgent=='safari'?self.frames[0]:$("chatwnd"),avatar:$("avatarwnd"),message:$("msgwnd")}).extend( threadParams || {} ));
 });

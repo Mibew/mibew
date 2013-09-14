@@ -17,23 +17,23 @@
 
 function setup_operator_settings_tabs($opId, $active)
 {
-	global $page, $webimroot, $settings;
+	global $page, $mibewroot, $settings;
 	loadsettings();
 
 	if ($opId) {
 		$page['tabselected'] = $active;
 		if ($settings['enablegroups'] == '1') {
 			$page['tabs'] = array(
-				array('title' => getlocal("page_agent.tab.main"), 'link' => "$webimroot/operator/operator.php?op=$opId"),
-				array('title' => getlocal("page_agent.tab.avatar"), 'link' => "$webimroot/operator/avatar.php?op=$opId"),
-				array('title' => getlocal("page_agent.tab.groups"), 'link' => "$webimroot/operator/opgroups.php?op=$opId"),
-				array('title' => getlocal("page_agent.tab.permissions"), 'link' => "$webimroot/operator/permissions.php?op=$opId"),
+				array('title' => getlocal("page_agent.tab.main"), 'link' => "$mibewroot/operator/operator.php?op=$opId"),
+				array('title' => getlocal("page_agent.tab.avatar"), 'link' => "$mibewroot/operator/avatar.php?op=$opId"),
+				array('title' => getlocal("page_agent.tab.groups"), 'link' => "$mibewroot/operator/opgroups.php?op=$opId"),
+				array('title' => getlocal("page_agent.tab.permissions"), 'link' => "$mibewroot/operator/permissions.php?op=$opId"),
 			);
 		} else {
 			$page['tabs'] = array(
-				array('title' => getlocal("page_agent.tab.main"), 'link' => "$webimroot/operator/operator.php?op=$opId"),
-				array('title' => getlocal("page_agent.tab.avatar"), 'link' => "$webimroot/operator/avatar.php?op=$opId"),
-				array('title' => getlocal("page_agent.tab.permissions"), 'link' => "$webimroot/operator/permissions.php?op=$opId"),
+				array('title' => getlocal("page_agent.tab.main"), 'link' => "$mibewroot/operator/operator.php?op=$opId"),
+				array('title' => getlocal("page_agent.tab.avatar"), 'link' => "$mibewroot/operator/avatar.php?op=$opId"),
+				array('title' => getlocal("page_agent.tab.permissions"), 'link' => "$mibewroot/operator/permissions.php?op=$opId"),
 			);
 			if ($active == 3) $active--;
 		}

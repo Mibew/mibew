@@ -2,15 +2,15 @@
 <html>
 <head>
 <title>${msg:chat.window.title.agent}</title>
-<link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="${mibewroot}/images/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="${tplroot}/chat.css">
-<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/common.js"></script>
-<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/brws.js"></script>
+<script type="text/javascript" language="javascript" src="${mibewroot}/js/${jsver}/common.js"></script>
+<script type="text/javascript" language="javascript" src="${mibewroot}/js/${jsver}/brws.js"></script>
 <script type="text/javascript" language="javascript"><!--
-var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",frequency:${page:frequency},${if:user}user:"true",${endif:user}threadid:${page:ct.chatThreadId},token:${page:ct.token},cssfile:"${tplroot}/chat.css",ignorectrl:${page:ignorectrl} };
+var threadParams = { servl:"${mibewroot}/thread.php",wroot:"${mibewroot}",frequency:${page:frequency},${if:user}user:"true",${endif:user}threadid:${page:ct.chatThreadId},token:${page:ct.token},cssfile:"${tplroot}/chat.css",ignorectrl:${page:ignorectrl} };
 //-->
 </script>
-<script type="text/javascript" language="javascript" src="${webimroot}/js/${jsver}/chat.js"></script>
+<script type="text/javascript" language="javascript" src="${mibewroot}/js/${jsver}/chat.js"></script>
 <style type="text/css">
 .isound { background: url(${tplroot}/images/buttons/sound.gif) no-repeat; width: 19px; height: 19px; }
 .inosound { background: url(${tplroot}/images/buttons/nosound.gif) no-repeat; width: 19px; height: 19px; }
@@ -82,7 +82,7 @@ var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",freque
 					${endif:historyParams}
 				${endif:agent}
 				<td>
-					<a id="togglesound" href="javascript:void(0)" onClick="return false;" title="Sound On/Off"><img id="soundimg" class="isound" src="${webimroot}/images/free.gif" border="0" alt="Sound On/Off" /></a>
+					<a id="togglesound" href="javascript:void(0)" onClick="return false;" title="Sound On/Off"><img id="soundimg" class="isound" src="${mibewroot}/images/free.gif" border="0" alt="Sound On/Off" /></a>
 				</td>
 				<td>
 					<a id="refresh" href="javascript:void(0)" onClick="return false;" title="${msg:chat.window.toolbar.refresh}"><img src="${tplroot}/images/buttons/refresh.gif" border="0" alt="${msg:chat.window.toolbar.refresh}" /></a>
@@ -109,7 +109,7 @@ var threadParams = { servl:"${webimroot}/thread.php",wroot:"${webimroot}",freque
 		</tr>
 		<tr>
 			<td valign="top">
-				<iframe id="chatwnd" class="chathistory" src="${if:neediframesrc}${webimroot}/images/blank.html${endif:neediframesrc}" frameborder="0">
+				<iframe id="chatwnd" class="chathistory" src="${if:neediframesrc}${mibewroot}/images/blank.html${endif:neediframesrc}" frameborder="0">
 					Sorry, your browser does not support iframes; try a browser that supports W3C standards.
 				</iframe>
 			</td>

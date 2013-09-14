@@ -61,7 +61,7 @@ $subject = getstring("mail.user.history.subject", true);
 $body = getstring2("mail.user.history.body", array($thread['userName'],$history), true);
 
 $link = connect();
-mibew_mail($email, $webim_mailbox, $subject, $body, $link);
+mibew_mail($email, $mibew_mailbox, $subject, $body, $link);
 mysql_close($link);
 
 setup_logo();

@@ -57,7 +57,7 @@ if (isset($_POST['loginoremail'])) {
 
 $page['formloginoremail'] = topage($loginoremail);
 
-$page['localeLinks'] = get_locale_links("$webimroot/operator/restore.php");
+$page['localeLinks'] = get_locale_links("$mibewroot/operator/restore.php");
 $page['isdone'] = false;
 start_html_output();
 require('../view/restore.php');

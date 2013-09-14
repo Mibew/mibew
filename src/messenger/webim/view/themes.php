@@ -21,14 +21,14 @@ require_once("inc_tabbar.php");
 $page['title'] = getlocal("page.preview.title");
 $page['menuid'] = "settings";
 
-function tpl_content() { global $page, $webimroot;
+function tpl_content() { global $page, $mibewroot;
 ?>
 
 <?php echo getlocal("page.preview.intro") ?>
 <br />
 <br />
 
-<form name="preview" method="get" action="<?php echo $webimroot ?>/operator/themes.php">
+<form name="preview" method="get" action="<?php echo $mibewroot ?>/operator/themes.php">
 	<div>
 <?php print_tabbar(); ?>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">

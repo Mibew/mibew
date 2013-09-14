@@ -19,13 +19,13 @@ require_once("inc_menu.php");
 $page['title'] = getlocal("page.groups.title");
 $page['menuid'] = "groups";
 
-function tpl_header() { global $page, $webimroot;
+function tpl_header() { global $page, $mibewroot;
 ?>
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/jquery-1.4.2.min.js"></script>
 <?php
 }
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
 <?php echo getlocal("page.groups.intro") ?>
@@ -37,8 +37,8 @@ require_once('inc_errors.php');
 
 <?php if($page['canmodify']) { ?>
 <div class="tabletool">
-	<img src="<?php echo $webimroot ?>/images/buttons/createdep.gif" border="0" alt="" />
-	<a href="<?php echo $webimroot ?>/operator/group.php" title="<?php echo getlocal("page.groups.new") ?>">
+	<img src="<?php echo $mibewroot ?>/images/buttons/createdep.gif" border="0" alt="" />
+	<a href="<?php echo $mibewroot ?>/operator/group.php" title="<?php echo getlocal("page.groups.new") ?>">
 		<?php echo getlocal("page.groups.new") ?>
 	</a>
 </div>
@@ -68,7 +68,7 @@ if(count($page['groups']) > 0) {
 	foreach( $page['groups'] as $grp ) { ?>
 <tr>
 	<td class="notlast">
-		<a href="<?php echo $webimroot ?>/operator/group.php?gid=<?php echo urlencode($grp['groupid']) ?>" id="ti<?php echo safe_htmlspecialchars($grp['groupid']) ?>" class="man">
+		<a href="<?php echo $mibewroot ?>/operator/group.php?gid=<?php echo urlencode($grp['groupid']) ?>" id="ti<?php echo safe_htmlspecialchars($grp['groupid']) ?>" class="man">
 			<?php echo safe_htmlspecialchars(topage($grp['vclocalname'])) ?>
 		</a>
 	</td>
@@ -85,13 +85,13 @@ if(count($page['groups']) > 0) {
 <?php } ?>
 	</td>
 	<td>
-		<a href="<?php echo $webimroot ?>/operator/groupmembers.php?gid=<?php echo urlencode($grp['groupid']) ?>">
+		<a href="<?php echo $mibewroot ?>/operator/groupmembers.php?gid=<?php echo urlencode($grp['groupid']) ?>">
 			<?php echo safe_htmlspecialchars(topage($grp['inumofagents'])) ?>
 		</a>
 	</td>
 <?php if($page['canmodify']) { ?>
 	<td>
-		<a href="<?php echo $webimroot ?>/operator/groups.php?act=del&amp;gid=<?php echo urlencode($grp['groupid']) ?><?php print_csrf_token_in_url() ?>" id="i<?php echo safe_htmlspecialchars($grp['groupid']) ?>" class="removelink">
+		<a href="<?php echo $mibewroot ?>/operator/groups.php?act=del&amp;gid=<?php echo urlencode($grp['groupid']) ?><?php print_csrf_token_in_url() ?>" id="i<?php echo safe_htmlspecialchars($grp['groupid']) ?>" class="removelink">
 			remove
 		</a>
 	</td>

@@ -22,7 +22,7 @@ require_once(dirname(__FILE__) . '/converter.php');
 require_once(dirname(__FILE__) . '/config.php');
 
 // Sanitize path to application and remove extra slashes
-$webimroot = join("/", array_map("urlencode", preg_split('/\//', preg_replace('/\/+$/', '', preg_replace('/\/{2,}/', '/', '/' . $webimroot)))));
+$mibewroot = join("/", array_map("urlencode", preg_split('/\//', preg_replace('/\/+$/', '', preg_replace('/\/{2,}/', '/', '/' . $mibewroot)))));
 
 // Sanitize database tables prefix
 $mysqlprefix = preg_replace('/[^A-Za-z0-9_$]/', '', $mysqlprefix);
@@ -41,7 +41,7 @@ $jsver = "165";
 if (is_secure_request()) {
     @ini_set('session.cookie_secure', TRUE);
 }
-@ini_set('session.cookie_path', "$webimroot/");
+@ini_set('session.cookie_path', "$mibewroot/");
 @ini_set('session.name', 'MibewSessionID');
 
 session_start();
@@ -150,7 +150,7 @@ function get_user_locale()
 
 function get_locale()
 {
-	global $webimroot, $locale_cookie_name;
+	global $mibewroot, $locale_cookie_name;
 
 	$locale = verifyparam("locale", "/./", "");
 
@@ -164,7 +164,7 @@ function get_locale()
 		$locale = get_user_locale();
 	}
 
-	setcookie($locale_cookie_name, $locale, time() + 60 * 60 * 24 * 1000, "$webimroot/");
+	setcookie($locale_cookie_name, $locale, time() + 60 * 60 * 24 * 1000, "$mibewroot/");
 	return $locale;
 }
 
@@ -194,9 +194,9 @@ function get_locale_links($href)
 
 function load_messages($locale)
 {
-	global $messages, $webim_encoding, $output_encoding;
+	global $messages, $mibew_encoding, $output_encoding;
 	$hash = array();
-	$current_encoding = $webim_encoding;
+	$current_encoding = $mibew_encoding;
 	
 	$fp = fopen(dirname(__FILE__) . "/../locales/$locale/properties", "r");
 	if ($fp === FALSE) {
@@ -210,10 +210,10 @@ function load_messages($locale)
 				$current_encoding = trim($keyval[1]);
 			} else if ($keyval[0] == 'output_encoding') {
 				$output_encoding[$locale] = trim($keyval[1]);
-			} else if ($current_encoding == $webim_encoding) {
+			} else if ($current_encoding == $mibew_encoding) {
 				$hash[$keyval[0]] = str_replace("\\n", "\n", trim($keyval[1]));
 			} else {
-				$hash[$keyval[0]] = myiconv($current_encoding, $webim_encoding, str_replace("\\n", "\n", trim($keyval[1])));
+				$hash[$keyval[0]] = myiconv($current_encoding, $mibew_encoding, str_replace("\\n", "\n", trim($keyval[1])));
 			}
 		}
 	}
@@ -223,10 +223,10 @@ function load_messages($locale)
 
 function getoutputenc()
 {
-	global $current_locale, $output_encoding, $webim_encoding, $messages;
+	global $current_locale, $output_encoding, $mibew_encoding, $messages;
 	if (!isset($messages[$current_locale]))
 		load_messages($current_locale);
-	return isset($output_encoding[$current_locale]) ? $output_encoding[$current_locale] : $webim_encoding;
+	return isset($output_encoding[$current_locale]) ? $output_encoding[$current_locale] : $mibew_encoding;
 }
 
 function getstring_($text, $locale, $raw = false)
@@ -254,22 +254,22 @@ function getstring($text, $raw = false)
 
 function getlocal($text, $raw = false)
 {
-	global $current_locale, $webim_encoding;
-	$string = myiconv($webim_encoding, getoutputenc(), getstring_($text, $current_locale), true);
+	global $current_locale, $mibew_encoding;
+	$string = myiconv($mibew_encoding, getoutputenc(), getstring_($text, $current_locale), true);
 	return $raw ? $string : sanitize_string($string, 'low', 'moderate');
 }
 
 function getlocal_($text, $locale, $raw = false)
 {
-	global $webim_encoding;
-	$string = myiconv($webim_encoding, getoutputenc(), getstring_($text, $locale), true);
+	global $mibew_encoding;
+	$string = myiconv($mibew_encoding, getoutputenc(), getstring_($text, $locale), true);
 	return $raw ? $string : sanitize_string($string, 'low', 'moderate');
 }
 
 function topage($text)
 {
-	global $webim_encoding;
-	return myiconv($webim_encoding, getoutputenc(), $text);
+	global $mibew_encoding;
+	return myiconv($mibew_encoding, getoutputenc(), $text);
 }
 
 function getstring2_($text, $params, $locale, $raw = false)
@@ -290,8 +290,8 @@ function getstring2($text, $params, $raw = false)
 
 function getlocal2($text, $params, $raw = false)
 {
-	global $current_locale, $webim_encoding;
-	$string = myiconv($webim_encoding, getoutputenc(), getstring_($text, $current_locale, true));
+	global $current_locale, $mibew_encoding;
+	$string = myiconv($mibew_encoding, getoutputenc(), getstring_($text, $current_locale, true));
 	for ($i = 0; $i < count($params); $i++) {
 		$string = str_replace("{" . $i . "}", $params[$i], $string);
 	}
@@ -301,8 +301,8 @@ function getlocal2($text, $params, $raw = false)
 /* prepares for Javascript string */
 function getlocalforJS($text, $params)
 {
-	global $current_locale, $webim_encoding;
-	$string = myiconv($webim_encoding, getoutputenc(), getstring_($text, $current_locale, true));
+	global $current_locale, $mibew_encoding;
+	$string = myiconv($mibew_encoding, getoutputenc(), getstring_($text, $current_locale, true));
 	$string = str_replace("\"", "\\\"", str_replace("\n", "\\n", $string));
 	for ($i = 0; $i < count($params); $i++) {
 		$string = str_replace("{" . $i . "}", $params[$i], $string);
@@ -313,9 +313,9 @@ function getlocalforJS($text, $params)
 /* ajax server actions use utf-8 */
 function getrawparam($name)
 {
-	global $webim_encoding;
+	global $mibew_encoding;
 	if (isset($_POST[$name])) {
-		$value = myiconv("utf-8", $webim_encoding, $_POST[$name]);
+		$value = myiconv("utf-8", $mibew_encoding, $_POST[$name]);
 		if (get_magic_quotes_gpc()) {
 			$value = stripslashes($value);
 		}
@@ -327,9 +327,9 @@ function getrawparam($name)
 /* form processors use current Output encoding */
 function getparam($name)
 {
-	global $webim_encoding;
+	global $mibew_encoding;
 	if (isset($_POST[$name])) {
-		$value = myiconv(getoutputenc(), $webim_encoding, $_POST[$name]);
+		$value = myiconv(getoutputenc(), $mibew_encoding, $_POST[$name]);
 		if (get_magic_quotes_gpc()) {
 			$value = stripslashes($value);
 		}
@@ -363,11 +363,11 @@ function unicode_urldecode($url)
 
 function getgetparam($name, $default = '')
 {
-	global $webim_encoding;
+	global $mibew_encoding;
 	if (!isset($_GET[$name]) || !$_GET[$name]) {
 		return $default;
 	}
-	$value = myiconv("utf-8", $webim_encoding, unicode_urldecode($_GET[$name]));
+	$value = myiconv("utf-8", $mibew_encoding, unicode_urldecode($_GET[$name]));
 	if (get_magic_quotes_gpc()) {
 		$value = stripslashes($value);
 	}
@@ -563,11 +563,11 @@ function is_valid_email($email)
 
 function get_app_location($showhost, $issecure)
 {
-	global $webimroot;
+	global $mibewroot;
 	if ($showhost) {
-		return ($issecure ? "https://" : "http://") . $_SERVER['HTTP_HOST'] . $webimroot;
+		return ($issecure ? "https://" : "http://") . $_SERVER['HTTP_HOST'] . $mibewroot;
 	} else {
-		return $webimroot;
+		return $mibewroot;
 	}
 }
 

@@ -64,7 +64,7 @@ if (!$op) {
 			if (!@move_uploaded_file($_FILES['avatarFile']['tmp_name'], $full_file_path)) {
 				$errors[] = failed_uploading_file($orig_filename, "errors.file.move.error");
 			} else {
-				$avatar = "$webimroot/images/avatar/$new_file_name";
+				$avatar = "$mibewroot/images/avatar/$new_file_name";
 			}
 		}
 	} else {
@@ -77,7 +77,7 @@ if (!$op) {
 		if ($opId && $avatar && $_SESSION["${mysqlprefix}operator"] && $operator['operatorid'] == $opId) {
 			$_SESSION["${mysqlprefix}operator"]['vcavatar'] = $avatar;
 		}
-		header("Location: $webimroot/operator/avatar.php?op=" . intval($opId));
+		header("Location: $mibewroot/operator/avatar.php?op=" . intval($opId));
 		exit;
 	} else {
 		$page['avatar'] = topage($op['vcavatar']);
@@ -86,7 +86,7 @@ if (!$op) {
 } else {
 	if (isset($_GET['delete']) && $_GET['delete'] == "true" && $canmodify) {
 		update_operator_avatar($op['operatorid'], '');
-		header("Location: $webimroot/operator/avatar.php?op=" . intval($opId));
+		header("Location: $mibewroot/operator/avatar.php?op=" . intval($opId));
 		exit;
 	}
 	$page['avatar'] = topage($op['vcavatar']);
