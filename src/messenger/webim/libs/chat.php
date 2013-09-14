@@ -456,7 +456,7 @@ function update_thread_access($threadid, $params, $link)
 	foreach ($params as $k => $v) {
 		if (strlen($clause) > 0)
 			$clause .= ", ";
-		$clause .= "`" . mysql_real_escape_string($k, $link) . "`='" . mysql_real_escape_string($v, $link) . "'";
+		$clause .= "`" . mysql_real_escape_string($k, $link) . "`=" . $v;
 	}
 	perform_query(
 		"update ${mysqlprefix}chatthread set $clause " .
@@ -474,7 +474,7 @@ function ping_thread($thread, $isuser, $istyping)
 	$current = $thread['current'];
 
 	if ($thread['istate'] == $state_loading && $isuser) {
-		$params['istate'] = $state_queue;
+		$params['istate'] = intval($state_queue);
 		commit_thread($thread['threadid'], $params, $link);
 		mysql_close($link);
 		return;
@@ -489,7 +489,7 @@ function ping_thread($thread, $isuser, $istyping)
 
 			$message_to_post = getstring_("chat.status.operator.dead", $thread['locale']);
 			post_message_($thread['threadid'], $kind_conn, $message_to_post, $link, null, $lastping + $connection_timeout);
-			$params['istate'] = $state_waiting;
+			$params['istate'] = intval($state_waiting);
 			$params['nextagent'] = 0;
 			commit_thread($thread['threadid'], $params, $link);
 			mysql_close($link);
@@ -506,7 +506,7 @@ function commit_thread($threadid, $params, $link)
 	global $mysqlprefix;
 	$query = "update ${mysqlprefix}chatthread t set lrevision = " . intval(next_revision($link)) . ", dtmmodified = CURRENT_TIMESTAMP";
 	foreach ($params as $k => $v) {
-		$query .= ", `" . mysql_real_escape_string($k, $link) . "`='" . mysql_real_escape_string($v, $link) . "'";
+		$query .= ", `" . mysql_real_escape_string($k, $link) . "`=" . $v;
 	}
 	$query .= " where threadid = " . intval($threadid);
 
@@ -533,8 +533,8 @@ function close_thread($thread, $isuser)
 
 	$link = connect();
 	if ($thread['istate'] != $state_closed) {
-		commit_thread($thread['threadid'], array('istate' => $state_closed,
-												'messageCount' => "(SELECT COUNT(*) FROM ${mysqlprefix}chatmessage WHERE ${mysqlprefix}chatmessage.threadid = t.threadid AND ikind = 1)"), $link);
+		commit_thread($thread['threadid'], array( 'istate' => intval($state_closed),
+							  'messageCount' => "(SELECT COUNT(*) FROM ${mysqlprefix}chatmessage WHERE ${mysqlprefix}chatmessage.threadid = t.threadid AND ikind = 1)" ), $link);
 	}
 
 	$message = $isuser ? getstring2_("chat.status.user.left", array($thread['userName']), $thread['locale'], true)
@@ -615,9 +615,9 @@ function do_take_thread($threadid, $operatorId, $operatorName)
 	global $state_chatting;
 	$link = connect();
 	commit_thread($threadid,
-				  array("istate" => $state_chatting,
+				  array("istate" => intval($state_chatting),
 					   "nextagent" => 0,
-					   "agentId" => $operatorId,
+					   "agentId" => intval($operatorId),
 					   "agentName" => "'" . mysql_real_escape_string($operatorName, $link) . "'"), $link);
 	mysql_close($link);
 }
@@ -641,7 +641,7 @@ function reopen_thread($threadid)
 
 	if ($thread['istate'] != $state_chatting && $thread['istate'] != $state_queue && $thread['istate'] != $state_loading) {
 		commit_thread($threadid,
-					  array("istate" => $state_waiting, "nextagent" => 0), $link);
+					  array("istate" => intval($state_waiting), "nextagent" => 0), $link);
 	}
 
 	post_message_($thread['threadid'], $kind_events, getstring_("chat.status.user.reopenedthread", $thread['locale'], true), $link);

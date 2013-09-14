@@ -142,7 +142,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 		}
 		if($firstmessage) {
 			$postedid = post_message_($thread['threadid'],$kind_user,$firstmessage,$link,$visitor['name']);
-			commit_thread( $thread['threadid'], array('shownmessageid' => $postedid), $link);
+			commit_thread( $thread['threadid'], array('shownmessageid' => intval($postedid)), $link);
 		}
 		notify_operators($thread, $firstmessage, $link);
 		mysql_close($link);
