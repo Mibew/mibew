@@ -113,7 +113,7 @@ if (isset($group) && !empty($group['vcemail'])) {
 
 if($inbox_mail) {
 	$link = connect();
-	webim_mail($inbox_mail, $email, $subject, $body, $link);
+	mibew_mail($inbox_mail, $email, $subject, $body, $link);
 	mysql_close($link);
 }
 

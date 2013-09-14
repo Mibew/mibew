@@ -46,7 +46,7 @@ if (isset($_POST['loginoremail'])) {
 		perform_query($query, $link);
 
 		$href = get_app_location(true, false) . "/operator/resetpwd.php?id=" . $torestore['operatorid'] . "&token=$token";
-		webim_mail($email, $email, getstring("restore.mailsubj"), getstring2("restore.mailtext", array(get_operator_name($torestore), $href)), $link);
+		mibew_mail($email, $email, getstring("restore.mailsubj"), getstring2("restore.mailtext", array(get_operator_name($torestore), $href)), $link);
 		mysql_close($link);
 
 		$page['isdone'] = true;

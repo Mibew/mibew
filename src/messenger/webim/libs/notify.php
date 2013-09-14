@@ -31,7 +31,7 @@ function log_notification($locale, $kind, $to, $subj, $text, $refop, $link)
 	perform_query($query, $link);
 }
 
-function webim_mail($toaddr, $reply_to, $subject, $body, $link)
+function mibew_mail($toaddr, $reply_to, $subject, $body, $link)
 {
 	global $webim_encoding, $webim_mailbox, $mail_encoding, $current_locale;
 
@@ -48,7 +48,7 @@ function webim_mail($toaddr, $reply_to, $subject, $body, $link)
 	@mail($toaddr, $real_subject, wordwrap(myiconv($webim_encoding, $mail_encoding, $body), 70), $headers);
 }
 
-function webim_xmpp($toaddr, $subject, $text, $link)
+function mibew_xmpp($toaddr, $subject, $text, $link)
 {
 	global $current_locale;
 	log_notification($current_locale, "xmpp", $toaddr, $subject, $text, null, $link);

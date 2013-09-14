@@ -727,7 +727,7 @@ function notify_operators($thread, $firstmessage, $link)
 		}
 		foreach ($result as $op) {
 			if ($op['time'] < $settings['online_timeout'] && is_valid_email($op['vcjabbername'])) {
-				webim_xmpp($op['vcjabbername'], getstring2("notify.new.subject", array($thread['userName']), true), $text, $link);
+				mibew_xmpp($op['vcjabbername'], getstring2("notify.new.subject", array($thread['userName']), true), $text, $link);
 			}
 		}
 	}
