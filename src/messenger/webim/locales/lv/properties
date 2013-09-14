@@ -97,7 +97,7 @@ install.connection.error=Nav pieejas pie MySQL servera, pārbaudiet iestatījumu
 install.done=Gatavs:
 install.err.back=Izlabojiet kļūdu un mēģiniet vēlreiz. Uzspīdiet <a>atpakaļ</a> lai atgriezties pie uzstādīšanas meistara.
 install.err.title=Kļūda
-install.key.error=Jūsu atslēga kods {0} nav apstiprināts, lūdzam vērsties pēc tehniskā atbalsta <a href="http://webim.ru">Web Messengera</a> pa pastu <a href="mailto:support@webim.ru">support@webim.ru</a>.
+install.key.error=Jūsu atslēga kods {0} nav apstiprināts, lūdzam vērsties pēc tehniskā atbalsta <a href="http://mibew.org">Web Messengera</a> pa pastu <a href="mailto:support@mibew.org">support@mibew.org</a>.
 install.kill_tables.notice=Nav iespējam atjaunot tabulu struktūru. Mēģiniet pavekt to Попробуйте сделать это вручную vai izveidojiet visas tabulas no jauna.
 install.kill_tables=Dzēst esošas tabulas
 install.license=Programmas nodrošinājuma licences līgums 
