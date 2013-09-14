@@ -90,8 +90,8 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 			update_operator($opId, $login, $email, $jabber, $password, $localname, $commonname, $jabbernotify ? 1 : 0);
 			// update the session password
 			if (!empty($password) && $opId == $operator['operatorid']) {
-				$toDashboard = $operator['vcpassword'] == md5('') && $password != '';
-				$_SESSION["${mysqlprefix}operator"]['vcpassword'] = md5($password);
+				$toDashboard = check_password_hash($login, '', $operator['vcpassword']) && $password != '';
+				$_SESSION["${mysqlprefix}operator"]['vcpassword'] = calculate_password_hash($login, $password);
 				if($toDashboard) {
 					header("Location: $webimroot/operator/index.php");
 					exit;
@@ -138,7 +138,7 @@ $canmodify = ($opId == $operator['operatorid'] && is_capable($can_modifyprofile,
 $page['stored'] = isset($_GET['stored']);
 $page['canmodify'] = $canmodify ? "1" : "";
 $page['showjabber'] = $settings['enablejabber'] == "1";
-$page['needChangePassword'] = $operator['vcpassword'] == md5('');
+$page['needChangePassword'] = check_password_hash($operator['vclogin'], '', $operator['vcpassword']);
 
 prepare_menu($operator);
 setup_operator_settings_tabs($opId, 0);

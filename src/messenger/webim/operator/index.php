@@ -29,7 +29,7 @@ $page = array(
 	'version' => $version,
 	'localeLinks' => get_locale_links("$webimroot/operator/index.php"),
 	'needUpdate' => $settings['dbversion'] != $dbversion,
-	'needChangePassword' => $operator['vcpassword'] == md5(''),
+	'needChangePassword' => check_password_hash($operator['vclogin'], '', $operator['vcpassword']),
 	'profilePage' => "$webimroot/operator/operator.php?op=".safe_htmlspecialchars($operator['operatorid']),
 	'updateWizard' => "$webimroot/install/",
 	'newFeatures' => $settings['featuresversion'] != $featuresversion,

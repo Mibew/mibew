@@ -27,7 +27,7 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 	$remember = isset($_POST['isRemember']) && $_POST['isRemember'] == "on";
 
 	$operator = operator_by_login($login);
-	if ($operator && isset($operator['vcpassword']) && $operator['vcpassword'] == md5($password)) {
+	if ($operator && isset($operator['vcpassword']) && check_password_hash($login, $password, $operator['vcpassword'])) {
 
 		$target = $password == ''
 				? "$webimroot/operator/operator.php?op=" . intval($operator['operatorid'])
@@ -35,7 +35,7 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 					? $_SESSION['backpath']
 					: "$webimroot/operator/index.php");
 
-		login_operator($operator, $remember);
+		login_operator($operator, $remember, is_secure_request());
 		header("Location: $target");
 		exit;
 	} else {

@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+$remember_cookie_name = 'mibew_operator';
+
 $can_administrate = 0;
 $can_takeover = 1;
 $can_viewthreads = 2;
@@ -34,7 +36,7 @@ function operator_by_login($login)
 	global $mysqlprefix;
 	$link = connect();
 	$operator = select_one_row(
-		"select * from ${mysqlprefix}chatoperator where vclogin = '" . mysql_real_escape_string($login) . "'", $link);
+		"select * from ${mysqlprefix}chatoperator where vclogin = '" . mysql_real_escape_string($login, $link) . "'", $link);
 	mysql_close($link);
 	return $operator;
 }
@@ -103,7 +105,7 @@ function update_operator($operatorid, $login, $email, $jabber, $password, $local
 		", vcemail = '%s', vcjabbername= '%s', inotify = %s" .
 		" where operatorid = %s",
 		mysql_real_escape_string($login, $link),
-		($password ? " vcpassword='" . md5($password) . "'," : ""),
+		($password ? " vcpassword='" . mysql_real_escape_string(calculate_password_hash($login, $password), $link) . "'," : ""),
 		mysql_real_escape_string($localename, $link),
 		mysql_real_escape_string($commonname, $link),
 		mysql_real_escape_string($email, $link),
@@ -133,7 +135,7 @@ function create_operator_($login, $email, $jabber, $password, $localename, $comm
 	$query = sprintf(
 		"insert into ${mysqlprefix}chatoperator (vclogin,vcpassword,vclocalename,vccommonname,vcavatar,vcemail,vcjabbername,inotify) values ('%s','%s','%s','%s','%s','%s','%s',%s)",
 		mysql_real_escape_string($login, $link),
-		md5($password),
+		mysql_real_escape_string(calculate_password_hash($login, $password), $link),
 		mysql_real_escape_string($localename, $link),
 		mysql_real_escape_string($commonname, $link),
 		mysql_real_escape_string($avatar, $link),
@@ -209,12 +211,12 @@ function append_query($link, $pv)
 
 function check_login($redirect = true)
 {
-	global $webimroot, $mysqlprefix;
+	global $webimroot, $mysqlprefix, $remember_cookie_name;
 	if (!isset($_SESSION["${mysqlprefix}operator"])) {
-		if (isset($_COOKIE['webim_lite'])) {
-			list($login, $pwd) = preg_split("/,/", $_COOKIE['webim_lite'], 2);
+		if (isset($_COOKIE[$remember_cookie_name])) {
+			list($login, $pwd) = preg_split('/\x0/', base64_decode($_COOKIE[$remember_cookie_name]), 2);
 			$op = operator_by_login($login);
-			if ($op && isset($pwd) && isset($op['vcpassword']) && md5($op['vcpassword']) == $pwd) {
+			if ($op && isset($pwd) && isset($op['vcpassword']) && calculate_password_hash($op['vclogin'], $op['vcpassword']) == $pwd) {
 				$_SESSION["${mysqlprefix}operator"] = $op;
 				return $op;
 			}
@@ -240,26 +242,26 @@ function get_logged_in()
 	return isset($_SESSION["${mysqlprefix}operator"]) ? $_SESSION["${mysqlprefix}operator"] : FALSE;
 }
 
-function login_operator($operator, $remember)
+function login_operator($operator, $remember, $https = FALSE)
 {
-	global $webimroot, $mysqlprefix;
+	global $webimroot, $mysqlprefix, $remember_cookie_name;
 	$_SESSION["${mysqlprefix}operator"] = $operator;
 	if ($remember) {
-		$value = $operator['vclogin'] . "," . md5($operator['vcpassword']);
-		setcookie('webim_lite', $value, time() + 60 * 60 * 24 * 1000, "$webimroot/");
+		$value = base64_encode($operator['vclogin'] . "\x0" . calculate_password_hash($operator['vclogin'], $operator['vcpassword']));
+		setcookie($remember_cookie_name, $value, time() + 60 * 60 * 24 * 1000, "$webimroot/", NULL, $https, TRUE);
 
-	} else if (isset($_COOKIE['webim_lite'])) {
-		setcookie('webim_lite', '', time() - 3600, "$webimroot/");
+	} else if (isset($_COOKIE[$remember_cookie_name])) {
+		setcookie($remember_cookie_name, '', time() - 3600, "$webimroot/");
 	}
 }
 
 function logout_operator()
 {
-	global $webimroot, $mysqlprefix;
+	global $webimroot, $mysqlprefix, $remember_cookie_name;
 	unset($_SESSION["${mysqlprefix}operator"]);
 	unset($_SESSION['backpath']);
-	if (isset($_COOKIE['webim_lite'])) {
-		setcookie('webim_lite', '', time() - 3600, "$webimroot/");
+	if (isset($_COOKIE[$remember_cookie_name])) {
+		setcookie($remember_cookie_name, '', time() - 3600, "$webimroot/");
 	}
 }
 
@@ -402,6 +404,35 @@ function get_operator_groupids($operatorid)
 	$result = select_multi_assoc($query, $link);
 	mysql_close($link);
 	return $result;
+}
+
+function calculate_password_hash($login, $password)
+{
+
+	if (CRYPT_BLOWFISH == 1) {
+		if (defined('PHP_VERSION_ID') && (PHP_VERSION_ID > 50306)) {
+			return crypt($password, '$2y$08$' . $login);
+		}
+		else {
+			return crypt($password, '$2a$08$' . $login);
+		}
+        }
+	else if (CRYPT_MD5 == 1) {
+		return crypt($password, '$1$' . $login);
+	}
+
+	return md5($password);
+}
+
+function check_password_hash($login, $password, $hash)
+{
+	if (preg_match('/^\$/', $hash)) {
+		return (calculate_password_hash($login, $password) == $hash);
+	}
+	else {
+		return (md5($password) == $hash);
+	}
+
 }
 
 ?>

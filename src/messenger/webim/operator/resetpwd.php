@@ -49,7 +49,7 @@ if (count($errors) == 0 && isset($_POST['password'])) {
 		$page['isdone'] = true;
 
 		$link = connect();
-		$query = "update ${mysqlprefix}chatoperator set vcpassword = '" . md5($password) . "', vcrestoretoken = '' where operatorid = " . intval($opId);
+		$query = "update ${mysqlprefix}chatoperator set vcpassword = '" . mysql_real_escape_string(calculate_password_hash($operator['vclogin'], $password), $link) . "', vcrestoretoken = '' where operatorid = " . intval($opId);
 		perform_query($query, $link);
 		mysql_close($link);
 
