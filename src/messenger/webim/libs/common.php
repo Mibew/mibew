@@ -15,11 +15,8 @@
  * limitations under the License.
  */
 
+// Prevent Mibew from access to files outside the installation
 @ini_set('open_basedir', dirname(__FILE__) . '/../');
-@ini_set('session.cookie_httponly', TRUE);
-if (is_secure_request()) {
-    @ini_set('session.cookie_secure', TRUE);
-}
 
 require_once(dirname(__FILE__) . '/converter.php');
 require_once(dirname(__FILE__) . '/config.php');
@@ -36,6 +33,14 @@ $home_locale = locale_pattern_check($home_locale) && locale_exists($home_locale)
 
 $version = '1.6.5';
 $jsver = "165";
+
+// Make session cookie more secure
+@ini_set('session.cookie_httponly', TRUE);
+if (is_secure_request()) {
+    @ini_set('session.cookie_secure', TRUE);
+}
+@ini_set('session.cookie_path', "$webimroot/");
+@ini_set('session.name', 'MibewSessionID');
 
 session_start();
 
@@ -843,7 +848,7 @@ function sanitize_reg_escape($string)
 
 function safe_htmlspecialchars($string)
 {
-    return htmlspecialchars($string, ENT_QUOTES);
+	return htmlspecialchars($string, ENT_QUOTES);
 }
 
 ?>
