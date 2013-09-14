@@ -52,7 +52,7 @@ if (isset($_GET['nextGroup'])) {
 			$errors[] = getlocal("chat.redirect.cannot");
 		}
 	} else {
-		$errors[] = "Unknown group";
+		$errors[] = getlocal("chat.redirect.unknown_group");
 	}
 
 } else {
@@ -78,7 +78,7 @@ if (isset($_GET['nextGroup'])) {
 			$errors[] = getlocal("chat.redirect.cannot");
 		}
 	} else {
-		$errors[] = "Unknown operator";
+		$errors[] = getlocal("chat.redirect.unknown_operator");
 	}
 }
 

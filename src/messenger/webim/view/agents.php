@@ -83,7 +83,7 @@ require_once('inc_errors.php');
 <?php if($page['canmodify']) { ?>
 	<td>
   <a class="removelink" id="i<?php echo safe_htmlspecialchars($a['operatorid']) ?>" href="<?php echo $mibewroot ?>/operator/operators.php?act=del&amp;id=<?php echo urlencode($a['operatorid']) ?><?php print_csrf_token_in_url() ?>">
-			remove
+			<?php echo getlocal("page_agents.remove") ?>
 		</a>
 	</td>
 <?php } ?>

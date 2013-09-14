@@ -82,7 +82,7 @@ var threadParams = { servl:"${mibewroot}/thread.php",wroot:"${mibewroot}",freque
 					${endif:historyParams}
 				${endif:agent}
 				<td>
-					<a id="togglesound" href="javascript:void(0)" onClick="return false;" title="Sound On/Off"><img id="soundimg" class="isound" src="${mibewroot}/images/free.gif" border="0" alt="Sound On/Off" /></a>
+					<a id="togglesound" href="javascript:void(0)" onClick="return false;" title="${msg:chat.window.toolbar.toggle_sound}"><img id="soundimg" class="isound" src="${mibewroot}/images/free.gif" border="0" alt="Sound On/Off" /></a>
 				</td>
 				<td>
 					<a id="refresh" href="javascript:void(0)" onClick="return false;" title="${msg:chat.window.toolbar.refresh}"><img src="${tplroot}/images/buttons/refresh.gif" border="0" alt="${msg:chat.window.toolbar.refresh}" /></a>

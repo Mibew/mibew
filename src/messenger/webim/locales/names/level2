@@ -32,6 +32,8 @@ chat.redirect.choose
 chat.redirect.group
 chat.redirect.operator
 chat.redirect.title
+chat.redirect.unknown_group
+chat.redirect.unknown_operator
 chat.redirected.close
 chat.redirected.closewindow
 chat.redirected.content
@@ -138,11 +140,20 @@ page.gen_button.sample
 page.gen_button.secure_links
 page.gen_button.title
 page.group.no_such
+page.groups.none
+page.groups.remove
 page.notifications.intro
 page.notifications.title
+page.preview.in_separate_window
+page.preview.link
+page.preview.no_iframes
 page.preview.style_default
+page_agent.not_found
+page_agents.remove
 page_analysis.full.text.search
 page_analysis.search.title
+page_avatar.cannot_load_avatar
+page_avatar.no_avatar
 page_ban.intro
 page_ban.sent
 page_ban.thread
@@ -160,6 +171,7 @@ page_login.password
 page_login.remember
 page_login.title
 page_search.intro
+pending.loading
 pending.menu.hide
 pending.menu.show
 pending.popup_notification

@@ -73,7 +73,7 @@ if(count($page['groups']) > 0) {
 		</a>
 	</td>
 	<td class="notlast">
-		<?php echo $grp['vclocaldescription'] ? safe_htmlspecialchars(topage($grp['vclocaldescription'])) : "&lt;none&gt;" ?>
+		<?php echo $grp['vclocaldescription'] ? safe_htmlspecialchars(topage($grp['vclocaldescription'])) : "&lt;" . getlocal("page.groups.none") . "&gt;" ?>
 	</td>
 	<td class="notlast">
 <?php if(is_online($grp)) { ?>
@@ -92,7 +92,7 @@ if(count($page['groups']) > 0) {
 <?php if($page['canmodify']) { ?>
 	<td>
 		<a href="<?php echo $mibewroot ?>/operator/groups.php?act=del&amp;gid=<?php echo urlencode($grp['groupid']) ?><?php print_csrf_token_in_url() ?>" id="i<?php echo safe_htmlspecialchars($grp['groupid']) ?>" class="removelink">
-			remove
+			<?php echo getlocal("page.groups.remove") ?>
 		</a>
 	</td>
 <?php } ?>

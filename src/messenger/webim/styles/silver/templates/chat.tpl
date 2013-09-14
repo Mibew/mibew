@@ -123,7 +123,7 @@
 						<a href="${page:historyParamsLink}" target="_blank" title="${msg:page.analysis.userhistory.title}" onclick="this.newWindow = window.open('${page:historyParamsLink}', 'UserHistory', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=720,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><img class="tplimage ihistory" src="${mibewroot}/images/free.gif" alt="History&nbsp;"/></a>
 					${endif:historyParams}
 				${endif:agent}
-				<a id="togglesound" href="javascript:void(0)" onclick="return false;" title="Turn off sound"><img id="soundimg" class="tplimage isound" src="${mibewroot}/images/free.gif" alt="Sound&nbsp;" /></a>
+				<a id="togglesound" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.toolbar.toggle_sound}"><img id="soundimg" class="tplimage isound" src="${mibewroot}/images/free.gif" alt="Sound&nbsp;" /></a>
 				<a id="refresh" href="javascript:void(0)" onclick="return false;" title="${msg:chat.window.toolbar.refresh}"><img class="tplimage irefresh" src="${mibewroot}/images/free.gif" alt="Refresh&nbsp;" /></a>
 				${if:sslLink}
 					<a href="${page:sslLink}&amp;style=${styleid}" title="SSL" ><img class="tplimage issl" src="${mibewroot}/images/free.gif" alt="SSL&nbsp;"/></a>

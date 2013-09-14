@@ -35,6 +35,7 @@ chat.window.title.user
 chat.window.toolbar.mail_history
 chat.window.toolbar.redirect_user
 chat.window.toolbar.refresh
+chat.window.toolbar.toggle_sound
 company.title
 errors.captcha
 errors.required

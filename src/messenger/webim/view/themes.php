@@ -58,11 +58,11 @@ function tpl_content() { global $page, $mibewroot;
 		<div class="field">
 			<div class="flabel">
 			<?php echo safe_htmlspecialchars($pp['label']) ?>
-			<a href="<?php echo safe_htmlspecialchars($page['showlink']) ?><?php echo safe_htmlspecialchars($pp['id']) ?>" target="_blank" title="in separate window" onclick="this.newWindow = window.open('<?php echo safe_htmlspecialchars($page['showlink']) ?><?php echo safe_htmlspecialchars($pp['id']) ?>', '<?php echo safe_htmlspecialchars($pp['id']) ?>', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=<?php echo safe_htmlspecialchars($pp['w']) ?>,height=<?php echo safe_htmlspecialchars($pp['h']) ?>,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">link</a>
+			<a href="<?php echo safe_htmlspecialchars($page['showlink']) ?><?php echo safe_htmlspecialchars($pp['id']) ?>" target="_blank" title="<?php echo safe_htmlspecialchars(getlocal("page.preview.in_separate_window")) ?>" onclick="this.newWindow = window.open('<?php echo safe_htmlspecialchars($page['showlink']) ?><?php echo safe_htmlspecialchars($pp['id']) ?>', '<?php echo safe_htmlspecialchars($pp['id']) ?>', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=<?php echo safe_htmlspecialchars($pp['w']) ?>,height=<?php echo safe_htmlspecialchars($pp['h']) ?>,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo getlocal("page.preview.link") ?></a>
 			</div>
 			<div class="fvalueframe">
 			<iframe id="sample<?php echo safe_htmlspecialchars($pp['id']) ?>" width="<?php echo safe_htmlspecialchars($pp['w']) ?>" height="<?php echo safe_htmlspecialchars($pp['h']) ?>" src="<?php echo $page['showlink'] ?><?php echo safe_htmlspecialchars($pp['id']) ?>" frameborder="0" scrolling="no">
-				No iframes
+				<?php echo getlocal("page.preview.no_iframes") ?>
 			</iframe>
 			</div>
 		</div>

@@ -76,7 +76,7 @@ function tpl_content() { global $page, $mibewroot;
 <tr id="tchat"><td colspan="7"></td></tr>
 <tr id="tchatend"><td colspan="7"></td></tr>
 
-<tr><td id="statustd" colspan="7" height="30">Loading....</td></tr>
+<tr><td id="statustd" colspan="7" height="30"><?php echo getlocal("pending.loading") ?></td></tr>
 </tbody>
 </table>
 
