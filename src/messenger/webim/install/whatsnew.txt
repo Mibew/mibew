@@ -1,3 +1,16 @@
+  1.6.6
+  -----
+  [+] add captcha image to pre-chat survey
+  [+] improve localization (add new constants)
+  [!] completely abandon old application name (i.e. webim)
+  [!] switch to more safe hashing alrgorithms for passwords and tokens
+  [!] switch to more safe generation of user IDs
+  [!] make important cookies more safe
+  [!] multiple XSS fixes
+  [!] multiple SQL Injection fixes
+  [!] multiple file path manipulation fixes
+  [!] CSRF fixes
+
   1.6.5
   -----
   [+] Apache 2 license
