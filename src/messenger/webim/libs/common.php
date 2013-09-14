@@ -33,8 +33,8 @@ $home_locale = locale_pattern_check($home_locale) && locale_exists($home_locale)
 
 $locale_cookie_name = 'mibew_locale';
 
-$version = '1.6.5';
-$jsver = "165";
+$version = '1.6.6';
+$jsver = "166";
 
 // Make session cookie more secure
 @ini_set('session.cookie_httponly', TRUE);
@@ -631,8 +631,8 @@ function date_to_text($unixtime)
 	return strftime($date_format . " " . getlocal("time.timeformat"), $unixtime);
 }
 
-$dbversion = '1.6.5';
-$featuresversion = '1.6.5';
+$dbversion = '1.6.6';
+$featuresversion = '1.6.6';
 
 $settings = array(
 	'dbversion' => 0,
