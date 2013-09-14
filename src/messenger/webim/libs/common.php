@@ -31,6 +31,8 @@ $mysqlprefix = preg_replace('/[^A-Za-z0-9_$]/', '', $mysqlprefix);
 $default_locale = locale_pattern_check($default_locale) && locale_exists($default_locale) ? $default_locale : 'en';
 $home_locale = locale_pattern_check($home_locale) && locale_exists($home_locale) ? $default_locale : 'en';
 
+$locale_cookie_name = 'mibew_locale';
+
 $version = '1.6.5';
 $jsver = "165";
 
@@ -121,10 +123,10 @@ function get_available_locales()
 
 function get_user_locale()
 {
-	global $default_locale;
+	global $default_locale, $locale_cookie_name;
 
-	if (isset($_COOKIE['webim_locale'])) {
-		$requested_lang = $_COOKIE['webim_locale'];
+	if (isset($_COOKIE[$locale_cookie_name])) {
+		$requested_lang = $_COOKIE[$locale_cookie_name];
 		if (locale_pattern_check($requested_lang) && locale_exists($requested_lang))
 			return $requested_lang;
 	}
@@ -148,7 +150,7 @@ function get_user_locale()
 
 function get_locale()
 {
-	global $webimroot;
+	global $webimroot, $locale_cookie_name;
 
 	$locale = verifyparam("locale", "/./", "");
 
@@ -162,7 +164,7 @@ function get_locale()
 		$locale = get_user_locale();
 	}
 
-	setcookie('webim_locale', $locale, time() + 60 * 60 * 24 * 1000, "$webimroot/");
+	setcookie($locale_cookie_name, $locale, time() + 60 * 60 * 24 * 1000, "$webimroot/");
 	return $locale;
 }
 

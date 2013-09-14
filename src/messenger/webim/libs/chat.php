@@ -17,8 +17,8 @@
 
 $connection_timeout = 30; // sec
 
-$namecookie = "WEBIM_Data";
-$usercookie = "WEBIM_UserID";
+$namecookie = "MIBEW_Data";
+$usercookie = "MIBEW_UserID";
 
 $state_queue = 0;
 $state_waiting = 1;
