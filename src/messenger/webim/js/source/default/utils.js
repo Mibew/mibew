@@ -60,11 +60,14 @@
      * @param {String} file File path
      */
     Mibew.Utils.playSound = function (file) {
-        var soundHTML = '<audio autoplay style="display: none;">' +
-            '<source src="' + file + '" type="audio/x-wav" />' +
-            '<embed src="' + file + '" type="audio/x-wav" hidden="true" autostart="true" loop="false" />' +
-            '</audio>';
-        $('body').append(soundHTML);
+        if(!document.getElementById("mibew_audio_alert")) { 
+            var soundHTML = '<audio autoplay id="mibew_audio_alert" style="display: none;">' +
+                '<source src="' + file + '" type="audio/x-wav" />' +
+                '<embed src="' + file + '" type="audio/x-wav" hidden="true" autostart="true" loop="false" />' +
+                '</audio>';
+            $('body').append(soundHTML);
+        }
+        document.getElementById('mibew_audio_alert').play();
     }
 
 })(Mibew, $);
