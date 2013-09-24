@@ -408,31 +408,31 @@ function get_operator_groupids($operatorid)
 
 function calculate_password_hash($login, $password)
 {
-
+	$hash = '*0';
 	if (CRYPT_BLOWFISH == 1) {
 		if (defined('PHP_VERSION_ID') && (PHP_VERSION_ID > 50306)) {
-			return crypt($password, '$2y$08$' . $login);
+			$hash = crypt($password, '$2y$08$' . $login);
 		}
 		else {
-			return crypt($password, '$2a$08$' . $login);
+			$hash = crypt($password, '$2a$08$' . $login);
 		}
         }
-	else if (CRYPT_MD5 == 1) {
-		return crypt($password, '$1$' . $login);
+
+	if ( (CRYPT_MD5 == 1) && !strcmp($hash, '*0') ) {
+		$hash = crypt($password, '$1$' . $login);
 	}
 
-	return md5($password);
+	return strcmp($hash, '*0') ? $hash : md5($password);
 }
 
 function check_password_hash($login, $password, $hash)
 {
 	if (preg_match('/^\$/', $hash)) {
-		return (calculate_password_hash($login, $password) == $hash);
+		return !strcmp(calculate_password_hash($login, $password), $hash);
 	}
 	else {
-		return (md5($password) == $hash);
+		return !strcmp(md5($password), $hash);
 	}
-
 }
 
 ?>
