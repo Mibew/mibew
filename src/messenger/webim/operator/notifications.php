@@ -51,6 +51,7 @@ $kind = verifyparam("kind", "/^(mail|xmpp)?$/", "");
 $page['allkinds'] = array('', 'mail', 'xmpp');
 
 # fetch
+$link = connect();
 
 $conditions = array();
 if ($kind) {
@@ -60,7 +61,6 @@ if ($lang) {
 	$conditions[] = "locale = '" . mysql_real_escape_string($lang, $link) . "'";
 }
 
-$link = connect();
 select_with_pagintation(
 	"id, locale, vckind, vcto, unix_timestamp(dtmcreated) as created, vcsubject, tmessage, refoperator", "${mysqlprefix}chatnotification",
 	$conditions,
