@@ -1,3 +1,8 @@
+  1.6.7
+  -----
+  [+] add https links highlighting (thanks to falcon)
+  [!] fix several bugs related to specific environments
+
   1.6.6
   -----
   [+] add captcha image to pre-chat survey
