@@ -165,6 +165,7 @@ Class.inherit( Ajax.ChatThreadUpdater, Ajax.Base, {
     this.skipNextsound = true;
     new Ajax.Request(this._options.servl, {parameters:'act=rename&thread=' + (this._options.threadid || 0) +
 	'&token=' + (this._options.token || 0) + '&name=' + encodeURIComponent(newname)});
+
   },
 
   onThreadClosed: function(_response) {
@@ -311,10 +312,12 @@ var Chat = {
   threadUpdater : {},
 
   applyName: function() {
-	Chat.threadUpdater.changeName($('uname').value);
-	$('changename1').style.display='none';
-	$('changename2').style.display='inline';
-	$('unamelink').innerHTML = htmlescape($('uname').value);
+	if ( !$('uname').value.match(/^\s*$/) ) {
+	    Chat.threadUpdater.changeName($('uname').value);
+	    $('changename1').style.display='none';
+	    $('changename2').style.display='inline';
+	    $('unamelink').innerHTML = htmlescape($('uname').value);
+	}
   },
 
   showNameField: function() {

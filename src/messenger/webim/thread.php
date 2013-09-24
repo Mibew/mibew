@@ -91,10 +91,12 @@ if( $act == "refresh" ) {
 
 	$newname = getrawparam('name');
 
-	rename_user($thread, $newname);
-	$data = strtr(base64_encode(myiconv($mibew_encoding,"utf-8",$newname)), '+/=', '-_,');
-	setcookie($namecookie, $data, time()+60*60*24*365);
-	show_ok_result("rename");
+	if (!preg_match('/^\s*$/', $newname)) {
+		rename_user($thread, $newname);
+		$data = strtr(base64_encode(myiconv($mibew_encoding,"utf-8",$newname)), '+/=', '-_,');
+		setcookie($namecookie, $data, time()+60*60*24*365);
+		show_ok_result("rename");
+	}
 
 } else if( $act == "ping" ) {
 	show_ok_result("ping");
