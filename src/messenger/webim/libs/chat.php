@@ -85,7 +85,7 @@ function post_message($threadid, $kind, $message, $from = null, $agentid = null)
 function prepare_html_message($text)
 {
 	$escaped_text = safe_htmlspecialchars($text);
-	$text_w_links = preg_replace('/(http|ftp):\/\/\S*/', '<a href="$0" target="_blank">$0</a>', $escaped_text);
+	$text_w_links = preg_replace('/(?i)(http|https|ftp):\/\/\S*/', '<a href="$0" target="_blank">$0</a>', $escaped_text);
 	$multiline = str_replace("\n", "<br/>", $text_w_links);
 	return $multiline;
 }
