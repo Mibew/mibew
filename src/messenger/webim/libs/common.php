@@ -255,14 +255,14 @@ function getstring($text, $raw = false)
 function getlocal($text, $raw = false)
 {
 	global $current_locale, $mibew_encoding;
-	$string = myiconv($mibew_encoding, getoutputenc(), getstring_($text, $current_locale), true);
+	$string = myiconv($mibew_encoding, getoutputenc(), getstring_($text, $current_locale, true));
 	return $raw ? $string : sanitize_string($string, 'low', 'moderate');
 }
 
 function getlocal_($text, $locale, $raw = false)
 {
 	global $mibew_encoding;
-	$string = myiconv($mibew_encoding, getoutputenc(), getstring_($text, $locale), true);
+	$string = myiconv($mibew_encoding, getoutputenc(), getstring_($text, $locale, true));
 	return $raw ? $string : sanitize_string($string, 'low', 'moderate');
 }
 
