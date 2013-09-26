@@ -40,7 +40,7 @@ sub process_dir($$) {
 `rm -rf $targetFolder`;
 die "Target folder exists: $targetFolder" if -e $targetFolder;
 
-process_dir("./webim", $targetFolder);
+process_dir("./mibew", $targetFolder);
 
 `rm -rf release$suffix`;
 die "release folder exists: release$suffix" if -e "release$suffix";

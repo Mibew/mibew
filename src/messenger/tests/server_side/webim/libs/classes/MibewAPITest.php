@@ -1,7 +1,7 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/mibew_api.php';
-require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/mibew_api_interaction.php';
+require_once dirname(__FILE__) . '/../../../../../mibew/libs/classes/mibew_api.php';
+require_once dirname(__FILE__) . '/../../../../../mibew/libs/classes/mibew_api_interaction.php';
 require_once dirname(__FILE__) . '/mibew_api_test_interaction.php';
 
 /**

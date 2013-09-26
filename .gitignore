@@ -1,6 +1,6 @@
 bin
 src/messenger/.idea/workspace.xml
-src/messenger/webim/install/package
+src/messenger/mibew/install/package
 src/messenger/absent_*
 src/messenger/release*
 src/mibewjava/.idea/workspace.xml
@@ -9,9 +9,9 @@ mibew.ini
 .DS_Store
 
 # No index actual configuration files
-src/messenger/webim/libs/config.php
-src/messenger/tests/server_side/webim/libs/config.php
+src/messenger/mibew/libs/config.php
+src/messenger/tests/server_side/mibew/libs/config.php
 
 # No index plugins
-src/messenger/webim/plugins/*
-!src/messenger/webim/plugins/.keep
+src/messenger/mibew/plugins/*
+!src/messenger/mibew/plugins/.keep

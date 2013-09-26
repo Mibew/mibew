@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-$sourceFolder = "../webim";
+$sourceFolder = "../mibew";
 
 sub file_content($) {
 	my $input = $_[0];

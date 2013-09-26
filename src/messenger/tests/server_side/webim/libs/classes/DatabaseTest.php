@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/database.php';
+require_once dirname(__FILE__) . '/../../../../../mibew/libs/classes/database.php';
 require_once dirname(__FILE__) . '/../config.php';
 
 /**

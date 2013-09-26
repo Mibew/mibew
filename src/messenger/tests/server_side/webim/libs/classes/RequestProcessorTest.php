@@ -1,12 +1,12 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/event_dispatcher.php';
-require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/plugin.php';
-require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/plugin_manager.php';
-require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/request_processor.php';
-require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/mibew_api.php';
-require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/mibew_api_interaction.php';
-require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/mibew_api_execution_context.php';
+require_once dirname(__FILE__) . '/../../../../../mibew/libs/classes/event_dispatcher.php';
+require_once dirname(__FILE__) . '/../../../../../mibew/libs/classes/plugin.php';
+require_once dirname(__FILE__) . '/../../../../../mibew/libs/classes/plugin_manager.php';
+require_once dirname(__FILE__) . '/../../../../../mibew/libs/classes/request_processor.php';
+require_once dirname(__FILE__) . '/../../../../../mibew/libs/classes/mibew_api.php';
+require_once dirname(__FILE__) . '/../../../../../mibew/libs/classes/mibew_api_interaction.php';
+require_once dirname(__FILE__) . '/../../../../../mibew/libs/classes/mibew_api_execution_context.php';
 require_once dirname(__FILE__) . '/../request_processor_test.php';
 require_once dirname(__FILE__) . '/mibew_api_test_interaction.php';
 require_once dirname(__FILE__) . '/test_processor.php';

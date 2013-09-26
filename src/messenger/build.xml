@@ -1,11 +1,11 @@
 <project name="mibew messenger" default="all">
 
 
-    <property name="webim_path" value="webim" />
+    <property name="mibew_path" value="mibew" />
     <property name="closure.c" value="/opt/closure/compiler.jar" />
     <property name="handlebars" value="handlebars" />
-    <property name="dialogs_styles_path" value="${webim_path}/styles/dialogs" />
-    <property name="js_path" value="${webim_path}/js" />
+    <property name="dialogs_styles_path" value="${mibew_path}/styles/dialogs" />
+    <property name="js_path" value="${mibew_path}/js" />
 
 
     <!-- Compile Handlebars templates for dialogs styles -->

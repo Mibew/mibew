@@ -1,7 +1,7 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/plugin_manager.php';
-require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/plugin.php';
+require_once dirname(__FILE__) . '/../../../../../mibew/libs/classes/plugin_manager.php';
+require_once dirname(__FILE__) . '/../../../../../mibew/libs/classes/plugin.php';
 
 /**
  * Test class for PluginManager.

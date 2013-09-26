@@ -1,7 +1,7 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/event_dispatcher.php';
-require_once dirname(__FILE__) . '/../../../../../webim/libs/classes/plugin.php';
+require_once dirname(__FILE__) . '/../../../../../mibew/libs/classes/event_dispatcher.php';
+require_once dirname(__FILE__) . '/../../../../../mibew/libs/classes/plugin.php';
 require_once dirname(__FILE__) . '/../../plugins/phpunit_autotest_plugin_manager/phpunit_autotest_plugin_manager_plugin.php';
 
 /**

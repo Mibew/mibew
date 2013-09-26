@@ -46,25 +46,25 @@ use Digest::MD5 qw(md5 md5_hex md5_base64);
 	["operator/getcode.php", 2],
 	["operator/.*\\.php", 1],
 	
-	["webim/client.php", 0],
-	["webim/leavemessage.php", 0],
-	["webim/captcha.php", 0],
-	["webim/license.php", 0],
-	["webim/mail.php", 0],	
+	["mibew/client.php", 0],
+	["mibew/leavemessage.php", 0],
+	["mibew/captcha.php", 0],
+	["mibew/license.php", 0],
+	["mibew/mail.php", 0],	
 
 	["libs/operator_settings.php", 2],
-	["webim/libs/chat.php", 0],
+	["mibew/libs/chat.php", 0],
 	["libs/pagination.php", 1],
 	["libs/settings.php", 2],
 	["libs/groups.php", 2],
 	["libs/demothread.php", 2],
 
-	["webim/thread.php", 0],
-	["webim/b.php", 0],
-	["webim/button.php", 0],
-	["webim/index.php", 0],
+	["mibew/thread.php", 0],
+	["mibew/b.php", 0],
+	["mibew/button.php", 0],
+	["mibew/index.php", 0],
 
-	["webim/libs/.*\\.php", 1],
+	["mibew/libs/.*\\.php", 1],
 );
 
 %messagekeys = (
@@ -95,7 +95,7 @@ use Digest::MD5 qw(md5 md5_hex md5_base64);
 );
 
 
-$webimPath = "webim";
+$mibewPath = "mibew";
 
 %urls = ();
 
@@ -173,7 +173,7 @@ sub file_checksum($) {
 
 sub process_one($) {
 	my($source) = @_;
-	push @allsources, $source unless $source =~ /$webimPath\/locales/ && $source !~ /$webimPath\/locales\/(en|names)/ || $source =~ /\/package$/;
+	push @allsources, $source unless $source =~ /$mibewPath\/locales/ && $source !~ /$mibewPath\/locales\/(en|names)/ || $source =~ /\/package$/;
 
 	if($source !~ /\.(php|tpl)$/) {
 		return;
@@ -217,29 +217,29 @@ sub process_files($) {
 	}
 }
 
-process_files($webimPath);
+process_files($mibewPath);
 
 # fix
 $messagekeys{'page.analysis.userhistory.title'} = 1;
 $messagekeys{'errors.failed.uploading.file'} = 2;
 
 
-open( OUT, "> $webimPath/locales/names/level1") or die "cannot write file, $!";
+open( OUT, "> $mibewPath/locales/names/level1") or die "cannot write file, $!";
 for $key(sort grep { $messagekeys{$_} == 0 } keys %messagekeys) {
 	print OUT "$key\n";
 }
 close( OUT );
 
-open( OUT, "> $webimPath/locales/names/level2") or die "cannot write file, $!";
+open( OUT, "> $mibewPath/locales/names/level2") or die "cannot write file, $!";
 for $key(sort grep { $messagekeys{$_} == 1 } keys %messagekeys) {
 	print OUT "$key\n";
 }
 close( OUT );
 
-open( OUT, "> $webimPath/install/package") or die "cannot write file, $!";
+open( OUT, "> $mibewPath/install/package") or die "cannot write file, $!";
 for $key(sort @allsources) {
     $digest = file_checksum($key);
-    $key =~ s/$webimPath\///;
+    $key =~ s/$mibewPath\///;
     print OUT "$key $digest\n";
 }
 close( OUT );
