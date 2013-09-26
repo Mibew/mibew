@@ -125,7 +125,7 @@ errors.required=გთხოვთ შეავსოთ "{0}".
 errors.suffix=</li>
 errors.wrong_field=გთხოვთ, სწორედ  "{0}" შეავსოთ.
 features.saved=მახასიათებლები გააქტიურებულია
-form.field.address.description=Ex: 12.23.45.123 ან todo.com
+form.field.address.description=Ex: 127.0.0.1 ან example.com
 form.field.address=სტუმრის მისამართი
 form.field.agent_commonname.description=ეს სახელი გამოჩნდება მნახველების მიერ.
 form.field.agent_commonname=საერთაშორისო სახელი (ლათინურად)
@@ -440,7 +440,7 @@ settings.enableban.description=ამის გამოყენებით �
 settings.enableban=ნების დართვა  "საშიში მნახველებისთვის"
 settings.enablegroups.description=დაყავი სხვადასხვა შეკითხვები რიგებად(აბზაცებად).
 settings.enablegroups=ნებართვა "ჯგუფებისთვის"
-settings.enablejabber.description=დაუყოვნებლივი ცნობა ახალი სტუმრისთვის(მოითხოვე <a href="http://mibew.org/გადმოწერა.php">Mibew Jabber</a>პროგრამის)
+settings.enablejabber.description=დაუყოვნებლივი ცნობა ახალი სტუმრისთვის(მოითხოვე Mibew Jabber პროგრამის)
 settings.enablejabber=ნების დართვა "საუბრის ცნობებისთვის"
 settings.enablepresurvey.description=იძულება-მომხმარებელმა უნდა შევასოს სპეციალური ფორმა ჩეთის დასაწყებად.
 settings.enablepresurvey=ნების დართვა "ჩეთამდე დათვალიერების"

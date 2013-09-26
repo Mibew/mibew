@@ -128,7 +128,7 @@ errors.required=Заполните поле "{0}".
 errors.suffix=</li>
 errors.wrong_field=Неправильно заполнено поле "{0}".
 features.saved=Набор сервисов изменен
-form.field.address.description=Например: 12.23.45.123 или relay.info.ru
+form.field.address.description=Например: 127.0.0.1 или example.com
 form.field.address=Адрес посетителя
 form.field.agent_commonname.description=Под этим именем Вас увидят ваши посетители из других стран.
 form.field.agent_commonname=Интернациональное имя (латиницей)
@@ -463,7 +463,7 @@ settings.enableban.description=С ее помощью можно блокировать атаки с определенн
 settings.enableban=Включить функцию "Нежелательные посетители"
 settings.enablegroups.description=Позволяет объединять операторов в группы и организовывать для них отдельные очереди.
 settings.enablegroups=Включить функцию "Группы"
-settings.enablejabber.description=Моментальные уведомления о новом посетителе (требует отдельной программы <a href="http://mibew.org/download.php">Mibew Jabber</a>)
+settings.enablejabber.description=Моментальные уведомления о новом посетителе (требует отдельной программы Mibew Jabber)
 settings.enablejabber=Включить функцию "Jabber уведомления"
 settings.enablepresurvey.description=Предлагает посетителю заполнить специальную форму перед началом чата.
 settings.enablepresurvey=Включить "Опрос перед началом диалога"

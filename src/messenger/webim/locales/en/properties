@@ -128,7 +128,7 @@ errors.wrong_field=Please fill "{0}" correctly.
 error.no_password=This is your first time logging in and your password is blank. For security reasons you have to change it.
 error.no_password.visit_profile=Visit your <a href="{0}">Profile Page</a>.
 features.saved=Features activated
-form.field.address.description=Ex: 12.23.45.123 or todo.com
+form.field.address.description=Ex: 127.0.0.1 or example.com
 form.field.address=Visitor's Address
 form.field.agent_commonname.description=This name will be seen by your visitors.
 form.field.agent_commonname=International name (Latin)
