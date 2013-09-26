@@ -214,6 +214,7 @@ menu.translate=Regionalisieren
 menu.updates.content=Auf Nachrichten und Updates prüfen.
 menu.updates=Updates
 my_settings.error.password_match=Die Passwörter stimmen nicht überein
+my_settings.error.no_password=Es ist noch kein Passwort für den Administrator gesetzt
 no_such_operator=Kein solcher Operator
 operator.group.no_description=&lt;keine Beschreibung&gt;
 operator.groups.intro=Wähle Gruppen nach Operator Qualifikation.
