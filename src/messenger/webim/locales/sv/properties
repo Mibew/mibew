@@ -99,7 +99,7 @@ clients.queue.chat=Besökare som pratar med operatör
 clients.queue.prio=Besökarkö
 clients.queue.wait=Väntar på operatör för första gången
 clients.title=Lista över väntande besökare
-common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - Obligatoriska fält
+common.asterisk_explanation=<b><span style="font-size:8.0pt;color:red">*</span></b> - Obligatoriska fält
 company.title=Mibew Messenger Community
 confirm.take.head=Byt operatör
 confirm.take.message=Besökare <span style="color:blue;">{0}</span> får redan hjälp av <span style="color:green;">{1}</span>.<br/> Är du säker på att du vill börja chatta med besökaren?
@@ -123,7 +123,7 @@ errors.required=var god fyll i "{0}".
 errors.suffix=</li>
 errors.wrong_field=Var god fyll i "{0}" korrekt.
 features.saved=Funktioner aktiverade
-form.field.address.description=Till exempel: 12.23.45.123 eller sverok.se
+form.field.address.description=Till exempel: 127.0.0.1 eller example.com
 form.field.address=Besökares adress
 form.field.agent_commonname.description=Detta namn syns för besökarna.
 form.field.agent_commonname=Internationellt namn (Latin)

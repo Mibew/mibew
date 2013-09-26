@@ -99,7 +99,7 @@ clients.queue.chat=محادثة زائر
 clients.queue.prio=طابر أفضلية الزوار
 clients.queue.wait=ينتظر مقدم اخدمة من بداية الوقت
 clients.title=قائمة الزوار المنتظرين
-common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - حقل إلزامي
+common.asterisk_explanation=<b><span style="font-size:8.0pt;color:red">*</span></b> - حقل إلزامي
 company.title=Mibew Messenger مجموعة
 confirm.take.head=تغيير مقدم الخدمة
 confirm.take.message=الزائر <span style="color:blue;">{0}</span> يتحادث مع مقدم الخدمة<span style="color:green;">{1}</span>.<br/>هل ترغب في بدأ المحادثة مع الزائر؟
@@ -123,7 +123,7 @@ errors.required=الرجاء تعبية الحقل "{0}".
 errors.suffix=</li>
 errors.wrong_field=الرجاء تعبئة الحقل "{0}" بشكل صحيح.
 features.saved=تم تفعيل الخاصية
-form.field.address.description=مثال: 12.23.45.123 أو todo.com
+form.field.address.description=مثال: 127.0.0.1 أو example.com
 form.field.address=عنوان الزائر
 form.field.agent_commonname.description=هذا الأسم سوف يشاهده الزائر .
 form.field.agent_commonname=الأسم الكامل (لاتيني)

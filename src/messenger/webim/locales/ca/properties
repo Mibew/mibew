@@ -95,7 +95,7 @@ clients.queue.chat=Visitant dialogant
 clients.queue.prio=Visitant amb prioritat per a atenció
 clients.queue.wait=Esperant operador per primera vegada
 clients.title=Llista de visitants en espera
-common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - camps obligatoris
+common.asterisk_explanation=<b><span style="font-size:8.0pt;color:red">*</span></b> - camps obligatoris
 company.title=Mibew Messenger Comunitat
 confirm.take.head=Canviar operador
 confirm.take.message=Visitant <span style="color:blue;">{0}</span> és actualment servit per <span style="color:green;">{1}</span>.<br/>Està vostè segur que vol iniciar conversa amb els visitants?
@@ -118,7 +118,7 @@ errors.required=Si us plau ompli "{0}".
 errors.suffix=</li>
 errors.wrong_field=Si us plau ompli "{0}" correctament.
 features.saved=Característiques activades
-form.field.address.description=Ex: 12.23.45.123 or todo.com
+form.field.address.description=Ex: 127.0.0.1 or example.com
 form.field.address=Adreça de visitants
 form.field.agent_commonname.description=Aquest nom serà vist per la visitants.
 form.field.agent_commonname=Nom internacional (Latin)
@@ -275,7 +275,7 @@ page.preview.userchat=Finestra de XAT (mode-usuari)
 page.translate.descr=Si no us agrada la traducció, si us plau els vostres suggeriments.
 page.translate.done=La teva traducció ha estat desada.
 page.translate.one=Introdueix la teva traducció.
-page.translate.title=Traducció Open WebIM
+page.translate.title=Traducció Mibew
 page_agent.cannot_modify=Tu no tens permís per canviar aquest perfil personal.
 page_agent.clear_avatar=Eliminar avatar
 page_agent.create_new=Aquí pot crear un nou operador.

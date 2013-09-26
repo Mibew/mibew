@@ -99,7 +99,7 @@ clients.queue.chat=Ügyfelek beszélgetésben
 clients.queue.prio=Elsőbbségben lévő ügyfelek listája
 clients.queue.wait=Először várakoznak operátorra
 clients.title=Várakozó ügyfelek listája
-common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - kötelező mező
+common.asterisk_explanation=<b><span style="font-size:8.0pt;color:red">*</span></b> - kötelező mező
 company.title=Mibew Messenger Community
 confirm.take.head=Operátor váltása
 confirm.take.message=Az ügyfélnek<span style="color:blue;">{0}</span>már segít <span style="color:green;">{1}</span>.<br/> Biztos vagy benne, hogy beszélni akarsz az ügyféllel?
@@ -123,7 +123,7 @@ errors.required="{0}" nincs kitöltve.
 errors.suffix=</li>
 errors.wrong_field="{0}" nincs pontosan kitöltve.
 features.saved=Bekapcsolt szolgáltatások
-form.field.address.description=Például: 12.23.45.123 vagy proba.com
+form.field.address.description=Például: 127.0.0.1 vagy example.com
 form.field.address=Látogatók címei
 form.field.agent_commonname.description=Ezt a nevet fogják látni az ügyfelek.
 form.field.agent_commonname=Nemzetközi név (Latin)

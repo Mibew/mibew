@@ -99,7 +99,7 @@ clients.queue.chat=Наведвальнікі ў дыялогах
 clients.queue.prio=Прыярытэтная чарга наведвальнікаў
 clients.queue.wait=Чакаюць аператара ў першы раз
 clients.title=Спіс наведвальнікаў, якія чакаюць
-common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - палі, абавязковыя для запаўнення
+common.asterisk_explanation=<b><span style="font-size:8.0pt;color:red">*</span></b> - палі, абавязковыя для запаўнення
 company.title=Mibew Messenger Community
 confirm.take.head=Змяніць аператара
 confirm.take.message=З наведвальнікам <span style="color:blue;">{0}</span> ужо гутарыць <span style="color:green;">{1}</span>.<br/>Вы ўпэўнены што жадаеце змяніць яго?
@@ -123,7 +123,7 @@ errors.required=Запоўніце поле "{0}".
 errors.suffix=</li>
 errors.wrong_field=Няправільна запоўнена поле "{0}".
 features.saved=Набор сэрвісаў зменены
-form.field.address.description=Напрыклад: 12.23.45.123 ці relay.info.ru
+form.field.address.description=Напрыклад: 127.0.0.1 ці example.com
 form.field.address=Адрас наведвальніка
 form.field.agent_commonname.description=Пад гэтым імем Вас убачаць Вашыя наведвальнікі з іншых краін.
 form.field.agent_commonname=Інтэрнацыянальнае імя (лацінкай)

@@ -97,7 +97,7 @@ clients.no_clients=Der er ingen i kø
 clients.queue.prio=Prioritér kø
 clients.queue.wait=Venter på en supporter for første gang
 clients.title=Liste over besøgende der venter
-common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - påkrævede felter
+common.asterisk_explanation=<b><span style="font-size:8.0pt;color:red">*</span></b> - påkrævede felter
 company.title=Mibew Messenger Community
 confirm.take.head=Vælg ny supporter
 confirm.take.message=Besøgende <span style="color:blue;">{0}</span> bliver allerede hjulpet af <span style="color:green;">{1}</span>.<br/> Er du sikker på, at du vil igangsætte endnu en chat session?
@@ -119,7 +119,7 @@ errors.required=Udfyld venligst "{0}".
 errors.suffix=</li>
 errors.wrong_field=Udfyld venligst "{0}" korrekt.
 features.saved=Funktioner aktiveret
-form.field.address.description=Fx: 12.23.45.123 eller todo.com
+form.field.address.description=Fx: 127.0.0.1 eller example.com
 form.field.address=Besøgendes adresse
 form.field.agent_commonname.description=Navnet er synligt for besøgende.
 form.field.agent_commonname=Internationalt navn (Latin)

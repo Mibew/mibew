@@ -99,7 +99,7 @@ clients.queue.chat=Użytkownicy w trakcie rozmowy
 clients.queue.prio=Kolejka oczekujących użytkowników
 clients.queue.wait=Osoby oczekujące po raz pierwszy na rozmowę
 clients.title=Lista oczekujących użytkowników
-common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - pola wymagane
+common.asterisk_explanation=<b><span style="font-size:8.0pt;color:red">*</span></b> - pola wymagane
 company.title=Społecznośc Mibew Komunikatora
 confirm.take.head=Zmień Operatora
 confirm.take.message=Użytkownik <span style="color:blue;">{0}</span> jest już obsługiwany przez <span style="color:green;">{1}</span>.<br/> Na pewno chcesz rozpocząć rozmowę z tym użytkownikiem?
@@ -123,7 +123,7 @@ errors.required=Proszę wypełnić "{0}".
 errors.suffix=</li>
 errors.wrong_field=Proszę wypełnić poprawnie "{0}".  
 features.saved=Funkcje zostały aktywowane
-form.field.address.description=Przykładowo: 12.23.45.123 lub todo.pl
+form.field.address.description=Przykładowo: 127.0.0.1 lub example.com
 form.field.address=Adresy Użytkowników
 form.field.agent_commonname.description=Ta nazwa będzie widoczna przez obsługiwanych użytkowników.
 form.field.agent_commonname=Międzynarodowa nazwa (Latin)

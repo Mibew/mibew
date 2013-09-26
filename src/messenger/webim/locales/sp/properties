@@ -99,7 +99,7 @@ clients.queue.chat=Visitante dialogando
 clients.queue.prio=Visitante con prioridad para atención
 clients.queue.wait=Esperando a operador por primera vez
 clients.title=Lista de visitantes en espera
-common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - campos obligatorios
+common.asterisk_explanation=<b><span style="font-size:8.0pt;color:red">*</span></b> - campos obligatorios
 company.title=Comunidad Mibew Messenger
 confirm.take.head=Cambiar operador
 confirm.take.message=Visitante <span style="color:blue;">{0}</span> es actualmente servido por<span style="color:green;">{1}</span>.<br/> Esta usted seguro que quiere iniciar conversación con los visitantes?
@@ -123,7 +123,7 @@ errors.required=Por favor rellene "{0}".
 errors.suffix=</li>
 errors.wrong_field=Por favor llene "{0}" correctamente.  
 features.saved=Características activadas
-form.field.address.description=Ex: 12.23.45.123 or todo.com
+form.field.address.description=Ex: 127.0.0.1 or example.com
 form.field.address=Dirección de visitantes
 form.field.agent_commonname.description=Este nombre será visto por los visitantes.
 form.field.agent_commonname=Nombre internacional (Latin)
@@ -303,7 +303,7 @@ page.preview.userchat=Ventana de Chat (modo-usuario)
 page.translate.descr=Si no te gusta la traducción, por favor envía tus sugerencias.   
 page.translate.done=Tu traducción ha sido guardada.
 page.translate.one=Introduce tu traducción.
-page.translate.title=Traducción Open WebIM
+page.translate.title=Traducción Mibew
 page_agent.cannot_modify=No tienes permisos para cambiar este perfil personal.
 page_agent.clear_avatar=Eliminar avatar
 page_agent.create_new=Aquí puede crear un nuevo operador.

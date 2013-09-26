@@ -91,7 +91,7 @@ clients.queue.chat=אורחים בשיחות
 clients.queue.prio=רשימת אורחים מועדפים
 clients.queue.wait=ממתינים לראשונה לנציג
 clients.title=רשימת אורחים ממתינים
-common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - שדות חושה למילוי
+common.asterisk_explanation=<b><span style="font-size:8.0pt;color:red">*</span></b> - שדות חושה למילוי
 company.title=Mibew Messenger Community
 confirm.take.head=להחליף נציג
 confirm.take.message=Visitor <span style="color:blue;">{0}</span> נמצא כבר בשיחה <span style="color:green;">{1}</span>.<br/> האם אתה בטוח שברצונך, להחליף את הנציג?
@@ -114,7 +114,7 @@ errors.required=מלא שדה זה "{0}".
 errors.suffix=</li>
 errors.wrong_field=מילאת שדה בצורה לא נכונה "{0}".
 features.saved=רשימת השירותים עברה שינוי
-form.field.address.description=Ex: 12.23.45.123 or todo.com
+form.field.address.description=Ex: 127.0.0.1 or example.com
 form.field.address=כתובת האורח
 form.field.agent_commonname.description=בשם זה יראו אותך אורחים אחרים.
 form.field.agent_commonname=שם בינלאומי (לטינית)

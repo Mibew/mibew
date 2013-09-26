@@ -99,7 +99,7 @@ clients.queue.chat=Visitantes em chat
 clients.queue.prio=Fila de prioridade de visitantes
 clients.queue.wait=Aguarde por um operador
 clients.title=Lista de visitantes em espera
-common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - campos obrigatórios
+common.asterisk_explanation=<b><span style="font-size:8.0pt;color:red">*</span></b> - campos obrigatórios
 company.title=Comunidade Mibew Messenger
 confirm.take.head=Mudar de operador
 confirm.take.message=O visitante <span style="color:blue;">{0}</span> já está atendido <span style="color:green;">{1}</span>.<br/> Tem certeza que quer entrar no chat?
@@ -123,7 +123,7 @@ errors.required=Por favor, preencha "{0}".
 errors.suffix=</li>
 errors.wrong_field=Por favor, preencha "{0}" corretamente.
 features.saved=Características Ativas
-form.field.address.description=Ex: 12.23.45.123 ou site.com
+form.field.address.description=Ex: 127.0.0.1 ou example.com
 form.field.address=Endereço do visitante
 form.field.agent_commonname.description=Este nome será visto por todos os visitantes.
 form.field.agent_commonname=Nome Internacional (Latin)

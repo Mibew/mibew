@@ -99,7 +99,7 @@ clients.queue.chat=Επισκέπτες σε συνομιλίες
 clients.queue.prio=Επισκέπτες στην ουρά προτεραιότητας
 clients.queue.wait=Αναμονή για το χειριστή για πρώτη φορά
 clients.title=Κατάλογος των εν αναμονή επισκεπτών
-common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - υποχρεωτικά πεδία
+common.asterisk_explanation=<b><span style="font-size:8.0pt;color:red">*</span></b> - υποχρεωτικά πεδία
 company.title=Κοινότητα Συνομιλητή Mibew
 confirm.take.head=Αλλαγή χειριστή
 confirm.take.message=Ο Επισκέπτης <span style="color:blue;">{0}</span> βοηθιέται ήδη από τον <span style="color:green;">{1}</span>.<br/> Είστε πραγματικά σίγουροι ότι θέλετε να αρχίσετε να μιλάτε με τον επισκέπτη?
@@ -123,7 +123,7 @@ errors.required=Παρακαλώ εισάγετε το πεδίο "{0}".
 errors.suffix=</li>
 errors.wrong_field=Παρακαλώ εισάγετε το πεδίο "{0}" σωστά.
 features.saved=Τα Χαρακτηριστικά έχουν ενεργοποιηθεί
-form.field.address.description=Πχ: 12.23.45.123 ή todo.com
+form.field.address.description=Πχ: 127.0.0.1 ή example.com
 form.field.address=Η Διεύθυνση του επισκέπτη
 form.field.agent_commonname.description=Αυτό το όνομα θα είναι ορατό από τους επισκέπτες σας.
 form.field.agent_commonname=Διεθνής ονομασία (Λατινικά)

@@ -91,7 +91,7 @@ clients.queue.chat=Posjetitelji u razgovorima
 clients.queue.prio=Prioritetni red čekanja posjetitelja
 clients.queue.wait=Čekanje na operatora po prvi put
 clients.title=Lista posjetitelja koji čekaju
-common.asterisk_explanation=<b><span style='font-size:8.0pt;color:red'>*</span></b> - obavezna polja
+common.asterisk_explanation=<b><span style="font-size:8.0pt;color:red">*</span></b> - obavezna polja
 company.title=Mibew Messenger Community
 confirm.take.head=Promijeni operatora
 confirm.take.message=Posjetitelju <span style="color:blue;">{0}</span> već pomaže <span style="color:green;">{1}</span>.<br/> Jeste li sigurni da želite započeti razgovor sa posjetiteljem?
@@ -114,7 +114,7 @@ errors.required=Molimo ispunite "{0}".
 errors.suffix=</li>
 errors.wrong_field=Molimo točno ispunite "{0}".
 features.saved=Svojstva aktivirana
-form.field.address.description=Primjer: 12.23.45.123 ili todo.com
+form.field.address.description=Primjer: 127.0.0.1 ili example.com
 form.field.address=Adresa posjetitelja
 form.field.agent_commonname.description=Ovo ime će biti vidljivo posjetiteljima.
 form.field.agent_commonname=Međunarodno ime (latinica)
