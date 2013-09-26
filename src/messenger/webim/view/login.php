@@ -23,14 +23,14 @@ $page['headertitle'] = getlocal("app.title");
 $page['show_small_login'] = true;
 $page['fixedwrap'] = true;
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
 <div id="loginintro">
 <p><?php echo getlocal("app.descr")?></p>
 </div>
 
-<form name="loginForm" method="post" action="<?php echo $webimroot ?>/operator/login.php">
+<form name="loginForm" method="post" action="<?php echo $mibewroot ?>/operator/login.php">
 	<div id="loginpane">
 
 	<div class="header">	
@@ -72,7 +72,7 @@ require_once('inc_errors.php');
 		</div>
 
 		<div class="fbutton">
-			<input type="image" name="login" src='<?php echo $webimroot.getlocal("image.button.login") ?>' alt='<?php echo getlocal("button.enter") ?>'/>
+			<input type="image" name="login" src='<?php echo $mibewroot.getlocal("image.button.login") ?>' alt='<?php echo getlocal("button.enter") ?>'/>
 
 			<div class="links">
 				<a href="restore.php"><?php echo getlocal("restore.pwd.message") ?></a><br/>

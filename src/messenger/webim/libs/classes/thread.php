@@ -721,7 +721,7 @@ Class Thread {
 	 * Load messages from database corresponding to the thread those ID's more
 	 * than $lastid
 	 *
-	 * @global $webim_encoding
+	 * @global $mibew_encoding
 	 * @param boolean $is_user Boolean TRUE if messages loads for user
 	 * and boolean FALSE if they loads for operator.
 	 * @param int $lastid ID of the last loaded message.
@@ -738,7 +738,7 @@ Class Thread {
 	 * @see Thread::postMessage()
 	 */
 	public function getMessages($is_user, &$last_id) {
-		global $webim_encoding;
+		global $mibew_encoding;
 
 		$db = Database::getInstance();
 
@@ -760,7 +760,7 @@ Class Thread {
 		foreach ($messages as $key => $msg) {
 			// Change sender name encoding
 			$messages[$key]['name'] = myiconv(
-				$webim_encoding,
+				$mibew_encoding,
 				"utf-8",
 				$msg['name']
 			);
@@ -776,7 +776,7 @@ Class Thread {
 
 			// Change message body encoding
 			$messages[$key]['message'] = myiconv(
-				$webim_encoding,
+				$mibew_encoding,
 				"utf-8",
 				$msg['message']
 			);

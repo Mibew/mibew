@@ -40,7 +40,7 @@ $screenshots = array();
 foreach($style_config['screenshots'] as $name => $desc) {
 	$screenshots[] = array(
 		'name' => $name,
-		'file' => $webimroot . '/styles/dialogs/' . $preview
+		'file' => $mibewroot . '/styles/dialogs/' . $preview
 			. '/screenshots/' . $name . '.png',
 		'description' => $desc
 	);

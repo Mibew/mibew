@@ -474,7 +474,7 @@ function append_query($link, $pv)
  * an associative array with folloing keys:
  *  - 'requested_page': string, page where login check was failed.
  *
- * @global string $webimroot Path of the mibew instalation from server root.
+ * @global string $mibewroot Path of the mibew instalation from server root.
  * It defined in libs/config.php
  * @global string $session_prefix Use as prefix for all session variables to
  * allow many instalation of the mibew messenger at one server. It defined in
@@ -486,10 +486,10 @@ function append_query($link, $pv)
  * null otherwise.
  */
 function check_login($redirect = true) {
-	global $webimroot, $session_prefix;
+	global $mibewroot, $session_prefix;
 	if (!isset($_SESSION[$session_prefix."operator"])) {
-		if (isset($_COOKIE['webim_lite'])) {
-			list($login, $pwd) = preg_split("/,/", $_COOKIE['webim_lite'], 2);
+		if (isset($_COOKIE['mibew_operator'])) {
+			list($login, $pwd) = preg_split("/,/", $_COOKIE['mibew_operator'], 2);
 			$op = operator_by_login($login);
 			if ($op && isset($pwd) && isset($op['vcpassword']) && md5($op['vcpassword']) == $pwd && !operator_is_disabled($op)) {
 				$_SESSION[$session_prefix."operator"] = $op;
@@ -511,7 +511,7 @@ function check_login($redirect = true) {
 		// Redirect operator if need
 		if ($redirect) {
 			$_SESSION['backpath'] = $requested;
-			header("Location: $webimroot/operator/login.php");
+			header("Location: $mibewroot/operator/login.php");
 			exit;
 		} else {
 			return null;
@@ -523,10 +523,10 @@ function check_login($redirect = true) {
 // Force the admin to set a password after the installation
 function force_password($operator)
 {
-	global $webimroot;
+	global $mibewroot;
 	if($operator['vcpassword']==md5(''))
 	{
-		header("Location: $webimroot/operator/operator.php?op=1");
+		header("Location: $mibewroot/operator/operator.php?op=1");
 		exit;
 	}
 }
@@ -545,7 +545,7 @@ function get_logged_in()
  *  - 'operator': array of the logged in operator info;
  *  - 'remember': boolean, indicates if system should remember operator.
  *
- * @global string $webimroot Path of the mibew instalation from server root.
+ * @global string $mibewroot Path of the mibew instalation from server root.
  * It defined in libs/config.php
  * @global string $session_prefix Use as prefix for all session variables to
  * allow many instalation of the mibew messenger at one server. It defined in
@@ -555,14 +555,14 @@ function get_logged_in()
  * @param boolean $remember Indicates if system should remember operator
  */
 function login_operator($operator, $remember) {
-	global $webimroot, $session_prefix;
+	global $mibewroot, $session_prefix;
 	$_SESSION[$session_prefix."operator"] = $operator;
 	if ($remember) {
 		$value = $operator['vclogin'] . "," . md5($operator['vcpassword']);
-		setcookie('webim_lite', $value, time() + 60 * 60 * 24 * 1000, "$webimroot/");
+		setcookie('mibew_operator', $value, time() + 60 * 60 * 24 * 1000, "$mibewroot/");
 
-	} else if (isset($_COOKIE['webim_lite'])) {
-		setcookie('webim_lite', '', time() - 3600, "$webimroot/");
+	} else if (isset($_COOKIE['mibew_operator'])) {
+		setcookie('mibew_operator', '', time() - 3600, "$mibewroot/");
 	}
 
 	// Trigger login event
@@ -579,18 +579,18 @@ function login_operator($operator, $remember) {
  *
  * Triggers 'operatorLogout' event after operator logged out.
  *
- * @global string $webimroot Path of the mibew instalation from server root.
+ * @global string $mibewroot Path of the mibew instalation from server root.
  * It defined in libs/config.php
  * @global string $session_prefix Use as prefix for all session variables to
  * allow many instalation of the mibew messenger at one server. It defined in
  * libs/common/constants.php
  */
 function logout_operator() {
-	global $webimroot, $session_prefix;
+	global $mibewroot, $session_prefix;
 	unset($_SESSION[$session_prefix."operator"]);
 	unset($_SESSION['backpath']);
-	if (isset($_COOKIE['webim_lite'])) {
-		setcookie('webim_lite', '', time() - 3600, "$webimroot/");
+	if (isset($_COOKIE['mibew_operator'])) {
+		setcookie('mibew_operator', '', time() - 3600, "$mibewroot/");
 	}
 
 	// Trigger logout event
@@ -600,7 +600,7 @@ function logout_operator() {
 
 function setup_redirect_links($threadid, $operator, $token)
 {
-	global $page, $webimroot;
+	global $page, $mibewroot;
 
 	$operator_in_isolation = in_isolation($operator);
 
@@ -638,7 +638,7 @@ function setup_redirect_links($threadid, $operator, $token)
 						: getlocal("char.redirect.operator.away_suff")
 				)
 				: "";
-		$agent_list .= "<li><a href=\"" . add_params($webimroot . "/operator/redirect.php", $params) .
+		$agent_list .= "<li><a href=\"" . add_params($mibewroot . "/operator/redirect.php", $params) .
 					   "\" title=\"" . topage(get_operator_name($agent)) . "\">" .
 					   topage(get_operator_name($agent)) .
 					   "</a> $status</li>";
@@ -655,7 +655,7 @@ function setup_redirect_links($threadid, $operator, $token)
 					: ($group['ilastseenaway'] !== NULL && $group['ilastseenaway'] < Settings::get('online_timeout')
 							? getlocal("char.redirect.operator.away_suff")
 							: "");
-			$group_list .= "<li><a href=\"" . add_params($webimroot . "/operator/redirect.php", $params) .
+			$group_list .= "<li><a href=\"" . add_params($mibewroot . "/operator/redirect.php", $params) .
 						   "\" title=\"" . topage(get_group_name($group)) . "\">" .
 						   topage(get_group_name($group)) .
 						   "</a> $status</li>";

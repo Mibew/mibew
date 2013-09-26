@@ -355,7 +355,7 @@ class ThreadProcessor extends ClientSideProcessor {
 	 * @throws ThreadProcessorException
 	 */
 	protected function apiRename($args) {
-		global $namecookie, $webim_encoding;
+		global $namecookie, $mibew_encoding;
 
 		// Check rename possibility
 		if( Settings::get('usercanchangename') != "1" ) {
@@ -374,7 +374,7 @@ class ThreadProcessor extends ClientSideProcessor {
 		//Rename user
 		$thread->renameUser($args['name']);
 		// Update user name in cookies
-		$data = strtr(base64_encode(myiconv($webim_encoding,"utf-8",$args['name'])), '+/=', '-_,');
+		$data = strtr(base64_encode(myiconv($mibew_encoding,"utf-8",$args['name'])), '+/=', '-_,');
 		setcookie($namecookie, $data, time()+60*60*24*365);
 	}
 
@@ -455,7 +455,7 @@ class ThreadProcessor extends ClientSideProcessor {
 			$newname = $args['name'];
 			if($newname != $visitor['name']) {
 				$data = strtr(
-					base64_encode(myiconv($webim_encoding,"utf-8",$newname)),
+					base64_encode(myiconv($mibew_encoding,"utf-8",$newname)),
 					'+/=',
 					'-_,'
 				);
@@ -656,7 +656,7 @@ class ThreadProcessor extends ClientSideProcessor {
 			);
 
 			// Send
-			webim_mail($inbox_mail, $email, $subject, $body);
+			mibew_mail($inbox_mail, $email, $subject, $body);
 		}
 	}
 }

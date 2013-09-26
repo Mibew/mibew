@@ -21,28 +21,28 @@ if(isset($page) && isset($page['localeLinks'])) {
 $page['title'] = getlocal("install.title");
 $page['fixedwrap'] = true;
 
-function tpl_header() { global $page, $webimroot;
+function tpl_header() { global $page, $mibewroot;
 	if($page['soundcheck']) {
 ?>
 
 <!-- External libs -->
-<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/jquery.min.js"></script>
-<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/json2.js"></script>
-<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/underscore-min.js"></script>
-<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/backbone-min.js"></script>
-<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/backbone.marionette.min.js"></script>
-<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/handlebars.js"></script>
+<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/json2.js"></script>
+<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/underscore-min.js"></script>
+<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/backbone-min.js"></script>
+<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/backbone.marionette.min.js"></script>
+<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/handlebars.js"></script>
 
 <!-- Default application files -->
-<script type="text/javascript" src="<?php echo $webimroot ?>/js/compiled/mibewapi.js"></script>
-<script type="text/javascript" src="<?php echo $webimroot ?>/js/compiled/default_app.js"></script>
+<script type="text/javascript" src="<?php echo $mibewroot ?>/js/compiled/mibewapi.js"></script>
+<script type="text/javascript" src="<?php echo $mibewroot ?>/js/compiled/default_app.js"></script>
 
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/compiled/soundcheck.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/compiled/soundcheck.js"></script>
 <?php
 	}
 }
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 <?php echo getlocal("install.message") ?>
 <br/>
@@ -76,7 +76,7 @@ require_once('inc_errors.php');
 <?php } ?>
 
 <br/>
-<a href="<?php echo $webimroot ?>/license.php"><?php echo getlocal("install.license") ?></a>
+<a href="<?php echo $mibewroot ?>/license.php"><?php echo getlocal("install.license") ?></a>
 
 
 <?php 

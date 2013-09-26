@@ -31,7 +31,7 @@ if (!$thread) {
 }
 
 // Open chat window for operator
-$redirect_to = $webimroot .
+$redirect_to = $mibewroot .
 	'/operator/agent.php?thread=' . $thread->id .
 	'&token=' . $thread->lastToken;
 header('Location: ' . $redirect_to);

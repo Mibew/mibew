@@ -25,13 +25,13 @@ $isonline = is_operator_online($operator['operatorid']);
 
 $page = array(
 	'version' => $version,
-	'localeLinks' => get_locale_links("$webimroot/operator/index.php"),
+	'localeLinks' => get_locale_links("$mibewroot/operator/index.php"),
 	'needUpdate' => Settings::get('dbversion') != $dbversion,
 	'needChangePassword' => $operator['vcpassword'] == md5(''),
-	'profilePage' => "$webimroot/operator/operator.php?op=".$operator['operatorid'],
-	'updateWizard' => "$webimroot/install/",
+	'profilePage' => "$mibewroot/operator/operator.php?op=".$operator['operatorid'],
+	'updateWizard' => "$mibewroot/install/",
 	'newFeatures' => Settings::get('featuresversion') != $featuresversion,
-	'featuresPage' => "$webimroot/operator/features.php",
+	'featuresPage' => "$mibewroot/operator/features.php",
 	'isOnline' => $isonline
 );
 

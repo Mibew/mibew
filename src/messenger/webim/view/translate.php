@@ -17,7 +17,7 @@
 
 $page['title'] = getlocal("page.translate.title");
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
 	<?php if( $page['saved'] ) { ?>
@@ -39,7 +39,7 @@ function tpl_content() { global $page, $webimroot, $errors;
 require_once('inc_errors.php');
 ?>
 
-<form name="translateForm" method="post" action="<?php echo $webimroot ?>/operator/translate.php">
+<form name="translateForm" method="post" action="<?php echo $mibewroot ?>/operator/translate.php">
 <?php print_csrf_token_input() ?>
 <input type="hidden" name="key" value="<?php echo $page['key'] ?>"/>
 <input type="hidden" name="target" value="<?php echo $page['target'] ?>"/>
@@ -61,7 +61,7 @@ require_once('inc_errors.php');
 		</div>
 	
 		<div class="fbutton">
-			<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
+			<input type="image" name="save" value="" src='<?php echo $mibewroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
 		</div>
 	</div>
 	

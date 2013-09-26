@@ -66,7 +66,7 @@ if (!$op) {
 		}
 
 		update_operator_groups($op['operatorid'], $new_groups);
-		header("Location: $webimroot/operator/opgroups.php?op=$opId&stored");
+		header("Location: $mibewroot/operator/opgroups.php?op=$opId&stored");
 		exit;
 	}
 }

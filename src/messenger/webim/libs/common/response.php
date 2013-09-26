@@ -60,8 +60,8 @@ function start_js_output(){
 
 function topage($text)
 {
-	global $webim_encoding;
-	return myiconv($webim_encoding, getoutputenc(), $text);
+	global $mibew_encoding;
+	return myiconv($mibew_encoding, getoutputenc(), $text);
 }
 
 /**

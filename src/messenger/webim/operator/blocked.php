@@ -37,7 +37,7 @@ if (isset($_GET['act']) && $_GET['act'] == 'del') {
 
 	if (count($errors) == 0) {
 		$db->query("delete from {chatban} where banid = ?", array($banId));
-		header("Location: $webimroot/operator/blocked.php");
+		header("Location: $mibewroot/operator/blocked.php");
 		exit;
 	}
 }

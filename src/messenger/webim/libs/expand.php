@@ -44,15 +44,15 @@ function expand_condition($matches)
 
 function expand_var($matches)
 {
-	global $page, $webimroot, $errors, $current_style, $flatten_page;
+	global $page, $mibewroot, $errors, $current_style, $flatten_page;
 
 	$prefix = $matches[1];
 	$var = $matches[2];
 	if (!$prefix) {
-		if ($var == 'webimroot') {
-			return $webimroot;
+		if ($var == 'mibewroot') {
+			return $mibewroot;
 		} else if ($var == 'tplroot') {
-			return "$webimroot/styles/dialogs/$current_style";
+			return "$mibewroot/styles/dialogs/$current_style";
 		} else if ($var == 'styleid') {
 			return $current_style;
 		} else if ($var == 'pagination') {

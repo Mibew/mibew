@@ -64,8 +64,8 @@ function get_user_locale()
 {
 	global $default_locale;
 
-	if (isset($_COOKIE['webim_locale'])) {
-		$requested_lang = $_COOKIE['webim_locale'];
+	if (isset($_COOKIE['mibew_locale'])) {
+		$requested_lang = $_COOKIE['mibew_locale'];
 		if (locale_exists($requested_lang))
 			return $requested_lang;
 	}
@@ -89,13 +89,13 @@ function get_user_locale()
 
 function get_locale()
 {
-	global $webimroot, $locale_pattern;
+	global $mibewroot, $locale_pattern;
 
 	$locale = verifyparam("locale", $locale_pattern, "");
 
 	if ($locale && locale_exists($locale)) {
 		$_SESSION['locale'] = $locale;
-		setcookie('webim_locale', $locale, time() + 60 * 60 * 24 * 1000, "$webimroot/");
+		setcookie('mibew_locale', $locale, time() + 60 * 60 * 24 * 1000, "$mibewroot/");
 	} else if (isset($_SESSION['locale'])) {
 		$locale = $_SESSION['locale'];
 	}
@@ -161,14 +161,14 @@ function load_messages($locale) {
 /**
  * Read and parse locale file.
  *
- * @global string $webim_encoding Internal Mibew encoding. Defined in
+ * @global string $mibew_encoding Internal Mibew encoding. Defined in
  * libs/config.php.
  *
  * @param string $path Locale file path
  * @return array Associative array with following keys:
  *  - 'encoding': string, one of service field from locale file, determines
  *    encoding of strings in the locale file. If there is no 'encoding' field in
- *    the locale file, this variable will be equal to $webim_encoding.
+ *    the locale file, this variable will be equal to $mibew_encoding.
  *
  *  - 'output_encoding': string, one of service field from locale file,
  *    determines in what encoding document should be output for this locale.
@@ -177,14 +177,14 @@ function load_messages($locale) {
  *
  *  - 'messages': associative array of localized strings. The keys of the array
  *    are localization keys and the values of the array are localized strings.
- *    All localized strings have internal Mibew encoding(see $webim_encoding
+ *    All localized strings have internal Mibew encoding(see $mibew_encoding
  *    value in libs/config.php).
  */
 function read_locale_file($path) {
-	global $webim_encoding;
+	global $mibew_encoding;
 
 	// Set default values
-	$current_encoding = $webim_encoding;
+	$current_encoding = $mibew_encoding;
 	$output_encoding = null;
 	$messages = array();
 
@@ -202,12 +202,12 @@ function read_locale_file($path) {
 				$current_encoding = trim($value);
 			} else if ($key == 'output_encoding') {
 				$output_encoding = trim($value);
-			} else if ($current_encoding == $webim_encoding) {
+			} else if ($current_encoding == $mibew_encoding) {
 				$messages[$key] = str_replace("\\n", "\n", trim($value));
 			} else {
 				$messages[$key] = myiconv(
 					$current_encoding,
-					$webim_encoding,
+					$mibew_encoding,
 					str_replace("\\n", "\n", trim($value))
 				);
 			}
@@ -224,10 +224,10 @@ function read_locale_file($path) {
 
 function getoutputenc()
 {
-	global $current_locale, $output_encoding, $webim_encoding, $messages;
+	global $current_locale, $output_encoding, $mibew_encoding, $messages;
 	if (!isset($messages[$current_locale]))
 		load_messages($current_locale);
-	return isset($output_encoding[$current_locale]) ? $output_encoding[$current_locale] : $webim_encoding;
+	return isset($output_encoding[$current_locale]) ? $output_encoding[$current_locale] : $mibew_encoding;
 }
 
 function getstring_($text, $locale)
@@ -254,14 +254,14 @@ function getstring($text)
 
 function getlocal($text)
 {
-	global $current_locale, $webim_encoding;
-	return myiconv($webim_encoding, getoutputenc(), getstring_($text, $current_locale));
+	global $current_locale, $mibew_encoding;
+	return myiconv($mibew_encoding, getoutputenc(), getstring_($text, $current_locale));
 }
 
 function getlocal_($text, $locale)
 {
-	global $webim_encoding;
-	return myiconv($webim_encoding, getoutputenc(), getstring_($text, $locale));
+	global $mibew_encoding;
+	return myiconv($mibew_encoding, getoutputenc(), getstring_($text, $locale));
 }
 
 function getstring2_($text, $params, $locale)
@@ -281,8 +281,8 @@ function getstring2($text, $params)
 
 function getlocal2($text, $params)
 {
-	global $current_locale, $webim_encoding;
-	$string = myiconv($webim_encoding, getoutputenc(), getstring_($text, $current_locale));
+	global $current_locale, $mibew_encoding;
+	$string = myiconv($mibew_encoding, getoutputenc(), getstring_($text, $current_locale));
 	for ($i = 0; $i < count($params); $i++) {
 		$string = str_replace("{" . $i . "}", $params[$i], $string);
 	}
@@ -292,8 +292,8 @@ function getlocal2($text, $params)
 /* prepares for Javascript string */
 function getlocalforJS($text, $params)
 {
-	global $current_locale, $webim_encoding;
-	$string = myiconv($webim_encoding, getoutputenc(), getstring_($text, $current_locale));
+	global $current_locale, $mibew_encoding;
+	$string = myiconv($mibew_encoding, getoutputenc(), getstring_($text, $current_locale));
 	$string = str_replace("\"", "\\\"", str_replace("\n", "\\n", $string));
 	for ($i = 0; $i < count($params); $i++) {
 		$string = str_replace("{" . $i . "}", $params[$i], $string);

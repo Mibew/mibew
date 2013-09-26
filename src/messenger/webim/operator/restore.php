@@ -52,7 +52,7 @@ if (isset($_POST['loginoremail'])) {
 		);
 
 		$href = get_app_location(true, false) . "/operator/resetpwd.php?id=" . $torestore['operatorid'] . "&token=$token";
-		webim_mail($email, $email, getstring("restore.mailsubj"), getstring2("restore.mailtext", array(get_operator_name($torestore), $href)));
+		mibew_mail($email, $email, getstring("restore.mailsubj"), getstring2("restore.mailtext", array(get_operator_name($torestore), $href)));
 
 		$page['isdone'] = true;
 		require('../view/restore.php');
@@ -62,7 +62,7 @@ if (isset($_POST['loginoremail'])) {
 
 $page['formloginoremail'] = topage($loginoremail);
 
-$page['localeLinks'] = get_locale_links("$webimroot/operator/restore.php");
+$page['localeLinks'] = get_locale_links("$mibewroot/operator/restore.php");
 $page['isdone'] = false;
 start_html_output();
 require('../view/restore.php');

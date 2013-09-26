@@ -50,7 +50,7 @@ if (isset($_GET['act'])) {
 
 		if (count($errors) == 0) {
 			delete_operator($operatorid);
-			header("Location: $webimroot/operator/operators.php");
+			header("Location: $mibewroot/operator/operators.php");
 			exit;
 		}
 	}
@@ -80,7 +80,7 @@ if (isset($_GET['act'])) {
 				array(($act_disable ? '1' : '0'), $operatorid)
 			);
 
-			header("Location: $webimroot/operator/operators.php");
+			header("Location: $mibewroot/operator/operators.php");
 			exit;
 		}
 	}

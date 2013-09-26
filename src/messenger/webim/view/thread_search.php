@@ -19,14 +19,14 @@ require_once("inc_menu.php");
 $page['title'] = getlocal("page_analysis.search.title");
 $page['menuid'] = "history";
 
-function tpl_content() { global $page, $webimroot;
+function tpl_content() { global $page, $mibewroot;
 ?>
 
 <?php echo getlocal("page_search.intro") ?>
 <br />
 <br />
 
-<form name="searchForm" method="get" action="<?php echo $webimroot ?>/operator/history.php">
+<form name="searchForm" method="get" action="<?php echo $mibewroot ?>/operator/history.php">
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 	
 	<div class="fieldForm">
@@ -46,7 +46,7 @@ function tpl_content() { global $page, $webimroot;
 					</select>
 				</div>
 				<div id="searchbutton">
-					<input type="image" name="search" src='<?php echo $webimroot.getlocal("image.button.search") ?>' alt='<?php echo getlocal("button.search") ?>'/>
+					<input type="image" name="search" src='<?php echo $mibewroot.getlocal("image.button.search") ?>' alt='<?php echo getlocal("button.search") ?>'/>
 				</div><br clear="all"/>
 				<div class="searchctrl" id="inSystemMessages"<?php echo ((form_value('type') != 'all' && form_value('type') != 'message')?' style="display: none;"':'')?>>
 					<input type="checkbox" name="insystemmessages" <?php echo (form_value('insystemmessages')?'checked="checked"':'') ?>/> <?php echo getlocal("page_search.search.type.in_system_messages") ?>
@@ -84,7 +84,7 @@ if( $page['pagination.items'] ) {
 	foreach( $page['pagination.items'] as $chatthread ) { ?>
 	<tr>
 		<td>
-			<a href="<?php echo $webimroot ?>/operator/threadprocessor.php?threadid=<?php echo $chatthread->id ?>" target="_blank" onclick="this.newWindow = window.open('<?php echo $webimroot ?>/operator/threadprocessor.php?threadid=<?php echo $chatthread->id ?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=720,height=520,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo topage(htmlspecialchars($chatthread->userName)) ?></a>
+			<a href="<?php echo $mibewroot ?>/operator/threadprocessor.php?threadid=<?php echo $chatthread->id ?>" target="_blank" onclick="this.newWindow = window.open('<?php echo $mibewroot ?>/operator/threadprocessor.php?threadid=<?php echo $chatthread->id ?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=720,height=520,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo topage(htmlspecialchars($chatthread->userName)) ?></a>
 		</td>
 		<td>
 			<?php echo get_user_addr(topage($chatthread->remote)) ?>

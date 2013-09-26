@@ -68,7 +68,7 @@ $body = getstring2(
 	array($thread->userName, $history, Settings::get('title'), Settings::get('hosturl'))
 );
 
-webim_mail($email, $webim_mailbox, $subject, $body);
+mibew_mail($email, $mibew_mailbox, $subject, $body);
 
 $page = array_merge_recursive(
 	$page,

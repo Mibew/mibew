@@ -19,7 +19,7 @@ require_once("inc_menu.php");
 $page['title'] = getlocal("page.gen_button.title");
 $page['menuid'] = "getcode";
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
 <?php echo getlocal("page.gen_button.intro") ?>
@@ -29,7 +29,7 @@ function tpl_content() { global $page, $webimroot, $errors;
 require_once('inc_errors.php');
 ?>
 
-<form name="buttonCodeForm" method="get" action="<?php echo $webimroot ?>/operator/getcode.php">
+<form name="buttonCodeForm" method="get" action="<?php echo $mibewroot ?>/operator/getcode.php">
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
 	<div class="fieldForm">

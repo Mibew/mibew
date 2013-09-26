@@ -35,7 +35,7 @@ function generate_button($title, $locale, $style, $invitationstyle, $group, $inn
 	if ($operator_code) {
 		$form_on_submit = "if(navigator.userAgent.toLowerCase().indexOf('opera') != -1 " .
 			"&amp;&amp; window.event.preventDefault) window.event.preventDefault();" .
-			"this.newWindow = window.open({$jslink} + '&amp;operator_code=' + document.getElementById('mibewOperatorCodeField').value, 'webim', '{$popup_options}');" .
+			"this.newWindow = window.open({$jslink} + '&amp;operator_code=' + document.getElementById('mibewOperatorCodeField').value, 'mibew', '{$popup_options}');" .
 			"this.newWindow.focus();this.newWindow.opener=window;return false;";
 		$temp = '<form action="" onsubmit="' . $form_on_submit . '" id="mibewOperatorCodeForm">' .
 			'<input type="text" id="mibewOperatorCodeField" />' .
@@ -45,7 +45,7 @@ function generate_button($title, $locale, $style, $invitationstyle, $group, $inn
 
 	// Generate button
 	$temp = get_popup($link, "$jslink",
-					$inner, $title, "webim", $popup_options);
+					$inner, $title, "mibew", $popup_options);
 	if (Settings::get('enabletracking')) {
 		$widget_data = array();
 

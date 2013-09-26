@@ -2,28 +2,28 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>${msg:chat.window.title.user}</title>
-	<link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon"/>
+	<link rel="shortcut icon" href="${mibewroot}/images/favicon.ico" type="image/x-icon"/>
 	<link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" />
 </head>
 <body>
 	<div id="top2">
 		<div id="logo">
 			${if:company.chatLogoURL}
-				${if:webimHost}
-					<a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">
+				${if:mibewHost}
+					<a onclick="window.open('${page:mibewHost}');return false;" href="${page:mibewHost}">
 						<img src="${page:company.chatLogoURL}" alt=""/>
 					</a>
-				${else:webimHost}
+				${else:mibewHost}
 					<img src="${page:company.chatLogoURL}" alt=""/>
-				${endif:webimHost}
+				${endif:mibewHost}
 			${else:company.chatLogoURL}
-				${if:webimHost}
-					<a onclick="window.open('${page:webimHost}');return false;" href="${page:webimHost}">
+				${if:mibewHost}
+					<a onclick="window.open('${page:mibewHost}');return false;" href="${page:mibewHost}">
 						<img src="${tplroot}/images/default-logo.gif" alt=""/>
 					</a>
-				${else:webimHost}
+				${else:mibewHost}
 					<img src="${tplroot}/images/default-logo.gif" alt=""/>
-				${endif:webimHost}
+				${endif:mibewHost}
 			${endif:company.chatLogoURL}
 			&nbsp;
 			<div id="page-title">${msg:chat.mailthread.sent.title}</div>
@@ -33,7 +33,7 @@
 	<div id="headers">
 		<div class="wndb"><div class="wndl"><div class="wndr"><div class="wndt"><div class="wndtl"><div class="wndtr"><div class="wndbl"><div class="wndbr">
 			<div class="buttons">
-				<a href="javascript:window.close();" title="${msg:chat.mailthread.sent.close}"><img class="tpl-image iclosewin" src="${webimroot}/images/free.gif" alt="${msg:chat.mailthread.sent.close}" /></a>
+				<a href="javascript:window.close();" title="${msg:chat.mailthread.sent.close}"><img class="tpl-image iclosewin" src="${mibewroot}/images/free.gif" alt="${msg:chat.mailthread.sent.close}" /></a>
 			</div>
 			<div class="messagetxt">${msg:chat.mailthread.sent.content,email}</div>
 		</div></div></div></div></div></div></div></div>

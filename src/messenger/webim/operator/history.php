@@ -28,7 +28,7 @@ force_password($operator);
 setlocale(LC_TIME, getstring("time.locale"));
 
 $page = array();
-$query = isset($_GET['q']) ? myiconv(getoutputenc(), $webim_encoding, $_GET['q']) : false;
+$query = isset($_GET['q']) ? myiconv(getoutputenc(), $mibew_encoding, $_GET['q']) : false;
 
 $searchType = verifyparam('type', '/^(all|message|operator|visitor)$/', 'all');
 $searchInSystemMessages = (verifyparam('insystemmessages', '/^on$/', 'off') == 'on') || !$query;

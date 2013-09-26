@@ -24,7 +24,7 @@ $page['show_small_login'] = true;
 $page['fixedwrap'] = true;
 
 function tpl_content() { 
-	global $page, $webimroot, $errors;
+	global $page, $mibewroot, $errors;
 	
 	if($page['isdone']) {
 ?>
@@ -45,7 +45,7 @@ function tpl_content() {
 	} else {
 ?>
 
-<form name="restoreForm" method="post" action="<?php echo $webimroot ?>/operator/restore.php">
+<form name="restoreForm" method="post" action="<?php echo $mibewroot ?>/operator/restore.php">
 	<div id="loginpane">
 
 	<div class="header">	
@@ -71,11 +71,11 @@ require_once('inc_errors.php');
 		<div class="fbutton">
 			<table class="submitbutton"><tr>
 				<td><a href="javascript:document.restoreForm.submit();">
-					<img src='<?php echo $webimroot ?>/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
+					<img src='<?php echo $mibewroot ?>/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
 				<td class="submit"><a href="javascript:document.restoreForm.submit();">
 					<?php echo getlocal("restore.submit") ?></a></td>
 				<td><a href="javascript:document.restoreForm.submit();">
-					<img src='<?php echo $webimroot ?>/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
+					<img src='<?php echo $mibewroot ?>/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
 			</tr></table>
 
 			<div class="links">

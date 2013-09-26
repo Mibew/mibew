@@ -18,9 +18,9 @@
 require_once("inc_menu.php");
 require_once("inc_tabbar.php");
 
-function tpl_header() { global $page, $webimroot;
+function tpl_header() { global $page, $mibewroot;
 ?>
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/libs/jquery.min.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/libs/jquery.min.js"></script>
 <script type="text/javascript" language="javascript">
 
 function updateParentGroup() {
@@ -44,7 +44,7 @@ $(function(){
 $page['title'] = getlocal("page.group.title");
 $page['menuid'] = "groups";
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
 	<?php if( $page['grid'] ) { ?>
@@ -62,7 +62,7 @@ require_once('inc_errors.php');
 <div id="formmessage"><?php echo getlocal("data.saved") ?></div>
 <?php } ?>
 
-<form name="groupForm" method="post" action="<?php echo $webimroot ?>/operator/group.php">
+<form name="groupForm" method="post" action="<?php echo $mibewroot ?>/operator/group.php">
 <input type="hidden" name="gid" value="<?php echo $page['grid'] ?>"/>
 	<div>
 <?php print_tabbar(); ?>
@@ -173,7 +173,7 @@ require_once('inc_errors.php');
 		</div>
 
 		<div class="fbutton">
-			<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
+			<input type="image" name="save" value="" src='<?php echo $mibewroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
 		</div>
 	</div>
 	

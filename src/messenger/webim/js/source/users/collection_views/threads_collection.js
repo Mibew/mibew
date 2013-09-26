@@ -155,7 +155,7 @@
              */
             threadAdded: function() {
                 // Build sound path
-                var path = Mibew.Objects.Models.page.get('webimRoot');
+                var path = Mibew.Objects.Models.page.get('mibewRoot');
                 if (path) {
                     path += '/sounds/new_user.wav';
                     // Play sound

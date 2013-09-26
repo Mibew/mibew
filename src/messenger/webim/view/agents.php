@@ -19,13 +19,13 @@ require_once("inc_menu.php");
 $page['title'] = getlocal("page_agents.title");
 $page['menuid'] = "operators";
 
-function tpl_header() { global $page, $webimroot;
+function tpl_header() { global $page, $mibewroot;
 ?>	
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/libs/jquery.min.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/libs/jquery.min.js"></script>
 <?php
 }
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
 <?php echo getlocal("page_agents.intro") ?>
@@ -35,7 +35,7 @@ function tpl_content() { global $page, $webimroot, $errors;
 require_once('inc_errors.php');
 ?>
 
-<form name="agentsForm" method="get" action="<?php echo $webimroot ?>/operator/operators.php">
+<form name="agentsForm" method="get" action="<?php echo $mibewroot ?>/operator/operators.php">
 
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
@@ -63,8 +63,8 @@ require_once('inc_errors.php');
 
 <?php if($page['canmodify']) { ?>
 <div class="tabletool">
-	<img src='<?php echo $webimroot ?>/images/buttons/createagent.gif' border="0" alt="" />
-	<a href='<?php echo $webimroot ?>/operator/operator.php' title="<?php echo getlocal("page_agents.new_agent") ?>">
+	<img src='<?php echo $mibewroot ?>/images/buttons/createagent.gif' border="0" alt="" />
+	<a href='<?php echo $mibewroot ?>/operator/operator.php' title="<?php echo getlocal("page_agents.new_agent") ?>">
 		<?php echo getlocal("page_agents.new_agent") ?>
 	</a>
 </div>
@@ -91,7 +91,7 @@ require_once('inc_errors.php');
 <?php foreach( $page['allowedAgents'] as $a ) { ?>
 <tr>
 	<td class="notlast">
-   		<a id="ti<?php echo $a['operatorid'] ?>" href="<?php echo $webimroot ?>/operator/operator.php?op=<?php echo $a['operatorid'] ?>" class="man">
+   		<a id="ti<?php echo $a['operatorid'] ?>" href="<?php echo $mibewroot ?>/operator/operator.php?op=<?php echo $a['operatorid'] ?>" class="man">
    			<?php echo htmlspecialchars(topage($a['vclogin'])) ?>
    		</a>
 	</td>
@@ -110,13 +110,13 @@ require_once('inc_errors.php');
 <?php if($page['canmodify']) { ?>
 	<td>
 <?php if(operator_is_disabled($a)){ ?>
-		<a href="<?php echo $webimroot ?>/operator/operators.php?act=enable&amp;id=<?php echo $a['operatorid'] ?>"><?php echo getlocal("page_agents.enable.agent") ?></a>
+		<a href="<?php echo $mibewroot ?>/operator/operators.php?act=enable&amp;id=<?php echo $a['operatorid'] ?>"><?php echo getlocal("page_agents.enable.agent") ?></a>
 <?php }else{ ?>
-		<a href="<?php echo $webimroot ?>/operator/operators.php?act=disable&amp;id=<?php echo $a['operatorid'] ?>"><?php echo getlocal("page_agents.disable.agent") ?></a>
+		<a href="<?php echo $mibewroot ?>/operator/operators.php?act=disable&amp;id=<?php echo $a['operatorid'] ?>"><?php echo getlocal("page_agents.disable.agent") ?></a>
 <?php } ?>
 	</td>
 	<td>
-		<a class="removelink" id="i<?php echo $a['operatorid'] ?>" href="<?php echo $webimroot ?>/operator/operators.php?act=del&amp;id=<?php echo $a['operatorid'] ?><?php print_csrf_token_in_url() ?>">
+		<a class="removelink" id="i<?php echo $a['operatorid'] ?>" href="<?php echo $mibewroot ?>/operator/operators.php?act=del&amp;id=<?php echo $a['operatorid'] ?><?php print_csrf_token_in_url() ?>">
 			<?php echo getlocal("remove.item") ?>
 		</a>
 	</td>

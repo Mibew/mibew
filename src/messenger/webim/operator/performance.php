@@ -96,7 +96,7 @@ if (isset($_POST['onlinetimeout'])) {
 			Settings::set($opt,$params[$opt]);
 		}
 		Settings::update();
-		header("Location: $webimroot/operator/performance.php?stored");
+		header("Location: $mibewroot/operator/performance.php?stored");
 		exit;
 	}
 }

@@ -25,8 +25,8 @@ require_once(dirname(__FILE__).'/classes/request_processor.php');
 require_once(dirname(__FILE__).'/classes/client_side_processor.php');
 require_once(dirname(__FILE__).'/classes/thread_processor.php');
 
-$namecookie = "WEBIM_Data";
-$usercookie = "WEBIM_UserID";
+$namecookie = "MIBEW_Data";
+$usercookie = "MIBEW_UserID";
 
 function get_user_id()
 {
@@ -149,7 +149,7 @@ function setup_logo($group = NULL) {
 			: $toplevelgroup['vclogo'])
 	);
 
-	$data['webimHost'] = topage(empty($toplevelgroup['vchosturl'])
+	$data['mibewHost'] = topage(empty($toplevelgroup['vchosturl'])
 		? Settings::get('hosturl')
 		: $toplevelgroup['vchosturl']);
 
@@ -435,13 +435,13 @@ function setup_chatview(Thread $thread) {
 /**
  * Prepare some data for chat for user
  *
- * @global string $webimroot Root URL path for Mibew
+ * @global string $mibewroot Root URL path for Mibew
  * @param Thread $thread thread object
  * be used
  * @return array Array of chat view data
  */
 function setup_chatview_for_user(Thread $thread) {
-	global $webimroot;
+	global $mibewroot;
 
 	$data = setup_chatview($thread);
 
@@ -461,7 +461,7 @@ function setup_chatview_for_user(Thread $thread) {
 	$params = "thread=" . $thread->id . "&amp;token=" . $thread->lastToken;
 
 	// Set link to send mail page
-	$data['chat']['links']['mail'] = "$webimroot/client.php?"
+	$data['chat']['links']['mail'] = "$mibewroot/client.php?"
 		. $params
 		. "&amp;act=mailthread";
 
@@ -478,13 +478,13 @@ function setup_chatview_for_user(Thread $thread) {
 /**
  * Prepare some data for chat for operator
  *
- * @global string $webimroot Root URL path for Mibew
- * @global string $webim_encoding Current Mibew encoding
+ * @global string $mibewroot Root URL path for Mibew
+ * @global string $mibew_encoding Current Mibew encoding
  * @param Thread $thread thread object
  * @return array Array of chat view data
  */
 function setup_chatview_for_operator(Thread $thread, $operator) {
-	global $webimroot, $webim_encoding;
+	global $mibewroot, $mibew_encoding;
 
 	$data = setup_chatview($thread);
 
@@ -518,7 +518,7 @@ function setup_chatview_for_operator(Thread $thread, $operator) {
 	// Set history window params
 	$history_link_params = array("userid" => (string)$thread->userId);
 	$data['chat']['links']['history'] = add_params(
-		$webimroot . "/operator/userhistory.php",
+		$mibewroot . "/operator/userhistory.php",
 		$history_link_params
 	);
 
@@ -527,7 +527,7 @@ function setup_chatview_for_operator(Thread $thread, $operator) {
 	    $visitor = track_get_visitor_by_threadid($thread->id);
 		$tracked_link_params = array("visitor" => "" . $visitor['visitorid']);
 		$data['chat']['links']['tracked'] = add_params(
-			$webimroot . "/operator/tracked.php",
+			$mibewroot . "/operator/tracked.php",
 			$tracked_link_params
 		);
 	}
@@ -552,7 +552,7 @@ function setup_chatview_for_operator(Thread $thread, $operator) {
 						: cutstring($answer['vcvalue'], 97, '...'))
 				),
 				'full' => myiconv(
-					$webim_encoding,
+					$mibew_encoding,
 					getoutputenc(),
 					$answer['vcvalue']
 				)
@@ -562,7 +562,7 @@ function setup_chatview_for_operator(Thread $thread, $operator) {
 	}
 	// Set link to user redirection page
 	$params = "thread=" . $thread->id . "&amp;token=" . $thread->lastToken;
-	$data['chat']['links']['redirect'] = "$webimroot/operator/agent.php?"
+	$data['chat']['links']['redirect'] = "$mibewroot/operator/agent.php?"
 		. $params
 		. "&amp;act=redirect";
 
@@ -587,13 +587,13 @@ function ban_for_addr($addr)
 
 function visitor_from_request()
 {
-	global $namecookie, $webim_encoding, $usercookie;
+	global $namecookie, $mibew_encoding, $usercookie;
 	$defaultName = getstring("chat.default.username");
 	$userName = $defaultName;
 	if (isset($_COOKIE[$namecookie])) {
 		$data = base64_decode(strtr($_COOKIE[$namecookie], '-_,', '+/='));
 		if (strlen($data) > 0) {
-			$userName = myiconv("utf-8", $webim_encoding, $data);
+			$userName = myiconv("utf-8", $mibew_encoding, $data);
 		}
 	}
 

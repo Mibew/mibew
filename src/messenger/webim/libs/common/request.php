@@ -20,9 +20,9 @@ require_once(dirname(__FILE__) . '/locale.php');
 /* ajax server actions use utf-8 */
 function getrawparam($name)
 {
-	global $webim_encoding;
+	global $mibew_encoding;
 	if (isset($_POST[$name])) {
-		$value = myiconv("utf-8", $webim_encoding, $_POST[$name]);
+		$value = myiconv("utf-8", $mibew_encoding, $_POST[$name]);
 		if (get_magic_quotes_gpc()) {
 			$value = stripslashes($value);
 		}
@@ -34,9 +34,9 @@ function getrawparam($name)
 /* form processors use current Output encoding */
 function getparam($name)
 {
-	global $webim_encoding;
+	global $mibew_encoding;
 	if (isset($_POST[$name])) {
-		$value = myiconv(getoutputenc(), $webim_encoding, $_POST[$name]);
+		$value = myiconv(getoutputenc(), $mibew_encoding, $_POST[$name]);
 		if (get_magic_quotes_gpc()) {
 			$value = stripslashes($value);
 		}
@@ -47,11 +47,11 @@ function getparam($name)
 
 function getgetparam($name, $default = '')
 {
-	global $webim_encoding;
+	global $mibew_encoding;
 	if (!isset($_GET[$name]) || !$_GET[$name]) {
 		return $default;
 	}
-	$value = myiconv("utf-8", $webim_encoding, unicode_urldecode($_GET[$name]));
+	$value = myiconv("utf-8", $mibew_encoding, unicode_urldecode($_GET[$name]));
 	if (get_magic_quotes_gpc()) {
 		$value = stripslashes($value);
 	}
@@ -60,11 +60,11 @@ function getgetparam($name, $default = '')
 
 function get_app_location($showhost, $issecure)
 {
-	global $webimroot;
+	global $mibewroot;
 	if ($showhost) {
-		return ($issecure ? "https://" : "http://") . $_SERVER['HTTP_HOST'] . $webimroot;
+		return ($issecure ? "https://" : "http://") . $_SERVER['HTTP_HOST'] . $mibewroot;
 	} else {
-		return $webimroot;
+		return $mibewroot;
 	}
 }
 

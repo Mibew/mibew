@@ -37,11 +37,11 @@ function get_group_name($group)
 
 function setup_group_settings_tabs($gid, $active)
 {
-	global $page, $webimroot;
+	global $page, $mibewroot;
 	if ($gid) {
 		$page['tabs'] = array(
-			getlocal("page_group.tab.main") => $active != 0 ? "$webimroot/operator/group.php?gid=$gid" : "",
-			getlocal("page_group.tab.members") => $active != 1 ? "$webimroot/operator/groupmembers.php?gid=$gid" : "",
+			getlocal("page_group.tab.main") => $active != 0 ? "$mibewroot/operator/group.php?gid=$gid" : "",
+			getlocal("page_group.tab.members") => $active != 1 ? "$mibewroot/operator/groupmembers.php?gid=$gid" : "",
 		);
 	} else {
 		$page['tabs'] = array();

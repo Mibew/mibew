@@ -19,7 +19,7 @@ $page['title'] = getlocal("license.title");
 $page['no_right_menu'] = true;
 $page['fixedwrap'] = true;
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
 <p>Copyright 2005-2013 the original author or authors.</p>

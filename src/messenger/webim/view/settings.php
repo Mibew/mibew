@@ -21,7 +21,7 @@ require_once("inc_tabbar.php");
 $page['title'] = getlocal("settings.title");
 $page['menuid'] = "settings";
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
 <?php echo getlocal("page_settings.intro") ?>
@@ -34,7 +34,7 @@ require_once('inc_errors.php');
 <div id="formmessage"><?php echo getlocal("settings.saved") ?></div>
 <?php } ?>
 
-<form name="settings" method="post" action="<?php echo $webimroot ?>/operator/settings.php">
+<form name="settings" method="post" action="<?php echo $mibewroot ?>/operator/settings.php">
 <?php print_csrf_token_input() ?>
 	<div>
 <?php print_tabbar(); ?>
@@ -151,7 +151,7 @@ require_once('inc_errors.php');
 		</div>
 
 		<div class="fbutton">
-			<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
+			<input type="image" name="save" value="" src='<?php echo $mibewroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
 		</div>
 
 	</div>

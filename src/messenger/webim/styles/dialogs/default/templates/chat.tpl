@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
         <title>${msg:chat.window.title.agent}</title>
-        <link rel="shortcut icon" href="${webimroot}/images/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="${mibewroot}/images/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" type="text/css" href="${tplroot}/chat.css" media="all" />
         <!--[if IE 7]>
             <link rel="stylesheet" type="text/css" href="${tplroot}/chat_ie7.css" media="all" />
@@ -11,20 +11,20 @@
         ${page:additional_css}
 
         <!-- External libs -->
-        <script type="text/javascript" src="${webimroot}/js/libs/jquery.min.js"></script>
-        <script type="text/javascript" src="${webimroot}/js/libs/json2.js"></script>
-        <script type="text/javascript" src="${webimroot}/js/libs/underscore-min.js"></script>
-        <script type="text/javascript" src="${webimroot}/js/libs/backbone-min.js"></script>
-        <script type="text/javascript" src="${webimroot}/js/libs/backbone.marionette.min.js"></script>
-        <script type="text/javascript" src="${webimroot}/js/libs/handlebars.js"></script>
+        <script type="text/javascript" src="${mibewroot}/js/libs/jquery.min.js"></script>
+        <script type="text/javascript" src="${mibewroot}/js/libs/json2.js"></script>
+        <script type="text/javascript" src="${mibewroot}/js/libs/underscore-min.js"></script>
+        <script type="text/javascript" src="${mibewroot}/js/libs/backbone-min.js"></script>
+        <script type="text/javascript" src="${mibewroot}/js/libs/backbone.marionette.min.js"></script>
+        <script type="text/javascript" src="${mibewroot}/js/libs/handlebars.js"></script>
 
         <!-- Javascript templates -->
         <script type="text/javascript" src="${tplroot}/js/compiled/templates.js"></script>
 
         <!-- Application files -->
-        <script type="text/javascript" src="${webimroot}/js/compiled/mibewapi.js"></script>
-        <script type="text/javascript" src="${webimroot}/js/compiled/default_app.js"></script>
-        <script type="text/javascript" src="${webimroot}/js/compiled/chat_app.js"></script>
+        <script type="text/javascript" src="${mibewroot}/js/compiled/mibewapi.js"></script>
+        <script type="text/javascript" src="${mibewroot}/js/compiled/default_app.js"></script>
+        <script type="text/javascript" src="${mibewroot}/js/compiled/chat_app.js"></script>
 
         <!-- Add style scripts -->
         <script type="text/javascript" src="${tplroot}/js/compiled/scripts.js"></script>
@@ -80,18 +80,18 @@
             jQuery(document).ready(function(){
                 Mibew.Application.start({
                     server: {
-                        url: "${webimroot}/thread.php",
+                        url: "${mibewroot}/thread.php",
                         requestsFrequency: ${page:frequency}
                     },
                     page: {
                         style: '${styleid}',
-                        webimRoot: '${webimroot}',
+                        mibewRoot: '${mibewroot}',
                         tplRoot: '${tplroot}',
                         company: {
                             name: ${pagejs:company.name},
                             chatLogoURL: '${page:company.chatLogoURL}'
                         },
-                        webimHost: '${page:webimHost}',
+                        mibewHost: '${page:mibewHost}',
                         title: ${pagejs:page.title}
                     },
                     ${if:chatOptions}

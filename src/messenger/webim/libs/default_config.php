@@ -25,12 +25,12 @@
 /*
  *  Application path on server
  */
-$webimroot = "/webim";
+$mibewroot = "/mibew";
 
 /*
  *  Internal encoding
  */
-$webim_encoding = "utf-8";
+$mibew_encoding = "utf-8";
 
 /*
  *  MySQL Database parameters
@@ -49,7 +49,7 @@ $use_persistent_connection = false;
 /*
  *  Mailbox
  */
-$webim_mailbox = "webim@yourdomain.com";
+$mibew_mailbox = "mibew@yourdomain.com";
 $mail_encoding = "utf-8";
 
 /*

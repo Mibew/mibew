@@ -2,16 +2,16 @@
 <div id="top2">
     <div id="logo">
         {{#if page.company.chatLogoURL}}
-            {{#if page.webimHost}}
-                <a onclick="window.open('{{page.webimHost}}');return false;" href="{{page.webimHost}}">
+            {{#if page.mibewHost}}
+                <a onclick="window.open('{{page.mibewHost}}');return false;" href="{{page.mibewHost}}">
                     <img src="{{page.company.chatLogoURL}}" alt=""/>
                 </a>
             {{else}}
                 <img src="{{page.company.chatLogoURL}}" alt=""/>
             {{/if}}
         {{else}}
-            {{#if page.webimHost}}
-                <a onclick="window.open('{{page.webimHost}}');return false;" href="{{page.webimHost}}">
+            {{#if page.mibewHost}}
+                <a onclick="window.open('{{page.mibewHost}}');return false;" href="{{page.mibewHost}}">
                     <img src="{{page.tplRoot}}/images/default-logo.gif" alt=""/>
                 </a>
             {{else}}
@@ -28,7 +28,7 @@
 <div id="headers">
     <div class="wndb"><div class="wndl"><div class="wndr"><div class="wndt"><div class="wndtl"><div class="wndtr"><div class="wndbl"><div class="wndbr">
         <div class="buttons">
-            <a href="javascript:window.close();" title="{{L10n "leavemessage.close"}}"><img class="tpl-image iclosewin" src="{{page.webimRoot}}/images/free.gif" alt="{{L10n "leavemessage.close"}}" /></a>
+            <a href="javascript:window.close();" title="{{L10n "leavemessage.close"}}"><img class="tpl-image iclosewin" src="{{page.mibewRoot}}/images/free.gif" alt="{{L10n "leavemessage.close"}}" /></a>
         </div>
         <div class="messagetxt">{{L10n "presurvey.intro"}}</div>
     </div></div></div></div></div></div></div></div>

@@ -91,7 +91,7 @@ if ((isset($_POST['login']) || !is_capable(CAN_ADMINISTRATE, $operator)) && isse
 	if (count($errors) == 0) {
 		if (!$opId) {
 			$newop = create_operator($login, $email, $password, $localname, $commonname, "", $code);
-			header("Location: $webimroot/operator/avatar.php?op=" . $newop['operatorid']);
+			header("Location: $mibewroot/operator/avatar.php?op=" . $newop['operatorid']);
 			exit;
 		} else {
 			update_operator($opId, $login, $email, $password, $localname, $commonname, $code);
@@ -100,11 +100,11 @@ if ((isset($_POST['login']) || !is_capable(CAN_ADMINISTRATE, $operator)) && isse
 				$toDashboard = $operator['vcpassword'] == md5('') && $password != '';
 				$_SESSION[$session_prefix."operator"]['vcpassword'] = md5($password);
 				if($toDashboard) {
-					header("Location: $webimroot/operator/index.php");
+					header("Location: $mibewroot/operator/index.php");
 					exit;
 				}
 			}
-			header("Location: $webimroot/operator/operator.php?op=$opId&stored");
+			header("Location: $mibewroot/operator/operator.php?op=$opId&stored");
 			exit;
 		}
 	} else {

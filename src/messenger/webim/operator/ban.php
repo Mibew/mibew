@@ -83,7 +83,7 @@ if (isset($_POST['address'])) {
 		}
 
 		if (!$threadid) {
-			header("Location: $webimroot/operator/blocked.php");
+			header("Location: $mibewroot/operator/blocked.php");
 			exit;
 		} else {
 			$page['saved'] = true;

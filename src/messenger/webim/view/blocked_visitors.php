@@ -19,13 +19,13 @@ require_once("inc_menu.php");
 $page['title'] = getlocal("page_bans.title");
 $page['menuid'] = "blocked";
 
-function tpl_header() { global $page, $webimroot;
+function tpl_header() { global $page, $mibewroot;
 ?>	
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/libs/jquery.min.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/libs/jquery.min.js"></script>
 <?php
 }
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
 <?php echo getlocal("page_ban.intro") ?>
@@ -36,8 +36,8 @@ require_once('inc_errors.php');
 ?>
 
 <div class="tabletool">
-	<img src="<?php echo $webimroot ?>/images/buttons/createban.gif" border="0" alt=""/>
-	<a href="<?php echo $webimroot ?>/operator/ban.php" title="<?php echo getlocal("page_bans.add") ?>">
+	<img src="<?php echo $mibewroot ?>/images/buttons/createban.gif" border="0" alt=""/>
+	<a href="<?php echo $mibewroot ?>/operator/ban.php" title="<?php echo getlocal("page_bans.add") ?>">
 		<?php echo getlocal("page_bans.add") ?>
 	</a>
 </div>
@@ -65,7 +65,7 @@ if( $page['pagination.items'] ) {
 	foreach( $page['pagination.items'] as $b ) { ?>
 	<tr>
 	<td class="notlast">
-		<a href="<?php echo $webimroot ?>/operator/history.php?q=<?php echo $b['address']?>&type=visitor" class="man" id="ti<?php echo $b['banid'] ?>">
+		<a href="<?php echo $mibewroot ?>/operator/history.php?q=<?php echo $b['address']?>&type=visitor" class="man" id="ti<?php echo $b['banid'] ?>">
 		   	<?php echo htmlspecialchars($b['address']) ?>
 	   	</a>
 	</td>
@@ -82,9 +82,9 @@ if( $page['pagination.items'] ) {
 ?>
 	</td>
 	<td>
-		<a class="removelink" id="i<?php echo $b['banid'] ?>" href="<?php echo $webimroot ?>/operator/blocked.php?act=del&amp;id=<?php echo $b['banid'] ?>">
+		<a class="removelink" id="i<?php echo $b['banid'] ?>" href="<?php echo $mibewroot ?>/operator/blocked.php?act=del&amp;id=<?php echo $b['banid'] ?>">
 			<?php echo getlocal("remove.item") ?></a>,
-		<a href="<?php echo $webimroot ?>/operator/ban.php?id=<?php echo $b['banid'] ?>">
+		<a href="<?php echo $mibewroot ?>/operator/ban.php?id=<?php echo $b['banid'] ?>">
 			<?php echo getlocal("edit.item") ?></a>
 	</td>
 	</tr>

@@ -37,7 +37,7 @@ if (isset($_GET['act']) && $_GET['act'] == 'del') {
 		$db->query("delete from {chatgroup} where groupid = ?", array($groupid));
 		$db->query("delete from {chatgroupoperator} where groupid = ?", array($groupid));
 		$db->query("update {chatthread} set groupid = 0 where groupid = ?",array($groupid));
-		header("Location: $webimroot/operator/groups.php");
+		header("Location: $mibewroot/operator/groups.php");
 		exit;
 	}
 }

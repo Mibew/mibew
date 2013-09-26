@@ -17,15 +17,15 @@
 
 function setup_settings_tabs($active)
 {
-	global $page, $webimroot;
+	global $page, $mibewroot;
 	$page['tabs'] = array(
-		getlocal("page_settings.tab.main") => $active != 0 ? "$webimroot/operator/settings.php" : "",
-		getlocal("page_settings.tab.features") => $active != 1 ? "$webimroot/operator/features.php" : "",
-		getlocal("page_settings.tab.performance") => $active != 2 ? "$webimroot/operator/performance.php" : "",
-		getlocal("page_settings.tab.themes") => $active != 3 ? "$webimroot/operator/themes.php" : "",
+		getlocal("page_settings.tab.main") => $active != 0 ? "$mibewroot/operator/settings.php" : "",
+		getlocal("page_settings.tab.features") => $active != 1 ? "$mibewroot/operator/features.php" : "",
+		getlocal("page_settings.tab.performance") => $active != 2 ? "$mibewroot/operator/performance.php" : "",
+		getlocal("page_settings.tab.themes") => $active != 3 ? "$mibewroot/operator/themes.php" : "",
 	);
 	if (Settings::get('enabletracking')) {
-		$page['tabs'][getlocal("page_settings.tab.invitationthemes")] = ($active != 4 ? "$webimroot/operator/invitationthemes.php" : "");
+		$page['tabs'][getlocal("page_settings.tab.invitationthemes")] = ($active != 4 ? "$mibewroot/operator/invitationthemes.php" : "");
 	}
 }
 

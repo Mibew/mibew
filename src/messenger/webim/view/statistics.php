@@ -21,7 +21,7 @@ require_once("inc_menu.php");
 $page['title'] = getlocal("statistics.title");
 $page['menuid'] = "statistics";
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
 <?php echo getlocal2("statistics.description.full", array(date_to_text($page['last_cron_run']), $page['cron_path'])) ?>
@@ -31,7 +31,7 @@ function tpl_content() { global $page, $webimroot, $errors;
 require_once('inc_errors.php');
 ?>
 
-<form name="statisticsForm" method="get" action="<?php echo $webimroot ?>/operator/statistics.php">
+<form name="statisticsForm" method="get" action="<?php echo $mibewroot ?>/operator/statistics.php">
 <input type="hidden" name="type" value="<?php echo $page['type'] ?>" />
 
 	<?php print_tabbar(); ?>
@@ -55,7 +55,7 @@ require_once('inc_errors.php');
 					<select name="endmonth"><?php foreach($page['availableMonth'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("endmonth") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
 				</div>
 				<div id="searchbutton">
-					<input type="image" name="search" src='<?php echo $webimroot.getlocal("image.button.search") ?>' alt='<?php echo getlocal("button.search") ?>'/>
+					<input type="image" name="search" src='<?php echo $mibewroot.getlocal("image.button.search") ?>' alt='<?php echo getlocal("button.search") ?>'/>
 				</div>
 			</div>
 			<br clear="all"/>
@@ -185,7 +185,7 @@ require_once('inc_errors.php');
 <?php if( $page['reportByAgent'] ) { ?>
 	<?php foreach( $page['reportByAgent'] as $row ) { ?>
 	<tr>
-		<td><a href="<?php echo $webimroot ?>/operator/history.php?q=<?php echo topage(htmlspecialchars($row['name'])) ?>&type=operator"><?php echo topage(htmlspecialchars($row['name'])) ?></a></td>
+		<td><a href="<?php echo $mibewroot ?>/operator/history.php?q=<?php echo topage(htmlspecialchars($row['name'])) ?>&type=operator"><?php echo topage(htmlspecialchars($row['name'])) ?></a></td>
 		<td><?php echo $row['threads'] ?></td>
 		<td><?php echo $row['msgs'] ?></td>
     	<td><?php echo $row['avglen'] ?></td>

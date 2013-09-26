@@ -2,16 +2,16 @@
 <div id="top">
     <div id="logo">
         {{#if page.company.chatLogoURL}}
-            {{#if page.webimHost}}
-                <a onclick="window.open('{{page.webimHost}}');return false;" href="{{page.webimHost}}">
+            {{#if page.mibewHost}}
+                <a onclick="window.open('{{page.mibewHost}}');return false;" href="{{page.mibewHost}}">
                     <img src="{{page.company.chatLogoURL}}" alt=""/>
                 </a>
             {{else}}
                 <img src="{{page.company.chatLogoURL}}" alt=""/>
             {{/if}}
         {{else}}
-            {{#if page.webimHost}}
-                <a onclick="window.open('{{page.webimHost}}');return false;" href="{{page.webimHost}}">
+            {{#if page.mibewHost}}
+                <a onclick="window.open('{{page.mibewHost}}');return false;" href="{{page.mibewHost}}">
                     <img src="{{page.tplRoot}}/images/default-logo.gif" alt=""/>
                 </a>
             {{else}}

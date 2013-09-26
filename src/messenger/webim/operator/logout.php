@@ -20,6 +20,6 @@ require_once('../libs/operator.php');
 
 logout_operator();
 
-header("Location: $webimroot/operator/login.php");
+header("Location: $mibewroot/operator/login.php");
 exit;
 ?>

@@ -29,13 +29,13 @@ function get_statistics_query($type)
 
 function setup_statistics_tabs($active)
 {
-	global $page, $webimroot;
+	global $page, $mibewroot;
 	$page['tabs'] = array(
-		getlocal("report.bydate.title") => $active != 0 ? "$webimroot/operator/statistics.php".get_statistics_query('bydate') : "",
-		getlocal("report.byoperator.title") => $active != 1 ? "$webimroot/operator/statistics.php".get_statistics_query('byagent') : ""
+		getlocal("report.bydate.title") => $active != 0 ? "$mibewroot/operator/statistics.php".get_statistics_query('bydate') : "",
+		getlocal("report.byoperator.title") => $active != 1 ? "$mibewroot/operator/statistics.php".get_statistics_query('byagent') : ""
 	);
 	if (Settings::get('enabletracking')) {
-		$page['tabs'][getlocal("report.bypage.title")] = ($active != 2 ? "$webimroot/operator/statistics.php".get_statistics_query('bypage') : "");
+		$page['tabs'][getlocal("report.bypage.title")] = ($active != 2 ? "$mibewroot/operator/statistics.php".get_statistics_query('bypage') : "");
 	}
 }
 

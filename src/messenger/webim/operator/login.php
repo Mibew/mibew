@@ -30,10 +30,10 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 	if ($operator && isset($operator['vcpassword']) && $operator['vcpassword'] == md5($password) && !operator_is_disabled($operator)) {
 
 		$target = $password == ''
-				? "$webimroot/operator/operator.php?op=" . $operator['operatorid']
+				? "$mibewroot/operator/operator.php?op=" . $operator['operatorid']
 				: (isset($_SESSION['backpath'])
 					? $_SESSION['backpath']
-					: "$webimroot/operator/index.php");
+					: "$mibewroot/operator/index.php");
 
 		login_operator($operator, $remember);
 		header("Location: $target");
@@ -52,7 +52,7 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 		$page['formlogin'] = $login;
 }
 
-$page['localeLinks'] = get_locale_links("$webimroot/operator/login.php");
+$page['localeLinks'] = get_locale_links("$mibewroot/operator/login.php");
 start_html_output();
 require('../view/login.php');
 ?>

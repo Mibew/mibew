@@ -21,7 +21,7 @@ require_once("inc_tabbar.php");
 $page['title'] = getlocal("permissions.title");
 $page['menuid'] = $page['opid'] == $page['currentopid'] ? "profile" : "operators";
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
 <?php echo getlocal("permissions.intro") ?>
@@ -34,7 +34,7 @@ require_once('inc_errors.php');
 <div id="formmessage"><?php echo getlocal("data.saved") ?></div>
 <?php } ?>
 
-<form name="permissionsForm" method="post" action="<?php echo $webimroot ?>/operator/permissions.php">
+<form name="permissionsForm" method="post" action="<?php echo $mibewroot ?>/operator/permissions.php">
 <?php print_csrf_token_input() ?>
 <input type="hidden" name="op" value="<?php echo $page['opid'] ?>"/>
 	<div>
@@ -53,7 +53,7 @@ require_once('inc_errors.php');
 
 <?php if($page['canmodify']) { ?>
 	<div class="fbutton">
-		<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
+		<input type="image" name="save" value="" src='<?php echo $mibewroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
 	</div>
 <?php } ?>
 	</div><div class="formbottom"><div class="formbottomi"></div></div></div>

@@ -17,7 +17,7 @@
 
 $page['title'] = $page['key'] ? getlocal("cannededit.title") : getlocal("cannednew.title");
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
 	<?php if( $page['saved'] ) { ?>
@@ -39,7 +39,7 @@ function tpl_content() { global $page, $webimroot, $errors;
 require_once('inc_errors.php');
 ?>
 
-<form name="cannedForm" method="post" action="<?php echo $webimroot ?>/operator/cannededit.php">
+<form name="cannedForm" method="post" action="<?php echo $mibewroot ?>/operator/cannededit.php">
 <?php print_csrf_token_input() ?>
 <input type="hidden" name="key" value="<?php echo $page['key'] ?>"/>
 <?php if(!$page['key']) { ?>
@@ -64,7 +64,7 @@ require_once('inc_errors.php');
 		</div>
 	
 		<div class="fbutton">
-			<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
+			<input type="image" name="save" value="" src='<?php echo $mibewroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
 		</div>
 	</div>
 	

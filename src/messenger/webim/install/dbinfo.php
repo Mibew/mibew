@@ -288,10 +288,10 @@ $dbtables_can_update = array(
 
 function show_install_err($text)
 {
-	global $page, $version, $errors, $webimroot;
+	global $page, $version, $errors, $mibewroot;
 	$page = array(
 		'version' => $version,
-		'localeLinks' => get_locale_links("$webimroot/install/index.php")
+		'localeLinks' => get_locale_links("$mibewroot/install/index.php")
 	);
 	$errors = array($text);
 	start_html_output();

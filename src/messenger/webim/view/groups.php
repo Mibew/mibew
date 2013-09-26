@@ -19,13 +19,13 @@ require_once("inc_menu.php");
 $page['title'] = getlocal("page.groups.title");
 $page['menuid'] = "groups";
 
-function tpl_header() { global $page, $webimroot;
+function tpl_header() { global $page, $mibewroot;
 ?>	
-<script type="text/javascript" language="javascript" src="<?php echo $webimroot ?>/js/libs/jquery.min.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/libs/jquery.min.js"></script>
 <?php
 }
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
 <?php echo getlocal("page.groups.intro") ?>
@@ -35,7 +35,7 @@ function tpl_content() { global $page, $webimroot, $errors;
 require_once('inc_errors.php');
 ?>
 
-<form name="groupsForm" method="get" action="<?php echo $webimroot ?>/operator/groups.php">
+<form name="groupsForm" method="get" action="<?php echo $mibewroot ?>/operator/groups.php">
 
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
@@ -63,8 +63,8 @@ require_once('inc_errors.php');
 
 <?php if($page['canmodify']) { ?>
 <div class="tabletool">
-	<img src='<?php echo $webimroot ?>/images/buttons/createdep.gif' border="0" alt="" />
-	<a href='<?php echo $webimroot ?>/operator/group.php' title="<?php echo getlocal("page.groups.new") ?>">
+	<img src='<?php echo $mibewroot ?>/images/buttons/createdep.gif' border="0" alt="" />
+	<a href='<?php echo $mibewroot ?>/operator/group.php' title="<?php echo getlocal("page.groups.new") ?>">
 		<?php echo getlocal("page.groups.new") ?>
 	</a>
 </div>
@@ -96,7 +96,7 @@ if(count($page['groups']) > 0) {
 	foreach( $page['groups'] as $grp ) { ?>
 <tr>
 	<td class="notlast level<?php echo $grp['level'] ?>">
-   		<a href="<?php echo $webimroot ?>/operator/group.php?gid=<?php echo $grp['groupid'] ?>" id="ti<?php echo $grp['groupid'] ?>" class="man">
+   		<a href="<?php echo $mibewroot ?>/operator/group.php?gid=<?php echo $grp['groupid'] ?>" id="ti<?php echo $grp['groupid'] ?>" class="man">
    			<?php echo htmlspecialchars(topage($grp['vclocalname'])) ?>
    		</a>
 	</td>
@@ -113,7 +113,7 @@ if(count($page['groups']) > 0) {
 <?php } ?>
 	</td>
 	<td>
-   		<a href="<?php echo $webimroot ?>/operator/groupmembers.php?gid=<?php echo $grp['groupid'] ?>">
+   		<a href="<?php echo $mibewroot ?>/operator/groupmembers.php?gid=<?php echo $grp['groupid'] ?>">
 	   		<?php echo htmlspecialchars(topage($grp['inumofagents'])) ?>
    		</a>
 	</td>
@@ -122,7 +122,7 @@ if(count($page['groups']) > 0) {
 	</td>
 <?php if($page['canmodify']) { ?>
 	<td>
-		<a href="<?php echo $webimroot ?>/operator/groups.php?act=del&amp;gid=<?php echo $grp['groupid'] ?>" id="i<?php echo $grp['groupid'] ?>" class="removelink">
+		<a href="<?php echo $mibewroot ?>/operator/groups.php?act=del&amp;gid=<?php echo $grp['groupid'] ?>" id="i<?php echo $grp['groupid'] ?>" class="removelink">
 			<?php echo getlocal("remove.item") ?>
 		</a>
 	</td>

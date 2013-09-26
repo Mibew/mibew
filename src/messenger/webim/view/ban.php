@@ -17,7 +17,7 @@
 
 $page['title'] = getlocal("page_ban.title");
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
 <?php if( $page['saved'] ) { ?>
@@ -41,7 +41,7 @@ require_once('inc_errors.php');
 	<br/>
 <?php } ?>
 
-<form name="banForm" method="post" action="<?php echo $webimroot ?>/operator/ban.php">
+<form name="banForm" method="post" action="<?php echo $mibewroot ?>/operator/ban.php">
 <input type="hidden" name="banId" value="<?php echo $page['banId'] ?>"/>
 <?php if( $page['threadid'] ) { ?>
 <input type="hidden" name="threadid" value="<?php echo $page['threadid'] ?>"/>
@@ -77,7 +77,7 @@ require_once('inc_errors.php');
 		</div>
 		
 		<div class="fbutton">
-			<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
+			<input type="image" name="save" value="" src='<?php echo $mibewroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
 		</div>
 	</div>
 	

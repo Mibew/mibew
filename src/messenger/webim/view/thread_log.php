@@ -17,20 +17,20 @@
 
 $page['title'] = getlocal("thread.chat_log");
 
-function tpl_header() { global $page, $webimroot; ?>
+function tpl_header() { global $page, $mibewroot; ?>
 
 <!-- External libs -->
-<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/jquery.min.js"></script>
-<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/json2.js"></script>
-<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/underscore-min.js"></script>
-<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/backbone-min.js"></script>
-<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/backbone.marionette.min.js"></script>
-<script type="text/javascript" src="<?php echo $webimroot ?>/js/libs/handlebars.js"></script>
+<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/json2.js"></script>
+<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/underscore-min.js"></script>
+<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/backbone-min.js"></script>
+<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/backbone.marionette.min.js"></script>
+<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/handlebars.js"></script>
 
 <!-- Application files -->
-<script type="text/javascript" src="<?php echo $webimroot ?>/js/compiled/mibewapi.js"></script>
-<script type="text/javascript" src="<?php echo $webimroot ?>/js/compiled/default_app.js"></script>
-<script type="text/javascript" src="<?php echo $webimroot ?>/js/compiled/thread_log_app.js"></script>
+<script type="text/javascript" src="<?php echo $mibewroot ?>/js/compiled/mibewapi.js"></script>
+<script type="text/javascript" src="<?php echo $mibewroot ?>/js/compiled/default_app.js"></script>
+<script type="text/javascript" src="<?php echo $mibewroot ?>/js/compiled/thread_log_app.js"></script>
 
 <!-- Start application -->
 <script type="text/javascript"><!--
@@ -42,7 +42,7 @@ function tpl_header() { global $page, $webimroot; ?>
 //--></script>
 <?php }
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 $chatthreadinfo = $page['thread_info'];
 $chatthread = $page['thread_info']['thread'];
 ?>
@@ -112,7 +112,7 @@ $chatthread = $page['thread_info']['thread'];
 </div>
 
 <br />
-<a href="<?php echo $webimroot ?>/operator/history.php">
+<a href="<?php echo $mibewroot ?>/operator/history.php">
 	<?php echo getlocal("thread.back_to_search") ?></a>
 <br />
 

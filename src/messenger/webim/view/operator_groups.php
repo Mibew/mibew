@@ -21,7 +21,7 @@ require_once("inc_tabbar.php");
 $page['title'] = getlocal("operator.groups.title");
 $page['menuid'] = $page['opid'] == $page['currentopid'] ? "profile" : "operators";
 
-function tpl_content() { global $page, $webimroot, $errors;
+function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
 <?php echo getlocal("operator.groups.intro") ?>
@@ -34,7 +34,7 @@ require_once('inc_errors.php');
 <div id="formmessage"><?php echo getlocal("data.saved") ?></div>
 <?php } ?>
 
-<form name="opgroupsForm" method="post" action="<?php echo $webimroot ?>/operator/opgroups.php">
+<form name="opgroupsForm" method="post" action="<?php echo $mibewroot ?>/operator/opgroups.php">
 <input type="hidden" name="op" value="<?php echo $page['opid'] ?>"/>
 	<div>
 <?php print_tabbar(); ?>
@@ -56,7 +56,7 @@ require_once('inc_errors.php');
 
 <?php if($page['canmodify']) { ?>
 	<div class="fbutton">
-		<input type="image" name="save" value="" src='<?php echo $webimroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
+		<input type="image" name="save" value="" src='<?php echo $mibewroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
 	</div>
 <?php } ?>
 	</div><div class="formbottom"><div class="formbottomi"></div></div></div>
