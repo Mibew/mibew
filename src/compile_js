@@ -1,5 +1,5 @@
 #!/bin/sh
 
-cd webim/js/source
+cd mibew/js/source
 ant
 rm -rf bin

@@ -3,7 +3,7 @@
 sub read_transl($) {
 	my($from) = @_;
 	my %translation = ();
-	open(IN, "webim/locales/$from/properties");
+	open(IN, "mibew/locales/$from/properties");
 	while(<IN>) {
 		chomp;
 		if(/^([\w\.]+)=(.*)$/) {
