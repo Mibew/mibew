@@ -29,4 +29,7 @@ function setup_settings_tabs($active)
 	}
 }
 
+	// Send noindex to avoid bots
+	header("X-Robots-Tag: noindex, nofollow", true);
+
 ?>
