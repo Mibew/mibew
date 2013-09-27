@@ -1,17 +1,12 @@
-bin
-src/messenger/.idea/workspace.xml
-src/messenger/mibew/install/package
-src/messenger/absent_*
-src/messenger/release*
-src/mibewjava/.idea/workspace.xml
-src/mibewjava/org.mibew.notifier/resources/
-mibew.ini
-.DS_Store
+src/.idea/workspace.xml
+src/mibew/install/package
+src/absent_*
+src/release*
 
 # No index actual configuration files
-src/messenger/mibew/libs/config.php
-src/messenger/tests/server_side/mibew/libs/config.php
+src/mibew/libs/config.php
+src/tests/server_side/mibew/libs/config.php
 
 # No index plugins
-src/messenger/mibew/plugins/*
-!src/messenger/mibew/plugins/.keep
+src/mibew/plugins/*
+!src/mibew/plugins/.keep
