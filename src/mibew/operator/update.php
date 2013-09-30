@@ -24,7 +24,7 @@ require_once('../libs/groups.php');
 $operator = get_logged_in();
 if (!$operator) {
 	start_xml_output();
-	echo "<error><descr>" . safe_htmlspecialchars(safe_htmlspecialchars(myiconv($mibew_encoding, "utf-8", escape_with_cdata(getstring("agent.not_logged_in"))))) . "</descr></error>";
+	echo "<error><descr>" . escape_with_cdata(safe_htmlspecialchars(myiconv($mibew_encoding, "utf-8", getstring("agent.not_logged_in")))) . "</descr></error>";
 	exit;
 }
 
