@@ -65,7 +65,7 @@ if (!isset($_GET['token'])) {
 
 		if ($forcetake == false) {
 			$page = array(
-				'user' => topage($thread['userName']), 'agent' => topage($thread['agentName']), 'link' => $_SERVER['PHP_SELF'] . "?thread=$threadid&amp;force=true"
+				'user' => topage($thread['userName']), 'agent' => topage($thread['agentName']), 'link' => $_SERVER['PHP_SELF'] . "?thread=$threadid&force=true"
 			);
 			start_html_output();
 			require('../view/confirm.php');
