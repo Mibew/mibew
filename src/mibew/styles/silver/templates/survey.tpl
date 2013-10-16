@@ -70,7 +70,7 @@
 		${endif:showemail}
 		${if:showmessage}			
 			<tr>
-				<td><strong>${msg:presurvey.question}:</strong></td>
+				<td><strong>${msg:presurvey.question}</strong></td>
 				<td valign="top"><textarea name="message" tabindex="0" cols="45" rows="2">${form:message}</textarea></td>
 			</tr>
 		${endif:showmessage}			

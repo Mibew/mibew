@@ -133,7 +133,7 @@ ${endif:showemail}
 			
 ${if:showmessage}			
 			<tr>
-				<td class="text">${msg:presurvey.question}:</td>
+				<td class="text">${msg:presurvey.question}</td>
 				<td valign="top">
 					<textarea name="message" tabindex="0" cols="45" rows="2" style="border:1px solid #878787; overflow:auto">${form:message}</textarea>
 				</td>
