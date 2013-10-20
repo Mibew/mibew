@@ -50,9 +50,9 @@ if (!$lang || !in_array($lang, $image_locales))
 $file = "../locales/${lang}/button/${image}_on.gif";
 $size = get_gifimage_size($file);
 
-$imagehref = get_app_location($showhost, $forcesecure) . "/b.php?i=$image&amp;lang=$lang";
+$imagehref = get_app_location($showhost, $forcesecure) . "/b.php?i=$image&lang=$lang";
 if ($groupid) {
-	$imagehref .= "&amp;group=$groupid";
+	$imagehref .= "&group=$groupid";
 }
 $message = get_image($imagehref, $size[0], $size[1]);
 
