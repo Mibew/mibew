@@ -22,8 +22,12 @@ function can_show_captcha()
 
 function gen_captcha()
 {
-	$md5_hash = md5(rand(0, 9999));
-	return substr($md5_hash, 15, 5);
+	$symbols = 'abcdefghijkmnpqrstuvwxyz123456789';
+	$string = '';
+	for ($i = 0; $i < 5; $i++) {
+		$string .= substr($symbols, mt_rand(0, strlen($symbols)), 1);
+	}
+	return $string;
 }
 
 function draw_captcha($security_code)
