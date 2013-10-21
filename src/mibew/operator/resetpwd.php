@@ -52,7 +52,7 @@ if (count($errors) == 0 && isset($_POST['password'])) {
 		$db->query(
 			"update {chatoperator} set vcpassword = ?, vcrestoretoken = '' " .
 			"where operatorid = ?",
-			array(md5($password), $opId)
+			array(calculate_password_hash($operator['vclogin'], $password), $opId)
 		);
 
 		$page['loginname'] = $operator['vclogin'];

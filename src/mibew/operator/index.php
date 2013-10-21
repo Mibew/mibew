@@ -27,7 +27,7 @@ $page = array(
 	'version' => $version,
 	'localeLinks' => get_locale_links("$mibewroot/operator/index.php"),
 	'needUpdate' => Settings::get('dbversion') != $dbversion,
-	'needChangePassword' => $operator['vcpassword'] == md5(''),
+	'needChangePassword' => check_password_hash($operator['vclogin'], '', $operator['vcpassword']),
 	'profilePage' => "$mibewroot/operator/operator.php?op=".$operator['operatorid'],
 	'updateWizard' => "$mibewroot/install/",
 	'newFeatures' => Settings::get('featuresversion') != $featuresversion,

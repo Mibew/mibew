@@ -97,8 +97,8 @@ if ((isset($_POST['login']) || !is_capable(CAN_ADMINISTRATE, $operator)) && isse
 			update_operator($opId, $login, $email, $password, $localname, $commonname, $code);
 			// update the session password
 			if (!empty($password) && $opId == $operator['operatorid']) {
-				$toDashboard = $operator['vcpassword'] == md5('') && $password != '';
-				$_SESSION[$session_prefix."operator"]['vcpassword'] = md5($password);
+				$toDashboard = check_password_hash($login, '', $operator['vcpassword']) && $password != '';
+				$_SESSION[$session_prefix."operator"]['vcpassword'] = calculate_password_hash($login, $password);
 				if($toDashboard) {
 					header("Location: $mibewroot/operator/index.php");
 					exit;
@@ -125,7 +125,7 @@ if ((isset($_POST['login']) || !is_capable(CAN_ADMINISTRATE, $operator)) && isse
 		$page['opid'] = topage($opId);
 	} else {
 		//show an error if the admin password hasn't been set yet.
-		if ($operator['vcpassword']==md5('') && !isset($_GET['stored']))
+		if (check_password_hash($operator['vclogin'], '', $operator['vcpassword']) && !isset($_GET['stored']))
 		{
 			$errors[] = getlocal("my_settings.error.no_password");
 		}
@@ -149,7 +149,7 @@ $canmodify = ($opId == $operator['operatorid'] && is_capable(CAN_MODIFYPROFILE, 
 $page['stored'] = isset($_GET['stored']);
 $page['canmodify'] = $canmodify ? "1" : "";
 $page['canchangelogin'] = is_capable(CAN_ADMINISTRATE, $operator);
-$page['needChangePassword'] = $operator['vcpassword'] == md5('');
+$page['needChangePassword'] = check_password_hash($operator['vclogin'], '', $operator['vcpassword']);
 
 prepare_menu($operator);
 setup_operator_settings_tabs($opId, 0);

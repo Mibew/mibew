@@ -264,7 +264,7 @@ function update_operator($operatorid, $login, $email, $password, $localename, $c
 		':code' => $code
 	);
 	if ($password) {
-		$values[':password'] = md5($password);
+		$values[':password'] = calculate_password_hash($login, $password);
 	}
 	$db->query(
 		"update {chatoperator} set vclogin = :login, " .
@@ -311,7 +311,7 @@ function create_operator($login, $email, $password, $localename, $commonname, $a
 		")",
 		array(
 			':login' => $login,
-			':pass' => md5($password),
+			':pass' => calculate_password_hash($login, $password),
 			':localename' => $localename,
 			':commonname' => $commonname,
 			':avatar' => $avatar,
@@ -489,9 +489,9 @@ function check_login($redirect = true) {
 	global $mibewroot, $session_prefix;
 	if (!isset($_SESSION[$session_prefix."operator"])) {
 		if (isset($_COOKIE['mibew_operator'])) {
-			list($login, $pwd) = preg_split("/,/", $_COOKIE['mibew_operator'], 2);
+			list($login, $pwd) = preg_split('/\x0/', base64_decode($_COOKIE['mibew_operator']), 2);
 			$op = operator_by_login($login);
-			if ($op && isset($pwd) && isset($op['vcpassword']) && md5($op['vcpassword']) == $pwd && !operator_is_disabled($op)) {
+			if ($op && isset($pwd) && isset($op['vcpassword']) && calculate_password_hash($op['vclogin'], $op['vcpassword']) == $pwd && !operator_is_disabled($op)) {
 				$_SESSION[$session_prefix."operator"] = $op;
 				return $op;
 			}
@@ -524,8 +524,7 @@ function check_login($redirect = true) {
 function force_password($operator)
 {
 	global $mibewroot;
-	if($operator['vcpassword']==md5(''))
-	{
+	if (check_password_hash($operator['vclogin'], $operator['vcpassword'], '')) {
 		header("Location: $mibewroot/operator/operator.php?op=1");
 		exit;
 	}
@@ -558,7 +557,7 @@ function login_operator($operator, $remember) {
 	global $mibewroot, $session_prefix;
 	$_SESSION[$session_prefix."operator"] = $operator;
 	if ($remember) {
-		$value = $operator['vclogin'] . "," . md5($operator['vcpassword']);
+		$value = base64_encode($operator['vclogin'] . "\x0" . calculate_password_hash($operator['vclogin'], $operator['vcpassword']));
 		setcookie('mibew_operator', $value, time() + 60 * 60 * 24 * 1000, "$mibewroot/");
 
 	} else if (isset($_COOKIE['mibew_operator'])) {
@@ -826,6 +825,57 @@ function get_operator_groupids($operatorid)
 		array($operatorid),
 		array('return_rows' => Database::RETURN_ALL_ROWS)
 	);
+}
+
+/**
+ * Calculate hashed password value based upon operator's login and password
+ *
+ * By default function tries to make us of Blowfish encryption algorithm,
+ * with salted MD5 as a second possible choice, and unsalted MD5 as a fallback
+ * option
+ *
+ * @param string $login operator's login
+ * @param string $password Operator's password (as plain text)
+ *
+ * @return string hashed password value
+ */
+function calculate_password_hash($login, $password)
+{
+	$hash = '*0';
+	if (CRYPT_BLOWFISH == 1) {
+		if (defined('PHP_VERSION_ID') && (PHP_VERSION_ID > 50306)) {
+			$hash = crypt($password, '$2y$08$' . $login);
+		}
+		else {
+			$hash = crypt($password, '$2a$08$' . $login);
+		}
+        }
+
+	if ( (CRYPT_MD5 == 1) && !strcmp($hash, '*0') ) {
+		$hash = crypt($password, '$1$' . $login);
+	}
+
+	return strcmp($hash, '*0') ? $hash : md5($password);
+}
+
+/**
+ * Validate incoming hashed value to be the hashed value of operator's password
+ *
+ * @param string $login operator's login
+ * @param string $password Operator's password (as plain text)
+ * @param string $hash incoming hashed value
+ *
+ * @return boolean true if incoming value is the correct hashed value of
+ * operators' password and false otherwise
+ */
+function check_password_hash($login, $password, $hash)
+{
+	if (preg_match('/^\$/', $hash)) {
+		return !strcmp(calculate_password_hash($login, $password), $hash);
+	}
+	else {
+		return !strcmp(md5($password), $hash);
+	}
 }
 
 ?>

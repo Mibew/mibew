@@ -27,7 +27,7 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 	$remember = isset($_POST['isRemember']) && $_POST['isRemember'] == "on";
 
 	$operator = operator_by_login($login);
-	if ($operator && isset($operator['vcpassword']) && $operator['vcpassword'] == md5($password) && !operator_is_disabled($operator)) {
+	if ($operator && isset($operator['vcpassword']) && check_password_hash($operator['vclogin'], $password, $operator['vcpassword']) && !operator_is_disabled($operator)) {
 
 		$target = $password == ''
 				? "$mibewroot/operator/operator.php?op=" . $operator['operatorid']
