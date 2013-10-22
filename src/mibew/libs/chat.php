@@ -28,11 +28,6 @@ require_once(dirname(__FILE__).'/classes/thread_processor.php');
 $namecookie = "MIBEW_Data";
 $usercookie = "MIBEW_UserID";
 
-function get_user_id()
-{
-	return (time() + microtime()) . rand(0, 99999999);
-}
-
 function message_to_text($msg)
 {
 	$message_time = date("H:i:s ", $msg['created']);
@@ -604,7 +599,7 @@ function visitor_from_request()
 	if (isset($_COOKIE[$usercookie])) {
 		$userId = $_COOKIE[$usercookie];
 	} else {
-		$userId = get_user_id();
+		$userId = uniqid('', TRUE);
 		setcookie($usercookie, $userId, time() + 60 * 60 * 24 * 365);
 	}
 	return array('id' => $userId, 'name' => $userName);
