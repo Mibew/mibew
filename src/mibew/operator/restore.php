@@ -38,7 +38,7 @@ if (isset($_POST['loginoremail'])) {
 	}
 
 	if (count($errors) == 0) {
-		$token = md5((time() + microtime()) . rand(0, 99999999));
+		$token = sha1($torestore['vclogin'] . (function_exists('openssl_random_pseudo_bytes') ? openssl_random_pseudo_bytes(32) : (time() + microtime()) . mt_rand(0, 99999999)));
 
 		$db = Database::getInstance();
 		$db->query(

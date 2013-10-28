@@ -463,7 +463,14 @@ Class Thread {
 	 * @return int Thread token
 	 */
 	protected static function nextToken() {
-		return rand(99999, 99999999);
+		if (function_exists('openssl_random_pseudo_bytes')) {
+			$token_arr = unpack('N', "\x0" . openssl_random_pseudo_bytes(3));
+			$token = $token_arr[1];
+		}
+		else {
+			$token = mt_rand(99999, 99999999);
+		}
+		return $token;
 	}
 
 	/**

@@ -270,6 +270,7 @@ abstract class RequestProcessor {
 			}
 
 			// Create request
+// TODO: evaluate a possibility of using more secure method of the generation of token
 			$token = md5(microtime() . rand());
 			$request = array(
 				'token' => $token,
