@@ -18,9 +18,6 @@
 // Prevent Mibew from access to files outside the installation
 ini_set('open_basedir', dirname(dirname(__FILE__)));
 
-// Initialize user session
-session_start();
-
 // Include configuration file
 require_once(dirname(__FILE__).'/config.php');
 
@@ -49,6 +46,16 @@ require_once(dirname(__FILE__).'/common/request.php');
 require_once(dirname(__FILE__).'/common/response.php');
 require_once(dirname(__FILE__).'/common/string.php');
 
+// Make session cookie more secure
+@ini_set('session.cookie_httponly', TRUE);
+if (is_secure_request()) {
+    @ini_set('session.cookie_secure', TRUE);
+}
+@ini_set('session.cookie_path', "$mibewroot/");
+@ini_set('session.name', 'MibewSessionID');
+
+// Initialize user session
+session_start();
 
 // Initialize the database
 Database::initialize(
