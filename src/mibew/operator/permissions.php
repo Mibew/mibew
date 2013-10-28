@@ -61,7 +61,7 @@ if (!$op) {
 
 $page['permissionsList'] = get_permission_list();
 $page['formpermissions'] = array("");
-$page['currentop'] = $op ? topage(get_operator_name($op)) . " (" . $op['vclogin'] . ")" : "-not found-";
+$page['currentop'] = $op ? topage(get_operator_name($op)) . " (" . $op['vclogin'] . ")" : getlocal("not_found");
 
 if ($op) {
 	foreach (permission_ids() as $perm => $id) {

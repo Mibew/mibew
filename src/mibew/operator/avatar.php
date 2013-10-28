@@ -91,7 +91,7 @@ if (!$op) {
 	$page['avatar'] = topage($op['vcavatar']);
 }
 
-$page['currentop'] = $op ? topage(get_operator_name($op)) . " (" . $op['vclogin'] . ")" : "-not found-";
+$page['currentop'] = $op ? topage(get_operator_name($op)) . " (" . $op['vclogin'] . ")" : getlocal("not_found");
 $page['canmodify'] = $canmodify ? "1" : "";
 
 prepare_menu($operator);

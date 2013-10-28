@@ -72,7 +72,7 @@ if (!$op) {
 }
 
 $page['formgroup'] = array();
-$page['currentop'] = $op ? topage(get_operator_name($op)) . " (" . $op['vclogin'] . ")" : "-not found-";
+$page['currentop'] = $op ? topage(get_operator_name($op)) . " (" . $op['vclogin'] . ")" : getlocal("not_found");
 $page['canmodify'] = $canmodify ? "1" : "";
 
 if ($op) {

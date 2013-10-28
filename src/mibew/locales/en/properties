@@ -265,6 +265,7 @@ menu.updates=Updates
 my_settings.error.no_password=No Password set for the Administrator
 my_settings.error.password_match=Entered passwords do not match
 no_such_operator=No such Operator
+not_found=-not found-
 operator.group.no_description=&lt;no description&gt;
 operator.groups.intro=Choose groups according to operator skills.
 operator.groups.title=Operator groups
