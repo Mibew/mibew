@@ -91,7 +91,7 @@ if ((isset($_POST['login']) || !is_capable(CAN_ADMINISTRATE, $operator)) && isse
 	if (count($errors) == 0) {
 		if (!$opId) {
 			$newop = create_operator($login, $email, $password, $localname, $commonname, "", $code);
-			header("Location: $mibewroot/operator/avatar.php?op=" . $newop['operatorid']);
+			header("Location: $mibewroot/operator/avatar.php?op=" . intval($newop['operatorid']));
 			exit;
 		} else {
 			update_operator($opId, $login, $email, $password, $localname, $commonname, $code);
@@ -104,7 +104,7 @@ if ((isset($_POST['login']) || !is_capable(CAN_ADMINISTRATE, $operator)) && isse
 					exit;
 				}
 			}
-			header("Location: $mibewroot/operator/operator.php?op=$opId&stored");
+			header("Location: $mibewroot/operator/operator.php?op=" . intval($opId) . "&stored");
 			exit;
 		}
 	} else {

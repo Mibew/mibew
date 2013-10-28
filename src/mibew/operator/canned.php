@@ -78,7 +78,7 @@ if (isset($_GET['act']) && $_GET['act'] == 'delete') {
 	if (count($errors) == 0) {
 		$db = Database::getInstance();
 		$db->query("delete from {chatresponses} where id = ?", array($key));
-		header("Location: $mibewroot/operator/canned.php?lang=$lang&group=$groupid");
+		header("Location: $mibewroot/operator/canned.php?lang=" . urlencode($lang) . "&group=" . intval($groupid));
 		exit;
 	}
 }

@@ -30,7 +30,7 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 	if ($operator && isset($operator['vcpassword']) && check_password_hash($operator['vclogin'], $password, $operator['vcpassword']) && !operator_is_disabled($operator)) {
 
 		$target = $password == ''
-				? "$mibewroot/operator/operator.php?op=" . $operator['operatorid']
+				? "$mibewroot/operator/operator.php?op=" . intval($operator['operatorid'])
 				: (isset($_SESSION['backpath'])
 					? $_SESSION['backpath']
 					: "$mibewroot/operator/index.php");

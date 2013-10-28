@@ -98,7 +98,7 @@ if (!isset($_GET['token'])) {
 	}
 
 	$token = $thread->lastToken;
-	header("Location: $mibewroot/operator/agent.php?thread=$threadid&token=$token");
+	header("Location: $mibewroot/operator/agent.php?thread=" . intval($threadid) . "&token=" . urlencode($token));
 	exit;
 }
 

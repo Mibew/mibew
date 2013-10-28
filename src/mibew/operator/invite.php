@@ -32,8 +32,8 @@ if (!$thread) {
 
 // Open chat window for operator
 $redirect_to = $mibewroot .
-	'/operator/agent.php?thread=' . $thread->id .
-	'&token=' . $thread->lastToken;
+	'/operator/agent.php?thread=' . intval($thread->id) .
+	'&token=' . urlencode($thread->lastToken);
 header('Location: ' . $redirect_to);
 
 ?>
