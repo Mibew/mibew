@@ -18,17 +18,17 @@
 /**
  * Current version of Mibew Messenger
  */
-$version = '1.6.5';
+$version = '2.0';
 
 /**
  * Current version of database structure
  */
-$dbversion = '1.6.3';
+$dbversion = '2.0';
 
 /**
  * Current version of implemented features
  */
-$featuresversion = '1.6.4';
+$featuresversion = '2.0';
 
 /**
  * Prefix for session variables.
