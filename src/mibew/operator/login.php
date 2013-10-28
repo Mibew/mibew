@@ -35,7 +35,7 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 					? $_SESSION['backpath']
 					: "$mibewroot/operator/index.php");
 
-		login_operator($operator, $remember);
+		login_operator($operator, $remember, is_secure_request());
 		header("Location: $target");
 		exit;
 	} else {

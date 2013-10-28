@@ -15,6 +15,12 @@
  * limitations under the License.
  */
 
+/** Name of the cookie to remember an operator
+  *
+  */
+
+define('REMEMBER_OPERATOR_COOKIE_NAME', 'mibew_operator');
+
 /** Permissions constants */
 
 /**
@@ -488,8 +494,8 @@ function append_query($link, $pv)
 function check_login($redirect = true) {
 	global $mibewroot, $session_prefix;
 	if (!isset($_SESSION[$session_prefix."operator"])) {
-		if (isset($_COOKIE['mibew_operator'])) {
-			list($login, $pwd) = preg_split('/\x0/', base64_decode($_COOKIE['mibew_operator']), 2);
+		if (isset($_COOKIE[REMEMBER_OPERATOR_COOKIE_NAME])) {
+			list($login, $pwd) = preg_split('/\x0/', base64_decode($_COOKIE[REMEMBER_OPERATOR_COOKIE_NAME]), 2);
 			$op = operator_by_login($login);
 			if ($op && isset($pwd) && isset($op['vcpassword']) && calculate_password_hash($op['vclogin'], $op['vcpassword']) == $pwd && !operator_is_disabled($op)) {
 				$_SESSION[$session_prefix."operator"] = $op;
@@ -552,16 +558,17 @@ function get_logged_in()
  *
  * @param array $operator Operators info
  * @param boolean $remember Indicates if system should remember operator
+ * @param boolean $https Indicates if cookie should be flagged as a secure one
  */
-function login_operator($operator, $remember) {
+function login_operator($operator, $remember, $https = FALSE) {
 	global $mibewroot, $session_prefix;
 	$_SESSION[$session_prefix."operator"] = $operator;
 	if ($remember) {
 		$value = base64_encode($operator['vclogin'] . "\x0" . calculate_password_hash($operator['vclogin'], $operator['vcpassword']));
-		setcookie('mibew_operator', $value, time() + 60 * 60 * 24 * 1000, "$mibewroot/");
+		setcookie(REMEMBER_OPERATOR_COOKIE_NAME, $value, time() + 60 * 60 * 24 * 1000, "$mibewroot/", NULL, $https, TRUE);
 
-	} else if (isset($_COOKIE['mibew_operator'])) {
-		setcookie('mibew_operator', '', time() - 3600, "$mibewroot/");
+	} else if (isset($_COOKIE[REMEMBER_OPERATOR_COOKIE_NAME])) {
+		setcookie(REMEMBER_OPERATOR_COOKIE_NAME, '', time() - 3600, "$mibewroot/");
 	}
 
 	// Trigger login event
@@ -588,8 +595,8 @@ function logout_operator() {
 	global $mibewroot, $session_prefix;
 	unset($_SESSION[$session_prefix."operator"]);
 	unset($_SESSION['backpath']);
-	if (isset($_COOKIE['mibew_operator'])) {
-		setcookie('mibew_operator', '', time() - 3600, "$mibewroot/");
+	if (isset($_COOKIE[REMEMBER_OPERATOR_COOKIE_NAME])) {
+		setcookie(REMEMBER_OPERATOR_COOKIE_NAME, '', time() - 3600, "$mibewroot/");
 	}
 
 	// Trigger logout event
