@@ -24,6 +24,9 @@ session_start();
 // Include configuration file
 require_once(dirname(__FILE__).'/config.php');
 
+// Sanitize path to application and remove extra slashes
+$mibewroot = join("/", array_map("urlencode", preg_split('/\//', preg_replace('/\/+$/', '', preg_replace('/\/{2,}/', '/', '/' . $mibewroot)))));
+
 // Include system constants file
 require_once(dirname(__FILE__).'/common/constants.php');
 
