@@ -55,7 +55,7 @@ function print_csrf_token_in_url()
 function setcsrftoken()
 {
 	if (!isset($_SESSION['csrf_token'])) {
-		$_SESSION['csrf_token'] = sha1(rand(10000000, 99999999));
+		$_SESSION['csrf_token'] = sha1(session_id() . (function_exists('openssl_random_pseudo_bytes') ? openssl_random_pseudo_bytes(32) : (time() + microtime()) . mt_rand(0, 99999999)));
 	}
 }
 
