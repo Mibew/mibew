@@ -202,6 +202,9 @@ function read_locale_file($path) {
 	$messages = array();
 
 	$fp = fopen($path, "r");
+	if ($fp === FALSE) {
+		die("unable to read locale file $path");
+	}
 	while (!feof($fp)) {
 		$line = fgets($fp, 4096);
 		// Try to get key and value from locale file line

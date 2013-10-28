@@ -58,6 +58,9 @@ function save_message($locale, $key, $value)
 	$added = false;
 	$current_encoding = $mibew_encoding;
 	$fp = fopen(dirname(dirname(__FILE__))."/locales/$locale/properties", "r");
+	if ($fp === FALSE) {
+		die("unable to open properties for locale $locale");
+	}
 	while (!feof($fp)) {
 		$line = fgets($fp, 4096);
 		$keyval = preg_split("/=/", $line, 2);
