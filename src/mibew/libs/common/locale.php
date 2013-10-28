@@ -18,6 +18,8 @@
 require_once(dirname(__FILE__) . '/converter.php');
 require_once(dirname(__FILE__) . '/verification.php');
 
+$locale_cookie_name = 'mibew_locale';
+
 function myiconv($in_enc, $out_enc, $string)
 {
 	global $_utf8win1251, $_win1251utf8;
@@ -62,7 +64,7 @@ function get_available_locales()
 
 function get_user_locale()
 {
-	global $default_locale;
+	global $default_locale, $locale_cookie_name;
 
 	if (isset($_COOKIE['mibew_locale'])) {
 		$requested_lang = $_COOKIE['mibew_locale'];
