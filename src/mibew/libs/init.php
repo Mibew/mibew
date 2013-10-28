@@ -16,7 +16,7 @@
  */
 
 // Prevent Mibew from access to files outside the installation
-ini_set('open_basedir', dirname(dirname(__FILE__)));
+@ini_set('open_basedir', dirname(dirname(__FILE__)));
 
 // Include configuration file
 require_once(dirname(__FILE__).'/config.php');
