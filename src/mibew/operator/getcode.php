@@ -24,7 +24,7 @@ require_once(dirname(dirname(__FILE__)).'/libs/styles.php');
 $operator = check_login();
 force_password($operator);
 
-$imageLocales = get_image_locales_map("../locales");
+$imageLocales = get_image_locales_map(dirname(dirname(__FILE__)).'/locales');
 $image = verifyparam(isset($_GET['image']) ? "image" : "i", "/^\w+$/", "mibew");
 if (!isset($imageLocales[$image])) {
 	$errors[] = "Unknown image: $image";
@@ -33,14 +33,14 @@ if (!isset($imageLocales[$image])) {
 }
 $image_locales = $imageLocales[$image];
 
-$stylelist = get_style_list("../styles/dialogs");
+$stylelist = get_style_list(dirname(dirname(__FILE__)).'/styles/dialogs');
 $stylelist[""] = getlocal("page.preview.style_default");
 $style = verifyparam("style", "/^\w*$/", "");
 if ($style && !in_array($style, $stylelist)) {
 	$style = "";
 }
 
-$invitationstylelist = get_style_list("../styles/invitations");
+$invitationstylelist = get_style_list(dirname(dirname(__FILE__)).'/styles/invitations');
 $invitationstylelist[""] = getlocal("page.preview.style_default");
 $invitationstyle = verifyparam("invitationstyle", "/^\w*$/", "");
 if ($invitationstyle && !in_array($invitationstyle, $invitationstylelist)) {
@@ -59,7 +59,7 @@ $lang = verifyparam("lang", "/^[\w-]{2,5}$/", "");
 if (!$lang || !in_array($lang, $image_locales))
 	$lang = in_array($current_locale, $image_locales) ? $current_locale : $image_locales[0];
 
-$file = "../locales/${lang}/button/${image}_on.gif";
+$file = dirname(dirname(__FILE__)).'/locales/${lang}/button/${image}_on.gif';
 $size = get_gifimage_size($file);
 
 $imagehref = get_app_location($showhost, $forcesecure) . "/b.php?i=$image&amp;lang=$lang";

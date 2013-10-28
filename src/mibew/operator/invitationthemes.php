@@ -25,7 +25,7 @@ require_once(dirname(dirname(__FILE__)).'/libs/styles.php');
 
 $operator = check_login();
 
-$stylelist = get_style_list("../styles/invitations");
+$stylelist = get_style_list(dirname(dirname(__FILE__)).'/styles/invitations');
 
 $preview = verifyparam("preview", "/^\w+$/", "default");
 if (!in_array($preview, $stylelist)) {

@@ -38,7 +38,7 @@ function compare_localization_by_id($a, $b)
 function load_idlist($name)
 {
 	$result = array();
-	$fp = @fopen(dirname(__FILE__) . "/../locales/names/$name", "r");
+	$fp = @fopen(dirname(dirname(__FILE__))."/locales/names/$name", "r");
 	if ($fp !== FALSE) {
 		while (!feof($fp)) {
 			$line = trim(fgets($fp, 4096));
@@ -57,7 +57,7 @@ function save_message($locale, $key, $value)
 	$result = "";
 	$added = false;
 	$current_encoding = $mibew_encoding;
-	$fp = fopen(dirname(__FILE__) . "/../locales/$locale/properties", "r");
+	$fp = fopen(dirname(dirname(__FILE__))."/locales/$locale/properties", "r");
 	while (!feof($fp)) {
 		$line = fgets($fp, 4096);
 		$keyval = preg_split("/=/", $line, 2);
@@ -75,14 +75,14 @@ function save_message($locale, $key, $value)
 	if (!$added) {
 		$result .= "$key=" . myiconv($mibew_encoding, $current_encoding, str_replace("\r", "", str_replace("\n", "\\n", trim($value)))) . "\n";
 	}
-	$fp = @fopen(dirname(__FILE__) . "/../locales/$locale/properties", "w");
+	$fp = @fopen(dirname(dirname(__FILE__))."/locales/$locale/properties", "w");
 	if ($fp !== FALSE) {
 		fwrite($fp, $result);
 		fclose($fp);
 	} else {
 		die("cannot write /locales/$locale/properties, please check file permissions on your server");
 	}
-	$fp = @fopen(dirname(__FILE__) . "/../locales/$locale/properties.log", "a");
+	$fp = @fopen(dirname(dirname(__FILE__))."/locales/$locale/properties.log", "a");
 	if ($fp !== FALSE) {
 		$extAddr = $_SERVER['REMOTE_ADDR'];
 		if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) &&

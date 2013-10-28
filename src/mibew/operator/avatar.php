@@ -55,7 +55,7 @@ if (!$op) {
 		} elseif (!in_array($ext, $valid_types)) {
 			$errors[] = failed_uploading_file($orig_filename, "errors.invalid.file.type");
 		} else {
-			$avatar_local_dir = "../images/avatar/";
+			$avatar_local_dir = dirname(dirname(__FILE__)).'/images/avatar/';
 			$full_file_path = $avatar_local_dir . $new_file_name;
 			if (file_exists($full_file_path)) {
 				unlink($full_file_path);

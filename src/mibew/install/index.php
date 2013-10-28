@@ -122,7 +122,7 @@ function check_files()
 	fclose($fp);
 
 	foreach ($knownFiles as $file => $sum) {
-		$relativeName = dirname(__FILE__) . "/../$file";
+		$relativeName = dirname(dirname(__FILE__)) . "/$file";
 		if (!is_readable($relativeName)) {
 			if (file_exists($relativeName)) {
 				$errors[] = getlocal2("install.cannot_read", array("$mibewroot/$file"));

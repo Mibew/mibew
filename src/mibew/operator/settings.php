@@ -28,7 +28,7 @@ csrfchecktoken();
 $page = array('agentId' => '');
 $errors = array();
 
-$stylelist = get_style_list("../styles/dialogs");
+$stylelist = get_style_list(dirname(dirname(__FILE__)).'/styles/dialogs');
 
 $options = array(
 	'email', 'title', 'logo', 'hosturl', 'usernamepattern',
@@ -37,7 +37,7 @@ $options = array(
 
 if (Settings::get('enabletracking')) {
 	$options[] = 'invitationstyle';
-	$invitationstylelist = get_style_list("../styles/invitations");
+	$invitationstylelist = get_style_list(dirname(dirname(__FILE__)).'/styles/invitations');
 }
 
 $params = array();

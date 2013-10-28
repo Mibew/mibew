@@ -36,7 +36,7 @@ function read_config_file($file) {
  */
 function get_core_style_config() {
 	// Get root dir of mibew messanger
-	$base_path = realpath(dirname(__FILE__) . '/../../');
+	$base_path = realpath(dirname(dirname(dirname(__FILE__))));
 
 	// Load config
 	$config = read_config_file($base_path.'/view/config.ini');
@@ -74,7 +74,7 @@ function get_core_style_config() {
  */
 function get_dialogs_style_config($style) {
 	// Get root dir of mibew messanger
-	$base_path = realpath(dirname(__FILE__) . '/../../');
+	$base_path = realpath(dirname(dirname(dirname(__FILE__))));
 
 	// Load config
 	$config = read_config_file($base_path.'/styles/dialogs/'.$style.'/config.ini');
