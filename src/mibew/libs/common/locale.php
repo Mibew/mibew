@@ -20,6 +20,10 @@ require_once(dirname(__FILE__).'/verification.php');
 
 $locale_cookie_name = 'mibew_locale';
 
+// test and set default locales
+$default_locale = locale_pattern_check($default_locale) && locale_exists($default_locale) ? $default_locale : 'en';
+$home_locale = locale_pattern_check($home_locale) && locale_exists($home_locale) ? $default_locale : 'en';
+
 function myiconv($in_enc, $out_enc, $string)
 {
 	global $_utf8win1251, $_win1251utf8;
@@ -45,14 +49,19 @@ function locale_exists($locale)
 	return file_exists(dirname(__FILE__) . "/../../locales/$locale/properties");
 }
 
+function locale_pattern_check($locale)
+{
+	$locale_pattern = "/^[\w-]{2,5}$/";
+	return preg_match($locale_pattern, $locale) && $locale != 'names';
+}
+
 function get_available_locales()
 {
-	global $locale_pattern;
 	$list = array();
 	$folder = dirname(__FILE__) . "/../../locales";
 	if ($handle = opendir($folder)) {
 		while (false !== ($file = readdir($handle))) {
-			if (preg_match($locale_pattern, $file) && $file != 'names' && is_dir("$folder/$file")) {
+			if (locale_pattern_check($file) && is_dir("$folder/$file")) {
 				$list[] = $file;
 			}
 		}
@@ -68,7 +77,7 @@ function get_user_locale()
 
 	if (isset($_COOKIE['mibew_locale'])) {
 		$requested_lang = $_COOKIE['mibew_locale'];
-		if (locale_exists($requested_lang))
+		if (locale_pattern_check($requested_lang) && locale_exists($requested_lang))
 			return $requested_lang;
 	}
 
@@ -78,12 +87,12 @@ function get_user_locale()
 			if (strlen($requested_lang) > 2)
 				$requested_lang = substr($requested_lang, 0, 2);
 
-			if (locale_exists($requested_lang))
+			if (locale_pattern_check($requested_lang) && locale_exists($requested_lang))
 				return $requested_lang;
 		}
 	}
 
-	if (locale_exists($default_locale))
+	if (locale_pattern_check($default_locale) && locale_exists($default_locale))
 		return $default_locale;
 
 	return 'en';
@@ -91,19 +100,21 @@ function get_user_locale()
 
 function get_locale()
 {
-	global $mibewroot, $locale_pattern;
+	global $mibewroot, $locale_cookie_name;
 
-	$locale = verifyparam("locale", $locale_pattern, "");
+	$locale = verifyparam("locale", "/./", "");
 
-	if ($locale && locale_exists($locale)) {
+	if ($locale && locale_pattern_check($locale) && locale_exists($locale)) {
 		$_SESSION['locale'] = $locale;
-		setcookie('mibew_locale', $locale, time() + 60 * 60 * 24 * 1000, "$mibewroot/");
-	} else if (isset($_SESSION['locale'])) {
-		$locale = $_SESSION['locale'];
+	}
+	else if (isset($_SESSION['locale']) && locale_pattern_check($_SESSION['locale']) && locale_exists($_SESSION['locale'])) {
+		$locale =  $_SESSION['locale'];
+	}
+	else {
+		$locale = get_user_locale();
 	}
 
-	if (!$locale || !locale_exists($locale))
-		$locale = get_user_locale();
+	setcookie($locale_cookie_name, $locale, time() + 60 * 60 * 24 * 1000, "$mibewroot/");
 	return $locale;
 }
 
@@ -303,7 +314,6 @@ function getlocalforJS($text, $params)
 	return $string;
 }
 
-$locale_pattern = "/^[\w-]{2,5}$/";
 $current_locale = get_locale();
 $messages = array();
 $output_encoding = array();
