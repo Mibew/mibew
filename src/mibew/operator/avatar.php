@@ -46,8 +46,8 @@ if (!$op) {
 		$orig_filename = $_FILES['avatarFile']['name'];
 		$tmp_file_name = $_FILES['avatarFile']['tmp_name'];
 
-		$ext = strtolower(substr($orig_filename, 1 + strrpos($orig_filename, ".")));
-		$new_file_name = "$opId.$ext";
+		$ext = preg_replace('/\//', '', strtolower(substr($orig_filename, 1 + strrpos($orig_filename, "."))));
+		$new_file_name = intval($opId). ".$ext";
 
 		$file_size = $_FILES['avatarFile']['size'];
 		if ($file_size == 0 || $file_size > Settings::get('max_uploaded_file_size')) {
