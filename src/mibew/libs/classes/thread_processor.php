@@ -355,7 +355,7 @@ class ThreadProcessor extends ClientSideProcessor {
 	 * @throws ThreadProcessorException
 	 */
 	protected function apiRename($args) {
-		global $namecookie, $mibew_encoding;
+		global $mibew_encoding;
 
 		// Check rename possibility
 		if( Settings::get('usercanchangename') != "1" ) {
@@ -375,7 +375,7 @@ class ThreadProcessor extends ClientSideProcessor {
 		$thread->renameUser($args['name']);
 		// Update user name in cookies
 		$data = strtr(base64_encode(myiconv($mibew_encoding,"utf-8",$args['name'])), '+/=', '-_,');
-		setcookie($namecookie, $data, time()+60*60*24*365);
+		setcookie(USERNAME_COOKIE_NAME, $data, time()+60*60*24*365);
 	}
 
 	/**
@@ -413,7 +413,6 @@ class ThreadProcessor extends ClientSideProcessor {
 	/**
 	 * Process submitted prechat survey.
 	 *
-	 * @global string $namecookie Name of cookie that store visitor name
 	 * @param array $args Associative array of arguments. It must contains
 	 * following keys:
 	 *  - 'threadId': for this function this param equals to null;
@@ -429,7 +428,6 @@ class ThreadProcessor extends ClientSideProcessor {
 	 *  - 'options': options array for next module.
 	 */
 	protected function apiProcessSurvey($args) {
-		global $namecookie;
 
 		$visitor = visitor_from_request();
 
@@ -459,7 +457,7 @@ class ThreadProcessor extends ClientSideProcessor {
 					'+/=',
 					'-_,'
 				);
-				setcookie($namecookie, $data, time()+60*60*24*365);
+				setcookie(USERNAME_COOKIE_NAME, $data, time()+60*60*24*365);
 				$visitor['name'] = $newname;
 			}
 		}

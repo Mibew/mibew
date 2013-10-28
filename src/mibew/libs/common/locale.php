@@ -18,7 +18,10 @@
 require_once(dirname(__FILE__).'/converter.php');
 require_once(dirname(__FILE__).'/verification.php');
 
-$locale_cookie_name = 'mibew_locale';
+/**
+ * Name for the cookie to store locale code in use
+ */
+define('LOCALE_COOKIE_NAME', 'mibew_locale');
 
 // test and set default locales
 $default_locale = locale_pattern_check($default_locale) && locale_exists($default_locale) ? $default_locale : 'en';
@@ -73,10 +76,10 @@ function get_available_locales()
 
 function get_user_locale()
 {
-	global $default_locale, $locale_cookie_name;
+	global $default_locale;
 
-	if (isset($_COOKIE['mibew_locale'])) {
-		$requested_lang = $_COOKIE['mibew_locale'];
+	if (isset($_COOKIE[LOCALE_COOKIE_NAME])) {
+		$requested_lang = $_COOKIE[LOCALE_COOKIE_NAME];
 		if (locale_pattern_check($requested_lang) && locale_exists($requested_lang))
 			return $requested_lang;
 	}
@@ -100,7 +103,7 @@ function get_user_locale()
 
 function get_locale()
 {
-	global $mibewroot, $locale_cookie_name;
+	global $mibewroot;
 
 	$locale = verifyparam("locale", "/./", "");
 
@@ -114,7 +117,7 @@ function get_locale()
 		$locale = get_user_locale();
 	}
 
-	setcookie($locale_cookie_name, $locale, time() + 60 * 60 * 24 * 1000, "$mibewroot/");
+	setcookie(LOCALE_COOKIE_NAME, $locale, time() + 60 * 60 * 24 * 1000, "$mibewroot/");
 	return $locale;
 }
 

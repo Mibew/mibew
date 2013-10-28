@@ -25,8 +25,13 @@ require_once(dirname(__FILE__).'/classes/request_processor.php');
 require_once(dirname(__FILE__).'/classes/client_side_processor.php');
 require_once(dirname(__FILE__).'/classes/thread_processor.php');
 
-$namecookie = "MIBEW_Data";
-$usercookie = "MIBEW_UserID";
+
+/**
+ * Names for chat-related cookies
+ */
+
+define('USERID_COOKIE_NAME', 'MIBEW_UserID');
+define('USERNAME_COOKIE_NAME', 'MIBEW_Data');
 
 function message_to_text($msg)
 {
@@ -582,11 +587,11 @@ function ban_for_addr($addr)
 
 function visitor_from_request()
 {
-	global $namecookie, $mibew_encoding, $usercookie;
+	global $mibew_encoding;
 	$defaultName = getstring("chat.default.username");
 	$userName = $defaultName;
-	if (isset($_COOKIE[$namecookie])) {
-		$data = base64_decode(strtr($_COOKIE[$namecookie], '-_,', '+/='));
+	if (isset($_COOKIE[USERNAME_COOKIE_NAME])) {
+		$data = base64_decode(strtr($_COOKIE[USERNAME_COOKIE_NAME], '-_,', '+/='));
 		if (strlen($data) > 0) {
 			$userName = myiconv("utf-8", $mibew_encoding, $data);
 		}
@@ -596,11 +601,11 @@ function visitor_from_request()
 		$userName = getgetparam('name', $userName);
 	}
 
-	if (isset($_COOKIE[$usercookie])) {
-		$userId = $_COOKIE[$usercookie];
+	if (isset($_COOKIE[USERID_COOKIE_NAME])) {
+		$userId = $_COOKIE[USERID_COOKIE_NAME];
 	} else {
 		$userId = uniqid('', TRUE);
-		setcookie($usercookie, $userId, time() + 60 * 60 * 24 * 365);
+		setcookie(USERID_COOKIE_NAME, $userId, time() + 60 * 60 * 24 * 365);
 	}
 	return array('id' => $userId, 'name' => $userName);
 }

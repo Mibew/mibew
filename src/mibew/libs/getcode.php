@@ -17,7 +17,6 @@
 
 function generate_button($title, $locale, $style, $invitationstyle, $group, $inner, $showhost, $forcesecure, $modsecurity, $operator_code)
 {
-	global $visitorcookie;
 	$app_location = get_app_location($showhost, $forcesecure);
 	$link = $app_location . "/client.php";
 	if ($locale)
@@ -67,7 +66,7 @@ function generate_button($title, $locale, $style, $invitationstyle, $group, $inn
 		$widget_data['locale'] = $locale;
 
 		// Name of the cookie to track user. Use if third-party cookie blocked
-		$widget_data['visitorCookieName'] = $visitorcookie;
+		$widget_data['visitorCookieName'] = VISITOR_COOKIE_NAME;
 
 		// Build additional button code
 		$temp = preg_replace('/^(<a )/', '\1id="mibewAgentButton" ', $temp) .

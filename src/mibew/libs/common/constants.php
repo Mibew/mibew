@@ -48,6 +48,7 @@ $default_cron_key = md5(
 /**
  * Name for cookie to track visitor
  */
-$visitorcookie = "MIBEW_VisitorID";
+
+define('VISITOR_COOKIE_NAME', 'MIBEW_VisitorID');
 
 ?>
