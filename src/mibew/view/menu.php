@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-require_once("inc_menu.php");
+require_once(dirname(__FILE__).'/inc_menu.php');
 $page['title'] = getlocal("topMenu.admin");
 $page['menuid'] = "main";
 
@@ -188,5 +188,5 @@ $menuItemsCount = 2;
 <?php 
 } /* content */
 
-require_once('inc_main.php');
+require_once(dirname(__FILE__).'/inc_main.php');
 ?>

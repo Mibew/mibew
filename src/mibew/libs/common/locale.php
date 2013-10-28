@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-require_once(dirname(__FILE__) . '/converter.php');
-require_once(dirname(__FILE__) . '/verification.php');
+require_once(dirname(__FILE__).'/converter.php');
+require_once(dirname(__FILE__).'/verification.php');
 
 $locale_cookie_name = 'mibew_locale';
 

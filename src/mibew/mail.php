@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-require_once('libs/init.php');
-require_once('libs/chat.php');
-require_once('libs/expand.php');
-require_once('libs/groups.php');
-require_once('libs/notify.php');
-require_once('libs/classes/thread.php');
+require_once(dirname(__FILE__).'/libs/init.php');
+require_once(dirname(__FILE__).'/libs/chat.php');
+require_once(dirname(__FILE__).'/libs/expand.php');
+require_once(dirname(__FILE__).'/libs/groups.php');
+require_once(dirname(__FILE__).'/libs/notify.php');
+require_once(dirname(__FILE__).'/libs/classes/thread.php');
 
 $errors = array();
 $page = array();
@@ -51,7 +51,7 @@ if( count($errors) > 0 ) {
 		$page,
 		setup_logo($group)
 	);
-	expand("styles/dialogs", getchatstyle(), "mail.tpl");
+	expand(dirname(__FILE__).'/styles/dialogs', getchatstyle(), "mail.tpl");
 	exit;
 }
 
@@ -74,6 +74,6 @@ $page = array_merge_recursive(
 	$page,
 	setup_logo($group)
 );
-expand("styles/dialogs", getchatstyle(), "mailsent.tpl");
+expand(dirname(__FILE__).'/styles/dialogs', getchatstyle(), "mailsent.tpl");
 exit;
 ?>

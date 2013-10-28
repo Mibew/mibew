@@ -295,7 +295,7 @@ function show_install_err($text)
 	);
 	$errors = array($text);
 	start_html_output();
-	require('../view/install_err.php');
+	require(dirname(dirname(__FILE__)).'/view/install_err.php');
 	exit;
 }
 

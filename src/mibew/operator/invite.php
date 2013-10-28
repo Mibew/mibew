@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/invitation.php');
-require_once('../libs/track.php');
-require_once('../libs/operator.php');
-require_once('../libs/classes/thread.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/invitation.php');
+require_once(dirname(dirname(__FILE__)).'/libs/track.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/thread.php');
 
 $operator = check_login();
 

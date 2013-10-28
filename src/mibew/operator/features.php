@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/operator.php');
-require_once('../libs/settings.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/settings.php');
 
 $operator = check_login();
 csrfchecktoken();
@@ -65,5 +65,5 @@ foreach ($options as $opt) {
 prepare_menu($operator);
 setup_settings_tabs(1);
 start_html_output();
-require('../view/features.php');
+require(dirname(dirname(__FILE__)).'/view/features.php');
 ?>

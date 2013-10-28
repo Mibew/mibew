@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 
 $db = Database::getInstance();
 

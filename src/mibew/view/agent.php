@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-require_once("inc_menu.php");
-require_once("inc_tabbar.php");
+require_once(dirname(__FILE__).'/inc_menu.php');
+require_once(dirname(__FILE__).'/inc_tabbar.php');
 
 $page['title'] = getlocal("page_agent.title");
 $page['menuid'] = $page['opid'] == $page['currentopid'] ? "profile" : "operators";
@@ -33,7 +33,7 @@ function tpl_content() { global $page, $mibewroot, $errors;
 <br />
 <br />
 <?php 
-require_once('inc_errors.php');
+require_once(dirname(__FILE__).'/inc_errors.php');
 ?>
 <?php if( $page['needChangePassword'] ) { ?>
 <div id="formmessage"><?php echo getlocal("error.no_password") ?></div>
@@ -134,5 +134,5 @@ require_once('inc_errors.php');
 <?php 
 } /* content */
 
-require_once('inc_main.php');
+require_once(dirname(__FILE__).'/inc_main.php');
 ?>

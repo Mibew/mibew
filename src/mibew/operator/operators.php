@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 
 $operator = check_login();
 force_password($operator);
@@ -112,5 +112,5 @@ setlocale(LC_TIME, getstring("time.locale"));
 
 prepare_menu($operator);
 start_html_output();
-require('../view/agents.php');
+require(dirname(dirname(__FILE__)).'/view/agents.php');
 ?>

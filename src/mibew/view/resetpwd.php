@@ -16,7 +16,7 @@
  */
 
 if(isset($page) && isset($page['localeLinks'])) {
-	require_once('inc_locales.php');
+	require_once(dirname(__FILE__).'/inc_locales.php');
 }
 $page['title'] = getlocal("resetpwd.title");
 $page['headertitle'] = getlocal("app.title");
@@ -60,7 +60,7 @@ function tpl_content() {
 		<?php echo getlocal("resetpwd.intro") ?><br/><br/>
 
 <?php 
-require_once('inc_errors.php');
+require_once(dirname(__FILE__).'/inc_errors.php');
 ?>
 	
 <?php if($page['showform']) { ?>
@@ -106,5 +106,5 @@ require_once('inc_errors.php');
 	}
 } /* content */
 
-require_once('inc_main.php');
+require_once(dirname(__FILE__).'/inc_main.php');
 ?>

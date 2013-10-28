@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/chat.php');
-require_once('../libs/operator.php');
-require_once('../libs/pagination.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/chat.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
 
 $operator = check_login();
 $page = array();
@@ -53,6 +53,6 @@ setup_pagination($blockedList);
 prepare_menu($operator);
 start_html_output();
 
-require('../view/blocked_visitors.php');
+require(dirname(dirname(__FILE__)).'/view/blocked_visitors.php');
 exit;
 ?>

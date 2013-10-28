@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 
 logout_operator();
 

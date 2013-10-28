@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/operator.php');
-require_once('../libs/settings.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/settings.php');
 
 $errors = array();
 $page = array('version' => $version, 'showform' => true);
@@ -57,7 +57,7 @@ if (count($errors) == 0 && isset($_POST['password'])) {
 
 		$page['loginname'] = $operator['vclogin'];
 		start_html_output();
-		require('../view/resetpwd.php');
+		require(dirname(dirname(__FILE__)).'/view/resetpwd.php');
 		exit;
 	}
 }
@@ -66,5 +66,5 @@ $page['id'] = $opId;
 $page['token'] = $token;
 $page['isdone'] = false;
 start_html_output();
-require('../view/resetpwd.php');
+require(dirname(dirname(__FILE__)).'/view/resetpwd.php');
 ?>

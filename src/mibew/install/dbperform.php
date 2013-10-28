@@ -17,18 +17,18 @@
 
 session_start();
 
-require_once('../libs/config.php');
+require_once(dirname(dirname(__FILE__)).'/libs/config.php');
 
 // Include some classes
-require_once('../libs/classes/plugin_manager.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/plugin_manager.php');
 
 // Include common functions
-require_once('../libs/common/constants.php');
-require_once('../libs/common/locale.php');
-require_once('../libs/common/misc.php');
-require_once('../libs/common/response.php');
+require_once(dirname(dirname(__FILE__)).'/libs/common/constants.php');
+require_once(dirname(dirname(__FILE__)).'/libs/common/locale.php');
+require_once(dirname(dirname(__FILE__)).'/libs/common/misc.php');
+require_once(dirname(dirname(__FILE__)).'/libs/common/response.php');
 // Include database structure
-require_once('dbinfo.php');
+require_once(dirname(__FILE__).'/dbinfo.php');
 
 function runsql($query, $link)
 {

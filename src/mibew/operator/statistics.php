@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/chat.php');
-require_once('../libs/operator.php');
-require_once('../libs/statistics.php');
-require_once('../libs/cron.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/chat.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/statistics.php');
+require_once(dirname(dirname(__FILE__)).'/libs/cron.php');
 
 $operator = check_login();
 force_password($operator);
@@ -174,5 +174,5 @@ $page['showresults'] = count($errors) == 0;
 prepare_menu($operator);
 setup_statistics_tabs($activetab);
 start_html_output();
-require('../view/statistics.php');
+require(dirname(dirname(__FILE__)).'/view/statistics.php');
 ?>

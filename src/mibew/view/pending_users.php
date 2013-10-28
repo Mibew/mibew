@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-require_once("inc_menu.php");
+require_once(dirname(__FILE__).'/inc_menu.php');
 $page['title'] = getlocal("clients.title");
 $page['menuid'] = "users";
 
@@ -160,5 +160,5 @@ function tpl_content() { global $page, $mibewroot;
 <?php 
 } /* content */
 
-require_once('inc_main.php');
+require_once(dirname(__FILE__).'/inc_main.php');
 ?>

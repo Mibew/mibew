@@ -23,12 +23,12 @@ function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
 <?php 
-require_once('inc_errors.php');
+require_once(dirname(__FILE__).'/inc_errors.php');
 ?>
 <?php echo getlocal("install.err.back") ?>
 
 <?php 
 } /* content */
 
-require_once('../view/inc_main.php');
+require_once(dirname(__FILE__).'/inc_main.php');
 ?>

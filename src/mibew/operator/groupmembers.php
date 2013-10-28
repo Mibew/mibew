@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/operator.php');
-require_once('../libs/groups.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
 
 $operator = check_login();
 
@@ -89,5 +89,5 @@ $page['stored'] = isset($_GET['stored']);
 prepare_menu($operator);
 setup_group_settings_tabs($groupid, 1);
 start_html_output();
-require('../view/groupmembers.php');
+require(dirname(dirname(__FILE__)).'/view/groupmembers.php');
 ?>

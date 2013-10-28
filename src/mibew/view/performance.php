@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-require_once("inc_menu.php");
-require_once("inc_tabbar.php");
+require_once(dirname(__FILE__).'/inc_menu.php');
+require_once(dirname(__FILE__).'/inc_tabbar.php');
 
 $page['title'] = getlocal("settings.title");
 $page['menuid'] = "settings";
@@ -28,7 +28,7 @@ function tpl_content() { global $page, $mibewroot, $errors;
 <br />
 <br />
 <?php 
-require_once('inc_errors.php');
+require_once(dirname(__FILE__).'/inc_errors.php');
 ?>
 <?php if( $page['stored'] ) { ?>
 <div id="formmessage"><?php echo getlocal("settings.saved") ?></div>
@@ -151,5 +151,5 @@ require_once('inc_errors.php');
 <?php 
 } /* content */
 
-require_once('inc_main.php');
+require_once(dirname(__FILE__).'/inc_main.php');
 ?>

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-//require_once('mibew_api_interaction.php');
+//require_once(dirname(__FILE__).'/mibew_api_interaction.php');
 
 /**
  * Implements Mibew API specification version 1.0

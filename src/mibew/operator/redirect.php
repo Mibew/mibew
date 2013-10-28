@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/operator.php');
-require_once('../libs/chat.php');
-require_once('../libs/expand.php');
-require_once('../libs/groups.php');
-require_once('../libs/classes/thread.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/chat.php');
+require_once(dirname(dirname(__FILE__)).'/libs/expand.php');
+require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/thread.php');
 
 $operator = check_login();
 
@@ -111,9 +111,9 @@ $page = array_merge_recursive(
 	setup_logo()
 );
 if (count($errors) > 0) {
-	expand("../styles/dialogs", getchatstyle(), "error.tpl");
+	expand(dirname(dirname(__FILE__)).'/styles/dialogs', getchatstyle(), "error.tpl");
 } else {
-	expand("../styles/dialogs", getchatstyle(), "redirected.tpl");
+	expand(dirname(dirname(__FILE__)).'/styles/dialogs', getchatstyle(), "redirected.tpl");
 }
 
 ?>

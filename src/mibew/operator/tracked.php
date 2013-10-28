@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/chat.php');
-require_once('../libs/operator.php');
-require_once('../libs/track.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/chat.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/track.php');
 
 $operator = check_login();
 
@@ -57,5 +57,5 @@ foreach ($path as $k => $v) {
 				'link' => htmlspecialchars($v) );
 }
 start_html_output();
-require('../view/tracked.php');
+require(dirname(dirname(__FILE__)).'/view/tracked.php');
 ?>

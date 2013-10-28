@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/operator.php');
-require_once('../libs/operator_settings.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator_settings.php');
 
 $operator = check_login();
 csrfchecktoken();
@@ -154,5 +154,5 @@ $page['needChangePassword'] = check_password_hash($operator['vclogin'], '', $ope
 prepare_menu($operator);
 setup_operator_settings_tabs($opId, 0);
 start_html_output();
-require('../view/agent.php');
+require(dirname(dirname(__FILE__)).'/view/agent.php');
 ?>

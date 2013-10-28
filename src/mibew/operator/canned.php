@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/canned.php');
-require_once('../libs/operator.php');
-require_once('../libs/settings.php');
-require_once('../libs/groups.php');
-require_once('../libs/pagination.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/canned.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/settings.php');
+require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
+require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
 
 $operator = check_login();
 force_password($operator);
@@ -95,5 +95,5 @@ $page['formgroup'] = $groupid;
 
 prepare_menu($operator);
 start_html_output();
-require('../view/canned.php');
+require(dirname(dirname(__FILE__)).'/view/canned.php');
 ?>

@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/operator.php');
-require_once('../libs/chat.php');
-require_once('../libs/userinfo.php');
-require_once('../libs/pagination.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/chat.php');
+require_once(dirname(dirname(__FILE__)).'/libs/userinfo.php');
+require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
 
 $operator = check_login();
 
@@ -63,5 +63,5 @@ foreach ($page['pagination.items'] as $key => $item) {
 	$page['pagination.items'][$key] = Thread::createFromDbInfo($item);
 }
 start_html_output();
-require('../view/userhistory.php');
+require(dirname(dirname(__FILE__)).'/view/userhistory.php');
 ?>

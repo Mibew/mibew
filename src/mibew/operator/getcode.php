@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/operator.php');
-require_once('../libs/groups.php');
-require_once('../libs/getcode.php');
-require_once('../libs/styles.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
+require_once(dirname(dirname(__FILE__)).'/libs/getcode.php');
+require_once(dirname(dirname(__FILE__)).'/libs/styles.php');
 
 $operator = check_login();
 force_password($operator);
@@ -96,5 +96,5 @@ $page['operator_code'] = $operator_code;
 
 prepare_menu($operator);
 start_html_output();
-require('../view/gen_button.php');
+require(dirname(dirname(__FILE__)).'/view/gen_button.php');
 ?>

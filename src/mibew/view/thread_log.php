@@ -120,5 +120,5 @@ $chatthread = $page['thread_info']['thread'];
 <?php 
 } /* content */
 
-require_once('inc_main.php');
+require_once(dirname(__FILE__).'/inc_main.php');
 ?>

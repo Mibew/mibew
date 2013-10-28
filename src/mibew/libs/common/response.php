@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-require_once(dirname(__FILE__) . '/locale.php');
+require_once(dirname(__FILE__).'/locale.php');
 
 function get_popup($href, $jshref, $message, $title, $wndName, $options)
 {

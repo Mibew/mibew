@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-require_once('libs/init.php');
-require_once('libs/captcha.php');
+require_once(dirname(__FILE__).'/libs/init.php');
+require_once(dirname(__FILE__).'/libs/captcha.php');
 
 $captchaCode = gen_captcha();
 $_SESSION["mibew_captcha"] = $captchaCode;

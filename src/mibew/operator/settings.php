@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/operator.php');
-require_once('../libs/settings.php');
-require_once('../libs/styles.php');
-require_once('../libs/cron.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/settings.php');
+require_once(dirname(dirname(__FILE__)).'/libs/styles.php');
+require_once(dirname(dirname(__FILE__)).'/libs/cron.php');
 
 $operator = check_login();
 force_password($operator);
@@ -120,6 +120,6 @@ if (Settings::get('enabletracking')) {
 prepare_menu($operator);
 setup_settings_tabs(0);
 start_html_output();
-require('../view/settings.php');
+require(dirname(dirname(__FILE__)).'/view/settings.php');
 
 ?>

@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/operator.php');
-require_once('../libs/settings.php');
-require_once('../libs/notify.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/settings.php');
+require_once(dirname(dirname(__FILE__)).'/libs/notify.php');
 
 $errors = array();
 $page = array('version' => $version);
@@ -55,7 +55,7 @@ if (isset($_POST['loginoremail'])) {
 		mibew_mail($email, $email, getstring("restore.mailsubj"), getstring2("restore.mailtext", array(get_operator_name($torestore), $href)));
 
 		$page['isdone'] = true;
-		require('../view/restore.php');
+		require(dirname(dirname(__FILE__)).'/view/restore.php');
 		exit;
 	}
 }
@@ -65,5 +65,5 @@ $page['formloginoremail'] = topage($loginoremail);
 $page['localeLinks'] = get_locale_links("$mibewroot/operator/restore.php");
 $page['isdone'] = false;
 start_html_output();
-require('../view/restore.php');
+require(dirname(dirname(__FILE__)).'/view/restore.php');
 ?>

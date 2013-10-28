@@ -15,15 +15,15 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/invitation.php');
-require_once('../libs/operator.php');
-require_once('../libs/classes/mibew_api.php');
-require_once('../libs/classes/mibew_api_interaction.php');
-require_once('../libs/classes/mibew_api_invite_interaction.php');
-require_once('../libs/classes/mibew_api_execution_context.php');
-require_once('../libs/classes/client_side_processor.php');
-require_once('../libs/classes/invite_processor.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/invitation.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/mibew_api.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/mibew_api_interaction.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/mibew_api_invite_interaction.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/mibew_api_execution_context.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/client_side_processor.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/invite_processor.php');
 
 $processor = InviteProcessor::getInstance();
 $processor->receiveRequest($_POST['data']);

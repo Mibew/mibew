@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/operator.php');
-require_once('../libs/chat.php');
-require_once('../libs/userinfo.php');
-require_once('../libs/pagination.php');
-require_once('../libs/cron.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/chat.php');
+require_once(dirname(dirname(__FILE__)).'/libs/userinfo.php');
+require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
+require_once(dirname(dirname(__FILE__)).'/libs/cron.php');
 
 $operator = check_login();
 force_password($operator);
@@ -99,5 +99,5 @@ $page['forminsystemmessages'] = $searchInSystemMessages;
 
 prepare_menu($operator);
 start_html_output();
-require('../view/thread_search.php');
+require(dirname(dirname(__FILE__)).'/view/thread_search.php');
 ?>

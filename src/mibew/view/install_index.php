@@ -16,7 +16,7 @@
  */
 
 if(isset($page) && isset($page['localeLinks'])) {
-	require_once('inc_locales.php');
+	require_once(dirname(__FILE__).'/inc_locales.php');
 }
 $page['title'] = getlocal("install.title");
 $page['fixedwrap'] = true;
@@ -49,7 +49,7 @@ function tpl_content() { global $page, $mibewroot, $errors;
 <br/>
 
 <?php 
-require_once('inc_errors.php');
+require_once(dirname(__FILE__).'/inc_errors.php');
 ?>
 
 <?php if( $page['done'] ) { ?>
@@ -82,5 +82,5 @@ require_once('inc_errors.php');
 <?php 
 } /* content */
 
-require_once('../view/inc_main.php');
+require_once(dirname(__FILE__).'/inc_main.php');
 ?>

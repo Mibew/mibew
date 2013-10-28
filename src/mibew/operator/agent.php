@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/canned.php');
-require_once('../libs/chat.php');
-require_once('../libs/groups.php');
-require_once('../libs/operator.php');
-require_once('../libs/pagination.php');
-require_once('../libs/expand.php');
-require_once('../libs/classes/thread.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/canned.php');
+require_once(dirname(dirname(__FILE__)).'/libs/chat.php');
+require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
+require_once(dirname(dirname(__FILE__)).'/libs/expand.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/thread.php');
 
 $operator = check_login();
 
@@ -47,7 +47,7 @@ if (!isset($_GET['token'])) {
 	if ($remote_level != "ajaxed") {
 		$errors = array(getlocal("thread.error.old_browser"));
 		start_html_output();
-		expand("../styles/dialogs", getchatstyle(), "error.tpl");
+		expand(dirname(dirname(__FILE__)).'/styles/dialogs', getchatstyle(), "error.tpl");
 		exit;
 	}
 
@@ -55,7 +55,7 @@ if (!isset($_GET['token'])) {
 	if (!$thread || !isset($thread->lastToken)) {
 		$errors = array(getlocal("thread.error.wrong_thread"));
 		start_html_output();
-		expand("../styles/dialogs", getchatstyle(), "error.tpl");
+		expand(dirname(dirname(__FILE__)).'/styles/dialogs', getchatstyle(), "error.tpl");
 		exit;
 	}
 
@@ -67,7 +67,7 @@ if (!isset($_GET['token'])) {
 		if (!is_capable(CAN_TAKEOVER, $operator)) {
 			$errors = array(getlocal("thread.error.cannot_take_over"));
 			start_html_output();
-			expand("../styles/dialogs", getchatstyle(), "error.tpl");
+			expand(dirname(dirname(__FILE__)).'/styles/dialogs', getchatstyle(), "error.tpl");
 			exit;
 		}
 
@@ -78,7 +78,7 @@ if (!isset($_GET['token'])) {
 				'link' => $_SERVER['PHP_SELF'] . "?thread=$threadid&amp;force=true"
 			);
 			start_html_output();
-			require('../view/confirm.php');
+			require(dirname(dirname(__FILE__)).'/view/confirm.php');
 			exit;
 		}
 	}
@@ -87,13 +87,13 @@ if (!isset($_GET['token'])) {
 		if(! $thread->take($operator)){
 			$errors = array(getlocal("thread.error.cannot_take"));
 			start_html_output();
-			expand("../styles/dialogs", getchatstyle(), "error.tpl");
+			expand(dirname(dirname(__FILE__)).'/styles/dialogs', getchatstyle(), "error.tpl");
 			exit;
 		}
 	} else if (!is_capable(CAN_VIEWTHREADS, $operator)) {
 		$errors = array(getlocal("thread.error.cannot_view"));
 		start_html_output();
-		expand("../styles/dialogs", getchatstyle(), "error.tpl");
+		expand(dirname(dirname(__FILE__)).'/styles/dialogs', getchatstyle(), "error.tpl");
 		exit;
 	}
 
@@ -112,7 +112,7 @@ if (!$thread) {
 if ($thread->agentId != $operator['operatorid'] && !is_capable(CAN_VIEWTHREADS, $operator)) {
 	$errors = array("Cannot view threads");
 	start_html_output();
-	expand("../styles/dialogs", getchatstyle(), "error.tpl");
+	expand(dirname(dirname(__FILE__)).'/styles/dialogs', getchatstyle(), "error.tpl");
 	exit;
 }
 
@@ -126,12 +126,12 @@ start_html_output();
 $pparam = verifyparam("act", "/^(redirect)$/", "default");
 if ($pparam == "redirect") {
 	setup_redirect_links($threadid, $operator, $token);
-	expand("../styles/dialogs", getchatstyle(), "redirect.tpl");
+	expand(dirname(dirname(__FILE__)).'/styles/dialogs', getchatstyle(), "redirect.tpl");
 } else {
 	// Build js application options
 	$page['chatOptions'] = json_encode($page['chat']);
 	// Expand page
-	expand("../styles/dialogs", getchatstyle(), "chat.tpl");
+	expand(dirname(dirname(__FILE__)).'/styles/dialogs', getchatstyle(), "chat.tpl");
 }
 
 ?>

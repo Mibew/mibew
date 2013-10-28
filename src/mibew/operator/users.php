@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/operator.php');
-require_once('../libs/groups.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
 
 $operator = check_login();
 force_password($operator);
@@ -57,5 +57,5 @@ $page = array_merge($page, get_plugins_data('users'));
 
 prepare_menu($operator);
 start_html_output();
-require('../view/pending_users.php');
+require(dirname(dirname(__FILE__)).'/view/pending_users.php');
 ?>

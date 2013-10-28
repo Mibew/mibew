@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/chat.php');
-require_once('../libs/pagination.php');
-require_once('../libs/operator.php');
-require_once('../libs/groups.php');
-require_once('../libs/expand.php');
-require_once('../libs/settings.php');
-require_once('../libs/styles.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/chat.php');
+require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
+require_once(dirname(dirname(__FILE__)).'/libs/expand.php');
+require_once(dirname(dirname(__FILE__)).'/libs/settings.php');
+require_once(dirname(dirname(__FILE__)).'/libs/styles.php');
 
 $operator = check_login();
 
@@ -53,5 +53,5 @@ $page['screenshotsList'] = $screenshots;
 prepare_menu($operator);
 start_html_output();
 setup_settings_tabs(3);
-require('../view/themes.php');
+require(dirname(dirname(__FILE__)).'/view/themes.php');
 ?>

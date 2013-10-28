@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/chat.php');
-require_once('../libs/operator.php');
-require_once('../libs/pagination.php');
-require_once('../libs/classes/thread.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/chat.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/thread.php');
 
 $operator = check_login();
 $page = array('banId' => '');
@@ -130,6 +130,6 @@ if (isset($_POST['address'])) {
 
 prepare_menu($operator, false);
 start_html_output();
-require('../view/ban.php');
+require(dirname(dirname(__FILE__)).'/view/ban.php');
 exit;
 ?>

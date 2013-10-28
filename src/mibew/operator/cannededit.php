@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/canned.php');
-require_once('../libs/operator.php');
-require_once('../libs/pagination.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/canned.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
 
 $operator = check_login();
 csrfchecktoken();
@@ -65,7 +65,7 @@ if (isset($_POST['message']) && isset($_POST['title'])) {
 		$page['saved'] = true;
 		prepare_menu($operator, false);
 		start_html_output();
-		require('../view/cannededit.php');
+		require(dirname(dirname(__FILE__)).'/view/cannededit.php');
 		exit;
 	}
 }
@@ -76,6 +76,6 @@ $page['formtitle'] = topage($title);
 $page['formmessage'] = topage($message);
 prepare_menu($operator, false);
 start_html_output();
-require('../view/cannededit.php');
+require(dirname(dirname(__FILE__)).'/view/cannededit.php');
 exit;
 ?>

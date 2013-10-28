@@ -17,19 +17,19 @@
 
 session_start();
 
-require_once('../libs/config.php');
+require_once(dirname(dirname(__FILE__)).'/libs/config.php');
 
 // Include some classes
-require_once('../libs/classes/plugin_manager.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/plugin_manager.php');
 
 // Include common functions
-require_once('../libs/common/constants.php');
-require_once('../libs/common/locale.php');
-require_once('../libs/common/misc.php');
-require_once('../libs/common/response.php');
-require_once('../libs/common/string.php');
+require_once(dirname(dirname(__FILE__)).'/libs/common/constants.php');
+require_once(dirname(dirname(__FILE__)).'/libs/common/locale.php');
+require_once(dirname(dirname(__FILE__)).'/libs/common/misc.php');
+require_once(dirname(dirname(__FILE__)).'/libs/common/response.php');
+require_once(dirname(dirname(__FILE__)).'/libs/common/string.php');
 // Include database structure
-require_once('dbinfo.php');
+require_once(dirname(__FILE__).'/dbinfo.php');
 
 $page = array(
 	'version' => $version,
@@ -367,5 +367,5 @@ function check_status()
 check_status();
 
 start_html_output();
-require('../view/install_index.php');
+require(dirname(dirname(__FILE__)).'/view/install_index.php');
 ?>

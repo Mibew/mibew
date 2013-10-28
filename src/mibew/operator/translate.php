@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/operator.php');
-require_once('../libs/pagination.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
 
 function compare_localization_by_l1($a, $b)
 {
@@ -154,7 +154,7 @@ if ($stringid) {
 			$page['saved'] = true;
 			prepare_menu($operator, false);
 			start_html_output();
-			require('../view/translate.php');
+			require(dirname(dirname(__FILE__)).'/view/translate.php');
 			exit;
 		}
 	}
@@ -166,7 +166,7 @@ if ($stringid) {
 	$page['formtranslation'] = $translation;
 	prepare_menu($operator, false);
 	start_html_output();
-	require('../view/translate.php');
+	require(dirname(dirname(__FILE__)).'/view/translate.php');
 	exit;
 }
 
@@ -227,5 +227,5 @@ $page['showOptions'] = array(
 $page['formshow'] = $show;
 prepare_menu($operator);
 start_html_output();
-require('../view/translatelist.php');
+require(dirname(dirname(__FILE__)).'/view/translatelist.php');
 ?>

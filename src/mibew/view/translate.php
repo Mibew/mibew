@@ -36,7 +36,7 @@ function tpl_content() { global $page, $mibewroot, $errors;
 <br/>
 <br/>
 <?php 
-require_once('inc_errors.php');
+require_once(dirname(__FILE__).'/inc_errors.php');
 ?>
 
 <form name="translateForm" method="post" action="<?php echo $mibewroot ?>/operator/translate.php">
@@ -73,5 +73,5 @@ require_once('inc_errors.php');
 <?php 
 } /* content */
 
-require_once('inc_main.php');
+require_once(dirname(__FILE__).'/inc_main.php');
 ?>

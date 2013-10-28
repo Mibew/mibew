@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-require_once("inc_menu.php");
+require_once(dirname(__FILE__).'/inc_menu.php');
 $page['title'] = getlocal("page.groups.title");
 $page['menuid'] = "groups";
 
@@ -32,7 +32,7 @@ function tpl_content() { global $page, $mibewroot, $errors;
 <br />
 <br />
 <?php 
-require_once('inc_errors.php');
+require_once(dirname(__FILE__).'/inc_errors.php');
 ?>
 
 <form name="groupsForm" method="get" action="<?php echo $mibewroot ?>/operator/groups.php">
@@ -152,5 +152,5 @@ $('a.removelink').click(function(){
 <?php 
 } /* content */
 
-require_once('inc_main.php');
+require_once(dirname(__FILE__).'/inc_main.php');
 ?>

@@ -15,15 +15,15 @@
  * limitations under the License.
  */
 
-require_once('libs/init.php');
-require_once('libs/chat.php');
-require_once('libs/operator.php');
-require_once('libs/groups.php');
-require_once('libs/expand.php');
-require_once('libs/captcha.php');
-require_once('libs/invitation.php');
-require_once('libs/track.php');
-require_once('libs/classes/thread.php');
+require_once(dirname(__FILE__).'/libs/init.php');
+require_once(dirname(__FILE__).'/libs/chat.php');
+require_once(dirname(__FILE__).'/libs/operator.php');
+require_once(dirname(__FILE__).'/libs/groups.php');
+require_once(dirname(__FILE__).'/libs/expand.php');
+require_once(dirname(__FILE__).'/libs/captcha.php');
+require_once(dirname(__FILE__).'/libs/invitation.php');
+require_once(dirname(__FILE__).'/libs/track.php');
+require_once(dirname(__FILE__).'/libs/classes/thread.php');
 
 if(Settings::get('enablessl') == "1" && Settings::get('forcessl') == "1") {
 	if(!is_secure_request()) {
@@ -44,7 +44,7 @@ if (get_remote_level($_SERVER['HTTP_USER_AGENT']) == 'old') {
 	$page = array_merge_recursive(
 		setup_logo()
 	);
-	expand("styles/dialogs", getchatstyle(), "nochat.tpl");
+	expand(dirname(__FILE__).'/styles/dialogs', getchatstyle(), "nochat.tpl");
 	exit;
 }
 
@@ -63,7 +63,7 @@ if (verifyparam("act", "/^(invitation)$/", "default") == 'invitation'
 		// Build js application options
 		$page['invitationOptions'] = json_encode($page['invitation']);
 		// Expand page
-		expand("styles/dialogs", getchatstyle(), "chat.tpl");
+		expand(dirname(__FILE__).'/styles/dialogs', getchatstyle(), "chat.tpl");
 		exit;
 	}
 }
@@ -129,7 +129,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 				)
 			);
 			$page['leaveMessageOptions'] = json_encode($page['leaveMessage']);
-			expand("styles/dialogs", getchatstyle(), "chat.tpl");
+			expand(dirname(__FILE__).'/styles/dialogs', getchatstyle(), "chat.tpl");
 			exit;
 		}
 
@@ -158,7 +158,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 				setup_survey($visitor['name'], $email, $groupid, $info, $referrer)
 			);
 			$page['surveyOptions'] = json_encode($page['survey']);
-			expand("styles/dialogs", getchatstyle(), "chat.tpl");
+			expand(dirname(__FILE__).'/styles/dialogs', getchatstyle(), "chat.tpl");
 			exit;
 		}
 
@@ -184,12 +184,12 @@ $page = setup_chatview_for_user($thread);
 
 $pparam = verifyparam( "act", "/^(mailthread)$/", "default");
 if( $pparam == "mailthread" ) {
-	expand("styles/dialogs", getchatstyle(), "mail.tpl");
+	expand(dirname(__FILE__).'/styles/dialogs', getchatstyle(), "mail.tpl");
 } else {
 	// Build js application options
 	$page['chatOptions'] = json_encode($page['chat']);
 	// Expand page
-	expand("styles/dialogs", getchatstyle(), "chat.tpl");
+	expand(dirname(__FILE__).'/styles/dialogs', getchatstyle(), "chat.tpl");
 }
 
 ?>

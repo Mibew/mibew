@@ -19,29 +19,29 @@
 session_start();
 
 // Include configuration file
-require_once(dirname(__FILE__) . '/config.php');
+require_once(dirname(__FILE__).'/config.php');
 
 // Include system constants file
-require_once(dirname(__FILE__) . '/common/constants.php');
+require_once(dirname(__FILE__).'/common/constants.php');
 
 // Include system classes
-require_once(dirname(__FILE__) . '/classes/database.php');
-require_once(dirname(__FILE__) . '/classes/settings.php');
-require_once(dirname(__FILE__) . '/classes/event_dispatcher.php');
-require_once(dirname(__FILE__) . '/classes/plugin_manager.php');
-require_once(dirname(__FILE__) . '/classes/plugin.php');
+require_once(dirname(__FILE__).'/classes/database.php');
+require_once(dirname(__FILE__).'/classes/settings.php');
+require_once(dirname(__FILE__).'/classes/event_dispatcher.php');
+require_once(dirname(__FILE__).'/classes/plugin_manager.php');
+require_once(dirname(__FILE__).'/classes/plugin.php');
 
 // Include common libs
-require_once(dirname(__FILE__) . '/common/configurations.php');
-require_once(dirname(__FILE__) . '/common/csrf.php');
-require_once(dirname(__FILE__) . '/common/datetime.php');
-require_once(dirname(__FILE__) . '/common/forms.php');
-require_once(dirname(__FILE__) . '/common/verification.php');
-require_once(dirname(__FILE__) . '/common/locale.php');
-require_once(dirname(__FILE__) . '/common/misc.php');
-require_once(dirname(__FILE__) . '/common/request.php');
-require_once(dirname(__FILE__) . '/common/response.php');
-require_once(dirname(__FILE__) . '/common/string.php');
+require_once(dirname(__FILE__).'/common/configurations.php');
+require_once(dirname(__FILE__).'/common/csrf.php');
+require_once(dirname(__FILE__).'/common/datetime.php');
+require_once(dirname(__FILE__).'/common/forms.php');
+require_once(dirname(__FILE__).'/common/verification.php');
+require_once(dirname(__FILE__).'/common/locale.php');
+require_once(dirname(__FILE__).'/common/misc.php');
+require_once(dirname(__FILE__).'/common/request.php');
+require_once(dirname(__FILE__).'/common/response.php');
+require_once(dirname(__FILE__).'/common/string.php');
 
 
 // Initialize the database

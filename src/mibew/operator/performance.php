@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-require_once('../libs/init.php');
-require_once('../libs/operator.php');
-require_once('../libs/settings.php');
+require_once(dirname(dirname(__FILE__)).'/libs/init.php');
+require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/settings.php');
 
 $operator = check_login();
 csrfchecktoken();
@@ -124,5 +124,5 @@ $page['stored'] = isset($_GET['stored']);
 prepare_menu($operator);
 setup_settings_tabs(2);
 start_html_output();
-require('../view/performance.php');
+require(dirname(dirname(__FILE__)).'/view/performance.php');
 ?>

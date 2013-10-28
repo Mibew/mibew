@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-require_once('libs/init.php');
+require_once(dirname(__FILE__).'/libs/init.php');
 
 start_html_output();
-require('view/license.php');
+require(dirname(__FILE__).'/view/license.php');
 ?>

@@ -81,5 +81,5 @@ if(count($page['history']) > 0) {
 <?php
 } /* content */
 
-require_once('inc_main.php');
+require_once(dirname(__FILE__).'/inc_main.php');
 ?>
