@@ -22,6 +22,7 @@ require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
 require_once(dirname(dirname(__FILE__)).'/libs/classes/thread.php');
 
 $operator = check_login();
+csrfchecktoken();
 $page = array('banId' => '');
 $page['saved'] = false;
 $page['thread'] = '';

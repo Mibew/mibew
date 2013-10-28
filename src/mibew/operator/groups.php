@@ -19,6 +19,7 @@ require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 
 $operator = check_login();
+csrfchecktoken();
 
 if (isset($_GET['act']) && $_GET['act'] == 'del') {
 

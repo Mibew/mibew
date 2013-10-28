@@ -20,6 +20,7 @@ require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator_settings.php');
 
 $operator = check_login();
+csrfchecktoken();
 
 function update_operator_groups($operatorid, $newvalue)
 {

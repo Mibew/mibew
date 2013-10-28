@@ -31,7 +31,7 @@ function tpl_content() { global $page, $mibewroot, $errors;
 <?php echo getlocal("page_ban.intro") ?>
 <br/>
 <br/>
-<?php 
+<?php
 require_once(dirname(__FILE__).'/inc_errors.php');
 ?>
 
@@ -42,6 +42,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 <?php } ?>
 
 <form name="banForm" method="post" action="<?php echo $mibewroot ?>/operator/ban.php">
+<?php print_csrf_token_input() ?>
 <input type="hidden" name="banId" value="<?php echo $page['banId'] ?>"/>
 <?php if( $page['threadid'] ) { ?>
 <input type="hidden" name="threadid" value="<?php echo $page['threadid'] ?>"/>

@@ -21,6 +21,8 @@ require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
 
 $operator = check_login();
+csrfchecktoken();
+
 $page = array();
 $errors = array();
 

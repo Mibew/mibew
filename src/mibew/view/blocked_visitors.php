@@ -82,7 +82,7 @@ if( $page['pagination.items'] ) {
 ?>
 	</td>
 	<td>
-		<a class="removelink" id="i<?php echo $b['banid'] ?>" href="<?php echo $mibewroot ?>/operator/blocked.php?act=del&amp;id=<?php echo $b['banid'] ?>">
+		<a class="removelink" id="i<?php echo $b['banid'] ?>" href="<?php echo $mibewroot ?>/operator/blocked.php?act=del&amp;id=<?php echo $b['banid'] ?><?php print_csrf_token_in_url() ?>">
 			<?php echo getlocal("remove.item") ?></a>,
 		<a href="<?php echo $mibewroot ?>/operator/ban.php?id=<?php echo $b['banid'] ?>">
 			<?php echo getlocal("edit.item") ?></a>

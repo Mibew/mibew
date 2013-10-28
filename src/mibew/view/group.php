@@ -63,6 +63,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 <?php } ?>
 
 <form name="groupForm" method="post" action="<?php echo $mibewroot ?>/operator/group.php">
+<?php print_csrf_token_input() ?>
 <input type="hidden" name="gid" value="<?php echo $page['grid'] ?>"/>
 	<div>
 <?php print_tabbar(); ?>

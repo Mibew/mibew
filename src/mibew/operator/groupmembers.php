@@ -20,6 +20,7 @@ require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
 
 $operator = check_login();
+csrfchecktoken();
 
 function get_group_members($groupid)
 {

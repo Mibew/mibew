@@ -35,6 +35,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 <?php } ?>
 
 <form name="opgroupsForm" method="post" action="<?php echo $mibewroot ?>/operator/opgroups.php">
+<?php print_csrf_token_input() ?>
 <input type="hidden" name="op" value="<?php echo $page['opid'] ?>"/>
 	<div>
 <?php print_tabbar(); ?>

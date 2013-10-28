@@ -122,7 +122,7 @@ if(count($page['groups']) > 0) {
 	</td>
 <?php if($page['canmodify']) { ?>
 	<td>
-		<a href="<?php echo $mibewroot ?>/operator/groups.php?act=del&amp;gid=<?php echo $grp['groupid'] ?>" id="i<?php echo $grp['groupid'] ?>" class="removelink">
+		<a href="<?php echo $mibewroot ?>/operator/groups.php?act=del&amp;gid=<?php echo $grp['groupid'] ?><?php print_csrf_token_in_url() ?>" id="i<?php echo $grp['groupid'] ?>" class="removelink">
 			<?php echo getlocal("remove.item") ?>
 		</a>
 	</td>
