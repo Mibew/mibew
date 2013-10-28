@@ -169,13 +169,14 @@ Class Database{
 
 		// Create database instance
 		$instance = new Database();
+
 		// Set database and connection properties
 		$instance->dbHost = $host;
 		$instance->dbLogin = $user;
 		$instance->dbPass = $pass;
 		$instance->dbName = $db;
 		$instance->dbEncoding = $encoding;
-		$instance->tablesPrefix = $prefix;
+		$instance->tablesPrefix = preg_replace('/[^A-Za-z0-9_$]/', '', $prefix);
 		$instance->forceCharsetInConnection = $force_charset;
 		$instance->usePersistentConnection = $use_pconn;
 
