@@ -1,3 +1,9 @@
+  1.6.8
+  -----
+  [!] multiple bugfixes
+  [+] new logo
+  [!] switch to standard codes for several locales
+
   1.6.7
   -----
   [+] add https links highlighting (thanks to falcon)
