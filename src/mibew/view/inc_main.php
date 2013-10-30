@@ -37,7 +37,7 @@ $isrtl = getlocal("localedirection") == 'rtl';
 <div id="<?php echo (isset($page) && isset($page['fixedwrap'])) ? "fixedwrap" : (function_exists('tpl_menu') ? "wrap700" : "wrap400" )?>" class="l<?php echo getlocal("localedirection") ?>">
 	<div id="header">
 		<div id="title">
-			<h1><img src="<?php echo $mibewroot ?>/images/logo.gif" alt="" width="32" height="32" class="left" />
+			<h1><img src="<?php echo $mibewroot ?>/images/logo.png" alt="" width="32" height="32" class="left logo" />
 				<a href="#"><?php echo isset($page['headertitle']) ? $page['headertitle'] : $page['title'] ?></a></h1>
 		</div>
 <?php if(isset($page) && isset($page['operator'])) { ?>

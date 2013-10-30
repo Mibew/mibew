@@ -130,7 +130,7 @@ a {
 	height: 32px;
 	margin: 0px -2px 10px 0px;
 	padding-top: 10px;
-	padding-bottom: 5px;
+	padding-bottom: 10px;
 	background: url(images/graydot.gif) repeat-x left bottom;
 	display: block;
 }
@@ -142,6 +142,10 @@ a {
 img.left {
 	float: left;
 	margin-right: 15px;
+}
+
+img.logo {
+	margin-top: 2px;
 }
 
 #header h1 {
