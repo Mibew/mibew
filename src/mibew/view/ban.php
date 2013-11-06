@@ -24,6 +24,9 @@ function tpl_content() { global $page, $mibewroot, $errors;
 	<?php echo getlocal2("page_ban.sent",array($page['address'])) ?>
 
 	<script type="text/javascript"><!--
+		if(window.opener && window.opener.location) {
+			window.opener.location.reload();
+		}
 		setTimeout( (function() { window.close(); }), 1500 );
 	//--></script>
 <?php } else { ?>

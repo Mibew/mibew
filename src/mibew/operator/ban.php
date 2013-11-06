@@ -83,13 +83,9 @@ if (isset($_POST['address'])) {
 			);
 		}
 
-		if (!$threadid) {
-			header("Location: $mibewroot/operator/blocked.php");
-			exit;
-		} else {
-			$page['saved'] = true;
-			$page['address'] = $address;
-		}
+		$page['saved'] = true;
+		$page['address'] = $address;
+
 	} else {
 		$page['banId'] = topage($banId);
 		$page['formaddress'] = topage($address);
