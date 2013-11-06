@@ -23,7 +23,7 @@ function tpl_content() { global $page, $mibewroot, $errors;
 	<?php if( $page['saved'] ) { ?>
 	<?php echo getlocal("cannededit.done") ?>
 
-	<script><!--
+	<script type="text/javascript"><!--
 		if(window.opener && window.opener.location) {
 			window.opener.location.reload();
 		} 
