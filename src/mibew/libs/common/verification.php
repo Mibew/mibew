@@ -17,12 +17,12 @@
 
 function verifyparam($name, $regexp, $default = null)
 {
-	if (isset($_GET[$name])) {
+	if (isset($_GET[$name]) && is_scalar($_GET[$name])) {
 		$val = $_GET[$name];
 		if (preg_match($regexp, $val))
 			return $val;
 
-	} else if (isset($_POST[$name])) {
+	} else if (isset($_POST[$name]) && is_scalar($_POST[$name])) {
 		$val = $_POST[$name];
 		if (preg_match($regexp, $val))
 			return $val;
