@@ -28,7 +28,12 @@ function mibew_mail($toaddr, $reply_to, $subject, $body)
 
 	$body = preg_replace("/\n/", "\r\n", $body);
 
+	$old_from = ini_get('sendmail_from');
+	@ini_set('sendmail_from', $mibew_mailbox);
 	@mail($toaddr, $real_subject, wordwrap(myiconv($mibew_encoding, $mail_encoding, $body), 70), $headers);
+	if (isset($old_from)) {
+		@ini_set('sendmail_from', $old_from);
+	}
 }
 
 ?>
