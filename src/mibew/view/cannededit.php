@@ -27,7 +27,7 @@ function tpl_content() { global $page, $mibewroot, $errors;
 		if(window.opener && window.opener.location) {
 			window.opener.location.reload();
 		} 
-		setTimeout( (function() { window.close(); }), 500 );
+		setTimeout( (function() { window.close(); }), 1500 );
 	//--></script>
 <?php } ?>
 <?php if( !$page['saved'] ) { ?>
