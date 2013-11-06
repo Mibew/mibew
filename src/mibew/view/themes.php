@@ -35,9 +35,9 @@ function tpl_content() { global $page, $mibewroot;
 
 	<div class="fieldForm">
 		<div class="field">
-			<div class="flabel"><?php echo getlocal("page.preview.choose") ?></div>
+			<label for="preview" class="flabel"><?php echo getlocal("page.preview.choose") ?></label>
 			<div class="fvaluenodesc">
-				<select name="preview" onchange="this.form.submit();"><?php foreach($page['availablePreviews'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("preview") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+				<select id="preview" name="preview" onchange="this.form.submit();"><?php foreach($page['availablePreviews'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("preview") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			</div>
 		</div>
 <?php foreach($page['screenshotsList'] as $screenshot) { ?>

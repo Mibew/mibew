@@ -89,137 +89,137 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 
 	<div class="fieldForm">
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.usercanchangename') ?></div>
+			<label for="usercanchangename" class="flabel"><?php echo getlocal('settings.usercanchangename') ?></label>
 			<div class="fvalue">
-				<input type="checkbox" name="usercanchangename" value="on"<?php echo form_value_cb('usercanchangename') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+				<input id="usercanchangename" type="checkbox" name="usercanchangename" value="on"<?php echo form_value_cb('usercanchangename') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.usercanchangename.description') ?></div>
+			<label for="usercanchangename" class="fdescr"> &mdash; <?php echo getlocal('settings.usercanchangename.description') ?></label>
 			<br clear="all"/>
 		</div>
 		
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.enablessl') ?></div>
+			<label for="enablessl" class="flabel"><?php echo getlocal('settings.enablessl') ?></label>
 			<div class="fvalue">
 				<input id="enablessl" type="checkbox" name="enablessl" value="on"<?php echo form_value_cb('enablessl') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enablessl.description') ?></div>
+			<label for="enablessl" class="fdescr"> &mdash; <?php echo getlocal('settings.enablessl.description') ?></label>
 			<br clear="all"/>
 
 			<div class="subfield underssl">
-				<div class="flabel"><?php echo getlocal('settings.forcessl') ?></div>
+				<label for="forcessl" class="flabel"><?php echo getlocal('settings.forcessl') ?></label>
 				<div class="fvalue">
-					<input type="checkbox" name="forcessl" value="on"<?php echo form_value_cb('forcessl') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+					<input id="forcessl" type="checkbox" name="forcessl" value="on"<?php echo form_value_cb('forcessl') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 				</div>
-				<div class="fdescr"> &mdash; <?php echo getlocal('settings.forcessl.description') ?></div>
+				<label for="forcessl" class="fdescr"> &mdash; <?php echo getlocal('settings.forcessl.description') ?></label>
 				<br clear="all"/>
 			</div>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.enablegroups') ?></div>
+			<label for="enablegroups" class="flabel"><?php echo getlocal('settings.enablegroups') ?></label>
 			<div class="fvalue">
 				<input id="enablegroups" type="checkbox" name="enablegroups" value="on"<?php echo form_value_cb('enablegroups') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enablegroups.description') ?></div>
+			<label for="enablegroups" class="fdescr"> &mdash; <?php echo getlocal('settings.enablegroups.description') ?></label>
 			<br clear="all"/>
 
 			<div class="subfield undergroups">
-				<div class="flabel"><?php echo getlocal('settings.enablegroupsisolation') ?></div>
+				<label for="enablegroupsisolation" class="flabel"><?php echo getlocal('settings.enablegroupsisolation') ?></label>
 				<div class="fvalue">
-					<input type="checkbox" name="enablegroupsisolation" value="on"<?php echo form_value_cb('enablegroupsisolation') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+					<input id="enablegroupsisolation" type="checkbox" name="enablegroupsisolation" value="on"<?php echo form_value_cb('enablegroupsisolation') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 				</div>
-				<div class="fdescr"> &mdash; <?php echo getlocal('settings.enablegroupsisolation.description') ?></div>
+				<label for="enablegroupsisolation" class="fdescr"> &mdash; <?php echo getlocal('settings.enablegroupsisolation.description') ?></label>
 				<br clear="all"/>
 			</div>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.enablestatistics') ?></div>
+			<label for="enablestatistics" class="flabel"><?php echo getlocal('settings.enablestatistics') ?></label>
 			<div class="fvalue">
-				<input type="checkbox" name="enablestatistics" value="on"<?php echo form_value_cb('enablestatistics') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+				<input id="enablestatistics" type="checkbox" name="enablestatistics" value="on"<?php echo form_value_cb('enablestatistics') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enablestatistics.description') ?></div>
+			<label for="enablestatistics" class="fdescr"> &mdash; <?php echo getlocal('settings.enablestatistics.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-   			<div class="flabel"><?php echo getlocal('settings.enabletracking') ?></div>
+   			<label for="enabletracking" class="flabel"><?php echo getlocal('settings.enabletracking') ?></label>
    			<div class="fvalue">
-   				<input type="checkbox" name="enabletracking" value="on"<?php echo form_value_cb('enabletracking') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+   				<input id="enabletracking" type="checkbox" name="enabletracking" value="on"<?php echo form_value_cb('enabletracking') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
    			</div>
-   			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enabletracking.description') ?></div>
+   			<label for="enabletracking" class="fdescr"> &mdash; <?php echo getlocal('settings.enabletracking.description') ?></label>
    			<br clear="all"/>
    		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.enableban') ?></div>
+			<label for="enableban" class="flabel"><?php echo getlocal('settings.enableban') ?></label>
 			<div class="fvalue">
-				<input type="checkbox" name="enableban" value="on"<?php echo form_value_cb('enableban') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+				<input id="enableban" type="checkbox" name="enableban" value="on"<?php echo form_value_cb('enableban') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enableban.description') ?></div>
+			<label for="enableban" class="fdescr"> &mdash; <?php echo getlocal('settings.enableban.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.enablepresurvey') ?></div>
+			<label for="enablepresurvey" class="flabel"><?php echo getlocal('settings.enablepresurvey') ?></label>
 			<div class="fvalue">
 				<input id="enablepresurvey" type="checkbox" name="enablepresurvey" value="on"<?php echo form_value_cb('enablepresurvey') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.enablepresurvey.description') ?></div>
+			<label for="enablepresurvey" class="fdescr"> &mdash; <?php echo getlocal('settings.enablepresurvey.description') ?></label>
 			<br clear="all"/>
 
 			<div class="subfield undersurvey">
-				<div class="flabel"><?php echo getlocal('settings.survey.askmail') ?></div>
+				<label for="surveyaskmail" class="flabel"><?php echo getlocal('settings.survey.askmail') ?></label>
 				<div class="fvalue">
-					<input type="checkbox" name="surveyaskmail" value="on"<?php echo form_value_cb('surveyaskmail') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+					<input id="surveyaskmail" type="checkbox" name="surveyaskmail" value="on"<?php echo form_value_cb('surveyaskmail') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 				</div>
-				<div class="fdescr"> &mdash; <?php echo getlocal('settings.survey.askmail.description') ?></div>
+				<label for="surveyaskmail" class="fdescr"> &mdash; <?php echo getlocal('settings.survey.askmail.description') ?></label>
 				<br clear="all"/>
 			</div>
 
 			<div class="subfield undersurvey">
-				<div class="flabel"><?php echo getlocal('settings.survey.askgroup') ?></div>
+				<label for="surveyaskgroup" class="flabel"><?php echo getlocal('settings.survey.askgroup') ?></label>
 				<div class="fvalue">
-					<input type="checkbox" name="surveyaskgroup" value="on"<?php echo form_value_cb('surveyaskgroup') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+					<input id="surveyaskgroup" type="checkbox" name="surveyaskgroup" value="on"<?php echo form_value_cb('surveyaskgroup') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 				</div>
-				<div class="fdescr"> &mdash; <?php echo getlocal('settings.survey.askgroup.description') ?></div>
+				<label for="surveyaskgroup" class="fdescr"> &mdash; <?php echo getlocal('settings.survey.askgroup.description') ?></label>
 				<br clear="all"/>
 			</div>
 			
 			<div class="subfield undersurvey">
-				<div class="flabel"><?php echo getlocal('settings.survey.askmessage') ?></div>
+				<label for="surveyaskmessage" class="flabel"><?php echo getlocal('settings.survey.askmessage') ?></label>
 				<div class="fvalue">
-					<input type="checkbox" name="surveyaskmessage" value="on"<?php echo form_value_cb('surveyaskmessage') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+					<input id="surveyaskmessage" type="checkbox" name="surveyaskmessage" value="on"<?php echo form_value_cb('surveyaskmessage') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 				</div>
-				<div class="fdescr"> &mdash; <?php echo getlocal('settings.survey.askmessage.description') ?></div>
+				<label for="surveyaskmessage" class="fdescr"> &mdash; <?php echo getlocal('settings.survey.askmessage.description') ?></label>
 				<br clear="all"/>
 			</div>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.popup_notification') ?></div>
+			<label for="enablepopupnotification" class="flabel"><?php echo getlocal('settings.popup_notification') ?></label>
 			<div class="fvalue">
-				<input type="checkbox" name="enablepopupnotification" value="on"<?php echo form_value_cb('enablepopupnotification') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+				<input id="enablepopupnotification" type="checkbox" name="enablepopupnotification" value="on"<?php echo form_value_cb('enablepopupnotification') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.popup_notification.description') ?></div>
+			<label for="enablepopupnotification" class="fdescr"> &mdash; <?php echo getlocal('settings.popup_notification.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.show_online_operators') ?></div>
+			<label for="showonlineoperators" class="flabel"><?php echo getlocal('settings.show_online_operators') ?></label>
 			<div class="fvalue">
-				<input type="checkbox" name="showonlineoperators" value="on"<?php echo form_value_cb('showonlineoperators') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+				<input id="showonlineoperators" type="checkbox" name="showonlineoperators" value="on"<?php echo form_value_cb('showonlineoperators') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.show_online_operators.description') ?></div>
+			<label for="showonlineoperators" class="fdescr"> &mdash; <?php echo getlocal('settings.show_online_operators.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.leavemessage_captcha') ?></div>
+			<label for="enablecaptcha" class="flabel"><?php echo getlocal('settings.leavemessage_captcha') ?></label>
 			<div class="fvalue">
-				<input type="checkbox" name="enablecaptcha" value="on"<?php echo form_value_cb('enablecaptcha') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+				<input id="enablecaptcha" type="checkbox" name="enablecaptcha" value="on"<?php echo form_value_cb('enablecaptcha') ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.leavemessage_captcha.description') ?></div>
+			<label for="enablecaptcha" class="fdescr"> &mdash; <?php echo getlocal('settings.leavemessage_captcha.description') ?></label>
 			<br clear="all"/>
 		</div>
 

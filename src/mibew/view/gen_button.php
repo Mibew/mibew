@@ -34,41 +34,41 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 
 	<div class="fieldForm">
 		<div class="fieldinrow">
-			<div class="flabel"><?php echo getlocal("page.gen_button.choose_locale") ?></div>
+			<label for="lang" class="flabel"><?php echo getlocal("page.gen_button.choose_locale") ?></label>
 			<div class="fvaluenodesc">
-				<select name="lang" onchange="this.form.submit();"><?php foreach($page['availableLocales'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("lang") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+				<select id="lang" name="lang" onchange="this.form.submit();"><?php foreach($page['availableLocales'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("lang") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			</div>
 		</div>
 
 		<div class="fieldinrow">
-			<div class="flabel"><?php echo getlocal("page.gen_button.choose_style") ?></div>
+			<label for="style" class="flabel"><?php echo getlocal("page.gen_button.choose_style") ?></label>
 			<div class="fvaluenodesc">
-				<select name="style" onchange="this.form.submit();"><?php foreach($page['availableChatStyles'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("style") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
+				<select id="style" name="style" onchange="this.form.submit();"><?php foreach($page['availableChatStyles'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("style") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
 			</div>
 		</div>
 		<br clear="all"/>
 
 		<div class="fieldinrow">
-			<div class="flabel"><?php echo getlocal("page.gen_button.choose_type") ?></div>
+			<label for="codetype" class="flabel"><?php echo getlocal("page.gen_button.choose_type") ?></label>
 			<div class="fvaluenodesc">
-				<select name="codetype" onchange="this.form.submit();"><?php foreach($page['availableCodeTypes'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("codetype") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
+				<select id="codetype" name="codetype" onchange="this.form.submit();"><?php foreach($page['availableCodeTypes'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("codetype") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
 			</div>
 		</div>
 		<br clear="all"/>
 
 <?php if(! $page['operator_code']) { ?>
 		<div class="fieldinrow">
-			<div class="flabel"><?php echo getlocal("page.gen_button.choose_image") ?></div>
+			<label for="i" class="flabel"><?php echo getlocal("page.gen_button.choose_image") ?></label>
 			<div class="fvaluenodesc">
-				<select name="i" onchange="this.form.submit();"><?php foreach($page['availableImages'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("image") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+				<select id="i" name="i" onchange="this.form.submit();"><?php foreach($page['availableImages'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("image") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			</div>
 		</div>
 
 <?php if($page['enabletracking']) { ?>
 		<div class="fieldinrow">
-			<div class="flabel"><?php echo getlocal("page.gen_button.choose_invitationstyle") ?></div>
+			<label for="invitationstyle" class="flabel"><?php echo getlocal("page.gen_button.choose_invitationstyle") ?></label>
 			<div class="fvaluenodesc">
-				<select name="invitationstyle" onchange="this.form.submit();"><?php foreach($page['availableInvitationStyles'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("invitationstyle") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
+				<select id="invitationstyle" name="invitationstyle" onchange="this.form.submit();"><?php foreach($page['availableInvitationStyles'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("invitationstyle") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
 			</div>
 		</div>
 <?php } ?>
@@ -76,44 +76,44 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 <?php } ?>
 
 		<div class="fieldinrow">
-			<div class="flabel"><?php echo getlocal("page.gen_button.choose_group") ?></div>
+			<label for="group" class="flabel"><?php echo getlocal("page.gen_button.choose_group") ?></label>
 			<div class="fvaluenodesc">
-				<select name="group" onchange="this.form.submit();"><?php foreach($page['groups'] as $k) { echo "<option value=\"".$k['groupid']."\"".($k['groupid'] == form_value("group") ? " selected=\"selected\"" : "").">".str_repeat('&nbsp;', $k['level']*2).$k['vclocalname']."</option>"; } ?></select>
+				<select id="group" name="group" onchange="this.form.submit();"><?php foreach($page['groups'] as $k) { echo "<option value=\"".$k['groupid']."\"".($k['groupid'] == form_value("group") ? " selected=\"selected\"" : "").">".str_repeat('&nbsp;', $k['level']*2).$k['vclocalname']."</option>"; } ?></select>
 			</div>
 		</div>
 		<br clear="all"/>
 
 		<div class="fieldinrow">
-			<div class="flabel"><?php echo getlocal("page.gen_button.include_site_name") ?></div>
+			<label for="hostname" class="flabel"><?php echo getlocal("page.gen_button.include_site_name") ?></label>
 			<div class="fvaluenodesc">
-				<input type="checkbox" name="hostname" value="on"<?php echo form_value_cb('hostname') ? " checked=\"checked\"" : "" ?> onchange="this.form.submit();"/>
+				<input id="hostname" type="checkbox" name="hostname" value="on"<?php echo form_value_cb('hostname') ? " checked=\"checked\"" : "" ?> onchange="this.form.submit();"/>
 			</div>
 		</div>
 
 <?php if( $page['formhostname'] ) { ?>
 
 		<div class="fieldinrow">
-			<div class="flabel"><?php echo getlocal("page.gen_button.secure_links") ?></div>
+			<label for="secure" class="flabel"><?php echo getlocal("page.gen_button.secure_links") ?></label>
 			<div class="fvaluenodesc">
-				<input type="checkbox" name="secure" value="on"<?php echo form_value_cb('secure') ? " checked=\"checked\"" : "" ?> onchange="this.form.submit();"/>
+				<input id="secure" type="checkbox" name="secure" value="on"<?php echo form_value_cb('secure') ? " checked=\"checked\"" : "" ?> onchange="this.form.submit();"/>
 			</div>
 		</div>
 <?php } ?>
 		<br clear="all"/>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal("page.gen_button.modsecurity") ?></div>
+			<label for="modsecurity" class="flabel"><?php echo getlocal("page.gen_button.modsecurity") ?></label>
 			<div class="fvaluenodesc">
-				<input type="checkbox" name="modsecurity" value="on"<?php echo form_value_cb('modsecurity') ? " checked=\"checked\"" : "" ?> onchange="this.form.submit();"/>
+				<input id="modsecurity" type="checkbox" name="modsecurity" value="on"<?php echo form_value_cb('modsecurity') ? " checked=\"checked\"" : "" ?> onchange="this.form.submit();"/>
 			</div>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal("page.gen_button.code") ?></div>
+			<label for="buttonCode" class="flabel"><?php echo getlocal("page.gen_button.code") ?></label>
 			<div class="fvaluewithta" dir="ltr">
-				<textarea cols="44" rows="15"><?php echo htmlspecialchars($page['buttonCode']) ?></textarea>
+				<textarea id="buttonCode" cols="44" rows="15"><?php echo htmlspecialchars($page['buttonCode']) ?></textarea>
 			</div>
-			<div class="fdescr"><?php echo getlocal("page.gen_button.code.description") ?></div>
+			<label for="buttonCode" class="fdescr"><?php echo getlocal("page.gen_button.code.description") ?></label>
 			<br clear="all"/>
 		</div>
 

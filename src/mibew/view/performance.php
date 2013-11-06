@@ -42,93 +42,93 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 
 	<div class="fieldForm">
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.onlinetimeout') ?></div>
+			<label for="onlinetimeout" class="flabel"><?php echo getlocal('settings.onlinetimeout') ?></label>
 			<div class="fvalue">
-				<input type="text" name="onlinetimeout" size="40" value="<?php echo form_value('onlinetimeout') ?>" class="formauth"/>
+				<input id="onlinetimeout" type="text" name="onlinetimeout" size="40" value="<?php echo form_value('onlinetimeout') ?>" class="formauth"/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.onlinetimeout.description') ?></div>
+			<label for="onlinetimeout" class="fdescr"> &mdash; <?php echo getlocal('settings.onlinetimeout.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.frequencyoperator') ?></div>
+			<label for="frequencyoperator" class="flabel"><?php echo getlocal('settings.frequencyoperator') ?></label>
 			<div class="fvalue">
-				<input type="text" name="frequencyoperator" size="40" value="<?php echo form_value('frequencyoperator') ?>" class="formauth"/>
+				<input id="frequencyoperator" type="text" name="frequencyoperator" size="40" value="<?php echo form_value('frequencyoperator') ?>" class="formauth"/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.frequencyoperator.description') ?></div>
+			<label for="frequencyoperator" class="fdescr"> &mdash; <?php echo getlocal('settings.frequencyoperator.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.frequencychat') ?></div>
+			<label for="frequencychat" class="flabel"><?php echo getlocal('settings.frequencychat') ?></label>
 			<div class="fvalue">
-				<input type="text" name="frequencychat" size="40" value="<?php echo form_value('frequencychat') ?>" class="formauth"/>
+				<input id="frequencychat" type="text" name="frequencychat" size="40" value="<?php echo form_value('frequencychat') ?>" class="formauth"/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.frequencychat.description') ?></div>
+			<label for="frequencychat" class="fdescr"> &mdash; <?php echo getlocal('settings.frequencychat.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.onehostconnections') ?></div>
+			<label for="onehostconnections" class="flabel"><?php echo getlocal('settings.onehostconnections') ?></label>
 			<div class="fvalue">
-				<input type="text" name="onehostconnections" size="40" value="<?php echo form_value('onehostconnections') ?>" class="formauth"/>
+				<input id="onehostconnections" type="text" name="onehostconnections" size="40" value="<?php echo form_value('onehostconnections') ?>" class="formauth"/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.onehostconnections.description') ?></div>
+			<label for="onehostconnections" class="fdescr"> &mdash; <?php echo getlocal('settings.onehostconnections.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.threadlifetime') ?></div>
+			<label for="threadlifetime" class="flabel"><?php echo getlocal('settings.threadlifetime') ?></label>
 			<div class="fvalue">
-				<input type="text" name="threadlifetime" size="40" value="<?php echo form_value('threadlifetime') ?>" class="formauth"/>
+				<input id="threadlifetime" type="text" name="threadlifetime" size="40" value="<?php echo form_value('threadlifetime') ?>" class="formauth"/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.threadlifetime.description') ?></div>
+			<label for="threadlifetime" class="fdescr"> &mdash; <?php echo getlocal('settings.threadlifetime.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.statistics_aggregation_interval') ?></div>
+			<label for="statistics_aggregation_interval" class="flabel"><?php echo getlocal('settings.statistics_aggregation_interval') ?></label>
 			<div class="fvalue">
-				<input type="text" name="statistics_aggregation_interval" size="40" value="<?php echo form_value('statistics_aggregation_interval') ?>" class="formauth"/>
+				<input id="statistics_aggregation_interval" type="text" name="statistics_aggregation_interval" size="40" value="<?php echo form_value('statistics_aggregation_interval') ?>" class="formauth"/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.statistics_aggregation_interval.description') ?></div>
+			<label for="statistics_aggregation_interval" class="fdescr"> &mdash; <?php echo getlocal('settings.statistics_aggregation_interval.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 <?php if ($page['enabletracking']) { ?>
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.frequencytracking') ?></div>
+			<label for="frequencytracking" class="flabel"><?php echo getlocal('settings.frequencytracking') ?></label>
 			<div class="fvalue">
-				<input type="text" name="frequencytracking" size="40" value="<?php echo form_value('frequencytracking') ?>" class="formauth"/>
+				<input id="frequencytracking" type="text" name="frequencytracking" size="40" value="<?php echo form_value('frequencytracking') ?>" class="formauth"/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.frequencytracking.description') ?></div>
+			<label for="frequencytracking" class="fdescr"> &mdash; <?php echo getlocal('settings.frequencytracking.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.visitorslimit') ?></div>
+			<label for="visitorslimit" class="flabel"><?php echo getlocal('settings.visitorslimit') ?></label>
 			<div class="fvalue">
-				<input type="text" name="visitorslimit" size="40" value="<?php echo form_value('visitorslimit') ?>" class="formauth"/>
+				<input id="visitorslimit" type="text" name="visitorslimit" size="40" value="<?php echo form_value('visitorslimit') ?>" class="formauth"/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.visitorslimit.description') ?></div>
+			<label for="visitorslimit" class="fdescr"> &mdash; <?php echo getlocal('settings.visitorslimit.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.invitationlifetime') ?></div>
+			<label for="invitationlifetime" class="flabel"><?php echo getlocal('settings.invitationlifetime') ?></label>
 			<div class="fvalue">
-				<input type="text" name="invitationlifetime" size="40" value="<?php echo form_value('invitationlifetime') ?>" class="formauth"/>
+				<input id="invitationlifetime" type="text" name="invitationlifetime" size="40" value="<?php echo form_value('invitationlifetime') ?>" class="formauth"/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.invitationlifetime.description') ?></div>
+			<label for="invitationlifetime" class="fdescr"> &mdash; <?php echo getlocal('settings.invitationlifetime.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.trackinglifetime') ?></div>
+			<label for="trackinglifetime" class="flabel"><?php echo getlocal('settings.trackinglifetime') ?></label>
 			<div class="fvalue">
-				<input type="text" name="trackinglifetime" size="40" value="<?php echo form_value('trackinglifetime') ?>" class="formauth"/>
+				<input id="trackinglifetime" type="text" name="trackinglifetime" size="40" value="<?php echo form_value('trackinglifetime') ?>" class="formauth"/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.trackinglifetime.description') ?></div>
+			<label for="trackinglifetime" class="fdescr"> &mdash; <?php echo getlocal('settings.trackinglifetime.description') ?></label>
 			<br clear="all"/>
 		</div>
 <?php } ?>

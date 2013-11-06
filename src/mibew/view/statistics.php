@@ -43,14 +43,14 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 			<div class="flabel"><?php echo getlocal("statistics.dates") ?></div>
 			<div class="fvaluenodesc">
 				<div class="searchctrl">
-					<?php echo getlocal("statistics.from") ?>
-					<select name="startday"><?php foreach($page['availableDays'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("startday") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+					<label for="startday"><?php echo getlocal("statistics.from") ?></label>
+					<select id="startday" name="startday"><?php foreach($page['availableDays'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("startday") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			
 					<select name="startmonth"><?php foreach($page['availableMonth'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("startmonth") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
 				</div>
 				<div class="searchctrl">
-					<?php echo getlocal("statistics.till") ?>
-					<select name="endday"><?php foreach($page['availableDays'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("endday") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+					<label for="endday"><?php echo getlocal("statistics.till") ?></label>
+					<select id="endday" name="endday"><?php foreach($page['availableDays'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("endday") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			
 					<select name="endmonth"><?php foreach($page['availableMonth'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("endmonth") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
 				</div>

@@ -54,65 +54,65 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 
 	<div class="fieldForm">
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('form.field.login') ?><span class="required">*</span></div>
+			<label for="login" class="flabel"><?php echo getlocal('form.field.login') ?><span class="required">*</span></label>
 			<div class="fvalue">
-				<input type="text" name="login" size="40" value="<?php echo form_value('login') ?>" class="formauth"<?php echo $page['canchangelogin'] ? "" : " disabled=\"disabled\"" ?>/>
+				<input id="login" type="text" name="login" size="40" value="<?php echo form_value('login') ?>" class="formauth"<?php echo $page['canchangelogin'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.login.description') ?></div>
+			<label for="login" class="fdescr"> &mdash; <?php echo getlocal('form.field.login.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('form.field.mail') ?><span class="required">*</span></div>
+			<label for="email" class="flabel"><?php echo getlocal('form.field.mail') ?><span class="required">*</span></label>
 			<div class="fvalue">
-				<input type="text" name="email" size="40" value="<?php echo form_value('email') ?>" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+				<input id="email" type="text" name="email" size="40" value="<?php echo form_value('email') ?>" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.mail.description') ?></div>
+			<label for="email" class="fdescr"> &mdash; <?php echo getlocal('form.field.mail.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('form.field.password') ?><?php if( !$page['opid'] || $page['needChangePassword'] ) { ?><span class="required">*</span><?php } ?></div>
+			<label for="password" class="flabel"><?php echo getlocal('form.field.password') ?><?php if( !$page['opid'] || $page['needChangePassword'] ) { ?><span class="required">*</span><?php } ?></label>
 			<div class="fvalue">
-				<input type="password" name="password" size="40" value="" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+				<input id="password" type="password" name="password" size="40" value="" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.password.description') ?></div>
+			<label for="password" class="fdescr"> &mdash; <?php echo getlocal('form.field.password.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('form.field.password_confirm') ?><?php if( !$page['opid'] || $page['needChangePassword'] ) { ?><span class="required">*</span><?php } ?></div>
+			<label for="passwordConfirm" class="flabel"><?php echo getlocal('form.field.password_confirm') ?><?php if( !$page['opid'] || $page['needChangePassword'] ) { ?><span class="required">*</span><?php } ?></label>
 			<div class="fvalue">
-				<input type="password" name="passwordConfirm" size="40" value="" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+				<input id="passwordConfirm" type="password" name="passwordConfirm" size="40" value="" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.password_confirm.description') ?></div>
+			<label for="passwordConfirm" class="fdescr"> &mdash; <?php echo getlocal('form.field.password_confirm.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('form.field.agent_name') ?><span class="required">*</span></div>
+			<label for="name" class="flabel"><?php echo getlocal('form.field.agent_name') ?><span class="required">*</span></label>
 			<div class="fvalue">
-				<input type="text" name="name" size="40" value="<?php echo form_value('name') ?>" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+				<input id="name" type="text" name="name" size="40" value="<?php echo form_value('name') ?>" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.agent_name.description') ?></div>
+			<label for="name" class="fdescr"> &mdash; <?php echo getlocal('form.field.agent_name.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('form.field.agent_commonname') ?><span class="required">*</span></div>
+			<label for="commonname" class="flabel"><?php echo getlocal('form.field.agent_commonname') ?><span class="required">*</span></label>
 			<div class="fvalue">
-				<input type="text" name="commonname" size="40" value="<?php echo form_value('commonname') ?>" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+				<input id="commonname" type="text" name="commonname" size="40" value="<?php echo form_value('commonname') ?>" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.agent_commonname.description') ?></div>
+			<label for="commonname" class="fdescr"> &mdash; <?php echo getlocal('form.field.agent_commonname.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('form.field.agent_code') ?></div>
+			<label for="code" class="flabel"><?php echo getlocal('form.field.agent_code') ?></label>
 			<div class="fvalue">
-				<input type="text" name="code" size="40" value="<?php echo form_value('code') ?>" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+				<input id="code" type="text" name="code" size="40" value="<?php echo form_value('code') ?>" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.agent_code.description') ?></div>
+			<label for="code" class="fdescr"> &mdash; <?php echo getlocal('form.field.agent_code.description') ?></label>
 			<br clear="all"/>
 		</div>
 <?php if($page['canmodify']) { ?>

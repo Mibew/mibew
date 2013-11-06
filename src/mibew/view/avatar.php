@@ -68,11 +68,11 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 
 <?php if($page['canmodify']) { ?>
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('form.field.avatar.upload') ?><span class="required">*</span></div>
+			<label for="avatarFile" class="flabel"><?php echo getlocal('form.field.avatar.upload') ?><span class="required">*</span></label>
 			<div class="fvalue">
-				<input type="file" name="avatarFile" size="40" value="<?php echo form_value('avatarFile') ?>" class="formauth"/>
+				<input id="avatarFile" type="file" name="avatarFile" size="40" value="<?php echo form_value('avatarFile') ?>" class="formauth"/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.avatar.upload.description') ?></div>
+			<label for="avatarFile" class="fdescr"> &mdash; <?php echo getlocal('form.field.avatar.upload.description') ?></label>
 			<br clear="all"/>
 		</div>
 

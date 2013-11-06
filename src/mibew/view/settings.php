@@ -42,111 +42,109 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 
 	<div class="fieldForm">
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.email') ?></div>
+			<label for="email" class="flabel"><?php echo getlocal('settings.email') ?></label>
 			<div class="fvalue">
-				<input type="text" name="email" size="40" value="<?php echo form_value('email') ?>" class="formauth"/>
+				<input id="email" type="text" name="email" size="40" value="<?php echo form_value('email') ?>" class="formauth"/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.email.description') ?></div>
+			<label for="email" class="fdescr"> &mdash; <?php echo getlocal('settings.email.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.company.title') ?></div>
+			<label for="titlefield" class="flabel"><?php echo getlocal('settings.company.title') ?></label>
 			<div class="fvalue">
-				<input type="text" name="title" size="40" value="<?php echo form_value('title') ?>" class="formauth"/>
+				<input id="titlefield" type="text" name="title" size="40" value="<?php echo form_value('title') ?>" class="formauth"/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.company.title.description') ?></div>
+			<label for="titlefield" class="fdescr"> &mdash; <?php echo getlocal('settings.company.title.description') ?></label>
 			<br clear="all"/>
 		</div>
 		 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.chat.title') ?></div>
+			<label for="chattitle" class="flabel"><?php echo getlocal('settings.chat.title') ?></label>
 			<div class="fvalue">
-				<input type="text" name="chattitle" size="40" value="<?php echo form_value('chattitle') ?>" class="formauth"/>
+				<input id="chattitle" type="text" name="chattitle" size="40" value="<?php echo form_value('chattitle') ?>" class="formauth"/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.chat.title.description') ?></div>
+			<label for="chattitle" class="fdescr"> &mdash; <?php echo getlocal('settings.chat.title.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.logo') ?></div>
+			<label for="logofield" class="flabel"><?php echo getlocal('settings.logo') ?></label>
 			<div class="fvalue">
-				<input type="text" name="logo" size="40" value="<?php echo form_value('logo') ?>" class="formauth"/>
+				<input id="logofield" type="text" name="logo" size="40" value="<?php echo form_value('logo') ?>" class="formauth"/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.logo.description') ?></div>
+			<label for="logofield" class="fdescr"> &mdash; <?php echo getlocal('settings.logo.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.host') ?></div>
+			<label for="hosturl" class="flabel"><?php echo getlocal('settings.host') ?></label>
 			<div class="fvalue">
-				<input type="text" name="hosturl" size="40" value="<?php echo form_value('hosturl') ?>" class="formauth"/>
+				<input id="hosturl" type="text" name="hosturl" size="40" value="<?php echo form_value('hosturl') ?>" class="formauth"/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.host.description') ?></div>
+			<label for="hosturl" class="fdescr"> &mdash; <?php echo getlocal('settings.host.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.geolink') ?></div>
+			<label for="geolink" class="flabel"><?php echo getlocal('settings.geolink') ?></label>
 			<div class="fvalue">
-				<input type="text" name="geolink" size="40" value="<?php echo form_value('geolink') ?>" class="formauth"/>
+				<input id="geolink" type="text" name="geolink" size="40" value="<?php echo form_value('geolink') ?>" class="formauth"/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.geolink.description') ?></div>
+			<label for="geolink" class="fdescr"> &mdash; <?php echo getlocal('settings.geolink.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.geolinkparams') ?></div>
+			<label for="geolinkparams" class="flabel"><?php echo getlocal('settings.geolinkparams') ?></label>
 			<div class="fvalue">
-				<input type="text" name="geolinkparams" size="40" value="<?php echo form_value('geolinkparams') ?>" class="formauth"/>
+				<input id="geolinkparams" type="text" name="geolinkparams" size="40" value="<?php echo form_value('geolinkparams') ?>" class="formauth"/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.geolinkparams.description') ?></div>
+			<label for="geolinkparams" class="fdescr"> &mdash; <?php echo getlocal('settings.geolinkparams.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.usernamepattern') ?></div>
+			<label for="usernamepattern" class="flabel"><?php echo getlocal('settings.usernamepattern') ?></label>
 			<div class="fvalue">
-				<input type="text" name="usernamepattern" size="40" value="<?php echo form_value('usernamepattern') ?>" class="formauth"/>
+				<input id="usernamepattern" type="text" name="usernamepattern" size="40" value="<?php echo form_value('usernamepattern') ?>" class="formauth"/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.usernamepattern.description') ?></div>
+			<label for="usernamepattern" class="fdescr"> &mdash; <?php echo getlocal('settings.usernamepattern.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.cronkey') ?></div>
+			<label for="cronkey" class="flabel"><?php echo getlocal('settings.cronkey') ?></label>
 			<div class="fvalue">
-				<input type="text" name="cronkey" size="40" value="<?php echo form_value('cronkey') ?>" class="formauth"/>
+				<input id="cronkey" type="text" name="cronkey" size="40" value="<?php echo form_value('cronkey') ?>" class="formauth"/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal2('settings.cronkey.description', array($page['cron_path'])) ?></div>
+			<label for="cronkey" class="fdescr"> &mdash; <?php echo getlocal2('settings.cronkey.description', array($page['cron_path'])) ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.chatstyle') ?></div>
+			<label for="chatstyle" class="flabel"><?php echo getlocal('settings.chatstyle') ?></label>
 			<div class="fvalue">
-				<select name="chatstyle" ><?php foreach($page['availableChatStyles'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("chatstyle") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+				<select id="chatstyle" name="chatstyle" ><?php foreach($page['availableChatStyles'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("chatstyle") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.chatstyle.description') ?></div>
+			<label for="chatstyle" class="fdescr"> &mdash; <?php echo getlocal('settings.chatstyle.description') ?></label>
 			<br clear="all"/>
 		</div>
 <?php if ($page['enabletracking']) { ?>
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('settings.invitationstyle') ?></div>
+			<label for="invitationstyle" class="flabel"><?php echo getlocal('settings.invitationstyle') ?></label>
 			<div class="fvalue">
-				<select name="invitationstyle" ><?php foreach($page['availableInvitationStyles'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("invitationstyle") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+				<select id="invitationstyle" name="invitationstyle" ><?php foreach($page['availableInvitationStyles'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("invitationstyle") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('settings.invitationstyle.description') ?></div>
+			<label for="invitationstyle" class="fdescr"> &mdash; <?php echo getlocal('settings.invitationstyle.description') ?></label>
 			<br clear="all"/>
 		</div>
 <?php } ?>
 		<div class="field">
 			<div class="flabel"><?php echo getlocal('settings.sendmessagekey') ?></div>
 			<div class="fvaluenodesc">
-				<label>
-					<input type="radio" name="sendmessagekey" value="enter" <?php echo form_value("sendmessagekey") == "enter" ? " checked=\"checked\"" : ""?>/>Enter</label>
-				<label>	
-					<input type="radio" name="sendmessagekey" value="center" <?php echo form_value("sendmessagekey") == "center" ? " checked=\"checked\"" : ""?>/>Ctrl-Enter</label>
+				<input id="sendmessagekeyenter" type="radio" name="sendmessagekey" value="enter" <?php echo form_value("sendmessagekey") == "enter" ? " checked=\"checked\"" : ""?>/><label for="sendmessagekeyenter">Enter</label>
+				<input id="sendmessagekeycenter" type="radio" name="sendmessagekey" value="center" <?php echo form_value("sendmessagekey") == "center" ? " checked=\"checked\"" : ""?>/><label for="sendmessagekeycenter">Ctrl-Enter</label>
 			</div>
 		</div>
 

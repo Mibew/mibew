@@ -51,29 +51,29 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 	
 	<div class="fieldForm">
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('form.field.address') ?><span class="required">*</span></div>
+			<label for="address" class="flabel"><?php echo getlocal('form.field.address') ?><span class="required">*</span></label>
 			<div class="fvalue">
-				<input type="text" name="address" size="40" value="<?php echo form_value('address') ?>" class="formauth"/>
+				<input id="address" type="text" name="address" size="40" value="<?php echo form_value('address') ?>" class="formauth"/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.address.description') ?></div>
+			<label for="address" class="fdescr"> &mdash; <?php echo getlocal('form.field.address.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('form.field.ban_days') ?><span class="required">*</span></div>
+			<label for="days" class="flabel"><?php echo getlocal('form.field.ban_days') ?><span class="required">*</span></label>
 			<div class="fvalue">
-				<input type="text" name="days" size="4" value="<?php echo form_value('days') ?>" class="formauth"/>
+				<input id="days" type="text" name="days" size="4" value="<?php echo form_value('days') ?>" class="formauth"/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.ban_days.description') ?></div>
+			<label for="days" class="fdescr"> &mdash; <?php echo getlocal('form.field.ban_days.description') ?></label>
 			<br clear="all"/>
 		</div>
 
 		<div class="field">
-			<div class="flabel"><?php echo getlocal('form.field.ban_comment') ?><span class="required">*</span></div>
+			<label for="comment" class="flabel"><?php echo getlocal('form.field.ban_comment') ?><span class="required">*</span></label>
 			<div class="fvalue">
-				<input type="text" name="comment" size="40" value="<?php echo form_value('comment') ?>" class="formauth"/>
+				<input id="comment" type="text" name="comment" size="40" value="<?php echo form_value('comment') ?>" class="formauth"/>
 			</div>
-			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.ban_comment.description') ?></div>
+			<label for="comment" class="fdescr"> &mdash; <?php echo getlocal('form.field.ban_comment.description') ?></label>
 			<br clear="all"/>
 		</div>
 		

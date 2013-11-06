@@ -47,9 +47,8 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 <?php foreach( $page['operators'] as $pm ) { ?>
 	<div class="field">
 		<div class="fvaluenodesc">
-			<input type="checkbox" name="op<?php echo $pm['operatorid'] ?>" value="on"<?php echo form_value_mb('op',$pm['operatorid']) ? " checked=\"checked\"" : "" ?>/> 
-			<?php echo htmlspecialchars(topage($pm['vclocalename'])) ?> (<a href="operator.php?op=<?php echo $pm['operatorid'] ?>"
-				><?php echo htmlspecialchars(topage($pm['vclogin'])) ?></a>)
+			<input id="op<?php echo htmlspecialchars($pm['operatorid']); ?>" type="checkbox" name="op<?php echo htmlspecialchars($pm['operatorid']); ?>" value="on"<?php echo form_value_mb('op',$pm['operatorid']) ? " checked=\"checked\"" : "" ?>/> 
+			<label for="op<?php echo htmlspecialchars($pm['operatorid']); ?>"><?php echo htmlspecialchars(topage($pm['vclocalename'])) ?> (<a href="operator.php?op=<?php echo $pm['operatorid'] ?>"><?php echo htmlspecialchars(topage($pm['vclogin'])) ?></a>)</label>
 		</div>
 	</div>
 <?php } ?>

@@ -320,6 +320,7 @@ div.errinfo {
 }
 
 .flabel {
+	display: block;
 	position: relative;
 	margin: 8px auto 2px;
 	color: black;
@@ -379,8 +380,9 @@ div.errinfo {
 .fvalueframe iframe {
 	border: solid 1px #999;
 }
-	
+
 .fdescr {
+	display: block;
 	float:left;
 	padding-left:10px;
 	color: #676767;
