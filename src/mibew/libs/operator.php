@@ -21,14 +21,16 @@ $can_administrate = 0;
 $can_takeover = 1;
 $can_viewthreads = 2;
 $can_modifyprofile = 3;
+$can_viewnotifications = 4;
 
-$can_count = 4;
+$can_count = 5;
 
 $permission_ids = array(
 	$can_administrate => "admin",
 	$can_takeover => "takeover",
 	$can_viewthreads => "viewthreads",
-	$can_modifyprofile => "modifyprofile"
+	$can_modifyprofile => "modifyprofile",
+	$can_viewnotifications => "viewnotifications"
 );
 
 function operator_by_login($login)
@@ -356,13 +358,14 @@ function is_capable($perm, $operator)
 
 function prepare_menu($operator, $hasright = true)
 {
-	global $page, $settings, $can_administrate;
+	global $page, $settings, $can_administrate,$can_viewnotifications;
 	$page['operator'] = topage(get_operator_name($operator));
 	if ($hasright) {
 		loadsettings();
 		$page['showban'] = $settings['enableban'] == "1";
 		$page['showgroups'] = $settings['enablegroups'] == "1";
 		$page['showstat'] = $settings['enablestatistics'] == "1";
+		$page['shownotifications'] = is_capable($can_viewnotifications, $operator);
 		$page['showadmin'] = is_capable($can_administrate, $operator);
 		$page['currentopid'] = $operator['operatorid'];
 	}

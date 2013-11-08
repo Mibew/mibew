@@ -415,6 +415,7 @@ permission.admin=System administration: settings, operators management, button g
 permission.modifyprofile=Ability to modify profile
 permission.takeover=Take over chat thread
 permission.viewthreads=View another operator's chat thread
+permission.viewnotifications=View clients notifications
 permissions.intro=Change restrictions and available features for this operator.
 permissions.title=Permissions
 presurvey.department=Choose Department:
