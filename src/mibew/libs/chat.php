@@ -709,7 +709,9 @@ function check_for_reassign($thread, $operator)
 			$message_to_post = getstring2_("chat.status.operator.returned", array($operatorName), $thread['locale'], true);
 		}
 
-		post_message($thread['threadid'], $kind_events, $message_to_post);
+		if ($message_to_post)	{
+			post_message($thread['threadid'], $kind_events, $message_to_post);
+		}
 		post_message($thread['threadid'], $kind_avatar, $operator['vcavatar'] ? $operator['vcavatar'] : "");
 	}
 }
