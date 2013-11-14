@@ -874,6 +874,8 @@ Class Thread {
 	protected function saveMessage($kind, $message, $options = array()) {
 		$db = Database::getInstance();
 
+// TODO: check incoming message (it should be non-empty string)
+
 		// Add default values to options
 		$options += array(
 			'name' => null,
