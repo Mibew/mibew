@@ -47,7 +47,7 @@ $isrtl = getlocal("localedirection") == 'rtl';
 			<form name="smallLogin" method="post" action="<?php echo $mibewroot ?>/operator/login.php">
 				<?php echo getlocal("page_login.login") ?>
 				<input type="text" name="login" size="8" class="formauth"/>
-				<input type="password" name="password" size="8" class="formauth"/>
+				<input type="password" name="password" size="8" class="formauth" autocomplete="off"/>
 				<input type="hidden" name="isRemember" value=""/>
 				<input type="submit" value="&gt;&gt;" class="butt"/>
 			</form>
