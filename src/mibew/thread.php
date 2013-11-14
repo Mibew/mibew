@@ -75,7 +75,7 @@ if( $act == "refresh" ) {
 
 	$link = connect();
 	$postedid = post_message_($threadid,$kind,$message,$link,$from,null,$isuser ? null : $operator['operatorid'] );
-	if($isuser && $thread["shownmessageid"] == 0) {
+	if($isuser && $postedid && $thread["shownmessageid"] == 0) {
 		commit_thread( $thread['threadid'], array('shownmessageid' => intval($postedid)), $link);
 	}
 	mysql_close($link);

@@ -61,6 +61,9 @@ function next_revision($link)
 function post_message_($threadid, $kind, $message, $link, $from = null, $utime = null, $opid = null)
 {
 	global $mysqlprefix;
+	if (!isset($message) || preg_match('/^\s*$/', $message)) {
+		return 0;
+	}
 	$query = sprintf(
 		"insert into ${mysqlprefix}chatmessage (threadid,ikind,tmessage,tname,agentId,dtmcreated) values (%s,%s,'%s',%s,%s,%s)",
 		intval($threadid),
@@ -69,7 +72,6 @@ function post_message_($threadid, $kind, $message, $link, $from = null, $utime =
 		$from ? "'" . mysql_real_escape_string($from, $link) . "'" : "null",
 		$opid ? intval($opid) : "0",
 		$utime ? "FROM_UNIXTIME(" . intval($utime) . ")" : "CURRENT_TIMESTAMP");
-
 	perform_query($query, $link);
 	return mysql_insert_id($link);
 }
