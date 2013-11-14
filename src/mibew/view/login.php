@@ -56,7 +56,7 @@ require_once('inc_errors.php');
 		<div class="field">
 			<div class="fleftlabel"><?php echo getlocal("page_login.password") ?></div>
 			<div class="fvalue">
-				<input type="password" name="password" size="25" value="" class="formauth"/>
+				<input type="password" name="password" size="25" value="" class="formauth" autocomplete="off"/>
 			</div>
 			<br clear="all"/>
 		</div>

@@ -78,7 +78,7 @@ require_once('inc_errors.php');
 		<div class="field">
 			<div class="flabel"><?php echo getlocal('form.field.password') ?><?php if( !$page['opid'] || $page['needChangePassword'] ) { ?><span class="required">*</span><?php } ?></div>
 			<div class="fvalue">
-				<input type="password" name="password" size="40" value="" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+				<input type="password" name="password" size="40" value="" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?> autocomplete="off"/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.password.description') ?></div>
 			<br clear="all"/>
@@ -87,7 +87,7 @@ require_once('inc_errors.php');
 		<div class="field">
 			<div class="flabel"><?php echo getlocal('form.field.password_confirm') ?><?php if( !$page['opid'] || $page['needChangePassword'] ) { ?><span class="required">*</span><?php } ?></div>
 			<div class="fvalue">
-				<input type="password" name="passwordConfirm" size="40" value="" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+				<input type="password" name="passwordConfirm" size="40" value="" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?> autocomplete="off"/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.password_confirm.description') ?></div>
 			<br clear="all"/>
