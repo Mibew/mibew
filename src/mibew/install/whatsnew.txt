@@ -1,6 +1,7 @@
   1.6.8
   -----
   [!] multiple bugfixes
+  [!] several security fixes
   [+] new logo
   [!] switch to standard codes for several locales
 
