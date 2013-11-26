@@ -52,7 +52,7 @@ chdir "$targetFolder";
 
 chdir "locales";
 
-foreach $locale qw ( ar be bg ca cs da de el fa fi fr he hr hu id it ka lv nl pl pt-br pt-pt ro ru sp sv th tr ua zh-cn zh-tw ) {
+foreach $locale qw ( ar be bg ca cs da de el es fa fi fr he hr hu id it ka lt lv nl no pl pt-br pt-pt ro ru sv th tr ua zh-cn zh-tw ) {
 
     `zip -r ../../release$suffix/mibew${suffix}_$locale.zip $locale`;
     `rm -rf $locale`;
