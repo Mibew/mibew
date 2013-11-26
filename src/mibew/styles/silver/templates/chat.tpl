@@ -83,7 +83,7 @@
 	<div id="chatheader">
 		<div class="bgc"><div class="bgl"><div class="bgr">
 			${if:agent}
-				<div id="changename2">
+				<div id="changename2" class="agent">
 					${if:historyParams}
 						${msg:chat.window.chatting_with}
 						<a href="${page:historyParamsLink}" target="_blank" title="${msg:page.analysis.userhistory.title}" onclick="this.newWindow = window.open('${page:historyParamsLink}', 'UserHistory', 'toolbar=0,scrollbars=0,location=0,statusbar=1,menubar=0,width=703,height=380,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">${page:ct.user.name}</a>

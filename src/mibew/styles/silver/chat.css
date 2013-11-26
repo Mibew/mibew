@@ -82,6 +82,10 @@ img {
 	font: normal 17px Arial;
 	color: #495151;
 }
+#logo img {
+	margin-top: 2px;
+	margin-bottom: -2px;
+}
 #logo a {
 	float: left;
 	text-decoration: none;
@@ -184,17 +188,20 @@ a:hover .ichangeuser {
 	background-position: -16px 0;
 }
 #changename1 {
-	position: absolute;
-	top: 12px;
-	left: 25px;
+	float: left;
+	display: block;
 	height: 24px;
-	padding: 0 0 0 35px;
 	font-size: 14px;
+	margin-left: 10px;
 }
 .input-name {
 	width: 95px;
 	height: 16px;
 	padding: 3px;
+	display: block;
+	float: left;
+	margin-left: 10px;
+	margin-top: 14px;
 	background: #FFF url("images/input_name.gif") scroll no-repeat 0 0;
 	_background-color: transparent;
 }
@@ -207,31 +214,37 @@ a:hover .ichangeuser {
 	font: normal 12px Tahoma;
 }
 .changename {
-	position: absolute;
-	top: 3px;
-	right: -27px;
+	display: block;
+	float: left;
+	margin-top: 16px;
 }
 #changename2 {
-	position: absolute;
-	top: 12px;
-	left: 25px;
+	float: left;
+	display: block;
+	margin-left: 10px;
 	height: 24px;
-	padding-top: 2px;
 	font-size: 14px;
+	
+}
+#changename2.agent {
+	margin-top: 18px;
 }
 #unamelink {
-	margin-left: 35px;
 	font: normal 12px Tahoma;
+	display: block;
+	float: left;
+	margin-left: 10px;
+	padding-top: 18px;
 }
 .you {
-	position: absolute;
-	bottom: 6px;
-	left: 0;
+	display: block;
+	float: left;
+	padding-top: 18px;
 }
 .you2 {
-	position: absolute;
-	bottom: 8px;
-	left: 0;
+	display: block;
+	float: left;
+	padding-top: 18px;
 }
 /* ------------------ */
 
