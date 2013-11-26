@@ -23,10 +23,10 @@
 			${else:ct.company.chatLogoURL}
 				${if:mibewHost}
 					<a onclick="window.open('${page:mibewHost}');return false;" href="${page:mibewHost}">
-						<img src="${tplroot}/images/default-logo.gif" alt=""/>
+						<img src="${tplroot}/images/default-logo.png" alt=""/>
 					</a>
 				${else:mibewHost}
-					<img src="${tplroot}/images/default-logo.gif" alt=""/>
+					<img src="${tplroot}/images/default-logo.png" alt=""/>
 				${endif:mibewHost}
 			${endif:ct.company.chatLogoURL}
 			&nbsp;<br />&nbsp;
