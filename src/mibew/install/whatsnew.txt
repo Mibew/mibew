@@ -1,3 +1,7 @@
+  1.6.9
+  -----
+  [!] bugfixes
+
   1.6.8
   -----
   [!] multiple bugfixes
