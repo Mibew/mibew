@@ -25,7 +25,7 @@ $operator = check_login();
 $page = array();
 $errors = array();
 
-if (!is_capable($can_administrate, $operator)) {
+if (!is_capable($can_administrate, $operator) && !is_capable($can_viewnotifications, $operator)) {
 	die("Permission denied.");
 }
 
