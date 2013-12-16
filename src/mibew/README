@@ -24,18 +24,18 @@ INSTALLATION
 9. Change your password and name.
 10. Wait for your visitors on 'Pending users' page.
 
-On unix/linux platforms change the owner of /mibew/images/avatar folder 
+On unix/linux platforms change the owner of /mibew/files/avatar folder
 to the user, under which the web server is running (for instance, www).
-The owner should have all rights on the folder /mibew/images/avatar 
-(chmod 700 /mibew/images/avatar).
+The owner should have all rights on the folder /mibew/files/avatar
+(chmod 700 /mibew/files/avatar).
 
 UPDATE
 
 1. Backup your /mibew/libs/config.php
-2. Backup your /mibew/images/avatar folder.
+2. Backup your /mibew/files/avatar folder.
 3. Delete the items in the mibew folder on the server.
 4. Upload all the files contained in the downloaded archive (retaining the directory structure) into mibew folder.
 5. Re-edit the MySQL database settings you config.php
 6. Visit http://<yourdomain>/mibew/install/ and follow the instructions to update database (if needed).
 7. Remove /mibew/install/ directory from your server
-8. Restore contents of /mibew/images/avatar folder.
+8. Restore contents of /mibew/files/avatar folder.

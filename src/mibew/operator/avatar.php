@@ -55,7 +55,7 @@ if (!$op) {
 		} elseif (!in_array($ext, $valid_types)) {
 			$errors[] = failed_uploading_file($orig_filename, "errors.invalid.file.type");
 		} else {
-			$avatar_local_dir = dirname(dirname(__FILE__)).'/images/avatar/';
+			$avatar_local_dir = dirname(dirname(__FILE__)).'/files/avatar/';
 			$full_file_path = $avatar_local_dir . $new_file_name;
 			if (file_exists($full_file_path)) {
 				unlink($full_file_path);
@@ -63,7 +63,7 @@ if (!$op) {
 			if (!@move_uploaded_file($_FILES['avatarFile']['tmp_name'], $full_file_path)) {
 				$errors[] = failed_uploading_file($orig_filename, "errors.file.move.error");
 			} else {
-				$avatar = "$mibewroot/images/avatar/$new_file_name";
+				$avatar = "$mibewroot/files/avatar/$new_file_name";
 			}
 		}
 	} else {
