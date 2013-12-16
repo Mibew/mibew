@@ -3,10 +3,15 @@ src/mibew/install/package
 src/absent_*
 src/release*
 
-# No index actual configuration files
+# Do not index actual configuration files
 src/mibew/libs/config.php
 src/tests/server_side/mibew/libs/config.php
 
-# No index plugins
+# Do not index plugins
 src/mibew/plugins/*
 !src/mibew/plugins/.keep
+
+# Do not index custom locales
+src/mibew/locales/*
+!src/mibew/locales/en/
+!src/mibew/locales/names/
