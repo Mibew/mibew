@@ -2,3 +2,8 @@ src/.idea/workspace.xml
 src/mibew/install/package
 src/absent_*
 src/release*
+
+# Do not index custom locales
+src/mibew/locales/*
+!src/mibew/locales/en/
+!src/mibew/locales/names/
