@@ -17,6 +17,7 @@
 
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 
 $errors = array();
 $page = array('formisRemember' => true, 'version' => $version);
@@ -53,6 +54,7 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 }
 
 $page['localeLinks'] = get_locale_links("$mibewroot/operator/login.php");
-start_html_output();
-require(dirname(dirname(__FILE__)).'/view/login.php');
+
+render_view('login');
+
 ?>

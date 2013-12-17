@@ -20,6 +20,7 @@ require_once(dirname(dirname(__FILE__)).'/libs/chat.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
 require_once(dirname(dirname(__FILE__)).'/libs/classes/thread.php');
+require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 
 $operator = check_login();
 csrfchecktoken();
@@ -126,7 +127,6 @@ if (isset($_POST['address'])) {
 }
 
 prepare_menu($operator, false);
-start_html_output();
-require(dirname(dirname(__FILE__)).'/view/ban.php');
-exit;
+render_view('ban');
+
 ?>

@@ -18,6 +18,7 @@
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/settings.php');
+require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 
 $operator = check_login();
 force_password($operator);
@@ -42,6 +43,6 @@ foreach ($default_extensions as $ext) {
 
 prepare_menu($operator);
 setup_settings_tabs(3);
-start_html_output();
-require(dirname(dirname(__FILE__)).'/view/updates.php');
+render_view('updates');
+
 ?>

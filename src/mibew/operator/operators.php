@@ -17,6 +17,7 @@
 
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 
 $operator = check_login();
 force_password($operator);
@@ -111,6 +112,6 @@ $page['availableDirections'] = array(
 setlocale(LC_TIME, getstring("time.locale"));
 
 prepare_menu($operator);
-start_html_output();
-require(dirname(dirname(__FILE__)).'/view/agents.php');
+render_view('agents');
+
 ?>

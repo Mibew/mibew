@@ -20,6 +20,7 @@ require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/chat.php');
 require_once(dirname(dirname(__FILE__)).'/libs/userinfo.php');
 require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
+require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 
 $operator = check_login();
 
@@ -62,6 +63,7 @@ setup_pagination($found, 6);
 foreach ($page['pagination.items'] as $key => $item) {
 	$page['pagination.items'][$key] = Thread::createFromDbInfo($item);
 }
-start_html_output();
-require(dirname(dirname(__FILE__)).'/view/userhistory.php');
+
+render_view('userhistory');
+
 ?>

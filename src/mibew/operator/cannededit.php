@@ -19,6 +19,7 @@ require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/canned.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
+require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 
 $operator = check_login();
 csrfchecktoken();
@@ -64,8 +65,7 @@ if (isset($_POST['message']) && isset($_POST['title'])) {
 		}
 		$page['saved'] = true;
 		prepare_menu($operator, false);
-		start_html_output();
-		require(dirname(dirname(__FILE__)).'/view/cannededit.php');
+		render_view('cannededit');
 		exit;
 	}
 }
@@ -74,8 +74,8 @@ $page['saved'] = false;
 $page['key'] = $stringid;
 $page['formtitle'] = topage($title);
 $page['formmessage'] = topage($message);
+
 prepare_menu($operator, false);
-start_html_output();
-require(dirname(dirname(__FILE__)).'/view/cannededit.php');
-exit;
+render_view('cannededit');
+
 ?>

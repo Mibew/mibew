@@ -19,6 +19,7 @@ require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/chat.php');
 require_once(dirname(dirname(__FILE__)).'/libs/userinfo.php');
+require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 
 $operator = check_login();
 
@@ -57,6 +58,6 @@ if (isset($_GET['threadid'])) {
 }
 
 prepare_menu($operator, false);
-start_html_output();
-require(dirname(dirname(__FILE__)).'/view/thread_log.php');
+render_view('thread_log');
+
 ?>

@@ -19,6 +19,7 @@ require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/chat.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/track.php');
+require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 
 $operator = check_login();
 
@@ -56,6 +57,7 @@ foreach ($path as $k => $v) {
     $page['history'][] = array( 'date' => date_to_text($k),
 				'link' => htmlspecialchars($v) );
 }
-start_html_output();
-require(dirname(dirname(__FILE__)).'/view/tracked.php');
+
+render_view('tracked');
+
 ?>

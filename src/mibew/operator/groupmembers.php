@@ -18,6 +18,7 @@
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
+require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 
 $operator = check_login();
 csrfchecktoken();
@@ -87,8 +88,9 @@ foreach (get_group_members($groupid) as $rel) {
 }
 
 $page['stored'] = isset($_GET['stored']);
+
 prepare_menu($operator);
 setup_group_settings_tabs($groupid, 1);
-start_html_output();
-require(dirname(dirname(__FILE__)).'/view/groupmembers.php');
+render_view('groupmembers');
+
 ?>

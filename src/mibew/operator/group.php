@@ -18,6 +18,7 @@
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
+require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 
 $operator = check_login();
 csrfchecktoken();
@@ -244,8 +245,9 @@ if (isset($_POST['name'])) {
 
 $page['stored'] = isset($_GET['stored']);
 $page['availableParentGroups'] = get_available_parent_groups($groupid);
+
 prepare_menu($operator);
 setup_group_settings_tabs($groupid, 0);
-start_html_output();
-require(dirname(dirname(__FILE__)).'/view/group.php');
+render_view('group');
+
 ?>

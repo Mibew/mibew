@@ -21,6 +21,7 @@ require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/settings.php');
 require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
 require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
+require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 
 $operator = check_login();
 force_password($operator);
@@ -94,6 +95,6 @@ $page['formlang'] = $lang;
 $page['formgroup'] = $groupid;
 
 prepare_menu($operator);
-start_html_output();
-require(dirname(dirname(__FILE__)).'/view/canned.php');
+render_view('canned');
+
 ?>

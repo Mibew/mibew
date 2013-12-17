@@ -17,6 +17,7 @@
 
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 
 $operator = check_login();
 csrfchecktoken();
@@ -72,6 +73,6 @@ $page['availableDirections'] = array(
 );
 
 prepare_menu($operator);
-start_html_output();
-require(dirname(dirname(__FILE__)).'/view/groups.php');
+render_view('groups');
+
 ?>

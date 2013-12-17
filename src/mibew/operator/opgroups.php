@@ -18,6 +18,7 @@
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator_settings.php');
+require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 
 $operator = check_login();
 csrfchecktoken();
@@ -83,8 +84,9 @@ if ($op) {
 }
 
 $page['stored'] = isset($_GET['stored']);
+
 prepare_menu($operator);
 setup_operator_settings_tabs($opId, 2);
-start_html_output();
-require(dirname(dirname(__FILE__)).'/view/operator_groups.php');
+render_view('operator_groups');
+
 ?>

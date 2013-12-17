@@ -19,6 +19,7 @@ require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/settings.php');
 require_once(dirname(dirname(__FILE__)).'/libs/notify.php');
+require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 
 $errors = array();
 $page = array('version' => $version);
@@ -55,7 +56,7 @@ if (isset($_POST['loginoremail'])) {
 		mibew_mail($email, $email, getstring("restore.mailsubj"), getstring2("restore.mailtext", array(get_operator_name($torestore), $href)));
 
 		$page['isdone'] = true;
-		require(dirname(dirname(__FILE__)).'/view/restore.php');
+		render_view('restore');
 		exit;
 	}
 }
@@ -64,6 +65,7 @@ $page['formloginoremail'] = topage($loginoremail);
 
 $page['localeLinks'] = get_locale_links("$mibewroot/operator/restore.php");
 $page['isdone'] = false;
-start_html_output();
-require(dirname(dirname(__FILE__)).'/view/restore.php');
+
+render_view('restore');
+
 ?>

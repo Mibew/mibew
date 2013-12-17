@@ -21,6 +21,7 @@ require_once(dirname(dirname(__FILE__)).'/libs/chat.php');
 require_once(dirname(dirname(__FILE__)).'/libs/userinfo.php');
 require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
 require_once(dirname(dirname(__FILE__)).'/libs/cron.php');
+require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 
 $operator = check_login();
 force_password($operator);
@@ -98,6 +99,6 @@ $page['formtype'] = $searchType;
 $page['forminsystemmessages'] = $searchInSystemMessages;
 
 prepare_menu($operator);
-start_html_output();
-require(dirname(dirname(__FILE__)).'/view/thread_search.php');
+render_view('thread_search');
+
 ?>

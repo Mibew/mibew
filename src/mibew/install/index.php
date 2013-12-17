@@ -28,6 +28,7 @@ require_once(dirname(dirname(__FILE__)).'/libs/common/locale.php');
 require_once(dirname(dirname(__FILE__)).'/libs/common/misc.php');
 require_once(dirname(dirname(__FILE__)).'/libs/common/response.php');
 require_once(dirname(dirname(__FILE__)).'/libs/common/string.php');
+require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 // Include database structure
 require_once(dirname(__FILE__).'/dbinfo.php');
 
@@ -366,6 +367,6 @@ function check_status()
 
 check_status();
 
-start_html_output();
-require(dirname(dirname(__FILE__)).'/view/install_index.php');
+render_view('install_index');
+
 ?>

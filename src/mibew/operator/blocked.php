@@ -19,6 +19,7 @@ require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/chat.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
+require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 
 $operator = check_login();
 csrfchecktoken();
@@ -51,10 +52,7 @@ $blockedList = $db->query(
 );
 
 setup_pagination($blockedList);
-
 prepare_menu($operator);
-start_html_output();
+render_view('blocked_visitors');
 
-require(dirname(dirname(__FILE__)).'/view/blocked_visitors.php');
-exit;
 ?>

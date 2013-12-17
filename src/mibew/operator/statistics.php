@@ -20,6 +20,7 @@ require_once(dirname(dirname(__FILE__)).'/libs/chat.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/statistics.php');
 require_once(dirname(dirname(__FILE__)).'/libs/cron.php');
+require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 
 $operator = check_login();
 force_password($operator);
@@ -173,6 +174,6 @@ $page['showresults'] = count($errors) == 0;
 
 prepare_menu($operator);
 setup_statistics_tabs($activetab);
-start_html_output();
-require(dirname(dirname(__FILE__)).'/view/statistics.php');
+render_view('statistics');
+
 ?>

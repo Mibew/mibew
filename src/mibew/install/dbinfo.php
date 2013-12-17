@@ -294,8 +294,7 @@ function show_install_err($text)
 		'localeLinks' => get_locale_links("$mibewroot/install/index.php")
 	);
 	$errors = array($text);
-	start_html_output();
-	require(dirname(dirname(__FILE__)).'/view/install_err.php');
+	render_view('install_err');
 	exit;
 }
 

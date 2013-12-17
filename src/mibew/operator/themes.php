@@ -23,6 +23,7 @@ require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
 require_once(dirname(dirname(__FILE__)).'/libs/expand.php');
 require_once(dirname(dirname(__FILE__)).'/libs/settings.php');
 require_once(dirname(dirname(__FILE__)).'/libs/styles.php');
+require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 
 $operator = check_login();
 
@@ -51,7 +52,7 @@ $page['availablePreviews'] = $stylelist;
 $page['screenshotsList'] = $screenshots;
 
 prepare_menu($operator);
-start_html_output();
 setup_settings_tabs(3);
-require(dirname(dirname(__FILE__)).'/view/themes.php');
+render_view('themes');
+
 ?>

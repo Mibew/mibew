@@ -18,6 +18,7 @@
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
+require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 
 function compare_localization_by_l1($a, $b)
 {
@@ -156,8 +157,7 @@ if ($stringid) {
 
 			$page['saved'] = true;
 			prepare_menu($operator, false);
-			start_html_output();
-			require(dirname(dirname(__FILE__)).'/view/translate.php');
+			render_view('translate');
 			exit;
 		}
 	}
@@ -168,8 +168,7 @@ if ($stringid) {
 	$page['formoriginal'] = isset($lang1[$stringid]) ? $lang1[$stringid] : "<b><unknown></b>";
 	$page['formtranslation'] = $translation;
 	prepare_menu($operator, false);
-	start_html_output();
-	require(dirname(dirname(__FILE__)).'/view/translate.php');
+	render_view('translate');
 	exit;
 }
 
@@ -228,7 +227,8 @@ $page['showOptions'] = array(
 	array("id" => "s3", "name" => getlocal("translate.show.foradmin")),
 );
 $page['formshow'] = $show;
+
 prepare_menu($operator);
-start_html_output();
-require(dirname(dirname(__FILE__)).'/view/translatelist.php');
+render_view('translatelist');
+
 ?>

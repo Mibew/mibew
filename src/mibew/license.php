@@ -16,7 +16,8 @@
  */
 
 require_once(dirname(__FILE__).'/libs/init.php');
+require_once(dirname(__FILE__).'/libs/view.php');
 
-start_html_output();
-require(dirname(__FILE__).'/view/license.php');
+render_view('license');
+
 ?>

@@ -22,6 +22,7 @@ require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
 require_once(dirname(dirname(__FILE__)).'/libs/expand.php');
 require_once(dirname(dirname(__FILE__)).'/libs/settings.php');
 require_once(dirname(dirname(__FILE__)).'/libs/styles.php');
+require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 
 $operator = check_login();
 
@@ -38,7 +39,7 @@ $page['availablePreviews'] = $stylelist;
 $page['operatorName'] = (empty($operator['vclocalname'])?$operator['vccommonname']:$operator['vclocalname']);
 
 prepare_menu($operator);
-start_html_output();
 setup_settings_tabs(4);
-require(dirname(dirname(__FILE__)).'/view/invitation_themes.php');
+render_view('invitation_themes');
+
 ?>

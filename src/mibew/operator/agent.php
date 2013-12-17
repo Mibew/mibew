@@ -23,6 +23,7 @@ require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
 require_once(dirname(dirname(__FILE__)).'/libs/expand.php');
 require_once(dirname(dirname(__FILE__)).'/libs/classes/thread.php');
+require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 
 $operator = check_login();
 
@@ -77,8 +78,7 @@ if (!isset($_GET['token'])) {
 				'agent' => topage($thread->agentName),
 				'link' => $_SERVER['PHP_SELF'] . "?thread=$threadid&amp;force=true"
 			);
-			start_html_output();
-			require(dirname(dirname(__FILE__)).'/view/confirm.php');
+			render_view('confirm');
 			exit;
 		}
 	}

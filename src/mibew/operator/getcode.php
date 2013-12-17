@@ -20,6 +20,7 @@ require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
 require_once(dirname(dirname(__FILE__)).'/libs/getcode.php');
 require_once(dirname(dirname(__FILE__)).'/libs/styles.php');
+require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 
 $operator = check_login();
 force_password($operator);
@@ -95,6 +96,6 @@ $page['enabletracking'] = Settings::get('enabletracking');
 $page['operator_code'] = $operator_code;
 
 prepare_menu($operator);
-start_html_output();
-require(dirname(dirname(__FILE__)).'/view/gen_button.php');
+render_view('gen_button');
+
 ?>
