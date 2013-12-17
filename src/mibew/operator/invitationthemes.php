@@ -39,7 +39,7 @@ $page['availablePreviews'] = $stylelist;
 $page['operatorName'] = (empty($operator['vclocalname'])?$operator['vccommonname']:$operator['vclocalname']);
 
 prepare_menu($operator);
-setup_settings_tabs(4);
+setup_settings_tabs(5);
 render_view('invitation_themes');
 
 ?>

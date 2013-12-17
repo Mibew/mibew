@@ -18,30 +18,37 @@
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/settings.php');
+require_once(dirname(dirname(__FILE__)).'/libs/styles.php');
 require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 
 $operator = check_login();
-force_password($operator);
 
-$default_extensions = array('mysql', 'gd', 'iconv');
+$stylelist = get_style_list(dirname(dirname(__FILE__)).'/styles/operator_pages');
 
-$errors = array();
-$page = array(
-	'localizations' => get_available_locales(),
-	'phpVersion' => phpversion(),
-	'version' => $version,
-);
-
-foreach ($default_extensions as $ext) {
-	if (!extension_loaded($ext)) {
-		$page['phpVersion'] .= " $ext/absent";
-	} else {
-		$ver = phpversion($ext);
-		$page['phpVersion'] .= $ver ? " $ext/$ver" : " $ext";
-	}
+$preview = verifyparam("preview", "/^\w+$/", "default");
+if (!in_array($preview, $stylelist)) {
+	$style_names = array_keys($stylelist);
+	$preview = $stylelist[$style_names[0]];
 }
 
+$style_config = get_core_style_config($preview);
+
+$screenshots = array();
+foreach($style_config['screenshots'] as $name => $desc) {
+	$screenshots[] = array(
+		'name' => $name,
+		'file' => $mibewroot . '/styles/operator_pages/' . $preview
+			. '/screenshots/' . $name . '.png',
+		'description' => $desc
+	);
+}
+
+$page['formpreview'] = $preview;
+$page['availablePreviews'] = $stylelist;
+$page['screenshotsList'] = $screenshots;
+
 prepare_menu($operator);
-render_view('updates');
+setup_settings_tabs(3);
+render_view('operator_pages_themes');
 
 ?>

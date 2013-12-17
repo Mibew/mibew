@@ -30,11 +30,22 @@ $page = array('agentId' => '');
 $errors = array();
 
 $stylelist = get_style_list(dirname(dirname(__FILE__)).'/styles/dialogs');
+$operator_pages_style_list = get_style_list(dirname(dirname(__FILE__)).'/styles/operator_pages');
 
 $options = array(
-	'email', 'title', 'logo', 'hosturl', 'usernamepattern',
-	'chatstyle', 'chattitle', 'geolink', 'geolinkparams',
-	'sendmessagekey', 'cron_key');
+	'email',
+	'title',
+	'logo',
+	'hosturl',
+	'usernamepattern',
+	'operator_pages_style',
+	'chatstyle',
+	'chattitle',
+	'geolink',
+	'geolinkparams',
+	'sendmessagekey',
+	'cron_key'
+);
 
 if (Settings::get('enabletracking')) {
 	$options[] = 'invitationstyle';
@@ -61,6 +72,11 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
 	$params['chatstyle'] = verifyparam("chatstyle", "/^\w+$/", $params['chatstyle']);
 	if (!in_array($params['chatstyle'], $stylelist)) {
 		$params['chatstyle'] = $stylelist[0];
+	}
+
+	$params['operator_pages_style'] = verifyparam("operator_pages_style", "/^\w+$/", $params['operator_pages_style']);
+	if (!in_array($params['operator_pages_style'], $operator_pages_style_list)) {
+		$params['operator_pages_style'] = $operator_pages_style_list[0];
 	}
 
 	if (Settings::get('enabletracking')) {
@@ -103,6 +119,8 @@ $page['formhosturl'] = topage($params['hosturl']);
 $page['formgeolink'] = topage($params['geolink']);
 $page['formgeolinkparams'] = topage($params['geolinkparams']);
 $page['formusernamepattern'] = topage($params['usernamepattern']);
+$page['formoperatorpagesstyle'] = $params['operator_pages_style'];
+$page['availableOperatorPagesStyles'] = $operator_pages_style_list;
 $page['formchatstyle'] = $params['chatstyle'];
 $page['formchattitle'] = topage($params['chattitle']);
 $page['formsendmessagekey'] = $params['sendmessagekey'];

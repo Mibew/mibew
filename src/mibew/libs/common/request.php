@@ -85,4 +85,13 @@ function getchatstyle()
 	return Settings::get('chatstyle');
 }
 
+/**
+ * Returns name of the current operator pages style
+ *
+ * @return string
+ */
+function get_operator_pages_style() {
+	return Settings::get('operator_pages_style');
+}
+
 ?>

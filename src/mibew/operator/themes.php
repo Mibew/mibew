@@ -52,7 +52,7 @@ $page['availablePreviews'] = $stylelist;
 $page['screenshotsList'] = $screenshots;
 
 prepare_menu($operator);
-setup_settings_tabs(3);
+setup_settings_tabs(4);
 render_view('themes');
 
 ?>

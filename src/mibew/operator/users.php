@@ -45,7 +45,7 @@ $style_config = get_dialogs_style_config(getchatstyle());
 $page['chatStyles.chatWindowParams'] = $style_config['chat']['window_params'];
 
 // Load core style options
-$style_config = get_core_style_config();
+$style_config = get_core_style_config(get_operator_pages_style());
 $page['coreStyles.threadTag'] = $style_config['users']['thread_tag'];
 $page['coreStyles.visitorTag'] = $style_config['users']['visitor_tag'];
 $page['coreStyles.trackedUserWindowParams'] = $style_config['tracked']['user_window_params'];

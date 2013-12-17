@@ -418,6 +418,7 @@ page_settings.intro=Specify options affecting chat window and common system beha
 page_settings.tab.features=Optional Services
 page_settings.tab.main=General
 page_settings.tab.performance=Performance
+page_settings.tab.operator_pages_themes=Operator pages themes preview
 page_settings.tab.themes=Chat themes preview
 page_settings.tab.invitationthemes=Invitation themes preview
 pending.errors.network=Network problems detected. Please refresh the page.
@@ -559,6 +560,8 @@ settings.onehostconnections.description=0 allows any number of connections
 settings.onehostconnections=Max number of threads from one address
 settings.onlinetimeout.description=Set the number of seconds to show an operator as online. Default is 30 seconds.
 settings.onlinetimeout=Operator online time threshold
+settings.operator_pages_style.description=A preview for each style is available <a href="operator_pages_themes.php">here</a>
+settings.operator_pages_style=Select a style for your operator pages
 settings.popup_notification.description=Small dialog appears to attract your attention.  
 settings.popup_notification=Enable "Popup dialog notification of the new visitor".
 settings.saved=Changes saved

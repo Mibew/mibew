@@ -34,12 +34,12 @@ function read_config_file($file) {
  *
  * @return array Configuration array
  */
-function get_core_style_config() {
+function get_core_style_config($style) {
 	// Get root dir of mibew messanger
 	$base_path = realpath(dirname(dirname(dirname(__FILE__))));
 
 	// Load config
-	$config = read_config_file($base_path.'/styles/operator_pages/default/config.ini');
+	$config = read_config_file($base_path.'/styles/operator_pages/' . $style . '/config.ini');
 
 	// Set default values
 	$config = ($config === false) ? array() : $config;
@@ -60,7 +60,8 @@ function get_core_style_config() {
 		),
 		'ban' => array(
 			'window_params' => ''
-		)
+		),
+		'screenshots' => array()
 	);
 
 	return $config;
