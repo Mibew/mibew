@@ -15,6 +15,11 @@
  * limitations under the License.
  */
 
+/**
+ * Indicate that installation in progress
+ */
+define('INSTALLATION_IN_PROGRESS', TRUE);
+
 session_start();
 
 require_once(dirname(dirname(__FILE__)).'/libs/config.php');

@@ -105,4 +105,17 @@ function array_flatten_recursive($arr) {
 	return $result;
 }
 
+/**
+ * Checks if currently processed script is installation script.
+ *
+ * @return boolean
+ */
+function installation_in_progress() {
+	if (!defined('INSTALLATION_IN_PROGRESS')) {
+		return FALSE;
+	}
+
+	return INSTALLATION_IN_PROGRESS;
+}
+
 ?>
