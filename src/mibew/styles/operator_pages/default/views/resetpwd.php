@@ -83,11 +83,11 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="fbutton">
 			<table class="submitbutton"><tr>
 				<td><a href="javascript:document.resetForm.submit();">
-					<img src='<?php echo $mibewroot ?>/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
+					<img src='<?php echo $mibewroot ?>/styles/operator_pages/default/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
 				<td class="submit"><a href="javascript:document.resetForm.submit();">
 					<?php echo getlocal("resetpwd.submit") ?></a></td>
 				<td><a href="javascript:document.resetForm.submit();">
-					<img src='<?php echo $mibewroot ?>/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
+					<img src='<?php echo $mibewroot ?>/styles/operator_pages/default/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
 			</tr></table>
 
 			<div class="links">

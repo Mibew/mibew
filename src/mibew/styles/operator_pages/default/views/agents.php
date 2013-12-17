@@ -16,8 +16,8 @@
  */
 
 require_once(dirname(__FILE__).'/inc_menu.php');
-$page['title'] = getlocal("page.groups.title");
-$page['menuid'] = "groups";
+$page['title'] = getlocal("page_agents.title");
+$page['menuid'] = "operators";
 
 function tpl_header() { global $page, $mibewroot;
 ?>	
@@ -28,19 +28,19 @@ function tpl_header() { global $page, $mibewroot;
 function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
-<?php echo getlocal("page.groups.intro") ?>
+<?php echo getlocal("page_agents.intro") ?>
 <br />
 <br />
 <?php 
 require_once(dirname(__FILE__).'/inc_errors.php');
 ?>
 
-<form name="groupsForm" method="get" action="<?php echo $mibewroot ?>/operator/groups.php">
+<form name="agentsForm" method="get" action="<?php echo $mibewroot ?>/operator/operators.php">
 
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
 	<div class="packedFormField">
-		<?php echo getlocal("page.groups.sort") ?><br/>
+		<?php echo getlocal("page_agents.sort") ?><br/>
 		<select name="sortby" onchange="this.form.submit();"><?php
 			foreach($page['availableOrders'] as $k) {
 				echo "<option value=\"".$k['id']."\"".($k['id'] == form_value("sortby") ? " selected=\"selected\"" : "").">".$k['name']."</option>";
@@ -48,7 +48,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 	</div>
 
 	<div class="packedFormField">
-		<?php echo getlocal("page.groups.sortdirection") ?><br/>
+		<?php echo getlocal("page_agents.sortdirection") ?><br/>
 		<select name="sortdirection" onchange="this.form.submit();"><?php
 			foreach($page['availableDirections'] as $k) {
 				echo "<option value=\"".$k['id']."\"".($k['id'] == form_value("sortdirection") ? " selected=\"selected\"" : "").">".$k['name']."</option>";
@@ -63,9 +63,9 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 
 <?php if($page['canmodify']) { ?>
 <div class="tabletool">
-	<img src='<?php echo $mibewroot ?>/images/buttons/createdep.gif' border="0" alt="" />
-	<a href='<?php echo $mibewroot ?>/operator/group.php' title="<?php echo getlocal("page.groups.new") ?>">
-		<?php echo getlocal("page.groups.new") ?>
+	<img src='<?php echo $mibewroot ?>/styles/operator_pages/default/images/buttons/createagent.gif' border="0" alt="" />
+	<a href='<?php echo $mibewroot ?>/operator/operator.php' title="<?php echo getlocal("page_agents.new_agent") ?>">
+		<?php echo getlocal("page_agents.new_agent") ?>
 	</a>
 </div>
 <br clear="all"/>
@@ -75,77 +75,60 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 <thead>
 <tr class="header">
 <th>
-	<?php echo getlocal("form.field.groupname") ?>
+	<?php echo getlocal("page_agents.login") ?>
 </th><th>
-	<?php echo getlocal("form.field.groupdesc") ?>
+	<?php echo getlocal("page_agents.agent_name") ?>
 </th><th>
 	<?php echo getlocal("page_agents.status") ?>
-</th><th>
-	<?php echo getlocal("page.group.membersnum") ?>
-</th><th>
-	<?php echo getlocal("page.groups.weight") ?>
 <?php if($page['canmodify']) { ?>
+</th><th>
 </th><th>
 <?php } ?>
 </th>
 </tr>
 </thead>
 <tbody>
-<?php
-if(count($page['groups']) > 0) { 
-	foreach( $page['groups'] as $grp ) { ?>
+<?php foreach( $page['allowedAgents'] as $a ) { ?>
 <tr>
-	<td class="notlast level<?php echo $grp['level'] ?>">
-   		<a href="<?php echo $mibewroot ?>/operator/group.php?gid=<?php echo $grp['groupid'] ?>" id="ti<?php echo $grp['groupid'] ?>" class="man">
-   			<?php echo htmlspecialchars(topage($grp['vclocalname'])) ?>
+	<td class="notlast">
+   		<a id="ti<?php echo $a['operatorid'] ?>" href="<?php echo $mibewroot ?>/operator/operator.php?op=<?php echo $a['operatorid'] ?>" class="man">
+   			<?php echo htmlspecialchars(topage($a['vclogin'])) ?>
    		</a>
 	</td>
 	<td class="notlast">
-   		<?php echo $grp['vclocaldescription'] ? htmlspecialchars(topage($grp['vclocaldescription'])) : "&lt;none&gt;" ?>
+   		<?php echo htmlspecialchars(topage($a['vclocalename'])) ?> / <?php echo htmlspecialchars(topage($a['vccommonname'])) ?>
 	</td>
 	<td class="notlast">
-<?php if(is_online($grp)) { ?>
-		<?php echo getlocal("page.groups.isonline") ?>
-<?php } else if(is_away($grp)) { ?>
-		<?php echo getlocal("page.groups.isaway") ?>
+<?php if(operator_is_available($a)) { ?>
+		<?php echo getlocal("page_agents.isonline") ?>
+<?php } else if(operator_is_away($a)) { ?>
+		<?php echo getlocal("page_agents.isaway") ?>
 <?php } else { ?>
-		<?php echo date_to_text(time() - ($grp['ilastseen'] ? $grp['ilastseen'] : time())) ?>
+		<?php echo date_to_text(time() - $a['time']) ?>
 <?php } ?>
-	</td>
-	<td>
-   		<a href="<?php echo $mibewroot ?>/operator/groupmembers.php?gid=<?php echo $grp['groupid'] ?>">
-	   		<?php echo htmlspecialchars(topage($grp['inumofagents'])) ?>
-   		</a>
-	</td>
-	<td>
-		<?php echo $grp['iweight'] ?>
 	</td>
 <?php if($page['canmodify']) { ?>
 	<td>
-		<a href="<?php echo $mibewroot ?>/operator/groups.php?act=del&amp;gid=<?php echo $grp['groupid'] ?><?php print_csrf_token_in_url() ?>" id="i<?php echo $grp['groupid'] ?>" class="removelink">
+<?php if(operator_is_disabled($a)){ ?>
+		<a href="<?php echo $mibewroot ?>/operator/operators.php?act=enable&amp;id=<?php echo $a['operatorid'] ?>"><?php echo getlocal("page_agents.enable.agent") ?></a>
+<?php }else{ ?>
+		<a href="<?php echo $mibewroot ?>/operator/operators.php?act=disable&amp;id=<?php echo $a['operatorid'] ?>"><?php echo getlocal("page_agents.disable.agent") ?></a>
+<?php } ?>
+	</td>
+	<td>
+		<a class="removelink" id="i<?php echo $a['operatorid'] ?>" href="<?php echo $mibewroot ?>/operator/operators.php?act=del&amp;id=<?php echo $a['operatorid'] ?><?php print_csrf_token_in_url() ?>">
 			<?php echo getlocal("remove.item") ?>
 		</a>
 	</td>
-<?php } ?>
+<?php } ?>	
 </tr>
-<?php 
-	}
-} else {
-?>
-	<tr>
-	<td colspan="5">
-		<?php echo getlocal("tag.pagination.no_items.elements") ?>
-	</td>
-	</tr>
-<?php 
-} 
-?>
+<?php } ?>
 </tbody>
 </table>
 <script type="text/javascript" language="javascript"><!--
 $('a.removelink').click(function(){
-	var groupname = $("#t"+this.id).text();
-	return confirm("<?php echo getlocalforJS("page.groups.confirm", array('"+$.trim(groupname)+"')) ?>");
+	var login = $("#t"+this.id).text();
+	return confirm("<?php echo getlocalforJS("page_agents.confirm", array('"+$.trim(login)+"')) ?>");
 });
 //--></script>
 

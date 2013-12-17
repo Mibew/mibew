@@ -39,7 +39,8 @@ function render_view($view_name) {
 
 	// Build full view name. Remove '\' and '/' characters form the specified
 	// view name
-	$full_view_name = dirname(dirname(__FILE__)) . '/view/' .
+	$full_view_name = dirname(dirname(__FILE__)) .
+		'/styles/operator_pages/default/views/' .
 		str_replace("/\\", '', $view_name) . '.php';
 
 	// Load and execute the view

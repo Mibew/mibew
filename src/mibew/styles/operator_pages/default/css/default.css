@@ -25,7 +25,7 @@ h1,h2,h3,h4,h5,h6 { font-size:100%; font-weight:normal; }
 q:before,q:after { content:''; }
 
 body {
-	background: #FFFFFF url(images/header.gif) repeat-x;
+	background: #FFFFFF url(../images/header.gif) repeat-x;
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 	font-size: 0.8em;
 	line-height: 140%;
@@ -92,7 +92,7 @@ a {
 }
 
 #footer {
-	background: white url(images/footer.gif) bottom repeat-x;
+	background: white url(../images/footer.gif) bottom repeat-x;
 	font-size:11px;
 	position:relative;
 
@@ -131,7 +131,7 @@ a {
 	margin: 0px -2px 10px 0px;
 	padding-top: 10px;
 	padding-bottom: 10px;
-	background: url(images/graydot.gif) repeat-x left bottom;
+	background: url(../images/graydot.gif) repeat-x left bottom;
 	display: block;
 }
 
@@ -206,7 +206,7 @@ img.logo {
 #sidebar h2 {
 	text-transform: lowercase;
 	margin-bottom: 10px;
-	background: url(images/graydot.gif) repeat-x left bottom;
+	background: url(../images/graydot.gif) repeat-x left bottom;
 	font-size: 1.3em;
 	font-weight: bold;
 }
@@ -236,7 +236,7 @@ img.logo {
 .submenu span.small { font-size: 80%; padding-left: 5px; }
 
 .submenu .active a {
-	background: url(images/li.gif) no-repeat left 1px;
+	background: url(../images/li.gif) no-repeat left 1px;
 	color: #555;
 }
 
@@ -251,7 +251,7 @@ img.logo {
 /* form, tabbed form */
 
 .mform {
-	background: url(images/loginbg.gif);
+	background: url(../images/loginbg.gif);
 	clear: both;
 	width: 100%;
 }
@@ -276,17 +276,17 @@ img.logo {
 }
 
 .tabs li.active a {
-	background: url(images/loginbg.gif);
+	background: url(../images/loginbg.gif);
 	border-left:1px solid #bbbbbb;border-top:1px solid #bbbbbb;border-right:1px solid #bbbbbb;
 	color: #000;
 	text-decoration: none;
 }
 
 .formtop, .formbottom, .formtopi, .formbottomi { height: 15px;}
-.formtop { background: url(images/logincrnrt.gif) no-repeat top right;}
-.formtopi { background: url(images/logincrnlt.gif) no-repeat top left; }
-.formbottom { background: url(images/logincrnrb.gif) no-repeat bottom right; }
-.formbottomi { background: url(images/logincrnlb.gif) no-repeat bottom left; }
+.formtop { background: url(../images/logincrnrt.gif) no-repeat top right;}
+.formtopi { background: url(../images/logincrnlt.gif) no-repeat top left; }
+.formbottom { background: url(../images/logincrnrb.gif) no-repeat bottom right; }
+.formbottomi { background: url(../images/logincrnlb.gif) no-repeat bottom left; }
 .forminner { margin: 0px 15px;}
 .forminner p { margin-bottom: 1em; }
 
@@ -339,7 +339,7 @@ div.errinfo {
 
 .field .subfield {
 	padding-left: 30px;
-	background: url(images/subitem.gif) no-repeat 10px 2px;
+	background: url(../images/subitem.gif) no-repeat 10px 2px;
 }
 
 .forminner .level0{
@@ -391,7 +391,7 @@ div.errinfo {
 }
 
 .fbutton { 
-	background: url(images/formline.gif) repeat-x;
+	background: url(../images/formline.gif) repeat-x;
 	margin-top: 20px;
 	padding-top: 10px;
 }
@@ -473,7 +473,7 @@ input.formauth {
 }
 
 .tabletitle {
-	background: url(images/graydot.gif) repeat-x left bottom;
+	background: url(../images/graydot.gif) repeat-x left bottom;
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
 	font-size: 1.4em;
 	margin: 10px 0px 20px;
@@ -515,7 +515,7 @@ table.translate td {
 }
 
 table.list td a.man {
-	background: url(images/tbliclogin.gif) no-repeat left center;
+	background: url(../images/tbliclogin.gif) no-repeat left center;
 	padding-left: 15px;
 }
 
@@ -634,19 +634,19 @@ table.awaiting .no-threads, table.awaiting .no-visitors  {
 }
 
 .open-control {
-	background: no-repeat top left url('images/tbliclspeak.gif');
+	background: no-repeat top left url('../images/tbliclspeak.gif');
 }
 
 .view-control {
-	background: no-repeat top left url('images/tbliclread.gif');
+	background: no-repeat top left url('../images/tbliclread.gif');
 }
 
 .track-control {
-	background: no-repeat top left url('images/tblictrack.gif');
+	background: no-repeat top left url('../images/tblictrack.gif');
 }
 
 .ban-control {
-	background: no-repeat top left url('images/ban.gif');
+	background: no-repeat top left url('../images/ban.gif');
 }
 
 #sound-region {
@@ -669,10 +669,10 @@ table.awaiting .no-threads, table.awaiting .no-visitors  {
         margin-right: 2px;
 }
 .agent-status-away {
-	background-image: url("images/opaway.gif");
+	background-image: url("../images/opaway.gif");
 }
 .agent-status-online {
-	background-image: url("images/oponline.gif");
+	background-image: url("../images/oponline.gif");
 }
 
 /* search */
@@ -766,7 +766,7 @@ table.awaiting .no-threads, table.awaiting .no-visitors  {
 }
 
 .submit {
-	background: url(images/submitbg.gif) repeat-x;
+	background: url(../images/submitbg.gif) repeat-x;
 	vertical-align: top;
 }
 
@@ -968,7 +968,7 @@ table.awaiting .no-threads, table.awaiting .no-visitors  {
 
 .lrtl .field .subfield {
 	padding-right: 30px;
-	background: url(images/subitem_rtl.gif) no-repeat 99% 2px;
+	background: url(../images/subitem_rtl.gif) no-repeat 99% 2px;
 }
 
 

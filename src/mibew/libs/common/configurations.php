@@ -39,7 +39,7 @@ function get_core_style_config() {
 	$base_path = realpath(dirname(dirname(dirname(__FILE__))));
 
 	// Load config
-	$config = read_config_file($base_path.'/view/config.ini');
+	$config = read_config_file($base_path.'/styles/operator_pages/default/config.ini');
 
 	// Set default values
 	$config = ($config === false) ? array() : $config;

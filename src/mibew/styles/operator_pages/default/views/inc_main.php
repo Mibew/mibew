@@ -21,7 +21,7 @@ $isrtl = getlocal("localedirection") == 'rtl';
 <html xmlns="http://www.w3.org/1999/xhtml"<?php if($isrtl) { ?> dir="rtl"<?php } ?>>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="shortcut icon" href="<?php echo $mibewroot ?>/images/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="<?php echo $mibewroot ?>/styles/operator_pages/default/images/favicon.ico" type="image/x-icon"/>
 <?php
 	if(function_exists('tpl_header'))
 		tpl_header(); 
@@ -29,15 +29,15 @@ $isrtl = getlocal("localedirection") == 'rtl';
 <title>
 	<?php echo $page['title'] ?> - <?php echo getlocal("app.title") ?>
 </title>
-<link href="<?php echo $mibewroot ?>/default.css" rel="stylesheet" type="text/css" />
-<!--[if lte IE 7]><link href="<?php echo $mibewroot ?>/default_ie.css" rel="stylesheet" type="text/css" /><![endif] -->
+<link href="<?php echo $mibewroot ?>/styles/operator_pages/default/css/default.css" rel="stylesheet" type="text/css" />
+<!--[if lte IE 7]><link href="<?php echo $mibewroot ?>/styles/operator_pages/default/css/default_ie.css" rel="stylesheet" type="text/css" /><![endif] -->
 <!--[if lte IE 6]><script language="JavaScript" type="text/javascript" src="<?php echo $mibewroot ?>/<?php echo jspath() ?>/ie.js"></script><![endif]-->
 </head>
 <body<?php if(!function_exists('tpl_menu')) { ?> style="min-width: 400px;"<?php } ?>>
 <div id="<?php echo (isset($page) && isset($page['fixedwrap'])) ? "fixedwrap" : (function_exists('tpl_menu') ? "wrap700" : "wrap400" )?>" class="l<?php echo getlocal("localedirection") ?>">
 	<div id="header">
 		<div id="title">
-			<h1><img src="<?php echo $mibewroot ?>/images/logo.png" alt="" width="32" height="32" class="left logo" />
+			<h1><img src="<?php echo $mibewroot ?>/styles/operator_pages/default/images/logo.png" alt="" width="32" height="32" class="left logo" />
 				<a href="#"><?php echo isset($page['headertitle']) ? $page['headertitle'] : $page['title'] ?></a></h1>
 		</div>
 <?php if(isset($page) && isset($page['operator'])) { ?>
