@@ -161,7 +161,9 @@ $menuItemsCount = 2;
 		<?php echo getlocal('menu.updates.content') ?>
 	</td>
 	<?php menuseparator(); ?>
+<?php } ?>
 
+<?php if( $page['showadmin'] || $page['shownotifications'] ) { ?>
 	<td class="dashitem">
 		<img src="<?php echo $mibewroot ?>/images/dash/notifications.gif" alt=""/>
 		<a href="<?php echo $mibewroot ?>/operator/notifications.php">
