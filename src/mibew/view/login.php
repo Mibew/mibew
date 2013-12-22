@@ -20,7 +20,7 @@ if(isset($page) && isset($page['localeLinks'])) {
 }
 $page['title'] = getlocal("page_login.title");
 $page['headertitle'] = getlocal("app.title");
-$page['show_small_login'] = true;
+$page['show_small_login'] = false;
 $page['fixedwrap'] = true;
 
 function tpl_content() { global $page, $mibewroot, $errors;

@@ -41,7 +41,7 @@ $isrtl = getlocal("localedirection") == 'rtl';
 		</div>
 <?php if(isset($page) && isset($page['operator'])) { ?>
 		<div id="path"><p><?php echo getlocal2("menu.operator",array(safe_htmlspecialchars($page['operator']))) ?></p></div>
-<?php } else if(isset($page) && isset($page['show_small_login'])) { ?>
+<?php } else if(isset($page) && isset($page['show_small_login']) && $page['show_small_login']) { ?>
 		<div id="loginsmallpane">
 			<form name="smallLogin" method="post" action="<?php echo $mibewroot ?>/operator/login.php">
 				<?php echo getlocal("page_login.login") ?>
