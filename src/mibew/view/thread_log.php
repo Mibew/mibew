@@ -18,7 +18,7 @@
 $page['title'] = getlocal("thread.chat_log");
 
 function tpl_content() { global $page, $mibewroot, $errors;
-$chatthread = $page['thread'];
+$chatthread = isset($page['thread']) ? $page['thread'] : array();
 ?>
 
 <?php echo getlocal("thread.intro") ?>
@@ -32,7 +32,7 @@ $chatthread = $page['thread'];
 			<?php echo getlocal("page.analysis.search.head_name") ?>:
 		</div> 
 		<div class="wvalue">
-			<?php echo topage(safe_htmlspecialchars($chatthread['userName'])) ?>
+			<?php echo topage(safe_htmlspecialchars(isset($chatthread['userName']) ? $chatthread['userName'] : '')) ?>
 		</div>
 		<br clear="all"/>
 		
@@ -40,7 +40,7 @@ $chatthread = $page['thread'];
 			<?php echo getlocal("page.analysis.search.head_host") ?>:
 		</div>
 		<div class="wvalue">
-			<?php echo get_user_addr(topage($chatthread['remote'])) ?>
+			<?php echo get_user_addr(topage(isset($chatthread['remote']) ? $chatthread['remote'] : '')) ?>
 		</div>
 		<br clear="all"/>
 
@@ -48,11 +48,11 @@ $chatthread = $page['thread'];
 			<?php echo getlocal("page.analysis.search.head_browser") ?>:
 		</div>
 		<div class="wvalue">
-			<?php echo get_useragent_version(topage($chatthread['userAgent'])) ?>
+			<?php echo get_useragent_version(topage(isset($chatthread['userAgent']) ? $chatthread['userAgent'] : '')) ?>
 		</div>
 		<br clear="all"/>
 
-		<?php if( $chatthread['groupName'] ) { ?>
+		<?php if( isset($chatthread['groupName']) && $chatthread['groupName'] ) { ?>
 			<div class="wlabel">
 				<?php echo getlocal("page.analysis.search.head_group") ?>:
 			</div>
@@ -62,7 +62,7 @@ $chatthread = $page['thread'];
 			<br clear="all"/>
 		<?php } ?>
 
-		<?php if( $chatthread['agentName'] ) { ?>
+		<?php if( isset($chatthread['agentName']) && $chatthread['agentName'] ) { ?>
 			<div class="wlabel">
 				<?php echo getlocal("page.analysis.search.head_operator") ?>:
 			</div>
@@ -76,16 +76,18 @@ $chatthread = $page['thread'];
 			<?php echo getlocal("page.analysis.search.head_time") ?>:
 		</div>
 		<div class="wvalue">
-			<?php echo date_diff_to_text($chatthread['modified']-$chatthread['created']) ?> 
-				(<?php echo date_to_text($chatthread['created']) ?>)
+			<?php echo date_diff_to_text((isset($chatthread['modified']) ? $chatthread['modified'] : 0) - (isset($chatthread['created']) ? $chatthread['created'] : 0)) ?> 
+				(<?php echo date_to_text(isset($chatthread['created']) ? $chatthread['created'] : 0) ?>)
 		</div>
 		<br clear="all"/>
 </div>
 
 <div class="message">
 <?php 
-	foreach( $page['threadMessages'] as $message ) {
-		echo $message;
+	if (isset($page['threadMessages']) && is_array($page['threadMessages'])) {
+		foreach( $page['threadMessages'] as $message ) {
+			echo $message;
+		}
 	}
 ?>
 </div>
