@@ -21,6 +21,7 @@ require_once('../libs/settings.php');
 
 $operator = check_login();
 csrfchecktoken();
+check_permissions($operator, $can_administrate);
 
 $page = array('agentId' => '');
 $errors = array();

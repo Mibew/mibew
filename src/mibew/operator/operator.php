@@ -131,6 +131,9 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 if (!$opId && !is_capable($can_administrate, $operator)) {
 	$errors[] = "You are not allowed to create operators";
 }
+elseif ($opId && ($opId != $operator['operatorid'])) {
+	check_permissions($operator, $can_administrate);
+}
 
 $canmodify = ($opId == $operator['operatorid'] && is_capable($can_modifyprofile, $operator))
 			 || is_capable($can_administrate, $operator);

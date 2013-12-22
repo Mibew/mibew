@@ -24,8 +24,6 @@ $can_modifyprofile = 3;
 $can_count = 4;
 $can_viewnotifications = 5;
 
-
-
 $permission_ids = array(
 	$can_administrate => "admin",
 	$can_takeover => "takeover",
@@ -237,6 +235,21 @@ function check_login($redirect = true)
 		}
 	}
 	return $_SESSION["${mysqlprefix}operator"];
+}
+
+function check_permissions()
+{
+	$check = false;
+	if (func_num_args() > 1) {
+	    $args = func_get_args();
+	    $operator = array_shift($args);
+	    foreach ($args as $permission) {
+		$check = $check || is_capable($permission, $operator);
+	    }
+	}
+	if (!$check) {
+	    die("Permission denied.");
+	}
 }
 
 function get_logged_in()

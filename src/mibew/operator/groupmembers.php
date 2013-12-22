@@ -21,6 +21,7 @@ require_once('../libs/groups.php');
 
 $operator = check_login();
 csrfchecktoken();
+check_permissions($operator, $can_administrate);
 
 function get_group_members($groupid)
 {

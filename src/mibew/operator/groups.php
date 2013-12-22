@@ -20,6 +20,7 @@ require_once('../libs/operator.php');
 
 $operator = check_login();
 csrfchecktoken();
+check_permissions($operator, $can_administrate);
 
 if (isset($_GET['act']) && $_GET['act'] == 'del') {
 

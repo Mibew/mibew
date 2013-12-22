@@ -20,6 +20,7 @@ require_once('../libs/operator.php');
 require_once('../libs/chat.php');
 
 $operator = check_login();
+check_permissions($operator, $can_administrate, $can_viewnotifications);
 
 $page = array();
 

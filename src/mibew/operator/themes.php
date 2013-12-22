@@ -24,6 +24,7 @@ require_once('../libs/expand.php');
 require_once('../libs/settings.php');
 
 $operator = check_login();
+check_permissions($operator, $can_administrate);
 
 $stylelist = array();
 $stylesfolder = "../styles";

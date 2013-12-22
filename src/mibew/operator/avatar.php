@@ -26,6 +26,10 @@ $opId = verifyparam("op", "/^\d{1,10}$/");
 $page = array('opid' => $opId, 'avatar' => '');
 $errors = array();
 
+if ($opId && ($opId != $operator['operatorid'])) {
+	check_permissions($operator, $can_administrate);
+}
+
 $canmodify = ($opId == $operator['operatorid'] && is_capable($can_modifyprofile, $operator))
 			 || is_capable($can_administrate, $operator);
 

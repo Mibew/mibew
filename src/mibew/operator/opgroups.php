@@ -41,6 +41,10 @@ $page['groups'] = get_all_groups($link);
 mysql_close($link);
 $errors = array();
 
+if ($opId && ($opId != $operator['operatorid'])) {
+	check_permissions($operator, $can_administrate);
+}
+
 $canmodify = ($opId == $operator['operatorid'] && is_capable($can_modifyprofile, $operator))
 			 || is_capable($can_administrate, $operator);
 

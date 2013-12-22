@@ -21,6 +21,7 @@ require_once('../libs/groups.php');
 require_once('../libs/getcode.php');
 
 $operator = check_login();
+check_permissions($operator, $can_administrate);
 loadsettings();
 
 $stylelist = get_style_list("../styles");

@@ -20,6 +20,7 @@ require_once('../libs/operator.php');
 require_once('../libs/settings.php');
 
 $operator = check_login();
+check_permissions($operator, $can_administrate);
 
 $default_extensions = array('mysql', 'gd', 'iconv');
 

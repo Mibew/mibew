@@ -35,6 +35,10 @@ $opId = verifyparam("op", "/^\d{1,10}$/");
 $page = array('opid' => $opId, 'canmodify' => is_capable($can_administrate, $operator) ? "1" : "");
 $errors = array();
 
+if ($opId && ($opId != $operator['operatorid'])) {
+	check_permissions($operator, $can_administrate);
+}
+
 $op = operator_by_id($opId);
 
 if (!$op) {

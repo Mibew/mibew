@@ -21,6 +21,7 @@ require_once('../libs/groups.php');
 
 $operator = check_login();
 csrfchecktoken();
+check_permissions($operator, $can_administrate);
 
 $page = array('grid' => '');
 $errors = array();

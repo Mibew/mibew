@@ -119,6 +119,7 @@ function get_auxiliary($s)
 
 $operator = check_login();
 csrfchecktoken();
+check_permissions($operator, $can_administrate);
 
 $source = verifyparam("source", "/^[\w-]{2,5}$/", $default_locale);
 $target = verifyparam("target", "/^[\w-]{2,5}$/", $current_locale);

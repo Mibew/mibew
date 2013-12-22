@@ -21,13 +21,10 @@ require_once('../libs/operator.php');
 require_once('../libs/pagination.php');
 
 $operator = check_login();
+check_permissions($operator, $can_administrate, $can_viewnotifications);
 
 $page = array();
 $errors = array();
-
-if (!is_capable($can_administrate, $operator) && !is_capable($can_viewnotifications, $operator)) {
-	die("Permission denied.");
-}
 
 setlocale(LC_TIME, getstring("time.locale"));
 
