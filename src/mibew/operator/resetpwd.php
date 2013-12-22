@@ -19,6 +19,11 @@ require_once('../libs/common.php');
 require_once('../libs/operator.php');
 require_once('../libs/settings.php');
 
+if (check_login(false)) {
+	header("Location: $mibewroot/operator/");
+	exit;
+}
+
 $errors = array();
 $page = array('version' => $version, 'showform' => true);
 
