@@ -51,7 +51,7 @@ $options = array(
 );
 
 if (Settings::get('enabletracking')) {
-	$options[] = 'invitationstyle';
+	$options[] = 'invitation_style';
 	$invitationstylelist = InvitationStyle::availableStyles();
 }
 
@@ -83,9 +83,9 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
 	}
 
 	if (Settings::get('enabletracking')) {
-		$params['invitationstyle'] = verifyparam("invitationstyle", "/^\w+$/", $params['invitationstyle']);
-		if (!in_array($params['invitationstyle'], $invitationstylelist)) {
-			$params['invitationstyle'] = $invitationstylelist[0];
+		$params['invitation_style'] = verifyparam("invitation_style", "/^\w+$/", $params['invitation_style']);
+		if (!in_array($params['invitation_style'], $invitationstylelist)) {
+			$params['invitation_style'] = $invitationstylelist[0];
 		}
 	}
 
@@ -135,7 +135,7 @@ $page['formcronkey'] = $params['cron_key'];
 $page['cron_path'] = cron_get_uri($params['cron_key']);
 
 if (Settings::get('enabletracking')) {
-	$page['forminvitationstyle'] = $params['invitationstyle'];
+	$page['forminvitationstyle'] = $params['invitation_style'];
 	$page['availableInvitationStyles'] = $invitationstylelist;
 }
 

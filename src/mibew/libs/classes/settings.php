@@ -66,7 +66,7 @@ Class Settings {
 			'logo' => '',
 			'usernamepattern' => '{name}',
 			'chat_style' => 'default',
-			'invitationstyle' => 'default',
+			'invitation_style' => 'default',
 			'page_style' => 'default',
 			'chattitle' => 'Live Support',
 			'geolink' => 'http://api.hostip.info/get_html.php?ip={ip}',

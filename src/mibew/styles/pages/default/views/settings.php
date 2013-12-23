@@ -141,11 +141,11 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		</div>
 <?php if ($page['enabletracking']) { ?>
 		<div class="field">
-			<label for="invitationstyle" class="flabel"><?php echo getlocal('settings.invitationstyle') ?></label>
+			<label for="invitation_style" class="flabel"><?php echo getlocal('settings.invitationstyle') ?></label>
 			<div class="fvalue">
-				<select id="invitationstyle" name="invitationstyle" ><?php foreach($page['availableInvitationStyles'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("invitationstyle") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+				<select id="invitation_style" name="invitation_style" ><?php foreach($page['availableInvitationStyles'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("invitationstyle") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			</div>
-			<label for="invitationstyle" class="fdescr"> &mdash; <?php echo getlocal('settings.invitationstyle.description') ?></label>
+			<label for="invitation_style" class="fdescr"> &mdash; <?php echo getlocal('settings.invitationstyle.description') ?></label>
 			<br clear="all"/>
 		</div>
 <?php } ?>

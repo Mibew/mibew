@@ -55,7 +55,7 @@ class InvitationStyle extends Style implements StyleInterface {
 	 */
 	public static function currentStyle() {
 		// Load value from system settings
-		return Settings::get('invitationstyle');
+		return Settings::get('invitation_style');
 	}
 
 	/**
@@ -64,7 +64,7 @@ class InvitationStyle extends Style implements StyleInterface {
 	 * @param string $style_name Name of a style
 	 */
 	public static function setCurrentStyle($style_name) {
-		Settings::set('invitationstyle', $style_name);
+		Settings::set('invitation_style', $style_name);
 		Settings::update();
 	}
 
