@@ -19,7 +19,9 @@ require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/canned.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
-require_once(dirname(dirname(__FILE__)).'/libs/view.php');
+require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');
 
 $operator = check_login();
 csrfchecktoken();
@@ -28,6 +30,8 @@ $stringid = verifyparam("key", "/^\d{0,9}$/", "");
 
 $errors = array();
 $page = array();
+
+$page_style = new PageStyle(PageStyle::currentStyle());
 
 if ($stringid) {
 	$canned_message = load_canned_message($stringid);
@@ -65,7 +69,7 @@ if (isset($_POST['message']) && isset($_POST['title'])) {
 		}
 		$page['saved'] = true;
 		prepare_menu($operator, false);
-		render_view('cannededit');
+		$page_style->render('cannededit');
 		exit;
 	}
 }
@@ -76,6 +80,6 @@ $page['formtitle'] = topage($title);
 $page['formmessage'] = topage($message);
 
 prepare_menu($operator, false);
-render_view('cannededit');
+$page_style->render('cannededit');
 
 ?>

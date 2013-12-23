@@ -19,11 +19,15 @@ require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/settings.php');
 require_once(dirname(dirname(__FILE__)).'/libs/notify.php');
-require_once(dirname(dirname(__FILE__)).'/libs/view.php');
+require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');
 
 $errors = array();
 $page = array('version' => $version);
 $loginoremail = "";
+
+$page_style = new PageStyle(PageStyle::currentStyle());
 
 if (isset($_POST['loginoremail'])) {
 	$loginoremail = getparam("loginoremail");
@@ -56,7 +60,7 @@ if (isset($_POST['loginoremail'])) {
 		mibew_mail($email, $email, getstring("restore.mailsubj"), getstring2("restore.mailtext", array(get_operator_name($torestore), $href)));
 
 		$page['isdone'] = true;
-		render_view('restore');
+		$page_style->render('restore');
 		exit;
 	}
 }
@@ -66,6 +70,6 @@ $page['formloginoremail'] = topage($loginoremail);
 $page['localeLinks'] = get_locale_links("$mibewroot/operator/restore.php");
 $page['isdone'] = false;
 
-render_view('restore');
+$page_style->render('restore');
 
 ?>

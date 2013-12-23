@@ -18,7 +18,9 @@
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
-require_once(dirname(dirname(__FILE__)).'/libs/view.php');
+require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');
 
 function compare_localization_by_l1($a, $b)
 {
@@ -143,6 +145,8 @@ $page = array(
 	'title2' => isset($lang2["localeid"]) ? $lang2["localeid"] : $target
 );
 
+$page_style = new PageStyle(PageStyle::currentStyle());
+
 if ($stringid) {
 	$translation = isset($lang2[$stringid]) ? $lang2[$stringid] : "";
 	if (isset($_POST['translation'])) {
@@ -157,7 +161,7 @@ if ($stringid) {
 
 			$page['saved'] = true;
 			prepare_menu($operator, false);
-			render_view('translate');
+			$page_style->render('translate');
 			exit;
 		}
 	}
@@ -168,7 +172,7 @@ if ($stringid) {
 	$page['formoriginal'] = isset($lang1[$stringid]) ? $lang1[$stringid] : "<b><unknown></b>";
 	$page['formtranslation'] = $translation;
 	prepare_menu($operator, false);
-	render_view('translate');
+	$page_style->render('translate');
 	exit;
 }
 
@@ -229,6 +233,6 @@ $page['showOptions'] = array(
 $page['formshow'] = $show;
 
 prepare_menu($operator);
-render_view('translatelist');
+$page_style->render('translatelist');
 
 ?>

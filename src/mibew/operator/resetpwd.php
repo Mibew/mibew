@@ -18,10 +18,14 @@
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/settings.php');
-require_once(dirname(dirname(__FILE__)).'/libs/view.php');
+require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');
 
 $errors = array();
 $page = array('version' => $version, 'showform' => true);
+
+$page_style = new PageStyle(PageStyle::currentStyle());
 
 $opId = verifyparam("id", "/^\d{1,9}$/");
 $token = verifyparam("token", "/^[\dabcdef]+$/");
@@ -57,7 +61,7 @@ if (count($errors) == 0 && isset($_POST['password'])) {
 		);
 
 		$page['loginname'] = $operator['vclogin'];
-		render_view('resetpwd');
+		$page_style->render('resetpwd');
 		exit;
 	}
 }
@@ -66,6 +70,6 @@ $page['id'] = $opId;
 $page['token'] = $token;
 $page['isdone'] = false;
 
-render_view('resetpwd');
+$page_style->render('resetpwd');
 
 ?>

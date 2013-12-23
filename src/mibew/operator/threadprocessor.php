@@ -19,7 +19,9 @@ require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/chat.php');
 require_once(dirname(dirname(__FILE__)).'/libs/userinfo.php');
-require_once(dirname(dirname(__FILE__)).'/libs/view.php');
+require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');
 
 $operator = check_login();
 
@@ -58,6 +60,8 @@ if (isset($_GET['threadid'])) {
 }
 
 prepare_menu($operator, false);
-render_view('thread_log');
+
+$page_style = new PageStyle(PageStyle::currentStyle());
+$page_style->render('thread_log');
 
 ?>

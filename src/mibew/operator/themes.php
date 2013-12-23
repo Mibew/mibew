@@ -22,10 +22,10 @@ require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
 require_once(dirname(dirname(__FILE__)).'/libs/expand.php');
 require_once(dirname(dirname(__FILE__)).'/libs/settings.php');
-require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
 require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
 require_once(dirname(dirname(__FILE__)).'/libs/classes/chat_style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');
 
 $operator = check_login();
 
@@ -57,6 +57,8 @@ $page['screenshotsList'] = $screenshots;
 
 prepare_menu($operator);
 setup_settings_tabs(4);
-render_view('themes');
+
+$page_style = new PageStyle(PageStyle::currentStyle());
+$page_style->render('themes');
 
 ?>

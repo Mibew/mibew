@@ -16,8 +16,11 @@
  */
 
 require_once(dirname(__FILE__).'/libs/init.php');
-require_once(dirname(__FILE__).'/libs/view.php');
+require_once(dirname(__FILE__).'/libs/interfaces/style.php');
+require_once(dirname(__FILE__).'/libs/classes/style.php');
+require_once(dirname(__FILE__).'/libs/classes/page_style.php');
 
-render_view('license');
+$page_style = new PageStyle(PageStyle::currentStyle());
+$page_style->render('license');
 
 ?>

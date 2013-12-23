@@ -33,7 +33,9 @@ require_once(dirname(dirname(__FILE__)).'/libs/common/locale.php');
 require_once(dirname(dirname(__FILE__)).'/libs/common/misc.php');
 require_once(dirname(dirname(__FILE__)).'/libs/common/response.php');
 require_once(dirname(dirname(__FILE__)).'/libs/common/string.php');
-require_once(dirname(dirname(__FILE__)).'/libs/view.php');
+require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');
 // Include database structure
 require_once(dirname(__FILE__).'/dbinfo.php');
 
@@ -372,6 +374,7 @@ function check_status()
 
 check_status();
 
-render_view('install_index');
+$page_style = new PageStyle('default');
+$page_style->render('install_index');
 
 ?>

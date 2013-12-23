@@ -29,42 +29,4 @@ function read_config_file($file) {
 	return parse_ini_file($file, true);
 }
 
-/**
- * Load configuration array for core style
- *
- * @return array Configuration array
- */
-function get_core_style_config($style) {
-	// Get root dir of mibew messanger
-	$base_path = realpath(dirname(dirname(dirname(__FILE__))));
-
-	// Load config
-	$config = read_config_file($base_path.'/styles/pages/' . $style . '/config.ini');
-
-	// Set default values
-	$config = ($config === false) ? array() : $config;
-	$config += array(
-		'history' => array(
-			'window_params' => ''
-		),
-		'users' => array(
-			'thread_tag' => 'div',
-			'visitor_tag' => 'div'
-		),
-		'tracked' => array(
-			'user_window_params' => '',
-			'visitor_window_params' => ''
-		),
-		'invitation' => array(
-			'window_params' => ''
-		),
-		'ban' => array(
-			'window_params' => ''
-		),
-		'screenshots' => array()
-	);
-
-	return $config;
-}
-
 ?>

@@ -17,7 +17,9 @@
 
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
-require_once(dirname(dirname(__FILE__)).'/libs/view.php');
+require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');
 
 $operator = check_login();
 csrfchecktoken();
@@ -73,6 +75,8 @@ $page['availableDirections'] = array(
 );
 
 prepare_menu($operator);
-render_view('groups');
+
+$page_style = new PageStyle(PageStyle::currentStyle());
+$page_style->render('groups');
 
 ?>

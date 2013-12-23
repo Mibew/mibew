@@ -19,11 +19,13 @@ require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/settings.php');
 require_once(dirname(dirname(__FILE__)).'/libs/styles.php');
-require_once(dirname(dirname(__FILE__)).'/libs/view.php');
+require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');
 
 $operator = check_login();
 
-$stylelist = get_style_list(dirname(dirname(__FILE__)).'/styles/pages');
+$stylelist = PageStyle::availableStyles();
 
 $preview = verifyparam("preview", "/^\w+$/", "default");
 if (!in_array($preview, $stylelist)) {
@@ -31,13 +33,14 @@ if (!in_array($preview, $stylelist)) {
 	$preview = $stylelist[$style_names[0]];
 }
 
-$style_config = get_core_style_config($preview);
+$preview_style = new PageStyle($preview);
+$style_config = $preview_style->configurations();
 
 $screenshots = array();
 foreach($style_config['screenshots'] as $name => $desc) {
 	$screenshots[] = array(
 		'name' => $name,
-		'file' => $mibewroot . '/styles/pages/' . $preview
+		'file' => $mibewroot . '/' . $preview_style->filesPath()
 			. '/screenshots/' . $name . '.png',
 		'description' => $desc
 	);
@@ -49,6 +52,8 @@ $page['screenshotsList'] = $screenshots;
 
 prepare_menu($operator);
 setup_settings_tabs(3);
-render_view('page_themes');
+
+$page_style = new PageStyle(PageStyle::currentStyle());
+$page_style->render('page_themes');
 
 ?>

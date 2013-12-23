@@ -23,10 +23,10 @@ require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
 require_once(dirname(dirname(__FILE__)).'/libs/expand.php');
 require_once(dirname(dirname(__FILE__)).'/libs/classes/thread.php');
-require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
 require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
 require_once(dirname(dirname(__FILE__)).'/libs/classes/chat_style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');
 
 $operator = check_login();
 
@@ -47,6 +47,8 @@ $page = array();
 
 // Initialize chat style which is currently used in system
 $chat_style = new ChatStyle(ChatStyle::currentStyle());
+
+$page_style = new PageStyle(PageStyle::currentStyle());
 
 if (!isset($_GET['token'])) {
 
@@ -81,7 +83,7 @@ if (!isset($_GET['token'])) {
 				'agent' => topage($thread->agentName),
 				'link' => $_SERVER['PHP_SELF'] . "?thread=$threadid&amp;force=true"
 			);
-			render_view('confirm');
+			$page_style->render('confirm');
 			exit;
 		}
 	}

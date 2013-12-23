@@ -21,7 +21,9 @@ require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/settings.php');
 require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
 require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
-require_once(dirname(dirname(__FILE__)).'/libs/view.php');
+require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');
 
 $operator = check_login();
 force_password($operator);
@@ -95,6 +97,8 @@ $page['formlang'] = $lang;
 $page['formgroup'] = $groupid;
 
 prepare_menu($operator);
-render_view('canned');
+
+$page_style = new PageStyle(PageStyle::currentStyle());
+$page_style->render('canned');
 
 ?>

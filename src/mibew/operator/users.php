@@ -18,10 +18,10 @@
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
-require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
 require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
 require_once(dirname(dirname(__FILE__)).'/libs/classes/chat_style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');
 
 $operator = check_login();
 force_password($operator);
@@ -48,8 +48,9 @@ $chat_style = new ChatStyle(ChatStyle::currentStyle());
 $style_config = $chat_style->configurations();
 $page['chatStyles.chatWindowParams'] = $style_config['chat']['window_params'];
 
-// Load core style options
-$style_config = get_core_style_config(get_page_style());
+// Load page style options
+$page_style = new PageStyle(PageStyle::currentStyle());
+$style_config = $page_style->configurations();
 $page['coreStyles.threadTag'] = $style_config['users']['thread_tag'];
 $page['coreStyles.visitorTag'] = $style_config['users']['visitor_tag'];
 $page['coreStyles.trackedUserWindowParams'] = $style_config['tracked']['user_window_params'];
@@ -61,6 +62,6 @@ $page['coreStyles.banWindowParams'] = $style_config['ban']['window_params'];
 $page = array_merge($page, get_plugins_data('users'));
 
 prepare_menu($operator);
-render_view('pending_users');
+$page_style->render('pending_users');
 
 ?>

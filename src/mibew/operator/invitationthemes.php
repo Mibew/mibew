@@ -22,7 +22,9 @@ require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
 require_once(dirname(dirname(__FILE__)).'/libs/expand.php');
 require_once(dirname(dirname(__FILE__)).'/libs/settings.php');
 require_once(dirname(dirname(__FILE__)).'/libs/styles.php');
-require_once(dirname(dirname(__FILE__)).'/libs/view.php');
+require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');
 
 $operator = check_login();
 
@@ -40,6 +42,8 @@ $page['operatorName'] = (empty($operator['vclocalname'])?$operator['vccommonname
 
 prepare_menu($operator);
 setup_settings_tabs(5);
-render_view('invitation_themes');
+
+$page_style = new PageStyle(PageStyle::currentStyle());
+$page_style->render('invitation_themes');
 
 ?>

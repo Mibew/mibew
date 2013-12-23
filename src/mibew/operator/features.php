@@ -18,7 +18,9 @@
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/settings.php');
-require_once(dirname(dirname(__FILE__)).'/libs/view.php');
+require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');
 
 $operator = check_login();
 csrfchecktoken();
@@ -65,6 +67,8 @@ foreach ($options as $opt) {
 
 prepare_menu($operator);
 setup_settings_tabs(1);
-render_view('features');
+
+$page_style = new PageStyle(PageStyle::currentStyle());
+$page_style->render('features');
 
 ?>

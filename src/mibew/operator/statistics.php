@@ -20,7 +20,9 @@ require_once(dirname(dirname(__FILE__)).'/libs/chat.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/statistics.php');
 require_once(dirname(dirname(__FILE__)).'/libs/cron.php');
-require_once(dirname(dirname(__FILE__)).'/libs/view.php');
+require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');
 
 $operator = check_login();
 force_password($operator);
@@ -174,6 +176,8 @@ $page['showresults'] = count($errors) == 0;
 
 prepare_menu($operator);
 setup_statistics_tabs($activetab);
-render_view('statistics');
+
+$page_style = new PageStyle(PageStyle::currentStyle());
+$page_style->render('statistics');
 
 ?>
