@@ -18,12 +18,12 @@
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/settings.php');
-require_once(dirname(dirname(__FILE__)).'/libs/styles.php');
 require_once(dirname(dirname(__FILE__)).'/libs/cron.php');
 require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
 require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
 require_once(dirname(dirname(__FILE__)).'/libs/classes/chat_style.php');
 require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/invitation_style.php');
 
 $operator = check_login();
 force_password($operator);
@@ -52,7 +52,7 @@ $options = array(
 
 if (Settings::get('enabletracking')) {
 	$options[] = 'invitationstyle';
-	$invitationstylelist = get_style_list(dirname(dirname(__FILE__)).'/styles/invitations');
+	$invitationstylelist = InvitationStyle::availableStyles();
 }
 
 $params = array();

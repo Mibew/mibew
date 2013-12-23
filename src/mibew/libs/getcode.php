@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-function generate_button($title, $locale, $style, $invitationstyle, $group, $inner, $showhost, $forcesecure, $modsecurity, $operator_code)
+function generate_button($title, $locale, $style, $invitation_style_name, $group, $inner, $showhost, $forcesecure, $modsecurity, $operator_code)
 {
 	$app_location = get_app_location($showhost, $forcesecure);
 	$link = $app_location . "/client.php";
@@ -48,12 +48,16 @@ function generate_button($title, $locale, $style, $invitationstyle, $group, $inn
 	if (Settings::get('enabletracking')) {
 		$widget_data = array();
 
+		// Get actual invitation style instance
+		if (!$invitation_style_name) {
+			$invitation_style_name = InvitationStyle::currentStyle();
+		}
+		$invitation_style = new InvitationStyle($invitation_style_name);
+
 		// URL of file with additional CSS rules for invitation popup
-		$widget_data['inviteStyle'] = $app_location . '/styles/invitations/' .
-			($invitationstyle
-				? $invitationstyle
-				: (Settings::get('invitationstyle'))
-			) .	'/invite.css';
+		$widget_data['inviteStyle'] = $app_location . '/' .
+			$invitation_style->filesPath() .
+			'/invite.css';
 
 		// Time between requests to the server in milliseconds
 		$widget_data['requestTimeout'] = Settings::get('updatefrequency_tracking')

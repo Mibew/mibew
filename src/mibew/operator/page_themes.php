@@ -18,7 +18,6 @@
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/settings.php');
-require_once(dirname(dirname(__FILE__)).'/libs/styles.php');
 require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
 require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
 require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');

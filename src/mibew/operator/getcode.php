@@ -19,11 +19,11 @@ require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
 require_once(dirname(dirname(__FILE__)).'/libs/getcode.php');
-require_once(dirname(dirname(__FILE__)).'/libs/styles.php');
 require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
 require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
 require_once(dirname(dirname(__FILE__)).'/libs/classes/chat_style.php');
 require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/invitation_style.php');
 
 $operator = check_login();
 force_password($operator);
@@ -44,7 +44,7 @@ if ($style && !in_array($style, $stylelist)) {
 	$style = "";
 }
 
-$invitationstylelist = get_style_list(dirname(dirname(__FILE__)).'/styles/invitations');
+$invitationstylelist = InvitationStyle::availableStyles();
 $invitationstylelist[""] = getlocal("page.preview.style_default");
 $invitationstyle = verifyparam("invitationstyle", "/^\w*$/", "");
 if ($invitationstyle && !in_array($invitationstyle, $invitationstylelist)) {
