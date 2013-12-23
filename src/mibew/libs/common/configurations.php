@@ -67,32 +67,4 @@ function get_core_style_config($style) {
 	return $config;
 }
 
-/**
- * Load configuration array for dialogs style
- *
- * @param string $style Style name
- * @return array Configuration array
- */
-function get_dialogs_style_config($style) {
-	// Get root dir of mibew messanger
-	$base_path = realpath(dirname(dirname(dirname(__FILE__))));
-
-	// Load config
-	$config = read_config_file($base_path.'/styles/dialogs/'.$style.'/config.ini');
-
-	// Set default values
-	$config = ($config === false) ? array() : $config;
-	$config += array(
-		'chat' => array(
-			'window_params' => ''
-		),
-		'mail' => array(
-			'window_params' => ''
-		),
-		'screenshots' => array()
-	);
-
-	return $config;
-}
-
 ?>

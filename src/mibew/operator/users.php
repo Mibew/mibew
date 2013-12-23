@@ -19,6 +19,9 @@ require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
 require_once(dirname(dirname(__FILE__)).'/libs/view.php');
+require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/chat_style.php');
 
 $operator = check_login();
 force_password($operator);
@@ -41,7 +44,8 @@ $page['geoLink'] = Settings::get('geolink');
 $page['geoWindowParams'] = Settings::get('geolinkparams');
 
 // Load dialogs style options
-$style_config = get_dialogs_style_config(getchatstyle());
+$chat_style = new ChatStyle(ChatStyle::currentStyle());
+$style_config = $chat_style->configurations();
 $page['chatStyles.chatWindowParams'] = $style_config['chat']['window_params'];
 
 // Load core style options

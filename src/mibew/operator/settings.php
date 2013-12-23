@@ -21,6 +21,9 @@ require_once(dirname(dirname(__FILE__)).'/libs/settings.php');
 require_once(dirname(dirname(__FILE__)).'/libs/styles.php');
 require_once(dirname(dirname(__FILE__)).'/libs/cron.php');
 require_once(dirname(dirname(__FILE__)).'/libs/view.php');
+require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/chat_style.php');
 
 $operator = check_login();
 force_password($operator);
@@ -29,7 +32,7 @@ csrfchecktoken();
 $page = array('agentId' => '');
 $errors = array();
 
-$stylelist = get_style_list(dirname(dirname(__FILE__)).'/styles/dialogs');
+$stylelist = ChatStyle::availableStyles();
 $operator_pages_style_list = get_style_list(dirname(dirname(__FILE__)).'/styles/operator_pages');
 
 $options = array(
@@ -39,7 +42,7 @@ $options = array(
 	'hosturl',
 	'usernamepattern',
 	'operator_pages_style',
-	'chatstyle',
+	'chat_style',
 	'chattitle',
 	'geolink',
 	'geolinkparams',
@@ -69,9 +72,9 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
 	$params['sendmessagekey'] = verifyparam('sendmessagekey', "/^c?enter$/");
 	$params['cron_key'] = getparam('cronkey');
 
-	$params['chatstyle'] = verifyparam("chatstyle", "/^\w+$/", $params['chatstyle']);
-	if (!in_array($params['chatstyle'], $stylelist)) {
-		$params['chatstyle'] = $stylelist[0];
+	$params['chat_style'] = verifyparam("chat_style", "/^\w+$/", $params['chat_style']);
+	if (!in_array($params['chat_style'], $stylelist)) {
+		$params['chat_style'] = $stylelist[0];
 	}
 
 	$params['operator_pages_style'] = verifyparam("operator_pages_style", "/^\w+$/", $params['operator_pages_style']);
@@ -121,7 +124,7 @@ $page['formgeolinkparams'] = topage($params['geolinkparams']);
 $page['formusernamepattern'] = topage($params['usernamepattern']);
 $page['formoperatorpagesstyle'] = $params['operator_pages_style'];
 $page['availableOperatorPagesStyles'] = $operator_pages_style_list;
-$page['formchatstyle'] = $params['chatstyle'];
+$page['formchatstyle'] = $params['chat_style'];
 $page['formchattitle'] = topage($params['chattitle']);
 $page['formsendmessagekey'] = $params['sendmessagekey'];
 $page['availableChatStyles'] = $stylelist;

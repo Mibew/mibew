@@ -21,6 +21,9 @@ require_once(dirname(dirname(__FILE__)).'/libs/chat.php');
 require_once(dirname(dirname(__FILE__)).'/libs/expand.php');
 require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
 require_once(dirname(dirname(__FILE__)).'/libs/classes/thread.php');
+require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/chat_style.php');
 
 $operator = check_login();
 
@@ -34,6 +37,9 @@ if (! $thread) {
 
 $page = array();
 $errors = array();
+
+// Initialize chat style which is currently used in system
+$chat_style = new ChatStyle(ChatStyle::currentStyle());
 
 if (isset($_GET['nextGroup'])) {
 	$nextid = verifyparam("nextGroup", "/^\d{1,8}$/");
@@ -110,10 +116,11 @@ $page = array_merge_recursive(
 	$page,
 	setup_logo()
 );
+
 if (count($errors) > 0) {
-	expand(dirname(dirname(__FILE__)).'/styles/dialogs', getchatstyle(), "error.tpl");
+	$chat_style->render('error');
 } else {
-	expand(dirname(dirname(__FILE__)).'/styles/dialogs', getchatstyle(), "redirected.tpl");
+	$chat_style->render('redirected');
 }
 
 ?>

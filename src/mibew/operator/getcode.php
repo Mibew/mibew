@@ -21,6 +21,9 @@ require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
 require_once(dirname(dirname(__FILE__)).'/libs/getcode.php');
 require_once(dirname(dirname(__FILE__)).'/libs/styles.php');
 require_once(dirname(dirname(__FILE__)).'/libs/view.php');
+require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/chat_style.php');
 
 $operator = check_login();
 force_password($operator);
@@ -34,7 +37,7 @@ if (!isset($imageLocales[$image])) {
 }
 $image_locales = $imageLocales[$image];
 
-$stylelist = get_style_list(dirname(dirname(__FILE__)).'/styles/dialogs');
+$stylelist = ChatStyle::availableStyles();
 $stylelist[""] = getlocal("page.preview.style_default");
 $style = verifyparam("style", "/^\w*$/", "");
 if ($style && !in_array($style, $stylelist)) {

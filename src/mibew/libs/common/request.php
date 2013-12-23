@@ -76,15 +76,6 @@ function is_secure_request()
 			|| isset($_SERVER["HTTP_HTTPS"]) && $_SERVER["HTTP_HTTPS"] == "on";
 }
 
-function getchatstyle()
-{
-	$chatstyle = verifyparam("style", "/^\w+$/", "");
-	if ($chatstyle) {
-		return $chatstyle;
-	}
-	return Settings::get('chatstyle');
-}
-
 /**
  * Returns name of the current operator pages style
  *

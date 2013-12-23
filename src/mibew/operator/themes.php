@@ -22,12 +22,14 @@ require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
 require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
 require_once(dirname(dirname(__FILE__)).'/libs/expand.php');
 require_once(dirname(dirname(__FILE__)).'/libs/settings.php');
-require_once(dirname(dirname(__FILE__)).'/libs/styles.php');
 require_once(dirname(dirname(__FILE__)).'/libs/view.php');
+require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/chat_style.php');
 
 $operator = check_login();
 
-$stylelist = get_style_list(dirname(dirname(__FILE__)).'/styles/dialogs');
+$stylelist = ChatStyle::availableStyles();
 
 $preview = verifyparam("preview", "/^\w+$/", "default");
 if (!in_array($preview, $stylelist)) {
@@ -35,13 +37,15 @@ if (!in_array($preview, $stylelist)) {
 	$preview = $stylelist[$style_names[0]];
 }
 
-$style_config = get_dialogs_style_config($preview);
+$chat_style = new ChatStyle($preview);
+
+$style_config = $chat_style->configurations();
 
 $screenshots = array();
 foreach($style_config['screenshots'] as $name => $desc) {
 	$screenshots[] = array(
 		'name' => $name,
-		'file' => $mibewroot . '/styles/dialogs/' . $preview
+		'file' => $mibewroot . '/' . $chat_style->filesPath()
 			. '/screenshots/' . $name . '.png',
 		'description' => $desc
 	);

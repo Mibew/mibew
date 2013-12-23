@@ -24,6 +24,9 @@ require_once(dirname(__FILE__).'/libs/captcha.php');
 require_once(dirname(__FILE__).'/libs/invitation.php');
 require_once(dirname(__FILE__).'/libs/track.php');
 require_once(dirname(__FILE__).'/libs/classes/thread.php');
+require_once(dirname(__FILE__).'/libs/interfaces/style.php');
+require_once(dirname(__FILE__).'/libs/classes/style.php');
+require_once(dirname(__FILE__).'/libs/classes/chat_style.php');
 
 if(Settings::get('enablessl') == "1" && Settings::get('forcessl') == "1") {
 	if(!is_secure_request()) {
@@ -37,6 +40,8 @@ if(Settings::get('enablessl') == "1" && Settings::get('forcessl') == "1") {
 	}
 }
 
+// Initialize chat style which is currently used in system
+$chat_style = new ChatStyle(ChatStyle::currentStyle());
 
 // Do not support old browsers at all
 if (get_remote_level($_SERVER['HTTP_USER_AGENT']) == 'old') {
@@ -44,7 +49,7 @@ if (get_remote_level($_SERVER['HTTP_USER_AGENT']) == 'old') {
 	$page = array_merge_recursive(
 		setup_logo()
 	);
-	expand(dirname(__FILE__).'/styles/dialogs', getchatstyle(), "nochat.tpl");
+	$chat_style->render('nochat');
 	exit;
 }
 
@@ -63,7 +68,7 @@ if (verifyparam("act", "/^(invitation)$/", "default") == 'invitation'
 		// Build js application options
 		$page['invitationOptions'] = json_encode($page['invitation']);
 		// Expand page
-		expand(dirname(__FILE__).'/styles/dialogs', getchatstyle(), "chat.tpl");
+		$chat_style->render('chat');
 		exit;
 	}
 }
@@ -129,7 +134,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 				)
 			);
 			$page['leaveMessageOptions'] = json_encode($page['leaveMessage']);
-			expand(dirname(__FILE__).'/styles/dialogs', getchatstyle(), "chat.tpl");
+			$chat_style->render('chat');
 			exit;
 		}
 
@@ -158,7 +163,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 				setup_survey($visitor['name'], $email, $groupid, $info, $referrer)
 			);
 			$page['surveyOptions'] = json_encode($page['survey']);
-			expand(dirname(__FILE__).'/styles/dialogs', getchatstyle(), "chat.tpl");
+			$chat_style->render('chat');
 			exit;
 		}
 
@@ -184,12 +189,12 @@ $page = setup_chatview_for_user($thread);
 
 $pparam = verifyparam( "act", "/^(mailthread)$/", "default");
 if( $pparam == "mailthread" ) {
-	expand(dirname(__FILE__).'/styles/dialogs', getchatstyle(), "mail.tpl");
+	$chat_style->render('mail');
 } else {
 	// Build js application options
 	$page['chatOptions'] = json_encode($page['chat']);
 	// Expand page
-	expand(dirname(__FILE__).'/styles/dialogs', getchatstyle(), "chat.tpl");
+	$chat_style->render('chat');
 }
 
 ?>

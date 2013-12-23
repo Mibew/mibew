@@ -21,6 +21,9 @@ require_once(dirname(__FILE__).'/libs/expand.php');
 require_once(dirname(__FILE__).'/libs/groups.php');
 require_once(dirname(__FILE__).'/libs/notify.php');
 require_once(dirname(__FILE__).'/libs/classes/thread.php');
+require_once(dirname(__FILE__).'/libs/interfaces/style.php');
+require_once(dirname(__FILE__).'/libs/classes/style.php');
+require_once(dirname(__FILE__).'/libs/classes/chat_style.php');
 
 $errors = array();
 $page = array();
@@ -32,6 +35,9 @@ $thread = Thread::load($threadid, $token);
 if (! $thread) {
 	die("wrong thread");
 }
+
+// Initialize chat style which is currently used in system
+$chat_style = new ChatStyle(ChatStyle::currentStyle());
 
 $email = getparam('email');
 $page['email'] = $email;
@@ -51,7 +57,7 @@ if( count($errors) > 0 ) {
 		$page,
 		setup_logo($group)
 	);
-	expand(dirname(__FILE__).'/styles/dialogs', getchatstyle(), "mail.tpl");
+	$chat_style->render('mail');
 	exit;
 }
 
@@ -74,6 +80,6 @@ $page = array_merge_recursive(
 	$page,
 	setup_logo($group)
 );
-expand(dirname(__FILE__).'/styles/dialogs', getchatstyle(), "mailsent.tpl");
+$chat_style->render('mailsent');
 exit;
 ?>

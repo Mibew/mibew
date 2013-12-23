@@ -65,7 +65,7 @@ Class Settings {
 			'hosturl' => 'http://mibew.org',
 			'logo' => '',
 			'usernamepattern' => '{name}',
-			'chatstyle' => 'default',
+			'chat_style' => 'default',
 			'invitationstyle' => 'default',
 			'operator_pages_style' => 'default',
 			'chattitle' => 'Live Support',

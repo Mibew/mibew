@@ -24,6 +24,9 @@ require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
 require_once(dirname(dirname(__FILE__)).'/libs/expand.php');
 require_once(dirname(dirname(__FILE__)).'/libs/classes/thread.php');
 require_once(dirname(dirname(__FILE__)).'/libs/view.php');
+require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
+require_once(dirname(dirname(__FILE__)).'/libs/classes/chat_style.php');
 
 $operator = check_login();
 
@@ -42,21 +45,22 @@ if (Settings::get('enablessl') == "1" && Settings::get('forcessl') == "1") {
 $threadid = verifyparam("thread", "/^\d{1,8}$/");
 $page = array();
 
+// Initialize chat style which is currently used in system
+$chat_style = new ChatStyle(ChatStyle::currentStyle());
+
 if (!isset($_GET['token'])) {
 
 	$remote_level = get_remote_level($_SERVER['HTTP_USER_AGENT']);
 	if ($remote_level != "ajaxed") {
 		$errors = array(getlocal("thread.error.old_browser"));
-		start_html_output();
-		expand(dirname(dirname(__FILE__)).'/styles/dialogs', getchatstyle(), "error.tpl");
+		$chat_style->render('error');
 		exit;
 	}
 
 	$thread = Thread::load($threadid);
 	if (!$thread || !isset($thread->lastToken)) {
 		$errors = array(getlocal("thread.error.wrong_thread"));
-		start_html_output();
-		expand(dirname(dirname(__FILE__)).'/styles/dialogs', getchatstyle(), "error.tpl");
+		$chat_style->render('error');
 		exit;
 	}
 
@@ -67,8 +71,7 @@ if (!isset($_GET['token'])) {
 
 		if (!is_capable(CAN_TAKEOVER, $operator)) {
 			$errors = array(getlocal("thread.error.cannot_take_over"));
-			start_html_output();
-			expand(dirname(dirname(__FILE__)).'/styles/dialogs', getchatstyle(), "error.tpl");
+			$chat_style->render('error');
 			exit;
 		}
 
@@ -86,14 +89,12 @@ if (!isset($_GET['token'])) {
 	if (!$viewonly) {
 		if(! $thread->take($operator)){
 			$errors = array(getlocal("thread.error.cannot_take"));
-			start_html_output();
-			expand(dirname(dirname(__FILE__)).'/styles/dialogs', getchatstyle(), "error.tpl");
+			$chat_style->render('error');
 			exit;
 		}
 	} else if (!is_capable(CAN_VIEWTHREADS, $operator)) {
 		$errors = array(getlocal("thread.error.cannot_view"));
-		start_html_output();
-		expand(dirname(dirname(__FILE__)).'/styles/dialogs', getchatstyle(), "error.tpl");
+		$chat_style->render('error');
 		exit;
 	}
 
@@ -111,8 +112,7 @@ if (!$thread) {
 
 if ($thread->agentId != $operator['operatorid'] && !is_capable(CAN_VIEWTHREADS, $operator)) {
 	$errors = array("Cannot view threads");
-	start_html_output();
-	expand(dirname(dirname(__FILE__)).'/styles/dialogs', getchatstyle(), "error.tpl");
+	$chat_style->render('error');
 	exit;
 }
 
@@ -126,12 +126,12 @@ start_html_output();
 $pparam = verifyparam("act", "/^(redirect)$/", "default");
 if ($pparam == "redirect") {
 	setup_redirect_links($threadid, $operator, $token);
-	expand(dirname(dirname(__FILE__)).'/styles/dialogs', getchatstyle(), "redirect.tpl");
+	$chat_style->render('redirect');
 } else {
 	// Build js application options
 	$page['chatOptions'] = json_encode($page['chat']);
 	// Expand page
-	expand(dirname(dirname(__FILE__)).'/styles/dialogs', getchatstyle(), "chat.tpl");
+	$chat_style->render('chat');
 }
 
 ?>

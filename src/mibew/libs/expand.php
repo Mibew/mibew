@@ -17,7 +17,7 @@
 
 $ifregexp = "/\\\${(if|ifnot):([\w\.]+)}(.*?)(\\\${else:\\2}.*?)?\\\${endif:\\2}/s";
 $expand_include_path = "";
-$current_style = "";
+$current_style = NULL;
 $flatten_page = array();
 
 
@@ -52,9 +52,9 @@ function expand_var($matches)
 		if ($var == 'mibewroot') {
 			return $mibewroot;
 		} else if ($var == 'tplroot') {
-			return "$mibewroot/styles/dialogs/$current_style";
+			return "$mibewroot/" . $current_style->filesPath();
 		} else if ($var == 'styleid') {
-			return $current_style;
+			return $current_style->name();
 		} else if ($var == 'pagination') {
 			return generate_pagination($page['pagination']);
 		} else if ($var == 'errors' || $var == 'harderrors') {
@@ -110,24 +110,16 @@ function expandtext($text)
 	return preg_replace_callback("/\\\${(\w+:)?([\w\.,]+)}/", "expand_var", $text);
 }
 
-function expand($basedir, $style, $filename)
+function expand(StyleInterface $style, $templates_root, $filename)
 {
 	global $page, $expand_include_path, $current_style, $flatten_page;
 
 	$flatten_page = array_flatten_recursive($page);
 
 	start_html_output();
-	if (!is_dir("$basedir/$style")) {
-		$style = "default";
-	}
-	$expand_include_path = "$basedir/$style/templates/";
+	$expand_include_path = $templates_root;
 	$current_style = $style;
 	$contents = @file_get_contents($expand_include_path . $filename);
-	if ($contents === false) {
-		$expand_include_path = "$basedir/default/templates/";
-		$current_style = "default";
-		$contents = @file_get_contents($expand_include_path . $filename) or die("cannot load template");
-	}
 	echo expandtext($contents);
 }
 

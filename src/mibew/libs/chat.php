@@ -24,6 +24,9 @@ require_once(dirname(__FILE__).'/classes/mibew_api_execution_context.php');
 require_once(dirname(__FILE__).'/classes/request_processor.php');
 require_once(dirname(__FILE__).'/classes/client_side_processor.php');
 require_once(dirname(__FILE__).'/classes/thread_processor.php');
+require_once(dirname(__FILE__).'/interfaces/style.php');
+require_once(dirname(__FILE__).'/classes/style.php');
+require_once(dirname(__FILE__).'/classes/chat_style.php');
 
 
 /**
@@ -418,7 +421,8 @@ function setup_chatview(Thread $thread) {
 	$data['neediframesrc'] = needsFramesrc();
 
 	// Load dialogs style options
-	$style_config = get_dialogs_style_config(getchatstyle());
+	$chat_style = new ChatStyle(ChatStyle::currentStyle());
+	$style_config = $chat_style->configurations();
 	$data['chat']['windowsParams']['mail']
 		= $style_config['mail']['window_params'];
 
