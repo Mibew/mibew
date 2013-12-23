@@ -26,7 +26,7 @@ function menuli($name) {
 function tpl_menu() { global $page, $mibewroot, $errors;
 	if(isset($page['isOnline']) && !$page['isOnline']) { ?>
 			<li id="offwarn">
-				<img src="<?php echo $mibewroot ?>/styles/operator_pages/default/images/dash/warn.gif" alt="" width="24" height="24"/>
+				<img src="<?php echo $mibewroot ?>/styles/pages/default/images/dash/warn.gif" alt="" width="24" height="24"/>
 				<p><?php echo getlocal2("menu.goonline",array($mibewroot."/operator/users.php?nomenu")) ?></p>
 			</li>		
 <?php }

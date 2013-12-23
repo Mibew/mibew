@@ -71,11 +71,11 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="fbutton">
 			<table class="submitbutton"><tr>
 				<td><a href="javascript:document.restoreForm.submit();">
-					<img src='<?php echo $mibewroot ?>/styles/operator_pages/default/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
+					<img src='<?php echo $mibewroot ?>/styles/pages/default/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
 				<td class="submit"><a href="javascript:document.restoreForm.submit();">
 					<?php echo getlocal("restore.submit") ?></a></td>
 				<td><a href="javascript:document.restoreForm.submit();">
-					<img src='<?php echo $mibewroot ?>/styles/operator_pages/default/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
+					<img src='<?php echo $mibewroot ?>/styles/pages/default/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
 			</tr></table>
 
 			<div class="links">

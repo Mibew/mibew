@@ -63,7 +63,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 
 <?php if($page['canmodify']) { ?>
 <div class="tabletool">
-	<img src='<?php echo $mibewroot ?>/styles/operator_pages/default/images/buttons/createagent.gif' border="0" alt="" />
+	<img src='<?php echo $mibewroot ?>/styles/pages/default/images/buttons/createagent.gif' border="0" alt="" />
 	<a href='<?php echo $mibewroot ?>/operator/operator.php' title="<?php echo getlocal("page_agents.new_agent") ?>">
 		<?php echo getlocal("page_agents.new_agent") ?>
 	</a>

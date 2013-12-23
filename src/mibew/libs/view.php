@@ -22,11 +22,11 @@ require_once(dirname(__FILE__).'/common/request.php');
 /**
  * Renders a view for an operator page
  *
- * All views are stored in "styles/operator_pages/<style_name>" folders.
+ * All views are stored in "styles/pages/<style_name>" folders.
  *
  * $view_name param should include neither full view's path nor its extension.
  * Just view name. For example, to render and output
- * "styles/operator_pages/default/agents.php" view one should use "agents" as
+ * "styles/pages/default/agents.php" view one should use "agents" as
  * the view name.
  *
  * @param string $view_name Name of the view to render.
@@ -45,7 +45,7 @@ function render_view($view_name, $style_name = NULL) {
 			// Settings classes. Just use "default" style for installation pages.
 			$style_name = 'default';
 		} else {
-			$style_name = get_operator_pages_style();
+			$style_name = get_page_style();
 		}
 	}
 
@@ -55,7 +55,7 @@ function render_view($view_name, $style_name = NULL) {
 	// Build full view name. Remove '\' and '/' characters form the specified
 	// view name
 	$full_view_name = dirname(dirname(__FILE__)) .
-		'/styles/operator_pages/' . $style_name . '/views/' .
+		'/styles/pages/' . $style_name . '/views/' .
 		str_replace("/\\", '', $view_name) . '.php';
 
 	// Load and execute the view

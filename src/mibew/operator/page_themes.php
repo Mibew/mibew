@@ -23,7 +23,7 @@ require_once(dirname(dirname(__FILE__)).'/libs/view.php');
 
 $operator = check_login();
 
-$stylelist = get_style_list(dirname(dirname(__FILE__)).'/styles/operator_pages');
+$stylelist = get_style_list(dirname(dirname(__FILE__)).'/styles/pages');
 
 $preview = verifyparam("preview", "/^\w+$/", "default");
 if (!in_array($preview, $stylelist)) {
@@ -37,7 +37,7 @@ $screenshots = array();
 foreach($style_config['screenshots'] as $name => $desc) {
 	$screenshots[] = array(
 		'name' => $name,
-		'file' => $mibewroot . '/styles/operator_pages/' . $preview
+		'file' => $mibewroot . '/styles/pages/' . $preview
 			. '/screenshots/' . $name . '.png',
 		'description' => $desc
 	);
@@ -49,6 +49,6 @@ $page['screenshotsList'] = $screenshots;
 
 prepare_menu($operator);
 setup_settings_tabs(3);
-render_view('operator_pages_themes');
+render_view('page_themes');
 
 ?>

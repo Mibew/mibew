@@ -123,11 +123,11 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		</div>
 
 		<div class="field">
-			<label for="operator_pages_style" class="flabel"><?php echo getlocal('settings.operator_pages_style') ?></label>
+			<label for="page_style" class="flabel"><?php echo getlocal('settings.page_style') ?></label>
 			<div class="fvalue">
-				<select id="operator_pages_style" name="operator_pages_style" ><?php foreach($page['availableOperatorPagesStyles'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("operatorpagesstyle") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+				<select id="pages_style" name="page_style" ><?php foreach($page['availablePageStyles'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("pagestyle") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			</div>
-			<label for="operator_pages_style" class="fdescr"> &mdash; <?php echo getlocal('settings.operator_pages_style.description') ?></label>
+			<label for="page_style" class="fdescr"> &mdash; <?php echo getlocal('settings.page_style.description') ?></label>
 			<br clear="all"/>
 		</div>
 

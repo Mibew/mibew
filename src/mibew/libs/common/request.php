@@ -81,8 +81,8 @@ function is_secure_request()
  *
  * @return string
  */
-function get_operator_pages_style() {
-	return Settings::get('operator_pages_style');
+function get_page_style() {
+	return Settings::get('page_style');
 }
 
 ?>

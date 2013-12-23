@@ -57,7 +57,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 <br/>
 
 <div class="tabletool">
-	<img src="<?php echo $mibewroot ?>/styles/operator_pages/default/images/buttons/createban.gif" border="0" alt=""/>
+	<img src="<?php echo $mibewroot ?>/styles/pages/default/images/buttons/createban.gif" border="0" alt=""/>
 	<a href="<?php echo $mibewroot ?>/operator/cannededit.php?lang=<?php echo form_value("lang") ?>&amp;group=<?php echo form_value("group")?>" target="_blank" 
 				onclick="this.newWindow = window.open('<?php echo $mibewroot ?>/operator/cannededit.php?lang=<?php echo form_value("lang") ?>&amp;group=<?php echo form_value("group")?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">
 		<?php echo getlocal("canned.add") ?>

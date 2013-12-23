@@ -63,7 +63,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 
 <?php if($page['canmodify']) { ?>
 <div class="tabletool">
-	<img src='<?php echo $mibewroot ?>/styles/operator_pages/default/images/buttons/createdep.gif' border="0" alt="" />
+	<img src='<?php echo $mibewroot ?>/styles/pages/default/images/buttons/createdep.gif' border="0" alt="" />
 	<a href='<?php echo $mibewroot ?>/operator/group.php' title="<?php echo getlocal("page.groups.new") ?>">
 		<?php echo getlocal("page.groups.new") ?>
 	</a>

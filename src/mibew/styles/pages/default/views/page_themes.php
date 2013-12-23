@@ -28,7 +28,7 @@ function tpl_content() { global $page, $mibewroot;
 <br />
 <br />
 
-<form name="preview" method="get" action="<?php echo $mibewroot ?>/operator/operator_pages_themes.php">
+<form name="preview" method="get" action="<?php echo $mibewroot ?>/operator/page_themes.php">
 	<div>
 <?php print_tabbar(); ?>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">

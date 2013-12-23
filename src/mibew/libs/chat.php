@@ -427,7 +427,7 @@ function setup_chatview(Thread $thread) {
 		= $style_config['mail']['window_params'];
 
 	// Load core style options
-	$style_config = get_core_style_config(get_operator_pages_style());
+	$style_config = get_core_style_config(get_page_style());
 	$data['chat']['windowsParams']['history']
 		= $style_config['history']['window_params'];
 
