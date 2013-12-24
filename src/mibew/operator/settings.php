@@ -32,17 +32,13 @@ csrfchecktoken();
 $page = array('agentId' => '');
 $errors = array();
 
-$stylelist = ChatStyle::availableStyles();
-$page_style_list = PageStyle::availableStyles();
-
+// Load system configs
 $options = array(
 	'email',
 	'title',
 	'logo',
 	'hosturl',
 	'usernamepattern',
-	'page_style',
-	'chat_style',
 	'chattitle',
 	'geolink',
 	'geolinkparams',
@@ -50,14 +46,23 @@ $options = array(
 	'cron_key'
 );
 
-if (Settings::get('enabletracking')) {
-	$options[] = 'invitation_style';
-	$invitationstylelist = InvitationStyle::availableStyles();
-}
-
 $params = array();
 foreach ($options as $opt) {
 	$params[$opt] = Settings::get($opt);
+}
+
+// Load styles configs
+$styles_params = array(
+	'chat_style' => ChatStyle::defaultStyle(),
+	'page_style' => PageStyle::defaultStyle(),
+);
+
+$chat_style_list = ChatStyle::availableStyles();
+$page_style_list = PageStyle::availableStyles();
+
+if (Settings::get('enabletracking')) {
+	$styles_params['invitation_style'] = InvitationStyle::defaultStyle();
+	$invitation_style_list = InvitationStyle::availableStyles();
 }
 
 if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
@@ -72,20 +77,20 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
 	$params['sendmessagekey'] = verifyparam('sendmessagekey', "/^c?enter$/");
 	$params['cron_key'] = getparam('cronkey');
 
-	$params['chat_style'] = verifyparam("chat_style", "/^\w+$/", $params['chat_style']);
-	if (!in_array($params['chat_style'], $stylelist)) {
-		$params['chat_style'] = $stylelist[0];
+	$styles_params['chat_style'] = verifyparam("chat_style", "/^\w+$/", $styles_params['chat_style']);
+	if (!in_array($styles_params['chat_style'], $chat_style_list)) {
+		$styles_params['chat_style'] = $chat_style_list[0];
 	}
 
-	$params['page_style'] = verifyparam("page_style", "/^\w+$/", $params['page_style']);
-	if (!in_array($params['page_style'], $page_style_list)) {
-		$params['page_style'] = $page_style_list[0];
+	$styles_params['page_style'] = verifyparam("page_style", "/^\w+$/", $styles_params['page_style']);
+	if (!in_array($styles_params['page_style'], $page_style_list)) {
+		$styles_params['page_style'] = $page_style_list[0];
 	}
 
 	if (Settings::get('enabletracking')) {
-		$params['invitation_style'] = verifyparam("invitation_style", "/^\w+$/", $params['invitation_style']);
-		if (!in_array($params['invitation_style'], $invitationstylelist)) {
-			$params['invitation_style'] = $invitationstylelist[0];
+		$styles_params['invitation_style'] = verifyparam("invitation_style", "/^\w+$/", $styles_params['invitation_style']);
+		if (!in_array($styles_params['invitation_style'], $invitation_style_list)) {
+			$styles_params['invitation_style'] = $invitation_style_list[0];
 		}
 	}
 
@@ -106,10 +111,20 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
 	}
 
 	if (count($errors) == 0) {
+		// Update system settings
 		foreach ($options as $opt) {
 			Settings::set($opt,$params[$opt]);
 		}
 		Settings::update();
+
+		// Update styles params
+		ChatStyle::setDefaultStyle($styles_params['chat_style']);
+		PageStyle::setDefaultStyle($styles_params['page_style']);
+		if (Settings::get('enabletracking')) {
+			InvitationStyle::setDefaultStyle($styles_params['invitation_style']);
+		}
+
+		// Redirect the user
 		header("Location: $mibewroot/operator/settings.php?stored");
 		exit;
 	}
@@ -122,12 +137,12 @@ $page['formhosturl'] = topage($params['hosturl']);
 $page['formgeolink'] = topage($params['geolink']);
 $page['formgeolinkparams'] = topage($params['geolinkparams']);
 $page['formusernamepattern'] = topage($params['usernamepattern']);
-$page['formpagestyle'] = $params['page_style'];
+$page['formpagestyle'] = $styles_params['page_style'];
 $page['availablePageStyles'] = $page_style_list;
-$page['formchatstyle'] = $params['chat_style'];
+$page['formchatstyle'] = $styles_params['chat_style'];
 $page['formchattitle'] = topage($params['chattitle']);
 $page['formsendmessagekey'] = $params['sendmessagekey'];
-$page['availableChatStyles'] = $stylelist;
+$page['availableChatStyles'] = $chat_style_list;
 $page['stored'] = isset($_GET['stored']);
 $page['enabletracking'] = Settings::get('enabletracking');
 $page['formcronkey'] = $params['cron_key'];
@@ -135,8 +150,8 @@ $page['formcronkey'] = $params['cron_key'];
 $page['cron_path'] = cron_get_uri($params['cron_key']);
 
 if (Settings::get('enabletracking')) {
-	$page['forminvitationstyle'] = $params['invitation_style'];
-	$page['availableInvitationStyles'] = $invitationstylelist;
+	$page['forminvitationstyle'] = $styles_params['invitation_style'];
+	$page['availableInvitationStyles'] = $invitation_style_list;
 }
 
 prepare_menu($operator);

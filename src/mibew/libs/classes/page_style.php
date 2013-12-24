@@ -55,21 +55,34 @@ class PageStyle extends Style implements StyleInterface {
 	}
 
 	/**
-	 * Returns name of the style which is currently used in the system
+	 * Returns name of the style which shoud be used for the current request.
+	 *
+	 * Result of the method can depends on user role, requested page or any
+	 * other criteria.
 	 *
 	 * @return string Name of a style
 	 */
 	public static function currentStyle() {
+		// Just use the default style
+		return self::defaultStyle();
+	}
+
+	/**
+	 * Returns name of the style which is used in the system by default.
+	 *
+	 * @return string Name of a style
+	 */
+	public static function defaultStyle() {
 		// Load value from system settings
 		return Settings::get('page_style');
 	}
 
 	/**
-	 * Sets style which is currently used in the system
+	 * Sets style which is used in the system by default
 	 *
 	 * @param string $style_name Name of a style
 	 */
-	public static function setCurrentStyle($style_name) {
+	public static function setDefaultStyle($style_name) {
 		Settings::set('page_style', $style_name);
 		Settings::update();
 	}

@@ -44,7 +44,10 @@ class ChatStyle extends Style implements StyleInterface {
 	}
 
 	/**
-	 * Returns name of the style which is currently used in the system
+	 * Returns name of the style which shoud be used for the current request.
+	 *
+	 * Result of the method can depends on user role, requested page or any
+	 * other criteria.
 	 *
 	 * @return string Name of a style
 	 */
@@ -52,8 +55,8 @@ class ChatStyle extends Style implements StyleInterface {
 		// Ceck if request contains chat style
 		$style_name = verifyparam("style", "/^\w+$/", "");
 		if (!$style_name) {
-			// Load value from system settings
-			$style_name = Settings::get('chat_style');
+			// Use the default style
+			$style_name = self::defaultStyle();
 		}
 
 		// Get all style list and make sure that in has at least one style.
@@ -75,11 +78,21 @@ class ChatStyle extends Style implements StyleInterface {
 	}
 
 	/**
-	 * Sets style which is currently used in the system
+	 * Returns name of the style which is used in the system by default.
+	 *
+	 * @return string Name of a style
+	 */
+	public static function defaultStyle() {
+		// Load value from system settings
+		return Settings::get('chat_style');
+	}
+
+	/**
+	 * Sets style which is used in the system by default
 	 *
 	 * @param string $style_name Name of a style
 	 */
-	public static function setCurrentStyle($style_name) {
+	public static function setDefaultStyle($style_name) {
 		Settings::set('chat_style', $style_name);
 		Settings::update();
 	}
