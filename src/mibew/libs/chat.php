@@ -27,6 +27,7 @@ require_once(dirname(__FILE__).'/classes/thread_processor.php');
 require_once(dirname(__FILE__).'/interfaces/style.php');
 require_once(dirname(__FILE__).'/classes/style.php');
 require_once(dirname(__FILE__).'/classes/chat_style.php');
+require_once(dirname(__FILE__).'/classes/page_style.php');
 
 
 /**
