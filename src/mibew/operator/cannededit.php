@@ -78,6 +78,7 @@ $page['saved'] = false;
 $page['key'] = $stringid;
 $page['formtitle'] = topage($title);
 $page['formmessage'] = topage($message);
+$page['title'] = empty($stringid) ? getlocal("cannednew.title") : getlocal("cannededit.title");
 
 prepare_menu($operator, false);
 $page_style->render('cannededit');

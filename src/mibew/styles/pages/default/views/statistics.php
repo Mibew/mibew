@@ -18,9 +18,6 @@
 require_once(dirname(__FILE__).'/inc_tabbar.php');
 require_once(dirname(__FILE__).'/inc_menu.php');
 
-$page['title'] = getlocal("statistics.title");
-$page['menuid'] = "statistics";
-
 function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 

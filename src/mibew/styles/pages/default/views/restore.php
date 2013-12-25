@@ -18,10 +18,6 @@
 if(isset($page) && isset($page['localeLinks'])) {
 	require_once(dirname(__FILE__).'/inc_locales.php');
 }
-$page['title'] = getlocal("restore.title");
-$page['headertitle'] = getlocal("app.title");
-$page['show_small_login'] = true;
-$page['fixedwrap'] = true;
 
 function tpl_content() { 
 	global $page, $mibewroot, $errors;

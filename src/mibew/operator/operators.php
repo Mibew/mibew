@@ -111,6 +111,9 @@ $page['availableDirections'] = array(
 	array('id' => 'asc', 'name' => getlocal('page_agents.sortdirection.asc')),
 );
 
+$page['title'] = getlocal("page_agents.title");
+$page['menuid'] = "operators";
+
 setlocale(LC_TIME, getstring("time.locale"));
 
 prepare_menu($operator);

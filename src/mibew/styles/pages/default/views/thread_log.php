@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 
-$page['title'] = getlocal("thread.chat_log");
-
 function tpl_header() { global $page, $mibewroot; ?>
 
 <!-- External libs -->

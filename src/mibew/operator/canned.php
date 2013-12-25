@@ -95,6 +95,8 @@ setup_pagination($messages);
 
 $page['formlang'] = $lang;
 $page['formgroup'] = $groupid;
+$page['title'] = getlocal("canned.title");
+$page['menuid'] = "canned";
 
 prepare_menu($operator);
 

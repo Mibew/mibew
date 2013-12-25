@@ -15,9 +15,6 @@
  * limitations under the License.
  */
 
-$page['title'] = getlocal("page.analysis.userhistory.title");
-$page['menuid'] = "history";
-
 function tpl_content() { global $page, $mibewroot;
 ?>
 

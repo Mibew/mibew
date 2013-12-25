@@ -20,6 +20,11 @@ require_once(dirname(__FILE__).'/libs/interfaces/style.php');
 require_once(dirname(__FILE__).'/libs/classes/style.php');
 require_once(dirname(__FILE__).'/libs/classes/page_style.php');
 
+$page = array();
+$page['title'] = getlocal("license.title");
+$page['no_right_menu'] = true;
+$page['fixedwrap'] = true;
+
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('license');
 

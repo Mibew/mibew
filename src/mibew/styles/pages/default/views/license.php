@@ -15,10 +15,6 @@
  * limitations under the License.
  */
 
-$page['title'] = getlocal("license.title");
-$page['no_right_menu'] = true;
-$page['fixedwrap'] = true;
-
 function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 

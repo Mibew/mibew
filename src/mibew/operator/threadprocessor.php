@@ -59,6 +59,8 @@ if (isset($_GET['threadid'])) {
 	$page['threadMessages'] = json_encode($messages);
 }
 
+$page['title'] = getlocal("thread.chat_log");
+
 prepare_menu($operator, false);
 
 $page_style = new PageStyle(PageStyle::currentStyle());

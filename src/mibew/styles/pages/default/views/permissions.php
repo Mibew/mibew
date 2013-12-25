@@ -18,9 +18,6 @@
 require_once(dirname(__FILE__).'/inc_menu.php');
 require_once(dirname(__FILE__).'/inc_tabbar.php');
 
-$page['title'] = getlocal("permissions.title");
-$page['menuid'] = $page['opid'] == $page['currentopid'] ? "profile" : "operators";
-
 function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 

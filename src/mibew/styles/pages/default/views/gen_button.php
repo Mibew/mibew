@@ -16,8 +16,6 @@
  */
 
 require_once(dirname(__FILE__).'/inc_menu.php');
-$page['title'] = getlocal("page.gen_button.title");
-$page['menuid'] = "getcode";
 
 function tpl_content() { global $page, $mibewroot, $errors;
 ?>

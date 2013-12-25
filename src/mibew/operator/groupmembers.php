@@ -90,6 +90,8 @@ foreach (get_group_members($groupid) as $rel) {
 }
 
 $page['stored'] = isset($_GET['stored']);
+$page['title'] = getlocal("page.groupmembers.title");
+$page['menuid'] = "groups";
 
 prepare_menu($operator);
 setup_group_settings_tabs($groupid, 1);

@@ -128,6 +128,8 @@ if (isset($_POST['address'])) {
 	}
 }
 
+$page['title'] = getlocal("page_ban.title");
+
 prepare_menu($operator, false);
 
 $page_style = new PageStyle(PageStyle::currentStyle());

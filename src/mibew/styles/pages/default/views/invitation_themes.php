@@ -18,9 +18,6 @@
 require_once(dirname(__FILE__).'/inc_menu.php');
 require_once(dirname(__FILE__).'/inc_tabbar.php');
 
-$page['title'] = getlocal("page.preview.title");
-$page['menuid'] = "settings";
-
 function tpl_header() { global $page, $mibewroot;
 ?>
 <link href="<?php echo $mibewroot ?>/styles/invitations/<?php echo $page['preview'] ?>/invite.css" rel="stylesheet" type="text/css" />

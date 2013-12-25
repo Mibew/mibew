@@ -160,6 +160,7 @@ if ($stringid) {
 			save_message($target, $stringid, $translation);
 
 			$page['saved'] = true;
+			$page['title'] = getlocal("page.translate.title");
 			prepare_menu($operator, false);
 			$page_style->render('translate');
 			exit;
@@ -171,6 +172,7 @@ if ($stringid) {
 	$page['target'] = $target;
 	$page['formoriginal'] = isset($lang1[$stringid]) ? $lang1[$stringid] : "<b><unknown></b>";
 	$page['formtranslation'] = $translation;
+	$page['title'] = getlocal("page.translate.title");
 	prepare_menu($operator, false);
 	$page_style->render('translate');
 	exit;
@@ -231,6 +233,9 @@ $page['showOptions'] = array(
 	array("id" => "s3", "name" => getlocal("translate.show.foradmin")),
 );
 $page['formshow'] = $show;
+
+$page['title'] = getlocal("page.translate.title");
+$page['menuid'] = "translate";
 
 prepare_menu($operator);
 $page_style->render('translatelist');

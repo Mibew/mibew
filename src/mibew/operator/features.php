@@ -65,6 +65,9 @@ foreach ($options as $opt) {
 	$page["form$opt"] = $params[$opt] == "1";
 }
 
+$page['title'] = getlocal("settings.title");
+$page['menuid'] = "settings";
+
 prepare_menu($operator);
 setup_settings_tabs(1);
 

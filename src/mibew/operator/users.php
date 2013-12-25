@@ -58,6 +58,9 @@ $page['coreStyles.trackedVisitorWindowParams'] = $style_config['tracked']['visit
 $page['coreStyles.inviteWindowParams'] = $style_config['invitation']['window_params'];
 $page['coreStyles.banWindowParams'] = $style_config['ban']['window_params'];
 
+$page['title'] = getlocal("clients.title");
+$page['menuid'] = "users";
+
 // Get additional plugins data
 $page = array_merge($page, get_plugins_data('users'));
 

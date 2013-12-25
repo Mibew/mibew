@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 
-$page['title'] = getlocal("page_ban.title");
-
 function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 

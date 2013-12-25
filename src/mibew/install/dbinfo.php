@@ -291,7 +291,10 @@ function show_install_err($text)
 	global $page, $version, $errors, $mibewroot;
 	$page = array(
 		'version' => $version,
-		'localeLinks' => get_locale_links("$mibewroot/install/index.php")
+		'localeLinks' => get_locale_links("$mibewroot/install/index.php"),
+		'title' => getlocal("install.err.title"),
+		'no_right_menu' => true,
+		'fixedwrap' => true,
 	);
 	$errors = array($text);
 	$page_style = new PageStyle('default');

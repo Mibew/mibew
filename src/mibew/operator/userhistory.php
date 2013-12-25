@@ -67,6 +67,9 @@ foreach ($page['pagination.items'] as $key => $item) {
 	$page['pagination.items'][$key] = Thread::createFromDbInfo($item);
 }
 
+$page['title'] = getlocal("page.analysis.userhistory.title");
+$page['menuid'] = "history";
+
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('userhistory');
 

@@ -149,6 +149,9 @@ $page['formcronkey'] = $params['cron_key'];
 
 $page['cron_path'] = cron_get_uri($params['cron_key']);
 
+$page['title'] = getlocal("settings.title");
+$page['menuid'] = "settings";
+
 if (Settings::get('enabletracking')) {
 	$page['forminvitationstyle'] = $styles_params['invitation_style'];
 	$page['availableInvitationStyles'] = $invitation_style_list;

@@ -48,6 +48,8 @@ foreach($style_config['screenshots'] as $name => $desc) {
 $page['formpreview'] = $preview;
 $page['availablePreviews'] = $stylelist;
 $page['screenshotsList'] = $screenshots;
+$page['title'] = getlocal("page.preview.title");
+$page['menuid'] = "settings";
 
 prepare_menu($operator);
 setup_settings_tabs(3);

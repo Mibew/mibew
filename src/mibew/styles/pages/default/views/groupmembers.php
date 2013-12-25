@@ -18,9 +18,6 @@
 require_once(dirname(__FILE__).'/inc_menu.php');
 require_once(dirname(__FILE__).'/inc_tabbar.php');
 
-$page['title'] = getlocal("page.groupmembers.title");
-$page['menuid'] = "groups";
-
 function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 

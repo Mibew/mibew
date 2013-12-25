@@ -18,9 +18,6 @@
 require_once(dirname(__FILE__).'/inc_menu.php');
 require_once(dirname(__FILE__).'/inc_tabbar.php');
 
-$page['title'] = getlocal("settings.title");
-$page['menuid'] = "settings";
-
 function tpl_header() { global $page, $mibewroot;
 ?>	
 <script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/libs/jquery.min.js"></script>

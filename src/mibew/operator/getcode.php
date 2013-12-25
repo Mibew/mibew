@@ -98,6 +98,9 @@ $page['formcodetype'] = $code_type;
 $page['enabletracking'] = Settings::get('enabletracking');
 $page['operator_code'] = $operator_code;
 
+$page['title'] = getlocal("page.gen_button.title");
+$page['menuid'] = "getcode";
+
 prepare_menu($operator);
 
 $page_style = new PageStyle(PageStyle::currentStyle());

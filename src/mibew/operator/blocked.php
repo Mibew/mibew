@@ -53,6 +53,9 @@ $blockedList = $db->query(
 	array('return_rows' => Database::RETURN_ALL_ROWS)
 );
 
+$page['title'] = getlocal("page_bans.title");
+$page['menuid'] = "blocked";
+
 setup_pagination($blockedList);
 prepare_menu($operator);
 

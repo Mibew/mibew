@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 
-$page['title'] = getlocal("confirm.take.head");
-
 function tpl_content() { global $page, $mibewroot;
 ?>
 

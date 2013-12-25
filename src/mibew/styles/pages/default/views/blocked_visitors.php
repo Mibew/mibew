@@ -16,8 +16,6 @@
  */
 
 require_once(dirname(__FILE__).'/inc_menu.php');
-$page['title'] = getlocal("page_bans.title");
-$page['menuid'] = "blocked";
 
 function tpl_header() { global $page, $mibewroot;
 ?>	

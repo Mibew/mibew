@@ -32,6 +32,8 @@ $page = array(
 	'localizations' => get_available_locales(),
 	'phpVersion' => phpversion(),
 	'version' => $version,
+	'title' => getlocal("updates.title"),
+	'menuid' => "updates",
 );
 
 foreach ($default_extensions as $ext) {

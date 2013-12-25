@@ -56,6 +56,10 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 }
 
 $page['localeLinks'] = get_locale_links("$mibewroot/operator/login.php");
+$page['title'] = getlocal("page_login.title");
+$page['headertitle'] = getlocal("app.title");
+$page['show_small_login'] = false;
+$page['fixedwrap'] = true;
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('login');

@@ -74,6 +74,9 @@ $page['availableDirections'] = array(
 	array('id' => 'asc', 'name' => getlocal('page.groups.sortdirection.asc')),
 );
 
+$page['title'] = getlocal("page.groups.title");
+$page['menuid'] = "groups";
+
 prepare_menu($operator);
 
 $page_style = new PageStyle(PageStyle::currentStyle());

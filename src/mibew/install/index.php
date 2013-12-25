@@ -374,6 +374,9 @@ function check_status()
 
 check_status();
 
+$page['title'] = getlocal("install.title");
+$page['fixedwrap'] = true;
+
 $page_style = new PageStyle('default');
 $page_style->render('install_index');
 

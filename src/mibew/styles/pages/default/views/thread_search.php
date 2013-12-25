@@ -16,8 +16,6 @@
  */
 
 require_once(dirname(__FILE__).'/inc_menu.php');
-$page['title'] = getlocal("page_analysis.search.title");
-$page['menuid'] = "history";
 
 function tpl_content() { global $page, $mibewroot;
 ?>

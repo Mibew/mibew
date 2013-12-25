@@ -99,6 +99,8 @@ if ($query !== false) {
 
 $page['formtype'] = $searchType;
 $page['forminsystemmessages'] = $searchInSystemMessages;
+$page['title'] = getlocal("page_analysis.search.title");
+$page['menuid'] = "history";
 
 prepare_menu($operator);
 

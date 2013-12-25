@@ -81,7 +81,8 @@ if (!isset($_GET['token'])) {
 			$page = array(
 				'user' => topage($thread->userName),
 				'agent' => topage($thread->agentName),
-				'link' => $_SERVER['PHP_SELF'] . "?thread=$threadid&amp;force=true"
+				'link' => $_SERVER['PHP_SELF'] . "?thread=$threadid&amp;force=true",
+				'title' => getlocal("confirm.take.head"),
 			);
 			$page_style->render('confirm');
 			exit;

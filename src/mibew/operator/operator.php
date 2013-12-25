@@ -153,6 +153,8 @@ $page['stored'] = isset($_GET['stored']);
 $page['canmodify'] = $canmodify ? "1" : "";
 $page['canchangelogin'] = is_capable(CAN_ADMINISTRATE, $operator);
 $page['needChangePassword'] = check_password_hash($operator['vclogin'], '', $operator['vcpassword']);
+$page['title'] = getlocal("page_agent.title");
+$page['menuid'] = ($opId == $operator['operatorid']) ? "profile" : "operators";
 
 prepare_menu($operator);
 setup_operator_settings_tabs($opId, 0);

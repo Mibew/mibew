@@ -123,6 +123,9 @@ if (Settings::get('enabletracking')) {
 $page['enabletracking'] = Settings::get('enabletracking');
 $page['stored'] = isset($_GET['stored']);
 
+$page['title'] = getlocal("settings.title");
+$page['menuid'] = "settings";
+
 prepare_menu($operator);
 setup_settings_tabs(2);
 

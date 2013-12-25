@@ -41,9 +41,6 @@ $(function(){
 <?php
 }
 
-$page['title'] = getlocal("page.group.title");
-$page['menuid'] = "groups";
-
 function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 

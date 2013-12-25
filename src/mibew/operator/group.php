@@ -247,6 +247,8 @@ if (isset($_POST['name'])) {
 
 $page['stored'] = isset($_GET['stored']);
 $page['availableParentGroups'] = get_available_parent_groups($groupid);
+$page['title'] = getlocal("page.group.title");
+$page['menuid'] = "groups";
 
 prepare_menu($operator);
 setup_group_settings_tabs($groupid, 0);

@@ -24,7 +24,14 @@ require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
 require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');
 
 $errors = array();
-$page = array('version' => $version);
+$page = array(
+	'version' => $version,
+	'title' => getlocal("restore.title"),
+	'headertitle' => getlocal("app.title"),
+	'show_small_login' => true,
+	'fixedwrap' => true,
+);
+
 $loginoremail = "";
 
 $page_style = new PageStyle(PageStyle::currentStyle());

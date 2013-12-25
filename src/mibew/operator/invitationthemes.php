@@ -39,6 +39,8 @@ $page['formpreview'] = $preview;
 $page['preview'] = $preview;
 $page['availablePreviews'] = $stylelist;
 $page['operatorName'] = (empty($operator['vclocalname'])?$operator['vccommonname']:$operator['vclocalname']);
+$page['title'] = getlocal("page.preview.title");
+$page['menuid'] = "settings";
 
 prepare_menu($operator);
 setup_settings_tabs(5);

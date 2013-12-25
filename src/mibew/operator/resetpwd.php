@@ -23,7 +23,14 @@ require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
 require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');
 
 $errors = array();
-$page = array('version' => $version, 'showform' => true);
+$page = array(
+	'version' => $version,
+	'showform' => true,
+	'title' => getlocal("resetpwd.title"),
+	'headertitle' => getlocal("app.title"),
+	'show_small_login' => true,
+	'fixedwrap' => true,
+);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 

@@ -35,7 +35,9 @@ $page = array(
 	'updateWizard' => "$mibewroot/install/",
 	'newFeatures' => Settings::get('featuresversion') != $featuresversion,
 	'featuresPage' => "$mibewroot/operator/features.php",
-	'isOnline' => $isonline
+	'isOnline' => $isonline,
+	'title' => getlocal("topMenu.admin"),
+	'menuid' => "main",
 );
 
 prepare_menu($operator);

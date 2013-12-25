@@ -16,8 +16,6 @@
  */
 
 require_once(dirname(__FILE__).'/inc_menu.php');
-$page['title'] = getlocal("topMenu.admin");
-$page['menuid'] = "main";
 
 function tpl_header() { global $page, $mibewroot;
 	if(isset($page) && isset($page['localeLinks'])) {

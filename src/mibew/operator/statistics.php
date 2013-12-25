@@ -174,6 +174,9 @@ if ($statisticstype == 'bydate') {
 }
 $page['showresults'] = count($errors) == 0;
 
+$page['title'] = getlocal("statistics.title");
+$page['menuid'] = "statistics";
+
 prepare_menu($operator);
 setup_statistics_tabs($activetab);
 

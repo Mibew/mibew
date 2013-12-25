@@ -16,9 +16,6 @@
  */
 
 require_once(dirname(__FILE__).'/inc_menu.php');
-$page['title'] = getlocal("clients.title");
-$page['menuid'] = "users";
-
 
 function tpl_header() { global $page, $mibewroot;
 ?>

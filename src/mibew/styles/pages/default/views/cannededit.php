@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 
-$page['title'] = isset($page['key']) ? getlocal("cannededit.title") : getlocal("cannednew.title");
-
 function tpl_content() { global $page, $mibewroot, $errors;
 ?>
 
