@@ -21,46 +21,7 @@ require_once(dirname(__FILE__).'/inc_tabbar.php');
 function tpl_header() { global $page, $mibewroot;
 ?>	
 <script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/libs/jquery.min.js"></script>
-<script type="text/javascript" language="javascript">
-function updateSurvey() {
-	if($("#enablepresurvey").is(":checked")) {
-		$(".undersurvey").show();
-	} else {
-		$(".undersurvey").hide();
-	}
-}
-
-function updateSSL() {
-	if($("#enablessl").is(":checked")) {
-		$(".underssl").show();
-	} else {
-		$(".underssl").hide();
-	}
-}
-
-function updateGroups(){
-	if($("#enablegroups").is(":checked")) {
-		$(".undergroups").show();
-	} else {
-		$(".undergroups").hide();
-	}
-}
-
-$(function(){
-	$("#enablepresurvey").change(function() {
-		updateSurvey();
-	});
-	$("#enablessl").change(function() {
-		updateSSL();
-	});
-	$("#enablegroups").change(function() {
-		updateGroups();
-	});
-	updateSurvey();
-	updateSSL();
-	updateGroups();
-});
-</script>
+<script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/styles/pages/default/js/features.js"></script>
 <?php
 }
 

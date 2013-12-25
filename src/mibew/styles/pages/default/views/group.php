@@ -21,23 +21,7 @@ require_once(dirname(__FILE__).'/inc_tabbar.php');
 function tpl_header() { global $page, $mibewroot;
 ?>
 <script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/libs/jquery.min.js"></script>
-<script type="text/javascript" language="javascript">
-
-function updateParentGroup() {
-	if($("#parentgroup").val() == '') {
-		$("#extrafields").show();
-	}else{
-		$("#extrafields").hide();
-	}
-}
-
-$(function(){
-	$("#parentgroup").change(function() {
-		updateParentGroup();
-	});
-	updateParentGroup();
-});
-</script>
+<script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/styles/pages/default/js/group.js"></script>
 <?php
 }
 
