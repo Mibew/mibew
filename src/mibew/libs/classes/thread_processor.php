@@ -17,6 +17,7 @@
 
 // Import namespaces and classes of the core
 use Mibew\Settings;
+use Mibew\Thread;
 
 /**
  * Incapsulates thread api and thread processing functions.
@@ -58,7 +59,7 @@ class ThreadProcessor extends ClientSideProcessor {
 	 *
 	 * @param int $thread_id Id of the thread
 	 * @param int $last_token Last token of the thread
-	 * @return Thread
+	 * @return \Mibew\Thread
 	 * @throws ThreadProcessorException
 	 */
 	public static function getThread($thread_id, $last_token) {

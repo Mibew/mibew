@@ -18,10 +18,10 @@
 // Import namespaces and classes of the core
 use Mibew\Database;
 use Mibew\Settings;
+use Mibew\Thread;
 
 // Initialize libraries
 require_once(MIBEW_FS_ROOT.'/libs/track.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/thread.php');
 require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api.php');
 require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_interaction.php');
 require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_chat_interaction.php');

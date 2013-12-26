@@ -17,6 +17,7 @@
 
 // Import namespaces and classes of the core
 use Mibew\Database;
+use Mibew\Thread;
 
 // Initialize libraries
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');

@@ -22,7 +22,6 @@ require_once(MIBEW_FS_ROOT.'/libs/operator.php');
 require_once(MIBEW_FS_ROOT.'/libs/groups.php');
 require_once(MIBEW_FS_ROOT.'/libs/invitation.php');
 require_once(MIBEW_FS_ROOT.'/libs/track.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/thread.php');
 require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api.php');
 require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_interaction.php');
 require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_users_interaction.php');

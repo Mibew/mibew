@@ -18,6 +18,7 @@
 // Import namespaces and classes of the core
 use Mibew\Database;
 use Mibew\Settings;
+use Mibew\Thread;
 
 // Initialize libraries
 require_once(MIBEW_FS_ROOT.'/libs/chat.php');

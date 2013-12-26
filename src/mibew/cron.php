@@ -21,7 +21,6 @@ use Mibew\Settings;
 
 // Initialize libraries
 require_once(dirname(__FILE__).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/thread.php');
 require_once(MIBEW_FS_ROOT.'/libs/track.php');
 require_once(MIBEW_FS_ROOT.'/libs/statistics.php');
 require_once(MIBEW_FS_ROOT.'/libs/cron.php');

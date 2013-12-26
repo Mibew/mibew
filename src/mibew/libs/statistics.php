@@ -18,6 +18,7 @@
 // Import namespaces and classes of the core
 use Mibew\Database;
 use Mibew\Settings;
+use Mibew\Thread;
 
 function get_statistics_query($type)
 {

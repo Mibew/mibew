@@ -19,6 +19,7 @@
 use Mibew\Database;
 use Mibew\EventDispatcher;
 use Mibew\Settings;
+use Mibew\Thread;
 
 /**
  * Incapsulates awaiting users list api related functions.

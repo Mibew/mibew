@@ -17,6 +17,7 @@
 
 // Import namespaces and classes of the core
 use Mibew\Settings;
+use Mibew\Thread;
 
 // Initialize libraries
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
@@ -26,7 +27,6 @@ require_once(MIBEW_FS_ROOT.'/libs/groups.php');
 require_once(MIBEW_FS_ROOT.'/libs/operator.php');
 require_once(MIBEW_FS_ROOT.'/libs/pagination.php');
 require_once(MIBEW_FS_ROOT.'/libs/expand.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/thread.php');
 require_once(MIBEW_FS_ROOT.'/libs/interfaces/style.php');
 require_once(MIBEW_FS_ROOT.'/libs/classes/style.php');
 require_once(MIBEW_FS_ROOT.'/libs/classes/chat_style.php');

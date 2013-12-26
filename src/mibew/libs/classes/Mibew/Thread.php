@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
+namespace Mibew;
+
 // Import namespaces and classes of the core
-use Mibew\Database;
-use Mibew\EventDispatcher;
-use Mibew\Settings;
+use \ThreadProcessor;
 
 /**
  * Represents a chat thread

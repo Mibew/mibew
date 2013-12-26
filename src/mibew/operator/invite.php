@@ -19,7 +19,6 @@ require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(MIBEW_FS_ROOT.'/libs/invitation.php');
 require_once(MIBEW_FS_ROOT.'/libs/track.php');
 require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/thread.php');
 
 $operator = check_login();
 
