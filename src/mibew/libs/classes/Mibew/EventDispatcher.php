@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+namespace Mibew;
+
 /**
  * Provide event-related functionality.
  * Implements singleton pattern.

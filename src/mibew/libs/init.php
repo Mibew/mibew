@@ -37,7 +37,6 @@ require_once(MIBEW_FS_ROOT.'/libs/common/autoload.php');
 spl_autoload_register('class_autoload');
 
 // Include system classes
-require_once(MIBEW_FS_ROOT.'/libs/classes/event_dispatcher.php');
 require_once(MIBEW_FS_ROOT.'/libs/classes/plugin_manager.php');
 require_once(MIBEW_FS_ROOT.'/libs/classes/plugin.php');
 

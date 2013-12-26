@@ -15,6 +15,11 @@
  * limitations under the License.
  */
 
+
+// Import namespaces and classes of the core
+use Mibew\EventDispatcher;
+
+// Initialize libraries
 require_once(MIBEW_FS_ROOT.'/libs/common/locale.php');
 
 function get_popup($href, $jshref, $message, $title, $wndName, $options)

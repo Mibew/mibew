@@ -16,6 +16,7 @@
  */
 
 // Import namespaces and classes of the core
+use Mibew\EventDispatcher;
 use Mibew\Settings;
 
 // Initialize libraries

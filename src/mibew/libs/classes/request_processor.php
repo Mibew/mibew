@@ -17,6 +17,7 @@
 
 // Import namespaces and classes of the core
 use Mibew\Database;
+use Mibew\EventDispatcher;
 
 /**
  * Implements abstract class for request processing
@@ -256,7 +257,7 @@ abstract class RequestProcessor {
 	 * @return mixed request result or boolean false on failure.
 	 */
 	public function call($functions, $async, $callback = null) {
-		// Get an instance of the EventDispatcher class
+		// Get an instance of the \Mibew\EventDispatcher class
 		$dispatcher = EventDispatcher::getInstance();
 		// Try to call function at Other side
 		try {
