@@ -29,9 +29,6 @@ session_start();
 
 require_once(MIBEW_FS_ROOT.'/libs/config.php');
 
-// Include some classes
-require_once(MIBEW_FS_ROOT.'/libs/classes/Mibew/PluginManager.php');
-
 // Include common functions
 require_once(MIBEW_FS_ROOT.'/libs/common/constants.php');
 require_once(MIBEW_FS_ROOT.'/libs/common/locale.php');

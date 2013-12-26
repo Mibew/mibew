@@ -160,20 +160,23 @@ function load_messages($locale) {
 
 	$messages[$locale] = $locale_data['messages'];
 
-	// Load active plugins localization
-	$plugins_list = array_keys(PluginManager::getAllPlugins());
+	// Plugins are unavailable on system installation
+	if (!installation_in_progress()) {
+		// Load active plugins localization
+		$plugins_list = array_keys(PluginManager::getAllPlugins());
 
-	foreach($plugins_list as $plugin_name) {
-		$locale_file = MIBEW_FS_ROOT .
-			"/plugins/{$plugin_name}/locales/{$locale}/properties";
-		if (is_readable($locale_file)) {
-			$locale_data = read_locale_file($locale_file);
-			// array_merge used to provide an ability for plugins to override
-			// localized strings
-			$messages[$locale] = array_merge(
-				$messages[$locale],
-				$locale_data['messages']
-			);
+		foreach($plugins_list as $plugin_name) {
+			$locale_file = MIBEW_FS_ROOT .
+				"/plugins/{$plugin_name}/locales/{$locale}/properties";
+			if (is_readable($locale_file)) {
+				$locale_data = read_locale_file($locale_file);
+				// array_merge used to provide an ability for plugins to override
+				// localized strings
+				$messages[$locale] = array_merge(
+					$messages[$locale],
+					$locale_data['messages']
+				);
+			}
 		}
 	}
 }
