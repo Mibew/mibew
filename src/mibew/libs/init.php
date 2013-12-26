@@ -32,6 +32,10 @@ $mibewroot = join("/", array_map("urlencode", preg_split('/\//', preg_replace('/
 // Include system constants file
 require_once(MIBEW_FS_ROOT.'/libs/common/constants.php');
 
+// Initialize classes autoloading
+require_once(MIBEW_FS_ROOT.'/libs/common/autoload.php');
+spl_autoload_register('class_autoload');
+
 // Include system classes
 require_once(MIBEW_FS_ROOT.'/libs/classes/database.php');
 require_once(MIBEW_FS_ROOT.'/libs/classes/settings.php');
