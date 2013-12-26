@@ -17,7 +17,7 @@
 
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 
-$db = Database::getInstance();
+$db = \Mibew\Database::getInstance();
 
 $db->throwExeptions(true);
 

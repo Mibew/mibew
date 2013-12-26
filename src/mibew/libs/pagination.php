@@ -15,6 +15,9 @@
  * limitations under the License.
  */
 
+// Import namespaces and classes of the core
+use Mibew\Database;
+
 $pagination_spacing = "&nbsp;&nbsp;&nbsp;";
 $links_on_page = 5;
 
@@ -82,9 +85,9 @@ function setup_pagination($items, $default_items_per_page = 15)
  * @param string $order Order clause
  * @param string $countfields Field, substituted in SQL COUNT function
  * @param array $values Associative array of substituted values. Keys are named placeholders in the 
- *   query(see Database::query() and its $values parameter description)
+ *   query(see \Mibew\Database::query() and its $values parameter description)
  * 
- * @see Database::query()
+ * @see \Mibew\Database::query()
  */
 function select_with_pagintation($fields, $table, $conditions, $order, $countfields, $values)
 {

@@ -15,6 +15,9 @@
  * limitations under the License.
  */
 
+// Import namespaces and classes of the core
+use Mibew\Database;
+
 function load_canned_messages($locale, $groupid)
 {
 	$db = Database::getInstance();

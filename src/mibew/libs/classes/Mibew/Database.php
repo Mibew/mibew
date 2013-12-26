@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+namespace Mibew;
+
 /**
  * Encapsulates work with database. Implenets singleton pattern to provide only
  * one instance.
@@ -35,7 +37,7 @@ Class Database{
 
 	/**
 	 * PDO object
-	 * @var PDO
+	 * @var \PDO
 	 */
 	protected $dbh = NULL;
 
@@ -155,16 +157,16 @@ Class Database{
 	public static function initialize($host, $user, $pass, $use_pconn, $db, $prefix, $force_charset = false, $encoding = 'utf8') {
 		// Check PDO
 		if (! extension_loaded('PDO')) {
-			throw new Exception('PDO extension is not loaded');
+			throw new \Exception('PDO extension is not loaded');
 		}
 
 		if (! extension_loaded('pdo_mysql')) {
-			throw new Exception('pdo_mysql extension is not loaded');
+			throw new \Exception('pdo_mysql extension is not loaded');
 		}
 
 		// Check if initialization
 		if (! is_null(self::$instance)) {
-			throw new Exception('Database already initialized');
+			throw new \Exception('Database already initialized');
 		}
 
 		// Create database instance
@@ -181,11 +183,11 @@ Class Database{
 		$instance->usePersistentConnection = $use_pconn;
 
 		// Create PDO object
-		$instance->dbh = new PDO(
+		$instance->dbh = new \PDO(
 			"mysql:host={$instance->dbHost};dbname={$instance->dbName}",
 			$instance->dbLogin,
 			$instance->dbPass,
-			array(PDO::ATTR_PERSISTENT => $instance->usePersistentConnection)
+			array(\PDO::ATTR_PERSISTENT => $instance->usePersistentConnection)
 		);
 
 		if ($instance->forceCharsetInConnection) {
@@ -208,9 +210,9 @@ Class Database{
 
 	/**
 	 * Handles errors
-	 * @param Exception $e
+	 * @param \Exception $e
 	 */
-	protected function handleError(Exception $e){
+	protected function handleError(\Exception $e){
 		if ($this->throwExceptions) {
 			throw $e;
 		}
@@ -299,7 +301,7 @@ Class Database{
 			// Check if error occurs
 			if ($this->preparedStatements[$query_key]->errorCode() !== '00000') {
 				$errorInfo = $this->preparedStatements[$query_key]->errorInfo();
-				throw new Exception(' Query failed: ' . $errorInfo[2]);
+				throw new \Exception(' Query failed: ' . $errorInfo[2]);
 			}
 
 			// No need to return rows
@@ -315,16 +317,16 @@ Class Database{
 			}
 			switch($params['fetch_type']){
 				case Database::FETCH_NUM:
-					$fetch_type = PDO::FETCH_NUM;
+					$fetch_type = \PDO::FETCH_NUM;
 					break;
 				case Database::FETCH_ASSOC:
-					$fetch_type = PDO::FETCH_ASSOC;
+					$fetch_type = \PDO::FETCH_ASSOC;
 					break;
 				case Database::FETCH_BOTH:
-					$fetch_type = PDO::FETCH_BOTH;
+					$fetch_type = \PDO::FETCH_BOTH;
 					break;
 				default:
-					throw new Exception("Unknown 'fetch_type' value!");
+					throw new \Exception("Unknown 'fetch_type' value!");
 			}
 
 			// Get results
@@ -334,12 +336,12 @@ Class Database{
 			} elseif ($params['return_rows'] == Database::RETURN_ALL_ROWS) {
 				$rows = $this->preparedStatements[$query_key]->fetchAll($fetch_type);
 			} else {
-				throw new Exception("Unknown 'return_rows' value!");
+				throw new \Exception("Unknown 'return_rows' value!");
 			}
 			$this->preparedStatements[$query_key]->closeCursor();
 
 			return $rows;
-		} catch(Exception $e) {
+		} catch(\Exception $e) {
 			$this->handleError($e);
 		}
 	}
@@ -348,7 +350,7 @@ Class Database{
 	 * Returns value of PDOStatement::$errorInfo property for last query
 	 * @return string Error info array
 	 *
-	 * @see PDOStatement::$erorrInfo
+	 * @see \PDOStatement::$erorrInfo
 	 */
 	public function errorInfo(){
 		if (is_null($this->lastQuery)) {
@@ -356,7 +358,7 @@ Class Database{
 		}
 		try{
 			$errorInfo = $this->preparedStatements[$this->lastQuery]->errorInfo();
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$this->handleError($e);
 		}
 		return $errorInfo;
@@ -370,7 +372,7 @@ Class Database{
 	public function insertedId(){
 		try{
 			$lastInsertedId = $this->dbh->lastInsertId();
-		} catch(Exception $e) {
+		} catch(\Exception $e) {
 			$this->handleError($e);
 		}
 		return $lastInsertedId;
@@ -387,7 +389,7 @@ Class Database{
 		}
 		try{
 			$affected_rows =  $this->preparedStatements[$this->lastQuery]->rowCount();
-		} catch(Exception $e) {
+		} catch(\Exception $e) {
 			$this->handleError($e);
 		}
 		return $affected_rows;
