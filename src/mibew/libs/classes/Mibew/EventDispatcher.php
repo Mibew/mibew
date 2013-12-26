@@ -65,13 +65,13 @@ Class EventDispatcher {
 	 * All event listeners must receive one argument of array type by reference.
 	 *
 	 * @param string $event_name Event's name
-	 * @param Plugin $plugin Plugin object, that handles the event
+	 * @param \Mibew\Plugin $plugin Plugin object, that handles the event
 	 * @param string $listener Plugins method, that handles the event
 	 * @param int $priority Priority of listener. If $priority = null, the plugin weight will
 	 * use instead.
 	 * @return boolean true on success or false on failure.
 	 *
-	 * @see Plugin::getWeight()
+	 * @see \Mibew\Plugin::getWeight()
 	 */
 	public function attachListener($event_name, Plugin $plugin, $listener, $priority = null){
 		// Check method is callable
@@ -100,7 +100,7 @@ Class EventDispatcher {
 	 * Detach listener function from event
 	 *
 	 * @param string $event_name Event's name
-	 * @param Plugin $plugin Plugin object, that handles the event
+	 * @param \Mibew\Plugin $plugin Plugin object, that handles the event
 	 * @param string $listener Plugins method, that handles the event
 	 * @return boolean true on success or false on failure.
 	 */

@@ -96,7 +96,7 @@ Class PluginManager {
 			// Build name of the plugin class
 			$plugin_name_parts = explode('_', $plugin_name);
 			$plugin_name_parts = array_map('ucfirst', $plugin_name_parts);
-			$plugin_classname = implode('', $plugin_name_parts) . "Plugin";
+			$plugin_classname = '\\Mibew\\Plugin\\' . implode('', $plugin_name_parts);
 
 			// Try to load plugin file
 			if (! (include_once $plugin_name."/".$plugin_name."_plugin.php")) {
@@ -111,10 +111,10 @@ Class PluginManager {
 				continue;
 			}
 			// Check if plugin extends abstract 'Plugin' class
-			if ('Plugin' != get_parent_class($plugin_classname)) {
+			if ('Mibew\\Plugin' != get_parent_class($plugin_classname)) {
 				trigger_error(
 					"Plugin class '{$plugin_classname}' does not extend " .
-					"abstract 'Plugin' class!",
+					"abstract '\\Mibew\\Plugin' class!",
 					E_USER_WARNING
 				);
 				continue;
