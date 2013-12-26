@@ -78,7 +78,7 @@ Class PluginManager {
 		// Add include path
 		$include_path = get_include_path();
 		$include_path .= empty($include_path) ? '' : PATH_SEPARATOR ;
-		set_include_path($include_path . realpath(dirname(dirname(dirname(__FILE__))) . "/plugins/"));
+		set_include_path($include_path . realpath(MIBEW_FS_ROOT . "/plugins/"));
 
 		// Load plugins
 		$loading_queue = array();

@@ -16,11 +16,11 @@
  */
 
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
-require_once(dirname(dirname(__FILE__)).'/libs/pagination.php');
-require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
-require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
-require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');
+require_once(MIBEW_FS_ROOT.'/libs/operator.php');
+require_once(MIBEW_FS_ROOT.'/libs/pagination.php');
+require_once(MIBEW_FS_ROOT.'/libs/interfaces/style.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/style.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/page_style.php');
 
 function compare_localization_by_l1($a, $b)
 {
@@ -41,7 +41,7 @@ function compare_localization_by_id($a, $b)
 function load_idlist($name)
 {
 	$result = array();
-	$fp = @fopen(dirname(dirname(__FILE__))."/locales/names/$name", "r");
+	$fp = @fopen(MIBEW_FS_ROOT."/locales/names/$name", "r");
 	if ($fp !== FALSE) {
 		while (!feof($fp)) {
 			$line = trim(fgets($fp, 4096));
@@ -60,7 +60,7 @@ function save_message($locale, $key, $value)
 	$result = "";
 	$added = false;
 	$current_encoding = $mibew_encoding;
-	$fp = fopen(dirname(dirname(__FILE__))."/locales/$locale/properties", "r");
+	$fp = fopen(MIBEW_FS_ROOT."/locales/$locale/properties", "r");
 	if ($fp === FALSE) {
 		die("unable to open properties for locale $locale");
 	}
@@ -81,14 +81,14 @@ function save_message($locale, $key, $value)
 	if (!$added) {
 		$result .= "$key=" . myiconv($mibew_encoding, $current_encoding, str_replace("\r", "", str_replace("\n", "\\n", trim($value)))) . "\n";
 	}
-	$fp = @fopen(dirname(dirname(__FILE__))."/locales/$locale/properties", "w");
+	$fp = @fopen(MIBEW_FS_ROOT."/locales/$locale/properties", "w");
 	if ($fp !== FALSE) {
 		fwrite($fp, $result);
 		fclose($fp);
 	} else {
 		die("cannot write /locales/$locale/properties, please check file permissions on your server");
 	}
-	$fp = @fopen(dirname(dirname(__FILE__))."/locales/$locale/properties.log", "a");
+	$fp = @fopen(MIBEW_FS_ROOT."/locales/$locale/properties.log", "a");
 	if ($fp !== FALSE) {
 		$extAddr = $_SERVER['REMOTE_ADDR'];
 		if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) &&

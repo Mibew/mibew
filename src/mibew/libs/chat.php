@@ -15,19 +15,19 @@
  * limitations under the License.
  */
 
-require_once(dirname(__FILE__).'/track.php');
-require_once(dirname(__FILE__).'/classes/thread.php');
-require_once(dirname(__FILE__).'/classes/mibew_api.php');
-require_once(dirname(__FILE__).'/classes/mibew_api_interaction.php');
-require_once(dirname(__FILE__).'/classes/mibew_api_chat_interaction.php');
-require_once(dirname(__FILE__).'/classes/mibew_api_execution_context.php');
-require_once(dirname(__FILE__).'/classes/request_processor.php');
-require_once(dirname(__FILE__).'/classes/client_side_processor.php');
-require_once(dirname(__FILE__).'/classes/thread_processor.php');
-require_once(dirname(__FILE__).'/interfaces/style.php');
-require_once(dirname(__FILE__).'/classes/style.php');
-require_once(dirname(__FILE__).'/classes/chat_style.php');
-require_once(dirname(__FILE__).'/classes/page_style.php');
+require_once(MIBEW_FS_ROOT.'/libs/track.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/thread.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_interaction.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_chat_interaction.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_execution_context.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/request_processor.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/client_side_processor.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/thread_processor.php');
+require_once(MIBEW_FS_ROOT.'/libs/interfaces/style.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/style.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/chat_style.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/page_style.php');
 
 
 /**

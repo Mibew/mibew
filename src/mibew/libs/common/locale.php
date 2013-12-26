@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-require_once(dirname(__FILE__).'/converter.php');
-require_once(dirname(__FILE__).'/verification.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/converter.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/verification.php');
 
 /**
  * Name for the cookie to store locale code in use
@@ -49,7 +49,7 @@ function myiconv($in_enc, $out_enc, $string)
 
 function locale_exists($locale)
 {
-	return file_exists(dirname(dirname(dirname(__FILE__)))."/locales/$locale/properties");
+	return file_exists(MIBEW_FS_ROOT."/locales/$locale/properties");
 }
 
 function locale_pattern_check($locale)
@@ -61,7 +61,7 @@ function locale_pattern_check($locale)
 function get_available_locales()
 {
 	$list = array();
-	$folder = dirname(dirname(dirname(__FILE__))).'/locales';
+	$folder = MIBEW_FS_ROOT.'/locales';
 	if ($handle = opendir($folder)) {
 		while (false !== ($file = readdir($handle))) {
 			if (locale_pattern_check($file) && is_dir("$folder/$file")) {
@@ -147,7 +147,7 @@ function load_messages($locale) {
 	global $messages, $output_encoding;
 
 	// Load core localization
-	$locale_file = dirname(dirname(dirname(__FILE__))) . "/locales/{$locale}/properties";
+	$locale_file = MIBEW_FS_ROOT . "/locales/{$locale}/properties";
 	$locale_data = read_locale_file($locale_file);
 
 	if (! is_null($locale_data['output_encoding'])) {
@@ -160,7 +160,7 @@ function load_messages($locale) {
 	$plugins_list = array_keys(PluginManager::getAllPlugins());
 
 	foreach($plugins_list as $plugin_name) {
-		$locale_file = dirname(dirname(dirname(__FILE__))) .
+		$locale_file = MIBEW_FS_ROOT .
 			"/plugins/{$plugin_name}/locales/{$locale}/properties";
 		if (is_readable($locale_file)) {
 			$locale_data = read_locale_file($locale_file);

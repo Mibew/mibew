@@ -15,36 +15,41 @@
  * limitations under the License.
  */
 
+/**
+ * File system root directory of the Mibew installations
+ */
+define('MIBEW_FS_ROOT', dirname(dirname(__FILE__)));
+
 // Prevent Mibew from access to files outside the installation
-@ini_set('open_basedir', dirname(dirname(__FILE__)));
+@ini_set('open_basedir', MIBEW_FS_ROOT);
 
 // Include configuration file
-require_once(dirname(__FILE__).'/config.php');
+require_once(MIBEW_FS_ROOT.'/libs/config.php');
 
 // Sanitize path to application and remove extra slashes
 $mibewroot = join("/", array_map("urlencode", preg_split('/\//', preg_replace('/\/+$/', '', preg_replace('/\/{2,}/', '/', '/' . $mibewroot)))));
 
 // Include system constants file
-require_once(dirname(__FILE__).'/common/constants.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/constants.php');
 
 // Include system classes
-require_once(dirname(__FILE__).'/classes/database.php');
-require_once(dirname(__FILE__).'/classes/settings.php');
-require_once(dirname(__FILE__).'/classes/event_dispatcher.php');
-require_once(dirname(__FILE__).'/classes/plugin_manager.php');
-require_once(dirname(__FILE__).'/classes/plugin.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/database.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/settings.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/event_dispatcher.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/plugin_manager.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/plugin.php');
 
 // Include common libs
-require_once(dirname(__FILE__).'/common/configurations.php');
-require_once(dirname(__FILE__).'/common/csrf.php');
-require_once(dirname(__FILE__).'/common/datetime.php');
-require_once(dirname(__FILE__).'/common/forms.php');
-require_once(dirname(__FILE__).'/common/verification.php');
-require_once(dirname(__FILE__).'/common/locale.php');
-require_once(dirname(__FILE__).'/common/misc.php');
-require_once(dirname(__FILE__).'/common/request.php');
-require_once(dirname(__FILE__).'/common/response.php');
-require_once(dirname(__FILE__).'/common/string.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/configurations.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/csrf.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/datetime.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/forms.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/verification.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/locale.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/misc.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/request.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/response.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/string.php');
 
 // Make session cookie more secure
 @ini_set('session.cookie_httponly', TRUE);

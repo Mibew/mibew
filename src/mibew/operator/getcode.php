@@ -16,19 +16,19 @@
  */
 
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
-require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
-require_once(dirname(dirname(__FILE__)).'/libs/getcode.php');
-require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
-require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
-require_once(dirname(dirname(__FILE__)).'/libs/classes/chat_style.php');
-require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');
-require_once(dirname(dirname(__FILE__)).'/libs/classes/invitation_style.php');
+require_once(MIBEW_FS_ROOT.'/libs/operator.php');
+require_once(MIBEW_FS_ROOT.'/libs/groups.php');
+require_once(MIBEW_FS_ROOT.'/libs/getcode.php');
+require_once(MIBEW_FS_ROOT.'/libs/interfaces/style.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/style.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/chat_style.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/page_style.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/invitation_style.php');
 
 $operator = check_login();
 force_password($operator);
 
-$imageLocales = get_image_locales_map(dirname(dirname(__FILE__)).'/locales');
+$imageLocales = get_image_locales_map(MIBEW_FS_ROOT.'/locales');
 $image = verifyparam(isset($_GET['image']) ? "image" : "i", "/^\w+$/", "mibew");
 if (!isset($imageLocales[$image])) {
 	$errors[] = "Unknown image: $image";
@@ -63,7 +63,7 @@ $lang = verifyparam("lang", "/^[\w-]{2,5}$/", "");
 if (!$lang || !in_array($lang, $image_locales))
 	$lang = in_array($current_locale, $image_locales) ? $current_locale : $image_locales[0];
 
-$file = dirname(dirname(__FILE__)).'/locales/${lang}/button/${image}_on.gif';
+$file = MIBEW_FS_ROOT.'/locales/${lang}/button/${image}_on.gif';
 $size = get_gifimage_size($file);
 
 $imagehref = get_app_location($showhost, $forcesecure) . "/b.php?i=$image&amp;lang=$lang";

@@ -65,8 +65,7 @@ abstract class Style {
 	 * @throws RuntimeException
 	 */
 	public function configurations() {
-		$config_file = dirname(dirname(dirname(__FILE__)))
-			. '/' . $this->filesPath() . '/config.ini';
+		$config_file = MIBEW_FS_ROOT . '/' . $this->filesPath() . '/config.ini';
 
 		// Check if configurations already loaded. Do not do the job twice.
 		if (is_null($this->cachedConfigurations)) {

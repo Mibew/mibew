@@ -16,11 +16,11 @@
  */
 
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
-require_once(dirname(dirname(__FILE__)).'/libs/groups.php');
-require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
-require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
-require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');
+require_once(MIBEW_FS_ROOT.'/libs/operator.php');
+require_once(MIBEW_FS_ROOT.'/libs/groups.php');
+require_once(MIBEW_FS_ROOT.'/libs/interfaces/style.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/style.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/page_style.php');
 
 $operator = check_login();
 csrfchecktoken();

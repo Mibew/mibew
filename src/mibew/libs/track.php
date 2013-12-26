@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-require_once(dirname(__FILE__).'/chat.php');
+require_once(MIBEW_FS_ROOT.'/libs/chat.php');
 
 function track_visitor($visitorid, $entry, $referer)
 {

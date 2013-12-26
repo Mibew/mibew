@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-require_once(dirname(__FILE__).'/locale.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/locale.php');
 
 function date_diff_to_text($seconds)
 {

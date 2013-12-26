@@ -17,10 +17,10 @@
 
 // Initialize librariess
 require_once(dirname(__FILE__).'/libs/init.php');
-require_once(dirname(__FILE__).'/libs/classes/thread.php');
-require_once(dirname(__FILE__).'/libs/track.php');
-require_once(dirname(__FILE__).'/libs/statistics.php');
-require_once(dirname(__FILE__).'/libs/cron.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/thread.php');
+require_once(MIBEW_FS_ROOT.'/libs/track.php');
+require_once(MIBEW_FS_ROOT.'/libs/statistics.php');
+require_once(MIBEW_FS_ROOT.'/libs/cron.php');
 
 $cron_key = empty($_GET['cron_key']) ? '' : $_GET['cron_key'];
 

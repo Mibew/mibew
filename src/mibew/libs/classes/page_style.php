@@ -45,9 +45,7 @@ class PageStyle extends Style implements StyleInterface {
 
 		// Build full view name. Remove '\' and '/' characters form the
 		// specified view name
-		$full_view_name = dirname(dirname(dirname(__FILE__))) .
-			'/' . $this->filesPath() .
-			'/views/' .
+		$full_view_name = MIBEW_FS_ROOT . '/' . $this->filesPath() . '/views/' .
 			str_replace("/\\", '', $template_name) . '.php';
 
 		// Load and execute the view
@@ -93,8 +91,7 @@ class PageStyle extends Style implements StyleInterface {
 	 * @param array List of styles names
 	 */
 	public static function availableStyles() {
-		$styles_root = dirname(dirname(dirname(__FILE__))) .
-			'/styles/pages';
+		$styles_root = MIBEW_FS_ROOT . '/styles/pages';
 
 		return self::getStyleList($styles_root);
 	}

@@ -16,19 +16,19 @@
  */
 
 require_once(dirname(__FILE__).'/libs/init.php');
-require_once(dirname(__FILE__).'/libs/chat.php');
-require_once(dirname(__FILE__).'/libs/operator.php');
-require_once(dirname(__FILE__).'/libs/invitation.php');
-require_once(dirname(__FILE__).'/libs/groups.php');
-require_once(dirname(__FILE__).'/libs/captcha.php');
-require_once(dirname(__FILE__).'/libs/notify.php');
-require_once(dirname(__FILE__).'/libs/classes/thread.php');
-require_once(dirname(__FILE__).'/libs/classes/mibew_api.php');
-require_once(dirname(__FILE__).'/libs/classes/mibew_api_interaction.php');
-require_once(dirname(__FILE__).'/libs/classes/mibew_api_chat_interaction.php');
-require_once(dirname(__FILE__).'/libs/classes/mibew_api_execution_context.php');
-require_once(dirname(__FILE__).'/libs/classes/client_side_processor.php');
-require_once(dirname(__FILE__).'/libs/classes/thread_processor.php');
+require_once(MIBEW_FS_ROOT.'/libs/chat.php');
+require_once(MIBEW_FS_ROOT.'/libs/operator.php');
+require_once(MIBEW_FS_ROOT.'/libs/invitation.php');
+require_once(MIBEW_FS_ROOT.'/libs/groups.php');
+require_once(MIBEW_FS_ROOT.'/libs/captcha.php');
+require_once(MIBEW_FS_ROOT.'/libs/notify.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/thread.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_interaction.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_chat_interaction.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_execution_context.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/client_side_processor.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/thread_processor.php');
 
 $processor = ThreadProcessor::getInstance();
 $processor->receiveRequest($_POST['data']);

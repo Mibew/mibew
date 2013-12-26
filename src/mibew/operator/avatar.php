@@ -16,11 +16,11 @@
  */
 
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
-require_once(dirname(dirname(__FILE__)).'/libs/operator_settings.php');
-require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
-require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
-require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');
+require_once(MIBEW_FS_ROOT.'/libs/operator.php');
+require_once(MIBEW_FS_ROOT.'/libs/operator_settings.php');
+require_once(MIBEW_FS_ROOT.'/libs/interfaces/style.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/style.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/page_style.php');
 
 $operator = check_login();
 csrfchecktoken();
@@ -58,7 +58,7 @@ if (!$op) {
 		} elseif (!in_array($ext, $valid_types)) {
 			$errors[] = failed_uploading_file($orig_filename, "errors.invalid.file.type");
 		} else {
-			$avatar_local_dir = dirname(dirname(__FILE__)).'/files/avatar/';
+			$avatar_local_dir = MIBEW_FS_ROOT.'/files/avatar/';
 			$full_file_path = $avatar_local_dir . $new_file_name;
 			if (file_exists($full_file_path)) {
 				unlink($full_file_path);

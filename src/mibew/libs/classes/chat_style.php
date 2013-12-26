@@ -36,7 +36,7 @@ class ChatStyle extends Style implements StyleInterface {
 	 * extension
 	 */
 	public function render($template_name) {
-		$templates_root = dirname(dirname(dirname(__FILE__))) .
+		$templates_root = MIBEW_FS_ROOT .
 			'/' . $this->filesPath() . '/templates/';
 		$full_template_name = $template_name . '.tpl';
 
@@ -103,8 +103,7 @@ class ChatStyle extends Style implements StyleInterface {
 	 * @param array List of styles names
 	 */
 	public static function availableStyles() {
-		$styles_root = dirname(dirname(dirname(__FILE__))) .
-			'/styles/dialogs';
+		$styles_root = MIBEW_FS_ROOT . '/styles/dialogs';
 
 		return self::getStyleList($styles_root);
 	}

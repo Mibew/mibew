@@ -20,24 +20,29 @@
  */
 define('INSTALLATION_IN_PROGRESS', TRUE);
 
+/**
+ * File system root directory of the Mibew installations
+ */
+define('MIBEW_FS_ROOT', dirname(dirname(__FILE__)));
+
 session_start();
 
-require_once(dirname(dirname(__FILE__)).'/libs/config.php');
+require_once(MIBEW_FS_ROOT.'/libs/config.php');
 
 // Include some classes
-require_once(dirname(dirname(__FILE__)).'/libs/classes/plugin_manager.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/plugin_manager.php');
 
 // Include common functions
-require_once(dirname(dirname(__FILE__)).'/libs/common/constants.php');
-require_once(dirname(dirname(__FILE__)).'/libs/common/locale.php');
-require_once(dirname(dirname(__FILE__)).'/libs/common/misc.php');
-require_once(dirname(dirname(__FILE__)).'/libs/common/response.php');
-require_once(dirname(dirname(__FILE__)).'/libs/common/string.php');
-require_once(dirname(dirname(__FILE__)).'/libs/interfaces/style.php');
-require_once(dirname(dirname(__FILE__)).'/libs/classes/style.php');
-require_once(dirname(dirname(__FILE__)).'/libs/classes/page_style.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/constants.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/locale.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/misc.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/response.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/string.php');
+require_once(MIBEW_FS_ROOT.'/libs/interfaces/style.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/style.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/page_style.php');
 // Include database structure
-require_once(dirname(__FILE__).'/dbinfo.php');
+require_once(MIBEW_FS_ROOT.'/install/dbinfo.php');
 
 $page = array(
 	'version' => $version,
@@ -109,7 +114,7 @@ function check_files()
 {
 	global $page, $errors, $mibewroot;
 
-	$packageFile = dirname(__FILE__) . "/package";
+	$packageFile = MIBEW_FS_ROOT . "/install/package";
 	$fp = @fopen($packageFile, "r");
 	if ($fp === FALSE) {
 		$errors[] = getlocal2("install.cannot_read", array("$mibewroot/install/package"));
@@ -130,7 +135,7 @@ function check_files()
 	fclose($fp);
 
 	foreach ($knownFiles as $file => $sum) {
-		$relativeName = dirname(dirname(__FILE__)) . "/$file";
+		$relativeName = MIBEW_FS_ROOT . "/$file";
 		if (!is_readable($relativeName)) {
 			if (file_exists($relativeName)) {
 				$errors[] = getlocal2("install.cannot_read", array("$mibewroot/$file"));

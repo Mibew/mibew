@@ -16,9 +16,9 @@
  */
 
 require_once(dirname(__FILE__).'/libs/init.php');
-require_once(dirname(__FILE__).'/libs/interfaces/style.php');
-require_once(dirname(__FILE__).'/libs/classes/style.php');
-require_once(dirname(__FILE__).'/libs/classes/page_style.php');
+require_once(MIBEW_FS_ROOT.'/libs/interfaces/style.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/style.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/page_style.php');
 
 $page = array();
 $page['title'] = getlocal("license.title");

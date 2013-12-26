@@ -16,7 +16,7 @@
  */
 
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(dirname(dirname(__FILE__)).'/libs/operator.php');
+require_once(MIBEW_FS_ROOT.'/libs/operator.php');
 
 logout_operator();
 

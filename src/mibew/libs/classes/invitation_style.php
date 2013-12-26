@@ -87,8 +87,7 @@ class InvitationStyle extends Style implements StyleInterface {
 	 * @param array List of styles names
 	 */
 	public static function availableStyles() {
-		$styles_root = dirname(dirname(dirname(__FILE__))) .
-			'/styles/invitations';
+		$styles_root = MIBEW_FS_ROOT .	'/styles/invitations';
 
 		return self::getStyleList($styles_root);
 	}

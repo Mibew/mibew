@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-require_once(dirname(__FILE__).'/locale.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/locale.php');
 
 /* ajax server actions use utf-8 */
 function getrawparam($name)

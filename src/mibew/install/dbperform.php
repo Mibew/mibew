@@ -20,20 +20,25 @@
  */
 define('INSTALLATION_IN_PROGRESS', TRUE);
 
+/**
+ * File system root directory of the Mibew installations
+ */
+define('MIBEW_FS_ROOT', dirname(dirname(__FILE__)));
+
 session_start();
 
-require_once(dirname(dirname(__FILE__)).'/libs/config.php');
+require_once(MIBEW_FS_ROOT.'/libs/config.php');
 
 // Include some classes
-require_once(dirname(dirname(__FILE__)).'/libs/classes/plugin_manager.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/plugin_manager.php');
 
 // Include common functions
-require_once(dirname(dirname(__FILE__)).'/libs/common/constants.php');
-require_once(dirname(dirname(__FILE__)).'/libs/common/locale.php');
-require_once(dirname(dirname(__FILE__)).'/libs/common/misc.php');
-require_once(dirname(dirname(__FILE__)).'/libs/common/response.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/constants.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/locale.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/misc.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/response.php');
 // Include database structure
-require_once(dirname(__FILE__).'/dbinfo.php');
+require_once(MIBEW_FS_ROOT.'/install/dbinfo.php');
 
 function runsql($query, $link)
 {

@@ -16,7 +16,7 @@
  */
 
 require_once(dirname(__FILE__).'/libs/init.php');
-require_once(dirname(__FILE__).'/libs/captcha.php');
+require_once(MIBEW_FS_ROOT.'/libs/captcha.php');
 
 $captchaCode = gen_captcha();
 $_SESSION["mibew_captcha"] = $captchaCode;

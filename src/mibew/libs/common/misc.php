@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-require_once(dirname(__FILE__).'/constants.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/constants.php');
 
 function debugexit_print($var)
 {
