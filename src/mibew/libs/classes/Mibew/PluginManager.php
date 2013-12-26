@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+namespace Mibew;
+
 /**
  * Manage plugins
  */
@@ -30,7 +32,7 @@ Class PluginManager {
 	 * Returns plugin object
 	 *
 	 * @param string $plugin_name
-	 * @return Plugin
+	 * @return \Mibew\Plugin
 	 */
 	public static function getPlugin($plugin_name) {
 		if (empty(self::$loaded_plugins[$plugin_name])) {

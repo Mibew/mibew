@@ -15,6 +15,10 @@
  * limitations under the License.
  */
 
+// Import namespaces and classes of the core
+use Mibew\PluginManager;
+
+// Initialize libraries
 require_once(MIBEW_FS_ROOT.'/libs/common/converter.php');
 require_once(MIBEW_FS_ROOT.'/libs/common/verification.php');
 

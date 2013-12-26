@@ -37,7 +37,6 @@ require_once(MIBEW_FS_ROOT.'/libs/common/autoload.php');
 spl_autoload_register('class_autoload');
 
 // Include system classes
-require_once(MIBEW_FS_ROOT.'/libs/classes/plugin_manager.php');
 require_once(MIBEW_FS_ROOT.'/libs/classes/plugin.php');
 
 // Include common libs
@@ -83,7 +82,7 @@ if (function_exists("date_default_timezone_set")) {
 
 if (! empty($plugins_list)) {
 	// Variable $plugins_config defined in libs/config.php
-	PluginManager::loadPlugins($plugins_list);
+	\Mibew\PluginManager::loadPlugins($plugins_list);
 }
 
 ?>
