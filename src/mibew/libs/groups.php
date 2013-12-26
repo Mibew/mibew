@@ -15,6 +15,9 @@
  * limitations under the License.
  */
 
+// Import namespaces and classes of the core
+use Mibew\Settings;
+
 function group_by_id($id)
 {
 	$db = Database::getInstance();

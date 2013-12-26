@@ -15,6 +15,9 @@
  * limitations under the License.
  */
 
+// Import namespaces and classes of the core
+use Mibew\Settings;
+
 function generate_button($title, $locale, $style, $invitation_style_name, $group, $inner, $showhost, $forcesecure, $modsecurity, $operator_code)
 {
 	$app_location = get_app_location($showhost, $forcesecure);

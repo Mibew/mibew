@@ -15,6 +15,10 @@
  * limitations under the License.
  */
 
+// Import namespaces and classes of the core
+use Mibew\Settings;
+
+// Initialize libraries
 require_once(MIBEW_FS_ROOT.'/libs/chat.php');
 
 function track_visitor($visitorid, $entry, $referer)

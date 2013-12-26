@@ -15,10 +15,12 @@
  * limitations under the License.
  */
 
-/** Name of the cookie to remember an operator
-  *
-  */
+// Import namespaces and classes of the core
+use Mibew\Settings;
 
+/**
+ * Name of the cookie to remember an operator
+ */
 define('REMEMBER_OPERATOR_COOKIE_NAME', 'mibew_operator');
 
 /** Permissions constants */

@@ -15,6 +15,9 @@
  * limitations under the License.
  */
 
+// Import namespaces and classes of the core
+use Mibew\Settings;
+
 function setup_settings_tabs($active)
 {
 	global $page, $mibewroot;

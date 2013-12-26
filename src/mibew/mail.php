@@ -15,6 +15,10 @@
  * limitations under the License.
  */
 
+// Import namespaces and classes of the core
+use Mibew\Settings;
+
+// Initialize libraries
 require_once(dirname(__FILE__).'/libs/init.php');
 require_once(MIBEW_FS_ROOT.'/libs/chat.php');
 require_once(MIBEW_FS_ROOT.'/libs/expand.php');

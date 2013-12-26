@@ -15,6 +15,11 @@
  * limitations under the License.
  */
 
+namespace Mibew;
+
+// Import namespaces and classes of the core
+use \Database;
+
 /**
  * Encapsulates work with system settings.
  */
