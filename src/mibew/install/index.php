@@ -36,7 +36,7 @@ require_once(MIBEW_FS_ROOT.'/libs/common/misc.php');
 require_once(MIBEW_FS_ROOT.'/libs/common/response.php');
 require_once(MIBEW_FS_ROOT.'/libs/common/string.php');
 require_once(MIBEW_FS_ROOT.'/libs/classes/Mibew/Style/StyleInterface.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/Mibew/Style/BaseStyle.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/Mibew/Style/Style.php');
 require_once(MIBEW_FS_ROOT.'/libs/classes/Mibew/Style/PageStyle.php');
 // Include database structure
 require_once(MIBEW_FS_ROOT.'/install/dbinfo.php');
