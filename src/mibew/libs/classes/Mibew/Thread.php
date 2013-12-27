@@ -18,7 +18,7 @@
 namespace Mibew;
 
 // Import namespaces and classes of the core
-use \ThreadProcessor;
+use Mibew\RequestProcessor\ThreadProcessor;
 
 /**
  * Represents a chat thread

@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+namespace Mibew\RequestProcessor;
+
 // Import namespaces and classes of the core
 use Mibew\Database;
 
@@ -22,7 +24,7 @@ use Mibew\Database;
  * Base class for all request processors that interact with JavaScript
  * applications at the client side.
  */
-abstract class ClientSideProcessor extends RequestProcessor {
+abstract class ClientSideProcessor extends Processor {
 
 	/**
 	 * Call function at client side

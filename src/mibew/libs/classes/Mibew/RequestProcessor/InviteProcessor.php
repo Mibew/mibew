@@ -15,6 +15,12 @@
  * limitations under the License.
  */
 
+namespace Mibew\RequestProcessor;
+
+// Import namespaces and classes of the core
+use \MibewAPI;
+use Mibew\RequestProcessor\Exception\InviteProcessorException;
+
 /**
  * Incapsulates invitation awaiting related api functions.
  *
@@ -31,13 +37,13 @@ class InviteProcessor extends ClientSideProcessor {
 
 	/**
 	 * An instance of the InviteProcessor class
-	 * @var InviteProcessor
+	 * @var \Mibew\RequestProcessor\InviteProcessor
 	 */
 	protected static $instance = null;
 
 	/**
 	 * Return an instance of the InviteProcessor class.
-	 * @return InviteProcessor
+	 * @return \Mibew\RequestProcessor\InviteProcessor
 	 */
 	public static function getInstance() {
 		if (is_null(self::$instance)) {
@@ -50,7 +56,7 @@ class InviteProcessor extends ClientSideProcessor {
 	 * Class constructor
 	 *
 	 * Do not use directly __construct method! Use
-	 * InviteProcessor::getInstance() instead!
+	 * \Mibew\RequestProcessor\InviteProcessor::getInstance() instead!
 	 * @todo Think about why the method is not protected
 	 */
 	public function __construct() {
@@ -103,7 +109,7 @@ class InviteProcessor extends ClientSideProcessor {
 	protected function apiInvitationState($args) {
 		$operator = get_logged_in();
 		if (!$operator) {
-			throw new ThreadProcessorException(
+			throw new InviteProcessorException(
 				"Operator not logged in!",
 				InviteProcessorException::ERROR_AGENT_NOT_LOGGED_IN
 			);
@@ -115,16 +121,6 @@ class InviteProcessor extends ClientSideProcessor {
 			'threadId' => ($invitation['threadid'] ? $invitation['threadid'] : false)
 		);
 	}
-}
-
-/**
- * Class for invite processor exceptions
- */
-class InviteProcessorException extends RequestProcessorException {
-	/**
-	 * Operator is not logged in
-	 */
-	const ERROR_AGENT_NOT_LOGGED_IN = 1;
 }
 
 ?>

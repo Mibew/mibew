@@ -15,9 +15,13 @@
  * limitations under the License.
  */
 
+namespace Mibew\RequestProcessor;
+
 // Import namespaces and classes of the core
+use \MibewAPI;
 use Mibew\Settings;
 use Mibew\Thread;
+use Mibew\RequestProcessor\Exception\ThreadProcessorException;
 
 /**
  * Incapsulates thread api and thread processing functions.
@@ -39,13 +43,13 @@ class ThreadProcessor extends ClientSideProcessor {
 
 	/**
 	 * An instance of the ThreadProcessor class
-	 * @var ThreadProcessor
+	 * @var \Mibew\RequestProcessor\ThreadProcessor
 	 */
 	protected static $instance = null;
 
 	/**
 	 * Return an instance of the ThreadProcessor class.
-	 * @return ThreadProcessor
+	 * @return \Mibew\RequestProcessor\ThreadProcessor
 	 */
 	public static function getInstance() {
 		if (is_null(self::$instance)) {
@@ -60,7 +64,7 @@ class ThreadProcessor extends ClientSideProcessor {
 	 * @param int $thread_id Id of the thread
 	 * @param int $last_token Last token of the thread
 	 * @return \Mibew\Thread
-	 * @throws ThreadProcessorException
+	 * @throws \Mibew\RequestProcessor\ThreadProcessorException
 	 */
 	public static function getThread($thread_id, $last_token) {
 		// Load thread
@@ -81,7 +85,7 @@ class ThreadProcessor extends ClientSideProcessor {
 	 *
 	 * @param array $args Arguments array
 	 * @param array $vars Array of arguments names that must be checked
-	 * @throws ThreadProcessorException
+	 * @throws \Mibew\RequestProcessor\ThreadProcessorException
 	 */
 	public static function checkParams($args, $vars) {
 		if (empty($vars)) {
@@ -102,7 +106,8 @@ class ThreadProcessor extends ClientSideProcessor {
 	 * Check if operator logged in
 	 *
 	 * @return array Operators info array
-	 * @throws ThreadProcessorException If operator not logged in.
+	 * @throws \Mibew\RequestProcessor\ThreadProcessorException If operator is
+	 * not logged in.
 	 */
 	public static function checkOperator() {
 		$operator = get_logged_in();
@@ -131,7 +136,7 @@ class ThreadProcessor extends ClientSideProcessor {
 	/**
 	 * Creates and returns an instance of the MibewAPI class.
 	 *
-	 * @return MibewAPI
+	 * @return \MibewAPI
 	 */
 	protected function getMibewAPIInstance() {
 		return MibewAPI::getAPI('MibewAPIChatInteraction');
@@ -356,7 +361,7 @@ class ThreadProcessor extends ClientSideProcessor {
 	 *  - 'threadId': Id of the thread related to chat window
 	 *  - 'token': last thread token
 	 *  - 'name': new user name
-	 * @throws ThreadProcessorException
+	 * @throws \Mibew\RequestProcessor\ThreadProcessorException
 	 */
 	protected function apiRename($args) {
 		global $mibew_encoding;
@@ -541,8 +546,8 @@ class ThreadProcessor extends ClientSideProcessor {
 	 *  - 'captcha': string, captcha value;
 	 *  - 'groupId': selected group id.
 	 *
-	 * @throws ThreadProcessorException Can throw an exception if captcha or
-	 * email is wrong.
+	 * @throws \Mibew\RequestProcessor\ThreadProcessorException Can throw an
+	 * exception if captcha or email is wrong.
 	 */
 	protected function apiProcessLeaveMessage($args) {
 		global $home_locale, $current_locale;
@@ -661,53 +666,6 @@ class ThreadProcessor extends ClientSideProcessor {
 			mibew_mail($inbox_mail, $email, $subject, $body);
 		}
 	}
-}
-
-class ThreadProcessorException extends RequestProcessorException {
-	/**
-	 * 'recipient' argument is not set
-	 */
-	const EMPTY_RECIPIENT = 1;
-	/**
-	 * Operator is not logged in
-	 */
-	const ERROR_AGENT_NOT_LOGGED_IN = 2;
-	/**
-	 * Wrong arguments set for an API function
-	 */
-	const ERROR_WRONG_ARGUMENTS = 3;
-	/**
-	 * Thread cannot be loaded
-	 */
-	const ERROR_WRONG_THREAD = 4;
-	/**
-	 * Message cannot be send
-	 */
-	const ERROR_CANNOT_SEND = 5;
-	/**
-	 * User rename forbidden by system configurations
-	 */
-	const ERROR_FORBIDDEN_RENAME = 6;
-	/**
-	 * Various recipient in different functions in one package
-	 */
-	const VARIOUS_RECIPIENT = 7;
-	/**
-	 * Various thread ids or thread tokens in different functions in one package
-	 */
-	const VARIOUS_THREAD_ID = 8;
-	/**
-	 * Wrong recipient value
-	 */
-	const WRONG_RECIPIENT_VALUE = 9;
-	/**
-	 * Wrong captcha value
-	 */
-	const ERROR_WRONG_CAPTCHA = 10;
-	/**
-	 * Wrong email address
-	 */
-	const ERROR_WRONG_EMAIL = 11;
 }
 
 ?>

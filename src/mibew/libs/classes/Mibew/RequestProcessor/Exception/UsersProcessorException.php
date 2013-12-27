@@ -15,15 +15,24 @@
  * limitations under the License.
  */
 
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/invitation.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_interaction.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_invite_interaction.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_execution_context.php');
+namespace Mibew\RequestProcessor\Exception;
 
-$processor = \Mibew\RequestProcessor\InviteProcessor::getInstance();
-$processor->receiveRequest($_POST['data']);
+/**
+ * Class for {@link \Mibew\RequestProcessor\UsersProcessor} exceptions
+ */
+class UsersProcessorException extends RequestProcessorException {
+	/**
+	 * Operator is not logged in
+	 */
+	const ERROR_AGENT_NOT_LOGGED_IN = 1;
+	/**
+	 * Wrong agent id
+	 */
+	const ERROR_WRONG_AGENT_ID = 2;
+	/**
+	 * Various agent ids in different functions in one package
+	 */
+	const VARIOUS_AGENT_ID = 3;
+}
 
 ?>

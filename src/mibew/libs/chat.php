@@ -28,9 +28,6 @@ require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api.php');
 require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_interaction.php');
 require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_chat_interaction.php');
 require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_execution_context.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/request_processor.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/client_side_processor.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/thread_processor.php');
 
 /**
  * Names for chat-related cookies

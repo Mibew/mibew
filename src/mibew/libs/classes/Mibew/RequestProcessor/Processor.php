@@ -15,9 +15,13 @@
  * limitations under the License.
  */
 
+namespace Mibew\RequestProcessor;
+
 // Import namespaces and classes of the core
+use \MibewAPIExecutionContext;
 use Mibew\Database;
 use Mibew\EventDispatcher;
+use Mibew\RequestProcessor\Exception\RequestProcessorException;
 
 /**
  * Implements abstract class for request processing
@@ -29,7 +33,8 @@ use Mibew\EventDispatcher;
  *  - <eventPrefix>CallError
  *  - <eventPrefix>FunctionCall
  *
- * <eventPrefix> variable specifies in RequestProcessor::__construct()
+ * <eventPrefix> variable specifies in
+ * \Mibew\RequestProcessor\Processor::__construct()
  *
  *
  * Full description of triggered events:
@@ -86,13 +91,13 @@ use Mibew\EventDispatcher;
  * }
  * </code>
  *
- * @see RequestProcessor::__construct()
+ * @see \Mibew\RequestProcessor\Processor::__construct()
  */
-abstract class RequestProcessor {
+abstract class Processor {
 
 	/**
 	 * Instance of the MibewAPI class
-	 * @var MibewAPI
+	 * @var \MibewAPI
 	 */
 	protected $mibewAPI = null;
 
@@ -142,7 +147,8 @@ abstract class RequestProcessor {
 		$this->mibewAPI = $this->getMibewAPIInstance();
 
 		// Get class name and prefix for events and etc.
-		$class_name = get_class($this);
+		$class_name_parts = explode('\\', get_class($this));
+		$class_name = array_pop($class_name_parts);
 		$this->eventPrefix = empty($config['event_prefix'])
 			? strtolower(substr($class_name, 0, 1)) . substr($class_name, 1)
 			: $config['event_prefix'];
@@ -236,7 +242,7 @@ abstract class RequestProcessor {
 			}
 
 			// Output response
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			// Something went wrong. Trigger error event
 			$vars = array('exception' => $e);
 			$dispatcher->triggerEvent($this->eventPrefix . 'RequestError', $vars);
@@ -308,7 +314,7 @@ abstract class RequestProcessor {
 					$result = $this->processRequest($request, true);
 				}
 			}
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			// Trigger error event
 			$vars = array('exception' => $e);
 			$dispatcher->triggerEvent($this->eventPrefix . "CallError", $vars);
@@ -522,13 +528,6 @@ abstract class RequestProcessor {
 	 * @return MibewAPI
 	 */
 	protected abstract function getMibewAPIInstance();
-}
-
-class RequestProcessorException extends Exception {
-	/**
-	 * Wrong function arguments
-	 */
-	const WRONG_ARGUMENTS = 1;
 }
 
 ?>

@@ -15,11 +15,15 @@
  * limitations under the License.
  */
 
+namespace Mibew\RequestProcessor;
+
 // Import namespaces and classes of the core
+use \MibewAPI;
 use Mibew\Database;
 use Mibew\EventDispatcher;
 use Mibew\Settings;
 use Mibew\Thread;
+use Mibew\RequestProcessor\Exception\UsersProcessorException;
 
 /**
  * Incapsulates awaiting users list api related functions.
@@ -41,13 +45,13 @@ class UsersProcessor extends ClientSideProcessor {
 
 	/**
 	 * An instance of the UsersProcessor class
-	 * @var UsersProcessor
+	 * @var \Mibew\RequestProcessor\UsersProcessor
 	 */
 	protected static $instance = null;
 
 	/**
 	 * Return an instance of the UsersProcessor class.
-	 * @return UsersProcessor
+	 * @return \Mibew\RequestProcessor\UsersProcessor
 	 */
 	public static function getInstance() {
 		if (is_null(self::$instance)) {
@@ -59,8 +63,8 @@ class UsersProcessor extends ClientSideProcessor {
 	/**
 	 * Class constructor
 	 *
-	 * Do not use directly __construct method! Use UsersProcessor::getInstance()
-	 * instead!
+	 * Do not use directly __construct method! Use
+	 * \Mibew\RequestProcessor\UsersProcessor::getInstance() instead!
 	 * @todo Think about why the method is not protected
 	 */
 	public function __construct() {
@@ -74,7 +78,7 @@ class UsersProcessor extends ClientSideProcessor {
 	/**
 	 * Creates and returns an instance of the MibewAPI class.
 	 *
-	 * @return MibewAPI
+	 * @return \MibewAPI
 	 */
 	protected function getMibewAPIInstance() {
 		return MibewAPI::getAPI('MibewAPIUsersInteraction');
@@ -578,24 +582,6 @@ class UsersProcessor extends ClientSideProcessor {
 			'time' => time()
 		);
 	}
-}
-
-/**
- * Class for users processor exceptions
- */
-class UsersProcessorException extends RequestProcessorException {
-	/**
-	 * Operator is not logged in
-	 */
-	const ERROR_AGENT_NOT_LOGGED_IN = 1;
-	/**
-	 * Wrong agent id
-	 */
-	const ERROR_WRONG_AGENT_ID = 2;
-	/**
-	 * Various agent ids in different functions in one package
-	 */
-	const VARIOUS_AGENT_ID = 3;
 }
 
 ?>
