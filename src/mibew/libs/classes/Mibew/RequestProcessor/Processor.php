@@ -18,7 +18,6 @@
 namespace Mibew\RequestProcessor;
 
 // Import namespaces and classes of the core
-use \MibewAPIExecutionContext;
 use Mibew\Database;
 use Mibew\EventDispatcher;
 use Mibew\RequestProcessor\Exception\RequestProcessorException;
@@ -97,7 +96,7 @@ abstract class Processor {
 
 	/**
 	 * Instance of the MibewAPI class
-	 * @var \MibewAPI
+	 * @var \Mibew\API\API
 	 */
 	protected $mibewAPI = null;
 
@@ -333,7 +332,7 @@ abstract class Processor {
 	 * @return array Array of requests results.
 	 */
 	protected function processRequest($request, $result_function = null) {
-		$context = new MibewAPIExecutionContext();
+		$context = new \Mibew\API\ExecutionContext();
 
 		// Get result functions
 		$result_function = $this->mibewAPI->getResultFunction(
@@ -368,10 +367,10 @@ abstract class Processor {
 	 * Process function
 	 *
 	 * @param array $function 'Function' array. See Mibew API for details
-	 * @param MibewAPIExecutionContext &$context Execution context
+	 * @param \Mibew\API\ExecutionContext &$context Execution context
 	 * @return boolean lase if function returns errorCode and errorCode differs from 0.
 	 */
-	protected function processFunction($function, MibewAPIExecutionContext &$context) {
+	protected function processFunction($function, \Mibew\API\ExecutionContext &$context) {
 		// Get function arguments with replaced references
 		$arguments = $context->getArgumentsList($function);
 
@@ -523,9 +522,9 @@ abstract class Processor {
 	protected function checkFunction($function) {}
 
 	/**
-	 * Creates and returns an instance of the MibewAPI class.
+	 * Creates and returns an instance of the \Mibew\API\API class.
 	 *
-	 * @return MibewAPI
+	 * @return \Mibew\API\API
 	 */
 	protected abstract function getMibewAPIInstance();
 }

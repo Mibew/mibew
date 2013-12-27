@@ -15,21 +15,22 @@
  * limitations under the License.
  */
 
+namespace Mibew\API\Interaction;
+
 /**
- * Implements Mibew Core - Mibew Chat Window interaction
+ * Implements Mibew Core - Mibew invitation waiting window interaction
  */
-class MibewAPIChatInteraction extends MibewAPIInteraction {
+class InviteInteraction extends Interaction {
 	/**
 	 * Defines obligatory arguments and default values for them
 	 * @var array
-	 * @see MibewAPIInteraction::$obligatoryArgumnents
+	 * @see \Mibew\API\Interaction\Interaction::$obligatoryArgumnents
 	 */
 	protected $obligatoryArguments = array(
 		'*' => array(
-			'threadId' => null,
-			'token' => null,
 			'references' => array(),
-			'return' => array()
+			'return' => array(),
+			'visitorId' => null
 		),
 		'result' => array(
 			'errorCode' => 0
@@ -39,7 +40,7 @@ class MibewAPIChatInteraction extends MibewAPIInteraction {
 	/**
 	 * Reserved function's names
 	 * @var array
-	 * @see MibewAPIInteraction::$reservedFunctionNames
+	 * @see \Mibew\API\Interaction\Interaction::$reservedFunctionNames
 	 */
 	public $reservedFunctionNames = array(
 		'result'

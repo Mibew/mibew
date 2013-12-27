@@ -22,10 +22,6 @@ require_once(MIBEW_FS_ROOT.'/libs/invitation.php');
 require_once(MIBEW_FS_ROOT.'/libs/groups.php');
 require_once(MIBEW_FS_ROOT.'/libs/captcha.php');
 require_once(MIBEW_FS_ROOT.'/libs/notify.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_interaction.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_chat_interaction.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_execution_context.php');
 
 $processor = \Mibew\RequestProcessor\ThreadProcessor::getInstance();
 $processor->receiveRequest($_POST['data']);

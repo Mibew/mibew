@@ -18,11 +18,11 @@
 namespace Mibew\RequestProcessor;
 
 // Import namespaces and classes of the core
-use \MibewAPI;
 use Mibew\Database;
 use Mibew\EventDispatcher;
 use Mibew\Settings;
 use Mibew\Thread;
+use Mibew\API\API as MibewAPI;
 use Mibew\RequestProcessor\Exception\UsersProcessorException;
 
 /**
@@ -76,12 +76,12 @@ class UsersProcessor extends ClientSideProcessor {
 	}
 
 	/**
-	 * Creates and returns an instance of the MibewAPI class.
+	 * Creates and returns an instance of the \Mibew\API\API class.
 	 *
-	 * @return \MibewAPI
+	 * @return \Mibew\API\API
 	 */
 	protected function getMibewAPIInstance() {
-		return MibewAPI::getAPI('MibewAPIUsersInteraction');
+		return MibewAPI::getAPI('\\Mibew\\API\\Interaction\\UsersInteraction');
 	}
 
 	/**

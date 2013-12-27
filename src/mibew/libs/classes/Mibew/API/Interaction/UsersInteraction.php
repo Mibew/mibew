@@ -15,14 +15,16 @@
  * limitations under the License.
  */
 
+namespace Mibew\API\Interaction;
+
 /**
  * Implements Mibew Core - Mibew Users list interaction
  */
-class MibewAPIUsersInteraction extends MibewAPIInteraction {
+class UsersInteraction extends Interaction {
 	/**
 	 * Defines obligatory arguments and default values for them
 	 * @var array
-	 * @see MibewAPIInteraction::$obligatoryArgumnents
+	 * @see \Mibew\API\Interaction\Interaction::$obligatoryArgumnents
 	 */
 	protected $obligatoryArguments = array(
 		'*' => array(
@@ -41,7 +43,7 @@ class MibewAPIUsersInteraction extends MibewAPIInteraction {
 	/**
 	 * Reserved function's names
 	 * @var array
-	 * @see MibewAPIInteraction::$reservedFunctionNames
+	 * @see \Mibew\API\Interaction\Interaction::$reservedFunctionNames
 	 */
 	public $reservedFunctionNames = array(
 		'result'

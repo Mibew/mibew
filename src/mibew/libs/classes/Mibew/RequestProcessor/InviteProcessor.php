@@ -18,7 +18,7 @@
 namespace Mibew\RequestProcessor;
 
 // Import namespaces and classes of the core
-use \MibewAPI;
+use Mibew\API\API as MibewAPI;
 use Mibew\RequestProcessor\Exception\InviteProcessorException;
 
 /**
@@ -68,12 +68,12 @@ class InviteProcessor extends ClientSideProcessor {
 	}
 
 	/**
-	 * Creates and returns an instance of the MibewAPI class.
+	 * Creates and returns an instance of the \Mibew\API\API class.
 	 *
-	 * @return MibewAPI
+	 * @return \Mibew\API\API
 	 */
 	protected function getMibewAPIInstance() {
-		return MibewAPI::getAPI('MibewAPIInviteInteraction');
+		return MibewAPI::getAPI('\\Mibew\\API\\Interaction\\InviteInteraction');
 	}
 
 	/**

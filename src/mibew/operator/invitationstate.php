@@ -18,10 +18,6 @@
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(MIBEW_FS_ROOT.'/libs/invitation.php');
 require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_interaction.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_invite_interaction.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_execution_context.php');
 
 $processor = \Mibew\RequestProcessor\InviteProcessor::getInstance();
 $processor->receiveRequest($_POST['data']);

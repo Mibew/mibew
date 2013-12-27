@@ -15,12 +15,14 @@
  * limitations under the License.
  */
 
+namespace Mibew\API;
+
 /**
  * Implements Mibew API specification version 1.0
  *
  * @todo May be use regular methods instead of static one
  */
-Class MibewAPI {
+class API {
 
 	/**
 	 * Version of the MIBEW API protocol implemented by the class
@@ -28,7 +30,7 @@ Class MibewAPI {
 	const PROTOCOL_VERSION = '1.0';
 
 	/**
-	 * Array of MibewAPI objects
+	 * Array of \Mibew\API\API objects
 	 * @var array
 	 */
 	protected static $interactions = array();
@@ -36,22 +38,22 @@ Class MibewAPI {
 	/**
 	 * An object that encapsulates type of the interaction
 	 *
-	 * @var MibewAPIInteraction
+	 * @var \Mibew\API\Interaction
 	 */
 	protected $interaction = NULL;
 
 	/**
-	 * Returns MibewAPI object
+	 * Returns \Mibew\API\API object
 	 *
 	 * @param string $class_name A name of the interaction type class
 	 * @return MibeAPI object
-	 * @throws MibewAPIException
+	 * @throws \Mibew\API\APIException
 	 */
 	public static function getAPI($class_name) {
 		if (! class_exists($class_name)) {
-			throw new MibewAPIException(
+			throw new APIException(
 				"Wrong interaction type",
-				MibewAPIException::WRONG_INTERACTION_TYPE
+				APIException::WRONG_INTERACTION_TYPE
 			);
 		}
 		if (empty(self::$interactions[$class_name])) {
@@ -63,9 +65,9 @@ Class MibewAPI {
 	/**
 	 * Class constructor
 	 *
-	 * @param MibewAPIInteraction $interaction Interaction type object
+	 * @param \Mibew\API\Interaction $interaction Interaction type object
 	 */
-	protected function __construct(MibewAPIInteraction $interaction) {
+	protected function __construct(Interaction\Interaction $interaction) {
 		$this->interaction = $interaction;
 	}
 
@@ -74,56 +76,56 @@ Class MibewAPI {
 	 *
 	 * @param array $package Package array. See Mibew API for details.
 	 * @param array $trusted_signatures Array of trusted signatures.
-	 * @throws MibewAPIException
+	 * @throws \Mibew\API\APIException
 	 */
 	public function checkPackage($package, $trusted_signatures) {
 		// Check signature
 		if (! isset($package['signature'])) {
-			throw new MibewAPIException(
+			throw new APIException(
 				"Package signature is empty",
-				MibewAPIException::EMPTY_SIGNATURE
+				APIException::EMPTY_SIGNATURE
 			);
 		}
 		if (! in_array($package['signature'], $trusted_signatures)) {
-			throw new MibewAPIException(
+			throw new APIException(
 				"Package signed with untrusted signature",
-				MibewAPIException::UNTRUSTED_SIGNATURE
+				APIException::UNTRUSTED_SIGNATURE
 			);
 		}
 
 		// Check protocol
 		if (empty($package['proto'])) {
-			throw new MibewAPIException(
+			throw new APIException(
 				"Package protocol is empty",
-				MibewAPIException::EMPTY_PROTOCOL
+				APIException::EMPTY_PROTOCOL
 			);
 		}
 		if ($package['proto'] != self::PROTOCOL_VERSION) {
-			throw new MibewAPIException(
+			throw new APIException(
 				"Wrong package protocol version '{$package['proto']}'",
-				MibewAPIException::WRONG_PROTOCOL_VERSION
+				APIException::WRONG_PROTOCOL_VERSION
 			);
 		}
 
 		// Check async flag
 		if (! isset($package['async'])) {
-			throw new MibewAPIException(
+			throw new APIException(
 				"'async' flag is missed",
-				MibewAPIException::ASYNC_FLAG_MISSED
+				APIException::ASYNC_FLAG_MISSED
 			);
 		}
 		if (! is_bool($package['async'])) {
-			throw new MibewAPIException(
+			throw new APIException(
 				"Wrong 'async' flag value",
-				MibewAPIException::WRONG_ASYNC_FLAG_VALUE
+				APIException::WRONG_ASYNC_FLAG_VALUE
 			);
 		}
 
 		// Package must have at least one request
 		if (empty($package['requests'])) {
-			throw new MibewAPIException(
+			throw new APIException(
 				"Empty requests set",
-				MibewAPIException::EMPTY_REQUESTS
+				APIException::EMPTY_REQUESTS
 			);
 		}
 		// Check requests in package
@@ -136,21 +138,21 @@ Class MibewAPI {
 	 * Validate request
 	 *
 	 * @param array $request Request array. See Mibew API for details.
-	 * @throws MibewAPIException
+	 * @throws \Mibew\API\APIException
 	 */
 	public function checkRequest($request) {
 		// Check token
 		if (empty($request['token'])) {
-			throw new MibewAPIException(
+			throw new APIException(
 				"Empty request token",
-				MibewAPIException::EMPTY_TOKEN
+				APIException::EMPTY_TOKEN
 			);
 		}
 		// Request must have at least one function
 		if (empty($request['functions'])) {
-			throw new MibewAPIException(
+			throw new APIException(
 				"Empty functions set",
-				MibewAPIException::EMPTY_FUNCTIONS
+				APIException::EMPTY_FUNCTIONS
 			);
 		}
 		// Check functions in request
@@ -165,14 +167,14 @@ Class MibewAPI {
 	 * @param array $function Function array. See Mibew API for details.
 	 * @param boolean $filter_reserved_functions Determine if function name must not be in
 	 * reserved list
-	 * @throws MibewAPIException
+	 * @throws \Mibew\API\APIException
 	 */
 	public function checkFunction($function, $filter_reserved_functions = false) {
 		// Check function name
 		if (empty($function['function'])) {
-			throw new MibewAPIException(
+			throw new APIException(
 				'Cannot call for function with empty name',
-				MibewAPIException::EMPTY_FUNCTION_NAME
+				APIException::EMPTY_FUNCTION_NAME
 			);
 		}
 		if ($filter_reserved_functions) {
@@ -180,23 +182,23 @@ Class MibewAPI {
 				$function['function'],
 				$this->interaction->reservedFunctionNames
 			)) {
-				throw new MibewAPIException(
+				throw new APIException(
 					"'{$function['function']}' is reserved function name",
-					MibewAPIException::FUNCTION_NAME_RESERVED
+					APIException::FUNCTION_NAME_RESERVED
 				);
 			}
 		}
 		// Check function's arguments
 		if (empty($function['arguments'])) {
-			throw new MibewAPIException(
+			throw new APIException(
 				"There are no arguments in '{$function['function']}' function",
-				MibewAPIException::EMPTY_ARGUMENTS
+				APIException::EMPTY_ARGUMENTS
 			);
 		}
 		if (! is_array($function['arguments'])) {
-			throw new MibewAPIException(
+			throw new APIException(
 				"Arguments must be an array",
-				MibewAPIException::WRONG_ARGUMENTS_TYPE
+				APIException::WRONG_ARGUMENTS_TYPE
 			);
 		}
 		$unset_arguments = array_diff(
@@ -204,9 +206,9 @@ Class MibewAPI {
 			array_keys($function['arguments'])
 		);
 		if (! empty($unset_arguments)) {
-			throw new MibewAPIException(
+			throw new APIException(
 				"Arguments '" . implode("', '", $unset_arguments) . "' must be set",
-				MibewAPIException::OBLIGATORY_ARGUMENTS_MISSED
+				APIException::OBLIGATORY_ARGUMENTS_MISSED
 			);
 		}
 	}
@@ -234,7 +236,7 @@ Class MibewAPI {
 	 * @param string $package Encoded package
 	 * @param array $trusted_signatures List of trusted signatures
 	 * @return array Decoded package array. See Mibew API for details.
-	 * @throws MibewAPIException
+	 * @throws \Mibew\API\APIException
 	 */
 	public function decodePackage($package, $trusted_signatures) {
 		// Try to decode package
@@ -245,10 +247,10 @@ Class MibewAPI {
 		$json_error_code = json_last_error();
 		if ($json_error_code != JSON_ERROR_NONE) {
 			// Not valid JSON
-			throw new MibewAPIException(
+			throw new APIException(
 				"Package have invalid json structure. " .
 					"JSON error code is '" . $json_error_code . "'",
-				MibewAPIException::NOT_VALID_JSON
+				APIException::NOT_VALID_JSON
 			);
 		}
 		$this->checkPackage($decoded_package, $trusted_signatures);
@@ -279,15 +281,15 @@ Class MibewAPI {
 
 	/**
 	 * Search 'result' function in $function_list. If request contains more than one result
-	 * functions throws an MibewAPIException
+	 * functions throws an \Mibew\API\APIException
 	 *
-	 * @param array $functions_list Array of functions. See MibewAPI for function structure
-	 * details
+	 * @param array $functions_list Array of functions. See Mibew API specification
+	 * for function structure details
 	 * @param mixed $existance Control existance of the 'result' function in request.
 	 * Use boolean true if 'result' function must exists in request, boolean false if must not
 	 * and null if it doesn't matter.
 	 * @return mixed Function array if 'result' function found and NULL otherwise
-	 * @throws MibewAPIException
+	 * @throws \Mibew\API\APIException
 	 */
 	public function getResultFunction ($functions_list, $existence = null) {
 		$result_function = null;
@@ -296,9 +298,9 @@ Class MibewAPI {
 			if ($function['function'] == 'result') {
 				if (! is_null($result_function)) {
 					// Another 'result' function found
-					throw new MibewAPIException(
+					throw new APIException(
 						"Function 'result' already exists in request",
-						MibewAPIException::RESULT_FUNCTION_ALREADY_EXISTS
+						APIException::RESULT_FUNCTION_ALREADY_EXISTS
 					);
 				}
 				// First 'result' function found
@@ -307,118 +309,20 @@ Class MibewAPI {
 		}
 		if ($existence === true && is_null($result_function)) {
 			// 'result' function must present in request
-			throw new MibewAPIException(
+			throw new APIException(
 				"There is no 'result' function in request",
-				MibewAPIException::NO_RESULT_FUNCTION
+				APIException::NO_RESULT_FUNCTION
 			);
 		}
 		if ($existence === false && !is_null($result_function)) {
 			// 'result' function must not present in request
-			throw new MibewAPIException(
+			throw new APIException(
 				"There is 'result' function in request",
-				MibewAPIException::RESULT_FUNCTION_EXISTS
+				APIException::RESULT_FUNCTION_EXISTS
 			);
 		}
 		return $result_function;
 	}
-}
-
-/**
- * Mibew API Exception class.
- */
-class MibewAPIException extends Exception {
-	/**
-	 * Async flag is missed.
-	 */
-	const ASYNC_FLAG_MISSED = 1;
-	/**
-	 * There are no arguments in function
-	 */
-	const EMPTY_ARGUMENTS = 2;
-	/**
-	 * Cannot call for function with empty name
-	 */
-	const EMPTY_FUNCTION_NAME = 3;
-	/**
-	 * Functions set is empty
-	 */
-	const EMPTY_FUNCTIONS = 4;
-	/**
-	 * Package protocol is empty
-	 */
-	const EMPTY_PROTOCOL = 5;
-	/**
-	 * Requests set is empty
-	 */
-	const EMPTY_REQUESTS = 6;
-	/**
-	 * Package signature is empty
-	 */
-	const EMPTY_SIGNATURE = 7;
-	/**
-	 * Request token is empty
-	 */
-	const EMPTY_TOKEN = 8;
-	/**
-	 * Wrong reference. Reference variable is empty
-	 */
-	const EMPTY_VARIABLE_IN_REFERENCE = 9;
-	/**
-	 * This function name is reserved
-	 */
-	const FUNCTION_NAME_RESERVED = 10;
-	/**
-	 * There is no result function
-	 */
-	const NO_RESULT_FUNCTION = 11;
-	/**
-	 * Package have not valid JSON structure
-	 */
-	const NOT_VALID_JSON = 12;
-	/**
-	 * Some of the function's obligatory arguments are missed
-	 */
-	const OBLIGATORY_ARGUMENTS_MISSED = 13;
-	/**
-	 * Request contains more than one result functions
-	 */
-	const RESULT_FUNCTION_ALREADY_EXISTS = 14;
-	/**
-	 * There is 'result' function in request
-	 */
-	const RESULT_FUNCTION_EXISTS = 15;
-	/**
-	 * Package signed with untrusted signature
-	 */
-	const UNTRUSTED_SIGNATURE = 16;
-	/**
-	 * Wrong reference. Variable is undefined in functions results
-	 */
-	const VARIABLE_IS_UNDEFINED_IN_REFERENCE = 17;
-	/**
-	 * Variable is undefined in function's results
-	 */
-	const VARIABLE_IS_UNDEFINED_IN_RESULT = 18;
-	/**
-	 * Arguments must be an array
-	 */
-	const WRONG_ARGUMENTS_TYPE = 19;
-	/**
-	 * Async flag value is wrong
-	 */
-	const WRONG_ASYNC_FLAG_VALUE = 20;
-	/**
-	 * Wrong reference. Function with this number does not call yet
-	 */
-	const WRONG_FUNCTION_NUM_IN_REFERENCE = 21;
-	/**
-	 * Wrong interaction type
-	 */
-	const WRONG_INTERACTION_TYPE = 22;
-	/**
-	 * Wrong package protocol version
-	 */
-	const WRONG_PROTOCOL_VERSION = 23;
 }
 
 ?>

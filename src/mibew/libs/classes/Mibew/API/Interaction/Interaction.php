@@ -15,10 +15,12 @@
  * limitations under the License.
  */
 
+namespace Mibew\API\Interaction;
+
 /**
  * Encapsulates interaction type
  */
-abstract class MibewAPIInteraction {
+abstract class Interaction {
 	/**
 	 * Defines obligatory arguments and default values for them
 	 *

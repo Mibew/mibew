@@ -24,10 +24,6 @@ use Mibew\Style\PageStyle;
 
 // Initialize libraries
 require_once(MIBEW_FS_ROOT.'/libs/track.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_interaction.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_chat_interaction.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_execution_context.php');
 
 /**
  * Names for chat-related cookies

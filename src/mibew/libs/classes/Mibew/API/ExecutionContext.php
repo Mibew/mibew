@@ -15,10 +15,12 @@
  * limitations under the License.
  */
 
+namespace Mibew\API;
+
 /**
  * Implements functions execution context
  */
-Class MibewAPIExecutionContext {
+class ExecutionContext {
 	/**
 	 * Values which returns after execution of all functions in request
 	 * @var array
@@ -35,7 +37,7 @@ Class MibewAPIExecutionContext {
 	 * Returns requets results
 	 *
 	 * @return array Request results
-	 * @see MibewAPIExecutionContext::$return
+	 * @see \Mibew\API\ExecutionContext::$return
 	 */
 	public function getResults () {
 		return $this->return;
@@ -46,7 +48,7 @@ Class MibewAPIExecutionContext {
 	 *
 	 * @param array $function Function array. See MibewAPI for details.
 	 * @return array Arguments list
-	 * @throws MibewAPIException
+	 * @throws \Mibew\API\APIException
 	 */
 	public function getArgumentsList ($function) {
 		$arguments = $function['arguments'];
@@ -55,20 +57,20 @@ Class MibewAPIExecutionContext {
 			// Check target function in context
 			if (! isset($this->functions_results[$func_num - 1])) {
 				// Wrong function num
-				throw new MibewAPIException(
+				throw new APIException(
 					"Wrong reference in '{$function['function']}' function. " .
 					"Function #{$func_num} does not call yet.",
-					MibewAPIException::WRONG_FUNCTION_NUM_IN_REFERENCE
+					APIException::WRONG_FUNCTION_NUM_IN_REFERENCE
 				);
 			}
 
 			// Check reference
 			if (empty($arguments[$variable])) {
 				// Empty argument that should contains reference
-				throw new MibewAPIException(
+				throw new APIException(
 					"Wrong reference in '{$function['function']}' function. " .
 					"Empty {$variable} argument.",
-					MibewAPIException::EMPTY_VARIABLE_IN_REFERENCE
+					APIException::EMPTY_VARIABLE_IN_REFERENCE
 				);
 			}
 			$reference_to = $arguments[$variable];
@@ -76,11 +78,11 @@ Class MibewAPIExecutionContext {
 			// Check target value
 			if (! isset($this->functions_results[$func_num - 1][$reference_to])) {
 				// Undefined target value
-				throw new MibewAPIException(
+				throw new APIException(
 					"Wrong reference in '{$function['function']}' function. " .
 					"There is no '{$reference_to}' argument in #{$func_num} " .
 					"function results",
-					MibewAPIException::VARIABLE_IS_UNDEFINED_IN_REFERENCE
+					APIException::VARIABLE_IS_UNDEFINED_IN_REFERENCE
 				);
 			}
 
@@ -95,7 +97,7 @@ Class MibewAPIExecutionContext {
 	 *
 	 * @param array $function Function array. See MibewAPI for details.
 	 * @param array $results Associative array of the function results.
-	 * @throws MibewAPIException
+	 * @throws \Mibew\API\APIException
 	 */
 	public function storeFunctionResults ($function, $results) {
 		// Check if function return correct results
@@ -104,10 +106,10 @@ Class MibewAPIExecutionContext {
 			foreach ($function['arguments']['return'] as $name => $alias) {
 				if (! isset($results[$name])) {
 					// Value that defined in 'return' argument is undefined
-					throw new MibewAPIException(
+					throw new APIException(
 						"Variable with name '{$name}' is undefined in the " .
 						"results of the '{$function['function']}' function",
-						MibewAPIException::VARIABLE_IS_UNDEFINED_IN_RESULT
+						APIException::VARIABLE_IS_UNDEFINED_IN_RESULT
 					);
 				}
 				$this->return[$alias] = $results[$name];
