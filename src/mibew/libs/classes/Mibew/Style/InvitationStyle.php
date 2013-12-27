@@ -15,13 +15,15 @@
  * limitations under the License.
  */
 
+namespace Mibew\Style;
+
 // Import namespaces and classes of the core
 use Mibew\Settings;
 
 /**
- * Represents a chat style
+ * Represents a style for invitations
  */
-class ChatStyle extends Style implements StyleInterface {
+class InvitationStyle extends BaseStyle implements StyleInterface {
 	/**
 	 * Builds base path for style files. This path is relative Mibew root and
 	 * does not contain neither leading nor trailing slash.
@@ -29,21 +31,26 @@ class ChatStyle extends Style implements StyleInterface {
 	 * @return string Base path for style files
 	 */
 	public function filesPath() {
-		return 'styles/dialogs/' . $this->name();
+		return 'styles/invitations/' . $this->name();
 	}
 
 	/**
-	 * Renders template file to HTML and send it to the output
+	 * Loads configurations of the style.
 	 *
-	 * @param string $template_name Name of the template file without path and
-	 * extension
+	 * @return array Style configurations
+	 */
+	public function configurations() {
+		return array();
+	}
+
+	/**
+	 * Stub for StyleInterface::render method.
+	 *
+	 * The method does not contain actual code because inviation styles are not
+	 * renderable now.
 	 */
 	public function render($template_name) {
-		$templates_root = MIBEW_FS_ROOT .
-			'/' . $this->filesPath() . '/templates/';
-		$full_template_name = $template_name . '.tpl';
-
-		expand($this, $templates_root, $full_template_name);
+		return FALSE;
 	}
 
 	/**
@@ -55,29 +62,8 @@ class ChatStyle extends Style implements StyleInterface {
 	 * @return string Name of a style
 	 */
 	public static function currentStyle() {
-		// Ceck if request contains chat style
-		$style_name = verifyparam("style", "/^\w+$/", "");
-		if (!$style_name) {
-			// Use the default style
-			$style_name = self::defaultStyle();
-		}
-
-		// Get all style list and make sure that in has at least one style.
-		$available_styles = self::availableStyles();
-		if (empty($available_styles)) {
-			throw new RuntimeException('There are no dialog styles in the system');
-		}
-
-		// Check if selected style exists. If it does not exist try to fall back
-		// to "default". Finally, if there is no appropriate style in the system
-		// throw an exception.
-		if (in_array($style_name, $available_styles)) {
-			return $style_name;
-		} elseif (in_array('default', $available_styles)) {
-			return 'default';
-		} else {
-			throw new RuntimeException('There is no appropriate dialog style in the system');
-		}
+		// Just use the default style
+		return self::defaultStyle();
 	}
 
 	/**
@@ -87,7 +73,7 @@ class ChatStyle extends Style implements StyleInterface {
 	 */
 	public static function defaultStyle() {
 		// Load value from system settings
-		return Settings::get('chat_style');
+		return Settings::get('invitation_style');
 	}
 
 	/**
@@ -96,7 +82,7 @@ class ChatStyle extends Style implements StyleInterface {
 	 * @param string $style_name Name of a style
 	 */
 	public static function setDefaultStyle($style_name) {
-		Settings::set('chat_style', $style_name);
+		Settings::set('invitation_style', $style_name);
 		Settings::update();
 	}
 
@@ -106,7 +92,7 @@ class ChatStyle extends Style implements StyleInterface {
 	 * @param array List of styles names
 	 */
 	public static function availableStyles() {
-		$styles_root = MIBEW_FS_ROOT . '/styles/dialogs';
+		$styles_root = MIBEW_FS_ROOT .	'/styles/invitations';
 
 		return self::getStyleList($styles_root);
 	}
@@ -118,26 +104,7 @@ class ChatStyle extends Style implements StyleInterface {
 	 * @return array Default configurations of the style
 	 */
 	protected function defaultConfigurations() {
-		return array(
-			'history' => array(
-				'window_params' => ''
-			),
-			'users' => array(
-				'thread_tag' => 'div',
-				'visitor_tag' => 'div'
-			),
-			'tracked' => array(
-				'user_window_params' => '',
-				'visitor_window_params' => ''
-			),
-			'invitation' => array(
-				'window_params' => ''
-			),
-			'ban' => array(
-				'window_params' => ''
-			),
-			'screenshots' => array()
-		);
+		return array();
 	}
 }
 

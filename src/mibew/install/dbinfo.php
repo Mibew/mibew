@@ -297,7 +297,7 @@ function show_install_err($text)
 		'fixedwrap' => true,
 	);
 	$errors = array($text);
-	$page_style = new PageStyle('default');
+	$page_style = new \Mibew\Style\PageStyle('default');
 	$page_style->render('install_err');
 	exit;
 }

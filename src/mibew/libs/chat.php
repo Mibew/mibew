@@ -19,6 +19,8 @@
 use Mibew\Database;
 use Mibew\Settings;
 use Mibew\Thread;
+use Mibew\Style\ChatStyle;
+use Mibew\Style\PageStyle;
 
 // Initialize libraries
 require_once(MIBEW_FS_ROOT.'/libs/track.php');
@@ -29,10 +31,6 @@ require_once(MIBEW_FS_ROOT.'/libs/classes/mibew_api_execution_context.php');
 require_once(MIBEW_FS_ROOT.'/libs/classes/request_processor.php');
 require_once(MIBEW_FS_ROOT.'/libs/classes/client_side_processor.php');
 require_once(MIBEW_FS_ROOT.'/libs/classes/thread_processor.php');
-require_once(MIBEW_FS_ROOT.'/libs/interfaces/style.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/style.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/chat_style.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/page_style.php');
 
 /**
  * Names for chat-related cookies

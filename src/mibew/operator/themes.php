@@ -15,6 +15,11 @@
  * limitations under the License.
  */
 
+// Import namespaces and classes of the core
+use Mibew\Style\ChatStyle;
+use Mibew\Style\PageStyle;
+
+// Initialize libraries
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(MIBEW_FS_ROOT.'/libs/chat.php');
 require_once(MIBEW_FS_ROOT.'/libs/pagination.php');
@@ -22,10 +27,6 @@ require_once(MIBEW_FS_ROOT.'/libs/operator.php');
 require_once(MIBEW_FS_ROOT.'/libs/groups.php');
 require_once(MIBEW_FS_ROOT.'/libs/expand.php');
 require_once(MIBEW_FS_ROOT.'/libs/settings.php');
-require_once(MIBEW_FS_ROOT.'/libs/interfaces/style.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/style.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/chat_style.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/page_style.php');
 
 $operator = check_login();
 

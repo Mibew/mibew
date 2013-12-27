@@ -110,7 +110,7 @@ function expandtext($text)
 	return preg_replace_callback("/\\\${(\w+:)?([\w\.,]+)}/", "expand_var", $text);
 }
 
-function expand(StyleInterface $style, $templates_root, $filename)
+function expand(\Mibew\Style\StyleInterface $style, $templates_root, $filename)
 {
 	global $page, $expand_include_path, $current_style, $flatten_page;
 

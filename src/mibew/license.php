@@ -15,10 +15,11 @@
  * limitations under the License.
  */
 
+// Import namespaces and classes of the core
+use Mibew\Style\PageStyle;
+
+// Initialize libraries
 require_once(dirname(__FILE__).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/interfaces/style.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/style.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/page_style.php');
 
 $page = array();
 $page['title'] = getlocal("license.title");

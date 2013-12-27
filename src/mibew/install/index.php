@@ -35,9 +35,9 @@ require_once(MIBEW_FS_ROOT.'/libs/common/locale.php');
 require_once(MIBEW_FS_ROOT.'/libs/common/misc.php');
 require_once(MIBEW_FS_ROOT.'/libs/common/response.php');
 require_once(MIBEW_FS_ROOT.'/libs/common/string.php');
-require_once(MIBEW_FS_ROOT.'/libs/interfaces/style.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/style.php');
-require_once(MIBEW_FS_ROOT.'/libs/classes/page_style.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/Mibew/Style/StyleInterface.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/Mibew/Style/BaseStyle.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/Mibew/Style/PageStyle.php');
 // Include database structure
 require_once(MIBEW_FS_ROOT.'/install/dbinfo.php');
 
@@ -379,7 +379,7 @@ check_status();
 $page['title'] = getlocal("install.title");
 $page['fixedwrap'] = true;
 
-$page_style = new PageStyle('default');
+$page_style = new \Mibew\Style\PageStyle('default');
 $page_style->render('install_index');
 
 ?>

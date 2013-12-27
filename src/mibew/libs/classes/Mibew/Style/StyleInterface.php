@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+namespace Mibew\Style;
+
 /**
  * Determine interface for specific style class.
  */

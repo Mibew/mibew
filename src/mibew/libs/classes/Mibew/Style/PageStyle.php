@@ -15,13 +15,15 @@
  * limitations under the License.
  */
 
+namespace Mibew\Style;
+
 // Import namespaces and classes of the core
 use Mibew\Settings;
 
 /**
  * Represents a style for operator pages
  */
-class PageStyle extends Style implements StyleInterface {
+class PageStyle extends BaseStyle implements StyleInterface {
 	/**
 	 * Builds base path for style files. This path is relative Mibew root and
 	 * does not contain neither leading nor trailing slash.

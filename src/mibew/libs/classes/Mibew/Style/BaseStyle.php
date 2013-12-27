@@ -15,10 +15,12 @@
  * limitations under the License.
  */
 
+namespace Mibew\Style;
+
 /**
  * Base class for styles
  */
-abstract class Style {
+abstract class BaseStyle {
 	/**
 	 * Styles configuration array or NULL by default
 	 * @var array|NULL
@@ -32,10 +34,10 @@ abstract class Style {
 	protected $styleName;
 
 	/**
-	 * Contains cached results of the Style::getStyleList method. The lists are
-	 * keyed by the $root_dir argument of the method.
+	 * Contains cached results of the \Mibew\Style\StyleInterface::getStyleList
+	 * method. The lists are keyed by the $root_dir argument of the method.
 	 * @var array
-	 * @see Style::getStyleList
+	 * @see \Mibew\Style\StyleInterface::getStyleList
 	 */
 	protected static $cachedStyleLists = array();
 
@@ -62,7 +64,7 @@ abstract class Style {
 	 * instance.
 	 *
 	 * @return array Style configurations
-	 * @throws RuntimeException
+	 * @throws \RuntimeException
 	 */
 	public function configurations() {
 		$config_file = MIBEW_FS_ROOT . '/' . $this->filesPath() . '/config.ini';
@@ -74,7 +76,7 @@ abstract class Style {
 
 			// Try to read configuration file
 			if (!is_readable($config_file)) {
-				throw new RuntimeException('Cannot read configuration file');
+				throw new \RuntimeException('Cannot read configuration file');
 			}
 
 			// Load configurations from file, merge it with default configs and
