@@ -20,7 +20,7 @@ namespace Mibew\RequestProcessor\Exception;
 /**
  * Class for {@link \Mibew\RequestProcessor\InviteRequestProcessor} exceptions
  */
-class InviteProcessorException extends RequestProcessorException {
+class InviteProcessorException extends ProcessorException {
 	/**
 	 * Operator is not logged in
 	 */

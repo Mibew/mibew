@@ -20,7 +20,7 @@ namespace Mibew\RequestProcessor\Exception;
 /**
  * Class for {@link \Mibew\RequestProcessor\ThreadProcessor} exceptions.
  */
-class ThreadProcessorException extends RequestProcessorException {
+class ThreadProcessorException extends ProcessorException {
 	/**
 	 * 'recipient' argument is not set
 	 */
