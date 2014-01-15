@@ -53,12 +53,11 @@ Class Settings {
 
 	/**
 	 * Settings class constructor. Set default values and load setting from database.
-	 * @global $home_locale Specifies home locale. Defined in libs/config.php
 	 * @global $default_cron_key Default value for cron security key. Defined
 	 * in libs/common/constants.php
 	 */
 	protected function __construct() {
-		global $home_locale, $default_cron_key;
+		global $default_cron_key;
 		// Set default values
 		$this->settings = array(
 			'dbversion' => 0,
@@ -78,7 +77,7 @@ Class Settings {
 			'thread_lifetime' => 600,
 
 			'email' => '', /* inbox for left messages */
-			'left_messages_locale' => $home_locale,
+			'left_messages_locale' => HOME_LOCALE,
 			'sendmessagekey' => 'center',
 
 			'enableban' => '0',

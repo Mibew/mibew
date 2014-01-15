@@ -532,7 +532,6 @@ class ThreadProcessor extends ClientSideProcessor {
 	 * Process submitted leave message form.
 	 *
 	 * Send message to operator email and create special meil thread.
-	 * @global string $home_locale Code of the home locale
 	 * @global string $current_locale Code of the current locale
 	 * @param array $args Associative array of arguments. It must contains
 	 * following keys:
@@ -550,7 +549,7 @@ class ThreadProcessor extends ClientSideProcessor {
 	 * exception if captcha or email is wrong.
 	 */
 	protected function apiProcessLeaveMessage($args) {
-		global $home_locale, $current_locale;
+		global $current_locale;
 
 		// Check captcha
 		if(Settings::get('enablecaptcha') == '1' && can_show_captcha()) {
@@ -600,7 +599,7 @@ class ThreadProcessor extends ClientSideProcessor {
 		// Get message locale
 		$message_locale = Settings::get('left_messages_locale');
 		if(!locale_exists($message_locale)) {
-			$message_locale = $home_locale;
+			$message_locale = HOME_LOCALE;
 		}
 
 		// Create thread

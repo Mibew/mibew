@@ -89,7 +89,7 @@ if (Settings::get('enabletracking') == '1') {
 		// Get operator info
 		$operator = operator_by_id($thread->agentId);
 		$locale = isset($_GET['locale']) ? $_GET['locale'] : '';
-		$operator_name = ($locale == $home_locale)
+		$operator_name = ($locale == HOME_LOCALE)
 			? $operator['vclocalename']
 			: $operator['vccommonname'];
 

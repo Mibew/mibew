@@ -692,13 +692,10 @@ Class Thread {
 	 * Check if thread is reassigned for another operator
 	 *
 	 * Updates thread info, send events messages and avatar message to user
-	 * @global string $home_locale
 	 * @param array $operator Operator for test
 	 */
 	public function checkForReassign($operator) {
-		global $home_locale;
-
-		$operator_name = ($this->locale == $home_locale) ? $operator['vclocalename'] : $operator['vccommonname'];
+		$operator_name = ($this->locale == HOME_LOCALE) ? $operator['vclocalename'] : $operator['vccommonname'];
 
 		if ($this->state == self::STATE_WAITING &&
 			($this->nextAgent == $operator['operatorid'] || $this->agentId == $operator['operatorid'])) {
@@ -982,16 +979,13 @@ Class Thread {
 	/**
 	 * Assign operator to thread
 	 *
-	 * @global string $home_locale
 	 * @param array $operator Operator who try to take thread
 	 * @return boolean Boolean TRUE on success or FALSE on failure
 	 */
 	public function take($operator) {
-		global $home_locale;
-
 		$take_thread = false;
 		$message = '';
-		$operator_name = ($this->locale == $home_locale) ? $operator['vclocalename'] : $operator['vccommonname'];
+		$operator_name = ($this->locale == HOME_LOCALE) ? $operator['vclocalename'] : $operator['vccommonname'];
 
 		if ($this->state == self::STATE_QUEUE || $this->state == self::STATE_WAITING || $this->state == self::STATE_LOADING) {
 			// User waiting

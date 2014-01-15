@@ -125,7 +125,7 @@ $operator = check_login();
 force_password($operator);
 csrfchecktoken();
 
-$source = verifyparam("source", "/^[\w-]{2,5}$/", $default_locale);
+$source = verifyparam("source", "/^[\w-]{2,5}$/", DEFAULT_LOCALE);
 $target = verifyparam("target", "/^[\w-]{2,5}$/", $current_locale);
 $stringid = verifyparam("key", "/^[_\.\w]+$/", "");
 

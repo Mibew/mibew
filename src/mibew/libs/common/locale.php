@@ -27,9 +27,19 @@ require_once(MIBEW_FS_ROOT.'/libs/common/verification.php');
  */
 define('LOCALE_COOKIE_NAME', 'mibew_locale');
 
-// test and set default locales
-$default_locale = locale_pattern_check($default_locale) && locale_exists($default_locale) ? $default_locale : 'en';
-$home_locale = locale_pattern_check($home_locale) && locale_exists($home_locale) ? $default_locale : 'en';
+// Test and set default locales
+
+/**
+ * Verified value of the $default_locale configuration parameter (see
+ * "libs/default_config.php" for details)
+ */
+define('DEFAULT_LOCALE', locale_pattern_check($default_locale) && locale_exists($default_locale) ? $default_locale : 'en');
+
+/**
+ * Verified value of the $home_locale configuration parameter (see
+ * "libs/default_config.php" for details)
+ */
+define('HOME_LOCALE', locale_pattern_check($home_locale) && locale_exists($home_locale) ? $home_locale : 'en');
 
 function myiconv($in_enc, $out_enc, $string)
 {
@@ -80,8 +90,6 @@ function get_available_locales()
 
 function get_user_locale()
 {
-	global $default_locale;
-
 	if (isset($_COOKIE[LOCALE_COOKIE_NAME])) {
 		$requested_lang = $_COOKIE[LOCALE_COOKIE_NAME];
 		if (locale_pattern_check($requested_lang) && locale_exists($requested_lang))
@@ -99,8 +107,8 @@ function get_user_locale()
 		}
 	}
 
-	if (locale_pattern_check($default_locale) && locale_exists($default_locale))
-		return $default_locale;
+	if (locale_pattern_check(DEFAULT_LOCALE) && locale_exists(DEFAULT_LOCALE))
+		return DEFAULT_LOCALE;
 
 	return 'en';
 }
