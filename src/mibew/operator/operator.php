@@ -158,7 +158,7 @@ $page['title'] = getlocal("page_agent.title");
 $page['menuid'] = ($opId == $operator['operatorid']) ? "profile" : "operators";
 
 prepare_menu($operator);
-setup_operator_settings_tabs($opId, 0);
+$page['tabs'] = setup_operator_settings_tabs($opId, 0);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('agent');

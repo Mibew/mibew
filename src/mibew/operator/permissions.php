@@ -80,7 +80,7 @@ $page['title'] = getlocal("permissions.title");
 $page['menuid'] = ($operator['operatorid'] == $opId) ? "profile" : "operators";
 
 prepare_menu($operator);
-setup_operator_settings_tabs($opId, 3);
+$page['tabs'] = setup_operator_settings_tabs($opId, 3);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('permissions');

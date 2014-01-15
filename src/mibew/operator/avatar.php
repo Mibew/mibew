@@ -102,7 +102,7 @@ $page['title'] = getlocal("page_avatar.title");
 $page['menuid'] = ($operator['operatorid'] == $opId) ? "profile" : "operators";
 
 prepare_menu($operator);
-setup_operator_settings_tabs($opId, 1);
+$page['tabs'] = setup_operator_settings_tabs($opId, 1);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('avatar');

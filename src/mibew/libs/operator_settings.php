@@ -15,20 +15,27 @@
  * limitations under the License.
  */
 
-function setup_operator_settings_tabs($opId, $active)
-{
-	global $page;
 
-	if ($opId) {
-		$page['tabs'] = array(
-			getlocal("page_agent.tab.main") => $active != 0 ? (MIBEW_WEB_ROOT . "/operator/operator.php?op=$opId") : "",
-			getlocal("page_agent.tab.avatar") => $active != 1 ? (MIBEW_WEB_ROOT . "/operator/avatar.php?op=$opId") : "",
-			getlocal("page_agent.tab.groups") => $active != 2 ? (MIBEW_WEB_ROOT . "/operator/opgroups.php?op=$opId") : "",
-			getlocal("page_agent.tab.permissions") => $active != 3 ? (MIBEW_WEB_ROOT . "/operator/permissions.php?op=$opId") : ""
+/**
+ * Builds list of operator settings tabs. The keys of the resulting array are
+ * tabs titles and the values are tabs URLs.
+ *
+ * @param int $operator_id ID of the operator whose settings page uis displayed
+ * @param int $active Number of the active tab
+ */
+function setup_operator_settings_tabs($operator_id, $active) {
+	$tabs = array();
+
+	if ($operator_id) {
+		$tabs = array(
+			getlocal("page_agent.tab.main") => $active != 0 ? (MIBEW_WEB_ROOT . "/operator/operator.php?op=" . $operator_id) : "",
+			getlocal("page_agent.tab.avatar") => $active != 1 ? (MIBEW_WEB_ROOT . "/operator/avatar.php?op=" . $operator_id) : "",
+			getlocal("page_agent.tab.groups") => $active != 2 ? (MIBEW_WEB_ROOT . "/operator/opgroups.php?op=" . $operator_id) : "",
+			getlocal("page_agent.tab.permissions") => $active != 3 ? (MIBEW_WEB_ROOT . "/operator/permissions.php?op=" . $operator_id) : ""
 		);
-	} else {
-		$page['tabs'] = array();
 	}
+
+	return $tabs;
 }
 
 ?>

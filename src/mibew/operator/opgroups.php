@@ -92,7 +92,7 @@ $page['title'] = getlocal("operator.groups.title");
 $page['menuid'] = ($page['operatorid'] == $opId) ? "profile" : "operators";
 
 prepare_menu($operator);
-setup_operator_settings_tabs($opId, 2);
+$page['tabs'] = setup_operator_settings_tabs($opId, 2);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('operator_groups');
