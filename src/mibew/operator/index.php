@@ -30,13 +30,13 @@ $isonline = is_operator_online($operator['operatorid']);
 
 $page = array(
 	'version' => $version,
-	'localeLinks' => get_locale_links("$mibewroot/operator/index.php"),
+	'localeLinks' => get_locale_links(MIBEW_WEB_ROOT . "/operator/index.php"),
 	'needUpdate' => Settings::get('dbversion') != $dbversion,
 	'needChangePassword' => check_password_hash($operator['vclogin'], '', $operator['vcpassword']),
-	'profilePage' => "$mibewroot/operator/operator.php?op=".$operator['operatorid'],
-	'updateWizard' => "$mibewroot/install/",
+	'profilePage' => MIBEW_WEB_ROOT . "/operator/operator.php?op=".$operator['operatorid'],
+	'updateWizard' => MIBEW_WEB_ROOT . "/install/",
 	'newFeatures' => Settings::get('featuresversion') != $featuresversion,
-	'featuresPage' => "$mibewroot/operator/features.php",
+	'featuresPage' => MIBEW_WEB_ROOT . "/operator/features.php",
 	'isOnline' => $isonline,
 	'title' => getlocal("topMenu.admin"),
 	'menuid' => "main",

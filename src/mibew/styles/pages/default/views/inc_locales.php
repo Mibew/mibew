@@ -22,7 +22,7 @@ function menuloc($id) {
 	}
 	return "";
 }
-function tpl_menu() { global $page, $mibewroot, $errors, $current_locale;
+function tpl_menu() { global $page, $errors, $current_locale;
 ?>
 			<li>
 				<h2><b><?php echo getlocal("lang.choose") ?></b></h2>

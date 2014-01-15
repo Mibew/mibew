@@ -18,7 +18,7 @@
 require_once(dirname(__FILE__).'/inc_tabbar.php');
 require_once(dirname(__FILE__).'/inc_menu.php');
 
-function tpl_content() { global $page, $mibewroot, $errors;
+function tpl_content() { global $page, $errors;
 ?>
 
 <?php echo getlocal2("statistics.description.full", array(date_to_text($page['last_cron_run']), $page['cron_path'])) ?>
@@ -28,7 +28,7 @@ function tpl_content() { global $page, $mibewroot, $errors;
 require_once(dirname(__FILE__).'/inc_errors.php');
 ?>
 
-<form name="statisticsForm" method="get" action="<?php echo $mibewroot ?>/operator/statistics.php">
+<form name="statisticsForm" method="get" action="<?php echo MIBEW_WEB_ROOT ?>/operator/statistics.php">
 <input type="hidden" name="type" value="<?php echo $page['type'] ?>" />
 
 	<?php print_tabbar(); ?>
@@ -52,7 +52,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 					<select name="endmonth"><?php foreach($page['availableMonth'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("endmonth") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
 				</div>
 				<div id="searchbutton">
-					<input type="image" name="search" src='<?php echo $mibewroot.getlocal("image.button.search") ?>' alt='<?php echo getlocal("button.search") ?>'/>
+					<input type="image" name="search" src='<?php echo MIBEW_WEB_ROOT . getlocal("image.button.search") ?>' alt='<?php echo getlocal("button.search") ?>'/>
 				</div>
 			</div>
 			<br clear="all"/>
@@ -182,7 +182,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 <?php if( $page['reportByAgent'] ) { ?>
 	<?php foreach( $page['reportByAgent'] as $row ) { ?>
 	<tr>
-		<td><a href="<?php echo $mibewroot ?>/operator/history.php?q=<?php echo topage(htmlspecialchars($row['name'])) ?>&type=operator"><?php echo topage(htmlspecialchars($row['name'])) ?></a></td>
+		<td><a href="<?php echo MIBEW_WEB_ROOT ?>/operator/history.php?q=<?php echo topage(htmlspecialchars($row['name'])) ?>&type=operator"><?php echo topage(htmlspecialchars($row['name'])) ?></a></td>
 		<td><?php echo $row['threads'] ?></td>
 		<td><?php echo $row['msgs'] ?></td>
     	<td><?php echo $row['avglen'] ?></td>

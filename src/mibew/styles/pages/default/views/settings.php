@@ -18,7 +18,7 @@
 require_once(dirname(__FILE__).'/inc_menu.php');
 require_once(dirname(__FILE__).'/inc_tabbar.php');
 
-function tpl_content() { global $page, $mibewroot, $errors;
+function tpl_content() { global $page, $errors;
 ?>
 
 <?php echo getlocal("page_settings.intro") ?>
@@ -31,7 +31,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 <div id="formmessage"><?php echo getlocal("settings.saved") ?></div>
 <?php } ?>
 
-<form name="settings" method="post" action="<?php echo $mibewroot ?>/operator/settings.php">
+<form name="settings" method="post" action="<?php echo MIBEW_WEB_ROOT ?>/operator/settings.php">
 <?php print_csrf_token_input() ?>
 	<div>
 <?php print_tabbar(); ?>
@@ -155,7 +155,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		</div>
 
 		<div class="fbutton">
-			<input type="image" name="save" value="" src='<?php echo $mibewroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
+			<input type="image" name="save" value="" src='<?php echo MIBEW_WEB_ROOT . getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
 		</div>
 
 	</div>

@@ -64,11 +64,10 @@ function getgetparam($name, $default = '')
 
 function get_app_location($showhost, $issecure)
 {
-	global $mibewroot;
 	if ($showhost) {
-		return ($issecure ? "https://" : "http://") . $_SERVER['HTTP_HOST'] . $mibewroot;
+		return ($issecure ? "https://" : "http://") . $_SERVER['HTTP_HOST'] . MIBEW_WEB_ROOT;
 	} else {
-		return $mibewroot;
+		return MIBEW_WEB_ROOT;
 	}
 }
 

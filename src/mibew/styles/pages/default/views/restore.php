@@ -20,7 +20,7 @@ if(isset($page) && isset($page['localeLinks'])) {
 }
 
 function tpl_content() { 
-	global $page, $mibewroot, $errors;
+	global $page, $errors;
 	
 	if($page['isdone']) {
 ?>
@@ -41,7 +41,7 @@ function tpl_content() {
 	} else {
 ?>
 
-<form name="restoreForm" method="post" action="<?php echo $mibewroot ?>/operator/restore.php">
+<form name="restoreForm" method="post" action="<?php echo MIBEW_WEB_ROOT ?>/operator/restore.php">
 	<div id="loginpane">
 
 	<div class="header">	
@@ -67,11 +67,11 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="fbutton">
 			<table class="submitbutton"><tr>
 				<td><a href="javascript:document.restoreForm.submit();">
-					<img src='<?php echo $mibewroot ?>/styles/pages/default/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
+					<img src='<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/images/submit.gif' width="40" height="35" border="0" alt="" /></a></td>
 				<td class="submit"><a href="javascript:document.restoreForm.submit();">
 					<?php echo getlocal("restore.submit") ?></a></td>
 				<td><a href="javascript:document.restoreForm.submit();">
-					<img src='<?php echo $mibewroot ?>/styles/pages/default/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
+					<img src='<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/images/submitrest.gif' width="10" height="35" border="0" alt="" /></a></td>
 			</tr></table>
 
 			<div class="links">

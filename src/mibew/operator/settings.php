@@ -127,7 +127,7 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
 		}
 
 		// Redirect the user
-		header("Location: $mibewroot/operator/settings.php?stored");
+		header("Location: " . MIBEW_WEB_ROOT . "/operator/settings.php?stored");
 		exit;
 	}
 }

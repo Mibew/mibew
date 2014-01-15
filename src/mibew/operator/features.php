@@ -54,7 +54,7 @@ if (isset($_POST['sent'])) {
 			Settings::set($opt,(verifyparam($opt, "/^on$/", "") == "on" ? "1" : "0"));
 		}
 		Settings::update();
-		header("Location: $mibewroot/operator/features.php?stored");
+		header("Location: " . MIBEW_WEB_ROOT . "/operator/features.php?stored");
 		exit;
 	} else {
 		$errors[] = "Not an administrator";

@@ -107,8 +107,6 @@ function get_user_locale()
 
 function get_locale()
 {
-	global $mibewroot;
-
 	$locale = verifyparam("locale", "/./", "");
 
 	if ($locale && locale_pattern_check($locale) && locale_exists($locale)) {
@@ -121,7 +119,7 @@ function get_locale()
 		$locale = get_user_locale();
 	}
 
-	setcookie(LOCALE_COOKIE_NAME, $locale, time() + 60 * 60 * 24 * 1000, "$mibewroot/");
+	setcookie(LOCALE_COOKIE_NAME, $locale, time() + 60 * 60 * 24 * 1000, MIBEW_WEB_ROOT . "/");
 	return $locale;
 }
 

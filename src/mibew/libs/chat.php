@@ -436,14 +436,11 @@ function setup_chatview(Thread $thread) {
 /**
  * Prepare some data for chat for user
  *
- * @global string $mibewroot Root URL path for Mibew
  * @param Thread $thread thread object
  * be used
  * @return array Array of chat view data
  */
 function setup_chatview_for_user(Thread $thread) {
-	global $mibewroot;
-
 	$data = setup_chatview($thread);
 
 	// Load JavaScript plugins and JavaScripts, CSS files required by them
@@ -462,7 +459,7 @@ function setup_chatview_for_user(Thread $thread) {
 	$params = "thread=" . $thread->id . "&amp;token=" . $thread->lastToken;
 
 	// Set link to send mail page
-	$data['chat']['links']['mail'] = "$mibewroot/client.php?"
+	$data['chat']['links']['mail'] = MIBEW_WEB_ROOT . "/client.php?"
 		. $params
 		. "&amp;act=mailthread";
 
@@ -479,13 +476,12 @@ function setup_chatview_for_user(Thread $thread) {
 /**
  * Prepare some data for chat for operator
  *
- * @global string $mibewroot Root URL path for Mibew
  * @global string $mibew_encoding Current Mibew encoding
  * @param Thread $thread thread object
  * @return array Array of chat view data
  */
 function setup_chatview_for_operator(Thread $thread, $operator) {
-	global $mibewroot, $mibew_encoding;
+	global $mibew_encoding;
 
 	$data = setup_chatview($thread);
 
@@ -519,7 +515,7 @@ function setup_chatview_for_operator(Thread $thread, $operator) {
 	// Set history window params
 	$history_link_params = array("userid" => (string)$thread->userId);
 	$data['chat']['links']['history'] = add_params(
-		$mibewroot . "/operator/userhistory.php",
+		MIBEW_WEB_ROOT . "/operator/userhistory.php",
 		$history_link_params
 	);
 
@@ -528,7 +524,7 @@ function setup_chatview_for_operator(Thread $thread, $operator) {
 	    $visitor = track_get_visitor_by_threadid($thread->id);
 		$tracked_link_params = array("visitor" => "" . $visitor['visitorid']);
 		$data['chat']['links']['tracked'] = add_params(
-			$mibewroot . "/operator/tracked.php",
+			MIBEW_WEB_ROOT . "/operator/tracked.php",
 			$tracked_link_params
 		);
 	}
@@ -563,7 +559,7 @@ function setup_chatview_for_operator(Thread $thread, $operator) {
 	}
 	// Set link to user redirection page
 	$params = "thread=" . $thread->id . "&amp;token=" . $thread->lastToken;
-	$data['chat']['links']['redirect'] = "$mibewroot/operator/agent.php?"
+	$data['chat']['links']['redirect'] = MIBEW_WEB_ROOT . "/operator/agent.php?"
 		. $params
 		. "&amp;act=redirect";
 

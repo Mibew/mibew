@@ -18,7 +18,7 @@
 require_once(dirname(__FILE__).'/inc_menu.php');
 require_once(dirname(__FILE__).'/inc_tabbar.php');
 
-function tpl_content() { global $page, $mibewroot, $errors;
+function tpl_content() { global $page, $errors;
 ?>
 
 <?php echo getlocal("page.groupmembers.intro") ?>
@@ -31,7 +31,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 <div id="formmessage"><?php echo getlocal("data.saved") ?></div>
 <?php } ?>
 
-<form name="membersForm" method="post" action="<?php echo $mibewroot ?>/operator/groupmembers.php">
+<form name="membersForm" method="post" action="<?php echo MIBEW_WEB_ROOT ?>/operator/groupmembers.php">
 <?php print_csrf_token_input() ?>
 <input type="hidden" name="gid" value="<?php echo $page['groupid'] ?>"/>
 	<div>
@@ -51,7 +51,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 <?php } ?>
 
 	<div class="fbutton">
-		<input type="image" name="save" value="" src='<?php echo $mibewroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
+		<input type="image" name="save" value="" src='<?php echo MIBEW_WEB_ROOT . getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
 	</div>
 
 	</div><div class="formbottom"><div class="formbottomi"></div></div></div>

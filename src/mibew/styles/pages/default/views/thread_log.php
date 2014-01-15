@@ -15,20 +15,20 @@
  * limitations under the License.
  */
 
-function tpl_header() { global $page, $mibewroot; ?>
+function tpl_header() { global $page; ?>
 
 <!-- External libs -->
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/jquery.min.js"></script>
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/json2.js"></script>
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/underscore-min.js"></script>
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/backbone-min.js"></script>
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/backbone.marionette.min.js"></script>
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/handlebars.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/json2.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/underscore-min.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/backbone-min.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/backbone.marionette.min.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/handlebars.js"></script>
 
 <!-- Application files -->
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/compiled/mibewapi.js"></script>
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/compiled/default_app.js"></script>
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/compiled/thread_log_app.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/compiled/mibewapi.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/compiled/default_app.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/compiled/thread_log_app.js"></script>
 
 <!-- Start application -->
 <script type="text/javascript"><!--
@@ -40,7 +40,7 @@ function tpl_header() { global $page, $mibewroot; ?>
 //--></script>
 <?php }
 
-function tpl_content() { global $page, $mibewroot, $errors;
+function tpl_content() { global $page, $errors;
 $chatthreadinfo = $page['thread_info'];
 $chatthread = $page['thread_info']['thread'];
 ?>
@@ -110,7 +110,7 @@ $chatthread = $page['thread_info']['thread'];
 </div>
 
 <br />
-<a href="<?php echo $mibewroot ?>/operator/history.php">
+<a href="<?php echo MIBEW_WEB_ROOT ?>/operator/history.php">
 	<?php echo getlocal("thread.back_to_search") ?></a>
 <br />
 

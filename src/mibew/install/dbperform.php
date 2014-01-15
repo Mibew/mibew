@@ -29,6 +29,11 @@ session_start();
 
 require_once(MIBEW_FS_ROOT.'/libs/config.php');
 
+/**
+ * Base URL of the Mibew installation
+ */
+define('MIBEW_WEB_ROOT', $mibewroot);
+
 // Include common functions
 require_once(MIBEW_FS_ROOT.'/libs/common/constants.php');
 require_once(MIBEW_FS_ROOT.'/libs/common/locale.php');
@@ -324,6 +329,6 @@ if ($act == "silentcreateall") {
 }
 
 mysql_close($link);
-header("Location: $mibewroot/install/index.php");
+header("Location: " . MIBEW_WEB_ROOT . "/install/index.php");
 exit;
 ?>

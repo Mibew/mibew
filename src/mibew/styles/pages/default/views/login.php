@@ -19,14 +19,14 @@ if(isset($page) && isset($page['localeLinks'])) {
 	require_once(dirname(__FILE__).'/inc_locales.php');
 }
 
-function tpl_content() { global $page, $mibewroot, $errors;
+function tpl_content() { global $page, $errors;
 ?>
 
 <div id="loginintro">
 <p><?php echo getlocal("app.descr")?></p>
 </div>
 
-<form name="loginForm" method="post" action="<?php echo $mibewroot ?>/operator/login.php">
+<form name="loginForm" method="post" action="<?php echo MIBEW_WEB_ROOT ?>/operator/login.php">
 	<div id="loginpane">
 
 	<div class="header">	
@@ -68,7 +68,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		</div>
 
 		<div class="fbutton">
-			<input type="image" name="login" src='<?php echo $mibewroot.getlocal("image.button.login") ?>' alt='<?php echo getlocal("button.enter") ?>'/>
+			<input type="image" name="login" src='<?php echo MIBEW_WEB_ROOT . getlocal("image.button.login") ?>' alt='<?php echo getlocal("button.enter") ?>'/>
 
 			<div class="links">
 				<a href="restore.php"><?php echo getlocal("restore.pwd.message") ?></a><br/>

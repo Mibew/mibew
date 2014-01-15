@@ -18,14 +18,14 @@
 require_once(dirname(__FILE__).'/inc_menu.php');
 require_once(dirname(__FILE__).'/inc_tabbar.php');
 
-function tpl_header() { global $page, $mibewroot;
+function tpl_header() { global $page;
 ?>
-<script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/libs/jquery.min.js"></script>
-<script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/styles/pages/default/js/group.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/jquery.min.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/js/group.js"></script>
 <?php
 }
 
-function tpl_content() { global $page, $mibewroot, $errors;
+function tpl_content() { global $page, $errors;
 ?>
 
 	<?php if( $page['grid'] ) { ?>
@@ -43,7 +43,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 <div id="formmessage"><?php echo getlocal("data.saved") ?></div>
 <?php } ?>
 
-<form name="groupForm" method="post" action="<?php echo $mibewroot ?>/operator/group.php">
+<form name="groupForm" method="post" action="<?php echo MIBEW_WEB_ROOT ?>/operator/group.php">
 <?php print_csrf_token_input() ?>
 <input type="hidden" name="gid" value="<?php echo $page['grid'] ?>"/>
 	<div>
@@ -155,7 +155,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		</div>
 
 		<div class="fbutton">
-			<input type="image" name="save" value="" src='<?php echo $mibewroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
+			<input type="image" name="save" value="" src='<?php echo MIBEW_WEB_ROOT . getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
 		</div>
 	</div>
 	

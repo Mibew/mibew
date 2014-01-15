@@ -46,7 +46,7 @@ $screenshots = array();
 foreach($style_config['screenshots'] as $name => $desc) {
 	$screenshots[] = array(
 		'name' => $name,
-		'file' => $mibewroot . '/' . $chat_style->filesPath()
+		'file' => MIBEW_WEB_ROOT . '/' . $chat_style->filesPath()
 			. '/screenshots/' . $name . '.png',
 		'description' => $desc
 	);

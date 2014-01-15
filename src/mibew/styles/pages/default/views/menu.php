@@ -17,11 +17,11 @@
 
 require_once(dirname(__FILE__).'/inc_menu.php');
 
-function tpl_header() { global $page, $mibewroot;
+function tpl_header() { global $page;
 	if(isset($page) && isset($page['localeLinks'])) {
 ?>	
-<script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/libs/jquery.min.js"></script>
-<script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/compiled/locale.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/jquery.min.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/compiled/locale.js"></script>
 <?php
 	}
 }
@@ -32,7 +32,7 @@ function menuseparator() {
 	if(($menuItemsCount%3) == 0) { echo "</tr><tr>"; }
 }
 
-function tpl_content() { global $page, $mibewroot, $current_locale, $menuItemsCount, $version;
+function tpl_content() { global $page, $current_locale, $menuItemsCount, $version;
 ?>
 
 <br/>
@@ -51,15 +51,15 @@ function tpl_content() { global $page, $mibewroot, $current_locale, $menuItemsCo
 <table id="dashboard">
 <tr>
 	<td class="dashitem">
-		<img src="<?php echo $mibewroot ?>/styles/pages/default/images/dash/visitors.gif" alt=""/>
-		<a href='<?php echo $mibewroot ?>/operator/users.php'>
+		<img src="<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/images/dash/visitors.gif" alt=""/>
+		<a href='<?php echo MIBEW_WEB_ROOT ?>/operator/users.php'>
 			<?php echo getlocal('topMenu.users') ?></a>
 		<?php echo getlocal('page_client.pending_users') ?>
 	</td>	
 
 	<td class="dashitem">
-		<img src="<?php echo $mibewroot ?>/styles/pages/default/images/dash/history.gif" alt=""/>
-		<a href='<?php echo $mibewroot ?>/operator/history.php'>
+		<img src="<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/images/dash/history.gif" alt=""/>
+		<a href='<?php echo MIBEW_WEB_ROOT ?>/operator/history.php'>
 			<?php echo getlocal('page_analysis.search.title') ?></a>
 		<?php echo getlocal('content.history') ?>
 	</td>
@@ -69,8 +69,8 @@ $menuItemsCount = 2;
 
 <?php if($page['showstat']) { ?>
 	<td class="dashitem">
-		<img src="<?php echo $mibewroot ?>/styles/pages/default/images/dash/stat.gif" alt=""/>
-		<a href='<?php echo $mibewroot ?>/operator/statistics.php'>
+		<img src="<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/images/dash/stat.gif" alt=""/>
+		<a href='<?php echo MIBEW_WEB_ROOT ?>/operator/statistics.php'>
 			<?php echo getlocal('statistics.title') ?></a>
 		<?php echo getlocal('statistics.description') ?>
 	</td>
@@ -79,8 +79,8 @@ $menuItemsCount = 2;
 
 <?php if( $page['showban'] ) { ?>	
 	<td class="dashitem">
-		<img src="<?php echo $mibewroot ?>/styles/pages/default/images/dash/blocked.gif" alt=""/>
-		<a href='<?php echo $mibewroot ?>/operator/blocked.php'>
+		<img src="<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/images/dash/blocked.gif" alt=""/>
+		<a href='<?php echo MIBEW_WEB_ROOT ?>/operator/blocked.php'>
 			<?php echo getlocal('menu.blocked') ?></a>
 		<?php echo getlocal('content.blocked') ?>
 	</td>
@@ -88,8 +88,8 @@ $menuItemsCount = 2;
 <?php } ?>
 
 	<td class="dashitem">
-		<img src="<?php echo $mibewroot ?>/styles/pages/default/images/dash/canned.gif" alt=""/>
-		<a href='<?php echo $mibewroot ?>/operator/canned.php'>
+		<img src="<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/images/dash/canned.gif" alt=""/>
+		<a href='<?php echo MIBEW_WEB_ROOT ?>/operator/canned.php'>
 			<?php echo getlocal('menu.canned') ?></a>
 		<?php echo getlocal('canned.descr') ?>
 	</td>
@@ -97,32 +97,32 @@ $menuItemsCount = 2;
 
 <?php if( $page['showadmin'] ) { ?>
 	<td class="dashitem">
-		<img src="<?php echo $mibewroot ?>/styles/pages/default/images/dash/getcode.gif" alt=""/>
-		<a href='<?php echo $mibewroot ?>/operator/getcode.php'>
+		<img src="<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/images/dash/getcode.gif" alt=""/>
+		<a href='<?php echo MIBEW_WEB_ROOT ?>/operator/getcode.php'>
 			<?php echo getlocal('leftMenu.client_gen_button') ?></a>
 		<?php echo getlocal('admin.content.client_gen_button') ?>
 	</td>
 	<?php menuseparator(); ?>
 	
 	<td class="dashitem">
-		<img src="<?php echo $mibewroot ?>/styles/pages/default/images/dash/operators.gif" alt=""/>
-		<a href='<?php echo $mibewroot ?>/operator/operators.php'>
+		<img src="<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/images/dash/operators.gif" alt=""/>
+		<a href='<?php echo MIBEW_WEB_ROOT ?>/operator/operators.php'>
 			<?php echo getlocal('leftMenu.client_agents') ?></a>
 		<?php echo getlocal('admin.content.client_agents') ?>
 	</td>
 	<?php menuseparator(); ?>
 
 	<td class="dashitem">
-		<img src="<?php echo $mibewroot ?>/styles/pages/default/images/dash/dep.gif" alt=""/>
-		<a href='<?php echo $mibewroot ?>/operator/groups.php'>
+		<img src="<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/images/dash/dep.gif" alt=""/>
+		<a href='<?php echo MIBEW_WEB_ROOT ?>/operator/groups.php'>
 			<?php echo getlocal('menu.groups') ?></a>
 		<?php echo getlocal('menu.groups.content') ?>
 	</td>
 	<?php menuseparator(); ?>
 
 	<td class="dashitem">
-		<img src="<?php echo $mibewroot ?>/styles/pages/default/images/dash/settings.gif" alt=""/>
-		<a href='<?php echo $mibewroot ?>/operator/settings.php'>
+		<img src="<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/images/dash/settings.gif" alt=""/>
+		<a href='<?php echo MIBEW_WEB_ROOT ?>/operator/settings.php'>
 			<?php echo getlocal('leftMenu.client_settings') ?></a>
 		<?php echo getlocal('admin.content.client_settings') ?>
 	</td>
@@ -131,8 +131,8 @@ $menuItemsCount = 2;
 
 <?php if(isset($page['currentopid']) && $page['currentopid']) {?>
 	<td class="dashitem">
-		<img src="<?php echo $mibewroot ?>/styles/pages/default/images/dash/profile.gif"  alt=""/>
-		<a href='<?php echo $mibewroot ?>/operator/operator.php?op=<?php echo $page['currentopid'] ?>'>
+		<img src="<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/images/dash/profile.gif"  alt=""/>
+		<a href='<?php echo MIBEW_WEB_ROOT ?>/operator/operator.php?op=<?php echo $page['currentopid'] ?>'>
 			<?php echo getlocal('menu.profile') ?></a>
 		<?php echo getlocal('menu.profile.content') ?>
 	</td>
@@ -141,7 +141,7 @@ $menuItemsCount = 2;
 
 <?php if(isset($page) && isset($page['localeLinks'])) { ?>
 	<td class="dashitem">
-		<img src="<?php echo $mibewroot ?>/styles/pages/default/images/dash/locale.gif"  alt=""/>
+		<img src="<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/images/dash/locale.gif"  alt=""/>
 		<a href='#' id="changelang">
 			<?php echo getlocal('menu.locale') ?></a>
 		<?php echo getlocal('menu.locale.content') ?>
@@ -151,8 +151,8 @@ $menuItemsCount = 2;
 
 <?php if( $page['showadmin'] ) { ?>
 	<td class="dashitem">
-		<img src="<?php echo $mibewroot ?>/styles/pages/default/images/dash/updates.gif" alt=""/>
-		<a href='<?php echo $mibewroot ?>/operator/updates.php'>
+		<img src="<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/images/dash/updates.gif" alt=""/>
+		<a href='<?php echo MIBEW_WEB_ROOT ?>/operator/updates.php'>
 			<?php echo getlocal('menu.updates') ?></a>
 		<?php echo getlocal('menu.updates.content') ?>
 	</td>
@@ -160,8 +160,8 @@ $menuItemsCount = 2;
 <?php } ?>
 
 	<td class="dashitem">
-		<img src="<?php echo $mibewroot ?>/styles/pages/default/images/dash/exit.gif" alt=""/>
-		<a href='<?php echo $mibewroot ?>/operator/logout.php'>
+		<img src="<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/images/dash/exit.gif" alt=""/>
+		<a href='<?php echo MIBEW_WEB_ROOT ?>/operator/logout.php'>
 			<?php echo getlocal('topMenu.logoff') ?></a>
 		<?php echo getlocal('content.logoff') ?>
 	</td>
@@ -171,8 +171,8 @@ $menuItemsCount = 2;
 
 <?php if(isset($page) && isset($page['localeLinks'])) { ?>
 <div id="dashlocalesPopup">
-	<a href="#" id="dashlocalesPopupClose"><img src="<?php echo $mibewroot ?>/styles/pages/default/images/dash/close.gif" alt="X"/></a>
-	<h2><img src="<?php echo $mibewroot ?>/styles/pages/default/images/dash/locale.gif"  alt=""/>
+	<a href="#" id="dashlocalesPopupClose"><img src="<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/images/dash/close.gif" alt="X"/></a>
+	<h2><img src="<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/images/dash/locale.gif"  alt=""/>
 	<b><?php echo getlocal("lang.choose") ?></b></h2>
 	<ul class="locales">
 <?php foreach($page['localeLinks'] as $id => $title) { ?>

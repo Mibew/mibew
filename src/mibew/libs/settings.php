@@ -20,16 +20,16 @@ use Mibew\Settings;
 
 function setup_settings_tabs($active)
 {
-	global $page, $mibewroot;
+	global $page;
 	$page['tabs'] = array(
-		getlocal("page_settings.tab.main") => $active != 0 ? "$mibewroot/operator/settings.php" : "",
-		getlocal("page_settings.tab.features") => $active != 1 ? "$mibewroot/operator/features.php" : "",
-		getlocal("page_settings.tab.performance") => $active != 2 ? "$mibewroot/operator/performance.php" : "",
-		getlocal("page_settings.tab.page_themes") => $active != 3 ? "$mibewroot/operator/page_themes.php" : "",
-		getlocal("page_settings.tab.themes") => $active != 4 ? "$mibewroot/operator/themes.php" : "",
+		getlocal("page_settings.tab.main") => $active != 0 ? (MIBEW_WEB_ROOT . "/operator/settings.php") : "",
+		getlocal("page_settings.tab.features") => $active != 1 ? (MIBEW_WEB_ROOT . "/operator/features.php") : "",
+		getlocal("page_settings.tab.performance") => $active != 2 ? (MIBEW_WEB_ROOT . "/operator/performance.php") : "",
+		getlocal("page_settings.tab.page_themes") => $active != 3 ? (MIBEW_WEB_ROOT . "/operator/page_themes.php") : "",
+		getlocal("page_settings.tab.themes") => $active != 4 ? (MIBEW_WEB_ROOT . "/operator/themes.php") : "",
 	);
 	if (Settings::get('enabletracking')) {
-		$page['tabs'][getlocal("page_settings.tab.invitationthemes")] = ($active != 5 ? "$mibewroot/operator/invitationthemes.php" : "");
+		$page['tabs'][getlocal("page_settings.tab.invitationthemes")] = ($active != 5 ? (MIBEW_WEB_ROOT . "/operator/invitationthemes.php") : "");
 	}
 }
 

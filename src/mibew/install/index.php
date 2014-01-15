@@ -29,6 +29,23 @@ session_start();
 
 require_once(MIBEW_FS_ROOT.'/libs/config.php');
 
+/**
+ * Value of $mibewroot varaible from config.php
+ */
+define('MIBEW_CONFIG_WEB_ROOT', $mibewroot);
+
+// Try to get actual base URL of the Mibew
+$requestUri = $_SERVER["REQUEST_URI"];
+if (!preg_match('/^(.*)\\/install(\\/[^\\/\\\\]*)?$/', $requestUri, $matches)) {
+	die("Cannot detect application location: $requestUri");
+}
+$base_url = $matches[1];
+
+/**
+ * Base URL of the Mibew installation
+ */
+define('MIBEW_WEB_ROOT', $base_url);
+
 // Include common functions
 require_once(MIBEW_FS_ROOT.'/libs/common/constants.php');
 require_once(MIBEW_FS_ROOT.'/libs/common/locale.php');
@@ -43,7 +60,7 @@ require_once(MIBEW_FS_ROOT.'/install/dbinfo.php');
 
 $page = array(
 	'version' => $version,
-	'localeLinks' => get_locale_links("$mibewroot/install/index.php")
+	'localeLinks' => get_locale_links(MIBEW_WEB_ROOT . "/install/index.php")
 );
 
 $page['done'] = array();
@@ -54,21 +71,14 @@ $errors = array();
 
 function check_mibewroot()
 {
-	global $page, $errors, $mibewroot;
-	$requestUri = $_SERVER["REQUEST_URI"];
-	if (!preg_match('/^(.*)\\/install(\\/[^\\/\\\\]*)?$/', $requestUri, $matches)) {
-		$errors[] = "Cannot detect application location: $requestUri";
-		return false;
-	}
-	$applocation = $matches[1];
+	global $page, $errors;
 
-	if ($applocation != $mibewroot) {
-		$errors[] = "Please, check file ${applocation}/libs/config.php<br/>Wrong value of \$mibewroot variable, should be \"$applocation\"";
-		$mibewroot = $applocation;
+	if (MIBEW_CONFIG_WEB_ROOT != MIBEW_WEB_ROOT) {
+		$errors[] = "Please, check file " . MIBEW_WEB_ROOT . "/libs/config.php<br/>Wrong value of \$mibewroot variable, should be \"" . MIBEW_WEB_ROOT . "\"";
 		return false;
 	}
 
-	$page['done'][] = getlocal2("install.0.app", array($applocation));
+	$page['done'][] = getlocal2("install.0.app", array(MIBEW_WEB_ROOT));
 	return true;
 }
 
@@ -109,12 +119,12 @@ function fpermissions($file)
 
 function check_files()
 {
-	global $page, $errors, $mibewroot;
+	global $page, $errors;
 
 	$packageFile = MIBEW_FS_ROOT . "/install/package";
 	$fp = @fopen($packageFile, "r");
 	if ($fp === FALSE) {
-		$errors[] = getlocal2("install.cannot_read", array("$mibewroot/install/package"));
+		$errors[] = getlocal2("install.cannot_read", array(MIBEW_WEB_ROOT . "/install/package"));
 		if (file_exists($packageFile)) {
 			$errors[] = getlocal2("install.check_permissions", array(fpermissions($packageFile)));
 		}
@@ -135,10 +145,10 @@ function check_files()
 		$relativeName = MIBEW_FS_ROOT . "/$file";
 		if (!is_readable($relativeName)) {
 			if (file_exists($relativeName)) {
-				$errors[] = getlocal2("install.cannot_read", array("$mibewroot/$file"));
+				$errors[] = getlocal2("install.cannot_read", array(MIBEW_WEB_ROOT . "/$file"));
 				$errors[] = getlocal2("install.check_permissions", array(fpermissions($relativeName)));
 			} else {
-				$errors[] = getlocal2("install.no_file", array("$mibewroot/$file"));
+				$errors[] = getlocal2("install.no_file", array(MIBEW_WEB_ROOT . "/$file"));
 			}
 			return false;
 		}
@@ -149,7 +159,7 @@ function check_files()
 				$result = md5(str_replace("\r", "", file_get_contents($relativeName)));
 			}
 			if ($result != $sum) {
-				$errors[] = getlocal2("install.bad_checksum", array("$mibewroot/$file"));
+				$errors[] = getlocal2("install.bad_checksum", array(MIBEW_WEB_ROOT . "/$file"));
 				$errors[] = getlocal("install.check_files");
 				return false;
 			}
@@ -162,7 +172,7 @@ function check_files()
 
 function check_connection()
 {
-	global $mysqlhost, $mysqllogin, $mysqlpass, $page, $errors, $mibewroot;
+	global $mysqlhost, $mysqllogin, $mysqlpass, $page, $errors;
 	$link = @mysql_connect($mysqlhost, $mysqllogin, $mysqlpass);
 	if ($link) {
 		$result = mysql_query("SELECT VERSION() as c", $link);
@@ -183,7 +193,7 @@ function check_connection()
 
 function check_database($link)
 {
-	global $mysqldb, $force_charset_in_connection, $dbencoding, $page, $mibewroot;
+	global $mysqldb, $force_charset_in_connection, $dbencoding, $page;
 	if (mysql_select_db($mysqldb, $link)) {
 		$page['done'][] = getlocal2("install.2.db_exists", array($mysqldb));
 		if ($force_charset_in_connection) {
@@ -193,14 +203,14 @@ function check_database($link)
 	} else {
 		$page['nextstep'] = getlocal2("install.2.create", array($mysqldb));
 		$page['nextnotice'] = getlocal("install.2.notice");
-		$page['nextstepurl'] = "$mibewroot/install/dbperform.php?act=createdb";
+		$page['nextstepurl'] = MIBEW_WEB_ROOT . "/install/dbperform.php?act=createdb";
 	}
 	return false;
 }
 
 function check_tables($link)
 {
-	global $dbtables, $page, $mibewroot;
+	global $dbtables, $page;
 	$curr_tables = get_tables($link);
 	if ($curr_tables !== false) {
 		$tocreate = array_diff(array_keys($dbtables), $curr_tables);
@@ -209,7 +219,7 @@ function check_tables($link)
 			return true;
 		} else {
 			$page['nextstep'] = getlocal("install.3.create");
-			$page['nextstepurl'] = "$mibewroot/install/dbperform.php?act=ct";
+			$page['nextstepurl'] = MIBEW_WEB_ROOT . "/install/dbperform.php?act=ct";
 		}
 	}
 	return false;
@@ -217,7 +227,7 @@ function check_tables($link)
 
 function check_columns($link)
 {
-	global $dbtables, $dbtables_can_update, $dbtables_indexes, $errors, $page, $mibewroot;
+	global $dbtables, $dbtables_can_update, $dbtables_indexes, $errors, $page;
 
 	$need_to_create_columns = false;
 	foreach ($dbtables as $id => $columns) {
@@ -231,7 +241,7 @@ function check_columns($link)
 			if (count($cannot_update) != 0) {
 				$errors[] = "Key columns are absent in table `$id'. Unable to continue installation.";
 				$page['nextstep'] = getlocal("install.kill_tables");
-				$page['nextstepurl'] = "$mibewroot/install/dbperform.php?act=dt";
+				$page['nextstepurl'] = MIBEW_WEB_ROOT . "/install/dbperform.php?act=dt";
 				$page['nextnotice'] = getlocal("install.kill_tables.notice");
 				return false;
 			}
@@ -253,7 +263,7 @@ function check_columns($link)
 
 	if ($need_to_create_columns || $need_to_create_indexes) {
 		$page['nextstep'] = getlocal("install.4.create");
-		$page['nextstepurl'] = "$mibewroot/install/dbperform.php?act=addcolumns";
+		$page['nextstepurl'] = MIBEW_WEB_ROOT . "/install/dbperform.php?act=addcolumns";
 		$page['nextnotice'] = getlocal("install.4.notice");
 		return false;
 	}
@@ -317,7 +327,7 @@ function add_canned_messages($link){
 
 function check_status()
 {
-	global $page, $mibewroot, $dbversion, $mysqlprefix;
+	global $page, $dbversion, $mysqlprefix;
 
 	$page['done'][] = getlocal2("install.0.php", array(phpversion()));
 
@@ -358,7 +368,7 @@ function check_status()
 	if (!check_admin($link)) {
 		$page['nextstep'] = getlocal("installed.login_link");
 		$page['nextnotice'] = getlocal2("installed.notice", array("${mibewroot}/install/"));
-		$page['nextstepurl'] = "$mibewroot/operator/login.php?login=admin";
+		$page['nextstepurl'] = MIBEW_WEB_ROOT . "/operator/login.php?login=admin";
 	}
 
 	$page['show_small_login'] = true;

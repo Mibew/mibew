@@ -29,6 +29,11 @@ require_once(MIBEW_FS_ROOT.'/libs/config.php');
 // Sanitize path to application and remove extra slashes
 $mibewroot = join("/", array_map("urlencode", preg_split('/\//', preg_replace('/\/+$/', '', preg_replace('/\/{2,}/', '/', '/' . $mibewroot)))));
 
+/**
+ * Base URL of the Mibew installation
+ */
+define('MIBEW_WEB_ROOT', $mibewroot);
+
 // Include system constants file
 require_once(MIBEW_FS_ROOT.'/libs/common/constants.php');
 
@@ -53,7 +58,7 @@ require_once(MIBEW_FS_ROOT.'/libs/common/string.php');
 if (is_secure_request()) {
     @ini_set('session.cookie_secure', TRUE);
 }
-@ini_set('session.cookie_path', "$mibewroot/");
+@ini_set('session.cookie_path', MIBEW_WEB_ROOT . "/");
 @ini_set('session.name', 'MibewSessionID');
 
 // Initialize user session

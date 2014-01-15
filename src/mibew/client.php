@@ -175,7 +175,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 	$threadid = $thread->id;
 	$token = $thread->lastToken;
 	$chatstyle = verifyparam( "style", "/^\w+$/", "");
-	header("Location: $mibewroot/client.php?thread=" . intval($threadid) . "&token=" . urlencode($token) . ($chatstyle ? "&style=" . urlencode($chatstyle) : ""));
+	header("Location: " . MIBEW_WEB_ROOT . "/client.php?thread=" . intval($threadid) . "&token=" . urlencode($token) . ($chatstyle ? "&style=" . urlencode($chatstyle) : ""));
 	exit;
 }
 

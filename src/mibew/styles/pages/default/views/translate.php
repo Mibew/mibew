@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-function tpl_content() { global $page, $mibewroot, $errors;
+function tpl_content() { global $page, $errors;
 ?>
 
 	<?php if( $page['saved'] ) { ?>
@@ -37,7 +37,7 @@ function tpl_content() { global $page, $mibewroot, $errors;
 require_once(dirname(__FILE__).'/inc_errors.php');
 ?>
 
-<form name="translateForm" method="post" action="<?php echo $mibewroot ?>/operator/translate.php">
+<form name="translateForm" method="post" action="<?php echo MIBEW_WEB_ROOT ?>/operator/translate.php">
 <?php print_csrf_token_input() ?>
 <input type="hidden" name="key" value="<?php echo $page['key'] ?>"/>
 <input type="hidden" name="target" value="<?php echo $page['target'] ?>"/>
@@ -59,7 +59,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		</div>
 	
 		<div class="fbutton">
-			<input type="image" name="save" value="" src='<?php echo $mibewroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
+			<input type="image" name="save" value="" src='<?php echo MIBEW_WEB_ROOT . getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
 		</div>
 	</div>
 	

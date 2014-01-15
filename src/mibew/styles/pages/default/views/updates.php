@@ -17,15 +17,15 @@
 
 require_once(dirname(__FILE__).'/inc_menu.php');
 
-function tpl_header() { global $page, $mibewroot;
+function tpl_header() { global $page;
 ?>	
-<script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/libs/jquery.min.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/jquery.min.js"></script>
 <script type="text/javascript" language="javascript" src="http://mibew.org/latestMibew.js"></script>
-<script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/compiled/update.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/compiled/update.js"></script>
 <?php
 }
 
-function tpl_content() { global $page, $mibewroot;
+function tpl_content() { global $page;
 ?>
 
 <?php echo getlocal("updates.intro") ?>

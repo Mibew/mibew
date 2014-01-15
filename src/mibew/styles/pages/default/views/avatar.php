@@ -18,7 +18,7 @@
 require_once(dirname(__FILE__).'/inc_menu.php');
 require_once(dirname(__FILE__).'/inc_tabbar.php');
 
-function tpl_content() { global $page, $mibewroot, $errors;
+function tpl_content() { global $page, $errors;
 ?>
 
 <?php echo getlocal("page_avatar.intro") ?>
@@ -28,7 +28,7 @@ function tpl_content() { global $page, $mibewroot, $errors;
 require_once(dirname(__FILE__).'/inc_errors.php');
 ?>
 
-<form name="avatarForm" method="post" action="<?php echo $mibewroot ?>/operator/avatar.php" enctype="multipart/form-data">
+<form name="avatarForm" method="post" action="<?php echo MIBEW_WEB_ROOT ?>/operator/avatar.php" enctype="multipart/form-data">
 <?php print_csrf_token_input() ?>
 <input type="hidden" name="op" value="<?php echo $page['opid'] ?>"/>
 	<div>
@@ -47,7 +47,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 			<div class="fvalue">
 				<img src="<?php echo $page['avatar'] ?>" alt="cannot load avatar"/><br/>
 <?php if($page['canmodify']) { ?>
-                <a class="formauth" href='<?php echo $mibewroot ?>/operator/avatar.php?op=<?php echo $page['opid'] ?>&amp;delete=true'>
+                <a class="formauth" href='<?php echo MIBEW_WEB_ROOT ?>/operator/avatar.php?op=<?php echo $page['opid'] ?>&amp;delete=true'>
                     <?php echo getlocal("page_agent.clear_avatar") ?>
                 </a>
 <?php } ?>
@@ -74,7 +74,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		</div>
 
 		<div class="fbutton">
-			<input type="image" name="save" value="" src='<?php echo $mibewroot.getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
+			<input type="image" name="save" value="" src='<?php echo MIBEW_WEB_ROOT . getlocal("image.button.save") ?>' alt='<?php echo getlocal("button.save") ?>'/>
 		</div>
 <?php } ?>
 	</div>

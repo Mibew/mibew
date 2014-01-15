@@ -104,7 +104,7 @@ if (!isset($_GET['token'])) {
 	}
 
 	$token = $thread->lastToken;
-	header("Location: $mibewroot/operator/agent.php?thread=" . intval($threadid) . "&token=" . urlencode($token));
+	header("Location: " . MIBEW_WEB_ROOT . "/operator/agent.php?thread=" . intval($threadid) . "&token=" . urlencode($token));
 	exit;
 }
 

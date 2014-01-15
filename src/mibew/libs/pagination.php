@@ -31,8 +31,7 @@ function generate_pagination_link($page, $title)
 
 function generate_pagination_image($id, $alt)
 {
-	global $mibewroot;
-	return "<img src=\"$mibewroot/images/$id.gif\" border=\"0\" alt=\"" . htmlspecialchars($alt) . "\"/>";
+	return "<img src=\"" . MIBEW_WEB_ROOT . "/images/$id.gif\" border=\"0\" alt=\"" . htmlspecialchars($alt) . "\"/>";
 }
 
 function prepare_pagination($items_count, $default_items_per_page = 15)

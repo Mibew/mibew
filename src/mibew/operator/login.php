@@ -34,10 +34,10 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 	if ($operator && isset($operator['vcpassword']) && check_password_hash($operator['vclogin'], $password, $operator['vcpassword']) && !operator_is_disabled($operator)) {
 
 		$target = $password == ''
-				? "$mibewroot/operator/operator.php?op=" . intval($operator['operatorid'])
+				? MIBEW_WEB_ROOT . "/operator/operator.php?op=" . intval($operator['operatorid'])
 				: (isset($_SESSION['backpath'])
 					? $_SESSION['backpath']
-					: "$mibewroot/operator/index.php");
+					: MIBEW_WEB_ROOT . "/operator/index.php");
 
 		login_operator($operator, $remember, is_secure_request());
 		header("Location: $target");
@@ -56,7 +56,7 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 		$page['formlogin'] = $login;
 }
 
-$page['localeLinks'] = get_locale_links("$mibewroot/operator/login.php");
+$page['localeLinks'] = get_locale_links(MIBEW_WEB_ROOT . "/operator/login.php");
 $page['title'] = getlocal("page_login.title");
 $page['headertitle'] = getlocal("app.title");
 $page['show_small_login'] = false;

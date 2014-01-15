@@ -30,7 +30,7 @@ if (!$thread) {
 }
 
 // Open chat window for operator
-$redirect_to = $mibewroot .
+$redirect_to = MIBEW_WEB_ROOT .
 	'/operator/agent.php?thread=' . intval($thread->id) .
 	'&token=' . urlencode($thread->lastToken);
 header('Location: ' . $redirect_to);

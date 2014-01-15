@@ -55,7 +55,7 @@ if (isset($_GET['act'])) {
 
 		if (count($errors) == 0) {
 			delete_operator($operatorid);
-			header("Location: $mibewroot/operator/operators.php");
+			header("Location: " . MIBEW_WEB_ROOT . "/operator/operators.php");
 			exit;
 		}
 	}
@@ -85,7 +85,7 @@ if (isset($_GET['act'])) {
 				array(($act_disable ? '1' : '0'), $operatorid)
 			);
 
-			header("Location: $mibewroot/operator/operators.php");
+			header("Location: " . MIBEW_WEB_ROOT . "/operator/operators.php");
 			exit;
 		}
 	}

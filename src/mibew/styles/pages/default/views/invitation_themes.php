@@ -18,20 +18,20 @@
 require_once(dirname(__FILE__).'/inc_menu.php');
 require_once(dirname(__FILE__).'/inc_tabbar.php');
 
-function tpl_header() { global $page, $mibewroot;
+function tpl_header() { global $page;
 ?>
-<link href="<?php echo $mibewroot ?>/styles/invitations/<?php echo $page['preview'] ?>/invite.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo MIBEW_WEB_ROOT ?>/styles/invitations/<?php echo $page['preview'] ?>/invite.css" rel="stylesheet" type="text/css" />
 <?
 } /* header */
 
-function tpl_content() { global $page, $mibewroot;
+function tpl_content() { global $page;
 ?>
 
 <?php echo getlocal("page.preview.intro") ?>
 <br />
 <br />
 
-<form name="preview" method="get" action="<?php echo $mibewroot ?>/operator/invitationthemes.php">
+<form name="preview" method="get" action="<?php echo MIBEW_WEB_ROOT ?>/operator/invitationthemes.php">
 	<div>
 <?php print_tabbar(); ?>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">

@@ -190,7 +190,7 @@ if (isset($_POST['name'])) {
 				'chattitle' => $chattitle,
 				'hosturl' => $hosturl,
 				'logo' => $logo));
-			header("Location: $mibewroot/operator/groupmembers.php?gid=" . intval($newdep['groupid']));
+			header("Location: " . MIBEW_WEB_ROOT . "/operator/groupmembers.php?gid=" . intval($newdep['groupid']));
 			exit;
 		} else {
 			update_group(array(
@@ -206,7 +206,7 @@ if (isset($_POST['name'])) {
 				'chattitle' => $chattitle,
 				'hosturl' => $hosturl,
 				'logo' => $logo));
-			header("Location: $mibewroot/operator/group.php?gid=" . intval($groupid) . "&stored");
+			header("Location: " . MIBEW_WEB_ROOT . "/operator/group.php?gid=" . intval($groupid) . "&stored");
 			exit;
 		}
 	} else {

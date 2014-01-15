@@ -17,13 +17,13 @@
 
 require_once(dirname(__FILE__).'/inc_menu.php');
 
-function tpl_header() { global $page, $mibewroot;
+function tpl_header() { global $page;
 ?>	
-<script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/libs/jquery.min.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/jquery.min.js"></script>
 <?php
 }
 
-function tpl_content() { global $page, $mibewroot, $errors;
+function tpl_content() { global $page, $errors;
 ?>
 
 <?php echo getlocal("page_ban.intro") ?>
@@ -34,9 +34,9 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 ?>
 
 <div class="tabletool">
-	<img src="<?php echo $mibewroot ?>/styles/pages/default/images/buttons/createban.gif" border="0" alt=""/>
-	<a href="<?php echo $mibewroot ?>/operator/ban.php" title="<?php echo getlocal("page_bans.add") ?>"
-	    onclick="this.newWindow = window.open('<?php echo $mibewroot ?>/operator/ban.php', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo getlocal("page_bans.add") ?></a>
+	<img src="<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/images/buttons/createban.gif" border="0" alt=""/>
+	<a href="<?php echo MIBEW_WEB_ROOT ?>/operator/ban.php" title="<?php echo getlocal("page_bans.add") ?>"
+	    onclick="this.newWindow = window.open('<?php echo MIBEW_WEB_ROOT ?>/operator/ban.php', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo getlocal("page_bans.add") ?></a>
 </div>
 <br clear="all"/>
 
@@ -62,7 +62,7 @@ if( $page['pagination.items'] ) {
 	foreach( $page['pagination.items'] as $b ) { ?>
 	<tr>
 	<td class="notlast">
-		<a href="<?php echo $mibewroot ?>/operator/history.php?q=<?php echo $b['address']?>&type=visitor" class="man" id="ti<?php echo $b['banid'] ?>">
+		<a href="<?php echo MIBEW_WEB_ROOT ?>/operator/history.php?q=<?php echo $b['address']?>&type=visitor" class="man" id="ti<?php echo $b['banid'] ?>">
 		   	<?php echo htmlspecialchars($b['address']) ?>
 	   	</a>
 	</td>
@@ -79,10 +79,10 @@ if( $page['pagination.items'] ) {
 ?>
 	</td>
 	<td>
-		<a class="removelink" id="i<?php echo $b['banid'] ?>" href="<?php echo $mibewroot ?>/operator/blocked.php?act=del&amp;id=<?php echo $b['banid'] ?><?php print_csrf_token_in_url() ?>">
+		<a class="removelink" id="i<?php echo $b['banid'] ?>" href="<?php echo MIBEW_WEB_ROOT ?>/operator/blocked.php?act=del&amp;id=<?php echo $b['banid'] ?><?php print_csrf_token_in_url() ?>">
 			<?php echo getlocal("remove.item") ?></a>,
-		<a href="<?php echo $mibewroot ?>/operator/ban.php?id=<?php echo $b['banid'] ?>"
-			onclick="this.newWindow = window.open('<?php echo $mibewroot ?>/operator/ban.php?id=<?php echo $b['banid'] ?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo getlocal("edit.item") ?></a>
+		<a href="<?php echo MIBEW_WEB_ROOT ?>/operator/ban.php?id=<?php echo $b['banid'] ?>"
+			onclick="this.newWindow = window.open('<?php echo MIBEW_WEB_ROOT ?>/operator/ban.php?id=<?php echo $b['banid'] ?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo getlocal("edit.item") ?></a>
 	</td>
 	</tr>
 <?php

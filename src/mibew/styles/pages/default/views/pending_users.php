@@ -17,7 +17,7 @@
 
 require_once(dirname(__FILE__).'/inc_menu.php');
 
-function tpl_header() { global $page, $mibewroot;
+function tpl_header() { global $page;
 ?>
 
 <!-- Plugins CSS files -->
@@ -25,17 +25,17 @@ function tpl_header() { global $page, $mibewroot;
 
 
 <!-- External libs -->
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/jquery.min.js"></script>
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/json2.js"></script>
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/underscore-min.js"></script>
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/backbone-min.js"></script>
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/backbone.marionette.min.js"></script>
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/handlebars.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/json2.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/underscore-min.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/backbone-min.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/backbone.marionette.min.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/handlebars.js"></script>
 
 <!-- Application files -->
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/compiled/mibewapi.js"></script>
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/compiled/default_app.js"></script>
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/compiled/users_app.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/compiled/mibewapi.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/compiled/default_app.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/compiled/users_app.js"></script>
 
 <!-- Plugins JavaScript files -->
 <?php echo $page['additional_js']; ?>
@@ -92,7 +92,7 @@ function tpl_header() { global $page, $mibewroot;
 	jQuery(document).ready(function(){
 		Mibew.Application.start({
 			server: {
-				url: "<?php echo $mibewroot ?>/operator/update.php",
+				url: "<?php echo MIBEW_WEB_ROOT ?>/operator/update.php",
 				requestsFrequency: <?php echo $page['frequency'] ?>
 			},
 
@@ -108,11 +108,11 @@ function tpl_header() { global $page, $mibewroot;
 				threadTag: "<?php echo $page['coreStyles.threadTag']; ?>",
 				visitorTag: "<?php echo $page['coreStyles.visitorTag']; ?>",
 
-				agentLink: "<?php echo $mibewroot ?>/operator/agent.php",
+				agentLink: "<?php echo MIBEW_WEB_ROOT ?>/operator/agent.php",
 				geoLink: "<?php echo $page['geoLink']; ?>",
-				trackedLink: "<?php echo $mibewroot ?>/operator/tracked.php",
-				banLink: "<?php echo $mibewroot ?>/operator/ban.php",
-				inviteLink: "<?php echo $mibewroot ?>/operator/invite.php",
+				trackedLink: "<?php echo MIBEW_WEB_ROOT ?>/operator/tracked.php",
+				banLink: "<?php echo MIBEW_WEB_ROOT ?>/operator/ban.php",
+				inviteLink: "<?php echo MIBEW_WEB_ROOT ?>/operator/invite.php",
 
 				chatWindowParams: "<?php echo $page['chatStyles.chatWindowParams']; ?>",
 				geoWindowParams: "<?php echo $page['geoWindowParams'];?>",
@@ -129,7 +129,7 @@ function tpl_header() { global $page, $mibewroot;
 <?php
 }
 
-function tpl_content() { global $page, $mibewroot;
+function tpl_content() { global $page;
 ?>
 
 <div>

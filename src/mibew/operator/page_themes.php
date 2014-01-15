@@ -40,7 +40,7 @@ $screenshots = array();
 foreach($style_config['screenshots'] as $name => $desc) {
 	$screenshots[] = array(
 		'name' => $name,
-		'file' => $mibewroot . '/' . $preview_style->filesPath()
+		'file' => MIBEW_WEB_ROOT . '/' . $preview_style->filesPath()
 			. '/screenshots/' . $name . '.png',
 		'description' => $desc
 	);

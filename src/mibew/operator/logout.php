@@ -20,6 +20,6 @@ require_once(MIBEW_FS_ROOT.'/libs/operator.php');
 
 logout_operator();
 
-header("Location: $mibewroot/operator/login.php");
+header("Location: " . MIBEW_WEB_ROOT . "/operator/login.php");
 exit;
 ?>

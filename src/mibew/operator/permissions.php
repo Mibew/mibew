@@ -57,7 +57,7 @@ if (!$op) {
 		if ($opId && $_SESSION[$session_prefix."operator"] && $operator['operatorid'] == $opId) {
 			$_SESSION[$session_prefix."operator"]['iperm'] = $new_permissions;
 		}
-		header("Location: $mibewroot/operator/permissions.php?op=" . intval($opId) . "&stored");
+		header("Location: " . MIBEW_WEB_ROOT . "/operator/permissions.php?op=" . intval($opId) . "&stored");
 		exit;
 	}
 

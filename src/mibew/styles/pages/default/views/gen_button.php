@@ -17,7 +17,7 @@
 
 require_once(dirname(__FILE__).'/inc_menu.php');
 
-function tpl_content() { global $page, $mibewroot, $errors;
+function tpl_content() { global $page, $errors;
 ?>
 
 <?php echo getlocal("page.gen_button.intro") ?>
@@ -27,7 +27,7 @@ function tpl_content() { global $page, $mibewroot, $errors;
 require_once(dirname(__FILE__).'/inc_errors.php');
 ?>
 
-<form name="buttonCodeForm" method="get" action="<?php echo $mibewroot ?>/operator/getcode.php">
+<form name="buttonCodeForm" method="get" action="<?php echo MIBEW_WEB_ROOT ?>/operator/getcode.php">
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
 	<div class="fieldForm">

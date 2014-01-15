@@ -43,7 +43,7 @@ class PageStyle extends Style implements StyleInterface {
 	public function render($template_name) {
 		// We need to import some variables to make them visible to required
 		// view.
-		global $page, $mibewroot, $version, $errors;
+		global $page, $version, $errors;
 
 		// Prepare to output html
 		start_html_output();

@@ -484,8 +484,6 @@ function append_query($link, $pv)
  * an associative array with folloing keys:
  *  - 'requested_page': string, page where login check was failed.
  *
- * @global string $mibewroot Path of the mibew instalation from server root.
- * It defined in libs/config.php
  * @global string $session_prefix Use as prefix for all session variables to
  * allow many instalation of the mibew messenger at one server. It defined in
  * libs/common/constants.php
@@ -496,7 +494,7 @@ function append_query($link, $pv)
  * null otherwise.
  */
 function check_login($redirect = true) {
-	global $mibewroot, $session_prefix;
+	global $session_prefix;
 	if (!isset($_SESSION[$session_prefix."operator"])) {
 		if (isset($_COOKIE[REMEMBER_OPERATOR_COOKIE_NAME])) {
 			list($login, $pwd) = preg_split('/\x0/', base64_decode($_COOKIE[REMEMBER_OPERATOR_COOKIE_NAME]), 2);
@@ -521,7 +519,7 @@ function check_login($redirect = true) {
 		// Redirect operator if need
 		if ($redirect) {
 			$_SESSION['backpath'] = $requested;
-			header("Location: $mibewroot/operator/login.php");
+			header("Location: " . MIBEW_WEB_ROOT . "/operator/login.php");
 			exit;
 		} else {
 			return null;
@@ -533,9 +531,8 @@ function check_login($redirect = true) {
 // Force the admin to set a password after the installation
 function force_password($operator)
 {
-	global $mibewroot;
 	if (check_password_hash($operator['vclogin'], $operator['vcpassword'], '')) {
-		header("Location: $mibewroot/operator/operator.php?op=1");
+		header("Location: " . MIBEW_WEB_ROOT . "/operator/operator.php?op=1");
 		exit;
 	}
 }
@@ -554,8 +551,6 @@ function get_logged_in()
  *  - 'operator': array of the logged in operator info;
  *  - 'remember': boolean, indicates if system should remember operator.
  *
- * @global string $mibewroot Path of the mibew instalation from server root.
- * It defined in libs/config.php
  * @global string $session_prefix Use as prefix for all session variables to
  * allow many instalation of the mibew messenger at one server. It defined in
  * libs/common/constants.php
@@ -565,14 +560,14 @@ function get_logged_in()
  * @param boolean $https Indicates if cookie should be flagged as a secure one
  */
 function login_operator($operator, $remember, $https = FALSE) {
-	global $mibewroot, $session_prefix;
+	global $session_prefix;
 	$_SESSION[$session_prefix."operator"] = $operator;
 	if ($remember) {
 		$value = base64_encode($operator['vclogin'] . "\x0" . calculate_password_hash($operator['vclogin'], $operator['vcpassword']));
-		setcookie(REMEMBER_OPERATOR_COOKIE_NAME, $value, time() + 60 * 60 * 24 * 1000, "$mibewroot/", NULL, $https, TRUE);
+		setcookie(REMEMBER_OPERATOR_COOKIE_NAME, $value, time() + 60 * 60 * 24 * 1000, MIBEW_WEB_ROOT . "/", NULL, $https, TRUE);
 
 	} else if (isset($_COOKIE[REMEMBER_OPERATOR_COOKIE_NAME])) {
-		setcookie(REMEMBER_OPERATOR_COOKIE_NAME, '', time() - 3600, "$mibewroot/");
+		setcookie(REMEMBER_OPERATOR_COOKIE_NAME, '', time() - 3600, MIBEW_WEB_ROOT . "/");
 	}
 
 	// Trigger login event
@@ -589,18 +584,16 @@ function login_operator($operator, $remember, $https = FALSE) {
  *
  * Triggers 'operatorLogout' event after operator logged out.
  *
- * @global string $mibewroot Path of the mibew instalation from server root.
- * It defined in libs/config.php
  * @global string $session_prefix Use as prefix for all session variables to
  * allow many instalation of the mibew messenger at one server. It defined in
  * libs/common/constants.php
  */
 function logout_operator() {
-	global $mibewroot, $session_prefix;
+	global $session_prefix;
 	unset($_SESSION[$session_prefix."operator"]);
 	unset($_SESSION['backpath']);
 	if (isset($_COOKIE[REMEMBER_OPERATOR_COOKIE_NAME])) {
-		setcookie(REMEMBER_OPERATOR_COOKIE_NAME, '', time() - 3600, "$mibewroot/");
+		setcookie(REMEMBER_OPERATOR_COOKIE_NAME, '', time() - 3600, MIBEW_WEB_ROOT . "/");
 	}
 
 	// Trigger logout event
@@ -610,7 +603,7 @@ function logout_operator() {
 
 function setup_redirect_links($threadid, $operator, $token)
 {
-	global $page, $mibewroot;
+	global $page;
 
 	$operator_in_isolation = in_isolation($operator);
 
@@ -648,7 +641,7 @@ function setup_redirect_links($threadid, $operator, $token)
 						: getlocal("char.redirect.operator.away_suff")
 				)
 				: "";
-		$agent_list .= "<li><a href=\"" . add_params($mibewroot . "/operator/redirect.php", $params) .
+		$agent_list .= "<li><a href=\"" . add_params(MIBEW_WEB_ROOT . "/operator/redirect.php", $params) .
 					   "\" title=\"" . topage(get_operator_name($agent)) . "\">" .
 					   topage(get_operator_name($agent)) .
 					   "</a> $status</li>";
@@ -665,7 +658,7 @@ function setup_redirect_links($threadid, $operator, $token)
 					: ($group['ilastseenaway'] !== NULL && $group['ilastseenaway'] < Settings::get('online_timeout')
 							? getlocal("char.redirect.operator.away_suff")
 							: "");
-			$group_list .= "<li><a href=\"" . add_params($mibewroot . "/operator/redirect.php", $params) .
+			$group_list .= "<li><a href=\"" . add_params(MIBEW_WEB_ROOT . "/operator/redirect.php", $params) .
 						   "\" title=\"" . topage(get_group_name($group)) . "\">" .
 						   topage(get_group_name($group)) .
 						   "</a> $status</li>";

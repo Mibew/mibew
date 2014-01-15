@@ -19,28 +19,28 @@ if(isset($page) && isset($page['localeLinks'])) {
 	require_once(dirname(__FILE__).'/inc_locales.php');
 }
 
-function tpl_header() { global $page, $mibewroot;
+function tpl_header() { global $page;
 	if($page['soundcheck']) {
 ?>
 
 <!-- External libs -->
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/jquery.min.js"></script>
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/json2.js"></script>
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/underscore-min.js"></script>
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/backbone-min.js"></script>
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/backbone.marionette.min.js"></script>
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/libs/handlebars.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/json2.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/underscore-min.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/backbone-min.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/backbone.marionette.min.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/handlebars.js"></script>
 
 <!-- Default application files -->
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/compiled/mibewapi.js"></script>
-<script type="text/javascript" src="<?php echo $mibewroot ?>/js/compiled/default_app.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/compiled/mibewapi.js"></script>
+<script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/compiled/default_app.js"></script>
 
-<script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/compiled/soundcheck.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/compiled/soundcheck.js"></script>
 <?php
 	}
 }
 
-function tpl_content() { global $page, $mibewroot, $errors;
+function tpl_content() { global $page, $errors;
 ?>
 <?php echo getlocal("install.message") ?>
 <br/>
@@ -74,7 +74,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 <?php } ?>
 
 <br/>
-<a href="<?php echo $mibewroot ?>/license.php"><?php echo getlocal("install.license") ?></a>
+<a href="<?php echo MIBEW_WEB_ROOT ?>/license.php"><?php echo getlocal("install.license") ?></a>
 
 
 <?php 
