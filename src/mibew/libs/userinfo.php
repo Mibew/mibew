@@ -20,10 +20,10 @@ use Mibew\Settings;
 
 function get_useragent_version($userAgent)
 {
-	global $knownAgents;
-	if (is_array($knownAgents)) {
+	$known_agents = get_known_user_agents();
+	if (is_array($known_agents)) {
 		$userAgent = strtolower($userAgent);
-		foreach ($knownAgents as $agent) {
+		foreach ($known_agents as $agent) {
 			if (strstr($userAgent, $agent)) {
 				if (preg_match("/" . $agent . "[\\s\/]?(\\d+(\\.\\d+(\\.\\d+(\\.\\d+)?)?)?)/", $userAgent, $matches)) {
 					$ver = $matches[1];

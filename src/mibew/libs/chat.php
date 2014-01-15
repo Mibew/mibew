@@ -78,13 +78,11 @@ function is_ajax_browser($browserid, $ver, $useragent)
 	return false;
 }
 
-$knownAgents = array("opera", "msie", "chrome", "safari", "firefox", "netscape", "mozilla");
-
 function get_remote_level($useragent)
 {
-	global $knownAgents;
+	$known_agents = get_known_user_agents();
 	$useragent = strtolower($useragent);
-	foreach ($knownAgents as $agent) {
+	foreach ($known_agents as $agent) {
 		if (strstr($useragent, $agent)) {
 			if (preg_match("/" . $agent . "[\\s\/]?(\\d+(\\.\\d+)?)/", $useragent, $matches)) {
 				$ver = $matches[1];
@@ -99,6 +97,23 @@ function get_remote_level($useragent)
 		}
 	}
 	return "ajaxed";
+}
+
+/**
+ * Returns a list of known user agents code names.
+ *
+ * @return array List of known user agents
+ */
+function get_known_user_agents() {
+	return array(
+		"opera",
+		"msie",
+		"chrome",
+		"safari",
+		"firefox",
+		"netscape",
+		"mozilla"
+	);
 }
 
 function is_agent_opera95()
