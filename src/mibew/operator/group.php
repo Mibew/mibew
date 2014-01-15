@@ -253,7 +253,7 @@ $page['title'] = getlocal("page.group.title");
 $page['menuid'] = "groups";
 
 prepare_menu($operator);
-setup_group_settings_tabs($groupid, 0);
+$page['tabs'] = setup_group_settings_tabs($groupid, 0);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('group');

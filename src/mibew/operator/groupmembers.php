@@ -96,7 +96,7 @@ $page['title'] = getlocal("page.groupmembers.title");
 $page['menuid'] = "groups";
 
 prepare_menu($operator);
-setup_group_settings_tabs($groupid, 1);
+$page['tabs'] = setup_group_settings_tabs($groupid, 1);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('groupmembers');

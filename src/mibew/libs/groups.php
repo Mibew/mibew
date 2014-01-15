@@ -39,17 +39,25 @@ function get_group_name($group)
 		return $group['vccommonname'];
 }
 
-function setup_group_settings_tabs($gid, $active)
-{
-	global $page;
+/**
+ * Builds list of group settings tabs. The keys are tabsa titles and the values
+ * are tabs URLs.
+ *
+ * @param int $gid Group ID
+ * @param int $active Number of the active tab.
+ * @return array Tabs list
+ */
+function setup_group_settings_tabs($gid, $active) {
+	$tabs = array();
+
 	if ($gid) {
-		$page['tabs'] = array(
+		$tabs = array(
 			getlocal("page_group.tab.main") => $active != 0 ? (MIBEW_WEB_ROOT . "/operator/group.php?gid=$gid") : "",
 			getlocal("page_group.tab.members") => $active != 1 ? (MIBEW_WEB_ROOT . "/operator/groupmembers.php?gid=$gid") : "",
 		);
-	} else {
-		$page['tabs'] = array();
 	}
+
+	return $tabs;
 }
 
 function get_operator_groupslist($operatorid)
