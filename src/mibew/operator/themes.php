@@ -59,7 +59,7 @@ $page['title'] = getlocal("page.preview.title");
 $page['menuid'] = "settings";
 
 prepare_menu($operator);
-setup_settings_tabs(4);
+$page['tabs'] = setup_settings_tabs(4);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('themes');
