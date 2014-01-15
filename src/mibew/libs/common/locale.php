@@ -190,9 +190,6 @@ function load_messages($locale) {
 /**
  * Read and parse locale file.
  *
- * @global string $mibew_encoding Internal Mibew encoding. Defined in
- * libs/config.php.
- *
  * @param string $path Locale file path
  * @return array Associative array with following keys:
  *  - 'encoding': string, one of service field from locale file, determines
@@ -210,10 +207,8 @@ function load_messages($locale) {
  *    value in libs/config.php).
  */
 function read_locale_file($path) {
-	global $mibew_encoding;
-
 	// Set default values
-	$current_encoding = $mibew_encoding;
+	$current_encoding = MIBEW_ENCODING;
 	$output_encoding = null;
 	$messages = array();
 
@@ -234,12 +229,12 @@ function read_locale_file($path) {
 				$current_encoding = trim($value);
 			} else if ($key == 'output_encoding') {
 				$output_encoding = trim($value);
-			} else if ($current_encoding == $mibew_encoding) {
+			} else if ($current_encoding == MIBEW_ENCODING) {
 				$messages[$key] = str_replace("\\n", "\n", trim($value));
 			} else {
 				$messages[$key] = myiconv(
 					$current_encoding,
-					$mibew_encoding,
+					MIBEW_ENCODING,
 					str_replace("\\n", "\n", trim($value))
 				);
 			}
@@ -256,10 +251,10 @@ function read_locale_file($path) {
 
 function getoutputenc()
 {
-	global $current_locale, $output_encoding, $mibew_encoding, $messages;
+	global $current_locale, $output_encoding, $messages;
 	if (!isset($messages[$current_locale]))
 		load_messages($current_locale);
-	return isset($output_encoding[$current_locale]) ? $output_encoding[$current_locale] : $mibew_encoding;
+	return isset($output_encoding[$current_locale]) ? $output_encoding[$current_locale] : MIBEW_ENCODING;
 }
 
 function getstring_($text, $locale)
@@ -286,14 +281,13 @@ function getstring($text)
 
 function getlocal($text)
 {
-	global $current_locale, $mibew_encoding;
-	return myiconv($mibew_encoding, getoutputenc(), getstring_($text, $current_locale));
+	global $current_locale;
+	return myiconv(MIBEW_ENCODING, getoutputenc(), getstring_($text, $current_locale));
 }
 
 function getlocal_($text, $locale)
 {
-	global $mibew_encoding;
-	return myiconv($mibew_encoding, getoutputenc(), getstring_($text, $locale));
+	return myiconv(MIBEW_ENCODING, getoutputenc(), getstring_($text, $locale));
 }
 
 function getstring2_($text, $params, $locale)
@@ -313,8 +307,8 @@ function getstring2($text, $params)
 
 function getlocal2($text, $params)
 {
-	global $current_locale, $mibew_encoding;
-	$string = myiconv($mibew_encoding, getoutputenc(), getstring_($text, $current_locale));
+	global $current_locale;
+	$string = myiconv(MIBEW_ENCODING, getoutputenc(), getstring_($text, $current_locale));
 	for ($i = 0; $i < count($params); $i++) {
 		$string = str_replace("{" . $i . "}", $params[$i], $string);
 	}
@@ -324,8 +318,8 @@ function getlocal2($text, $params)
 /* prepares for Javascript string */
 function getlocalforJS($text, $params)
 {
-	global $current_locale, $mibew_encoding;
-	$string = myiconv($mibew_encoding, getoutputenc(), getstring_($text, $current_locale));
+	global $current_locale;
+	$string = myiconv(MIBEW_ENCODING, getoutputenc(), getstring_($text, $current_locale));
 	$string = str_replace("\"", "\\\"", str_replace("\n", "\\n", $string));
 	for ($i = 0; $i < count($params); $i++) {
 		$string = str_replace("{" . $i . "}", $params[$i], $string);

@@ -491,13 +491,10 @@ function setup_chatview_for_user(Thread $thread) {
 /**
  * Prepare some data for chat for operator
  *
- * @global string $mibew_encoding Current Mibew encoding
  * @param Thread $thread thread object
  * @return array Array of chat view data
  */
 function setup_chatview_for_operator(Thread $thread, $operator) {
-	global $mibew_encoding;
-
 	$data = setup_chatview($thread);
 
 	// Load JavaScript plugins and JavaScripts, CSS files required by them
@@ -564,7 +561,7 @@ function setup_chatview_for_operator(Thread $thread, $operator) {
 						: cutstring($answer['vcvalue'], 97, '...'))
 				),
 				'full' => myiconv(
-					$mibew_encoding,
+					MIBEW_ENCODING,
 					getoutputenc(),
 					$answer['vcvalue']
 				)
@@ -599,13 +596,12 @@ function ban_for_addr($addr)
 
 function visitor_from_request()
 {
-	global $mibew_encoding;
 	$defaultName = getstring("chat.default.username");
 	$userName = $defaultName;
 	if (isset($_COOKIE[USERNAME_COOKIE_NAME])) {
 		$data = base64_decode(strtr($_COOKIE[USERNAME_COOKIE_NAME], '-_,', '+/='));
 		if (strlen($data) > 0) {
-			$userName = myiconv("utf-8", $mibew_encoding, $data);
+			$userName = myiconv("utf-8", MIBEW_ENCODING, $data);
 		}
 	}
 

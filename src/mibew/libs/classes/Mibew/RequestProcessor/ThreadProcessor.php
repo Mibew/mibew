@@ -364,8 +364,6 @@ class ThreadProcessor extends ClientSideProcessor {
 	 * @throws \Mibew\RequestProcessor\ThreadProcessorException
 	 */
 	protected function apiRename($args) {
-		global $mibew_encoding;
-
 		// Check rename possibility
 		if( Settings::get('usercanchangename') != "1" ) {
 			throw new ThreadProcessorException(
@@ -383,7 +381,7 @@ class ThreadProcessor extends ClientSideProcessor {
 		//Rename user
 		$thread->renameUser($args['name']);
 		// Update user name in cookies
-		$data = strtr(base64_encode(myiconv($mibew_encoding,"utf-8",$args['name'])), '+/=', '-_,');
+		$data = strtr(base64_encode(myiconv(MIBEW_ENCODING,"utf-8",$args['name'])), '+/=', '-_,');
 		setcookie(USERNAME_COOKIE_NAME, $data, time()+60*60*24*365);
 	}
 

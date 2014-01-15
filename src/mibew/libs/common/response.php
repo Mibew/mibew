@@ -65,8 +65,7 @@ function start_js_output(){
 
 function topage($text)
 {
-	global $mibew_encoding;
-	return myiconv($mibew_encoding, getoutputenc(), $text);
+	return myiconv(MIBEW_ENCODING, getoutputenc(), $text);
 }
 
 /**

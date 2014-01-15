@@ -24,9 +24,8 @@ require_once(MIBEW_FS_ROOT.'/libs/common/locale.php');
 /* ajax server actions use utf-8 */
 function getrawparam($name)
 {
-	global $mibew_encoding;
 	if (isset($_POST[$name])) {
-		$value = myiconv("utf-8", $mibew_encoding, $_POST[$name]);
+		$value = myiconv("utf-8", MIBEW_ENCODING, $_POST[$name]);
 		if (get_magic_quotes_gpc()) {
 			$value = stripslashes($value);
 		}
@@ -38,9 +37,8 @@ function getrawparam($name)
 /* form processors use current Output encoding */
 function getparam($name)
 {
-	global $mibew_encoding;
 	if (isset($_POST[$name])) {
-		$value = myiconv(getoutputenc(), $mibew_encoding, $_POST[$name]);
+		$value = myiconv(getoutputenc(), MIBEW_ENCODING, $_POST[$name]);
 		if (get_magic_quotes_gpc()) {
 			$value = stripslashes($value);
 		}
@@ -51,11 +49,10 @@ function getparam($name)
 
 function getgetparam($name, $default = '')
 {
-	global $mibew_encoding;
 	if (!isset($_GET[$name]) || !$_GET[$name]) {
 		return $default;
 	}
-	$value = myiconv("utf-8", $mibew_encoding, unicode_urldecode($_GET[$name]));
+	$value = myiconv("utf-8", MIBEW_ENCODING, unicode_urldecode($_GET[$name]));
 	if (get_magic_quotes_gpc()) {
 		$value = stripslashes($value);
 	}

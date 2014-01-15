@@ -483,8 +483,6 @@ class UsersProcessor extends ClientSideProcessor {
 	/**
 	 * Return updated operators list. API function
 	 *
-	 * @global string $mibew_encoding Encoding for the current locale
-	 *
 	 * @param array $args Associative array of arguments. It must contains
 	 * following keys:
 	 *  - 'agentId': Id of the agent related to users window
@@ -493,8 +491,6 @@ class UsersProcessor extends ClientSideProcessor {
 	 *  - 'operators': array of online operators
 	 */
 	protected function apiUpdateOperators($args) {
-		global $mibew_encoding;
-
 		// Check access and get operators info
 		$operator = self::checkOperator($args['agentId']);
 
@@ -524,7 +520,7 @@ class UsersProcessor extends ClientSideProcessor {
 				'id' => (int)$item['operatorid'],
 				// Convert name to UTF-8
 				'name' => myiconv(
-					$mibew_encoding,
+					MIBEW_ENCODING,
 					"utf-8",
 					htmlspecialchars($item['vclocalename'])
 				),

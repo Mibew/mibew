@@ -57,10 +57,9 @@ function load_idlist($name)
 
 function save_message($locale, $key, $value)
 {
-	global $mibew_encoding;
 	$result = "";
 	$added = false;
-	$current_encoding = $mibew_encoding;
+	$current_encoding = MIBEW_ENCODING;
 	$fp = fopen(MIBEW_FS_ROOT."/locales/$locale/properties", "r");
 	if ($fp === FALSE) {
 		die("unable to open properties for locale $locale");
@@ -72,7 +71,7 @@ function save_message($locale, $key, $value)
 			if ($keyval[0] == 'encoding') {
 				$current_encoding = trim($keyval[1]);
 			} else if (!$added && $keyval[0] == $key) {
-				$line = "$key=" . myiconv($mibew_encoding, $current_encoding, str_replace("\r", "", str_replace("\n", "\\n", trim($value)))) . "\n";
+				$line = "$key=" . myiconv(MIBEW_ENCODING, $current_encoding, str_replace("\r", "", str_replace("\n", "\\n", trim($value)))) . "\n";
 				$added = true;
 			}
 		}
@@ -80,7 +79,7 @@ function save_message($locale, $key, $value)
 	}
 	fclose($fp);
 	if (!$added) {
-		$result .= "$key=" . myiconv($mibew_encoding, $current_encoding, str_replace("\r", "", str_replace("\n", "\\n", trim($value)))) . "\n";
+		$result .= "$key=" . myiconv(MIBEW_ENCODING, $current_encoding, str_replace("\r", "", str_replace("\n", "\\n", trim($value)))) . "\n";
 	}
 	$fp = @fopen(MIBEW_FS_ROOT."/locales/$locale/properties", "w");
 	if ($fp !== FALSE) {
@@ -100,7 +99,7 @@ function save_message($locale, $key, $value)
 		$remoteHost = isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $extAddr;
 
 		fwrite($fp, "# " . date(DATE_RFC822) . " by $remoteHost using $userbrowser\n");
-		fwrite($fp, "$key=" . myiconv($mibew_encoding, $current_encoding, str_replace("\r", "", str_replace("\n", "\\n", trim($value)))) . "\n");
+		fwrite($fp, "$key=" . myiconv(MIBEW_ENCODING, $current_encoding, str_replace("\r", "", str_replace("\n", "\\n", trim($value)))) . "\n");
 		fclose($fp);
 	}
 }
