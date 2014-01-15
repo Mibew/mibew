@@ -29,7 +29,7 @@ $mysqlprefix = preg_replace('/[^A-Za-z0-9_$]/', '', $mysqlprefix);
 
 // test and set default locales
 $default_locale = locale_pattern_check($default_locale) && locale_exists($default_locale) ? $default_locale : 'en';
-$home_locale = locale_pattern_check($home_locale) && locale_exists($home_locale) ? $default_locale : 'en';
+$home_locale = locale_pattern_check($home_locale) && locale_exists($home_locale) ? $home_locale : 'en';
 
 $locale_cookie_name = 'mibew_locale';
 
