@@ -181,7 +181,7 @@ $page['title'] = getlocal("statistics.title");
 $page['menuid'] = "statistics";
 
 prepare_menu($operator);
-setup_statistics_tabs($activetab);
+$page['tabs'] = setup_statistics_tabs($activetab);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('statistics');

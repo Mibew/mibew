@@ -32,16 +32,24 @@ function get_statistics_query($type)
 	return $query;
 }
 
-function setup_statistics_tabs($active)
-{
-	global $page;
-	$page['tabs'] = array(
+/**
+ * Builds list of the statistics tabs. The keys of the resulting array are
+ * tabs titles and the values are tabs URLs.
+ *
+ * @param int $active Number of the active tab. The count starts from 0.
+ * @return array Tabs list
+ */
+function setup_statistics_tabs($active) {
+	$tabs = array(
 		getlocal("report.bydate.title") => $active != 0 ? (MIBEW_WEB_ROOT . "/operator/statistics.php".get_statistics_query('bydate')) : "",
 		getlocal("report.byoperator.title") => $active != 1 ? (MIBEW_WEB_ROOT . "/operator/statistics.php".get_statistics_query('byagent')) : ""
 	);
+
 	if (Settings::get('enabletracking')) {
-		$page['tabs'][getlocal("report.bypage.title")] = ($active != 2 ? (MIBEW_WEB_ROOT . "/operator/statistics.php".get_statistics_query('bypage')) : "");
+		$tabs[getlocal("report.bypage.title")] = ($active != 2 ? (MIBEW_WEB_ROOT . "/operator/statistics.php".get_statistics_query('bypage')) : "");
 	}
+
+	return $tabs;
 }
 
 /**
