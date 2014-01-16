@@ -61,7 +61,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 			<div class="fleftlabel">&nbsp;</div>
 			<div class="fvalue">
 				<label>
-					<input type="checkbox" name="isRemember" value="on"<?php echo form_value_cb('isRemember') ? " checked=\"checked\"" : "" ?> />
+					<input type="checkbox" name="isRemember" value="on"<?php echo form_value_cb($page, 'isRemember') ? " checked=\"checked\"" : "" ?> />
 					<?php echo getlocal("page_login.remember") ?></label>
 			</div>
 			<br clear="all"/>

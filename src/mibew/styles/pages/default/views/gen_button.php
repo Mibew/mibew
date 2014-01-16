@@ -84,7 +84,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="fieldinrow">
 			<label for="hostname" class="flabel"><?php echo getlocal("page.gen_button.include_site_name") ?></label>
 			<div class="fvaluenodesc">
-				<input id="hostname" type="checkbox" name="hostname" value="on"<?php echo form_value_cb('hostname') ? " checked=\"checked\"" : "" ?> onchange="this.form.submit();"/>
+				<input id="hostname" type="checkbox" name="hostname" value="on"<?php echo form_value_cb($page, 'hostname') ? " checked=\"checked\"" : "" ?> onchange="this.form.submit();"/>
 			</div>
 		</div>
 
@@ -93,7 +93,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="fieldinrow">
 			<label for="secure" class="flabel"><?php echo getlocal("page.gen_button.secure_links") ?></label>
 			<div class="fvaluenodesc">
-				<input id="secure" type="checkbox" name="secure" value="on"<?php echo form_value_cb('secure') ? " checked=\"checked\"" : "" ?> onchange="this.form.submit();"/>
+				<input id="secure" type="checkbox" name="secure" value="on"<?php echo form_value_cb($page, 'secure') ? " checked=\"checked\"" : "" ?> onchange="this.form.submit();"/>
 			</div>
 		</div>
 <?php } ?>
@@ -102,7 +102,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="modsecurity" class="flabel"><?php echo getlocal("page.gen_button.modsecurity") ?></label>
 			<div class="fvaluenodesc">
-				<input id="modsecurity" type="checkbox" name="modsecurity" value="on"<?php echo form_value_cb('modsecurity') ? " checked=\"checked\"" : "" ?> onchange="this.form.submit();"/>
+				<input id="modsecurity" type="checkbox" name="modsecurity" value="on"<?php echo form_value_cb($page, 'modsecurity') ? " checked=\"checked\"" : "" ?> onchange="this.form.submit();"/>
 			</div>
 		</div>
 

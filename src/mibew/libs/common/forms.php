@@ -29,11 +29,18 @@ function form_value($page, $name) {
 	return "";
 }
 
-function form_value_cb($key)
-{
-	global $page;
-	if (isset($page) && isset($page["form$key"]))
-		return $page["form$key"] === true;
+/**
+ * Checks if a form variable is true.
+ *
+ * @param array $page The page array. All form variables are prefixed with
+ * "form" string.
+ * @param string $name Form variable name.
+ * @return boolean Returns TRUE only if specified form variable is set, has boolean type
+ * and equals to TRUE. In all other cases returns FALSE.
+ */
+function form_value_cb($page, $name) {
+	if (!empty($page) && isset($page["form$name"]))
+		return $page["form$name"] === true;
 	return false;
 }
 
