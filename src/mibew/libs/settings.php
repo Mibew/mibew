@@ -22,7 +22,8 @@ use Mibew\Settings;
  * Builds list of the system settings tabs. The keys of the resulting array are
  * tabs titles and the values are tabs URLs.
  *
- * @param int $active Number of the active tab
+ * @param int $active Number of the active tab. The count starts from 0.
+ * @return array Tabs list
  */
 function setup_settings_tabs($active) {
 	$tabs = array(

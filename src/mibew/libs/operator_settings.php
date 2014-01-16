@@ -20,8 +20,9 @@
  * Builds list of operator settings tabs. The keys of the resulting array are
  * tabs titles and the values are tabs URLs.
  *
- * @param int $operator_id ID of the operator whose settings page uis displayed
- * @param int $active Number of the active tab
+ * @param int $operator_id ID of the operator whose settings page is displayed.
+ * @param int $active Number of the active tab. The count starts from 0.
+ * @return array Tabs list
  */
 function setup_operator_settings_tabs($operator_id, $active) {
 	$tabs = array();

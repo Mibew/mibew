@@ -40,11 +40,11 @@ function get_group_name($group)
 }
 
 /**
- * Builds list of group settings tabs. The keys are tabsa titles and the values
+ * Builds list of group settings tabs. The keys are tabs titles and the values
  * are tabs URLs.
  *
- * @param int $gid Group ID
- * @param int $active Number of the active tab.
+ * @param int $gid ID of the group whose settings page is displayed.
+ * @param int $active Number of the active tab. The count starts from 0.
  * @return array Tabs list
  */
 function setup_group_settings_tabs($gid, $active) {
