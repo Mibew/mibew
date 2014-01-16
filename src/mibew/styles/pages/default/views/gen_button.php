@@ -34,14 +34,14 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="fieldinrow">
 			<label for="lang" class="flabel"><?php echo getlocal("page.gen_button.choose_locale") ?></label>
 			<div class="fvaluenodesc">
-				<select id="lang" name="lang" onchange="this.form.submit();"><?php foreach($page['availableLocales'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("lang") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+				<select id="lang" name="lang" onchange="this.form.submit();"><?php foreach($page['availableLocales'] as $k) { echo "<option value=\"".$k."\"".($k == form_value($page, "lang") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			</div>
 		</div>
 
 		<div class="fieldinrow">
 			<label for="style" class="flabel"><?php echo getlocal("page.gen_button.choose_style") ?></label>
 			<div class="fvaluenodesc">
-				<select id="style" name="style" onchange="this.form.submit();"><?php foreach($page['availableChatStyles'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("style") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
+				<select id="style" name="style" onchange="this.form.submit();"><?php foreach($page['availableChatStyles'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value($page, "style") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
 			</div>
 		</div>
 		<br clear="all"/>
@@ -49,7 +49,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="fieldinrow">
 			<label for="codetype" class="flabel"><?php echo getlocal("page.gen_button.choose_type") ?></label>
 			<div class="fvaluenodesc">
-				<select id="codetype" name="codetype" onchange="this.form.submit();"><?php foreach($page['availableCodeTypes'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("codetype") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
+				<select id="codetype" name="codetype" onchange="this.form.submit();"><?php foreach($page['availableCodeTypes'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value($page, "codetype") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
 			</div>
 		</div>
 		<br clear="all"/>
@@ -58,7 +58,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="fieldinrow">
 			<label for="i" class="flabel"><?php echo getlocal("page.gen_button.choose_image") ?></label>
 			<div class="fvaluenodesc">
-				<select id="i" name="i" onchange="this.form.submit();"><?php foreach($page['availableImages'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("image") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+				<select id="i" name="i" onchange="this.form.submit();"><?php foreach($page['availableImages'] as $k) { echo "<option value=\"".$k."\"".($k == form_value($page, "image") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			</div>
 		</div>
 
@@ -66,7 +66,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="fieldinrow">
 			<label for="invitationstyle" class="flabel"><?php echo getlocal("page.gen_button.choose_invitationstyle") ?></label>
 			<div class="fvaluenodesc">
-				<select id="invitationstyle" name="invitationstyle" onchange="this.form.submit();"><?php foreach($page['availableInvitationStyles'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("invitationstyle") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
+				<select id="invitationstyle" name="invitationstyle" onchange="this.form.submit();"><?php foreach($page['availableInvitationStyles'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value($page, "invitationstyle") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
 			</div>
 		</div>
 <?php } ?>
@@ -76,7 +76,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="fieldinrow">
 			<label for="group" class="flabel"><?php echo getlocal("page.gen_button.choose_group") ?></label>
 			<div class="fvaluenodesc">
-				<select id="group" name="group" onchange="this.form.submit();"><?php foreach($page['groups'] as $k) { echo "<option value=\"".$k['groupid']."\"".($k['groupid'] == form_value("group") ? " selected=\"selected\"" : "").">".str_repeat('&nbsp;', $k['level']*2).$k['vclocalname']."</option>"; } ?></select>
+				<select id="group" name="group" onchange="this.form.submit();"><?php foreach($page['groups'] as $k) { echo "<option value=\"".$k['groupid']."\"".($k['groupid'] == form_value($page, "group") ? " selected=\"selected\"" : "").">".str_repeat('&nbsp;', $k['level']*2).$k['vclocalname']."</option>"; } ?></select>
 			</div>
 		</div>
 		<br clear="all"/>

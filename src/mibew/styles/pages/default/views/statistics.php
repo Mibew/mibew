@@ -41,15 +41,15 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 			<div class="fvaluenodesc">
 				<div class="searchctrl">
 					<label for="startday"><?php echo getlocal("statistics.from") ?></label>
-					<select id="startday" name="startday"><?php foreach($page['availableDays'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("startday") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+					<select id="startday" name="startday"><?php foreach($page['availableDays'] as $k) { echo "<option value=\"".$k."\"".($k == form_value($page, "startday") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			
-					<select name="startmonth"><?php foreach($page['availableMonth'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("startmonth") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
+					<select name="startmonth"><?php foreach($page['availableMonth'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value($page, "startmonth") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
 				</div>
 				<div class="searchctrl">
 					<label for="endday"><?php echo getlocal("statistics.till") ?></label>
-					<select id="endday" name="endday"><?php foreach($page['availableDays'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("endday") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+					<select id="endday" name="endday"><?php foreach($page['availableDays'] as $k) { echo "<option value=\"".$k."\"".($k == form_value($page, "endday") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			
-					<select name="endmonth"><?php foreach($page['availableMonth'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value("endmonth") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
+					<select name="endmonth"><?php foreach($page['availableMonth'] as $k => $v) { echo "<option value=\"".$k."\"".($k == form_value($page, "endmonth") ? " selected=\"selected\"" : "").">".$v."</option>"; } ?></select>
 				</div>
 				<div id="searchbutton">
 					<input type="image" name="search" src='<?php echo MIBEW_WEB_ROOT . getlocal("image.button.search") ?>' alt='<?php echo getlocal("button.search") ?>'/>

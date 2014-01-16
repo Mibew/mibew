@@ -40,7 +40,7 @@ function tpl_content() { global $page;
 		<div class="field">
 			<label for="preview" class="flabel"><?php echo getlocal("page.preview.choose") ?></label>
 			<div class="fvaluenodesc">
-				<select id="preview" name="preview" onchange="this.form.submit();"><?php foreach($page['availablePreviews'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("preview") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+				<select id="preview" name="preview" onchange="this.form.submit();"><?php foreach($page['availablePreviews'] as $k) { echo "<option value=\"".$k."\"".($k == form_value($page, "preview") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			</div>
 		</div>
 	</div>

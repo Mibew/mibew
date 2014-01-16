@@ -41,7 +41,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="email" class="flabel"><?php echo getlocal('settings.email') ?></label>
 			<div class="fvalue">
-				<input id="email" type="text" name="email" size="40" value="<?php echo form_value('email') ?>" class="formauth"/>
+				<input id="email" type="text" name="email" size="40" value="<?php echo form_value($page, 'email') ?>" class="formauth"/>
 			</div>
 			<label for="email" class="fdescr"> &mdash; <?php echo getlocal('settings.email.description') ?></label>
 			<br clear="all"/>
@@ -50,7 +50,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="titlefield" class="flabel"><?php echo getlocal('settings.company.title') ?></label>
 			<div class="fvalue">
-				<input id="titlefield" type="text" name="title" size="40" value="<?php echo form_value('title') ?>" class="formauth"/>
+				<input id="titlefield" type="text" name="title" size="40" value="<?php echo form_value($page, 'title') ?>" class="formauth"/>
 			</div>
 			<label for="titlefield" class="fdescr"> &mdash; <?php echo getlocal('settings.company.title.description') ?></label>
 			<br clear="all"/>
@@ -59,7 +59,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="chattitle" class="flabel"><?php echo getlocal('settings.chat.title') ?></label>
 			<div class="fvalue">
-				<input id="chattitle" type="text" name="chattitle" size="40" value="<?php echo form_value('chattitle') ?>" class="formauth"/>
+				<input id="chattitle" type="text" name="chattitle" size="40" value="<?php echo form_value($page, 'chattitle') ?>" class="formauth"/>
 			</div>
 			<label for="chattitle" class="fdescr"> &mdash; <?php echo getlocal('settings.chat.title.description') ?></label>
 			<br clear="all"/>
@@ -68,7 +68,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="logofield" class="flabel"><?php echo getlocal('settings.logo') ?></label>
 			<div class="fvalue">
-				<input id="logofield" type="text" name="logo" size="40" value="<?php echo form_value('logo') ?>" class="formauth"/>
+				<input id="logofield" type="text" name="logo" size="40" value="<?php echo form_value($page, 'logo') ?>" class="formauth"/>
 			</div>
 			<label for="logofield" class="fdescr"> &mdash; <?php echo getlocal('settings.logo.description') ?></label>
 			<br clear="all"/>
@@ -77,7 +77,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="hosturl" class="flabel"><?php echo getlocal('settings.host') ?></label>
 			<div class="fvalue">
-				<input id="hosturl" type="text" name="hosturl" size="40" value="<?php echo form_value('hosturl') ?>" class="formauth"/>
+				<input id="hosturl" type="text" name="hosturl" size="40" value="<?php echo form_value($page, 'hosturl') ?>" class="formauth"/>
 			</div>
 			<label for="hosturl" class="fdescr"> &mdash; <?php echo getlocal('settings.host.description') ?></label>
 			<br clear="all"/>
@@ -86,7 +86,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="geolink" class="flabel"><?php echo getlocal('settings.geolink') ?></label>
 			<div class="fvalue">
-				<input id="geolink" type="text" name="geolink" size="40" value="<?php echo form_value('geolink') ?>" class="formauth"/>
+				<input id="geolink" type="text" name="geolink" size="40" value="<?php echo form_value($page, 'geolink') ?>" class="formauth"/>
 			</div>
 			<label for="geolink" class="fdescr"> &mdash; <?php echo getlocal('settings.geolink.description') ?></label>
 			<br clear="all"/>
@@ -95,7 +95,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="geolinkparams" class="flabel"><?php echo getlocal('settings.geolinkparams') ?></label>
 			<div class="fvalue">
-				<input id="geolinkparams" type="text" name="geolinkparams" size="40" value="<?php echo form_value('geolinkparams') ?>" class="formauth"/>
+				<input id="geolinkparams" type="text" name="geolinkparams" size="40" value="<?php echo form_value($page, 'geolinkparams') ?>" class="formauth"/>
 			</div>
 			<label for="geolinkparams" class="fdescr"> &mdash; <?php echo getlocal('settings.geolinkparams.description') ?></label>
 			<br clear="all"/>
@@ -104,7 +104,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="usernamepattern" class="flabel"><?php echo getlocal('settings.usernamepattern') ?></label>
 			<div class="fvalue">
-				<input id="usernamepattern" type="text" name="usernamepattern" size="40" value="<?php echo form_value('usernamepattern') ?>" class="formauth"/>
+				<input id="usernamepattern" type="text" name="usernamepattern" size="40" value="<?php echo form_value($page, 'usernamepattern') ?>" class="formauth"/>
 			</div>
 			<label for="usernamepattern" class="fdescr"> &mdash; <?php echo getlocal('settings.usernamepattern.description') ?></label>
 			<br clear="all"/>
@@ -113,7 +113,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="cronkey" class="flabel"><?php echo getlocal('settings.cronkey') ?></label>
 			<div class="fvalue">
-				<input id="cronkey" type="text" name="cronkey" size="40" value="<?php echo form_value('cronkey') ?>" class="formauth"/>
+				<input id="cronkey" type="text" name="cronkey" size="40" value="<?php echo form_value($page, 'cronkey') ?>" class="formauth"/>
 			</div>
 			<label for="cronkey" class="fdescr"> &mdash; <?php echo getlocal2('settings.cronkey.description', array($page['cron_path'])) ?></label>
 			<br clear="all"/>
@@ -122,7 +122,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="page_style" class="flabel"><?php echo getlocal('settings.page_style') ?></label>
 			<div class="fvalue">
-				<select id="pages_style" name="page_style" ><?php foreach($page['availablePageStyles'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("pagestyle") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+				<select id="pages_style" name="page_style" ><?php foreach($page['availablePageStyles'] as $k) { echo "<option value=\"".$k."\"".($k == form_value($page, "pagestyle") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			</div>
 			<label for="page_style" class="fdescr"> &mdash; <?php echo getlocal('settings.page_style.description') ?></label>
 			<br clear="all"/>
@@ -131,7 +131,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="chat_style" class="flabel"><?php echo getlocal('settings.chatstyle') ?></label>
 			<div class="fvalue">
-				<select id="chat_style" name="chat_style" ><?php foreach($page['availableChatStyles'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("chatstyle") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+				<select id="chat_style" name="chat_style" ><?php foreach($page['availableChatStyles'] as $k) { echo "<option value=\"".$k."\"".($k == form_value($page, "chatstyle") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			</div>
 			<label for="chat_style" class="fdescr"> &mdash; <?php echo getlocal('settings.chatstyle.description') ?></label>
 			<br clear="all"/>
@@ -140,7 +140,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="invitation_style" class="flabel"><?php echo getlocal('settings.invitationstyle') ?></label>
 			<div class="fvalue">
-				<select id="invitation_style" name="invitation_style" ><?php foreach($page['availableInvitationStyles'] as $k) { echo "<option value=\"".$k."\"".($k == form_value("invitationstyle") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
+				<select id="invitation_style" name="invitation_style" ><?php foreach($page['availableInvitationStyles'] as $k) { echo "<option value=\"".$k."\"".($k == form_value($page, "invitationstyle") ? " selected=\"selected\"" : "").">".$k."</option>"; } ?></select>
 			</div>
 			<label for="invitation_style" class="fdescr"> &mdash; <?php echo getlocal('settings.invitationstyle.description') ?></label>
 			<br clear="all"/>
@@ -149,8 +149,8 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<div class="flabel"><?php echo getlocal('settings.sendmessagekey') ?></div>
 			<div class="fvaluenodesc">
-				<input id="sendmessagekeyenter" type="radio" name="sendmessagekey" value="enter" <?php echo form_value("sendmessagekey") == "enter" ? " checked=\"checked\"" : ""?>/><label for="sendmessagekeyenter">Enter</label>
-				<input id="sendmessagekeycenter" type="radio" name="sendmessagekey" value="center" <?php echo form_value("sendmessagekey") == "center" ? " checked=\"checked\"" : ""?>/><label for="sendmessagekeycenter">Ctrl-Enter</label>
+				<input id="sendmessagekeyenter" type="radio" name="sendmessagekey" value="enter" <?php echo form_value($page, "sendmessagekey") == "enter" ? " checked=\"checked\"" : ""?>/><label for="sendmessagekeyenter">Enter</label>
+				<input id="sendmessagekeycenter" type="radio" name="sendmessagekey" value="center" <?php echo form_value($page, "sendmessagekey") == "center" ? " checked=\"checked\"" : ""?>/><label for="sendmessagekeycenter">Ctrl-Enter</label>
 			</div>
 		</div>
 

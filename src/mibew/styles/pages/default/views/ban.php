@@ -54,7 +54,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="address" class="flabel"><?php echo getlocal('form.field.address') ?><span class="required">*</span></label>
 			<div class="fvalue">
-				<input id="address" type="text" name="address" size="40" value="<?php echo form_value('address') ?>" class="formauth"/>
+				<input id="address" type="text" name="address" size="40" value="<?php echo form_value($page, 'address') ?>" class="formauth"/>
 			</div>
 			<label for="address" class="fdescr"> &mdash; <?php echo getlocal('form.field.address.description') ?></label>
 			<br clear="all"/>
@@ -63,7 +63,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="days" class="flabel"><?php echo getlocal('form.field.ban_days') ?><span class="required">*</span></label>
 			<div class="fvalue">
-				<input id="days" type="text" name="days" size="4" value="<?php echo form_value('days') ?>" class="formauth"/>
+				<input id="days" type="text" name="days" size="4" value="<?php echo form_value($page, 'days') ?>" class="formauth"/>
 			</div>
 			<label for="days" class="fdescr"> &mdash; <?php echo getlocal('form.field.ban_days.description') ?></label>
 			<br clear="all"/>
@@ -72,7 +72,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="comment" class="flabel"><?php echo getlocal('form.field.ban_comment') ?><span class="required">*</span></label>
 			<div class="fvalue">
-				<input id="comment" type="text" name="comment" size="40" value="<?php echo form_value('comment') ?>" class="formauth"/>
+				<input id="comment" type="text" name="comment" size="40" value="<?php echo form_value($page, 'comment') ?>" class="formauth"/>
 			</div>
 			<label for="comment" class="fdescr"> &mdash; <?php echo getlocal('form.field.ban_comment.description') ?></label>
 			<br clear="all"/>

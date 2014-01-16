@@ -32,22 +32,22 @@ function tpl_content() { global $page;
 			<label for="q" class="flabel"><?php echo getlocal("page_analysis.full.text.search") ?></label>
 			<div class="fvaluenodesc">
 				<div id="searchtext">
-					<input id="q" type="text" name="q" size="60" value="<?php echo form_value('q') ?>" class="formauth"/>
+					<input id="q" type="text" name="q" size="60" value="<?php echo form_value($page, 'q') ?>" class="formauth"/>
 				</div>
 				<div class="searchctrl">
 					<label for="type"><?php echo getlocal("page_search.type.title") ?></label>
 					<select id="type" name="type" onchange="if (this.value == 'all' || this.value == 'message') {document.getElementById('inSystemMessages').style.display='inline'} else {document.getElementById('inSystemMessages').style.display='none'}; ">
-						<option value="all" <?php echo (form_value('type') == 'all')?'selected="selected"':'' ?>><?php echo getlocal("page_search.type.all") ?></option>
-						<option value="message" <?php echo (form_value('type') == 'message')?'selected="selected"':'' ?>><?php echo getlocal("page_search.type.message") ?></option>
-						<option value="operator" <?php echo (form_value('type') == 'operator')?'selected="selected"':'' ?>><?php echo getlocal("page_search.type.operator") ?></option>
-						<option value="visitor" <?php echo (form_value('type') == 'visitor')?'selected="selected"':'' ?>><?php echo getlocal("page_search.type.visitor") ?></option>
+						<option value="all" <?php echo (form_value($page, 'type') == 'all')?'selected="selected"':'' ?>><?php echo getlocal("page_search.type.all") ?></option>
+						<option value="message" <?php echo (form_value($page, 'type') == 'message')?'selected="selected"':'' ?>><?php echo getlocal("page_search.type.message") ?></option>
+						<option value="operator" <?php echo (form_value($page, 'type') == 'operator')?'selected="selected"':'' ?>><?php echo getlocal("page_search.type.operator") ?></option>
+						<option value="visitor" <?php echo (form_value($page, 'type') == 'visitor')?'selected="selected"':'' ?>><?php echo getlocal("page_search.type.visitor") ?></option>
 					</select>
 				</div>
 				<div id="searchbutton">
 					<input type="image" name="search" src='<?php echo MIBEW_WEB_ROOT . getlocal("image.button.search") ?>' alt='<?php echo getlocal("button.search") ?>'/>
 				</div><br clear="all"/>
-				<div class="searchctrl" id="inSystemMessages"<?php echo ((form_value('type') != 'all' && form_value('type') != 'message')?' style="display: none;"':'')?>>
-					<input id="insystemmessagesfield" type="checkbox" name="insystemmessages" <?php echo (form_value('insystemmessages')?'checked="checked"':'') ?>/> <label for="insystemmessagesfield"><?php echo getlocal("page_search.search.type.in_system_messages") ?></label>
+				<div class="searchctrl" id="inSystemMessages"<?php echo ((form_value($page, 'type') != 'all' && form_value($page, 'type') != 'message')?' style="display: none;"':'')?>>
+					<input id="insystemmessagesfield" type="checkbox" name="insystemmessages" <?php echo (form_value($page, 'insystemmessages')?'checked="checked"':'') ?>/> <label for="insystemmessagesfield"><?php echo getlocal("page_search.search.type.in_system_messages") ?></label>
 				</div>
 			</div>
 			<br clear="all"/>

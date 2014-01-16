@@ -44,7 +44,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<div class="fleftlabel"><?php echo getlocal("page_login.login") ?></div>
 			<div class="fvalue">
-				<input type="text" name="login" size="25" value="<?php echo form_value('login') ?>" class="formauth"/>
+				<input type="text" name="login" size="25" value="<?php echo form_value($page, 'login') ?>" class="formauth"/>
 			</div>
 			<br clear="all"/>
 		</div>

@@ -41,7 +41,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<?php echo getlocal("page.groups.sort") ?><br/>
 		<select name="sortby" onchange="this.form.submit();"><?php
 			foreach($page['availableOrders'] as $k) {
-				echo "<option value=\"".$k['id']."\"".($k['id'] == form_value("sortby") ? " selected=\"selected\"" : "").">".$k['name']."</option>";
+				echo "<option value=\"".$k['id']."\"".($k['id'] == form_value($page, "sortby") ? " selected=\"selected\"" : "").">".$k['name']."</option>";
 			} ?></select>
 	</div>
 
@@ -49,7 +49,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<?php echo getlocal("page.groups.sortdirection") ?><br/>
 		<select name="sortdirection" onchange="this.form.submit();"><?php
 			foreach($page['availableDirections'] as $k) {
-				echo "<option value=\"".$k['id']."\"".($k['id'] == form_value("sortdirection") ? " selected=\"selected\"" : "").">".$k['name']."</option>";
+				echo "<option value=\"".$k['id']."\"".($k['id'] == form_value($page, "sortdirection") ? " selected=\"selected\"" : "").">".$k['name']."</option>";
 			} ?></select>
 	</div>
 

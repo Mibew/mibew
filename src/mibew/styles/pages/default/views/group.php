@@ -54,7 +54,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="name" class="flabel"><?php echo getlocal('form.field.groupname') ?><span class="required">*</span></label>
 			<div class="fvalue">
-				<input id="name" type="text" name="name" size="40" value="<?php echo form_value('name') ?>" class="formauth"/>
+				<input id="name" type="text" name="name" size="40" value="<?php echo form_value($page, 'name') ?>" class="formauth"/>
 			</div>
 			<label for="name" class="fdescr"> &mdash; <?php echo getlocal('form.field.groupname.description') ?></label>
 			<br clear="all"/>
@@ -63,7 +63,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="description" class="flabel"><?php echo getlocal('form.field.groupdesc') ?></label>
 			<div class="fvalue">
-				<input id="description" type="text" name="description" size="40" value="<?php echo form_value('description') ?>" class="formauth"/>
+				<input id="description" type="text" name="description" size="40" value="<?php echo form_value($page, 'description') ?>" class="formauth"/>
 			</div>
 			<label for="description" class="fdescr"> &mdash; <?php echo getlocal('form.field.groupdesc.description') ?></label>
 			<br clear="all"/>
@@ -72,7 +72,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="commonname" class="flabel"><?php echo getlocal('form.field.groupcommonname') ?></label>
 			<div class="fvalue">
-				<input id="commonname" type="text" name="commonname" size="40" value="<?php echo form_value('commonname') ?>" class="formauth"/>
+				<input id="commonname" type="text" name="commonname" size="40" value="<?php echo form_value($page, 'commonname') ?>" class="formauth"/>
 			</div>
 			<label for="commonname" class="fdescr"> &mdash; <?php echo getlocal('form.field.groupcommonname.description') ?></label>
 			<br clear="all"/>
@@ -81,7 +81,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="commondescription" class="flabel"><?php echo getlocal('form.field.groupcommondesc') ?></label>
 			<div class="fvalue">
-				<input id="commondescription" type="text" name="commondescription" size="40" value="<?php echo form_value('commondescription') ?>" class="formauth"/>
+				<input id="commondescription" type="text" name="commondescription" size="40" value="<?php echo form_value($page, 'commondescription') ?>" class="formauth"/>
 			</div>
 			<label for="commondescription" class="fdescr"> &mdash; <?php echo getlocal('form.field.groupcommondesc.description') ?></label>
 			<br clear="all"/>
@@ -90,7 +90,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="email" class="flabel"><?php echo getlocal('form.field.mail') ?></label>
 			<div class="fvalue">
-				<input id="email" type="text" name="email" size="40" value="<?php echo form_value('email') ?>" class="formauth"/>
+				<input id="email" type="text" name="email" size="40" value="<?php echo form_value($page, 'email') ?>" class="formauth"/>
 			</div>
 			<label for="email" class="fdescr"> &mdash; <?php echo getlocal('form.field.groupemail.description') ?></label>
 			<br clear="all"/>
@@ -99,7 +99,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="weight" class="flabel"><?php echo getlocal('form.field.groupweight') ?></label>
 			<div class="fvalue">
-				<input id="weight" type="text" name="weight" size="40" value="<?php echo form_value('weight') ?>" class="formauth"/>
+				<input id="weight" type="text" name="weight" size="40" value="<?php echo form_value($page, 'weight') ?>" class="formauth"/>
 			</div>
 			<label for="weight" class="fdescr"> &mdash; <?php echo getlocal('form.field.groupweight.description') ?></label>
 			<br clear="all"/>
@@ -108,7 +108,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="parentgroup" class="flabel"><?php echo getlocal('form.field.groupparent') ?></label>
 			<div class="fvalue">
-				<select name="parentgroup" id="parentgroup"><?php foreach($page['availableParentGroups'] as $k) { echo "<option value=\"".$k['groupid']."\"".($k['groupid'] == form_value("parentgroup") ? " selected=\"selected\"" : "").">".str_repeat('&nbsp;', $k['level']*2).$k['vclocalname']."</option>"; } ?></select>
+				<select name="parentgroup" id="parentgroup"><?php foreach($page['availableParentGroups'] as $k) { echo "<option value=\"".$k['groupid']."\"".($k['groupid'] == form_value($page, "parentgroup") ? " selected=\"selected\"" : "").">".str_repeat('&nbsp;', $k['level']*2).$k['vclocalname']."</option>"; } ?></select>
 			</div>
 			<label for="parentgroup" class="fdescr"> &mdash; <?php echo getlocal('form.field.groupparent.description') ?></label>
 			<br clear="all"/>
@@ -120,7 +120,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 			<div class="field">
 				<label for="titlefield" class="flabel"><?php echo getlocal('settings.company.title') ?></label>
 				<div class="fvalue">
-					<input id="titlefield" type="text" name="title" size="40" value="<?php echo form_value('title') ?>" class="formauth"/>
+					<input id="titlefield" type="text" name="title" size="40" value="<?php echo form_value($page, 'title') ?>" class="formauth"/>
 				</div>
 				<label for="titlefield" class="fdescr"> &mdash; <?php echo getlocal('settings.company.title.description') ?></label>
 				<br clear="all"/>
@@ -129,7 +129,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 			<div class="field">
 				<label for="chattitle" class="flabel"><?php echo getlocal('settings.chat.title') ?></label>
 				<div class="fvalue">
-					<input id="chattitle" type="text" name="chattitle" size="40" value="<?php echo form_value('chattitle') ?>" class="formauth"/>
+					<input id="chattitle" type="text" name="chattitle" size="40" value="<?php echo form_value($page, 'chattitle') ?>" class="formauth"/>
 				</div>
 				<label for="chattitle" class="fdescr"> &mdash; <?php echo getlocal('settings.chat.title') ?></label>
 				<br clear="all"/>
@@ -138,7 +138,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 			<div class="field">
 				<label for="logofield" class="flabel"><?php echo getlocal('settings.logo') ?></label>
 				<div class="fvalue">
-					<input id="logofield" type="text" name="logo" size="40" value="<?php echo form_value('logo') ?>" class="formauth"/>
+					<input id="logofield" type="text" name="logo" size="40" value="<?php echo form_value($page, 'logo') ?>" class="formauth"/>
 				</div>
 				<label for="logofield" class="fdescr"> &mdash; <?php echo getlocal('settings.logo.description') ?></label>
 				<br clear="all"/>
@@ -147,7 +147,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 			<div class="field">
 				<label for="hosturl" class="flabel"><?php echo getlocal('settings.host') ?></label>
 				<div class="fvalue">
-					<input id="hosturl" type="text" name="hosturl" size="40" value="<?php echo form_value('hosturl') ?>" class="formauth"/>
+					<input id="hosturl" type="text" name="hosturl" size="40" value="<?php echo form_value($page, 'hosturl') ?>" class="formauth"/>
 				</div>
 				<label for="hosturl" class="fdescr"> &mdash; <?php echo getlocal('settings.host.description') ?></label>
 				<br clear="all"/>

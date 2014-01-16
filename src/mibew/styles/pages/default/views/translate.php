@@ -47,14 +47,14 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="original" class="flabel"><?php echo $page['title1'] ?></label>
 			<div class="fvaluenodesc">
-				<textarea id="original" name="original" disabled="disabled" cols="20" rows="5" class="wide"><?php echo form_value('original') ?></textarea>
+				<textarea id="original" name="original" disabled="disabled" cols="20" rows="5" class="wide"><?php echo form_value($page, 'original') ?></textarea>
 			</div>
 		</div>
 
 		<div class="field">
 			<label for="translation" class="flabel"><?php echo $page['title2'] ?></label>
 			<div class="fvaluenodesc">
-				<textarea id="translation" name="translation" cols="20" rows="5" class="wide"><?php echo form_value('translation') ?></textarea>
+				<textarea id="translation" name="translation" cols="20" rows="5" class="wide"><?php echo form_value($page, 'translation') ?></textarea>
 			</div>
 		</div>
 	

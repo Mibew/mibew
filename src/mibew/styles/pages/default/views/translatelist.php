@@ -32,12 +32,12 @@ function tpl_content() { global $page;
 		<?php echo getlocal("translate.direction") ?><br/>
 		<select name="source" onchange="this.form.submit();"><?php 
 			foreach($page['availableLocales'] as $k) { 
-				echo "<option value=\"".$k["id"]."\"".($k["id"] == form_value("source") ? " selected=\"selected\"" : "").">".$k["name"]."</option>";
+				echo "<option value=\"".$k["id"]."\"".($k["id"] == form_value($page, "source") ? " selected=\"selected\"" : "").">".$k["name"]."</option>";
 			} ?></select>
 		=&gt;
 		<select name="target" onchange="this.form.submit();"><?php 
 			foreach($page['availableLocales'] as $k) { 
-				echo "<option value=\"".$k["id"]."\"".($k["id"] == form_value("target") ? " selected=\"selected\"" : "").">".$k["name"]."</option>";
+				echo "<option value=\"".$k["id"]."\"".($k["id"] == form_value($page, "target") ? " selected=\"selected\"" : "").">".$k["name"]."</option>";
 			} ?></select>
 	</div>
 	
@@ -45,7 +45,7 @@ function tpl_content() { global $page;
 		<?php echo getlocal("translate.sort") ?><br/>
 		<select name="sort" onchange="this.form.submit();"><?php
 			foreach($page['availableOrders'] as $k) {
-				echo "<option value=\"".$k["id"]."\"".($k["id"] == form_value("sort") ? " selected=\"selected\"" : "").">".$k["name"]."</option>";
+				echo "<option value=\"".$k["id"]."\"".($k["id"] == form_value($page, "sort") ? " selected=\"selected\"" : "").">".$k["name"]."</option>";
 			} ?></select>
 	</div>
 	
@@ -53,7 +53,7 @@ function tpl_content() { global $page;
 		<?php echo getlocal("translate.show") ?><br/>
 		<select name="show" onchange="this.form.submit();"><?php 
 			foreach($page['showOptions'] as $k) { 
-				echo "<option value=\"".$k["id"]."\"".($k["id"] == form_value("show") ? " selected=\"selected\"" : "").">".$k["name"]."</option>";
+				echo "<option value=\"".$k["id"]."\"".($k["id"] == form_value($page, "show") ? " selected=\"selected\"" : "").">".$k["name"]."</option>";
 			} ?></select>
 	</div>
 	

@@ -83,7 +83,7 @@ function expand_var($matches)
 		}
 		return $message;
 	} else if ($prefix == 'form:') {
-		return form_value($var);
+		return form_value($page, $var);
 	} else if ($prefix == 'page:' || $prefix == 'pagejs:') {
 		$message = isset($flatten_page[$var]) ? $flatten_page[$var] : "";
 		return ($prefix == 'pagejs:') ? json_encode($message) : $message;

@@ -15,11 +15,17 @@
  * limitations under the License.
  */
 
-function form_value($key)
-{
-	global $page;
-	if (isset($page) && isset($page["form$key"]))
-		return htmlspecialchars($page["form$key"]);
+/**
+ * Returns properly prepared value of a form variable.
+ *
+ * @param array $page The page array. All form variables are prefixed with
+ * "form" string.
+ * @param string $name Form variable name.
+ * @return string Value of a form variable.
+ */
+function form_value($page, $name) {
+	if (!empty($page) && isset($page["form$name"]))
+		return htmlspecialchars($page["form$name"]);
 	return "";
 }
 

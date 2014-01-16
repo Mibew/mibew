@@ -59,7 +59,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<div class="fleftlabel"><?php echo getlocal("restore.emailorlogin") ?></div>
 			<div class="fvalue">
-				<input type="text" name="loginoremail" size="25" value="<?php echo form_value('loginoremail') ?>" class="formauth"/>
+				<input type="text" name="loginoremail" size="25" value="<?php echo form_value($page, 'loginoremail') ?>" class="formauth"/>
 			</div>
 			<br clear="all"/>
 		</div>

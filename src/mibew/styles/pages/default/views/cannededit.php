@@ -50,14 +50,14 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<div class="field">
 			<label for="titlefield" class="flabel"><?php echo getlocal("canned.message_title") ?></label>
 			<div class="fvaluenodesc">
-				<input id="titlefield" type="text" name="title" class="wide" maxlength="100" value="<?php echo form_value('title') ?>"/>
+				<input id="titlefield" type="text" name="title" class="wide" maxlength="100" value="<?php echo form_value($page, 'title') ?>"/>
 			</div>
 		</div>
 
 		<div class="field">
 			<label for="message" class="flabel"><?php echo getlocal("cannededit.message") ?></label>
 			<div class="fvaluenodesc">
-				<textarea id="message" name="message" cols="20" rows="5" class="wide"><?php echo form_value('message') ?></textarea>
+				<textarea id="message" name="message" cols="20" rows="5" class="wide"><?php echo form_value($page, 'message') ?></textarea>
 			</div>
 		</div>
 	

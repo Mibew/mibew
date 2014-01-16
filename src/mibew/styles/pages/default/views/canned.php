@@ -35,7 +35,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<?php echo getlocal("canned.locale") ?><br/>
 		<select name="lang" onchange="this.form.submit();"><?php
 			foreach($page['locales'] as $k) {
-				echo "<option value=\"".$k["id"]."\"".($k["id"] == form_value("lang") ? " selected=\"selected\"" : "").">".$k["name"]."</option>";
+				echo "<option value=\"".$k["id"]."\"".($k["id"] == form_value($page, "lang") ? " selected=\"selected\"" : "").">".$k["name"]."</option>";
 			} ?></select>
 	</div>
 
@@ -43,7 +43,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 		<?php echo getlocal("canned.group") ?><br/>
 		<select name="group" onchange="this.form.submit();"><?php 
 			foreach($page['groups'] as $k) { 
-				echo "<option value=\"".$k["groupid"]."\"".($k["groupid"] == form_value("group") ? " selected=\"selected\"" : "").">".str_repeat('&nbsp', $k['level']*2).$k["vclocalname"]."</option>";
+				echo "<option value=\"".$k["groupid"]."\"".($k["groupid"] == form_value($page, "group") ? " selected=\"selected\"" : "").">".str_repeat('&nbsp', $k['level']*2).$k["vclocalname"]."</option>";
 			} ?></select>
 	</div>
 
@@ -56,8 +56,8 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 
 <div class="tabletool">
 	<img src="<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/images/buttons/createban.gif" border="0" alt=""/>
-	<a href="<?php echo MIBEW_WEB_ROOT ?>/operator/cannededit.php?lang=<?php echo form_value("lang") ?>&amp;group=<?php echo form_value("group")?>" target="_blank" 
-				onclick="this.newWindow = window.open('<?php echo MIBEW_WEB_ROOT ?>/operator/cannededit.php?lang=<?php echo form_value("lang") ?>&amp;group=<?php echo form_value("group")?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">
+	<a href="<?php echo MIBEW_WEB_ROOT ?>/operator/cannededit.php?lang=<?php echo form_value($page, "lang") ?>&amp;group=<?php echo form_value($page, "group")?>" target="_blank" 
+				onclick="this.newWindow = window.open('<?php echo MIBEW_WEB_ROOT ?>/operator/cannededit.php?lang=<?php echo form_value($page, "lang") ?>&amp;group=<?php echo form_value($page, "group")?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">
 		<?php echo getlocal("canned.add") ?>
 	</a>
 </div>
@@ -89,7 +89,7 @@ if( $page['pagination.items'] ) {
 		<td>
 			<a href="<?php echo MIBEW_WEB_ROOT ?>/operator/cannededit.php?key=<?php echo $localstr['id'] ?>" target="_blank" 
 				onclick="this.newWindow = window.open('<?php echo MIBEW_WEB_ROOT ?>/operator/cannededit.php?key=<?php echo $localstr['id'] ?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo getlocal("canned.actions.edit") ?></a>, 
-			<a href="<?php echo MIBEW_WEB_ROOT ?>/operator/canned.php?act=delete&amp;key=<?php echo $localstr['id'] ?>&amp;lang=<?php echo form_value("lang") ?>&amp;group=<?php echo form_value("group")?><?php print_csrf_token_in_url() ?>"><?php echo getlocal("canned.actions.del") ?></a>
+			<a href="<?php echo MIBEW_WEB_ROOT ?>/operator/canned.php?act=delete&amp;key=<?php echo $localstr['id'] ?>&amp;lang=<?php echo form_value($page, "lang") ?>&amp;group=<?php echo form_value($page, "group")?><?php print_csrf_token_in_url() ?>"><?php echo getlocal("canned.actions.del") ?></a>
 		</td>
 	</tr>
 <?php
