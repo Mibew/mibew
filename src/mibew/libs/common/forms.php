@@ -44,11 +44,20 @@ function form_value_cb($page, $name) {
 	return false;
 }
 
-function form_value_mb($key, $id)
-{
-	global $page;
-	if (isset($page) && isset($page["form$key"]) && is_array($page["form$key"])) {
-		return in_array($id, $page["form$key"]);
+
+/**
+ * Checks if form variable is array and has element with specified key.
+ *
+ * @param array $page The page array. All form variables are prefixed with
+ * "form" string.
+ * @param string $name Form variable name.
+ * @param string $key Key of the element to check.
+ * @return boolean Returns TRUE only if specified form variable is set, is an
+ * array has element with the specified key. In all other cases returns FALSE.
+ */
+function form_value_mb($page, $name, $key) {
+	if (!empty($page) && isset($page["form$name"]) && is_array($page["form$name"])) {
+		return in_array($key, $page["form$name"]);
 	}
 	return false;
 }

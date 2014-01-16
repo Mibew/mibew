@@ -45,7 +45,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 	<div class="field level<?php echo $pm['level'] ?>">
 		<label for="group<?php echo htmlspecialchars($pm['groupid']); ?>" class="flabel"><?php echo htmlspecialchars(topage($pm['vclocalname'])) ?></label>
 		<div class="fvalue">
-			<input id="group<?php echo htmlspecialchars($pm['groupid']); ?>" type="checkbox" name="group<?php echo htmlspecialchars($pm['groupid']); ?>" value="on"<?php echo form_value_mb('group',$pm['groupid']) ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+			<input id="group<?php echo htmlspecialchars($pm['groupid']); ?>" type="checkbox" name="group<?php echo htmlspecialchars($pm['groupid']); ?>" value="on"<?php echo form_value_mb($page, 'group',$pm['groupid']) ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 		</div>
 		<label for="group<?php echo htmlspecialchars($pm['groupid']); ?>" class="fdescr"> &mdash; <?php echo $pm['vclocaldescription'] ? htmlspecialchars(topage($pm['vclocaldescription'])) : getlocal("operator.group.no_description") ?></label>
 		<br clear="all"/>

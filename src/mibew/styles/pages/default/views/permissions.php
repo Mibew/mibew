@@ -43,7 +43,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 	</p>
 <?php foreach( $page['permissionsList'] as $pm ) { ?>
 	<label>
-		<input type="checkbox" name="permissions<?php echo $pm['id'] ?>" value="on"<?php echo form_value_mb('permissions',$pm['id']) ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/> <?php echo $pm['descr'] ?>
+		<input type="checkbox" name="permissions<?php echo $pm['id'] ?>" value="on"<?php echo form_value_mb($page, 'permissions',$pm['id']) ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/> <?php echo $pm['descr'] ?>
 	</label>
 	<br/>
 <?php } ?>
