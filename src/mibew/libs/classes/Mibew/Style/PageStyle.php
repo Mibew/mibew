@@ -37,10 +37,12 @@ class PageStyle extends Style implements StyleInterface {
 	/**
 	 * Renders template file to HTML and send it to the output
 	 *
-	 * @param string $template_name Name of the template file without path but
-	 * with extension
+	 * @param string $template_name Name of the template file with neither path
+	 * nor extension.
+	 * @param array $data Associative array of values that should be used for
+	 * substitutions in a template.
 	 */
-	public function render($template_name) {
+	public function render($template_name, $data = array()) {
 		// We need to import some variables to make them visible to required
 		// view.
 		global $page, $version, $errors;

@@ -37,10 +37,12 @@ class ChatStyle extends Style implements StyleInterface {
 	/**
 	 * Renders template file to HTML and send it to the output
 	 *
-	 * @param string $template_name Name of the template file without path and
-	 * extension
+	 * @param string $template_name Name of the template file with neither path
+	 * nor extension.
+	 * @param array $data Associative array of values that should be used for
+	 * substitutions in a template.
 	 */
-	public function render($template_name) {
+	public function render($template_name, $data = array()) {
 		$templates_root = MIBEW_FS_ROOT .
 			'/' . $this->filesPath() . '/templates/';
 		$full_template_name = $template_name . '.tpl';

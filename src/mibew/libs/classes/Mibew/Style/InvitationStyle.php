@@ -49,7 +49,7 @@ class InvitationStyle extends Style implements StyleInterface {
 	 * The method does not contain actual code because inviation styles are not
 	 * renderable now.
 	 */
-	public function render($template_name) {
+	public function render($template_name, $data = array()) {
 		return FALSE;
 	}
 
