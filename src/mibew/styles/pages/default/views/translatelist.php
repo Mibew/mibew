@@ -67,7 +67,7 @@ function tpl_content() { global $page;
 <?php 
 if( $page['pagination'] ) { 
 	if( $page['pagination.items'] ) { 
-		echo generate_pagination($page['pagination'], false);
+		echo generate_pagination($page['stylepath'], $page['pagination'], false);
 	}
 ?>
 
@@ -113,7 +113,7 @@ if( $page['pagination.items'] ) {
 <?php
 	if( $page['pagination.items'] ) { 
 		echo "<br/>";
-		echo generate_pagination($page['pagination']);
+		echo generate_pagination($page['stylepath'], $page['pagination']);
 	}
 } 
 ?>

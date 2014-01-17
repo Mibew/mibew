@@ -29,9 +29,16 @@ function generate_pagination_link($page, $title)
 	return "<a href=\"" . htmlspecialchars($href) . "\" class=\"pagelink\">$title</a>";
 }
 
-function generate_pagination_image($id, $alt)
-{
-	return "<img src=\"" . MIBEW_WEB_ROOT . "/images/$id.gif\" border=\"0\" alt=\"" . htmlspecialchars($alt) . "\"/>";
+/**
+ * Builds HTML markup for pagination image
+ *
+ * @param string $style_path Root path of the style
+ * @param string $id Name of the image with neither path nor extension.
+ * @param string $alt Value of an 'alt' atribute of the image tag.
+ * @return string HTML markup
+ */
+function generate_pagination_image($style_path, $id, $alt) {
+	return "<img src=\"" . $style_path . "/images/$id.gif\" border=\"0\" alt=\"" . htmlspecialchars($alt) . "\"/>";
 }
 
 function prepare_pagination($items_count, $default_items_per_page = 15)
@@ -127,7 +134,7 @@ function setup_empty_pagination()
 	$page['pagination'] = false;
 }
 
-function generate_pagination($pagination, $bottom = true)
+function generate_pagination($style_path, $pagination, $bottom = true)
 {
 	global $pagination_spacing, $links_on_page;
 	$result = getlocal2("tag.pagination.info",
@@ -146,7 +153,7 @@ function generate_pagination($pagination, $bottom = true)
 		$maxPage = min($curr_page + $links_on_page, $pagination['total']);
 
 		if ($curr_page > 1) {
-			$result .= generate_pagination_link($curr_page - 1, generate_pagination_image("prevpage", getlocal("tag.pagination.previous"))) . $pagination_spacing;
+			$result .= generate_pagination_link($curr_page - 1, generate_pagination_image($style_path, "prevpage", getlocal("tag.pagination.previous"))) . $pagination_spacing;
 		}
 
 		for ($i = $minPage; $i <= $maxPage; $i++) {
@@ -160,7 +167,7 @@ function generate_pagination($pagination, $bottom = true)
 		}
 
 		if ($curr_page < $pagination['total']) {
-			$result .= $pagination_spacing . generate_pagination_link($curr_page + 1, generate_pagination_image("nextpage", getlocal("tag.pagination.next")));
+			$result .= $pagination_spacing . generate_pagination_link($curr_page + 1, generate_pagination_image($style_path, "nextpage", getlocal("tag.pagination.next")));
 		}
 		$result .= "</div>";
 	}

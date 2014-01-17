@@ -47,6 +47,9 @@ class PageStyle extends Style implements StyleInterface {
 		// view.
 		global $page, $version, $errors;
 
+		// Add template root value to page variables
+		$page['stylepath'] = MIBEW_WEB_ROOT . '/' . $this->filesPath();
+
 		// Prepare to output html
 		start_html_output();
 

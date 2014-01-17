@@ -141,7 +141,10 @@ class ChatTemplateEngine {
 			} elseif ($var == 'styleid') {
 				return $this->styleName;
 			} elseif ($var == 'pagination') {
-				return generate_pagination($this->templateData['pagination']);
+				return generate_pagination(
+					MIBEW_WEB_ROOT . '/' . $this->stylePath,
+					$this->templateData['pagination']
+				);
 			} elseif ($var == 'errors' || $var == 'harderrors') {
 				if (
 					!empty($this->templateData['errors'])

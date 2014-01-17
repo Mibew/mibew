@@ -72,7 +72,7 @@ if( $page['pagination.items'] ) {
 <?php
 	if( $page['pagination.items'] ) { 
 		echo "<br/>";
-		echo generate_pagination($page['pagination']);
+		echo generate_pagination($page['stylepath'], $page['pagination']);
 	}
 } 
 ?>
