@@ -54,9 +54,9 @@ if (get_remote_level($_SERVER['HTTP_USER_AGENT']) == 'old') {
 	exit;
 }
 
-if (verifyparam("act", "/^(invitation)$/", "default") == 'invitation'
-	&& Settings::get('enabletracking')
-) {
+$action = verifyparam("act", "/^(invitation|mailthread)$/", "default");
+
+if ($action == 'invitation' && Settings::get('enabletracking')) {
 	// Check if user invited to chat
 	$invitation_state = invitation_state($_SESSION['visitorid']);
 
@@ -188,8 +188,7 @@ if (! $thread) {
 
 $page = setup_chatview_for_user($thread);
 
-$pparam = verifyparam( "act", "/^(mailthread)$/", "default");
-if( $pparam == "mailthread" ) {
+if($action == "mailthread") {
 	$chat_style->render('mail', $page);
 } else {
 	// Build js application options
