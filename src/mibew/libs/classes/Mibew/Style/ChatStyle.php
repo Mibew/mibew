@@ -19,11 +19,34 @@ namespace Mibew\Style;
 
 // Import namespaces and classes of the core
 use Mibew\Settings;
+use Mibew\TemplateEngine\ChatTemplateEngine;
 
 /**
  * Represents a chat style
  */
 class ChatStyle extends Style implements StyleInterface {
+
+	/**
+	 * Template engine for chat templates.
+	 * @var \Mibew\TemplateEngine\ChatTemplateEngine
+	 */
+	protected $templateEngine;
+
+	/**
+	 * Object constructor
+	 *
+	 * @param string $style_name Name of the style
+	 */
+	public function __construct($style_name) {
+		parent::__construct($style_name);
+
+		$this->templateEngine = new ChatTemplateEngine(
+			$this->filesPath(),
+			$this->name()
+		);
+	}
+
+
 	/**
 	 * Builds base path for style files. This path is relative Mibew root and
 	 * does not contain neither leading nor trailing slash.
@@ -43,11 +66,8 @@ class ChatStyle extends Style implements StyleInterface {
 	 * substitutions in a template.
 	 */
 	public function render($template_name, $data = array()) {
-		$templates_root = MIBEW_FS_ROOT .
-			'/' . $this->filesPath() . '/templates/';
-		$full_template_name = $template_name . '.tpl';
-
-		expand($this, $templates_root, $full_template_name);
+		start_html_output();
+		echo($this->templateEngine->render($template_name, $data));
 	}
 
 	/**

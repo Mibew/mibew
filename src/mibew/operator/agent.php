@@ -28,7 +28,6 @@ require_once(MIBEW_FS_ROOT.'/libs/chat.php');
 require_once(MIBEW_FS_ROOT.'/libs/groups.php');
 require_once(MIBEW_FS_ROOT.'/libs/operator.php');
 require_once(MIBEW_FS_ROOT.'/libs/pagination.php');
-require_once(MIBEW_FS_ROOT.'/libs/expand.php');
 
 $operator = check_login();
 
@@ -57,14 +56,16 @@ if (!isset($_GET['token'])) {
 	$remote_level = get_remote_level($_SERVER['HTTP_USER_AGENT']);
 	if ($remote_level != "ajaxed") {
 		$errors = array(getlocal("thread.error.old_browser"));
-		$chat_style->render('error');
+		$page['errors'] = $errors;
+		$chat_style->render('error', $page);
 		exit;
 	}
 
 	$thread = Thread::load($threadid);
 	if (!$thread || !isset($thread->lastToken)) {
 		$errors = array(getlocal("thread.error.wrong_thread"));
-		$chat_style->render('error');
+		$page['errors'] = $errors;
+		$chat_style->render('error', $page);
 		exit;
 	}
 
@@ -75,7 +76,8 @@ if (!isset($_GET['token'])) {
 
 		if (!is_capable(CAN_TAKEOVER, $operator)) {
 			$errors = array(getlocal("thread.error.cannot_take_over"));
-			$chat_style->render('error');
+			$page['errors'] = $errors;
+			$chat_style->render('error', $page);
 			exit;
 		}
 
@@ -94,12 +96,14 @@ if (!isset($_GET['token'])) {
 	if (!$viewonly) {
 		if(! $thread->take($operator)){
 			$errors = array(getlocal("thread.error.cannot_take"));
-			$chat_style->render('error');
+			$page['errors'] = $errors;
+			$chat_style->render('error', $page);
 			exit;
 		}
 	} else if (!is_capable(CAN_VIEWTHREADS, $operator)) {
 		$errors = array(getlocal("thread.error.cannot_view"));
-		$chat_style->render('error');
+		$page['errors'] = $errors;
+		$chat_style->render('error', $page);
 		exit;
 	}
 
@@ -117,7 +121,8 @@ if (!$thread) {
 
 if ($thread->agentId != $operator['operatorid'] && !is_capable(CAN_VIEWTHREADS, $operator)) {
 	$errors = array("Cannot view threads");
-	$chat_style->render('error');
+	$page['errors'] = $errors;
+	$chat_style->render('error', $page);
 	exit;
 }
 
@@ -131,12 +136,12 @@ start_html_output();
 $pparam = verifyparam("act", "/^(redirect)$/", "default");
 if ($pparam == "redirect") {
 	setup_redirect_links($threadid, $operator, $token);
-	$chat_style->render('redirect');
+	$chat_style->render('redirect', $page);
 } else {
 	// Build js application options
 	$page['chatOptions'] = json_encode($page['chat']);
-	// Expand page
-	$chat_style->render('chat');
+	// Render the page
+	$chat_style->render('chat', $page);
 }
 
 ?>

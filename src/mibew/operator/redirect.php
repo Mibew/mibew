@@ -24,7 +24,6 @@ use Mibew\Style\ChatStyle;
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(MIBEW_FS_ROOT.'/libs/operator.php');
 require_once(MIBEW_FS_ROOT.'/libs/chat.php');
-require_once(MIBEW_FS_ROOT.'/libs/expand.php');
 require_once(MIBEW_FS_ROOT.'/libs/groups.php');
 
 $operator = check_login();
@@ -118,11 +117,13 @@ $page = array_merge_recursive(
 	$page,
 	setup_logo()
 );
+$page['errors'] = $errors;
+
 
 if (count($errors) > 0) {
-	$chat_style->render('error');
+	$chat_style->render('error', $page);
 } else {
-	$chat_style->render('redirected');
+	$chat_style->render('redirected', $page);
 }
 
 ?>

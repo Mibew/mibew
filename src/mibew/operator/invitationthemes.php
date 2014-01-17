@@ -24,7 +24,6 @@ require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(MIBEW_FS_ROOT.'/libs/pagination.php');
 require_once(MIBEW_FS_ROOT.'/libs/operator.php');
 require_once(MIBEW_FS_ROOT.'/libs/groups.php');
-require_once(MIBEW_FS_ROOT.'/libs/expand.php');
 require_once(MIBEW_FS_ROOT.'/libs/settings.php');
 
 $operator = check_login();

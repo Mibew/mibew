@@ -23,7 +23,6 @@ use Mibew\Style\ChatStyle;
 // Initialize libraries
 require_once(dirname(__FILE__).'/libs/init.php');
 require_once(MIBEW_FS_ROOT.'/libs/chat.php');
-require_once(MIBEW_FS_ROOT.'/libs/expand.php');
 require_once(MIBEW_FS_ROOT.'/libs/groups.php');
 require_once(MIBEW_FS_ROOT.'/libs/notify.php');
 
@@ -59,7 +58,8 @@ if( count($errors) > 0 ) {
 		$page,
 		setup_logo($group)
 	);
-	$chat_style->render('mail');
+	$page['errors'] = $errors;
+	$chat_style->render('mail', $page);
 	exit;
 }
 
@@ -82,6 +82,7 @@ $page = array_merge_recursive(
 	$page,
 	setup_logo($group)
 );
-$chat_style->render('mailsent');
+$page['errors'] = $errors;
+$chat_style->render('mailsent', $page);
 exit;
 ?>

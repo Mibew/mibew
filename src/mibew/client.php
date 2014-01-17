@@ -25,7 +25,6 @@ require_once(dirname(__FILE__).'/libs/init.php');
 require_once(MIBEW_FS_ROOT.'/libs/chat.php');
 require_once(MIBEW_FS_ROOT.'/libs/operator.php');
 require_once(MIBEW_FS_ROOT.'/libs/groups.php');
-require_once(MIBEW_FS_ROOT.'/libs/expand.php');
 require_once(MIBEW_FS_ROOT.'/libs/captcha.php');
 require_once(MIBEW_FS_ROOT.'/libs/invitation.php');
 require_once(MIBEW_FS_ROOT.'/libs/track.php');
@@ -51,7 +50,7 @@ if (get_remote_level($_SERVER['HTTP_USER_AGENT']) == 'old') {
 	$page = array_merge_recursive(
 		setup_logo()
 	);
-	$chat_style->render('nochat');
+	$chat_style->render('nochat', $page);
 	exit;
 }
 
@@ -70,7 +69,7 @@ if (verifyparam("act", "/^(invitation)$/", "default") == 'invitation'
 		// Build js application options
 		$page['invitationOptions'] = json_encode($page['invitation']);
 		// Expand page
-		$chat_style->render('chat');
+		$chat_style->render('chat', $page);
 		exit;
 	}
 }
@@ -136,7 +135,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 				)
 			);
 			$page['leaveMessageOptions'] = json_encode($page['leaveMessage']);
-			$chat_style->render('chat');
+			$chat_style->render('chat', $page);
 			exit;
 		}
 
@@ -165,7 +164,7 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 				setup_survey($visitor['name'], $email, $groupid, $info, $referrer)
 			);
 			$page['surveyOptions'] = json_encode($page['survey']);
-			$chat_style->render('chat');
+			$chat_style->render('chat', $page);
 			exit;
 		}
 
@@ -191,12 +190,12 @@ $page = setup_chatview_for_user($thread);
 
 $pparam = verifyparam( "act", "/^(mailthread)$/", "default");
 if( $pparam == "mailthread" ) {
-	$chat_style->render('mail');
+	$chat_style->render('mail', $page);
 } else {
 	// Build js application options
 	$page['chatOptions'] = json_encode($page['chat']);
 	// Expand page
-	$chat_style->render('chat');
+	$chat_style->render('chat', $page);
 }
 
 ?>
