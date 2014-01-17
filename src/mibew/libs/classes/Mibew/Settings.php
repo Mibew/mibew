@@ -53,11 +53,8 @@ Class Settings {
 
 	/**
 	 * Settings class constructor. Set default values and load setting from database.
-	 * @global $default_cron_key Default value for cron security key. Defined
-	 * in libs/common/constants.php
 	 */
 	protected function __construct() {
-		global $default_cron_key;
 		// Set default values
 		$this->settings = array(
 			'dbversion' => 0,
@@ -107,7 +104,7 @@ Class Settings {
 			'invitation_lifetime' => 60, /* Lifetime for invitation to chat */
 			'tracking_lifetime' => 600, /* Time to store tracked old visitors' data */
 
-			'cron_key' => $default_cron_key,
+			'cron_key' => DEFAULT_CRON_KEY,
 
 			// System values are listed below. They cannot be changed via
 			// administrative interface. Start names for these values from
