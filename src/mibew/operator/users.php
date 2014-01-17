@@ -32,7 +32,7 @@ $status = isset($_GET['away']) ? 1 : 0;
 
 notify_operator_alive($operator['operatorid'], $status);
 
-$_SESSION[$session_prefix."operatorgroups"] = get_operator_groupslist($operator['operatorid']);
+$_SESSION[SESSION_PREFIX."operatorgroups"] = get_operator_groupslist($operator['operatorid']);
 
 $page = array();
 $page['havemenu'] = isset($_GET['nomenu']) ? "0" : "1";

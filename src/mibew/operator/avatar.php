@@ -78,8 +78,8 @@ if (!$op) {
 	if (count($errors) == 0) {
 		update_operator_avatar($op['operatorid'], $avatar);
 
-		if ($opId && $avatar && $_SESSION[$session_prefix."operator"] && $operator['operatorid'] == $opId) {
-			$_SESSION[$session_prefix."operator"]['vcavatar'] = $avatar;
+		if ($opId && $avatar && $_SESSION[SESSION_PREFIX."operator"] && $operator['operatorid'] == $opId) {
+			$_SESSION[SESSION_PREFIX."operator"]['vcavatar'] = $avatar;
 		}
 		header("Location: " . MIBEW_WEB_ROOT . "/operator/avatar.php?op=" . intval($opId));
 		exit;

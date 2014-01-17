@@ -377,7 +377,6 @@ function delete_operator($operator_id) {
  */
 function notify_operator_alive($operatorid, $istatus)
 {
-	global $session_prefix;
 	$db = Database::getInstance();
 	$db->query(
 		"update {chatoperator} set istatus = :istatus, dtmlastvisited = :now " .
@@ -388,9 +387,9 @@ function notify_operator_alive($operatorid, $istatus)
 			':operatorid' => $operatorid
 		)
 	);
-	if (isset($_SESSION[$session_prefix."operator"])) {
-		if ($_SESSION[$session_prefix."operator"]['operatorid'] == $operatorid) {
-			$_SESSION[$session_prefix."operator"]['istatus'] = $istatus;
+	if (isset($_SESSION[SESSION_PREFIX."operator"])) {
+		if ($_SESSION[SESSION_PREFIX."operator"]['operatorid'] == $operatorid) {
+			$_SESSION[SESSION_PREFIX."operator"]['istatus'] = $istatus;
 		}
 	}
 }
@@ -483,23 +482,18 @@ function append_query($link, $pv)
  * an associative array with folloing keys:
  *  - 'requested_page': string, page where login check was failed.
  *
- * @global string $session_prefix Use as prefix for all session variables to
- * allow many instalation of the mibew messenger at one server. It defined in
- * libs/common/constants.php
- *
  * @param boolean $redirect Indicates if operator should be redirected to
  * login page. Default value is true.
  * @return null|array Array with operator info if operator is logged in and
  * null otherwise.
  */
 function check_login($redirect = true) {
-	global $session_prefix;
-	if (!isset($_SESSION[$session_prefix."operator"])) {
+	if (!isset($_SESSION[SESSION_PREFIX."operator"])) {
 		if (isset($_COOKIE[REMEMBER_OPERATOR_COOKIE_NAME])) {
 			list($login, $pwd) = preg_split('/\x0/', base64_decode($_COOKIE[REMEMBER_OPERATOR_COOKIE_NAME]), 2);
 			$op = operator_by_login($login);
 			if ($op && isset($pwd) && isset($op['vcpassword']) && calculate_password_hash($op['vclogin'], $op['vcpassword']) == $pwd && !operator_is_disabled($op)) {
-				$_SESSION[$session_prefix."operator"] = $op;
+				$_SESSION[SESSION_PREFIX."operator"] = $op;
 				return $op;
 			}
 		}
@@ -524,7 +518,7 @@ function check_login($redirect = true) {
 			return null;
 		}
 	}
-	return $_SESSION[$session_prefix."operator"];
+	return $_SESSION[SESSION_PREFIX."operator"];
 }
 
 // Force the admin to set a password after the installation
@@ -538,8 +532,7 @@ function force_password($operator)
 
 function get_logged_in()
 {
-	global $session_prefix;
-	return isset($_SESSION[$session_prefix."operator"]) ? $_SESSION[$session_prefix."operator"] : FALSE;
+	return isset($_SESSION[SESSION_PREFIX."operator"]) ? $_SESSION[SESSION_PREFIX."operator"] : FALSE;
 }
 
 /**
@@ -550,17 +543,12 @@ function get_logged_in()
  *  - 'operator': array of the logged in operator info;
  *  - 'remember': boolean, indicates if system should remember operator.
  *
- * @global string $session_prefix Use as prefix for all session variables to
- * allow many instalation of the mibew messenger at one server. It defined in
- * libs/common/constants.php
- *
  * @param array $operator Operators info
  * @param boolean $remember Indicates if system should remember operator
  * @param boolean $https Indicates if cookie should be flagged as a secure one
  */
 function login_operator($operator, $remember, $https = FALSE) {
-	global $session_prefix;
-	$_SESSION[$session_prefix."operator"] = $operator;
+	$_SESSION[SESSION_PREFIX."operator"] = $operator;
 	if ($remember) {
 		$value = base64_encode($operator['vclogin'] . "\x0" . calculate_password_hash($operator['vclogin'], $operator['vcpassword']));
 		setcookie(REMEMBER_OPERATOR_COOKIE_NAME, $value, time() + 60 * 60 * 24 * 1000, MIBEW_WEB_ROOT . "/", NULL, $https, TRUE);
@@ -582,14 +570,9 @@ function login_operator($operator, $remember, $https = FALSE) {
  * Log out current operator
  *
  * Triggers 'operatorLogout' event after operator logged out.
- *
- * @global string $session_prefix Use as prefix for all session variables to
- * allow many instalation of the mibew messenger at one server. It defined in
- * libs/common/constants.php
  */
 function logout_operator() {
-	global $session_prefix;
-	unset($_SESSION[$session_prefix."operator"]);
+	unset($_SESSION[SESSION_PREFIX."operator"]);
 	unset($_SESSION['backpath']);
 	if (isset($_COOKIE[REMEMBER_OPERATOR_COOKIE_NAME])) {
 		setcookie(REMEMBER_OPERATOR_COOKIE_NAME, '', time() - 3600, MIBEW_WEB_ROOT . "/");

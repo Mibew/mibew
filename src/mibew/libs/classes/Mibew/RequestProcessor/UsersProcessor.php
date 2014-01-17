@@ -165,7 +165,6 @@ class UsersProcessor extends ClientSideProcessor {
 	/**
 	 * Return updated threads list. API function
 	 *
-	 * @global string $session_prefix Session vars prefix
 	 * @param array $args Associative array of arguments. It must contains
 	 * following keys:
 	 *  - 'agentId': Id of the agent related to users window
@@ -174,17 +173,15 @@ class UsersProcessor extends ClientSideProcessor {
 	 *  - 'threads': array of threads changes
 	 */
 	protected function apiUpdateThreads($args) {
-		global $session_prefix;
-
 		$operator = self::checkOperator($args['agentId']);
 
 		$since = $args['revision'];
 		// Get operator groups
-		if (!isset($_SESSION[$session_prefix."operatorgroups"])) {
-			$_SESSION[$session_prefix."operatorgroups"]
+		if (!isset($_SESSION[SESSION_PREFIX."operatorgroups"])) {
+			$_SESSION[SESSION_PREFIX."operatorgroups"]
 				= get_operator_groupslist($operator['operatorid']);
 		}
-		$groupids = $_SESSION[$session_prefix."operatorgroups"];
+		$groupids = $_SESSION[SESSION_PREFIX."operatorgroups"];
 
 		$db = Database::getInstance();
 		$query = "select t.*, " .

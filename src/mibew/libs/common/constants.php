@@ -34,7 +34,7 @@ $featuresversion = '2.0';
  * Prefix for session variables.
  * Provide an ability to instal several mibew instances on one server.
  */
-$session_prefix = md5($mysqlhost.'##'.$mysqldb.'##'.$mysqlprefix) . '_';
+define('SESSION_PREFIX', md5($mysqlhost.'##'.$mysqldb.'##'.$mysqlprefix) . '_');
 
 /**
  * Default value for cron security key.

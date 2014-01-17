@@ -54,8 +54,8 @@ if (!$op) {
 	if (count($errors) == 0) {
 		update_operator_permissions($op['operatorid'], $new_permissions);
 
-		if ($opId && $_SESSION[$session_prefix."operator"] && $operator['operatorid'] == $opId) {
-			$_SESSION[$session_prefix."operator"]['iperm'] = $new_permissions;
+		if ($opId && $_SESSION[SESSION_PREFIX."operator"] && $operator['operatorid'] == $opId) {
+			$_SESSION[SESSION_PREFIX."operator"]['iperm'] = $new_permissions;
 		}
 		header("Location: " . MIBEW_WEB_ROOT . "/operator/permissions.php?op=" . intval($opId) . "&stored");
 		exit;

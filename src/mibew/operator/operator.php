@@ -102,7 +102,7 @@ if ((isset($_POST['login']) || !is_capable(CAN_ADMINISTRATE, $operator)) && isse
 			// update the session password
 			if (!empty($password) && $opId == $operator['operatorid']) {
 				$toDashboard = check_password_hash($login, '', $operator['vcpassword']) && $password != '';
-				$_SESSION[$session_prefix."operator"]['vcpassword'] = calculate_password_hash($login, $password);
+				$_SESSION[SESSION_PREFIX."operator"]['vcpassword'] = calculate_password_hash($login, $password);
 				if($toDashboard) {
 					header("Location: " . MIBEW_WEB_ROOT . "/operator/index.php");
 					exit;
