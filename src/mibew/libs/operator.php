@@ -583,9 +583,8 @@ function logout_operator() {
 	$dispatcher->triggerEvent('operatorLogout');
 }
 
-function setup_redirect_links($threadid, $operator, $token)
-{
-	global $page;
+function setup_redirect_links($threadid, $operator, $token) {
+	$result = array();
 
 	$operator_in_isolation = in_isolation($operator);
 
@@ -607,7 +606,7 @@ function setup_redirect_links($threadid, $operator, $token)
 	}
 
 	$p = pagination_info(max($operatorscount, $groupscount), 8);
-	$page['pagination'] = $p;
+	$result['pagination'] = $p;
 
 	$operators = array_slice($operators, $p['start'], $p['end'] - $p['start']);
 	$groups = array_slice($groups, $p['start'], $p['end'] - $p['start']);
@@ -627,7 +626,7 @@ function setup_redirect_links($threadid, $operator, $token)
 					   topage(get_operator_name($agent)) .
 					   "</a> $status</li>";
 	}
-	$page['redirectToAgent'] = $agent_list;
+	$result['redirectToAgent'] = $agent_list;
 
 	$group_list = "";
 	if (Settings::get('enablegroups') == "1") {
@@ -645,7 +644,9 @@ function setup_redirect_links($threadid, $operator, $token)
 						   "</a> $status</li>";
 		}
 	}
-	$page['redirectToGroup'] = $group_list;
+	$result['redirectToGroup'] = $group_list;
+
+	return $result;
 }
 
 function get_permission_list()

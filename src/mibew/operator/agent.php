@@ -135,7 +135,10 @@ start_html_output();
 
 $pparam = verifyparam("act", "/^(redirect)$/", "default");
 if ($pparam == "redirect") {
-	setup_redirect_links($threadid, $operator, $token);
+	$page = array_merge_recursive(
+		$page,
+		setup_redirect_links($threadid, $operator, $token)
+	);
 	$chat_style->render('redirect', $page);
 } else {
 	// Build js application options
