@@ -84,7 +84,7 @@ $isrtl = getlocal("localedirection") == 'rtl';
    	<div class="empty_inner" style="">&#160;</div>
 </div>
 <div id="footer">
-	<p id="legal"><a href="http://mibew.org/" target="_blank" class="flink">Mibew Messenger</a> <?php echo $version ?> | (c) 2011-2013 mibew.org</p>
+	<p id="legal"><a href="http://mibew.org/" target="_blank" class="flink">Mibew Messenger</a> <?php echo MIBEW_VERSION ?> | (c) 2011-2013 mibew.org</p>
 </div>
 </body>
 </html>

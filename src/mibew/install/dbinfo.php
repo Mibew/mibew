@@ -288,9 +288,9 @@ $dbtables_can_update = array(
 
 function show_install_err($text)
 {
-	global $page, $version, $errors;
+	global $page, $errors;
 	$page = array(
-		'version' => $version,
+		'version' => MIBEW_VERSION,
 		'localeLinks' => get_locale_links(MIBEW_WEB_ROOT . "/install/index.php"),
 		'title' => getlocal("install.err.title"),
 		'no_right_menu' => true,

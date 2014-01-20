@@ -27,7 +27,7 @@ require_once(MIBEW_FS_ROOT.'/libs/notify.php');
 
 $errors = array();
 $page = array(
-	'version' => $version,
+	'version' => MIBEW_VERSION,
 	'title' => getlocal("restore.title"),
 	'headertitle' => getlocal("app.title"),
 	'show_small_login' => true,

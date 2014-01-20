@@ -32,7 +32,7 @@ function menuseparator() {
 	if(($menuItemsCount%3) == 0) { echo "</tr><tr>"; }
 }
 
-function tpl_content() { global $page, $current_locale, $menuItemsCount, $version;
+function tpl_content() { global $page, $current_locale, $menuItemsCount;
 ?>
 
 <br/>
@@ -44,7 +44,7 @@ function tpl_content() { global $page, $current_locale, $menuItemsCount, $versio
 <div id="formmessage"><?php echo getlocal2("install.updatedb",array($page['updateWizard'])) ?></div>
 <br/>
 <?php } else if($page['newFeatures']) { ?>
-<div><div id="formmessage"><?php echo getlocal2("install.newfeatures",array($page['featuresPage'], $version)) ?></div></div>
+<div><div id="formmessage"><?php echo getlocal2("install.newfeatures",array($page['featuresPage'], MIBEW_VERSION)) ?></div></div>
 <br/>
 <?php } ?>
 

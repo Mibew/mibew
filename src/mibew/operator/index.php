@@ -29,7 +29,7 @@ force_password($operator);
 $isonline = is_operator_online($operator['operatorid']);
 
 $page = array(
-	'version' => $version,
+	'version' => MIBEW_VERSION,
 	'localeLinks' => get_locale_links(MIBEW_WEB_ROOT . "/operator/index.php"),
 	'needUpdate' => Settings::get('dbversion') != DB_VERSION,
 	'needChangePassword' => check_password_hash($operator['vclogin'], '', $operator['vcpassword']),

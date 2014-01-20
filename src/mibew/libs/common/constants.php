@@ -18,7 +18,7 @@
 /**
  * Current version of Mibew Messenger
  */
-$version = '2.0';
+define('MIBEW_VERSION', '2.0');
 
 /**
  * Current version of database structure

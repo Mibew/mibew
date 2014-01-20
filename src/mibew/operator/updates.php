@@ -32,7 +32,7 @@ $errors = array();
 $page = array(
 	'localizations' => get_available_locales(),
 	'phpVersion' => phpversion(),
-	'version' => $version,
+	'version' => MIBEW_VERSION,
 	'title' => getlocal("updates.title"),
 	'menuid' => "updates",
 );

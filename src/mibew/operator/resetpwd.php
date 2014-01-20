@@ -26,7 +26,7 @@ require_once(MIBEW_FS_ROOT.'/libs/settings.php');
 
 $errors = array();
 $page = array(
-	'version' => $version,
+	'version' => MIBEW_VERSION,
 	'showform' => true,
 	'title' => getlocal("resetpwd.title"),
 	'headertitle' => getlocal("app.title"),

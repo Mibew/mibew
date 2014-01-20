@@ -23,7 +23,7 @@ require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(MIBEW_FS_ROOT.'/libs/operator.php');
 
 $errors = array();
-$page = array('formisRemember' => true, 'version' => $version);
+$page = array('formisRemember' => true, 'version' => MIBEW_VERSION);
 
 if (isset($_POST['login']) && isset($_POST['password'])) {
 	$login = getparam('login');
