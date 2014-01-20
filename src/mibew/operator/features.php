@@ -39,8 +39,8 @@ $options = array(
 	'enablepopupnotification', 'showonlineoperators',
 	'enablecaptcha');
 
-if (Settings::get('featuresversion') != $featuresversion) {
-	Settings::set('featuresversion',$featuresversion);
+if (Settings::get('featuresversion') != FEATURES_VERSION) {
+	Settings::set('featuresversion', FEATURES_VERSION);
 	Settings::update();
 }
 $params = array();

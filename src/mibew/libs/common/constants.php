@@ -28,7 +28,7 @@ define('DB_VERSION', '2.0');
 /**
  * Current version of implemented features
  */
-$featuresversion = '2.0';
+define('FEATURES_VERSION', '2.0');
 
 /**
  * Prefix for session variables.

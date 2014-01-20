@@ -35,7 +35,7 @@ $page = array(
 	'needChangePassword' => check_password_hash($operator['vclogin'], '', $operator['vcpassword']),
 	'profilePage' => MIBEW_WEB_ROOT . "/operator/operator.php?op=".$operator['operatorid'],
 	'updateWizard' => MIBEW_WEB_ROOT . "/install/",
-	'newFeatures' => Settings::get('featuresversion') != $featuresversion,
+	'newFeatures' => Settings::get('featuresversion') != FEATURES_VERSION,
 	'featuresPage' => MIBEW_WEB_ROOT . "/operator/features.php",
 	'isOnline' => $isonline,
 	'title' => getlocal("topMenu.admin"),
