@@ -23,7 +23,7 @@ $version = '2.0';
 /**
  * Current version of database structure
  */
-$dbversion = '2.0';
+define('DB_VERSION', '2.0');
 
 /**
  * Current version of implemented features

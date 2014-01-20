@@ -327,7 +327,7 @@ function add_canned_messages($link){
 
 function check_status()
 {
-	global $page, $dbversion, $mysqlprefix;
+	global $page, $mysqlprefix;
 
 	$page['done'][] = getlocal2("install.0.php", array(phpversion()));
 
@@ -379,7 +379,7 @@ function check_status()
 		mysql_query("insert into ${mysqlprefix}chatconfig (vckey) values ('dbversion')", $link);
 	}
 
-	mysql_query("update ${mysqlprefix}chatconfig set vcvalue = '{$dbversion}' where vckey='dbversion'", $link);
+	mysql_query("update ${mysqlprefix}chatconfig set vcvalue = '" . DB_VERSION . "' where vckey='dbversion'", $link);
 	mysql_close($link);
 
 }

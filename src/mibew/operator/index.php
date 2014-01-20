@@ -31,7 +31,7 @@ $isonline = is_operator_online($operator['operatorid']);
 $page = array(
 	'version' => $version,
 	'localeLinks' => get_locale_links(MIBEW_WEB_ROOT . "/operator/index.php"),
-	'needUpdate' => Settings::get('dbversion') != $dbversion,
+	'needUpdate' => Settings::get('dbversion') != DB_VERSION,
 	'needChangePassword' => check_password_hash($operator['vclogin'], '', $operator['vcpassword']),
 	'profilePage' => MIBEW_WEB_ROOT . "/operator/operator.php?op=".$operator['operatorid'],
 	'updateWizard' => MIBEW_WEB_ROOT . "/install/",
