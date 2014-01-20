@@ -76,8 +76,11 @@ if (isset($_GET['startday'])) {
 		$end = time() + 24 * 60 * 60;
 	}
 }
-set_form_date($start, "start");
-set_form_date($end - 24 * 60 * 60, "end");
+$page = array_merge(
+	$page,
+	set_form_date($start, "start"),
+	set_form_date($end - 24 * 60 * 60, "end")
+);
 
 if ($start > $end) {
 	$errors[] = getlocal("statistics.wrong.dates");

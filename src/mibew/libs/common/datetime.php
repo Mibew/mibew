@@ -56,11 +56,11 @@ function get_form_date($day, $month)
 	return 0;
 }
 
-function set_form_date($utime, $prefix)
-{
-	global $page;
-	$page["form${prefix}day"] = date("d", $utime);
-	$page["form${prefix}month"] = date("m.y", $utime);
+function set_form_date($utime, $prefix) {
+	return array(
+		"form${prefix}day" => date("d", $utime),
+		"form${prefix}month" => date("m.y", $utime)
+	);
 }
 
 function date_to_text($unixtime)
