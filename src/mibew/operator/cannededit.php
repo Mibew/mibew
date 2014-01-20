@@ -69,7 +69,10 @@ if (isset($_POST['message']) && isset($_POST['title'])) {
 			add_canned_message($page['locale'], $page['groupid'], $title, $message);
 		}
 		$page['saved'] = true;
-		prepare_menu($operator, false);
+		$page = array_merge(
+			$page,
+			prepare_menu($operator, false)
+		);
 		$page_style->render('cannededit');
 		exit;
 	}
@@ -81,7 +84,11 @@ $page['formtitle'] = topage($title);
 $page['formmessage'] = topage($message);
 $page['title'] = empty($stringid) ? getlocal("cannednew.title") : getlocal("cannededit.title");
 
-prepare_menu($operator, false);
+$page = array_merge(
+	$page,
+	prepare_menu($operator, false)
+);
+
 $page_style->render('cannededit');
 
 ?>

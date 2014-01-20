@@ -161,7 +161,10 @@ if ($stringid) {
 
 			$page['saved'] = true;
 			$page['title'] = getlocal("page.translate.title");
-			prepare_menu($operator, false);
+			$page = array_merge(
+				$page,
+				prepare_menu($operator, false)
+			);
 			$page_style->render('translate');
 			exit;
 		}
@@ -173,7 +176,10 @@ if ($stringid) {
 	$page['formoriginal'] = isset($lang1[$stringid]) ? $lang1[$stringid] : "<b><unknown></b>";
 	$page['formtranslation'] = $translation;
 	$page['title'] = getlocal("page.translate.title");
-	prepare_menu($operator, false);
+	$page = array_merge(
+		$page,
+		prepare_menu($operator, false)
+	);
 	$page_style->render('translate');
 	exit;
 }
@@ -239,7 +245,11 @@ $page['formshow'] = $show;
 $page['title'] = getlocal("page.translate.title");
 $page['menuid'] = "translate";
 
-prepare_menu($operator);
+$page = array_merge(
+	$page,
+	prepare_menu($operator)
+);
+
 $page_style->render('translatelist');
 
 ?>

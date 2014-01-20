@@ -64,7 +64,10 @@ if (isset($_GET['threadid'])) {
 
 $page['title'] = getlocal("thread.chat_log");
 
-prepare_menu($operator, false);
+$page = array_merge(
+	$page,
+	prepare_menu($operator, false)
+);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('thread_log');

@@ -52,7 +52,11 @@ $page['screenshotsList'] = $screenshots;
 $page['title'] = getlocal("page.preview.title");
 $page['menuid'] = "settings";
 
-prepare_menu($operator);
+$page = array_merge(
+	$page,
+	prepare_menu($operator)
+);
+
 $page['tabs'] = setup_settings_tabs(3);
 
 $page_style = new PageStyle(PageStyle::currentStyle());

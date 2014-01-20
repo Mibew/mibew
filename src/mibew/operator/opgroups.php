@@ -91,7 +91,11 @@ $page['stored'] = isset($_GET['stored']);
 $page['title'] = getlocal("operator.groups.title");
 $page['menuid'] = ($page['operatorid'] == $opId) ? "profile" : "operators";
 
-prepare_menu($operator);
+$page = array_merge(
+	$page,
+	prepare_menu($operator)
+);
+
 $page['tabs'] = setup_operator_settings_tabs($opId, 2);
 
 $page_style = new PageStyle(PageStyle::currentStyle());

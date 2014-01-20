@@ -673,16 +673,28 @@ function in_isolation($operator)
 	return (!is_capable(CAN_ADMINISTRATE, $operator) && Settings::get('enablegroups') && Settings::get('enablegroupsisolation'));
 }
 
-function prepare_menu($operator, $hasright = true)
-{
-	global $page;
-	$page['operator'] = topage(get_operator_name($operator));
+/**
+ * Prepare values to render page menu.
+ *
+ * @param array $operator An array with operators data.
+ * @param boolean $hasright Restricts access to menu items. If it equals to
+ * FALSE only "Home", "Visitors", and "Chat history" items will be displayed.
+ * Otherwise items set depends on operator's permissions and system settings.
+ * Default value is TRUE.
+ * @return array
+ */
+function prepare_menu($operator, $hasright = true) {
+	$result = array();
+
+	$result['operator'] = topage(get_operator_name($operator));
 	if ($hasright) {
-		$page['showban'] = Settings::get('enableban') == "1";
-		$page['showstat'] = Settings::get('enablestatistics') == "1";
-		$page['showadmin'] = is_capable(CAN_ADMINISTRATE, $operator);
-		$page['currentopid'] = $operator['operatorid'];
+		$result['showban'] = Settings::get('enableban') == "1";
+		$result['showstat'] = Settings::get('enablestatistics') == "1";
+		$result['showadmin'] = is_capable(CAN_ADMINISTRATE, $operator);
+		$result['currentopid'] = $operator['operatorid'];
 	}
+
+	return $result;
 }
 
 function get_all_groups()

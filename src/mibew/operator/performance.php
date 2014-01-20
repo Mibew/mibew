@@ -128,7 +128,11 @@ $page['stored'] = isset($_GET['stored']);
 $page['title'] = getlocal("settings.title");
 $page['menuid'] = "settings";
 
-prepare_menu($operator);
+$page = array_merge(
+	$page,
+	prepare_menu($operator)
+);
+
 $page['tabs'] = setup_settings_tabs(2);
 
 $page_style = new PageStyle(PageStyle::currentStyle());

@@ -66,7 +66,11 @@ $page['menuid'] = "users";
 // Get additional plugins data
 $page = array_merge($page, get_plugins_data('users'));
 
-prepare_menu($operator);
+$page = array_merge(
+	$page,
+	prepare_menu($operator)
+);
+
 $page_style->render('pending_users');
 
 ?>

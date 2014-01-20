@@ -159,7 +159,11 @@ if (Settings::get('enabletracking')) {
 	$page['availableInvitationStyles'] = $invitation_style_list;
 }
 
-prepare_menu($operator);
+$page = array_merge(
+	$page,
+	prepare_menu($operator)
+);
+
 $page['tabs'] = setup_settings_tabs(0);
 
 $page_style = new PageStyle(PageStyle::currentStyle());

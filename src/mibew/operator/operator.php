@@ -157,7 +157,11 @@ $page['needChangePassword'] = check_password_hash($operator['vclogin'], '', $ope
 $page['title'] = getlocal("page_agent.title");
 $page['menuid'] = ($opId == $operator['operatorid']) ? "profile" : "operators";
 
-prepare_menu($operator);
+$page = array_merge(
+	$page,
+	prepare_menu($operator)
+);
+
 $page['tabs'] = setup_operator_settings_tabs($opId, 0);
 
 $page_style = new PageStyle(PageStyle::currentStyle());

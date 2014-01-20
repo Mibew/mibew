@@ -70,7 +70,11 @@ foreach ($options as $opt) {
 $page['title'] = getlocal("settings.title");
 $page['menuid'] = "settings";
 
-prepare_menu($operator);
+$page = array_merge(
+	$page,
+	prepare_menu($operator)
+);
+
 $page['tabs'] = setup_settings_tabs(1);
 
 $page_style = new PageStyle(PageStyle::currentStyle());

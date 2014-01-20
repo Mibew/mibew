@@ -64,7 +64,10 @@ function threads_by_userid($userid)
 
 $found = threads_by_userid($userid);
 
-prepare_menu($operator);
+$page = array_merge(
+	$page,
+	prepare_menu($operator)
+);
 
 // Setup pagination
 $pagination = setup_pagination($found, 6);

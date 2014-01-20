@@ -133,7 +133,10 @@ $page['forminsystemmessages'] = $searchInSystemMessages;
 $page['title'] = getlocal("page_analysis.search.title");
 $page['menuid'] = "history";
 
-prepare_menu($operator);
+$page = array_merge(
+	$page,
+	prepare_menu($operator)
+);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('thread_search');

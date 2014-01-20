@@ -252,7 +252,11 @@ $page['availableParentGroups'] = get_available_parent_groups($groupid);
 $page['title'] = getlocal("page.group.title");
 $page['menuid'] = "groups";
 
-prepare_menu($operator);
+$page = array_merge(
+	$page,
+	prepare_menu($operator)
+);
+
 $page['tabs'] = setup_group_settings_tabs($groupid, 0);
 
 $page_style = new PageStyle(PageStyle::currentStyle());

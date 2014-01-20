@@ -95,7 +95,11 @@ $page['stored'] = isset($_GET['stored']);
 $page['title'] = getlocal("page.groupmembers.title");
 $page['menuid'] = "groups";
 
-prepare_menu($operator);
+$page = array_merge(
+	$page,
+	prepare_menu($operator)
+);
+
 $page['tabs'] = setup_group_settings_tabs($groupid, 1);
 
 $page_style = new PageStyle(PageStyle::currentStyle());

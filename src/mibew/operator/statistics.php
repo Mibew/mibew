@@ -180,7 +180,11 @@ $page['showresults'] = count($errors) == 0;
 $page['title'] = getlocal("statistics.title");
 $page['menuid'] = "statistics";
 
-prepare_menu($operator);
+$page = array_merge(
+	$page,
+	prepare_menu($operator)
+);
+
 $page['tabs'] = setup_statistics_tabs($activetab);
 
 $page_style = new PageStyle(PageStyle::currentStyle());

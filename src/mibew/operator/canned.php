@@ -102,7 +102,10 @@ $page['formgroup'] = $groupid;
 $page['title'] = getlocal("canned.title");
 $page['menuid'] = "canned";
 
-prepare_menu($operator);
+$page = array_merge(
+	$page,
+	prepare_menu($operator)
+);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('canned');
