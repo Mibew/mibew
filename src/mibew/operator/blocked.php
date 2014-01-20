@@ -58,7 +58,10 @@ $blockedList = $db->query(
 $page['title'] = getlocal("page_bans.title");
 $page['menuid'] = "blocked";
 
-setup_pagination($blockedList);
+$pagination = setup_pagination($blockedList);
+$page['pagination'] = $pagination['info'];
+$page['pagination.items'] = $pagination['items'];
+
 prepare_menu($operator);
 
 $page_style = new PageStyle(PageStyle::currentStyle());

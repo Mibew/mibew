@@ -88,10 +88,12 @@ if (isset($_GET['act']) && $_GET['act'] == 'delete') {
 	}
 }
 
-# get messages
+// Get messages and setup pagination
 
 $messages = load_canned_messages($lang, $groupid);
-setup_pagination($messages);
+$pagination = setup_pagination($messages);
+$page['pagination'] = $pagination['info'];
+$page['pagination.items'] = $pagination['items'];
 
 # form values
 

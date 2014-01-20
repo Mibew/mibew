@@ -40,8 +40,6 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 </div>
 <br clear="all"/>
 
-<?php if( $page['pagination'] ) { ?>
-
 <table class="list">
 <thead>
 <tr class="header">
@@ -100,11 +98,10 @@ if( $page['pagination.items'] ) {
 </tbody>
 </table>
 <?php
-	if( $page['pagination.items'] ) { 
-		echo "<br/>";
-		echo generate_pagination($page['stylepath'], $page['pagination']);
-	}
-} 
+if ($page['pagination']) {
+	echo "<br/>";
+	echo generate_pagination($page['stylepath'], $page['pagination']);
+}
 ?>
 <script type="text/javascript" language="javascript"><!--
 $('a.removelink').click(function(){

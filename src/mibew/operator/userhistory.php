@@ -65,7 +65,12 @@ function threads_by_userid($userid)
 $found = threads_by_userid($userid);
 
 prepare_menu($operator);
-setup_pagination($found, 6);
+
+// Setup pagination
+$pagination = setup_pagination($found, 6);
+$page['pagination'] = $pagination['info'];
+$page['pagination.items'] = $pagination['items'];
+
 foreach ($page['pagination.items'] as $key => $item) {
 	$page['pagination.items'][$key] = Thread::createFromDbInfo($item);
 }

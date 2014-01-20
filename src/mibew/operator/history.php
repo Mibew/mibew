@@ -79,25 +79,53 @@ if ($query !== false) {
 	}
 
 	// Load threads
-	select_with_pagintation("DISTINCT {chatthread}.*",
-		"{chatthread}, {chatmessage}",
+	list($threads_count) = $db->query(
+		"SELECT COUNT(DISTINCT {chatthread}.dtmcreated) " .
+			"FROM {chatthread}, {chatmessage} " .
+			"WHERE {chatmessage}.threadid = {chatthread}.threadid " .
+				"AND ({chatthread}.invitationstate = :invitation_accepted " .
+					"OR {chatthread}.invitationstate = :invitation_not_invited) " .
+				"AND (" . implode(' OR ', $searchConditions) . ")",
+		$values,
 		array(
-			"{chatmessage}.threadid = {chatthread}.threadid",
-			"({chatthread}.invitationstate = :invitation_accepted " .
-				"OR {chatthread}.invitationstate = :invitation_not_invited)",
-			"(" . implode(' or ', $searchConditions)  .  ")"
-		),
-		"order by {chatthread}.dtmcreated DESC",
-		"DISTINCT {chatthread}.dtmcreated", $values);
+			'return_rows' => Database::RETURN_ONE_ROW,
+			'fetch_type' => Database::FETCH_NUM
+		)
+	);
 
-	// Build Thread object
-	foreach ($page['pagination.items'] as $key => $item) {
-		$page['pagination.items'][$key] = Thread::createFromDbInfo($item);
+	$pagination_info = pagination_info($threads_count);
+
+	if ($threads_count && $pagination_info) {
+		$page['pagination'] = $pagination_info;
+
+		$limit_start = intval($pagination_info['start']);
+		$limit_end = intval($pagination_info['end'] - $pagination_info['start']);
+
+		$threads_list = $db->query(
+			"SELECT DISTINCT {chatthread}.* " .
+				"FROM {chatthread}, {chatmessage} " .
+				"WHERE {chatmessage}.threadid = {chatthread}.threadid " .
+					"AND ({chatthread}.invitationstate = :invitation_accepted " .
+						"OR {chatthread}.invitationstate = :invitation_not_invited) " .
+					"AND (" . implode(' OR ', $searchConditions) . ") " .
+				"ORDER BY {chatthread}.dtmcreated DESC " .
+				"LIMIT " . $limit_start . ", " .$limit_end,
+			$values,
+			array('return_rows' => Database::RETURN_ALL_ROWS)
+		);
+
+		foreach ($threads_list as $item) {
+			$page['pagination.items'][] = Thread::createFromDbInfo($item);
+		}
+	} else {
+		$page['pagination'] = false;
+		$page['pagination.items'] = false;
 	}
 
 	$page['formq'] = topage($query);
 } else {
-	setup_empty_pagination();
+	$page['pagination'] = false;
+	$page['pagination.items'] = false;
 }
 
 $page['formtype'] = $searchType;

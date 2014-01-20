@@ -606,9 +606,8 @@ function setup_redirect_links($threadid, $operator, $token)
 		$groupscount = count($groups);
 	}
 
-	prepare_pagination(max($operatorscount, $groupscount), 8);
-	$p = $page['pagination'];
-	$limit = $p['limit'];
+	$p = pagination_info(max($operatorscount, $groupscount), 8);
+	$page['pagination'] = $p;
 
 	$operators = array_slice($operators, $p['start'], $p['end'] - $p['start']);
 	$groups = array_slice($groups, $p['start'], $p['end'] - $p['start']);

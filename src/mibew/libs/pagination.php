@@ -15,14 +15,24 @@
  * limitations under the License.
  */
 
-// Import namespaces and classes of the core
-use Mibew\Database;
+/**
+ * String used to separate pagination links from each other
+ */
+define('PAGINATION_SPACING', "&nbsp;&nbsp;&nbsp;");
 
-$pagination_spacing = "&nbsp;&nbsp;&nbsp;";
-$links_on_page = 5;
+/**
+ * Count of pagination links on the page
+ */
+define('PAGINATION_LINKS_ON_PAGE', 5);
 
-function generate_pagination_link($page, $title)
-{
+/**
+ * Builds HTML markup for pagination link based on currently requested page.
+ *
+ * @param int $page Page number
+ * @param string $title Link title
+ * @return string HTML markup
+ */
+function generate_pagination_link($page, $title) {
 	$lnk = $_SERVER['REQUEST_URI'];
 	$href = preg_replace("/\?page=\d+\&/", "?", preg_replace("/\&page=\d+/", "", $lnk));
 	$href .= strstr($href, "?") ? "&page=$page" : "?page=$page";
@@ -41,104 +51,106 @@ function generate_pagination_image($style_path, $id, $alt) {
 	return "<img src=\"" . $style_path . "/images/$id.gif\" border=\"0\" alt=\"" . htmlspecialchars($alt) . "\"/>";
 }
 
-function prepare_pagination($items_count, $default_items_per_page = 15)
-{
-	global $page;
-
+/**
+ * Returns information about pagination.
+ *
+ * @param int $items_count Count of items which are separated by pages.
+ * @param int $default_items_per_page Count of items per page.
+ * @return array|boolean Associative array of pagination info or FALSE if the
+ * info array cannot be build. Info array contatins the following keys:
+ *   - page: int, number of current page.
+ *   - total: int, total pages count.
+ *   - items: int, items per page.
+ *   - count: int, total items count.
+ *   - start: int, index of item to start from.
+ *   - end: int, index of item to end at.
+ */
+function pagination_info($items_count, $default_items_per_page = 15) {
 	if ($items_count) {
 		$items_per_page = verifyparam("items", "/^\d{1,3}$/", $default_items_per_page);
-		if ($items_per_page < 2)
+		if ($items_per_page < 2) {
 			$items_per_page = 2;
+		}
 
 		$total_pages = div($items_count + $items_per_page - 1, $items_per_page);
 		$curr_page = verifyparam("page", "/^\d{1,6}$/", 1);
 
-		if ($curr_page < 1)
+		if ($curr_page < 1) {
 			$curr_page = 1;
-		if ($curr_page > $total_pages)
+		}
+		if ($curr_page > $total_pages) {
 			$curr_page = $total_pages;
+		}
 
 		$start_index = ($curr_page - 1) * $items_per_page;
 		$end_index = min($start_index + $items_per_page, $items_count);
-		$page['pagination'] =
-				array("page" => $curr_page, "items" => $items_per_page, "total" => $total_pages,
-					  "count" => $items_count, "start" => $start_index, "end" => $end_index,
-					  "limit" => "LIMIT $start_index," . ($end_index - $start_index));
-	} else {
-		$page['pagination'] = true;
-	}
-}
 
-function setup_pagination($items, $default_items_per_page = 15)
-{
-	global $page;
-	prepare_pagination($items ? count($items) : 0, $default_items_per_page);
-	if ($items && count($items) > 0) {
-		$p = $page['pagination'];
-		$page['pagination.items'] = array_slice($items, $p['start'], $p['end'] - $p['start']);
+		return array(
+			"page" => $curr_page,
+			"items" => $items_per_page,
+			"total" => $total_pages,
+			"count" => $items_count,
+			"start" => $start_index,
+			"end" => $end_index,
+		);
 	} else {
-		$page['pagination.items'] = false;
+		return false;
 	}
 }
 
 /**
- * Selects rows from database taking pagination into account.
- * 
- * @global array $page
- * @param string $fields Selected fields
- * @param string $table Table name in database
- * @param string $conditions Where close
- * @param string $order Order clause
- * @param string $countfields Field, substituted in SQL COUNT function
- * @param array $values Associative array of substituted values. Keys are named placeholders in the 
- *   query(see \Mibew\Database::query() and its $values parameter description)
- * 
- * @see \Mibew\Database::query()
+ * Prepare all info that needed to build paginated items
+ *
+ * @param array $items Items which are separated by pages.
+ * @param int $default_items_per_page Count of items per page.
+ * @return array Associative array of with the following keys:
+ *   - info: array, pagination info. See description of the result of
+ *     pagination_info function for details.
+ *   - items: slice of items to display.
  */
-function select_with_pagintation($fields, $table, $conditions, $order, $countfields, $values)
-{
-	global $page;
-	$db = Database::getInstance();
-
-	list($count) = $db->query(
-		"select count(". ($countfields ? $countfields : "*") .") from {$table} " .
-		"where " . (count($conditions)  ? implode(" and ", $conditions) : "") .
-		($order ? " " . $order : ""),
-		$values,
-		array(
-			'return_rows' => Database::RETURN_ONE_ROW,
-			'fetch_type' => Database::FETCH_NUM
-		)
-	);
-
-	prepare_pagination($count);
-	if ($count) {
-		$p = $page['pagination'];
-		$limit = $p['limit'];
-		$page['pagination.items'] = $db->query(
-			"select {$fields} from {$table} " .
-			"where " . (count($conditions)  ? implode(" and ", $conditions) : "") .
-			($order ? " " . $order : "") . " " . $limit,
-			$values,
-			array('return_rows' => Database::RETURN_ALL_ROWS)
-		);
-	} else {
-		$page['pagination.items'] = array();
+function setup_pagination($items, $default_items_per_page = 15) {
+	if (count($items) > 0) {
+		$info = pagination_info(count($items), $default_items_per_page);
+		if ($info) {
+			$items_slice = array_slice(
+				$items,
+				$info['start'],
+				$info['end'] - $info['start']
+			);
+			return array(
+				'info' => $info,
+				'items' => $items_slice,
+			);
+		}
 	}
+
+	return array(
+		'info' => false,
+		'items' => false,
+	);
 }
 
-function setup_empty_pagination()
-{
-	global $page;
-	$page['pagination.items'] = false;
-	$page['pagination'] = false;
-}
-
-function generate_pagination($style_path, $pagination, $bottom = true)
-{
-	global $pagination_spacing, $links_on_page;
-	$result = getlocal2("tag.pagination.info",
-						array($pagination['page'], $pagination['total'], $pagination['start'] + 1, $pagination['end'], $pagination['count'])) . "<br/>";
+/**
+ * Builds HTML markup for pagination pager.
+ *
+ * @param string $style_path Root path of the style.
+ * @param array $pagination Pagination info. See description of the result of
+ * pagination_info function for details.
+ * @param bool $bottom Indicates if pager will be displayed at the bottom of a
+ * page.
+ * @return string HTML markup
+ */
+function generate_pagination($style_path, $pagination, $bottom = true) {
+	$result = getlocal2(
+		"tag.pagination.info",
+		array(
+			$pagination['page'],
+			$pagination['total'],
+			$pagination['start'] + 1,
+			$pagination['end'],
+			$pagination['count']
+		)
+	) . "<br/>";
 
 	if ($pagination['total'] > 1) {
 		if (!$bottom) {
@@ -149,25 +161,39 @@ function generate_pagination($style_path, $pagination, $bottom = true)
 		$result .= "<div class='pagination'>";
 		$curr_page = $pagination['page'];
 
-		$minPage = max($curr_page - $links_on_page, 1);
-		$maxPage = min($curr_page + $links_on_page, $pagination['total']);
+		$minPage = max($curr_page - PAGINATION_LINKS_ON_PAGE, 1);
+		$maxPage = min($curr_page + PAGINATION_LINKS_ON_PAGE, $pagination['total']);
 
 		if ($curr_page > 1) {
-			$result .= generate_pagination_link($curr_page - 1, generate_pagination_image($style_path, "prevpage", getlocal("tag.pagination.previous"))) . $pagination_spacing;
+			$result .= generate_pagination_link(
+				$curr_page - 1,
+				generate_pagination_image(
+					$style_path,
+					"prevpage",
+					getlocal("tag.pagination.previous")
+				)
+			) . PAGINATION_SPACING;
 		}
 
 		for ($i = $minPage; $i <= $maxPage; $i++) {
-			$title = abs($curr_page - $i) >= $links_on_page && $i != 1 ? "..." : $i;
+			$title = abs($curr_page - $i) >= PAGINATION_LINKS_ON_PAGE && $i != 1 ? "..." : $i;
 			if ($i != $curr_page)
 				$result .= generate_pagination_link($i, $title);
 			else
 				$result .= "<span class=\"pagecurrent\">$title</span>";
 			if ($i < $maxPage)
-				$result .= $pagination_spacing;
+				$result .= PAGINATION_SPACING;
 		}
 
 		if ($curr_page < $pagination['total']) {
-			$result .= $pagination_spacing . generate_pagination_link($curr_page + 1, generate_pagination_image($style_path, "nextpage", getlocal("tag.pagination.next")));
+			$result .= PAGINATION_SPACING . generate_pagination_link(
+				$curr_page + 1,
+				generate_pagination_image(
+					$style_path,
+					"nextpage",
+					getlocal("tag.pagination.next")
+				)
+			);
 		}
 		$result .= "</div>";
 	}

@@ -216,7 +216,9 @@ foreach ($allkeys as $key) {
 
 $order = verifyparam("sort", "/^(id|l1)$/", "id");
 usort($result, "compare_localization_by_$order");
-setup_pagination($result, 100);
+$pagination = setup_pagination($result, 100);
+$page['pagination'] = $pagination['info'];
+$page['pagination.items'] = $pagination['items'];
 
 $page['formtarget'] = $target;
 $page['formsource'] = $source;
