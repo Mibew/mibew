@@ -89,9 +89,7 @@ function generate_button($title, $locale, $style, $invitation_style_name, $group
 	return "<!-- mibew button -->" . $temp . "<!-- / mibew button -->";
 }
 
-function verifyparam_groupid($paramid)
-{
-	global $errors;
+function verifyparam_groupid($paramid, &$errors) {
 	$groupid = "";
 	$groupid = verifyparam($paramid, "/^\d{0,8}$/", "");
 	if ($groupid) {

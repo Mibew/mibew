@@ -30,6 +30,8 @@ require_once(MIBEW_FS_ROOT.'/libs/getcode.php');
 $operator = check_login();
 force_password($operator);
 
+$errors = array();
+
 $imageLocales = get_image_locales_map(MIBEW_FS_ROOT.'/locales');
 $image = verifyparam(isset($_GET['image']) ? "image" : "i", "/^\w+$/", "mibew");
 if (!isset($imageLocales[$image])) {
@@ -53,7 +55,7 @@ if ($invitationstyle && !in_array($invitationstyle, $invitationstylelist)) {
 	$invitationstyle = "";
 }
 
-$groupid = verifyparam_groupid("group");
+$groupid = verifyparam_groupid("group", $errors);
 $showhost = verifyparam("hostname", "/^on$/", "") == "on";
 $forcesecure = verifyparam("secure", "/^on$/", "") == "on";
 $modsecurity = verifyparam("modsecurity", "/^on$/", "") == "on";
