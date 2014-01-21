@@ -460,7 +460,7 @@ class ThreadProcessor extends ClientSideProcessor {
 			$newname = $args['name'];
 			if($newname != $visitor['name']) {
 				$data = strtr(
-					base64_encode(myiconv($mibew_encoding,"utf-8",$newname)),
+					base64_encode(myiconv(MIBEW_ENCODING,"utf-8",$newname)),
 					'+/=',
 					'-_,'
 				);
