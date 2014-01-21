@@ -165,7 +165,7 @@ if ($stringid) {
 				$page,
 				prepare_menu($operator, false)
 			);
-			$page_style->render('translate');
+			$page_style->render('translate', $page);
 			exit;
 		}
 	}
@@ -180,7 +180,7 @@ if ($stringid) {
 		$page,
 		prepare_menu($operator, false)
 	);
-	$page_style->render('translate');
+	$page_style->render('translate', $page);
 	exit;
 }
 
@@ -250,6 +250,6 @@ $page = array_merge(
 	prepare_menu($operator)
 );
 
-$page_style->render('translatelist');
+$page_style->render('translatelist', $page);
 
 ?>

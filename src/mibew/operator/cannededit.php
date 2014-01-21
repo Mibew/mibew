@@ -74,7 +74,7 @@ if (isset($_POST['message']) && isset($_POST['title'])) {
 			$page,
 			prepare_menu($operator, false)
 		);
-		$page_style->render('cannededit');
+		$page_style->render('cannededit', $page);
 		exit;
 	}
 }
@@ -90,6 +90,6 @@ $page = array_merge(
 	prepare_menu($operator, false)
 );
 
-$page_style->render('cannededit');
+$page_style->render('cannededit', $page);
 
 ?>

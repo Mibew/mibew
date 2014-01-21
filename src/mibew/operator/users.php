@@ -71,6 +71,6 @@ $page = array_merge(
 	prepare_menu($operator)
 );
 
-$page_style->render('pending_users');
+$page_style->render('pending_users', $page);
 
 ?>

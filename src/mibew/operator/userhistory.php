@@ -82,6 +82,6 @@ $page['title'] = getlocal("page.analysis.userhistory.title");
 $page['menuid'] = "history";
 
 $page_style = new PageStyle(PageStyle::currentStyle());
-$page_style->render('userhistory');
+$page_style->render('userhistory', $page);
 
 ?>

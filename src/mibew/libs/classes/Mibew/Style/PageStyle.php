@@ -43,10 +43,6 @@ class PageStyle extends Style implements StyleInterface {
 	 * substitutions in a template.
 	 */
 	public function render($template_name, $data = array()) {
-		// We need to import some variables to make them visible to required
-		// view.
-		global $page;
-
 		// Add template root value to page variables
 		$page['stylepath'] = MIBEW_WEB_ROOT . '/' . $this->filesPath();
 
@@ -57,6 +53,10 @@ class PageStyle extends Style implements StyleInterface {
 		// specified view name
 		$full_view_name = MIBEW_FS_ROOT . '/' . $this->filesPath() . '/views/' .
 			str_replace("/\\", '', $template_name) . '.php';
+
+		// $page variable is used in included views files, so we need to create
+		// it as an alias of $data argument.
+		$page = $data;
 
 		// Load and execute the view
 		require($full_view_name);

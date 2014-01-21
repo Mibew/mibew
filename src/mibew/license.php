@@ -27,6 +27,6 @@ $page['no_right_menu'] = true;
 $page['fixedwrap'] = true;
 
 $page_style = new PageStyle(PageStyle::currentStyle());
-$page_style->render('license');
+$page_style->render('license', $page);
 
 ?>

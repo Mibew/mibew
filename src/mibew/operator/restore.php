@@ -69,7 +69,7 @@ if (isset($_POST['loginoremail'])) {
 		mibew_mail($email, $email, getstring("restore.mailsubj"), getstring2("restore.mailtext", array(get_operator_name($torestore), $href)));
 
 		$page['isdone'] = true;
-		$page_style->render('restore');
+		$page_style->render('restore', $page);
 		exit;
 	}
 }
@@ -79,6 +79,6 @@ $page['formloginoremail'] = topage($loginoremail);
 $page['localeLinks'] = get_locale_links(MIBEW_WEB_ROOT . "/operator/restore.php");
 $page['isdone'] = false;
 
-$page_style->render('restore');
+$page_style->render('restore', $page);
 
 ?>

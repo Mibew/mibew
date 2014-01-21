@@ -99,6 +99,6 @@ $page = array_merge(
 $page['tabs'] = setup_operator_settings_tabs($opId, 2);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
-$page_style->render('operator_groups');
+$page_style->render('operator_groups', $page);
 
 ?>

@@ -126,6 +126,6 @@ $page = array_merge(
 );
 
 $page_style = new PageStyle(PageStyle::currentStyle());
-$page_style->render('agents');
+$page_style->render('agents', $page);
 
 ?>

@@ -139,6 +139,6 @@ $page = array_merge(
 );
 
 $page_style = new PageStyle(PageStyle::currentStyle());
-$page_style->render('thread_search');
+$page_style->render('thread_search', $page);
 
 ?>

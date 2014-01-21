@@ -52,6 +52,6 @@ $page = array_merge(
 );
 
 $page_style = new PageStyle(PageStyle::currentStyle());
-$page_style->render('updates');
+$page_style->render('updates', $page);
 
 ?>

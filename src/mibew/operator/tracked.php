@@ -65,6 +65,6 @@ foreach ($path as $k => $v) {
 $page['title'] = getlocal("tracked.path");
 
 $page_style = new PageStyle(PageStyle::currentStyle());
-$page_style->render('tracked');
+$page_style->render('tracked', $page);
 
 ?>

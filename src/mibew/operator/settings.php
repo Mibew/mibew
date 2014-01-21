@@ -169,6 +169,6 @@ $page = array_merge(
 $page['tabs'] = setup_settings_tabs(0);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
-$page_style->render('settings');
+$page_style->render('settings', $page);
 
 ?>

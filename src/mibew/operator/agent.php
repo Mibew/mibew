@@ -87,7 +87,7 @@ if (!isset($_GET['token'])) {
 				'link' => $_SERVER['PHP_SELF'] . "?thread=$threadid&amp;force=true",
 				'title' => getlocal("confirm.take.head"),
 			);
-			$page_style->render('confirm');
+			$page_style->render('confirm', $page);
 			exit;
 		}
 	}

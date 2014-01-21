@@ -86,6 +86,6 @@ $page = array_merge(
 );
 
 $page_style = new PageStyle(PageStyle::currentStyle());
-$page_style->render('groups');
+$page_style->render('groups', $page);
 
 ?>

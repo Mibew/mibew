@@ -191,6 +191,6 @@ $page = array_merge(
 $page['tabs'] = setup_statistics_tabs($activetab);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
-$page_style->render('statistics');
+$page_style->render('statistics', $page);
 
 ?>

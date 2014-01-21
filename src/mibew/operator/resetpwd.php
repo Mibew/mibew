@@ -70,7 +70,7 @@ if (count($page['errors']) == 0 && isset($_POST['password'])) {
 		);
 
 		$page['loginname'] = $operator['vclogin'];
-		$page_style->render('resetpwd');
+		$page_style->render('resetpwd', $page);
 		exit;
 	}
 }
@@ -79,6 +79,6 @@ $page['id'] = $opId;
 $page['token'] = $token;
 $page['isdone'] = false;
 
-$page_style->render('resetpwd');
+$page_style->render('resetpwd', $page);
 
 ?>

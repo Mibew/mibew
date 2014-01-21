@@ -80,6 +80,6 @@ $page = array_merge(
 $page['tabs'] = setup_settings_tabs(1);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
-$page_style->render('features');
+$page_style->render('features', $page);
 
 ?>

@@ -111,6 +111,6 @@ $page = array_merge(
 $page['tabs'] = setup_operator_settings_tabs($opId, 1);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
-$page_style->render('avatar');
+$page_style->render('avatar', $page);
 
 ?>
