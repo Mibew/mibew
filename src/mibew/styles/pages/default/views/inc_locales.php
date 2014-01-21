@@ -21,7 +21,7 @@ function menuloc($id) {
 	}
 	return "";
 }
-function tpl_menu() { global $page;
+function tpl_menu($page) {
 ?>
 			<li>
 				<h2><b><?php echo getlocal("lang.choose") ?></b></h2>

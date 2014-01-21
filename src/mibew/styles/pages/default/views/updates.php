@@ -17,7 +17,7 @@
 
 require_once(dirname(__FILE__).'/inc_menu.php');
 
-function tpl_header() { global $page;
+function tpl_header($page) {
 ?>	
 <script type="text/javascript" language="javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/jquery.min.js"></script>
 <script type="text/javascript" language="javascript" src="http://mibew.org/latestMibew.js"></script>
@@ -25,7 +25,7 @@ function tpl_header() { global $page;
 <?php
 }
 
-function tpl_content() { global $page;
+function tpl_content($page) {
 ?>
 
 <?php echo getlocal("updates.intro") ?>

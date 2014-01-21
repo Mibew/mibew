@@ -17,8 +17,8 @@
 
 require_once(dirname(__FILE__).'/inc_menu.php');
 
-function tpl_header() { global $page;
-	if(isset($page) && isset($page['localeLinks'])) {
+function tpl_header($page) {
+	if(isset($page['localeLinks'])) {
 ?>	
 <script type="text/javascript" language="javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/jquery.min.js"></script>
 <script type="text/javascript" language="javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/compiled/locale.js"></script>
@@ -32,7 +32,7 @@ function menuseparator() {
 	if(($menu_items_count%3) == 0) { echo "</tr><tr>"; }
 }
 
-function tpl_content() { global $page;
+function tpl_content($page) {
 ?>
 
 <br/>

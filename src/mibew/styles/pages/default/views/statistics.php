@@ -18,7 +18,7 @@
 require_once(dirname(__FILE__).'/inc_tabbar.php');
 require_once(dirname(__FILE__).'/inc_menu.php');
 
-function tpl_content() { global $page;
+function tpl_content($page) {
 ?>
 
 <?php echo getlocal2("statistics.description.full", array(date_to_text($page['last_cron_run']), $page['cron_path'])) ?>
@@ -31,7 +31,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 <form name="statisticsForm" method="get" action="<?php echo MIBEW_WEB_ROOT ?>/operator/statistics.php">
 <input type="hidden" name="type" value="<?php echo $page['type'] ?>" />
 
-	<?php print_tabbar(); ?>
+	<?php print_tabbar($page['tabs']); ?>
 
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 

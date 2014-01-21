@@ -18,7 +18,7 @@
 require_once(dirname(__FILE__).'/inc_menu.php');
 require_once(dirname(__FILE__).'/inc_tabbar.php');
 
-function tpl_content() { global $page;
+function tpl_content($page) {
 ?>
 
 <?php echo getlocal("page.preview.intro") ?>
@@ -27,7 +27,7 @@ function tpl_content() { global $page;
 
 <form name="preview" method="get" action="<?php echo MIBEW_WEB_ROOT ?>/operator/page_themes.php">
 	<div>
-<?php print_tabbar(); ?>
+<?php print_tabbar($page['tabs']); ?>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
 	<div class="fieldForm">

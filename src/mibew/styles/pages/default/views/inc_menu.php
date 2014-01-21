@@ -15,15 +15,14 @@
  * limitations under the License.
  */
 
-function menuli($name) {
-	global $page;
-	if(isset($page) && isset($page['menuid']) && $name == $page['menuid']) {
+function menuli($page, $name) {
+	if(isset($page['menuid']) && $name == $page['menuid']) {
 		echo " class=\"active\"";
 	}
 	return "";
 }
 
-function tpl_menu() { global $page;
+function tpl_menu($page) {
 	if(isset($page['isOnline']) && !$page['isOnline']) { ?>
 			<li id="offwarn">
 				<img src="<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/images/dash/warn.gif" alt="" width="24" height="24"/>
@@ -34,31 +33,31 @@ function tpl_menu() { global $page;
 			<li>
 				<h2><?php echo getlocal('right.main') ?></h2>
 				<ul class="submenu">
-					<li<?php menuli("main")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/index.php'><?php echo getlocal('topMenu.main') ?></a></li>
-					<li<?php menuli("users")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/users.php'><?php echo getlocal('topMenu.users') ?></a> <span class="small">(<a class="inner" href='<?php echo MIBEW_WEB_ROOT ?>/operator/users.php?nomenu'><?php echo getlocal('topMenu.users.nomenu') ?></a>)</span></li>
-					<li<?php menuli("history")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/history.php'><?php echo getlocal('page_analysis.search.title') ?></a></li>
+					<li<?php menuli($page, "main")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/index.php'><?php echo getlocal('topMenu.main') ?></a></li>
+					<li<?php menuli($page, "users")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/users.php'><?php echo getlocal('topMenu.users') ?></a> <span class="small">(<a class="inner" href='<?php echo MIBEW_WEB_ROOT ?>/operator/users.php?nomenu'><?php echo getlocal('topMenu.users.nomenu') ?></a>)</span></li>
+					<li<?php menuli($page, "history")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/history.php'><?php echo getlocal('page_analysis.search.title') ?></a></li>
 <?php if(isset($page['showstat']) && $page['showstat']) { ?>
-					<li<?php menuli("statistics")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/statistics.php'><?php echo getlocal('statistics.title') ?></a></li>
+					<li<?php menuli($page, "statistics")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/statistics.php'><?php echo getlocal('statistics.title') ?></a></li>
 <?php } ?>
 <?php if(isset($page['showban']) && $page['showban']) { ?>
-					<li<?php menuli("blocked")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/blocked.php'><?php echo getlocal('menu.blocked') ?></a></li>
+					<li<?php menuli($page, "blocked")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/blocked.php'><?php echo getlocal('menu.blocked') ?></a></li>
 <?php } ?>
 				</ul>
 			</li>
 			<li>
 				<h2><?php echo getlocal('right.administration') ?></h2>
 				<ul class="submenu">
-					<li<?php menuli("canned")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/canned.php'><?php echo getlocal('menu.canned') ?></a></li>
+					<li<?php menuli($page, "canned")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/canned.php'><?php echo getlocal('menu.canned') ?></a></li>
 <?php if(isset($page['showadmin']) && $page['showadmin']) { ?>
-					<li<?php menuli("getcode")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/getcode.php'><?php echo getlocal('leftMenu.client_gen_button') ?></a></li>
-					<li<?php menuli("operators")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/operators.php'><?php echo getlocal('leftMenu.client_agents') ?></a></li>
-					<li<?php menuli("groups")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/groups.php'><?php echo getlocal('menu.groups') ?></a></li>
-					<li<?php menuli("settings")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/settings.php'><?php echo getlocal('leftMenu.client_settings') ?></a></li>
-					<li<?php menuli("translate")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/translate.php'><?php echo getlocal('menu.translate') ?></a></li>
-					<li<?php menuli("updates")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/updates.php'><?php echo getlocal('menu.updates') ?></a></li>
+					<li<?php menuli($page, "getcode")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/getcode.php'><?php echo getlocal('leftMenu.client_gen_button') ?></a></li>
+					<li<?php menuli($page, "operators")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/operators.php'><?php echo getlocal('leftMenu.client_agents') ?></a></li>
+					<li<?php menuli($page, "groups")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/groups.php'><?php echo getlocal('menu.groups') ?></a></li>
+					<li<?php menuli($page, "settings")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/settings.php'><?php echo getlocal('leftMenu.client_settings') ?></a></li>
+					<li<?php menuli($page, "translate")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/translate.php'><?php echo getlocal('menu.translate') ?></a></li>
+					<li<?php menuli($page, "updates")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/updates.php'><?php echo getlocal('menu.updates') ?></a></li>
 <?php } ?>
 <?php if(isset($page['currentopid']) && $page['currentopid']) {?>
-					<li<?php menuli("profile")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/operator.php?op=<?php echo $page['currentopid'] ?>'><?php echo getlocal('menu.profile') ?></a></li>
+					<li<?php menuli($page, "profile")?>><a href='<?php echo MIBEW_WEB_ROOT ?>/operator/operator.php?op=<?php echo $page['currentopid'] ?>'><?php echo getlocal('menu.profile') ?></a></li>
 <?php } ?>
 				</ul>
 			</li>

@@ -15,13 +15,11 @@
  * limitations under the License.
  */
 
-function print_tabbar() {
-	global $page;
-
-if($page['tabs']) { ?>
+function print_tabbar($tabs) {
+if($tabs) { ?>
 	<ul class="tabs">
 
-	<?php foreach($page['tabs'] as $k => $v) { if($v) { ?>
+	<?php foreach($tabs as $k => $v) { if($v) { ?>
 		<li><a href="<?php echo $v ?>"><?php echo $k ?></a></li>
 	<?php } else { ?>
 		<li class="active"><a href="#"><?php echo $k ?></a></li><?php }} ?>

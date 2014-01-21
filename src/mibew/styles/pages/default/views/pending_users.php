@@ -17,7 +17,7 @@
 
 require_once(dirname(__FILE__).'/inc_menu.php');
 
-function tpl_header() { global $page;
+function tpl_header($page) {
 ?>
 
 <!-- Plugins CSS files -->
@@ -129,7 +129,7 @@ function tpl_header() { global $page;
 <?php
 }
 
-function tpl_content() { global $page;
+function tpl_content($page) {
 ?>
 
 <div>

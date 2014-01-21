@@ -19,7 +19,7 @@ if(isset($page) && isset($page['localeLinks'])) {
 	require_once(dirname(__FILE__).'/inc_locales.php');
 }
 
-function tpl_header() { global $page;
+function tpl_header($page) {
 	if($page['soundcheck']) {
 ?>
 
@@ -40,7 +40,7 @@ function tpl_header() { global $page;
 	}
 }
 
-function tpl_content() { global $page;
+function tpl_content($page) {
 ?>
 <?php echo getlocal("install.message") ?>
 <br/>

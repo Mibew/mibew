@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-function tpl_content() { global $page;
+function tpl_content($page) {
 ?>
 
 <?php 

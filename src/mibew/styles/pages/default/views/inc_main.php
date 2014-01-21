@@ -24,7 +24,7 @@ $isrtl = getlocal("localedirection") == 'rtl';
 <link rel="shortcut icon" href="<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/images/favicon.ico" type="image/x-icon"/>
 <?php
 	if(function_exists('tpl_header'))
-		tpl_header(); 
+		tpl_header($page);
 ?>
 <title>
 	<?php echo $page['title'] ?> - <?php echo getlocal("app.title") ?>
@@ -65,7 +65,7 @@ $isrtl = getlocal("localedirection") == 'rtl';
 	<div id="wcontent" class="contentnomenu">
 <?php } ?>
 <?php
-	tpl_content();
+	tpl_content($page);
 ?>	
 	</div>
 	</div>
@@ -74,7 +74,7 @@ $isrtl = getlocal("localedirection") == 'rtl';
 	<div id="sidebar">
 		<ul>
 <?php 
-	tpl_menu();
+	tpl_menu($page);
 ?>
 		</ul>
 	</div>

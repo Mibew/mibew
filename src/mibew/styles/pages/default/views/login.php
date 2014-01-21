@@ -19,7 +19,7 @@ if(isset($page) && isset($page['localeLinks'])) {
 	require_once(dirname(__FILE__).'/inc_locales.php');
 }
 
-function tpl_content() { global $page;
+function tpl_content($page) {
 ?>
 
 <div id="loginintro">

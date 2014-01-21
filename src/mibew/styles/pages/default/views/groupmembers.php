@@ -18,7 +18,7 @@
 require_once(dirname(__FILE__).'/inc_menu.php');
 require_once(dirname(__FILE__).'/inc_tabbar.php');
 
-function tpl_content() { global $page;
+function tpl_content($page) {
 ?>
 
 <?php echo getlocal("page.groupmembers.intro") ?>
@@ -35,7 +35,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 <?php print_csrf_token_input() ?>
 <input type="hidden" name="gid" value="<?php echo $page['groupid'] ?>"/>
 	<div>
-<?php print_tabbar(); ?>
+<?php print_tabbar($page['tabs']); ?>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
 	<p>

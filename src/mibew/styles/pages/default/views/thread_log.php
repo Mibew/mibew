@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 
-function tpl_header() { global $page; ?>
+function tpl_header($page) {
+?>
 
 <!-- External libs -->
 <script type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/js/libs/jquery.min.js"></script>
@@ -40,7 +41,7 @@ function tpl_header() { global $page; ?>
 //--></script>
 <?php }
 
-function tpl_content() { global $page;
+function tpl_content($page) {
 $chatthreadinfo = $page['thread_info'];
 $chatthread = $page['thread_info']['thread'];
 ?>

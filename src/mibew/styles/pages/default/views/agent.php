@@ -18,7 +18,7 @@
 require_once(dirname(__FILE__).'/inc_menu.php');
 require_once(dirname(__FILE__).'/inc_tabbar.php');
 
-function tpl_content() { global $page;
+function tpl_content($page) {
 ?>
 
 <?php if( $page['opid'] ) { ?>
@@ -46,7 +46,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 <?php print_csrf_token_input() ?>
 <input type="hidden" name="opid" value="<?php echo $page['opid'] ?>"/>
 	<div>
-<?php if(!$page['needChangePassword']) { print_tabbar(); } ?>
+<?php if(!$page['needChangePassword']) { print_tabbar($page['tabs']); } ?>
 	<div class="mform"><div class="formtop"><div class="formtopi"></div></div><div class="forminner">
 
 	<div class="fieldForm">

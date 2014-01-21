@@ -17,7 +17,7 @@
 
 require_once(dirname(__FILE__).'/inc_menu.php');
 
-function tpl_content() { global $page;
+function tpl_content($page) {
 ?>
 
 <?php echo getlocal("page.translate.descr") ?>
