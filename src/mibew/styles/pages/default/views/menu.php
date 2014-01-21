@@ -27,12 +27,12 @@ function tpl_header() { global $page;
 }
 
 function menuseparator() {
-	global $menuItemsCount;
-	$menuItemsCount++;
-	if(($menuItemsCount%3) == 0) { echo "</tr><tr>"; }
+	static $menu_items_count = 0;
+	$menu_items_count++;
+	if(($menu_items_count%3) == 0) { echo "</tr><tr>"; }
 }
 
-function tpl_content() { global $page, $menuItemsCount;
+function tpl_content() { global $page;
 ?>
 
 <br/>
@@ -55,7 +55,8 @@ function tpl_content() { global $page, $menuItemsCount;
 		<a href='<?php echo MIBEW_WEB_ROOT ?>/operator/users.php'>
 			<?php echo getlocal('topMenu.users') ?></a>
 		<?php echo getlocal('page_client.pending_users') ?>
-	</td>	
+	</td>
+	<?php menuseparator(); ?>
 
 	<td class="dashitem">
 		<img src="<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/images/dash/history.gif" alt=""/>
@@ -63,9 +64,7 @@ function tpl_content() { global $page, $menuItemsCount;
 			<?php echo getlocal('page_analysis.search.title') ?></a>
 		<?php echo getlocal('content.history') ?>
 	</td>
-<?php 
-$menuItemsCount = 2;
-?>
+	<?php menuseparator(); ?>
 
 <?php if($page['showstat']) { ?>
 	<td class="dashitem">
