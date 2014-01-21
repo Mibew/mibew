@@ -599,7 +599,7 @@ class ThreadProcessor extends ClientSideProcessor {
 
 		// Create thread
 		$thread = Thread::create();
-		$thread->groupId = $groupid;
+		$thread->groupId = $group_id;
 		$thread->userName = $name;
 		$thread->remote = $remote_host;
 		$thread->referer = $referrer;
