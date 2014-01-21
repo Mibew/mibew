@@ -16,13 +16,12 @@
  */
 
 function menuloc($id) {
-	global $current_locale;
-	if($current_locale == $id) {
+	if(CURRENT_LOCALE == $id) {
 		echo " class=\"active\"";
 	}
 	return "";
 }
-function tpl_menu() { global $page, $current_locale;
+function tpl_menu() { global $page;
 ?>
 			<li>
 				<h2><b><?php echo getlocal("lang.choose") ?></b></h2>

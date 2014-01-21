@@ -55,15 +55,12 @@ function invitation_state($visitor_id) {
 /**
  * Invite visitor by operator
  *
- * @global string $current_locale Current locale code
  * @param int $visitor_id ID of the visitor, who must be invited.
  * @param array $operator Info for operator  who invite the visitor
  * @return Thread|boolean Thread object related with invitation or boolean
  * false on failure
  */
 function invitation_invite($visitor_id, $operator) {
-	global $current_locale;
-
 	// Check if visitor already invited
 	$invitation_state = invitation_state($visitor_id);
 	if ($invitation_state['invited']) {
@@ -97,7 +94,7 @@ function invitation_invite($visitor_id, $operator) {
 	$thread->remote = $visitor_details['remote_host'];
 	$thread->referer = $last_visited_page;
 	// User's locale is unknown, set operator locale to the thread
-	$thread->locale = $current_locale;
+	$thread->locale = CURRENT_LOCALE;
 	$thread->userId = $visitor['userid'];
 	$thread->userAgent = $visitor_details['user_agent'];
 	$thread->state = Thread::STATE_INVITED;

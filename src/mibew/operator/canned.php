@@ -46,7 +46,7 @@ $page['locales'] = $locales_with_label;
 
 $lang = verifyparam("lang", "/^[\w-]{2,5}$/", "");
 if (!$lang || !in_array($lang, $all_locales)) {
-	$lang = in_array($current_locale, $all_locales) ? $current_locale : $all_locales[0];
+	$lang = in_array(CURRENT_LOCALE, $all_locales) ? CURRENT_LOCALE : $all_locales[0];
 }
 
 # groups

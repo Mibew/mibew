@@ -32,7 +32,7 @@ function menuseparator() {
 	if(($menuItemsCount%3) == 0) { echo "</tr><tr>"; }
 }
 
-function tpl_content() { global $page, $current_locale, $menuItemsCount;
+function tpl_content() { global $page, $menuItemsCount;
 ?>
 
 <br/>
@@ -176,7 +176,7 @@ $menuItemsCount = 2;
 	<b><?php echo getlocal("lang.choose") ?></b></h2>
 	<ul class="locales">
 <?php foreach($page['localeLinks'] as $id => $title) { ?>
-		<li<?php echo $current_locale == $id ? " class=\"active\"" : "" ?> ><a href='?locale=<?php echo $id ?>'><?php echo $title ?></a></li>
+		<li<?php echo CURRENT_LOCALE == $id ? " class=\"active\"" : "" ?> ><a href='?locale=<?php echo $id ?>'><?php echo $title ?></a></li>
 <?php } ?>
 	</ul>
 </div>

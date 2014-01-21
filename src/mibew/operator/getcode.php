@@ -67,7 +67,7 @@ $operator_code = ($code_type == "operator_code");
 
 $lang = verifyparam("lang", "/^[\w-]{2,5}$/", "");
 if (!$lang || !in_array($lang, $image_locales))
-	$lang = in_array($current_locale, $image_locales) ? $current_locale : $image_locales[0];
+	$lang = in_array(CURRENT_LOCALE, $image_locales) ? CURRENT_LOCALE : $image_locales[0];
 
 $file = MIBEW_FS_ROOT.'/locales/${lang}/button/${image}_on.gif';
 $size = get_gifimage_size($file);

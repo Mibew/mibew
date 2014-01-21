@@ -32,8 +32,7 @@ function group_by_id($id)
 
 function get_group_name($group)
 {
-	global $current_locale;
-	if (HOME_LOCALE == $current_locale || !isset($group['vccommonname']) || !$group['vccommonname'])
+	if (HOME_LOCALE == CURRENT_LOCALE || !isset($group['vccommonname']) || !$group['vccommonname'])
 		return $group['vclocalname'];
 	else
 		return $group['vccommonname'];
@@ -154,15 +153,13 @@ function group_is_online($group) {
 /**
  * Return local or common group description depending on current locale.
  *
- * @global string $current_locale Code of the current locale
  * @param array $group Associative group array. Should contain following keys:
  *  - 'vccommondescription': string, contain common description of the group;
  *  - 'vclocaldescription': string, contain local description of the group.
  * @return string Group description
  */
 function get_group_description($group) {
-	global $current_locale;
-	if (HOME_LOCALE == $current_locale
+	if (HOME_LOCALE == CURRENT_LOCALE
 			|| !isset($group['vccommondescription'])
 			|| !$group['vccommondescription']) {
 		return $group['vclocaldescription'];

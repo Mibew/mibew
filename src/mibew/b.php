@@ -37,7 +37,7 @@ if($referer && isset($_SESSION['threadid'])) {
 $image = verifyparam(isset($_GET['image']) ? "image" : "i", "/^\w+$/", "mibew");
 $lang = verifyparam(isset($_GET['language']) ? "language" : "lang", "/^[\w-]{2,5}$/", "");
 if(!$lang || !locale_exists($lang)) {
-	$lang = $current_locale;
+	$lang = CURRENT_LOCALE;
 }
 
 $groupid = verifyparam( "group", "/^\d{1,8}$/", "");

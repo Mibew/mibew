@@ -125,7 +125,7 @@ force_password($operator);
 csrfchecktoken();
 
 $source = verifyparam("source", "/^[\w-]{2,5}$/", DEFAULT_LOCALE);
-$target = verifyparam("target", "/^[\w-]{2,5}$/", $current_locale);
+$target = verifyparam("target", "/^[\w-]{2,5}$/", CURRENT_LOCALE);
 $stringid = verifyparam("key", "/^[_\.\w]+$/", "");
 
 if (!isset($messages[$source])) {

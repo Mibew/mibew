@@ -631,7 +631,6 @@ function get_remote_host()
 /**
  * Start chat thread for user
  *
- * @global string $current_locale Current locale code
  * @param int $group_id Id of group related to thread
  * @param array $requested_operator Array of requested operator info
  * @param string $visitor_id Id of the visitor
@@ -640,8 +639,6 @@ function get_remote_host()
  * @param string $info User info
  */
 function chat_start_for_user($group_id, $requested_operator, $visitor_id, $visitor_name, $referrer, $info) {
-	global $current_locale;
-
 	// Get user info
 	$remote_host = get_remote_host();
 	$user_browser = $_SERVER['HTTP_USER_AGENT'];
@@ -690,7 +687,7 @@ function chat_start_for_user($group_id, $requested_operator, $visitor_id, $visit
 	$thread->userName = $visitor_name;
 	$thread->remote = $remote_host;
 	$thread->referer = $referrer;
-	$thread->locale = $current_locale;
+	$thread->locale = CURRENT_LOCALE;
 	$thread->userId = $visitor_id;
 	$thread->userAgent = $user_browser;
 	$thread->save();

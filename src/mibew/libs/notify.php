@@ -17,7 +17,7 @@
 
 function mibew_mail($toaddr, $reply_to, $subject, $body)
 {
-	global $mibew_mailbox, $mail_encoding, $current_locale;
+	global $mibew_mailbox, $mail_encoding;
 
 	$headers = "From: $mibew_mailbox\r\n"
 			   . "Reply-To: " . myiconv(MIBEW_ENCODING, $mail_encoding, $reply_to) . "\r\n"

@@ -453,14 +453,12 @@ function is_operator_online($operatorid)
 /**
  * Returns name of the operator. Choose between vclocalname and vccommonname
  *
- * @global string $current_locale Code of the current locale
  * @param array $operator Operator's array
  * @return string Operator's name
  */
 function get_operator_name($operator)
 {
-	global $current_locale;
-	if (HOME_LOCALE == $current_locale)
+	if (HOME_LOCALE == CURRENT_LOCALE)
 		return $operator['vclocalename'];
 	else
 		return $operator['vccommonname'];
