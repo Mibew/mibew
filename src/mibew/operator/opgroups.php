@@ -48,22 +48,22 @@ $operator_in_isolation = in_isolation($operator);
 $opId = verifyparam("op", "/^\d{1,9}$/");
 $page = array('opid' => $opId);
 $page['groups'] = $operator_in_isolation?get_all_groups_for_operator($operator):get_all_groups();
-$errors = array();
+$page['errors'] = array();
 
 $canmodify = is_capable(CAN_ADMINISTRATE, $operator);
 
 $op = operator_by_id($opId);
 
 if (!$op) {
-	$errors[] = getlocal("no_such_operator");
+	$page['errors'][] = getlocal("no_such_operator");
 
 } else if (isset($_POST['op'])) {
 
 	if (!$canmodify) {
-		$errors[] = getlocal('page_agent.cannot_modify');
+		$page['errors'][] = getlocal('page_agent.cannot_modify');
 	}
 
-	if (count($errors) == 0) {
+	if (count($page['errors']) == 0) {
 		$new_groups = array();
 		foreach ($page['groups'] as $group) {
 			if (verifyparam("group" . $group['groupid'], "/^on$/", "") == "on") {

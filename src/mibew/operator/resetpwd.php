@@ -24,7 +24,6 @@ require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(MIBEW_FS_ROOT.'/libs/operator.php');
 require_once(MIBEW_FS_ROOT.'/libs/settings.php');
 
-$errors = array();
 $page = array(
 	'version' => MIBEW_VERSION,
 	'showform' => true,
@@ -32,6 +31,7 @@ $page = array(
 	'headertitle' => getlocal("app.title"),
 	'show_small_login' => true,
 	'fixedwrap' => true,
+	'errors' => array(),
 );
 
 $page_style = new PageStyle(PageStyle::currentStyle());
@@ -42,24 +42,24 @@ $token = verifyparam("token", "/^[\dabcdef]+$/");
 $operator = operator_by_id($opId);
 
 if (!$operator) {
-	$errors[] = "No such operator";
+	$page['errors'][] = "No such operator";
 	$page['showform'] = false;
 } else if ($token != $operator['vcrestoretoken']) {
-	$errors[] = "Wrong token";
+	$page['errors'][] = "Wrong token";
 	$page['showform'] = false;
 }
 
-if (count($errors) == 0 && isset($_POST['password'])) {
+if (count($page['errors']) == 0 && isset($_POST['password'])) {
 	$password = getparam('password');
 	$passwordConfirm = getparam('passwordConfirm');
 
 	if (!$password)
-		$errors[] = no_field("form.field.password");
+		$page['errors'][] = no_field("form.field.password");
 
 	if ($password != $passwordConfirm)
-		$errors[] = getlocal("my_settings.error.password_match");
+		$page['errors'][] = getlocal("my_settings.error.password_match");
 
-	if (count($errors) == 0) {
+	if (count($page['errors']) == 0) {
 		$page['isdone'] = true;
 
 		$db = Database::getInstance();

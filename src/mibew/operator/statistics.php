@@ -48,7 +48,7 @@ $page['last_cron_run'] = Settings::get('_last_cron_run');
 
 $page['show_invitations_info'] = (bool)Settings::get('enabletracking');
 
-$errors = array();
+$page['errors'] = array();
 
 if (isset($_GET['startday'])) {
 	$startday = verifyparam("startday", "/^\d+$/");
@@ -83,7 +83,7 @@ $page = array_merge(
 );
 
 if ($start > $end) {
-	$errors[] = getlocal("statistics.wrong.dates");
+	$page['errors'][] = getlocal("statistics.wrong.dates");
 }
 
 $activetab = 0;
@@ -178,7 +178,7 @@ if ($statisticstype == 'bydate') {
 	);
 	$activetab = 2;
 }
-$page['showresults'] = count($errors) == 0;
+$page['showresults'] = count($page['errors']) == 0;
 
 $page['title'] = getlocal("statistics.title");
 $page['menuid'] = "statistics";

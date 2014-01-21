@@ -28,8 +28,11 @@ $operator = check_login();
 csrfchecktoken();
 
 $opId = verifyparam("op", "/^\d{1,9}$/");
-$page = array('opid' => $opId, 'avatar' => '');
-$errors = array();
+$page = array(
+	'opid' => $opId,
+	'avatar' => '',
+	'errors' => array(),
+);
 
 $canmodify = ($opId == $operator['operatorid'] && is_capable(CAN_MODIFYPROFILE, $operator))
 			 || is_capable(CAN_ADMINISTRATE, $operator);
@@ -37,13 +40,13 @@ $canmodify = ($opId == $operator['operatorid'] && is_capable(CAN_MODIFYPROFILE, 
 $op = operator_by_id($opId);
 
 if (!$op) {
-	$errors[] = getlocal("no_such_operator");
+	$page['errors'][] = getlocal("no_such_operator");
 
 } else if (isset($_POST['op'])) {
 	$avatar = $op['vcavatar'];
 
 	if (!$canmodify) {
-		$errors[] = getlocal('page_agent.cannot_modify');
+		$page['errors'][] = getlocal('page_agent.cannot_modify');
 
 	} else if (isset($_FILES['avatarFile']) && $_FILES['avatarFile']['name']) {
 		$valid_types = array("gif", "jpg", "png", "tif", "jpeg");
@@ -56,9 +59,9 @@ if (!$op) {
 
 		$file_size = $_FILES['avatarFile']['size'];
 		if ($file_size == 0 || $file_size > Settings::get('max_uploaded_file_size')) {
-			$errors[] = failed_uploading_file($orig_filename, "errors.file.size.exceeded");
+			$page['errors'][] = failed_uploading_file($orig_filename, "errors.file.size.exceeded");
 		} elseif (!in_array($ext, $valid_types)) {
-			$errors[] = failed_uploading_file($orig_filename, "errors.invalid.file.type");
+			$page['errors'][] = failed_uploading_file($orig_filename, "errors.invalid.file.type");
 		} else {
 			$avatar_local_dir = MIBEW_FS_ROOT.'/files/avatar/';
 			$full_file_path = $avatar_local_dir . $new_file_name;
@@ -66,16 +69,16 @@ if (!$op) {
 				unlink($full_file_path);
 			}
 			if (!@move_uploaded_file($_FILES['avatarFile']['tmp_name'], $full_file_path)) {
-				$errors[] = failed_uploading_file($orig_filename, "errors.file.move.error");
+				$page['errors'][] = failed_uploading_file($orig_filename, "errors.file.move.error");
 			} else {
 				$avatar = MIBEW_WEB_ROOT . "/files/avatar/$new_file_name";
 			}
 		}
 	} else {
-		$errors[] = "No file selected";
+		$page['errors'][] = "No file selected";
 	}
 
-	if (count($errors) == 0) {
+	if (count($page['errors']) == 0) {
 		update_operator_avatar($op['operatorid'], $avatar);
 
 		if ($opId && $avatar && $_SESSION[SESSION_PREFIX."operator"] && $operator['operatorid'] == $opId) {

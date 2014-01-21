@@ -27,8 +27,11 @@ require_once(MIBEW_FS_ROOT.'/libs/groups.php');
 $operator = check_login();
 csrfchecktoken();
 
-$page = array('grid' => '');
-$errors = array();
+$page = array(
+	'grid' => '',
+	'errors' => array(),
+);
+
 $groupid = '';
 
 function group_by_name($name)
@@ -157,13 +160,13 @@ if (isset($_POST['name'])) {
 	$logo = getparam('logo');
 
 	if (!$name)
-		$errors[] = no_field("form.field.groupname");
+		$page['errors'][] = no_field("form.field.groupname");
 
 	if ($email != '' && !is_valid_email($email))
-		$errors[] = wrong_field("form.field.mail");
+		$page['errors'][] = wrong_field("form.field.mail");
 
 	if (! preg_match("/^(\d{1,9})?$/", $weight))
-		$errors[] = wrong_field("form.field.groupweight");
+		$page['errors'][] = wrong_field("form.field.groupweight");
 
 	if ($weight == '')
 		$weight = 0;
@@ -174,9 +177,9 @@ if (isset($_POST['name'])) {
 	$existing_group = group_by_name($name);
 	if ((!$groupid && $existing_group) ||
 		($groupid && $existing_group && $groupid != $existing_group['groupid']))
-		$errors[] = getlocal("page.group.duplicate_name");
+		$page['errors'][] = getlocal("page.group.duplicate_name");
 
-	if (count($errors) == 0) {
+	if (count($page['errors']) == 0) {
 		if (!$groupid) {
 			$newdep = create_group(array(
 				'name' => $name,
@@ -229,7 +232,7 @@ if (isset($_POST['name'])) {
 	$group = group_by_id($groupid);
 
 	if (!$group) {
-		$errors[] = getlocal("page.group.no_such");
+		$page['errors'][] = getlocal("page.group.no_such");
 		$page['grid'] = topage($groupid);
 	} else {
 		$page['formname'] = topage($group['vclocalname']);

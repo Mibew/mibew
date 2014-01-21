@@ -18,7 +18,7 @@
 require_once(dirname(__FILE__).'/inc_tabbar.php');
 require_once(dirname(__FILE__).'/inc_menu.php');
 
-function tpl_content() { global $page, $errors;
+function tpl_content() { global $page;
 ?>
 
 <?php echo getlocal2("statistics.description.full", array(date_to_text($page['last_cron_run']), $page['cron_path'])) ?>

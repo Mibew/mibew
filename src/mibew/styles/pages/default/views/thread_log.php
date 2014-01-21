@@ -40,7 +40,7 @@ function tpl_header() { global $page; ?>
 //--></script>
 <?php }
 
-function tpl_content() { global $page, $errors;
+function tpl_content() { global $page;
 $chatthreadinfo = $page['thread_info'];
 $chatthread = $page['thread_info']['thread'];
 ?>

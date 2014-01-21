@@ -28,8 +28,9 @@ require_once(MIBEW_FS_ROOT.'/libs/pagination.php');
 $operator = check_login();
 csrfchecktoken();
 
-$page = array();
-$errors = array();
+$page = array(
+	'errors' => array(),
+);
 
 setlocale(LC_TIME, getstring("time.locale"));
 
@@ -39,10 +40,10 @@ if (isset($_GET['act']) && $_GET['act'] == 'del') {
 	$banId = isset($_GET['id']) ? $_GET['id'] : "";
 
 	if (!preg_match("/^\d+$/", $banId)) {
-		$errors[] = "Cannot delete: wrong argument";
+		$page['errors'][] = "Cannot delete: wrong argument";
 	}
 
-	if (count($errors) == 0) {
+	if (count($page['errors']) == 0) {
 		$db->query("delete from {chatban} where banid = ?", array($banId));
 		header("Location: " . MIBEW_WEB_ROOT . "/operator/blocked.php");
 		exit;

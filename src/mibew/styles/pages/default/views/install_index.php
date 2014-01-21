@@ -40,7 +40,7 @@ function tpl_header() { global $page;
 	}
 }
 
-function tpl_content() { global $page, $errors;
+function tpl_content() { global $page;
 ?>
 <?php echo getlocal("install.message") ?>
 <br/>

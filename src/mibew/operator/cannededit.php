@@ -29,15 +29,16 @@ csrfchecktoken();
 
 $stringid = verifyparam("key", "/^\d{0,9}$/", "");
 
-$errors = array();
-$page = array();
+$page = array(
+	'errors' => array(),
+);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 
 if ($stringid) {
 	$canned_message = load_canned_message($stringid);
 	if (!$canned_message) {
-		$errors[] = getlocal("cannededit.no_such");
+		$page['errors'][] = getlocal("cannededit.no_such");
 		$stringid = "";
 	}else{
 		$title = $canned_message['vctitle'];
@@ -54,15 +55,15 @@ if ($stringid) {
 if (isset($_POST['message']) && isset($_POST['title'])) {
 	$title = getparam('title');
 	if (!$title) {
-		$errors[] = no_field("form.field.title");
+		$page['errors'][] = no_field("form.field.title");
 	}
 
 	$message = getparam('message');
 	if (!$message) {
-		$errors[] = no_field("form.field.message");
+		$page['errors'][] = no_field("form.field.message");
 	}
 
-	if (count($errors) == 0) {
+	if (count($page['errors']) == 0) {
 		if ($stringid) {
 			save_canned_message($stringid, $title, $message);
 		} else {

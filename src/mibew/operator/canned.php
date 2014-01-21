@@ -31,8 +31,9 @@ $operator = check_login();
 force_password($operator);
 csrfchecktoken();
 
-$errors = array();
-$page = array();
+$page = array(
+	'errors' => array(),
+);
 
 # locales
 
@@ -55,7 +56,7 @@ $groupid = verifyparam("group", "/^\d{0,8}$/", "");
 if ($groupid) {
 	$group = group_by_id($groupid);
 	if (!$group) {
-		$errors[] = getlocal("page.group.no_such");
+		$page['errors'][] = getlocal("page.group.no_such");
 		$groupid = "";
 	}
 }
@@ -77,10 +78,10 @@ if (isset($_GET['act']) && $_GET['act'] == 'delete') {
 	$key = isset($_GET['key']) ? $_GET['key'] : "";
 
 	if (!preg_match("/^\d+$/", $key)) {
-		$errors[] = "Wrong key";
+		$page['errors'][] = "Wrong key";
 	}
 
-	if (count($errors) == 0) {
+	if (count($page['errors']) == 0) {
 		$db = Database::getInstance();
 		$db->query("delete from {chatresponses} where id = ?", array($key));
 		header("Location: " . MIBEW_WEB_ROOT . "/operator/canned.php?lang=" . urlencode($lang) . "&group=" . intval($groupid));

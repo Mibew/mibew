@@ -36,8 +36,9 @@ if (! $thread) {
 	die("wrong thread");
 }
 
-$page = array();
-$errors = array();
+$page = array(
+	'errors' => array(),
+);
 
 // Initialize chat style which is currently used in system
 $chat_style = new ChatStyle(ChatStyle::currentStyle());
@@ -65,10 +66,10 @@ if (isset($_GET['nextGroup'])) {
 				)
 			);
 		} else {
-			$errors[] = getlocal("chat.redirect.cannot");
+			$page['errors'][] = getlocal("chat.redirect.cannot");
 		}
 	} else {
-		$errors[] = "Unknown group";
+		$page['errors'][] = "Unknown group";
 	}
 
 } else {
@@ -106,10 +107,10 @@ if (isset($_GET['nextGroup'])) {
 				)
 			);
 		} else {
-			$errors[] = getlocal("chat.redirect.cannot");
+			$page['errors'][] = getlocal("chat.redirect.cannot");
 		}
 	} else {
-		$errors[] = "Unknown operator";
+		$page['errors'][] = "Unknown operator";
 	}
 }
 
@@ -117,10 +118,8 @@ $page = array_merge_recursive(
 	$page,
 	setup_logo()
 );
-$page['errors'] = $errors;
 
-
-if (count($errors) > 0) {
+if (count($page['errors']) > 0) {
 	$chat_style->render('error', $page);
 } else {
 	$chat_style->render('redirected', $page);

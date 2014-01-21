@@ -26,8 +26,11 @@ require_once(MIBEW_FS_ROOT.'/libs/operator_settings.php');
 $operator = check_login();
 csrfchecktoken();
 
-$page = array('opid' => '');
-$errors = array();
+$page = array(
+	'opid' => '',
+	'errors' => array(),
+);
+
 $opId = '';
 
 if ((isset($_POST['login']) || !is_capable(CAN_ADMINISTRATE, $operator)) && isset($_POST['password'])) {
@@ -45,35 +48,35 @@ if ((isset($_POST['login']) || !is_capable(CAN_ADMINISTRATE, $operator)) && isse
 	$code = getparam('code');
 
 	if (!$localname)
-		$errors[] = no_field("form.field.agent_name");
+		$page['errors'][] = no_field("form.field.agent_name");
 
 	if (!$commonname)
-		$errors[] = no_field("form.field.agent_commonname");
+		$page['errors'][] = no_field("form.field.agent_commonname");
 
 	if (!$login) {
-		$errors[] = no_field("form.field.login");
+		$page['errors'][] = no_field("form.field.login");
 	} else if (!preg_match("/^[\w_\.]+$/", $login)) {
-		$errors[] = getlocal("page_agent.error.wrong_login");
+		$page['errors'][] = getlocal("page_agent.error.wrong_login");
 	}
 
 	if ($email == '' || !is_valid_email($email)) {
-		$errors[] = wrong_field("form.field.mail");
+		$page['errors'][] = wrong_field("form.field.mail");
 	}
 
 	if ($code != '' && (! preg_match("/^[A-z0-9_]+$/", $code))) {
-		$errors[] = getlocal("page_agent.error.wrong_agent_code");
+		$page['errors'][] = getlocal("page_agent.error.wrong_agent_code");
 	}
 
 	if (!$opId && !$password)
-		$errors[] = no_field("form.field.password");
+		$page['errors'][] = no_field("form.field.password");
 
 	if ($password != $passwordConfirm)
-		$errors[] = getlocal("my_settings.error.password_match");
+		$page['errors'][] = getlocal("my_settings.error.password_match");
 
 	$existing_operator = operator_by_login($login);
 	if ((!$opId && $existing_operator) ||
 		($opId && $existing_operator && $opId != $existing_operator['operatorid']))
-		$errors[] = getlocal("page_agent.error.duplicate_login");
+		$page['errors'][] = getlocal("page_agent.error.duplicate_login");
 
 	// Check if operator with specified email already exists in the database
 	$existing_operator = operator_by_email($email);
@@ -83,16 +86,16 @@ if ((isset($_POST['login']) || !is_capable(CAN_ADMINISTRATE, $operator)) && isse
 		// Update operator email to existing one
 		($opId && $existing_operator && $opId != $existing_operator['operatorid'])
 	) {
-		$errors[] = getlocal("page_agent.error.duplicate_email");
+		$page['errors'][] = getlocal("page_agent.error.duplicate_email");
 	}
 
 	$canmodify = ($opId == $operator['operatorid'] && is_capable(CAN_MODIFYPROFILE, $operator))
 				 || is_capable(CAN_ADMINISTRATE, $operator);
 	if (!$canmodify) {
-		$errors[] = getlocal('page_agent.cannot_modify');
+		$page['errors'][] = getlocal('page_agent.cannot_modify');
 	}
 
-	if (count($errors) == 0) {
+	if (count($page['errors']) == 0) {
 		if (!$opId) {
 			$newop = create_operator($login, $email, $password, $localname, $commonname, "", $code);
 			header("Location: " . MIBEW_WEB_ROOT . "/operator/avatar.php?op=" . intval($newop['operatorid']));
@@ -125,13 +128,13 @@ if ((isset($_POST['login']) || !is_capable(CAN_ADMINISTRATE, $operator)) && isse
 	$op = operator_by_id($opId);
 
 	if (!$op) {
-		$errors[] = getlocal("no_such_operator");
+		$page['errors'][] = getlocal("no_such_operator");
 		$page['opid'] = topage($opId);
 	} else {
 		//show an error if the admin password hasn't been set yet.
 		if (check_password_hash($operator['vclogin'], '', $operator['vcpassword']) && !isset($_GET['stored']))
 		{
-			$errors[] = getlocal("my_settings.error.no_password");
+			$page['errors'][] = getlocal("my_settings.error.no_password");
 		}
 
 		$page['formlogin'] = topage($op['vclogin']);
@@ -144,7 +147,7 @@ if ((isset($_POST['login']) || !is_capable(CAN_ADMINISTRATE, $operator)) && isse
 }
 
 if (!$opId && !is_capable(CAN_ADMINISTRATE, $operator)) {
-	$errors[] = getlocal("page_agent.error.forbidden_create");
+	$page['errors'][] = getlocal("page_agent.error.forbidden_create");
 }
 
 $canmodify = ($opId == $operator['operatorid'] && is_capable(CAN_MODIFYPROFILE, $operator))

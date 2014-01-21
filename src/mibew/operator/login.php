@@ -22,8 +22,11 @@ use Mibew\Style\PageStyle;
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(MIBEW_FS_ROOT.'/libs/operator.php');
 
-$errors = array();
-$page = array('formisRemember' => true, 'version' => MIBEW_VERSION);
+$page = array(
+	'formisRemember' => true,
+	'version' => MIBEW_VERSION,
+	'errors' => array(),
+);
 
 if (isset($_POST['login']) && isset($_POST['password'])) {
 	$login = getparam('login');
@@ -44,9 +47,9 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 		exit;
 	} else {
 		if (operator_is_disabled($operator)) {
-			$errors[] = getlocal('page_login.operator.disabled');
+			$page['errors'][] = getlocal('page_login.operator.disabled');
 		} else {
-			$errors[] = getlocal("page_login.error");
+			$page['errors'][] = getlocal("page_login.error");
 		}
 		$page['formlogin'] = $login;
 	}

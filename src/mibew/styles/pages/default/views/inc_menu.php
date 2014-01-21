@@ -23,7 +23,7 @@ function menuli($name) {
 	return "";
 }
 
-function tpl_menu() { global $page, $errors;
+function tpl_menu() { global $page;
 	if(isset($page['isOnline']) && !$page['isOnline']) { ?>
 			<li id="offwarn">
 				<img src="<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/images/dash/warn.gif" alt="" width="24" height="24"/>

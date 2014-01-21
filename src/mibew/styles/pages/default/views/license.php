@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-function tpl_content() { global $page, $errors;
+function tpl_content() { global $page;
 ?>
 
 <p>Copyright 2005-2013 the original author or authors.</p>

@@ -25,7 +25,7 @@ function tpl_header() { global $page;
 <?php
 }
 
-function tpl_content() { global $page, $errors;
+function tpl_content() { global $page;
 ?>
 
 <?php echo getlocal("page_settings.intro") ?>

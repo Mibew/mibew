@@ -26,8 +26,9 @@ require_once(MIBEW_FS_ROOT.'/libs/chat.php');
 require_once(MIBEW_FS_ROOT.'/libs/groups.php');
 require_once(MIBEW_FS_ROOT.'/libs/notify.php');
 
-$errors = array();
-$page = array();
+$page = array(
+	'errors' =>array()
+);
 
 $token = verifyparam( "token", "/^\d{1,8}$/");
 $threadid = verifyparam( "thread", "/^\d{1,8}$/");
@@ -44,12 +45,12 @@ $email = getparam('email');
 $page['email'] = $email;
 $group = is_null($thread->groupId)?NULL:group_by_id($thread->groupId);
 if( !$email ) {
-	$errors[] = no_field("form.field.email");
+	$page['errors'][] = no_field("form.field.email");
 } else if( !is_valid_email($email)) {
-	$errors[] = wrong_field("form.field.email");
+	$page['errors'][] = wrong_field("form.field.email");
 }
 
-if( count($errors) > 0 ) {
+if( count($page['errors']) > 0 ) {
 	$page['formemail'] = $email;
 	$page['chat.thread.id'] = $thread->id;
 	$page['chat.thread.token'] = $thread->lastToken;
@@ -58,7 +59,6 @@ if( count($errors) > 0 ) {
 		$page,
 		setup_logo($group)
 	);
-	$page['errors'] = $errors;
 	$chat_style->render('mail', $page);
 	exit;
 }
@@ -82,7 +82,7 @@ $page = array_merge_recursive(
 	$page,
 	setup_logo($group)
 );
-$page['errors'] = $errors;
+
 $chat_style->render('mailsent', $page);
 exit;
 ?>

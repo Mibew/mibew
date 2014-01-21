@@ -27,33 +27,36 @@ $operator = check_login();
 force_password($operator);
 csrfchecktoken();
 
+$page = array(
+	'errors' => array(),
+);
+
 if (isset($_GET['act'])) {
 
-	$errors = array();
 	$operatorid = isset($_GET['id']) ? $_GET['id'] : "";
 	if (!preg_match("/^\d+$/", $operatorid)) {
-		$errors[] = getlocal("no_such_operator");
+		$page['errors'][] = getlocal("no_such_operator");
 	}
 
 	if ($_GET['act'] == 'del') {
 		if (!is_capable(CAN_ADMINISTRATE, $operator)) {
-			$errors[] = getlocal("page_agents.error.forbidden_remove");
+			$page['errors'][] = getlocal("page_agents.error.forbidden_remove");
 		}
 
 		if ($operatorid == $operator['operatorid']) {
-			$errors[] = getlocal("page_agents.error.cannot_remove_self");
+			$page['errors'][] = getlocal("page_agents.error.cannot_remove_self");
 		}
 
-		if (count($errors) == 0) {
+		if (count($page['errors']) == 0) {
 			$op = operator_by_id($operatorid);
 			if (!$op) {
-				$errors[] = getlocal("no_such_operator");
+				$page['errors'][] = getlocal("no_such_operator");
 			} else if ($op['vclogin'] == 'admin') {
-				$errors[] = getlocal("page_agents.error.cannot_remove_admin");
+				$page['errors'][] = getlocal("page_agents.error.cannot_remove_admin");
 			}
 		}
 
-		if (count($errors) == 0) {
+		if (count($page['errors']) == 0) {
 			delete_operator($operatorid);
 			header("Location: " . MIBEW_WEB_ROOT . "/operator/operators.php");
 			exit;
@@ -62,23 +65,23 @@ if (isset($_GET['act'])) {
 	if ($_GET['act'] == 'disable' || $_GET['act'] == 'enable') {
 		$act_disable = ($_GET['act'] == 'disable');
 		if (!is_capable(CAN_ADMINISTRATE, $operator)) {
-			$errors[] = $act_disable?getlocal('page_agents.disable.not.allowed'):getlocal('page_agents.enable.not.allowed');
+			$page['errors'][] = $act_disable?getlocal('page_agents.disable.not.allowed'):getlocal('page_agents.enable.not.allowed');
 		}
 
 		if ($operatorid == $operator['operatorid'] && $act_disable) {
-			$errors[] = getlocal('page_agents.cannot.disable.self');
+			$page['errors'][] = getlocal('page_agents.cannot.disable.self');
 		}
 
-		if (count($errors) == 0) {
+		if (count($page['errors']) == 0) {
 			$op = operator_by_id($operatorid);
 			if (!$op) {
-				$errors[] = getlocal("no_such_operator");
+				$page['errors'][] = getlocal("no_such_operator");
 			} else if ($op['vclogin'] == 'admin' && $act_disable) {
-				$errors[] = getlocal('page_agents.cannot.disable.admin');
+				$page['errors'][] = getlocal('page_agents.cannot.disable.admin');
 			}
 		}
 
-		if (count($errors) == 0) {
+		if (count($page['errors']) == 0) {
 			$db = Database::getInstance();
 			$db->query(
 				"update {chatoperator} set idisabled = ? where operatorid = ?",
@@ -91,7 +94,6 @@ if (isset($_GET['act'])) {
 	}
 }
 
-$page = array();
 $sort['by'] = verifyparam("sortby", "/^(login|commonname|localename|lastseen)$/", "login");
 $sort['desc'] = (verifyparam("sortdirection", "/^(desc|asc)$/", "desc") == "desc");
 $page['formsortby'] = $sort['by'];

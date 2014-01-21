@@ -288,15 +288,15 @@ $dbtables_can_update = array(
 
 function show_install_err($text)
 {
-	global $page, $errors;
+	global $page;
 	$page = array(
 		'version' => MIBEW_VERSION,
 		'localeLinks' => get_locale_links(MIBEW_WEB_ROOT . "/install/index.php"),
 		'title' => getlocal("install.err.title"),
 		'no_right_menu' => true,
 		'fixedwrap' => true,
+		'errors' => array($text),
 	);
-	$errors = array($text);
 	$page_style = new \Mibew\Style\PageStyle('default');
 	$page_style->render('install_err');
 	exit;

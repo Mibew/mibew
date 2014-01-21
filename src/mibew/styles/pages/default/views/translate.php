@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-function tpl_content() { global $page, $errors;
+function tpl_content() { global $page;
 ?>
 
 	<?php if( $page['saved'] ) { ?>

@@ -44,7 +44,9 @@ if (Settings::get('enablessl') == "1" && Settings::get('forcessl') == "1") {
 }
 
 $threadid = verifyparam("thread", "/^\d{1,8}$/");
-$page = array();
+$page = array(
+	'errors' => array()
+);
 
 // Initialize chat style which is currently used in system
 $chat_style = new ChatStyle(ChatStyle::currentStyle());
@@ -55,16 +57,14 @@ if (!isset($_GET['token'])) {
 
 	$remote_level = get_remote_level($_SERVER['HTTP_USER_AGENT']);
 	if ($remote_level != "ajaxed") {
-		$errors = array(getlocal("thread.error.old_browser"));
-		$page['errors'] = $errors;
+		$page['errors'][] = getlocal("thread.error.old_browser");
 		$chat_style->render('error', $page);
 		exit;
 	}
 
 	$thread = Thread::load($threadid);
 	if (!$thread || !isset($thread->lastToken)) {
-		$errors = array(getlocal("thread.error.wrong_thread"));
-		$page['errors'] = $errors;
+		$page['errors'][] = getlocal("thread.error.wrong_thread");
 		$chat_style->render('error', $page);
 		exit;
 	}
@@ -75,8 +75,7 @@ if (!isset($_GET['token'])) {
 	if (!$viewonly && $thread->state == Thread::STATE_CHATTING && $operator['operatorid'] != $thread->agentId) {
 
 		if (!is_capable(CAN_TAKEOVER, $operator)) {
-			$errors = array(getlocal("thread.error.cannot_take_over"));
-			$page['errors'] = $errors;
+			$page['errors'][] = getlocal("thread.error.cannot_take_over");
 			$chat_style->render('error', $page);
 			exit;
 		}
@@ -95,14 +94,12 @@ if (!isset($_GET['token'])) {
 
 	if (!$viewonly) {
 		if(! $thread->take($operator)){
-			$errors = array(getlocal("thread.error.cannot_take"));
-			$page['errors'] = $errors;
+			$page['errors'][] = getlocal("thread.error.cannot_take");
 			$chat_style->render('error', $page);
 			exit;
 		}
 	} else if (!is_capable(CAN_VIEWTHREADS, $operator)) {
-		$errors = array(getlocal("thread.error.cannot_view"));
-		$page['errors'] = $errors;
+		$page['errors'][] = getlocal("thread.error.cannot_view");
 		$chat_style->render('error', $page);
 		exit;
 	}
@@ -120,8 +117,7 @@ if (!$thread) {
 }
 
 if ($thread->agentId != $operator['operatorid'] && !is_capable(CAN_VIEWTHREADS, $operator)) {
-	$errors = array("Cannot view threads");
-	$page['errors'] = $errors;
+	$page['errors'][] = "Cannot view threads";
 	$chat_style->render('error', $page);
 	exit;
 }

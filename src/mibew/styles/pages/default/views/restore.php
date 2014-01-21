@@ -20,7 +20,7 @@ if(isset($page) && isset($page['localeLinks'])) {
 }
 
 function tpl_content() { 
-	global $page, $errors;
+	global $page;
 	
 	if($page['isdone']) {
 ?>

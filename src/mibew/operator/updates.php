@@ -28,13 +28,13 @@ force_password($operator);
 
 $default_extensions = array('mysql', 'gd', 'iconv');
 
-$errors = array();
 $page = array(
 	'localizations' => get_available_locales(),
 	'phpVersion' => phpversion(),
 	'version' => MIBEW_VERSION,
 	'title' => getlocal("updates.title"),
 	'menuid' => "updates",
+	'errors' => array(),
 );
 
 foreach ($default_extensions as $ext) {

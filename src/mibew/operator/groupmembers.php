@@ -63,12 +63,12 @@ function get_operators()
 $groupid = verifyparam("gid", "/^\d{1,9}$/");
 $page = array('groupid' => $groupid);
 $page['operators'] = get_operators();
-$errors = array();
+$page['errors'] = array();
 
 $group = group_by_id($groupid);
 
 if (!$group) {
-	$errors[] = getlocal("page.group.no_such");
+	$page['errors'][] = getlocal("page.group.no_such");
 
 } else if (isset($_POST['gid'])) {
 

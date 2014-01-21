@@ -30,12 +30,14 @@ require_once(MIBEW_FS_ROOT.'/libs/getcode.php');
 $operator = check_login();
 force_password($operator);
 
-$errors = array();
+$page = array(
+	'errors' => array(),
+);
 
 $imageLocales = get_image_locales_map(MIBEW_FS_ROOT.'/locales');
 $image = verifyparam(isset($_GET['image']) ? "image" : "i", "/^\w+$/", "mibew");
 if (!isset($imageLocales[$image])) {
-	$errors[] = "Unknown image: $image";
+	$page['errors'][] = "Unknown image: $image";
 	$avail = array_keys($imageLocales);
 	$image = $avail[0];
 }
@@ -55,7 +57,7 @@ if ($invitationstyle && !in_array($invitationstyle, $invitationstylelist)) {
 	$invitationstyle = "";
 }
 
-$groupid = verifyparam_groupid("group", $errors);
+$groupid = verifyparam_groupid("group", $page['errors']);
 $showhost = verifyparam("hostname", "/^on$/", "") == "on";
 $forcesecure = verifyparam("secure", "/^on$/", "") == "on";
 $modsecurity = verifyparam("modsecurity", "/^on$/", "") == "on";
@@ -76,7 +78,6 @@ if ($groupid) {
 }
 $message = get_image($imagehref, $size[0], $size[1]);
 
-$page = array();
 $page['buttonCode'] = generate_button("", $lang, $style, $invitationstyle, $groupid, $message, $showhost, $forcesecure, $modsecurity, $operator_code);
 $page['availableImages'] = array_keys($imageLocales);
 $page['availableLocales'] = $image_locales;

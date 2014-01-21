@@ -27,18 +27,21 @@ $operator = check_login();
 csrfchecktoken();
 
 $opId = verifyparam("op", "/^\d{1,9}$/");
-$page = array('opid' => $opId, 'canmodify' => is_capable(CAN_ADMINISTRATE, $operator) ? "1" : "");
-$errors = array();
+$page = array(
+	'opid' => $opId,
+	'canmodify' => is_capable(CAN_ADMINISTRATE, $operator) ? "1" : "",
+	'errors' => array(),
+);
 
 $op = operator_by_id($opId);
 
 if (!$op) {
-	$errors[] = getlocal("no_such_operator");
+	$page['errors'][] = getlocal("no_such_operator");
 
 } else if (isset($_POST['op'])) {
 
 	if (!is_capable(CAN_ADMINISTRATE, $operator)) {
-		$errors[] = getlocal('page_agent.cannot_modify');
+		$page['errors'][] = getlocal('page_agent.cannot_modify');
 	}
 
 	$new_permissions = isset($op['iperm']) ? $op['iperm'] : 0;
@@ -51,7 +54,7 @@ if (!$op) {
 		}
 	}
 
-	if (count($errors) == 0) {
+	if (count($page['errors']) == 0) {
 		update_operator_permissions($op['operatorid'], $new_permissions);
 
 		if ($opId && $_SESSION[SESSION_PREFIX."operator"] && $operator['operatorid'] == $opId) {

@@ -17,7 +17,7 @@
 
 require_once(dirname(__FILE__).'/inc_menu.php');
 
-function tpl_content() { global $page, $errors;
+function tpl_content() { global $page;
 ?>
 
 <?php echo getlocal("canned.descr") ?>

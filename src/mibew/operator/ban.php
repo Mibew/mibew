@@ -32,7 +32,7 @@ $page = array('banId' => '');
 $page['saved'] = false;
 $page['thread'] = '';
 $page['threadid'] = '';
-$errors = array();
+$page['errors'] = array();
 
 if (isset($_POST['address'])) {
 	$banId = verifyparam("banId", "/^(\d{1,9})?$/", "");
@@ -42,25 +42,25 @@ if (isset($_POST['address'])) {
 	$threadid = isset($_POST['threadid']) ? getparam('threadid') : "";
 
 	if (!$address) {
-		$errors[] = no_field("form.field.address");
+		$page['errors'][] = no_field("form.field.address");
 	}
 
 	if (!preg_match("/^\d+$/", $days)) {
-		$errors[] = wrong_field("form.field.ban_days");
+		$page['errors'][] = wrong_field("form.field.ban_days");
 	}
 
 	if (!$comment) {
-		$errors[] = no_field("form.field.ban_comment");
+		$page['errors'][] = no_field("form.field.ban_comment");
 	}
 
 	$existing_ban = ban_for_addr($address);
 
 	if ((!$banId && $existing_ban) ||
 		($banId && $existing_ban && $banId != $existing_ban['banid'])) {
-		$errors[] = getlocal2("ban.error.duplicate", array($address, $existing_ban['banid']));
+		$page['errors'][] = getlocal2("ban.error.duplicate", array($address, $existing_ban['banid']));
 	}
 
-	if (count($errors) == 0) {
+	if (count($page['errors']) == 0) {
 		$db = Database::getInstance();
 		$now = time();
 		$till_time = $now + $days * 24 * 60 * 60;
@@ -117,7 +117,7 @@ if (isset($_POST['address'])) {
 		$page['formdays'] = topage(round($ban['days'] / 86400));
 		$page['formcomment'] = topage($ban['comment']);
 	} else {
-		$errors[] = "Wrong id";
+		$page['errors'][] = "Wrong id";
 	}
 } else if (isset($_GET['thread'])) {
 	$threadid = verifyparam('thread', "/^\d{1,9}$/");

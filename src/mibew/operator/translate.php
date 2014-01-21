@@ -137,12 +137,12 @@ if (!isset($messages[$target])) {
 }
 $lang2 = $messages[$target];
 
-$errors = array();
 $page = array(
 	'lang1' => $source,
 	'lang2' => $target,
 	'title1' => isset($lang1["localeid"]) ? $lang1["localeid"] : $source,
-	'title2' => isset($lang2["localeid"]) ? $lang2["localeid"] : $target
+	'title2' => isset($lang2["localeid"]) ? $lang2["localeid"] : $target,
+	'errors' => array(),
 );
 
 $page_style = new PageStyle(PageStyle::currentStyle());
@@ -153,10 +153,10 @@ if ($stringid) {
 
 		$translation = getparam('translation');
 		if (!$translation) {
-			$errors[] = no_field("form.field.translation");
+			$page['errors'][] = no_field("form.field.translation");
 		}
 
-		if (count($errors) == 0) {
+		if (count($page['errors']) == 0) {
 			save_message($target, $stringid, $translation);
 
 			$page['saved'] = true;

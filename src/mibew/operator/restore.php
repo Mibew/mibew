@@ -25,13 +25,13 @@ require_once(MIBEW_FS_ROOT.'/libs/operator.php');
 require_once(MIBEW_FS_ROOT.'/libs/settings.php');
 require_once(MIBEW_FS_ROOT.'/libs/notify.php');
 
-$errors = array();
 $page = array(
 	'version' => MIBEW_VERSION,
 	'title' => getlocal("restore.title"),
 	'headertitle' => getlocal("app.title"),
 	'show_small_login' => true,
 	'fixedwrap' => true,
+	'errors' => array(),
 );
 
 $loginoremail = "";
@@ -43,15 +43,15 @@ if (isset($_POST['loginoremail'])) {
 
 	$torestore = is_valid_email($loginoremail) ? operator_by_email($loginoremail) : operator_by_login($loginoremail);
 	if (!$torestore) {
-		$errors[] = getlocal("no_such_operator");
+		$page['errors'][] = getlocal("no_such_operator");
 	}
 
 	$email = $torestore['vcemail'];
-	if (count($errors) == 0 && !is_valid_email($email)) {
-		$errors[] = "Operator hasn't set his e-mail";
+	if (count($page['errors']) == 0 && !is_valid_email($email)) {
+		$page['errors'][] = "Operator hasn't set his e-mail";
 	}
 
-	if (count($errors) == 0) {
+	if (count($page['errors']) == 0) {
 		$token = sha1($torestore['vclogin'] . (function_exists('openssl_random_pseudo_bytes') ? openssl_random_pseudo_bytes(32) : (time() + microtime()) . mt_rand(0, 99999999)));
 
 		$db = Database::getInstance();

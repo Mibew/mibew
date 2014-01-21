@@ -32,14 +32,14 @@ if (isset($_GET['act']) && $_GET['act'] == 'del') {
 	$groupid = isset($_GET['gid']) ? $_GET['gid'] : "";
 
 	if (!preg_match("/^\d+$/", $groupid)) {
-		$errors[] = getlocal("page.groups.error.cannot_delete");
+		$page['errors'][] = getlocal("page.groups.error.cannot_delete");
 	}
 
 	if (!is_capable(CAN_ADMINISTRATE, $operator)) {
-		$errors[] = getlocal("page.groups.error.forbidden_remove");
+		$page['errors'][] = getlocal("page.groups.error.forbidden_remove");
 	}
 
-	if (count($errors) == 0) {
+	if (count($page['errors']) == 0) {
 		$db = Database::getInstance();
 		$db->query("delete from {chatgroup} where groupid = ?", array($groupid));
 		$db->query("delete from {chatgroupoperator} where groupid = ?", array($groupid));

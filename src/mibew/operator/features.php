@@ -27,8 +27,10 @@ require_once(MIBEW_FS_ROOT.'/libs/settings.php');
 $operator = check_login();
 csrfchecktoken();
 
-$page = array('agentId' => '');
-$errors = array();
+$page = array(
+	'agentId' => '',
+	'errors' => array(),
+);
 
 $options = array(
 	'enableban', 'usercanchangename',
@@ -57,7 +59,7 @@ if (isset($_POST['sent'])) {
 		header("Location: " . MIBEW_WEB_ROOT . "/operator/features.php?stored");
 		exit;
 	} else {
-		$errors[] = "Not an administrator";
+		$page['errors'][] = "Not an administrator";
 	}
 }
 

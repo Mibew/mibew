@@ -27,8 +27,10 @@ require_once(MIBEW_FS_ROOT.'/libs/settings.php');
 $operator = check_login();
 csrfchecktoken();
 
-$page = array('agentId' => '');
-$errors = array();
+$page = array(
+	'agentId' => '',
+	'errors' => array(),
+);
 
 $options = array(
 	'online_timeout', 'updatefrequency_operator', 'updatefrequency_chat',
@@ -44,59 +46,59 @@ foreach ($options as $opt) {
 if (isset($_POST['onlinetimeout'])) {
 	$params['online_timeout'] = getparam('onlinetimeout');
 	if (!is_numeric($params['online_timeout'])) {
-		$errors[] = wrong_field("settings.onlinetimeout");
+		$page['errors'][] = wrong_field("settings.onlinetimeout");
 	}
 
 	$params['updatefrequency_operator'] = getparam('frequencyoperator');
 	if (!is_numeric($params['updatefrequency_operator'])) {
-		$errors[] = wrong_field("settings.frequencyoperator");
+		$page['errors'][] = wrong_field("settings.frequencyoperator");
 	}
 
 	$params['updatefrequency_chat'] = getparam('frequencychat');
 	if (!is_numeric($params['updatefrequency_chat'])) {
-		$errors[] = wrong_field("settings.frequencychat");
+		$page['errors'][] = wrong_field("settings.frequencychat");
 	}
 
 	$params['max_connections_from_one_host'] = getparam('onehostconnections');
 	if (!is_numeric($params['max_connections_from_one_host'])) {
-		$errors[] = getlocal("settings.wrong.onehostconnections");
+		$page['errors'][] = getlocal("settings.wrong.onehostconnections");
 	}
 
 	$params['thread_lifetime'] = getparam('threadlifetime');
 	if (!is_numeric($params['thread_lifetime'])) {
-		$errors[] = getlocal("settings.wrong.threadlifetime");
+		$page['errors'][] = getlocal("settings.wrong.threadlifetime");
 	}
 
 	$params['statistics_aggregation_interval'] = getparam('statistics_aggregation_interval');
 	if (!is_numeric($params['statistics_aggregation_interval'])) {
-		$errors[] = wrong_field("settings.statistics_aggregation_interval");
+		$page['errors'][] = wrong_field("settings.statistics_aggregation_interval");
 	}
 
 	if (Settings::get('enabletracking')) {
 
 	    $params['updatefrequency_tracking'] = getparam('frequencytracking');
 	    if (!is_numeric($params['updatefrequency_tracking'])) {
-		    $errors[] = wrong_field("settings.frequencytracking");
+		    $page['errors'][] = wrong_field("settings.frequencytracking");
 	    }
 
 	    $params['visitors_limit'] = getparam('visitorslimit');
 	    if (!is_numeric($params['visitors_limit'])) {
-		    $errors[] = wrong_field("settings.visitorslimit");
+		    $page['errors'][] = wrong_field("settings.visitorslimit");
 	    }
 
 	    $params['invitation_lifetime'] = getparam('invitationlifetime');
 	    if (!is_numeric($params['invitation_lifetime'])) {
-		    $errors[] = wrong_field("settings.invitationlifetime");
+		    $page['errors'][] = wrong_field("settings.invitationlifetime");
 	    }
 
 	    $params['tracking_lifetime'] = getparam('trackinglifetime');
 	    if (!is_numeric($params['tracking_lifetime'])) {
-		    $errors[] = wrong_field("settings.trackinglifetime");
+		    $page['errors'][] = wrong_field("settings.trackinglifetime");
 	    }
 
 	}
 
-	if (count($errors) == 0) {
+	if (count($page['errors']) == 0) {
 		foreach ($options as $opt) {
 			Settings::set($opt,$params[$opt]);
 		}

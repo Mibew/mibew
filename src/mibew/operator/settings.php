@@ -31,8 +31,10 @@ $operator = check_login();
 force_password($operator);
 csrfchecktoken();
 
-$page = array('agentId' => '');
-$errors = array();
+$page = array(
+	'agentId' => '',
+	'errors' => array(),
+);
 
 // Load system configs
 $options = array(
@@ -97,22 +99,22 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
 	}
 
 	if ($params['email'] && !is_valid_email($params['email'])) {
-		$errors[] = getlocal("settings.wrong.email");
+		$page['errors'][] = getlocal("settings.wrong.email");
 	}
 
 	if ($params['geolinkparams']) {
 		foreach (preg_split("/,/", $params['geolinkparams']) as $oneparam) {
 			if (!preg_match("/^\s*(toolbar|scrollbars|location|status|menubar|width|height|resizable)=\d{1,4}$/", $oneparam)) {
-				$errors[] = "Wrong link parameter: \"$oneparam\", should be one of 'toolbar, scrollbars, location, status, menubar, width, height or resizable'";
+				$page['errors'][] = "Wrong link parameter: \"$oneparam\", should be one of 'toolbar, scrollbars, location, status, menubar, width, height or resizable'";
 			}
 		}
 	}
 
 	if (preg_match("/^[0-9A-z]*$/", $params['cron_key']) == 0) {
-		$errors[] = getlocal("settings.wrong.cronkey");
+		$page['errors'][] = getlocal("settings.wrong.cronkey");
 	}
 
-	if (count($errors) == 0) {
+	if (count($page['errors']) == 0) {
 		// Update system settings
 		foreach ($options as $opt) {
 			Settings::set($opt,$params[$opt]);
