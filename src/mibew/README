@@ -11,7 +11,7 @@ INSTALLATION
 
 1. Create folder with name 'mibew' in the root of your website.
 2. Upload all the files contained in this archive (retaining the directory structure) into created folder.
-   Be sure to chromo the mibew folder to 755 and the install folder to 644.
+   Be sure to chmod the mibew folder to 755 and the install folder to 644.
 3. Add a MySQL database with the name 'mibew'
 4. Edit /mibew/libs/config.php to the information needed to connect to the database
 5. Using your web browser visit http://<yourdomain>/mibew/install/ and
