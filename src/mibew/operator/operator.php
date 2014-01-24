@@ -141,7 +141,7 @@ $canmodify = ($opId == $operator['operatorid'] && is_capable($can_modifyprofile,
 $page['stored'] = isset($_GET['stored']);
 $page['canmodify'] = $canmodify ? "1" : "";
 $page['showjabber'] = $settings['enablejabber'] == "1";
-$page['needChangePassword'] = check_password_hash($operator['vclogin'], '', $operator['vcpassword']);
+$page['needChangePassword'] = ($opId == $operator['operatorid']) ? check_password_hash($operator['vclogin'], '', $operator['vcpassword']) : FALSE;
 
 prepare_menu($operator);
 setup_operator_settings_tabs($opId, 0);
