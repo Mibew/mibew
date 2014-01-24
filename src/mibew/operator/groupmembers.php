@@ -16,7 +16,6 @@
  */
 
 // Import namespaces and classes of the core
-use Mibew\Database;
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
@@ -27,42 +26,9 @@ require_once(MIBEW_FS_ROOT.'/libs/groups.php');
 $operator = check_login();
 csrfchecktoken();
 
-function get_group_members($groupid)
-{
-	$db = Database::getInstance();
-	return $db->query(
-		"select operatorid from {chatgroupoperator} where groupid = ?",
-		array($groupid),
-		array('return_rows' => Database::RETURN_ALL_ROWS)
-	);
-}
-
-function update_group_members($groupid, $newvalue)
-{
-	$db = Database::getInstance();
-	$db->query("delete from {chatgroupoperator} where groupid = ?", array($groupid));
-
-	foreach ($newvalue as $opid) {
-		$db->query(
-			"insert into {chatgroupoperator} (groupid, operatorid) values (?, ?)",
-			array($groupid,$opid)
-		);
-	}
-}
-
-function get_operators()
-{
-	$db = Database::getInstance();
-	return $db->query(
-		"select * from {chatoperator} order by vclogin",
-		NULL,
-		array('return_rows' => Database::RETURN_ALL_ROWS)
-	);
-}
-
 $groupid = verifyparam("gid", "/^\d{1,9}$/");
 $page = array('groupid' => $groupid);
-$page['operators'] = get_operators();
+$page['operators'] = get_operators_list(array());
 $page['errors'] = array();
 
 $group = group_by_id($groupid);

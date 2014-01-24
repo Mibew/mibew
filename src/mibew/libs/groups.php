@@ -291,4 +291,27 @@ function update_group($group)
 	}
 }
 
+function get_group_members($groupid)
+{
+	$db = Database::getInstance();
+	return $db->query(
+		"select operatorid from {chatgroupoperator} where groupid = ?",
+		array($groupid),
+		array('return_rows' => Database::RETURN_ALL_ROWS)
+	);
+}
+
+function update_group_members($groupid, $newvalue)
+{
+	$db = Database::getInstance();
+	$db->query("delete from {chatgroupoperator} where groupid = ?", array($groupid));
+
+	foreach ($newvalue as $opid) {
+		$db->query(
+			"insert into {chatgroupoperator} (groupid, operatorid) values (?, ?)",
+			array($groupid,$opid)
+		);
+	}
+}
+
 ?>
