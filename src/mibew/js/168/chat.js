@@ -2,7 +2,7 @@
  This file is part of Mibew Messenger project.
  http://mibew.org
 
- Copyright (c) 2005-2013 Mibew Messenger Community
+ Copyright (c) 2005-2014 Mibew Messenger Community
  License: http://mibew.org/license.php
 */
 var FrameUtils={getDocument:function(a){return a.contentDocument?a.contentDocument:a.contentWindow?a.contentWindow.document:a.document?a.document:null},initFrame:function(a){var b=this.getDocument(a);b.open();b.write("<html><head>");b.write('<link rel="stylesheet" type="text/css" media="all" href="'+Chat.cssfile+'">');b.write('</head><body bgcolor="#FFFFFF" text=#000000" link="#C28400" vlink="#C28400" alink="#C28400">');b.write('<table width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td valign="top" class="message" id="content"></td></tr></table><a id="bottom" name="bottom"></a>');
