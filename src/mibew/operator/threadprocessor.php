@@ -16,7 +16,6 @@
  */
 
 // Import namespaces and classes of the core
-use Mibew\Database;
 use Mibew\Thread;
 use Mibew\Style\PageStyle;
 
@@ -24,6 +23,7 @@ use Mibew\Style\PageStyle;
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(MIBEW_FS_ROOT.'/libs/operator.php');
 require_once(MIBEW_FS_ROOT.'/libs/chat.php');
+require_once(MIBEW_FS_ROOT.'/libs/groups.php');
 require_once(MIBEW_FS_ROOT.'/libs/userinfo.php');
 
 $operator = check_login();
@@ -32,28 +32,16 @@ $page = array();
 
 setlocale(LC_TIME, getstring("time.locale"));
 
-function thread_info($id)
-{
-	$db = Database::getInstance();
-	$thread_info = $db->query(
-		"select {chatthread}.*, {chatgroup}.vclocalname as groupName " .
-		"from {chatthread} left join {chatgroup} on {chatthread}.groupid = {chatgroup}.groupid " .
-		"where threadid = ?",
-		array($id),
-		array('return_rows' => Database::RETURN_ONE_ROW)
-	);
-	$thread = Thread::createFromDbInfo($thread_info);
-	return array(
-		'thread' => $thread,
-		'groupName' => $thread_info['groupName']
-	);
-}
-
-
 if (isset($_GET['threadid'])) {
 	// Load thread info
 	$threadid = verifyparam("threadid", "/^(\d{1,9})?$/", "");
-	$thread_info = thread_info($threadid);
+	$thread = Thread::load($threadid);
+	$group = group_by_id($thread->groupId);
+
+	$thread_info = array(
+		'thread' => $thread,
+		'groupName' => get_group_name($group),
+	);
 	$page['thread_info'] = $thread_info;
 
 	// Build messages list
