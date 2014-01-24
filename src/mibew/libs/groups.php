@@ -30,6 +30,17 @@ function group_by_id($id)
 	return $group;
 }
 
+function group_by_name($name)
+{
+	$db = Database::getInstance();
+	$group = $db->query(
+		"select * from {chatgroup} where vclocalname = ?",
+		array($name),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
+	return $group;
+}
+
 function get_group_name($group)
 {
 	if (HOME_LOCALE == CURRENT_LOCALE || !isset($group['vccommonname']) || !$group['vccommonname'])
@@ -177,6 +188,106 @@ function get_group_description($group) {
 		return $group['vclocaldescription'];
 	} else {
 		return $group['vccommondescription'];
+	}
+}
+
+function check_group_params($group, $extra_params = NULL)
+{
+	$obligatory_params = array(
+		'name',
+		'description',
+		'commonname',
+		'commondescription',
+		'email',
+		'weight',
+		'parent',
+		'chattitle',
+		'hosturl',
+		'logo');
+	$params = is_null($extra_params)?$obligatory_params:array_merge($obligatory_params,$extra_params);
+	if(count(array_diff($params, array_keys($group))) != 0){
+		die('Wrong parameters set!');
+	}
+}
+
+/**
+ * Creates group
+ *
+ * @param array $group Operators' group.
+ * The $group array must contains following keys:
+ * name, description, commonname, commondescription,
+ * email, weight, parent, title, chattitle, hosturl, logo
+ * @return array Created group
+ */
+function create_group($group)
+{
+	$db = Database::getInstance();
+	check_group_params($group);
+	$db->query(
+		"insert into {chatgroup} (parent, vclocalname,vclocaldescription,vccommonname, " .
+		"vccommondescription,vcemail,vctitle,vcchattitle,vchosturl,vclogo,iweight) " .
+		"values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+		array(
+			($group['parent'] ? (int)$group['parent'] : NULL),
+			$group['name'],
+			$group['description'],
+			$group['commonname'],
+			$group['commondescription'],
+			$group['email'],
+			$group['title'],
+			$group['chattitle'],
+			$group['hosturl'],
+			$group['logo'],
+			$group['weight']
+		)
+	);
+	$id = $db->insertedId();
+
+	$newdep = $db->query(
+		"select * from {chatgroup} where groupid = ?",
+		array($id),
+		array('return_rows' => Database::RETURN_ONE_ROW)
+	);
+	return $newdep;
+}
+
+/**
+ * Updates group info
+ *
+ * @param array $group Operators' group.
+ * The $group array must contains following keys:
+ * id, name, description, commonname, commondescription,
+ * email, weight, parent, title, chattitle, hosturl, logo
+ */
+function update_group($group)
+{
+	$db = Database::getInstance();
+	check_group_params($group, array('id'));
+	$db->query(
+		"update {chatgroup} set parent = ?, vclocalname = ?, vclocaldescription = ?, " .
+		"vccommonname = ?, vccommondescription = ?, vcemail = ?, vctitle = ?, " .
+		"vcchattitle = ?, vchosturl = ?, vclogo = ?, iweight = ? where groupid = ?",
+		array(
+			($group['parent'] ? (int)$group['parent'] : NULL),
+			$group['name'],
+			$group['description'],
+			$group['commonname'],
+			$group['commondescription'],
+			$group['email'],
+			$group['title'],
+			$group['chattitle'],
+			$group['hosturl'],
+			$group['logo'],
+			$group['weight'],
+			$group['id']
+		)
+	);
+
+	if ($group['parent']) {
+		$db->query(
+			"update {chatgroup} set parent = NULL where parent = ?",
+			array($group['id'])
+		);
 	}
 }
 
