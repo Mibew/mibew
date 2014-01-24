@@ -104,22 +104,6 @@ function save_message($locale, $key, $value)
 	}
 }
 
-function get_auxiliary($s)
-{
-	$res = "";
-	if (preg_match_all("/<[^>]+?>|[:]|\{\d+\}|[Mm]ibew|[Ww]ebim/", $s, $matches, PREG_PATTERN_ORDER)) {
-		foreach ($matches[0] as $val) {
-			if ($val != "<br/>") {
-				$res .= $val;
-			}
-		}
-	}
-	if (substr(trim($s), -1) == "." || substr(trim($s), -1) == "?") {
-		$res .= ".";
-	}
-	return $res;
-}
-
 $operator = check_login();
 force_password($operator);
 csrfchecktoken();
@@ -207,9 +191,6 @@ foreach ($allkeys as $key) {
 		$tsource = htmlspecialchars($lang1[$key]);
 		if (isset($lang2[$key])) {
 			$value = htmlspecialchars($lang2[$key]);
-			if (get_auxiliary($lang2[$key]) != get_auxiliary($lang1[$key])) {
-				$value = "<font color=\"#6030c1\"><b>$value</b></font> <strong>(wrong formatting)</strong>";
-			}
 		} else {
 			$value = "<font color=\"#c13030\"><b>absent</b></font>";
 		}
