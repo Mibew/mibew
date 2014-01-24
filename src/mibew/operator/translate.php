@@ -23,22 +23,6 @@ require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(MIBEW_FS_ROOT.'/libs/operator.php');
 require_once(MIBEW_FS_ROOT.'/libs/pagination.php');
 
-function compare_localization_by_l1($a, $b)
-{
-	if ($a == $b) {
-		return 0;
-	}
-	return ($a['l1'] < $b['l1']) ? -1 : 1;
-}
-
-function compare_localization_by_id($a, $b)
-{
-	if ($a == $b) {
-		return 0;
-	}
-	return ($a['id'] < $b['id']) ? -1 : 1;
-}
-
 function load_idlist($name)
 {
 	$result = array();
@@ -202,7 +186,22 @@ foreach ($allkeys as $key) {
 }
 
 $order = verifyparam("sort", "/^(id|l1)$/", "id");
-usort($result, "compare_localization_by_$order");
+if ($order == 'id') {
+	usort(
+		$result,
+		function ($a, $b) {
+			return strcmp($a['id'], $b['id']);
+		}
+	);
+} elseif ($order == 'l1') {
+	usort(
+		$result,
+		function ($a, $b) {
+			return strcmp($a['l1'], $b['l1']);
+		}
+	);
+}
+
 $pagination = setup_pagination($result, 100);
 $page['pagination'] = $pagination['info'];
 $page['pagination.items'] = $pagination['items'];
