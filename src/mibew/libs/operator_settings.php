@@ -21,7 +21,6 @@ function setup_operator_settings_tabs($opId, $active)
 	loadsettings();
 
 	if ($opId) {
-		$page['tabselected'] = $active;
 		if ($settings['enablegroups'] == '1') {
 			$page['tabs'] = array(
 				array('title' => getlocal("page_agent.tab.main"), 'link' => "$mibewroot/operator/operator.php?op=$opId"),
@@ -37,6 +36,7 @@ function setup_operator_settings_tabs($opId, $active)
 			);
 			if ($active == 3) $active--;
 		}
+		$page['tabselected'] = $active;
 	} else {
 		$page['tabs'] = array();
 	}
