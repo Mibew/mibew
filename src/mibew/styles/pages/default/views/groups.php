@@ -102,9 +102,9 @@ if(count($page['groups']) > 0) {
    		<?php echo $grp['vclocaldescription'] ? htmlspecialchars(topage($grp['vclocaldescription'])) : "&lt;none&gt;" ?>
 	</td>
 	<td class="notlast">
-<?php if(is_online($grp)) { ?>
+<?php if(group_is_online($grp)) { ?>
 		<?php echo getlocal("page.groups.isonline") ?>
-<?php } else if(is_away($grp)) { ?>
+<?php } else if(group_is_away($grp)) { ?>
 		<?php echo getlocal("page.groups.isaway") ?>
 <?php } else { ?>
 		<?php echo date_to_text(time() - ($grp['ilastseen'] ? $grp['ilastseen'] : time())) ?>

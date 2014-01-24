@@ -17,12 +17,12 @@
 
 // Import namespaces and classes of the core
 use Mibew\Database;
-use Mibew\Settings;
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
 require_once(dirname(dirname(__FILE__)).'/libs/init.php');
 require_once(MIBEW_FS_ROOT.'/libs/operator.php');
+require_once(MIBEW_FS_ROOT.'/libs/groups.php');
 
 $operator = check_login();
 csrfchecktoken();
@@ -48,17 +48,6 @@ if (isset($_GET['act']) && $_GET['act'] == 'del') {
 		exit;
 	}
 }
-
-function is_online($group)
-{
-	return $group['ilastseen'] !== NULL && $group['ilastseen'] < Settings::get('online_timeout') ? "1" : "";
-}
-
-function is_away($group)
-{
-	return $group['ilastseenaway'] !== NULL && $group['ilastseenaway'] < Settings::get('online_timeout') ? "1" : "";
-}
-
 
 $page = array();
 $sort['by'] = verifyparam("sortby", "/^(name|lastseen|weight)$/", "name");

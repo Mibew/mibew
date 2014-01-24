@@ -151,6 +151,18 @@ function group_is_online($group) {
 }
 
 /**
+ * Check if group is away
+ *
+ * @param array $group Associative group array. Should contain 'ilastseenaway'
+ *   key.
+ * @return bool
+ */
+function group_is_away($group) {
+	return $group['ilastseenaway'] !== NULL
+		&& $group['ilastseenaway'] < Settings::get('online_timeout');
+}
+
+/**
  * Return local or common group description depending on current locale.
  *
  * @param array $group Associative group array. Should contain following keys:
