@@ -1,6 +1,8 @@
   1.6.9
   -----
-  [!] bugfixes
+  [!] multiple bugfixes
+  [!] multiple security fixes (thanks to X Chen)
+  [+] new permission for operators to see Notifications (thanks to Borja Rubio)
 
   1.6.8
   -----
