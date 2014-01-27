@@ -39,14 +39,9 @@ if (isset($_GET['userid'])) {
 	$userid = verifyparam("userid", "/^.{0,63}$/", "");
 }
 
-function threads_by_userid($userid)
-{
+if (!empty($userid)) {
 	$db = Database::getInstance();
-	if ($userid == "") {
-		return null;
-	}
-
-	return $db->query(
+	$found = $db->query(
 		"SELECT {chatthread}.* " .
 		"FROM {chatthread} " .
 		"WHERE userid=:user_id " .
@@ -60,9 +55,9 @@ function threads_by_userid($userid)
 		),
 		array('return_rows' => Database::RETURN_ALL_ROWS)
 	);
+} else {
+	$found = null;
 }
-
-$found = threads_by_userid($userid);
 
 $page = array_merge(
 	$page,
