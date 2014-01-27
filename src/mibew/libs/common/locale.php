@@ -326,6 +326,71 @@ function getlocalforJS($text, $params)
 	return $string;
 }
 
+function locale_load_idlist($name)
+{
+	$result = array();
+	$fp = @fopen(MIBEW_FS_ROOT."/locales/names/$name", "r");
+	if ($fp !== FALSE) {
+		while (!feof($fp)) {
+			$line = trim(fgets($fp, 4096));
+			if ($line && preg_match("/^[\w_\.]+$/", $line)) {
+				$result[] = $line;
+			}
+		}
+		fclose($fp);
+	}
+	return $result;
+}
+
+function save_message($locale, $key, $value)
+{
+	$result = "";
+	$added = false;
+	$current_encoding = MIBEW_ENCODING;
+	$fp = fopen(MIBEW_FS_ROOT."/locales/$locale/properties", "r");
+	if ($fp === FALSE) {
+		die("unable to open properties for locale $locale");
+	}
+	while (!feof($fp)) {
+		$line = fgets($fp, 4096);
+		$keyval = preg_split("/=/", $line, 2);
+		if (isset($keyval[1])) {
+			if ($keyval[0] == 'encoding') {
+				$current_encoding = trim($keyval[1]);
+			} else if (!$added && $keyval[0] == $key) {
+				$line = "$key=" . myiconv(MIBEW_ENCODING, $current_encoding, str_replace("\r", "", str_replace("\n", "\\n", trim($value)))) . "\n";
+				$added = true;
+			}
+		}
+		$result .= $line;
+	}
+	fclose($fp);
+	if (!$added) {
+		$result .= "$key=" . myiconv(MIBEW_ENCODING, $current_encoding, str_replace("\r", "", str_replace("\n", "\\n", trim($value)))) . "\n";
+	}
+	$fp = @fopen(MIBEW_FS_ROOT."/locales/$locale/properties", "w");
+	if ($fp !== FALSE) {
+		fwrite($fp, $result);
+		fclose($fp);
+	} else {
+		die("cannot write /locales/$locale/properties, please check file permissions on your server");
+	}
+	$fp = @fopen(MIBEW_FS_ROOT."/locales/$locale/properties.log", "a");
+	if ($fp !== FALSE) {
+		$extAddr = $_SERVER['REMOTE_ADDR'];
+		if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) &&
+			$_SERVER['HTTP_X_FORWARDED_FOR'] != $_SERVER['REMOTE_ADDR']) {
+			$extAddr = $_SERVER['REMOTE_ADDR'] . ' (' . $_SERVER['HTTP_X_FORWARDED_FOR'] . ')';
+		}
+		$userbrowser = $_SERVER['HTTP_USER_AGENT'];
+		$remoteHost = isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $extAddr;
+
+		fwrite($fp, "# " . date(DATE_RFC822) . " by $remoteHost using $userbrowser\n");
+		fwrite($fp, "$key=" . myiconv(MIBEW_ENCODING, $current_encoding, str_replace("\r", "", str_replace("\n", "\\n", trim($value)))) . "\n");
+		fclose($fp);
+	}
+}
+
 $messages = array();
 $output_encoding = array();
 
