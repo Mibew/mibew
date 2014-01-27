@@ -874,4 +874,20 @@ function check_password_hash($login, $password, $hash)
 	}
 }
 
+function update_operator_groups($operatorid, $newvalue)
+{
+	$db = Database::getInstance();
+	$db->query(
+		"delete from {chatgroupoperator} where operatorid = ?",
+		array($operatorid)
+	);
+
+	foreach ($newvalue as $groupid) {
+		$db->query(
+			"insert into {chatgroupoperator} (groupid, operatorid) values (?,?)",
+			array($groupid, $operatorid)
+		);
+	}
+}
+
 ?>

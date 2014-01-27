@@ -16,7 +16,6 @@
  */
 
 // Import namespaces and classes of the core
-use Mibew\Database;
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
@@ -26,22 +25,6 @@ require_once(MIBEW_FS_ROOT.'/libs/operator_settings.php');
 
 $operator = check_login();
 csrfchecktoken();
-
-function update_operator_groups($operatorid, $newvalue)
-{
-	$db = Database::getInstance();
-	$db->query(
-		"delete from {chatgroupoperator} where operatorid = ?",
-		array($operatorid)
-	);
-
-	foreach ($newvalue as $groupid) {
-		$db->query(
-			"insert into {chatgroupoperator} (groupid, operatorid) values (?,?)",
-			array($groupid, $operatorid)
-		);
-	}
-}
 
 $operator_in_isolation = in_isolation($operator);
 
