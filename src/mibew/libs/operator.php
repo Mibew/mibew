@@ -144,7 +144,7 @@ function operator_by_code($code)
  *   would be sort in descending order and in ascending order overwise.
  *
  */
-function get_operators_list($options)
+function get_operators_list($options = array())
 {
     $db = Database::getInstance();
 

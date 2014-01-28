@@ -28,7 +28,7 @@ csrf_check_token();
 
 $group_id = verify_param("gid", "/^\d{1,9}$/");
 $page = array('groupid' => $group_id);
-$page['operators'] = get_operators_list(array());
+$page['operators'] = get_operators_list();
 $page['errors'] = array();
 
 $group = group_by_id($group_id);
