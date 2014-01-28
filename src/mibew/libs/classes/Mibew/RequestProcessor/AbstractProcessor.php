@@ -20,7 +20,7 @@ namespace Mibew\RequestProcessor;
 // Import namespaces and classes of the core
 use Mibew\Database;
 use Mibew\EventDispatcher;
-use Mibew\RequestProcessor\Exception\ProcessorException;
+use Mibew\RequestProcessor\Exception\AbstractProcessorException;
 
 /**
  * Implements abstract class for request processing
@@ -90,9 +90,9 @@ use Mibew\RequestProcessor\Exception\ProcessorException;
  * }
  * </code>
  *
- * @see \Mibew\RequestProcessor\Processor::__construct()
+ * @see \Mibew\RequestProcessor\AbstractProcessor::__construct()
  */
-abstract class Processor
+abstract class AbstractProcessor
 {
     /**
      * Instance of the MibewAPI class
@@ -279,9 +279,9 @@ abstract class Processor
         try {
             // Check functions to call
             if (!is_array($functions)) {
-                throw new ProcessorException(
+                throw new AbstractProcessorException(
                     '#1 argument must be an array!',
-                    ProcessorException::WRONG_ARGUMENTS
+                    AbstractProcessorException::WRONG_ARGUMENTS
                 );
             }
             foreach ($functions as $function) {
@@ -495,7 +495,7 @@ abstract class Processor
         if (is_callable(array($this, $method_name))) {
             try {
                 $func['results'] = $this->$method_name($func['arguments']);
-            } catch (ProcessorException $e) {
+            } catch (AbstractProcessorException $e) {
                 $func['results'] = array(
                     'errorCode' => $e->getCode(),
                     'errorMessage' => $e->getMessage(),

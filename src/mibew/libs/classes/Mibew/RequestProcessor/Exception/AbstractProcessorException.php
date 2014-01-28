@@ -18,9 +18,9 @@
 namespace Mibew\RequestProcessor\Exception;
 
 /**
- * Class for {@link \Mibew\RequestProcessor\Processor} exceptions.
+ * Class for {@link \Mibew\RequestProcessor\AbstractProcessor} exceptions.
  */
-class ProcessorException extends \Exception
+class AbstractProcessorException extends \Exception
 {
     /**
      * Wrong function arguments

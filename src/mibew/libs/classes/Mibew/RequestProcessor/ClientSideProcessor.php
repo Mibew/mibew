@@ -24,7 +24,7 @@ use Mibew\Database;
  * Base class for all request processors that interact with JavaScript
  * applications at the client side.
  */
-abstract class ClientSideProcessor extends Processor
+abstract class ClientSideProcessor extends AbstractProcessor
 {
 
     /**
