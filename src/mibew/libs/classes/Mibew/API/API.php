@@ -333,7 +333,7 @@ class API
      *
      * @param \Mibew\API\Interaction $interaction Interaction type object
      */
-    protected function __construct(Interaction\Interaction $interaction)
+    protected function __construct(Interaction\AbstractInteraction $interaction)
     {
         $this->interaction = $interaction;
     }

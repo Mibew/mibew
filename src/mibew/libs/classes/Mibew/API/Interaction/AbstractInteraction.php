@@ -20,7 +20,7 @@ namespace Mibew\API\Interaction;
 /**
  * Encapsulates interaction type
  */
-abstract class Interaction
+abstract class AbstractInteraction
 {
     /**
      * Reserved function's names

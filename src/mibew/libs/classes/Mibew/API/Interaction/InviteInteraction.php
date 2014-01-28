@@ -20,12 +20,12 @@ namespace Mibew\API\Interaction;
 /**
  * Implements Mibew Core - Mibew invitation waiting window interaction
  */
-class InviteInteraction extends Interaction
+class InviteInteraction extends AbstractInteraction
 {
     /**
      * Reserved function's names
      * @var array
-     * @see \Mibew\API\Interaction\Interaction::$reservedFunctionNames
+     * @see \Mibew\API\Interaction\AbstractInteraction::$reservedFunctionNames
      */
     public $reservedFunctionNames = array(
         'result',
@@ -34,7 +34,7 @@ class InviteInteraction extends Interaction
     /**
      * Defines obligatory arguments and default values for them
      * @var array
-     * @see \Mibew\API\Interaction\Interaction::$obligatoryArgumnents
+     * @see \Mibew\API\Interaction\AbstractInteraction::$obligatoryArgumnents
      */
     protected $obligatoryArguments = array(
         '*' => array(
