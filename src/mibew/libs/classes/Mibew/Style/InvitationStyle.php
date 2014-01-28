@@ -23,7 +23,7 @@ use Mibew\Settings;
 /**
  * Represents a style for invitations
  */
-class InvitationStyle extends Style implements StyleInterface
+class InvitationStyle extends AbstractStyle implements StyleInterface
 {
     /**
      * Builds base path for style files. This path is relative Mibew root and

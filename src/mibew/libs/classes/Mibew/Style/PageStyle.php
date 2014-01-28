@@ -23,7 +23,7 @@ use Mibew\Settings;
 /**
  * Represents a style for operator pages
  */
-class PageStyle extends Style implements StyleInterface
+class PageStyle extends AbstractStyle implements StyleInterface
 {
     /**
      * Builds base path for style files. This path is relative Mibew root and

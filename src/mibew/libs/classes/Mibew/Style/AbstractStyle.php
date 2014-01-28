@@ -20,7 +20,7 @@ namespace Mibew\Style;
 /**
  * Base class for styles
  */
-abstract class Style
+abstract class AbstractStyle
 {
     /**
      * Styles configuration array or NULL by default

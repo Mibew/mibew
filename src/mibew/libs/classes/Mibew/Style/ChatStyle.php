@@ -24,7 +24,7 @@ use Mibew\TemplateEngine\ChatTemplateEngine;
 /**
  * Represents a chat style
  */
-class ChatStyle extends Style implements StyleInterface
+class ChatStyle extends AbstractStyle implements StyleInterface
 {
     /**
      * Template engine for chat templates.
