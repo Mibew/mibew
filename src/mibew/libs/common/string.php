@@ -17,42 +17,40 @@
 
 function unicode_urldecode($url)
 {
-	preg_match_all('/%u([[:alnum:]]{4})/', $url, $a);
+    preg_match_all('/%u([[:alnum:]]{4})/', $url, $a);
 
-	foreach ($a[1] as $uniord) {
-		$dec = hexdec($uniord);
-		$utf = '';
+    foreach ($a[1] as $uniord) {
+        $dec = hexdec($uniord);
+        $utf = '';
 
-		if ($dec < 128) {
-			$utf = chr($dec);
-		} else if ($dec < 2048) {
-			$utf = chr(192 + (($dec - ($dec % 64)) / 64));
-			$utf .= chr(128 + ($dec % 64));
-		} else {
-			$utf = chr(224 + (($dec - ($dec % 4096)) / 4096));
-			$utf .= chr(128 + ((($dec % 4096) - ($dec % 64)) / 64));
-			$utf .= chr(128 + ($dec % 64));
-		}
-		$url = str_replace('%u' . $uniord, $utf, $url);
-	}
-	return urldecode($url);
+        if ($dec < 128) {
+            $utf = chr($dec);
+        } elseif ($dec < 2048) {
+            $utf = chr(192 + (($dec - ($dec % 64)) / 64));
+            $utf .= chr(128 + ($dec % 64));
+        } else {
+            $utf = chr(224 + (($dec - ($dec % 4096)) / 4096));
+            $utf .= chr(128 + ((($dec % 4096) - ($dec % 64)) / 64));
+            $utf .= chr(128 + ($dec % 64));
+        }
+        $url = str_replace('%u' . $uniord, $utf, $url);
+    }
+    return urldecode($url);
 }
 
-function cutstring($string, $length = 75, $ellipsis = '')
+function cut_string($string, $length = 75, $ellipsis = '')
 {
-	$result = '';
-	if (strlen($string) > $length) {
-		$splitstring = explode("[__cut__]", wordwrap($string, $length, "[__cut__]", true));
-		$result = $splitstring[0] . $ellipsis;
-	}else{
-		$result = $string;
-	}
-	return $result;
+    $result = '';
+    if (strlen($string) > $length) {
+        $splitstring = explode("[__cut__]", wordwrap($string, $length, "[__cut__]", true));
+        $result = $splitstring[0] . $ellipsis;
+    } else {
+        $result = $string;
+    }
+    return $result;
 }
 
 function escape_with_cdata($text)
 {
-	return "<![CDATA[" . str_replace("]]>", "]]>]]&gt;<![CDATA[", $text) . "]]>";
+    return "<![CDATA[" . str_replace("]]>", "]]>]]&gt;<![CDATA[", $text) . "]]>";
 }
-
-?>

@@ -15,25 +15,29 @@
  * limitations under the License.
  */
 
-function mibew_mail($toaddr, $reply_to, $subject, $body)
+function mibew_mail($to_addr, $reply_to, $subject, $body)
 {
-	global $mibew_mailbox, $mail_encoding;
+    global $mibew_mailbox, $mail_encoding;
 
-	$headers = "From: $mibew_mailbox\r\n"
-			   . "Reply-To: " . myiconv(MIBEW_ENCODING, $mail_encoding, $reply_to) . "\r\n"
-			   . "Content-Type: text/plain; charset=$mail_encoding\r\n"
-			   . 'X-Mailer: PHP/' . phpversion();
+    $headers = "From: $mibew_mailbox\r\n"
+        . "Reply-To: " . myiconv(MIBEW_ENCODING, $mail_encoding, $reply_to) . "\r\n"
+        . "Content-Type: text/plain; charset=$mail_encoding\r\n"
+        . 'X-Mailer: PHP/' . phpversion();
 
-	$real_subject = "=?" . $mail_encoding . "?B?" . base64_encode(myiconv(MIBEW_ENCODING, $mail_encoding, $subject)) . "?=";
+    $real_subject = "=?" . $mail_encoding . "?B?"
+        . base64_encode(myiconv(MIBEW_ENCODING, $mail_encoding, $subject)) . "?=";
 
-	$body = preg_replace("/\n/", "\r\n", $body);
+    $body = preg_replace("/\n/", "\r\n", $body);
 
-	$old_from = ini_get('sendmail_from');
-	@ini_set('sendmail_from', $mibew_mailbox);
-	@mail($toaddr, $real_subject, wordwrap(myiconv(MIBEW_ENCODING, $mail_encoding, $body), 70), $headers);
-	if (isset($old_from)) {
-		@ini_set('sendmail_from', $old_from);
-	}
+    $old_from = ini_get('sendmail_from');
+    @ini_set('sendmail_from', $mibew_mailbox);
+    @mail(
+        $to_addr,
+        $real_subject,
+        wordwrap(myiconv(MIBEW_ENCODING, $mail_encoding, $body), 70),
+        $headers
+    );
+    if (isset($old_from)) {
+        @ini_set('sendmail_from', $old_from);
+    }
 }
-
-?>

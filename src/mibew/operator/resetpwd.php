@@ -20,65 +20,69 @@ use Mibew\Database;
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/settings.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/settings.php');
 
 $page = array(
-	'version' => MIBEW_VERSION,
-	'showform' => true,
-	'title' => getlocal("resetpwd.title"),
-	'headertitle' => getlocal("app.title"),
-	'show_small_login' => true,
-	'fixedwrap' => true,
-	'errors' => array(),
+    'version' => MIBEW_VERSION,
+    'showform' => true,
+    'title' => getlocal("resetpwd.title"),
+    'headertitle' => getlocal("app.title"),
+    'show_small_login' => true,
+    'fixedwrap' => true,
+    'errors' => array(),
 );
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 
-$opId = verifyparam("id", "/^\d{1,9}$/");
-$token = verifyparam("token", "/^[\dabcdef]+$/");
+$op_id = verify_param("id", "/^\d{1,9}$/");
+$token = verify_param("token", "/^[\dabcdef]+$/");
 
-$operator = operator_by_id($opId);
+$operator = operator_by_id($op_id);
 
 if (!$operator) {
-	$page['errors'][] = "No such operator";
-	$page['showform'] = false;
-} else if ($token != $operator['vcrestoretoken']) {
-	$page['errors'][] = "Wrong token";
-	$page['showform'] = false;
+    $page['errors'][] = "No such operator";
+    $page['showform'] = false;
+} elseif ($token != $operator['vcrestoretoken']) {
+    $page['errors'][] = "Wrong token";
+    $page['showform'] = false;
 }
 
 if (count($page['errors']) == 0 && isset($_POST['password'])) {
-	$password = getparam('password');
-	$passwordConfirm = getparam('passwordConfirm');
+    $password = get_param('password');
+    $password_confirm = get_param('passwordConfirm');
 
-	if (!$password)
-		$page['errors'][] = no_field("form.field.password");
+    if (!$password) {
+        $page['errors'][] = no_field("form.field.password");
+    }
 
-	if ($password != $passwordConfirm)
-		$page['errors'][] = getlocal("my_settings.error.password_match");
+    if ($password != $password_confirm) {
+        $page['errors'][] = getlocal("my_settings.error.password_match");
+    }
 
-	if (count($page['errors']) == 0) {
-		$page['isdone'] = true;
+    if (count($page['errors']) == 0) {
+        $page['isdone'] = true;
 
-		$db = Database::getInstance();
-		$db->query(
-			"update {chatoperator} set vcpassword = ?, vcrestoretoken = '' " .
-			"where operatorid = ?",
-			array(calculate_password_hash($operator['vclogin'], $password), $opId)
-		);
+        $db = Database::getInstance();
+        $db->query(
+            ("UPDATE {chatoperator} "
+                . "SET vcpassword = ?, vcrestoretoken = '' "
+                . "WHERE operatorid = ?"),
+            array(
+                calculate_password_hash($operator['vclogin'], $password),
+                $op_id,
+            )
+        );
 
-		$page['loginname'] = $operator['vclogin'];
-		$page_style->render('resetpwd', $page);
-		exit;
-	}
+        $page['loginname'] = $operator['vclogin'];
+        $page_style->render('resetpwd', $page);
+        exit;
+    }
 }
 
-$page['id'] = $opId;
+$page['id'] = $op_id;
 $page['token'] = $token;
 $page['isdone'] = false;
 
 $page_style->render('resetpwd', $page);
-
-?>

@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-
 /**
  * Builds list of operator settings tabs. The keys of the resulting array are
  * tabs titles and the values are tabs URLs.
@@ -24,19 +23,26 @@
  * @param int $active Number of the active tab. The count starts from 0.
  * @return array Tabs list
  */
-function setup_operator_settings_tabs($operator_id, $active) {
-	$tabs = array();
+function setup_operator_settings_tabs($operator_id, $active)
+{
+    $tabs = array();
 
-	if ($operator_id) {
-		$tabs = array(
-			getlocal("page_agent.tab.main") => $active != 0 ? (MIBEW_WEB_ROOT . "/operator/operator.php?op=" . $operator_id) : "",
-			getlocal("page_agent.tab.avatar") => $active != 1 ? (MIBEW_WEB_ROOT . "/operator/avatar.php?op=" . $operator_id) : "",
-			getlocal("page_agent.tab.groups") => $active != 2 ? (MIBEW_WEB_ROOT . "/operator/opgroups.php?op=" . $operator_id) : "",
-			getlocal("page_agent.tab.permissions") => $active != 3 ? (MIBEW_WEB_ROOT . "/operator/permissions.php?op=" . $operator_id) : ""
-		);
-	}
+    if ($operator_id) {
+        $tabs = array(
+            getlocal("page_agent.tab.main") => ($active != 0
+                ? (MIBEW_WEB_ROOT . "/operator/operator.php?op=" . $operator_id)
+                : ""),
+            getlocal("page_agent.tab.avatar") => ($active != 1
+                ? (MIBEW_WEB_ROOT . "/operator/avatar.php?op=" . $operator_id)
+                : ""),
+            getlocal("page_agent.tab.groups") => ($active != 2
+                ? (MIBEW_WEB_ROOT . "/operator/opgroups.php?op=" . $operator_id)
+                : ""),
+            getlocal("page_agent.tab.permissions") => ($active != 3
+                ? (MIBEW_WEB_ROOT . "/operator/permissions.php?op=" . $operator_id)
+                : ""),
+        );
+    }
 
-	return $tabs;
+    return $tabs;
 }
-
-?>

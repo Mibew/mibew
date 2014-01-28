@@ -36,6 +36,8 @@ define('MIBEW_WEB_ROOT', $mibewroot);
 
 // Include common functions
 require_once(MIBEW_FS_ROOT.'/libs/common/constants.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/verification.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/converter.php');
 require_once(MIBEW_FS_ROOT.'/libs/common/locale.php');
 require_once(MIBEW_FS_ROOT.'/libs/common/misc.php');
 require_once(MIBEW_FS_ROOT.'/libs/common/response.php');
@@ -48,7 +50,7 @@ function runsql($query, $link)
 	return $res;
 }
 
-$act = verifyparam("act", "/^(silentcreateall|createdb|ct|dt|addcolumns)$/");
+$act = verify_param("act", "/^(silentcreateall|createdb|ct|dt|addcolumns)$/");
 
 $link = @mysql_connect($mysqlhost, $mysqllogin, $mysqlpass)
 		 or show_install_err('Could not connect: ' . mysql_error());

@@ -20,99 +20,101 @@ use Mibew\Database;
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
 
 $operator = check_login();
 force_password($operator);
-csrfchecktoken();
+csrf_check_token();
 
 $page = array(
-	'errors' => array(),
+    'errors' => array(),
 );
 
 if (isset($_GET['act'])) {
 
-	$operatorid = isset($_GET['id']) ? $_GET['id'] : "";
-	if (!preg_match("/^\d+$/", $operatorid)) {
-		$page['errors'][] = getlocal("no_such_operator");
-	}
+    $operator_id = isset($_GET['id']) ? $_GET['id'] : "";
+    if (!preg_match("/^\d+$/", $operator_id)) {
+        $page['errors'][] = getlocal("no_such_operator");
+    }
 
-	if ($_GET['act'] == 'del') {
-		if (!is_capable(CAN_ADMINISTRATE, $operator)) {
-			$page['errors'][] = getlocal("page_agents.error.forbidden_remove");
-		}
+    if ($_GET['act'] == 'del') {
+        if (!is_capable(CAN_ADMINISTRATE, $operator)) {
+            $page['errors'][] = getlocal("page_agents.error.forbidden_remove");
+        }
 
-		if ($operatorid == $operator['operatorid']) {
-			$page['errors'][] = getlocal("page_agents.error.cannot_remove_self");
-		}
+        if ($operator_id == $operator['operatorid']) {
+            $page['errors'][] = getlocal("page_agents.error.cannot_remove_self");
+        }
 
-		if (count($page['errors']) == 0) {
-			$op = operator_by_id($operatorid);
-			if (!$op) {
-				$page['errors'][] = getlocal("no_such_operator");
-			} else if ($op['vclogin'] == 'admin') {
-				$page['errors'][] = getlocal("page_agents.error.cannot_remove_admin");
-			}
-		}
+        if (count($page['errors']) == 0) {
+            $op = operator_by_id($operator_id);
+            if (!$op) {
+                $page['errors'][] = getlocal("no_such_operator");
+            } elseif ($op['vclogin'] == 'admin') {
+                $page['errors'][] = getlocal("page_agents.error.cannot_remove_admin");
+            }
+        }
 
-		if (count($page['errors']) == 0) {
-			delete_operator($operatorid);
-			header("Location: " . MIBEW_WEB_ROOT . "/operator/operators.php");
-			exit;
-		}
-	}
-	if ($_GET['act'] == 'disable' || $_GET['act'] == 'enable') {
-		$act_disable = ($_GET['act'] == 'disable');
-		if (!is_capable(CAN_ADMINISTRATE, $operator)) {
-			$page['errors'][] = $act_disable?getlocal('page_agents.disable.not.allowed'):getlocal('page_agents.enable.not.allowed');
-		}
+        if (count($page['errors']) == 0) {
+            delete_operator($operator_id);
+            header("Location: " . MIBEW_WEB_ROOT . "/operator/operators.php");
+            exit;
+        }
+    }
+    if ($_GET['act'] == 'disable' || $_GET['act'] == 'enable') {
+        $act_disable = ($_GET['act'] == 'disable');
+        if (!is_capable(CAN_ADMINISTRATE, $operator)) {
+            $page['errors'][] = $act_disable
+                ? getlocal('page_agents.disable.not.allowed')
+                : getlocal('page_agents.enable.not.allowed');
+        }
 
-		if ($operatorid == $operator['operatorid'] && $act_disable) {
-			$page['errors'][] = getlocal('page_agents.cannot.disable.self');
-		}
+        if ($operator_id == $operator['operatorid'] && $act_disable) {
+            $page['errors'][] = getlocal('page_agents.cannot.disable.self');
+        }
 
-		if (count($page['errors']) == 0) {
-			$op = operator_by_id($operatorid);
-			if (!$op) {
-				$page['errors'][] = getlocal("no_such_operator");
-			} else if ($op['vclogin'] == 'admin' && $act_disable) {
-				$page['errors'][] = getlocal('page_agents.cannot.disable.admin');
-			}
-		}
+        if (count($page['errors']) == 0) {
+            $op = operator_by_id($operator_id);
+            if (!$op) {
+                $page['errors'][] = getlocal("no_such_operator");
+            } elseif ($op['vclogin'] == 'admin' && $act_disable) {
+                $page['errors'][] = getlocal('page_agents.cannot.disable.admin');
+            }
+        }
 
-		if (count($page['errors']) == 0) {
-			$db = Database::getInstance();
-			$db->query(
-				"update {chatoperator} set idisabled = ? where operatorid = ?",
-				array(($act_disable ? '1' : '0'), $operatorid)
-			);
+        if (count($page['errors']) == 0) {
+            $db = Database::getInstance();
+            $db->query(
+                "update {chatoperator} set idisabled = ? where operatorid = ?",
+                array(($act_disable ? '1' : '0'), $operator_id)
+            );
 
-			header("Location: " . MIBEW_WEB_ROOT . "/operator/operators.php");
-			exit;
-		}
-	}
+            header("Location: " . MIBEW_WEB_ROOT . "/operator/operators.php");
+            exit;
+        }
+    }
 }
 
-$sort['by'] = verifyparam("sortby", "/^(login|commonname|localename|lastseen)$/", "login");
-$sort['desc'] = (verifyparam("sortdirection", "/^(desc|asc)$/", "desc") == "desc");
+$sort['by'] = verify_param("sortby", "/^(login|commonname|localename|lastseen)$/", "login");
+$sort['desc'] = (verify_param("sortdirection", "/^(desc|asc)$/", "desc") == "desc");
 $page['formsortby'] = $sort['by'];
-$page['formsortdirection'] = $sort['desc']?'desc':'asc';
+$page['formsortdirection'] = $sort['desc'] ? 'desc' : 'asc';
 $list_options['sort'] = $sort;
 if (in_isolation($operator)) {
-	$list_options['isolated_operator_id'] = $operator['operatorid'];
+    $list_options['isolated_operator_id'] = $operator['operatorid'];
 }
 $page['allowedAgents'] = get_operators_list($list_options);
 $page['canmodify'] = is_capable(CAN_ADMINISTRATE, $operator);
 $page['availableOrders'] = array(
-	array('id' => 'login', 'name' => getlocal('page_agents.login')),
-	array('id' => 'localename', 'name' => getlocal('page_agents.agent_name')),
-	array('id' => 'commonname', 'name' => getlocal('page_agents.commonname')),
-	array('id' => 'lastseen', 'name' => getlocal('page_agents.status'))
+    array('id' => 'login', 'name' => getlocal('page_agents.login')),
+    array('id' => 'localename', 'name' => getlocal('page_agents.agent_name')),
+    array('id' => 'commonname', 'name' => getlocal('page_agents.commonname')),
+    array('id' => 'lastseen', 'name' => getlocal('page_agents.status')),
 );
 $page['availableDirections'] = array(
-	array('id' => 'desc', 'name' => getlocal('page_agents.sortdirection.desc')),
-	array('id' => 'asc', 'name' => getlocal('page_agents.sortdirection.asc')),
+    array('id' => 'desc', 'name' => getlocal('page_agents.sortdirection.desc')),
+    array('id' => 'asc', 'name' => getlocal('page_agents.sortdirection.asc')),
 );
 
 $page['title'] = getlocal("page_agents.title");
@@ -120,12 +122,7 @@ $page['menuid'] = "operators";
 
 setlocale(LC_TIME, getstring("time.locale"));
 
-$page = array_merge(
-	$page,
-	prepare_menu($operator)
-);
+$page = array_merge($page, prepare_menu($operator));
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('agents', $page);
-
-?>

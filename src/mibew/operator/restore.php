@@ -20,65 +20,77 @@ use Mibew\Database;
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/settings.php');
-require_once(MIBEW_FS_ROOT.'/libs/notify.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/settings.php');
+require_once(MIBEW_FS_ROOT . '/libs/notify.php');
 
 $page = array(
-	'version' => MIBEW_VERSION,
-	'title' => getlocal("restore.title"),
-	'headertitle' => getlocal("app.title"),
-	'show_small_login' => true,
-	'fixedwrap' => true,
-	'errors' => array(),
+    'version' => MIBEW_VERSION,
+    'title' => getlocal("restore.title"),
+    'headertitle' => getlocal("app.title"),
+    'show_small_login' => true,
+    'fixedwrap' => true,
+    'errors' => array(),
 );
 
-$loginoremail = "";
+$login_or_email = "";
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 
 if (isset($_POST['loginoremail'])) {
-	$loginoremail = getparam("loginoremail");
+    $login_or_email = get_param("loginoremail");
 
-	$torestore = is_valid_email($loginoremail) ? operator_by_email($loginoremail) : operator_by_login($loginoremail);
-	if (!$torestore) {
-		$page['errors'][] = getlocal("no_such_operator");
-	}
+    $to_restore = is_valid_email($login_or_email)
+        ? operator_by_email($login_or_email)
+        : operator_by_login($login_or_email);
+    if (!$to_restore) {
+        $page['errors'][] = getlocal("no_such_operator");
+    }
 
-	$email = $torestore['vcemail'];
-	if (count($page['errors']) == 0 && !is_valid_email($email)) {
-		$page['errors'][] = "Operator hasn't set his e-mail";
-	}
+    $email = $to_restore['vcemail'];
+    if (count($page['errors']) == 0 && !is_valid_email($email)) {
+        $page['errors'][] = "Operator hasn't set his e-mail";
+    }
 
-	if (count($page['errors']) == 0) {
-		$token = sha1($torestore['vclogin'] . (function_exists('openssl_random_pseudo_bytes') ? openssl_random_pseudo_bytes(32) : (time() + microtime()) . mt_rand(0, 99999999)));
+    if (count($page['errors']) == 0) {
+        $token = sha1($to_restore['vclogin'] . (function_exists('openssl_random_pseudo_bytes')
+            ? openssl_random_pseudo_bytes(32)
+            : (time() + microtime()) . mt_rand(0, 99999999)));
 
-		$db = Database::getInstance();
-		$db->query(
-			"update {chatoperator} set dtmrestore = :now, " .
-			"vcrestoretoken = :token where operatorid = :operatorid",
-			array(
-				':now' => time(),
-				':token' => $token,
-				':operatorid' => $torestore['operatorid']
-			)
-		);
+        $db = Database::getInstance();
+        $db->query(
+            ("UPDATE {chatoperator} "
+                . "SET dtmrestore = :now, vcrestoretoken = :token "
+                . "WHERE operatorid = :operatorid"),
+            array(
+                ':now' => time(),
+                ':token' => $token,
+                ':operatorid' => $to_restore['operatorid'],
+            )
+        );
 
-		$href = get_app_location(true, false) . "/operator/resetpwd.php?id=" . $torestore['operatorid'] . "&token=$token";
-		mibew_mail($email, $email, getstring("restore.mailsubj"), getstring2("restore.mailtext", array(get_operator_name($torestore), $href)));
+        $href = get_app_location(true, false) . "/operator/resetpwd.php?id="
+            . $to_restore['operatorid'] . "&token=$token";
+        mibew_mail(
+            $email,
+            $email,
+            getstring("restore.mailsubj"),
+            getstring2(
+                "restore.mailtext",
+                array(get_operator_name($to_restore), $href)
+            )
+        );
 
-		$page['isdone'] = true;
-		$page_style->render('restore', $page);
-		exit;
-	}
+        $page['isdone'] = true;
+        $page_style->render('restore', $page);
+        exit;
+    }
 }
 
-$page['formloginoremail'] = topage($loginoremail);
+$page['formloginoremail'] = to_page($login_or_email);
 
 $page['localeLinks'] = get_locale_links(MIBEW_WEB_ROOT . "/operator/restore.php");
 $page['isdone'] = false;
 
 $page_style->render('restore', $page);
-
-?>

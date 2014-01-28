@@ -75,9 +75,9 @@ if ($page['pagination']) {
 	<tr class="header"><th>
 		Key
 	</th><th>
-		<?php echo topage($page['title1']) ?>
+		<?php echo to_page($page['title1']) ?>
 	</th><th>
-		<?php echo topage($page['title2']) ?>
+		<?php echo to_page($page['title2']) ?>
 	</th></tr>
 </thead>
 <tbody>
@@ -86,13 +86,13 @@ if( $page['pagination.items'] ) {
 	foreach( $page['pagination.items'] as $localstr ) { ?>
 	<tr>
 		<td>
-			<a href="<?php echo MIBEW_WEB_ROOT ?>/operator/translate.php?source=<?php echo $page['lang1'] ?>&amp;target=<?php echo $page['lang2'] ?>&amp;key=<?php echo $localstr['id'] ?>" target="_blank" onclick="this.newWindow = window.open('<?php echo MIBEW_WEB_ROOT ?>/operator/translate.php?source=<?php echo $page['lang1'] ?>&amp;target=<?php echo $page['lang2'] ?>&amp;key=<?php echo $localstr['id'] ?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo topage($localstr['id']) ?></a>
+			<a href="<?php echo MIBEW_WEB_ROOT ?>/operator/translate.php?source=<?php echo $page['lang1'] ?>&amp;target=<?php echo $page['lang2'] ?>&amp;key=<?php echo $localstr['id'] ?>" target="_blank" onclick="this.newWindow = window.open('<?php echo MIBEW_WEB_ROOT ?>/operator/translate.php?source=<?php echo $page['lang1'] ?>&amp;target=<?php echo $page['lang2'] ?>&amp;key=<?php echo $localstr['id'] ?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo to_page($localstr['id']) ?></a>
 		</td>
 		<td>
-			<?php echo topage($localstr['l1']) ?>
+			<?php echo to_page($localstr['l1']) ?>
 		</td>
 		<td>
-			<?php echo topage($localstr['l2']) ?>
+			<?php echo to_page($localstr['l2']) ?>
 		</td>
 	</tr>
 <?php

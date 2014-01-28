@@ -20,16 +20,17 @@ use Mibew\Database;
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/chat.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/pagination.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/chat.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/pagination.php');
+require_once(MIBEW_FS_ROOT . '/libs/track.php');
 
 $operator = check_login();
-csrfchecktoken();
+csrf_check_token();
 
 $page = array(
-	'errors' => array(),
+    'errors' => array(),
 );
 
 setlocale(LC_TIME, getstring("time.locale"));
@@ -37,38 +38,33 @@ setlocale(LC_TIME, getstring("time.locale"));
 $db = Database::getInstance();
 
 if (isset($_GET['act']) && $_GET['act'] == 'del') {
-	$banId = isset($_GET['id']) ? $_GET['id'] : "";
+    $ban_id = isset($_GET['id']) ? $_GET['id'] : "";
 
-	if (!preg_match("/^\d+$/", $banId)) {
-		$page['errors'][] = "Cannot delete: wrong argument";
-	}
+    if (!preg_match("/^\d+$/", $ban_id)) {
+        $page['errors'][] = "Cannot delete: wrong argument";
+    }
 
-	if (count($page['errors']) == 0) {
-		$db->query("delete from {chatban} where banid = ?", array($banId));
-		header("Location: " . MIBEW_WEB_ROOT . "/operator/blocked.php");
-		exit;
-	}
+    if (count($page['errors']) == 0) {
+        $db->query("DELETE FROM {chatban} WHERE banid = ?", array($ban_id));
+        header("Location: " . MIBEW_WEB_ROOT . "/operator/blocked.php");
+        exit;
+    }
 }
 
-$blockedList = $db->query(
-	"select banid, dtmtill as till,address,comment from {chatban}",
-	NULL,
-	array('return_rows' => Database::RETURN_ALL_ROWS)
+$blocked_list = $db->query(
+    "SELECT banid, dtmtill AS till,address,comment FROM {chatban}",
+    null,
+    array('return_rows' => Database::RETURN_ALL_ROWS)
 );
 
 $page['title'] = getlocal("page_bans.title");
 $page['menuid'] = "blocked";
 
-$pagination = setup_pagination($blockedList);
+$pagination = setup_pagination($blocked_list);
 $page['pagination'] = $pagination['info'];
 $page['pagination.items'] = $pagination['items'];
 
-$page = array_merge(
-	$page,
-	prepare_menu($operator)
-);
+$page = array_merge($page, prepare_menu($operator));
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('blocked_visitors', $page);
-
-?>

@@ -22,30 +22,31 @@ use Mibew\Style\ChatStyle;
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/canned.php');
-require_once(MIBEW_FS_ROOT.'/libs/chat.php');
-require_once(MIBEW_FS_ROOT.'/libs/groups.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/pagination.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/canned.php');
+require_once(MIBEW_FS_ROOT . '/libs/chat.php');
+require_once(MIBEW_FS_ROOT . '/libs/groups.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/pagination.php');
+require_once(MIBEW_FS_ROOT . '/libs/track.php');
 
 $operator = check_login();
 
 if (Settings::get('enablessl') == "1" && Settings::get('forcessl') == "1") {
-	if (!is_secure_request()) {
-		$requested = $_SERVER['PHP_SELF'];
-		if ($_SERVER['REQUEST_METHOD'] == 'GET' && $_SERVER['QUERY_STRING']) {
-			header("Location: " . get_app_location(true, true) . "/operator/agent.php?" . $_SERVER['QUERY_STRING']);
-		} else {
-			die("only https connections are handled");
-		}
-		exit;
-	}
+    if (!is_secure_request()) {
+        $requested = $_SERVER['PHP_SELF'];
+        if ($_SERVER['REQUEST_METHOD'] == 'GET' && $_SERVER['QUERY_STRING']) {
+            header("Location: " . get_app_location(true, true) . "/operator/agent.php?" . $_SERVER['QUERY_STRING']);
+        } else {
+            die("only https connections are handled");
+        }
+        exit;
+    }
 }
 
-$threadid = verifyparam("thread", "/^\d{1,8}$/");
+$thread_id = verify_param("thread", "/^\d{1,8}$/");
 $page = array(
-	'errors' => array()
+    'errors' => array(),
 );
 
 // Initialize chat style which is currently used in system
@@ -55,92 +56,92 @@ $page_style = new PageStyle(PageStyle::currentStyle());
 
 if (!isset($_GET['token'])) {
 
-	$remote_level = get_remote_level($_SERVER['HTTP_USER_AGENT']);
-	if ($remote_level != "ajaxed") {
-		$page['errors'][] = getlocal("thread.error.old_browser");
-		$chat_style->render('error', $page);
-		exit;
-	}
+    $remote_level = get_remote_level($_SERVER['HTTP_USER_AGENT']);
+    if ($remote_level != "ajaxed") {
+        $page['errors'][] = getlocal("thread.error.old_browser");
+        $chat_style->render('error', $page);
+        exit;
+    }
 
-	$thread = Thread::load($threadid);
-	if (!$thread || !isset($thread->lastToken)) {
-		$page['errors'][] = getlocal("thread.error.wrong_thread");
-		$chat_style->render('error', $page);
-		exit;
-	}
+    $thread = Thread::load($thread_id);
+    if (!$thread || !isset($thread->lastToken)) {
+        $page['errors'][] = getlocal("thread.error.wrong_thread");
+        $chat_style->render('error', $page);
+        exit;
+    }
 
-	$viewonly = verifyparam("viewonly", "/^true$/", false);
+    $view_only = verify_param("viewonly", "/^true$/", false);
 
-	$forcetake = verifyparam("force", "/^true$/", false);
-	if (!$viewonly && $thread->state == Thread::STATE_CHATTING && $operator['operatorid'] != $thread->agentId) {
+    $force_take = verify_param("force", "/^true$/", false);
+    if (!$view_only && $thread->state == Thread::STATE_CHATTING && $operator['operatorid'] != $thread->agentId) {
 
-		if (!is_capable(CAN_TAKEOVER, $operator)) {
-			$page['errors'][] = getlocal("thread.error.cannot_take_over");
-			$chat_style->render('error', $page);
-			exit;
-		}
+        if (!is_capable(CAN_TAKEOVER, $operator)) {
+            $page['errors'][] = getlocal("thread.error.cannot_take_over");
+            $chat_style->render('error', $page);
+            exit;
+        }
 
-		if ($forcetake == false) {
-			$page = array(
-				'user' => topage($thread->userName),
-				'agent' => topage($thread->agentName),
-				'link' => $_SERVER['PHP_SELF'] . "?thread=$threadid&amp;force=true",
-				'title' => getlocal("confirm.take.head"),
-			);
-			$page_style->render('confirm', $page);
-			exit;
-		}
-	}
+        if ($force_take == false) {
+            $page = array(
+                'user' => to_page($thread->userName),
+                'agent' => to_page($thread->agentName),
+                'link' => $_SERVER['PHP_SELF'] . "?thread=$thread_id&amp;force=true",
+                'title' => getlocal("confirm.take.head"),
+            );
+            $page_style->render('confirm', $page);
+            exit;
+        }
+    }
 
-	if (!$viewonly) {
-		if(! $thread->take($operator)){
-			$page['errors'][] = getlocal("thread.error.cannot_take");
-			$chat_style->render('error', $page);
-			exit;
-		}
-	} else if (!is_capable(CAN_VIEWTHREADS, $operator)) {
-		$page['errors'][] = getlocal("thread.error.cannot_view");
-		$chat_style->render('error', $page);
-		exit;
-	}
+    if (!$view_only) {
+        if (!$thread->take($operator)) {
+            $page['errors'][] = getlocal("thread.error.cannot_take");
+            $chat_style->render('error', $page);
+            exit;
+        }
+    } elseif (!is_capable(CAN_VIEWTHREADS, $operator)) {
+        $page['errors'][] = getlocal("thread.error.cannot_view");
+        $chat_style->render('error', $page);
+        exit;
+    }
 
-	$token = $thread->lastToken;
-	header("Location: " . MIBEW_WEB_ROOT . "/operator/agent.php?thread=" . intval($threadid) . "&token=" . urlencode($token));
-	exit;
+    $token = $thread->lastToken;
+    $redirect_to = MIBEW_WEB_ROOT . "/operator/agent.php?thread="
+        . intval($thread_id) . "&token=" . urlencode($token);
+    header("Location: " . $redirect_to);
+    exit;
 }
 
-$token = verifyparam("token", "/^\d{1,8}$/");
+$token = verify_param("token", "/^\d{1,8}$/");
 
-$thread = Thread::load($threadid, $token);
+$thread = Thread::load($thread_id, $token);
 if (!$thread) {
-	die("wrong thread");
+    die("wrong thread");
 }
 
 if ($thread->agentId != $operator['operatorid'] && !is_capable(CAN_VIEWTHREADS, $operator)) {
-	$page['errors'][] = "Cannot view threads";
-	$chat_style->render('error', $page);
-	exit;
+    $page['errors'][] = "Cannot view threads";
+    $chat_style->render('error', $page);
+    exit;
 }
 
 $page = array_merge_recursive(
-	$page,
-	setup_chatview_for_operator($thread, $operator)
+    $page,
+    setup_chatview_for_operator($thread, $operator)
 );
 
 start_html_output();
 
-$pparam = verifyparam("act", "/^(redirect)$/", "default");
+$pparam = verify_param("act", "/^(redirect)$/", "default");
 if ($pparam == "redirect") {
-	$page = array_merge_recursive(
-		$page,
-		setup_redirect_links($threadid, $operator, $token)
-	);
-	$chat_style->render('redirect', $page);
+    $page = array_merge_recursive(
+        $page,
+        setup_redirect_links($thread_id, $operator, $token)
+    );
+    $chat_style->render('redirect', $page);
 } else {
-	// Build js application options
-	$page['chatOptions'] = json_encode($page['chat']);
-	// Render the page
-	$chat_style->render('chat', $page);
+    // Build js application options
+    $page['chatOptions'] = json_encode($page['chat']);
+    // Render the page
+    $chat_style->render('chat', $page);
 }
-
-?>

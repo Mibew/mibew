@@ -20,16 +20,17 @@ use Mibew\EventDispatcher;
 use Mibew\Settings;
 
 // Initialize libraries
-require_once(dirname(__FILE__).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/track.php');
-require_once(MIBEW_FS_ROOT.'/libs/statistics.php');
-require_once(MIBEW_FS_ROOT.'/libs/cron.php');
+require_once(dirname(__FILE__) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/track.php');
+require_once(MIBEW_FS_ROOT . '/libs/chat.php');
+require_once(MIBEW_FS_ROOT . '/libs/statistics.php');
+require_once(MIBEW_FS_ROOT . '/libs/cron.php');
 
 $cron_key = empty($_GET['cron_key']) ? '' : $_GET['cron_key'];
 
 // Check cron security key
 if ($cron_key != Settings::get('cron_key')) {
-	die();
+    die();
 }
 
 // Determine use or not quiet mode
@@ -50,9 +51,7 @@ $dispatcher->triggerEvent('cronRun');
 Settings::set('_last_cron_run', time());
 Settings::update();
 
-if (! $quiet) {
-	// TODO: May be localize it
-	echo('All cron jobs done.');
+if (!$quiet) {
+    // TODO: May be localize it
+    echo('All cron jobs done.');
 }
-
-?>

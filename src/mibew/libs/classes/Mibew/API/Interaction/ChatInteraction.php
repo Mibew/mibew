@@ -20,32 +20,31 @@ namespace Mibew\API\Interaction;
 /**
  * Implements Mibew Core - Mibew Chat Window interaction
  */
-class ChatInteraction extends Interaction {
-	/**
-	 * Defines obligatory arguments and default values for them
-	 * @var array
-	 * @see \Mibew\API\Interaction\Interaction::$obligatoryArgumnents
-	 */
-	protected $obligatoryArguments = array(
-		'*' => array(
-			'threadId' => null,
-			'token' => null,
-			'references' => array(),
-			'return' => array()
-		),
-		'result' => array(
-			'errorCode' => 0
-		)
-	);
+class ChatInteraction extends Interaction
+{
+    /**
+     * Reserved function's names
+     * @var array
+     * @see \Mibew\API\Interaction\Interaction::$reservedFunctionNames
+     */
+    public $reservedFunctionNames = array(
+        'result',
+    );
 
-	/**
-	 * Reserved function's names
-	 * @var array
-	 * @see \Mibew\API\Interaction\Interaction::$reservedFunctionNames
-	 */
-	public $reservedFunctionNames = array(
-		'result'
-	);
+    /**
+     * Defines obligatory arguments and default values for them
+     * @var array
+     * @see \Mibew\API\Interaction\Interaction::$obligatoryArgumnents
+     */
+    protected $obligatoryArguments = array(
+        '*' => array(
+            'threadId' => null,
+            'token' => null,
+            'references' => array(),
+            'return' => array(),
+        ),
+        'result' => array(
+            'errorCode' => 0,
+        ),
+    );
 }
-
-?>

@@ -15,42 +15,41 @@
  * limitations under the License.
  */
 
-require_once(MIBEW_FS_ROOT.'/libs/common/constants.php');
-
 function debugexit_print($var)
 {
-	echo "<html><body><pre>";
-	print_r($var);
-	echo "</pre></body></html>";
-	exit;
+    echo "<html><body><pre>";
+    print_r($var);
+    echo "</pre></body></html>";
+    exit;
 }
 
 function get_gifimage_size($filename)
 {
-	if (function_exists('gd_info')) {
-		$info = gd_info();
-		if (isset($info['GIF Read Support']) && $info['GIF Read Support']) {
-			$img = @imagecreatefromgif($filename);
-			if ($img) {
-				$height = imagesy($img);
-				$width = imagesx($img);
-				imagedestroy($img);
-				return array($width, $height);
-			}
-		}
-	}
-	return array(0, 0);
+    if (function_exists('gd_info')) {
+        $info = gd_info();
+        if (isset($info['GIF Read Support']) && $info['GIF Read Support']) {
+            $img = @imagecreatefromgif($filename);
+            if ($img) {
+                $height = imagesy($img);
+                $width = imagesx($img);
+                imagedestroy($img);
+
+                return array($width, $height);
+            }
+        }
+    }
+
+    return array(0, 0);
 }
 
-
-function jspath()
+function js_path()
 {
-	return "js/compiled";
+    return "js/compiled";
 }
 
 function div($a, $b)
 {
-	return ($a - ($a % $b)) / $b;
+    return ($a - ($a % $b)) / $b;
 }
 
 /**
@@ -88,21 +87,23 @@ function div($a, $b)
  * @param array $arr Array to flatten
  * @return array
  */
-function array_flatten_recursive($arr) {
-	$result = array();
-	foreach($arr as $key => $value) {
-		if (is_array($value)) {
-			// Flatten nested arrays
-			$value = array_flatten_recursive($value);
-			foreach($value as $inner_key => $inner_value) {
-				$result[$key.".".$inner_key] = $inner_value;
-			}
-		} else {
-			// Leave scalar values 'as is'
-			$result[$key] = $value;
-		}
-	}
-	return $result;
+function array_flatten_recursive($arr)
+{
+    $result = array();
+    foreach ($arr as $key => $value) {
+        if (is_array($value)) {
+            // Flatten nested arrays
+            $value = array_flatten_recursive($value);
+            foreach ($value as $inner_key => $inner_value) {
+                $result[$key . "." . $inner_key] = $inner_value;
+            }
+        } else {
+            // Leave scalar values 'as is'
+            $result[$key] = $value;
+        }
+    }
+
+    return $result;
 }
 
 /**
@@ -110,12 +111,11 @@ function array_flatten_recursive($arr) {
  *
  * @return boolean
  */
-function installation_in_progress() {
-	if (!defined('INSTALLATION_IN_PROGRESS')) {
-		return FALSE;
-	}
+function installation_in_progress()
+{
+    if (!defined('INSTALLATION_IN_PROGRESS')) {
+        return false;
+    }
 
-	return INSTALLATION_IN_PROGRESS;
+    return INSTALLATION_IN_PROGRESS;
 }
-
-?>

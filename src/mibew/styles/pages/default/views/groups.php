@@ -95,11 +95,11 @@ if(count($page['groups']) > 0) {
 <tr>
 	<td class="notlast level<?php echo $grp['level'] ?>">
    		<a href="<?php echo MIBEW_WEB_ROOT ?>/operator/group.php?gid=<?php echo $grp['groupid'] ?>" id="ti<?php echo $grp['groupid'] ?>" class="man">
-   			<?php echo htmlspecialchars(topage($grp['vclocalname'])) ?>
+   			<?php echo htmlspecialchars(to_page($grp['vclocalname'])) ?>
    		</a>
 	</td>
 	<td class="notlast">
-   		<?php echo $grp['vclocaldescription'] ? htmlspecialchars(topage($grp['vclocaldescription'])) : "&lt;none&gt;" ?>
+   		<?php echo $grp['vclocaldescription'] ? htmlspecialchars(to_page($grp['vclocaldescription'])) : "&lt;none&gt;" ?>
 	</td>
 	<td class="notlast">
 <?php if(group_is_online($grp)) { ?>
@@ -112,7 +112,7 @@ if(count($page['groups']) > 0) {
 	</td>
 	<td>
    		<a href="<?php echo MIBEW_WEB_ROOT ?>/operator/groupmembers.php?gid=<?php echo $grp['groupid'] ?>">
-	   		<?php echo htmlspecialchars(topage($grp['inumofagents'])) ?>
+	   		<?php echo htmlspecialchars(to_page($grp['inumofagents'])) ?>
    		</a>
 	</td>
 	<td>
@@ -143,7 +143,7 @@ if(count($page['groups']) > 0) {
 <script type="text/javascript" language="javascript"><!--
 $('a.removelink').click(function(){
 	var groupname = $("#t"+this.id).text();
-	return confirm("<?php echo getlocalforJS("page.groups.confirm", array('"+$.trim(groupname)+"')) ?>");
+	return confirm("<?php echo get_local_for_js("page.groups.confirm", array('"+$.trim(groupname)+"')) ?>");
 });
 //--></script>
 

@@ -19,56 +19,50 @@
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/groups.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/groups.php');
 
 $operator = check_login();
-csrfchecktoken();
+csrf_check_token();
 
-$groupid = verifyparam("gid", "/^\d{1,9}$/");
-$page = array('groupid' => $groupid);
+$group_id = verify_param("gid", "/^\d{1,9}$/");
+$page = array('groupid' => $group_id);
 $page['operators'] = get_operators_list(array());
 $page['errors'] = array();
 
-$group = group_by_id($groupid);
+$group = group_by_id($group_id);
 
 if (!$group) {
-	$page['errors'][] = getlocal("page.group.no_such");
+    $page['errors'][] = getlocal("page.group.no_such");
+} elseif (isset($_POST['gid'])) {
 
-} else if (isset($_POST['gid'])) {
+    $new_members = array();
+    foreach ($page['operators'] as $op) {
+        if (verify_param("op" . $op['operatorid'], "/^on$/", "") == "on") {
+            $new_members[] = $op['operatorid'];
+        }
+    }
 
-	$new_members = array();
-	foreach ($page['operators'] as $op) {
-		if (verifyparam("op" . $op['operatorid'], "/^on$/", "") == "on") {
-			$new_members[] = $op['operatorid'];
-		}
-	}
-
-	update_group_members($groupid, $new_members);
-	header("Location: " . MIBEW_WEB_ROOT . "/operator/groupmembers.php?gid=" . intval($groupid) . "&stored");
-	exit;
+    update_group_members($group_id, $new_members);
+    header("Location: " . MIBEW_WEB_ROOT . "/operator/groupmembers.php?gid=" . intval($group_id) . "&stored");
+    exit;
 }
 
 $page['formop'] = array();
-$page['currentgroup'] = $group ? topage(htmlspecialchars($group['vclocalname'])) : "";
+$page['currentgroup'] = $group ? to_page(htmlspecialchars($group['vclocalname'])) : "";
 
-foreach (get_group_members($groupid) as $rel) {
-	$page['formop'][] = $rel['operatorid'];
+foreach (get_group_members($group_id) as $rel) {
+    $page['formop'][] = $rel['operatorid'];
 }
 
 $page['stored'] = isset($_GET['stored']);
 $page['title'] = getlocal("page.groupmembers.title");
 $page['menuid'] = "groups";
 
-$page = array_merge(
-	$page,
-	prepare_menu($operator)
-);
+$page = array_merge($page, prepare_menu($operator));
 
-$page['tabs'] = setup_group_settings_tabs($groupid, 1);
+$page['tabs'] = setup_group_settings_tabs($group_id, 1);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('groupmembers', $page);
-
-?>

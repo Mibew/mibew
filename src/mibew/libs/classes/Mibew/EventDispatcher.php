@@ -21,128 +21,140 @@ namespace Mibew;
  * Provide event-related functionality.
  * Implements singleton pattern.
  */
-Class EventDispatcher {
+class EventDispatcher
+{
+    /**
+     * An instance of EventDispatcher class.
+     *
+     * @var EventDispatcher
+     */
+    protected static $instance = null;
 
-	/**
-	 * An instance of EventDispatcher class.
-	 * @var EventDispatcher
-	 */
-	protected static $instance = null;
+    /**
+     * Events and listeners array.
+     *
+     * @var array
+     */
+    protected $events = array();
 
-	/**
-	 * Events and listeners array.
-	 * @var array
-	 */
-	protected $events = array();
+    /**
+     * Increments any time when plugin adds. Is used for determine plugins order
+     * for plugins with equal priority.
+     *
+     * @var int
+     */
+    protected $offset = 0;
 
-	/**
-	 * Increments any time when plugin adds. Use for determine plugins order for plugins with
-	 * equal priority.
-	 * @var int
-	 */
-	protected $offset = 0;
+    /**
+     * Returns an instance of EventDispatcher class.
+     *
+     * @return EventDispatcher
+     */
+    public static function getInstance()
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
 
-	/**
-	 * Returns an instance of EventDispatcher class.
-	 *
-	 * @return EventDispatcher
-	 */
-	public static function getInstance(){
-		if (self::$instance === null) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
+        return self::$instance;
+    }
 
-	/**
-	 * Make constructor unavailable for client code
-	 */
-	protected function __constructor() {}
+    /**
+     * Attaches listener function to event.
+     *
+     * All event listeners must receive one argument of array type by reference.
+     *
+     * @param string $event_name Event's name
+     * @param \Mibew\Plugin $plugin Plugin object, that handles the event
+     * @param string $listener Plugins method, that handles the event
+     * @param int $priority Priority of listener. If $priority = null, the
+     *   plugin weight will use instead.
+     * @return boolean true on success or false on failure.
+     *
+     * @see \Mibew\Plugin::getWeight()
+     */
+    public function attachListener($event_name, Plugin $plugin, $listener, $priority = null)
+    {
+        // Check method is callable
+        if (!is_callable(array($plugin, $listener))) {
+            trigger_error("Method '{$listener}' is not callable!", E_USER_WARNING);
 
-	/**
-	 * Attaches listener function to event.
-	 *
-	 * All event listeners must receive one argument of array type by reference.
-	 *
-	 * @param string $event_name Event's name
-	 * @param \Mibew\Plugin $plugin Plugin object, that handles the event
-	 * @param string $listener Plugins method, that handles the event
-	 * @param int $priority Priority of listener. If $priority = null, the plugin weight will
-	 * use instead.
-	 * @return boolean true on success or false on failure.
-	 *
-	 * @see \Mibew\Plugin::getWeight()
-	 */
-	public function attachListener($event_name, Plugin $plugin, $listener, $priority = null){
-		// Check method is callable
-		if (! is_callable(array($plugin, $listener))) {
-			trigger_error("Method '{$listener}' is not callable!", E_USER_WARNING);
-			return false;
-		}
-		// Create empty array for event listener if it not exists
-		if (! array_key_exists($event_name, $this->events)) {
-			$this->events[$event_name] = array();
-		}
-		// Check priority
-		if (is_null($priority)) {
-			$priority = $plugin->getWeight();
-		}
-		// Attach listener
-		$this->events[$event_name][$priority . "_" . $this->offset] = array(
-			'plugin' => $plugin,
-			'listener' => $listener
-		);
-		$this->offset++;
-		return true;
-	}
+            return false;
+        }
+        // Create empty array for event listener if it not exists
+        if (!array_key_exists($event_name, $this->events)) {
+            $this->events[$event_name] = array();
+        }
+        // Check priority
+        if (is_null($priority)) {
+            $priority = $plugin->getWeight();
+        }
+        // Attach listener
+        $this->events[$event_name][$priority . "_" . $this->offset] = array(
+            'plugin' => $plugin,
+            'listener' => $listener,
+        );
+        $this->offset++;
 
-	/**
-	 * Detach listener function from event
-	 *
-	 * @param string $event_name Event's name
-	 * @param \Mibew\Plugin $plugin Plugin object, that handles the event
-	 * @param string $listener Plugins method, that handles the event
-	 * @return boolean true on success or false on failure.
-	 */
-	public function detachListener($event_name, Plugin $plugin, $listener){
-		// Check event exists
-		if (! array_key_exists($event_name, $this->events)) {
-			return false;
-		}
-		// Search event and $plugin->$listener
-		foreach ($this->events[$event_name] as $index => $event) {
-			if ($event['plugin'] === $plugin && $event['listener'] == $listener) {
-				// Detach listener
-				unset($this->events[$event_name][$index]);
-				return true;
-			}
-		}
-		return false;
-	}
+        return true;
+    }
 
-	/**
-	 * Triggers the event
-	 *
-	 * @param string $event_name Event's name
-	 * @param array &$arguments Arguments passed to listener
-	 * @return boolean true on success or false on failure
-	 */
-	public function triggerEvent($event_name, &$arguments = array()){
-		// Check event listeners exists
-		if (! array_key_exists($event_name, $this->events)) {
-			return true;
-		}
-		// Sorting listeners by priority
-		uksort($this->events[$event_name], 'strnatcmp');
-		// Invoke listeners
-		foreach ($this->events[$event_name] as $event) {
-			$plugin = $event['plugin'];
-			$listener = $event['listener'];
-			$plugin->$listener($arguments);
-		}
-		return true;
-	}
+    /**
+     * Detach listener function from event
+     *
+     * @param string $event_name Event's name
+     * @param \Mibew\Plugin $plugin Plugin object, that handles the event
+     * @param string $listener Plugins method, that handles the event
+     * @return boolean true on success or false on failure.
+     */
+    public function detachListener($event_name, Plugin $plugin, $listener)
+    {
+        // Check event exists
+        if (!array_key_exists($event_name, $this->events)) {
+            return false;
+        }
+        // Search event and $plugin->$listener
+        foreach ($this->events[$event_name] as $index => $event) {
+            if ($event['plugin'] === $plugin && $event['listener'] == $listener) {
+                // Detach listener
+                unset($this->events[$event_name][$index]);
 
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Triggers the event
+     *
+     * @param string $event_name Event's name
+     * @param array &$arguments Arguments passed to listener
+     * @return boolean true on success or false on failure
+     */
+    public function triggerEvent($event_name, &$arguments = array())
+    {
+        // Check event listeners exists
+        if (!array_key_exists($event_name, $this->events)) {
+            return true;
+        }
+        // Sorting listeners by priority
+        uksort($this->events[$event_name], 'strnatcmp');
+        // Invoke listeners
+        foreach ($this->events[$event_name] as $event) {
+            $plugin = $event['plugin'];
+            $listener = $event['listener'];
+            $plugin->$listener($arguments);
+        }
+
+        return true;
+    }
+
+    /**
+     * Make constructor unavailable for client code
+     */
+    protected function __constructor()
+    {
+    }
 }
-
-?>

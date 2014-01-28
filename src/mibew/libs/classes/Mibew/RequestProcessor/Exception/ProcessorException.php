@@ -20,11 +20,10 @@ namespace Mibew\RequestProcessor\Exception;
 /**
  * Class for {@link \Mibew\RequestProcessor\Processor} exceptions.
  */
-class ProcessorException extends \Exception {
-	/**
-	 * Wrong function arguments
-	 */
-	const WRONG_ARGUMENTS = 1;
+class ProcessorException extends \Exception
+{
+    /**
+     * Wrong function arguments
+     */
+    const WRONG_ARGUMENTS = 1;
 }
-
-?>

@@ -20,34 +20,29 @@ use Mibew\Settings;
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
 
 $operator = check_login();
 force_password($operator);
 
-$isonline = is_operator_online($operator['operatorid']);
+$is_online = is_operator_online($operator['operatorid']);
 
 $page = array(
-	'version' => MIBEW_VERSION,
-	'localeLinks' => get_locale_links(MIBEW_WEB_ROOT . "/operator/index.php"),
-	'needUpdate' => Settings::get('dbversion') != DB_VERSION,
-	'needChangePassword' => check_password_hash($operator['vclogin'], '', $operator['vcpassword']),
-	'profilePage' => MIBEW_WEB_ROOT . "/operator/operator.php?op=".$operator['operatorid'],
-	'updateWizard' => MIBEW_WEB_ROOT . "/install/",
-	'newFeatures' => Settings::get('featuresversion') != FEATURES_VERSION,
-	'featuresPage' => MIBEW_WEB_ROOT . "/operator/features.php",
-	'isOnline' => $isonline,
-	'title' => getlocal("topMenu.admin"),
-	'menuid' => "main",
+    'version' => MIBEW_VERSION,
+    'localeLinks' => get_locale_links(MIBEW_WEB_ROOT . "/operator/index.php"),
+    'needUpdate' => Settings::get('dbversion') != DB_VERSION,
+    'needChangePassword' => check_password_hash($operator['vclogin'], '', $operator['vcpassword']),
+    'profilePage' => MIBEW_WEB_ROOT . "/operator/operator.php?op=" . $operator['operatorid'],
+    'updateWizard' => MIBEW_WEB_ROOT . "/install/",
+    'newFeatures' => Settings::get('featuresversion') != FEATURES_VERSION,
+    'featuresPage' => MIBEW_WEB_ROOT . "/operator/features.php",
+    'isOnline' => $is_online,
+    'title' => getlocal("topMenu.admin"),
+    'menuid' => "main",
 );
 
-$page = array_merge(
-	$page,
-	prepare_menu($operator)
-);
+$page = array_merge($page, prepare_menu($operator));
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('menu', $page);
-
-?>

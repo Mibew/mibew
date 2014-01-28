@@ -32,11 +32,13 @@ define('PAGINATION_LINKS_ON_PAGE', 5);
  * @param string $title Link title
  * @return string HTML markup
  */
-function generate_pagination_link($page, $title) {
-	$lnk = $_SERVER['REQUEST_URI'];
-	$href = preg_replace("/\?page=\d+\&/", "?", preg_replace("/\&page=\d+/", "", $lnk));
-	$href .= strstr($href, "?") ? "&page=$page" : "?page=$page";
-	return "<a href=\"" . htmlspecialchars($href) . "\" class=\"pagelink\">$title</a>";
+function generate_pagination_link($page, $title)
+{
+    $lnk = $_SERVER['REQUEST_URI'];
+    $href = preg_replace("/\?page=\d+\&/", "?", preg_replace("/\&page=\d+/", "", $lnk));
+    $href .= strstr($href, "?") ? "&page=$page" : "?page=$page";
+
+    return "<a href=\"" . htmlspecialchars($href) . "\" class=\"pagelink\">$title</a>";
 }
 
 /**
@@ -47,8 +49,9 @@ function generate_pagination_link($page, $title) {
  * @param string $alt Value of an 'alt' atribute of the image tag.
  * @return string HTML markup
  */
-function generate_pagination_image($style_path, $id, $alt) {
-	return "<img src=\"" . $style_path . "/images/$id.gif\" border=\"0\" alt=\"" . htmlspecialchars($alt) . "\"/>";
+function generate_pagination_image($style_path, $id, $alt)
+{
+    return "<img src=\"" . $style_path . "/images/$id.gif\" border=\"0\" alt=\"" . htmlspecialchars($alt) . "\"/>";
 }
 
 /**
@@ -65,37 +68,38 @@ function generate_pagination_image($style_path, $id, $alt) {
  *   - start: int, index of item to start from.
  *   - end: int, index of item to end at.
  */
-function pagination_info($items_count, $default_items_per_page = 15) {
-	if ($items_count) {
-		$items_per_page = verifyparam("items", "/^\d{1,3}$/", $default_items_per_page);
-		if ($items_per_page < 2) {
-			$items_per_page = 2;
-		}
+function pagination_info($items_count, $default_items_per_page = 15)
+{
+    if ($items_count) {
+        $items_per_page = verify_param("items", "/^\d{1,3}$/", $default_items_per_page);
+        if ($items_per_page < 2) {
+            $items_per_page = 2;
+        }
 
-		$total_pages = div($items_count + $items_per_page - 1, $items_per_page);
-		$curr_page = verifyparam("page", "/^\d{1,6}$/", 1);
+        $total_pages = div($items_count + $items_per_page - 1, $items_per_page);
+        $curr_page = verify_param("page", "/^\d{1,6}$/", 1);
 
-		if ($curr_page < 1) {
-			$curr_page = 1;
-		}
-		if ($curr_page > $total_pages) {
-			$curr_page = $total_pages;
-		}
+        if ($curr_page < 1) {
+            $curr_page = 1;
+        }
+        if ($curr_page > $total_pages) {
+            $curr_page = $total_pages;
+        }
 
-		$start_index = ($curr_page - 1) * $items_per_page;
-		$end_index = min($start_index + $items_per_page, $items_count);
+        $start_index = ($curr_page - 1) * $items_per_page;
+        $end_index = min($start_index + $items_per_page, $items_count);
 
-		return array(
-			"page" => $curr_page,
-			"items" => $items_per_page,
-			"total" => $total_pages,
-			"count" => $items_count,
-			"start" => $start_index,
-			"end" => $end_index,
-		);
-	} else {
-		return false;
-	}
+        return array(
+            "page" => $curr_page,
+            "items" => $items_per_page,
+            "total" => $total_pages,
+            "count" => $items_count,
+            "start" => $start_index,
+            "end" => $end_index,
+        );
+    } else {
+        return false;
+    }
 }
 
 /**
@@ -108,26 +112,28 @@ function pagination_info($items_count, $default_items_per_page = 15) {
  *     pagination_info function for details.
  *   - items: slice of items to display.
  */
-function setup_pagination($items, $default_items_per_page = 15) {
-	if (count($items) > 0) {
-		$info = pagination_info(count($items), $default_items_per_page);
-		if ($info) {
-			$items_slice = array_slice(
-				$items,
-				$info['start'],
-				$info['end'] - $info['start']
-			);
-			return array(
-				'info' => $info,
-				'items' => $items_slice,
-			);
-		}
-	}
+function setup_pagination($items, $default_items_per_page = 15)
+{
+    if (count($items) > 0) {
+        $info = pagination_info(count($items), $default_items_per_page);
+        if ($info) {
+            $items_slice = array_slice(
+                $items,
+                $info['start'],
+                $info['end'] - $info['start']
+            );
 
-	return array(
-		'info' => false,
-		'items' => false,
-	);
+            return array(
+                'info' => $info,
+                'items' => $items_slice,
+            );
+        }
+    }
+
+    return array(
+        'info' => false,
+        'items' => false,
+    );
 }
 
 /**
@@ -140,64 +146,66 @@ function setup_pagination($items, $default_items_per_page = 15) {
  * page.
  * @return string HTML markup
  */
-function generate_pagination($style_path, $pagination, $bottom = true) {
-	$result = getlocal2(
-		"tag.pagination.info",
-		array(
-			$pagination['page'],
-			$pagination['total'],
-			$pagination['start'] + 1,
-			$pagination['end'],
-			$pagination['count']
-		)
-	) . "<br/>";
+function generate_pagination($style_path, $pagination, $bottom = true)
+{
+    $result = getlocal2(
+        "tag.pagination.info",
+        array(
+            $pagination['page'],
+            $pagination['total'],
+            $pagination['start'] + 1,
+            $pagination['end'],
+            $pagination['count'],
+        )
+    ) . "<br/>";
 
-	if ($pagination['total'] > 1) {
-		if (!$bottom) {
-			$result = "";
-		} else {
-			$result .= "<br/>";
-		}
-		$result .= "<div class='pagination'>";
-		$curr_page = $pagination['page'];
+    if ($pagination['total'] > 1) {
+        if (!$bottom) {
+            $result = "";
+        } else {
+            $result .= "<br/>";
+        }
+        $result .= "<div class='pagination'>";
+        $curr_page = $pagination['page'];
 
-		$minPage = max($curr_page - PAGINATION_LINKS_ON_PAGE, 1);
-		$maxPage = min($curr_page + PAGINATION_LINKS_ON_PAGE, $pagination['total']);
+        $min_page = max($curr_page - PAGINATION_LINKS_ON_PAGE, 1);
+        $max_page = min($curr_page + PAGINATION_LINKS_ON_PAGE, $pagination['total']);
 
-		if ($curr_page > 1) {
-			$result .= generate_pagination_link(
-				$curr_page - 1,
-				generate_pagination_image(
-					$style_path,
-					"prevpage",
-					getlocal("tag.pagination.previous")
-				)
-			) . PAGINATION_SPACING;
-		}
+        if ($curr_page > 1) {
+            $result .= generate_pagination_link(
+                $curr_page - 1,
+                generate_pagination_image(
+                    $style_path,
+                    "prevpage",
+                    getlocal("tag.pagination.previous")
+                )
+            ) . PAGINATION_SPACING;
+        }
 
-		for ($i = $minPage; $i <= $maxPage; $i++) {
-			$title = abs($curr_page - $i) >= PAGINATION_LINKS_ON_PAGE && $i != 1 ? "..." : $i;
-			if ($i != $curr_page)
-				$result .= generate_pagination_link($i, $title);
-			else
-				$result .= "<span class=\"pagecurrent\">$title</span>";
-			if ($i < $maxPage)
-				$result .= PAGINATION_SPACING;
-		}
+        for ($i = $min_page; $i <= $max_page; $i++) {
+            $title = (abs($curr_page - $i) >= PAGINATION_LINKS_ON_PAGE && $i != 1) ? "..." : $i;
+            if ($i != $curr_page) {
+                $result .= generate_pagination_link($i, $title);
+            } else {
+                $result .= "<span class=\"pagecurrent\">$title</span>";
+            }
+            if ($i < $max_page) {
+                $result .= PAGINATION_SPACING;
+            }
+        }
 
-		if ($curr_page < $pagination['total']) {
-			$result .= PAGINATION_SPACING . generate_pagination_link(
-				$curr_page + 1,
-				generate_pagination_image(
-					$style_path,
-					"nextpage",
-					getlocal("tag.pagination.next")
-				)
-			);
-		}
-		$result .= "</div>";
-	}
-	return $result;
+        if ($curr_page < $pagination['total']) {
+            $result .= PAGINATION_SPACING . generate_pagination_link(
+                $curr_page + 1,
+                generate_pagination_image(
+                    $style_path,
+                    "nextpage",
+                    getlocal("tag.pagination.next")
+                )
+            );
+        }
+        $result .= "</div>";
+    }
+
+    return $result;
 }
-
-?>

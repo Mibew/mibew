@@ -19,77 +19,70 @@
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator_settings.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator_settings.php');
 
 $operator = check_login();
-csrfchecktoken();
+csrf_check_token();
 
-$opId = verifyparam("op", "/^\d{1,9}$/");
+$op_id = verify_param("op", "/^\d{1,9}$/");
 $page = array(
-	'opid' => $opId,
-	'canmodify' => is_capable(CAN_ADMINISTRATE, $operator) ? "1" : "",
-	'errors' => array(),
+    'opid' => $op_id,
+    'canmodify' => is_capable(CAN_ADMINISTRATE, $operator) ? "1" : "",
+    'errors' => array(),
 );
 
-$op = operator_by_id($opId);
+$op = operator_by_id($op_id);
 
 if (!$op) {
-	$page['errors'][] = getlocal("no_such_operator");
+    $page['errors'][] = getlocal("no_such_operator");
+} elseif (isset($_POST['op'])) {
 
-} else if (isset($_POST['op'])) {
+    if (!is_capable(CAN_ADMINISTRATE, $operator)) {
+        $page['errors'][] = getlocal('page_agent.cannot_modify');
+    }
 
-	if (!is_capable(CAN_ADMINISTRATE, $operator)) {
-		$page['errors'][] = getlocal('page_agent.cannot_modify');
-	}
+    $new_permissions = isset($op['iperm']) ? $op['iperm'] : 0;
 
-	$new_permissions = isset($op['iperm']) ? $op['iperm'] : 0;
+    foreach (permission_ids() as $perm => $id) {
+        if (verify_param("permissions$id", "/^on$/", "") == "on") {
+            $new_permissions |= (1 << $perm);
+        } else {
+            $new_permissions &= ~(1 << $perm);
+        }
+    }
 
-	foreach (permission_ids() as $perm => $id) {
-		if (verifyparam("permissions$id", "/^on$/", "") == "on") {
-			$new_permissions |= (1 << $perm);
-		} else {
-			$new_permissions &= ~(1 << $perm);
-		}
-	}
+    if (count($page['errors']) == 0) {
+        update_operator_permissions($op['operatorid'], $new_permissions);
 
-	if (count($page['errors']) == 0) {
-		update_operator_permissions($op['operatorid'], $new_permissions);
-
-		if ($opId && $_SESSION[SESSION_PREFIX."operator"] && $operator['operatorid'] == $opId) {
-			$_SESSION[SESSION_PREFIX."operator"]['iperm'] = $new_permissions;
-		}
-		header("Location: " . MIBEW_WEB_ROOT . "/operator/permissions.php?op=" . intval($opId) . "&stored");
-		exit;
-	}
-
+        if ($op_id && $_SESSION[SESSION_PREFIX . "operator"] && $operator['operatorid'] == $op_id) {
+            $_SESSION[SESSION_PREFIX . "operator"]['iperm'] = $new_permissions;
+        }
+        header("Location: " . MIBEW_WEB_ROOT . "/operator/permissions.php?op=" . intval($op_id) . "&stored");
+        exit;
+    }
 }
 
 $page['permissionsList'] = get_permission_list();
 $page['formpermissions'] = array("");
-$page['currentop'] = $op ? topage(get_operator_name($op)) . " (" . $op['vclogin'] . ")" : getlocal("not_found");
+$page['currentop'] = $op ? to_page(get_operator_name($op)) . " (" . $op['vclogin'] . ")" : getlocal("not_found");
 
 if ($op) {
-	foreach (permission_ids() as $perm => $id) {
-		if (is_capable($perm, $op)) {
-			$page['formpermissions'][] = $id;
-		}
-	}
+    foreach (permission_ids() as $perm => $id) {
+        if (is_capable($perm, $op)) {
+            $page['formpermissions'][] = $id;
+        }
+    }
 }
 
 $page['stored'] = isset($_GET['stored']);
 $page['title'] = getlocal("permissions.title");
-$page['menuid'] = ($operator['operatorid'] == $opId) ? "profile" : "operators";
+$page['menuid'] = ($operator['operatorid'] == $op_id) ? "profile" : "operators";
 
-$page = array_merge(
-	$page,
-	prepare_menu($operator)
-);
+$page = array_merge($page, prepare_menu($operator));
 
-$page['tabs'] = setup_operator_settings_tabs($opId, 3);
+$page['tabs'] = setup_operator_settings_tabs($op_id, 3);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('permissions', $page);
-
-?>

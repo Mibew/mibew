@@ -19,69 +19,67 @@
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator_settings.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator_settings.php');
 
 $operator = check_login();
-csrfchecktoken();
+csrf_check_token();
 
 $operator_in_isolation = in_isolation($operator);
 
-$opId = verifyparam("op", "/^\d{1,9}$/");
-$page = array('opid' => $opId);
-$page['groups'] = $operator_in_isolation?get_all_groups_for_operator($operator):get_all_groups();
+$op_id = verify_param("op", "/^\d{1,9}$/");
+$page = array('opid' => $op_id);
+$page['groups'] = $operator_in_isolation
+    ? get_all_groups_for_operator($operator)
+    : get_all_groups();
 $page['errors'] = array();
 
-$canmodify = is_capable(CAN_ADMINISTRATE, $operator);
+$can_modify = is_capable(CAN_ADMINISTRATE, $operator);
 
-$op = operator_by_id($opId);
+$op = operator_by_id($op_id);
 
 if (!$op) {
-	$page['errors'][] = getlocal("no_such_operator");
+    $page['errors'][] = getlocal("no_such_operator");
+} elseif (isset($_POST['op'])) {
 
-} else if (isset($_POST['op'])) {
+    if (!$can_modify) {
+        $page['errors'][] = getlocal('page_agent.cannot_modify');
+    }
 
-	if (!$canmodify) {
-		$page['errors'][] = getlocal('page_agent.cannot_modify');
-	}
+    if (count($page['errors']) == 0) {
+        $new_groups = array();
+        foreach ($page['groups'] as $group) {
+            if (verify_param("group" . $group['groupid'], "/^on$/", "") == "on") {
+                $new_groups[] = $group['groupid'];
+            }
+        }
 
-	if (count($page['errors']) == 0) {
-		$new_groups = array();
-		foreach ($page['groups'] as $group) {
-			if (verifyparam("group" . $group['groupid'], "/^on$/", "") == "on") {
-				$new_groups[] = $group['groupid'];
-			}
-		}
-
-		update_operator_groups($op['operatorid'], $new_groups);
-		header("Location: " . MIBEW_WEB_ROOT . "/operator/opgroups.php?op=" . intval($opId) . "&stored");
-		exit;
-	}
+        update_operator_groups($op['operatorid'], $new_groups);
+        header("Location: " . MIBEW_WEB_ROOT . "/operator/opgroups.php?op=" . intval($op_id) . "&stored");
+        exit;
+    }
 }
 
 $page['formgroup'] = array();
-$page['currentop'] = $op ? topage(get_operator_name($op)) . " (" . $op['vclogin'] . ")" : getlocal("not_found");
-$page['canmodify'] = $canmodify ? "1" : "";
+$page['currentop'] = $op
+    ? to_page(get_operator_name($op)) . " (" . $op['vclogin'] . ")"
+    : getlocal("not_found");
+$page['canmodify'] = $can_modify ? "1" : "";
 
 if ($op) {
-	foreach (get_operator_groupids($opId) as $rel) {
-		$page['formgroup'][] = $rel['groupid'];
-	}
+    foreach (get_operator_group_ids($op_id) as $rel) {
+        $page['formgroup'][] = $rel['groupid'];
+    }
 }
 
 $page['stored'] = isset($_GET['stored']);
 $page['title'] = getlocal("operator.groups.title");
-$page['menuid'] = ($page['operatorid'] == $opId) ? "profile" : "operators";
+$page['menuid'] = ($page['operatorid'] == $op_id) ? "profile" : "operators";
 
-$page = array_merge(
-	$page,
-	prepare_menu($operator)
-);
+$page = array_merge($page, prepare_menu($operator));
 
-$page['tabs'] = setup_operator_settings_tabs($opId, 2);
+$page['tabs'] = setup_operator_settings_tabs($op_id, 2);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('operator_groups', $page);
-
-?>

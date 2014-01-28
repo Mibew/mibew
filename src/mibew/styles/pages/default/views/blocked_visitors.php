@@ -69,10 +69,10 @@ if( $page['pagination.items'] ) {
 	</td>
 	<td>
 <?php 
-	if( strlen(topage($b['comment'])) > 30 ) { 
-		echo htmlspecialchars(substr(topage($b['comment']),0,30));
+	if( strlen(to_page($b['comment'])) > 30 ) { 
+		echo htmlspecialchars(substr(to_page($b['comment']),0,30));
 	} else {
-		echo htmlspecialchars(topage($b['comment']));
+		echo htmlspecialchars(to_page($b['comment']));
 	} 
 ?>
 	</td>
@@ -106,7 +106,7 @@ if ($page['pagination']) {
 <script type="text/javascript" language="javascript"><!--
 $('a.removelink').click(function(){
 	var addr = $("#t"+this.id).text();
-	return confirm("<?php echo getlocalforJS("page_bans.confirm", array('"+$.trim(addr)+"')) ?>");
+	return confirm("<?php echo get_local_for_js("page_bans.confirm", array('"+$.trim(addr)+"')) ?>");
 });
 //--></script>
 

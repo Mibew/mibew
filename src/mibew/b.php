@@ -20,55 +20,58 @@ use Mibew\Settings;
 use Mibew\Thread;
 
 // Initialize libraries
-require_once(dirname(__FILE__).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/chat.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/groups.php');
+require_once(dirname(__FILE__) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/chat.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/groups.php');
+require_once(MIBEW_FS_ROOT . '/libs/track.php');
 
 $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "";
-if($referer && isset($_SESSION['threadid'])) {
-	$thread = Thread::load($_SESSION['threadid']);
+if ($referer && isset($_SESSION['threadid'])) {
+    $thread = Thread::load($_SESSION['threadid']);
     if ($thread && $thread->state != Thread::STATE_CLOSED) {
-        $msg = getstring2_("chat.client.visited.page", array($referer), $thread->locale);
-		$thread->postMessage(Thread::KIND_FOR_AGENT, $msg);
+        $msg = getstring2_(
+            "chat.client.visited.page",
+            array($referer),
+            $thread->locale
+        );
+        $thread->postMessage(Thread::KIND_FOR_AGENT, $msg);
     }
 }
 
-$image = verifyparam(isset($_GET['image']) ? "image" : "i", "/^\w+$/", "mibew");
-$lang = verifyparam(isset($_GET['language']) ? "language" : "lang", "/^[\w-]{2,5}$/", "");
-if(!$lang || !locale_exists($lang)) {
-	$lang = CURRENT_LOCALE;
+$image = verify_param(isset($_GET['image']) ? "image" : "i", "/^\w+$/", "mibew");
+$lang = verify_param(isset($_GET['language']) ? "language" : "lang", "/^[\w-]{2,5}$/", "");
+if (!$lang || !locale_exists($lang)) {
+    $lang = CURRENT_LOCALE;
 }
 
-$groupid = verifyparam( "group", "/^\d{1,8}$/", "");
-if($groupid) {
-	if(Settings::get('enablegroups') == '1') {
-		$group = group_by_id($groupid);
-		if(!$group) {
-			$groupid = "";
-		}
-	} else {
-		$groupid = "";
-	}
+$group_id = verify_param("group", "/^\d{1,8}$/", "");
+if ($group_id) {
+    if (Settings::get('enablegroups') == '1') {
+        $group = group_by_id($group_id);
+        if (!$group) {
+            $group_id = "";
+        }
+    } else {
+        $group_id = "";
+    }
 }
 
-$image_postfix = has_online_operators($groupid) ? "on" : "off";
-$filename = "locales/${lang}/button/${image}_${image_postfix}.gif";
+$image_postfix = has_online_operators($group_id) ? "on" : "off";
+$file_name = "locales/${lang}/button/${image}_${image_postfix}.gif";
 
-$fp = fopen($filename, 'rb') or die("no image");
+$fp = fopen($file_name, 'rb') or die("no image");
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Pragma: no-cache");
 header("Content-Type: image/gif");
-header("Content-Length: ".filesize($filename));
-if(function_exists('fpassthru')){
-	@fpassthru($fp);
+header("Content-Length: " . filesize($file_name));
+if (function_exists('fpassthru')) {
+    @fpassthru($fp);
 } else {
-	while( (!feof($fp)) && (connection_status()==0)){
-		print(fread($fp, 1024*8));
-		flush();
-	}
-	fclose($fp);
+    while ((!feof($fp)) && (connection_status() == 0)) {
+        print(fread($fp, 1024 * 8));
+        flush();
+    }
+    fclose($fp);
 }
-exit;
-?>

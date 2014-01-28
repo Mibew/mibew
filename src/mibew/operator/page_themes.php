@@ -19,47 +19,42 @@
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/settings.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/settings.php');
 
 $operator = check_login();
 
-$stylelist = PageStyle::availableStyles();
+$style_list = PageStyle::availableStyles();
 
-$preview = verifyparam("preview", "/^\w+$/", "default");
-if (!in_array($preview, $stylelist)) {
-	$style_names = array_keys($stylelist);
-	$preview = $stylelist[$style_names[0]];
+$preview = verify_param("preview", "/^\w+$/", "default");
+if (!in_array($preview, $style_list)) {
+    $style_names = array_keys($style_list);
+    $preview = $style_list[$style_names[0]];
 }
 
 $preview_style = new PageStyle($preview);
 $style_config = $preview_style->configurations();
 
 $screenshots = array();
-foreach($style_config['screenshots'] as $name => $desc) {
-	$screenshots[] = array(
-		'name' => $name,
-		'file' => MIBEW_WEB_ROOT . '/' . $preview_style->filesPath()
-			. '/screenshots/' . $name . '.png',
-		'description' => $desc
-	);
+foreach ($style_config['screenshots'] as $name => $desc) {
+    $screenshots[] = array(
+        'name' => $name,
+        'file' => (MIBEW_WEB_ROOT . '/' . $preview_style->filesPath()
+            . '/screenshots/' . $name . '.png'),
+        'description' => $desc,
+    );
 }
 
 $page['formpreview'] = $preview;
-$page['availablePreviews'] = $stylelist;
+$page['availablePreviews'] = $style_list;
 $page['screenshotsList'] = $screenshots;
 $page['title'] = getlocal("page.preview.title");
 $page['menuid'] = "settings";
 
-$page = array_merge(
-	$page,
-	prepare_menu($operator)
-);
+$page = array_merge($page, prepare_menu($operator));
 
 $page['tabs'] = setup_settings_tabs(3);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('page_themes', $page);
-
-?>

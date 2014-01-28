@@ -25,20 +25,31 @@ use Mibew\Settings;
  * @param int $active Number of the active tab. The count starts from 0.
  * @return array Tabs list
  */
-function setup_settings_tabs($active) {
-	$tabs = array(
-		getlocal("page_settings.tab.main") => $active != 0 ? (MIBEW_WEB_ROOT . "/operator/settings.php") : "",
-		getlocal("page_settings.tab.features") => $active != 1 ? (MIBEW_WEB_ROOT . "/operator/features.php") : "",
-		getlocal("page_settings.tab.performance") => $active != 2 ? (MIBEW_WEB_ROOT . "/operator/performance.php") : "",
-		getlocal("page_settings.tab.page_themes") => $active != 3 ? (MIBEW_WEB_ROOT . "/operator/page_themes.php") : "",
-		getlocal("page_settings.tab.themes") => $active != 4 ? (MIBEW_WEB_ROOT . "/operator/themes.php") : "",
-	);
+function setup_settings_tabs($active)
+{
+    $tabs = array(
+        getlocal("page_settings.tab.main") => ($active != 0
+            ? (MIBEW_WEB_ROOT . "/operator/settings.php")
+            : ""),
+        getlocal("page_settings.tab.features") => ($active != 1
+            ? (MIBEW_WEB_ROOT . "/operator/features.php")
+            : ""),
+        getlocal("page_settings.tab.performance") => ($active != 2
+            ? (MIBEW_WEB_ROOT . "/operator/performance.php")
+            : ""),
+        getlocal("page_settings.tab.page_themes") => ($active != 3
+            ? (MIBEW_WEB_ROOT . "/operator/page_themes.php")
+            : ""),
+        getlocal("page_settings.tab.themes") => ($active != 4
+            ? (MIBEW_WEB_ROOT . "/operator/themes.php")
+            : ""),
+    );
 
-	if (Settings::get('enabletracking')) {
-		$tabs[getlocal("page_settings.tab.invitationthemes")] = ($active != 5 ? (MIBEW_WEB_ROOT . "/operator/invitationthemes.php") : "");
-	}
+    if (Settings::get('enabletracking')) {
+        $tabs[getlocal("page_settings.tab.invitationthemes")] = ($active != 5
+            ? (MIBEW_WEB_ROOT . "/operator/invitationthemes.php")
+            : "");
+    }
 
-	return $tabs;
+    return $tabs;
 }
-
-?>

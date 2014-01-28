@@ -15,29 +15,28 @@
  * limitations under the License.
  */
 
-function verifyparam($name, $regexp, $default = null)
+function verify_param($name, $reg_exp, $default = null)
 {
-	if (isset($_GET[$name]) && is_scalar($_GET[$name])) {
-		$val = $_GET[$name];
-		if (preg_match($regexp, $val))
-			return $val;
-
-	} else if (isset($_POST[$name]) && is_scalar($_POST[$name])) {
-		$val = $_POST[$name];
-		if (preg_match($regexp, $val))
-			return $val;
-
-	} else {
-		if (isset($default))
-			return $default;
-	}
-	echo "<html><head></head><body>Wrong parameter used or absent: " . $name . "</body></html>";
-	exit;
+    if (isset($_GET[$name]) && is_scalar($_GET[$name])) {
+        $val = $_GET[$name];
+        if (preg_match($reg_exp, $val)) {
+            return $val;
+        }
+    } elseif (isset($_POST[$name]) && is_scalar($_POST[$name])) {
+        $val = $_POST[$name];
+        if (preg_match($reg_exp, $val)) {
+            return $val;
+        }
+    } else {
+        if (isset($default)) {
+            return $default;
+        }
+    }
+    echo "<html><head></head><body>Wrong parameter used or absent: " . $name . "</body></html>";
+    exit;
 }
 
 function is_valid_email($email)
 {
-	return preg_match("/^[^@]+@[^\.]+(\.[^\.]+)*$/", $email);
+    return preg_match("/^[^@]+@[^\.]+(\.[^\.]+)*$/", $email);
 }
-
-?>

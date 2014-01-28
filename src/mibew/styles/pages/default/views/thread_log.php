@@ -57,7 +57,7 @@ $chatthread = $page['thread_info']['thread'];
 			<?php echo getlocal("page.analysis.search.head_name") ?>:
 		</div> 
 		<div class="wvalue">
-			<?php echo topage(htmlspecialchars($chatthread->userName)) ?>
+			<?php echo to_page(htmlspecialchars($chatthread->userName)) ?>
 		</div>
 		<br clear="all"/>
 		
@@ -65,7 +65,7 @@ $chatthread = $page['thread_info']['thread'];
 			<?php echo getlocal("page.analysis.search.head_host") ?>:
 		</div>
 		<div class="wvalue">
-			<?php echo get_user_addr(topage($chatthread->remote)) ?>
+			<?php echo get_user_addr(to_page($chatthread->remote)) ?>
 		</div>
 		<br clear="all"/>
 
@@ -73,7 +73,7 @@ $chatthread = $page['thread_info']['thread'];
 			<?php echo getlocal("page.analysis.search.head_browser") ?>:
 		</div>
 		<div class="wvalue">
-			<?php echo get_useragent_version(topage($chatthread->userAgent)) ?>
+			<?php echo get_user_agent_version(to_page($chatthread->userAgent)) ?>
 		</div>
 		<br clear="all"/>
 
@@ -82,7 +82,7 @@ $chatthread = $page['thread_info']['thread'];
 				<?php echo getlocal("page.analysis.search.head_group") ?>:
 			</div>
 			<div class="wvalue">
-				<?php echo topage(htmlspecialchars($chatthreadinfo['groupName'])) ?>
+				<?php echo to_page(htmlspecialchars($chatthreadinfo['groupName'])) ?>
 			</div>
 			<br clear="all"/>
 		<?php } ?>
@@ -92,7 +92,7 @@ $chatthread = $page['thread_info']['thread'];
 				<?php echo getlocal("page.analysis.search.head_operator") ?>:
 			</div>
 			<div class="wvalue">
-				<?php echo topage(htmlspecialchars($chatthread->agentName)) ?>
+				<?php echo to_page(htmlspecialchars($chatthread->agentName)) ?>
 			</div>
 			<br clear="all"/>
 		<?php } ?>

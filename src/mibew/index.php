@@ -16,6 +16,3 @@
  */
 
 header("Location: operator/index.php");
-exit;
-
-?>

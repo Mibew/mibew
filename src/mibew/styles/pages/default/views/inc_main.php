@@ -31,7 +31,7 @@ $isrtl = getlocal("localedirection") == 'rtl';
 </title>
 <link href="<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/css/default.css" rel="stylesheet" type="text/css" />
 <!--[if lte IE 7]><link href="<?php echo MIBEW_WEB_ROOT ?>/styles/pages/default/css/default_ie.css" rel="stylesheet" type="text/css" /><![endif] -->
-<!--[if lte IE 6]><script language="JavaScript" type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/<?php echo jspath() ?>/ie.js"></script><![endif]-->
+<!--[if lte IE 6]><script language="JavaScript" type="text/javascript" src="<?php echo MIBEW_WEB_ROOT ?>/<?php echo js_path() ?>/ie.js"></script><![endif]-->
 </head>
 <body<?php if(!function_exists('tpl_menu')) { ?> style="min-width: 400px;"<?php } ?>>
 <div id="<?php echo (isset($page) && isset($page['fixedwrap'])) ? "fixedwrap" : (function_exists('tpl_menu') ? "wrap700" : "wrap400" )?>" class="l<?php echo getlocal("localedirection") ?>">

@@ -21,108 +21,110 @@ use Mibew\Thread;
 use Mibew\Style\ChatStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/chat.php');
-require_once(MIBEW_FS_ROOT.'/libs/groups.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/chat.php');
+require_once(MIBEW_FS_ROOT . '/libs/groups.php');
+require_once(MIBEW_FS_ROOT . '/libs/track.php');
 
 $operator = check_login();
 
-$threadid = verifyparam("thread", "/^\d{1,8}$/");
-$token = verifyparam("token", "/^\d{1,8}$/");
+$thread_id = verify_param("thread", "/^\d{1,8}$/");
+$token = verify_param("token", "/^\d{1,8}$/");
 
-$thread = Thread::load($threadid, $token);
-if (! $thread) {
-	die("wrong thread");
+$thread = Thread::load($thread_id, $token);
+if (!$thread) {
+    die("wrong thread");
 }
 
 $page = array(
-	'errors' => array(),
+    'errors' => array(),
 );
 
 // Initialize chat style which is currently used in system
 $chat_style = new ChatStyle(ChatStyle::currentStyle());
 
 if (isset($_GET['nextGroup'])) {
-	$nextid = verifyparam("nextGroup", "/^\d{1,8}$/");
-	$nextGroup = group_by_id($nextid);
+    $next_id = verify_param("nextGroup", "/^\d{1,8}$/");
+    $next_group = group_by_id($next_id);
 
-	if ($nextGroup) {
-		$page['message'] = getlocal2("chat.redirected.group.content", array(topage(get_group_name($nextGroup))));
-		if ($thread->state == Thread::STATE_CHATTING) {
-			$thread->state = Thread::STATE_WAITING;
-			$thread->nextAgent = 0;
-			$thread->groupId = $nextid;
-			$thread->agentId = 0;
-			$thread->agentName = '';
-			$thread->save();
+    if ($next_group) {
+        $page['message'] = getlocal2(
+            "chat.redirected.group.content",
+            array(to_page(get_group_name($next_group)))
+        );
+        if ($thread->state == Thread::STATE_CHATTING) {
+            $thread->state = Thread::STATE_WAITING;
+            $thread->nextAgent = 0;
+            $thread->groupId = $next_id;
+            $thread->agentId = 0;
+            $thread->agentName = '';
+            $thread->save();
 
-			$thread->postMessage(
-				Thread::KIND_EVENTS,
-				getstring2_(
-					"chat.status.operator.redirect",
-					array(get_operator_name($operator)),
-					$thread->locale
-				)
-			);
-		} else {
-			$page['errors'][] = getlocal("chat.redirect.cannot");
-		}
-	} else {
-		$page['errors'][] = "Unknown group";
-	}
-
+            $thread->postMessage(
+                Thread::KIND_EVENTS,
+                getstring2_(
+                    "chat.status.operator.redirect",
+                    array(get_operator_name($operator)),
+                    $thread->locale
+                )
+            );
+        } else {
+            $page['errors'][] = getlocal("chat.redirect.cannot");
+        }
+    } else {
+        $page['errors'][] = "Unknown group";
+    }
 } else {
-	$nextid = verifyparam("nextAgent", "/^\d{1,8}$/");
-	$nextOperator = operator_by_id($nextid);
+    $next_id = verify_param("nextAgent", "/^\d{1,8}$/");
+    $next_operator = operator_by_id($next_id);
 
-	if ($nextOperator) {
-		$page['message'] = getlocal2("chat.redirected.content", array(topage(get_operator_name($nextOperator))));
-		if ($thread->state == Thread::STATE_CHATTING) {
-			$thread->state = Thread::STATE_WAITING;
-			$thread->nextAgent = $nextid;
-			$thread->agentId = 0;
-			if ($thread->groupId != 0) {
-				$db = Database::getInstance();
-				list($groups_count) = $db->query(
-					"select count(*) AS count from {chatgroupoperator} " .
-					"where operatorid = ? and groupid = ?",
-					array($nextid, $thread->groupId),
-					array(
-						'return_rows' => Database::RETURN_ONE_ROW, 
-						'fetch_type' => Database::FETCH_NUM
-					)
-				);
-				if ($groups_count === 0) {
-					$thread->groupId = 0;
-				}
-			}
-			$thread->save();
-			$thread->postMessage(
-				Thread::KIND_EVENTS,
-				getstring2_(
-					"chat.status.operator.redirect",
-					array(get_operator_name($operator)),
-					$thread->locale
-				)
-			);
-		} else {
-			$page['errors'][] = getlocal("chat.redirect.cannot");
-		}
-	} else {
-		$page['errors'][] = "Unknown operator";
-	}
+    if ($next_operator) {
+        $page['message'] = getlocal2(
+            "chat.redirected.content",
+            array(to_page(get_operator_name($next_operator)))
+        );
+        if ($thread->state == Thread::STATE_CHATTING) {
+            $thread->state = Thread::STATE_WAITING;
+            $thread->nextAgent = $next_id;
+            $thread->agentId = 0;
+            if ($thread->groupId != 0) {
+                $db = Database::getInstance();
+                list($groups_count) = $db->query(
+                    ("SELECT count(*) AS count "
+                        . "FROM {chatgroupoperator} "
+                        . "WHERE operatorid = ? AND groupid = ?"),
+                    array($next_id, $thread->groupId),
+                    array(
+                        'return_rows' => Database::RETURN_ONE_ROW,
+                        'fetch_type' => Database::FETCH_NUM,
+                    )
+                );
+                if ($groups_count === 0) {
+                    $thread->groupId = 0;
+                }
+            }
+            $thread->save();
+            $thread->postMessage(
+                Thread::KIND_EVENTS,
+                getstring2_(
+                    "chat.status.operator.redirect",
+                    array(get_operator_name($operator)),
+                    $thread->locale
+                )
+            );
+        } else {
+            $page['errors'][] = getlocal("chat.redirect.cannot");
+        }
+    } else {
+        $page['errors'][] = "Unknown operator";
+    }
 }
 
-$page = array_merge_recursive(
-	$page,
-	setup_logo()
-);
+$page = array_merge_recursive($page, setup_logo());
 
 if (count($page['errors']) > 0) {
-	$chat_style->render('error', $page);
+    $chat_style->render('error', $page);
 } else {
-	$chat_style->render('redirected', $page);
+    $chat_style->render('redirected', $page);
 }
-
-?>

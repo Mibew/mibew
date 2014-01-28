@@ -16,47 +16,45 @@
  */
 
 /* authorization token check for CSRF attack */
-function csrfchecktoken()
+function csrf_check_token()
 {
-	setcsrftoken();
+    set_csrf_token();
 
-	// check the turing code for post requests and del requests
-	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		//if token match
-		if (!isset($_POST['csrf_token']) || ($_POST['csrf_token'] != $_SESSION['csrf_token'])) {
-
-			die("CSRF failure");
-		}
-	} else if (isset($_GET['act'])) {
-		if (($_GET['act'] == 'del' || $_GET['act'] == 'delete') && $_GET['csrf_token'] != $_SESSION['csrf_token']) {
-
-			die("CSRF failure");
-		}
-	}
+    // Check the turing code for post requests and del requests
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // If token match
+        if (!isset($_POST['csrf_token']) || ($_POST['csrf_token'] != $_SESSION['csrf_token'])) {
+            die("CSRF failure");
+        }
+    } elseif (isset($_GET['act'])) {
+        if (($_GET['act'] == 'del' || $_GET['act'] == 'delete') && $_GET['csrf_token'] != $_SESSION['csrf_token']) {
+            die("CSRF failure");
+        }
+    }
 }
 
-/* print csrf token as a hidden field*/
+/* print csrf token as a hidden field */
 function print_csrf_token_input()
 {
-	setcsrftoken();
+    set_csrf_token();
 
-	echo "<input name='csrf_token' type='hidden' value='" . $_SESSION['csrf_token'] . "' />";
+    echo "<input name='csrf_token' type='hidden' value='" . $_SESSION['csrf_token'] . "' />";
 }
 
 /* print csrf token in url format */
 function print_csrf_token_in_url()
 {
-	setcsrftoken();
+    set_csrf_token();
 
-	echo "&amp;csrf_token=" . $_SESSION['csrf_token'];
+    echo "&amp;csrf_token=" . $_SESSION['csrf_token'];
 }
 
 /* set csrf token */
-function setcsrftoken()
+function set_csrf_token()
 {
-	if (!isset($_SESSION['csrf_token'])) {
-		$_SESSION['csrf_token'] = sha1(session_id() . (function_exists('openssl_random_pseudo_bytes') ? openssl_random_pseudo_bytes(32) : (time() + microtime()) . mt_rand(0, 99999999)));
-	}
+    if (!isset($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = sha1(session_id() . (function_exists('openssl_random_pseudo_bytes')
+            ? openssl_random_pseudo_bytes(32)
+            : (time() + microtime()) . mt_rand(0, 99999999)));
+    }
 }
-
-?>

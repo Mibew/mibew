@@ -18,50 +18,50 @@
 // Import namespaces and classes of the core
 use Mibew\Settings;
 
-function get_useragent_version($userAgent)
+function get_user_agent_version($user_agent)
 {
-	$known_agents = get_known_user_agents();
-	if (is_array($known_agents)) {
-		$userAgent = strtolower($userAgent);
-		foreach ($known_agents as $agent) {
-			if (strstr($userAgent, $agent)) {
-				if (preg_match("/" . $agent . "[\\s\/]?(\\d+(\\.\\d+(\\.\\d+(\\.\\d+)?)?)?)/", $userAgent, $matches)) {
-					$ver = $matches[1];
-					if ($agent == 'safari') {
-						if (preg_match("/version\/(\\d+(\\.\\d+(\\.\\d+)?)?)/", $userAgent, $matches)) {
-							$ver = $matches[1];
-						} else {
-							$ver = "1 or 2 (build " . $ver . ")";
-						}
-						if (preg_match("/mobile\/(\\d+(\\.\\d+(\\.\\d+)?)?)/", $userAgent, $matches)) {
-							$userAgent = "iPhone " . $matches[1] . " ($agent $ver)";
-							break;
-						}
-					}
+    $known_agents = get_known_user_agents();
+    if (is_array($known_agents)) {
+        $user_agent = strtolower($user_agent);
+        foreach ($known_agents as $agent) {
+            if (strstr($user_agent, $agent)) {
+                if (preg_match("/" . $agent . "[\\s\/]?(\\d+(\\.\\d+(\\.\\d+(\\.\\d+)?)?)?)/", $user_agent, $matches)) {
+                    $ver = $matches[1];
+                    if ($agent == 'safari') {
+                        if (preg_match("/version\/(\\d+(\\.\\d+(\\.\\d+)?)?)/", $user_agent, $matches)) {
+                            $ver = $matches[1];
+                        } else {
+                            $ver = "1 or 2 (build " . $ver . ")";
+                        }
+                        if (preg_match("/mobile\/(\\d+(\\.\\d+(\\.\\d+)?)?)/", $user_agent, $matches)) {
+                            $user_agent = "iPhone " . $matches[1] . " ($agent $ver)";
+                            break;
+                        }
+                    }
 
-					$userAgent = ucfirst($agent) . " " . $ver;
-					break;
-				}
-			}
-		}
-	}
-	return $userAgent;
+                    $user_agent = ucfirst($agent) . " " . $ver;
+                    break;
+                }
+            }
+        }
+    }
+
+    return $user_agent;
 }
 
 function get_user_addr($addr)
 {
-	if (Settings::get('geolink') && preg_match("/(\\d+\\.\\d+\\.\\d+\\.\\d+)/", $addr, $matches)) {
-		$userip = $matches[1];
-		return get_popup(
-			str_replace("{ip}", $userip, Settings::get('geolink')),
-			'',
-			htmlspecialchars($addr),
-			"GeoLocation",
-			"ip$userip",
-			Settings::get('geolinkparams')
-		);
-	}
-	return htmlspecialchars($addr);
-}
+    if (Settings::get('geolink') && preg_match("/(\\d+\\.\\d+\\.\\d+\\.\\d+)/", $addr, $matches)) {
+        $user_ip = $matches[1];
+        return get_popup(
+            str_replace("{ip}", $user_ip, Settings::get('geolink')),
+            '',
+            htmlspecialchars($addr),
+            "GeoLocation",
+            "ip$user_ip",
+            Settings::get('geolinkparams')
+        );
+    }
 
-?>
+    return htmlspecialchars($addr);
+}

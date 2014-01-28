@@ -19,77 +19,69 @@
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/canned.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/pagination.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/canned.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/pagination.php');
 
 $operator = check_login();
-csrfchecktoken();
+csrf_check_token();
 
-$stringid = verifyparam("key", "/^\d{0,9}$/", "");
+$string_id = verify_param("key", "/^\d{0,9}$/", "");
 
 $page = array(
-	'errors' => array(),
+    'errors' => array(),
 );
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 
-if ($stringid) {
-	$canned_message = load_canned_message($stringid);
-	if (!$canned_message) {
-		$page['errors'][] = getlocal("cannededit.no_such");
-		$stringid = "";
-	}else{
-		$title = $canned_message['vctitle'];
-		$message = $canned_message['vcvalue'];
-	}
+if ($string_id) {
+    $canned_message = load_canned_message($string_id);
+    if (!$canned_message) {
+        $page['errors'][] = getlocal("cannededit.no_such");
+        $string_id = "";
+    } else {
+        $title = $canned_message['vctitle'];
+        $message = $canned_message['vcvalue'];
+    }
 } else {
-	$message = '';
-	$title = '';
-	$page['locale'] = verifyparam("lang", "/^[\w-]{2,5}$/", "");
-	$page['groupid'] = "";
-	$page['groupid'] = verifyparam("group", "/^\d{0,8}$/");
+    $message = '';
+    $title = '';
+    $page['locale'] = verify_param("lang", "/^[\w-]{2,5}$/", "");
+    $page['groupid'] = "";
+    $page['groupid'] = verify_param("group", "/^\d{0,8}$/");
 }
 
 if (isset($_POST['message']) && isset($_POST['title'])) {
-	$title = getparam('title');
-	if (!$title) {
-		$page['errors'][] = no_field("form.field.title");
-	}
+    $title = get_param('title');
+    if (!$title) {
+        $page['errors'][] = no_field("form.field.title");
+    }
 
-	$message = getparam('message');
-	if (!$message) {
-		$page['errors'][] = no_field("form.field.message");
-	}
+    $message = get_param('message');
+    if (!$message) {
+        $page['errors'][] = no_field("form.field.message");
+    }
 
-	if (count($page['errors']) == 0) {
-		if ($stringid) {
-			save_canned_message($stringid, $title, $message);
-		} else {
-			add_canned_message($page['locale'], $page['groupid'], $title, $message);
-		}
-		$page['saved'] = true;
-		$page = array_merge(
-			$page,
-			prepare_menu($operator, false)
-		);
-		$page_style->render('cannededit', $page);
-		exit;
-	}
+    if (count($page['errors']) == 0) {
+        if ($string_id) {
+            save_canned_message($string_id, $title, $message);
+        } else {
+            add_canned_message($page['locale'], $page['groupid'], $title, $message);
+        }
+        $page['saved'] = true;
+        $page = array_merge($page, prepare_menu($operator, false));
+        $page_style->render('cannededit', $page);
+        exit;
+    }
 }
 
 $page['saved'] = false;
-$page['key'] = $stringid;
-$page['formtitle'] = topage($title);
-$page['formmessage'] = topage($message);
-$page['title'] = empty($stringid) ? getlocal("cannednew.title") : getlocal("cannededit.title");
+$page['key'] = $string_id;
+$page['formtitle'] = to_page($title);
+$page['formmessage'] = to_page($message);
+$page['title'] = empty($string_id) ? getlocal("cannednew.title") : getlocal("cannededit.title");
 
-$page = array_merge(
-	$page,
-	prepare_menu($operator, false)
-);
+$page = array_merge($page, prepare_menu($operator, false));
 
 $page_style->render('cannededit', $page);
-
-?>

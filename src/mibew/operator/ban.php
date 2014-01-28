@@ -21,13 +21,14 @@ use Mibew\Thread;
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/chat.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/pagination.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/chat.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/pagination.php');
+require_once(MIBEW_FS_ROOT . '/libs/track.php');
 
 $operator = check_login();
-csrfchecktoken();
+csrf_check_token();
 $page = array('banId' => '');
 $page['saved'] = false;
 $page['thread'] = '';
@@ -35,109 +36,103 @@ $page['threadid'] = '';
 $page['errors'] = array();
 
 if (isset($_POST['address'])) {
-	$banId = verifyparam("banId", "/^(\d{1,9})?$/", "");
-	$address = getparam("address");
-	$days = getparam("days");
-	$comment = getparam('comment');
-	$threadid = isset($_POST['threadid']) ? getparam('threadid') : "";
+    $ban_id = verify_param("banId", "/^(\d{1,9})?$/", "");
+    $address = get_param("address");
+    $days = get_param("days");
+    $comment = get_param('comment');
+    $thread_id = isset($_POST['threadid']) ? get_param('threadid') : "";
 
-	if (!$address) {
-		$page['errors'][] = no_field("form.field.address");
-	}
+    if (!$address) {
+        $page['errors'][] = no_field("form.field.address");
+    }
 
-	if (!preg_match("/^\d+$/", $days)) {
-		$page['errors'][] = wrong_field("form.field.ban_days");
-	}
+    if (!preg_match("/^\d+$/", $days)) {
+        $page['errors'][] = wrong_field("form.field.ban_days");
+    }
 
-	if (!$comment) {
-		$page['errors'][] = no_field("form.field.ban_comment");
-	}
+    if (!$comment) {
+        $page['errors'][] = no_field("form.field.ban_comment");
+    }
 
-	$existing_ban = ban_for_addr($address);
+    $existing_ban = ban_for_addr($address);
 
-	if ((!$banId && $existing_ban) ||
-		($banId && $existing_ban && $banId != $existing_ban['banid'])) {
-		$page['errors'][] = getlocal2("ban.error.duplicate", array($address, $existing_ban['banid']));
-	}
+    if ((!$ban_id && $existing_ban) ||
+        ($ban_id && $existing_ban && $ban_id != $existing_ban['banid'])) {
+        $page['errors'][] = getlocal2("ban.error.duplicate", array($address, $existing_ban['banid']));
+    }
 
-	if (count($page['errors']) == 0) {
-		$db = Database::getInstance();
-		$now = time();
-		$till_time = $now + $days * 24 * 60 * 60;
-		if (!$banId) {
-			$db->query(
-				"insert into {chatban} (dtmcreated,dtmtill,address,comment) " .
-				"values (:now,:till,:address,:comment)",
-				array(
-					':now' => $now,
-					':till' => $till_time,
-					':address' => $address,
-					':comment' => $comment
-				)
-			);
-		} else {
-			$db->query(
-				"update {chatban} set dtmtill = :till,address = :address, " .
-				"comment = :comment where banid = :banid",
-				array(
-					':till' => $till_time,
-					':address' => $address,
-					':comment' => $comment,
-					':banid' => $banId
-				)
-			);
-		}
+    if (count($page['errors']) == 0) {
+        $db = Database::getInstance();
+        $now = time();
+        $till_time = $now + $days * 24 * 60 * 60;
+        if (!$ban_id) {
+            $db->query(
+                ("INSERT INTO {chatban} (dtmcreated, dtmtill, address, comment) "
+                    . "VALUES (:now,:till,:address,:comment)"),
+                array(
+                    ':now' => $now,
+                    ':till' => $till_time,
+                    ':address' => $address,
+                    ':comment' => $comment,
+                )
+            );
+        } else {
+            $db->query(
+                ("UPDATE {chatban} SET dtmtill = :till, address = :address, "
+                    . "comment = :comment WHERE banid = :banid"),
+                array(
+                    ':till' => $till_time,
+                    ':address' => $address,
+                    ':comment' => $comment,
+                    ':banid' => $ban_id,
+                )
+            );
+        }
 
-		$page['saved'] = true;
-		$page['address'] = $address;
+        $page['saved'] = true;
+        $page['address'] = $address;
+    } else {
+        $page['banId'] = to_page($ban_id);
+        $page['formaddress'] = to_page($address);
+        $page['formdays'] = to_page($days);
+        $page['formcomment'] = to_page($comment);
+        $page['threadid'] = $thread_id;
+    }
+} elseif (isset($_GET['id'])) {
+    $ban_id = verify_param('id', "/^\d{1,9}$/");
+    $db = Database::getInstance();
+    $ban = $db->query(
+        ("SELECT banid, (dtmtill - :now) AS days, address, comment "
+            . "FROM {chatban} WHERE banid = :banid"),
+        array(
+            ':banid' => $ban_id,
+            ':now' => time(),
+        ),
+        array('return_rows' => Database::RETURN_ONE_ROW)
+    );
 
-	} else {
-		$page['banId'] = topage($banId);
-		$page['formaddress'] = topage($address);
-		$page['formdays'] = topage($days);
-		$page['formcomment'] = topage($comment);
-		$page['threadid'] = $threadid;
-	}
-} else if (isset($_GET['id'])) {
-	$banId = verifyparam('id', "/^\d{1,9}$/");
-	$db = Database::getInstance();
-	$ban = $db->query(
-		"select banid,(dtmtill - :now)" .
-		" as days,address,comment from {chatban} where banid = :banid",
-		array(
-			':banid' => $banId,
-			':now' => time()
-		),
-		array('return_rows' => Database::RETURN_ONE_ROW)
-	);
-
-	if ($ban) {
-		$page['banId'] = topage($ban['banid']);
-		$page['formaddress'] = topage($ban['address']);
-		$page['formdays'] = topage(round($ban['days'] / 86400));
-		$page['formcomment'] = topage($ban['comment']);
-	} else {
-		$page['errors'][] = "Wrong id";
-	}
-} else if (isset($_GET['thread'])) {
-	$threadid = verifyparam('thread', "/^\d{1,9}$/");
-	$thread = Thread::load($threadid);
-	if ($thread) {
-		$page['thread'] = topage($thread->userName);
-		$page['threadid'] = $threadid;
-		$page['formaddress'] = topage($thread->remote);
-		$page['formdays'] = 15;
-	}
+    if ($ban) {
+        $page['banId'] = to_page($ban['banid']);
+        $page['formaddress'] = to_page($ban['address']);
+        $page['formdays'] = to_page(round($ban['days'] / 86400));
+        $page['formcomment'] = to_page($ban['comment']);
+    } else {
+        $page['errors'][] = "Wrong id";
+    }
+} elseif (isset($_GET['thread'])) {
+    $thread_id = verify_param('thread', "/^\d{1,9}$/");
+    $thread = Thread::load($thread_id);
+    if ($thread) {
+        $page['thread'] = to_page($thread->userName);
+        $page['threadid'] = $thread_id;
+        $page['formaddress'] = to_page($thread->remote);
+        $page['formdays'] = 15;
+    }
 }
 
 $page['title'] = getlocal("page_ban.title");
 
-$page = array_merge(
-	$page,
-	prepare_menu($operator, false)
-);
+$page = array_merge($page, prepare_menu($operator, false));
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('ban', $page);
-
-?>

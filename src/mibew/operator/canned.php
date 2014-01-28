@@ -20,19 +20,19 @@ use Mibew\Database;
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/canned.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/settings.php');
-require_once(MIBEW_FS_ROOT.'/libs/groups.php');
-require_once(MIBEW_FS_ROOT.'/libs/pagination.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/canned.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/settings.php');
+require_once(MIBEW_FS_ROOT . '/libs/groups.php');
+require_once(MIBEW_FS_ROOT . '/libs/pagination.php');
 
 $operator = check_login();
 force_password($operator);
-csrfchecktoken();
+csrf_check_token();
 
 $page = array(
-	'errors' => array(),
+    'errors' => array(),
 );
 
 # locales
@@ -40,58 +40,59 @@ $page = array(
 $all_locales = get_available_locales();
 $locales_with_label = array();
 foreach ($all_locales as $id) {
-	$locales_with_label[] = array('id' => $id, 'name' => getlocal_($id, "names"));
+    $locales_with_label[] = array('id' => $id, 'name' => getlocal_($id, "names"));
 }
 $page['locales'] = $locales_with_label;
 
-$lang = verifyparam("lang", "/^[\w-]{2,5}$/", "");
+$lang = verify_param("lang", "/^[\w-]{2,5}$/", "");
 if (!$lang || !in_array($lang, $all_locales)) {
-	$lang = in_array(CURRENT_LOCALE, $all_locales) ? CURRENT_LOCALE : $all_locales[0];
+    $lang = in_array(CURRENT_LOCALE, $all_locales) ? CURRENT_LOCALE : $all_locales[0];
 }
 
 # groups
 
-$groupid = "";
-$groupid = verifyparam("group", "/^\d{0,8}$/", "");
-if ($groupid) {
-	$group = group_by_id($groupid);
-	if (!$group) {
-		$page['errors'][] = getlocal("page.group.no_such");
-		$groupid = "";
-	}
+$group_id = verify_param("group", "/^\d{0,8}$/", "");
+if ($group_id) {
+    $group = group_by_id($group_id);
+    if (!$group) {
+        $page['errors'][] = getlocal("page.group.no_such");
+        $group_id = "";
+    }
 }
 
-$allgroups = in_isolation($operator)?get_all_groups_for_operator($operator):get_all_groups();
+$all_groups = in_isolation($operator) ? get_all_groups_for_operator($operator) : get_all_groups();
 $page['groups'] = array();
 $page['groups'][] = array(
-	'groupid' => '',
-	'vclocalname' => getlocal("page.gen_button.default_group"),
-	'level' => 0
+    'groupid' => '',
+    'vclocalname' => getlocal("page.gen_button.default_group"),
+    'level' => 0,
 );
-foreach ($allgroups as $g) {
-	$page['groups'][] = $g;
+foreach ($all_groups as $g) {
+    $page['groups'][] = $g;
 }
 
 # delete
 
 if (isset($_GET['act']) && $_GET['act'] == 'delete') {
-	$key = isset($_GET['key']) ? $_GET['key'] : "";
+    $key = isset($_GET['key']) ? $_GET['key'] : "";
 
-	if (!preg_match("/^\d+$/", $key)) {
-		$page['errors'][] = "Wrong key";
-	}
+    if (!preg_match("/^\d+$/", $key)) {
+        $page['errors'][] = "Wrong key";
+    }
 
-	if (count($page['errors']) == 0) {
-		$db = Database::getInstance();
-		$db->query("delete from {chatresponses} where id = ?", array($key));
-		header("Location: " . MIBEW_WEB_ROOT . "/operator/canned.php?lang=" . urlencode($lang) . "&group=" . intval($groupid));
-		exit;
-	}
+    if (count($page['errors']) == 0) {
+        $db = Database::getInstance();
+        $db->query("DELETE FROM {chatresponses} WHERE id = ?", array($key));
+        $redirect_to =  MIBEW_WEB_ROOT . "/operator/canned.php?lang="
+            . urlencode($lang) . "&group=" . intval($group_id);
+        header("Location: " . $redirect_to);
+        exit;
+    }
 }
 
 // Get messages and setup pagination
 
-$messages = load_canned_messages($lang, $groupid);
+$messages = load_canned_messages($lang, $group_id);
 $pagination = setup_pagination($messages);
 $page['pagination'] = $pagination['info'];
 $page['pagination.items'] = $pagination['items'];
@@ -99,16 +100,11 @@ $page['pagination.items'] = $pagination['items'];
 # form values
 
 $page['formlang'] = $lang;
-$page['formgroup'] = $groupid;
+$page['formgroup'] = $group_id;
 $page['title'] = getlocal("canned.title");
 $page['menuid'] = "canned";
 
-$page = array_merge(
-	$page,
-	prepare_menu($operator)
-);
+$page = array_merge($page, prepare_menu($operator));
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('canned', $page);
-
-?>

@@ -15,6 +15,4 @@
  * limitations under the License.
  */
 
-require_once(dirname(__FILE__).'/b.php');
-exit;
-?>
+require_once(dirname(__FILE__) . '/b.php');

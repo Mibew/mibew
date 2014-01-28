@@ -15,12 +15,9 @@
  * limitations under the License.
  */
 
-require_once(dirname(__FILE__).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/captcha.php');
+require_once(dirname(__FILE__) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/captcha.php');
 
-$captchaCode = gen_captcha();
-$_SESSION["mibew_captcha"] = $captchaCode;
-draw_captcha($captchaCode);
-
-exit;
-?>
+$captcha_code = gen_captcha();
+$_SESSION["mibew_captcha"] = $captcha_code;
+draw_captcha($captcha_code);

@@ -19,7 +19,7 @@
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(__FILE__).'/libs/init.php');
+require_once(dirname(__FILE__) . '/libs/init.php');
 
 $page = array();
 $page['title'] = getlocal("license.title");
@@ -28,5 +28,3 @@ $page['fixedwrap'] = true;
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('license', $page);
-
-?>

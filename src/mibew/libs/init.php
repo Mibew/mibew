@@ -24,10 +24,16 @@ define('MIBEW_FS_ROOT', dirname(dirname(__FILE__)));
 @ini_set('open_basedir', MIBEW_FS_ROOT);
 
 // Include configuration file
-require_once(MIBEW_FS_ROOT.'/libs/config.php');
+require_once(MIBEW_FS_ROOT . '/libs/config.php');
 
 // Sanitize path to application and remove extra slashes
-$mibewroot = join("/", array_map("urlencode", preg_split('/\//', preg_replace('/\/+$/', '', preg_replace('/\/{2,}/', '/', '/' . $mibewroot)))));
+$mibewroot = join(
+    "/",
+    array_map(
+        "urlencode",
+        preg_split('/\//', preg_replace('/\/+$/', '', preg_replace('/\/{2,}/', '/', '/' . $mibewroot)))
+    )
+);
 
 /**
  * Base URL of the Mibew installation
@@ -35,28 +41,29 @@ $mibewroot = join("/", array_map("urlencode", preg_split('/\//', preg_replace('/
 define('MIBEW_WEB_ROOT', $mibewroot);
 
 // Include system constants file
-require_once(MIBEW_FS_ROOT.'/libs/common/constants.php');
+require_once(MIBEW_FS_ROOT . '/libs/common/constants.php');
 
 // Initialize classes autoloading
-require_once(MIBEW_FS_ROOT.'/libs/common/autoload.php');
+require_once(MIBEW_FS_ROOT . '/libs/common/autoload.php');
 spl_autoload_register('class_autoload');
 
 // Include common libs
-require_once(MIBEW_FS_ROOT.'/libs/common/configurations.php');
-require_once(MIBEW_FS_ROOT.'/libs/common/csrf.php');
-require_once(MIBEW_FS_ROOT.'/libs/common/datetime.php');
-require_once(MIBEW_FS_ROOT.'/libs/common/forms.php');
-require_once(MIBEW_FS_ROOT.'/libs/common/verification.php');
-require_once(MIBEW_FS_ROOT.'/libs/common/locale.php');
-require_once(MIBEW_FS_ROOT.'/libs/common/misc.php');
-require_once(MIBEW_FS_ROOT.'/libs/common/request.php');
-require_once(MIBEW_FS_ROOT.'/libs/common/response.php');
-require_once(MIBEW_FS_ROOT.'/libs/common/string.php');
+require_once(MIBEW_FS_ROOT . '/libs/common/configurations.php');
+require_once(MIBEW_FS_ROOT . '/libs/common/verification.php');
+require_once(MIBEW_FS_ROOT . '/libs/common/converter.php');
+require_once(MIBEW_FS_ROOT . '/libs/common/locale.php');
+require_once(MIBEW_FS_ROOT . '/libs/common/csrf.php');
+require_once(MIBEW_FS_ROOT . '/libs/common/datetime.php');
+require_once(MIBEW_FS_ROOT . '/libs/common/forms.php');
+require_once(MIBEW_FS_ROOT . '/libs/common/misc.php');
+require_once(MIBEW_FS_ROOT . '/libs/common/request.php');
+require_once(MIBEW_FS_ROOT . '/libs/common/response.php');
+require_once(MIBEW_FS_ROOT . '/libs/common/string.php');
 
 // Make session cookie more secure
-@ini_set('session.cookie_httponly', TRUE);
+@ini_set('session.cookie_httponly', true);
 if (is_secure_request()) {
-    @ini_set('session.cookie_secure', TRUE);
+    @ini_set('session.cookie_secure', true);
 }
 @ini_set('session.cookie_path', MIBEW_WEB_ROOT . "/");
 @ini_set('session.name', 'MibewSessionID');
@@ -66,25 +73,23 @@ session_start();
 
 // Initialize the database
 \Mibew\Database::initialize(
-	$mysqlhost,
-	$mysqllogin,
-	$mysqlpass,
-	$use_persistent_connection,
-	$mysqldb,
-	$mysqlprefix,
-	$force_charset_in_connection,
-	$dbencoding
+    $mysqlhost,
+    $mysqllogin,
+    $mysqlpass,
+    $use_persistent_connection,
+    $mysqldb,
+    $mysqlprefix,
+    $force_charset_in_connection,
+    $dbencoding
 );
 
 if (function_exists("date_default_timezone_set")) {
-	// TODO try to get timezone from config.php/session etc.
-	// autodetect timezone
-	@date_default_timezone_set(function_exists("date_default_timezone_get") ? @date_default_timezone_get() : "GMT");
+    // TODO try to get timezone from config.php/session etc.
+    // autodetect timezone
+    @date_default_timezone_set(function_exists("date_default_timezone_get") ? @date_default_timezone_get() : "GMT");
 }
 
-if (! empty($plugins_list)) {
-	// Variable $plugins_config defined in libs/config.php
-	\Mibew\PluginManager::loadPlugins($plugins_list);
+if (!empty($plugins_list)) {
+    // Variable $plugins_config defined in libs/config.php
+    \Mibew\PluginManager::loadPlugins($plugins_list);
 }
-
-?>

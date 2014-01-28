@@ -20,51 +20,50 @@ namespace Mibew\RequestProcessor\Exception;
 /**
  * Class for {@link \Mibew\RequestProcessor\ThreadProcessor} exceptions.
  */
-class ThreadProcessorException extends ProcessorException {
-	/**
-	 * 'recipient' argument is not set
-	 */
-	const EMPTY_RECIPIENT = 1;
-	/**
-	 * Operator is not logged in
-	 */
-	const ERROR_AGENT_NOT_LOGGED_IN = 2;
-	/**
-	 * Wrong arguments set for an API function
-	 */
-	const ERROR_WRONG_ARGUMENTS = 3;
-	/**
-	 * Thread cannot be loaded
-	 */
-	const ERROR_WRONG_THREAD = 4;
-	/**
-	 * Message cannot be send
-	 */
-	const ERROR_CANNOT_SEND = 5;
-	/**
-	 * User rename forbidden by system configurations
-	 */
-	const ERROR_FORBIDDEN_RENAME = 6;
-	/**
-	 * Various recipient in different functions in one package
-	 */
-	const VARIOUS_RECIPIENT = 7;
-	/**
-	 * Various thread ids or thread tokens in different functions in one package
-	 */
-	const VARIOUS_THREAD_ID = 8;
-	/**
-	 * Wrong recipient value
-	 */
-	const WRONG_RECIPIENT_VALUE = 9;
-	/**
-	 * Wrong captcha value
-	 */
-	const ERROR_WRONG_CAPTCHA = 10;
-	/**
-	 * Wrong email address
-	 */
-	const ERROR_WRONG_EMAIL = 11;
+class ThreadProcessorException extends ProcessorException
+{
+    /**
+     * 'recipient' argument is not set
+     */
+    const EMPTY_RECIPIENT = 1;
+    /**
+     * Operator is not logged in
+     */
+    const ERROR_AGENT_NOT_LOGGED_IN = 2;
+    /**
+     * Wrong arguments set for an API function
+     */
+    const ERROR_WRONG_ARGUMENTS = 3;
+    /**
+     * Thread cannot be loaded
+     */
+    const ERROR_WRONG_THREAD = 4;
+    /**
+     * Message cannot be send
+     */
+    const ERROR_CANNOT_SEND = 5;
+    /**
+     * User rename forbidden by system configurations
+     */
+    const ERROR_FORBIDDEN_RENAME = 6;
+    /**
+     * Various recipient in different functions in one package
+     */
+    const VARIOUS_RECIPIENT = 7;
+    /**
+     * Various thread ids or thread tokens in different functions in one package
+     */
+    const VARIOUS_THREAD_ID = 8;
+    /**
+     * Wrong recipient value
+     */
+    const WRONG_RECIPIENT_VALUE = 9;
+    /**
+     * Wrong captcha value
+     */
+    const ERROR_WRONG_CAPTCHA = 10;
+    /**
+     * Wrong email address
+     */
+    const ERROR_WRONG_EMAIL = 11;
 }
-
-?>

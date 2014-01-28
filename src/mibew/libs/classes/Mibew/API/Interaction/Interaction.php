@@ -20,80 +20,94 @@ namespace Mibew\API\Interaction;
 /**
  * Encapsulates interaction type
  */
-abstract class Interaction {
-	/**
-	 * Defines obligatory arguments and default values for them
-	 *
-	 * @var array Keys of the array are function names ('*' for all functions). Values are arrays of obligatory
-	 * arguments with key for name of an argument and value for default value.
-	 *
-	 * For example:
-	 * <code>
-	 * protected $obligatoryArguments = array(
-	 *		'*' => array(                          // Obligatory arguments for all functions are
-	 *			'return' => array(),               // 'return' with array() by default and
-	 *			'references' => array()            // 'references' with array() by default
-	 *		),
-	 *		'result' => array(                     // There is an additional argument for the result function
-	 *			'errorCode' => 0                   // This is 'error_code' with 0 by default
-	 *		)
-	 * );
-	 * </code>
-	 */
-	protected $obligatoryArguments = array();
+abstract class Interaction
+{
+    /**
+     * Reserved function's names
+     *
+     * Defines reserved(system) function's names described in the Mibew API.
+     * @var array
+     */
+    public $reservedFunctionNames = array();
 
-	/**
-	 * Reserved function's names
-	 *
-	 * Defines reserved(system) function's names described in the Mibew API.
-	 * @var array
-	 */
-	public $reservedFunctionNames = array();
+    /**
+     * Defines obligatory arguments and default values for them
+     *
+     * @var array Keys of the array are function names ('*' for all functions).
+     * Values are arrays of obligatory arguments with key for name of an
+     * argument and value for default value.
+     *
+     * For example:
+     * <code>
+     * protected $obligatoryArguments = array(
+     *     '*' => array(
+     *         // Obligatory arguments for all functions are:
+     *         'return' => array(),     // 'return' with array() by default and
+     *         'references' => array()  // 'references' with array() by default
+     *     ),
+     *
+     *     'result' => array(
+     *         // There is an additional argument for the result function
+     *         'errorCode' => 0        // This is 'error_code' with 0 by default
+     *     )
+     * );
+     * </code>
+     */
+    protected $obligatoryArguments = array();
 
-	/**
-	 * Returns obligatory arguments for the $function_name function
-	 *
-	 * @param string $function_name Function name
-	 * @return array An array of obligatory arguments
-	 */
-	public function getObligatoryArguments($function_name) {
-		$obligatory_arguments = array();
-		// Add obligatory for all functions arguments
-		if (! empty($this->obligatoryArguments['*'])) {
-			$obligatory_arguments = array_merge(
-				$obligatory_arguments,
-				array_keys($this->obligatoryArguments['*'])
-			);
-		}
-		// Add obligatory arguments for given function
-		if (! empty($this->obligatoryArguments[$function_name])) {
-			$obligatory_arguments = array_merge(
-				$obligatory_arguments,
-				array_keys($this->obligatoryArguments[$function_name])
-			);
-		}
-		return array_unique($obligatory_arguments);
-	}
+    /**
+     * Returns obligatory arguments for the $function_name function
+     *
+     * @param string $function_name Function name
+     * @return array An array of obligatory arguments
+     */
+    public function getObligatoryArguments($function_name)
+    {
+        $obligatory_arguments = array();
+        // Add obligatory for all functions arguments
+        if (!empty($this->obligatoryArguments['*'])) {
+            $obligatory_arguments = array_merge(
+                $obligatory_arguments,
+                array_keys($this->obligatoryArguments['*'])
+            );
+        }
+        // Add obligatory arguments for given function
+        if (!empty($this->obligatoryArguments[$function_name])) {
+            $obligatory_arguments = array_merge(
+                $obligatory_arguments,
+                array_keys($this->obligatoryArguments[$function_name])
+            );
+        }
 
-	/**
-	 * Returns default values of obligatory arguments for the $function_name function
-	 *
-	 * @param string $function_name Function name
-	 * @return array Associative array with keys are obligatory arguments and values are default
-	 * values of them
-	 */
-	public function getObligatoryArgumentsDefaults($function_name) {
-		$obligatory_arguments = array();
-		// Add obligatory for all functions arguments
-		if (! empty($this->obligatoryArguments['*'])) {
-			$obligatory_arguments = array_merge($obligatory_arguments, $this->obligatoryArguments['*']);
-		}
-		// Add obligatory arguments for given function
-		if (! empty($this->obligatoryArguments[$function_name])) {
-			$obligatory_arguments = array_merge($obligatory_arguments, $this->obligatoryArguments[$function_name]);
-		}
-		return $obligatory_arguments;
-	}
+        return array_unique($obligatory_arguments);
+    }
+
+    /**
+     * Returns default values of obligatory arguments for the $function_name
+     * function
+     *
+     * @param string $function_name Function name
+     * @return array Associative array with keys are obligatory arguments and
+     *   values are default values of them
+     */
+    public function getObligatoryArgumentsDefaults($function_name)
+    {
+        $obligatory_arguments = array();
+        // Add obligatory for all functions arguments
+        if (!empty($this->obligatoryArguments['*'])) {
+            $obligatory_arguments = array_merge(
+                $obligatory_arguments,
+                $this->obligatoryArguments['*']
+            );
+        }
+        // Add obligatory arguments for given function
+        if (!empty($this->obligatoryArguments[$function_name])) {
+            $obligatory_arguments = array_merge(
+                $obligatory_arguments,
+                $this->obligatoryArguments[$function_name]
+            );
+        }
+
+        return $obligatory_arguments;
+    }
 }
-
-?>

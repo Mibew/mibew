@@ -20,69 +20,69 @@ namespace Mibew\Style;
 /**
  * Determine interface for specific style class.
  */
-interface StyleInterface {
-	/**
-	 * Returns name of the style which shoud be used for the current request.
-	 *
-	 * Result of the method can depends on user role, requested page or any
-	 * other criteria.
-	 *
-	 * @return string Name of a style
-	 */
-	public static function currentStyle();
+interface StyleInterface
+{
 
-	/**
-	 * Returns name of the style which is used in the system by default.
-	 *
-	 * @return string Name of a style
-	 */
-	public static function defaultStyle();
+    /**
+     * Returns name of the style which shoud be used for the current request.
+     *
+     * Result of the method can depends on user role, requested page or any
+     * other criteria.
+     *
+     * @return string Name of a style
+     */
+    public static function currentStyle();
 
-	/**
-	 * Sets style which is used in the system by default
-	 *
-	 * @param string $style_name Name of a style
-	 */
-	public static function setDefaultStyle($style_name);
+    /**
+     * Returns name of the style which is used in the system by default.
+     *
+     * @return string Name of a style
+     */
+    public static function defaultStyle();
 
-	/**
-	 * Returns an array which contains names of available styles.
-	 *
-	 * @param array List of styles names
-	 */
-	public static function availableStyles();
+    /**
+     * Sets style which is used in the system by default
+     *
+     * @param string $style_name Name of a style
+     */
+    public static function setDefaultStyle($style_name);
 
-	/**
-	 * Builds base path for style files. This URL is relative Mibew root and
-	 * does not contain neither leading nor trailing slash.
-	 *
-	 * @return string Base path for style files
-	 */
-	public function filesPath();
+    /**
+     * Returns an array which contains names of available styles.
+     *
+     * @param array List of styles names
+     */
+    public static function availableStyles();
 
-	/**
-	 * Loads and returns configurations of the style.
-	 *
-	 * @param array $name Style's configuration params
-	 */
-	public function configurations();
+    /**
+     * Builds base path for style files. This URL is relative Mibew root and
+     * does not contain neither leading nor trailing slash.
+     *
+     * @return string Base path for style files
+     */
+    public function filesPath();
 
-	/**
-	 * Returns name of the style related with the object
-	 *
-	 * @return string Name of the style
-	 */
-	public function name();
+    /**
+     * Loads and returns configurations of the style.
+     *
+     * @param array $name Style's configuration params
+     */
+    public function configurations();
 
-	/**
-	 * Renders template file to HTML and send it to the output
-	 *
-	 * @param string $template_name Name of the template file with neither path
-	 * nor extension.
-	 * @param array $data Associative array of values that should be used for
-	 * substitutions in a template.
-	 */
-	public function render($template_name, $data = array());
+    /**
+     * Returns name of the style related with the object
+     *
+     * @return string Name of the style
+     */
+    public function name();
+
+    /**
+     * Renders template file to HTML and send it to the output
+     *
+     * @param string $template_name Name of the template file with neither path
+     *   nor extension.
+     * @param array $data Associative array of values that should be used for
+     *   substitutions in a template.
+     */
+    public function render($template_name, $data = array());
 }
-
-?>

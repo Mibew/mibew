@@ -43,11 +43,11 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 	</p>
 <?php foreach( $page['groups'] as $pm ) { ?>
 	<div class="field level<?php echo $pm['level'] ?>">
-		<label for="group<?php echo htmlspecialchars($pm['groupid']); ?>" class="flabel"><?php echo htmlspecialchars(topage($pm['vclocalname'])) ?></label>
+		<label for="group<?php echo htmlspecialchars($pm['groupid']); ?>" class="flabel"><?php echo htmlspecialchars(to_page($pm['vclocalname'])) ?></label>
 		<div class="fvalue">
 			<input id="group<?php echo htmlspecialchars($pm['groupid']); ?>" type="checkbox" name="group<?php echo htmlspecialchars($pm['groupid']); ?>" value="on"<?php echo form_value_mb($page, 'group',$pm['groupid']) ? " checked=\"checked\"" : "" ?><?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
 		</div>
-		<label for="group<?php echo htmlspecialchars($pm['groupid']); ?>" class="fdescr"> &mdash; <?php echo $pm['vclocaldescription'] ? htmlspecialchars(topage($pm['vclocaldescription'])) : getlocal("operator.group.no_description") ?></label>
+		<label for="group<?php echo htmlspecialchars($pm['groupid']); ?>" class="fdescr"> &mdash; <?php echo $pm['vclocaldescription'] ? htmlspecialchars(to_page($pm['vclocaldescription'])) : getlocal("operator.group.no_description") ?></label>
 		<br clear="all"/>
 	</div>
 <?php } ?>

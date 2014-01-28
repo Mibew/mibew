@@ -20,11 +20,12 @@ use Mibew\Thread;
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/chat.php');
-require_once(MIBEW_FS_ROOT.'/libs/groups.php');
-require_once(MIBEW_FS_ROOT.'/libs/userinfo.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/chat.php');
+require_once(MIBEW_FS_ROOT . '/libs/groups.php');
+require_once(MIBEW_FS_ROOT . '/libs/userinfo.php');
+require_once(MIBEW_FS_ROOT . '/libs/track.php');
 
 $operator = check_login();
 
@@ -33,31 +34,26 @@ $page = array();
 setlocale(LC_TIME, getstring("time.locale"));
 
 if (isset($_GET['threadid'])) {
-	// Load thread info
-	$threadid = verifyparam("threadid", "/^(\d{1,9})?$/", "");
-	$thread = Thread::load($threadid);
-	$group = group_by_id($thread->groupId);
+    // Load thread info
+    $thread_id = verify_param("threadid", "/^(\d{1,9})?$/", "");
+    $thread = Thread::load($thread_id);
+    $group = group_by_id($thread->groupId);
 
-	$thread_info = array(
-		'thread' => $thread,
-		'groupName' => get_group_name($group),
-	);
-	$page['thread_info'] = $thread_info;
+    $thread_info = array(
+        'thread' => $thread,
+        'groupName' => get_group_name($group),
+    );
+    $page['thread_info'] = $thread_info;
 
-	// Build messages list
-	$lastid = -1;
-	$messages = $thread_info['thread']->getMessages(false, $lastid);
-	$page['threadMessages'] = json_encode($messages);
+    // Build messages list
+    $last_id = -1;
+    $messages = $thread_info['thread']->getMessages(false, $last_id);
+    $page['threadMessages'] = json_encode($messages);
 }
 
 $page['title'] = getlocal("thread.chat_log");
 
-$page = array_merge(
-	$page,
-	prepare_menu($operator, false)
-);
+$page = array_merge($page, prepare_menu($operator, false));
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('thread_log', $page);
-
-?>

@@ -20,11 +20,10 @@ namespace Mibew\RequestProcessor\Exception;
 /**
  * Class for {@link \Mibew\RequestProcessor\InviteRequestProcessor} exceptions
  */
-class InviteProcessorException extends ProcessorException {
-	/**
-	 * Operator is not logged in
-	 */
-	const ERROR_AGENT_NOT_LOGGED_IN = 1;
+class InviteProcessorException extends ProcessorException
+{
+    /**
+     * Operator is not logged in
+     */
+    const ERROR_AGENT_NOT_LOGGED_IN = 1;
 }
-
-?>

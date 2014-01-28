@@ -21,380 +21,406 @@ namespace Mibew;
  * Encapsulates work with database. Implenets singleton pattern to provide only
  * one instance.
  */
-Class Database{
+class Database
+{
+    const FETCH_ASSOC = 1;
+    const FETCH_NUM = 2;
+    const FETCH_BOTH = 4;
+    const RETURN_ONE_ROW = 8;
+    const RETURN_ALL_ROWS = 16;
 
-	const FETCH_ASSOC = 1;
-	const FETCH_NUM = 2;
-	const FETCH_BOTH = 4;
-	const RETURN_ONE_ROW = 8;
-	const RETURN_ALL_ROWS = 16;
+    /**
+     * An instance of Database class
+     * @var Database
+     */
+    protected static $instance = null;
 
-	/**
-	 * An instance of Database class
-	 * @var Database
-	 */
-	protected static $instance = NULL;
+    /**
+     * PDO object
+     * @var \PDO
+     */
+    protected $dbh = null;
 
-	/**
-	 * PDO object
-	 * @var \PDO
-	 */
-	protected $dbh = NULL;
+    /**
+     * Database host
+     * @var string
+     */
+    protected $dbHost = '';
 
-	/**
-	 * Database host
-	 * @var string
-	 */
-	protected $dbHost = '';
+    /**
+     * Database user's login
+     * @var string
+     */
+    protected $dbLogin = '';
 
-	/**
-	 * Database user's login
-	 * @var string
-	 */
-	protected $dbLogin = '';
+    /**
+     * Database user's password
+     * @var string
+     */
+    protected $dbPass = '';
 
-	/**
-	 * Database user's password
-	 * @var string
-	 */
-	protected $dbPass = '';
+    /**
+     * Database name
+     * @var string
+     */
+    protected $dbName = '';
 
-	/**
-	 * Database name
-	 * @var string
-	 */
-	protected $dbName = '';
+    /**
+     * Tables prefix
+     * @var string
+     */
+    protected $tablesPrefix = '';
 
-	/**
-	 * Tables prefix
-	 * @var string
-	 */
-	protected $tablesPrefix = '';
+    /**
+     * Database connection encoding. Is used only if
+     * Database::$forceCharsetInConnection is set to true.
+     * @var string
+     *
+     * @see Database::$forceCharsetInConnection
+     */
+    protected $dbEncoding = 'utf8';
 
-	/**
-	 * Database connection encoding. Use only if Database::$forceCharsetInConnection set to true
-	 * @var string
-	 *
-	 * @see Database::$forceCharsetInConnection
-	 */
-	protected $dbEncoding = 'utf8';
+    /**
+     * Determine if connection must be forced to charset, specified in
+     * Database::$dbEncoding
+     * @var boolean
+     *
+     * @see Database::$dbEncoding
+     */
+    protected $forceCharsetInConnection = true;
 
-	/**
-	 * Determine if connection must be forced to charset, specified in
-	 *   Database::$dbEncoding
-	 * @var boolean
-	 *
-	 * @see Database::$dbEncoding
-	 */
-	protected $forceCharsetInConnection = true;
+    /**
+     * Determine if connection to the database must be persistent
+     * @var type
+     */
+    protected $usePersistentConnection = false;
 
-	/**
-	 * Determine if connection to the database must be persistent
-	 * @var type
-	 */
-	protected $usePersistentConnection = false;
+    /**
+     * Array of prepared SQL statements
+     * @var array
+     */
+    protected $preparedStatements = array();
 
-	/**
-	 * Array of prepared SQL statements
-	 * @var array
-	 */
-	protected $preparedStatements = array();
+    /**
+     * Id of the last query
+     * @var type
+     */
+    protected $lastQuery = null;
 
-	/**
-	 * Id of the last query
-	 * @var type
-	 */
-	protected $lastQuery = NULL;
+    /**
+     * Controls if exception must be processed into class or thrown
+     * @var boolean
+     */
+    protected $throwExceptions = false;
 
-	/**
-	 * Controls if exception must be processed into class or thrown
-	 * @var boolean
-	 */
-	protected $throwExceptions = false;
+    /**
+     * Get instance of Database class.
+     *
+     * If no instance exists, creates new instance.
+     * Use Database::initialize() before try to get an instance. If database
+     * was not initilize coorectly triggers an error with E_USER_ERROR level.
+     *
+     * @return Database
+     * @see Database::initialize()
+     */
+    public static function getInstance()
+    {
+        if (is_null(self::$instance)) {
+            trigger_error('Database was not initialized correctly', E_USER_ERROR);
+        }
 
-	/**
-	 * Get instance of Database class.
-	 *
-	 * If no instance exists, creates new instance.
-	 * Use Database::initialize() before try to get an instance. If database was not initilize coorectly triggers an
-	 * error with E_USER_ERROR level.
-	 *
-	 * @return Database
-	 * @see Database::initialize()
-	 */
-	public static function getInstance(){
-		if (is_null(self::$instance)) {
-			trigger_error('Database was not initialized correctly', E_USER_ERROR);
-		}
-		return self::$instance;
-	}
+        return self::$instance;
+    }
 
-	/**
-	 * Destroy internal database object
-	 */
-	public static function destroy(){
-		if (! is_null(self::$instance)) {
-			self::$instance->__destruct();
-			self::$instance = NULL;
-		}
-	}
+    /**
+     * Destroy internal database object
+     */
+    public static function destroy()
+    {
+        if (!is_null(self::$instance)) {
+            self::$instance->__destruct();
+            self::$instance = null;
+        }
+    }
 
-	/**
-	 * Initialize database.
-	 *
-	 * Set internal database and connectionproperties. Create Database object. Create PDO object and store it in the
-	 * Database object.
-	 *
-	 * @param string $host Database host.
-	 * @param string $user Database user name.
-	 * @param string $pass Database for user with $name password.
-	 * @param boolean $use_pconn Control use persistent connection to the database or not.
-	 * @param string $db Database name.
-	 * @param string $prefix Database tables prefix
-	 * @param boolean $force_charset Control force charset in conection or not.
-	 * @param string $encoding Contains connection encoding. Using only if $force_charset = true.
-	 */
-	public static function initialize($host, $user, $pass, $use_pconn, $db, $prefix, $force_charset = false, $encoding = 'utf8') {
-		// Check PDO
-		if (! extension_loaded('PDO')) {
-			throw new \Exception('PDO extension is not loaded');
-		}
+    /**
+     * Initialize database.
+     *
+     * Set internal database and connectionproperties. Create Database object.
+     * Create PDO object and store it in the Database object.
+     *
+     * @param string $host Database host.
+     * @param string $user Database user name.
+     * @param string $pass Database for user with $name password.
+     * @param boolean $use_pconn Control use persistent connection to the
+     *   database or not.
+     * @param string $db Database name.
+     * @param string $prefix Database tables prefix
+     * @param boolean $force_charset Control force charset in conection or not.
+     * @param string $encoding Contains connection encoding. Is used only if
+     *   $force_charset is equals to TRUE.
+     */
+    public static function initialize(
+        $host,
+        $user,
+        $pass,
+        $use_pconn,
+        $db,
+        $prefix,
+        $force_charset = false,
+        $encoding = 'utf8'
+    ) {
+        // Check PDO
+        if (!extension_loaded('PDO')) {
+            throw new \Exception('PDO extension is not loaded');
+        }
 
-		if (! extension_loaded('pdo_mysql')) {
-			throw new \Exception('pdo_mysql extension is not loaded');
-		}
+        if (!extension_loaded('pdo_mysql')) {
+            throw new \Exception('pdo_mysql extension is not loaded');
+        }
 
-		// Check if initialization
-		if (! is_null(self::$instance)) {
-			throw new \Exception('Database already initialized');
-		}
+        // Check if initialization
+        if (!is_null(self::$instance)) {
+            throw new \Exception('Database already initialized');
+        }
 
-		// Create database instance
-		$instance = new Database();
+        // Create database instance
+        $instance = new Database();
 
-		// Set database and connection properties
-		$instance->dbHost = $host;
-		$instance->dbLogin = $user;
-		$instance->dbPass = $pass;
-		$instance->dbName = $db;
-		$instance->dbEncoding = $encoding;
-		$instance->tablesPrefix = preg_replace('/[^A-Za-z0-9_$]/', '', $prefix);
-		$instance->forceCharsetInConnection = $force_charset;
-		$instance->usePersistentConnection = $use_pconn;
+        // Set database and connection properties
+        $instance->dbHost = $host;
+        $instance->dbLogin = $user;
+        $instance->dbPass = $pass;
+        $instance->dbName = $db;
+        $instance->dbEncoding = $encoding;
+        $instance->tablesPrefix = preg_replace('/[^A-Za-z0-9_$]/', '', $prefix);
+        $instance->forceCharsetInConnection = $force_charset;
+        $instance->usePersistentConnection = $use_pconn;
 
-		// Create PDO object
-		$instance->dbh = new \PDO(
-			"mysql:host={$instance->dbHost};dbname={$instance->dbName}",
-			$instance->dbLogin,
-			$instance->dbPass,
-			array(\PDO::ATTR_PERSISTENT => $instance->usePersistentConnection)
-		);
+        // Create PDO object
+        $instance->dbh = new \PDO(
+            "mysql:host={$instance->dbHost};dbname={$instance->dbName}",
+            $instance->dbLogin,
+            $instance->dbPass,
+            array(\PDO::ATTR_PERSISTENT => $instance->usePersistentConnection)
+        );
 
-		if ($instance->forceCharsetInConnection) {
-			$instance->dbh->exec("SET NAMES ".$instance->dbh->quote($instance->dbEncoding));
-		}
+        if ($instance->forceCharsetInConnection) {
+            $instance->dbh->exec("SET NAMES " . $instance->dbh->quote($instance->dbEncoding));
+        }
 
-		// Store instance
-		self::$instance = $instance;
-	}
+        // Store instance
+        self::$instance = $instance;
+    }
 
-	/**
-	 * Forbid clone objects
-	 */
-	private final function __clone() {}
+    /**
+     * Set if exceptions must be process into the class or thrown and return
+     * previous value.
+     *
+     * If called without arguments just return previous value without changing
+     * anything.
+     *
+     * @param boolean $value Value that should be set. This argument is optional
+     * @return bool Previous value
+     */
+    public function throwExeptions()
+    {
+        $last_value = $this->throwExceptions;
+        if (func_num_args() > 0) {
+            $this->throwExceptions = func_get_arg(0);
+        }
 
-	/**
-	 * Forbid external object creation
-	 */
-	protected function __construct() {}
+        return $last_value;
+    }
 
-	/**
-	 * Handles errors
-	 * @param \Exception $e
-	 */
-	protected function handleError(\Exception $e){
-		if ($this->throwExceptions) {
-			throw $e;
-		}
-		die($e->getMessage());
-	}
+    /**
+     * Database class destructor.
+     */
+    public function __destruct()
+    {
+        foreach ($this->preparedStatements as $key => $statement) {
+            $this->preparedStatements[$key] = null;
+        }
+        $this->dbh = null;
+        self::$instance = null;
+    }
 
-	/**
-	 * Set if exceptions must be process into the class or thrown and return
-	 * previous value.
-	 *
-	 * If called without arguments just return previous value without changing
-	 * anything.
-	 *
-	 * @param boolean $value Value that should be set. This argument is optional
-	 * @return bool Previous value
-	 */
-	public function throwExeptions(){
-		$last_value = $this->throwExceptions;
-		if (func_num_args() > 0) {
-			$this->throwExceptions = func_get_arg(0);
-		}
-		return $last_value;
-	}
+    /**
+     * Executes SQL query.
+     *
+     * In SQL query can be used PDO style placeholders:
+     * unnamed placeholders (question marks '?') and named placeholders (like
+     * ':name'). If unnamed placeholders are used, $values array must have
+     * numeric indexes. If named placeholders are used, $values param must be an
+     * associative array with keys corresponding to the placeholders names
+     *
+     * Table prefix automatically substitute if table name puts in curly braces
+     *
+     * @param string $query SQL query
+     * @param array $values Values, that must be substitute instead of
+     *   placeholders in SQL query.
+     * @param array $params Array of query parameters. It can contains values
+     *   with following keys:
+     *   - 'return_rows' control if rows must be returned and how many rows must
+     *     be returnd. The value can be Database::RETURN_ONE_ROW for olny one
+     *     row or Database::RETURN_ALL_ROWS for all rows. If this key not
+     *     specified, the function will not return any rows.
+     *   - 'fetch_type' control indexes in resulting rows. The value can be
+     *     Database::FETCH_ASSOC for associative array, Database::FETCH_NUM for
+     *     array with numeric indexes and Database::FETCH_BOTH for both indexes.
+     *     Default value is Database::FETCH_ASSOC.
+     * @return mixed If 'return_rows' key of the $params array is specified,
+     *   returns one or several rows (depending on $params['return_rows'] value)
+     *   or boolean false on fail.
+     *   If 'return_rows' key of the $params array is not specified, returns
+     *   boolean true on success or false on fail.
+     *
+     * @see Database::RETURN_ONE_ROW
+     * @see Database::RETURN_ALL_ROWS
+     * @see Database::FETCH_ASSOC
+     * @see Database::FETCH_NUM
+     * @see Database::FETCH_BOTH
+     */
+    public function query($query, $values = null, $params = array())
+    {
+        try {
+            $query = preg_replace("/\{(\w+)\}/", $this->tablesPrefix . "$1", $query);
 
-	/**
-	 * Database class destructor.
-	 */
-	public function __destruct(){
-		foreach($this->preparedStatements as $key => $statement) {
-			$this->preparedStatements[$key] = NULL;
-		}
-		$this->dbh = NULL;
-		self::$instance = NULL;
-	}
+            $query_key = md5($query);
+            if (!array_key_exists($query_key, $this->preparedStatements)) {
+                $this->preparedStatements[$query_key] = $this->dbh->prepare($query);
+            }
 
-	/**
-	 * Executes SQL query.
-	 * In SQL query can be used PDO style placeholders:
-	 * unnamed placeholders (question marks '?') and named placeholders (like
-	 * ':name').
-	 * If unnamed placeholders are used, $values array must have numeric indexes.
-	 * If named placeholders are used, $values param must be an associative array
-	 * with keys corresponding to the placeholders names
-	 *
-	 * Table prefix automatically substitute if table name puts in curly braces
-	 *
-	 * @param string $query SQL query
-	 * @param array $values Values, that must be substitute instead of
-	 *   placeholders in SQL query.
-	 * @param array $params Array of query parameters. It can contains values with
-	 *   following keys:
-	 *   - 'return_rows' control if rows must be returned and how many rows must
-	 *     be returnd. The value can be Database::RETURN_ONE_ROW for olny one row
-	 *     or Database::RETURN_ALL_ROWS for all rows. If this key not specified,
-	 *     the function will not return any rows.
-	 *   - 'fetch_type' control indexes in resulting rows. The value can be
-	 *     Database::FETCH_ASSOC for associative array, Database::FETCH_NUM for
-	 *     array with numeric indexes and Database::FETCH_BOTH for both indexes.
-	 *     Default value is Database::FETCH_ASSOC.
-	 * @return mixed If 'return_rows' key of the $params array is specified,
-	 *   returns one or several rows (depending on $params['return_rows'] value) or
-	 *   boolean false on fail.
-	 *   If 'return_rows' key of the $params array is not specified, returns
-	 *   boolean true on success or false on fail.
-	 *
-	 * @see Database::RETURN_ONE_ROW
-	 * @see Database::RETURN_ALL_ROWS
-	 * @see Database::FETCH_ASSOC
-	 * @see Database::FETCH_NUM
-	 * @see Database::FETCH_BOTH
-	 */
-	public function query($query, $values = NULL, $params = array()){
-		try{
-			$query = preg_replace("/\{(\w+)\}/", $this->tablesPrefix."$1", $query);
+            $this->lastQuery = $query_key;
 
-			$query_key = md5($query);
-			if (! array_key_exists($query_key, $this->preparedStatements)) {
-				$this->preparedStatements[$query_key] = $this->dbh->prepare($query);
-			}
+            // Execute query
+            $this->preparedStatements[$query_key]->execute($values);
 
-			$this->lastQuery = $query_key;
+            // Check if error occurs
+            if ($this->preparedStatements[$query_key]->errorCode() !== '00000') {
+                $errorInfo = $this->preparedStatements[$query_key]->errorInfo();
+                throw new \Exception(' Query failed: ' . $errorInfo[2]);
+            }
 
-			// Execute query
-			$this->preparedStatements[$query_key]->execute($values);
+            // No need to return rows
+            if (!array_key_exists('return_rows', $params)) {
+                return true;
+            }
 
-			// Check if error occurs
-			if ($this->preparedStatements[$query_key]->errorCode() !== '00000') {
-				$errorInfo = $this->preparedStatements[$query_key]->errorInfo();
-				throw new \Exception(' Query failed: ' . $errorInfo[2]);
-			}
+            // Some rows must be returned
+            // Get indexes type
+            if (!array_key_exists('fetch_type', $params)) {
+                $params['fetch_type'] = Database::FETCH_ASSOC;
+            }
+            switch ($params['fetch_type']) {
+                case Database::FETCH_NUM:
+                    $fetch_type = \PDO::FETCH_NUM;
+                    break;
+                case Database::FETCH_ASSOC:
+                    $fetch_type = \PDO::FETCH_ASSOC;
+                    break;
+                case Database::FETCH_BOTH:
+                    $fetch_type = \PDO::FETCH_BOTH;
+                    break;
+                default:
+                    throw new \Exception("Unknown 'fetch_type' value!");
+            }
 
-			// No need to return rows
-			if (! array_key_exists('return_rows', $params)) {
-				return true;
-			}
+            // Get results
+            $rows = array();
+            if ($params['return_rows'] == Database::RETURN_ONE_ROW) {
+                $rows = $this->preparedStatements[$query_key]->fetch($fetch_type);
+            } elseif ($params['return_rows'] == Database::RETURN_ALL_ROWS) {
+                $rows = $this->preparedStatements[$query_key]->fetchAll($fetch_type);
+            } else {
+                throw new \Exception("Unknown 'return_rows' value!");
+            }
+            $this->preparedStatements[$query_key]->closeCursor();
 
-			// Some rows must be returned
+            return $rows;
+        } catch (\Exception $e) {
+            $this->handleError($e);
+        }
+    }
 
-			// Get indexes type
-			if (! array_key_exists('fetch_type', $params)) {
-				$params['fetch_type'] = Database::FETCH_ASSOC;
-			}
-			switch($params['fetch_type']){
-				case Database::FETCH_NUM:
-					$fetch_type = \PDO::FETCH_NUM;
-					break;
-				case Database::FETCH_ASSOC:
-					$fetch_type = \PDO::FETCH_ASSOC;
-					break;
-				case Database::FETCH_BOTH:
-					$fetch_type = \PDO::FETCH_BOTH;
-					break;
-				default:
-					throw new \Exception("Unknown 'fetch_type' value!");
-			}
+    /**
+     * Returns value of PDOStatement::$errorInfo property for last query.
+     *
+     * @return string Error info array
+     * @see \PDOStatement::$erorrInfo
+     */
+    public function errorInfo()
+    {
+        if (is_null($this->lastQuery)) {
+            return false;
+        }
+        try {
+            $error_info = $this->preparedStatements[$this->lastQuery]->errorInfo();
+        } catch (\Exception $e) {
+            $this->handleError($e);
+        }
 
-			// Get results
-			$rows = array();
-			if ($params['return_rows'] == Database::RETURN_ONE_ROW) {
-				$rows = $this->preparedStatements[$query_key]->fetch($fetch_type);
-			} elseif ($params['return_rows'] == Database::RETURN_ALL_ROWS) {
-				$rows = $this->preparedStatements[$query_key]->fetchAll($fetch_type);
-			} else {
-				throw new \Exception("Unknown 'return_rows' value!");
-			}
-			$this->preparedStatements[$query_key]->closeCursor();
+        return $error_info;
+    }
 
-			return $rows;
-		} catch(\Exception $e) {
-			$this->handleError($e);
-		}
-	}
+    /**
+     * Returns the ID of the last inserted row
+     *
+     * @return int The ID
+     */
+    public function insertedId()
+    {
+        try {
+            $last_inserted_id = $this->dbh->lastInsertId();
+        } catch (\Exception $e) {
+            $this->handleError($e);
+        }
 
-	/**
-	 * Returns value of PDOStatement::$errorInfo property for last query
-	 * @return string Error info array
-	 *
-	 * @see \PDOStatement::$erorrInfo
-	 */
-	public function errorInfo(){
-		if (is_null($this->lastQuery)) {
-			return false;
-		}
-		try{
-			$errorInfo = $this->preparedStatements[$this->lastQuery]->errorInfo();
-		} catch (\Exception $e) {
-			$this->handleError($e);
-		}
-		return $errorInfo;
-	}
+        return $last_inserted_id;
+    }
 
-	/**
-	 * Returns the ID of the last inserted row
-	 *
-	 * @return int The ID
-	 */
-	public function insertedId(){
-		try{
-			$lastInsertedId = $this->dbh->lastInsertId();
-		} catch(\Exception $e) {
-			$this->handleError($e);
-		}
-		return $lastInsertedId;
-	}
+    /**
+     * Get count of affected rows in the last query
+     *
+     * @return int Affected rows count
+     */
+    public function affectedRows()
+    {
+        if (is_null($this->lastQuery)) {
+            return false;
+        }
+        try {
+            $affected_rows = $this->preparedStatements[$this->lastQuery]->rowCount();
+        } catch (\Exception $e) {
+            $this->handleError($e);
+        }
 
-	/**
-	 * Get count of affected rows in the last query
-	 *
-	 * @return int Affected rows count
-	 */
-	public function affectedRows(){
-		if (is_null($this->lastQuery)) {
-			return false;
-		}
-		try{
-			$affected_rows =  $this->preparedStatements[$this->lastQuery]->rowCount();
-		} catch(\Exception $e) {
-			$this->handleError($e);
-		}
-		return $affected_rows;
-	}
+        return $affected_rows;
+    }
 
+    /**
+     * Forbid external object creation
+     */
+    protected function __construct()
+    {
+    }
+
+    /**
+     * Handles errors
+     * @param \Exception $e
+     */
+    protected function handleError(\Exception $e)
+    {
+        if ($this->throwExceptions) {
+            throw $e;
+        }
+        die($e->getMessage());
+    }
+
+    /**
+     * Forbid clone objects
+     */
+    final private function __clone()
+    {
+    }
 }
-
-?>

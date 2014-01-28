@@ -90,11 +90,11 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 <tr>
 	<td class="notlast">
    		<a id="ti<?php echo $a['operatorid'] ?>" href="<?php echo MIBEW_WEB_ROOT ?>/operator/operator.php?op=<?php echo $a['operatorid'] ?>" class="man">
-   			<?php echo htmlspecialchars(topage($a['vclogin'])) ?>
+   			<?php echo htmlspecialchars(to_page($a['vclogin'])) ?>
    		</a>
 	</td>
 	<td class="notlast">
-   		<?php echo htmlspecialchars(topage($a['vclocalename'])) ?> / <?php echo htmlspecialchars(topage($a['vccommonname'])) ?>
+   		<?php echo htmlspecialchars(to_page($a['vclocalename'])) ?> / <?php echo htmlspecialchars(to_page($a['vccommonname'])) ?>
 	</td>
 	<td class="notlast">
 <?php if(operator_is_available($a)) { ?>
@@ -126,7 +126,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 <script type="text/javascript" language="javascript"><!--
 $('a.removelink').click(function(){
 	var login = $("#t"+this.id).text();
-	return confirm("<?php echo getlocalforJS("page_agents.confirm", array('"+$.trim(login)+"')) ?>");
+	return confirm("<?php echo get_local_for_js("page_agents.confirm", array('"+$.trim(login)+"')) ?>");
 });
 //--></script>
 

@@ -19,9 +19,9 @@
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/settings.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/settings.php');
 
 $operator = check_login();
 force_password($operator);
@@ -29,29 +29,24 @@ force_password($operator);
 $default_extensions = array('mysql', 'gd', 'iconv');
 
 $page = array(
-	'localizations' => get_available_locales(),
-	'phpVersion' => phpversion(),
-	'version' => MIBEW_VERSION,
-	'title' => getlocal("updates.title"),
-	'menuid' => "updates",
-	'errors' => array(),
+    'localizations' => get_available_locales(),
+    'phpVersion' => phpversion(),
+    'version' => MIBEW_VERSION,
+    'title' => getlocal("updates.title"),
+    'menuid' => "updates",
+    'errors' => array(),
 );
 
 foreach ($default_extensions as $ext) {
-	if (!extension_loaded($ext)) {
-		$page['phpVersion'] .= " $ext/absent";
-	} else {
-		$ver = phpversion($ext);
-		$page['phpVersion'] .= $ver ? " $ext/$ver" : " $ext";
-	}
+    if (!extension_loaded($ext)) {
+        $page['phpVersion'] .= " $ext/absent";
+    } else {
+        $ver = phpversion($ext);
+        $page['phpVersion'] .= $ver ? " $ext/$ver" : " $ext";
+    }
 }
 
-$page = array_merge(
-	$page,
-	prepare_menu($operator)
-);
+$page = array_merge($page, prepare_menu($operator));
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('updates', $page);
-
-?>

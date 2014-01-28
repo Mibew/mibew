@@ -79,10 +79,10 @@ if( $page['pagination.items'] ) {
 	foreach( $page['pagination.items'] as $localstr ) { ?>
 	<tr>
 		<td>
-			<?php echo str_replace("\n", "", htmlspecialchars(topage($localstr['vctitle']))) ?>
+			<?php echo str_replace("\n", "", htmlspecialchars(to_page($localstr['vctitle']))) ?>
 		</td>
 		<td>
-			<?php echo str_replace("\n", "<br/>",htmlspecialchars(topage($localstr['vcvalue']))) ?>
+			<?php echo str_replace("\n", "<br/>",htmlspecialchars(to_page($localstr['vcvalue']))) ?>
 		</td>
 		<td>
 			<a href="<?php echo MIBEW_WEB_ROOT ?>/operator/cannededit.php?key=<?php echo $localstr['id'] ?>" target="_blank" 

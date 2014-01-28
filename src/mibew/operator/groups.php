@@ -20,61 +20,56 @@ use Mibew\Database;
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/groups.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/groups.php');
 
 $operator = check_login();
-csrfchecktoken();
+csrf_check_token();
 
 if (isset($_GET['act']) && $_GET['act'] == 'del') {
 
-	$groupid = isset($_GET['gid']) ? $_GET['gid'] : "";
+    $group_id = isset($_GET['gid']) ? $_GET['gid'] : "";
 
-	if (!preg_match("/^\d+$/", $groupid)) {
-		$page['errors'][] = getlocal("page.groups.error.cannot_delete");
-	}
+    if (!preg_match("/^\d+$/", $group_id)) {
+        $page['errors'][] = getlocal("page.groups.error.cannot_delete");
+    }
 
-	if (!is_capable(CAN_ADMINISTRATE, $operator)) {
-		$page['errors'][] = getlocal("page.groups.error.forbidden_remove");
-	}
+    if (!is_capable(CAN_ADMINISTRATE, $operator)) {
+        $page['errors'][] = getlocal("page.groups.error.forbidden_remove");
+    }
 
-	if (count($page['errors']) == 0) {
-		$db = Database::getInstance();
-		$db->query("delete from {chatgroup} where groupid = ?", array($groupid));
-		$db->query("delete from {chatgroupoperator} where groupid = ?", array($groupid));
-		$db->query("update {chatthread} set groupid = 0 where groupid = ?",array($groupid));
-		header("Location: " . MIBEW_WEB_ROOT . "/operator/groups.php");
-		exit;
-	}
+    if (count($page['errors']) == 0) {
+        $db = Database::getInstance();
+        $db->query("delete from {chatgroup} where groupid = ?", array($group_id));
+        $db->query("delete from {chatgroupoperator} where groupid = ?", array($group_id));
+        $db->query("update {chatthread} set groupid = 0 where groupid = ?", array($group_id));
+        header("Location: " . MIBEW_WEB_ROOT . "/operator/groups.php");
+        exit;
+    }
 }
 
 $page = array();
-$sort['by'] = verifyparam("sortby", "/^(name|lastseen|weight)$/", "name");
-$sort['desc'] = (verifyparam("sortdirection", "/^(desc|asc)$/", "desc") == "desc");
+$sort['by'] = verify_param("sortby", "/^(name|lastseen|weight)$/", "name");
+$sort['desc'] = (verify_param("sortdirection", "/^(desc|asc)$/", "desc") == "desc");
 $page['groups'] = get_sorted_groups($sort);
 $page['formsortby'] = $sort['by'];
-$page['formsortdirection'] = $sort['desc']?'desc':'asc';
+$page['formsortdirection'] = $sort['desc'] ? 'desc' : 'asc';
 $page['canmodify'] = is_capable(CAN_ADMINISTRATE, $operator);
 $page['availableOrders'] = array(
-	array('id' => 'name', 'name' => getlocal('form.field.groupname')),
-	array('id' => 'lastseen', 'name' => getlocal('page_agents.status')),
-	array('id' => 'weight', 'name' => getlocal('page.groups.weight'))
+    array('id' => 'name', 'name' => getlocal('form.field.groupname')),
+    array('id' => 'lastseen', 'name' => getlocal('page_agents.status')),
+    array('id' => 'weight', 'name' => getlocal('page.groups.weight')),
 );
 $page['availableDirections'] = array(
-	array('id' => 'desc', 'name' => getlocal('page.groups.sortdirection.desc')),
-	array('id' => 'asc', 'name' => getlocal('page.groups.sortdirection.asc')),
+    array('id' => 'desc', 'name' => getlocal('page.groups.sortdirection.desc')),
+    array('id' => 'asc', 'name' => getlocal('page.groups.sortdirection.asc')),
 );
 
 $page['title'] = getlocal("page.groups.title");
 $page['menuid'] = "groups";
 
-$page = array_merge(
-	$page,
-	prepare_menu($operator)
-);
+$page = array_merge($page, prepare_menu($operator));
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('groups', $page);
-
-?>

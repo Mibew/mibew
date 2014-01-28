@@ -19,44 +19,47 @@
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
 
 $page = array(
-	'formisRemember' => true,
-	'version' => MIBEW_VERSION,
-	'errors' => array(),
+    'formisRemember' => true,
+    'version' => MIBEW_VERSION,
+    'errors' => array(),
 );
 
 if (isset($_POST['login']) && isset($_POST['password'])) {
-	$login = getparam('login');
-	$password = getparam('password');
-	$remember = isset($_POST['isRemember']) && $_POST['isRemember'] == "on";
+    $login = get_param('login');
+    $password = get_param('password');
+    $remember = isset($_POST['isRemember']) && $_POST['isRemember'] == "on";
 
-	$operator = operator_by_login($login);
-	if ($operator && isset($operator['vcpassword']) && check_password_hash($operator['vclogin'], $password, $operator['vcpassword']) && !operator_is_disabled($operator)) {
+    $operator = operator_by_login($login);
+    $operator_can_login = $operator
+        && isset($operator['vcpassword'])
+        && check_password_hash($operator['vclogin'], $password, $operator['vcpassword'])
+        && !operator_is_disabled($operator);
 
-		$target = $password == ''
-				? MIBEW_WEB_ROOT . "/operator/operator.php?op=" . intval($operator['operatorid'])
-				: (isset($_SESSION['backpath'])
-					? $_SESSION['backpath']
-					: MIBEW_WEB_ROOT . "/operator/index.php");
+    if ($operator_can_login) {
+        $target = $password == ''
+            ? MIBEW_WEB_ROOT . "/operator/operator.php?op=" . intval($operator['operatorid'])
+            : (isset($_SESSION['backpath']) ? $_SESSION['backpath'] : MIBEW_WEB_ROOT . "/operator/index.php");
 
-		login_operator($operator, $remember, is_secure_request());
-		header("Location: $target");
-		exit;
-	} else {
-		if (operator_is_disabled($operator)) {
-			$page['errors'][] = getlocal('page_login.operator.disabled');
-		} else {
-			$page['errors'][] = getlocal("page_login.error");
-		}
-		$page['formlogin'] = $login;
-	}
-} else if(isset($_GET['login'])) {
-	$login = getgetparam('login');
-	if (preg_match("/^(\w{1,15})$/", $login))
-		$page['formlogin'] = $login;
+        login_operator($operator, $remember, is_secure_request());
+        header("Location: $target");
+        exit;
+    } else {
+        if (operator_is_disabled($operator)) {
+            $page['errors'][] = getlocal('page_login.operator.disabled');
+        } else {
+            $page['errors'][] = getlocal("page_login.error");
+        }
+        $page['formlogin'] = $login;
+    }
+} elseif (isset($_GET['login'])) {
+    $login = get_get_param('login');
+    if (preg_match("/^(\w{1,15})$/", $login)) {
+        $page['formlogin'] = $login;
+    }
 }
 
 $page['localeLinks'] = get_locale_links(MIBEW_WEB_ROOT . "/operator/login.php");
@@ -67,5 +70,3 @@ $page['fixedwrap'] = true;
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('login', $page);
-
-?>

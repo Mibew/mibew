@@ -20,13 +20,13 @@
  *
  * @param string $file Path to Configuration file
  * @return boolean|array Array of configurations or boolean false if file can
- * not be read.
+ *   not be read.
  */
-function read_config_file($file) {
-	if (! is_readable($file)) {
-		return false;
-	}
-	return parse_ini_file($file, true);
-}
+function read_config_file($file)
+{
+    if (!is_readable($file)) {
+        return false;
+    }
 
-?>
+    return parse_ini_file($file, true);
+}

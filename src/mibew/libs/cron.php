@@ -21,12 +21,10 @@
  * @param string $cron_key Cron security key
  * @return string Cron URI
  */
-function cron_get_uri($cron_key) {
-	$path = get_app_location(true, is_secure_request()) . '/cron.php';
-	$path .= empty($cron_key)
-		? ''
-		: '?cron_key='.$cron_key;
-	return $path;
-}
+function cron_get_uri($cron_key)
+{
+    $path = get_app_location(true, is_secure_request()) . '/cron.php';
+    $path .= empty($cron_key) ? '' : '?cron_key=' . $cron_key;
 
-?>
+    return $path;
+}

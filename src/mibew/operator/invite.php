@@ -15,24 +15,23 @@
  * limitations under the License.
  */
 
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/invitation.php');
-require_once(MIBEW_FS_ROOT.'/libs/track.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/invitation.php');
+require_once(MIBEW_FS_ROOT . '/libs/chat.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/track.php');
 
 $operator = check_login();
 
-$visitorid = verifyparam("visitor", "/^\d{1,8}$/");
+$visitor_id = verify_param("visitor", "/^\d{1,8}$/");
 
-$thread = invitation_invite($visitorid, $operator);
+$thread = invitation_invite($visitor_id, $operator);
 if (!$thread) {
     die("Invitation failed!");
 }
 
 // Open chat window for operator
-$redirect_to = MIBEW_WEB_ROOT .
-	'/operator/agent.php?thread=' . intval($thread->id) .
-	'&token=' . urlencode($thread->lastToken);
+$redirect_to = MIBEW_WEB_ROOT
+    . '/operator/agent.php?thread=' . intval($thread->id)
+    . '&token=' . urlencode($thread->lastToken);
 header('Location: ' . $redirect_to);
-
-?>

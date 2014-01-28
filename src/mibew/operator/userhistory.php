@@ -21,11 +21,12 @@ use Mibew\Thread;
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/chat.php');
-require_once(MIBEW_FS_ROOT.'/libs/userinfo.php');
-require_once(MIBEW_FS_ROOT.'/libs/pagination.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/chat.php');
+require_once(MIBEW_FS_ROOT . '/libs/userinfo.php');
+require_once(MIBEW_FS_ROOT . '/libs/pagination.php');
+require_once(MIBEW_FS_ROOT . '/libs/track.php');
 
 
 $operator = check_login();
@@ -34,35 +35,35 @@ $page = array();
 
 setlocale(LC_TIME, getstring("time.locale"));
 
-$userid = "";
+$user_id = "";
 if (isset($_GET['userid'])) {
-	$userid = verifyparam("userid", "/^.{0,63}$/", "");
+    $user_id = verify_param("userid", "/^.{0,63}$/", "");
 }
 
-if (!empty($userid)) {
-	$db = Database::getInstance();
-	$found = $db->query(
-		"SELECT {chatthread}.* " .
-		"FROM {chatthread} " .
-		"WHERE userid=:user_id " .
-			"AND (invitationstate = :invitation_accepted " .
-				"OR invitationstate = :invitation_not_invited) " .
-		"ORDER BY dtmcreated DESC",
-		array(
-			':user_id' => $userid,
-			':invitation_accepted' => Thread::INVITATION_ACCEPTED,
-			':invitation_not_invited' => Thread::INVITATION_NOT_INVITED
-		),
-		array('return_rows' => Database::RETURN_ALL_ROWS)
-	);
+if (!empty($user_id)) {
+    $db = Database::getInstance();
+
+    $query = "SELECT {chatthread}.* "
+        . "FROM {chatthread} "
+        . "WHERE userid=:user_id "
+            . "AND (invitationstate = :invitation_accepted "
+                . "OR invitationstate = :invitation_not_invited) "
+        . "ORDER BY dtmcreated DESC";
+
+    $found = $db->query(
+        $query,
+        array(
+            ':user_id' => $user_id,
+            ':invitation_accepted' => Thread::INVITATION_ACCEPTED,
+            ':invitation_not_invited' => Thread::INVITATION_NOT_INVITED,
+        ),
+        array('return_rows' => Database::RETURN_ALL_ROWS)
+    );
 } else {
-	$found = null;
+    $found = null;
 }
 
-$page = array_merge(
-	$page,
-	prepare_menu($operator)
-);
+$page = array_merge($page, prepare_menu($operator));
 
 // Setup pagination
 $pagination = setup_pagination($found, 6);
@@ -70,7 +71,7 @@ $page['pagination'] = $pagination['info'];
 $page['pagination.items'] = $pagination['items'];
 
 foreach ($page['pagination.items'] as $key => $item) {
-	$page['pagination.items'][$key] = Thread::createFromDbInfo($item);
+    $page['pagination.items'][$key] = Thread::createFromDbInfo($item);
 }
 
 $page['title'] = getlocal("page.analysis.userhistory.title");
@@ -78,5 +79,3 @@ $page['menuid'] = "history";
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('userhistory', $page);
-
-?>

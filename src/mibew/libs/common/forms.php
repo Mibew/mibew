@@ -19,47 +19,52 @@
  * Returns properly prepared value of a form variable.
  *
  * @param array $page The page array. All form variables are prefixed with
- * "form" string.
+ *   "form" string.
  * @param string $name Form variable name.
  * @return string Value of a form variable.
  */
-function form_value($page, $name) {
-	if (!empty($page) && isset($page["form$name"]))
-		return htmlspecialchars($page["form$name"]);
-	return "";
+function form_value($page, $name)
+{
+    if (!empty($page) && isset($page["form$name"])) {
+        return htmlspecialchars($page["form$name"]);
+    }
+
+    return "";
 }
 
 /**
  * Checks if a form variable is true.
  *
  * @param array $page The page array. All form variables are prefixed with
- * "form" string.
+ *   "form" string.
  * @param string $name Form variable name.
- * @return boolean Returns TRUE only if specified form variable is set, has boolean type
- * and equals to TRUE. In all other cases returns FALSE.
+ * @return boolean Returns TRUE only if specified form variable is set, has
+ *   boolean type and equals to TRUE. In all other cases returns FALSE.
  */
-function form_value_cb($page, $name) {
-	if (!empty($page) && isset($page["form$name"]))
-		return $page["form$name"] === true;
-	return false;
-}
+function form_value_cb($page, $name)
+{
+    if (!empty($page) && isset($page["form$name"])) {
+        return $page["form$name"] === true;
+    }
 
+    return false;
+}
 
 /**
  * Checks if form variable is array and has element with specified key.
  *
  * @param array $page The page array. All form variables are prefixed with
- * "form" string.
+ *   "form" string.
  * @param string $name Form variable name.
  * @param string $key Key of the element to check.
  * @return boolean Returns TRUE only if specified form variable is set, is an
- * array has element with the specified key. In all other cases returns FALSE.
+ *   array has element with the specified key. In all other cases returns FALSE.
  */
-function form_value_mb($page, $name, $key) {
-	if (!empty($page) && isset($page["form$name"]) && is_array($page["form$name"])) {
-		return in_array($key, $page["form$name"]);
-	}
-	return false;
-}
+function form_value_mb($page, $name, $key)
+{
+    if (!empty($page) && isset($page["form$name"]) && is_array($page["form$name"])) {
+        return in_array($key, $page["form$name"]);
+    }
 
-?>
+    return false;
+}

@@ -20,19 +20,18 @@ namespace Mibew\RequestProcessor\Exception;
 /**
  * Class for {@link \Mibew\RequestProcessor\UsersProcessor} exceptions
  */
-class UsersProcessorException extends ProcessorException {
-	/**
-	 * Operator is not logged in
-	 */
-	const ERROR_AGENT_NOT_LOGGED_IN = 1;
-	/**
-	 * Wrong agent id
-	 */
-	const ERROR_WRONG_AGENT_ID = 2;
-	/**
-	 * Various agent ids in different functions in one package
-	 */
-	const VARIOUS_AGENT_ID = 3;
+class UsersProcessorException extends ProcessorException
+{
+    /**
+     * Operator is not logged in
+     */
+    const ERROR_AGENT_NOT_LOGGED_IN = 1;
+    /**
+     * Wrong agent id
+     */
+    const ERROR_WRONG_AGENT_ID = 2;
+    /**
+     * Various agent ids in different functions in one package
+     */
+    const VARIOUS_AGENT_ID = 3;
 }
-
-?>

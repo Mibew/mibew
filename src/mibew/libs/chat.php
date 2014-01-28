@@ -22,81 +22,87 @@ use Mibew\Thread;
 use Mibew\Style\ChatStyle;
 use Mibew\Style\PageStyle;
 
-// Initialize libraries
-require_once(MIBEW_FS_ROOT.'/libs/track.php');
-
 /**
  * Names for chat-related cookies
  */
-
 define('USERID_COOKIE_NAME', 'MIBEW_UserID');
 define('USERNAME_COOKIE_NAME', 'MIBEW_Data');
 
 function message_to_text($msg)
 {
-	$message_time = date("H:i:s ", $msg['created']);
-	if ($msg['kind'] == Thread::KIND_USER || $msg['kind'] == Thread::KIND_AGENT) {
-		if ($msg['name'])
-			return $message_time . $msg['name'] . ": " . $msg['message'] . "\n";
-		else
-			return $message_time . $msg['message'] . "\n";
-	} else if ($msg['kind'] == Thread::KIND_INFO) {
-		return $message_time . $msg['message'] . "\n";
-	} else {
-		return $message_time . "[" . $msg['message'] . "]\n";
-	}
+    $message_time = date("H:i:s ", $msg['created']);
+    if ($msg['kind'] == Thread::KIND_USER || $msg['kind'] == Thread::KIND_AGENT) {
+        if ($msg['name']) {
+            return $message_time . $msg['name'] . ": " . $msg['message'] . "\n";
+        } else {
+            return $message_time . $msg['message'] . "\n";
+        }
+    } elseif ($msg['kind'] == Thread::KIND_INFO) {
+        return $message_time . $msg['message'] . "\n";
+    } else {
+        return $message_time . "[" . $msg['message'] . "]\n";
+    }
 }
 
-function get_user_name($username, $addr, $id)
+function get_user_name($user_name, $addr, $id)
 {
-	return str_replace(
-		"{addr}", $addr,
-		str_replace(
-			"{id}", $id,
-			str_replace("{name}", $username, Settings::get('usernamepattern'))
-		)
-	);
+    return str_replace(
+        "{addr}",
+        $addr,
+        str_replace(
+            "{id}",
+            $id,
+            str_replace("{name}", $user_name, Settings::get('usernamepattern'))
+        )
+    );
 }
 
-function is_ajax_browser($browserid, $ver, $useragent)
+function is_ajax_browser($browser_id, $ver, $user_agent)
 {
-	if ($browserid == "opera")
-		return $ver >= 8.02;
-	if ($browserid == "safari")
-		return $ver >= 125;
-	if ($browserid == "msie")
-		return $ver >= 5.5 && !strstr($useragent, "powerpc");
-	if ($browserid == "netscape")
-		return $ver >= 7.1;
-	if ($browserid == "mozilla")
-		return $ver >= 1.4;
-	if ($browserid == "firefox")
-		return $ver >= 1.0;
-	if ($browserid == "chrome")
-		return true;
+    if ($browser_id == "opera") {
+        return $ver >= 8.02;
+    }
+    if ($browser_id == "safari") {
+        return $ver >= 125;
+    }
+    if ($browser_id == "msie") {
+        return $ver >= 5.5 && !strstr($user_agent, "powerpc");
+    }
+    if ($browser_id == "netscape") {
+        return $ver >= 7.1;
+    }
+    if ($browser_id == "mozilla") {
+        return $ver >= 1.4;
+    }
+    if ($browser_id == "firefox") {
+        return $ver >= 1.0;
+    }
+    if ($browser_id == "chrome") {
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
-function get_remote_level($useragent)
+function get_remote_level($user_agent)
 {
-	$known_agents = get_known_user_agents();
-	$useragent = strtolower($useragent);
-	foreach ($known_agents as $agent) {
-		if (strstr($useragent, $agent)) {
-			if (preg_match("/" . $agent . "[\\s\/]?(\\d+(\\.\\d+)?)/", $useragent, $matches)) {
-				$ver = $matches[1];
+    $known_agents = get_known_user_agents();
+    $user_agent = strtolower($user_agent);
+    foreach ($known_agents as $agent) {
+        if (strstr($user_agent, $agent)) {
+            if (preg_match("/" . $agent . "[\\s\/]?(\\d+(\\.\\d+)?)/", $user_agent, $matches)) {
+                $ver = $matches[1];
 
-				if (is_ajax_browser($agent, $ver, $useragent)) {
-					return "ajaxed";
-				} else {
-					return "old";
-				}
+                if (is_ajax_browser($agent, $ver, $user_agent)) {
+                    return "ajaxed";
+                } else {
+                    return "old";
+                }
+            }
+        }
+    }
 
-			}
-		}
-	}
-	return "ajaxed";
+    return "ajaxed";
 }
 
 /**
@@ -104,42 +110,47 @@ function get_remote_level($useragent)
  *
  * @return array List of known user agents
  */
-function get_known_user_agents() {
-	return array(
-		"opera",
-		"msie",
-		"chrome",
-		"safari",
-		"firefox",
-		"netscape",
-		"mozilla"
-	);
+function get_known_user_agents()
+{
+    return array(
+        "opera",
+        "msie",
+        "chrome",
+        "safari",
+        "firefox",
+        "netscape",
+        "mozilla",
+    );
 }
 
 function is_agent_opera95()
 {
-	$useragent = strtolower($_SERVER['HTTP_USER_AGENT']);
-	if (strstr($useragent, "opera")) {
-		if (preg_match("/opera[\\s\/]?(\\d+(\\.\\d+)?)/", $useragent, $matches)) {
-			$ver = $matches[1];
+    $user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
+    if (strstr($user_agent, "opera")) {
+        if (preg_match("/opera[\\s\/]?(\\d+(\\.\\d+)?)/", $user_agent, $matches)) {
+            $ver = $matches[1];
 
-			if ($ver >= "9.5")
-				return true;
-		}
-	}
-	return false;
+            if ($ver >= "9.5") {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 function is_mac_opera()
 {
-	$useragent = strtolower($_SERVER['HTTP_USER_AGENT']);
-	return strstr($useragent, "opera") && strstr($useragent, "mac");
+    $user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
+
+    return strstr($user_agent, "opera") && strstr($user_agent, "mac");
 }
 
-function needsFramesrc()
+function needs_frame_src()
 {
-	$useragent = strtolower($_SERVER['HTTP_USER_AGENT']);
-	return strstr($useragent, "safari/");
+    $user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
+
+    return strstr($user_agent, "safari/");
 }
 
 /**
@@ -148,56 +159,59 @@ function needsFramesrc()
  * @param array $group Group info
  * @return array Array of logo data
  */
-function setup_logo($group = NULL) {
-	$data = array();
+function setup_logo($group = null)
+{
+    $data = array();
+    $top_level_group = (!$group) ? array() : get_top_level_group($group);
 
-	$toplevelgroup = (!$group)?array():get_top_level_group($group);
+    $group_name = empty($top_level_group['vctitle'])
+        ? Settings::get('title')
+        : $top_level_group['vctitle'];
 
-	$data['company'] = array(
-		'name' => topage(empty($toplevelgroup['vctitle'])
-			? Settings::get('title')
-			: $toplevelgroup['vctitle']),
+    $logo = empty($top_level_group['vclogo'])
+        ? Settings::get('logo')
+        : $top_level_group['vclogo'];
 
-		'chatLogoURL' => topage(empty($toplevelgroup['vclogo'])
-			? Settings::get('logo')
-			: $toplevelgroup['vclogo'])
-	);
+    $mibew_host = empty($top_level_group['vchosturl'])
+        ? Settings::get('hosturl')
+        : $top_level_group['vchosturl'];
 
-	$data['mibewHost'] = topage(empty($toplevelgroup['vchosturl'])
-		? Settings::get('hosturl')
-		: $toplevelgroup['vchosturl']);
+    $data['company'] = array(
+        'name' => to_page($group_name),
+        'chatLogoURL' => to_page($logo),
+    );
+    $data['mibewHost'] = to_page($mibew_host);
 
-	return $data;
+    return $data;
 }
 
 /**
  * Prepare values common for chat, prechat survey form and leave message form.
  * @return array
  */
-function prepare_chat_app_data() {
-	$data = array();
+function prepare_chat_app_data()
+{
+    $data = array();
 
-	// Set enter key shortcut
-	if (Settings::get('sendmessagekey') == 'enter') {
-		$data['send_shortcut'] = "Enter";
-	} else {
-		$data['send_shortcut'] = is_mac_opera()
-			? "&#8984;-Enter"
-			: "Ctrl-Enter";
-	}
+    // Set enter key shortcut
+    if (Settings::get('sendmessagekey') == 'enter') {
+        $data['send_shortcut'] = "Enter";
+    } else {
+        $data['send_shortcut'] = is_mac_opera() ? "&#8984;-Enter" : "Ctrl-Enter";
+    }
 
-	// Set refresh frequency
-	$data['frequency'] = Settings::get('updatefrequency_chat');
+    // Set refresh frequency
+    $data['frequency'] = Settings::get('updatefrequency_chat');
 
-	// Set some localized strings
-	$data['localized'] = array(
-		'email.required' => no_field("form.field.email"),
-		'name.required' => no_field("form.field.name"),
-		'message.required' => no_field("form.field.message"),
-		'wrong.email' => wrong_field("form.field.email")
-	);
+    // Set some localized strings
+    $data['localized'] = array(
+        'email.required' => no_field("form.field.email"),
+        'name.required' => no_field("form.field.name"),
+        'message.required' => no_field("form.field.message"),
+        'wrong.email' => wrong_field("form.field.email"),
+    );
 
-	return $data;
+    return $data;
 }
 
 /**
@@ -210,46 +224,46 @@ function prepare_chat_app_data() {
  * @param string $referrer URL of referrer page
  * @return array Array of leave message form data
  */
-function setup_leavemessage($name, $email, $group_id, $info, $referrer) {
-	$data = prepare_chat_app_data();
+function setup_leavemessage($name, $email, $group_id, $info, $referrer)
+{
+    $data = prepare_chat_app_data();
 
-	// Load JavaScript plugins and JavaScripts, CSS files required by them
-	$data = array_merge_recursive($data, get_plugins_data('client_chat_window'));
+    // Load JavaScript plugins and JavaScripts, CSS files required by them
+    $data = array_merge_recursive($data, get_plugins_data('client_chat_window'));
 
-	// Create some empty arrays
-	$data['leaveMessage'] = array();
+    // Create some empty arrays
+    $data['leaveMessage'] = array();
 
-	$group = group_by_id($group_id);
-	$group_name = '';
-	if ($group) {
-		$group_name = get_group_name($group);
-	}
+    $group = group_by_id($group_id);
+    $group_name = '';
+    if ($group) {
+        $group_name = get_group_name($group);
+    }
 
-	$data['leaveMessage']['leaveMessageForm'] = array(
-		'name' => topage($name),
-		'email' => topage($email),
-		'groupId' => $group_id,
-		'groupName' => $group_name,
-		'info' => topage($info),
-		'referrer' => topage($referrer),
-		'showCaptcha' => (bool)(Settings::get("enablecaptcha") == "1"
-			&& can_show_captcha())
-	);
+    $data['leaveMessage']['leaveMessageForm'] = array(
+        'name' => to_page($name),
+        'email' => to_page($email),
+        'groupId' => $group_id,
+        'groupName' => $group_name,
+        'info' => to_page($info),
+        'referrer' => to_page($referrer),
+        'showCaptcha' => (bool) (Settings::get("enablecaptcha") == "1" && can_show_captcha()),
+    );
 
-	$data['page.title'] = (empty($group_name)?'':$group_name.': ')
-		. getlocal('leavemessage.title');
-	$data['leaveMessage']['page'] = array(
-		'title' => $data['page.title']
-	);
+    $data['page.title'] = (empty($group_name) ? '' : $group_name . ': ')
+        . getlocal('leavemessage.title');
+    $data['leaveMessage']['page'] = array(
+        'title' => $data['page.title']
+    );
 
-	if (Settings::get('enablegroups') == '1') {
-		$data['leaveMessage']['leaveMessageForm']['groups']
-			= prepare_groups_select($group_id);
-	}
+    if (Settings::get('enablegroups') == '1') {
+        $data['leaveMessage']['leaveMessageForm']['groups']
+            = prepare_groups_select($group_id);
+    }
 
-	$data['startFrom'] = 'leaveMessage';
+    $data['startFrom'] = 'leaveMessage';
 
-	return $data;
+    return $data;
 }
 
 /**
@@ -262,40 +276,40 @@ function setup_leavemessage($name, $email, $group_id, $info, $referrer) {
  * @param string $referrer URL of referrer page
  * @return array Array of survey data
  */
-function setup_survey($name, $email, $group_id, $info, $referrer) {
-	$data = prepare_chat_app_data();
+function setup_survey($name, $email, $group_id, $info, $referrer)
+{
+    $data = prepare_chat_app_data();
 
-	// Load JavaScript plugins and JavaScripts, CSS files required by them
-	$data = array_merge_recursive($data, get_plugins_data('client_chat_window'));
+    // Load JavaScript plugins and JavaScripts, CSS files required by them
+    $data = array_merge_recursive($data, get_plugins_data('client_chat_window'));
 
-	// Create some empty arrays
-	$data['survey'] = array();
+    // Create some empty arrays
+    $data['survey'] = array();
 
-	$data['survey']['surveyForm'] = array(
-		'name' => topage($name),
-		'groupId' => $group_id,
-		'email' => topage($email),
-		'info' => topage($info),
-		'referrer' => topage($referrer),
-		'showEmail' => (bool)(Settings::get("surveyaskmail") == "1"),
-		'showMessage' => (bool)(Settings::get("surveyaskmessage") == "1"),
-		'canChangeName' => (bool)(Settings::get('usercanchangename') == "1")
-	);
+    $data['survey']['surveyForm'] = array(
+        'name' => to_page($name),
+        'groupId' => $group_id,
+        'email' => to_page($email),
+        'info' => to_page($info),
+        'referrer' => to_page($referrer),
+        'showEmail' => (bool) (Settings::get("surveyaskmail") == "1"),
+        'showMessage' => (bool) (Settings::get("surveyaskmessage") == "1"),
+        'canChangeName' => (bool) (Settings::get('usercanchangename') == "1"),
+    );
 
-	$data['page.title'] = getlocal('presurvey.title');
-	$data['survey']['page'] = array(
-		'title' => $data['page.title']
-	);
+    $data['page.title'] = getlocal('presurvey.title');
+    $data['survey']['page'] = array(
+        'title' => $data['page.title']
+    );
 
-	if (Settings::get('enablegroups') == '1'
-			&& Settings::get('surveyaskgroup') == '1') {
-		$data['survey']['surveyForm']['groups']
-			= prepare_groups_select($group_id);
-	}
+    if (Settings::get('enablegroups') == '1' && Settings::get('surveyaskgroup') == '1') {
+        $data['survey']['surveyForm']['groups']
+            = prepare_groups_select($group_id);
+    }
 
-	$data['startFrom'] = 'survey';
+    $data['startFrom'] = 'survey';
 
-	return $data;
+    return $data;
 }
 
 /**
@@ -306,73 +320,72 @@ function setup_survey($name, $email, $group_id, $info, $referrer) {
  *
  * @param int $group_id Id of selected group
  * @return array|boolean Array of groups info arrays or boolean false if there
- * are no suitable groups.
- * Group info array contain following keys:
- *  - 'id': int, group id;
- *  - 'name': string, group name;
- *  - 'description': string, group description;
- *  - 'online': boolean, indicates if group online;
- *  - 'selected': boolean, indicates if group selected by default.
+ *   are no suitable groups.
+ *   Group info array contain following keys:
+ *    - 'id': int, group id;
+ *    - 'name': string, group name;
+ *    - 'description': string, group description;
+ *    - 'online': boolean, indicates if group online;
+ *    - 'selected': boolean, indicates if group selected by default.
  */
-function prepare_groups_select($group_id) {
-	$show_groups = ($group_id == '')
-		? true
-		: group_has_children($group_id);
+function prepare_groups_select($group_id)
+{
+    $show_groups = ($group_id == '') ? true : group_has_children($group_id);
 
-	if (!$show_groups) {
-		return false;
-	}
+    if (!$show_groups) {
+        return false;
+    }
 
-	$all_groups = get_groups(false);
+    $all_groups = get_groups(false);
 
-	if (empty($all_groups)) {
-		return false;
-	}
+    if (empty($all_groups)) {
+        return false;
+    }
 
-	$groups_list = array();
-	$selected_group_id = $group_id;
+    $groups_list = array();
+    $selected_group_id = $group_id;
 
-	foreach($all_groups as $group) {
-		$group_is_empty = (bool)($group['inumofagents'] == 0);
-		$group_related_with_specified = (empty($group_id)
-			|| $group['parent'] == $group_id
-			|| $group['groupid'] == $group_id);
+    foreach ($all_groups as $group) {
+        $group_is_empty = (bool) ($group['inumofagents'] == 0);
+        $group_related_with_specified = empty($group_id)
+            || $group['parent'] == $group_id
+            || $group['groupid'] == $group_id;
 
-		if ($group_is_empty || !$group_related_with_specified) {
-			continue;
-		}
+        if ($group_is_empty || !$group_related_with_specified) {
+            continue;
+        }
 
-		if (group_is_online($group) && !$selected_group_id) {
-			$selected_group_id = $group['groupid'];
-		}
+        if (group_is_online($group) && !$selected_group_id) {
+            $selected_group_id = $group['groupid'];
+        }
 
-		$groups_list[] = array(
-			'id' => $group['groupid'],
-			'name' => get_group_name($group),
-			'description' => get_group_description($group),
-			'online' => group_is_online($group),
-			'selected' => (bool)($group['groupid'] == $selected_group_id)
-		);
-	}
+        $groups_list[] = array(
+            'id' => $group['groupid'],
+            'name' => get_group_name($group),
+            'description' => get_group_description($group),
+            'online' => group_is_online($group),
+            'selected' => (bool) ($group['groupid'] == $selected_group_id),
+        );
+    }
 
-	// One group must be selected by default
-	if (! empty($groups_list)) {
-		// Check if there is selected group
-		$selected_group_present = false;
-		foreach($groups_list as $group) {
-			if ($group['selected']) {
-				$selected_group_present = true;
-				break;
-			}
-		}
+    // One group must be selected by default
+    if (!empty($groups_list)) {
+        // Check if there is selected group
+        $selected_group_present = false;
+        foreach ($groups_list as $group) {
+            if ($group['selected']) {
+                $selected_group_present = true;
+                break;
+            }
+        }
 
-		// If there is no selected group select the first one
-		if (! $selected_group_present) {
-			$groups_list[0]['selected'] = true;
-		}
-	}
+        // If there is no selected group select the first one
+        if (!$selected_group_present) {
+            $groups_list[0]['selected'] = true;
+        }
+    }
 
-	return $groups_list;
+    return $groups_list;
 }
 
 /**
@@ -381,111 +394,106 @@ function prepare_groups_select($group_id) {
  * @param Thread $thread thread object
  * @return array Array of chat view data
  */
-function setup_chatview(Thread $thread) {
-	$data = prepare_chat_app_data();
+function setup_chatview(Thread $thread)
+{
+    $data = prepare_chat_app_data();
 
-	// Get group info
-	if (! empty($thread->groupId)) {
-		$group = group_by_id($thread->groupId);
-		$group = get_top_level_group($group);
-	} else {
-		$group = array();
-	}
+    // Get group info
+    if (!empty($thread->groupId)) {
+        $group = group_by_id($thread->groupId);
+        $group = get_top_level_group($group);
+    } else {
+        $group = array();
+    }
 
-	// Create some empty arrays
-	$data['chat'] = array(
-		'messageForm' => array(),
-		'links' => array(),
-		'windowsParams' => array()
-	);
+    // Create some empty arrays
+    $data['chat'] = array(
+        'messageForm' => array(),
+        'links' => array(),
+        'windowsParams' => array(),
+    );
 
-	// Set thread params
-	$data['chat']['thread'] = array(
-		'id' => $thread->id,
-		'token' => $thread->lastToken
-	);
+    // Set thread params
+    $data['chat']['thread'] = array(
+        'id' => $thread->id,
+        'token' => $thread->lastToken
+    );
 
-	$data['page.title'] = topage(
-		empty($group['vcchattitle'])
-			? Settings::get('chattitle')
-			: $group['vcchattitle']
-	);
-	$data['chat']['page'] = array(
-		'title' => $data['page.title']
-	);
+    $data['page.title'] = to_page(
+        empty($group['vcchattitle']) ? Settings::get('chattitle') : $group['vcchattitle']
+    );
+    $data['chat']['page'] = array(
+        'title' => $data['page.title']
+    );
 
-	// Setup logo
-	$data = array_merge_recursive(
-		$data,
-		setup_logo($group)
-	);
+    // Setup logo
+    $data = array_merge_recursive($data, setup_logo($group));
 
-	// Set enter key shortcut
-	if (Settings::get('sendmessagekey') == 'enter') {
-		$data['chat']['messageForm']['ignoreCtrl'] = true;
-	} else {
-		$data['chat']['messageForm']['ignoreCtrl'] = false;
-	}
+    // Set enter key shortcut
+    if (Settings::get('sendmessagekey') == 'enter') {
+        $data['chat']['messageForm']['ignoreCtrl'] = true;
+    } else {
+        $data['chat']['messageForm']['ignoreCtrl'] = false;
+    }
 
-	// Set some browser info
-	$data['isOpera95'] = is_agent_opera95();
-	$data['neediframesrc'] = needsFramesrc();
+    // Set some browser info
+    $data['isOpera95'] = is_agent_opera95();
+    $data['neediframesrc'] = needs_frame_src();
 
-	// Load dialogs style options
-	$chat_style = new ChatStyle(ChatStyle::currentStyle());
-	$style_config = $chat_style->configurations();
-	$data['chat']['windowsParams']['mail']
-		= $style_config['mail']['window_params'];
+    // Load dialogs style options
+    $chat_style = new ChatStyle(ChatStyle::currentStyle());
+    $style_config = $chat_style->configurations();
+    $data['chat']['windowsParams']['mail']
+        = $style_config['mail']['window_params'];
 
-	// Load core style options
-	$page_style = new PageStyle(PageStyle::currentStyle());
-	$style_config = $page_style->configurations();
-	$data['chat']['windowsParams']['history']
-		= $style_config['history']['window_params'];
+    // Load core style options
+    $page_style = new PageStyle(PageStyle::currentStyle());
+    $style_config = $page_style->configurations();
+    $data['chat']['windowsParams']['history']
+        = $style_config['history']['window_params'];
 
-	$data['startFrom'] = 'chat';
+    $data['startFrom'] = 'chat';
 
-	return $data;
+    return $data;
 }
 
 /**
  * Prepare some data for chat for user
  *
- * @param Thread $thread thread object
- * be used
+ * @param Thread $thread thread object that will be used
  * @return array Array of chat view data
  */
-function setup_chatview_for_user(Thread $thread) {
-	$data = setup_chatview($thread);
+function setup_chatview_for_user(Thread $thread)
+{
+    $data = setup_chatview($thread);
 
-	// Load JavaScript plugins and JavaScripts, CSS files required by them
-	$data = array_merge_recursive($data, get_plugins_data('client_chat_window'));
+    // Load JavaScript plugins and JavaScripts, CSS files required by them
+    $data = array_merge_recursive($data, get_plugins_data('client_chat_window'));
 
-	// Set user info
-	$data['chat']['user'] = array(
-		'name' => htmlspecialchars(topage($thread->userName)),
-		'canChangeName' => (bool)(Settings::get('usercanchangename') == "1"),
-		'defaultName' => (bool)(getstring("chat.default.username")
-			!= $thread->userName),
-		'canPost' => true,
-		'isAgent' => false
-	);
+    // Set user info
+    $data['chat']['user'] = array(
+        'name' => htmlspecialchars(to_page($thread->userName)),
+        'canChangeName' => (bool) (Settings::get('usercanchangename') == "1"),
+        'defaultName' => (bool) (getstring("chat.default.username") != $thread->userName),
+        'canPost' => true,
+        'isAgent' => false,
+    );
 
-	$params = "thread=" . $thread->id . "&amp;token=" . $thread->lastToken;
+    $params = "thread=" . $thread->id . "&amp;token=" . $thread->lastToken;
 
-	// Set link to send mail page
-	$data['chat']['links']['mail'] = MIBEW_WEB_ROOT . "/client.php?"
-		. $params
-		. "&amp;act=mailthread";
+    // Set link to send mail page
+    $data['chat']['links']['mail'] = MIBEW_WEB_ROOT . "/client.php?"
+        . $params
+        . "&amp;act=mailthread";
 
-	// Set SSL link
-	if (Settings::get('enablessl') == "1" && !is_secure_request()) {
-		$data['chat']['links']['ssl'] = get_app_location(true, true)
-			. "/client.php?"
-			. $params;
-	}
+    // Set SSL link
+    if (Settings::get('enablessl') == "1" && !is_secure_request()) {
+        $data['chat']['links']['ssl'] = get_app_location(true, true)
+            . "/client.php?"
+            . $params;
+    }
 
-	return $data;
+    return $data;
 }
 
 /**
@@ -494,138 +502,139 @@ function setup_chatview_for_user(Thread $thread) {
  * @param Thread $thread thread object
  * @return array Array of chat view data
  */
-function setup_chatview_for_operator(Thread $thread, $operator) {
-	$data = setup_chatview($thread);
+function setup_chatview_for_operator(Thread $thread, $operator)
+{
+    $data = setup_chatview($thread);
 
-	// Load JavaScript plugins and JavaScripts, CSS files required by them
-	$data = array_merge_recursive($data, get_plugins_data('agent_chat_window'));
+    // Load JavaScript plugins and JavaScripts, CSS files required by them
+    $data = array_merge_recursive($data, get_plugins_data('agent_chat_window'));
 
-	// Set operator info
-	$data['chat']['user'] = array(
-		'name' => htmlspecialchars(
-			topage(
-				get_user_name(
-					$thread->userName,
-					$thread->remote,
-					$thread->userId
-				)
-			)
-		),
-		'canPost' => (bool)($thread->agentId == $operator['operatorid']),
-		'isAgent' => true
-	);
+    // Set operator info
+    $data['chat']['user'] = array(
+        'name' => htmlspecialchars(
+            to_page(
+                get_user_name(
+                    $thread->userName,
+                    $thread->remote,
+                    $thread->userId
+                )
+            )
+        ),
+        'canPost' => (bool) ($thread->agentId == $operator['operatorid']),
+        'isAgent' => true,
+    );
 
-	// Set SSL link
-	if (Settings::get('enablessl') == "1" && !is_secure_request()) {
-		$data['chat']['links']['ssl'] = get_app_location(true, true)
-			. "/operator/agent.php?thread="
-			. $thread->id
-			. "&amp;token="
-			. $thread->lastToken;
-	}
+    // Set SSL link
+    if (Settings::get('enablessl') == "1" && !is_secure_request()) {
+        $data['chat']['links']['ssl'] = get_app_location(true, true)
+            . "/operator/agent.php?thread="
+            . $thread->id
+            . "&amp;token="
+            . $thread->lastToken;
+    }
 
-	// Set history window params
-	$history_link_params = array("userid" => (string)$thread->userId);
-	$data['chat']['links']['history'] = add_params(
-		MIBEW_WEB_ROOT . "/operator/userhistory.php",
-		$history_link_params
-	);
+    // Set history window params
+    $history_link_params = array("userid" => (string) $thread->userId);
+    $data['chat']['links']['history'] = add_params(
+        MIBEW_WEB_ROOT . "/operator/userhistory.php",
+        $history_link_params
+    );
 
-	// Set tracking params
-	if (Settings::get('enabletracking')) {
-	    $visitor = track_get_visitor_by_threadid($thread->id);
-		$tracked_link_params = array("visitor" => "" . $visitor['visitorid']);
-		$data['chat']['links']['tracked'] = add_params(
-			MIBEW_WEB_ROOT . "/operator/tracked.php",
-			$tracked_link_params
-		);
-	}
+    // Set tracking params
+    if (Settings::get('enabletracking')) {
+        $visitor = track_get_visitor_by_thread_id($thread->id);
+        $tracked_link_params = array("visitor" => "" . $visitor['visitorid']);
+        $data['chat']['links']['tracked'] = add_params(
+            MIBEW_WEB_ROOT . "/operator/tracked.php",
+            $tracked_link_params
+        );
+    }
 
-	// Check if agent can post messages
-	if ($thread->agentId == $operator['operatorid']) {
-		// Get predefined answers
-		$canned_messages = load_canned_messages($thread->locale, 0);
-		if ($thread->groupId) {
-			$canned_messages = array_merge(
-				load_canned_messages($thread->locale, $thread->groupId),
-				$canned_messages
-			);
-		};
+    // Check if agent can post messages
+    if ($thread->agentId == $operator['operatorid']) {
+        // Get predefined answers
+        $canned_messages = load_canned_messages($thread->locale, 0);
+        if ($thread->groupId) {
+            $canned_messages = array_merge(
+                load_canned_messages($thread->locale, $thread->groupId),
+                $canned_messages
+            );
+        };
 
-		$predefined_answers = array();
-		foreach ($canned_messages as $answer) {
-			$predefined_answers[] = array(
-				'short' => htmlspecialchars(
-					topage($answer['vctitle']
-						? $answer['vctitle']
-						: cutstring($answer['vcvalue'], 97, '...'))
-				),
-				'full' => myiconv(
-					MIBEW_ENCODING,
-					getoutputenc(),
-					$answer['vcvalue']
-				)
-			);
-		}
-		$data['chat']['messageForm']['predefinedAnswers'] = $predefined_answers;
-	}
-	// Set link to user redirection page
-	$params = "thread=" . $thread->id . "&amp;token=" . $thread->lastToken;
-	$data['chat']['links']['redirect'] = MIBEW_WEB_ROOT . "/operator/agent.php?"
-		. $params
-		. "&amp;act=redirect";
+        $predefined_answers = array();
+        foreach ($canned_messages as $answer) {
+            $predefined_answers[] = array(
+                'short' => htmlspecialchars(
+                    to_page($answer['vctitle'] ? $answer['vctitle'] : cut_string($answer['vcvalue'], 97, '...'))
+                ),
+                'full' => myiconv(
+                    MIBEW_ENCODING,
+                    getoutputenc(),
+                    $answer['vcvalue']
+                )
+            );
+        }
+        $data['chat']['messageForm']['predefinedAnswers'] = $predefined_answers;
+    }
+    // Set link to user redirection page
+    $params = "thread=" . $thread->id . "&amp;token=" . $thread->lastToken;
+    $data['chat']['links']['redirect'] = MIBEW_WEB_ROOT . "/operator/agent.php?"
+        . $params
+        . "&amp;act=redirect";
 
-	$data['namePostfix'] = "";
+    $data['namePostfix'] = "";
 
-	return $data;
+    return $data;
 }
 
 function ban_for_addr($addr)
 {
-	$db = Database::getInstance();
-	return $db->query(
-		"select banid,comment from {chatban} " .
-		"where dtmtill > :now AND address = :addr",
-		array(
-			':addr' => $addr,
-			':now' => time()
-		),
-		array('return_rows' => Database::RETURN_ONE_ROW)
-	);
+    $db = Database::getInstance();
+    return $db->query(
+        "SELECT banid,comment FROM {chatban} WHERE dtmtill > :now AND address = :addr",
+        array(
+            ':addr' => $addr,
+            ':now' => time(),
+        ),
+        array('return_rows' => Database::RETURN_ONE_ROW)
+    );
 }
 
 function visitor_from_request()
 {
-	$defaultName = getstring("chat.default.username");
-	$userName = $defaultName;
-	if (isset($_COOKIE[USERNAME_COOKIE_NAME])) {
-		$data = base64_decode(strtr($_COOKIE[USERNAME_COOKIE_NAME], '-_,', '+/='));
-		if (strlen($data) > 0) {
-			$userName = myiconv("utf-8", MIBEW_ENCODING, $data);
-		}
-	}
+    $default_name = getstring("chat.default.username");
+    $user_name = $default_name;
+    if (isset($_COOKIE[USERNAME_COOKIE_NAME])) {
+        $data = base64_decode(strtr($_COOKIE[USERNAME_COOKIE_NAME], '-_,', '+/='));
+        if (strlen($data) > 0) {
+            $user_name = myiconv("utf-8", MIBEW_ENCODING, $data);
+        }
+    }
 
-	if ($userName == $defaultName) {
-		$userName = getgetparam('name', $userName);
-	}
+    if ($user_name == $default_name) {
+        $user_name = get_get_param('name', $user_name);
+    }
 
-	if (isset($_COOKIE[USERID_COOKIE_NAME])) {
-		$userId = $_COOKIE[USERID_COOKIE_NAME];
-	} else {
-		$userId = uniqid('', TRUE);
-		setcookie(USERID_COOKIE_NAME, $userId, time() + 60 * 60 * 24 * 365);
-	}
-	return array('id' => $userId, 'name' => $userName);
+    if (isset($_COOKIE[USERID_COOKIE_NAME])) {
+        $user_id = $_COOKIE[USERID_COOKIE_NAME];
+    } else {
+        $user_id = uniqid('', true);
+        setcookie(USERID_COOKIE_NAME, $user_id, time() + 60 * 60 * 24 * 365);
+    }
+
+    return array('id' => $user_id, 'name' => $user_name);
 }
 
 function get_remote_host()
 {
-	$extAddr = $_SERVER['REMOTE_ADDR'];
-	if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) &&
-		$_SERVER['HTTP_X_FORWARDED_FOR'] != $_SERVER['REMOTE_ADDR']) {
-		$extAddr = $_SERVER['REMOTE_ADDR'] . ' (' . $_SERVER['HTTP_X_FORWARDED_FOR'] . ')';
-	}
-	return isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $extAddr;
+    $ext_addr = $_SERVER['REMOTE_ADDR'];
+    $has_proxy = isset($_SERVER['HTTP_X_FORWARDED_FOR'])
+        && $_SERVER['HTTP_X_FORWARDED_FOR'] != $_SERVER['REMOTE_ADDR'];
+    if ($has_proxy) {
+        $ext_addr = $_SERVER['REMOTE_ADDR'] . ' (' . $_SERVER['HTTP_X_FORWARDED_FOR'] . ')';
+    }
+
+    return isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $ext_addr;
 }
 
 /**
@@ -638,107 +647,112 @@ function get_remote_host()
  * @param string $referrer Page user came from
  * @param string $info User info
  */
-function chat_start_for_user($group_id, $requested_operator, $visitor_id, $visitor_name, $referrer, $info) {
-	// Get user info
-	$remote_host = get_remote_host();
-	$user_browser = $_SERVER['HTTP_USER_AGENT'];
+function chat_start_for_user(
+    $group_id,
+    $requested_operator,
+    $visitor_id,
+    $visitor_name,
+    $referrer,
+    $info
+) {
+    // Get user info
+    $remote_host = get_remote_host();
+    $user_browser = $_SERVER['HTTP_USER_AGENT'];
 
-	// Check connection limit
-	if(Thread::connectionLimitReached($remote_host)) {
-		die("number of connections from your IP is exceeded, try again later");
-	}
+    // Check connection limit
+    if (Thread::connectionLimitReached($remote_host)) {
+        die("number of connections from your IP is exceeded, try again later");
+    }
 
-	// Check if visitor was invited to chat
-	$is_invited = false;
-	if (Settings::get('enabletracking')) {
-		$invitation_state = invitation_state($_SESSION['visitorid']);
-		if ($invitation_state['invited']) {
-			$is_invited = true;
-		}
-	}
+    // Check if visitor was invited to chat
+    $is_invited = false;
+    if (Settings::get('enabletracking')) {
+        $invitation_state = invitation_state($_SESSION['visitorid']);
+        if ($invitation_state['invited']) {
+            $is_invited = true;
+        }
+    }
 
-	// Get info about requested operator
-	$requested_operator_online = false;
-	if ($requested_operator) {
-		$requested_operator_online = is_operator_online(
-			$requested_operator['operatorid']
-		);
-	}
+    // Get info about requested operator
+    $requested_operator_online = false;
+    if ($requested_operator) {
+        $requested_operator_online = is_operator_online(
+            $requested_operator['operatorid']
+        );
+    }
 
-	// Get thread object
-	if ($is_invited) {
-		// Get thread from invitation
-		$thread = invitation_accept($_SESSION['visitorid']);
-		if (! $thread) {
-			die("Cannot start thread");
-		}
-		$thread->state = Thread::STATE_CHATTING;
-	} else {
-		// Create thread
-		$thread = Thread::create();
-		$thread->state = Thread::STATE_LOADING;
-		if ($requested_operator && $requested_operator_online) {
-			$thread->nextAgent = $requested_operator['operatorid'];
-		}
-	}
+    // Get thread object
+    if ($is_invited) {
+        // Get thread from invitation
+        $thread = invitation_accept($_SESSION['visitorid']);
+        if (!$thread) {
+            die("Cannot start thread");
+        }
+        $thread->state = Thread::STATE_CHATTING;
+    } else {
+        // Create thread
+        $thread = Thread::create();
+        $thread->state = Thread::STATE_LOADING;
+        if ($requested_operator && $requested_operator_online) {
+            $thread->nextAgent = $requested_operator['operatorid'];
+        }
+    }
 
-	// Update thread fields
-	$thread->groupId = $group_id;
-	$thread->userName = $visitor_name;
-	$thread->remote = $remote_host;
-	$thread->referer = $referrer;
-	$thread->locale = CURRENT_LOCALE;
-	$thread->userId = $visitor_id;
-	$thread->userAgent = $user_browser;
-	$thread->save();
+    // Update thread fields
+    $thread->groupId = $group_id;
+    $thread->userName = $visitor_name;
+    $thread->remote = $remote_host;
+    $thread->referer = $referrer;
+    $thread->locale = CURRENT_LOCALE;
+    $thread->userId = $visitor_id;
+    $thread->userAgent = $user_browser;
+    $thread->save();
 
-	$_SESSION['threadid'] = $thread->id;
+    $_SESSION['threadid'] = $thread->id;
 
-	// Bind thread to the visitor
-	if (Settings::get('enabletracking')) {
-		track_visitor_bind_thread($visitor_id, $thread);
-	}
+    // Bind thread to the visitor
+    if (Settings::get('enabletracking')) {
+        track_visitor_bind_thread($visitor_id, $thread);
+    }
 
-	// Send several messages
-	if ($is_invited) {
-		$operator = operator_by_id($thread->agentId);
-		$operator_name = get_operator_name($operator);
-		$thread->postMessage(
-			Thread::KIND_FOR_AGENT,
-			getstring2(
-				'chat.visitor.invitation.accepted',
-				array($operator_name)
-			)
-		);
-	} else {
-		if ($referrer) {
-			$thread->postMessage(
-				Thread::KIND_FOR_AGENT,
-				getstring2('chat.came.from',array($referrer))
-			);
-		}
-		if ($requested_operator && !$requested_operator_online) {
-			$thread->postMessage(
-				Thread::KIND_INFO,
-				getstring2(
-					'chat.requested_operator.offline',
-					array(get_operator_name($requested_operator))
-				)
-			);
-		} else {
-			$thread->postMessage(Thread::KIND_INFO, getstring('chat.wait'));
-		}
-	}
+    // Send several messages
+    if ($is_invited) {
+        $operator = operator_by_id($thread->agentId);
+        $operator_name = get_operator_name($operator);
+        $thread->postMessage(
+            Thread::KIND_FOR_AGENT,
+            getstring2(
+                'chat.visitor.invitation.accepted',
+                array($operator_name)
+            )
+        );
+    } else {
+        if ($referrer) {
+            $thread->postMessage(
+                Thread::KIND_FOR_AGENT,
+                getstring2('chat.came.from', array($referrer))
+            );
+        }
+        if ($requested_operator && !$requested_operator_online) {
+            $thread->postMessage(
+                Thread::KIND_INFO,
+                getstring2(
+                    'chat.requested_operator.offline',
+                    array(get_operator_name($requested_operator))
+                )
+            );
+        } else {
+            $thread->postMessage(Thread::KIND_INFO, getstring('chat.wait'));
+        }
+    }
 
-	// TODO: May be move sending this message somewhere else?
-	if ($info) {
-		$thread->postMessage(
-			Thread::KIND_FOR_AGENT,
-			getstring2('chat.visitor.info',array($info))
-		);
-	}
+    // TODO: May be move sending this message somewhere else?
+    if ($info) {
+        $thread->postMessage(
+            Thread::KIND_FOR_AGENT,
+            getstring2('chat.visitor.info', array($info))
+        );
+    }
 
-	return $thread;
+    return $thread;
 }
-
-?>

@@ -18,56 +18,56 @@
 // Import namespaces and classes of the core
 use Mibew\Database;
 
-function load_canned_messages($locale, $groupid)
+function load_canned_messages($locale, $group_id)
 {
-	$db = Database::getInstance();
-	$values = array(':locale' => $locale);
-	if ($groupid) {
-		$values[':groupid'] = $groupid;
-	}
-	return $db->query(
-		"select id, vctitle, vcvalue from {chatresponses} " .
-		"where locale = :locale AND (" .
-		($groupid ? "groupid = :groupid" : "groupid is NULL OR groupid = 0") .
-		") order by vcvalue",
-		$values,
-		array('return_rows' => Database::RETURN_ALL_ROWS)
-	);
+    $db = Database::getInstance();
+    $values = array(':locale' => $locale);
+    if ($group_id) {
+        $values[':groupid'] = $group_id;
+    }
+
+    return $db->query(
+        ("SELECT id, vctitle, vcvalue FROM {chatresponses} "
+            . "WHERE locale = :locale AND ("
+                . ($group_id ? "groupid = :groupid" : "groupid is NULL OR groupid = 0")
+            . ") ORDER BY vcvalue"),
+        $values,
+        array('return_rows' => Database::RETURN_ALL_ROWS)
+    );
 }
 
 function load_canned_message($key)
 {
-	$db = Database::getInstance();
-	$result = $db->query(
-		"select vctitle, vcvalue from {chatresponses} where id = ?",
-		array($key),
-		array('return_rows' => Database::RETURN_ONE_ROW)
-	);
-	return $result ? $result : null;
+    $db = Database::getInstance();
+    $result = $db->query(
+        "SELECT vctitle, vcvalue FROM {chatresponses} WHERE id = ?",
+        array($key),
+        array('return_rows' => Database::RETURN_ONE_ROW)
+    );
+
+    return $result ? $result : null;
 }
 
 function save_canned_message($key, $title, $message)
 {
-	$db = Database::getInstance();
-	$db->query(
-		"update {chatresponses} set vcvalue = ?, vctitle = ? where id = ?",
-		array($message, $title, $key)
-	);
+    $db = Database::getInstance();
+    $db->query(
+        "UPDATE {chatresponses} SET vcvalue = ?, vctitle = ? WHERE id = ?",
+        array($message, $title, $key)
+    );
 }
 
-function add_canned_message($locale, $groupid, $title, $message)
+function add_canned_message($locale, $group_id, $title, $message)
 {
-	$db = Database::getInstance();
-	$db->query(
-		"insert into {chatresponses} (locale,groupid,vctitle,vcvalue) " .
-		"values (?, ?, ?, ?)",
-		array(
-			$locale,
-			($groupid ? $groupid : "null"),
-			$title,
-			$message
-		)
-	);
+    $db = Database::getInstance();
+    $db->query(
+        ("INSERT INTO {chatresponses} (locale,groupid,vctitle,vcvalue) "
+            . "VALUES (?, ?, ?, ?)"),
+        array(
+            $locale,
+            ($group_id ? $group_id : "null"),
+            $title,
+            $message,
+        )
+    );
 }
-
-?>

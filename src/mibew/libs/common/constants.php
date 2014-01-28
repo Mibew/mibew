@@ -34,15 +34,15 @@ define('FEATURES_VERSION', '2.0');
  * Prefix for session variables.
  * Provide an ability to instal several mibew instances on one server.
  */
-define('SESSION_PREFIX', md5($mysqlhost.'##'.$mysqldb.'##'.$mysqlprefix) . '_');
+define('SESSION_PREFIX', md5($mysqlhost . '##' . $mysqldb . '##' . $mysqlprefix) . '_');
 
 /**
  * Default value for cron security key.
  * Another value can be set at operator/settings.php page.
  */
 define('DEFAULT_CRON_KEY', md5(
-	$mysqlhost . '##' . $mysqldb . '##' . $mysqllogin. '##' .
-	$mysqlpass . '##' . $mysqlprefix . '##'
+    $mysqlhost . '##' . $mysqldb . '##' . $mysqllogin . '##'
+    . $mysqlpass . '##' . $mysqlprefix . '##'
 ));
 
 /**
@@ -54,5 +54,3 @@ define('VISITOR_COOKIE_NAME', 'MIBEW_VisitorID');
  * Internal system encoding
  */
 define('MIBEW_ENCODING', $mibew_encoding);
-
-?>

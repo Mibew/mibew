@@ -182,7 +182,7 @@ require_once(dirname(__FILE__).'/inc_errors.php');
 <?php if( $page['reportByAgent'] ) { ?>
 	<?php foreach( $page['reportByAgent'] as $row ) { ?>
 	<tr>
-		<td><a href="<?php echo MIBEW_WEB_ROOT ?>/operator/history.php?q=<?php echo topage(htmlspecialchars($row['name'])) ?>&type=operator"><?php echo topage(htmlspecialchars($row['name'])) ?></a></td>
+		<td><a href="<?php echo MIBEW_WEB_ROOT ?>/operator/history.php?q=<?php echo to_page(htmlspecialchars($row['name'])) ?>&type=operator"><?php echo to_page(htmlspecialchars($row['name'])) ?></a></td>
 		<td><?php echo $row['threads'] ?></td>
 		<td><?php echo $row['msgs'] ?></td>
     	<td><?php echo $row['avglen'] ?></td>

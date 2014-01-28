@@ -80,21 +80,21 @@ if( $page['pagination.items'] ) {
 	foreach( $page['pagination.items'] as $chatthread ) { ?>
 	<tr>
 		<td>
-			<a href="<?php echo MIBEW_WEB_ROOT ?>/operator/threadprocessor.php?threadid=<?php echo $chatthread->id ?>" target="_blank" onclick="this.newWindow = window.open('<?php echo MIBEW_WEB_ROOT ?>/operator/threadprocessor.php?threadid=<?php echo $chatthread->id ?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=720,height=520,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo topage(htmlspecialchars($chatthread->userName)) ?></a>
+			<a href="<?php echo MIBEW_WEB_ROOT ?>/operator/threadprocessor.php?threadid=<?php echo $chatthread->id ?>" target="_blank" onclick="this.newWindow = window.open('<?php echo MIBEW_WEB_ROOT ?>/operator/threadprocessor.php?threadid=<?php echo $chatthread->id ?>', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=720,height=520,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><?php echo to_page(htmlspecialchars($chatthread->userName)) ?></a>
 		</td>
 		<td>
-			<?php echo get_user_addr(topage($chatthread->remote)) ?>
+			<?php echo get_user_addr(to_page($chatthread->remote)) ?>
 		</td>
 		<td>
 			<?php if( $chatthread->agentName ) {
-				echo topage(htmlspecialchars($chatthread->agentName));
+				echo to_page(htmlspecialchars($chatthread->agentName));
 			} else if($chatthread->groupId && $chatthread->groupId != 0 && isset($page['groupName'][$chatthread->groupId])) {
-				echo "- ".topage(htmlspecialchars($page['groupName'][$chatthread->groupId]))." -";
+				echo "- ".to_page(htmlspecialchars($page['groupName'][$chatthread->groupId]))." -";
 			}
 			?>
 		</td>
 		<td>
-			<?php echo topage(htmlspecialchars($chatthread->messageCount)) ?>
+			<?php echo to_page(htmlspecialchars($chatthread->messageCount)) ?>
 		</td>
 		<td>
 			<?php echo date_diff_to_text($chatthread->modified-$chatthread->created) ?>, <?php echo date_to_text($chatthread->created) ?>

@@ -20,36 +20,33 @@ use Mibew\Style\InvitationStyle;
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/pagination.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/groups.php');
-require_once(MIBEW_FS_ROOT.'/libs/settings.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/pagination.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/groups.php');
+require_once(MIBEW_FS_ROOT . '/libs/settings.php');
 
 $operator = check_login();
 
-$stylelist = InvitationStyle::availableStyles();
+$style_list = InvitationStyle::availableStyles();
 
-$preview = verifyparam("preview", "/^\w+$/", "default");
-if (!in_array($preview, $stylelist)) {
-	$preview = $stylelist[0];
+$preview = verify_param("preview", "/^\w+$/", "default");
+if (!in_array($preview, $style_list)) {
+    $preview = $style_list[0];
 }
 
 $page['formpreview'] = $preview;
 $page['preview'] = $preview;
-$page['availablePreviews'] = $stylelist;
-$page['operatorName'] = (empty($operator['vclocalname'])?$operator['vccommonname']:$operator['vclocalname']);
+$page['availablePreviews'] = $style_list;
+$page['operatorName'] = (empty($operator['vclocalname'])
+    ? $operator['vccommonname']
+    : $operator['vclocalname']);
 $page['title'] = getlocal("page.preview.title");
 $page['menuid'] = "settings";
 
-$page = array_merge(
-	$page,
-	prepare_menu($operator)
-);
+$page = array_merge($page, prepare_menu($operator));
 
 $page['tabs'] = setup_settings_tabs(5);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('invitation_themes', $page);
-
-?>

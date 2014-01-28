@@ -21,32 +21,35 @@ use Mibew\Settings;
 
 function group_by_id($id)
 {
-	$db = Database::getInstance();
-	$group = $db->query(
-		"select * from {chatgroup} where groupid = ?",
-		array($id),
-		array('return_rows' => Database::RETURN_ONE_ROW)
-	);
-	return $group;
+    $db = Database::getInstance();
+    $group = $db->query(
+        "SELECT * FROM {chatgroup} WHERE groupid = ?",
+        array($id),
+        array('return_rows' => Database::RETURN_ONE_ROW)
+    );
+
+    return $group;
 }
 
 function group_by_name($name)
 {
-	$db = Database::getInstance();
-	$group = $db->query(
-		"select * from {chatgroup} where vclocalname = ?",
-		array($name),
-		array('return_rows' => Database::RETURN_ONE_ROW)
-	);
-	return $group;
+    $db = Database::getInstance();
+    $group = $db->query(
+        "SELECT * FROM {chatgroup} WHERE vclocalname = ?",
+        array($name),
+        array('return_rows' => Database::RETURN_ONE_ROW)
+    );
+
+    return $group;
 }
 
 function get_group_name($group)
 {
-	if (HOME_LOCALE == CURRENT_LOCALE || !isset($group['vccommonname']) || !$group['vccommonname'])
-		return $group['vclocalname'];
-	else
-		return $group['vccommonname'];
+    if (HOME_LOCALE == CURRENT_LOCALE || !isset($group['vccommonname']) || !$group['vccommonname']) {
+        return $group['vclocalname'];
+    } else {
+        return $group['vccommonname'];
+    }
 }
 
 /**
@@ -57,97 +60,114 @@ function get_group_name($group)
  * @param int $active Number of the active tab. The count starts from 0.
  * @return array Tabs list
  */
-function setup_group_settings_tabs($gid, $active) {
-	$tabs = array();
+function setup_group_settings_tabs($gid, $active)
+{
+    $tabs = array();
 
-	if ($gid) {
-		$tabs = array(
-			getlocal("page_group.tab.main") => $active != 0 ? (MIBEW_WEB_ROOT . "/operator/group.php?gid=$gid") : "",
-			getlocal("page_group.tab.members") => $active != 1 ? (MIBEW_WEB_ROOT . "/operator/groupmembers.php?gid=$gid") : "",
-		);
-	}
+    if ($gid) {
+        $tabs = array(
+            getlocal("page_group.tab.main") => ($active != 0
+                ? (MIBEW_WEB_ROOT . "/operator/group.php?gid=$gid")
+                : ""),
+            getlocal("page_group.tab.members") => ($active != 1
+                ? (MIBEW_WEB_ROOT . "/operator/groupmembers.php?gid=$gid")
+                : ""),
+        );
+    }
 
-	return $tabs;
+    return $tabs;
 }
 
-function get_operator_groupslist($operatorid)
+function get_operator_groups_list($operator_id)
 {
-	$db = Database::getInstance();
-	if (Settings::get('enablegroups') == '1') {
-		$groupids = array(0);
-		$allgroups = $db->query(
-			"select groupid from {chatgroupoperator} where operatorid = ? order by groupid",
-			array($operatorid),
-			array('return_rows' => Database::RETURN_ALL_ROWS)
-		);
-		foreach ($allgroups as $g) {
-			$groupids[] = $g['groupid'];
-		}
-		return implode(",", $groupids);
-	} else {
-		return "";
-	}
+    $db = Database::getInstance();
+    if (Settings::get('enablegroups') == '1') {
+        $group_ids = array(0);
+        $all_groups = $db->query(
+            "SELECT groupid FROM {chatgroupoperator} WHERE operatorid = ? ORDER BY groupid",
+            array($operator_id),
+            array('return_rows' => Database::RETURN_ALL_ROWS)
+        );
+        foreach ($all_groups as $g) {
+            $group_ids[] = $g['groupid'];
+        }
+
+        return implode(",", $group_ids);
+    } else {
+        return "";
+    }
 }
 
-function get_available_parent_groups($skipgroup)
+function get_available_parent_groups($skip_group)
 {
-	$db = Database::getInstance();
-	$groupslist = $db->query(
-		"select {chatgroup}.groupid as groupid, parent, vclocalname " .
-		"from {chatgroup} order by vclocalname",
-		NULL,
-		array('return_rows' => Database::RETURN_ALL_ROWS)
-	);
-	$result = array(array('groupid' => '', 'level' => '', 'vclocalname' => getlocal("form.field.groupparent.root")));
+    $result = array();
 
-	if ($skipgroup) {
-		$skipgroup = (array)$skipgroup;
-	} else {
-		$skipgroup = array();
-	}
+    $result[] = array(
+        'groupid' => '',
+        'level' => '',
+        'vclocalname' => getlocal("form.field.groupparent.root"),
+    );
 
-	$result = array_merge($result, get_sorted_child_groups_($groupslist, $skipgroup, 0) );
-	return $result;
+    $db = Database::getInstance();
+    $groups_list = $db->query(
+        ("SELECT {chatgroup}.groupid AS groupid, parent, vclocalname "
+            . "FROM {chatgroup} ORDER BY vclocalname"),
+        null,
+        array('return_rows' => Database::RETURN_ALL_ROWS)
+    );
+
+    if ($skip_group) {
+        $skip_group = (array) $skip_group;
+    } else {
+        $skip_group = array();
+    }
+
+    $result = array_merge($result, get_sorted_child_groups_($groups_list, $skip_group, 0));
+
+    return $result;
 }
 
-function group_has_children($groupid)
+function group_has_children($group_id)
 {
-	$db = Database::getInstance();
-	$children = $db->query(
-		"select COUNT(*) as count from {chatgroup} where parent = ?",
-		array($groupid),
-		array('return_rows' => Database::RETURN_ONE_ROW)
-	);
-	return ($children['count'] > 0);
+    $db = Database::getInstance();
+    $children = $db->query(
+        "SELECT COUNT(*) AS count FROM {chatgroup} WHERE parent = ?",
+        array($group_id),
+        array('return_rows' => Database::RETURN_ONE_ROW)
+    );
+
+    return ($children['count'] > 0);
 }
 
 function get_top_level_group($group)
 {
-	return is_null($group['parent'])?$group:group_by_id($group['parent']);
+    return is_null($group['parent']) ? $group : group_by_id($group['parent']);
 }
 
 /**
  * Try to load email for specified group or for its parent.
+ *
  * @param int $group_id Group id
  * @return string|boolean Email address or false if there is no email
  */
-function get_group_email($group_id) {
-	// Try to get group email
-	$group = group_by_id($group_id);
-	if ($group && !empty($group['vcemail'])) {
-		return $group['vcemail'];
-	}
+function get_group_email($group_id)
+{
+    // Try to get group email
+    $group = group_by_id($group_id);
+    if ($group && !empty($group['vcemail'])) {
+        return $group['vcemail'];
+    }
 
-	// Try to get parent group email
-	if (! is_null($group['parent'])) {
-		$group = group_by_id($group['parent']);
-		if ($group && !empty($group['vcemail'])) {
-			return $group['vcemail'];
-		}
-	}
+    // Try to get parent group email
+    if (!is_null($group['parent'])) {
+        $group = group_by_id($group['parent']);
+        if ($group && !empty($group['vcemail'])) {
+            return $group['vcemail'];
+        }
+    }
 
-	// There is no email
-	return false;
+    // There is no email
+    return false;
 }
 
 /**
@@ -156,9 +176,10 @@ function get_group_email($group_id) {
  * @param array $group Associative group array. Should contain 'ilastseen' key.
  * @return bool
  */
-function group_is_online($group) {
-	return ($group['ilastseen'] !== NULL
-		&& $group['ilastseen'] < Settings::get('online_timeout'));
+function group_is_online($group)
+{
+    return $group['ilastseen'] !== null
+        && $group['ilastseen'] < Settings::get('online_timeout');
 }
 
 /**
@@ -168,9 +189,10 @@ function group_is_online($group) {
  *   key.
  * @return bool
  */
-function group_is_away($group) {
-	return $group['ilastseenaway'] !== NULL
-		&& $group['ilastseenaway'] < Settings::get('online_timeout');
+function group_is_away($group)
+{
+    return $group['ilastseenaway'] !== null
+        && $group['ilastseenaway'] < Settings::get('online_timeout');
 }
 
 /**
@@ -181,137 +203,173 @@ function group_is_away($group) {
  *  - 'vclocaldescription': string, contain local description of the group.
  * @return string Group description
  */
-function get_group_description($group) {
-	if (HOME_LOCALE == CURRENT_LOCALE
-			|| !isset($group['vccommondescription'])
-			|| !$group['vccommondescription']) {
-		return $group['vclocaldescription'];
-	} else {
-		return $group['vccommondescription'];
-	}
+function get_group_description($group)
+{
+    $use_local_description = HOME_LOCALE == CURRENT_LOCALE
+        || !isset($group['vccommondescription'])
+        || !$group['vccommondescription'];
+
+    if ($use_local_description) {
+        return $group['vclocaldescription'];
+    } else {
+        return $group['vccommondescription'];
+    }
 }
 
-function check_group_params($group, $extra_params = NULL)
+function check_group_params($group, $extra_params = null)
 {
-	$obligatory_params = array(
-		'name',
-		'description',
-		'commonname',
-		'commondescription',
-		'email',
-		'weight',
-		'parent',
-		'chattitle',
-		'hosturl',
-		'logo');
-	$params = is_null($extra_params)?$obligatory_params:array_merge($obligatory_params,$extra_params);
-	if(count(array_diff($params, array_keys($group))) != 0){
-		die('Wrong parameters set!');
-	}
+    $obligatory_params = array(
+        'name',
+        'description',
+        'commonname',
+        'commondescription',
+        'email',
+        'weight',
+        'parent',
+        'chattitle',
+        'hosturl',
+        'logo',
+    );
+
+    $params = is_null($extra_params)
+        ? $obligatory_params
+        : array_merge($obligatory_params, $extra_params);
+
+    if (count(array_diff($params, array_keys($group))) != 0) {
+        die('Wrong parameters set!');
+    }
 }
 
 /**
  * Creates group
  *
- * @param array $group Operators' group.
- * The $group array must contains following keys:
- * name, description, commonname, commondescription,
- * email, weight, parent, title, chattitle, hosturl, logo
+ * @param array $group Operators' group. The $group array must contains the
+ *   following keys:
+ *     - name,
+ *     - description,
+ *     - commonname,
+ *     - commondescription,
+ *     - email,
+ *     - weight,
+ *     - parent,
+ *     - title,
+ *     - chattitle,
+ *     - hosturl,
+ *     - logo
  * @return array Created group
  */
 function create_group($group)
 {
-	$db = Database::getInstance();
-	check_group_params($group);
-	$db->query(
-		"insert into {chatgroup} (parent, vclocalname,vclocaldescription,vccommonname, " .
-		"vccommondescription,vcemail,vctitle,vcchattitle,vchosturl,vclogo,iweight) " .
-		"values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-		array(
-			($group['parent'] ? (int)$group['parent'] : NULL),
-			$group['name'],
-			$group['description'],
-			$group['commonname'],
-			$group['commondescription'],
-			$group['email'],
-			$group['title'],
-			$group['chattitle'],
-			$group['hosturl'],
-			$group['logo'],
-			$group['weight']
-		)
-	);
-	$id = $db->insertedId();
+    check_group_params($group);
 
-	$newdep = $db->query(
-		"select * from {chatgroup} where groupid = ?",
-		array($id),
-		array('return_rows' => Database::RETURN_ONE_ROW)
-	);
-	return $newdep;
+    $db = Database::getInstance();
+    $db->query(
+        ("INSERT INTO {chatgroup} ("
+            . "parent, vclocalname, vclocaldescription, vccommonname, "
+            . "vccommondescription, vcemail, vctitle, vcchattitle, vchosturl, "
+            . "vclogo, iweight"
+            . ") values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"),
+        array(
+            ($group['parent'] ? (int) $group['parent'] : null),
+            $group['name'],
+            $group['description'],
+            $group['commonname'],
+            $group['commondescription'],
+            $group['email'],
+            $group['title'],
+            $group['chattitle'],
+            $group['hosturl'],
+            $group['logo'],
+            $group['weight'],
+        )
+    );
+    $id = $db->insertedId();
+
+    $new_group = $db->query(
+        "SELECT * FROM {chatgroup} WHERE groupid = ?",
+        array($id),
+        array('return_rows' => Database::RETURN_ONE_ROW)
+    );
+
+    return $new_group;
 }
 
 /**
  * Updates group info
  *
- * @param array $group Operators' group.
- * The $group array must contains following keys:
- * id, name, description, commonname, commondescription,
- * email, weight, parent, title, chattitle, hosturl, logo
+ * @param array $group Operators' group. The $group array must contains the
+ *   following keys:
+ *     - id,
+ *     - name,
+ *     - description,
+ *     - commonname,
+ *     - commondescription,
+ *     - email,
+ *     - weight,
+ *     - parent,
+ *     - title,
+ *     - chattitle,
+ *     - hosturl,
+ *     - logo
  */
 function update_group($group)
 {
-	$db = Database::getInstance();
-	check_group_params($group, array('id'));
-	$db->query(
-		"update {chatgroup} set parent = ?, vclocalname = ?, vclocaldescription = ?, " .
-		"vccommonname = ?, vccommondescription = ?, vcemail = ?, vctitle = ?, " .
-		"vcchattitle = ?, vchosturl = ?, vclogo = ?, iweight = ? where groupid = ?",
-		array(
-			($group['parent'] ? (int)$group['parent'] : NULL),
-			$group['name'],
-			$group['description'],
-			$group['commonname'],
-			$group['commondescription'],
-			$group['email'],
-			$group['title'],
-			$group['chattitle'],
-			$group['hosturl'],
-			$group['logo'],
-			$group['weight'],
-			$group['id']
-		)
-	);
+    check_group_params($group, array('id'));
 
-	if ($group['parent']) {
-		$db->query(
-			"update {chatgroup} set parent = NULL where parent = ?",
-			array($group['id'])
-		);
-	}
+    $db = Database::getInstance();
+    $db->query(
+        ("UPDATE {chatgroup} SET "
+            . "parent = ?, vclocalname = ?, vclocaldescription = ?, "
+            . "vccommonname = ?, vccommondescription = ?, "
+            . "vcemail = ?, vctitle = ?, vcchattitle = ?, "
+            . "vchosturl = ?, vclogo = ?, iweight = ? "
+            . "where groupid = ?"),
+        array(
+            ($group['parent'] ? (int) $group['parent'] : null),
+            $group['name'],
+            $group['description'],
+            $group['commonname'],
+            $group['commondescription'],
+            $group['email'],
+            $group['title'],
+            $group['chattitle'],
+            $group['hosturl'],
+            $group['logo'],
+            $group['weight'],
+            $group['id']
+        )
+    );
+
+    if ($group['parent']) {
+        $db->query(
+            "UPDATE {chatgroup} SET parent = NULL WHERE parent = ?",
+            array($group['id'])
+        );
+    }
 }
 
-function get_group_members($groupid)
+function get_group_members($group_id)
 {
-	$db = Database::getInstance();
-	return $db->query(
-		"select operatorid from {chatgroupoperator} where groupid = ?",
-		array($groupid),
-		array('return_rows' => Database::RETURN_ALL_ROWS)
-	);
+    $db = Database::getInstance();
+    return $db->query(
+        "SELECT operatorid FROM {chatgroupoperator} WHERE groupid = ?",
+        array($group_id),
+        array('return_rows' => Database::RETURN_ALL_ROWS)
+    );
 }
 
-function update_group_members($groupid, $newvalue)
+function update_group_members($group_id, $new_value)
 {
-	$db = Database::getInstance();
-	$db->query("delete from {chatgroupoperator} where groupid = ?", array($groupid));
+    $db = Database::getInstance();
+    $db->query(
+        "DELETE FROM {chatgroupoperator} WHERE groupid = ?",
+        array($group_id)
+    );
 
-	foreach ($newvalue as $opid) {
-		$db->query(
-			"insert into {chatgroupoperator} (groupid, operatorid) values (?, ?)",
-			array($groupid,$opid)
-		);
-	}
+    foreach ($new_value as $operator_id) {
+        $db->query(
+            "INSERT INTO {chatgroupoperator} (groupid, operatorid) VALUES (?, ?)",
+            array($group_id, $operator_id)
+        );
+    }
 }
-
-?>

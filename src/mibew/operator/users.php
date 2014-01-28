@@ -21,9 +21,9 @@ use Mibew\Style\ChatStyle;
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/groups.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/groups.php');
 
 $operator = check_login();
 force_password($operator);
@@ -32,15 +32,15 @@ $status = isset($_GET['away']) ? 1 : 0;
 
 notify_operator_alive($operator['operatorid'], $status);
 
-$_SESSION[SESSION_PREFIX."operatorgroups"] = get_operator_groupslist($operator['operatorid']);
+$_SESSION[SESSION_PREFIX . "operatorgroups"] = get_operator_groups_list($operator['operatorid']);
 
 $page = array();
 $page['havemenu'] = isset($_GET['nomenu']) ? "0" : "1";
-$page['showpopup'] = Settings::get('enablepopupnotification') == '1' ? "1" : "0";
+$page['showpopup'] = (Settings::get('enablepopupnotification') == '1') ? "1" : "0";
 $page['frequency'] = Settings::get('updatefrequency_operator');
 $page['istatus'] = $status;
-$page['showonline'] = Settings::get('showonlineoperators') == '1' ? "1" : "0";
-$page['showvisitors'] = Settings::get('enabletracking') == '1' ? "1" : "0";
+$page['showonline'] = (Settings::get('showonlineoperators') == '1') ? "1" : "0";
+$page['showvisitors'] = (Settings::get('enabletracking') == '1') ? "1" : "0";
 $page['agentId'] = $operator['operatorid'];
 $page['geoLink'] = Settings::get('geolink');
 $page['geoWindowParams'] = Settings::get('geolinkparams');
@@ -66,11 +66,6 @@ $page['menuid'] = "users";
 // Get additional plugins data
 $page = array_merge($page, get_plugins_data('users'));
 
-$page = array_merge(
-	$page,
-	prepare_menu($operator)
-);
+$page = array_merge($page, prepare_menu($operator));
 
 $page_style->render('pending_users', $page);
-
-?>

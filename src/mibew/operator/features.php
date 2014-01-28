@@ -20,66 +20,70 @@ use Mibew\Settings;
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/settings.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/settings.php');
 
 $operator = check_login();
-csrfchecktoken();
+csrf_check_token();
 
 $page = array(
-	'agentId' => '',
-	'errors' => array(),
+    'agentId' => '',
+    'errors' => array(),
 );
 
 $options = array(
-	'enableban', 'usercanchangename',
-	'enablegroups', 'enablegroupsisolation',
-	'enablestatistics', 'enabletracking',
-	'enablessl', 'forcessl',
-	'enablepresurvey', 'surveyaskmail', 'surveyaskgroup', 'surveyaskmessage',
-	'enablepopupnotification', 'showonlineoperators',
-	'enablecaptcha');
+    'enableban',
+    'usercanchangename',
+    'enablegroups',
+    'enablegroupsisolation',
+    'enablestatistics',
+    'enabletracking',
+    'enablessl',
+    'forcessl',
+    'enablepresurvey',
+    'surveyaskmail',
+    'surveyaskgroup',
+    'surveyaskmessage',
+    'enablepopupnotification',
+    'showonlineoperators',
+    'enablecaptcha',
+);
 
 if (Settings::get('featuresversion') != FEATURES_VERSION) {
-	Settings::set('featuresversion', FEATURES_VERSION);
-	Settings::update();
+    Settings::set('featuresversion', FEATURES_VERSION);
+    Settings::update();
 }
 $params = array();
 foreach ($options as $opt) {
-	$params[$opt] = Settings::get($opt);
+    $params[$opt] = Settings::get($opt);
 }
 
 if (isset($_POST['sent'])) {
-	if (is_capable(CAN_ADMINISTRATE, $operator)) {
-		foreach ($options as $opt) {
-			Settings::set($opt,(verifyparam($opt, "/^on$/", "") == "on" ? "1" : "0"));
-		}
-		Settings::update();
-		header("Location: " . MIBEW_WEB_ROOT . "/operator/features.php?stored");
-		exit;
-	} else {
-		$page['errors'][] = "Not an administrator";
-	}
+    if (is_capable(CAN_ADMINISTRATE, $operator)) {
+        foreach ($options as $opt) {
+            Settings::set($opt, (verify_param($opt, "/^on$/", "") == "on" ? "1" : "0"));
+        }
+        Settings::update();
+        header("Location: " . MIBEW_WEB_ROOT . "/operator/features.php?stored");
+        exit;
+    } else {
+        $page['errors'][] = "Not an administrator";
+    }
 }
 
 $page['canmodify'] = is_capable(CAN_ADMINISTRATE, $operator);
 $page['stored'] = isset($_GET['stored']);
 foreach ($options as $opt) {
-	$page["form$opt"] = $params[$opt] == "1";
+    $page["form$opt"] = $params[$opt] == "1";
 }
 
 $page['title'] = getlocal("settings.title");
 $page['menuid'] = "settings";
 
-$page = array_merge(
-	$page,
-	prepare_menu($operator)
-);
+$page = array_merge($page, prepare_menu($operator));
 
 $page['tabs'] = setup_settings_tabs(1);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('features', $page);
-
-?>

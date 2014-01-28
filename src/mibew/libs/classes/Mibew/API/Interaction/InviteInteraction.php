@@ -20,31 +20,30 @@ namespace Mibew\API\Interaction;
 /**
  * Implements Mibew Core - Mibew invitation waiting window interaction
  */
-class InviteInteraction extends Interaction {
-	/**
-	 * Defines obligatory arguments and default values for them
-	 * @var array
-	 * @see \Mibew\API\Interaction\Interaction::$obligatoryArgumnents
-	 */
-	protected $obligatoryArguments = array(
-		'*' => array(
-			'references' => array(),
-			'return' => array(),
-			'visitorId' => null
-		),
-		'result' => array(
-			'errorCode' => 0
-		)
-	);
+class InviteInteraction extends Interaction
+{
+    /**
+     * Reserved function's names
+     * @var array
+     * @see \Mibew\API\Interaction\Interaction::$reservedFunctionNames
+     */
+    public $reservedFunctionNames = array(
+        'result',
+    );
 
-	/**
-	 * Reserved function's names
-	 * @var array
-	 * @see \Mibew\API\Interaction\Interaction::$reservedFunctionNames
-	 */
-	public $reservedFunctionNames = array(
-		'result'
-	);
+    /**
+     * Defines obligatory arguments and default values for them
+     * @var array
+     * @see \Mibew\API\Interaction\Interaction::$obligatoryArgumnents
+     */
+    protected $obligatoryArguments = array(
+        '*' => array(
+            'references' => array(),
+            'return' => array(),
+            'visitorId' => null,
+        ),
+        'result' => array(
+            'errorCode' => 0,
+        ),
+    );
 }
-
-?>

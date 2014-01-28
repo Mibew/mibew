@@ -20,52 +20,51 @@ namespace Mibew;
 /**
  * Base plugin class
  */
-abstract Class Plugin {
+abstract class Plugin
+{
+    /**
+     * Constructor must set this value to true after successful initialization
+     * failures
+     * @var boolean
+     */
+    public $initialized = false;
 
-	/**
-	 * Constructor must set this value to true after successful initialization
-	 * failures
-	 * @var boolean
-	 */
-	public $initialized = false;
+    /**
+     * An array of plugin configuration
+     * @var array
+     */
+    protected $config = array();
 
-	/**
-	 * An array of plugin configuration
-	 * @var array
-	 */
-	protected $config = array();
+    /**
+     * Returns plugin weight. Weight is used for determine loading order and as
+     * default listner priority.
+     *
+     * @return int Plugin weight
+     */
+    abstract public function getWeight();
 
-	/**
-	 * Returns plugin weight. Weight is used for determine loading order and as default
-	 * listner priority.
-	 *
-	 * @return int Plugin weight
-	 */
-	abstract public function getWeight();
+    /**
+     * Register listeners
+     *
+     * Event listener take one argument by reference. For example:
+     * <code>
+     *   public function testListener(&$arguments) {
+     *      $arguments['result'] = 'Test string';
+     *   }
+     * </code>
+     */
+    abstract public function registerListeners();
 
-	/**
-	 * Register listeners
-	 *
-	 * Event listener take one argument by reference. For example:
-	 * <code>
-	 *   public function testListener(&$arguments) {
-	 *      $arguments['result'] = 'Test string';
-	 *   }
-	 * </code>
-	 */
-	abstract public function registerListeners();
-
-	/**
-	 * Returns list of plugin's dependences.
-	 *
-	 * Each element of dependenses list is a string with a plugin name.
-	 * If plugin have no dependenses do not override this method.
-	 *
-	 * @return array List of plugin's dependences.
-	 */
-	public static function getDependences() {
-		return array();
-	}
+    /**
+     * Returns list of plugin's dependences.
+     *
+     * Each element of dependenses list is a string with a plugin name.
+     * If plugin have no dependenses do not override this method.
+     *
+     * @return array List of plugin's dependences.
+     */
+    public static function getDependences()
+    {
+        return array();
+    }
 }
-
-?>

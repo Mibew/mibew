@@ -20,235 +20,243 @@ namespace Mibew\TemplateEngine;
 /**
  * Simple template engine for chat templates
  */
-class ChatTemplateEngine {
+class ChatTemplateEngine
+{
+    /**
+     * Regular expression for conditional blocks in templates
+     */
+    const IF_REGEXP = "/\\\${(if|ifnot):([\w\.]+)}(.*?)(\\\${else:\\2}.*?)?\\\${endif:\\2}/s";
+    /**
+     * Path to teplates relative to MIBEW_FS_ROOT.
+     * @var string
+     */
+    protected $stylePath;
 
-	/**
-	 * Regular expression for conditional blocks in templates
-	 */
-	const IF_REGEXP = "/\\\${(if|ifnot):([\w\.]+)}(.*?)(\\\${else:\\2}.*?)?\\\${endif:\\2}/s";
+    /**
+     * Machine name of the templates style.
+     * @var string
+     */
+    protected $styleName;
 
-	/**
-	 * Path to teplates relative to MIBEW_FS_ROOT.
-	 * @var string
-	 */
-	protected $stylePath;
+    /**
+     * Data for the currently rendering template. Unfortunately there is no
+     * another place to store these data for used chat templates logic.
+     * @var array
+     */
+    protected $templateData;
 
-	/**
-	 * Machine name of the templates style.
-	 * @var string
-	 */
-	protected $styleName;
+    /**
+     * Flatten data for the currently rendering template.
+     * @var array
+     */
+    protected $flattenTemplateData;
 
-	/**
-	 * Data for the currently rendering template. Unfortunately there is no
-	 * another place to store these data for used chat templates logic.
-	 * @var array
-	 */
-	protected $templateData;
+    /**
+     * Constructs an instance of the template engine.
+     *
+     * @param string $style_path Path to the style relative to MIBEW_FS_ROOT.
+     * @param string $style_name Machine name of the templates style.
+     */
+    public function __construct($style_path, $style_name)
+    {
+        $this->stylePath = $style_path;
+        $this->styleName = $style_name;
+    }
 
-	/**
-	 * Flatten data for the currently rendering template.
-	 * @var array
-	 */
-	protected $flattenTemplateData;
+    /**
+     * Renders template and returns HTML for it.
+     *
+     * @param string $template_name Name of a template with neither path nor
+     *   extension.
+     * @param array $data Data for substitutions.
+     * @return string Rendered HTML markup.
+     */
+    public function render($template_name, $data)
+    {
+        $this->flattenTemplateData = array_flatten_recursive($data);
+        $this->templateData = $data;
+        $contents = $this->getTemplateFileContent($template_name);
 
-	/**
-	 * Constructs an instance of the template engine.
-	 *
-	 * @param string $style_path Path to the style relative to MIBEW_FS_ROOT.
-	 * @param string $style_name Machine name of the templates style.
-	 */
-	public function __construct($style_path, $style_name) {
-		$this->stylePath = $style_path;
-		$this->styleName = $style_name;
-	}
+        return $this->expandText($contents);
+    }
 
-	/**
-	 * Renders template and returns HTML for it.
-	 *
-	 * @param string $template_name Name of a template with neither path nor
-	 * extension.
-	 * @param array $data Data for substitutions.
-	 * @return string Rendered HTML markup.
-	 */
-	public function render($template_name, $data) {
-		$this->flattenTemplateData = array_flatten_recursive($data);
-		$this->templateData = $data;
-		$contents = $this->getTemplateFileContent($template_name);
-		return $this->expandText($contents);
-	}
+    /**
+     * Check if condition form conditional construction is true.
+     *
+     * @param string $condition Condition name. Can be any element name of the
+     *   template data array.
+     */
+    public function checkCondition($condition)
+    {
+        if ($condition == 'errors') {
+            return !empty($this->templateData['errors'])
+                && is_array($this->templateData['errors']);
+        }
 
-	/**
-	 * Check if condition form conditional construction is true.
-	 *
-	 * @param string $condition Condition name. Can be any element name of the
-	 * template data array.
-	 */
-	public function checkCondition($condition) {
-		if ($condition == 'errors') {
-			return !empty($this->templateData['errors'])
-				&& is_array($this->templateData['errors']);
-		}
-		return !empty($this->flattenTemplateData[$condition]);
-	}
+        return !empty($this->flattenTemplateData[$condition]);
+    }
 
-	/**
-	 * Process conditional construction. This function is a callback for
-	 * "preg_replace_callback" function.
-	 *
-	 * @param array $matches matches passed from "preg_replace_callback"
-	 * function.
-	 * @return string One of conditional blocks depending of conditional value.
-	 */
-	public function expandCondition($matches) {
-		$value = $this->checkCondition($matches[2]) ^ ($matches[1] != 'if');
+    /**
+     * Process conditional construction. This function is a callback for
+     * "preg_replace_callback" function.
+     *
+     * @param array $matches matches passed from "preg_replace_callback"
+     *  function.
+     * @return string One of conditional blocks depending of conditional value.
+     */
+    public function expandCondition($matches)
+    {
+        $value = $this->checkCondition($matches[2]) ^ ($matches[1] != 'if');
 
-		if ($value) {
-			return preg_replace_callback(
-				self::IF_REGEXP,
-				array($this, "expandCondition"),
-				$matches[3]
-			);
-		} else if (isset($matches[4])) {
-			return preg_replace_callback(
-				self::IF_REGEXP,
-				array($this, "expandCondition"),
-				substr($matches[4], strpos($matches[4], "}") + 1)
-			);
-		}
+        if ($value) {
+            return preg_replace_callback(
+                self::IF_REGEXP,
+                array($this, "expandCondition"),
+                $matches[3]
+            );
+        } elseif (isset($matches[4])) {
+            return preg_replace_callback(
+                self::IF_REGEXP,
+                array($this, "expandCondition"),
+                substr($matches[4], strpos($matches[4], "}") + 1)
+            );
+        }
 
-		return "";
-	}
+        return "";
+    }
 
-	/**
-	 * Replace variables in template with its values. This function is a
-	 * callback for "preg_replace_callback" function.
-	 *
-	 * @param array $matches matches passed from "preg_replace_callback"
-	 * function.
-	 * @return string Value of the variable or empty string if the value was not
-	 * passed in with template data.
-	 */
-	public function expandVar($matches) {
-		$prefix = $matches[1];
-		$var = $matches[2];
+    /**
+     * Replace variables in template with its values. This function is a
+     * callback for "preg_replace_callback" function.
+     *
+     * @param array $matches matches passed from "preg_replace_callback"
+     *   function.
+     * @return string Value of the variable or empty string if the value was not
+     *   passed in with template data.
+     */
+    public function expandVar($matches)
+    {
+        $prefix = $matches[1];
+        $var = $matches[2];
 
-		if (!$prefix) {
-			if ($var == 'mibewroot') {
-				return MIBEW_WEB_ROOT;
-			} elseif ($var == 'tplroot') {
-				return MIBEW_WEB_ROOT . "/" . $this->stylePath;
-			} elseif ($var == 'styleid') {
-				return $this->styleName;
-			} elseif ($var == 'pagination') {
-				return generate_pagination(
-					MIBEW_WEB_ROOT . '/' . $this->stylePath,
-					$this->templateData['pagination']
-				);
-			} elseif ($var == 'errors' || $var == 'harderrors') {
-				if (
-					!empty($this->templateData['errors'])
-					&& is_array($this->templateData['errors'])
-				) {
-					$result = getlocal("$var.header");
-					foreach ($this->templateData['errors'] as $e) {
-						$result .= getlocal("errors.prefix")
-							. $e
-							. getlocal("errors.suffix");
-					}
-					$result .= getlocal("errors.footer");
-					return $result;
-				}
-			}
+        if (!$prefix) {
+            if ($var == 'mibewroot') {
+                return MIBEW_WEB_ROOT;
+            } elseif ($var == 'tplroot') {
+                return MIBEW_WEB_ROOT . "/" . $this->stylePath;
+            } elseif ($var == 'styleid') {
+                return $this->styleName;
+            } elseif ($var == 'pagination') {
+                return generate_pagination(
+                    MIBEW_WEB_ROOT . '/' . $this->stylePath,
+                    $this->templateData['pagination']
+                );
+            } elseif ($var == 'errors' || $var == 'harderrors') {
+                $errors_data_exists = !empty($this->templateData['errors'])
+                    && is_array($this->templateData['errors']);
+                if ($errors_data_exists) {
+                    $result = getlocal("$var.header");
+                    foreach ($this->templateData['errors'] as $e) {
+                        $result .= getlocal("errors.prefix")
+                            . $e
+                            . getlocal("errors.suffix");
+                    }
+                    $result .= getlocal("errors.footer");
 
-		} elseif ($prefix == 'msg:' || $prefix == 'msgjs:' || $prefix == 'url:') {
-			$message = '';
-			if (strpos($var, ",") !== false) {
-				$pos = strpos($var, ",");
-				$param = substr($var, $pos + 1);
-				$var = substr($var, 0, $pos);
-				$message = getlocal2($var, array($this->flattenTemplateData[$param]));
-			} else {
-				$message = getlocal($var);
-			}
-			if ($prefix == 'msgjs:') {
-				return json_encode($message);
-			}
-			return $message;
-		} else if ($prefix == 'form:') {
-			return form_value($this->templateData, $var);
-		} else if ($prefix == 'page:' || $prefix == 'pagejs:') {
-			$message = isset($this->flattenTemplateData[$var])
-				? $this->flattenTemplateData[$var]
-				: "";
-			return ($prefix == 'pagejs:') ? json_encode($message) : $message;
-		} else if ($prefix == 'if:' || $prefix == 'else:' || $prefix == 'endif:' || $prefix == 'ifnot:') {
-			return "<!-- wrong $prefix:$var -->";
-		}
+                    return $result;
+                }
+            }
+        } elseif ($prefix == 'msg:' || $prefix == 'msgjs:' || $prefix == 'url:') {
+            $message = '';
+            if (strpos($var, ",") !== false) {
+                $pos = strpos($var, ",");
+                $param = substr($var, $pos + 1);
+                $var = substr($var, 0, $pos);
+                $message = getlocal2($var, array($this->flattenTemplateData[$param]));
+            } else {
+                $message = getlocal($var);
+            }
+            if ($prefix == 'msgjs:') {
+                return json_encode($message);
+            }
+            return $message;
+        } elseif ($prefix == 'form:') {
+            return form_value($this->templateData, $var);
+        } elseif ($prefix == 'page:' || $prefix == 'pagejs:') {
+            $message = isset($this->flattenTemplateData[$var])
+                ? $this->flattenTemplateData[$var]
+                : "";
 
-		return "";
-	}
+            return ($prefix == 'pagejs:') ? json_encode($message) : $message;
+        } elseif ($prefix == 'if:' || $prefix == 'else:' || $prefix == 'endif:' || $prefix == 'ifnot:') {
+            return "<!-- wrong $prefix:$var -->";
+        }
 
-	/**
-	 * Process "include" control structure. This function is a callback for
-	 * "preg_replace_callback" function.
-	 *
-	 * @param array $matches matches passed from "preg_replace_callback"
-	 * function.
-	 * @return string Contents of including file
-	 */
-	public function expandInclude($matches) {
-		$template_name = $matches[1];
-		return $this->getTemplateFileContent($template_name);
-	}
+        return "";
+    }
 
-	/**
-	 * Converts all control structures to markup.
-	 *
-	 * @param string $text Source text
-	 * @return string Markup with no control structures
-	 */
-	public function expandText($text) {
-		$text = preg_replace_callback(
-			"/\\\${include:([\w\.]+)}/",
-			array($this, "expandInclude"),
-			$text
-		);
+    /**
+     * Process "include" control structure. This function is a callback for
+     * "preg_replace_callback" function.
+     *
+     * @param array $matches matches passed from "preg_replace_callback"
+     *   function.
+     * @return string Contents of including file
+     */
+    public function expandInclude($matches)
+    {
+        $template_name = $matches[1];
 
-		$text = preg_replace_callback(
-			self::IF_REGEXP,
-			array($this, "expandCondition"),
-			$text
-		);
+        return $this->getTemplateFileContent($template_name);
+    }
 
-		return preg_replace_callback(
-			"/\\\${(\w+:)?([\w\.,]+)}/",
-			array($this, "expandVar"),
-			$text
-		);
-	}
+    /**
+     * Converts all control structures to markup.
+     *
+     * @param string $text Source text
+     * @return string Markup with no control structures
+     */
+    public function expandText($text)
+    {
+        $text = preg_replace_callback(
+            "/\\\${include:([\w\.]+)}/",
+            array($this, "expandInclude"),
+            $text
+        );
 
-	/**
-	 * Loads content of a template file.
-	 *
-	 * @param string $template_name Name of a template file to load.
-	 * @return string Template file's content.
-	 *
-	 * @throws \RuntimeException If there is no such template file or the file
-	 * is not readable.
-	 */
-	protected function getTemplateFileContent($template_name) {
-		$full_file_path = MIBEW_FS_ROOT . '/' . $this->stylePath .
-			'/templates/' . $template_name . '.tpl';
+        $text = preg_replace_callback(
+            self::IF_REGEXP,
+            array($this, "expandCondition"),
+            $text
+        );
 
-		if (!is_readable($full_file_path)) {
-			throw new \RuntimeException(
-				'Cannot load template file: "' . $full_file_path . '"'
-			);
-		}
+        return preg_replace_callback(
+            "/\\\${(\w+:)?([\w\.,]+)}/",
+            array($this, "expandVar"),
+            $text
+        );
+    }
 
-		return file_get_contents($full_file_path);
-	}
+    /**
+     * Loads content of a template file.
+     *
+     * @param string $template_name Name of a template file to load.
+     * @return string Template file's content.
+     *
+     * @throws \RuntimeException If there is no such template file or the file
+     *   is not readable.
+     */
+    protected function getTemplateFileContent($template_name)
+    {
+        $full_file_path = MIBEW_FS_ROOT . '/' . $this->stylePath
+            . '/templates/' . $template_name . '.tpl';
+
+        if (!is_readable($full_file_path)) {
+            throw new \RuntimeException(
+                'Cannot load template file: "' . $full_file_path . '"'
+            );
+        }
+
+        return file_get_contents($full_file_path);
+    }
 }
-
-?>

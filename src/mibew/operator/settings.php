@@ -22,129 +22,139 @@ use Mibew\Style\InvitationStyle;
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/settings.php');
-require_once(MIBEW_FS_ROOT.'/libs/cron.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/settings.php');
+require_once(MIBEW_FS_ROOT . '/libs/cron.php');
 
 $operator = check_login();
 force_password($operator);
-csrfchecktoken();
+csrf_check_token();
 
 $page = array(
-	'agentId' => '',
-	'errors' => array(),
+    'agentId' => '',
+    'errors' => array(),
 );
 
 // Load system configs
 $options = array(
-	'email',
-	'title',
-	'logo',
-	'hosturl',
-	'usernamepattern',
-	'chattitle',
-	'geolink',
-	'geolinkparams',
-	'sendmessagekey',
-	'cron_key'
+    'email',
+    'title',
+    'logo',
+    'hosturl',
+    'usernamepattern',
+    'chattitle',
+    'geolink',
+    'geolinkparams',
+    'sendmessagekey',
+    'cron_key',
 );
 
 $params = array();
 foreach ($options as $opt) {
-	$params[$opt] = Settings::get($opt);
+    $params[$opt] = Settings::get($opt);
 }
 
 // Load styles configs
 $styles_params = array(
-	'chat_style' => ChatStyle::defaultStyle(),
-	'page_style' => PageStyle::defaultStyle(),
+    'chat_style' => ChatStyle::defaultStyle(),
+    'page_style' => PageStyle::defaultStyle(),
 );
 
 $chat_style_list = ChatStyle::availableStyles();
 $page_style_list = PageStyle::availableStyles();
 
 if (Settings::get('enabletracking')) {
-	$styles_params['invitation_style'] = InvitationStyle::defaultStyle();
-	$invitation_style_list = InvitationStyle::availableStyles();
+    $styles_params['invitation_style'] = InvitationStyle::defaultStyle();
+    $invitation_style_list = InvitationStyle::availableStyles();
 }
 
 if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
-	$params['email'] = getparam('email');
-	$params['title'] = getparam('title');
-	$params['logo'] = getparam('logo');
-	$params['hosturl'] = getparam('hosturl');
-	$params['usernamepattern'] = getparam('usernamepattern');
-	$params['chattitle'] = getparam('chattitle');
-	$params['geolink'] = getparam('geolink');
-	$params['geolinkparams'] = getparam('geolinkparams');
-	$params['sendmessagekey'] = verifyparam('sendmessagekey', "/^c?enter$/");
-	$params['cron_key'] = getparam('cronkey');
+    $params['email'] = get_param('email');
+    $params['title'] = get_param('title');
+    $params['logo'] = get_param('logo');
+    $params['hosturl'] = get_param('hosturl');
+    $params['usernamepattern'] = get_param('usernamepattern');
+    $params['chattitle'] = get_param('chattitle');
+    $params['geolink'] = get_param('geolink');
+    $params['geolinkparams'] = get_param('geolinkparams');
+    $params['sendmessagekey'] = verify_param('sendmessagekey', "/^c?enter$/");
+    $params['cron_key'] = get_param('cronkey');
 
-	$styles_params['chat_style'] = verifyparam("chat_style", "/^\w+$/", $styles_params['chat_style']);
-	if (!in_array($styles_params['chat_style'], $chat_style_list)) {
-		$styles_params['chat_style'] = $chat_style_list[0];
-	}
+    $styles_params['chat_style'] = verify_param("chat_style", "/^\w+$/", $styles_params['chat_style']);
+    if (!in_array($styles_params['chat_style'], $chat_style_list)) {
+        $styles_params['chat_style'] = $chat_style_list[0];
+    }
 
-	$styles_params['page_style'] = verifyparam("page_style", "/^\w+$/", $styles_params['page_style']);
-	if (!in_array($styles_params['page_style'], $page_style_list)) {
-		$styles_params['page_style'] = $page_style_list[0];
-	}
+    $styles_params['page_style'] = verify_param("page_style", "/^\w+$/", $styles_params['page_style']);
+    if (!in_array($styles_params['page_style'], $page_style_list)) {
+        $styles_params['page_style'] = $page_style_list[0];
+    }
 
-	if (Settings::get('enabletracking')) {
-		$styles_params['invitation_style'] = verifyparam("invitation_style", "/^\w+$/", $styles_params['invitation_style']);
-		if (!in_array($styles_params['invitation_style'], $invitation_style_list)) {
-			$styles_params['invitation_style'] = $invitation_style_list[0];
-		}
-	}
+    if (Settings::get('enabletracking')) {
+        $styles_params['invitation_style'] = verify_param(
+            "invitation_style",
+            "/^\w+$/",
+            $styles_params['invitation_style']
+        );
+        if (!in_array($styles_params['invitation_style'], $invitation_style_list)) {
+            $styles_params['invitation_style'] = $invitation_style_list[0];
+        }
+    }
 
-	if ($params['email'] && !is_valid_email($params['email'])) {
-		$page['errors'][] = getlocal("settings.wrong.email");
-	}
+    if ($params['email'] && !is_valid_email($params['email'])) {
+        $page['errors'][] = getlocal("settings.wrong.email");
+    }
 
-	if ($params['geolinkparams']) {
-		foreach (preg_split("/,/", $params['geolinkparams']) as $oneparam) {
-			if (!preg_match("/^\s*(toolbar|scrollbars|location|status|menubar|width|height|resizable)=\d{1,4}$/", $oneparam)) {
-				$page['errors'][] = "Wrong link parameter: \"$oneparam\", should be one of 'toolbar, scrollbars, location, status, menubar, width, height or resizable'";
-			}
-		}
-	}
+    if ($params['geolinkparams']) {
+        foreach (preg_split("/,/", $params['geolinkparams']) as $one_param) {
+            $wrong_param = !preg_match(
+                "/^\s*(toolbar|scrollbars|location|status|menubar|width|height|resizable)=\d{1,4}$/",
+                $one_param
+            );
+            if ($wrong_param) {
+                $page['errors'][] = "Wrong link parameter: \"$one_param\", "
+                    . "should be one of 'toolbar, scrollbars, location, "
+                    . "status, menubar, width, height or resizable'";
+            }
+        }
+    }
 
-	if (preg_match("/^[0-9A-z]*$/", $params['cron_key']) == 0) {
-		$page['errors'][] = getlocal("settings.wrong.cronkey");
-	}
+    if (preg_match("/^[0-9A-z]*$/", $params['cron_key']) == 0) {
+        $page['errors'][] = getlocal("settings.wrong.cronkey");
+    }
 
-	if (count($page['errors']) == 0) {
-		// Update system settings
-		foreach ($options as $opt) {
-			Settings::set($opt,$params[$opt]);
-		}
-		Settings::update();
+    if (count($page['errors']) == 0) {
+        // Update system settings
+        foreach ($options as $opt) {
+            Settings::set($opt, $params[$opt]);
+        }
+        Settings::update();
 
-		// Update styles params
-		ChatStyle::setDefaultStyle($styles_params['chat_style']);
-		PageStyle::setDefaultStyle($styles_params['page_style']);
-		if (Settings::get('enabletracking')) {
-			InvitationStyle::setDefaultStyle($styles_params['invitation_style']);
-		}
+        // Update styles params
+        ChatStyle::setDefaultStyle($styles_params['chat_style']);
+        PageStyle::setDefaultStyle($styles_params['page_style']);
+        if (Settings::get('enabletracking')) {
+            InvitationStyle::setDefaultStyle($styles_params['invitation_style']);
+        }
 
-		// Redirect the user
-		header("Location: " . MIBEW_WEB_ROOT . "/operator/settings.php?stored");
-		exit;
-	}
+        // Redirect the user
+        header("Location: " . MIBEW_WEB_ROOT . "/operator/settings.php?stored");
+        exit;
+    }
 }
 
-$page['formemail'] = topage($params['email']);
-$page['formtitle'] = topage($params['title']);
-$page['formlogo'] = topage($params['logo']);
-$page['formhosturl'] = topage($params['hosturl']);
-$page['formgeolink'] = topage($params['geolink']);
-$page['formgeolinkparams'] = topage($params['geolinkparams']);
-$page['formusernamepattern'] = topage($params['usernamepattern']);
+$page['formemail'] = to_page($params['email']);
+$page['formtitle'] = to_page($params['title']);
+$page['formlogo'] = to_page($params['logo']);
+$page['formhosturl'] = to_page($params['hosturl']);
+$page['formgeolink'] = to_page($params['geolink']);
+$page['formgeolinkparams'] = to_page($params['geolinkparams']);
+$page['formusernamepattern'] = to_page($params['usernamepattern']);
 $page['formpagestyle'] = $styles_params['page_style'];
 $page['availablePageStyles'] = $page_style_list;
 $page['formchatstyle'] = $styles_params['chat_style'];
-$page['formchattitle'] = topage($params['chattitle']);
+$page['formchattitle'] = to_page($params['chattitle']);
 $page['formsendmessagekey'] = $params['sendmessagekey'];
 $page['availableChatStyles'] = $chat_style_list;
 $page['stored'] = isset($_GET['stored']);
@@ -157,18 +167,13 @@ $page['title'] = getlocal("settings.title");
 $page['menuid'] = "settings";
 
 if (Settings::get('enabletracking')) {
-	$page['forminvitationstyle'] = $styles_params['invitation_style'];
-	$page['availableInvitationStyles'] = $invitation_style_list;
+    $page['forminvitationstyle'] = $styles_params['invitation_style'];
+    $page['availableInvitationStyles'] = $invitation_style_list;
 }
 
-$page = array_merge(
-	$page,
-	prepare_menu($operator)
-);
+$page = array_merge($page, prepare_menu($operator));
 
 $page['tabs'] = setup_settings_tabs(0);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('settings', $page);
-
-?>

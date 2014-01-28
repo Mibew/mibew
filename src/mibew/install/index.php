@@ -48,6 +48,8 @@ define('MIBEW_WEB_ROOT', $base_url);
 
 // Include common functions
 require_once(MIBEW_FS_ROOT.'/libs/common/constants.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/verification.php');
+require_once(MIBEW_FS_ROOT.'/libs/common/converter.php');
 require_once(MIBEW_FS_ROOT.'/libs/common/locale.php');
 require_once(MIBEW_FS_ROOT.'/libs/common/misc.php');
 require_once(MIBEW_FS_ROOT.'/libs/common/response.php');
@@ -307,7 +309,7 @@ function add_canned_messages($link){
 	foreach (get_available_locales() as $locale) {
 		if (! in_array($locale, $existlocales)) {
 			foreach (explode("\n", getstring_('chat.predefined_answers', $locale)) as $answer) {
-				$result[] = array('locale' => $locale, 'vctitle' => cutstring($answer, 97, '...'), 'vcvalue' => $answer);
+				$result[] = array('locale' => $locale, 'vctitle' => cut_string($answer, 97, '...'), 'vcvalue' => $answer);
 			}
 		}
 	}

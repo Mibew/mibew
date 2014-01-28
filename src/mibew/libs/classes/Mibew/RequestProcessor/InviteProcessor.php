@@ -33,94 +33,106 @@ use Mibew\RequestProcessor\Exception\InviteProcessorException;
  *
  * Implements Singleton pattern
  */
-class InviteProcessor extends ClientSideProcessor {
+class InviteProcessor extends ClientSideProcessor
+{
+    /**
+     * An instance of the InviteProcessor class
+     *
+     * @var \Mibew\RequestProcessor\InviteProcessor
+     */
+    protected static $instance = null;
 
-	/**
-	 * An instance of the InviteProcessor class
-	 * @var \Mibew\RequestProcessor\InviteProcessor
-	 */
-	protected static $instance = null;
+    /**
+     * Return an instance of the InviteProcessor class.
+     *
+     * @return \Mibew\RequestProcessor\InviteProcessor
+     */
+    public static function getInstance()
+    {
+        if (is_null(self::$instance)) {
+            self::$instance = new self();
+        }
 
-	/**
-	 * Return an instance of the InviteProcessor class.
-	 * @return \Mibew\RequestProcessor\InviteProcessor
-	 */
-	public static function getInstance() {
-		if (is_null(self::$instance)) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
+        return self::$instance;
+    }
 
-	/**
-	 * Class constructor
-	 *
-	 * Do not use directly __construct method! Use
-	 * \Mibew\RequestProcessor\InviteProcessor::getInstance() instead!
-	 * @todo Think about why the method is not protected
-	 */
-	public function __construct() {
-		parent::__construct(array(
-			'signature' => '',
-			'trusted_signatures' => array(''),
-			'event_prefix' => 'invite'
-		));
-	}
+    /**
+     * Class constructor
+     *
+     * Do not use directly __construct method! Use
+     * \Mibew\RequestProcessor\InviteProcessor::getInstance() instead!
+     *
+     * @todo Think about why the method is not protected
+     */
+    public function __construct()
+    {
+        parent::__construct(array(
+            'signature' => '',
+            'trusted_signatures' => array(''),
+            'event_prefix' => 'invite'
+        ));
+    }
 
-	/**
-	 * Creates and returns an instance of the \Mibew\API\API class.
-	 *
-	 * @return \Mibew\API\API
-	 */
-	protected function getMibewAPIInstance() {
-		return MibewAPI::getAPI('\\Mibew\\API\\Interaction\\InviteInteraction');
-	}
+    /**
+     * Creates and returns an instance of the \Mibew\API\API class.
+     *
+     * @return \Mibew\API\API
+     */
+    protected function getMibewAPIInstance()
+    {
+        return MibewAPI::getAPI('\\Mibew\\API\\Interaction\\InviteInteraction');
+    }
 
-	/**
-	 * Stub for sendAsyncRequest method.
-	 *
-	 * Actually request not send to client side. This method is ONLY STUB.
-	 * @return boolean Always true
-	 */
-	protected function sendAsyncRequest() {
-		return true;
-	}
+    /**
+     * Stub for sendAsyncRequest method.
+     *
+     * Actually request not send to client side. This method is ONLY STUB.
+     *
+     * @return boolean Always true
+     */
+    protected function sendAsyncRequest()
+    {
+        return true;
+    }
 
-	/**
-	 * Stub for call method.
-	 *
-	 * Actually nothing can be called at client side. This method is ONLY STUB.
-	 * @return boolean Always false.
-	 */
-	public function call() {
-		return false;
-	}
+    /**
+     * Stub for call method.
+     *
+     * Actually nothing can be called at client side. This method is ONLY STUB.
+     *
+     * @return boolean Always false.
+     */
+    public function call()
+    {
+        return false;
+    }
 
-	/**
-	 * Returns visitor invitation state. API function
-	 *
-	 * @param array $args Associative array of arguments. It must contains
-	 * following keys:
-	 *  - 'visitorId': Id of the invited visitor
-	 * @return array Array of results. It contains following keys:
-	 *  - 'invited': boolean, indicates if visitor is invited
-	 *  - 'threadId': thread id related to visitor or false if there is no thread
-	 */
-	protected function apiInvitationState($args) {
-		$operator = get_logged_in();
-		if (!$operator) {
-			throw new InviteProcessorException(
-				"Operator not logged in!",
-				InviteProcessorException::ERROR_AGENT_NOT_LOGGED_IN
-			);
-		}
+    /**
+     * Returns visitor invitation state. API function
+     *
+     * @param array $args Associative array of arguments. It must contains
+     *   following keys:
+     *    - 'visitorId': Id of the invited visitor
+     * @return array Array of results. It contains following keys:
+     *    - 'invited': boolean, indicates if visitor is invited
+     *    - 'threadId': thread id related to visitor or false if there is no
+     *      thread
+     */
+    protected function apiInvitationState($args)
+    {
+        $operator = get_logged_in();
+        if (!$operator) {
+            throw new InviteProcessorException(
+                "Operator not logged in!",
+                InviteProcessorException::ERROR_AGENT_NOT_LOGGED_IN
+            );
+        }
 
-		$invitation = invitation_state($args['visitorId']);
-		return array(
-			'invited' => (bool)$invitation['invited'],
-			'threadId' => ($invitation['threadid'] ? $invitation['threadid'] : false)
-		);
-	}
+        $invitation = invitation_state($args['visitorId']);
+
+        return array(
+            'invited' => (bool) $invitation['invited'],
+            'threadId' => ($invitation['threadid'] ? $invitation['threadid'] : false),
+        );
+    }
 }
-
-?>

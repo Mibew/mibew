@@ -20,10 +20,10 @@ use Mibew\Settings;
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/chat.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/track.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/chat.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/track.php');
 
 $operator = check_login();
 
@@ -34,22 +34,20 @@ if (Settings::get('enabletracking') == "0") {
 }
 
 if (isset($_GET['thread'])) {
-    $threadid = verifyparam("thread", "/^\d{1,8}$/");
-}
-else {
-    $visitorid = verifyparam("visitor", "/^\d{1,8}$/");
+    $thread_id = verify_param("thread", "/^\d{1,8}$/");
+} else {
+    $visitor_id = verify_param("visitor", "/^\d{1,8}$/");
 }
 
-if (isset($threadid)) {
-    $visitor = track_get_visitor_by_threadid($threadid);
+if (isset($thread_id)) {
+    $visitor = track_get_visitor_by_thread_id($thread_id);
     if (!$visitor) {
-	die("Wrong thread!");
+        die("Wrong thread!");
     }
-}
-else {
-    $visitor = track_get_visitor_by_id($visitorid);
+} else {
+    $visitor = track_get_visitor_by_id($visitor_id);
     if (!$visitor) {
-	die("Wrong visitor!");
+        die("Wrong visitor!");
     }
 }
 $path = track_get_path($visitor);
@@ -58,13 +56,13 @@ $page['entry'] = htmlspecialchars($visitor['entry']);
 $page['history'] = array();
 ksort($path);
 foreach ($path as $k => $v) {
-    $page['history'][] = array( 'date' => date_to_text($k),
-				'link' => htmlspecialchars($v) );
+    $page['history'][] = array(
+        'date' => date_to_text($k),
+        'link' => htmlspecialchars($v),
+    );
 }
 
 $page['title'] = getlocal("tracked.path");
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('tracked', $page);
-
-?>

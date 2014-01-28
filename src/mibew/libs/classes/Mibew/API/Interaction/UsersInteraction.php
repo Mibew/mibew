@@ -20,34 +20,33 @@ namespace Mibew\API\Interaction;
 /**
  * Implements Mibew Core - Mibew Users list interaction
  */
-class UsersInteraction extends Interaction {
-	/**
-	 * Defines obligatory arguments and default values for them
-	 * @var array
-	 * @see \Mibew\API\Interaction\Interaction::$obligatoryArgumnents
-	 */
-	protected $obligatoryArguments = array(
-		'*' => array(
-			'agentId' => null,
-			'references' => array(),
-			'return' => array()
-		),
-		'updateThreads' => array(
-			'revision' => 0
-		),
-		'result' => array(
-			'errorCode' => 0
-		)
-	);
+class UsersInteraction extends Interaction
+{
+    /**
+     * Reserved function's names
+     * @var array
+     * @see \Mibew\API\Interaction\Interaction::$reservedFunctionNames
+     */
+    public $reservedFunctionNames = array(
+        'result',
+    );
 
-	/**
-	 * Reserved function's names
-	 * @var array
-	 * @see \Mibew\API\Interaction\Interaction::$reservedFunctionNames
-	 */
-	public $reservedFunctionNames = array(
-		'result'
-	);
+    /**
+     * Defines obligatory arguments and default values for them
+     * @var array
+     * @see \Mibew\API\Interaction\Interaction::$obligatoryArgumnents
+     */
+    protected $obligatoryArguments = array(
+        '*' => array(
+            'agentId' => null,
+            'references' => array(),
+            'return' => array(),
+        ),
+        'updateThreads' => array(
+            'revision' => 0,
+        ),
+        'result' => array(
+            'errorCode' => 0,
+        ),
+    );
 }
-
-?>

@@ -20,97 +20,89 @@ use Mibew\Settings;
 use Mibew\Style\PageStyle;
 
 // Initialize libraries
-require_once(dirname(dirname(__FILE__)).'/libs/init.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator.php');
-require_once(MIBEW_FS_ROOT.'/libs/operator_settings.php');
+require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator_settings.php');
 
 $operator = check_login();
-csrfchecktoken();
+csrf_check_token();
 
-$opId = verifyparam("op", "/^\d{1,9}$/");
+$op_id = verify_param("op", "/^\d{1,9}$/");
 $page = array(
-	'opid' => $opId,
-	'avatar' => '',
-	'errors' => array(),
+    'opid' => $op_id,
+    'avatar' => '',
+    'errors' => array(),
 );
 
-$canmodify = ($opId == $operator['operatorid'] && is_capable(CAN_MODIFYPROFILE, $operator))
-			 || is_capable(CAN_ADMINISTRATE, $operator);
+$can_modify = ($op_id == $operator['operatorid'] && is_capable(CAN_MODIFYPROFILE, $operator))
+    || is_capable(CAN_ADMINISTRATE, $operator);
 
-$op = operator_by_id($opId);
+$op = operator_by_id($op_id);
 
 if (!$op) {
-	$page['errors'][] = getlocal("no_such_operator");
+    $page['errors'][] = getlocal("no_such_operator");
+} elseif (isset($_POST['op'])) {
+    $avatar = $op['vcavatar'];
 
-} else if (isset($_POST['op'])) {
-	$avatar = $op['vcavatar'];
+    if (!$can_modify) {
+        $page['errors'][] = getlocal('page_agent.cannot_modify');
+    } elseif (isset($_FILES['avatarFile']) && $_FILES['avatarFile']['name']) {
+        $valid_types = array("gif", "jpg", "png", "tif", "jpeg");
 
-	if (!$canmodify) {
-		$page['errors'][] = getlocal('page_agent.cannot_modify');
+        $orig_filename = $_FILES['avatarFile']['name'];
+        $tmp_file_name = $_FILES['avatarFile']['tmp_name'];
 
-	} else if (isset($_FILES['avatarFile']) && $_FILES['avatarFile']['name']) {
-		$valid_types = array("gif", "jpg", "png", "tif", "jpeg");
+        $ext = preg_replace('/\//', '', strtolower(substr($orig_filename, 1 + strrpos($orig_filename, "."))));
+        $new_file_name = intval($op_id) . ".$ext";
 
-		$orig_filename = $_FILES['avatarFile']['name'];
-		$tmp_file_name = $_FILES['avatarFile']['tmp_name'];
+        $file_size = $_FILES['avatarFile']['size'];
+        if ($file_size == 0 || $file_size > Settings::get('max_uploaded_file_size')) {
+            $page['errors'][] = failed_uploading_file($orig_filename, "errors.file.size.exceeded");
+        } elseif (!in_array($ext, $valid_types)) {
+            $page['errors'][] = failed_uploading_file($orig_filename, "errors.invalid.file.type");
+        } else {
+            $avatar_local_dir = MIBEW_FS_ROOT . '/files/avatar/';
+            $full_file_path = $avatar_local_dir . $new_file_name;
+            if (file_exists($full_file_path)) {
+                unlink($full_file_path);
+            }
+            if (!@move_uploaded_file($_FILES['avatarFile']['tmp_name'], $full_file_path)) {
+                $page['errors'][] = failed_uploading_file($orig_filename, "errors.file.move.error");
+            } else {
+                $avatar = MIBEW_WEB_ROOT . "/files/avatar/$new_file_name";
+            }
+        }
+    } else {
+        $page['errors'][] = "No file selected";
+    }
 
-		$ext = preg_replace('/\//', '', strtolower(substr($orig_filename, 1 + strrpos($orig_filename, "."))));
-		$new_file_name = intval($opId). ".$ext";
+    if (count($page['errors']) == 0) {
+        update_operator_avatar($op['operatorid'], $avatar);
 
-		$file_size = $_FILES['avatarFile']['size'];
-		if ($file_size == 0 || $file_size > Settings::get('max_uploaded_file_size')) {
-			$page['errors'][] = failed_uploading_file($orig_filename, "errors.file.size.exceeded");
-		} elseif (!in_array($ext, $valid_types)) {
-			$page['errors'][] = failed_uploading_file($orig_filename, "errors.invalid.file.type");
-		} else {
-			$avatar_local_dir = MIBEW_FS_ROOT.'/files/avatar/';
-			$full_file_path = $avatar_local_dir . $new_file_name;
-			if (file_exists($full_file_path)) {
-				unlink($full_file_path);
-			}
-			if (!@move_uploaded_file($_FILES['avatarFile']['tmp_name'], $full_file_path)) {
-				$page['errors'][] = failed_uploading_file($orig_filename, "errors.file.move.error");
-			} else {
-				$avatar = MIBEW_WEB_ROOT . "/files/avatar/$new_file_name";
-			}
-		}
-	} else {
-		$page['errors'][] = "No file selected";
-	}
-
-	if (count($page['errors']) == 0) {
-		update_operator_avatar($op['operatorid'], $avatar);
-
-		if ($opId && $avatar && $_SESSION[SESSION_PREFIX."operator"] && $operator['operatorid'] == $opId) {
-			$_SESSION[SESSION_PREFIX."operator"]['vcavatar'] = $avatar;
-		}
-		header("Location: " . MIBEW_WEB_ROOT . "/operator/avatar.php?op=" . intval($opId));
-		exit;
-	} else {
-		$page['avatar'] = topage($op['vcavatar']);
-	}
-
+        if ($op_id && $avatar && $_SESSION[SESSION_PREFIX . "operator"] && $operator['operatorid'] == $op_id) {
+            $_SESSION[SESSION_PREFIX . "operator"]['vcavatar'] = $avatar;
+        }
+        header("Location: " . MIBEW_WEB_ROOT . "/operator/avatar.php?op=" . intval($op_id));
+        exit;
+    } else {
+        $page['avatar'] = to_page($op['vcavatar']);
+    }
 } else {
-	if (isset($_GET['delete']) && $_GET['delete'] == "true" && $canmodify) {
-		update_operator_avatar($op['operatorid'], '');
-		header("Location: " . MIBEW_WEB_ROOT . "/operator/avatar.php?op=" . intval($opId));
-		exit;
-	}
-	$page['avatar'] = topage($op['vcavatar']);
+    if (isset($_GET['delete']) && $_GET['delete'] == "true" && $can_modify) {
+        update_operator_avatar($op['operatorid'], '');
+        header("Location: " . MIBEW_WEB_ROOT . "/operator/avatar.php?op=" . intval($op_id));
+        exit;
+    }
+    $page['avatar'] = to_page($op['vcavatar']);
 }
 
-$page['currentop'] = $op ? topage(get_operator_name($op)) . " (" . $op['vclogin'] . ")" : getlocal("not_found");
-$page['canmodify'] = $canmodify ? "1" : "";
+$page['currentop'] = $op ? to_page(get_operator_name($op)) . " (" . $op['vclogin'] . ")" : getlocal("not_found");
+$page['canmodify'] = $can_modify ? "1" : "";
 $page['title'] = getlocal("page_avatar.title");
-$page['menuid'] = ($operator['operatorid'] == $opId) ? "profile" : "operators";
+$page['menuid'] = ($operator['operatorid'] == $op_id) ? "profile" : "operators";
 
-$page = array_merge(
-	$page,
-	prepare_menu($operator)
-);
-$page['tabs'] = setup_operator_settings_tabs($opId, 1);
+$page = array_merge($page, prepare_menu($operator));
+$page['tabs'] = setup_operator_settings_tabs($op_id, 1);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('avatar', $page);
-
-?>
