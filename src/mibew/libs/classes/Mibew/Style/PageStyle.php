@@ -46,9 +46,6 @@ class PageStyle extends Style implements StyleInterface
      */
     public function render($template_name, $data = array())
     {
-        // Add template root value to page variables
-        $page['stylepath'] = MIBEW_WEB_ROOT . '/' . $this->filesPath();
-
         // Prepare to output html
         start_html_output();
 
@@ -60,6 +57,9 @@ class PageStyle extends Style implements StyleInterface
         // $page variable is used in included views files, so we need to create
         // it as an alias of $data argument.
         $page = $data;
+
+        // Add template root value to page variables
+        $page['stylepath'] = MIBEW_WEB_ROOT . '/' . $this->filesPath();
 
         // Load and execute the view
         require($full_view_name);
