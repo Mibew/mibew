@@ -175,7 +175,7 @@ class API
             );
         }
         if ($filter_reserved_functions) {
-            if (in_array($function['function'], $this->interaction->reservedFunctionNames)) {
+            if (in_array($function['function'], $this->interaction->getReservedFunctionsNames())) {
                 throw new APIException(
                     "'{$function['function']}' is reserved function name",
                     APIException::FUNCTION_NAME_RESERVED

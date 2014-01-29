@@ -5,4 +5,4 @@
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-MibewAPIChatInteraction=function(){this.obligatoryArguments={"*":{threadId:null,token:null,"return":{},references:{}},result:{errorCode:0}};this.reservedFunctionNames=["result"]};MibewAPIChatInteraction.prototype=new MibewAPIInteraction;
+MibewAPIChatInteraction=function(){this.obligatoryArguments={"*":{threadId:null,token:null,"return":{},references:{}},result:{errorCode:0}};this.getReservedFunctionsNames=function(){return["result"]}};MibewAPIChatInteraction.prototype=new MibewAPIInteraction;

@@ -45,7 +45,7 @@ a={hash:{},data:d};return c+=j((f=e.L10n||b.L10n,f?f.call(b,"visitors.table.head
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-MibewAPIUsersInteraction=function(){this.obligatoryArguments={"*":{agentId:null,"return":{},references:{}},result:{errorCode:0}};this.reservedFunctionNames=["result"]};MibewAPIUsersInteraction.prototype=new MibewAPIInteraction;
+MibewAPIUsersInteraction=function(){this.obligatoryArguments={"*":{agentId:null,"return":{},references:{}},result:{errorCode:0}};this.getReservedFunctionsNames=function(){return["result"]}};MibewAPIUsersInteraction.prototype=new MibewAPIInteraction;
 /*
  Copyright 2005-2013 the original author or authors.
  Licensed under the Apache License, Version 2.0 (the "License").

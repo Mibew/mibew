@@ -24,8 +24,10 @@ MibewAPIChatInteraction = function() {
         }
     };
 
-    this.reservedFunctionNames = [
-        'result'
-    ];
+    this.getReservedFunctionsNames = function() {
+        return [
+            'result'
+        ];
+    }
 }
 MibewAPIChatInteraction.prototype = new MibewAPIInteraction();

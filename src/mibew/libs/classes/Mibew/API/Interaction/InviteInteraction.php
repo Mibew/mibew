@@ -23,13 +23,17 @@ namespace Mibew\API\Interaction;
 class InviteInteraction extends AbstractInteraction
 {
     /**
-     * Reserved function's names
-     * @var array
-     * @see \Mibew\API\Interaction\AbstractInteraction::$reservedFunctionNames
+     * Returns reserved (system) functions' names.
+     *
+     * @return array
+     * @see \Mibew\API\Interaction\AbstractInteraction::getReservedFunctionsNames
      */
-    public $reservedFunctionNames = array(
-        'result',
-    );
+    public function getReservedFunctionsNames()
+    {
+        return array(
+            'result',
+        );
+    }
 
     /**
      * Defines obligatory arguments and default values for them

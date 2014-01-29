@@ -23,8 +23,10 @@ MibewAPIUsersInteraction = function() {
         }
     };
 
-    this.reservedFunctionNames = [
-        'result'
-    ];
+    this.getReservedFunctionsNames = function() {
+        return [
+            'result'
+        ];
+    }
 }
 MibewAPIUsersInteraction.prototype = new MibewAPIInteraction();

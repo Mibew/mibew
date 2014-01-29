@@ -23,12 +23,15 @@ namespace Mibew\API\Interaction;
 abstract class AbstractInteraction
 {
     /**
-     * Reserved function's names
+     * Returns reserved (system) functions' names.
      *
-     * Defines reserved(system) function's names described in the Mibew API.
-     * @var array
+     * Reserved functions cannon be called directly by the other side and are
+     * used for low-level purposes. For example function "result" is used to
+     * send back a result of request execution.
+     *
+     * @return array
      */
-    public $reservedFunctionNames = array();
+    abstract public function getReservedFunctionsNames();
 
     /**
      * Defines obligatory arguments and default values for them

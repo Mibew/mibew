@@ -53,9 +53,9 @@ MibewAPI.prototype.checkFunction = function(functionObject, filterReservedFuncti
         throw new Error("Cannot call for function with no name");
     }
     if (filterReservedFunctions) {
-        for (var i = 0; i < this.interaction.reservedFunctionNames.length; i++) {
-            if (functionObject["function"] ==
-                    this.interaction.reservedFunctionNames[i]) {
+        var reservedFunctionsNames = this.interaction.getReservedFunctionsNames();
+        for (var i = 0; i < reservedFunctionsNames.length; i++) {
+            if (functionObject["function"] == reservedFunctionsNames[i]) {
                 throw new Error(
                     "'" + functionObject["function"] +
                     "' is reserved function name"
@@ -307,12 +307,17 @@ function MibewAPIInteraction(){
     this.obligatoryArguments = {};
 
     /**
-     * Reserved function's names
+     * Returns reserved (system) functions' names
      *
-     * Defines reserved(system) function's names described in the Mibew API.
-     * @type Array
+     * Reserved functions cannon be called directly by the other side and are
+     * used for low-level purposes. For example function "result" is used to
+     * send back a result of request execution.
+     *
+     * @returns {Array}
      */
-    this.reservedFunctionNames =  [];
+    this.getReservedFunctionsNames = function() {
+        return [];
+    };
 }
 
 /**
