@@ -36,18 +36,22 @@ class InviteInteraction extends AbstractInteraction
     }
 
     /**
-     * Defines obligatory arguments and default values for them
-     * @var array
-     * @see \Mibew\API\Interaction\AbstractInteraction::$obligatoryArgumnents
+     * Defines mandatory arguments and default values for them.
+     *
+     * @return array
+     * @see \Mibew\API\Interaction\AbstractInteraction::mandatoryArguments
      */
-    protected $obligatoryArguments = array(
-        '*' => array(
-            'references' => array(),
-            'return' => array(),
-            'visitorId' => null,
-        ),
-        'result' => array(
-            'errorCode' => 0,
-        ),
-    );
+    protected function mandatoryArguments()
+    {
+        return array(
+            '*' => array(
+                'references' => array(),
+                'return' => array(),
+                'visitorId' => null,
+            ),
+            'result' => array(
+                'errorCode' => 0,
+            ),
+        );
+    }
 }

@@ -34,83 +34,93 @@ abstract class AbstractInteraction
     abstract public function getReservedFunctionsNames();
 
     /**
-     * Defines obligatory arguments and default values for them
+     * Defines mandatory arguments and default values for them.
      *
-     * @var array Keys of the array are function names ('*' for all functions).
-     * Values are arrays of obligatory arguments with key for name of an
+     * This method implements "template method" design pattern.
+     *
+     * @return array Keys of the array are function names ('*' for all functions).
+     * Values are arrays of Mandatory arguments with key for name of an
      * argument and value for default value.
      *
      * For example:
      * <code>
-     * protected $obligatoryArguments = array(
-     *     '*' => array(
-     *         // Obligatory arguments for all functions are:
-     *         'return' => array(),     // 'return' with array() by default and
-     *         'references' => array()  // 'references' with array() by default
-     *     ),
+     * protected function mandatoryArguments()
+     * {
+     *     return array(
+     *         // Mandatory arguments for all functions are:
+     *         '*' => array(
+     *             // 'return' with array() by default and
+     *             'return' => array(),
+     *             // 'references' with array() by default
+     *             'references' => array(),
+     *         ),
      *
-     *     'result' => array(
      *         // There is an additional argument for the result function
-     *         'errorCode' => 0        // This is 'error_code' with 0 by default
-     *     )
-     * );
+     *         'result' => array(
+     *             // This is 'error_code' with 0 by default
+     *             'errorCode' => 0,
+     *         ),
+     *     );
+     * }
      * </code>
      */
-    protected $obligatoryArguments = array();
+    abstract protected function mandatoryArguments();
 
     /**
-     * Returns obligatory arguments for the $function_name function
+     * Returns mandatory arguments for the $function_name function
      *
      * @param string $function_name Function name
-     * @return array An array of obligatory arguments
+     * @return array An array of mandatory arguments
      */
-    public function getObligatoryArguments($function_name)
+    public function getMandatoryArguments($function_name)
     {
-        $obligatory_arguments = array();
-        // Add obligatory for all functions arguments
-        if (!empty($this->obligatoryArguments['*'])) {
-            $obligatory_arguments = array_merge(
-                $obligatory_arguments,
-                array_keys($this->obligatoryArguments['*'])
+        $all_mandatory_arguments = $this->mandatoryArguments();
+        $mandatory_arguments = array();
+        // Add mandatory for all functions arguments
+        if (!empty($all_mandatory_arguments['*'])) {
+            $mandatory_arguments = array_merge(
+                $mandatory_arguments,
+                array_keys($all_mandatory_arguments['*'])
             );
         }
-        // Add obligatory arguments for given function
-        if (!empty($this->obligatoryArguments[$function_name])) {
-            $obligatory_arguments = array_merge(
-                $obligatory_arguments,
-                array_keys($this->obligatoryArguments[$function_name])
+        // Add mandatory arguments for given function
+        if (!empty($all_mandatory_arguments[$function_name])) {
+            $mandatory_arguments = array_merge(
+                $mandatory_arguments,
+                array_keys($all_mandatory_arguments[$function_name])
             );
         }
 
-        return array_unique($obligatory_arguments);
+        return array_unique($mandatory_arguments);
     }
 
     /**
-     * Returns default values of obligatory arguments for the $function_name
+     * Returns default values of mandatory arguments for the $function_name
      * function
      *
      * @param string $function_name Function name
-     * @return array Associative array with keys are obligatory arguments and
+     * @return array Associative array with keys are mandatory arguments and
      *   values are default values of them
      */
-    public function getObligatoryArgumentsDefaults($function_name)
+    public function getMandatoryArgumentsDefaults($function_name)
     {
-        $obligatory_arguments = array();
-        // Add obligatory for all functions arguments
-        if (!empty($this->obligatoryArguments['*'])) {
-            $obligatory_arguments = array_merge(
-                $obligatory_arguments,
-                $this->obligatoryArguments['*']
+        $all_mandatory_arguments = $this->mandatoryArguments();
+        $mandatory_arguments = array();
+        // Add mandatory for all functions arguments
+        if (!empty($all_mandatory_arguments['*'])) {
+            $mandatory_arguments = array_merge(
+                $mandatory_arguments,
+                $all_mandatory_arguments['*']
             );
         }
-        // Add obligatory arguments for given function
-        if (!empty($this->obligatoryArguments[$function_name])) {
-            $obligatory_arguments = array_merge(
-                $obligatory_arguments,
-                $this->obligatoryArguments[$function_name]
+        // Add mandatory arguments for given function
+        if (!empty($all_mandatory_arguments[$function_name])) {
+            $mandatory_arguments = array_merge(
+                $mandatory_arguments,
+                $all_mandatory_arguments[$function_name]
             );
         }
 
-        return $obligatory_arguments;
+        return $mandatory_arguments;
     }
 }

@@ -12,16 +12,18 @@
  * @constructor
  */
 MibewAPIUsersInteraction = function() {
-    this.obligatoryArguments = {
-        '*': {
-            'agentId': null,
-            'return': {},
-            'references': {}
-        },
-        'result': {
-            'errorCode': 0
-        }
-    };
+    this.mandatoryArguments = function() {
+        return {
+            '*': {
+                'agentId': null,
+                'return': {},
+                'references': {}
+            },
+            'result': {
+                'errorCode': 0
+            }
+        };
+    }
 
     this.getReservedFunctionsNames = function() {
         return [

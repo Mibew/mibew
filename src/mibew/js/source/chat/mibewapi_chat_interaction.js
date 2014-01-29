@@ -12,16 +12,18 @@
  * @constructor
  */
 MibewAPIChatInteraction = function() {
-    this.obligatoryArguments = {
-        '*': {
-            'threadId': null,
-            'token': null,
-            'return': {},
-            'references': {}
-        },
-        'result': {
-            'errorCode': 0
-        }
+    this.mandatoryArguments = function() {
+        return {
+            '*': {
+                'threadId': null,
+                'token': null,
+                'return': {},
+                'references': {}
+            },
+            'result': {
+                'errorCode': 0
+            }
+        };
     };
 
     this.getReservedFunctionsNames = function() {

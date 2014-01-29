@@ -196,13 +196,13 @@ class API
             );
         }
         $unset_arguments = array_diff(
-            $this->interaction->getObligatoryArguments($function['function']),
+            $this->interaction->getMandatoryArguments($function['function']),
             array_keys($function['arguments'])
         );
         if (!empty($unset_arguments)) {
             throw new APIException(
                 "Arguments '" . implode("', '", $unset_arguments) . "' must be set",
-                APIException::OBLIGATORY_ARGUMENTS_MISSED
+                APIException::MANDATORY_ARGUMENTS_MISSED
             );
         }
     }
@@ -264,7 +264,7 @@ class API
      */
     public function buildResult($token, $result_arguments)
     {
-        $arguments = $result_arguments + $this->interaction->getObligatoryArgumentsDefaults('result');
+        $arguments = $result_arguments + $this->interaction->getMandatoryArgumentsDefaults('result');
         $package = array(
             'token' => $token,
             'functions' => array(

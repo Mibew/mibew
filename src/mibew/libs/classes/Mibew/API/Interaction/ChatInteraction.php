@@ -36,19 +36,23 @@ class ChatInteraction extends AbstractInteraction
     }
 
     /**
-     * Defines obligatory arguments and default values for them
-     * @var array
-     * @see \Mibew\API\Interaction\AbstractInteraction::$obligatoryArgumnents
+     * Defines mandatory arguments and default values for them.
+     *
+     * @return array
+     * @see \Mibew\API\Interaction\AbstractInteraction::mandatoryArguments
      */
-    protected $obligatoryArguments = array(
-        '*' => array(
-            'threadId' => null,
-            'token' => null,
-            'references' => array(),
-            'return' => array(),
-        ),
-        'result' => array(
-            'errorCode' => 0,
-        ),
-    );
+    protected function mandatoryArguments()
+    {
+        return array(
+            '*' => array(
+                'threadId' => null,
+                'token' => null,
+                'references' => array(),
+                'return' => array(),
+            ),
+            'result' => array(
+                'errorCode' => 0,
+            ),
+        );
+    }
 }

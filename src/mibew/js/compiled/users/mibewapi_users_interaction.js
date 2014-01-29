@@ -5,4 +5,4 @@
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-MibewAPIUsersInteraction=function(){this.obligatoryArguments={"*":{agentId:null,"return":{},references:{}},result:{errorCode:0}};this.getReservedFunctionsNames=function(){return["result"]}};MibewAPIUsersInteraction.prototype=new MibewAPIInteraction;
+MibewAPIUsersInteraction=function(){this.mandatoryArguments=function(){return{"*":{agentId:null,"return":{},references:{}},result:{errorCode:0}}};this.getReservedFunctionsNames=function(){return["result"]}};MibewAPIUsersInteraction.prototype=new MibewAPIInteraction;

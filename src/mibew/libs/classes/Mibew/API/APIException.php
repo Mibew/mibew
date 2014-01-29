@@ -71,9 +71,9 @@ class APIException extends \Exception
      */
     const NOT_VALID_JSON = 12;
     /**
-     * Some of the function's obligatory arguments are missed
+     * Some of the function's mandatory arguments are missed
      */
-    const OBLIGATORY_ARGUMENTS_MISSED = 13;
+    const MANDATORY_ARGUMENTS_MISSED = 13;
     /**
      * Request contains more than one result functions
      */
