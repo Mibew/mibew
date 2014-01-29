@@ -485,6 +485,9 @@ abstract class AbstractProcessor
      * All API methods names starts with 'api' prefix.
      * It calls before '<eventPrefix>FunctionCall' event triggers.
      *
+     * WARNING: API methods defined in that way are DEPRECATED. Please use
+     * appropriate events instead.
+     *
      * @param array &$func Function array equals to array, passed to the
      *   '<eventPrefix>FunctionCall' event.
      * @todo Create some unit tests
