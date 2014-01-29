@@ -1139,18 +1139,21 @@ class Thread
     protected function setupAvatar($link)
     {
         $processor = ThreadProcessor::getInstance();
-        $processor->call(array(
+        $processor->call(
             array(
-                'function' => 'setupAvatar',
-                'arguments' => array(
-                    'threadId' => $this->id,
-                    'token' => $this->lastToken,
-                    'return' => array(),
-                    'references' => array(),
-                    'recipient' => 'user',
-                    'imageLink' => $link,
+                array(
+                    'function' => 'setupAvatar',
+                    'arguments' => array(
+                        'threadId' => $this->id,
+                        'token' => $this->lastToken,
+                        'return' => array(),
+                        'references' => array(),
+                        'recipient' => 'user',
+                        'imageLink' => $link,
+                    ),
                 ),
             ),
-        ));
+            true
+        );
     }
 }

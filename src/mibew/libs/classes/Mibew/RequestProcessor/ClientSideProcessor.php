@@ -30,13 +30,27 @@ abstract class ClientSideProcessor extends AbstractProcessor
     /**
      * Call function at client side
      *
+     * WARNING: This processor does not support synchronous requests.
+     *
      * @param array $functions Array of functions to call. See Mibew API for
      * details.
+     * @param boolean $async True for asynchronous requests and false for
+     *   synchronous request
      * @param array|null $callback callback array for synchronous requests.
      * @return mixed request result or boolean false on failure.
+     * @see \Mibew\RequestProcessor\AbstractProcessor
      */
-    public function call($functions, $callback = null)
+    public function call($functions, $async, $callback = null)
     {
+        if (!$async) {
+            trigger_error(
+                'Synchronous requests are not supported.',
+                E_USER_WARNING
+            );
+
+            return false;
+        }
+
         return parent::call($functions, true, $callback);
     }
 
