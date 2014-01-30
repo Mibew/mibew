@@ -15,3 +15,10 @@ src/mibew/plugins/*
 src/mibew/locales/*
 !src/mibew/locales/en/
 !src/mibew/locales/names/
+
+# Do not index composer files
+src/composer.phar
+src/composer.lock
+
+# Do not index third-party libraries
+src/mibew/vendor
