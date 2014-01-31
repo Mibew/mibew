@@ -723,14 +723,15 @@ function chat_start_for_user(
             Thread::KIND_FOR_AGENT,
             getstring2(
                 'chat.visitor.invitation.accepted',
-                array($operator_name)
+                array($operator_name),
+                true
             )
         );
     } else {
         if ($referrer) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getstring2('chat.came.from', array($referrer))
+                getstring2('chat.came.from', array($referrer), true)
             );
         }
         if ($requested_operator && !$requested_operator_online) {
@@ -738,11 +739,12 @@ function chat_start_for_user(
                 Thread::KIND_INFO,
                 getstring2(
                     'chat.requested_operator.offline',
-                    array(get_operator_name($requested_operator))
+                    array(get_operator_name($requested_operator)),
+                    true
                 )
             );
         } else {
-            $thread->postMessage(Thread::KIND_INFO, getstring('chat.wait'));
+            $thread->postMessage(Thread::KIND_INFO, getstring('chat.wait', true));
         }
     }
 
@@ -750,7 +752,7 @@ function chat_start_for_user(
     if ($info) {
         $thread->postMessage(
             Thread::KIND_FOR_AGENT,
-            getstring2('chat.visitor.info', array($info))
+            getstring2('chat.visitor.info', array($info), true)
         );
     }
 

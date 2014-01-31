@@ -533,7 +533,7 @@ class ThreadProcessor extends ClientSideProcessor
         if ($email) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getstring2('chat.visitor.email', array($email))
+                getstring2('chat.visitor.email', array($email), true)
             );
         }
 
@@ -647,19 +647,19 @@ class ThreadProcessor extends ClientSideProcessor
         if ($referrer) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getstring2('chat.came.from', array($referrer))
+                getstring2('chat.came.from', array($referrer), true)
             );
         }
         if ($email) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getstring2('chat.visitor.email', array($email))
+                getstring2('chat.visitor.email', array($email), true)
             );
         }
         if ($info) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getstring2('chat.visitor.info', array($info))
+                getstring2('chat.visitor.info', array($info), true)
             );
         }
         $thread->postMessage(Thread::KIND_USER, $message, array('name' => $name));

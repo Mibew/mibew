@@ -54,3 +54,104 @@ function escape_with_cdata($text)
 {
     return "<![CDATA[" . str_replace("]]>", "]]>]]&gt;<![CDATA[", $text) . "]]>";
 }
+
+/**
+ * Simple HTML sanitation.
+ *
+ * Includes some code from the PHP StripAttributes Class For XML and HTML.
+ *
+ * @param string $string Target string
+ * @param string $tags_level Sanitation level for tags. Available values are
+ *   "high", "moderate" and "low".
+ * @param string $attr_level Sanitation level for attributes. Available values
+ *   are "high", "moderate" and "low".
+ * @return string Sanitized string with stripped dangerous tags and attributes.
+ *
+ * @author David (semlabs.co.uk)
+ * @copyright (c) 2009, David (semlabs.co.uk)
+ * @license MIT
+ * @link http://semlabs.co.uk/journal/php-strip-attributes-class-for-xml-and-html
+ */
+function sanitize_string($string, $tags_level = 'high', $attr_level = 'high')
+{
+    $sanitize_tags = array(
+        'high' => '',
+        'moderate' => '<span><em><strong><b><i><br>',
+        'low' => '<span><em><strong><b><i><br><p><ul><ol><li><a><font><style>',
+    );
+
+    $sanitize_attributes = array(
+        'high' => array(),
+        'moderate' => array('class', 'style', 'href', 'rel', 'id'),
+        'low' => false,
+    );
+
+    $tags_level = array_key_exists($tags_level, $sanitize_tags) ? $tags_level : 'high';
+    $string = strip_tags($string, $sanitize_tags[$tags_level]);
+
+    $attr_level = array_key_exists($attr_level, $sanitize_attributes) ? $attr_level : 'high';
+    if ($sanitize_attributes[$attr_level]) {
+
+        preg_match_all("/<([^ !\/\>\n]+)([^>]*)>/i", $string, $elements);
+        foreach ($elements[1] as $key => $element) {
+            if ($elements[2][$key]) {
+
+                $new_attributes = '';
+                preg_match_all(
+                    "/([^ =]+)\s*=\s*[\"|']{0,1}([^\"']*)[\"|']{0,1}/i",
+                    $elements[2][$key],
+                    $attributes
+                );
+
+                if ($attributes[1]) {
+                    foreach ($attributes[1] as $attr_key => $attr) {
+                        if (in_array($attributes[1][$attr_key], $sanitize_attributes[$attr_level])) {
+                            $new_attributes .= ' ' . $attributes[1][$attr_key]
+                                . '="' . $attributes[2][$attr_key] . '"';
+                        }
+                    }
+                }
+
+                $replacement = '<' . $elements[1][$key] . $new_attributes . '>';
+                $string = preg_replace(
+                    '/' . sanitize_reg_escape($elements[0][$key]) . '/',
+                    $replacement,
+                    $string
+                );
+
+            }
+        }
+
+    }
+
+    return $string;
+}
+
+/**
+ * Remove dangerous characters from regular expression.
+ *
+ * @param string $string Target regular expression
+ * @return string Sanitized reqular expression
+ */
+function sanitize_reg_escape($string)
+{
+    $conversions = array(
+        "^" => "\^",
+        "[" => "\[",
+        "." => "\.",
+        "$" => "\$",
+        "{" => "\{",
+        "*" => "\*",
+        "(" => "\(",
+        "\\" => "\\\\",
+        "/" => "\/",
+        "+" => "\+",
+        ")" => "\)",
+        "|" => "\|",
+        "?" => "\?",
+        "<" => "\<",
+        ">" => "\>",
+    );
+
+    return strtr($string, $conversions);
+}

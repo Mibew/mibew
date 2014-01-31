@@ -33,7 +33,8 @@ if ($referer && isset($_SESSION['threadid'])) {
         $msg = getstring2_(
             "chat.client.visited.page",
             array($referer),
-            $thread->locale
+            $thread->locale,
+            true
         );
         $thread->postMessage(Thread::KIND_FOR_AGENT, $msg);
     }

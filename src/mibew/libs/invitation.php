@@ -121,12 +121,13 @@ function invitation_invite($visitor_id, $operator)
         Thread::KIND_FOR_AGENT,
         getlocal2(
             'chat.visitor.invitation.sent',
-            array($operator_name, $last_visited_page)
+            array($operator_name, $last_visited_page),
+            true
         )
     );
     $thread->postMessage(
         Thread::KIND_AGENT,
-        getlocal("invitation.message"),
+        getlocal("invitation.message", true),
         array(
             'name' => $operator_name,
             'operator_id' => $operator['operatorid'],
@@ -200,7 +201,7 @@ function invitation_reject($visitor_id)
     if ($thread) {
         $thread->postMessage(
             Thread::KIND_FOR_AGENT,
-            getlocal('chat.visitor.invitation.rejected')
+            getlocal('chat.visitor.invitation.rejected', true)
         );
     }
 
@@ -270,7 +271,7 @@ function invitation_close_old()
         $thread = Thread::createFromDbInfo($thread_info);
         $thread->postMessage(
             Thread::KIND_FOR_AGENT,
-            getstring_('chat.visitor.invitation.ignored', $thread->locale)
+            getstring_('chat.visitor.invitation.ignored', $thread->locale, true)
         );
         unset($thread);
     }

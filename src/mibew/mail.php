@@ -71,14 +71,15 @@ foreach ($messages as $msg) {
     $history .= message_to_text($msg);
 }
 
-$subject = getstring("mail.user.history.subject");
+$subject = getstring("mail.user.history.subject", true);
 $body = getstring2(
     "mail.user.history.body",
     array($thread->userName,
         $history,
         Settings::get('title'),
         Settings::get('hosturl')
-    )
+    ),
+    true
 );
 
 mibew_mail($email, $mibew_mailbox, $subject, $body);

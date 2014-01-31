@@ -364,7 +364,7 @@ class Thread
         // Send message
         $thread->postMessage(
             self::KIND_EVENTS,
-            getstring_("chat.status.user.reopenedthread", $thread->locale)
+            getstring_("chat.status.user.reopenedthread", $thread->locale, true)
         );
 
         return $thread;
@@ -602,7 +602,8 @@ class Thread
                     // Send message to user
                     $message_to_post = getstring_(
                         "chat.status.operator.dead",
-                        $this->locale
+                        $this->locale,
+                        true
                     );
                     $this->postMessage(
                         self::KIND_CONN,
@@ -626,7 +627,8 @@ class Thread
                 // And send a message to operator
                 $message_to_post = getstring_(
                     "chat.status.user.dead",
-                    $this->locale
+                    $this->locale,
+                    true
                 );
                 $this->postMessage(
                     self::KIND_FOR_AGENT,
@@ -708,13 +710,15 @@ class Thread
                 $message_to_post = getstring2_(
                     "chat.status.operator.changed",
                     array($operator_name, $this->agentName),
-                    $this->locale
+                    $this->locale,
+                    true
                 );
             } else {
                 $message_to_post = getstring2_(
                     "chat.status.operator.returned",
                     array($operator_name),
-                    $this->locale
+                    $this->locale,
+                    true
                 );
             }
 
@@ -867,7 +871,8 @@ class Thread
                 getstring2_(
                     "chat.status.user.left",
                     array($this->userName),
-                    $this->locale
+                    $this->locale,
+                    true
                 )
             );
         } else {
@@ -876,7 +881,8 @@ class Thread
                     self::KIND_FOR_AGENT,
                     getstring_(
                         "chat.visitor.invitation.canceled",
-                        $this->locale
+                        $this->locale,
+                        true
                     )
                 );
             } else {
@@ -885,7 +891,8 @@ class Thread
                     getstring2_(
                         "chat.status.operator.left",
                         array($this->agentName),
-                        $this->locale
+                        $this->locale,
+                        true
                     )
                 );
             }
@@ -942,20 +949,23 @@ class Thread
                     $message = getstring2_(
                         "chat.status.operator.changed",
                         array($operator_name, $this->agentName),
-                        $this->locale
+                        $this->locale,
+                        true
                     );
                 } else {
                     $message = getstring2_(
                         "chat.status.operator.returned",
                         array($operator_name),
-                        $this->locale
+                        $this->locale,
+                        true
                     );
                 }
             } else {
                 $message = getstring2_(
                     "chat.status.operator.joined",
                     array($operator_name),
-                    $this->locale
+                    $this->locale,
+                    true
                 );
             }
         } elseif ($this->state == self::STATE_CHATTING) {
@@ -965,7 +975,8 @@ class Thread
                 $message = getstring2_(
                     "chat.status.operator.changed",
                     array($operator_name, $this->agentName),
-                    $this->locale
+                    $this->locale,
+                    true
                 );
             }
         } else {
@@ -1015,7 +1026,8 @@ class Thread
             $message = getstring2_(
                 "chat.status.user.changedname",
                 array($old_name, $new_name),
-                $this->locale
+                $this->locale,
+                true
             );
             $this->postMessage(self::KIND_EVENTS, $message);
         }
