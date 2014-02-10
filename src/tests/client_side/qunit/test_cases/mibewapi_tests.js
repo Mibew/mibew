@@ -8,47 +8,51 @@ module('MibewAPIInteraction');
  */
 function MibewAPITestInteraction() {
 
-    this.obligatoryArguments = {
-        '*': {
-            'return': {},
-            'references': {}
-        },
-        'foo': {
-            'bar': 127
-        }
-    };
+    this.mandatoryArguments = function() {
+        return {
+            '*': {
+                'return': {},
+                'references': {}
+            },
+            'foo': {
+                'bar': 127
+            }
+        };
+    }
 
-    this.reservedFunctionNames = [
-        'result'
-    ];
+    this.getReservedFunctionsNames = function() {
+        return [
+            'result'
+        ];
+    }
 
 }
 MibewAPITestInteraction.prototype = new MibewAPIInteraction();
 
-// Tests for the getObligatoryArguments method
-test('getObligatoryArguments', function(){
+// Tests for the getMandatoryArguments method
+test('getMandatoryArguments', function(){
     var interaction = new MibewAPITestInteraction();
     // Arguments for all function
     deepEqual(
-        interaction.getObligatoryArguments('some_function'),
+        interaction.getMandatoryArguments('some_function'),
         ['return', 'references'],
         'Test with arguments for all functions'
     );
 
     // Arguments for specific function
     deepEqual(
-        interaction.getObligatoryArguments('foo'),
+        interaction.getMandatoryArguments('foo'),
         ['return', 'references', 'bar'],
         'Test with arguments for specific function'
     );
 });
 
-// Tests for the getObligatoryArgumentsDefaults method
-test('getObligatoryArgumentsDefaults', function(){
+// Tests for the getMandatoryArgumentsDefaults method
+test('getMandatoryArgumentsDefaults', function(){
     var interaction = new MibewAPITestInteraction();
     // Default values for arguments for all function
     deepEqual(
-        interaction.getObligatoryArgumentsDefaults('some_function'),
+        interaction.getMandatoryArgumentsDefaults('some_function'),
         {
             'return': {},
             'references': {}
@@ -58,7 +62,7 @@ test('getObligatoryArgumentsDefaults', function(){
 
     // Default values for arguments for specific function
     deepEqual(
-        interaction.getObligatoryArgumentsDefaults('foo'),
+        interaction.getMandatoryArgumentsDefaults('foo'),
         {
             'return': {},
             'references': {},
@@ -150,8 +154,8 @@ test("checkFunction", function(){
     } catch (e) {
         equal(
             e.message,
-            "Not all obligatory arguments are set in 'test' function",
-            "Test with not all obligatory arguments"
+            "Not all mandatory arguments are set in 'test' function",
+            "Test with not all mandatory arguments"
         );
     }
 
