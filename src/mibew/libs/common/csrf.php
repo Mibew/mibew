@@ -33,20 +33,18 @@ function csrf_check_token()
     }
 }
 
-/* print csrf token as a hidden field */
-function print_csrf_token_input()
+function get_csrf_token_input()
 {
     set_csrf_token();
 
-    echo "<input name='csrf_token' type='hidden' value='" . $_SESSION['csrf_token'] . "' />";
+    return '<input name="csrf_token" type="hidden" value="' . $_SESSION['csrf_token'] . '" />';
 }
 
-/* print csrf token in url format */
-function print_csrf_token_in_url()
+function get_csrf_token_in_url()
 {
     set_csrf_token();
 
-    echo "&amp;csrf_token=" . $_SESSION['csrf_token'];
+    return "&amp;csrf_token=" . $_SESSION['csrf_token'];
 }
 
 /* set csrf token */

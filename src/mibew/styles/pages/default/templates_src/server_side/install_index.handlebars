@@ -1,0 +1,76 @@
+{{#extends "layout"}}
+    {{#if localeLinks}}
+        {{#override "menu"}}{{> _locales}}{{/override}}
+    {{/if}}
+
+    {{#override "header"}}
+        {{#if soundcheck}}
+            <!-- External libs -->
+            <script type="text/javascript" src="{{mibewRoot}}/js/libs/jquery.min.js"></script>
+            <script type="text/javascript" src="{{mibewRoot}}/js/libs/json2.js"></script>
+            <script type="text/javascript" src="{{mibewRoot}}/js/libs/underscore-min.js"></script>
+            <script type="text/javascript" src="{{mibewRoot}}/js/libs/backbone-min.js"></script>
+            <script type="text/javascript" src="{{mibewRoot}}/js/libs/backbone.marionette.min.js"></script>
+            <script type="text/javascript" src="{{mibewRoot}}/js/libs/handlebars.js"></script>
+
+            <!-- Default application files -->
+            <script type="text/javascript" src="{{mibewRoot}}/js/compiled/mibewapi.js"></script>
+            <script type="text/javascript" src="{{mibewRoot}}/js/compiled/default_app.js"></script>
+
+            <script type="text/javascript" language="javascript" src="{{mibewRoot}}/js/compiled/soundcheck.js"></script>
+        {{/if}}
+    {{/override}}
+
+    {{#override "content"}}
+        {{l10n "install.message"}}
+
+        <br/>
+        <br/>
+
+        {{> _errors}}
+
+        {{#if done}}
+            <div id="install">
+                <div class="mform">
+                    <div class="formtop">
+                        <div class="formtopi"></div>
+                    </div>
+
+                    <div class="forminner">
+                        {{l10n "install.done"}}
+
+                        <ul>
+                            {{#each done}}
+                                <li>{{{this}}}</li>
+                            {{/each}}
+                        </ul>
+
+                        {{#if nextstep}}
+                            <br/>
+                            <br/>
+
+                            {{l10n "install.next"}}
+
+                            <ul>
+                                <li>
+                                    {{#if nextnotice}}
+                                        {{nextnotice}}<br/><br/>
+                                    {{/if}}
+
+                                    <a href="{{nextstepurl}}">{{nextstep}}</a>
+                                </li>
+                            </ul>
+                        {{/if}}
+                    </div>
+
+                    <div class="formbottom">
+                        <div class="formbottomi"></div>
+                    </div>
+                </div>
+            </div>
+        {{/if}}
+
+        <br/>
+        <a href="{{mibewRoot}}/license.php">{{l10n "install.license"}}</a>
+    {{/override}}
+{{/extends}}

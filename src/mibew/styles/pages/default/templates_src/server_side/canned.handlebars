@@ -1,0 +1,93 @@
+{{#extends "layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "canned.descr"}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        <form name="cannedForm" method="get" action="{{mibewRoot}}/operator/canned.php">
+            <div class="mform">
+                <div class="formtop">
+                    <div class="formtopi"></div>
+                </div>
+
+                <div class="forminner">
+                    <div class="packedFormField">
+                        {{l10n "canned.locale"}}<br/>
+                        <select name="lang" onchange="this.form.submit();">
+                            {{#each locales}}
+                                <option value="{{id}}"{{#ifEqual id ../formlang}} selected="selected"{{/ifEqual}}>{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <div class="packedFormField">
+                        {{l10n "canned.group"}}<br/>
+                        <select name="group" onchange="this.form.submit();">
+                            {{#each groups}}
+                                <option value="{{groupid}}"{{#ifEqual groupid ../formgroup}} selected="selected"{{/ifEqual}}>{{#repeat level}}&nbsp;&nbsp;{{/repeat}}{{vclocalname}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <br clear="all"/>
+                </div>
+
+                <div class="formbottom">
+                    <div class="formbottomi"></div>
+                </div>
+            </div>
+        </form>
+        <br/>
+
+        <div class="tabletool">
+            <img src="{{stylePath}}/images/buttons/createban.gif" border="0" alt=""/>
+            <a href="{{mibewRoot}}/operator/cannededit.php?lang={{formlang}}&amp;group={{formgroup}}" target="_blank"
+                        onclick="this.newWindow = window.open('{{mibewRoot}}/operator/cannededit.php?lang={{formlang}}&amp;group={{formgroup}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">
+                {{l10n "canned.add"}}
+            </a>
+        </div>
+        <br clear="all"/>
+
+        <table class="translate">
+            <thead>
+                <tr class="header">
+                    <th>{{l10n "canned.message_title"}}</th>
+                    <th>{{l10n "cannededit.message"}}</th>
+                    <th>{{l10n "canned.actions"}}</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each [pagination.items]}}
+                    <tr>
+                        <td>
+                            {{#replace "\n" ""}}{{vctitle}}{{/replace}}
+                        </td>
+                        <td>
+                            {{#replace "\n" "<br/>"}}{{vcvalue}}{{/replace}}
+                        </td>
+                        <td>
+                            <a href="{{../mibewRoot}}/operator/cannededit.php?key={{id}}" target="_blank"
+                                onclick="this.newWindow = window.open('{{../mibewRoot}}/operator/cannededit.php?key={{id}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{l10n "canned.actions.edit"}}</a>,
+                            <a href="{{../mibewRoot}}/operator/canned.php?act=delete&amp;key={{id}}&amp;lang={{../formlang}}&amp;group={{../formgroup}}{{csrfTokenInUrl}}">{{l10n "canned.actions.del"}}</a>
+                        </td>
+                    </tr>
+                {{else}}
+                    <tr>
+                        <td colspan="3">{{l10n "tag.pagination.no_items.elements"}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+        {{#if pagination}}
+            <br />
+            {{generatePagination stylePath pagination}}
+        {{/if}}
+    {{/override}}
+{{/extends}}

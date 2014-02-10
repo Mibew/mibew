@@ -34,6 +34,9 @@ require_once(MIBEW_FS_ROOT.'/libs/config.php');
  */
 define('MIBEW_CONFIG_WEB_ROOT', $mibewroot);
 
+// Initialize external dependencies
+require_once(MIBEW_FS_ROOT . '/vendor/autoload.php');
+
 // Try to get actual base URL of the Mibew
 $requestUri = $_SERVER["REQUEST_URI"];
 if (!preg_match('/^(.*)\\/install(\\/[^\\/\\\\]*)?$/', $requestUri, $matches)) {
@@ -57,6 +60,7 @@ require_once(MIBEW_FS_ROOT.'/libs/common/string.php');
 require_once(MIBEW_FS_ROOT.'/libs/classes/Mibew/Style/StyleInterface.php');
 require_once(MIBEW_FS_ROOT.'/libs/classes/Mibew/Style/AbstractStyle.php');
 require_once(MIBEW_FS_ROOT.'/libs/classes/Mibew/Style/PageStyle.php');
+require_once(MIBEW_FS_ROOT.'/libs/classes/Mibew/Handlebars/HelpersSet.php');
 // Include database structure
 require_once(MIBEW_FS_ROOT.'/install/dbinfo.php');
 

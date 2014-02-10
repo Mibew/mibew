@@ -92,8 +92,14 @@ if (isset($_GET['act']) && $_GET['act'] == 'delete') {
 
 // Get messages and setup pagination
 
-$messages = load_canned_messages($lang, $group_id);
-$pagination = setup_pagination($messages);
+$canned_messages = load_canned_messages($lang, $group_id);
+foreach ($canned_messages as &$message) {
+    $message['vctitle'] = to_page($message['vctitle']);
+    $message['vcvalue'] = to_page($message['vcvalue']);
+}
+unset($message);
+
+$pagination = setup_pagination($canned_messages);
 $page['pagination'] = $pagination['info'];
 $page['pagination.items'] = $pagination['items'];
 

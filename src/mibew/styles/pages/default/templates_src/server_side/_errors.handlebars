@@ -1,0 +1,13 @@
+{{#if errors}}
+    <div class="errinfo">
+        <img src="{{stylePath}}/images/icon_err.gif" width="40" height="40" border="0" alt="" class="left"/>
+        {{l10n "errors.header"}}
+        {{#each errors}}
+            {{l10n "errors.prefix"}}
+            {{{this}}}
+            {{l10n "errors.suffix"}}
+        {{/each}}
+        {{l10n "errors.footer"}}
+    </div>
+    <br clear="all"/>
+{{/if}}

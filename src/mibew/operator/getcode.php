@@ -121,4 +121,4 @@ $page['menuid'] = "getcode";
 $page = array_merge($page, prepare_menu($operator));
 
 $page_style = new PageStyle(PageStyle::currentStyle());
-$page_style->render('gen_button', $page);
+$page_style->render('get_code', $page);

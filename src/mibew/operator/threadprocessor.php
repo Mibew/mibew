@@ -40,14 +40,19 @@ if (isset($_GET['threadid'])) {
     $group = group_by_id($thread->groupId);
 
     $thread_info = array(
-        'thread' => $thread,
-        'groupName' => get_group_name($group),
+        'userName' => to_page($thread->userName),
+        'userAddress' => get_user_addr(to_page($thread->remote)),
+        'userAgentVersion' => get_user_agent_version(to_page($thread->userAgent)),
+        'agentName' => to_page($thread->agentName),
+        'chatTime' => ($thread->modified - $thread->created),
+        'chatStarted' => $thread->created,
+        'groupName' => to_page(get_group_name($group)),
     );
-    $page['thread_info'] = $thread_info;
+    $page['threadInfo'] = $thread_info;
 
     // Build messages list
     $last_id = -1;
-    $messages = $thread_info['thread']->getMessages(false, $last_id);
+    $messages = $thread->getMessages(false, $last_id);
     $page['threadMessages'] = json_encode($messages);
 }
 

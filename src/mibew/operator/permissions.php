@@ -64,16 +64,21 @@ if (!$op) {
     }
 }
 
-$page['permissionsList'] = get_permission_list();
-$page['formpermissions'] = array("");
 $page['currentop'] = $op ? to_page(get_operator_name($op)) . " (" . $op['vclogin'] . ")" : getlocal("not_found");
 
+$checked_permissions = array();
 if ($op) {
     foreach (permission_ids() as $perm => $id) {
         if (is_capable($perm, $op)) {
-            $page['formpermissions'][] = $id;
+            $checked_permissions[] = $id;
         }
     }
+}
+
+$page['permissionsList'] = array();
+foreach(get_permission_list() as $perm) {
+    $perm['checked'] = in_array($perm['id'], $checked_permissions);
+    $page['permissionsList'][] = $perm;
 }
 
 $page['stored'] = isset($_GET['stored']);

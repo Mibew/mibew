@@ -1,0 +1,84 @@
+{{#extends "layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "page_avatar.intro"}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        <form name="avatarForm" method="post" action="{{mibewRoot}}/operator/avatar.php" enctype="multipart/form-data">
+            {{csrfTokenInput}}
+            <input type="hidden" name="op" value="{{opid}}"/>
+
+            <div>
+                {{> _tabs}}
+                <div class="mform">
+                    <div class="formtop">
+                        <div class="formtopi"></div>
+                    </div>
+
+                    <div class="forminner">
+                        <p><b>{{currentop}}&lrm;</b></p>
+
+                        <div class="fieldForm">
+
+                            {{#if avatar}}
+                                <div class="field">
+                                    <div class="flabel">{{l10n "form.field.avatar.current"}}</div>
+                                    <div class="fvalue">
+                                        <img src="{{avatar}}" alt="cannot load avatar"/><br/>
+                                        {{#if canmodify}}
+                                            <a class="formauth" href="{{mibewRoot}}/operator/avatar.php?op={{opid}}&amp;delete=true">
+                                                {{l10n "page_agent.clear_avatar"}}
+                                            </a>
+                                        {{/if}}
+                                    </div>
+                                    <div class="fdescr"> &mdash; {{l10n "form.field.avatar.current.description"}}</div>
+                                    <br clear="all"/>
+                                </div>
+                            {{else}}
+                                {{#unless canmodify}}
+                                    <div class="field">
+                                        <div class="fvaluenodesc">
+                                            No avatar
+                                        </div>
+                                    </div>
+                                {{/unless}}
+                            {{/if}}
+
+                            {{#if canmodify}}
+                                <div class="field">
+                                    <label for="avatarFile" class="flabel">
+                                        {{l10n "form.field.avatar.upload"}}<span class="required">*</span>
+                                    </label>
+                                    <div class="fvalue">
+                                        <input id="avatarFile" type="file" name="avatarFile" size="40" value="{{formavatarFile}}" class="formauth"/>
+                                    </div>
+                                    <label for="avatarFile" class="fdescr"> &mdash; {{l10n "form.field.avatar.upload.description"}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="fbutton">
+                                    <input type="image" name="save" value="" src="{{mibewRoot}}{{l10n "image.button.save"}}" alt="{{l10n "button.save"}}"/>
+                                </div>
+                            {{/if}}
+                        </div>
+
+                    </div>
+
+                    <div class="formbottom">
+                        <div class="formbottomi"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="asterisk">
+                {{l10n "common.asterisk_explanation"}}
+            </div>
+        </form>
+    {{/override}}
+{{/extends}}

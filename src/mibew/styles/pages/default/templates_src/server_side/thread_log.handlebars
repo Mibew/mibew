@@ -1,0 +1,97 @@
+{{#extends "layout"}}
+    {{#override "header"}}
+        <!-- External libs -->
+        <script type="text/javascript" src="{{mibewRoot}}/js/libs/jquery.min.js"></script>
+        <script type="text/javascript" src="{{mibewRoot}}/js/libs/json2.js"></script>
+        <script type="text/javascript" src="{{mibewRoot}}/js/libs/underscore-min.js"></script>
+        <script type="text/javascript" src="{{mibewRoot}}/js/libs/backbone-min.js"></script>
+        <script type="text/javascript" src="{{mibewRoot}}/js/libs/backbone.marionette.min.js"></script>
+        <script type="text/javascript" src="{{mibewRoot}}/js/libs/handlebars.js"></script>
+
+        <!-- Application files -->
+        <script type="text/javascript" src="{{mibewRoot}}/js/compiled/mibewapi.js"></script>
+        <script type="text/javascript" src="{{mibewRoot}}/js/compiled/default_app.js"></script>
+        <script type="text/javascript" src="{{mibewRoot}}/js/compiled/thread_log_app.js"></script>
+
+        <!-- Start application -->
+        <script type="text/javascript"><!--
+            jQuery(document).ready(function(){
+                Mibew.Application.start({
+                    messages: {{{threadMessages}}}
+                });
+            });
+        //--></script>
+    {{/override}}
+
+    {{#override "content"}}
+        {{l10n "thread.intro"}}
+
+        <br/><br/>
+
+        <div class="logpane">
+            <div class="header">
+
+                    <div class="wlabel">
+                        {{l10n "page.analysis.search.head_name"}}:
+                    </div>
+                    <div class="wvalue">
+                        {{threadInfo.userName}}
+                    </div>
+                    <br clear="all"/>
+
+                    <div class="wlabel">
+                        {{l10n "page.analysis.search.head_host"}}:
+                    </div>
+                    <div class="wvalue">
+                        {{{threadInfo.userAddress}}}
+                    </div>
+                    <br clear="all"/>
+
+                    <div class="wlabel">
+                        {{l10n "page.analysis.search.head_browser"}}:
+                    </div>
+                    <div class="wvalue">
+                        {{threadInfo.userAgentVersion}}
+                    </div>
+                    <br clear="all"/>
+
+                    {{#if threadInfo.groupName}}
+                        <div class="wlabel">
+                            {{l10n "page.analysis.search.head_group"}}:
+                        </div>
+                        <div class="wvalue">
+                            {{threadInfo.groupName}}
+                        </div>
+                        <br clear="all"/>
+                    {{/if}}
+
+                    {{#if threadInfo.agentName}}
+                        <div class="wlabel">
+                            {{l10n "page.analysis.search.head_operator"}}:
+                        </div>
+                        <div class="wvalue">
+                            {{threadInfo.agentName}}
+                        </div>
+                        <br clear="all"/>
+                    {{/if}}
+
+                    <div class="wlabel">
+                        {{l10n "page.analysis.search.head_time"}}:
+                    </div>
+                    <div class="wvalue">
+                        {{formatDateDiff threadInfo.chatTime}}
+                            ({{formatDate threadInfo.chatStarted}})
+                    </div>
+                    <br clear="all"/>
+            </div>
+
+            <div class="message" id="messages-region"></div>
+        </div>
+
+        <br />
+        <a href="{{mibewRoot}}/operator/history.php">
+            {{l10n "thread.back_to_search"}}
+        </a>
+        <br />
+    {{/override}}
+{{/extends}}

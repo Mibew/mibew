@@ -1,0 +1,67 @@
+{{#extends "layout"}}
+    {{#override "content"}}
+        {{#if saved}}
+            {{l10n "cannededit.done"}}
+            <script type="text/javascript"><!--
+                if(window.opener && window.opener.location) {
+                    window.opener.location.reload();
+                }
+                setTimeout( (function() { window.close(); }), 1500 );
+            //--></script>
+        {{else}}
+            {{#if key}}
+                {{l10n "cannededit.descr"}}
+            {{else}}
+                {{l10n "cannednew.descr"}}
+            {{/if}}
+
+            <br/>
+            <br/>
+
+            {{> _errors}}
+
+            <form name="cannedForm" method="post" action="{{mibewRoot}}/operator/cannededit.php">
+                {{csrfTokenInput}}
+                <input type="hidden" name="key" value="{{key}}"/>
+
+                {{#unless key}}
+                    <input type="hidden" name="lang" value="{{locale}}"/>
+                    <input type="hidden" name="group" value="{{groupid}}"/>
+                {{/unless}}
+
+                <div class="mform">
+                    <div class="formtop">
+                        <div class="formtopi"></div>
+                    </div>
+
+                    <div class="forminner">
+                        <div class="fieldForm">
+                            <div class="field">
+                                <label for="titlefield" class="flabel">{{l10n "canned.message_title"}}</label>
+                                <div class="fvaluenodesc">
+                                    <input id="titlefield" type="text" name="title" class="wide" maxlength="100" value="{{formtitle}}"/>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="message" class="flabel">{{l10n "cannededit.message"}}</label>
+                                <div class="fvaluenodesc">
+                                    <textarea id="message" name="message" cols="20" rows="5" class="wide">{{formmessage}}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="fbutton">
+                                <input type="image" name="save" value="" src="{{mibewRoot}}{{l10n "image.button.save"}}" alt="{{l10n "button.save"}}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="formbottom">
+                        <div class="formbottomi"></div>
+                    </div>
+                </div>
+            </form>
+
+        {{/if}}
+    {{/override}}
+{{/extends}}

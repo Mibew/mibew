@@ -1,0 +1,144 @@
+{{#extends "layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "page.gen_button.intro"}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        <form name="buttonCodeForm" method="get" action="{{mibewRoot}}/operator/getcode.php">
+            <div class="mform">
+                <div class="formtop">
+                    <div class="formtopi"></div>
+                </div>
+
+                <div class="forminner">
+                    <div class="fieldForm">
+                        <div class="fieldinrow">
+                            <label for="lang" class="flabel">{{l10n "page.gen_button.choose_locale"}}</label>
+                            <div class="fvaluenodesc">
+                                <select id="lang" name="lang" onchange="this.form.submit();">
+                                    {{#each availableLocales}}
+                                        <option value="{{this}}"{{#ifEqual this ../formlang}} selected="selected"{{/ifEqual}}>{{this}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="fieldinrow">
+                            <label for="style" class="flabel">{{l10n "page.gen_button.choose_style"}}</label>
+                            <div class="fvaluenodesc">
+                                <select id="style" name="style" onchange="this.form.submit();">
+                                    {{#each availableChatStyles}}
+                                        "<option value="{{@key}}"{{#ifEqual @key ../formstyle}} selected="selected"{{/ifEqual}}>{{this}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                        <br clear="all"/>
+
+                        <div class="fieldinrow">
+                            <label for="codetype" class="flabel">{{l10n "page.gen_button.choose_type"}}</label>
+                            <div class="fvaluenodesc">
+                                <select id="codetype" name="codetype" onchange="this.form.submit();">
+                                    {{#each availableCodeTypes}}
+                                        <option value="{{@key}}"{{#ifEqual @key ../formcodetype}} selected="selected"{{/ifEqual}}>{{this}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                        <br clear="all"/>
+
+                        {{#unless operator_code}}
+                            <div class="fieldinrow">
+                                <label for="i" class="flabel">{{l10n "page.gen_button.choose_image"}}</label>
+                                <div class="fvaluenodesc">
+                                    <select id="i" name="i" onchange="this.form.submit();">
+                                        {{#each availableImages}}
+                                            <option value="{{this}}"{{#ifEqual this ../formimage}} selected="selected"{{/ifEqual}}>{{this}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+
+                            {{#if enabletracking}}
+                                <div class="fieldinrow">
+                                    <label for="invitationstyle" class="flabel">{{l10n "page.gen_button.choose_invitationstyle"}}</label>
+                                    <div class="fvaluenodesc">
+                                        <select id="invitationstyle" name="invitationstyle" onchange="this.form.submit();">
+                                            {{#each availableInvitationStyles}}
+                                                <option value="{{@key}}"{{#ifEqual @key ../forminvitationstyle}} selected="selected"{{/ifEqual}}>{{this}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                </div>
+                            {{/if}}
+
+                            <br clear="all"/>
+                        {{/unless}}
+
+                        <div class="fieldinrow">
+                            <label for="group" class="flabel">{{l10n "page.gen_button.choose_group"}}</label>
+                            <div class="fvaluenodesc">
+                                <select id="group" name="group" onchange="this.form.submit();">
+                                    {{#each groups}}
+                                        <option value="{{groupid}}"{{#ifEqual groupid ../formgroup}} selected="selected"{{/ifEqual}}>{{#repeat level}}&nbsp;&nbsp;{{/repeat}}{{vclocalname}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                        <br clear="all"/>
+
+                        <div class="fieldinrow">
+                            <label for="hostname" class="flabel">{{l10n "page.gen_button.include_site_name"}}</label>
+                            <div class="fvaluenodesc">
+                                <input id="hostname" type="checkbox" name="hostname" value="on"{{#if formhostname}} checked="checked"{{/if}} onchange="this.form.submit();"/>
+                            </div>
+                        </div>
+
+                        {{#if formhostname}}
+                            <div class="fieldinrow">
+                                <label for="secure" class="flabel">{{l10n "page.gen_button.secure_links"}}</label>
+                                <div class="fvaluenodesc">
+                                    <input id="secure" type="checkbox" name="secure" value="on"{{#if formsecure}} checked="checked"{{/if}} onchange="this.form.submit();"/>
+                                </div>
+                            </div>
+                        {{/if}}
+
+                        <br clear="all"/>
+
+                        <div class="field">
+                            <label for="modsecurity" class="flabel">{{l10n "page.gen_button.modsecurity"}}</label>
+                            <div class="fvaluenodesc">
+                                <input id="modsecurity" type="checkbox" name="modsecurity" value="on"{{#if formmodsecurity}} checked="checked"{{/if}} onchange="this.form.submit();"/>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label for="buttonCode" class="flabel">{{l10n "page.gen_button.code"}}</label>
+                            <div class="fvaluewithta" dir="ltr">
+                                <textarea id="buttonCode" cols="44" rows="15">{{buttonCode}}</textarea>
+                            </div>
+                            <label for="buttonCode" class="fdescr">{{l10n "page.gen_button.code.description"}}</label>
+                            <br clear="all"/>
+                        </div>
+
+                        <div class="field">
+                            <div class="flabel">{{l10n "page.gen_button.sample"}}</div>
+                            <div class="fvaluenodesc">
+                                {{{buttonCode}}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="formbottom">
+                    <div class="formbottomi"></div>
+                </div>
+            </div>
+        </form>
+    {{/override}}
+{{/extends}}

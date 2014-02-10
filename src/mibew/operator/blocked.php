@@ -57,6 +57,11 @@ $blocked_list = $db->query(
     array('return_rows' => Database::RETURN_ALL_ROWS)
 );
 
+foreach ($blocked_list as &$item) {
+    $item['comment'] = to_page($item['comment']);
+}
+unset($item);
+
 $page['title'] = getlocal("page_bans.title");
 $page['menuid'] = "blocked";
 

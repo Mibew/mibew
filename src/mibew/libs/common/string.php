@@ -155,3 +155,15 @@ function sanitize_reg_escape($string)
 
     return strtr($string, $conversions);
 }
+
+/**
+ * Wrapper for htmlspecialchars with single quotes conversion enabled by default
+ *
+ * @param string $string Target string
+ * @return string Escaped string
+ */
+function safe_htmlspecialchars($string)
+{
+    $string = preg_replace('/[\x00-\x08\x10-\x1f]/', '', $string);
+    return htmlspecialchars($string, ENT_QUOTES);
+}

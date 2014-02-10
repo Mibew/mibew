@@ -27,6 +27,10 @@ require_once(MIBEW_FS_ROOT . '/libs/groups.php');
 $operator = check_login();
 csrf_check_token();
 
+$page = array(
+    'errors' => array(),
+);
+
 if (isset($_GET['act']) && $_GET['act'] == 'del') {
 
     $group_id = isset($_GET['gid']) ? $_GET['gid'] : "";
@@ -49,10 +53,22 @@ if (isset($_GET['act']) && $_GET['act'] == 'del') {
     }
 }
 
-$page = array();
 $sort['by'] = verify_param("sortby", "/^(name|lastseen|weight)$/", "name");
 $sort['desc'] = (verify_param("sortdirection", "/^(desc|asc)$/", "desc") == "desc");
-$page['groups'] = get_sorted_groups($sort);
+
+// Load and prepare groups
+$groups = get_sorted_groups($sort);
+foreach ($groups as &$group) {
+    $group['vclocalname'] = to_page($group['vclocalname']);
+    $group['vclocaldescription'] = to_page($group['vclocaldescription']);
+    $group['isOnline'] = group_is_online($group);
+    $group['isAway'] = group_is_away($group);
+    $group['lastTimeOnline'] = time() - ($group['ilastseen'] ? $group['ilastseen'] : time());
+    $group['inumofagents'] = to_page($group['inumofagents']);
+}
+unset($group);
+
+$page['groups'] = $groups;
 $page['formsortby'] = $sort['by'];
 $page['formsortdirection'] = $sort['desc'] ? 'desc' : 'asc';
 $page['canmodify'] = is_capable(CAN_ADMINISTRATE, $operator);

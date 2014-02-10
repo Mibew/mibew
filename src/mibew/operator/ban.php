@@ -123,7 +123,7 @@ if (isset($_POST['address'])) {
     $thread_id = verify_param('thread', "/^\d{1,9}$/");
     $thread = Thread::load($thread_id);
     if ($thread) {
-        $page['thread'] = to_page($thread->userName);
+        $page['thread'] = htmlspecialchars(to_page($thread->userName));
         $page['threadid'] = $thread_id;
         $page['formaddress'] = to_page($thread->remote);
         $page['formdays'] = 15;

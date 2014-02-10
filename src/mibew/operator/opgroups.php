@@ -29,11 +29,14 @@ csrf_check_token();
 $operator_in_isolation = in_isolation($operator);
 
 $op_id = verify_param("op", "/^\d{1,9}$/");
-$page = array('opid' => $op_id);
-$page['groups'] = $operator_in_isolation
+$page = array(
+    'opid' => $op_id,
+    'errors' => array()
+);
+
+$groups = $operator_in_isolation
     ? get_all_groups_for_operator($operator)
     : get_all_groups();
-$page['errors'] = array();
 
 $can_modify = is_capable(CAN_ADMINISTRATE, $operator);
 
@@ -49,7 +52,7 @@ if (!$op) {
 
     if (count($page['errors']) == 0) {
         $new_groups = array();
-        foreach ($page['groups'] as $group) {
+        foreach ($groups as $group) {
             if (verify_param("group" . $group['groupid'], "/^on$/", "") == "on") {
                 $new_groups[] = $group['groupid'];
             }
@@ -61,21 +64,30 @@ if (!$op) {
     }
 }
 
-$page['formgroup'] = array();
 $page['currentop'] = $op
     ? to_page(get_operator_name($op)) . " (" . $op['vclogin'] . ")"
     : getlocal("not_found");
 $page['canmodify'] = $can_modify ? "1" : "";
 
+$checked_groups = array();
 if ($op) {
     foreach (get_operator_group_ids($op_id) as $rel) {
-        $page['formgroup'][] = $rel['groupid'];
+        $checked_groups[] = $rel['groupid'];
     }
+}
+
+$page['groups'] = array();
+foreach ($groups as $group) {
+    $group['vclocalname'] = to_page($group['vclocalname']);
+    $group['vclocaldescription'] = to_page($group['vclocaldescription']);
+    $group['checked'] = in_array($group['groupid'], $checked_groups);
+
+    $page['groups'][] = $group;
 }
 
 $page['stored'] = isset($_GET['stored']);
 $page['title'] = getlocal("operator.groups.title");
-$page['menuid'] = ($page['operatorid'] == $op_id) ? "profile" : "operators";
+$page['menuid'] = ($operator['operatorid'] == $op_id) ? "profile" : "operators";
 
 $page = array_merge($page, prepare_menu($operator));
 

@@ -167,10 +167,11 @@ $page['canchangelogin'] = is_capable(CAN_ADMINISTRATE, $operator);
 $page['needChangePassword'] = check_password_hash($operator['vclogin'], '', $operator['vcpassword']);
 $page['title'] = getlocal("page_agent.title");
 $page['menuid'] = ($op_id == $operator['operatorid']) ? "profile" : "operators";
+$page['requirePassword'] = (!$op_id || $page['needChangePassword']);
 
 $page = array_merge($page, prepare_menu($operator));
 
 $page['tabs'] = setup_operator_settings_tabs($op_id, 0);
 
 $page_style = new PageStyle(PageStyle::currentStyle());
-$page_style->render('agent', $page);
+$page_style->render('operator', $page);

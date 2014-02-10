@@ -1,0 +1,11 @@
+{{#if tabs}}
+    <ul class="tabs">
+        {{#each tabs}}
+            {{#if this}}
+                <li><a href="{{this}}">{{@key}}</a></li>
+            {{else}}
+                <li class="active"><a href="#">{{@key}}</a></li>
+            {{/if}}
+        {{/each}}
+    </ul>
+{{/if}}

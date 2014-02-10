@@ -1,0 +1,73 @@
+{{#extends "layout"}}
+    {{#if localeLinks}}
+        {{#override "menu"}}{{> _locales}}{{/override}}
+    {{/if}}
+
+    {{#override "content"}}
+        {{#if isdone}}
+            <div id="loginpane">
+                <div class="header">
+                    <h2>{{l10n "restore.sent.title"}}</h2>
+                </div>
+
+                <div class="fieldForm">
+                    {{l10n "restore.sent"}}
+                    <br/>
+                    <br/>
+                    <a href="login.php">{{l10n "restore.back_to_login"}}</a>
+                </div>
+            </div>
+        {{else}}
+            <form name="restoreForm" method="post" action="{{mibewRoot}}/operator/restore.php">
+                <div id="loginpane">
+
+                    <div class="header">
+                        <h2>{{l10n "restore.title"}}</h2>
+                    </div>
+
+                    <div class="fieldForm">
+                        {{l10n "restore.intro"}}<br/><br/>
+
+                        {{> _errors}}
+
+                        <div class="field">
+                            <div class="fleftlabel">{{l10n "restore.emailorlogin"}}</div>
+                            <div class="fvalue">
+                                <input type="text" name="loginoremail" size="25" value="{{formloginoremail}}" class="formauth"/>
+                            </div>
+                            <br clear="all"/>
+                        </div>
+
+                        <div class="fbutton">
+                            <table class="submitbutton">
+                                <tr>
+                                    <td>
+                                        <a href="javascript:document.restoreForm.submit();">
+                                            <img src="{{stylePath}}/images/submit.gif" width="40" height="35" border="0" alt="" />
+                                        </a>
+                                    </td>
+                                    <td class="submit">
+                                        <a href="javascript:document.restoreForm.submit();">
+                                            {{l10n "restore.submit"}}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="javascript:document.restoreForm.submit();">
+                                            <img src="{{stylePath}}/images/submitrest.gif" width="10" height="35" border="0" alt="" />
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <div class="links">
+                                <a href="login.php">{{l10n "restore.back_to_login"}}</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </form>
+        {{/if}}
+    {{/override}}
+{{/extends}}

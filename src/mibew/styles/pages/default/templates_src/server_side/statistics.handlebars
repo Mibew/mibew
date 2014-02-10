@@ -1,0 +1,233 @@
+{{#extends "layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{{pageDescription}}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        <form name="statisticsForm" method="get" action="{{mibewRoot}}/operator/statistics.php">
+            <input type="hidden" name="type" value="{{type}}" />
+
+            {{> _tabs}}
+
+            <div class="mform">
+                <div class="formtop">
+                    <div class="formtopi"></div>
+                </div>
+
+                <div class="forminner">
+                    <div class="fieldForm">
+                        <div class="field">
+                            <div class="flabel">{{l10n "statistics.dates"}}</div>
+                            <div class="fvaluenodesc">
+                                <div class="searchctrl">
+                                    <label for="startday">{{l10n "statistics.from"}}</label>
+                                    <select id="startday" name="startday">
+                                        {{#each availableDays}}
+                                            <option value="{{this}}"{{#ifEqual this ../formstartday}} selected="selected"{{/ifEqual}}>{{this}}</option>
+                                        {{/each}}
+                                    </select>
+
+                                    <select name="startmonth">
+                                        {{#each availableMonth}}
+                                            <option value="{{@key}}"{{#ifEqual @key ../formstartmonth}} selected="selected"{{/ifEqual}}>{{this}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                <div class="searchctrl">
+                                    <label for="endday">{{l10n "statistics.till"}}</label>
+                                    <select id="endday" name="endday">
+                                        {{#each availableDays}}
+                                            <option value="{{this}}"{{#ifEqual this ../formendday}} selected="selected"{{/ifEqual}}>{{this}}</option>
+                                        {{/each}}
+                                    </select>
+
+                                    <select name="endmonth">
+                                        {{#each availableMonth}}
+                                            <option value="{{@key}}"{{#ifEqual @key ../formendmonth}} selected="selected"{{/ifEqual}}>{{this}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                <div id="searchbutton">
+                                    <input type="image" name="search" src="{{mibewRoot}}{{l10n "image.button.search"}}" alt="{{l10n "button.search"}}"/>
+                                </div>
+                            </div>
+                            <br clear="all"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="formbottom">
+                    <div class="formbottomi"></div>
+                </div>
+            </div>
+        </form>
+
+        {{#if showresults}}
+            {{#if showbydate}}
+                <br/>
+                <br/>
+
+                <div class="tabletitle">
+                    {{l10n "report.bydate.title"}}
+                </div>
+
+                <table class="statistics">
+                    <thead>
+                        <tr>
+                            <th>{{l10n "report.bydate.1"}}</th>
+                            <th>{{l10n "report.bydate.2"}}</th>
+                            <th>{{l10n "report.bydate.7"}}</th>
+                            <th>{{l10n "report.bydate.3"}}</th>
+                            <th>{{l10n "report.bydate.4"}}</th>
+                            <th>{{l10n "report.bydate.5"}}</th>
+                            <th>{{l10n "report.bydate.6"}}</th>
+                            {{#if show_invitations_info}}
+                                <th>{{l10n "report.bydate.8"}}</th>
+                                <th>{{l10n "report.bydate.9"}}</th>
+                                <th>{{l10n "report.bydate.10"}}</th>
+                                <th>{{l10n "report.bydate.11"}}</th>
+                            {{/if}}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#if reportByDate}}
+                            {{#each reportByDate}}
+                                <tr>
+                                    <td>{{date}}</td>
+                                    <td>{{threads}}</td>
+                                    <td>{{missedthreads}}</td>
+                                    <td>{{agents}}</td>
+                                    <td>{{users}}</td>
+                                    <td>{{avgwaitingtime}}</td>
+                                    <td>{{avgchattime}}</td>
+                                    {{#if ../show_invitations_info}}
+                                        <td>{{sentinvitations}}</td>
+                                        <td>{{acceptedinvitations}}</td>
+                                        <td>{{rejectedinvitations}}</td>
+                                        <td>{{ignoredinvitations}}</td>
+                                    {{/if}}
+                                </tr>
+                            {{/each}}
+                            <tr>
+                                <td><b>{{l10n "report.total"}}</b></td>
+                                <td>{{reportByDateTotal.threads}}</td>
+                                <td>{{reportByDateTotal.missedthreads}}</td>
+                                <td>{{reportByDateTotal.agents}}</td>
+                                <td>{{reportByDateTotal.users}}</td>
+                                <td>{{reportByDateTotal.avgwaitingtime}}</td>
+                                <td>{{reportByDateTotal.avgchattime}}</td>
+                                {{#if show_invitations_info}}
+                                    <td>{{reportByDateTotal.sentinvitations}}</td>
+                                    <td>{{reportByDateTotal.acceptedinvitations}}</td>
+                                    <td>{{reportByDateTotal.rejectedinvitations}}</td>
+                                    <td>{{reportByDateTotal.ignoredinvitations}}</td>
+                                {{/if}}
+                            </tr>
+                        {{else}}
+                            <tr>
+                                <td colspan="{{#if show_invitations_info}}11{{else}}7{{/if}}">
+                                    {{l10n "report.no_items"}}
+                                </td>
+                            </tr>
+                        {{/if}}
+                    </tbody>
+                </table>
+            {{/if}}
+
+            {{#if showbyagent}}
+                <br/>
+                <br/>
+
+                <div class="tabletitle">{{l10n "report.byoperator.title"}}</div>
+                <table class="statistics">
+                    <thead>
+                        <tr>
+                            <th>{{l10n "report.byoperator.1"}}</th>
+                            <th>{{l10n "report.byoperator.2"}}</th>
+                            <th>{{l10n "report.byoperator.3"}}</th>
+                            <th>{{l10n "report.byoperator.4"}}</th>
+                            {{#if show_invitations_info}}
+                                <th>{{l10n "report.byoperator.5"}}</th>
+                                <th>{{l10n "report.byoperator.6"}}</th>
+                                <th>{{l10n "report.byoperator.7"}}</th>
+                                <th>{{l10n "report.byoperator.8"}}</th>
+                            {{/if}}
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {{#each reportByAgent}}
+                            <tr>
+                                <td><a href="{{../mibewRoot}}/operator/history.php?q={{name}}&type=operator">{{name}}</a></td>
+                                <td>{{threads}}</td>
+                                <td>{{msgs}}</td>
+                                <td>{{avglen}}</td>
+                                {{#if ../show_invitations_info}}
+                                    <td>{{sentinvitations}}</td>
+                                    <td>{{acceptedinvitations}}</td>
+                                    <td>{{rejectedinvitations}}</td>
+                                    <td>{{ignoredinvitations}}</td>
+                                {{/if}}
+                            </tr>
+                        {{else}}
+                            <tr>
+                                <td colspan="{{#if show_invitations_info}}8{{else}}4{{/if}}">
+                                    {{l10n "report.no_items"}}
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            {{/if}}
+
+            {{#if showbypage}}
+                <br/>
+                <br/>
+
+                <div class="tabletitle">{{l10n "report.bypage.title"}}</div>
+                <table class="statistics">
+                    <thead>
+                        <tr>
+                            <th>{{l10n "report.bypage.1"}}</th>
+                            <th>{{l10n "report.bypage.2"}}</th>
+                            <th>{{l10n "report.bypage.3"}}</th>
+                            {{#if show_invitations_info}}
+                                <th>{{l10n "report.bypage.4"}}</th>
+                                <th>{{l10n "report.bypage.5"}}</th>
+                                <th>{{l10n "report.bypage.6"}}</th>
+                                <th>{{l10n "report.bypage.7"}}</th>
+                            {{/if}}
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {{#each reportByPage}}
+                            <tr>
+                                <td><a href="{{address}}">{{address}}</a></td>
+                                <td>{{visittimes}}</td>
+                                <td>{{chattimes}}</td>
+                                {{#if ../show_invitations_info}}
+                                    <td>{{sentinvitations}}</td>
+                                    <td>{{acceptedinvitations}}</td>
+                                    <td>{{rejectedinvitations}}</td>
+                                    <td>{{ignoredinvitations}}</td>
+                                {{/if}}
+                            </tr>
+                        {{else}}
+                            <tr>
+                                <td colspan="{{#if show_invitations_info}}7{{else}}3{{/if}}">
+                                    {{l10n "report.no_items"}}
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            {{/if}}
+        {{/if}}
+    {{/override}}
+{{/extends}}

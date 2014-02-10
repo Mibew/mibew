@@ -800,10 +800,13 @@ table.awaiting .no-threads, table.awaiting .no-visitors  {
 }
 
 .dashitem {
-	width:33%;
-	margin: 0px 2em 5em 0px;
-	padding: 5px 2em 5em;
+	width:32%;
 	vertical-align: top;
+	display: inline-block;
+}
+
+.dashitem-content {
+	padding: 5px 2em 5em;
 }
 
 .dashitem:hover {

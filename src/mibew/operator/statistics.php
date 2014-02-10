@@ -44,8 +44,13 @@ $page['showbydate'] = ($statistics_type == 'bydate');
 $page['showbyagent'] = ($statistics_type == 'byagent');
 $page['showbypage'] = ($statistics_type == 'bypage');
 
-$page['cron_path'] = cron_get_uri(Settings::get('cron_key'));
-$page['last_cron_run'] = Settings::get('_last_cron_run');
+$page['pageDescription'] = getlocal2(
+    "statistics.description.full",
+    array(
+        date_to_text(Settings::get('_last_cron_run')),
+        cron_get_uri(Settings::get('cron_key')),
+    )
+);
 
 $page['show_invitations_info'] = (bool) Settings::get('enabletracking');
 
@@ -159,6 +164,15 @@ if ($statistics_type == 'bydate') {
         ),
         array('return_rows' => Database::RETURN_ALL_ROWS)
     );
+
+    // We need to pass operator name through "to_page" function because we
+    // cannot do it in a template.
+    // TODO: Remove this block when "to_page" function will be removed.
+    foreach ($page['reportByAgent'] as &$row) {
+        $row['name'] = to_page($row['name']);
+    }
+    unset($row);
+
     $active_tab = 1;
 } elseif ($statistics_type == 'bypage') {
     $page['reportByPage'] = $db->query(
