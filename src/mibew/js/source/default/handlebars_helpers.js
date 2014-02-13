@@ -103,11 +103,11 @@
     });
 
     /**
-     * Register 't' Handlebars helper
+     * Register 'l10n' Handlebars helper
      *
      * This helper returns translated string with specified key
      */
-    Handlebars.registerHelper('L10n', function(key) {
+    Handlebars.registerHelper('l10n', function(key) {
         return (Mibew.Localization.get(key) || '');
     });
 })(Mibew, Handlebars);
