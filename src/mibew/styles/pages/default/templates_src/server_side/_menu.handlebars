@@ -1,0 +1,51 @@
+<div id="sidebar">
+    <ul>
+    {{#if warnOffline}}
+        {{#unless isOnline}}
+            <li id="offwarn">
+                <img src="{{stylePath}}/images/dash/warn.gif" alt="" width="24" height="24"/>
+                <p>{{{goOnlineLink}}}</p>
+            </li>
+        {{/unless}}
+    {{/if}}
+    {{#if operator}}
+        <li>
+            <h2>{{l10n "right.main"}}</h2>
+            <ul class="submenu">
+                <li{{#ifEqual menuid "main"}} class="active"{{/ifEqual}}><a href="{{mibewRoot}}/operator/index.php">{{l10n "topMenu.main"}}</a></li>
+                <li{{#ifEqual menuid "users"}} class="active"{{/ifEqual}}><a href="{{mibewRoot}}/operator/users.php">{{l10n "topMenu.users"}}</a> <span class="small">(<a class="inner" href="{{mibewRoot}}/operator/users.php?nomenu">{{l10n "topMenu.users.nomenu"}}</a>)</span></li>
+                <li{{#ifEqual menuid "history"}} class="active"{{/ifEqual}}><a href="{{mibewRoot}}/operator/history.php">{{l10n "page_analysis.search.title"}}</a></li>
+                {{#if showstat}}
+                    <li{{#ifEqual menuid "statistics"}} class="active"{{/ifEqual}}><a href="{{mibewRoot}}/operator/statistics.php">{{l10n "statistics.title"}}</a></li>
+                {{/if}}
+                {{#if showban}}
+                    <li{{#ifEqual menuid "blocked"}} class="active"{{/ifEqual}}><a href="{{mibewRoot}}/operator/blocked.php">{{l10n "menu.blocked"}}</a></li>
+                {{/if}}
+            </ul>
+        </li>
+        <li>
+            <h2>{{l10n "right.administration"}}</h2>
+            <ul class="submenu">
+                <li{{#ifEqual menuid "canned"}} class="active"{{/ifEqual}}><a href="{{mibewRoot}}/operator/canned.php">{{l10n "menu.canned"}}</a></li>
+                {{#if showadmin}}
+                    <li{{#ifEqual menuid "getcode"}} class="active"{{/ifEqual}}><a href="{{mibewRoot}}/operator/getcode.php">{{l10n "leftMenu.client_gen_button"}}</a></li>
+                    <li{{#ifEqual menuid "operators"}} class="active"{{/ifEqual}}><a href="{{mibewRoot}}/operator/operators.php">{{l10n "leftMenu.client_agents"}}</a></li>
+                    <li{{#ifEqual menuid "groups"}} class="active"{{/ifEqual}}><a href="{{mibewRoot}}/operator/groups.php">{{l10n "menu.groups"}}</a></li>
+                    <li{{#ifEqual menuid "settings"}} class="active"{{/ifEqual}}><a href="{{mibewRoot}}/operator/settings.php">{{l10n "leftMenu.client_settings"}}</a></li>
+                    <li{{#ifEqual menuid "translate"}} class="active"{{/ifEqual}}><a href="{{mibewRoot}}/operator/translate.php">{{l10n "menu.translate"}}</a></li>
+                    <li{{#ifEqual menuid "updates"}} class="active"{{/ifEqual}}><a href="{{mibewRoot}}/operator/updates.php">{{l10n "menu.updates"}}</a></li>
+                {{/if}}
+                {{#if currentopid}}
+                    <li{{#ifEqual menuid "profile"}} class="active"{{/ifEqual}}><a href="{{mibewRoot}}/operator/operator.php?op={{currentopid}}">{{l10n "menu.profile"}}</a></li>
+                {{/if}}
+            </ul>
+        </li>
+        <li>
+            <h2>{{l10n "right.other"}}</h2>
+            <ul class="submenu">
+                <li><a href="{{mibewRoot}}/operator/logout.php">{{l10n "topMenu.logoff"}}</a></li>
+            </ul>
+        </li>
+    {{/if}}
+    </ul>
+</div>

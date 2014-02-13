@@ -25,6 +25,7 @@ $page = array();
 $page['title'] = getlocal("license.title");
 $page['no_right_menu'] = true;
 $page['fixedwrap'] = true;
+$page['show_small_login'] = false;
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('license', $page);

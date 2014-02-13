@@ -71,11 +71,19 @@ $page['pagination'] = $pagination['info'];
 $page['pagination.items'] = $pagination['items'];
 
 foreach ($page['pagination.items'] as $key => $item) {
-    $page['pagination.items'][$key] = Thread::createFromDbInfo($item);
+    $thread = Thread::createFromDbInfo($item);
+    $page['pagination.items'][$key] = array(
+        'threadId' => to_page($thread->id),
+        'userName' => to_page($thread->userName),
+        'userAddress' => get_user_addr(to_page($thread->remote)),
+        'agentName' => to_page($thread->agentName),
+        'chatTime' => ($thread->modified - $thread->created),
+        'chatCreated' => $thread->created,
+    );
 }
 
 $page['title'] = getlocal("page.analysis.userhistory.title");
 $page['menuid'] = "history";
 
 $page_style = new PageStyle(PageStyle::currentStyle());
-$page_style->render('userhistory', $page);
+$page_style->render('user_history', $page);

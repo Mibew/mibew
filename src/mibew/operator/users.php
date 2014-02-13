@@ -35,7 +35,7 @@ notify_operator_alive($operator['operatorid'], $status);
 $_SESSION[SESSION_PREFIX . "operatorgroups"] = get_operator_groups_list($operator['operatorid']);
 
 $page = array();
-$page['havemenu'] = isset($_GET['nomenu']) ? "0" : "1";
+$page['havemenu'] = !isset($_GET['nomenu']);
 $page['showpopup'] = (Settings::get('enablepopupnotification') == '1') ? "1" : "0";
 $page['frequency'] = Settings::get('updatefrequency_operator');
 $page['istatus'] = $status;
@@ -68,4 +68,4 @@ $page = array_merge($page, get_plugins_data('users'));
 
 $page = array_merge($page, prepare_menu($operator));
 
-$page_style->render('pending_users', $page);
+$page_style->render('users', $page);

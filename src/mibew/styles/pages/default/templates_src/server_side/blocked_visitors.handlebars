@@ -1,0 +1,81 @@
+{{#extends "layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "header"}}
+        <script type="text/javascript" language="javascript" src="{{mibewRoot}}/js/libs/jquery.min.js"></script>
+        <script type="text/javascript" language="javascript"><!--
+            (function($) {
+                $(document).ready(function(){
+                    var confirmMessage = "{{#jsString}}{{l10n 'page_bans.confirm' '{addr}'}}{{/jsString}}";
+
+                    $('a.removelink').click(function(){
+                        var addr = $.trim($("#t" + this.id).text());
+                        return confirm(confirmMessage.replace("{addr}", addr));
+                    });
+                });
+            })(jQuery);
+        //--></script>
+    {{/override}}
+
+    {{#override "content"}}
+        {{l10n "page_ban.intro"}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        <div class="tabletool">
+            <img src="{{stylePath}}/images/buttons/createban.gif" border="0" alt=""/>
+            <a href="{{mibewRoot}}/operator/ban.php" title="{{l10n "page_bans.add"}}"
+                onclick="this.newWindow = window.open('{{mibewRoot}}/operator/ban.php', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{l10n "page_bans.add"}}</a>
+        </div>
+        <br clear="all"/>
+
+        <table class="list">
+            <thead>
+                <tr class="header">
+                    <th>{{l10n "form.field.address"}}</th>
+                    <th>{{l10n "page_bans.to"}}</th>
+                    <th>{{l10n "form.field.ban_comment"}}</th>
+                    <th>{{l10n "page_bans.edit"}}</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each [pagination.items]}}
+                    <tr>
+                        <td class="notlast">
+                            <a href="{{../mibewRoot}}/operator/history.php?q={{address}}&type=visitor" class="man" id="ti{{banid}}">
+                                {{address}}
+                            </a>
+                        </td>
+
+                        <td class="notlast">{{formatDate till}}</td>
+
+                        <td>{{cutString comment "30"}}</td>
+
+                        <td>
+                            <a class="removelink" id="i{{banid}}" href="{{../mibewRoot}}/operator/blocked.php?act=del&amp;id={{banid}}{{csrfTokenInUrl}}">
+                                {{l10n "remove.item"}}
+                            </a>,
+                            <a href="{{../mibewRoot}}/operator/ban.php?id={{banid}}"
+                                onclick="this.newWindow = window.open('{{../mibewRoot}}/operator/ban.php?id={{banid}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{l10n "edit.item"}}</a>
+                        </td>
+                    </tr>
+                {{else}}
+                    <tr>
+                        <td colspan="4">
+                            {{l10n "tag.pagination.no_items.elements"}}
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+        {{#if pagination}}
+            <br />
+            {{generatePagination stylePath pagination}}
+        {{/if}}
+    {{/override}}
+{{/extends}}

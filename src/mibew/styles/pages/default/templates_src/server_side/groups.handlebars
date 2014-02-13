@@ -1,0 +1,142 @@
+{{#extends "layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "header"}}
+        <script type="text/javascript" language="javascript" src="{{mibewRoot}}/js/libs/jquery.min.js"></script>
+        <script type="text/javascript" language="javascript"><!--
+            (function($) {
+                $(document).ready(function(){
+                    var confirmMessage = "{{#jsString}}{{l10n 'page.groups.confirm' '{groupName}'}}{{/jsString}}";
+
+                    $('a.removelink').click(function(){
+                        var groupName = $.trim($("#t" + this.id).text());
+                        return confirm(confirmMessage.replace("{groupName}", groupName));
+                    });
+                });
+            })(jQuery);
+        //--></script>
+    {{/override}}
+
+    {{#override "content"}}
+        {{l10n "page.groups.intro"}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        <form name="groupsForm" method="get" action="{{mibewRoot}}/operator/groups.php">
+            <div class="mform">
+                <div class="formtop">
+                    <div class="formtopi"></div>
+                </div>
+
+                <div class="forminner">
+                    <div class="packedFormField">
+                        {{l10n "page.groups.sort"}}<br/>
+                        <select name="sortby" onchange="this.form.submit();">
+                            {{#each availableOrders}}
+                                <option value="{{id}}"{{#ifEqual id ../formsortby}} selected="selected"{{/ifEqual}}>{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <div class="packedFormField">
+                        {{l10n "page.groups.sortdirection"}}<br/>
+                        <select name="sortdirection" onchange="this.form.submit();">
+                            {{#each availableDirections}}
+                                <option value="{{id}}"{{#ifEqual id ../formsortdirection}} selected="selected"{{/ifEqual}}>{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <br clear="all"/>
+                </div>
+
+                <div class="formbottom">
+                    <div class="formbottomi"></div>
+                </div>
+            </div>
+        </form>
+        <br />
+
+        {{#if canmodify}}
+            <div class="tabletool">
+                <img src="{{stylePath}}/images/buttons/createdep.gif" border="0" alt="" />
+                <a href="{{mibewRoot}}/operator/group.php" title="{{l10n "page.groups.new"}}">
+                    {{l10n "page.groups.new"}}
+                </a>
+            </div>
+            <br clear="all"/>
+        {{/if}}
+
+        <table class="list">
+            <thead>
+                <tr class="header">
+                    <th>{{l10n "form.field.groupname"}}</th>
+                    <th>{{l10n "form.field.groupdesc"}}</th>
+                    <th>{{l10n "page_agents.status"}}</th>
+                    <th>{{l10n "page.group.membersnum"}}</th>
+                    <th>{{l10n "page.groups.weight"}}</th>
+                    {{#if canmodify}}
+                        <th></th>
+                    {{/if}}
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each groups}}
+                    <tr>
+                        <td class="notlast level{{level}}">
+                            <a href="{{../mibewRoot}}/operator/group.php?gid={{groupid}}" id="ti{{groupid}}" class="man">
+                                {{vclocalname}}
+                            </a>
+                        </td>
+
+                        <td class="notlast">
+                            {{#if vclocaldescription}}
+                                {{vclocaldescription}}
+                            {{else}}
+                                &lt;none&gt;
+                            {{/if}}
+                        </td>
+
+                        <td class="notlast">
+                            {{#ifAny isOnline isAway}}
+                                {{#if isOnline}}
+                                    {{l10n "page.groups.isonline"}}
+                                {{else}}
+                                    {{l10n "page.groups.isaway"}}
+                                {{/if}}
+                            {{else}}
+                                {{formatDate lastTimeOnline}}
+                            {{/ifAny}}
+                        </td>
+
+                        <td>
+                            <a href="{{../mibewRoot}}/operator/groupmembers.php?gid={{groupid}}">
+                                {{inumofagents}}
+                            </a>
+                        </td>
+
+                        <td>
+                            {{iweight}}
+                        </td>
+
+                        {{#if ../canmodify}}
+                            <td>
+                                <a href="{{../mibewRoot}}/operator/groups.php?act=del&amp;gid={{groupid}}{{csrfTokenInUrl}}" id="i{{groupid}}" class="removelink">
+                                    {{l10n "remove.item"}}
+                                </a>
+                            </td>
+                        {{/if}}
+                    </tr>
+                {{else}}
+                    <tr>
+                        <td colspan="5">{{l10n "tag.pagination.no_items.elements"}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    {{/override}}
+{{/extends}}

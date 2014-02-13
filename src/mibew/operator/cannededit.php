@@ -71,7 +71,7 @@ if (isset($_POST['message']) && isset($_POST['title'])) {
         }
         $page['saved'] = true;
         $page = array_merge($page, prepare_menu($operator, false));
-        $page_style->render('cannededit', $page);
+        $page_style->render('canned_edit', $page);
         exit;
     }
 }
@@ -84,4 +84,4 @@ $page['title'] = empty($string_id) ? getlocal("cannednew.title") : getlocal("can
 
 $page = array_merge($page, prepare_menu($operator, false));
 
-$page_style->render('cannededit', $page);
+$page_style->render('canned_edit', $page);

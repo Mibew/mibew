@@ -63,6 +63,7 @@ foreach ($path as $k => $v) {
 }
 
 $page['title'] = getlocal("tracked.path");
+$page['show_small_login'] = false;
 
 $page_style = new PageStyle(PageStyle::currentStyle());
 $page_style->render('tracked', $page);

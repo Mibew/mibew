@@ -1,0 +1,52 @@
+{{#extends "layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "page.groupmembers.intro"}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        {{#if stored}}
+            <div id="formmessage">{{l10n "data.saved"}}</div>
+        {{/if}}
+
+        <form name="membersForm" method="post" action="{{mibewRoot}}/operator/groupmembers.php">
+            {{csrfTokenInput}}
+            <input type="hidden" name="gid" value="{{groupid}}"/>
+
+            <div>
+                {{> _tabs}}
+
+                <div class="mform">
+                    <div class="formtop">
+                        <div class="formtopi"></div>
+                    </div>
+
+                    <div class="forminner">
+                        <p><b>{{currentgroup}}</b></p>
+
+                        {{#each operators}}
+                            <div class="field">
+                                <div class="fvaluenodesc">
+                                    <input id="op{{operatorid}}" type="checkbox" name="op{{operatorid}}" value="on"{{#if checked}} checked="checked"{{/if}}/>
+                                    <label for="op{{operatorid}}">{{vclocalename}} (<a href="operator.php?op={{operatorid}}">{{vclogin}}</a>)</label>
+                                </div>
+                            </div>
+                        {{/each}}
+
+                        <div class="fbutton">
+                            <input type="image" name="save" value="" src="{{mibewRoot}}{{l10n "image.button.save"}}" alt="{{l10n "button.save"}}"/>
+                        </div>
+                    </div>
+
+                    <div class="formbottom">
+                        <div class="formbottomi"></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    {{/override}}
+{{/extends}}

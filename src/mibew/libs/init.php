@@ -47,6 +47,9 @@ require_once(MIBEW_FS_ROOT . '/libs/common/constants.php');
 require_once(MIBEW_FS_ROOT . '/libs/common/autoload.php');
 spl_autoload_register('class_autoload');
 
+// Initialize external dependencies
+require_once(MIBEW_FS_ROOT . '/vendor/autoload.php');
+
 // Include common libs
 require_once(MIBEW_FS_ROOT . '/libs/common/configurations.php');
 require_once(MIBEW_FS_ROOT . '/libs/common/verification.php');

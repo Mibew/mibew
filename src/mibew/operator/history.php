@@ -54,7 +54,6 @@ if ($query !== false) {
     foreach ($groups as $group) {
         $group_name[$group['groupid']] = $group['vclocalname'];
     }
-    $page['groupName'] = $group_name;
 
     $values = array(
         ':query' => "%{$query}%",
@@ -119,7 +118,24 @@ if ($query !== false) {
         );
 
         foreach ($threads_list as $item) {
-            $page['pagination.items'][] = Thread::createFromDbInfo($item);
+            $thread = Thread::createFromDbInfo($item);
+
+            $group_name_set = ($thread->groupId
+                && $thread->groupId != 0
+                && isset($group_name[$thread->groupId]));
+
+            $page['pagination.items'][] = array(
+                'threadId' => $thread->id,
+                'userName' => to_page($thread->userName),
+                'userAddress' => get_user_addr(to_page($thread->remote)),
+                'agentName' => to_page($thread->agentName),
+                'messageCount' => to_page($thread->messageCount),
+                'groupName' => ($group_name_set
+                    ? to_page($group_name[$thread->groupId])
+                    : false),
+                'chatTime' => $thread->modified - $thread->created,
+                'chatCreated' => $thread->created,
+            );
         }
     } else {
         $page['pagination'] = false;
@@ -136,8 +152,10 @@ $page['formtype'] = $search_type;
 $page['forminsystemmessages'] = $search_in_system_messages;
 $page['title'] = getlocal("page_analysis.search.title");
 $page['menuid'] = "history";
+$page['canSearchInSystemMessages'] = ($search_type != 'all')
+    && ($search_type != 'message');
 
 $page = array_merge($page, prepare_menu($operator));
 
 $page_style = new PageStyle(PageStyle::currentStyle());
-$page_style->render('thread_search', $page);
+$page_style->render('history', $page);

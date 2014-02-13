@@ -1,0 +1,129 @@
+{{#extends "layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{#if opid}}
+            {{l10n "page_agent.intro"}}
+        {{else}}
+            {{l10n "page_agent.create_new"}}
+        {{/if}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        {{#if needChangePassword}}
+            <div id="formmessage">{{l10n "error.no_password"}}</div>
+            <br/>
+        {{else}}
+            {{#if stored}}
+                <div id="formmessage">{{l10n "data.saved"}}</div>
+            {{/if}}
+        {{/if}}
+
+        {{#ifAny opid canmodify}}
+            <form name="agentForm" method="post" action="{{mibewRoot}}/operator/operator.php">
+                {{csrfTokenInput}}
+                <input type="hidden" name="opid" value="{{opid}}"/>
+
+                <div>
+                    {{#unless needChangePassword}}{{> _tabs}}{{/unless}}
+
+                    <div class="mform">
+                        <div class="formtop">
+                            <div class="formtopi"></div>
+                        </div>
+
+                        <div class="forminner">
+
+                            <div class="fieldForm">
+                                <div class="field">
+                                    <label for="login" class="flabel">{{l10n "form.field.login"}}<span class="required">*</span></label>
+                                    <div class="fvalue">
+                                        <input id="login" type="text" name="login" size="40" value="{{formlogin}}" class="formauth"{{#unless canchangelogin}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="login" class="fdescr"> &mdash; {{l10n "form.field.login.description"}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="field">
+                                    <label for="email" class="flabel">{{l10n "form.field.mail"}}<span class="required">*</span></label>
+                                    <div class="fvalue">
+                                        <input id="email" type="text" name="email" size="40" value="{{formemail}}" class="formauth"{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="email" class="fdescr"> &mdash; {{l10n "form.field.mail.description"}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="field">
+                                    <label for="password" class="flabel">
+                                        {{l10n "form.field.password"}}{{#if requirePassword}}<span class="required">*</span>{{/if}}
+                                    </label>
+                                    <div class="fvalue">
+                                        <input id="password" type="password" name="password" size="40" value="" class="formauth"{{#unless canmodify}} disabled="disabled"{{/unless}} autocomplete="off"/>
+                                    </div>
+                                    <label for="password" class="fdescr"> &mdash; {{l10n "form.field.password.description"}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="field">
+                                    <label for="passwordConfirm" class="flabel">
+                                        {{l10n "form.field.password_confirm"}}{{#if requirePassword}}<span class="required">*</span>{{/if}}
+                                    </label>
+                                    <div class="fvalue">
+                                        <input id="passwordConfirm" type="password" name="passwordConfirm" size="40" value="" class="formauth"{{#unless canmodify}} disabled="disabled"{{/unless}} autocomplete="off"/>
+                                    </div>
+                                    <label for="passwordConfirm" class="fdescr"> &mdash; {{l10n "form.field.password_confirm.description"}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="field">
+                                    <label for="name" class="flabel">{{l10n "form.field.agent_name"}}<span class="required">*</span></label>
+                                    <div class="fvalue">
+                                        <input id="name" type="text" name="name" size="40" value="{{formname}}" class="formauth"{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="name" class="fdescr"> &mdash; {{l10n "form.field.agent_name.description"}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="field">
+                                    <label for="commonname" class="flabel">{{l10n "form.field.agent_commonname"}}<span class="required">*</span></label>
+                                    <div class="fvalue">
+                                        <input id="commonname" type="text" name="commonname" size="40" value="{{formcommonname}}" class="formauth"{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="commonname" class="fdescr"> &mdash; {{l10n "form.field.agent_commonname.description"}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="field">
+                                    <label for="code" class="flabel">{{l10n "form.field.agent_code"}}</label>
+                                    <div class="fvalue">
+                                        <input id="code" type="text" name="code" size="40" value="{{formcode}}" class="formauth"{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="code" class="fdescr"> &mdash; {{l10n "form.field.agent_code.description"}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                {{#if canmodify}}
+                                    <div class="fbutton">
+                                        <input type="image" name="save" value="" src="{{mibewRoot}}{{l10n "image.button.save"}}" alt="{{l10n "button.save"}}"/>
+                                    </div>
+                                {{/if}}
+                            </div>
+                        </div>
+
+                        <div class="formbottom">
+                            <div class="formbottomi"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="asterisk">
+                    {{l10n "common.asterisk_explanation"}}
+                </div>
+
+            </form>
+        {{/ifAny}}
+    {{/override}}
+{{/extends}}

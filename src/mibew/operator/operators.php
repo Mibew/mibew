@@ -104,7 +104,22 @@ $list_options['sort'] = $sort;
 if (in_isolation($operator)) {
     $list_options['isolated_operator_id'] = $operator['operatorid'];
 }
-$page['allowedAgents'] = get_operators_list($list_options);
+
+$operators_list = get_operators_list($list_options);
+
+// Prepare operator to render in template
+foreach ($operators_list as &$item) {
+    $item['vclogin'] = to_page($item['vclogin']);
+    $item['vclocalename'] = to_page($item['vclocalename']);
+    $item['vccommonname'] = to_page($item['vccommonname']);
+    $item['isAvailable'] = operator_is_available($item);
+    $item['isAway'] = operator_is_away($item);
+    $item['lastTimeOnline'] = time() - $item['time'];
+    $item['isDisabled'] = operator_is_disabled($item);
+}
+unset($item);
+
+$page['allowedAgents'] = $operators_list;
 $page['canmodify'] = is_capable(CAN_ADMINISTRATE, $operator);
 $page['availableOrders'] = array(
     array('id' => 'login', 'name' => getlocal('page_agents.login')),
@@ -125,4 +140,4 @@ setlocale(LC_TIME, getstring("time.locale"));
 $page = array_merge($page, prepare_menu($operator));
 
 $page_style = new PageStyle(PageStyle::currentStyle());
-$page_style->render('agents', $page);
+$page_style->render('operators', $page);

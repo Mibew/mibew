@@ -1,0 +1,44 @@
+{{#extends "layout"}}
+    {{#override "content"}}
+        {{l10n "tracked.intro"}}
+
+        <br/><br/>
+
+        <div class="logpane">
+            <div class="header">
+                <div class="wlabel">
+                    {{l10n "tracked.visitor.came.from"}}:
+                </div>
+
+                <div class="wvalue">
+                    {{#if entry}}
+                        <a href="{{entry}}">{{entry}}</a>
+                    {{else}}
+                        {{l10n "tracked.empty.referrer"}}
+                    {{/if}}
+                </div>
+                <br clear="all"/>
+            </div>
+
+            <div class="message">
+                <table class="list">
+                    <thead>
+                        <tr class="header">
+                            <th>{{l10n "tracked.date"}}</th>
+                            <th>{{l10n "tracked.link"}}</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {{#each history}}
+                            <tr>
+                                <td class="notlast">{{date}}</td>
+                                <td><a href="{{link}}">{{link}}</a></td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {{/override}}
+{{/extends}}

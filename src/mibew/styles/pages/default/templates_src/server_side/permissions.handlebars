@@ -1,0 +1,53 @@
+{{#extends "layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "permissions.intro"}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        {{#if stored}}
+            <div id="formmessage">{{l10n "data.saved"}}</div>
+        {{/if}}
+
+        <form name="permissionsForm" method="post" action="{{mibewRoot}}/operator/permissions.php">
+            {{csrfTokenInput}}
+            <input type="hidden" name="op" value="{{opid}}"/>
+
+            <div>
+                {{> _tabs}}
+
+                <div class="mform">
+                    <div class="formtop">
+                        <div class="formtopi"></div>
+                    </div>
+
+                    <div class="forminner">
+                        <p><b>{{currentop}}&lrm;</b></p>
+
+                        {{#each permissionsList}}
+                            <label>
+                                <input type="checkbox" name="permissions{{id}}" value="on"{{#if checked}} checked="checked"{{/if}}{{#unless ../canmodify}} disabled="disabled"{{/unless}}/>
+                                {{descr}}
+                            </label>
+                            <br/>
+                        {{/each}}
+
+                        {{#if canmodify}}
+                            <div class="fbutton">
+                                <input type="image" name="save" value="" src='{{mibewRoot}}{{l10n "image.button.save"}}' alt='{{l10n "button.save"}}'/>
+                            </div>
+                        {{/if}}
+                    </div>
+
+                    <div class="formbottom">
+                        <div class="formbottomi"></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    {{/override}}
+{{/extends}}

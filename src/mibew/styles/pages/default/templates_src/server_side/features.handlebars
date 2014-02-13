@@ -1,0 +1,188 @@
+{{#extends "layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "header"}}
+        <script type="text/javascript" language="javascript" src="{{mibewRoot}}/js/libs/jquery.min.js"></script>
+        <script type="text/javascript" language="javascript" src="{{stylePath}}/js/features.js"></script>
+    {{/override}}
+
+    {{#override "content"}}
+        {{l10n "page_settings.intro"}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        {{#if stored}}
+            <div id="formmessage">{{l10n "features.saved"}}</div>
+        {{/if}}
+
+        <form name="features" method="post" action="{{mibewRoot}}/operator/features.php">
+            {{csrfTokenInput}}
+            <input type="hidden" name="sent" value="true"/>
+
+            <div>
+                {{> _tabs}}
+
+                <div class="mform">
+                    <div class="formtop">
+                        <div class="formtopi"></div>
+                    </div>
+
+                    <div class="forminner">
+
+                        <div class="fieldForm">
+                            <div class="field">
+                                <label for="usercanchangename" class="flabel">{{l10n "settings.usercanchangename"}}</label>
+                                <div class="fvalue">
+                                    <input id="usercanchangename" type="checkbox" name="usercanchangename" value="on"{{#if formusercanchangename}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                </div>
+                                <label for="usercanchangename" class="fdescr"> &mdash; {{l10n "settings.usercanchangename.description"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="enablessl" class="flabel">{{l10n "settings.enablessl"}}</label>
+                                <div class="fvalue">
+                                    <input id="enablessl" type="checkbox" name="enablessl" value="on"{{#if formenablessl}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                </div>
+                                <label for="enablessl" class="fdescr"> &mdash; {{l10n "settings.enablessl.description"}}</label>
+                                <br clear="all"/>
+
+                                <div class="subfield underssl">
+                                    <label for="forcessl" class="flabel">{{l10n "settings.forcessl"}}</label>
+                                    <div class="fvalue">
+                                        <input id="forcessl" type="checkbox" name="forcessl" value="on"{{#if formforcessl}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="forcessl" class="fdescr"> &mdash; {{l10n "settings.forcessl.description"}}</label>
+                                    <br clear="all"/>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="enablegroups" class="flabel">{{l10n "settings.enablegroups"}}</label>
+                                <div class="fvalue">
+                                    <input id="enablegroups" type="checkbox" name="enablegroups" value="on"{{#if formenablegroups}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                </div>
+                                <label for="enablegroups" class="fdescr"> &mdash; {{l10n "settings.enablegroups.description"}}</label>
+                                <br clear="all"/>
+
+                                <div class="subfield undergroups">
+                                    <label for="enablegroupsisolation" class="flabel">{{l10n "settings.enablegroupsisolation"}}</label>
+                                    <div class="fvalue">
+                                        <input id="enablegroupsisolation" type="checkbox" name="enablegroupsisolation" value="on"{{#if formenablegroupsisolation}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="enablegroupsisolation" class="fdescr"> &mdash; {{l10n "settings.enablegroupsisolation.description"}}</label>
+                                    <br clear="all"/>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="enablestatistics" class="flabel">{{l10n "settings.enablestatistics"}}</label>
+                                <div class="fvalue">
+                                    <input id="enablestatistics" type="checkbox" name="enablestatistics" value="on"{{#if formenablestatistics}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                </div>
+                                <label for="enablestatistics" class="fdescr"> &mdash; {{l10n "settings.enablestatistics.description"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="enabletracking" class="flabel">{{l10n "settings.enabletracking"}}</label>
+                                <div class="fvalue">
+                                    <input id="enabletracking" type="checkbox" name="enabletracking" value="on"{{#if formenabletracking}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                </div>
+                                <label for="enabletracking" class="fdescr"> &mdash; {{l10n "settings.enabletracking.description"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="enableban" class="flabel">{{l10n "settings.enableban"}}</label>
+                                <div class="fvalue">
+                                    <input id="enableban" type="checkbox" name="enableban" value="on"{{#if formenableban}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                </div>
+                                <label for="enableban" class="fdescr"> &mdash; {{l10n "settings.enableban.description"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="enablepresurvey" class="flabel">{{l10n "settings.enablepresurvey"}}</label>
+                                <div class="fvalue">
+                                    <input id="enablepresurvey" type="checkbox" name="enablepresurvey" value="on"{{#if formenablepresurvey}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                </div>
+                                <label for="enablepresurvey" class="fdescr"> &mdash; {{l10n "settings.enablepresurvey.description"}}</label>
+                                <br clear="all"/>
+
+                                <div class="subfield undersurvey">
+                                    <label for="surveyaskmail" class="flabel">{{l10n "settings.survey.askmail"}}</label>
+                                    <div class="fvalue">
+                                        <input id="surveyaskmail" type="checkbox" name="surveyaskmail" value="on"{{#if formsurveyaskmail}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="surveyaskmail" class="fdescr"> &mdash; {{l10n "settings.survey.askmail.description"}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="subfield undersurvey">
+                                    <label for="surveyaskgroup" class="flabel">{{l10n "settings.survey.askgroup"}}</label>
+                                    <div class="fvalue">
+                                        <input id="surveyaskgroup" type="checkbox" name="surveyaskgroup" value="on"{{#if formsurveyaskgroup}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="surveyaskgroup" class="fdescr"> &mdash; {{l10n "settings.survey.askgroup.description"}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="subfield undersurvey">
+                                    <label for="surveyaskmessage" class="flabel">{{l10n "settings.survey.askmessage"}}</label>
+                                    <div class="fvalue">
+                                        <input id="surveyaskmessage" type="checkbox" name="surveyaskmessage" value="on"{{#if formsurveyaskmessage}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="surveyaskmessage" class="fdescr"> &mdash; {{l10n "settings.survey.askmessage.description"}}</label>
+                                    <br clear="all"/>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="enablepopupnotification" class="flabel">{{l10n "settings.popup_notification"}}</label>
+                                <div class="fvalue">
+                                    <input id="enablepopupnotification" type="checkbox" name="enablepopupnotification" value="on"{{#if formenablepopupnotification}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                </div>
+                                <label for="enablepopupnotification" class="fdescr"> &mdash; {{l10n "settings.popup_notification.description"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="showonlineoperators" class="flabel">{{l10n "settings.show_online_operators"}}</label>
+                                <div class="fvalue">
+                                    <input id="showonlineoperators" type="checkbox" name="showonlineoperators" value="on"{{#if formshowonlineoperators}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                </div>
+                                <label for="showonlineoperators" class="fdescr"> &mdash; {{l10n "settings.show_online_operators.description"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="enablecaptcha" class="flabel">{{l10n "settings.leavemessage_captcha"}}</label>
+                                <div class="fvalue">
+                                    <input id="enablecaptcha" type="checkbox" name="enablecaptcha" value="on"{{#if formenablecaptcha}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                </div>
+                                <label for="enablecaptcha" class="fdescr"> &mdash; {{l10n "settings.leavemessage_captcha.description"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            {{#if canmodify}}
+                                <div class="fbutton">
+                                    <input type="image" name="save" value="" src="{{mibewRoot}}{{l10n "image.button.save"}}" alt="{{l10n "button.save"}}"/>
+                                </div>
+                            {{/if}}
+                        </div>
+
+                    </div>
+
+                    <div class="formbottom">
+                        <div class="formbottomi"></div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    {{/override}}
+{{/extends}}

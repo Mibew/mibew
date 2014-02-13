@@ -66,7 +66,8 @@ if (isset($_GET['nextGroup'])) {
                 getstring2_(
                     "chat.status.operator.redirect",
                     array(get_operator_name($operator)),
-                    $thread->locale
+                    $thread->locale,
+                    true
                 )
             );
         } else {
@@ -110,7 +111,8 @@ if (isset($_GET['nextGroup'])) {
                 getstring2_(
                     "chat.status.operator.redirect",
                     array(get_operator_name($operator)),
-                    $thread->locale
+                    $thread->locale,
+                    true
                 )
             );
         } else {

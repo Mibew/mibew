@@ -287,7 +287,7 @@ function getoutputenc()
         : MIBEW_ENCODING;
 }
 
-function getstring_($text, $locale)
+function getstring_($text, $locale, $raw = false)
 {
     global $messages;
     if (!isset($messages[$locale])) {
@@ -296,53 +296,66 @@ function getstring_($text, $locale)
 
     $localized = $messages[$locale];
     if (isset($localized[$text])) {
-        return $localized[$text];
+        return $raw
+            ? $localized[$text]
+            : sanitize_string($localized[$text], 'low', 'moderate');
     }
     if ($locale != 'en') {
-        return getstring_($text, 'en');
+        return getstring_($text, 'en', $raw);
     }
 
-    return "!" . $text;
+    return "!" . ($raw ? $text : sanitize_string($text, 'low', 'moderate'));
 }
 
-function getstring($text)
+function getstring($text, $raw = false)
 {
-    return getstring_($text, CURRENT_LOCALE);
+    return getstring_($text, CURRENT_LOCALE, $raw);
 }
 
-function getlocal($text)
+function getlocal($text, $raw = false)
 {
-    return myiconv(MIBEW_ENCODING, getoutputenc(), getstring_($text, CURRENT_LOCALE));
+    return getlocal_($text, CURRENT_LOCALE, $raw);
 }
 
-function getlocal_($text, $locale)
+function getlocal_($text, $locale, $raw = false)
 {
-    return myiconv(MIBEW_ENCODING, getoutputenc(), getstring_($text, $locale));
+    $string = myiconv(
+        MIBEW_ENCODING,
+        getoutputenc(),
+        getstring_($text, $locale, true)
+    );
+
+    return $raw ? $string : sanitize_string($string, 'low', 'moderate');
 }
 
-function getstring2_($text, $params, $locale)
+function getstring2_($text, $params, $locale, $raw = false)
 {
-    $string = getstring_($text, $locale);
+    $string = getstring_($text, $locale, true);
     for ($i = 0; $i < count($params); $i++) {
         $string = str_replace("{" . $i . "}", $params[$i], $string);
     }
 
-    return $string;
+    return $raw ? $string : sanitize_string($string, 'low', 'moderate');
 }
 
-function getstring2($text, $params)
+function getstring2($text, $params, $raw = false)
 {
-    return getstring2_($text, $params, CURRENT_LOCALE);
+    return getstring2_($text, $params, CURRENT_LOCALE, $raw);
 }
 
-function getlocal2($text, $params)
+function getlocal2($text, $params, $raw = false)
 {
-    $string = myiconv(MIBEW_ENCODING, getoutputenc(), getstring_($text, CURRENT_LOCALE));
+    $string = myiconv(
+        MIBEW_ENCODING,
+        getoutputenc(),
+        getstring_($text, CURRENT_LOCALE, true)
+    );
+
     for ($i = 0; $i < count($params); $i++) {
         $string = str_replace("{" . $i . "}", $params[$i], $string);
     }
 
-    return $string;
+    return $raw ? $string : sanitize_string($string, 'low', 'moderate');
 }
 
 /* prepares for Javascript string */
@@ -354,7 +367,7 @@ function get_local_for_js($text, $params)
         $string = str_replace("{" . $i . "}", $params[$i], $string);
     }
 
-    return $string;
+    return sanitize_string($string, 'low', 'moderate');
 }
 
 function locale_load_id_list($name)

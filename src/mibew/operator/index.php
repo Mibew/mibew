@@ -38,6 +38,7 @@ $page = array(
     'newFeatures' => Settings::get('featuresversion') != FEATURES_VERSION,
     'featuresPage' => MIBEW_WEB_ROOT . "/operator/features.php",
     'isOnline' => $is_online,
+    'warnOffline' => true,
     'title' => getlocal("topMenu.admin"),
     'menuid' => "main",
 );
@@ -45,4 +46,4 @@ $page = array(
 $page = array_merge($page, prepare_menu($operator));
 
 $page_style = new PageStyle(PageStyle::currentStyle());
-$page_style->render('menu', $page);
+$page_style->render('index', $page);

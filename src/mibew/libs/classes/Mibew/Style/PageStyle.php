@@ -19,12 +19,44 @@ namespace Mibew\Style;
 
 // Import namespaces and classes of the core
 use Mibew\Settings;
+use Mibew\Handlebars\HelpersSet;
 
 /**
  * Represents a style for operator pages
  */
 class PageStyle extends AbstractStyle implements StyleInterface
 {
+    /**
+     * Template engine for chat templates.
+     *
+     * @var \Handlebars\Handlebars
+     */
+    protected $templateEngine;
+
+    /**
+     * Object constructor
+     *
+     * @param string $style_name Name of the style
+     */
+    public function __construct($style_name)
+    {
+        parent::__construct($style_name);
+
+        $templates_loader = new \Handlebars\Loader\FilesystemLoader(
+            MIBEW_FS_ROOT . '/' . $this->filesPath() . '/templates_src/server_side/'
+        );
+
+        $this->templateEngine = new \Handlebars\Handlebars(array(
+            'loader' => $templates_loader,
+            'partials_loader' => $templates_loader,
+            'helpers' => new \Handlebars\Helpers(HelpersSet::getHelpers())
+        ));
+
+        // Use custom function to escape strings
+        $this->templateEngine->setEscape('safe_htmlspecialchars');
+        $this->templateEngine->setEscapeArgs(array());
+    }
+
     /**
      * Builds base path for style files. This path is relative Mibew root and
      * does not contain neither leading nor trailing slash.
@@ -49,20 +81,18 @@ class PageStyle extends AbstractStyle implements StyleInterface
         // Prepare to output html
         start_html_output();
 
-        // Build full view name. Remove '\' and '/' characters form the
-        // specified view name
-        $full_view_name = MIBEW_FS_ROOT . '/' . $this->filesPath() . '/views/'
-            . str_replace("/\\", '', $template_name) . '.php';
-
         // $page variable is used in included views files, so we need to create
         // it as an alias of $data argument.
         $page = $data;
 
-        // Add template root value to page variables
-        $page['stylepath'] = MIBEW_WEB_ROOT . '/' . $this->filesPath();
+        // Pass additional variables to template
+        $page['mibewRoot'] = MIBEW_WEB_ROOT;
+        $page['mibewVersion'] = MIBEW_VERSION;
+        $page['currentLocale'] = CURRENT_LOCALE;
+        $page['rtl'] = (getlocal("localedirection") == 'rtl');
+        $page['stylePath'] = MIBEW_WEB_ROOT . '/' . $this->filesPath();
 
-        // Load and execute the view
-        require($full_view_name);
+        echo($this->templateEngine->render($template_name, $page));
     }
 
     /**

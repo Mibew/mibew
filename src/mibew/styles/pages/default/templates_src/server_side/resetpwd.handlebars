@@ -1,0 +1,90 @@
+{{#extends "layout"}}
+    {{#if localeLinks}}
+        {{#override "menu"}}{{> _locales}}{{/override}}
+    {{/if}}
+
+    {{#override "content"}}
+        {{#if isdone}}
+            <div id="loginpane">
+                <div class="header">
+                    <h2>{{l10n "resetpwd.changed.title"}}</h2>
+                </div>
+
+                <div class="fieldForm">
+                    {{l10n "resetpwd.changed"}}
+                    <br/>
+                    <br/>
+                    <a href="login.php?login={{loginname}}">{{l10n "resetpwd.login"}}</a>
+                </div>
+            </div>
+        {{else}}
+            <form name="resetForm" method="post" action="{{mibewRoot}}/operator/resetpwd.php">
+                <input type="hidden" name="id" value="{{id}}"/>
+                <input type="hidden" name="token" value="{{token}}"/>
+
+                <div id="loginpane">
+
+                    <div class="header">
+                        <h2>{{l10n "resetpwd.title"}}</h2>
+                    </div>
+
+                    <div class="fieldForm">
+                        {{l10n "resetpwd.intro"}}
+
+                        <br/>
+                        <br/>
+
+                        {{> _errors}}
+
+                        {{#if showform}}
+                            <div class="field">
+                                <div class="fleftlabel">{{l10n "form.field.password"}}</div>
+                                <div class="fvalue">
+                                    <input type="password" name="password" size="25" value="" class="formauth" autocomplete="off"/>
+                                </div>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <div class="fleftlabel">{{l10n "form.field.password_confirm"}}</div>
+                                <div class="fvalue">
+                                    <input type="password" name="passwordConfirm" size="25" value="" class="formauth" autocomplete="off"/>
+                                </div>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="fbutton">
+                                <table class="submitbutton">
+                                    <tr>
+                                        <td>
+                                            <a href="javascript:document.resetForm.submit();">
+                                                <img src="{{stylePath}}/images/submit.gif" width="40" height="35" border="0" alt="" />
+                                            </a>
+                                        </td>
+                                        <td class="submit">
+                                            <a href="javascript:document.resetForm.submit();">
+                                                {{l10n "resetpwd.submit"}}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="javascript:document.resetForm.submit();">
+                                                <img src="{{stylePath}}/images/submitrest.gif" width="10" height="35" border="0" alt="" />
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <div class="links">
+                                    <a href="login.php">{{l10n "restore.back_to_login"}}</a>
+                                </div>
+                            </div>
+                        {{else}}
+                            <a href="login.php">{{l10n "restore.back_to_login"}}</a>
+                        {{/if}}
+                    </div>
+
+                </div>
+            </form>
+        {{/if}}
+    {{/override}}
+{{/extends}}

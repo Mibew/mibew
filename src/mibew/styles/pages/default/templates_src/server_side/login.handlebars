@@ -1,0 +1,66 @@
+{{#extends "layout"}}
+    {{#if localeLinks}}
+        {{#override "menu"}}{{> _locales}}{{/override}}
+    {{/if}}
+
+    {{#override "content"}}
+        <div id="loginintro">
+        <p>{{l10n "app.descr"}}</p>
+        </div>
+
+        <form name="loginForm" method="post" action="{{mibewRoot}}/operator/login.php">
+            <div id="loginpane">
+
+                <div class="header">
+                    <h2>{{l10n "page_login.title"}}</h2>
+                </div>
+
+                <div class="fieldForm">
+                    {{l10n "page_login.intro"}}
+
+                    <br/>
+                    <br/>
+
+                    {{> _errors}}
+
+                    <div class="field">
+                        <div class="fleftlabel">{{l10n "page_login.login"}}</div>
+                        <div class="fvalue">
+                            <input type="text" name="login" size="25" value="{{formlogin}}" class="formauth"/>
+                        </div>
+                        <br clear="all"/>
+                    </div>
+
+                    <div class="field">
+                        <div class="fleftlabel">{{l10n "page_login.password"}}</div>
+                        <div class="fvalue">
+                            <input type="password" name="password" size="25" value="" class="formauth" autocomplete="off"/>
+                        </div>
+                        <br clear="all"/>
+                    </div>
+
+                    <div class="field">
+                        <div class="fleftlabel">&nbsp;</div>
+                        <div class="fvalue">
+                            <label>
+                                <input type="checkbox" name="isRemember" value="on"{{#if formisRemember}} checked="checked"{{/if}} />
+                                {{l10n "page_login.remember"}}
+                            </label>
+                        </div>
+                        <br clear="all"/>
+                    </div>
+
+                    <div class="fbutton">
+                        <input type="image" name="login" src="{{mibewRoot}}{{l10n "image.button.login"}}" alt="{{l10n "button.enter"}}"/>
+
+                        <div class="links">
+                            <a href="restore.php">{{l10n "restore.pwd.message"}}</a><br/>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </form>
+    {{/override}}
+{{/extends}}

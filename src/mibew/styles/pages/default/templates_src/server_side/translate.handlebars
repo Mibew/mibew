@@ -1,0 +1,59 @@
+{{#extends "layout"}}
+    {{#override "content"}}
+        {{#if saved}}
+            {{l10n "page.translate.done"}}
+
+            <script type="text/javascript"><!--
+                if(window.opener && window.opener.location) {
+                    window.opener.location.reload();
+                }
+                setTimeout( (function() { window.close(); }), 1500 );
+            //--></script>
+        {{else}}
+            {{l10n "page.translate.one"}}
+
+            <br/>
+            <br/>
+
+            {{> _errors}}
+
+            <form name="translateForm" method="post" action="{{mibewRoot}}/operator/translate.php">
+                {{csrfTokenInput}}
+                <input type="hidden" name="key" value="{{key}}"/>
+                <input type="hidden" name="target" value="{{target}}"/>
+
+                <div class="mform">
+                    <div class="formtop">
+                        <div class="formtopi"></div>
+                    </div>
+
+                    <div class="forminner">
+                        <div class="fieldForm">
+                            <div class="field">
+                                <label for="original" class="flabel">{{title1}}</label>
+                                <div class="fvaluenodesc">
+                                    <textarea id="original" name="original" disabled="disabled" cols="20" rows="5" class="wide">{{formoriginal}}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="translation" class="flabel">{{title2}}</label>
+                                <div class="fvaluenodesc">
+                                    <textarea id="translation" name="translation" cols="20" rows="5" class="wide">{{formtranslation}}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="fbutton">
+                                <input type="image" name="save" value="" src="{{mibewRoot}}{{l10n "image.button.save"}}" alt="{{l10n "button.save"}}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="formbottom">
+                        <div class="formbottomi"></div>
+                    </div>
+                </div>
+            </form>
+        {{/if}}
+    {{/override}}
+{{/extends}}

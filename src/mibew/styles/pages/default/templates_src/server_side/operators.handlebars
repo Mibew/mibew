@@ -1,0 +1,131 @@
+{{#extends "layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "header"}}
+        <script type="text/javascript" language="javascript" src="{{mibewRoot}}/js/libs/jquery.min.js"></script>
+        <script type="text/javascript" language="javascript"><!--
+            (function($) {
+                $(document).ready(function(){
+                    var confirmMessage = "{{#jsString}}{{l10n 'page_agents.confirm' '{login}'}}{{/jsString}}";
+
+                    $('a.removelink').click(function(){
+                        var login = $.trim($("#t" + this.id).text());
+                        return confirm(confirmMessage.replace("{login}", login));
+                    });
+                });
+            })(jQuery);
+        //--></script>
+    {{/override}}
+
+    {{#override "content"}}
+        {{l10n "page_agents.intro"}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        <form name="agentsForm" method="get" action="{{mibewRoot}}/operator/operators.php">
+            <div class="mform">
+                <div class="formtop">
+                    <div class="formtopi"></div>
+                </div>
+
+                <div class="forminner">
+                    <div class="packedFormField">
+                        {{l10n "page_agents.sort"}}<br/>
+                        <select name="sortby" onchange="this.form.submit();">
+                            {{#each availableOrders}}
+                                <option value="{{id}}"{{#ifEqual id ../formsortby}} selected="selected"{{/ifEqual}}>{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <div class="packedFormField">
+                        {{l10n "page_agents.sortdirection"}}<br/>
+                        <select name="sortdirection" onchange="this.form.submit();">
+                            {{#each availableDirections}}
+                                <option value="{{id}}"{{#ifEqual id ../formsortdirection}} selected="selected"{{/ifEqual}}>{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <br clear="all"/>
+                </div>
+
+                <div class="formbottom">
+                    <div class="formbottomi"></div>
+                </div>
+            </div>
+        </form>
+        <br />
+
+        {{#if canmodify}}
+            <div class="tabletool">
+                <img src="{{stylePath}}/images/buttons/createagent.gif" border="0" alt="" />
+                <a href="{{mibewRoot}}/operator/operator.php" title="{{l10n "page_agents.new_agent"}}">
+                    {{l10n "page_agents.new_agent"}}
+                </a>
+            </div>
+            <br clear="all"/>
+        {{/if}}
+
+        <table class="list">
+            <thead>
+                <tr class="header">
+                    <th>{{l10n "page_agents.login"}}</th>
+                    <th>{{l10n "page_agents.agent_name"}}</th>
+                    <th>{{l10n "page_agents.status"}}</th>
+                    {{#if canmodify}}
+                        <th></th>
+                        <th></th>
+                    {{/if}}
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each allowedAgents}}
+                    <tr>
+                        <td class="notlast">
+                            <a id="ti{{operatorid}}" href="{{../mibewRoot}}/operator/operator.php?op={{operatorid}}" class="man">
+                                {{vclogin}}
+                            </a>
+                        </td>
+
+                        <td class="notlast">
+                            {{vclocalename}} / {{vccommonname}}
+                        </td>
+
+                        <td class="notlast">
+                            {{#ifAny isAvailable isAway}}
+                                {{#if isAvailable}}
+                                    {{l10n "page_agents.isonline"}}
+                                {{else}}
+                                    {{l10n "page_agents.isaway"}}
+                                {{/if}}
+                            {{else}}
+                                {{formatDate lastTimeOnline}}
+                            {{/ifAny}}
+                        </td>
+
+                        {{#if ../canmodify}}
+                            <td>
+                                {{#if isDisabled}}
+                                    <a href="{{../mibewRoot}}/operator/operators.php?act=enable&amp;id={{operatorid}}">{{l10n "page_agents.enable.agent"}}</a>
+                                {{else}}
+                                    <a href="{{../mibewRoot}}/operator/operators.php?act=disable&amp;id={{operatorid}}">{{l10n "page_agents.disable.agent"}}</a>
+                                {{/if}}
+                            </td>
+
+                            <td>
+                                <a class="removelink" id="i{{operatorid}}" href="{{../mibewRoot}}/operator/operators.php?act=del&amp;id={{operatorid}}{{csrfTokenInUrl}}">
+                                    {{l10n "remove.item"}}
+                                </a>
+                            </td>
+                        {{/if}}
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    {{/override}}
+{{/extends}}

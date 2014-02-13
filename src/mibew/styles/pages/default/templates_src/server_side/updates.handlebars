@@ -1,0 +1,54 @@
+{{#extends "layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "header"}}
+        <script type="text/javascript" language="javascript" src="{{mibewRoot}}/js/libs/jquery.min.js"></script>
+        <script type="text/javascript" language="javascript" src="http://mibew.org/latestMibew.js"></script>
+        <script type="text/javascript" language="javascript" src="{{mibewRoot}}/js/compiled/update.js"></script>
+    {{/override}}
+
+    {{#override "content"}}
+        {{l10n "updates.intro"}}
+
+        <br />
+        <br />
+
+        <div>
+            <div class="mform">
+                <div class="formtop">
+                    <div class="formtopi"></div>
+                </div>
+
+                <div class="forminner">
+                    {{l10n "updates.news"}}<br/>
+                    <div id="news"></div>
+
+                    {{l10n "updates.current"}}<br/>
+                    <div id="cver">{{version}}</div>
+
+                    <br/>
+
+                    {{l10n "updates.latest"}}
+                    <div id="lver"></div>
+
+                    <br/>
+
+                    {{l10n "updates.installed_locales"}}<br/>
+                    {{#each localizations}}
+                        {{this}}
+                    {{/each}}
+
+                    <br/><br/>
+
+                    {{l10n "updates.env"}}<br/>
+                    PHP {{phpVersion}}
+
+                </div>
+
+                <div class="formbottom">
+                    <div class="formbottomi"></div>
+                </div>
+            </div>
+        </div>
+    {{/override}}
+{{/extends}}

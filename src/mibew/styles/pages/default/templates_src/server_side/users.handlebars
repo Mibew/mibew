@@ -1,0 +1,141 @@
+{{#extends "layout"}}
+    {{#if havemenu}}
+        {{#override "menu"}}{{> _menu}}{{/override}}
+    {{/if}}
+
+    {{#override "header"}}
+        <!-- Plugins CSS files -->
+        {{{additional_css}}}
+
+
+        <!-- External libs -->
+        <script type="text/javascript" src="{{mibewRoot}}/js/libs/jquery.min.js"></script>
+        <script type="text/javascript" src="{{mibewRoot}}/js/libs/json2.js"></script>
+        <script type="text/javascript" src="{{mibewRoot}}/js/libs/underscore-min.js"></script>
+        <script type="text/javascript" src="{{mibewRoot}}/js/libs/backbone-min.js"></script>
+        <script type="text/javascript" src="{{mibewRoot}}/js/libs/backbone.marionette.min.js"></script>
+        <script type="text/javascript" src="{{mibewRoot}}/js/libs/handlebars.js"></script>
+
+        <!-- Client side templates -->
+        <script type="text/javascript" src="{{stylePath}}/templates_compiled/client_side/default_app.tpl.js"></script>
+        <script type="text/javascript" src="{{stylePath}}/templates_compiled/client_side/users_app.tpl.js"></script>
+
+        <!-- Application files -->
+        <script type="text/javascript" src="{{mibewRoot}}/js/compiled/mibewapi.js"></script>
+        <script type="text/javascript" src="{{mibewRoot}}/js/compiled/default_app.js"></script>
+        <script type="text/javascript" src="{{mibewRoot}}/js/compiled/users_app.js"></script>
+
+        <!-- Plugins JavaScript files -->
+        {{{additional_js}}}
+
+
+        <!-- Localization constants -->
+        <script type="text/javascript"><!--
+            // Localized strings for the core
+            Mibew.Localization.set({
+                'pending.table.speak': "{{#jsString}}{{l10n 'pending.table.speak'}}{{/jsString}}",
+                'pending.table.view': "{{#jsString}}{{l10n 'pending.table.view'}}{{/jsString}}",
+                'pending.table.ban': "{{#jsString}}{{l10n 'pending.table.ban'}}{{/jsString}}",
+                'pending.menu.show': "{{#jsString}}{{l10n 'pending.menu.show'}}{{/jsString}}",
+                'pending.menu.hide': "{{#jsString}}{{l10n 'pending.menu.hide'}}{{/jsString}}",
+                'pending.popup_notification': "{{#jsString}}{{l10n 'pending.popup_notification'}}{{/jsString}}",
+                'pending.table.tracked': "{{#jsString}}{{l10n 'pending.table.tracked'}}{{/jsString}}",
+                'pending.table.invite': "{{#jsString}}{{l10n 'pending.table.invite'}}{{/jsString}}",
+                'pending.status.away': "{{#jsString}}{{l10n 'pending.status.away'}}{{/jsString}}",
+                'pending.status.online': "{{#jsString}}{{l10n 'pending.status.online'}}{{/jsString}}",
+                'pending.status.setonline': "{{#jsString}}{{l10n 'pending.status.setonline'}}{{/jsString}}",
+                'pending.status.setaway': "{{#jsString}}{{l10n 'pending.status.setaway'}}{{/jsString}}",
+                'pending.table.head.name': "{{#jsString}}{{l10n 'pending.table.head.name'}}{{/jsString}}",
+                'pending.table.head.actions': "{{#jsString}}{{l10n 'pending.table.head.actions'}}{{/jsString}}",
+                'pending.table.head.contactid': "{{#jsString}}{{l10n 'pending.table.head.contactid'}}{{/jsString}}",
+                'pending.table.head.state': "{{#jsString}}{{l10n 'pending.table.head.state'}}{{/jsString}}",
+                'pending.table.head.operator': "{{#jsString}}{{l10n 'pending.table.head.operator'}}{{/jsString}}",
+                'pending.table.head.total': "{{#jsString}}{{l10n 'pending.table.head.total'}}{{/jsString}}",
+                'pending.table.head.waittime': "{{#jsString}}{{l10n 'pending.table.head.waittime'}}{{/jsString}}",
+                'pending.table.head.etc': "{{#jsString}}{{l10n 'pending.table.head.etc'}}{{/jsString}}",
+                'visitors.table.head.actions': "{{#jsString}}{{l10n 'visitors.table.head.actions'}}{{/jsString}}",
+                'visitors.table.head.name': "{{#jsString}}{{l10n 'visitors.table.head.name'}}{{/jsString}}",
+                'visitors.table.head.contactid': "{{#jsString}}{{l10n 'visitors.table.head.contactid'}}{{/jsString}}",
+                'visitors.table.head.firsttimeonsite': "{{#jsString}}{{l10n 'visitors.table.head.firsttimeonsite'}}{{/jsString}}",
+                'visitors.table.head.lasttimeonsite': "{{#jsString}}{{l10n 'visitors.table.head.lasttimeonsite'}}{{/jsString}}",
+                'visitors.table.head.invited.by': "{{#jsString}}{{l10n 'visitors.table.head.invited.by'}}{{/jsString}}",
+                'visitors.table.head.invitationtime': "{{#jsString}}{{l10n 'visitors.table.head.invitationtime'}}{{/jsString}}",
+                'visitors.table.head.invitations': "{{#jsString}}{{l10n 'visitors.table.head.invitations'}}{{/jsString}}",
+                'visitors.table.head.etc': "{{#jsString}}{{l10n 'visitors.table.head.etc'}}{{/jsString}}",
+                'visitors.no_visitors': "{{#jsString}}{{l10n 'visitors.no_visitors'}}{{/jsString}}",
+                'clients.no_clients': "{{#jsString}}{{l10n 'clients.no_clients'}}{{/jsString}}",
+                'chat.thread.state_wait': "{{#jsString}}{{l10n 'chat.thread.state_wait'}}{{/jsString}}",
+                'chat.thread.state_wait_for_another_agent': "{{#jsString}}{{l10n 'chat.thread.state_wait_for_another_agent'}}{{/jsString}}",
+                'chat.thread.state_chatting_with_agent': "{{#jsString}}{{l10n 'chat.thread.state_chatting_with_agent'}}{{/jsString}}",
+                'chat.thread.state_closed': "{{#jsString}}{{l10n 'chat.thread.state_closed'}}{{/jsString}}",
+                'chat.thread.state_loading': "{{#jsString}}{{l10n 'chat.thread.state_loading'}}{{/jsString}}",
+                'chat.client.spam.prefix': "{{#jsString}}{{l10n 'chat.client.spam.prefix'}}{{/jsString}}",
+                'pending.errors.network': "{{#jsString}}{{l10n 'pending.errors.network'}}{{/jsString}}"
+            });
+            // Plugins localization
+            Mibew.Localization.set({{additional_localized_strings}});
+        //--></script>
+
+        <script type="text/javascript"><!--
+            jQuery(document).ready(function(){
+                Mibew.Application.start({
+                    server: {
+                        url: "{{mibewRoot}}/operator/update.php",
+                        requestsFrequency: {{frequency}}
+                    },
+
+                    agent: {
+                        id: {{agentId}}
+                    },
+
+                    page: {
+                        showOnlineOperators: {{#if showonline}}true{{else}}false{{/if}},
+                        showVisitors: {{#if showvisitors}}true{{else}}false{{/if}},
+                        showPopup: {{#if showpopup}}true{{else}}false{{/if}},
+
+                        threadTag: "{{[coreStyles.threadTag]}}",
+                        visitorTag: "{{[coreStyles.visitorTag]}}",
+
+                        agentLink: "{{mibewRoot}}/operator/agent.php",
+                        geoLink: "{{geoLink}}",
+                        trackedLink: "{{mibewRoot}}/operator/tracked.php",
+                        banLink: "{{mibewRoot}}/operator/ban.php",
+                        inviteLink: "{{mibewRoot}}/operator/invite.php",
+
+                        chatWindowParams: "{{[chatStyles.chatWindowParams]}}",
+                        geoWindowParams: "{{geoWindowParams}}",
+                        trackedUserWindowParams: "{{[coreStyles.trackedUserWindowParams]}}",
+                        trackedVisitorWindowParams: "{{[coreStyles.trackedVisitorWindowParams]}}",
+                        banWindowParams: "{{[coreStyles.banWindowParams]}}",
+                        inviteWindowParams: "{{[coreStyles.inviteWindowParams]}}"
+                    },
+                    plugins: {{js_plugin_options}}
+                });
+            });
+        //--></script>
+    {{/override}}
+
+    {{#override "content"}}
+        <div>
+
+        {{l10n "clients.intro"}}
+        <br/>
+        {{l10n "clients.how_to"}}
+        </div>
+        <br/>
+
+        <div id="threads-region"></div>
+
+        {{#if showvisitors}}
+            <div class="tabletitle">{{l10n "visitors.title"}}</div>
+            {{l10n "visitors.intro"}}
+            <br/>
+            {{l10n "visitors.how_to"}}
+            <div id="visitors-region"></div>
+            <hr/>
+        {{/if}}
+
+        <div id="status-panel-region"></div>
+        <div id="agents-region"></div>
+    {{/override}}
+{{/extends}}
