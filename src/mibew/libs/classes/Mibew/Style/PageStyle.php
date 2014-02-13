@@ -81,18 +81,14 @@ class PageStyle extends AbstractStyle implements StyleInterface
         // Prepare to output html
         start_html_output();
 
-        // $page variable is used in included views files, so we need to create
-        // it as an alias of $data argument.
-        $page = $data;
-
         // Pass additional variables to template
-        $page['mibewRoot'] = MIBEW_WEB_ROOT;
-        $page['mibewVersion'] = MIBEW_VERSION;
-        $page['currentLocale'] = CURRENT_LOCALE;
-        $page['rtl'] = (getlocal("localedirection") == 'rtl');
-        $page['stylePath'] = MIBEW_WEB_ROOT . '/' . $this->filesPath();
+        $data['mibewRoot'] = MIBEW_WEB_ROOT;
+        $data['mibewVersion'] = MIBEW_VERSION;
+        $data['currentLocale'] = CURRENT_LOCALE;
+        $data['rtl'] = (getlocal("localedirection") == 'rtl');
+        $data['stylePath'] = MIBEW_WEB_ROOT . '/' . $this->filesPath();
 
-        echo($this->templateEngine->render($template_name, $page));
+        echo($this->templateEngine->render($template_name, $data));
     }
 
     /**
