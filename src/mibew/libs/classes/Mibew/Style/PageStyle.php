@@ -87,6 +87,7 @@ class PageStyle extends AbstractStyle implements StyleInterface
         $data['currentLocale'] = CURRENT_LOCALE;
         $data['rtl'] = (getlocal("localedirection") == 'rtl');
         $data['stylePath'] = MIBEW_WEB_ROOT . '/' . $this->filesPath();
+        $data['styleName'] = $this->name();
 
         echo($this->templateEngine->render($template_name, $data));
     }
