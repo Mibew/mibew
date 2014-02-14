@@ -104,9 +104,8 @@ img {
     text-decoration: none;
 }
 #page-title {
-    position: absolute;
-    right: 14px;
-    bottom: 5px;
+    float: right;
+    margin-top: 5px;
     text-align: right;
 }
 /* ----------- */

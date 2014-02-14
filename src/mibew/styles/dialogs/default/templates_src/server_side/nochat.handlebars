@@ -1,0 +1,15 @@
+{{#extends "_layout"}}
+    {{#override "pageTitle"}}{{l10n "chat.error_page.title"}}{{/override}}
+
+    {{#override "buttons"}}
+        <a href="javascript:window.close();" title="{{l10n 'page.chat.old_browser.close'}}">
+            <img class="tpl-image iclosewin" src="{{stylePath}}/images/free.gif" alt="{{l10n 'page.chat.old_browser.close'}}" />
+        </a>
+    {{/override}}
+
+    {{#override "message"}}{{l10n "page.chat.old_browser.problem"}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "page.chat.old_browser.list"}}
+    {{/override}}
+{{/extends}}

@@ -1,0 +1,116 @@
+{{#extends "_layout"}}
+    {{#override "head"}}
+        <!--[if IE 7]>
+            <link rel="stylesheet" type="text/css" href="{{stylePath}}/chat_ie7.css" media="all" />
+        <![endif]-->
+
+        {{additional_css}}
+
+        <!-- External libs -->
+        <script type="text/javascript" src="{{mibewRoot}}/js/libs/jquery.min.js"></script>
+        <script type="text/javascript" src="{{mibewRoot}}/js/libs/json2.js"></script>
+        <script type="text/javascript" src="{{mibewRoot}}/js/libs/underscore-min.js"></script>
+        <script type="text/javascript" src="{{mibewRoot}}/js/libs/backbone-min.js"></script>
+        <script type="text/javascript" src="{{mibewRoot}}/js/libs/backbone.marionette.min.js"></script>
+        <script type="text/javascript" src="{{mibewRoot}}/js/libs/handlebars.js"></script>
+
+        <!-- Javascript templates -->
+        <script type="text/javascript" src="{{stylePath}}/js/compiled/templates.js"></script>
+
+        <!-- Application files -->
+        <script type="text/javascript" src="{{mibewRoot}}/js/compiled/mibewapi.js"></script>
+        <script type="text/javascript" src="{{mibewRoot}}/js/compiled/default_app.js"></script>
+        <script type="text/javascript" src="{{mibewRoot}}/js/compiled/chat_app.js"></script>
+
+        <!-- Add style scripts -->
+        <script type="text/javascript" src="{{stylePath}}/js/compiled/scripts.js"></script>
+
+        {{additional_js}}
+
+        <script type="text/javascript"><!--
+            // Localized strings for the core
+            Mibew.Localization.set({
+                'chat.close.confirmation': '{{#jsString}}{{l10n "chat.close.confirmation"}}{{/jsString}}',
+                'typing.remote': '{{#jsString}}{{l10n "typing.remote"}}{{/jsString}}',
+                'chat.window.predefined.select_answer': '{{#jsString}}{{l10n "chat.window.predefined.select_answer"}}{{/jsString}}',
+                'chat.window.send_message': '{{#jsString}}{{l10n "chat.window.send_message"}}{{/jsString}}',
+                'chat.window.send_message_short_and_shortcut': '{{#jsString}}{{l10n "chat.window.send_message_short" send_shortcut}}{{/jsString}}',
+                'chat.window.close_title': '{{#jsString}}{{l10n "chat.window.close_title"}}{{/jsString}}',
+                'chat.window.toolbar.refresh': '{{#jsString}}{{l10n "chat.window.toolbar.refresh"}}{{/jsString}}',
+                'chat.window.toolbar.mail_history': '{{#jsString}}{{l10n "chat.window.toolbar.mail_history"}}{{/jsString}}',
+                'chat.window.toolbar.redirect_user': '{{#jsString}}{{l10n "chat.window.toolbar.redirect_user"}}{{/jsString}}',
+                'page.analysis.userhistory.title': '{{#jsString}}{{l10n "page.analysis.userhistory.title"}}{{/jsString}}',
+                'chat.client.name': '{{#jsString}}{{l10n "chat.client.name"}}{{/jsString}}',
+                'chat.client.changename': '{{#jsString}}{{l10n "chat.client.changename"}}{{/jsString}}',
+                'chat.window.toolbar.turn_off_sound': '{{#jsString}}{{l10n "chat.window.toolbar.turn_off_sound"}}{{/jsString}}',
+                'chat.window.toolbar.turn_on_sound': '{{#jsString}}{{l10n "chat.window.toolbar.turn_on_sound"}}{{/jsString}}',
+                'chat.window.poweredby': '{{#jsString}}{{l10n "chat.window.poweredby"}}{{/jsString}}',
+                'chat.mailthread.sent.close': '{{#jsString}}{{l10n "chat.mailthread.sent.close"}}{{/jsString}}',
+                'form.field.department': '{{#jsString}}{{l10n "form.field.department"}}{{/jsString}}',
+                'form.field.department.description': '{{#jsString}}{{l10n "form.field.department.description"}}{{/jsString}}',
+                'form.field.email': '{{#jsString}}{{l10n "form.field.email"}}{{/jsString}}',
+                'form.field.name': '{{#jsString}}{{l10n "form.field.name"}}{{/jsString}}',
+                'form.field.message': '{{#jsString}}{{l10n "form.field.message"}}{{/jsString}}',
+                'leavemessage.close': '{{#jsString}}{{l10n "leavemessage.close"}}{{/jsString}}',
+                'leavemessage.descr': '{{#jsString}}{{l10n "leavemessage.descr"}}{{/jsString}}',
+                'leavemessage.sent.message': '{{#jsString}}{{l10n "leavemessage.sent.message"}}{{/jsString}}',
+                'leavemessage.error.email.required': '{{#jsString}}{{localized.[email.required]}}{{/jsString}}',
+                'leavemessage.error.name.required': '{{#jsString}}{{localized.[name.required]}}{{/jsString}}',
+                'leavemessage.error.message.required': '{{#jsString}}{{localized.[message.required]}}{{/jsString}}',
+                'leavemessage.error.wrong.email': '{{#jsString}}{{localized.[wrong.email]}}{{/jsString}}',
+                'errors.captcha': '{{#jsString}}{{l10n "errors.captcha"}}{{/jsString}}',
+                'mailthread.perform': '{{#jsString}}{{l10n "mailthread.perform"}}{{/jsString}}',
+                'presurvey.name': '{{#jsString}}{{l10n "presurvey.name"}}{{/jsString}}',
+                'presurvey.mail': '{{#jsString}}{{l10n "presurvey.mail"}}{{/jsString}}',
+                'presurvey.question': '{{#jsString}}{{l10n "presurvey.question"}}{{/jsString}}',
+                'presurvey.submit': '{{#jsString}}{{l10n "presurvey.submit"}}{{/jsString}}',
+                'presurvey.error.wrong_email': '{{#jsString}}{{l10n "presurvey.error.wrong_email"}}{{/jsString}}',
+                'presurvey.title': '{{#jsString}}{{l10n "presurvey.title"}}{{/jsString}}',
+                'presurvey.intro': '{{#jsString}}{{l10n "presurvey.intro"}}{{/jsString}}'
+            });
+            // Plugins localization
+            Mibew.Localization.set({{additional_localized_strings}});
+        //--></script>
+
+        <!-- Run application -->
+        <script type="text/javascript"><!--
+            jQuery(document).ready(function(){
+                Mibew.Application.start({
+                    server: {
+                        url: '{{mibewRoot}}/thread.php',
+                        requestsFrequency: {{frequency}}
+                    },
+                    page: {
+                        style: '{{styleName}}',
+                        mibewRoot: '{{mibewRoot}}',
+                        tplRoot: '{{stylePath}}',
+                        company: {
+                            name: '{{#jsString}}{{company.name}}{{/jsString}}',
+                            chatLogoURL: '{{company.chatLogoURL}}'
+                        },
+                        mibewHost: '{{mibewHost}}',
+                        title: '{{#jsString}}{{[page.title]}}{{/jsString}}'
+                    },
+                    {{#if chatOptions}}
+                        chatOptions: {{{chatOptions}}},
+                    {{/if}}
+                    {{#if surveyOptions}}
+                        surveyOptions: {{{surveyOptions}}},
+                    {{/if}}
+                    {{#if leaveMessageOptions}}
+                        leaveMessageOptions: {{{leaveMessageOptions}}},
+                    {{/if}}
+                    {{#if invitationOptions}}
+                        invitationOptions: {{{invitationOptions}}},
+                    {{/if}}
+                    startFrom: '{{startFrom}}',
+                    plugins: {{{js_plugin_options}}}
+                });
+            });
+        //--></script>
+    {{/override}}
+
+    {{#override "page"}}
+        <div id="main-region"></div>
+    {{/override}}
+{{/extends}}

@@ -1,0 +1,11 @@
+{{#extends "_layout"}}
+    {{#override "pageTitle"}}{{l10n "chat.mailthread.sent.title"}}{{/override}}
+
+    {{#override "buttons"}}
+        <a href="javascript:window.close();" title="{{l10n 'chat.mailthread.sent.close'}}">
+            <img class="tpl-image iclosewin" src="{{stylePath}}/images/free.gif" alt="{{l10n 'chat.mailthread.sent.close'}}" />
+        </a>
+    {{/override}}
+
+    {{#override "message"}}{{l10n "chat.mailthread.sent.content" email}}{{/override}}
+{{/extends}}
