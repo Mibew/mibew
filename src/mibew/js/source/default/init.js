@@ -11,11 +11,22 @@
  */
 var Mibew = {};
 
-(function(Mibew, Backbone){
+(function(Mibew, Backbone, Handlebars){
 
     // Use Backbone.Marionette with handlebars.js
     Backbone.Marionette.TemplateCache.prototype.compileTemplate = function(rawTemplate) {
         return Handlebars.compile(rawTemplate);
+    }
+
+    // Use all handlebars template as partials too
+    // We does not use Handlebars.partials property because of it can be changed
+    // in latter versions of Handlebars.js
+    for (var index in Handlebars.templates) {
+        if (!Handlebars.templates.hasOwnProperty(index)) {
+            continue;
+        }
+
+        Handlebars.registerPartial(index, Handlebars.templates[index]);
     }
 
     /**
@@ -48,4 +59,4 @@ var Mibew = {};
      */
     Mibew.Objects.Collections = {};
 
-})(Mibew, Backbone);
+})(Mibew, Backbone, Handlebars);

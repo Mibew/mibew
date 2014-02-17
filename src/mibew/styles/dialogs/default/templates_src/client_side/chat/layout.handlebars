@@ -1,28 +1,5 @@
 {{! Chat window top. Includes logo and some info about company}}
-<div id="top">
-    <div id="logo">
-        {{#if page.company.chatLogoURL}}
-            {{#if page.mibewHost}}
-                <a onclick="window.open('{{page.mibewHost}}');return false;" href="{{page.mibewHost}}">
-                    <img src="{{page.company.chatLogoURL}}" alt=""/>
-                </a>
-            {{else}}
-                <img src="{{page.company.chatLogoURL}}" alt=""/>
-            {{/if}}
-        {{else}}
-            {{#if page.mibewHost}}
-                <a onclick="window.open('{{page.mibewHost}}');return false;" href="{{page.mibewHost}}">
-                    <img src="{{page.tplRoot}}/images/default-logo.gif" alt=""/>
-                </a>
-            {{else}}
-                <img src="{{page.tplRoot}}/images/default-logo.gif" alt=""/>
-            {{/if}}
-        {{/if}}
-        &nbsp;
-        <div id="page-title">{{page.title}}</div>
-        <div class="clear">&nbsp;</div>
-    </div>
-</div>
+{{> _logo}}
 
 {{! Chat header}}
 <div id="chat-header">
