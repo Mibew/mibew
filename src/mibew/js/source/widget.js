@@ -404,8 +404,9 @@ var Mibew = {};
 
         // Broadcast message from the thread related with invitation into iframe
         if (threadUrl) {
-            popuptext += '<iframe id="mibewinvitationframe" src="' + threadUrl
-                + '" onload="Mibew.Invitation.show();"></iframe>';
+            popuptext += '<iframe id="mibewinvitationframe" '
+                + 'src="' + threadUrl + '" onload="Mibew.Invitation.show();" '
+                + 'frameBorder="0"></iframe>';
         }
 
         // Add accept button if acceptCaption set
