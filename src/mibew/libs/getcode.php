@@ -17,6 +17,7 @@
 
 // Import namespaces and classes of the core
 use Mibew\Settings;
+use Mibew\Style\ChatStyle;
 use Mibew\Style\InvitationStyle;
 
 function generate_button(
@@ -48,7 +49,15 @@ function generate_button(
         "'" . $link,
         "url='+escape(document.location.href$modsecfix)+'&amp;referrer='+escape(document.referrer$modsecfix)"
     );
-    $popup_options = "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1";
+
+    // Get popup window configurations
+    if ($style) {
+        $chat_style = new ChatStyle($style);
+        $chat_configurations = $chat_style->configurations();
+        $popup_options = $chat_configurations['chat']['window_params'];
+    } else {
+        $popup_options = "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1";
+    }
 
     // Generate operator code field
     if ($operator_code) {
