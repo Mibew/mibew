@@ -18,6 +18,14 @@
 // Import namespaces and classes of the core
 use Mibew\Database;
 
+/**
+ * Get information about all existing canned message from database
+ *
+ * @param string $locale 2-digit ISO-639-1 code for language
+ * @param integer $group_id Group ID for the canned messages
+ *
+ * @return array Each its element is canned message structure. contains (id integer, vctitle string, vcvalue string)
+ */
 function load_canned_messages($locale, $group_id)
 {
     $db = Database::getInstance();
@@ -36,6 +44,13 @@ function load_canned_messages($locale, $group_id)
     );
 }
 
+/**
+ * Get information about first existing canned message from database
+ *
+ * @param integer $key ID of canned message witch will be returned
+ *
+ * @return null|array It is canned message structure. contains (vctitle string, vcvalue string)
+ */
 function load_canned_message($key)
 {
     $db = Database::getInstance();
@@ -48,6 +63,13 @@ function load_canned_message($key)
     return $result ? $result : null;
 }
 
+/**
+ * Updates information about existing canned message in database
+ *
+ * @param integer $key id of canned message witch must be update
+ * @param string $title new title for this canned message
+ * @param string $message new message for this canned message
+ */
 function save_canned_message($key, $title, $message)
 {
     $db = Database::getInstance();
@@ -57,6 +79,14 @@ function save_canned_message($key, $title, $message)
     );
 }
 
+/**
+ * Add new canned message to database
+ *
+ * @param string $locale 2-digit ISO-639-1 code for language
+ * @param integer $group_id Group ID for the canned messages
+ * @param string $title title of canned message
+ * @param string $message body of canned message
+ */
 function add_canned_message($locale, $group_id, $title, $message)
 {
     $db = Database::getInstance();
