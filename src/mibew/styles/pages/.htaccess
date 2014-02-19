@@ -1,0 +1,3 @@
+<FilesMatch "\.(ini|handlebars)$">
+    Deny from all
+</FilesMatch>
