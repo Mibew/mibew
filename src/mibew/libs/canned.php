@@ -24,7 +24,8 @@ use Mibew\Database;
  * @param string $locale 2-digit ISO-639-1 code for language
  * @param integer $group_id Group ID for the canned messages
  *
- * @return array Each its element is canned message structure. contains (id integer, vctitle string, vcvalue string)
+ * @return array Each its element is canned message structure. contains
+ * (id integer, vctitle string, vcvalue string)
  */
 function load_canned_messages($locale, $group_id)
 {
@@ -47,9 +48,10 @@ function load_canned_messages($locale, $group_id)
 /**
  * Get information about first existing canned message from database
  *
- * @param integer $key ID of canned message witch will be returned
+ * @param integer $key ID of canned message which will be returned
  *
- * @return null|array It is canned message structure. contains (vctitle string, vcvalue string)
+ * @return null|array It is canned message structure. contains (vctitle string,
+ * vcvalue string)
  */
 function load_canned_message($key)
 {
@@ -66,7 +68,7 @@ function load_canned_message($key)
 /**
  * Updates information about existing canned message in database
  *
- * @param integer $key id of canned message witch must be update
+ * @param integer $key id of canned message which must be update
  * @param string $title new title for this canned message
  * @param string $message new message for this canned message
  */
