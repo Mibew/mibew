@@ -47,7 +47,7 @@ function load_canned_messages($locale, $group_id)
 /**
  * Get information about first existing canned message from database
  *
- * @param integer $key ID of canned message wich will be returned
+ * @param integer $key ID of canned message witch will be returned
  *
  * @return null|array It is canned message structure. contains (vctitle string, vcvalue string)
  */
@@ -66,7 +66,7 @@ function load_canned_message($key)
 /**
  * Updates information about existing canned message in database
  *
- * @param integer $key id of canned message wich must be update
+ * @param integer $key id of canned message witch must be update
  * @param string $title new title for this canned message
  * @param string $message new message for this canned message
  */
