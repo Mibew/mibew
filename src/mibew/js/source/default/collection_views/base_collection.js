@@ -60,15 +60,7 @@
              * Return special contructor for an item view if it exists or the
              * default constructor otherwise.
              */
-            buildItemView: buildItemView,
-
-            /**
-             * Render only collection in composite view
-             */
-            renderCollection: function() {
-                var args = Array.prototype.slice.apply(arguments);
-                Backbone.Marionette.CollectionView.prototype.render.apply(this, args);
-            }
+            buildItemView: buildItemView
         }
     );
 

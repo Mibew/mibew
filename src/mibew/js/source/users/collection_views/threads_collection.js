@@ -45,7 +45,7 @@
              * @type Object
              */
             collectionEvents: {
-                'sort': 'renderCollection',
+                'sort': 'render',
                 'sort:field': 'createSortField',
                 'add': 'threadAdded'
             },
