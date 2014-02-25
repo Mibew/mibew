@@ -94,5 +94,5 @@ if (function_exists("date_default_timezone_set")) {
 
 if (!empty($plugins_list)) {
     // Variable $plugins_config defined in libs/config.php
-    \Mibew\PluginManager::loadPlugins($plugins_list);
+    \Mibew\Plugin\Manager::loadPlugins($plugins_list);
 }

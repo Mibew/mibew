@@ -16,7 +16,7 @@
  */
 
 // Import namespaces and classes of the core
-use Mibew\PluginManager;
+use Mibew\Plugin\Manager as PluginManager;
 
 /**
  * Name for the cookie to store locale code in use

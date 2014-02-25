@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-namespace Mibew;
+namespace Mibew\Plugin;
 
 /**
  * Manage plugins
  */
-class PluginManager
+class Manager
 {
     /**
      * Contains all loaded plugins
