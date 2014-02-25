@@ -67,7 +67,7 @@
                 // Update time in timers
                 window.setInterval(_.bind(this.updateTimers, this), 2 * 1000);
                 // Register events
-                this.on('render', this.updateTimers, this);
+                this.on('composite:collection:rendered', this.updateTimers, this);
             },
 
             /**
