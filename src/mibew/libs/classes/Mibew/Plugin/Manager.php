@@ -70,8 +70,8 @@ class Manager
      * <code>
      * $plugins_list = array();
      * $plugins_list[] = array(
-     *   'name' => 'plugin_name',     // Obligatory value
-     *   'config' => array(           // Pass to plugin constructor
+     *   'name' => 'vendor:plugin_name',     // Obligatory value
+     *   'config' => array(                  // Pass to plugin constructor
      *     'weight' => 100,
      *     'some_configurable_value' => 'value'
      *   )
@@ -82,31 +82,34 @@ class Manager
      */
     public static function loadPlugins($plugins_list)
     {
-        // Add include path
-        $include_path = get_include_path();
-        $include_path .= empty($include_path) ? '' : PATH_SEPARATOR;
-        set_include_path($include_path . realpath(MIBEW_FS_ROOT . "/plugins/"));
-
-        // Load plugins
+        // Load plugins one by one
         $loading_queue = array();
         $offset = 0;
         foreach ($plugins_list as $plugin) {
             if (empty($plugin['name'])) {
-                trigger_error("Plugin name undefined!", E_USER_WARNING);
+                trigger_error("Plugin name is undefined!", E_USER_WARNING);
                 continue;
             }
             $plugin_name = $plugin['name'];
+
+            // Split full name to vendor name and short name
+            list($vendor_name, $plugin_short_name) = explode(':', $plugin_name, 2);
+            if (empty($vendor_name) || empty($plugin_short_name)) {
+                trigger_error(
+                    "Wrong formated plugin name '" . $plugin_name . "'!",
+                    E_USER_WARNING
+                );
+                continue;
+            }
+
             $plugin_config = isset($plugin['config']) ? $plugin['config'] : array();
 
             // Build name of the plugin class
-            $plugin_name_parts = explode('_', $plugin_name);
+            $plugin_name_parts = explode('_', $plugin_short_name);
             $plugin_name_parts = array_map('ucfirst', $plugin_name_parts);
-            $plugin_classname = '\\Mibew\\Plugin\\' . implode('', $plugin_name_parts);
+            $plugin_classname = '\\' . ucfirst($vendor_name)
+                . '\\Mibew\\Plugin\\' . implode('', $plugin_name_parts) . '\\Plugin';
 
-            // Try to load plugin file
-            if (!(include_once $plugin_name . "/" . $plugin_name . "_plugin.php")) {
-                trigger_error("Cannot load plugin file!", E_USER_ERROR);
-            }
             // Check plugin class name
             if (!class_exists($plugin_classname)) {
                 trigger_error(
@@ -117,9 +120,9 @@ class Manager
             }
             // Check if plugin extends abstract 'Plugin' class
             if (!in_array('Mibew\\Plugin\\PluginInterface', class_implements($plugin_classname))) {
-                $error_essage = "Plugin class '{$plugin_classname}' does not "
+                $error_message = "Plugin class '{$plugin_classname}' does not "
                     . "implement '\\Mibew\\Plugin\\PluginInterface' interface!";
-                trigger_error($error_essage, E_USER_WARNING);
+                trigger_error($error_message, E_USER_WARNING);
                 continue;
             }
 
@@ -130,9 +133,9 @@ class Manager
             ));
             foreach ($plugin_dependencies as $dependency) {
                 if (empty(self::$loadedPlugins[$dependency])) {
-                    $error_essage = "Plugin '{$dependency}' was not loaded "
+                    $error_message = "Plugin '{$dependency}' was not loaded "
                         . "yet, but exists in '{$plugin_name}' dependencies list!";
-                    trigger_error($error_essage, E_USER_WARNING);
+                    trigger_error($error_message, E_USER_WARNING);
                     continue 2;
                 }
             }
@@ -151,9 +154,8 @@ class Manager
                 );
             }
         }
-        // Sort queue in order to plugins' weights
+        // Sort queue in order to plugins' weights and run plugins one by one
         uksort($loading_queue, 'strnatcmp');
-        // Add events and listeners
         foreach ($loading_queue as $plugin) {
             $plugin->run();
         }

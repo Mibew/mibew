@@ -47,6 +47,9 @@ require_once(MIBEW_FS_ROOT . '/libs/common/constants.php');
 require_once(MIBEW_FS_ROOT . '/libs/classes/Mibew/Autoloader.php');
 Mibew\Autoloader::register(MIBEW_FS_ROOT . '/libs/classes');
 
+// Automatically load plugins
+Mibew\Autoloader::register(MIBEW_FS_ROOT . '/plugins');
+
 // Initialize external dependencies
 require_once(MIBEW_FS_ROOT . '/vendor/autoload.php');
 
