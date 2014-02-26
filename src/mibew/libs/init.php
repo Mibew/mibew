@@ -44,8 +44,8 @@ define('MIBEW_WEB_ROOT', $mibewroot);
 require_once(MIBEW_FS_ROOT . '/libs/common/constants.php');
 
 // Initialize classes autoloading
-require_once(MIBEW_FS_ROOT . '/libs/common/autoload.php');
-spl_autoload_register('class_autoload');
+require_once(MIBEW_FS_ROOT . '/libs/classes/Mibew/Autoloader.php');
+Mibew\Autoloader::register(MIBEW_FS_ROOT . '/libs/classes');
 
 // Initialize external dependencies
 require_once(MIBEW_FS_ROOT . '/vendor/autoload.php');
