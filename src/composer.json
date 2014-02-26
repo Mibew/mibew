@@ -1,6 +1,6 @@
 {
     "require": {
-        "xamin/handlebars.php": "dev-master#5b188ce19e9b07170238c82bd34051a31bdeebbf"
+        "xamin/handlebars.php": "dev-master#3514a2b1518a64789074af6df1c11a21bb9723cf"
     },
     "config": {
         "vendor-dir": "mibew/vendor"
