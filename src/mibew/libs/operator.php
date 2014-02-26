@@ -760,6 +760,7 @@ function prepare_menu($operator, $has_right = true)
 {
     $result = array();
 
+    $result['showMenu'] = true;
     $result['operator'] = to_page(get_operator_name($operator));
     $result['goOnlineLink'] = getlocal2(
         "menu.goonline",
