@@ -63,22 +63,22 @@ class Manager
      * Loads plugins.
      *
      * The method checks dependences and plugin avaiulability before loading and
-     * invokes Plugin::registerListeners() after loading.
+     * invokes PluginInterface::run() after loading.
      *
      * @param array $plugins_list List of plugins' names and configurations.
      *   For example:
      * <code>
      * $plugins_list = array();
      * $plugins_list[] = array(
-     * 	'name' => 'plugin_name',      // Obligatory value
-     * 	'config' => array(            // Pass to plugin constructor
-     * 		'weight' => 100,
-     * 		'some_configurable_value' => 'value'
-     * 	)
+     *   'name' => 'plugin_name',     // Obligatory value
+     *   'config' => array(           // Pass to plugin constructor
+     *     'weight' => 100,
+     *     'some_configurable_value' => 'value'
+     *   )
      * )
      * </code>
      *
-     * @see Plugin::registerListeners()
+     * @see \Mibew\Plugin\PluginInterface::run()
      */
     public static function loadPlugins($plugins_list)
     {
@@ -116,22 +116,22 @@ class Manager
                 continue;
             }
             // Check if plugin extends abstract 'Plugin' class
-            if ('Mibew\\Plugin' != get_parent_class($plugin_classname)) {
+            if (!in_array('Mibew\\Plugin\\PluginInterface', class_implements($plugin_classname))) {
                 $error_essage = "Plugin class '{$plugin_classname}' does not "
-                    . "extend abstract '\\Mibew\\Plugin' class!";
+                    . "implement '\\Mibew\\Plugin\\PluginInterface' interface!";
                 trigger_error($error_essage, E_USER_WARNING);
                 continue;
             }
 
-            // Check plugin dependences
-            $plugin_dependences = call_user_func(array(
+            // Check plugin dependencies
+            $plugin_dependencies = call_user_func(array(
                 $plugin_classname,
-                'getDependences',
+                'getDependencies',
             ));
-            foreach ($plugin_dependences as $dependence) {
-                if (empty(self::$loadedPlugins[$dependence])) {
-                    $error_essage = "Plugin '{$dependence}' was not loaded "
-                        . "yet, but exists in '{$plugin_name}' dependences list!";
+            foreach ($plugin_dependencies as $dependency) {
+                if (empty(self::$loadedPlugins[$dependency])) {
+                    $error_essage = "Plugin '{$dependency}' was not loaded "
+                        . "yet, but exists in '{$plugin_name}' dependencies list!";
                     trigger_error($error_essage, E_USER_WARNING);
                     continue 2;
                 }
@@ -139,7 +139,7 @@ class Manager
 
             // Add plugin to loading queue
             $plugin_instance = new $plugin_classname($plugin_config);
-            if ($plugin_instance->initialized) {
+            if ($plugin_instance->initialized()) {
                 // Store plugin instance
                 self::$loadedPlugins[$plugin_name] = $plugin_instance;
                 $loading_queue[$plugin_instance->getWeight() . "_" . $offset] = $plugin_instance;
@@ -155,7 +155,7 @@ class Manager
         uksort($loading_queue, 'strnatcmp');
         // Add events and listeners
         foreach ($loading_queue as $plugin) {
-            $plugin->registerListeners();
+            $plugin->run();
         }
     }
 }
