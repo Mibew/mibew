@@ -15,11 +15,20 @@
  * limitations under the License.
  */
 
+/**
+ * Check if captcha is loadable or not by cheking captcha requirements
+ *
+ * @return bool reqirements are saticfird or not
+ */
 function can_show_captcha()
 {
     return extension_loaded("gd");
 }
-
+/**
+ * Using characters and numbers to generate captcha code
+ *
+ * @return string captcha code
+ */
 function gen_captcha()
 {
     $symbols = 'abcdefghijkmnpqrstuvwxyz123456789';
@@ -30,7 +39,9 @@ function gen_captcha()
 
     return $string;
 }
-
+/**
+ * Send captcha image directly to output
+ */
 function draw_captcha($security_code)
 {
     //Set the image width and height
