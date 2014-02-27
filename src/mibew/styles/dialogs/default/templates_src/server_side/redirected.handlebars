@@ -1,0 +1,11 @@
+{{#extends "_layout"}}
+    {{#override "pageTitle"}}{{l10n "chat.redirected.title"}}{{/override}}
+
+    {{#override "buttons"}}
+        <a href="javascript:window.close();" title="{{l10n 'chat.redirected.close'}}">
+            <img class="tpl-image iclosewin" src="{{stylePath}}/images/free.gif" alt="{{l10n 'chat.redirected.close'}}" />
+        </a>
+    {{/override}}
+
+    {{#override "message"}}{{message}}{{/override}}
+{{/extends}}

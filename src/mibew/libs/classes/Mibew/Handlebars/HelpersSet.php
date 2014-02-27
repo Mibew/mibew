@@ -143,6 +143,76 @@ class HelpersSet
     }
 
     /**
+     * Conditional helper that checks if specified argument is even or not.
+     *
+     * Example of usage:
+     * <code>
+     *   {{#ifEven value}}
+     *     The value is even.
+     *   {{else}}
+     *     The value is odd.
+     *   {{/ifEven}}
+     * </code>
+     */
+    public function ifEvenHelper($template, $context, $args, $source)
+    {
+        $parsed_args = $template->parseArguments($args);
+        if (empty($parsed_args)) {
+            return '';
+        }
+
+        $condition = ($context->get($parsed_args[0]) % 2 == 0);
+
+        if ($condition) {
+            $template->setStopToken('else');
+            $buffer = $template->render($context);
+            $template->setStopToken(false);
+        } else {
+            $template->setStopToken('else');
+            $template->discard();
+            $template->setStopToken(false);
+            $buffer = $template->render($context);
+        }
+
+        return $buffer;
+    }
+
+    /**
+     * Conditional helper that checks if specified argument is odd or not.
+     *
+     * Example of usage:
+     * <code>
+     *   {{#ifOdd value}}
+     *     The value is odd.
+     *   {{else}}
+     *     The value is even.
+     *   {{/ifOdd}}
+     * </code>
+     */
+    public function ifOddHelper($template, $context, $args, $source)
+    {
+        $parsed_args = $template->parseArguments($args);
+        if (empty($parsed_args)) {
+            return '';
+        }
+
+        $condition = ($context->get($parsed_args[0]) % 2 == 1);
+
+        if ($condition) {
+            $template->setStopToken('else');
+            $buffer = $template->render($context);
+            $template->setStopToken(false);
+        } else {
+            $template->setStopToken('else');
+            $template->discard();
+            $template->setStopToken(false);
+            $buffer = $template->render($context);
+        }
+
+        return $buffer;
+    }
+
+    /**
      * Conditional helper that checks if at least one argumet can be treated as
      * "true" value.
      *
@@ -559,6 +629,8 @@ class HelpersSet
             'unlessOverridden' => array($this, 'unlessOverriddenHelper'),
             'ifEqual' => array($this, 'ifEqualHelper'),
             'ifAny' => array($this, 'ifAnyHelper'),
+            'ifEven' => array($this, 'ifEvenHelper'),
+            'ifOdd' => array($this, 'ifOddHelper'),
             'generatePagination' => array($this, 'generatePaginationHelper'),
             'jsString' => array($this, 'jsStringHelper'),
             'repeat' => array($this, 'repeatHelper'),

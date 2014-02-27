@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"{{#if rtl}} dir="rtl"{{/if}}>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="{{stylePath}}/images/favicon.ico" type="image/x-icon"/>
+    <title>
+        {{title}} - {{l10n "app.title"}}
+    </title>
+    <link href="{{stylePath}}/css/default.css" rel="stylesheet" type="text/css" />
+    <!--[if lte IE 7]><link href="{{stylePath}}/css/default_ie.css" rel="stylesheet" type="text/css" /><![endif] -->
+    <!--[if lte IE 6]><script language="JavaScript" type="text/javascript" src="{{mibewRoot}}/js/compiled/ie.js"></script><![endif]-->
+    {{#block "head"}}{{/block}}
+</head>
+
+<body{{#unlessOverridden "menu"}} style="min-width: 400px;"{{/unlessOverridden}}>
+    <div id="{{#if fixedwrap}}fixedwrap{{else}}{{#ifOverridden "menu"}}wrap700{{else}}wrap400{{/ifOverridden}}{{/if}}" class="l{{l10n "localedirection"}}">
+        <div id="header">
+            <div id="title">
+                <h1><img src="{{stylePath}}/images/logo.png" alt="" width="32" height="32" class="left logo" />
+                    <a href="#">{{#if headertitle}}{{headertitle}}{{else}}{{title}}{{/if}}</a></h1>
+            </div>
+
+            {{#if operator}}
+                <div id="path"><p>{{l10n "menu.operator" operator}}</p></div>
+            {{else}}
+                {{#if show_small_login}}
+                    <div id="loginsmallpane">
+                        <form name="smallLogin" method="post" action="{{mibewRoot}}/operator/login.php">
+                            {{l10n "page_login.login"}}
+                            <input type="text" name="login" size="8" class="formauth"/>
+                            <input type="password" name="password" size="8" class="formauth" autocomplete="off"/>
+                            <input type="hidden" name="isRemember" value=""/>
+                            <input type="submit" value="&gt;&gt;" class="butt"/>
+                        </form>
+                    </div>
+                {{/if}}
+            {{/if}}
+        </div>
+
+        <br clear="all"/>
+
+        <div class="contentdiv">
+
+            {{#ifOverridden "menu"}}
+            <div id="wcontent" class="contentinner">
+            {{else}}
+            <div id="wcontent" class="contentnomenu">
+            {{/ifOverridden}}
+                {{#block "content"}}{{/block}}
+            </div>
+        </div>
+
+        {{#block "menu"}}{{/block}}
+
+        <div style="clear: both;">&nbsp;</div>
+
+        <div class="empty_inner" style="">&#160;</div>
+    </div>
+
+    <div id="footer">
+        <p id="legal"><a href="http://mibew.org/" target="_blank" class="flink">Mibew Messenger</a> {{mibewVersion}} | (c) 2011-2014 mibew.org</p>
+    </div>
+</body>
+</html>

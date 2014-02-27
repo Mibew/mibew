@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2005-2013 the original author or authors.
+ * Copyright 2005-2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
  */
 
 // Import namespaces and classes of the core
-use Mibew\PluginManager;
+use Mibew\Plugin\Manager as PluginManager;
 
 /**
  * Name for the cookie to store locale code in use

@@ -1,0 +1,29 @@
+{{! Chat window top. Includes logo and some info about company}}
+{{> _logo}}
+
+{{! Chat header}}
+<div id="chat-header">
+    <div class="bgc"><div class="bgl"><div class="bgr">
+        {{! Chat controls region}}
+        <div id="controls-region"></div>
+    </div></div></div>
+</div>
+
+{{! Chat region}}
+<div id="chat">
+    <div class="bgl"><div class="bgr"><div class="sdwbgc"><div class="sdwbgl"><div class="sdwbgr">
+        {{#unless user.isAgent}}
+        <div id="avatar-region"></div>
+        {{/unless}}
+        {{! Chat messages region}}
+        <div id="messages-region"></div>
+        {{! Chat status region}}
+        <div id="status-region"></div>
+    </div></div></div></div></div>
+</div>
+
+{{! Message form region}}
+<div id="message-form-region"></div>
+
+{{! Footer links}}
+<div id="footer">{{l10n "chat.window.poweredby"}} <a id="poweredByLink" href="http://mibew.org" title="Mibew Community" target="_blank">mibew.org</a></div>

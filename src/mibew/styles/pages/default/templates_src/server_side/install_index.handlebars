@@ -1,9 +1,9 @@
-{{#extends "layout"}}
+{{#extends "_layout"}}
     {{#if localeLinks}}
         {{#override "menu"}}{{> _locales}}{{/override}}
     {{/if}}
 
-    {{#override "header"}}
+    {{#override "head"}}
         {{#if soundcheck}}
             <!-- External libs -->
             <script type="text/javascript" src="{{mibewRoot}}/js/libs/jquery.min.js"></script>
@@ -57,7 +57,7 @@
                             <ul>
                                 <li>
                                     {{#if nextnotice}}
-                                        {{nextnotice}}<br/><br/>
+                                        {{{nextnotice}}}<br/><br/>
                                     {{/if}}
 
                                     <a href="{{nextstepurl}}">{{nextstep}}</a>

@@ -18,20 +18,20 @@
         <apply executable="mkdir" addsourcefile="false">
             <targetfile />
             <dirset dir=".">
-                <include name="${dialogs_styles_path}/*/handlebars_templates" />
+                <include name="${dialogs_styles_path}/*/templates_src/client_side" />
             </dirset>
-            <mapper type="glob" from="*/handlebars_templates" to="*/handlebars_templates_tmp" />
+            <mapper type="glob" from="*/templates_src/client_side" to="*/templates_compiled/client_side_tmp" />
         </apply>
 
         <!-- Flatten templates directory structure -->
         <apply executable="tools/flat_cp" force="true">
             <srcfile />
             <targetfile />
-            <arg value="handlebars_templates" />
+            <arg value="client_side" />
             <fileset dir=".">
-                <include name="${dialogs_styles_path}/*/handlebars_templates/**/*.handlebars" />
+                <include name="${dialogs_styles_path}/*/templates_src/client_side/**/*.handlebars" />
             </fileset>
-            <mapper type="regexp" from="^(.*)/handlebars_templates/(.*)$$" to="\1/handlebars_templates_tmp" />
+            <mapper type="regexp" from="^(.*)/templates_src/client_side/(.*)$$" to="\1/templates_compiled/client_side_tmp" />
         </apply>
 
         <echo>Compile templates</echo>
@@ -41,13 +41,13 @@
             <arg value="-f"/>
             <targetfile />
             <dirset dir=".">
-                <include name="${dialogs_styles_path}/*/handlebars_templates_tmp" />
+                <include name="${dialogs_styles_path}/*/templates_compiled/client_side_tmp" />
             </dirset>
-            <mapper type="glob" from="*/handlebars_templates_tmp" to="*/js/compiled/templates_tmp.js" />
+            <mapper type="glob" from="*/client_side_tmp" to="*/client_side/templates_tmp.js" />
         </apply>
 
         <!-- Use closule compiler instead of handlebars minifyer (-m flag)
-             because of handlebars not insert line breaks.
+             because of handlebars does not insert line breaks.
              Very long lines are cutted by ant and this brings problems -->
         <apply executable="java">
             <arg value="-jar" />
@@ -57,7 +57,7 @@
             <arg value="--js_output_file" />
             <targetfile />
             <fileset dir=".">
-                <include name="${dialogs_styles_path}/*/js/compiled/templates_tmp.js" />
+                <include name="${dialogs_styles_path}/*/templates_compiled/client_side/templates_tmp.js" />
             </fileset>
             <mapper type="glob" from="*_tmp.js" to="*_tmp.c.js" />
         </apply>
@@ -66,7 +66,7 @@
              some info to files -->
         <move todir="${dialogs_styles_path}" overwrite="true">
             <fileset dir="${dialogs_styles_path}"/>
-            <mapper type="glob" from="*/js/compiled/templates_tmp.c.js" to="*/js/compiled/templates.js"/>
+            <mapper type="glob" from="*/templates_compiled/client_side/templates_tmp.c.js" to="*/templates_compiled/client_side/templates.js"/>
 
             <filterchain>
                 <!-- Add header -->
@@ -80,19 +80,19 @@
 
         <!-- Remove all temporary files -->
         <!-- Use system 'rm' instead of ant
-             'delete' task because it do not work with dirsets -->
+             'delete' task because it does not work with dirsets -->
         <echo>Remove temporary files</echo>
         <apply executable="rm">
             <arg value="-r" />
             <arg value="-f" />
             <dirset dir=".">
-                <include name="${dialogs_styles_path}/*/handlebars_templates_tmp" />
+                <include name="${dialogs_styles_path}/*/templates_compiled/client_side_tmp" />
             </dirset>
         </apply>
 
         <delete>
             <fileset dir=".">
-                <include name="${dialogs_styles_path}/*/js/compiled/templates_tmp.js" />
+                <include name="${dialogs_styles_path}/*/templates_compiled/client_side/templates_tmp.js" />
             </fileset>
         </delete>
 

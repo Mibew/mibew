@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2005-2013 the original author or authors.
+ * Copyright 2005-2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,18 +81,15 @@ class PageStyle extends AbstractStyle implements StyleInterface
         // Prepare to output html
         start_html_output();
 
-        // $page variable is used in included views files, so we need to create
-        // it as an alias of $data argument.
-        $page = $data;
-
         // Pass additional variables to template
-        $page['mibewRoot'] = MIBEW_WEB_ROOT;
-        $page['mibewVersion'] = MIBEW_VERSION;
-        $page['currentLocale'] = CURRENT_LOCALE;
-        $page['rtl'] = (getlocal("localedirection") == 'rtl');
-        $page['stylePath'] = MIBEW_WEB_ROOT . '/' . $this->filesPath();
+        $data['mibewRoot'] = MIBEW_WEB_ROOT;
+        $data['mibewVersion'] = MIBEW_VERSION;
+        $data['currentLocale'] = CURRENT_LOCALE;
+        $data['rtl'] = (getlocal("localedirection") == 'rtl');
+        $data['stylePath'] = MIBEW_WEB_ROOT . '/' . $this->filesPath();
+        $data['styleName'] = $this->name();
 
-        echo($this->templateEngine->render($template_name, $page));
+        echo($this->templateEngine->render($template_name, $data));
     }
 
     /**
@@ -152,11 +149,22 @@ class PageStyle extends AbstractStyle implements StyleInterface
     protected function defaultConfigurations()
     {
         return array(
-            'chat' => array(
-                'window_params' => ''
+            'history' => array(
+                'window_params' => '',
             ),
-            'mail' => array(
-                'window_params' => ''
+            'users' => array(
+                'thread_tag' => 'div',
+                'visitor_tag' => 'div',
+            ),
+            'tracked' => array(
+                'user_window_params' => '',
+                'visitor_window_params' => '',
+            ),
+            'invitation' => array(
+                'window_params' => '',
+            ),
+            'ban' => array(
+                'window_params' => '',
             ),
             'screenshots' => array(),
         );

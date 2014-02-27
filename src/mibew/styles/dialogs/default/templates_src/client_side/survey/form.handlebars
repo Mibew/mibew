@@ -1,0 +1,49 @@
+<form name="surveyForm" method="post" action="">
+    <input type="hidden" name="style" value="{{page.style}}"/>
+    <input type="hidden" name="info" value="{{info}}"/>
+    <input type="hidden" name="referrer" value="{{referrer}}"/>
+    <input type="hidden" name="survey" value="on"/>
+    {{#unless showEmail}}<input type="hidden" name="email" value="{{email}}"/>{{/unless}}
+    {{#unless groups}}{{#if groupId}}<input type="hidden" name="group" value="{{groupId}}"/>{{/if}}{{/unless}}
+    {{#unless showMessage}}<input type="hidden" name="message" value="{{message}}"/>{{/unless}}
+
+    <div class="errors"></div>
+
+    <table class="form">
+    {{#if groups}}
+        <tr>
+            <td><strong>{{l10n "form.field.department"}}</strong></td>
+            <td>
+                <select name="group">
+                    {{#each groups}}
+                        <option value="{{this.id}}" {{#if this.selected}}selected="selected"{{/if}}>{{this.name}}{{#unless this.online}} (offline){{/unless}}</option>
+                    {{/each}}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>{{l10n "form.field.department.description"}}</strong></td>
+            <td id="groupDescription">{{#each groups}}{{#if this.selected}}{{this.description}}{{/if}}{{/each}}</td>
+        </tr>
+    {{/if}}
+        <tr>
+            <td><strong>{{l10n "presurvey.name"}}</strong></td>
+            <td><input type="text" name="name" size="50" value="{{name}}" class="username" {{#unless canChangeName}}disabled="disabled"{{/unless}}/></td>
+        </tr>
+    {{#if showEmail}}
+        <tr>
+            <td><strong>{{l10n "presurvey.mail"}}</strong></td>
+            <td><input type="text" name="email" size="50" value="{{email}}" class="username"/></td>
+        </tr>
+    {{/if}}
+    {{#if showMessage}}
+        <tr>
+            <td><strong>{{l10n "presurvey.question"}}</strong></td>
+            <td valign="top"><textarea name="message" tabindex="0" cols="45" rows="2">{{message}}</textarea></td>
+        </tr>
+    {{/if}}
+    </table>
+    <a href="javascript:void(0);" class="but" id="submit-survey">{{l10n "presurvey.submit"}}</a>
+    <div class="clear">&nbsp;</div>
+</form>
+<div id="ajax-loader"><img src="{{page.tplRoot}}/images/ajax-loader.gif" alt="Loading..." /></div>

@@ -1,0 +1,26 @@
+<div id="message">
+{{#if user.canPost}}
+    <div class="bgc"><div class="bgl"><div class="bgr">
+        <textarea id="message-input" class="message" tabindex="0" rows="4" cols="10"></textarea>
+    </div></div></div>
+{{/if}}
+</div>
+
+<div id="send">
+{{#if user.canPost}}
+    <div id="postmessage">
+        <div id="predefined-wrapper">
+            {{#if user.isAgent}}
+                <select id="predefined" size="1" class="answer">
+                    <option>{{l10n "chat.window.predefined.select_answer"}}</option>
+                {{#each predefinedAnswers}}
+                    <option>{{this.short}}</option>
+                {{/each}}
+                </select>
+            {{/if}}
+        </div>
+        <a href="javascript:void(0)" id="send-message" title="{{l10n "chat.window.send_message"}}">{{l10n "chat.window.send_message_short_and_shortcut"}}</a>
+    </div>
+{{/if}}
+</div>
+<div class="clear"></div>

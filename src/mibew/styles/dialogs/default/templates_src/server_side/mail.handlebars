@@ -1,0 +1,34 @@
+{{#extends "_layout"}}
+    {{#override "pageTitle"}}{{l10n "mailthread.title"}}{{/override}}
+
+    {{#override "buttons"}}
+        <a href="javascript:window.close();" title="{{l10n 'mailthread.close'}}">
+            <img class="tpl-image iclosewin" src="{{stylePath}}/images/free.gif" alt="{{l10n 'mailthread.close'}}" />
+        </a>
+    {{/override}}
+
+    {{#override "message"}}
+        <form name="mailThreadForm" method="post" action="{{mibewRoot}}/mail.php">
+            <input type="hidden" name="style" value="{{styleName}}"/>
+            <input type="hidden" name="thread" value="{{chat.thread.id}}"/>
+            <input type="hidden" name="token" value="{{chat.thread.token}}"/>
+            <input type="hidden" name="level" value="{{level}}"/>
+
+            <strong>{{l10n "mailthread.enter_email"}}</strong>
+            <input type="text" name="email" size="20" value="{{formemail}}" class="username" />&nbsp;
+            <a href="javascript:document.mailThreadForm.submit();">{{l10n "mailthread.perform"}}</a>
+        </form>
+    {{/override}}
+
+    {{#override "content"}}
+        {{#if errors}}
+            {{l10n "errors.header"}}
+            {{#each errors}}
+                {{l10n "errors.prefix"}}
+                {{{this}}}
+                {{l10n "errors.suffix"}}
+            {{/each}}
+            {{l10n "errors.footer"}}
+        {{/if}}
+    {{/override}}
+{{/extends}}

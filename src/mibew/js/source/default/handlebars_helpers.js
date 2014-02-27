@@ -1,5 +1,5 @@
 /**
- * @preserve Copyright 2005-2013 the original author or authors.
+ * @preserve Copyright 2005-2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License").
  * You may obtain a copy of the License at
@@ -103,11 +103,11 @@
     });
 
     /**
-     * Register 't' Handlebars helper
+     * Register 'l10n' Handlebars helper
      *
      * This helper returns translated string with specified key
      */
-    Handlebars.registerHelper('L10n', function(key) {
+    Handlebars.registerHelper('l10n', function(key) {
         return (Mibew.Localization.get(key) || '');
     });
 })(Mibew, Handlebars);

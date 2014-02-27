@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2005-2013 the original author or authors.
+ * Copyright 2005-2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ namespace Mibew\Style;
 
 // Import namespaces and classes of the core
 use Mibew\Settings;
-use Mibew\TemplateEngine\ChatTemplateEngine;
+use Mibew\Handlebars\HelpersSet;
 
 /**
  * Represents a chat style
@@ -29,7 +29,7 @@ class ChatStyle extends AbstractStyle implements StyleInterface
     /**
      * Template engine for chat templates.
      *
-     * @var \Mibew\TemplateEngine\ChatTemplateEngine
+     * @var \Handlebars\Handlebars
      */
     protected $templateEngine;
 
@@ -42,10 +42,19 @@ class ChatStyle extends AbstractStyle implements StyleInterface
     {
         parent::__construct($style_name);
 
-        $this->templateEngine = new ChatTemplateEngine(
-            $this->filesPath(),
-            $this->name()
+        $templates_loader = new \Handlebars\Loader\FilesystemLoader(
+            MIBEW_FS_ROOT . '/' . $this->filesPath() . '/templates_src/server_side/'
         );
+
+        $this->templateEngine = new \Handlebars\Handlebars(array(
+            'loader' => $templates_loader,
+            'partials_loader' => $templates_loader,
+            'helpers' => new \Handlebars\Helpers(HelpersSet::getHelpers())
+        ));
+
+        // Use custom function to escape strings
+        $this->templateEngine->setEscape('safe_htmlspecialchars');
+        $this->templateEngine->setEscapeArgs(array());
     }
 
     /**
@@ -70,6 +79,15 @@ class ChatStyle extends AbstractStyle implements StyleInterface
     public function render($template_name, $data = array())
     {
         start_html_output();
+
+        // Pass additional variables to template
+        $data['mibewRoot'] = MIBEW_WEB_ROOT;
+        $data['mibewVersion'] = MIBEW_VERSION;
+        $data['currentLocale'] = CURRENT_LOCALE;
+        $data['rtl'] = (getlocal("localedirection") == 'rtl');
+        $data['stylePath'] = MIBEW_WEB_ROOT . '/' . $this->filesPath();
+        $data['styleName'] = $this->name();
+
         echo($this->templateEngine->render($template_name, $data));
     }
 
@@ -152,22 +170,11 @@ class ChatStyle extends AbstractStyle implements StyleInterface
     protected function defaultConfigurations()
     {
         return array(
-            'history' => array(
-                'window_params' => '',
+            'chat' => array(
+                'window_params' => ''
             ),
-            'users' => array(
-                'thread_tag' => 'div',
-                'visitor_tag' => 'div',
-            ),
-            'tracked' => array(
-                'user_window_params' => '',
-                'visitor_window_params' => '',
-            ),
-            'invitation' => array(
-                'window_params' => '',
-            ),
-            'ban' => array(
-                'window_params' => '',
+            'mail' => array(
+                'window_params' => ''
             ),
             'screenshots' => array(),
         );

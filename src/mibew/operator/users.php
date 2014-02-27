@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2005-2013 the original author or authors.
+ * Copyright 2005-2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,6 +49,7 @@ $page['geoWindowParams'] = Settings::get('geolinkparams');
 $chat_style = new ChatStyle(ChatStyle::currentStyle());
 $style_config = $chat_style->configurations();
 $page['chatStyles.chatWindowParams'] = $style_config['chat']['window_params'];
+$page['coreStyles.inviteWindowParams'] = $style_config['chat']['window_params'];
 
 // Load page style options
 $page_style = new PageStyle(PageStyle::currentStyle());
@@ -57,7 +58,6 @@ $page['coreStyles.threadTag'] = $style_config['users']['thread_tag'];
 $page['coreStyles.visitorTag'] = $style_config['users']['visitor_tag'];
 $page['coreStyles.trackedUserWindowParams'] = $style_config['tracked']['user_window_params'];
 $page['coreStyles.trackedVisitorWindowParams'] = $style_config['tracked']['visitor_window_params'];
-$page['coreStyles.inviteWindowParams'] = $style_config['invitation']['window_params'];
 $page['coreStyles.banWindowParams'] = $style_config['ban']['window_params'];
 
 $page['title'] = getlocal("clients.title");

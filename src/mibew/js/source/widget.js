@@ -1,5 +1,5 @@
 /**
- * @preserve Copyright 2005-2013 the original author or authors.
+ * @preserve Copyright 2005-2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License").
  * You may obtain a copy of the License at
@@ -404,8 +404,9 @@ var Mibew = {};
 
         // Broadcast message from the thread related with invitation into iframe
         if (threadUrl) {
-            popuptext += '<iframe id="mibewinvitationframe" src="' + threadUrl
-                + '" onload="Mibew.Invitation.show();"></iframe>';
+            popuptext += '<iframe id="mibewinvitationframe" '
+                + 'src="' + threadUrl + '" onload="Mibew.Invitation.show();" '
+                + 'frameBorder="0"></iframe>';
         }
 
         // Add accept button if acceptCaption set

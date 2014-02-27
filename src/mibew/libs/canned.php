@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2005-2013 the original author or authors.
+ * Copyright 2005-2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,8 @@ use Mibew\Database;
  * @param string $locale 2-digit ISO-639-1 code for language
  * @param integer $group_id Group ID for the canned messages
  *
- * @return array Each its element is canned message structure. contains (id integer, vctitle string, vcvalue string)
+ * @return array Each its element is canned message structure. contains
+ * (id integer, vctitle string, vcvalue string)
  */
 function load_canned_messages($locale, $group_id)
 {
@@ -49,7 +50,8 @@ function load_canned_messages($locale, $group_id)
  *
  * @param integer $key ID of canned message which will be returned
  *
- * @return null|array It is canned message structure. contains (vctitle string, vcvalue string)
+ * @return null|array It is canned message structure. contains (vctitle string,
+ * vcvalue string)
  */
 function load_canned_message($key)
 {

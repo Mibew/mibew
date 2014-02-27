@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2005-2013 the original author or authors.
+ * Copyright 2005-2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -373,7 +373,7 @@ function check_status()
 
 	if (!check_admin($link)) {
 		$page['nextstep'] = getlocal("installed.login_link");
-		$page['nextnotice'] = getlocal2("installed.notice", array("${mibewroot}/install/"));
+		$page['nextnotice'] = getlocal2("installed.notice", array(MIBEW_WEB_ROOT . "/install/"));
 		$page['nextstepurl'] = MIBEW_WEB_ROOT . "/operator/login.php?login=admin";
 	}
 

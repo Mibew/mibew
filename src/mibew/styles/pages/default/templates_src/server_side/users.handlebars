@@ -1,9 +1,9 @@
-{{#extends "layout"}}
+{{#extends "_layout"}}
     {{#if havemenu}}
         {{#override "menu"}}{{> _menu}}{{/override}}
     {{/if}}
 
-    {{#override "header"}}
+    {{#override "head"}}
         <!-- Plugins CSS files -->
         {{{additional_css}}}
 

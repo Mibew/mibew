@@ -1,5 +1,5 @@
 /**
- * @preserve Copyright 2005-2013 the original author or authors.
+ * @preserve Copyright 2005-2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License").
  * You may obtain a copy of the License at
@@ -60,15 +60,7 @@
              * Return special contructor for an item view if it exists or the
              * default constructor otherwise.
              */
-            buildItemView: buildItemView,
-
-            /**
-             * Render only collection in composite view
-             */
-            renderCollection: function() {
-                var args = Array.prototype.slice.apply(arguments);
-                Backbone.Marionette.CollectionView.prototype.render.apply(this, args);
-            }
+            buildItemView: buildItemView
         }
     );
 

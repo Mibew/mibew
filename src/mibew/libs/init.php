@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2005-2013 the original author or authors.
+ * Copyright 2005-2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,8 +44,11 @@ define('MIBEW_WEB_ROOT', $mibewroot);
 require_once(MIBEW_FS_ROOT . '/libs/common/constants.php');
 
 // Initialize classes autoloading
-require_once(MIBEW_FS_ROOT . '/libs/common/autoload.php');
-spl_autoload_register('class_autoload');
+require_once(MIBEW_FS_ROOT . '/libs/classes/Mibew/Autoloader.php');
+Mibew\Autoloader::register(MIBEW_FS_ROOT . '/libs/classes');
+
+// Automatically load plugins
+Mibew\Autoloader::register(MIBEW_FS_ROOT . '/plugins');
 
 // Initialize external dependencies
 require_once(MIBEW_FS_ROOT . '/vendor/autoload.php');
@@ -94,5 +97,5 @@ if (function_exists("date_default_timezone_set")) {
 
 if (!empty($plugins_list)) {
     // Variable $plugins_config defined in libs/config.php
-    \Mibew\PluginManager::loadPlugins($plugins_list);
+    \Mibew\Plugin\Manager::loadPlugins($plugins_list);
 }

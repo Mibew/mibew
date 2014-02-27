@@ -1,0 +1,32 @@
+{{#extends "_layout"}}
+    {{#override "pageTitle"}}{{l10n "chat.redirect.title"}}{{/override}}
+
+    {{#override "buttons"}}
+        <a href="javascript:window.close();" title="{{l10n 'chat.redirect.back'}}">
+            <img class="tpl-image iclosewin" src="{{stylePath}}/images/free.gif" alt="{{l10n 'chat.redirect.back'}}" />
+        </a>
+    {{/override}}
+
+    {{#override "message"}}{{l10n "chat.redirect.choose"}}{{/override}}
+
+    {{#override "content"}}
+        <div class="left">
+            {{#if redirectToAgent}}
+                <strong>{{l10n "chat.redirect.operator"}}</strong>
+                <ul class="agentlist">
+                    {{{redirectToAgent}}}
+                </ul>
+            {{/if}}
+        </div>
+        <div class="right">
+            {{#if redirectToGroup}}
+                <strong>{{l10n "chat.redirect.group"}}</strong>
+                <ul class="agentlist">
+                    {{{redirectToGroup}}}
+                </ul>
+            {{/if}}
+        </div>
+        <div class="clear">&nbsp;</div>
+        <div class="center">{{generatePagination stylePath pagination}}</div>
+    {{/override}}
+{{/extends}}

@@ -1,5 +1,5 @@
 /**
- * @preserve Copyright 2005-2013 the original author or authors.
+ * @preserve Copyright 2005-2014 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License").
  * You may obtain a copy of the License at
@@ -45,7 +45,7 @@
              * @type Object
              */
             collectionEvents: {
-                'sort': 'renderCollection',
+                'sort': 'render',
                 'sort:field': 'createSortField',
                 'add': 'threadAdded'
             },
@@ -70,7 +70,7 @@
                 window.setInterval(_.bind(this.updateTimers, this), 2 * 1000);
                 // Register events
                 this.on('itemview:before:render', this.updateStyles, this);
-                this.on('render', this.updateTimers, this);
+                this.on('composite:collection:rendered', this.updateTimers, this);
             },
 
             /**
