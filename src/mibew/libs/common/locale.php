@@ -197,8 +197,15 @@ function load_messages($locale)
         $plugins_list = array_keys(PluginManager::getAllPlugins());
 
         foreach ($plugins_list as $plugin_name) {
-            $locale_file = MIBEW_FS_ROOT .
-                "/plugins/{$plugin_name}/locales/{$locale}/properties";
+            // Build plugin path
+            list($vendor_name, $plugin_short_name) = explode(':', $plugin_name, 2);
+            $plugin_name_parts = explode('_', $plugin_short_name);
+            $locale_file = MIBEW_FS_ROOT
+                . "/plugins/" . ucfirst($vendor_name) . "/Mibew/Plugin/"
+                . implode('', array_map('ucfirst', $plugin_name_parts))
+                . "/locales/{$locale}/properties";
+
+            // Get localized strings
             if (is_readable($locale_file)) {
                 $locale_data = read_locale_file($locale_file);
                 // array_merge used to provide an ability for plugins to override
