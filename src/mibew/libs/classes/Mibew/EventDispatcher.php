@@ -17,6 +17,8 @@
 
 namespace Mibew;
 
+use Mibew\Plugin\PluginInterface;
+
 /**
  * Provide event-related functionality.
  * Implements singleton pattern.
@@ -65,7 +67,8 @@ class EventDispatcher
      * All event listeners must receive one argument of array type by reference.
      *
      * @param string $event_name Event's name
-     * @param \Mibew\Plugin $plugin Plugin object, that handles the event
+     * @param \Mibew\Plugin\PluginInterface $plugin Plugin object, that handles
+     *   the event
      * @param string $listener Plugins method, that handles the event
      * @param int $priority Priority of listener. If $priority = null, the
      *   plugin weight will use instead.
@@ -73,8 +76,12 @@ class EventDispatcher
      *
      * @see \Mibew\Plugin::getWeight()
      */
-    public function attachListener($event_name, Plugin $plugin, $listener, $priority = null)
-    {
+    public function attachListener(
+        $event_name,
+        PluginInterface $plugin,
+        $listener,
+        $priority = null
+    ) {
         // Check method is callable
         if (!is_callable(array($plugin, $listener))) {
             trigger_error("Method '{$listener}' is not callable!", E_USER_WARNING);
@@ -107,8 +114,7 @@ class EventDispatcher
      * @param string $listener Plugins method, that handles the event
      * @return boolean true on success or false on failure.
      */
-    public function detachListener($event_name, Plugin $plugin, $listener)
-    {
+    public function detachListener($event_name, PluginInterface $plugin, $listener) {
         // Check event exists
         if (!array_key_exists($event_name, $this->events)) {
             return false;
