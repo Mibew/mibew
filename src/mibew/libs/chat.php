@@ -27,7 +27,13 @@ use Mibew\Style\PageStyle;
  */
 define('USERID_COOKIE_NAME', 'MIBEW_UserID');
 define('USERNAME_COOKIE_NAME', 'MIBEW_Data');
-
+/**
+ * Convert messages to formated text
+ *
+ * @param array $msg message object whitch most be formatted
+ *
+ * @return string formatted message
+ */
 function message_to_text($msg)
 {
     $message_time = date("H:i:s ", $msg['created']);
@@ -43,7 +49,15 @@ function message_to_text($msg)
         return $message_time . "[" . $msg['message'] . "]\n";
     }
 }
-
+/**
+ * Format username
+ *
+ * @param string $user_name client username
+ * @param string $addr ip address of client
+ * @param string $id id of client
+ *
+ * @return string formatted username with "usernamepattern" pattern
+ */
 function get_user_name($user_name, $addr, $id)
 {
     return str_replace(
