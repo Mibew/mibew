@@ -41,6 +41,8 @@ function gen_captcha()
 }
 /**
  * Send captcha image directly to output
+ *
+ * @param string $security_code String to show on captcha
  */
 function draw_captcha($security_code)
 {
