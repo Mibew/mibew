@@ -57,15 +57,15 @@ foreach ($options as $opt) {
 
 // Load styles configs
 $styles_params = array(
-    'chat_style' => ChatStyle::defaultStyle(),
-    'page_style' => PageStyle::defaultStyle(),
+    'chat_style' => ChatStyle::getDefaultStyle(),
+    'page_style' => PageStyle::getDefaultStyle(),
 );
 
 $chat_style_list = ChatStyle::getAvailableStyles();
 $page_style_list = PageStyle::getAvailableStyles();
 
 if (Settings::get('enabletracking')) {
-    $styles_params['invitation_style'] = InvitationStyle::defaultStyle();
+    $styles_params['invitation_style'] = InvitationStyle::getDefaultStyle();
     $invitation_style_list = InvitationStyle::getAvailableStyles();
 }
 

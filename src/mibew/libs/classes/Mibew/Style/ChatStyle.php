@@ -106,7 +106,7 @@ class ChatStyle extends AbstractStyle implements StyleInterface
         $style_name = verify_param("style", "/^\w+$/", "");
         if (!$style_name) {
             // Use the default style
-            $style_name = self::defaultStyle();
+            $style_name = self::getDefaultStyle();
         }
 
         // Get all style list and make sure that in has at least one style.
@@ -132,7 +132,7 @@ class ChatStyle extends AbstractStyle implements StyleInterface
      *
      * @return string Name of a style
      */
-    public static function defaultStyle()
+    public static function getDefaultStyle()
     {
         // Load value from system settings
         return Settings::get('chat_style');
