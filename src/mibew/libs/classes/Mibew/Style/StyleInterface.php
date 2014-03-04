@@ -74,7 +74,7 @@ interface StyleInterface
      *
      * @return string Name of the style
      */
-    public function name();
+    public function getName();
 
     /**
      * Renders template file to HTML and send it to the output

@@ -60,7 +60,7 @@ abstract class AbstractStyle
      *
      * @return string Name of the style
      */
-    public function name()
+    public function getName()
     {
         return $this->styleName;
     }

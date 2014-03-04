@@ -65,7 +65,7 @@ class ChatStyle extends AbstractStyle implements StyleInterface
      */
     public function getFilesPath()
     {
-        return 'styles/dialogs/' . $this->name();
+        return 'styles/dialogs/' . $this->getName();
     }
 
     /**
@@ -86,7 +86,7 @@ class ChatStyle extends AbstractStyle implements StyleInterface
         $data['currentLocale'] = CURRENT_LOCALE;
         $data['rtl'] = (getlocal("localedirection") == 'rtl');
         $data['stylePath'] = MIBEW_WEB_ROOT . '/' . $this->getFilesPath();
-        $data['styleName'] = $this->name();
+        $data['styleName'] = $this->getName();
 
         echo($this->templateEngine->render($template_name, $data));
     }

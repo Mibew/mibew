@@ -33,7 +33,7 @@ class InvitationStyle extends AbstractStyle implements StyleInterface
      */
     public function getFilesPath()
     {
-        return 'styles/invitations/' . $this->name();
+        return 'styles/invitations/' . $this->getName();
     }
 
     /**

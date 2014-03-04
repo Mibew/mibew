@@ -65,7 +65,7 @@ class PageStyle extends AbstractStyle implements StyleInterface
      */
     public function getFilesPath()
     {
-        return 'styles/pages/' . $this->name();
+        return 'styles/pages/' . $this->getName();
     }
 
     /**
@@ -87,7 +87,7 @@ class PageStyle extends AbstractStyle implements StyleInterface
         $data['currentLocale'] = CURRENT_LOCALE;
         $data['rtl'] = (getlocal("localedirection") == 'rtl');
         $data['stylePath'] = MIBEW_WEB_ROOT . '/' . $this->getFilesPath();
-        $data['styleName'] = $this->name();
+        $data['styleName'] = $this->getName();
 
         echo($this->templateEngine->render($template_name, $data));
     }
