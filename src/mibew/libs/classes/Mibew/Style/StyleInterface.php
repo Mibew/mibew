@@ -55,7 +55,7 @@ interface StyleInterface
     public static function availableStyles();
 
     /**
-     * Builds base path for style files. This URL is relative Mibew root and
+     * Builds base path for style files. This path is relative to Mibew root and
      * does not contain neither leading nor trailing slash.
      *
      * @return string Base path for style files
