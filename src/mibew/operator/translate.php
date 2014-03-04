@@ -48,7 +48,7 @@ $page = array(
     'errors' => array(),
 );
 
-$page_style = new PageStyle(PageStyle::currentStyle());
+$page_style = new PageStyle(PageStyle::getCurrentStyle());
 
 if ($string_id) {
     $translation = isset($lang2[$string_id]) ? $lang2[$string_id] : "";

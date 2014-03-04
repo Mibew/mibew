@@ -33,7 +33,7 @@ $page = array(
     'errors' => array(),
 );
 
-$page_style = new PageStyle(PageStyle::currentStyle());
+$page_style = new PageStyle(PageStyle::getCurrentStyle());
 
 if ($string_id) {
     $canned_message = load_canned_message($string_id);

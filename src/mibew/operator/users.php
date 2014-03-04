@@ -46,13 +46,13 @@ $page['geoLink'] = Settings::get('geolink');
 $page['geoWindowParams'] = Settings::get('geolinkparams');
 
 // Load dialogs style options
-$chat_style = new ChatStyle(ChatStyle::currentStyle());
+$chat_style = new ChatStyle(ChatStyle::getCurrentStyle());
 $style_config = $chat_style->getConfigurations();
 $page['chatStyles.chatWindowParams'] = $style_config['chat']['window_params'];
 $page['coreStyles.inviteWindowParams'] = $style_config['chat']['window_params'];
 
 // Load page style options
-$page_style = new PageStyle(PageStyle::currentStyle());
+$page_style = new PageStyle(PageStyle::getCurrentStyle());
 $style_config = $page_style->getConfigurations();
 $page['coreStyles.threadTag'] = $style_config['users']['thread_tag'];
 $page['coreStyles.visitorTag'] = $style_config['users']['visitor_tag'];

@@ -36,7 +36,7 @@ $page = array(
 
 $login_or_email = "";
 
-$page_style = new PageStyle(PageStyle::currentStyle());
+$page_style = new PageStyle(PageStyle::getCurrentStyle());
 
 if (isset($_POST['loginoremail'])) {
     $login_or_email = get_param("loginoremail");

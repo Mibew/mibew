@@ -31,7 +31,7 @@ interface StyleInterface
      *
      * @return string Name of a style
      */
-    public static function currentStyle();
+    public static function getCurrentStyle();
 
     /**
      * Returns name of the style which is used in the system by default.

@@ -100,7 +100,7 @@ class ChatStyle extends AbstractStyle implements StyleInterface
      * @return string Name of a style
      * @throws \RuntimeException
      */
-    public static function currentStyle()
+    public static function getCurrentStyle()
     {
         // Ceck if request contains chat style
         $style_name = verify_param("style", "/^\w+$/", "");

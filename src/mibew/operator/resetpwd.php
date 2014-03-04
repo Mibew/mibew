@@ -34,7 +34,7 @@ $page = array(
     'errors' => array(),
 );
 
-$page_style = new PageStyle(PageStyle::currentStyle());
+$page_style = new PageStyle(PageStyle::getCurrentStyle());
 
 $op_id = verify_param("id", "/^\d{1,9}$/");
 $token = verify_param("token", "/^[\dabcdef]+$/");

@@ -79,7 +79,7 @@ function generate_button(
 
         // Get actual invitation style instance
         if (!$invitation_style_name) {
-            $invitation_style_name = InvitationStyle::currentStyle();
+            $invitation_style_name = InvitationStyle::getCurrentStyle();
         }
         $invitation_style = new InvitationStyle($invitation_style_name);
 

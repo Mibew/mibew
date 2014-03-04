@@ -441,13 +441,13 @@ function setup_chatview(Thread $thread)
     $data['neediframesrc'] = needs_frame_src();
 
     // Load dialogs style options
-    $chat_style = new ChatStyle(ChatStyle::currentStyle());
+    $chat_style = new ChatStyle(ChatStyle::getCurrentStyle());
     $style_config = $chat_style->getConfigurations();
     $data['chat']['windowsParams']['mail']
         = $style_config['mail']['window_params'];
 
     // Load core style options
-    $page_style = new PageStyle(PageStyle::currentStyle());
+    $page_style = new PageStyle(PageStyle::getCurrentStyle());
     $style_config = $page_style->getConfigurations();
     $data['chat']['windowsParams']['history']
         = $style_config['history']['window_params'];

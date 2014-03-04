@@ -100,7 +100,7 @@ class PageStyle extends AbstractStyle implements StyleInterface
      *
      * @return string Name of a style
      */
-    public static function currentStyle()
+    public static function getCurrentStyle()
     {
         // Just use the default style
         return self::defaultStyle();
