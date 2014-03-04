@@ -72,7 +72,7 @@ abstract class AbstractStyle
      * @return array Style configurations
      * @throws \RuntimeException
      */
-    public function configurations()
+    public function getConfigurations()
     {
         $config_file = MIBEW_FS_ROOT . '/' . $this->getFilesPath() . '/config.ini';
 

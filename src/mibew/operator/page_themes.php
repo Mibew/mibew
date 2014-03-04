@@ -34,7 +34,7 @@ if (!in_array($preview, $style_list)) {
 }
 
 $preview_style = new PageStyle($preview);
-$style_config = $preview_style->configurations();
+$style_config = $preview_style->getConfigurations();
 
 $screenshots = array();
 foreach ($style_config['screenshots'] as $name => $desc) {

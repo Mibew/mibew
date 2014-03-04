@@ -53,7 +53,7 @@ function generate_button(
     // Get popup window configurations
     if ($style) {
         $chat_style = new ChatStyle($style);
-        $chat_configurations = $chat_style->configurations();
+        $chat_configurations = $chat_style->getConfigurations();
         $popup_options = $chat_configurations['chat']['window_params'];
     } else {
         $popup_options = "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1";

@@ -40,7 +40,7 @@ if (!in_array($preview, $style_list)) {
 
 $chat_style = new ChatStyle($preview);
 
-$style_config = $chat_style->configurations();
+$style_config = $chat_style->getConfigurations();
 
 $screenshots = array();
 foreach ($style_config['screenshots'] as $name => $desc) {

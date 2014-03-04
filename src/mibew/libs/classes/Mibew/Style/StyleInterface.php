@@ -67,7 +67,7 @@ interface StyleInterface
      *
      * @param array $name Style's configuration params
      */
-    public function configurations();
+    public function getConfigurations();
 
     /**
      * Returns name of the style related with the object
