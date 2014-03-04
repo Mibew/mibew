@@ -111,7 +111,7 @@ class InvitationStyle extends AbstractStyle implements StyleInterface
      *
      * @return array Default configurations of the style
      */
-    protected function defaultConfigurations()
+    protected function getDefaultConfigurations()
     {
         return array();
     }

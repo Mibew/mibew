@@ -89,7 +89,7 @@ abstract class AbstractStyle
             // Load configurations from file, merge it with default configs and
             // cache the result.
             $loaded_config = parse_ini_file($config_file, true);
-            $default_config = $this->defaultConfigurations();
+            $default_config = $this->getDefaultConfigurations();
             $this->cachedConfigurations = $loaded_config + $default_config;
         }
 
@@ -138,5 +138,5 @@ abstract class AbstractStyle
      *
      * @return array Default configurations of the style
      */
-    abstract protected function defaultConfigurations();
+    abstract protected function getDefaultConfigurations();
 }
