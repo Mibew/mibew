@@ -30,6 +30,14 @@ interface PluginInterface
     public function getWeight();
 
     /**
+     * Builds base path for plugin files. This path is relative to Mibew root
+     * and does not contain neither leading nor trailing slash.
+     *
+     * @return string Base path for plugin files
+     */
+    public function getFilesPath();
+
+    /**
      * Indicates if plugin has been initialized correctly or not.
      *
      * A concrete plugin can return false if something go wrong and it cannot be
@@ -56,4 +64,31 @@ interface PluginInterface
      * @return array List of plugin's dependencies.
      */
     public static function getDependencies();
+
+    /**
+     * Returns some info about plugin such as human-readable name, description,
+     * version, etc.
+     *
+     * At the moment this info is not used at all, so a plugin can return an
+     * empty array.
+     *
+     * @return array Associative array with plugin info
+     */
+    public static function getInfo();
+
+    /**
+     * Makes all actions that are needed to install the plugin.
+     *
+     * @return boolean True if the plugin was successfully installed and false
+     * otherwise.
+     */
+    public static function install();
+
+    /**
+     * Makes all actions that are needed to uninstall the plugin.
+     *
+     * @return boolean True if the plugin was successfully uninstalled and false
+     * otherwise.
+     */
+    public static function uninstall();
 }
