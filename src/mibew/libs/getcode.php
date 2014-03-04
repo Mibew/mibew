@@ -85,7 +85,7 @@ function generate_button(
 
         // URL of file with additional CSS rules for invitation popup
         $widget_data['inviteStyle'] = $app_location . '/' .
-            $invitation_style->filesPath() .
+            $invitation_style->getFilesPath() .
             '/invite.css';
 
         // Time between requests to the server in milliseconds

@@ -60,7 +60,7 @@ interface StyleInterface
      *
      * @return string Base path for style files
      */
-    public function filesPath();
+    public function getFilesPath();
 
     /**
      * Loads and returns configurations of the style.

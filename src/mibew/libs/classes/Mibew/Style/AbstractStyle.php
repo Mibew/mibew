@@ -74,7 +74,7 @@ abstract class AbstractStyle
      */
     public function configurations()
     {
-        $config_file = MIBEW_FS_ROOT . '/' . $this->filesPath() . '/config.ini';
+        $config_file = MIBEW_FS_ROOT . '/' . $this->getFilesPath() . '/config.ini';
 
         // Check if configurations already loaded. Do not do the job twice.
         if (is_null($this->cachedConfigurations)) {
@@ -102,7 +102,7 @@ abstract class AbstractStyle
      *
      * @return string Base path for style files
      */
-    abstract public function filesPath();
+    abstract public function getFilesPath();
 
     /**
      * Gets names of styles which are located in the $root_dir.

@@ -31,7 +31,7 @@ class InvitationStyle extends AbstractStyle implements StyleInterface
      *
      * @return string Base path for style files
      */
-    public function filesPath()
+    public function getFilesPath()
     {
         return 'styles/invitations/' . $this->name();
     }

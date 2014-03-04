@@ -43,7 +43,7 @@ class ChatStyle extends AbstractStyle implements StyleInterface
         parent::__construct($style_name);
 
         $templates_loader = new \Handlebars\Loader\FilesystemLoader(
-            MIBEW_FS_ROOT . '/' . $this->filesPath() . '/templates_src/server_side/'
+            MIBEW_FS_ROOT . '/' . $this->getFilesPath() . '/templates_src/server_side/'
         );
 
         $this->templateEngine = new \Handlebars\Handlebars(array(
@@ -63,7 +63,7 @@ class ChatStyle extends AbstractStyle implements StyleInterface
      *
      * @return string Base path for style files
      */
-    public function filesPath()
+    public function getFilesPath()
     {
         return 'styles/dialogs/' . $this->name();
     }
@@ -85,7 +85,7 @@ class ChatStyle extends AbstractStyle implements StyleInterface
         $data['mibewVersion'] = MIBEW_VERSION;
         $data['currentLocale'] = CURRENT_LOCALE;
         $data['rtl'] = (getlocal("localedirection") == 'rtl');
-        $data['stylePath'] = MIBEW_WEB_ROOT . '/' . $this->filesPath();
+        $data['stylePath'] = MIBEW_WEB_ROOT . '/' . $this->getFilesPath();
         $data['styleName'] = $this->name();
 
         echo($this->templateEngine->render($template_name, $data));
