@@ -133,7 +133,7 @@ class PageStyle extends AbstractStyle implements StyleInterface
      *
      * @param array List of styles names
      */
-    public static function availableStyles()
+    public static function getAvailableStyles()
     {
         $styles_root = MIBEW_FS_ROOT . '/styles/pages';
 

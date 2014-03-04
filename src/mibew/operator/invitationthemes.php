@@ -28,7 +28,7 @@ require_once(MIBEW_FS_ROOT . '/libs/settings.php');
 
 $operator = check_login();
 
-$style_list = InvitationStyle::availableStyles();
+$style_list = InvitationStyle::getAvailableStyles();
 
 $preview = verify_param("preview", "/^\w+$/", "default");
 if (!in_array($preview, $style_list)) {

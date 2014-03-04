@@ -61,12 +61,12 @@ $styles_params = array(
     'page_style' => PageStyle::defaultStyle(),
 );
 
-$chat_style_list = ChatStyle::availableStyles();
-$page_style_list = PageStyle::availableStyles();
+$chat_style_list = ChatStyle::getAvailableStyles();
+$page_style_list = PageStyle::getAvailableStyles();
 
 if (Settings::get('enabletracking')) {
     $styles_params['invitation_style'] = InvitationStyle::defaultStyle();
-    $invitation_style_list = InvitationStyle::availableStyles();
+    $invitation_style_list = InvitationStyle::getAvailableStyles();
 }
 
 if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {

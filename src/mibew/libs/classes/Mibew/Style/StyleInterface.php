@@ -52,7 +52,7 @@ interface StyleInterface
      *
      * @param array List of styles names
      */
-    public static function availableStyles();
+    public static function getAvailableStyles();
 
     /**
      * Builds base path for style files. This path is relative to Mibew root and

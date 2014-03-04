@@ -110,7 +110,7 @@ class ChatStyle extends AbstractStyle implements StyleInterface
         }
 
         // Get all style list and make sure that in has at least one style.
-        $available_styles = self::availableStyles();
+        $available_styles = self::getAvailableStyles();
         if (empty($available_styles)) {
             throw new \RuntimeException('There are no dialog styles in the system');
         }
@@ -154,7 +154,7 @@ class ChatStyle extends AbstractStyle implements StyleInterface
      *
      * @param array List of styles names
      */
-    public static function availableStyles()
+    public static function getAvailableStyles()
     {
         $styles_root = MIBEW_FS_ROOT . '/styles/dialogs';
 

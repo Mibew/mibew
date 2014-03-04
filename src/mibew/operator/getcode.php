@@ -43,14 +43,14 @@ if (!isset($image_locales_map[$image])) {
 }
 $image_locales = $image_locales_map[$image];
 
-$style_list = ChatStyle::availableStyles();
+$style_list = ChatStyle::getAvailableStyles();
 $style_list[""] = getlocal("page.preview.style_default");
 $style = verify_param("style", "/^\w*$/", "");
 if ($style && !in_array($style, $style_list)) {
     $style = "";
 }
 
-$invitation_style_list = InvitationStyle::availableStyles();
+$invitation_style_list = InvitationStyle::getAvailableStyles();
 $invitation_style_list[""] = getlocal("page.preview.style_default");
 $invitation_style = verify_param("invitationstyle", "/^\w*$/", "");
 if ($invitation_style && !in_array($invitation_style, $invitation_style_list)) {

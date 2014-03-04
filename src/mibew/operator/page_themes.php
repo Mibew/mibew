@@ -25,7 +25,7 @@ require_once(MIBEW_FS_ROOT . '/libs/settings.php');
 
 $operator = check_login();
 
-$style_list = PageStyle::availableStyles();
+$style_list = PageStyle::getAvailableStyles();
 
 $preview = verify_param("preview", "/^\w+$/", "default");
 if (!in_array($preview, $style_list)) {

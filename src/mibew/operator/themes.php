@@ -30,7 +30,7 @@ require_once(MIBEW_FS_ROOT . '/libs/track.php');
 
 $operator = check_login();
 
-$style_list = ChatStyle::availableStyles();
+$style_list = ChatStyle::getAvailableStyles();
 
 $preview = verify_param("preview", "/^\w+$/", "default");
 if (!in_array($preview, $style_list)) {
