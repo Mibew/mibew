@@ -30,41 +30,13 @@ use Mibew\RequestProcessor\Exception\InviteProcessorException;
  *  - inviteReceiveRequestError
  *  - inviteCallError
  *  - inviteFunctionCall
- *
- * Implements Singleton pattern
  */
 class InviteProcessor extends ClientSideProcessor
 {
     /**
-     * An instance of the InviteProcessor class
-     *
-     * @var \Mibew\RequestProcessor\InviteProcessor
-     */
-    protected static $instance = null;
-
-    /**
-     * Return an instance of the InviteProcessor class.
-     *
-     * @return \Mibew\RequestProcessor\InviteProcessor
-     */
-    public static function getInstance()
-    {
-        if (is_null(self::$instance)) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
-
-    /**
      * Class constructor
-     *
-     * Do not use directly __construct method! Use
-     * \Mibew\RequestProcessor\InviteProcessor::getInstance() instead!
-     *
-     * @todo Think about why the method is not protected
      */
-    public function __construct()
+    protected function __construct()
     {
         parent::__construct(array(
             'signature' => '',

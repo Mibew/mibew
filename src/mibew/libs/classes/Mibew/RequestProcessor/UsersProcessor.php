@@ -38,41 +38,13 @@ use Mibew\RequestProcessor\Exception\UsersProcessorException;
  * Also triggers follow events (see description of apiUpdateVisitors method):
  *  - usersUpdateVisitorsLoad
  *  - usersUpdateVisitorsAlter
- *
- * Implements Singleton pattern
  */
 class UsersProcessor extends ClientSideProcessor
 {
     /**
-     * An instance of the UsersProcessor class
-     *
-     * @var \Mibew\RequestProcessor\UsersProcessor
-     */
-    protected static $instance = null;
-
-    /**
-     * Return an instance of the UsersProcessor class.
-     *
-     * @return \Mibew\RequestProcessor\UsersProcessor
-     */
-    public static function getInstance()
-    {
-        if (is_null(self::$instance)) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
-
-    /**
      * Class constructor
-     *
-     * Do not use directly __construct method! Use
-     * \Mibew\RequestProcessor\UsersProcessor::getInstance() instead!
-     *
-     * @todo Think about why the method is not protected
      */
-    public function __construct()
+    protected function __construct()
     {
         parent::__construct(array(
             'signature' => '',
