@@ -22,12 +22,6 @@ use Mibew\Thread;
 use Mibew\Style\ChatStyle;
 use Mibew\Style\PageStyle;
 
-/**
- * Names for chat-related cookies
- */
-define('USERID_COOKIE_NAME', 'MIBEW_UserID');
-define('USERNAME_COOKIE_NAME', 'MIBEW_Data');
-
 function message_to_text($msg)
 {
     $message_time = date("H:i:s ", $msg['created']);
