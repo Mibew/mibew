@@ -15,11 +15,13 @@
  * limitations under the License.
  */
 
-// Prevent Mibew from access to files outside the installation
-@ini_set('open_basedir', dirname(dirname(__FILE__)));
-
 require_once(dirname(__FILE__) . '/converter.php');
 require_once(dirname(__FILE__) . '/config.php');
+
+if (isset($use_open_basedir_protection) && $use_open_basedir_protection) {
+// Prevent Mibew from access to files outside the installation
+    @ini_set('open_basedir', dirname(dirname(__FILE__)));
+}
 
 // Sanitize path to application and remove extra slashes
 $mibewroot = join("/", array_map("urlencode", preg_split('/\//', preg_replace('/\/+$/', '', preg_replace('/\/{2,}/', '/', '/' . $mibewroot)))));

@@ -49,4 +49,9 @@ $mail_encoding = "utf-8";
 $home_locale = "en"; /* native name will be used in this locale */
 $default_locale = "en"; /* if user does not provide known lang */
 
+/*
+ * Additional protection using open_basedir
+ */
+$use_open_basedir_protection = false;
+
 ?>
