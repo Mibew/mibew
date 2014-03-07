@@ -207,7 +207,9 @@ function get_operators_list($options = array())
 
     return $operators;
 }
-
+/*
+ * @deprecated
+ */
 function operator_get_all()
 {
     $db = Database::getInstance();
@@ -220,7 +222,9 @@ function operator_get_all()
         array('return_rows' => Database::RETURN_ALL_ROWS)
     );
 }
-
+/*
+ * @deprecated
+ */
 function get_operators_from_adjacent_groups($operator)
 {
     $db = Database::getInstance();
