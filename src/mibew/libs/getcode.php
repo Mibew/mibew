@@ -19,7 +19,24 @@
 use Mibew\Settings;
 use Mibew\Style\ChatStyle;
 use Mibew\Style\InvitationStyle;
-
+/**
+ * Return chat button code.
+ *
+ * @param string $title Page title
+ * @param string $locale 2-digit ISO-639-1 code for language
+ * @param string $style name of avalabel style from styles/dialogs folder
+ * @param string $invitation_style_name name of avalabel style from
+ * styles/invitations folder
+ * @param integer $group chat group id
+ * @param integer $inner chat link message or html code like image code
+ * @param bool $show_host generated link contains protocol and domain or not
+ * @param bool $force_secure force protocol to secure (https) or not
+ * @param bool $mod_security add rule to remove protocol from document location
+ * in generated javascript code
+ * @param bool $operator_code add operator code to generated button code or not
+ *
+ * @return string Generate chat button code
+ */
 function generate_button(
     $title,
     $locale,
@@ -113,7 +130,13 @@ function generate_button(
 
     return "<!-- mibew button -->" . $temp . "<!-- / mibew button -->";
 }
-
+/**
+ * Return chat group id from GET or POST arrays.
+ *
+ * @param string $param_id key of group_id in client request
+ *
+ * @return integer Chat group id from client request
+ */
 function verifyparam_groupid($param_id, &$errors)
 {
     $group_id = verify_param($param_id, "/^\d{0,8}$/", "");
@@ -127,7 +150,12 @@ function verifyparam_groupid($param_id, &$errors)
 
     return $group_id;
 }
-
+/**
+ * Return list of all chat groups.
+ *
+ * @return array It is chat groups structure. contains (groupid integer,
+ * parent integer, vclocalname string, vclocaldescription string)
+ */
 function get_groups_list()
 {
     $result = array();
@@ -143,7 +171,13 @@ function get_groups_list()
 
     return $result;
 }
-
+/**
+ * Return map of chat button images.
+ *
+ * @param string $locales_dir Base directory of locales
+ *
+ * @return array locales map images.
+ */
 function get_image_locales_map($locales_dir)
 {
     $image_locales = array();
