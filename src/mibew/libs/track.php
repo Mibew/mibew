@@ -224,9 +224,10 @@ function track_remove_old_tracks()
     );
 }
 
-/**
+/*
  * Return user id by visitor id.
  *
+ * @deprecated
  * @param int $visitor_id Id of the visitor
  * @return string|boolean user id or boolean false if there is no visitor with
  * specified visitor id
