@@ -70,7 +70,15 @@ function get_user_name($user_name, $addr, $id)
         )
     );
 }
-
+/**
+ * Check if browser support ajax requests
+ *
+ * @param array $browser_id name of browser
+ * @param array $ver browser version
+ * @param array $user_agent user agent of browser
+ *
+ * @return bool true on ajax support and false if ajax is not supported
+ */
 function is_ajax_browser($browser_id, $ver, $user_agent)
 {
     if ($browser_id == "opera") {
@@ -97,7 +105,15 @@ function is_ajax_browser($browser_id, $ver, $user_agent)
 
     return false;
 }
-
+/**
+ * Check if browser support ajax requests
+ *
+ * @param array $browser_id Code name of browser
+ * @param array $ver Browser version
+ * @param array $user_agent User Agent of browser
+ *
+ * @return bool true on ajax support and false if ajax is not supported
+ */
 function get_remote_level($user_agent)
 {
     $known_agents = get_known_user_agents();
@@ -136,7 +152,11 @@ function get_known_user_agents()
         "mozilla",
     );
 }
-
+/**
+ * Check if browser is opera 9.5 or greater
+ *
+ * @return bool Result of comparison of visitor browser and Opera 9.5
+ */
 function is_agent_opera95()
 {
     $user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
@@ -152,14 +172,22 @@ function is_agent_opera95()
 
     return false;
 }
-
+/**
+ * Check if browser is opera with mac os
+ *
+ * @return bool Result of comparison of visitor browser and Opera_on_mac
+ */
 function is_mac_opera()
 {
     $user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
 
     return strstr($user_agent, "opera") && strstr($user_agent, "mac");
 }
-
+/**
+ * Check if frame src needed
+ *
+ * @return bool True if frame is necessary otherwise return False
+ */
 function needs_frame_src()
 {
     $user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
@@ -600,7 +628,14 @@ function setup_chatview_for_operator(Thread $thread, $operator)
 
     return $data;
 }
-
+/**
+ * Check if the address is banned
+ *
+ * @param string $addr IP address whitch most be checked
+ *
+ * @return null|array It is banned address structure. contains (banid string,
+ * comment string)
+ */
 function ban_for_addr($addr)
 {
     $db = Database::getInstance();
@@ -613,7 +648,10 @@ function ban_for_addr($addr)
         array('return_rows' => Database::RETURN_ONE_ROW)
     );
 }
-
+/**
+ * @return array Return visitor info from active request. contains
+ * (user_id string, user_name string)
+ */
 function visitor_from_request()
 {
     $default_name = getstring("chat.default.username");
@@ -638,7 +676,10 @@ function visitor_from_request()
 
     return array('id' => $user_id, 'name' => $user_name);
 }
-
+/**
+ * @return array Return remote host from active request. contains
+ * (user_id string, user_name string)
+ */
 function get_remote_host()
 {
     $ext_addr = $_SERVER['REMOTE_ADDR'];
@@ -660,6 +701,8 @@ function get_remote_host()
  * @param string $visitor_name Name of the visitor
  * @param string $referrer Page user came from
  * @param string $info User info
+ *
+ * @return Thread thread object
  */
 function chat_start_for_user(
     $group_id,
