@@ -252,6 +252,18 @@ function check_admin($link)
 	return false;
 }
 
+function remove_low_level_settings($link)
+{
+	global $mysqlprefix, $low_level_settings;
+	foreach ($low_level_settings as $key) {
+		if (!mysql_query("delete from ${mysqlprefix}chatconfig where vckey = '" . mysql_real_escape_string($key, $link) . "'", $link)) {
+			$errors[] = "Unable to remove low level setting " . htmlspecialchars($key) . " from the database. Error: " . mysql_error($link);
+			return false;
+		}
+	}
+	return true;
+}
+
 function check_status()
 {
 	global $page, $mibewroot, $settings, $dbversion;
@@ -282,6 +294,11 @@ function check_status()
 	}
 
 	if (!check_columns($link)) {
+		mysql_close($link);
+		return;
+	}
+
+	if (!remove_low_level_settings($link)) {
 		mysql_close($link);
 		return;
 	}

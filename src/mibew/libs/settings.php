@@ -17,9 +17,16 @@
 
 function update_settings()
 {
-	global $settings, $settings_in_db, $mysqlprefix;
+	global $settings, $settings_in_db, $low_level_settings, $mysqlprefix;
 	$link = connect();
 	foreach ($settings as $key => $value) {
+
+// Don't store low level settings in the database to prevent them from being
+// unchangeable
+		if (in_array($key, $low_level_settings)) {
+			continue;
+		}
+
 		if (!isset($settings_in_db[$key])) {
 			perform_query("insert into ${mysqlprefix}chatconfig (vckey) values ('" . mysql_real_escape_string($key, $link) . "')", $link);
 		}

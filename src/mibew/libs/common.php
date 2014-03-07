@@ -631,7 +631,7 @@ function date_to_text($unixtime)
 	return strftime($date_format . " " . getlocal("time.timeformat"), $unixtime);
 }
 
-$dbversion = '1.6.6';
+$dbversion = '1.6.10';
 $featuresversion = '1.6.6';
 
 $settings = array(
@@ -675,6 +675,13 @@ $settings = array(
 	'updatefrequency_oldchat' => 7,
 );
 $settingsloaded = false;
+
+// List of low level settings that can't be changed from the UI
+$low_level_settings = array(
+    'left_messages_locale',
+    'max_uploaded_file_size'
+);
+
 $settings_in_db = array();
 
 function loadsettings_($link)
