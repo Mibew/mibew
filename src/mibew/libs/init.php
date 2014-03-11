@@ -20,9 +20,6 @@
  */
 define('MIBEW_FS_ROOT', dirname(dirname(__FILE__)));
 
-// Prevent Mibew from access to files outside the installation
-@ini_set('open_basedir', MIBEW_FS_ROOT);
-
 // Include configuration file
 require_once(MIBEW_FS_ROOT . '/libs/config.php');
 
