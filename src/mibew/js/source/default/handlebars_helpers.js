@@ -110,4 +110,44 @@
     Handlebars.registerHelper('l10n', function(key) {
         return (Mibew.Localization.get(key) || '');
     });
+
+    /**
+     * Register "ifEven" helper.
+     *
+     * This helper checks if specified value is even or not. Example of usage:
+     * <code>
+     *   {{#ifEven value}}
+     *     The value is even.
+     *   {{else}}
+     *     The value is odd.
+     *   {{/ifEven}}
+     * </code>
+     */
+    Handlebars.registerHelper('ifEven', function(value, options) {
+        if ((value % 2) === 0) {
+            return options.fn(this);
+        } else {
+            return options.inverse(this);
+        }
+    });
+
+    /**
+     * Register "ifOdd" helper.
+     *
+     * This helper checks if specified value is odd or not. Example of usage:
+     * <code>
+     *   {{#ifOdd value}}
+     *     The value is odd.
+     *   {{else}}
+     *     The value is even.
+     *   {{/ifOdd}}
+     * </code>
+     */
+    Handlebars.registerHelper('ifOdd', function(value, options) {
+        if ((value % 2) !== 0) {
+            return options.fn(this);
+        } else {
+            return options.inverse(this);
+        }
+    });
 })(Mibew, Handlebars);
