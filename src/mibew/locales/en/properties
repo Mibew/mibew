@@ -248,6 +248,7 @@ menu.translate=Localize
 menu.updates.content=Check for news and updates.
 menu.updates=Updates
 my_settings.error.password_match=Entered passwords do not match
+my_settings.error.password_policy=Password is too simple
 no_such_operator=No such Operator
 notification.back_to_list=Back to the list
 notification.intro=Contents of sent notification.

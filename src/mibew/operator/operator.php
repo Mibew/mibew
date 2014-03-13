@@ -69,6 +69,11 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 
 	if ($password != $passwordConfirm)
 		$errors[] = getlocal("my_settings.error.password_match");
+	
+	if ($password_policy) {
+		if (!call_user_func($password_policy, $password))
+			$errors[] = getlocal("my_settings.error.password_policy");
+	}
 
 	$existing_operator = operator_by_login($login);
 	if ((!$opId && $existing_operator) ||

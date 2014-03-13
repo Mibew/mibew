@@ -54,4 +54,6 @@ $default_locale = "en"; /* if user does not provide known lang */
  */
 $use_open_basedir_protection = false;
 
+require_once('password-policy.php');
+
 ?>
