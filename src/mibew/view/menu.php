@@ -163,6 +163,16 @@ $menuItemsCount = 2;
 	<?php menuseparator(); ?>
 <?php } ?>
 
+<?php if( $page['showadmin'] ) { ?>
+	<td class="dashitem">
+		<img src="<?php echo $mibewroot ?>/images/dash/warn.gif" alt=""/>
+		<a href="<?php echo $mibewroot ?>/operator/purge.php">
+			<?php echo getlocal('menu.purge') ?></a>
+		<?php echo getlocal('menu.purge.content') ?>
+	</td>
+	<?php menuseparator(); ?>
+<?php } ?>
+
 <?php if( $page['showadmin'] || $page['shownotifications'] ) { ?>
 	<td class="dashitem">
 		<img src="<?php echo $mibewroot ?>/images/dash/notifications.gif" alt=""/>

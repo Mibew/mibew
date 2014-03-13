@@ -59,6 +59,9 @@ function tpl_menu() { global $page, $mibewroot, $errors;
 					<li<?php menuli("translate")?>><a href="<?php echo $mibewroot ?>/operator/translate.php"><?php echo getlocal('menu.translate') ?></a></li>
 					<li<?php menuli("updates")?>><a href="<?php echo $mibewroot ?>/operator/updates.php"><?php echo getlocal('menu.updates') ?></a></li>
 <?php } ?>
+<?php if(isset($page['showadmin']) && $page['showadmin']) { ?>
+					<li<?php menuli("purge")?>><a href="<?php echo $mibewroot ?>/operator/purge.php"><?php echo getlocal('menu.purge') ?></a></li>
+<?php } ?>
 <?php if(isset($page['showadmin']) && $page['showadmin'] || isset($page['shownotifications']) && $page['shownotifications']) { ?>
 					<li<?php menuli("notifications")?>><a href="<?php echo $mibewroot ?>/operator/notifications.php"><?php echo getlocal('menu.notifications') ?></a></li>
 <?php } ?>
