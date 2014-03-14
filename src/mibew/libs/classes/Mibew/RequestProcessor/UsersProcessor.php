@@ -150,6 +150,12 @@ class UsersProcessor extends ClientSideProcessor
     /**
      * Return updated threads list. API function
      *
+     * Triggers the following events:
+     *  1. 'usersUpdateThreadsAlter': provide the ability to alter threads
+     *     list. Associative array is passed to event lister. It has the
+     *     following keys:
+     *      - 'threads': array of threads arrays.
+     *
      * @param array $args Associative array of arguments. It must contains the
      *   following keys:
      *    - 'agentId': Id of the agent related to users window
@@ -314,9 +320,16 @@ class UsersProcessor extends ClientSideProcessor
             unset($thread);
         }
 
+        // Provide an ability to alter threads list
+        $arguments = array(
+            'threads' => $threads,
+        );
+        $dispatcher = EventDispatcher::getInstance();
+        $dispatcher->triggerEvent('usersUpdateThreadsAlter', $arguments);
+
         // Send results back to the client
         return array(
-            'threads' => $threads,
+            'threads' => $arguments['threads'],
             'lastRevision' => $revision,
         );
     }
