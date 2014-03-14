@@ -289,6 +289,7 @@ class UsersProcessor extends ClientSideProcessor
             $threads[] = array(
                 'id' => $thread->id,
                 'token' => $thread->lastToken,
+                'userId' => $thread->userId,
                 'userName' => $user_name,
                 'userIp' => $user_ip,
                 'remote' => $thread->remote,
