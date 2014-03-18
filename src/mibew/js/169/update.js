@@ -4,7 +4,7 @@ function loadNews() {
 	
 	var str = "<div>";
 	for (var i = 0; i < window.mibewNews.length; i++) {
-		str += "<div class=\"newstitle\"><a hre" + "f=\"" + window.mibewNews[i].link + "\">" + window.mibewNews[i].title + "</a>, <span class=\"small\">" + window.mibewNews[i].date + "</span></div>";
+		str += "<div class=\"newstitle\"><a href" + "f=\"" + window.mibewNews[i].link + "\">" + window.mibewNews[i].title + "</a>, <span class=\"small\">" + window.mibewNews[i].date + "</span></div>";
 		str += "<div class=\"newstext\">" + window.mibewNews[i].message+"</div>";
 	}
 	$("#news").html(str + "</div>");
