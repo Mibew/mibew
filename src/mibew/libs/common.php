@@ -24,7 +24,7 @@ if (isset($use_open_basedir_protection) && $use_open_basedir_protection) {
 }
 
 // Sanitize path to application and remove extra slashes
-$mibewroot = join("/", array_map("urlencode", preg_split('/\//', preg_replace('/\/+$/', '', preg_replace('/\/{2,}/', '/', '/' . $mibewroot)))));
+$mibewroot = join("/", array_map("rawurlencode", preg_split('/\//', preg_replace('/\/+$/', '', preg_replace('/\/{2,}/', '/', '/' . $mibewroot)))));
 
 // Sanitize database tables prefix
 $mysqlprefix = preg_replace('/[^A-Za-z0-9_$]/', '', $mysqlprefix);
