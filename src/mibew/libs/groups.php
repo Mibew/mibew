@@ -19,6 +19,16 @@
 use Mibew\Database;
 use Mibew\Settings;
 
+/**
+ * Get chatgroup by id
+ *
+ * @param integer $id ID for the chat group
+ *
+ * @return null|array It is chatgroup structure. contains (groupId integer,
+ * parent integer, vcemail string, vclocalname string, vccommonname string,
+ * vclocaldescription string, vccommondescription string, iweight integer,
+ * vctitle string, vcchattitle string, vclogo string, vchosturl string)
+ */
 function group_by_id($id)
 {
     $db = Database::getInstance();
@@ -31,6 +41,16 @@ function group_by_id($id)
     return $group;
 }
 
+/**
+ * Get chatgroup by name
+ *
+ * @param string $name Name of the chat group
+ *
+ * @return null|array It is chatgroup structure. contains (groupId integer,
+ * parent integer, vcemail string, vclocalname string, vccommonname string,
+ * vclocaldescription string, vccommondescription string, iweight integer,
+ * vctitle string, vcchattitle string, vclogo string, vchosturl string)
+ */
 function group_by_name($name)
 {
     $db = Database::getInstance();
@@ -43,6 +63,13 @@ function group_by_name($name)
     return $group;
 }
 
+/**
+ * Get chatgroup name
+ *
+ * @param array $group chat group object
+ *
+ * @return string return chat group name 
+ */
 function get_group_name($group)
 {
     if (HOME_LOCALE == CURRENT_LOCALE || !isset($group['vccommonname']) || !$group['vccommonname']) {
@@ -78,6 +105,13 @@ function setup_group_settings_tabs($gid, $active)
     return $tabs;
 }
 
+/**
+ * Builds list of group ids for specific operator
+ *
+ * @param int $operator_id ID of the specific operator.
+ *
+ * @return string Comma separated list of operator groups ids
+ */
 function get_operator_groups_list($operator_id)
 {
     $db = Database::getInstance();
@@ -98,6 +132,17 @@ function get_operator_groups_list($operator_id)
     }
 }
 
+/**
+ * List of available groups
+ *
+ * @param array $skip_group ID of groups which most be skipped.
+ *
+ * @return array list of all available groups in chatgroup structure. contains
+ * (groupId integer, parent integer, vcemail string, vclocalname string,
+ * vccommonname string, vclocaldescription string, vccommondescription string,
+ * iweight integer, vctitle string, vcchattitle string, vclogo string,
+ * vchosturl string)
+ */
 function get_available_parent_groups($skip_group)
 {
     $result = array();
@@ -127,6 +172,13 @@ function get_available_parent_groups($skip_group)
     return $result;
 }
 
+/**
+ * Check if group has any child
+ *
+ * @param int $group_id ID of the specific chat group.
+ *
+ * @return boolean True if specified group has any child
+ */
 function group_has_children($group_id)
 {
     $db = Database::getInstance();
@@ -139,6 +191,17 @@ function group_has_children($group_id)
     return ($children['count'] > 0);
 }
 
+/**
+ * Get parent of chatgroup
+ *
+ * @param array $group specific chatgroup
+ *
+ * @return array parent of given group. It is chatgroup structure. contains
+ * (groupId integer, parent integer, vcemail string, vclocalname string,
+ * vccommonname string, vclocaldescription string, vccommondescription string,
+ * iweight integer, vctitle string, vcchattitle string, vclogo string,
+ * vchosturl string)
+ */
 function get_top_level_group($group)
 {
     return is_null($group['parent']) ? $group : group_by_id($group['parent']);
@@ -216,6 +279,12 @@ function get_group_description($group)
     }
 }
 
+/**
+ * Chaeck availability of chatgroup array params.
+ *
+ * @param array $group Associative group array.
+ * @param array $extra_params extra parameters for chatgroup array.
+ */
 function check_group_params($group, $extra_params = null)
 {
     $obligatory_params = array(
@@ -348,6 +417,13 @@ function update_group($group)
     }
 }
 
+/**
+ * Builds list of chatgroup operators ids.
+ *
+ * @param int $group_id ID of the chatgroup.
+ *
+ * @return array ID of all operators in specified group.
+ */
 function get_group_members($group_id)
 {
     $db = Database::getInstance();
@@ -358,6 +434,12 @@ function get_group_members($group_id)
     );
 }
 
+/**
+ * Update operators of specific group
+ *
+ * @param int $group_id ID of the group.
+ * @param array $new_value list of all operators of specified group.
+ */
 function update_group_members($group_id, $new_value)
 {
     $db = Database::getInstance();
