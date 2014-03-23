@@ -15,6 +15,14 @@
  * limitations under the License.
  */
 
+/**
+ * Send an email
+ *
+ * @param string $to_addr Comma separated list recipient emails
+ * @param string $reply_to Comma separated list replies emails
+ * @param string $subject subject of email
+ * @param string $body text of email.
+ */
 function mibew_mail($to_addr, $reply_to, $subject, $body)
 {
     global $mibew_mailbox, $mail_encoding;
