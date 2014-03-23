@@ -30,7 +30,7 @@ define('USERNAME_COOKIE_NAME', 'MIBEW_Data');
 /**
  * Convert messages to formated text
  *
- * @param array $msg message object whitch most be formatted
+ * @param array $msg message object which most be formatted
  *
  * @return string formatted message
  */
@@ -631,7 +631,7 @@ function setup_chatview_for_operator(Thread $thread, $operator)
 /**
  * Check if the address is banned
  *
- * @param string $addr IP address whitch most be checked
+ * @param string $addr IP address which most be checked
  *
  * @return null|array It is banned address structure. contains (banid string,
  * comment string)
