@@ -1,3 +1,8 @@
+  1.6.10
+  -----
+  [!] multiple bugfixes
+  [+] switch to opt-in policy for open_basedir protection
+
   1.6.9
   -----
   [!] multiple bugfixes
