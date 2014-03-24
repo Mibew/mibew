@@ -27,7 +27,7 @@ require_once(MIBEW_FS_ROOT . '/libs/config.php');
 $mibewroot = join(
     "/",
     array_map(
-        "urlencode",
+        "rawurlencode",
         preg_split('/\//', preg_replace('/\/+$/', '', preg_replace('/\/{2,}/', '/', '/' . $mibewroot)))
     )
 );
