@@ -42,7 +42,7 @@ if (Settings::get('enablessl') == "1" && Settings::get('forcessl') == "1") {
 }
 
 // Initialize chat style which is currently used in system
-$chat_style = new ChatStyle(ChatStyle::currentStyle());
+$chat_style = new ChatStyle(ChatStyle::getCurrentStyle());
 
 // Do not support old browsers at all
 if (get_remote_level($_SERVER['HTTP_USER_AGENT']) == 'old') {

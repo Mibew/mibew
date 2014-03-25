@@ -42,7 +42,7 @@ $page = array(
 );
 
 // Initialize chat style which is currently used in system
-$chat_style = new ChatStyle(ChatStyle::currentStyle());
+$chat_style = new ChatStyle(ChatStyle::getCurrentStyle());
 
 if (isset($_GET['nextGroup'])) {
     $next_id = verify_param("nextGroup", "/^\d{1,8}$/");

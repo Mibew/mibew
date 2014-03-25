@@ -31,9 +31,9 @@ class InvitationStyle extends AbstractStyle implements StyleInterface
      *
      * @return string Base path for style files
      */
-    public function filesPath()
+    public function getFilesPath()
     {
-        return 'styles/invitations/' . $this->name();
+        return 'styles/invitations/' . $this->getName();
     }
 
     /**
@@ -41,7 +41,7 @@ class InvitationStyle extends AbstractStyle implements StyleInterface
      *
      * @return array Style configurations
      */
-    public function configurations()
+    public function getConfigurations()
     {
         return array();
     }
@@ -65,10 +65,10 @@ class InvitationStyle extends AbstractStyle implements StyleInterface
      *
      * @return string Name of a style
      */
-    public static function currentStyle()
+    public static function getCurrentStyle()
     {
         // Just use the default style
-        return self::defaultStyle();
+        return self::getDefaultStyle();
     }
 
     /**
@@ -76,7 +76,7 @@ class InvitationStyle extends AbstractStyle implements StyleInterface
      *
      * @return string Name of a style
      */
-    public static function defaultStyle()
+    public static function getDefaultStyle()
     {
         // Load value from system settings
         return Settings::get('invitation_style');
@@ -98,7 +98,7 @@ class InvitationStyle extends AbstractStyle implements StyleInterface
      *
      * @param array List of styles names
      */
-    public static function availableStyles()
+    public static function getAvailableStyles()
     {
         $styles_root = MIBEW_FS_ROOT . '/styles/invitations';
 
@@ -111,7 +111,7 @@ class InvitationStyle extends AbstractStyle implements StyleInterface
      *
      * @return array Default configurations of the style
      */
-    protected function defaultConfigurations()
+    protected function getDefaultConfigurations()
     {
         return array();
     }

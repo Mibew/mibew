@@ -38,41 +38,13 @@ use Mibew\RequestProcessor\Exception\UsersProcessorException;
  * Also triggers follow events (see description of apiUpdateVisitors method):
  *  - usersUpdateVisitorsLoad
  *  - usersUpdateVisitorsAlter
- *
- * Implements Singleton pattern
  */
 class UsersProcessor extends ClientSideProcessor
 {
     /**
-     * An instance of the UsersProcessor class
-     *
-     * @var \Mibew\RequestProcessor\UsersProcessor
-     */
-    protected static $instance = null;
-
-    /**
-     * Return an instance of the UsersProcessor class.
-     *
-     * @return \Mibew\RequestProcessor\UsersProcessor
-     */
-    public static function getInstance()
-    {
-        if (is_null(self::$instance)) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
-
-    /**
      * Class constructor
-     *
-     * Do not use directly __construct method! Use
-     * \Mibew\RequestProcessor\UsersProcessor::getInstance() instead!
-     *
-     * @todo Think about why the method is not protected
      */
-    public function __construct()
+    protected function __construct()
     {
         parent::__construct(array(
             'signature' => '',
@@ -177,6 +149,12 @@ class UsersProcessor extends ClientSideProcessor
 
     /**
      * Return updated threads list. API function
+     *
+     * Triggers the following events:
+     *  1. 'usersUpdateThreadsAlter': provide the ability to alter threads
+     *     list. Associative array is passed to event lister. It has the
+     *     following keys:
+     *      - 'threads': array of threads arrays.
      *
      * @param array $args Associative array of arguments. It must contains the
      *   following keys:
@@ -317,6 +295,7 @@ class UsersProcessor extends ClientSideProcessor
             $threads[] = array(
                 'id' => $thread->id,
                 'token' => $thread->lastToken,
+                'userId' => $thread->userId,
                 'userName' => $user_name,
                 'userIp' => $user_ip,
                 'remote' => $thread->remote,
@@ -341,9 +320,16 @@ class UsersProcessor extends ClientSideProcessor
             unset($thread);
         }
 
+        // Provide an ability to alter threads list
+        $arguments = array(
+            'threads' => $threads,
+        );
+        $dispatcher = EventDispatcher::getInstance();
+        $dispatcher->triggerEvent('usersUpdateThreadsAlter', $arguments);
+
         // Send results back to the client
         return array(
-            'threads' => $threads,
+            'threads' => $arguments['threads'],
             'lastRevision' => $revision,
         );
     }

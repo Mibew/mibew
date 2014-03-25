@@ -50,9 +50,9 @@ $page = array(
 );
 
 // Initialize chat style which is currently used in system
-$chat_style = new ChatStyle(ChatStyle::currentStyle());
+$chat_style = new ChatStyle(ChatStyle::getCurrentStyle());
 
-$page_style = new PageStyle(PageStyle::currentStyle());
+$page_style = new PageStyle(PageStyle::getCurrentStyle());
 
 if (!isset($_GET['token'])) {
 

@@ -31,14 +31,14 @@ interface StyleInterface
      *
      * @return string Name of a style
      */
-    public static function currentStyle();
+    public static function getCurrentStyle();
 
     /**
      * Returns name of the style which is used in the system by default.
      *
      * @return string Name of a style
      */
-    public static function defaultStyle();
+    public static function getDefaultStyle();
 
     /**
      * Sets style which is used in the system by default
@@ -52,29 +52,29 @@ interface StyleInterface
      *
      * @param array List of styles names
      */
-    public static function availableStyles();
+    public static function getAvailableStyles();
 
     /**
-     * Builds base path for style files. This URL is relative Mibew root and
+     * Builds base path for style files. This path is relative to Mibew root and
      * does not contain neither leading nor trailing slash.
      *
      * @return string Base path for style files
      */
-    public function filesPath();
+    public function getFilesPath();
 
     /**
      * Loads and returns configurations of the style.
      *
      * @param array $name Style's configuration params
      */
-    public function configurations();
+    public function getConfigurations();
 
     /**
      * Returns name of the style related with the object
      *
      * @return string Name of the style
      */
-    public function name();
+    public function getName();
 
     /**
      * Renders template file to HTML and send it to the output

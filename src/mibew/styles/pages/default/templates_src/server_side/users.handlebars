@@ -73,7 +73,7 @@
                 'pending.errors.network': "{{#jsString}}{{l10n 'pending.errors.network'}}{{/jsString}}"
             });
             // Plugins localization
-            Mibew.Localization.set({{additional_localized_strings}});
+            Mibew.Localization.set({{{additional_localized_strings}}});
         //--></script>
 
         <script type="text/javascript"><!--
@@ -109,7 +109,7 @@
                         banWindowParams: "{{[coreStyles.banWindowParams]}}",
                         inviteWindowParams: "{{[coreStyles.inviteWindowParams]}}"
                     },
-                    plugins: {{js_plugin_options}}
+                    plugins: {{{js_plugin_options}}}
                 });
             });
         //--></script>

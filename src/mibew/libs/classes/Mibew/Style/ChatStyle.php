@@ -43,7 +43,7 @@ class ChatStyle extends AbstractStyle implements StyleInterface
         parent::__construct($style_name);
 
         $templates_loader = new \Handlebars\Loader\FilesystemLoader(
-            MIBEW_FS_ROOT . '/' . $this->filesPath() . '/templates_src/server_side/'
+            MIBEW_FS_ROOT . '/' . $this->getFilesPath() . '/templates_src/server_side/'
         );
 
         $this->templateEngine = new \Handlebars\Handlebars(array(
@@ -63,9 +63,9 @@ class ChatStyle extends AbstractStyle implements StyleInterface
      *
      * @return string Base path for style files
      */
-    public function filesPath()
+    public function getFilesPath()
     {
-        return 'styles/dialogs/' . $this->name();
+        return 'styles/dialogs/' . $this->getName();
     }
 
     /**
@@ -85,8 +85,8 @@ class ChatStyle extends AbstractStyle implements StyleInterface
         $data['mibewVersion'] = MIBEW_VERSION;
         $data['currentLocale'] = CURRENT_LOCALE;
         $data['rtl'] = (getlocal("localedirection") == 'rtl');
-        $data['stylePath'] = MIBEW_WEB_ROOT . '/' . $this->filesPath();
-        $data['styleName'] = $this->name();
+        $data['stylePath'] = MIBEW_WEB_ROOT . '/' . $this->getFilesPath();
+        $data['styleName'] = $this->getName();
 
         echo($this->templateEngine->render($template_name, $data));
     }
@@ -100,17 +100,17 @@ class ChatStyle extends AbstractStyle implements StyleInterface
      * @return string Name of a style
      * @throws \RuntimeException
      */
-    public static function currentStyle()
+    public static function getCurrentStyle()
     {
         // Ceck if request contains chat style
         $style_name = verify_param("style", "/^\w+$/", "");
         if (!$style_name) {
             // Use the default style
-            $style_name = self::defaultStyle();
+            $style_name = self::getDefaultStyle();
         }
 
         // Get all style list and make sure that in has at least one style.
-        $available_styles = self::availableStyles();
+        $available_styles = self::getAvailableStyles();
         if (empty($available_styles)) {
             throw new \RuntimeException('There are no dialog styles in the system');
         }
@@ -132,7 +132,7 @@ class ChatStyle extends AbstractStyle implements StyleInterface
      *
      * @return string Name of a style
      */
-    public static function defaultStyle()
+    public static function getDefaultStyle()
     {
         // Load value from system settings
         return Settings::get('chat_style');
@@ -154,7 +154,7 @@ class ChatStyle extends AbstractStyle implements StyleInterface
      *
      * @param array List of styles names
      */
-    public static function availableStyles()
+    public static function getAvailableStyles()
     {
         $styles_root = MIBEW_FS_ROOT . '/styles/dialogs';
 
@@ -167,7 +167,7 @@ class ChatStyle extends AbstractStyle implements StyleInterface
      *
      * @return array Default configurations of the style
      */
-    protected function defaultConfigurations()
+    protected function getDefaultConfigurations()
     {
         return array(
             'chat' => array(

@@ -25,7 +25,7 @@ require_once(MIBEW_FS_ROOT . '/libs/settings.php');
 
 $operator = check_login();
 
-$style_list = PageStyle::availableStyles();
+$style_list = PageStyle::getAvailableStyles();
 
 $preview = verify_param("preview", "/^\w+$/", "default");
 if (!in_array($preview, $style_list)) {
@@ -34,13 +34,13 @@ if (!in_array($preview, $style_list)) {
 }
 
 $preview_style = new PageStyle($preview);
-$style_config = $preview_style->configurations();
+$style_config = $preview_style->getConfigurations();
 
 $screenshots = array();
 foreach ($style_config['screenshots'] as $name => $desc) {
     $screenshots[] = array(
         'name' => $name,
-        'file' => (MIBEW_WEB_ROOT . '/' . $preview_style->filesPath()
+        'file' => (MIBEW_WEB_ROOT . '/' . $preview_style->getFilesPath()
             . '/screenshots/' . $name . '.png'),
         'description' => $desc,
     );
@@ -56,5 +56,5 @@ $page = array_merge($page, prepare_menu($operator));
 
 $page['tabs'] = setup_settings_tabs(3);
 
-$page_style = new PageStyle(PageStyle::currentStyle());
+$page_style = new PageStyle(PageStyle::getCurrentStyle());
 $page_style->render('page_themes', $page);

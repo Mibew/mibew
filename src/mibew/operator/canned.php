@@ -112,5 +112,5 @@ $page['menuid'] = "canned";
 
 $page = array_merge($page, prepare_menu($operator));
 
-$page_style = new PageStyle(PageStyle::currentStyle());
+$page_style = new PageStyle(PageStyle::getCurrentStyle());
 $page_style->render('canned', $page);

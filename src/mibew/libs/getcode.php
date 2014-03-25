@@ -70,7 +70,7 @@ function generate_button(
     // Get popup window configurations
     if ($style) {
         $chat_style = new ChatStyle($style);
-        $chat_configurations = $chat_style->configurations();
+        $chat_configurations = $chat_style->getConfigurations();
         $popup_options = $chat_configurations['chat']['window_params'];
     } else {
         $popup_options = "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1";
@@ -96,13 +96,13 @@ function generate_button(
 
         // Get actual invitation style instance
         if (!$invitation_style_name) {
-            $invitation_style_name = InvitationStyle::currentStyle();
+            $invitation_style_name = InvitationStyle::getCurrentStyle();
         }
         $invitation_style = new InvitationStyle($invitation_style_name);
 
         // URL of file with additional CSS rules for invitation popup
         $widget_data['inviteStyle'] = $app_location . '/' .
-            $invitation_style->filesPath() .
+            $invitation_style->getFilesPath() .
             '/invite.css';
 
         // Time between requests to the server in milliseconds

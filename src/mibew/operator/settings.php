@@ -57,16 +57,16 @@ foreach ($options as $opt) {
 
 // Load styles configs
 $styles_params = array(
-    'chat_style' => ChatStyle::defaultStyle(),
-    'page_style' => PageStyle::defaultStyle(),
+    'chat_style' => ChatStyle::getDefaultStyle(),
+    'page_style' => PageStyle::getDefaultStyle(),
 );
 
-$chat_style_list = ChatStyle::availableStyles();
-$page_style_list = PageStyle::availableStyles();
+$chat_style_list = ChatStyle::getAvailableStyles();
+$page_style_list = PageStyle::getAvailableStyles();
 
 if (Settings::get('enabletracking')) {
-    $styles_params['invitation_style'] = InvitationStyle::defaultStyle();
-    $invitation_style_list = InvitationStyle::availableStyles();
+    $styles_params['invitation_style'] = InvitationStyle::getDefaultStyle();
+    $invitation_style_list = InvitationStyle::getAvailableStyles();
 }
 
 if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
@@ -175,5 +175,5 @@ $page = array_merge($page, prepare_menu($operator));
 
 $page['tabs'] = setup_settings_tabs(0);
 
-$page_style = new PageStyle(PageStyle::currentStyle());
+$page_style = new PageStyle(PageStyle::getCurrentStyle());
 $page_style->render('settings', $page);

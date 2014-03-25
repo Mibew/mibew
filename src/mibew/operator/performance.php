@@ -139,5 +139,5 @@ $page = array_merge($page, prepare_menu($operator));
 
 $page['tabs'] = setup_settings_tabs(2);
 
-$page_style = new PageStyle(PageStyle::currentStyle());
+$page_style = new PageStyle(PageStyle::getCurrentStyle());
 $page_style->render('performance', $page);

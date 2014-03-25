@@ -43,7 +43,7 @@ class PageStyle extends AbstractStyle implements StyleInterface
         parent::__construct($style_name);
 
         $templates_loader = new \Handlebars\Loader\FilesystemLoader(
-            MIBEW_FS_ROOT . '/' . $this->filesPath() . '/templates_src/server_side/'
+            MIBEW_FS_ROOT . '/' . $this->getFilesPath() . '/templates_src/server_side/'
         );
 
         $this->templateEngine = new \Handlebars\Handlebars(array(
@@ -63,9 +63,9 @@ class PageStyle extends AbstractStyle implements StyleInterface
      *
      * @return string Base path for style files
      */
-    public function filesPath()
+    public function getFilesPath()
     {
-        return 'styles/pages/' . $this->name();
+        return 'styles/pages/' . $this->getName();
     }
 
     /**
@@ -86,8 +86,8 @@ class PageStyle extends AbstractStyle implements StyleInterface
         $data['mibewVersion'] = MIBEW_VERSION;
         $data['currentLocale'] = CURRENT_LOCALE;
         $data['rtl'] = (getlocal("localedirection") == 'rtl');
-        $data['stylePath'] = MIBEW_WEB_ROOT . '/' . $this->filesPath();
-        $data['styleName'] = $this->name();
+        $data['stylePath'] = MIBEW_WEB_ROOT . '/' . $this->getFilesPath();
+        $data['styleName'] = $this->getName();
 
         echo($this->templateEngine->render($template_name, $data));
     }
@@ -100,10 +100,10 @@ class PageStyle extends AbstractStyle implements StyleInterface
      *
      * @return string Name of a style
      */
-    public static function currentStyle()
+    public static function getCurrentStyle()
     {
         // Just use the default style
-        return self::defaultStyle();
+        return self::getDefaultStyle();
     }
 
     /**
@@ -111,7 +111,7 @@ class PageStyle extends AbstractStyle implements StyleInterface
      *
      * @return string Name of a style
      */
-    public static function defaultStyle()
+    public static function getDefaultStyle()
     {
         // Load value from system settings
         return Settings::get('page_style');
@@ -133,7 +133,7 @@ class PageStyle extends AbstractStyle implements StyleInterface
      *
      * @param array List of styles names
      */
-    public static function availableStyles()
+    public static function getAvailableStyles()
     {
         $styles_root = MIBEW_FS_ROOT . '/styles/pages';
 
@@ -146,7 +146,7 @@ class PageStyle extends AbstractStyle implements StyleInterface
      *
      * @return array Default configurations of the style
      */
-    protected function defaultConfigurations()
+    protected function getDefaultConfigurations()
     {
         return array(
             'history' => array(

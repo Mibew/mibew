@@ -40,7 +40,7 @@ if (!$thread) {
 }
 
 // Initialize chat style which is currently used in system
-$chat_style = new ChatStyle(ChatStyle::currentStyle());
+$chat_style = new ChatStyle(ChatStyle::getCurrentStyle());
 
 $email = get_param('email');
 $page['email'] = $email;

@@ -173,5 +173,5 @@ $page = array_merge($page, prepare_menu($operator));
 
 $page['tabs'] = setup_operator_settings_tabs($op_id, 0);
 
-$page_style = new PageStyle(PageStyle::currentStyle());
+$page_style = new PageStyle(PageStyle::getCurrentStyle());
 $page_style->render('operator', $page);

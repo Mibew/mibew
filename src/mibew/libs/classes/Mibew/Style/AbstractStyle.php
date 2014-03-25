@@ -60,7 +60,7 @@ abstract class AbstractStyle
      *
      * @return string Name of the style
      */
-    public function name()
+    public function getName()
     {
         return $this->styleName;
     }
@@ -72,9 +72,9 @@ abstract class AbstractStyle
      * @return array Style configurations
      * @throws \RuntimeException
      */
-    public function configurations()
+    public function getConfigurations()
     {
-        $config_file = MIBEW_FS_ROOT . '/' . $this->filesPath() . '/config.ini';
+        $config_file = MIBEW_FS_ROOT . '/' . $this->getFilesPath() . '/config.ini';
 
         // Check if configurations already loaded. Do not do the job twice.
         if (is_null($this->cachedConfigurations)) {
@@ -89,7 +89,7 @@ abstract class AbstractStyle
             // Load configurations from file, merge it with default configs and
             // cache the result.
             $loaded_config = parse_ini_file($config_file, true);
-            $default_config = $this->defaultConfigurations();
+            $default_config = $this->getDefaultConfigurations();
             $this->cachedConfigurations = $loaded_config + $default_config;
         }
 
@@ -97,12 +97,12 @@ abstract class AbstractStyle
     }
 
     /**
-     * Builds base path for style files. This path is relative Mibew root and
+     * Builds base path for style files. This path is relative to Mibew root and
      * does not contain neither leading nor trailing slash.
      *
      * @return string Base path for style files
      */
-    abstract public function filesPath();
+    abstract public function getFilesPath();
 
     /**
      * Gets names of styles which are located in the $root_dir.
@@ -138,5 +138,5 @@ abstract class AbstractStyle
      *
      * @return array Default configurations of the style
      */
-    abstract protected function defaultConfigurations();
+    abstract protected function getDefaultConfigurations();
 }

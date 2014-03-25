@@ -30,7 +30,7 @@ require_once(MIBEW_FS_ROOT . '/libs/track.php');
 
 $operator = check_login();
 
-$style_list = ChatStyle::availableStyles();
+$style_list = ChatStyle::getAvailableStyles();
 
 $preview = verify_param("preview", "/^\w+$/", "default");
 if (!in_array($preview, $style_list)) {
@@ -40,13 +40,13 @@ if (!in_array($preview, $style_list)) {
 
 $chat_style = new ChatStyle($preview);
 
-$style_config = $chat_style->configurations();
+$style_config = $chat_style->getConfigurations();
 
 $screenshots = array();
 foreach ($style_config['screenshots'] as $name => $desc) {
     $screenshots[] = array(
         'name' => $name,
-        'file' => (MIBEW_WEB_ROOT . '/' . $chat_style->filesPath()
+        'file' => (MIBEW_WEB_ROOT . '/' . $chat_style->getFilesPath()
             . '/screenshots/' . $name . '.png'),
         'description' => $desc
     );
@@ -62,5 +62,5 @@ $page = array_merge($page, prepare_menu($operator));
 
 $page['tabs'] = setup_settings_tabs(4);
 
-$page_style = new PageStyle(PageStyle::currentStyle());
+$page_style = new PageStyle(PageStyle::getCurrentStyle());
 $page_style->render('themes', $page);

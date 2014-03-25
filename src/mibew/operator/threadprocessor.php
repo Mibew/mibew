@@ -60,5 +60,5 @@ $page['title'] = getlocal("thread.chat_log");
 
 $page = array_merge($page, prepare_menu($operator, false));
 
-$page_style = new PageStyle(PageStyle::currentStyle());
+$page_style = new PageStyle(PageStyle::getCurrentStyle());
 $page_style->render('thread_log', $page);

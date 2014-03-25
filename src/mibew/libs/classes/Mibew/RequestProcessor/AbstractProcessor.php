@@ -90,6 +90,8 @@ use Mibew\RequestProcessor\Exception\AbstractProcessorException;
  * }
  * </code>
  *
+ * Implements Singleton pattern for children classes using Late Static Bindings.
+ *
  * @see \Mibew\RequestProcessor\AbstractProcessor::__construct()
  */
 abstract class AbstractProcessor
@@ -123,42 +125,24 @@ abstract class AbstractProcessor
     protected $config = array();
 
     /**
-     * Class constructor
+     * An instance of the AbstractProcessor class
      *
-     * @param type $config Configuration data.
-     *   It must contains following keys:
-     *    - 'signature': Use for verification sender
-     *    - 'trusted_signatures': array of trusted signatures. Uses for identify
-     *      another side of interaction.
-     *   And may contains following (if not default values will be used)
-     *    - 'event_prefix': prefix that uses for all events triggered by the
-     *      class. The default value is the class name with first character in
-     *      lower case
+     * @var \Mibew\RequestProcessor\AbstractProcessor
      */
-    public function __construct($config)
+    protected static $instance = null;
+
+    /**
+     * Return an instance of the AbstractProcessor class.
+     *
+     * @return \Mibew\RequestProcessor\AbstractProcessor
+     */
+    public static function getInstance()
     {
-        // Check signature
-        if (!isset($config['signature'])) {
-            trigger_error("Signature is not specified", E_USER_ERROR);
+        if (is_null(static::$instance)) {
+            static::$instance = new static();
         }
 
-        // Check trusted signatures
-        if (!isset($config['trusted_signatures'])) {
-            trigger_error("Trusted signatures is not specified", E_USER_ERROR);
-        }
-
-        // Get an instance of the MibewAPI class
-        $this->mibewAPI = $this->getMibewAPIInstance();
-
-        // Get class name and prefix for events and etc.
-        $class_name_parts = explode('\\', get_class($this));
-        $class_name = array_pop($class_name_parts);
-        $this->eventPrefix = empty($config['event_prefix'])
-            ? strtolower(substr($class_name, 0, 1)) . substr($class_name, 1)
-            : $config['event_prefix'];
-
-        // Store config
-        $this->config = $config;
+        return static::$instance;
     }
 
     /**
@@ -334,6 +318,45 @@ abstract class AbstractProcessor
         }
 
         return $result;
+    }
+
+    /**
+     * Class constructor
+     *
+     * @param type $config Configuration data.
+     *   It must contains following keys:
+     *    - 'signature': Use for verification sender
+     *    - 'trusted_signatures': array of trusted signatures. Uses for identify
+     *      another side of interaction.
+     *   And may contains following (if not default values will be used)
+     *    - 'event_prefix': prefix that uses for all events triggered by the
+     *      class. The default value is the class name with first character in
+     *      lower case
+     */
+    protected function __construct($config)
+    {
+        // Check signature
+        if (!isset($config['signature'])) {
+            trigger_error("Signature is not specified", E_USER_ERROR);
+        }
+
+        // Check trusted signatures
+        if (!isset($config['trusted_signatures'])) {
+            trigger_error("Trusted signatures is not specified", E_USER_ERROR);
+        }
+
+        // Get an instance of the MibewAPI class
+        $this->mibewAPI = $this->getMibewAPIInstance();
+
+        // Get class name and prefix for events and etc.
+        $class_name_parts = explode('\\', get_class($this));
+        $class_name = array_pop($class_name_parts);
+        $this->eventPrefix = empty($config['event_prefix'])
+            ? strtolower(substr($class_name, 0, 1)) . substr($class_name, 1)
+            : $config['event_prefix'];
+
+        // Store config
+        $this->config = $config;
     }
 
     /**

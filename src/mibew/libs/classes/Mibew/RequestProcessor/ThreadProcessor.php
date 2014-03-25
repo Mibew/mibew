@@ -36,32 +36,9 @@ use Mibew\RequestProcessor\Exception\ThreadProcessorException;
  * WARNING:
  *  threadResponseReceived registered but never called because of asynchronous
  *  nature of Core-to-Window interaction
- *
- * Implements Singleton pattern
  */
 class ThreadProcessor extends ClientSideProcessor
 {
-    /**
-     * An instance of the ThreadProcessor class
-     *
-     * @var \Mibew\RequestProcessor\ThreadProcessor
-     */
-    protected static $instance = null;
-
-    /**
-     * Return an instance of the ThreadProcessor class.
-     *
-     * @return \Mibew\RequestProcessor\ThreadProcessor
-     */
-    public static function getInstance()
-    {
-        if (is_null(self::$instance)) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
-
     /**
      * Loads thread by id and token and checks if thread loaded
      *
@@ -131,11 +108,8 @@ class ThreadProcessor extends ClientSideProcessor
 
     /**
      * Class constructor
-     *
-     * Do not use directly __construct method! Use
-     * \Mibew\RequestProcessor\ThreadProcessor::getInstance() instead!
      */
-    public function __construct()
+    protected function __construct()
     {
         parent::__construct(array(
             'signature' => '',

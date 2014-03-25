@@ -23,17 +23,13 @@ use Mibew\Style\ChatStyle;
 use Mibew\Style\PageStyle;
 
 /**
- * Names for chat-related cookies
- */
-define('USERID_COOKIE_NAME', 'MIBEW_UserID');
-define('USERNAME_COOKIE_NAME', 'MIBEW_Data');
-/**
  * Convert messages to formated text
  *
  * @param array $msg message object which most be formatted
  *
  * @return string formatted message
  */
+
 function message_to_text($msg)
 {
     $message_time = date("H:i:s ", $msg['created']);
@@ -49,6 +45,7 @@ function message_to_text($msg)
         return $message_time . "[" . $msg['message'] . "]\n";
     }
 }
+
 /**
  * Format username
  *
@@ -70,6 +67,7 @@ function get_user_name($user_name, $addr, $id)
         )
     );
 }
+
 /**
  * Check if browser support ajax requests
  *
@@ -105,6 +103,7 @@ function is_ajax_browser($browser_id, $ver, $user_agent)
 
     return false;
 }
+
 /**
  * Check if browser support ajax requests
  *
@@ -152,6 +151,7 @@ function get_known_user_agents()
         "mozilla",
     );
 }
+
 /**
  * Check if browser is opera 9.5 or greater
  *
@@ -172,6 +172,7 @@ function is_agent_opera95()
 
     return false;
 }
+
 /**
  * Check if browser is opera with mac os
  *
@@ -183,6 +184,7 @@ function is_mac_opera()
 
     return strstr($user_agent, "opera") && strstr($user_agent, "mac");
 }
+
 /**
  * Check if frame src needed
  *
@@ -483,14 +485,14 @@ function setup_chatview(Thread $thread)
     $data['neediframesrc'] = needs_frame_src();
 
     // Load dialogs style options
-    $chat_style = new ChatStyle(ChatStyle::currentStyle());
-    $style_config = $chat_style->configurations();
+    $chat_style = new ChatStyle(ChatStyle::getCurrentStyle());
+    $style_config = $chat_style->getConfigurations();
     $data['chat']['windowsParams']['mail']
         = $style_config['mail']['window_params'];
 
     // Load core style options
-    $page_style = new PageStyle(PageStyle::currentStyle());
-    $style_config = $page_style->configurations();
+    $page_style = new PageStyle(PageStyle::getCurrentStyle());
+    $style_config = $page_style->getConfigurations();
     $data['chat']['windowsParams']['history']
         = $style_config['history']['window_params'];
 
@@ -628,6 +630,7 @@ function setup_chatview_for_operator(Thread $thread, $operator)
 
     return $data;
 }
+
 /**
  * Check if the address is banned
  *
@@ -648,6 +651,7 @@ function ban_for_addr($addr)
         array('return_rows' => Database::RETURN_ONE_ROW)
     );
 }
+
 /**
  * @return array Return visitor info from active request. contains
  * (user_id string, user_name string)
@@ -676,6 +680,7 @@ function visitor_from_request()
 
     return array('id' => $user_id, 'name' => $user_name);
 }
+
 /**
  * @return array Return remote host from active request. contains
  * (user_id string, user_name string)

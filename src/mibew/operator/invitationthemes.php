@@ -28,7 +28,7 @@ require_once(MIBEW_FS_ROOT . '/libs/settings.php');
 
 $operator = check_login();
 
-$style_list = InvitationStyle::availableStyles();
+$style_list = InvitationStyle::getAvailableStyles();
 
 $preview = verify_param("preview", "/^\w+$/", "default");
 if (!in_array($preview, $style_list)) {
@@ -48,5 +48,5 @@ $page = array_merge($page, prepare_menu($operator));
 
 $page['tabs'] = setup_settings_tabs(5);
 
-$page_style = new PageStyle(PageStyle::currentStyle());
+$page_style = new PageStyle(PageStyle::getCurrentStyle());
 $page_style->render('invitation_themes', $page);

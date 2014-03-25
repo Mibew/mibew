@@ -85,5 +85,5 @@ foreach ($page['pagination.items'] as $key => $item) {
 $page['title'] = getlocal("page.analysis.userhistory.title");
 $page['menuid'] = "history";
 
-$page_style = new PageStyle(PageStyle::currentStyle());
+$page_style = new PageStyle(PageStyle::getCurrentStyle());
 $page_style->render('user_history', $page);

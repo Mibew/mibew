@@ -54,3 +54,9 @@ define('VISITOR_COOKIE_NAME', 'MIBEW_VisitorID');
  * Internal system encoding
  */
 define('MIBEW_ENCODING', $mibew_encoding);
+
+/**
+ * Names for chat-related cookies
+ */
+define('USERID_COOKIE_NAME', 'MIBEW_UserID');
+define('USERNAME_COOKIE_NAME', 'MIBEW_Data');
