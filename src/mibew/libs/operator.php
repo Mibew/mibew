@@ -208,7 +208,11 @@ function get_operators_list($options = array())
     return $operators;
 }
 /*
- * @deprecated
+ * Get list of all operators
+ *
+ * @return array|null Operators list. Each its element contains (operatorid
+ * integer, vclogin string, vclocalename string, vccommonname string, istatus
+ * boolean, code string, idisabled integer, time integer)
  */
 function operator_get_all()
 {
@@ -222,9 +226,6 @@ function operator_get_all()
         array('return_rows' => Database::RETURN_ALL_ROWS)
     );
 }
-/*
- * @deprecated
- */
 function get_operators_from_adjacent_groups($operator)
 {
     $db = Database::getInstance();
