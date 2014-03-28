@@ -859,7 +859,7 @@ function sanitize_reg_escape($string)
 
 function safe_htmlspecialchars($string)
 {
-	$string = preg_replace('/[\x00-\x08\x10-\x1f\v]/', '', $string);
+	$string = preg_replace('/[\x00-\x08\x10-\x1f\x0b]/', '', $string);
 	return htmlspecialchars($string, ENT_QUOTES);
 }
 
