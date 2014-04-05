@@ -1,3 +1,7 @@
+  1.6.11
+  -----
+  [!] fix support of unicode
+
   1.6.10
   -----
   [!] multiple bugfixes
