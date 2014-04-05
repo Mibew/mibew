@@ -2,7 +2,7 @@
 
 <project basedir="." default="update" name="Obfuscator">
   <property name="closure.c" value="/usr/local/closure/compiler.jar" />
-  <property name="mibew.location" value="../1610" />
+  <property name="mibew.location" value="../1611" />
 
   <target name="update">
 	<java jar="${closure.c}" fork="true">
