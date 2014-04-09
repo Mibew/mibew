@@ -431,6 +431,7 @@ var Mibew = {};
     Mibew.Invitation.show = function() {
         var invitationPopup = document.getElementById('mibewinvitationpopup');
         if (invitationPopup) {
+            Mibew.Invitation.trigger('show');
             invitationPopup.style.display = 'block';
         }
     }
@@ -441,6 +442,7 @@ var Mibew = {};
     Mibew.Invitation.hide = function() {
         var invitationPopup = document.getElementById('mibewinvitationpopup');
         if (invitationPopup) {
+            Mibew.Invitation.trigger('hide');
             invitationPopup.parentNode.removeChild(invitationPopup);
         }
     }
@@ -450,6 +452,7 @@ var Mibew = {};
      */
     Mibew.Invitation.accept = function() {
         if (document.getElementById('mibewAgentButton')) {
+            Mibew.Invitation.trigger('accept');
             document.getElementById('mibewAgentButton').onclick();
             Mibew.Invitation.hide();
         }
@@ -459,10 +462,64 @@ var Mibew = {};
      * Visitor rejects invitation
      */
     Mibew.Invitation.reject = function() {
+        Mibew.Invitation.trigger('reject');
         Mibew.Objects.widget.sendToServer({'invitation_rejected': 1});
         Mibew.Invitation.hide();
     }
 
+    /**
+     * Contains callbacks for invitation events.
+     *
+     * @private
+     * @type Object
+     */
+    var invitaionEventsCallbacks = {};
+
+    /**
+     * Attaches event handler to invitation events.
+     *
+     * @param {String} event Event name. Can be one of "show", "hide", "accept",
+     * "reject".
+     * @param {Function} callback A function that should be called when event is
+     * triggered.
+     */
+    Mibew.Invitation.on = function(event, callback) {
+        if ((typeof event !== 'string') || (typeof callback !== 'function')) {
+            // Event name must be a string and callback must be a function
+            return;
+        }
+
+        if (!invitaionEventsCallbacks.hasOwnProperty(event)) {
+            invitaionEventsCallbacks[event] = [];
+        }
+
+        invitaionEventsCallbacks[event].push(callback);
+    }
+
+    /**
+     * Triggers invitation event.
+     *
+     * @param {String} event Event name to trigger.
+     * @param {*} data Any data that should be passed to event handler
+     */
+    Mibew.Invitation.trigger = function(event, data) {
+        // Set default value for data argument if it is not passed in.
+        if (typeof data === 'undefined') {
+            data = {};
+        }
+
+        if (!invitaionEventsCallbacks.hasOwnProperty(event)) {
+            // There is no callback for the event. So there is no reasons to
+            // continue.
+            return;
+        }
+
+        // Run callbacks one by one
+        var callbacks = invitaionEventsCallbacks[event];
+        for(var i = 0, length = callbacks.length; i < length; i++) {
+            callbacks[i](data);
+        }
+    }
 
     /**
      * @namespace Holds functions that can be called by the Core
