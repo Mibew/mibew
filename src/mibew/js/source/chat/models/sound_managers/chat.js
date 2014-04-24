@@ -61,7 +61,7 @@
                 if (! this.get('skipNextMessageSound')) {
                     // Build sound path
                     var path = Mibew.Objects.Models.page.get('mibewRoot');
-                    if (path) {
+                    if (typeof path !== 'undefined') {
                         path += '/sounds/new_message.wav';
                         // Play sound
                         this.play(path);
