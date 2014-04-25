@@ -327,9 +327,12 @@ class UsersProcessor extends ClientSideProcessor
         $dispatcher = EventDispatcher::getInstance();
         $dispatcher->triggerEvent('usersUpdateThreadsAlter', $arguments);
 
-        // Send results back to the client
+        // Send results back to the client. "array_values" function should be
+        // used to avoid problems with JSON conversion. If there will be gaps in
+        // keys (the keys are not serial) JSON Object will be produced instead
+        // of an Array.
         return array(
-            'threads' => $arguments['threads'],
+            'threads' => array_values($arguments['threads']),
             'lastRevision' => $revision,
         );
     }
@@ -470,8 +473,12 @@ class UsersProcessor extends ClientSideProcessor
         );
         $dispatcher->triggerEvent('usersUpdateVisitorsAlter', $arguments);
 
+        // Send results back to the client. "array_values" function should be
+        // used to avoid problems with JSON conversion. If there will be gaps in
+        // keys (the keys are not serial) JSON Object will be produced instead
+        // of an Array.
         return array(
-            'visitors' => $arguments['visitors'],
+            'visitors' => array_values($arguments['visitors']),
         );
     }
 
