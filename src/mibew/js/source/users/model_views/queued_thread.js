@@ -149,8 +149,11 @@
             openDialog: function() {
                 // Create some shortcuts
                 var thread = this.model;
-                var viewOnly = (thread.get('state') == thread.STATE_CHATTING)
-                    && thread.get('canView');
+                if (!thread.get('canOpen') && !thread.get('canView')) {
+                    // We can neither open dialog nor view it. Do nothing.
+                    return;
+                }
+                var viewOnly = !thread.get('canOpen');
 
                 // Show dialog window
                 this.showDialogWindow(viewOnly);
