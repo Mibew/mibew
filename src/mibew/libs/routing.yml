@@ -1,0 +1,3 @@
+license:
+    path: /license
+    defaults: { _controller: Mibew\Controller\LicenseController::indexAction }
