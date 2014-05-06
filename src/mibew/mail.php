@@ -22,10 +22,6 @@ use Mibew\Style\ChatStyle;
 
 // Initialize libraries
 require_once(dirname(__FILE__) . '/libs/init.php');
-require_once(MIBEW_FS_ROOT . '/libs/chat.php');
-require_once(MIBEW_FS_ROOT . '/libs/groups.php');
-require_once(MIBEW_FS_ROOT . '/libs/notify.php');
-require_once(MIBEW_FS_ROOT . '/libs/track.php');
 
 $page = array(
     'errors' => array(),

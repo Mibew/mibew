@@ -21,10 +21,6 @@ use Mibew\Thread;
 
 // Initialize libraries
 require_once(dirname(__FILE__) . '/libs/init.php');
-require_once(MIBEW_FS_ROOT . '/libs/chat.php');
-require_once(MIBEW_FS_ROOT . '/libs/operator.php');
-require_once(MIBEW_FS_ROOT . '/libs/groups.php');
-require_once(MIBEW_FS_ROOT . '/libs/track.php');
 
 $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "";
 if ($referer && isset($_SESSION['threadid'])) {

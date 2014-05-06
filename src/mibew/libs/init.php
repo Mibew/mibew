@@ -96,3 +96,21 @@ if (!empty($plugins_list)) {
     // Variable $plugins_config defined in libs/config.php
     \Mibew\Plugin\Manager::loadPlugins($plugins_list);
 }
+
+// Load all other libraries
+// TODO: Rewrite libs using Object-Oriented approach
+require_once(MIBEW_FS_ROOT . '/libs/canned.php');
+require_once(MIBEW_FS_ROOT . '/libs/captcha.php');
+require_once(MIBEW_FS_ROOT . '/libs/chat.php');
+require_once(MIBEW_FS_ROOT . '/libs/cron.php');
+require_once(MIBEW_FS_ROOT . '/libs/getcode.php');
+require_once(MIBEW_FS_ROOT . '/libs/groups.php');
+require_once(MIBEW_FS_ROOT . '/libs/invitation.php');
+require_once(MIBEW_FS_ROOT . '/libs/notify.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator.php');
+require_once(MIBEW_FS_ROOT . '/libs/operator_settings.php');
+require_once(MIBEW_FS_ROOT . '/libs/pagination.php');
+require_once(MIBEW_FS_ROOT . '/libs/statistics.php');
+require_once(MIBEW_FS_ROOT . '/libs/settings.php');
+require_once(MIBEW_FS_ROOT . '/libs/track.php');
+require_once(MIBEW_FS_ROOT . '/libs/userinfo.php');

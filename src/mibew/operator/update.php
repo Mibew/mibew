@@ -16,12 +16,6 @@
  */
 
 require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
-require_once(MIBEW_FS_ROOT . '/libs/chat.php');
-require_once(MIBEW_FS_ROOT . '/libs/userinfo.php');
-require_once(MIBEW_FS_ROOT . '/libs/operator.php');
-require_once(MIBEW_FS_ROOT . '/libs/groups.php');
-require_once(MIBEW_FS_ROOT . '/libs/invitation.php');
-require_once(MIBEW_FS_ROOT . '/libs/track.php');
 
 $processor = \Mibew\RequestProcessor\UsersProcessor::getInstance();
 $processor->receiveRequest($_POST['data']);

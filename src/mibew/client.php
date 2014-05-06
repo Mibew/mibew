@@ -22,12 +22,6 @@ use Mibew\Style\ChatStyle;
 
 // Initialize libraries
 require_once(dirname(__FILE__) . '/libs/init.php');
-require_once(MIBEW_FS_ROOT . '/libs/chat.php');
-require_once(MIBEW_FS_ROOT . '/libs/operator.php');
-require_once(MIBEW_FS_ROOT . '/libs/groups.php');
-require_once(MIBEW_FS_ROOT . '/libs/captcha.php');
-require_once(MIBEW_FS_ROOT . '/libs/invitation.php');
-require_once(MIBEW_FS_ROOT . '/libs/track.php');
 
 if (Settings::get('enablessl') == "1" && Settings::get('forcessl') == "1") {
     if (!is_secure_request()) {

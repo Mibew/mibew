@@ -16,8 +16,6 @@
  */
 
 require_once(dirname(dirname(__FILE__)) . '/libs/init.php');
-require_once(MIBEW_FS_ROOT . '/libs/invitation.php');
-require_once(MIBEW_FS_ROOT . '/libs/operator.php');
 
 $processor = \Mibew\RequestProcessor\InviteProcessor::getInstance();
 $processor->receiveRequest($_POST['data']);
