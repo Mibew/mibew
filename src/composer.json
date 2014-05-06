@@ -1,6 +1,10 @@
 {
     "require": {
-        "xamin/handlebars.php": "dev-master#81f3efbb84eadba729bb6cb37ee9fca6825b37d1"
+        "xamin/handlebars.php": "dev-master#81f3efbb84eadba729bb6cb37ee9fca6825b37d1",
+        "symfony/http-foundation": "2.4.*",
+        "symfony/routing": "2.4.*",
+        "symfony/config": "2.4.*",
+        "symfony/yaml": "2.4.*"
     },
     "config": {
         "vendor-dir": "mibew/vendor"

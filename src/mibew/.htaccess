@@ -23,3 +23,19 @@ Options +FollowSymLinks
     php_value mbstring.http_output		pass
     php_flag session.auto_start			off
 </IfModule>
+
+# Redirect requests to the front controller
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Alter only requests for files and directories that do not exist
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    # Rewrite all requests to front controller
+    RewriteRule ^(.*)$ app.php [QSA,L]
+</IfModule>
+
+# Deny access to .yml files
+<FilesMatch "\.yml$">
+    Deny from all
+</FilesMatch>
