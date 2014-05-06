@@ -1,4 +1,22 @@
 {
+    "name": "mibew/mibew",
+    "version": "2.0-dev",
+    "description": "Mibew Messenger - open-source live support application",
+    "type": "project",
+    "homepage": "http://mibew.org",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Mibew Messenger Project",
+            "homepage": "http://mibew.org/credits"
+        }
+    ],
+    "support": {
+        "email": "support@mibew.org",
+        "issues": "https://github.com/mibew/mibew/issues",
+        "forum": "http://mibew.org/forums",
+        "source": "https://github.com/mibew/mibew"
+    },
     "require": {
         "xamin/handlebars.php": "dev-master#81f3efbb84eadba729bb6cb37ee9fca6825b37d1",
         "symfony/http-foundation": "2.4.*",
