@@ -17,6 +17,7 @@
 
 namespace Mibew\Controller;
 
+use Mibew\EventDispatcher;
 use Mibew\Settings;
 use Mibew\Thread;
 use Symfony\Component\HttpFoundation\Request;
@@ -78,6 +79,11 @@ class WidgetController extends AbstractController
                 $response_data['dependences']['updateUserId'] = array();
                 $response_data['data']['user']['id'] = $visitor['userid'];
             }
+
+            // Provide an ability for others to make something on visitor
+            // tracking
+            $event_arguments = array('visitor' => $visitor);
+            EventDispatcher::getInstance()->triggerEvent('visitorTrack', $event_arguments);
 
             // Get invitation state
             $invitation_state = invitation_state($visitor_id);
