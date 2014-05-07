@@ -87,7 +87,7 @@ class Application
             return new Response('Not Found', 404);
         } catch (MethodNotAllowedException $e) {
             return new Response('Method Not Allowed', 405);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return new Response('Internal Server Error', 500);
         }
 
