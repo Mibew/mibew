@@ -109,7 +109,7 @@ function generate_button(
         $widget_data['requestTimeout'] = Settings::get('updatefrequency_tracking') * 1000;
 
         // URL for requests
-        $widget_data['requestURL'] = $app_location . '/widget.php';
+        $widget_data['requestURL'] = $app_location . '/widget';
 
         // Locale for invitation
         $widget_data['locale'] = $locale;
