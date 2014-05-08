@@ -40,6 +40,11 @@ function get_image($href, $width, $height)
     return "<img src=\"$href\" border=\"0\" alt=\"\"/>";
 }
 
+/**
+ * Sends headers that are needed for XML responses.
+ *
+ * @deprecated
+ */
 function start_xml_output()
 {
     header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
