@@ -28,4 +28,5 @@ $request = Request::createFromGlobals();
 $response = $application->handleRequest($request);
 
 // Send response to the user
+$response->prepare($request);
 $response->send();
