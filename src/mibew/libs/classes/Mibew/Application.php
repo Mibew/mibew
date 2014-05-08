@@ -81,7 +81,7 @@ class Application
 
             // Execute the controller's action and get response.
             $response = call_user_func($controller, $request);
-        } catch(AccessDeniedException $e) {
+        } catch (AccessDeniedException $e) {
             return new Response('Forbidden', 403);
         } catch (ResourceNotFoundException $e) {
             return new Response('Not Found', 404);

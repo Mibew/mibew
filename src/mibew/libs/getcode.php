@@ -19,6 +19,7 @@
 use Mibew\Settings;
 use Mibew\Style\ChatStyle;
 use Mibew\Style\InvitationStyle;
+
 /**
  * Return chat button code.
  *

@@ -91,7 +91,7 @@ class ButtonController extends AbstractController
             $response = new Response($content, 200);
 
             // Set correct content info
-            $response->headers->set('Content-Type' ,'image/gif');
+            $response->headers->set('Content-Type', 'image/gif');
             $response->headers->set('Content-Length', $file_size);
         } else {
             $response = new Response('Not found', 404);

@@ -132,7 +132,8 @@ class Router implements RouterInterface, RequestMatcherInterface
      *
      * @return UrlMatcher
      */
-    public function getMatcher() {
+    public function getMatcher()
+    {
         if (is_null($this->matcher)) {
             $this->matcher = new UrlMatcher($this->getRouteCollection(), $this->getContext());
         }
@@ -145,7 +146,8 @@ class Router implements RouterInterface, RequestMatcherInterface
      *
      * @return UrlGenerator
      */
-    public function getGenerator() {
+    public function getGenerator()
+    {
         if (is_null($this->generator)) {
             $this->generator = new UrlGenerator($this->getRouteCollection(), $this->getContext());
         }

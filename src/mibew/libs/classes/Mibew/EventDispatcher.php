@@ -114,7 +114,8 @@ class EventDispatcher
      * @param string $listener Plugins method, that handles the event
      * @return boolean true on success or false on failure.
      */
-    public function detachListener($event_name, PluginInterface $plugin, $listener) {
+    public function detachListener($event_name, PluginInterface $plugin, $listener)
+    {
         // Check event exists
         if (!array_key_exists($event_name, $this->events)) {
             return false;

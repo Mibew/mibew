@@ -77,7 +77,7 @@ class ControllerResolver
      */
     protected function createController($controller)
     {
-        if (strpos($controller, '::') === FALSE) {
+        if (strpos($controller, '::') === false) {
             throw new \InvalidArgumentException(sprintf(
                 'Unable to find controller "%s".',
                 $controller

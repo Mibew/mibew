@@ -74,7 +74,7 @@ if ($op) {
 }
 
 $page['permissionsList'] = array();
-foreach(get_permission_list() as $perm) {
+foreach (get_permission_list() as $perm) {
     $perm['checked'] = in_array($perm['id'], $checked_permissions);
     $page['permissionsList'][] = $perm;
 }
