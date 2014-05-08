@@ -1,3 +1,7 @@
+button:
+    path: /b
+    defaults: { _controller: Mibew\Controller\ButtonController::indexAction }
+
 license:
     path: /license
     defaults: { _controller: Mibew\Controller\LicenseController::indexAction }

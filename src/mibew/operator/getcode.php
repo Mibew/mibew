@@ -70,7 +70,7 @@ if (!$lang || !in_array($lang, $image_locales)) {
 $file = MIBEW_FS_ROOT . '/locales/${lang}/button/${image}_on.gif';
 $size = get_gifimage_size($file);
 
-$image_href = get_app_location($show_host, $force_secure) . "/b.php?i=$image&amp;lang=$lang";
+$image_href = get_app_location($show_host, $force_secure) . "/b?i=$image&amp;lang=$lang";
 if ($group_id) {
     $image_href .= "&amp;group=$group_id";
 }

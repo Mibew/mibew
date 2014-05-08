@@ -1,0 +1,109 @@
+<?php
+/*
+ * Copyright 2005-2014 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+namespace Mibew\Controller;
+
+use Mibew\Settings;
+use Mibew\Thread;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+/**
+ * Represents button-related actions
+ */
+class ButtonController extends AbstractController
+{
+    /**
+     * Generate content for "/b" route.
+     *
+     * @param Request $request
+     * @return string Rendered page content
+     */
+    public function indexAction(Request $request)
+    {
+        $referer = $request->server->get('HTTP_REFERER', '');
+
+        if ($referer && isset($_SESSION['threadid'])) {
+            $thread = Thread::load($_SESSION['threadid']);
+            if ($thread && $thread->state != Thread::STATE_CLOSED) {
+                $msg = getstring2_(
+                    "chat.client.visited.page",
+                    array($referer),
+                    $thread->locale,
+                    true
+                );
+                $thread->postMessage(Thread::KIND_FOR_AGENT, $msg);
+            }
+        }
+
+        $image = $request->query->get('i', '');
+        if (!preg_match("/^\w+$/", $image)) {
+            $image = 'mibew';
+        }
+
+        $lang = $request->query->get('lang', '');
+        if (!preg_match("/^[\w-]{2,5}$/", $lang)) {
+            $lang = '';
+        }
+        if (!$lang || !locale_exists($lang)) {
+            $lang = CURRENT_LOCALE;
+        }
+
+        $group_id = $request->query->get('group', '');
+        if (!preg_match("/^\d{1,8}$/", $group_id)) {
+            $group_id = false;
+        }
+        if ($group_id) {
+            if (Settings::get('enablegroups') == '1') {
+                $group = group_by_id($group_id);
+                if (!$group) {
+                    $group_id = false;
+                }
+            } else {
+                $group_id = false;
+            }
+        }
+
+        // Get image file content
+        $image_postfix = has_online_operators($group_id) ? "on" : "off";
+        $file_name = "locales/${lang}/button/${image}_${image_postfix}.gif";
+
+        $fh = fopen($file_name, 'rb');
+        if ($fh) {
+            // Create response with image in body
+            $file_size = filesize($file_name);
+            $content = fread($fh, $file_size);
+            fclose($fh);
+            $response = new Response($content, 200);
+
+            // Set correct content info
+            $response->headers->set('Content-Type' ,'image/gif');
+            $response->headers->set('Content-Length', $file_size);
+        } else {
+            $response = new Response('Not found', 404);
+        }
+
+        // Disable caching
+        $response->headers->addCacheControlDirective('no-cache', true);
+        $response->headers->addCacheControlDirective('no-store', true);
+        $response->headers->addCacheControlDirective('must-revalidate', true);
+        $response->setExpires(new \DateTime('yesterday noon'));
+        $response->headers->set('Pragma', 'no-cache');
+
+        return $response;
+    }
+}
