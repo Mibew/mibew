@@ -23,17 +23,17 @@
 #
 
 source_file=$1
-cut_from=$(sed -r "s/\/+$//" <<< "$3")
+cut_from=$(sed "s/\/\{1,\}$//" <<< "$3")
 
 if [ $cut_from ]
 then
-    cut_from=$(sed -r "s/\//\\\\\//g" <<< "$cut_from")
-    target_file_name=$(sed -r "s/^(.*)$cut_from\/(.*)$/\2/" <<< "$source_file")
+    cut_from=$(sed "s/\//\\\\\//g" <<< "$cut_from")
+    target_file_name=$(sed "s/^\(.*\)$cut_from\/\(.*\)$/\2/" <<< "$source_file")
 else
     target_file_name=$source_file
 fi
 
-target_file_name=$(sed -r "s/\//_/g" <<< "$target_file_name")
-target_file=$(sed -r "s/\/?$//" <<< "$2")"/"$target_file_name
+target_file_name=$(sed "s/\//_/g" <<< "$target_file_name")
+target_file=$(sed "s/\/\{0,1\}$//" <<< "$2")"/"$target_file_name
 
 cp $source_file $target_file
