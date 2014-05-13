@@ -28,7 +28,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ButtonController extends AbstractController
 {
     /**
-     * Generate content for "/b" route.
+     * Generate content for "button" route.
      *
      * @param Request $request
      * @return string Rendered page content
