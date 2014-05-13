@@ -17,3 +17,15 @@ updates:
     defaults:
         _controller: Mibew\Controller\UpdatesController::indexAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
+
+users:
+    path: /operator/users
+    defaults:
+        _controller: Mibew\Controller\UsersController::indexAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+
+users_update:
+    path: /operator/users/update
+    defaults:
+        _controller: Mibew\Controller\UsersController::updateAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck

@@ -774,7 +774,7 @@ function prepare_menu($operator, $has_right = true)
     $result['operator'] = to_page(get_operator_name($operator));
     $result['goOnlineLink'] = getlocal2(
         "menu.goonline",
-        array(MIBEW_WEB_ROOT . "/operator/users.php?nomenu")
+        array(MIBEW_WEB_ROOT . "/operator/users?nomenu")
     );
     if ($has_right) {
         $result['showban'] = Settings::get('enableban') == "1";

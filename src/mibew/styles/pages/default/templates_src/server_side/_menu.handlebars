@@ -13,7 +13,7 @@
             <h2>{{l10n "right.main"}}</h2>
             <ul class="submenu">
                 <li{{#ifEqual menuid "main"}} class="active"{{/ifEqual}}><a href="{{mibewRoot}}/operator/index.php">{{l10n "topMenu.main"}}</a></li>
-                <li{{#ifEqual menuid "users"}} class="active"{{/ifEqual}}><a href="{{mibewRoot}}/operator/users.php">{{l10n "topMenu.users"}}</a> <span class="small">(<a class="inner" href="{{mibewRoot}}/operator/users.php?nomenu">{{l10n "topMenu.users.nomenu"}}</a>)</span></li>
+                <li{{#ifEqual menuid "users"}} class="active"{{/ifEqual}}><a href="{{mibewRoot}}/operator/users">{{l10n "topMenu.users"}}</a> <span class="small">(<a class="inner" href="{{mibewRoot}}/operator/users?nomenu">{{l10n "topMenu.users.nomenu"}}</a>)</span></li>
                 <li{{#ifEqual menuid "history"}} class="active"{{/ifEqual}}><a href="{{mibewRoot}}/operator/history.php">{{l10n "page_analysis.search.title"}}</a></li>
                 {{#if showstat}}
                     <li{{#ifEqual menuid "statistics"}} class="active"{{/ifEqual}}><a href="{{mibewRoot}}/operator/statistics.php">{{l10n "statistics.title"}}</a></li>
