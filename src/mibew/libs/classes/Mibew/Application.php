@@ -17,12 +17,15 @@
 
 namespace Mibew;
 
+use Mibew\EventDispatcher;
 use Mibew\Routing\Router;
 use Mibew\Routing\RouteCollectionLoader;
 use Mibew\Routing\Exception\AccessDeniedException;
 use Mibew\Controller\ControllerResolver;
+use Mibew\AccessControl\Check\CheckResolver;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
@@ -56,6 +59,7 @@ class Application
         $this->fileLocator = new FileLocator(array(MIBEW_FS_ROOT));
         $this->router = new Router(new RouteCollectionLoader($this->fileLocator));
         $this->controllerResolver = new ControllerResolver($this->router);
+        $this->accessCheckResolver = new CheckResolver();
     }
 
     /**
@@ -72,17 +76,22 @@ class Application
         $this->router->setContext($context);
 
         try {
-            // Try to match route
+            // Try to match a route and add extra data to the request.
             $parameters = $this->router->matchRequest($request);
             $request->attributes->add($parameters);
+            $request->attributes->set('_operator', $this->extractOperator($request));
 
-            // Get controller
+            // Check if the user can access the page
+            $access_check = $this->accessCheckResolver->getCheck($request);
+            if (!call_user_func($access_check, $request)) {
+                throw new AccessDeniedException();
+            }
+
+            // Get controller and perform its action to get a response.
             $controller = $this->controllerResolver->getController($request);
-
-            // Execute the controller's action and get response.
             $response = call_user_func($controller, $request);
         } catch (AccessDeniedException $e) {
-            return new Response('Forbidden', 403);
+            return $this->buildAccessDeniedResponse($request);
         } catch (ResourceNotFoundException $e) {
             return new Response('Not Found', 404);
         } catch (MethodNotAllowedException $e) {
@@ -98,5 +107,84 @@ class Application
             // instance.
             return new Response((string)$response);
         }
+    }
+
+    /**
+     * Extracts operator's data from the passed in request object.
+     *
+     * @param Request $request A request to extract operator from.
+     * @return array|bool Associative array with operator's data or boolean
+     *   false if there is no operator related with the request.
+     *
+     * @todo Remove this method when Object Oriented wrapper for an operator
+     *   will be created.
+     */
+    protected function extractOperator(Request $request)
+    {
+        // Try to get operator from session.
+        if (isset($_SESSION[SESSION_PREFIX . "operator"])) {
+            return $_SESSION[SESSION_PREFIX . "operator"];
+        }
+
+        // Check if operator had used "remember me" feature.
+        if ($request->cookies->has(REMEMBER_OPERATOR_COOKIE_NAME)) {
+            $cookie_value = $request->cookies->get(REMEMBER_OPERATOR_COOKIE_NAME);
+            list($login, $pwd) = preg_split('/\x0/', base64_decode($cookie_value), 2);
+            $op = operator_by_login($login);
+            $can_login = $op
+                && isset($pwd)
+                && isset($op['vcpassword'])
+                && calculate_password_hash($op['vclogin'], $op['vcpassword']) == $pwd
+                && !operator_is_disabled($op);
+            if ($can_login) {
+                $_SESSION[SESSION_PREFIX . "operator"] = $op;
+
+                return $op;
+            }
+        }
+
+        // Operator's data cannot be extracted from the request.
+        return false;
+    }
+
+    /**
+     * Builds response for pages with denied access
+     *
+     * Triggers "accessDenied' event to provide an ability for plugins to set custom response.
+     * an associative array with folloing keys is passed to event listeners:
+     *  - 'request': {@link Symfony\Component\HttpFoundation\Request} object.
+     *
+     * An event listener can attach custom response to the arguments array
+     * (using "response" key) to send it to the client.
+     *
+     * @param Request $request Incoming request
+     * @return Response
+     */
+    protected function buildAccessDeniedResponse(Request $request)
+    {
+        // Trigger fail
+        $args = array(
+            'request' => $request,
+            'response' => false,
+        );
+        $dispatcher = EventDispatcher::getInstance();
+        $dispatcher->triggerEvent('accessDenied', $args);
+
+        if ($args['response'] && ($args['response'] instanceof Response)) {
+            // If one of event listeners returned the response object send it
+            // to the client.
+            return $args['response'];
+        }
+
+        if ($request->attributes->get('_operator')) {
+            // If the operator already logged in, display 403 page.
+            return new Response('Forbidden', 403);
+        }
+
+        // Operator is not logged in. Redirect him to the login page.
+        $_SESSION['backpath'] = $request->getUri();
+        $response = new RedirectResponse($request->getUriForPath('/operator/login.php'));
+
+        return $response;
     }
 }
