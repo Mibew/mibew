@@ -580,7 +580,12 @@ function check_login($redirect = true)
     return $_SESSION[SESSION_PREFIX . "operator"];
 }
 
-// Force the admin to set a password after the installation
+/**
+ * Force the admin to set a password after the installation
+ *
+ * @param array $operator Operator's array
+ * @deprecated
+ */
 function force_password($operator)
 {
     if (check_password_hash($operator['vclogin'], $operator['vcpassword'], '')) {
