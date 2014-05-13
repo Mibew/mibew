@@ -1,3 +1,4 @@
+# Pages that are available for all users
 button:
     path: /b
     defaults: { _controller: Mibew\Controller\ButtonController::indexAction }
@@ -9,3 +10,10 @@ license:
 widget_gateway:
     path: /widget
     defaults: { _controller: Mibew\Controller\WidgetController::indexAction }
+
+# Operators' pages
+updates:
+    path: /operator/updates
+    defaults:
+        _controller: Mibew\Controller\UpdatesController::indexAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
