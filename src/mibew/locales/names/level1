@@ -66,8 +66,6 @@ mailthread.perform
 mailthread.title
 notify.new.subject
 notify.new.text
-output_charset
-output_encoding
 page.chat.old_browser.close
 page.chat.old_browser.list
 page.chat.old_browser.problem

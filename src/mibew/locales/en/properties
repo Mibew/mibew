@@ -1,6 +1,3 @@
-encoding=utf-8
-output_charset=utf-8
-output_encoding=utf-8
 admin.content.client_agents=Create or delete company operators. Manage their permissions.
 admin.content.client_gen_button=Button HTML code generation.
 admin.content.client_settings=Specify options affecting chat window and common system behavior.

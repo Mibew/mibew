@@ -56,11 +56,10 @@ function start_xml_output()
 
 function start_html_output()
 {
-    $charset = getstring("output_charset");
     header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
     header("Cache-Control: no-store, no-cache, must-revalidate");
     header("Pragma: no-cache");
-    header("Content-type: text/html" . (isset($charset) ? "; charset=" . $charset : ""));
+    header("Content-type: text/html; charset=utf-8");
 }
 
 /**

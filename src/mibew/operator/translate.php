@@ -104,22 +104,20 @@ if ($show == 's1') {
 }
 
 foreach ($all_keys as $key) {
-    if ($key != 'output_charset') {
-        $t_source = htmlspecialchars($lang1[$key]);
-        if (isset($lang2[$key])) {
-            $value = htmlspecialchars($lang2[$key]);
-        } else {
-            $value = "<font color=\"#c13030\"><b>absent</b></font>";
-        }
-        $result[] = array(
-            'id' => $key,
-            'l1' => $t_source,
-            'l2' => $value,
-            'idToPage' => $key,
-            'l1ToPage' => $t_source,
-            'l2ToPage' => $value,
-        );
+    $t_source = htmlspecialchars($lang1[$key]);
+    if (isset($lang2[$key])) {
+        $value = htmlspecialchars($lang2[$key]);
+    } else {
+        $value = "<font color=\"#c13030\"><b>absent</b></font>";
     }
+    $result[] = array(
+        'id' => $key,
+        'l1' => $t_source,
+        'l2' => $value,
+        'idToPage' => $key,
+        'l1ToPage' => $t_source,
+        'l2ToPage' => $value,
+    );
 }
 
 $order = verify_param("sort", "/^(id|l1)$/", "id");
