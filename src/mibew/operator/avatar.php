@@ -83,7 +83,7 @@ if (!$op) {
         header("Location: " . MIBEW_WEB_ROOT . "/operator/avatar.php?op=" . intval($op_id));
         exit;
     } else {
-        $page['avatar'] = to_page($op['vcavatar']);
+        $page['avatar'] = $op['vcavatar'];
     }
 } else {
     if (isset($_GET['delete']) && $_GET['delete'] == "true" && $can_modify) {
@@ -91,10 +91,10 @@ if (!$op) {
         header("Location: " . MIBEW_WEB_ROOT . "/operator/avatar.php?op=" . intval($op_id));
         exit;
     }
-    $page['avatar'] = to_page($op['vcavatar']);
+    $page['avatar'] = $op['vcavatar'];
 }
 
-$page['currentop'] = $op ? to_page(get_operator_name($op)) . " (" . $op['vclogin'] . ")" : getlocal("not_found");
+$page['currentop'] = $op ? get_operator_name($op) . " (" . $op['vclogin'] . ")" : getlocal("not_found");
 $page['canmodify'] = $can_modify ? "1" : "";
 $page['title'] = getlocal("page_avatar.title");
 $page['menuid'] = ($operator['operatorid'] == $op_id) ? "profile" : "operators";

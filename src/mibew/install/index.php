@@ -52,7 +52,6 @@ define('MIBEW_WEB_ROOT', $base_url);
 // Include common functions
 require_once(MIBEW_FS_ROOT.'/libs/common/constants.php');
 require_once(MIBEW_FS_ROOT.'/libs/common/verification.php');
-require_once(MIBEW_FS_ROOT.'/libs/common/converter.php');
 require_once(MIBEW_FS_ROOT.'/libs/common/locale.php');
 require_once(MIBEW_FS_ROOT.'/libs/common/misc.php');
 require_once(MIBEW_FS_ROOT.'/libs/common/response.php');
@@ -199,11 +198,11 @@ function check_connection()
 
 function check_database($link)
 {
-	global $mysqldb, $force_charset_in_connection, $dbencoding, $page;
+	global $mysqldb, $force_charset_in_connection, $page;
 	if (mysql_select_db($mysqldb, $link)) {
 		$page['done'][] = getlocal2("install.2.db_exists", array($mysqldb));
 		if ($force_charset_in_connection) {
-			mysql_query("SET character set $dbencoding", $link);
+			mysql_query("SET character set utf8", $link);
 		}
 		return true;
 	} else {

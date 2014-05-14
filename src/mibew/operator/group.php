@@ -109,18 +109,18 @@ if (isset($_POST['name'])) {
             exit;
         }
     } else {
-        $page['formname'] = to_page($name);
-        $page['formdescription'] = to_page($description);
-        $page['formcommonname'] = to_page($common_name);
-        $page['formcommondescription'] = to_page($common_description);
-        $page['formemail'] = to_page($email);
-        $page['formweight'] = to_page($weight);
-        $page['formparentgroup'] = to_page($parent_group);
-        $page['grid'] = to_page($group_id);
-        $page['formtitle'] = to_page($title);
-        $page['formchattitle'] = to_page($chat_title);
-        $page['formhosturl'] = to_page($host_url);
-        $page['formlogo'] = to_page($logo);
+        $page['formname'] = $name;
+        $page['formdescription'] = $description;
+        $page['formcommonname'] = $common_name;
+        $page['formcommondescription'] = $common_description;
+        $page['formemail'] = $email;
+        $page['formweight'] = $weight;
+        $page['formparentgroup'] = $parent_group;
+        $page['grid'] = $group_id;
+        $page['formtitle'] = $title;
+        $page['formchattitle'] = $chat_title;
+        $page['formhosturl'] = $host_url;
+        $page['formlogo'] = $logo;
     }
 } elseif (isset($_GET['gid'])) {
     $group_id = verify_param('gid', "/^\d{1,9}$/");
@@ -128,20 +128,20 @@ if (isset($_POST['name'])) {
 
     if (!$group) {
         $page['errors'][] = getlocal("page.group.no_such");
-        $page['grid'] = to_page($group_id);
+        $page['grid'] = $group_id;
     } else {
-        $page['formname'] = to_page($group['vclocalname']);
-        $page['formdescription'] = to_page($group['vclocaldescription']);
-        $page['formcommonname'] = to_page($group['vccommonname']);
-        $page['formcommondescription'] = to_page($group['vccommondescription']);
-        $page['formemail'] = to_page($group['vcemail']);
-        $page['formweight'] = to_page($group['iweight']);
-        $page['formparentgroup'] = to_page($group['parent']);
-        $page['grid'] = to_page($group['groupid']);
-        $page['formtitle'] = to_page($group['vctitle']);
-        $page['formchattitle'] = to_page($group['vcchattitle']);
-        $page['formhosturl'] = to_page($group['vchosturl']);
-        $page['formlogo'] = to_page($group['vclogo']);
+        $page['formname'] = $group['vclocalname'];
+        $page['formdescription'] = $group['vclocaldescription'];
+        $page['formcommonname'] = $group['vccommonname'];
+        $page['formcommondescription'] = $group['vccommondescription'];
+        $page['formemail'] = $group['vcemail'];
+        $page['formweight'] = $group['iweight'];
+        $page['formparentgroup'] = $group['parent'];
+        $page['grid'] = $group['groupid'];
+        $page['formtitle'] = $group['vctitle'];
+        $page['formchattitle'] = $group['vcchattitle'];
+        $page['formhosturl'] = $group['vchosturl'];
+        $page['formlogo'] = $group['vclogo'];
     }
 }
 

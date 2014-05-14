@@ -701,8 +701,8 @@ function setup_redirect_links($threadid, $operator, $token)
                 : getlocal("char.redirect.operator.away_suff"))
             : "";
         $agent_list .= "<li><a href=\"" . add_params(MIBEW_WEB_ROOT . "/operator/redirect.php", $params)
-            . "\" title=\"" . to_page(get_operator_name($agent)) . "\">"
-            . to_page(get_operator_name($agent))
+            . "\" title=\"" . get_operator_name($agent) . "\">"
+            . get_operator_name($agent)
             . "</a> $status</li>";
     }
     $result['redirectToAgent'] = $agent_list;
@@ -716,8 +716,8 @@ function setup_redirect_links($threadid, $operator, $token)
                 ? getlocal("char.redirect.operator.online_suff")
                 : (group_is_away($group) ? getlocal("char.redirect.operator.away_suff") : "");
             $group_list .= "<li><a href=\"" . add_params(MIBEW_WEB_ROOT . "/operator/redirect.php", $params)
-                . "\" title=\"" . to_page(get_group_name($group)) . "\">"
-                . to_page(get_group_name($group))
+                . "\" title=\"" . get_group_name($group) . "\">"
+                . get_group_name($group)
                 . "</a> $status</li>";
         }
     }
@@ -771,7 +771,7 @@ function prepare_menu($operator, $has_right = true)
     $result = array();
 
     $result['showMenu'] = true;
-    $result['operator'] = to_page(get_operator_name($operator));
+    $result['operator'] = get_operator_name($operator);
     $result['goOnlineLink'] = getlocal2(
         "menu.goonline",
         array(MIBEW_WEB_ROOT . "/operator/users?nomenu")

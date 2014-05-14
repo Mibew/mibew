@@ -384,7 +384,7 @@ class ThreadProcessor extends ClientSideProcessor
         //Rename user
         $thread->renameUser($args['name']);
         // Update user name in cookies
-        $data = strtr(base64_encode(myiconv(MIBEW_ENCODING, "utf-8", $args['name'])), '+/=', '-_,');
+        $data = strtr(base64_encode($args['name']), '+/=', '-_,');
         setcookie(USERNAME_COOKIE_NAME, $data, time() + 60 * 60 * 24 * 365);
     }
 
@@ -464,11 +464,7 @@ class ThreadProcessor extends ClientSideProcessor
         if (Settings::get('usercanchangename') == "1" && !empty($args['name'])) {
             $newname = $args['name'];
             if ($newname != $visitor['name']) {
-                $data = strtr(
-                    base64_encode(myiconv(MIBEW_ENCODING, "utf-8", $newname)),
-                    '+/=',
-                    '-_,'
-                );
+                $data = strtr(base64_encode($newname), '+/=', '-_,');
                 setcookie(USERNAME_COOKIE_NAME, $data, time() + 60 * 60 * 24 * 365);
                 $visitor['name'] = $newname;
             }

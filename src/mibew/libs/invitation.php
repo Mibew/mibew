@@ -302,7 +302,7 @@ function setup_invitation_view(Thread $thread)
     );
 
     $data['invitation']['user'] = array(
-        'name' => htmlspecialchars(to_page($thread->userName)),
+        'name' => htmlspecialchars($thread->userName),
         'canChangeName' => false,
         'isAgent' => false,
     );

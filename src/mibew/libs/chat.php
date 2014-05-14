@@ -221,10 +221,10 @@ function setup_logo($group = null)
         : $top_level_group['vchosturl'];
 
     $data['company'] = array(
-        'name' => to_page($group_name),
-        'chatLogoURL' => to_page($logo),
+        'name' => $group_name,
+        'chatLogoURL' => $logo,
     );
-    $data['mibewHost'] = to_page($mibew_host);
+    $data['mibewHost'] = $mibew_host;
 
     return $data;
 }
@@ -285,12 +285,12 @@ function setup_leavemessage($name, $email, $group_id, $info, $referrer)
     }
 
     $data['leaveMessage']['leaveMessageForm'] = array(
-        'name' => to_page($name),
-        'email' => to_page($email),
+        'name' => $name,
+        'email' => $email,
         'groupId' => $group_id,
         'groupName' => $group_name,
-        'info' => to_page($info),
-        'referrer' => to_page($referrer),
+        'info' => $info,
+        'referrer' => $referrer,
         'showCaptcha' => (bool) (Settings::get("enablecaptcha") == "1" && can_show_captcha()),
     );
 
@@ -331,11 +331,11 @@ function setup_survey($name, $email, $group_id, $info, $referrer)
     $data['survey'] = array();
 
     $data['survey']['surveyForm'] = array(
-        'name' => to_page($name),
+        'name' => $name,
         'groupId' => $group_id,
-        'email' => to_page($email),
-        'info' => to_page($info),
-        'referrer' => to_page($referrer),
+        'email' => $email,
+        'info' => $info,
+        'referrer' => $referrer,
         'showEmail' => (bool) (Settings::get("surveyaskmail") == "1"),
         'showMessage' => (bool) (Settings::get("surveyaskmessage") == "1"),
         'canChangeName' => (bool) (Settings::get('usercanchangename') == "1"),
@@ -463,9 +463,9 @@ function setup_chatview(Thread $thread)
         'token' => $thread->lastToken
     );
 
-    $data['page.title'] = to_page(
-        empty($group['vcchattitle']) ? Settings::get('chattitle') : $group['vcchattitle']
-    );
+    $data['page.title'] = empty($group['vcchattitle'])
+        ? Settings::get('chattitle')
+        : $group['vcchattitle'];
     $data['chat']['page'] = array(
         'title' => $data['page.title']
     );
@@ -516,7 +516,7 @@ function setup_chatview_for_user(Thread $thread)
 
     // Set user info
     $data['chat']['user'] = array(
-        'name' => htmlspecialchars(to_page($thread->userName)),
+        'name' => htmlspecialchars($thread->userName),
         'canChangeName' => (bool) (Settings::get('usercanchangename') == "1"),
         'defaultName' => (bool) (getstring("chat.default.username") != $thread->userName),
         'canPost' => true,
@@ -556,12 +556,10 @@ function setup_chatview_for_operator(Thread $thread, $operator)
     // Set operator info
     $data['chat']['user'] = array(
         'name' => htmlspecialchars(
-            to_page(
-                get_user_name(
-                    $thread->userName,
-                    $thread->remote,
-                    $thread->userId
-                )
+            get_user_name(
+                $thread->userName,
+                $thread->remote,
+                $thread->userId
             )
         ),
         'canPost' => (bool) ($thread->agentId == $operator['operatorid']),
@@ -607,13 +605,9 @@ function setup_chatview_for_operator(Thread $thread, $operator)
         foreach ($canned_messages as $answer) {
             $predefined_answers[] = array(
                 'short' => htmlspecialchars(
-                    to_page($answer['vctitle'] ? $answer['vctitle'] : cut_string($answer['vcvalue'], 97, '...'))
+                    $answer['vctitle'] ? $answer['vctitle'] : cut_string($answer['vcvalue'], 97, '...')
                 ),
-                'full' => myiconv(
-                    MIBEW_ENCODING,
-                    getoutputenc(),
-                    $answer['vcvalue']
-                )
+                'full' => $answer['vcvalue'],
             );
         }
         $data['chat']['messageForm']['predefinedAnswers'] = $predefined_answers;
@@ -661,7 +655,7 @@ function visitor_from_request()
     if (isset($_COOKIE[USERNAME_COOKIE_NAME])) {
         $data = base64_decode(strtr($_COOKIE[USERNAME_COOKIE_NAME], '-_,', '+/='));
         if (strlen($data) > 0) {
-            $user_name = myiconv("utf-8", MIBEW_ENCODING, $data);
+            $user_name = $data;
         }
     }
 

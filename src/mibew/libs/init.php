@@ -53,7 +53,6 @@ require_once(MIBEW_FS_ROOT . '/vendor/autoload.php');
 // Include common libs
 require_once(MIBEW_FS_ROOT . '/libs/common/configurations.php');
 require_once(MIBEW_FS_ROOT . '/libs/common/verification.php');
-require_once(MIBEW_FS_ROOT . '/libs/common/converter.php');
 require_once(MIBEW_FS_ROOT . '/libs/common/locale.php');
 require_once(MIBEW_FS_ROOT . '/libs/common/csrf.php');
 require_once(MIBEW_FS_ROOT . '/libs/common/datetime.php');
@@ -83,7 +82,7 @@ session_start();
     $mysqldb,
     $mysqlprefix,
     $force_charset_in_connection,
-    $dbencoding
+    'utf8'
 );
 
 if (function_exists("date_default_timezone_set")) {

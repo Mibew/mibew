@@ -54,7 +54,7 @@ $blocked_list = $db->query(
 );
 
 foreach ($blocked_list as &$item) {
-    $item['comment'] = to_page($item['comment']);
+    $item['comment'] = $item['comment'];
 }
 unset($item);
 

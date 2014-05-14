@@ -38,9 +38,7 @@ class HistoryController extends AbstractController
 
         $page = array();
         $operator = $request->attributes->get('_operator');
-        $query = $request->query->has('q')
-            ? myiconv(getoutputenc(), MIBEW_ENCODING, $request->query->get('q'))
-            : false;
+        $query = $request->query->get('q', false);
 
         $search_type = $request->query->get('type');
         if (!in_array($search_type, array('all', 'message', 'operator', 'visitor'))) {
@@ -135,12 +133,12 @@ class HistoryController extends AbstractController
 
                     $page['pagination.items'][] = array(
                         'threadId' => $thread->id,
-                        'userName' => to_page($thread->userName),
-                        'userAddress' => get_user_addr(to_page($thread->remote)),
-                        'agentName' => to_page($thread->agentName),
-                        'messageCount' => to_page($thread->messageCount),
+                        'userName' => $thread->userName,
+                        'userAddress' => get_user_addr($thread->remote),
+                        'agentName' => $thread->agentName,
+                        'messageCount' => $thread->messageCount,
                         'groupName' => ($group_name_set
-                            ? to_page($group_name[$thread->groupId])
+                            ? $group_name[$thread->groupId]
                             : false),
                         'chatTime' => $thread->modified - $thread->created,
                         'chatCreated' => $thread->created,
@@ -151,7 +149,7 @@ class HistoryController extends AbstractController
                 $page['pagination.items'] = false;
             }
 
-            $page['formq'] = to_page($query);
+            $page['formq'] = $query;
         } else {
             $page['pagination'] = false;
             $page['pagination.items'] = false;
@@ -187,13 +185,13 @@ class HistoryController extends AbstractController
         $group = group_by_id($thread->groupId);
 
         $thread_info = array(
-            'userName' => to_page($thread->userName),
-            'userAddress' => get_user_addr(to_page($thread->remote)),
-            'userAgentVersion' => get_user_agent_version(to_page($thread->userAgent)),
-            'agentName' => to_page($thread->agentName),
+            'userName' => $thread->userName,
+            'userAddress' => get_user_addr($thread->remote),
+            'userAgentVersion' => get_user_agent_version($thread->userAgent),
+            'agentName' => $thread->agentName,
             'chatTime' => ($thread->modified - $thread->created),
             'chatStarted' => $thread->created,
-            'groupName' => to_page(get_group_name($group)),
+            'groupName' => get_group_name($group),
         );
         $page['threadInfo'] = $thread_info;
 
@@ -256,10 +254,10 @@ class HistoryController extends AbstractController
             foreach ($page['pagination.items'] as $key => $item) {
                 $thread = Thread::createFromDbInfo($item);
                 $page['pagination.items'][$key] = array(
-                    'threadId' => to_page($thread->id),
-                    'userName' => to_page($thread->userName),
-                    'userAddress' => get_user_addr(to_page($thread->remote)),
-                    'agentName' => to_page($thread->agentName),
+                    'threadId' => $thread->id,
+                    'userName' => $thread->userName,
+                    'userAddress' => get_user_addr($thread->remote),
+                    'agentName' => $thread->agentName,
                     'chatTime' => ($thread->modified - $thread->created),
                     'chatCreated' => $thread->created,
                 );

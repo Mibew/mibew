@@ -89,8 +89,8 @@ if (isset($_GET['act']) && $_GET['act'] == 'delete') {
 
 $canned_messages = load_canned_messages($lang, $group_id);
 foreach ($canned_messages as &$message) {
-    $message['vctitle'] = to_page($message['vctitle']);
-    $message['vcvalue'] = to_page($message['vcvalue']);
+    $message['vctitle'] = $message['vctitle'];
+    $message['vcvalue'] = $message['vcvalue'];
 }
 unset($message);
 

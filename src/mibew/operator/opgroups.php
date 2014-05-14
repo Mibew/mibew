@@ -63,7 +63,7 @@ if (!$op) {
 }
 
 $page['currentop'] = $op
-    ? to_page(get_operator_name($op)) . " (" . $op['vclogin'] . ")"
+    ? get_operator_name($op) . " (" . $op['vclogin'] . ")"
     : getlocal("not_found");
 $page['canmodify'] = $can_modify ? "1" : "";
 
@@ -76,8 +76,8 @@ if ($op) {
 
 $page['groups'] = array();
 foreach ($groups as $group) {
-    $group['vclocalname'] = to_page($group['vclocalname']);
-    $group['vclocaldescription'] = to_page($group['vclocaldescription']);
+    $group['vclocalname'] = $group['vclocalname'];
+    $group['vclocaldescription'] = $group['vclocaldescription'];
     $group['checked'] = in_array($group['groupid'], $checked_groups);
 
     $page['groups'][] = $group;

@@ -37,7 +37,6 @@ define('MIBEW_WEB_ROOT', $mibewroot);
 // Include common functions
 require_once(MIBEW_FS_ROOT.'/libs/common/constants.php');
 require_once(MIBEW_FS_ROOT.'/libs/common/verification.php');
-require_once(MIBEW_FS_ROOT.'/libs/common/converter.php');
 require_once(MIBEW_FS_ROOT.'/libs/common/locale.php');
 require_once(MIBEW_FS_ROOT.'/libs/common/misc.php');
 require_once(MIBEW_FS_ROOT.'/libs/common/response.php');
@@ -65,7 +64,7 @@ if ($act == "silentcreateall") {
 } else {
 	mysql_select_db($mysqldb, $link) or show_install_err('Could not select database');
 	if ($force_charset_in_connection) {
-		mysql_query("SET character set $dbencoding", $link);
+		mysql_query("SET character set utf8", $link);
 	}
 
 	if ($act == "ct") {

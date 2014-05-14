@@ -141,17 +141,17 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
     }
 }
 
-$page['formemail'] = to_page($params['email']);
-$page['formtitle'] = to_page($params['title']);
-$page['formlogo'] = to_page($params['logo']);
-$page['formhosturl'] = to_page($params['hosturl']);
-$page['formgeolink'] = to_page($params['geolink']);
-$page['formgeolinkparams'] = to_page($params['geolinkparams']);
-$page['formusernamepattern'] = to_page($params['usernamepattern']);
+$page['formemail'] = $params['email'];
+$page['formtitle'] = $params['title'];
+$page['formlogo'] = $params['logo'];
+$page['formhosturl'] = $params['hosturl'];
+$page['formgeolink'] = $params['geolink'];
+$page['formgeolinkparams'] = $params['geolinkparams'];
+$page['formusernamepattern'] = $params['usernamepattern'];
 $page['formpagestyle'] = $styles_params['page_style'];
 $page['availablePageStyles'] = $page_style_list;
 $page['formchatstyle'] = $styles_params['chat_style'];
-$page['formchattitle'] = to_page($params['chattitle']);
+$page['formchattitle'] = $params['chattitle'];
 $page['formsendmessagekey'] = $params['sendmessagekey'];
 $page['availableChatStyles'] = $chat_style_list;
 $page['stored'] = isset($_GET['stored']);

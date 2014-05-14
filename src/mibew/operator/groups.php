@@ -57,12 +57,12 @@ $sort['desc'] = (verify_param("sortdirection", "/^(desc|asc)$/", "desc") == "des
 // Load and prepare groups
 $groups = get_sorted_groups($sort);
 foreach ($groups as &$group) {
-    $group['vclocalname'] = to_page($group['vclocalname']);
-    $group['vclocaldescription'] = to_page($group['vclocaldescription']);
+    $group['vclocalname'] = $group['vclocalname'];
+    $group['vclocaldescription'] = $group['vclocaldescription'];
     $group['isOnline'] = group_is_online($group);
     $group['isAway'] = group_is_away($group);
     $group['lastTimeOnline'] = time() - ($group['ilastseen'] ? $group['ilastseen'] : time());
-    $group['inumofagents'] = to_page($group['inumofagents']);
+    $group['inumofagents'] = $group['inumofagents'];
 }
 unset($group);
 

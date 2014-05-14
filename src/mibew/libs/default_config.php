@@ -28,11 +28,6 @@
 $mibewroot = "/mibew";
 
 /*
- *  Internal encoding
- */
-$mibew_encoding = "utf-8";
-
-/*
  *  MySQL Database parameters
  */
 $mysqlhost = "";
@@ -41,7 +36,6 @@ $mysqllogin = "";
 $mysqlpass = "";
 $mysqlprefix = "";
 
-$dbencoding = "utf8";
 $force_charset_in_connection = true;
 
 $use_persistent_connection = false;
@@ -50,7 +44,6 @@ $use_persistent_connection = false;
  *  Mailbox
  */
 $mibew_mailbox = "mibew@yourdomain.com";
-$mail_encoding = "utf-8";
 
 /*
  *  Locales

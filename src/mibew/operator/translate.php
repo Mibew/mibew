@@ -41,8 +41,8 @@ $lang2 = $messages[$target];
 $page = array(
     'lang1' => $source,
     'lang2' => $target,
-    'title1' => to_page(isset($lang1["localeid"]) ? $lang1["localeid"] : $source),
-    'title2' => to_page(isset($lang2["localeid"]) ? $lang2["localeid"] : $target),
+    'title1' => (isset($lang1["localeid"]) ? $lang1["localeid"] : $source),
+    'title2' => (isset($lang2["localeid"]) ? $lang2["localeid"] : $target),
     'errors' => array(),
 );
 
@@ -115,9 +115,9 @@ foreach ($all_keys as $key) {
             'id' => $key,
             'l1' => $t_source,
             'l2' => $value,
-            'idToPage' => to_page($key),
-            'l1ToPage' => to_page($t_source),
-            'l2ToPage' => to_page($value),
+            'idToPage' => $key,
+            'l1ToPage' => $t_source,
+            'l2ToPage' => $value,
         );
     }
 }

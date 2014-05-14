@@ -22,7 +22,7 @@ use Mibew\Settings;
 function get_raw_param($name)
 {
     if (isset($_POST[$name])) {
-        $value = myiconv("utf-8", MIBEW_ENCODING, $_POST[$name]);
+        $value = $_POST[$name];
         if (get_magic_quotes_gpc()) {
             $value = stripslashes($value);
         }
@@ -36,7 +36,7 @@ function get_raw_param($name)
 function get_param($name)
 {
     if (isset($_POST[$name])) {
-        $value = myiconv(getoutputenc(), MIBEW_ENCODING, $_POST[$name]);
+        $value = $_POST[$name];
         if (get_magic_quotes_gpc()) {
             $value = stripslashes($value);
         }
@@ -51,7 +51,7 @@ function get_get_param($name, $default = '')
     if (!isset($_GET[$name]) || !$_GET[$name]) {
         return $default;
     }
-    $value = myiconv("utf-8", MIBEW_ENCODING, unicode_urldecode($_GET[$name]));
+    $value = unicode_urldecode($_GET[$name]);
     if (get_magic_quotes_gpc()) {
         $value = stripslashes($value);
     }

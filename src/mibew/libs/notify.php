@@ -15,25 +15,16 @@
  * limitations under the License.
  */
 
-/**
- * Send an email
- *
- * @param string $to_addr Comma separated list recipient emails
- * @param string $reply_to Comma separated list replies emails
- * @param string $subject subject of email
- * @param string $body text of email.
- */
 function mibew_mail($to_addr, $reply_to, $subject, $body)
 {
-    global $mibew_mailbox, $mail_encoding;
+    global $mibew_mailbox;
 
     $headers = "From: $mibew_mailbox\r\n"
-        . "Reply-To: " . myiconv(MIBEW_ENCODING, $mail_encoding, $reply_to) . "\r\n"
-        . "Content-Type: text/plain; charset=$mail_encoding\r\n"
+        . "Reply-To: " . $reply_to . "\r\n"
+        . "Content-Type: text/plain; charset=utf-8\r\n"
         . 'X-Mailer: PHP/' . phpversion();
 
-    $real_subject = "=?" . $mail_encoding . "?B?"
-        . base64_encode(myiconv(MIBEW_ENCODING, $mail_encoding, $subject)) . "?=";
+    $real_subject = "=?utf-8?B?" . base64_encode($subject) . "?=";
 
     $body = preg_replace("/\n/", "\r\n", $body);
 
@@ -42,7 +33,7 @@ function mibew_mail($to_addr, $reply_to, $subject, $body)
     @mail(
         $to_addr,
         $real_subject,
-        wordwrap(myiconv(MIBEW_ENCODING, $mail_encoding, $body), 70),
+        wordwrap($body, 70),
         $headers
     );
     if (isset($old_from)) {

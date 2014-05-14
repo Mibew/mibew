@@ -778,13 +778,6 @@ class Thread
         );
 
         foreach ($messages as $key => $msg) {
-            // Change sender name encoding
-            $messages[$key]['name'] = myiconv(
-                MIBEW_ENCODING,
-                "utf-8",
-                $msg['name']
-            );
-
             // Process data attached to the message
             if (!empty($messages[$key]['data'])) {
                 $messages[$key]['data'] = unserialize(
@@ -793,13 +786,6 @@ class Thread
             } else {
                 $messages[$key]['data'] = array();
             }
-
-            // Change message body encoding
-            $messages[$key]['message'] = myiconv(
-                MIBEW_ENCODING,
-                "utf-8",
-                $msg['message']
-            );
 
             // Get last message ID
             if ($msg['id'] > $last_id) {

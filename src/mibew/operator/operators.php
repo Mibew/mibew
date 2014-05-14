@@ -108,9 +108,9 @@ $operators_list = get_operators_list($list_options);
 
 // Prepare operator to render in template
 foreach ($operators_list as &$item) {
-    $item['vclogin'] = to_page($item['vclogin']);
-    $item['vclocalename'] = to_page($item['vclocalename']);
-    $item['vccommonname'] = to_page($item['vccommonname']);
+    $item['vclogin'] = $item['vclogin'];
+    $item['vclocalename'] = $item['vclocalename'];
+    $item['vccommonname'] = $item['vccommonname'];
     $item['isAvailable'] = operator_is_available($item);
     $item['isAway'] = operator_is_away($item);
     $item['lastTimeOnline'] = time() - $item['time'];

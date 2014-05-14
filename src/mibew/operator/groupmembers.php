@@ -50,7 +50,7 @@ if (!$group) {
 }
 
 $page['formop'] = array();
-$page['currentgroup'] = $group ? to_page(htmlspecialchars($group['vclocalname'])) : "";
+$page['currentgroup'] = $group ? htmlspecialchars($group['vclocalname']) : "";
 
 $checked_operators = array();
 foreach (get_group_members($group_id) as $rel) {
@@ -59,8 +59,8 @@ foreach (get_group_members($group_id) as $rel) {
 
 $page['operators'] = array();
 foreach ($operators as $op) {
-    $op['vclocalename'] = to_page($op['vclocalename']);
-    $op['vclogin'] = to_page($op['vclogin']);
+    $op['vclocalename'] = $op['vclocalename'];
+    $op['vclogin'] = $op['vclogin'];
     $op['checked'] = in_array($op['operatorid'], $checked_operators);
 
     $page['operators'][] = $op;

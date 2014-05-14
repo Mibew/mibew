@@ -75,8 +75,8 @@ if (isset($_POST['message']) && isset($_POST['title'])) {
 
 $page['saved'] = false;
 $page['key'] = $string_id;
-$page['formtitle'] = to_page($title);
-$page['formmessage'] = to_page($message);
+$page['formtitle'] = $title;
+$page['formmessage'] = $message;
 $page['title'] = empty($string_id) ? getlocal("cannednew.title") : getlocal("cannededit.title");
 
 $page = array_merge($page, prepare_menu($operator, false));

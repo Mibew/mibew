@@ -62,7 +62,9 @@ if (!$op) {
     }
 }
 
-$page['currentop'] = $op ? to_page(get_operator_name($op)) . " (" . $op['vclogin'] . ")" : getlocal("not_found");
+$page['currentop'] = $op
+    ? get_operator_name($op) . " (" . $op['vclogin'] . ")"
+    : getlocal("not_found");
 
 $checked_permissions = array();
 if ($op) {

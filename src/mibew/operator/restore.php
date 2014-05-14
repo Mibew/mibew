@@ -85,7 +85,7 @@ if (isset($_POST['loginoremail'])) {
     }
 }
 
-$page['formloginoremail'] = to_page($login_or_email);
+$page['formloginoremail'] = $login_or_email;
 
 $page['localeLinks'] = get_locale_links(MIBEW_WEB_ROOT . "/operator/restore.php");
 $page['isdone'] = false;

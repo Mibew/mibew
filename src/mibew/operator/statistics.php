@@ -29,7 +29,7 @@ force_password($operator);
 setlocale(LC_TIME, getstring("time.locale"));
 
 $page = array();
-$page['operator'] = to_page(get_operator_name($operator));
+$page['operator'] = get_operator_name($operator);
 $page['availableDays'] = range(1, 31);
 $page['availableMonth'] = get_month_selection(time() - 400 * 24 * 60 * 60, time() + 50 * 24 * 60 * 60);
 $page['showresults'] = false;
@@ -164,7 +164,7 @@ if ($statistics_type == 'bydate') {
     // cannot do it in a template.
     // TODO: Remove this block when "to_page" function will be removed.
     foreach ($page['reportByAgent'] as &$row) {
-        $row['name'] = to_page($row['name']);
+        $row['name'] = $row['name'];
     }
     unset($row);
 

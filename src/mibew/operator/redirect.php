@@ -47,7 +47,7 @@ if (isset($_GET['nextGroup'])) {
     if ($next_group) {
         $page['message'] = getlocal2(
             "chat.redirected.group.content",
-            array(to_page(get_group_name($next_group)))
+            array(get_group_name($next_group))
         );
         if ($thread->state == Thread::STATE_CHATTING) {
             $thread->state = Thread::STATE_WAITING;
@@ -79,7 +79,7 @@ if (isset($_GET['nextGroup'])) {
     if ($next_operator) {
         $page['message'] = getlocal2(
             "chat.redirected.content",
-            array(to_page(get_operator_name($next_operator)))
+            array(get_operator_name($next_operator))
         );
         if ($thread->state == Thread::STATE_CHATTING) {
             $thread->state = Thread::STATE_WAITING;

@@ -521,12 +521,7 @@ class UsersProcessor extends ClientSideProcessor
 
             $result_list[] = array(
                 'id' => (int) $item['operatorid'],
-                // Convert name to UTF-8
-                'name' => myiconv(
-                    MIBEW_ENCODING,
-                    "utf-8",
-                    htmlspecialchars($item['vclocalename'])
-                ),
+                'name' => htmlspecialchars($item['vclocalename']),
                 'away' => (bool) operator_is_away($item)
             );
         }

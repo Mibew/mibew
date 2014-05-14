@@ -88,10 +88,10 @@ if (isset($_POST['address'])) {
         $page['saved'] = true;
         $page['address'] = $address;
     } else {
-        $page['banId'] = to_page($ban_id);
-        $page['formaddress'] = to_page($address);
-        $page['formdays'] = to_page($days);
-        $page['formcomment'] = to_page($comment);
+        $page['banId'] = $ban_id;
+        $page['formaddress'] = $address;
+        $page['formdays'] = $days;
+        $page['formcomment'] = $comment;
         $page['threadid'] = $thread_id;
     }
 } elseif (isset($_GET['id'])) {
@@ -108,10 +108,10 @@ if (isset($_POST['address'])) {
     );
 
     if ($ban) {
-        $page['banId'] = to_page($ban['banid']);
-        $page['formaddress'] = to_page($ban['address']);
-        $page['formdays'] = to_page(round($ban['days'] / 86400));
-        $page['formcomment'] = to_page($ban['comment']);
+        $page['banId'] = $ban['banid'];
+        $page['formaddress'] = $ban['address'];
+        $page['formdays'] = round($ban['days'] / 86400);
+        $page['formcomment'] = $ban['comment'];
     } else {
         $page['errors'][] = "Wrong id";
     }
@@ -119,9 +119,9 @@ if (isset($_POST['address'])) {
     $thread_id = verify_param('thread', "/^\d{1,9}$/");
     $thread = Thread::load($thread_id);
     if ($thread) {
-        $page['thread'] = htmlspecialchars(to_page($thread->userName));
+        $page['thread'] = htmlspecialchars($thread->userName);
         $page['threadid'] = $thread_id;
-        $page['formaddress'] = to_page($thread->remote);
+        $page['formaddress'] = $thread->remote;
         $page['formdays'] = 15;
     }
 }

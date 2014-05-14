@@ -77,11 +77,6 @@ function start_js_output()
     header('P3P:CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');
 }
 
-function to_page($text)
-{
-    return myiconv(MIBEW_ENCODING, getoutputenc(), $text);
-}
-
 /**
  * Load additional CSS files, required by plugins, and build HTML code to
  * include them

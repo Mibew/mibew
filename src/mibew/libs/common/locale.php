@@ -48,28 +48,6 @@ define(
  */
 define('CURRENT_LOCALE', get_locale());
 
-function myiconv($in_enc, $out_enc, $string)
-{
-    global $_utf8win1251, $_win1251utf8;
-    if ($in_enc == $out_enc) {
-        return $string;
-    }
-    if (function_exists('iconv')) {
-        $converted = @iconv($in_enc, $out_enc, $string);
-        if ($converted !== false) {
-            return $converted;
-        }
-    }
-    if ($in_enc == "cp1251" && $out_enc == "utf-8") {
-        return strtr($string, $_win1251utf8);
-    }
-    if ($in_enc == "utf-8" && $out_enc == "cp1251") {
-        return strtr($string, $_utf8win1251);
-    }
-
-    return $string; // do not know how to convert
-}
-
 function locale_exists($locale)
 {
     return file_exists(MIBEW_FS_ROOT . "/locales/$locale/properties");
@@ -173,21 +151,16 @@ function get_locale_links($href)
  * Load localized messages id some service locale info.
  *
  * @global array $messages Localized messages array
- * @global array $output_encoding Array of mapping locales to output encodings
  *
  * @param string $locale Name of a locale whose messages should be loaded.
  */
 function load_messages($locale)
 {
-    global $messages, $output_encoding;
+    global $messages;
 
     // Load core localization
     $locale_file = MIBEW_FS_ROOT . "/locales/{$locale}/properties";
     $locale_data = read_locale_file($locale_file);
-
-    if (!is_null($locale_data['output_encoding'])) {
-        $output_encoding[$locale] = $locale_data['output_encoding'];
-    }
 
     $messages[$locale] = $locale_data['messages'];
 
@@ -224,25 +197,13 @@ function load_messages($locale)
  *
  * @param string $path Locale file path
  * @return array Associative array with following keys:
- *  - 'encoding': string, one of service field from locale file, determines
- *    encoding of strings in the locale file. If there is no 'encoding' field in
- *    the locale file, this variable will be equal to $mibew_encoding.
- *
- *  - 'output_encoding': string, one of service field from locale file,
- *    determines in what encoding document should be output for this locale.
- *    If there is no 'output_encoding' field in the locale file, this variable
- *    will bew equal to NULL.
- *
  *  - 'messages': associative array of localized strings. The keys of the array
  *    are localization keys and the values of the array are localized strings.
- *    All localized strings have internal Mibew encoding(see $mibew_encoding
- *    value in libs/config.php).
+ *    All localized strings are encoded in UTF-8.
  */
 function read_locale_file($path)
 {
     // Set default values
-    $current_encoding = MIBEW_ENCODING;
-    $output_encoding = null;
     $messages = array();
 
     $fp = fopen($path, "r");
@@ -256,42 +217,14 @@ function read_locale_file($path)
         if (count($line_parts) == 2) {
             $key = $line_parts[0];
             $value = $line_parts[1];
-            // Check if key is service field and treat it as
-            // localized string otherwise
-            if ($key == 'encoding') {
-                $current_encoding = trim($value);
-            } elseif ($key == 'output_encoding') {
-                $output_encoding = trim($value);
-            } elseif ($current_encoding == MIBEW_ENCODING) {
-                $messages[$key] = str_replace("\\n", "\n", trim($value));
-            } else {
-                $messages[$key] = myiconv(
-                    $current_encoding,
-                    MIBEW_ENCODING,
-                    str_replace("\\n", "\n", trim($value))
-                );
-            }
+            $messages[$key] = str_replace("\\n", "\n", trim($value));
         }
     }
     fclose($fp);
 
     return array(
-        'encoding' => $current_encoding,
-        'output_encoding' => $output_encoding,
         'messages' => $messages
     );
-}
-
-function getoutputenc()
-{
-    global $output_encoding, $messages;
-    if (!isset($messages[CURRENT_LOCALE])) {
-        load_messages(CURRENT_LOCALE);
-    }
-
-    return isset($output_encoding[CURRENT_LOCALE])
-        ? $output_encoding[CURRENT_LOCALE]
-        : MIBEW_ENCODING;
 }
 
 function getstring_($text, $locale, $raw = false)
@@ -326,11 +259,7 @@ function getlocal($text, $raw = false)
 
 function getlocal_($text, $locale, $raw = false)
 {
-    $string = myiconv(
-        MIBEW_ENCODING,
-        getoutputenc(),
-        getstring_($text, $locale, true)
-    );
+    $string = getstring_($text, $locale, true);
 
     return $raw ? $string : sanitize_string($string, 'low', 'moderate');
 }
@@ -352,11 +281,7 @@ function getstring2($text, $params, $raw = false)
 
 function getlocal2($text, $params, $raw = false)
 {
-    $string = myiconv(
-        MIBEW_ENCODING,
-        getoutputenc(),
-        getstring_($text, CURRENT_LOCALE, true)
-    );
+    $string = getstring_($text, CURRENT_LOCALE, true);
 
     for ($i = 0; $i < count($params); $i++) {
         $string = str_replace("{" . $i . "}", $params[$i], $string);
@@ -368,7 +293,7 @@ function getlocal2($text, $params, $raw = false)
 /* prepares for Javascript string */
 function get_local_for_js($text, $params)
 {
-    $string = myiconv(MIBEW_ENCODING, getoutputenc(), getstring_($text, CURRENT_LOCALE));
+    $string = getstring_($text, CURRENT_LOCALE);
     $string = str_replace("\"", "\\\"", str_replace("\n", "\\n", $string));
     for ($i = 0; $i < count($params); $i++) {
         $string = str_replace("{" . $i . "}", $params[$i], $string);
@@ -398,7 +323,6 @@ function save_message($locale, $key, $value)
 {
     $result = "";
     $added = false;
-    $current_encoding = MIBEW_ENCODING;
     $fp = fopen(MIBEW_FS_ROOT . "/locales/$locale/properties", "r");
     if ($fp === false) {
         die("unable to open properties for locale $locale");
@@ -407,15 +331,10 @@ function save_message($locale, $key, $value)
         $line = fgets($fp, 4096);
         $key_val = preg_split("/=/", $line, 2);
         if (isset($key_val[1])) {
-            if ($key_val[0] == 'encoding') {
-                $current_encoding = trim($key_val[1]);
-            } elseif (!$added && $key_val[0] == $key) {
+            if (!$added && $key_val[0] == $key) {
                 $line = "$key="
-                    . myiconv(
-                        MIBEW_ENCODING,
-                        $current_encoding,
-                        str_replace("\r", "", str_replace("\n", "\\n", trim($value)))
-                    ) . "\n";
+                    . str_replace("\r", "", str_replace("\n", "\\n", trim($value)))
+                    . "\n";
                 $added = true;
             }
         }
@@ -424,11 +343,8 @@ function save_message($locale, $key, $value)
     fclose($fp);
     if (!$added) {
         $result .= "$key="
-            . myiconv(
-                MIBEW_ENCODING,
-                $current_encoding,
-                str_replace("\r", "", str_replace("\n", "\\n", trim($value)))
-            ) . "\n";
+            . str_replace("\r", "", str_replace("\n", "\\n", trim($value)))
+            . "\n";
     }
     $fp = @fopen(MIBEW_FS_ROOT . "/locales/$locale/properties", "w");
     if ($fp !== false) {
@@ -451,11 +367,7 @@ function save_message($locale, $key, $value)
         fwrite(
             $fp,
             ("$key="
-                . myiconv(
-                    MIBEW_ENCODING,
-                    $current_encoding,
-                    str_replace("\r", "", str_replace("\n", "\\n", trim($value)))
-                )
+                . str_replace("\r", "", str_replace("\n", "\\n", trim($value)))
                 . "\n")
         );
         fclose($fp);
@@ -463,4 +375,3 @@ function save_message($locale, $key, $value)
 }
 
 $messages = array();
-$output_encoding = array();

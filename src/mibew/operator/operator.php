@@ -123,12 +123,12 @@ if ((isset($_POST['login']) || !is_capable(CAN_ADMINISTRATE, $operator)) && isse
             exit;
         }
     } else {
-        $page['formlogin'] = to_page($login);
-        $page['formname'] = to_page($local_name);
-        $page['formemail'] = to_page($email);
-        $page['formcommonname'] = to_page($common_name);
-        $page['formcode'] = to_page($code);
-        $page['opid'] = to_page($op_id);
+        $page['formlogin'] = $login;
+        $page['formname'] = $local_name;
+        $page['formemail'] = $email;
+        $page['formcommonname'] = $common_name;
+        $page['formcode'] = $code;
+        $page['opid'] = $op_id;
     }
 } elseif (isset($_GET['op'])) {
     $op_id = verify_param('op', "/^\d{1,9}$/");
@@ -136,19 +136,19 @@ if ((isset($_POST['login']) || !is_capable(CAN_ADMINISTRATE, $operator)) && isse
 
     if (!$op) {
         $page['errors'][] = getlocal("no_such_operator");
-        $page['opid'] = to_page($op_id);
+        $page['opid'] = $op_id;
     } else {
         //show an error if the admin password hasn't been set yet.
         if (check_password_hash($operator['vclogin'], '', $operator['vcpassword']) && !isset($_GET['stored'])) {
             $page['errors'][] = getlocal("my_settings.error.no_password");
         }
 
-        $page['formlogin'] = to_page($op['vclogin']);
-        $page['formname'] = to_page($op['vclocalename']);
-        $page['formemail'] = to_page($op['vcemail']);
-        $page['formcommonname'] = to_page($op['vccommonname']);
-        $page['formcode'] = to_page($op['code']);
-        $page['opid'] = to_page($op['operatorid']);
+        $page['formlogin'] = $op['vclogin'];
+        $page['formname'] = $op['vclocalename'];
+        $page['formemail'] = $op['vcemail'];
+        $page['formcommonname'] = $op['vccommonname'];
+        $page['formcode'] = $op['code'];
+        $page['opid'] = $op['operatorid'];
     }
 }
 

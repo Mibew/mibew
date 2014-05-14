@@ -304,7 +304,7 @@ function show_install_err($text)
 
 function create_table($id, $link)
 {
-	global $dbtables, $dbtables_indexes, $memtables, $dbencoding, $mysqlprefix;
+	global $dbtables, $dbtables_indexes, $memtables, $mysqlprefix;
 
 	if (!isset($dbtables[$id])) {
 		show_install_err("Unknown table: $id, " . mysql_error($link));
@@ -324,7 +324,7 @@ function create_table($id, $link)
 	}
 
 	$query = preg_replace("/,\n$/", "", $query);
-	$query .= ") charset $dbencoding";
+	$query .= ") charset utf8";
 	if (in_array($id, $memtables)) {
 		$query .= " ENGINE=MEMORY";
 	} else {
