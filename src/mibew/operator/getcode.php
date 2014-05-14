@@ -54,6 +54,8 @@ if ($invitation_style && !in_array($invitation_style, $invitation_style_list)) {
     $invitation_style = "";
 }
 
+$locales_list = get_available_locales();
+
 $group_id = verifyparam_groupid("group", $page['errors']);
 $show_host = verify_param("hostname", "/^on$/", "") == "on";
 $force_secure = verify_param("secure", "/^on$/", "") == "on";
@@ -61,20 +63,15 @@ $mod_security = verify_param("modsecurity", "/^on$/", "") == "on";
 
 $code_type = verify_param("codetype", "/^(button|operator_code|text_link)$/", "button");
 $operator_code = ($code_type == "operator_code");
+$generate_button = ($code_type == "button");
 
-$lang = verify_param("lang", "/^[\w-]{2,5}$/", "");
-if (!$lang || !in_array($lang, $image_locales)) {
-    $lang = in_array(CURRENT_LOCALE, $image_locales) ? CURRENT_LOCALE : $image_locales[0];
-}
-
-if ($code_type == "text_link") {
-    $disable_invitation = true;
-
-    $message = getlocal('page.gen_button.text_link_text');
-
-}
-else {
+if ($generate_button) {
     $disable_invitation = false;
+
+    $lang = verify_param("lang", "/^[\w-]{2,5}$/", "");
+    if (!$lang || !in_array($lang, $image_locales)) {
+        $lang = in_array(CURRENT_LOCALE, $image_locales) ? CURRENT_LOCALE : $image_locales[0];
+    }
 
     $file = MIBEW_FS_ROOT . '/locales/${lang}/button/${image}_on.gif';
     $size = get_gifimage_size($file);
@@ -84,6 +81,16 @@ else {
         $image_href .= "&amp;group=$group_id";
     }
     $message = get_image($image_href, $size[0], $size[1]);
+}
+else {
+    $disable_invitation = true;
+
+    $lang = verify_param("lang", "/^[\w-]{2,5}$/", "");
+    if (!$lang || !in_array($lang, $locales_list)) {
+        $lang = in_array(CURRENT_LOCALE, $locales_list) ? CURRENT_LOCALE : $locales_list[0];
+    }
+
+    $message = getlocal('page.gen_button.text_link_text');
 }
 
 $page['buttonCode'] = generate_button(
@@ -100,7 +107,7 @@ $page['buttonCode'] = generate_button(
     $disable_invitation
 );
 $page['availableImages'] = array_keys($image_locales_map);
-$page['availableLocales'] = $image_locales;
+$page['availableLocales'] = $generate_button ? $image_locales : $locales_list;
 $page['availableChatStyles'] = $style_list;
 $page['availableInvitationStyles'] = $invitation_style_list;
 $page['groups'] = get_groups_list();
@@ -123,7 +130,7 @@ $page['formcodetype'] = $code_type;
 
 $page['enabletracking'] = Settings::get('enabletracking');
 $page['operator_code'] = $operator_code;
-$page['generateButton'] = ($code_type == "button");
+$page['generateButton'] = $generate_button;
 
 $page['title'] = getlocal("page.gen_button.title");
 $page['menuid'] = "getcode";
