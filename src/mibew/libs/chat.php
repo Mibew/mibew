@@ -578,11 +578,9 @@ function setup_chatview_for_operator(Thread $thread, $operator)
     }
 
     // Set history window params
-    $history_link_params = array("userid" => (string) $thread->userId);
-    $data['chat']['links']['history'] = add_params(
-        MIBEW_WEB_ROOT . "/operator/userhistory.php",
-        $history_link_params
-    );
+    $data['chat']['links']['history'] = MIBEW_WEB_ROOT
+        . '/operator/history/user/'
+        . ((string) $thread->userId);
 
     // Set tracking params
     if (Settings::get('enabletracking')) {

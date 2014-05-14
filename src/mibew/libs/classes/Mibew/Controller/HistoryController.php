@@ -1,0 +1,274 @@
+<?php
+/*
+ * Copyright 2005-2014 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+namespace Mibew\Controller;
+
+use Mibew\Database;
+use Mibew\Thread;
+use Symfony\Component\HttpFoundation\Request;
+
+/**
+ * Contains actions for history-related pages.
+ */
+class HistoryController extends AbstractController
+{
+    /**
+     * Generate content for "history" route.
+     *
+     * @param Request $request
+     * @return string Rendered page content
+     */
+    public function indexAction(Request $request)
+    {
+        setlocale(LC_TIME, getstring("time.locale"));
+
+        $page = array();
+        $operator = $request->attributes->get('_operator');
+        $query = $request->query->has('q')
+            ? myiconv(getoutputenc(), MIBEW_ENCODING, $request->query->get('q'))
+            : false;
+
+        $search_type = $request->query->get('type');
+        if (!in_array($search_type, array('all', 'message', 'operator', 'visitor'))) {
+            $search_type = 'all';
+        }
+
+        $search_in_system_messages = ($request->query->get('insystemmessages') == 'on') || !$query;
+
+        if ($query !== false) {
+            $db = Database::getInstance();
+            $groups = $db->query(
+                ("SELECT {chatgroup}.groupid AS groupid, vclocalname " .
+                    "FROM {chatgroup} " .
+                    "ORDER BY vclocalname"),
+                null,
+                array('return_rows' => Database::RETURN_ALL_ROWS)
+            );
+
+            $group_name = array();
+            foreach ($groups as $group) {
+                $group_name[$group['groupid']] = $group['vclocalname'];
+            }
+
+            $values = array(
+                ':query' => "%{$query}%",
+                ':invitation_accepted' => Thread::INVITATION_ACCEPTED,
+                ':invitation_not_invited' => Thread::INVITATION_NOT_INVITED,
+            );
+
+            $search_conditions = array();
+            if ($search_type == 'message' || $search_type == 'all') {
+                $search_conditions[] = "({chatmessage}.tmessage LIKE :query"
+                    . ($search_in_system_messages
+                        ? ''
+                        : " AND ({chatmessage}.ikind = :kind_user OR {chatmessage}.ikind = :kind_agent)")
+                    . ")";
+                if (!$search_in_system_messages) {
+                    $values[':kind_user'] = Thread::KIND_USER;
+                    $values[':kind_agent'] = Thread::KIND_AGENT;
+                }
+            }
+            if ($search_type == 'operator' || $search_type == 'all') {
+                $search_conditions[] = "({chatthread}.agentName LIKE :query)";
+            }
+            if ($search_type == 'visitor' || $search_type == 'all') {
+                $search_conditions[] = "({chatthread}.userName LIKE :query)";
+                $search_conditions[] = "({chatthread}.remote LIKE :query)";
+            }
+
+            // Load threads
+            list($threads_count) = $db->query(
+                ("SELECT COUNT(DISTINCT {chatthread}.dtmcreated) "
+                . "FROM {chatthread}, {chatmessage} "
+                . "WHERE {chatmessage}.threadid = {chatthread}.threadid "
+                    . "AND ({chatthread}.invitationstate = :invitation_accepted "
+                        . "OR {chatthread}.invitationstate = :invitation_not_invited) "
+                    . "AND (" . implode(' OR ', $search_conditions) . ")"),
+                $values,
+                array(
+                    'return_rows' => Database::RETURN_ONE_ROW,
+                    'fetch_type' => Database::FETCH_NUM,
+                )
+            );
+
+            $pagination_info = pagination_info($threads_count);
+
+            if ($threads_count && $pagination_info) {
+                $page['pagination'] = $pagination_info;
+
+                $limit_start = intval($pagination_info['start']);
+                $limit_end = intval($pagination_info['end'] - $pagination_info['start']);
+
+                $threads_list = $db->query(
+                    ("SELECT DISTINCT {chatthread}.* "
+                    . "FROM {chatthread}, {chatmessage} "
+                    . "WHERE {chatmessage}.threadid = {chatthread}.threadid "
+                        . "AND ({chatthread}.invitationstate = :invitation_accepted "
+                            . "OR {chatthread}.invitationstate = :invitation_not_invited) "
+                        . "AND (" . implode(' OR ', $search_conditions) . ") "
+                    . "ORDER BY {chatthread}.dtmcreated DESC "
+                    . "LIMIT " . $limit_start . ", " . $limit_end),
+                    $values,
+                    array('return_rows' => Database::RETURN_ALL_ROWS)
+                );
+
+                foreach ($threads_list as $item) {
+                    $thread = Thread::createFromDbInfo($item);
+
+                    $group_name_set = ($thread->groupId
+                        && $thread->groupId != 0
+                        && isset($group_name[$thread->groupId]));
+
+                    $page['pagination.items'][] = array(
+                        'threadId' => $thread->id,
+                        'userName' => to_page($thread->userName),
+                        'userAddress' => get_user_addr(to_page($thread->remote)),
+                        'agentName' => to_page($thread->agentName),
+                        'messageCount' => to_page($thread->messageCount),
+                        'groupName' => ($group_name_set
+                            ? to_page($group_name[$thread->groupId])
+                            : false),
+                        'chatTime' => $thread->modified - $thread->created,
+                        'chatCreated' => $thread->created,
+                    );
+                }
+            } else {
+                $page['pagination'] = false;
+                $page['pagination.items'] = false;
+            }
+
+            $page['formq'] = to_page($query);
+        } else {
+            $page['pagination'] = false;
+            $page['pagination.items'] = false;
+        }
+
+        $page['formtype'] = $search_type;
+        $page['forminsystemmessages'] = $search_in_system_messages;
+        $page['title'] = getlocal("page_analysis.search.title");
+        $page['menuid'] = "history";
+        $page['canSearchInSystemMessages'] = ($search_type != 'all')
+            && ($search_type != 'message');
+
+        $page = array_merge($page, prepare_menu($operator));
+
+        return $this->render('history', $page);
+    }
+
+    /**
+     * Generate content for "history_thread" route.
+     *
+     * @param Request $request
+     * @return string Rendered page content
+     */
+    public function threadAction(Request $request)
+    {
+        setlocale(LC_TIME, getstring("time.locale"));
+
+        $operator = $request->attributes->get('_operator');
+        $page = array();
+
+        // Load thread info
+        $thread = Thread::load($request->attributes->get('thread_id'));
+        $group = group_by_id($thread->groupId);
+
+        $thread_info = array(
+            'userName' => to_page($thread->userName),
+            'userAddress' => get_user_addr(to_page($thread->remote)),
+            'userAgentVersion' => get_user_agent_version(to_page($thread->userAgent)),
+            'agentName' => to_page($thread->agentName),
+            'chatTime' => ($thread->modified - $thread->created),
+            'chatStarted' => $thread->created,
+            'groupName' => to_page(get_group_name($group)),
+        );
+        $page['threadInfo'] = $thread_info;
+
+        // Build messages list
+        $last_id = -1;
+        $messages = $thread->getMessages(false, $last_id);
+        $page['threadMessages'] = json_encode($messages);
+        $page['title'] = getlocal("thread.chat_log");
+
+        $page = array_merge($page, prepare_menu($operator, false));
+
+        return $this->render('history_thread', $page);
+    }
+
+    /**
+     * Generate content for "history_user" route.
+     *
+     * @param Request $request
+     * @return string Rendered page content
+     */
+    public function userAction(Request $request)
+    {
+        setlocale(LC_TIME, getstring("time.locale"));
+
+        $operator = $request->attributes->get('_operator');
+        $user_id = $request->attributes->get('user_id', '');
+        $page = array();
+
+        if (!empty($user_id)) {
+            $db = Database::getInstance();
+
+            $query = "SELECT {chatthread}.* "
+                . "FROM {chatthread} "
+                . "WHERE userid=:user_id "
+                    . "AND (invitationstate = :invitation_accepted "
+                        . "OR invitationstate = :invitation_not_invited) "
+                . "ORDER BY dtmcreated DESC";
+
+            $found = $db->query(
+                $query,
+                array(
+                    ':user_id' => $user_id,
+                    ':invitation_accepted' => Thread::INVITATION_ACCEPTED,
+                    ':invitation_not_invited' => Thread::INVITATION_NOT_INVITED,
+                ),
+                array('return_rows' => Database::RETURN_ALL_ROWS)
+            );
+        } else {
+            $found = null;
+        }
+
+        $page = array_merge($page, prepare_menu($operator));
+
+        // Setup pagination
+        $pagination = setup_pagination($found, 6);
+        $page['pagination'] = $pagination['info'];
+        $page['pagination.items'] = $pagination['items'];
+
+        if (!empty($page['pagination.items'])) {
+            foreach ($page['pagination.items'] as $key => $item) {
+                $thread = Thread::createFromDbInfo($item);
+                $page['pagination.items'][$key] = array(
+                    'threadId' => to_page($thread->id),
+                    'userName' => to_page($thread->userName),
+                    'userAddress' => get_user_addr(to_page($thread->remote)),
+                    'agentName' => to_page($thread->agentName),
+                    'chatTime' => ($thread->modified - $thread->created),
+                    'chatCreated' => $thread->created,
+                );
+            }
+        }
+
+        $page['title'] = getlocal("page.analysis.userhistory.title");
+        $page['menuid'] = "history";
+
+        return $this->render('history_user', $page);
+    }
+}
