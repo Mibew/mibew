@@ -198,12 +198,11 @@ function check_connection()
 
 function check_database($link)
 {
-	global $mysqldb, $force_charset_in_connection, $page;
+	global $mysqldb, $page;
 	if (mysql_select_db($mysqldb, $link)) {
 		$page['done'][] = getlocal2("install.2.db_exists", array($mysqldb));
-		if ($force_charset_in_connection) {
-			mysql_query("SET character set utf8", $link);
-		}
+		mysql_query("SET character set utf8", $link);
+
 		return true;
 	} else {
 		$page['nextstep'] = getlocal2("install.2.create", array($mysqldb));

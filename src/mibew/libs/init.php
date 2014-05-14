@@ -80,9 +80,7 @@ session_start();
     $mysqlpass,
     $use_persistent_connection,
     $mysqldb,
-    $mysqlprefix,
-    $force_charset_in_connection,
-    'utf8'
+    $mysqlprefix
 );
 
 if (function_exists("date_default_timezone_set")) {

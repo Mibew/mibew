@@ -63,9 +63,7 @@ if ($act == "silentcreateall") {
 	mysql_query("CREATE DATABASE $mysqldb", $link) or show_install_err(' Query failed: ' . mysql_error($link));
 } else {
 	mysql_select_db($mysqldb, $link) or show_install_err('Could not select database');
-	if ($force_charset_in_connection) {
-		mysql_query("SET character set utf8", $link);
-	}
+	mysql_query("SET character set utf8", $link);
 
 	if ($act == "ct") {
 		$curr_tables = get_tables($link);

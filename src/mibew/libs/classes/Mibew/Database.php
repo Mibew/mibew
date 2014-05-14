@@ -72,24 +72,6 @@ class Database
     protected $tablesPrefix = '';
 
     /**
-     * Database connection encoding. Is used only if
-     * Database::$forceCharsetInConnection is set to true.
-     * @var string
-     *
-     * @see Database::$forceCharsetInConnection
-     */
-    protected $dbEncoding = 'utf8';
-
-    /**
-     * Determine if connection must be forced to charset, specified in
-     * Database::$dbEncoding
-     * @var boolean
-     *
-     * @see Database::$dbEncoding
-     */
-    protected $forceCharsetInConnection = true;
-
-    /**
      * Determine if connection to the database must be persistent
      * @var type
      */
@@ -156,20 +138,8 @@ class Database
      *   database or not.
      * @param string $db Database name.
      * @param string $prefix Database tables prefix
-     * @param boolean $force_charset Control force charset in conection or not.
-     * @param string $encoding Contains connection encoding. Is used only if
-     *   $force_charset is equals to TRUE.
      */
-    public static function initialize(
-        $host,
-        $user,
-        $pass,
-        $use_pconn,
-        $db,
-        $prefix,
-        $force_charset = false,
-        $encoding = 'utf8'
-    ) {
+    public static function initialize($host, $user, $pass, $use_pconn, $db, $prefix) {
         // Check PDO
         if (!extension_loaded('PDO')) {
             throw new \Exception('PDO extension is not loaded');
@@ -192,9 +162,7 @@ class Database
         $instance->dbLogin = $user;
         $instance->dbPass = $pass;
         $instance->dbName = $db;
-        $instance->dbEncoding = $encoding;
         $instance->tablesPrefix = preg_replace('/[^A-Za-z0-9_$]/', '', $prefix);
-        $instance->forceCharsetInConnection = $force_charset;
         $instance->usePersistentConnection = $use_pconn;
 
         // Create PDO object
@@ -205,9 +173,8 @@ class Database
             array(\PDO::ATTR_PERSISTENT => $instance->usePersistentConnection)
         );
 
-        if ($instance->forceCharsetInConnection) {
-            $instance->dbh->exec("SET NAMES " . $instance->dbh->quote($instance->dbEncoding));
-        }
+        // Force charset in all connections
+        $instance->dbh->exec("SET NAMES utf8");
 
         // Store instance
         self::$instance = $instance;
