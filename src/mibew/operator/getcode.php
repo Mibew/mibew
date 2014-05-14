@@ -59,7 +59,7 @@ $show_host = verify_param("hostname", "/^on$/", "") == "on";
 $force_secure = verify_param("secure", "/^on$/", "") == "on";
 $mod_security = verify_param("modsecurity", "/^on$/", "") == "on";
 
-$code_type = verify_param("codetype", "/^(button|operator_code)$/", "button");
+$code_type = verify_param("codetype", "/^(button|operator_code|text_link)$/", "button");
 $operator_code = ($code_type == "operator_code");
 
 $lang = verify_param("lang", "/^[\w-]{2,5}$/", "");
@@ -67,14 +67,24 @@ if (!$lang || !in_array($lang, $image_locales)) {
     $lang = in_array(CURRENT_LOCALE, $image_locales) ? CURRENT_LOCALE : $image_locales[0];
 }
 
-$file = MIBEW_FS_ROOT . '/locales/${lang}/button/${image}_on.gif';
-$size = get_gifimage_size($file);
+if ($code_type == "text_link") {
+    $disable_invitation = true;
 
-$image_href = get_app_location($show_host, $force_secure) . "/b?i=$image&amp;lang=$lang";
-if ($group_id) {
-    $image_href .= "&amp;group=$group_id";
+    $message = getlocal('page.gen_button.text_link_text');
+
 }
-$message = get_image($image_href, $size[0], $size[1]);
+else {
+    $disable_invitation = false;
+
+    $file = MIBEW_FS_ROOT . '/locales/${lang}/button/${image}_on.gif';
+    $size = get_gifimage_size($file);
+
+    $image_href = get_app_location($show_host, $force_secure) . "/b?i=$image&amp;lang=$lang";
+    if ($group_id) {
+        $image_href .= "&amp;group=$group_id";
+    }
+    $message = get_image($image_href, $size[0], $size[1]);
+}
 
 $page['buttonCode'] = generate_button(
     "",
@@ -86,7 +96,8 @@ $page['buttonCode'] = generate_button(
     $show_host,
     $force_secure,
     $mod_security,
-    $operator_code
+    $operator_code,
+    $disable_invitation
 );
 $page['availableImages'] = array_keys($image_locales_map);
 $page['availableLocales'] = $image_locales;
@@ -96,7 +107,8 @@ $page['groups'] = get_groups_list();
 
 $page['availableCodeTypes'] = array(
     'button' => getlocal('page.gen_button.button'),
-    'operator_code' => getlocal('page.gen_button.operator_code')
+    'operator_code' => getlocal('page.gen_button.operator_code'),
+    'text_link' => getlocal('page.gen_button.text_link')
 );
 
 $page['formgroup'] = $group_id;
@@ -111,6 +123,7 @@ $page['formcodetype'] = $code_type;
 
 $page['enabletracking'] = Settings::get('enabletracking');
 $page['operator_code'] = $operator_code;
+$page['generateButton'] = ($code_type == "button");
 
 $page['title'] = getlocal("page.gen_button.title");
 $page['menuid'] = "getcode";
