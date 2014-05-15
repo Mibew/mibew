@@ -34,6 +34,16 @@ history_user:
     requirements:
         user_id: .{0,63}
 
+password_recovery:
+    path: /operator/password-recovery
+    defaults:
+        _controller: Mibew\Controller\PasswordRecoveryController::indexAction
+
+password_recovery_reset:
+    path: /operator/password-recovery/reset
+    defaults:
+        _controller: Mibew\Controller\PasswordRecoveryController::resetAction
+
 updates:
     path: /operator/updates
     defaults:
