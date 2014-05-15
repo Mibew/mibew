@@ -17,19 +17,24 @@
 
 namespace Mibew;
 
+use Mibew\AccessControl\Check\CheckResolver;
+use Mibew\Controller\ControllerResolver;
 use Mibew\EventDispatcher;
+use Mibew\Http\Exception\AccessDeniedException as AccessDeniedHttpException;
+use Mibew\Http\Exception\BadRequestException as BadRequestHttpException;
+use Mibew\Http\Exception\HttpException;
+use Mibew\Http\Exception\MethodNotAllowedException as MethodNotAllowedHttpException;
+use Mibew\Http\Exception\NotFoundException as NotFoundHttpException;
 use Mibew\Routing\Router;
 use Mibew\Routing\RouteCollectionLoader;
-use Mibew\Routing\Exception\AccessDeniedException;
-use Mibew\Controller\ControllerResolver;
-use Mibew\AccessControl\Check\CheckResolver;
+use Mibew\Routing\Exception\AccessDeniedException as AccessDeniedRoutingException;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Symfony\Component\Routing\Exception\MethodNotAllowedException;
-use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException as MethodNotAllowedRoutingException;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException as ResourceNotFoundRoutingException;
 
 /**
  * Incapsulates whole application
@@ -76,26 +81,41 @@ class Application
         $this->router->setContext($context);
 
         try {
-            // Try to match a route and add extra data to the request.
-            $parameters = $this->router->matchRequest($request);
-            $request->attributes->add($parameters);
-            $request->attributes->set('_operator', $this->extractOperator($request));
+            // Try to match a route, check if the client can access it and add
+            // extra data to the request.
+            try {
+                $parameters = $this->router->matchRequest($request);
+                $request->attributes->add($parameters);
+                $request->attributes->set('_operator', $this->extractOperator($request));
 
-            // Check if the user can access the page
-            $access_check = $this->accessCheckResolver->getCheck($request);
-            if (!call_user_func($access_check, $request)) {
-                throw new AccessDeniedException();
+                // Check if the user can access the page
+                $access_check = $this->accessCheckResolver->getCheck($request);
+                if (!call_user_func($access_check, $request)) {
+                    throw new RoutingAccessDeniedException();
+                }
+            } catch (AccessDeniedRoutingException $e) {
+                // Convert the exception to HTTP exception to process it later.
+                throw new AccessDeniedHttpException();
+            } catch (ResourceNotFoundRoutingException $e) {
+                // Convert the exception to HTTP exception to process it later.
+                throw new NotFoundHttpException();
+            } catch (MethodNotAllowedRoutingException $e) {
+                // Convert the exception to HTTP exception to process it later.
+                throw new MethodNotAllowedHttpException();
             }
 
             // Get controller and perform its action to get a response.
             $controller = $this->controllerResolver->getController($request);
             $response = call_user_func($controller, $request);
-        } catch (AccessDeniedException $e) {
+        } catch (HttpAccessDeniedException $e) {
             return $this->buildAccessDeniedResponse($request);
-        } catch (ResourceNotFoundException $e) {
-            return new Response('Not Found', 404);
-        } catch (MethodNotAllowedException $e) {
-            return new Response('Method Not Allowed', 405);
+        } catch (HttpException $e) {
+            // Build response based on status code which is stored in exception
+            // instance.
+            $http_status = $e->getStatusCode();
+            $content = Response::$statusTexts[$http_status];
+
+            return new Response($content, $http_status);
         } catch (\Exception $e) {
             return new Response('Internal Server Error', 500);
         }
