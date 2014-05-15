@@ -133,7 +133,7 @@ function get_locale()
     return $locale;
 }
 
-function get_locale_links($href)
+function get_locale_links()
 {
     $locale_links = array();
     $all_locales = get_available_locales();

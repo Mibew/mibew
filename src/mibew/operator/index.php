@@ -29,7 +29,7 @@ $is_online = is_operator_online($operator['operatorid']);
 
 $page = array(
     'version' => MIBEW_VERSION,
-    'localeLinks' => get_locale_links(MIBEW_WEB_ROOT . "/operator/index.php"),
+    'localeLinks' => get_locale_links(),
     'needUpdate' => Settings::get('dbversion') != DB_VERSION,
     'needChangePassword' => check_password_hash($operator['vclogin'], '', $operator['vcpassword']),
     'profilePage' => MIBEW_WEB_ROOT . "/operator/operator.php?op=" . $operator['operatorid'],

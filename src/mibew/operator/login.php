@@ -61,7 +61,7 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
     }
 }
 
-$page['localeLinks'] = get_locale_links(MIBEW_WEB_ROOT . "/operator/login.php");
+$page['localeLinks'] = get_locale_links();
 $page['title'] = getlocal("page_login.title");
 $page['headertitle'] = getlocal("app.title");
 $page['show_small_login'] = false;

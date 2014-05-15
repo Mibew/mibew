@@ -291,7 +291,7 @@ function show_install_err($text)
 	global $page;
 	$page = array(
 		'version' => MIBEW_VERSION,
-		'localeLinks' => get_locale_links(MIBEW_WEB_ROOT . "/install/index.php"),
+		'localeLinks' => get_locale_links(),
 		'title' => getlocal("install.err.title"),
 		'no_right_menu' => true,
 		'fixedwrap' => true,

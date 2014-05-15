@@ -65,7 +65,7 @@ require_once(MIBEW_FS_ROOT.'/install/dbinfo.php');
 
 $page = array(
 	'version' => MIBEW_VERSION,
-	'localeLinks' => get_locale_links(MIBEW_WEB_ROOT . "/install/index.php")
+	'localeLinks' => get_locale_links()
 );
 
 $page['done'] = array();
