@@ -25,7 +25,7 @@ use Mibew\Style\InvitationStyle;
  *
  * @param string $title Page title
  * @param string $locale 2-digit ISO-639-1 code for language
- * @param string $style name of avalabel style from styles/dialogs folder
+ * @param string $style name of available style from styles/dialogs folder
  * @param string $invitation_style_name name of avalabel style from
  * styles/invitations folder
  * @param integer $group chat group id
@@ -35,6 +35,8 @@ use Mibew\Style\InvitationStyle;
  * @param bool $mod_security add rule to remove protocol from document location
  * in generated javascript code
  * @param bool $operator_code add operator code to generated button code or not
+ * @param bool $disable_invitation forcibly disable invitation regadless of
+ * tracking settings
  *
  * @return string Generate chat button code
  */
@@ -48,7 +50,8 @@ function generate_button(
     $show_host,
     $force_secure,
     $mod_security,
-    $operator_code
+    $operator_code,
+    $disable_invitation
 ) {
     $app_location = get_app_location($show_host, $force_secure);
     $link = $app_location . "/client.php";
@@ -92,7 +95,7 @@ function generate_button(
 
     // Generate button
     $temp = get_popup($link, "$js_link", $inner, $title, "mibew", $popup_options);
-    if (Settings::get('enabletracking')) {
+    if (!$disable_invitation && Settings::get('enabletracking')) {
         $widget_data = array();
 
         // Get actual invitation style instance

@@ -52,7 +52,7 @@
                         </div>
                         <br clear="all"/>
 
-                        {{#unless operator_code}}
+                        {{#if generateButton}}
                             <div class="fieldinrow">
                                 <label for="i" class="flabel">{{l10n "page.gen_button.choose_image"}}</label>
                                 <div class="fvaluenodesc">
@@ -78,7 +78,7 @@
                             {{/if}}
 
                             <br clear="all"/>
-                        {{/unless}}
+                        {{/if}}
 
                         <div class="fieldinrow">
                             <label for="group" class="flabel">{{l10n "page.gen_button.choose_group"}}</label>
