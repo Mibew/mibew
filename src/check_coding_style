@@ -1,0 +1,3 @@
+#!/bin/sh
+
+mibew/vendor/bin/phpcs --standard="PSR2" --extensions="php" --ignore="mibew/install,mibew/vendor/,mibew/plugins" -n mibew/
