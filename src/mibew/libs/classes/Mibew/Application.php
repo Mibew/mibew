@@ -21,7 +21,6 @@ use Mibew\AccessControl\Check\CheckResolver;
 use Mibew\Controller\ControllerResolver;
 use Mibew\EventDispatcher;
 use Mibew\Http\Exception\AccessDeniedException as AccessDeniedHttpException;
-use Mibew\Http\Exception\BadRequestException as BadRequestHttpException;
 use Mibew\Http\Exception\HttpException;
 use Mibew\Http\Exception\MethodNotAllowedException as MethodNotAllowedHttpException;
 use Mibew\Http\Exception\NotFoundException as NotFoundHttpException;
@@ -91,7 +90,7 @@ class Application
                 // Check if the user can access the page
                 $access_check = $this->accessCheckResolver->getCheck($request);
                 if (!call_user_func($access_check, $request)) {
-                    throw new RoutingAccessDeniedException();
+                    throw new AccessDeniedRoutingException();
                 }
             } catch (AccessDeniedRoutingException $e) {
                 // Convert the exception to HTTP exception to process it later.
@@ -107,7 +106,7 @@ class Application
             // Get controller and perform its action to get a response.
             $controller = $this->controllerResolver->getController($request);
             $response = call_user_func($controller, $request);
-        } catch (HttpAccessDeniedException $e) {
+        } catch (AccessDeniedHttpException $e) {
             return $this->buildAccessDeniedResponse($request);
         } catch (HttpException $e) {
             // Build response based on status code which is stored in exception
