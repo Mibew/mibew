@@ -44,6 +44,15 @@ password_recovery_reset:
     defaults:
         _controller: Mibew\Controller\PasswordRecoveryController::resetAction
 
+statistics:
+    path: /operator/statistics/{type}
+    defaults:
+        type: "by-date"
+        _controller: Mibew\Controller\StatisticsController::indexAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+    requirements:
+        type: by-date|by-operator|by-page
+
 updates:
     path: /operator/updates
     defaults:

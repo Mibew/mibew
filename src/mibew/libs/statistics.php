@@ -20,44 +20,139 @@ use Mibew\Database;
 use Mibew\Settings;
 use Mibew\Thread;
 
-function get_statistics_query($type)
+/**
+ * Loads statistics about system usage aggregated by dates for the time between
+ * $start and $end timestamps.
+ *
+ * @param int $start Timestamp for beginning of the interval of interest.
+ * @param int $end Timestamp for ending of the interval of interest.
+ * @return array Associative array with the following keys:
+ *  - "records": array of associative arrays, set of statistics records
+ *  - "total": associative array, aggregated statistics for the interval of
+ *    interest.
+ */
+function get_by_date_statistics($start, $end)
 {
-    $query = $_SERVER['QUERY_STRING'];
-    if (!empty($query)) {
-        $query = '?' . $query;
-        $query = preg_replace("/\?type=\w+\&/", "?", $query);
-        $query = preg_replace("/(\?|\&)type=\w+/", "", $query);
-    }
-    $query .= strstr($query, "?") ? "&type=$type" : "?type=$type";
+    $db = Database::getInstance();
 
-    return $query;
+    // Get statistics records aggregated by date
+    $records = $db->query(
+        ("SELECT DATE(FROM_UNIXTIME(date)) AS date, "
+            . "threads, "
+            . "missedthreads, "
+            . "sentinvitations, "
+            . "acceptedinvitations, "
+            . "rejectedinvitations, "
+            . "ignoredinvitations, "
+            . "operatormessages AS agents, "
+            . "usermessages AS users, "
+            . "averagewaitingtime AS avgwaitingtime, "
+            . "averagechattime AS avgchattime "
+        . "FROM {chatthreadstatistics} s "
+        . "WHERE s.date >= :start "
+            . "AND s.date < :end "
+        . "GROUP BY DATE(FROM_UNIXTIME(date)) "
+        . "ORDER BY s.date DESC"),
+        array(
+            ':start' => $start,
+            ':end' => $end,
+        ),
+        array('return_rows' => Database::RETURN_ALL_ROWS)
+    );
+
+    // Get statistics aggregated for all accessed interval
+    $total = $db->query(
+        ("SELECT DATE(FROM_UNIXTIME(date)) AS date, "
+            . "SUM(threads) AS threads, "
+            . "SUM(missedthreads) AS missedthreads, "
+            . "SUM(sentinvitations) AS sentinvitations, "
+            . "SUM(acceptedinvitations) AS acceptedinvitations, "
+            . "SUM(rejectedinvitations) AS rejectedinvitations, "
+            . "SUM(ignoredinvitations) AS ignoredinvitations, "
+            . "SUM(operatormessages) AS agents, "
+            . "SUM(usermessages) AS users, "
+            . "ROUND(SUM(averagewaitingtime * s.threads) / SUM(s.threads),1) AS avgwaitingtime, "
+            . "ROUND(SUM(averagechattime * s.threads) / SUM(s.threads),1) AS avgchattime "
+        . "FROM {chatthreadstatistics} s "
+        . "WHERE s.date >= :start "
+            . "AND s.date < :end"),
+        array(
+            ':start' => $start,
+            ':end' => $end,
+        ),
+        array('return_rows' => Database::RETURN_ONE_ROW)
+    );
+
+    return array(
+        'records' => $records,
+        'total' => $total,
+    );
 }
 
 /**
- * Builds list of the statistics tabs. The keys of the resulting array are
- * tabs titles and the values are tabs URLs.
+ * Loads statistics about operators for the time between $start and $end
+ * timestamps.
  *
- * @param int $active Number of the active tab. The count starts from 0.
- * @return array Tabs list
+ * @param int $start Timestamp for beginning of the interval of interest.
+ * @param int $end Timestamp for ending of the interval of interest.
+ * @return array Set of statistics records
  */
-function setup_statistics_tabs($active)
+function get_by_operator_statistics($start, $end)
 {
-    $tabs = array(
-        getlocal("report.bydate.title") => ($active != 0
-            ? (MIBEW_WEB_ROOT . "/operator/statistics.php" . get_statistics_query('bydate'))
-            : ""),
-        getlocal("report.byoperator.title") => ($active != 1
-            ? (MIBEW_WEB_ROOT . "/operator/statistics.php" . get_statistics_query('byagent'))
-            : "")
+    $db = Database::getInstance();
+    $result = $db->query(
+        ("SELECT o.vclocalename AS name, "
+            . "SUM(s.threads) AS threads, "
+            . "SUM(s.messages) AS msgs, "
+            . "ROUND( "
+                    . "SUM(s.averagelength * s.messages) / SUM(s.messages), "
+                . "1) AS avglen, "
+            . "SUM(sentinvitations) AS sentinvitations, "
+            . "SUM(acceptedinvitations) AS acceptedinvitations, "
+            . "SUM(rejectedinvitations) AS rejectedinvitations, "
+            . "SUM(ignoredinvitations) AS ignoredinvitations "
+        . "FROM {chatoperatorstatistics} s, {chatoperator} o "
+        . "WHERE s.operatorid = o.operatorid "
+            . "AND s.date >= :start "
+            . "AND s.date < :end "
+        . "GROUP BY s.operatorid"),
+        array(
+            ':start' => $start,
+            ':end' => $end,
+        ),
+        array('return_rows' => Database::RETURN_ALL_ROWS)
     );
 
-    if (Settings::get('enabletracking')) {
-        $tabs[getlocal("report.bypage.title")] = ($active != 2
-            ? (MIBEW_WEB_ROOT . "/operator/statistics.php" . get_statistics_query('bypage'))
-            : "");
-    }
+    return $result;
+}
 
-    return $tabs;
+/**
+ * Loads statistics about pages for the time between $start and $end timestamps.
+ *
+ * @param int $start Timestamp for beginning of the interval of interest.
+ * @param int $end Timestamp for ending of the interval of interest.
+ * @return array Set of statistics records
+ */
+function get_by_page_statistics($start, $end)
+{
+    $db = Database::getInstance();
+    $result = $db->query(
+        ("SELECT SUM(visits) as visittimes, "
+            . "address, "
+            . "SUM(chats) as chattimes, "
+            . "SUM(sentinvitations) AS sentinvitations, "
+            . "SUM(acceptedinvitations) AS acceptedinvitations, "
+            . "SUM(rejectedinvitations) AS rejectedinvitations, "
+            . "SUM(ignoredinvitations) AS ignoredinvitations "
+        . "FROM {visitedpagestatistics} "
+        . "WHERE date >= :start "
+            . "AND date < :end "
+        . "GROUP BY address"),
+        array(':start' => $start, ':end' => $end),
+        array('return_rows' => Database::RETURN_ALL_ROWS)
+    );
+
+    return $result;
 }
 
 /**
