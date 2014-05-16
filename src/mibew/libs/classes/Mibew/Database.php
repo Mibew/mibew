@@ -139,7 +139,8 @@ class Database
      * @param string $db Database name.
      * @param string $prefix Database tables prefix
      */
-    public static function initialize($host, $user, $pass, $use_pconn, $db, $prefix) {
+    public static function initialize($host, $user, $pass, $use_pconn, $db, $prefix)
+    {
         // Check PDO
         if (!extension_loaded('PDO')) {
             throw new \Exception('PDO extension is not loaded');

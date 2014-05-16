@@ -81,8 +81,7 @@ if ($generate_button) {
         $image_href .= "&amp;group=$group_id";
     }
     $message = get_image($image_href, $size[0], $size[1]);
-}
-else {
+} else {
     $disable_invitation = true;
 
     $lang = verify_param("lang", "/^[\w-]{2,5}$/", "");
