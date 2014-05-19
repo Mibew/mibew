@@ -50,7 +50,7 @@ require_once('inc_errors.php');
 			<div class="fvalue">
 				<img src="<?php echo safe_htmlspecialchars($page['avatar']) ?>" alt="<?php echo safe_htmlspecialchars(getlocal("page_avatar.cannot_load_avatar")) ?>"/><br/>
 <?php if($page['canmodify']) { ?>
-                <a class="formauth" href="<?php echo $mibewroot ?>/operator/avatar.php?op=<?php echo urlencode($page['opid']) ?>&amp;delete=true">
+                <a class="formauth" href="<?php echo $mibewroot ?>/operator/avatar.php?op=<?php echo urlencode($page['opid']) ?>&amp;act=del<?php print_csrf_token_in_url() ?>">
                     <?php echo getlocal("page_agent.clear_avatar") ?>
                 </a>
 <?php } ?>

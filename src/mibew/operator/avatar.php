@@ -88,7 +88,7 @@ if (!$op) {
 	}
 
 } else {
-	if (isset($_GET['delete']) && $_GET['delete'] == "true" && $canmodify) {
+	if (isset($_GET['act']) && $_GET['act'] == 'del' && $canmodify) {
 		update_operator_avatar($op['operatorid'], '');
 		header("Location: $mibewroot/operator/avatar.php?op=" . intval($opId));
 		exit;
