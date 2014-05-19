@@ -585,7 +585,7 @@ function setup_chatview_for_operator(Thread $thread, $operator)
         $visitor = track_get_visitor_by_thread_id($thread->id);
         $tracked_link_params = array("visitor" => "" . $visitor['visitorid']);
         $data['chat']['links']['tracked'] = add_params(
-            MIBEW_WEB_ROOT . "/operator/tracked.php",
+            MIBEW_WEB_ROOT . "/operator/history/user-track",
             $tracked_link_params
         );
     }

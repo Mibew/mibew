@@ -18,7 +18,9 @@
 namespace Mibew\Controller;
 
 use Mibew\Database;
+use Mibew\Http\Exception\BadRequestException;
 use Mibew\Thread;
+use Mibew\Settings;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -268,5 +270,57 @@ class HistoryController extends AbstractController
         $page['menuid'] = "history";
 
         return $this->render('history_user', $page);
+    }
+
+    /**
+     * Generate content for "history_user_track" route.
+     *
+     * @param Request $request
+     * @return string Rendered page content
+     */
+    public function userTrackAction(Request $request)
+    {
+        setlocale(LC_TIME, getstring('time.locale'));
+
+        if (Settings::get('enabletracking') == '0') {
+            throw new BadRequestException('Tracking is disabled.');
+        }
+
+        if ($request->query->has('thread')) {
+            $thread_id = $request->query->get('thread');
+            if (!preg_match("/^\d{1,8}$/", $thread_id)) {
+                throw new BadRequestException('Wrong thread ID.');
+            }
+            $visitor = track_get_visitor_by_thread_id($thread_id);
+            if (!$visitor) {
+                throw new BadRequestException('Wrong thread.');
+            }
+        } else {
+            $visitor_id = $request->query->get('visitor');
+            if (!preg_match("/^\d{1,8}$/", $visitor_id)) {
+                throw new BadRequestException('Wrong visitor ID.');
+            }
+            $visitor = track_get_visitor_by_id($visitor_id);
+            if (!$visitor) {
+                throw new BadRequestException('Wrong visitor.');
+            }
+        }
+
+        $path = track_get_path($visitor);
+
+        $page['entry'] = htmlspecialchars($visitor['entry']);
+        $page['history'] = array();
+        ksort($path);
+        foreach ($path as $k => $v) {
+            $page['history'][] = array(
+                'date' => date_to_text($k),
+                'link' => htmlspecialchars($v),
+            );
+        }
+
+        $page['title'] = getlocal('tracked.path');
+        $page['show_small_login'] = false;
+
+        return $this->render('tracked', $page);
     }
 }
