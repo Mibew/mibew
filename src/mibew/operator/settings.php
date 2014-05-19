@@ -45,6 +45,7 @@ $options = array(
     'geolinkparams',
     'sendmessagekey',
     'cron_key',
+    'left_messages_locale',
 );
 
 $params = array();
@@ -66,6 +67,8 @@ if (Settings::get('enabletracking')) {
     $invitation_style_list = InvitationStyle::getAvailableStyles();
 }
 
+$locales_list = get_available_locales();
+
 if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
     $params['email'] = get_param('email');
     $params['title'] = get_param('title');
@@ -77,6 +80,11 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
     $params['geolinkparams'] = get_param('geolinkparams');
     $params['sendmessagekey'] = verify_param('sendmessagekey', "/^c?enter$/");
     $params['cron_key'] = get_param('cronkey');
+
+    $params['left_messages_locale'] = verify_param("leftmessageslocale", "/^[\w-]{2,5}$/", $params['left_messages_locale']);
+    if (!in_array($params['left_messages_locale'], $locales_list)) {
+        $params['left_messages_locale'] = HOME_LOCALE;
+    }
 
     $styles_params['chat_style'] = verify_param("chat_style", "/^\w+$/", $styles_params['chat_style']);
     if (!in_array($styles_params['chat_style'], $chat_style_list)) {
@@ -142,6 +150,8 @@ if (isset($_POST['email']) && isset($_POST['title']) && isset($_POST['logo'])) {
 }
 
 $page['formemail'] = $params['email'];
+$page['formleftmessageslocale'] = $params['left_messages_locale'];
+$page['availableLocales'] = $locales_list;
 $page['formtitle'] = $params['title'];
 $page['formlogo'] = $params['logo'];
 $page['formhosturl'] = $params['hosturl'];

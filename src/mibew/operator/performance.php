@@ -41,6 +41,7 @@ $options = array(
     'tracking_lifetime',
     'thread_lifetime',
     'statistics_aggregation_interval',
+    'max_uploaded_file_size',
 );
 
 $params = array();
@@ -102,6 +103,11 @@ if (isset($_POST['onlinetimeout'])) {
         }
     }
 
+    $params['max_uploaded_file_size'] = get_param('maxuploadedfilesize');
+    if (!is_numeric($params['max_uploaded_file_size'])) {
+        $page['errors'][] = wrong_field("settings.maxuploadedfilesize");
+    }
+
     if (count($page['errors']) == 0) {
         foreach ($options as $opt) {
             Settings::set($opt, $params[$opt]);
@@ -126,6 +132,8 @@ if (Settings::get('enabletracking')) {
     $page['forminvitationlifetime'] = $params['invitation_lifetime'];
     $page['formtrackinglifetime'] = $params['tracking_lifetime'];
 }
+
+$page['formmaxuploadedfilesize'] = $params['max_uploaded_file_size'];
 
 $page['enabletracking'] = Settings::get('enabletracking');
 $page['stored'] = isset($_GET['stored']);
