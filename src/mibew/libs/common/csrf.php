@@ -15,10 +15,35 @@
  * limitations under the License.
  */
 
-/* authorization token check for CSRF attack */
-function csrf_check_token()
+use Symfony\Component\HttpFoundation\Request;
+use Mibew\Http\Exception\BadRequestException;
+
+/**
+ * Checks authorization token for CSRF attack.
+ *
+ * @param Request $request Incoming request. If it is not specified values from
+ * $_POST and $_GET arrays will be used.
+ *
+ * @throws BadRequestException If CSRF token check is faild.
+ *
+ * @todo Remove legacy code, related with $_POST and $_GET arrays.
+ */
+function csrf_check_token(Request $request = null)
 {
     set_csrf_token();
+
+    // If the request instance is provided use it to get the token.
+    if ($request) {
+        $token = $request->isMethod('POST')
+            ? $token = $request->request->get('csrf_token', false)
+            : $token = $request->query->get('csrf_token', false);
+
+        if ($token !== $_SESSION['csrf_token']) {
+            throw new BadRequestException('CSRF failure');
+        }
+
+        return;
+    }
 
     // Check the turing code for post requests and del requests
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
