@@ -157,7 +157,7 @@
                 // Build sound path
                 var path = Mibew.Objects.Models.page.get('mibewRoot');
                 if (typeof path !== 'undefined') {
-                    path += '/sounds/new_user.wav';
+                    path += '/sounds/new_user';
                     // Play sound
                     Mibew.Utils.playSound(path);
                 }
