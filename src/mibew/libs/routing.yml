@@ -12,6 +12,20 @@ widget_gateway:
     defaults: { _controller: Mibew\Controller\WidgetController::indexAction }
 
 # Operators' pages
+canned_message:
+    path: /operator/canned-message
+    defaults:
+        _controller: Mibew\Controller\CannedMessageController::indexAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+
+canned_message_delete:
+    path: /operator/canned-message/{message_id}/delete
+    defaults:
+        _controller: Mibew\Controller\CannedMessageController::deleteAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+    requirements:
+        message_id: \d+
+
 history:
     path: /operator/history
     defaults:
