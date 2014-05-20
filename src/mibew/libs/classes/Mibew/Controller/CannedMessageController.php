@@ -40,7 +40,7 @@ class CannedMessageController extends AbstractController
             'errors' => array(),
         );
 
-        // Get selected locale, if any.
+        // Build list of available locales
         $all_locales = get_available_locales();
         $locales_with_label = array();
         foreach ($all_locales as $id) {
@@ -51,6 +51,7 @@ class CannedMessageController extends AbstractController
         }
         $page['locales'] = $locales_with_label;
 
+        // Get selected locale, if any.
         $lang = $this->extractLocale($request);
         if (!$lang) {
             $lang = in_array(CURRENT_LOCALE, $all_locales)
@@ -68,6 +69,7 @@ class CannedMessageController extends AbstractController
             }
         }
 
+        // Build list of available groups
         $all_groups = in_isolation($operator)
             ? get_all_groups_for_operator($operator)
             : get_all_groups();
@@ -119,7 +121,7 @@ class CannedMessageController extends AbstractController
         // Remove message from the database.
         $db = Database::getInstance();
 
-        $key = (int)$request->attributes->get('message_id');
+        $key = $request->attributes->getInt('message_id');
         $db->query("DELETE FROM {chatresponses} WHERE id = ?", array($key));
 
         // Redirect user to canned messages list. Use only "lang" and "group"
@@ -145,7 +147,7 @@ class CannedMessageController extends AbstractController
         set_csrf_token();
 
         $operator = $request->attributes->get('_operator');
-        $message_id = $request->attributes->get('message_id', false);
+        $message_id = $request->attributes->getInt('message_id', false);
         $page = array(
             // Use errors list stored in the request. We need to do so to have
             // an ability to pass the request from the "save" action.
@@ -208,8 +210,14 @@ class CannedMessageController extends AbstractController
         csrf_check_token($request);
 
         $operator = $request->attributes->get('_operator');
-        $message_id = $request->request->get('key');
         $errors = array();
+
+        // Use value from the form and not from the path to make sure it is
+        // correct. If not, treat the param as empty one.
+        $message_id = $request->request->get('key');
+        if (!preg_match("/^(\d{1,10})?$/", $message_id)) {
+            $message_id = false;
+        }
 
         $title = $request->request->get('title');
         if (!$title) {
@@ -282,7 +290,7 @@ class CannedMessageController extends AbstractController
             return false;
         }
 
-        if (!preg_match("/^\d{0,10}$/", $group_id)) {
+        if (!preg_match("/^\d{1,10}$/", $group_id)) {
             return false;
         }
 
