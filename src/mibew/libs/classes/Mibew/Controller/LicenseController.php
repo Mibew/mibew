@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\Request;
 class LicenseController extends AbstractController
 {
     /**
-     * Generate content for "license" route.
+     * Generates a page with license info.
      *
      * @param Request $request
      * @return string Rendered page content

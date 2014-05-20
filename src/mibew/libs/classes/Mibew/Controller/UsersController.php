@@ -28,7 +28,7 @@ use Symfony\Component\HttpFoundation\Request;
 class UsersController extends AbstractController
 {
     /**
-     * Generate content for "users" route.
+     * Generates a page with awaiting visitors.
      *
      * @param Request $request
      * @return string Rendered page content
@@ -78,7 +78,7 @@ class UsersController extends AbstractController
     }
 
     /**
-     * Generate content for "users_update" route.
+     * Provides a gateway for client side application at awaiting visitors page.
      *
      * @param Request $request
      * @return string Rendered page content

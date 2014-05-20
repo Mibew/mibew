@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\Request;
 class CannedMessageController extends AbstractController
 {
     /**
-     * Generate content for "canned_message" route.
+     * Generates list of available canned messages.
      *
      * @param Request $request
      * @return string Rendered page content
@@ -108,7 +108,7 @@ class CannedMessageController extends AbstractController
     }
 
     /**
-     * Generate content for "canned_message_delete" route.
+     * Removes a canned message from the database.
      *
      * @param Request $request
      * @return string Rendered page content
@@ -135,8 +135,6 @@ class CannedMessageController extends AbstractController
     }
 
     /**
-     * Handles "canned_message_add" and "canned_message_edit" routes.
-     *
      * Builds a page with form for add/edit canned message.
      *
      * @param Request $request
@@ -195,12 +193,9 @@ class CannedMessageController extends AbstractController
     }
 
     /**
-     * Handles "canned_message_add_save" and "canned_message_edit_save" routes.
-     *
-     * The action processes submitting of the forms which are generated in
-     * "canned_message_add" and "canned_message_edit" routes (see
-     * {@link \Mibew\Controller\CannedMessageController::showEditForm()} for
-     * details).
+     * Processes submitting of the forms which is generated in
+     * {@link \Mibew\Controller\CannedMessageController::showEditFormAction()}
+     * method.
      *
      * @param Request $request
      * @return string Rendered page content

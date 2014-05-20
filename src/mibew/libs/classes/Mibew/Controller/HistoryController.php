@@ -29,7 +29,7 @@ use Symfony\Component\HttpFoundation\Request;
 class HistoryController extends AbstractController
 {
     /**
-     * Generate content for "history" route.
+     * Generates the main history page with search and results.
      *
      * @param Request $request
      * @return string Rendered page content
@@ -170,7 +170,7 @@ class HistoryController extends AbstractController
     }
 
     /**
-     * Generate content for "history_thread" route.
+     * Generates a page with thread history (thread log).
      *
      * @param Request $request
      * @return string Rendered page content
@@ -209,7 +209,7 @@ class HistoryController extends AbstractController
     }
 
     /**
-     * Generate content for "history_user" route.
+     * Generates a page with a user history.
      *
      * @param Request $request
      * @return string Rendered page content
@@ -273,7 +273,7 @@ class HistoryController extends AbstractController
     }
 
     /**
-     * Generate content for "history_user_track" route.
+     * Generates a page with user tracking information.
      *
      * @param Request $request
      * @return string Rendered page content

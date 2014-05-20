@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\Request;
 class UpdatesController extends AbstractController
 {
     /**
-     * Generate content for "updates" route.
+     * Generate a page with updates list.
      *
      * @param Request $request
      * @return string Rendered page content

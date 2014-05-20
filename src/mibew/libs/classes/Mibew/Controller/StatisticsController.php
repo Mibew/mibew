@@ -31,7 +31,7 @@ class StatisticsController extends AbstractController
     const TYPE_BY_OPERATOR = 'by-operator';
 
     /**
-     * Generates content for "statistics" route.
+     * Generates a page with statistics info.
      *
      * @param Request $request
      * @return string Rendered page content

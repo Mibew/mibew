@@ -28,7 +28,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class PasswordRecoveryController extends AbstractController
 {
     /**
-     * Generate content for "password_recovery" route.
+     * Generates a page for the first step of password recovery process.
      *
      * @param Request $request
      * @return string Rendered page content
@@ -113,7 +113,7 @@ class PasswordRecoveryController extends AbstractController
     }
 
     /**
-     * Generate content for "password_recovery_reset" route.
+     * Resets operators password and provides an ability to set the new one.
      *
      * @param Request $request
      * @return string Rendered page content

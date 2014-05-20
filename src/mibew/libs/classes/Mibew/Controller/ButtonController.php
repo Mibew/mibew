@@ -28,7 +28,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ButtonController extends AbstractController
 {
     /**
-     * Generate content for "button" route.
+     * Returns content of the chat button.
      *
      * @param Request $request
      * @return string Rendered page content
