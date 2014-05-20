@@ -14,12 +14,6 @@ widget_gateway:
 # Operators' pages
 
 ## Canned messages
-canned_message:
-    path: /operator/canned-message
-    defaults:
-        _controller: Mibew\Controller\CannedMessageController::indexAction
-        _access_check: Mibew\AccessControl\Check\LoggedInCheck
-
 canned_message_add:
     path: /operator/canned-message/add
     defaults:
@@ -59,6 +53,12 @@ canned_message_edit_save:
     requirements:
         message_id: \d{0,10}
     methods: [POST]
+
+canned_messages:
+    path: /operator/canned-message
+    defaults:
+        _controller: Mibew\Controller\CannedMessageController::indexAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
 
 ## History
 history:

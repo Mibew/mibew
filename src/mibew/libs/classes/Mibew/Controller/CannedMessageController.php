@@ -102,7 +102,7 @@ class CannedMessageController extends AbstractController
         $page['menuid'] = 'canned';
         $page = array_merge($page, prepare_menu($operator));
 
-        return $this->render('canned_message', $page);
+        return $this->render('canned_messages', $page);
     }
 
     /**
@@ -129,7 +129,7 @@ class CannedMessageController extends AbstractController
             array_flip(array('lang', 'group'))
         );
 
-        return $this->redirect($this->generateUrl('canned_message', $parameters));
+        return $this->redirect($this->generateUrl('canned_messages', $parameters));
     }
 
     /**
