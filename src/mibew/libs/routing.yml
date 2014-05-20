@@ -60,6 +60,79 @@ canned_messages:
         _controller: Mibew\Controller\CannedMessageController::indexAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
 
+## Groups
+group_delete:
+    path: /operator/group/{group_id}/delete
+    defaults:
+        _controller: Mibew\Controller\GroupController::deleteAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    requirements:
+        group_id: \d{0,10}
+
+group_add:
+    path: /operator/group/add
+    defaults:
+        _controller: Mibew\Controller\GroupController::showEditFormAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    methods: [GET]
+
+group_add_save:
+    path: /operator/group/add
+    defaults:
+        _controller: Mibew\Controller\GroupController::submitEditFormAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    methods: [POST]
+
+group_edit:
+    path: /operator/group/{group_id}/edit
+    defaults:
+        _controller: Mibew\Controller\GroupController::showEditFormAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    requirements:
+        group_id: \d{0,10}
+    methods: [GET]
+
+group_edit_save:
+    path: /operator/group/{group_id}/edit
+    defaults:
+        _controller: Mibew\Controller\GroupController::submitEditFormAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    requirements:
+        group_id: \d{0,10}
+    methods: [POST]
+
+group_members:
+    path: /operator/group/{group_id}/members
+    defaults:
+        _controller: Mibew\Controller\GroupController::showMembersFormAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    requirements:
+        group_id: \d{0,10}
+    methods: [GET]
+
+group_members_save:
+    path: /operator/group/{group_id}/members
+    defaults:
+        _controller: Mibew\Controller\GroupController::submitMembersFormAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    requirements:
+        group_id: \d{0,10}
+    methods: [POST]
+
+groups:
+    path: /operator/group
+    defaults:
+        _controller: Mibew\Controller\GroupController::indexAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+
 ## History
 history:
     path: /operator/history

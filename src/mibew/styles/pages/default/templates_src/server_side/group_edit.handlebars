@@ -22,7 +22,7 @@
             <div id="formmessage">{{l10n "data.saved"}}</div>
         {{/if}}
 
-        <form name="groupForm" method="post" action="{{mibewRoot}}/operator/group.php">
+        <form name="groupForm" method="post" action="{{formaction}}">
             {{csrfTokenInput}}
             <input type="hidden" name="gid" value="{{grid}}"/>
 

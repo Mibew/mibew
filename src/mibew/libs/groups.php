@@ -80,32 +80,6 @@ function get_group_name($group)
 }
 
 /**
- * Builds list of group settings tabs. The keys are tabs titles and the values
- * are tabs URLs.
- *
- * @param int $gid ID of the group whose settings page is displayed.
- * @param int $active Number of the active tab. The count starts from 0.
- * @return array Tabs list
- */
-function setup_group_settings_tabs($gid, $active)
-{
-    $tabs = array();
-
-    if ($gid) {
-        $tabs = array(
-            getlocal("page_group.tab.main") => ($active != 0
-                ? (MIBEW_WEB_ROOT . "/operator/group.php?gid=$gid")
-                : ""),
-            getlocal("page_group.tab.members") => ($active != 1
-                ? (MIBEW_WEB_ROOT . "/operator/groupmembers.php?gid=$gid")
-                : ""),
-        );
-    }
-
-    return $tabs;
-}
-
-/**
  * Builds list of group ids for specific operator
  *
  * @param int $operator_id ID of the specific operator.
