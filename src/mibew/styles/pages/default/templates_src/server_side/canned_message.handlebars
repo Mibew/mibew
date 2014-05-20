@@ -46,8 +46,8 @@
 
         <div class="tabletool">
             <img src="{{stylePath}}/images/buttons/createban.gif" border="0" alt=""/>
-            <a href="{{mibewRoot}}/operator/cannededit.php?lang={{formlang}}&amp;group={{formgroup}}" target="_blank"
-                        onclick="this.newWindow = window.open('{{mibewRoot}}/operator/cannededit.php?lang={{formlang}}&amp;group={{formgroup}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">
+            <a href="{{mibewRoot}}/operator/canned-message/add?lang={{formlang}}&amp;group={{formgroup}}" target="_blank"
+                        onclick="this.newWindow = window.open('{{mibewRoot}}/operator/canned-message/add?lang={{formlang}}&amp;group={{formgroup}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">
                 {{l10n "canned.add"}}
             </a>
         </div>
@@ -72,8 +72,8 @@
                             {{#replace "\n" "<br/>"}}{{vcvalue}}{{/replace}}
                         </td>
                         <td>
-                            <a href="{{../mibewRoot}}/operator/cannededit.php?key={{id}}" target="_blank"
-                                onclick="this.newWindow = window.open('{{../mibewRoot}}/operator/cannededit.php?key={{id}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{l10n "canned.actions.edit"}}</a>,
+                            <a href="{{../mibewRoot}}/operator/canned-message/{{id}}/edit" target="_blank"
+                                onclick="this.newWindow = window.open('{{../mibewRoot}}/operator/canned-message/{{id}}/edit', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{l10n "canned.actions.edit"}}</a>,
                             <a href="{{../mibewRoot}}/operator/canned-message/{{id}}/delete?lang={{../formlang}}&amp;group={{../formgroup}}{{csrfTokenInUrl}}">{{l10n "canned.actions.del"}}</a>
                         </td>
                     </tr>

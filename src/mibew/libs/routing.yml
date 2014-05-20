@@ -12,11 +12,27 @@ widget_gateway:
     defaults: { _controller: Mibew\Controller\WidgetController::indexAction }
 
 # Operators' pages
+
+## Canned messages
 canned_message:
     path: /operator/canned-message
     defaults:
         _controller: Mibew\Controller\CannedMessageController::indexAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
+
+canned_message_add:
+    path: /operator/canned-message/add
+    defaults:
+        _controller: Mibew\Controller\CannedMessageController::showEditFormAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+    methods: [GET]
+
+canned_message_add_save:
+    path: /operator/canned-message/add
+    defaults:
+        _controller: Mibew\Controller\CannedMessageController::saveAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+    methods: [POST]
 
 canned_message_delete:
     path: /operator/canned-message/{message_id}/delete
@@ -24,8 +40,27 @@ canned_message_delete:
         _controller: Mibew\Controller\CannedMessageController::deleteAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
     requirements:
-        message_id: \d+
+        message_id: \d{0,10}
 
+canned_message_edit:
+    path: /operator/canned-message/{message_id}/edit
+    defaults:
+        _controller: Mibew\Controller\CannedMessageController::showEditFormAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+    requirements:
+        message_id: \d{0,10}
+    methods: [GET]
+
+canned_message_edit_save:
+    path: /operator/canned-message/{message_id}/edit
+    defaults:
+        _controller: Mibew\Controller\CannedMessageController::saveAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+    requirements:
+        message_id: \d{0,10}
+    methods: [POST]
+
+## History
 history:
     path: /operator/history
     defaults:
@@ -54,6 +89,7 @@ history_user_track:
         _controller: Mibew\Controller\HistoryController::userTrackAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
 
+## Password recovery
 password_recovery:
     path: /operator/password-recovery
     defaults:
@@ -64,6 +100,7 @@ password_recovery_reset:
     defaults:
         _controller: Mibew\Controller\PasswordRecoveryController::resetAction
 
+## Statistics
 statistics:
     path: /operator/statistics/{type}
     defaults:
@@ -73,12 +110,14 @@ statistics:
     requirements:
         type: by-date|by-operator|by-page
 
+## Updates
 updates:
     path: /operator/updates
     defaults:
         _controller: Mibew\Controller\UpdatesController::indexAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
 
+## Users (visitors avaiting page)
 users:
     path: /operator/users
     defaults:
