@@ -34,7 +34,7 @@ canned_message_delete:
         _controller: Mibew\Controller\CannedMessageController::deleteAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
     requirements:
-        message_id: \d{0,10}
+        message_id: \d{1,10}
 
 canned_message_edit:
     path: /operator/canned-message/{message_id}/edit
@@ -42,7 +42,7 @@ canned_message_edit:
         _controller: Mibew\Controller\CannedMessageController::showEditFormAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
     requirements:
-        message_id: \d{0,10}
+        message_id: \d{1,10}
     methods: [GET]
 
 canned_message_edit_save:
@@ -51,7 +51,7 @@ canned_message_edit_save:
         _controller: Mibew\Controller\CannedMessageController::saveAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
     requirements:
-        message_id: \d{0,10}
+        message_id: \d{1,10}
     methods: [POST]
 
 canned_messages:
@@ -68,7 +68,7 @@ group_delete:
         _access_check: Mibew\AccessControl\Check\PermissionsCheck
         _access_permissions: [CAN_ADMINISTRATE]
     requirements:
-        group_id: \d{0,10}
+        group_id: \d{1,10}
 
 group_add:
     path: /operator/group/add
@@ -93,7 +93,7 @@ group_edit:
         _access_check: Mibew\AccessControl\Check\PermissionsCheck
         _access_permissions: [CAN_ADMINISTRATE]
     requirements:
-        group_id: \d{0,10}
+        group_id: \d{1,10}
     methods: [GET]
 
 group_edit_save:
@@ -103,7 +103,7 @@ group_edit_save:
         _access_check: Mibew\AccessControl\Check\PermissionsCheck
         _access_permissions: [CAN_ADMINISTRATE]
     requirements:
-        group_id: \d{0,10}
+        group_id: \d{1,10}
     methods: [POST]
 
 group_members:
@@ -113,7 +113,7 @@ group_members:
         _access_check: Mibew\AccessControl\Check\PermissionsCheck
         _access_permissions: [CAN_ADMINISTRATE]
     requirements:
-        group_id: \d{0,10}
+        group_id: \d{1,10}
     methods: [GET]
 
 group_members_save:
@@ -123,7 +123,7 @@ group_members_save:
         _access_check: Mibew\AccessControl\Check\PermissionsCheck
         _access_permissions: [CAN_ADMINISTRATE]
     requirements:
-        group_id: \d{0,10}
+        group_id: \d{1,10}
     methods: [POST]
 
 groups:
