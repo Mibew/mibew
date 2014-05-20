@@ -37,6 +37,19 @@
                             </div>
 
                             <div class="field">
+                                <label for="leftmessageslocale" class="flabel">{{l10n "settings.leftmessageslocale"}}</label>
+                                <div class="fvalue">
+                                    <select id="leftmessageslocale" name="leftmessageslocale">
+                                        {{#each availableLocales}}
+                                            <option value="{{this}}"{{#ifEqual this ../formleftmessageslocale}} selected="selected"{{/ifEqual}}>{{this}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                <label for="leftmessageslocale" class="fdescr"> &mdash; {{l10n "settings.leftmessageslocale.description"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
                                 <label for="titlefield" class="flabel">{{l10n "settings.company.title"}}</label>
                                 <div class="fvalue">
                                     <input id="titlefield" type="text" name="title" size="40" value="{{formtitle}}" class="formauth"/>
