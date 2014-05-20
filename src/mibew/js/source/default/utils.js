@@ -66,7 +66,6 @@
             player.get(0).play();
         }
         else {
-
             var audioTag = $("<audio>", {autoplay: true, style: "display: none"}).append(
             '<source src="' + file + '.wav" type="audio/x-wav" />' +
             '<source src="' + file + '.mp3" type="audio/mpeg" codecs="mp3" />' +
