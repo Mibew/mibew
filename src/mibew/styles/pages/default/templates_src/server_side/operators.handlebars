@@ -25,7 +25,7 @@
 
         {{> _errors}}
 
-        <form name="agentsForm" method="get" action="{{mibewRoot}}/operator/operators.php">
+        <form name="agentsForm" method="get" action="{{mibewRoot}}/operator/operator">
             <div class="mform">
                 <div class="formtop">
                     <div class="formtopi"></div>
@@ -111,14 +111,14 @@
                         {{#if ../canmodify}}
                             <td>
                                 {{#if isDisabled}}
-                                    <a href="{{../mibewRoot}}/operator/operators.php?act=enable&amp;id={{operatorid}}">{{l10n "page_agents.enable.agent"}}</a>
+                                    <a href="{{../mibewRoot}}/operator/operator/{{operatorid}}/enable?{{csrfTokenInUrl}}">{{l10n "page_agents.enable.agent"}}</a>
                                 {{else}}
-                                    <a href="{{../mibewRoot}}/operator/operators.php?act=disable&amp;id={{operatorid}}">{{l10n "page_agents.disable.agent"}}</a>
+                                    <a href="{{../mibewRoot}}/operator/operator/{{operatorid}}/disable?{{csrfTokenInUrl}}">{{l10n "page_agents.disable.agent"}}</a>
                                 {{/if}}
                             </td>
 
                             <td>
-                                <a class="removelink" id="i{{operatorid}}" href="{{../mibewRoot}}/operator/operators.php?act=del&amp;id={{operatorid}}{{csrfTokenInUrl}}">
+                                <a class="removelink" id="i{{operatorid}}" href="{{../mibewRoot}}/operator/operator/{{operatorid}}/delete?{{csrfTokenInUrl}}">
                                     {{l10n "remove.item"}}
                                 </a>
                             </td>

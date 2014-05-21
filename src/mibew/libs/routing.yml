@@ -169,6 +169,41 @@ invite:
         _controller: Mibew\Controller\InvitationController::inviteAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
 
+## Operators
+operator_enable:
+    path: /operator/operator/{operator_id}/enable
+    defaults:
+        _controller: Mibew\Controller\OperatorController::enableAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    requirements:
+        operator_id: \d{1,10}
+
+operator_delete:
+    path: /operator/operator/{operator_id}/delete
+    defaults:
+        _controller: Mibew\Controller\OperatorController::deleteAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    requirements:
+        operator_id: \d{1,10}
+
+operator_disable:
+    path: /operator/operator/{operator_id}/disable
+    defaults:
+        _controller: Mibew\Controller\OperatorController::disableAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    requirements:
+        operator_id: \d{1,10}
+
+operators:
+    path: /operator/operator
+    defaults:
+        _controller: Mibew\Controller\OperatorController::indexAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+
 ## Password recovery
 password_recovery:
     path: /operator/password-recovery
