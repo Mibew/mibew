@@ -9,11 +9,11 @@
 (function(Mibew, $) {
     $(document).ready(function() {
         $('#check-nv').click(function(){
-            Mibew.Utils.playSound('../sounds/new_user.wav');
+            Mibew.Utils.playSound('../sounds/new_user');
         });
 
         $('#check-nm').click(function() {
-            Mibew.Utils.playSound('../sounds/new_message.wav');
+            Mibew.Utils.playSound('../sounds/new_message');
         });
     });
 })(Mibew, $);

@@ -56,15 +56,26 @@
     }
 
     /**
-     * Play .wav sound file
-     * @param {String} file File path
+     * Play .wav or .mp3 sound file
+     * @param {String} file File path (without extension)
      */
     Mibew.Utils.playSound = function (file) {
-        var soundHTML = '<audio autoplay style="display: none;">' +
-            '<source src="' + file + '" type="audio/x-wav" />' +
-            '<embed src="' + file + '" type="audio/x-wav" hidden="true" autostart="true" loop="false" />' +
-            '</audio>';
-        $('body').append(soundHTML);
+
+        var player = $('audio[data-file="'+file+'"]');
+        if (player.length > 0) {
+            player.get(0).play();
+        }
+        else {
+            var audioTag = $("<audio>", {autoplay: true, style: "display: none"}).append(
+            '<source src="' + file + '.wav" type="audio/x-wav" />' +
+            '<source src="' + file + '.mp3" type="audio/mpeg" codecs="mp3" />' +
+            '<embed src="' + file + '.wav" type="audio/x-wav" hidden="true" autostart="true" loop="false" />'
+            );
+            $('body').append(audioTag);
+            if ($.isFunction(audioTag.get(0).play)) {
+                audioTag.attr('data-file', file);
+            }
+        }
     }
 
 })(Mibew, $);
