@@ -162,6 +162,13 @@ history_user_track:
         _controller: Mibew\Controller\HistoryController::userTrackAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
 
+## Invitations
+invite:
+    path: /operator/invite
+    defaults:
+        _controller: Mibew\Controller\InvitationController::inviteAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+
 ## Password recovery
 password_recovery:
     path: /operator/password-recovery
