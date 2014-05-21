@@ -24,7 +24,7 @@ canned_message_add:
 canned_message_add_save:
     path: /operator/canned-message/add
     defaults:
-        _controller: Mibew\Controller\CannedMessageController::saveAction
+        _controller: Mibew\Controller\CannedMessageController::submitEditFormAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
     methods: [POST]
 
@@ -48,7 +48,7 @@ canned_message_edit:
 canned_message_edit_save:
     path: /operator/canned-message/{message_id}/edit
     defaults:
-        _controller: Mibew\Controller\CannedMessageController::saveAction
+        _controller: Mibew\Controller\CannedMessageController::submitEditFormAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
     requirements:
         message_id: \d{1,10}

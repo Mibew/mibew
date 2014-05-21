@@ -148,7 +148,7 @@ class CannedMessageController extends AbstractController
         $message_id = $request->attributes->getInt('message_id', false);
         $page = array(
             // Use errors list stored in the request. We need to do so to have
-            // an ability to pass the request from the "save" action.
+            // an ability to pass the request from the "submitEditForm" action.
             'errors' => $request->attributes->get('errors', array()),
         );
 
@@ -171,7 +171,7 @@ class CannedMessageController extends AbstractController
         }
 
         // Override message's fields from the request if it's needed. This
-        // case will take place when save handler fails.
+        // case will take place when submit handler fails.
         if ($request->request->has('title')) {
             $title = $request->request->get('title');
         }
@@ -200,7 +200,7 @@ class CannedMessageController extends AbstractController
      * @param Request $request
      * @return string Rendered page content
      */
-    public function saveAction(Request $request)
+    public function submitEditFormAction(Request $request)
     {
         csrf_check_token($request);
 
