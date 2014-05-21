@@ -146,7 +146,7 @@ history_thread:
         _controller: Mibew\Controller\HistoryController::threadAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
     requirements:
-        thread_id: \d{1,9}
+        thread_id: \d{1,10}
 
 history_user:
     path: /operator/history/user/{user_id}
