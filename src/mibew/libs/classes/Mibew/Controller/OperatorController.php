@@ -18,6 +18,7 @@
 namespace Mibew\Controller;
 
 use Mibew\Database;
+use Mibew\Settings;
 use Mibew\Http\Exception\AccessDeniedException;
 use Mibew\Http\Exception\NotFoundException;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,8 +31,8 @@ class OperatorController extends AbstractController
     /**
      * Generates list of all operators in the system.
      *
-     * @param Request $request
-     * @return string Rendered page content
+     * @param Request $request Incoming request.
+     * @return string Rendered page content.
      */
     public function indexAction(Request $request)
     {
@@ -96,8 +97,8 @@ class OperatorController extends AbstractController
     /**
      * Removes an operator from the database.
      *
-     * @param Request $request
-     * @return string Rendered page content
+     * @param Request $request Incoming request.
+     * @return string Rendered page content.
      * @throws NotFoundException If the operator with specified ID is not found
      *   in the system.
      */
@@ -137,8 +138,8 @@ class OperatorController extends AbstractController
     /**
      * Disables an operator.
      *
-     * @param Request $request
-     * @return string Rendered page content
+     * @param Request $request Incoming request.
+     * @return string Rendered page content.
      * @throws NotFoundException If the operator with specified ID is not found
      *   in the system.
      */
@@ -183,8 +184,8 @@ class OperatorController extends AbstractController
     /**
      * Enables an operator.
      *
-     * @param Request $request
-     * @return string Rendered page content
+     * @param Request $request Incoming request.
+     * @return string Rendered page content.
      * @throws NotFoundException If the operator with specified ID is not found
      *   in the system.
      */
@@ -211,8 +212,10 @@ class OperatorController extends AbstractController
     /**
      * Builds a page with form for add/edit operator.
      *
-     * @param Request $request
-     * @return string Rendered page content
+     * @param Request $request Incoming request.
+     * @return string Rendered page content.
+     * @throws NotFoundException If the operator with specified ID is not found
+     *   in the system.
      */
     public function showEditFormAction(Request $request)
     {
@@ -297,8 +300,10 @@ class OperatorController extends AbstractController
      * Processes submitting of the form which is generated in
      * {@link \Mibew\Controller\OperatorController::showEditFormAction()} method.
      *
-     * @param Request $request
-     * @return string Rendered page content
+     * @param Request $request Incoming request.
+     * @return string Rendered page content.
+     * @throws AccessDeniedException If the current operator has no rights to
+     *   modify choosen profile.
      */
     public function submitEditFormAction(Request $request)
     {
@@ -392,8 +397,10 @@ class OperatorController extends AbstractController
             // Create new operator and redirect the current operator to avatar
             // page.
             $new_operator = create_operator($login, $email, $password, $local_name, $common_name, '', $code);
-            $redirect_to = $request->getBasePath() . '/operator/avatar.php?op='
-                . intval($new_operator['operatorid']);
+            $redirect_to = $this->generateUrl(
+                'operator_avatar',
+                array('operator_id' => $new_operator['operatorid'])
+            );
 
             return $this->redirect($redirect_to);
         }
@@ -426,6 +433,186 @@ class OperatorController extends AbstractController
                 'operator_id' => $op_id,
                 'stored' => true,
             )
+        );
+
+        return $this->redirect($redirect_to);
+    }
+
+    /**
+     * Builds a page with form for edit operator's avatar.
+     *
+     * @param Request $request incoming request.
+     * @return string Rendered page content.
+     * @throws NotFoundException If the operator with specified ID is not found
+     *   in the system.
+     */
+    public function showAvatarFormAction(Request $request)
+    {
+        set_csrf_token();
+
+        $operator = $request->attributes->get('_operator');
+        $op_id = $request->attributes->get('operator_id');
+        $page = array(
+            'opid' => $op_id,
+            // Use errors list stored in the request. We need to do so to have
+            // an ability to pass the request from the "submitAvatarForm" action.
+            'errors' => $request->attributes->get('errors', array()),
+        );
+
+        $can_modify = ($op_id == $operator['operatorid'] && is_capable(CAN_MODIFYPROFILE, $operator))
+            || is_capable(CAN_ADMINISTRATE, $operator);
+
+        // Try to load the target operator.
+        $op = operator_by_id($op_id);
+        if (!$op) {
+            throw new NotFoundException('The operator is not found');
+        }
+
+        $page['avatar'] = $op['vcavatar'];
+        $page['currentop'] = $op
+            ? get_operator_name($op) . ' (' . $op['vclogin'] . ')'
+            : getlocal('not_found');
+        $page['canmodify'] = $can_modify ? '1' : '';
+        $page['title'] = getlocal('page_avatar.title');
+        $page['menuid'] = ($operator['operatorid'] == $op_id) ? 'profile' : 'operators';
+
+        $page = array_merge($page, prepare_menu($operator));
+        $page['tabs'] = setup_operator_settings_tabs($op_id, 1);
+
+        return $this->render('operator_avatar', $page);
+    }
+
+    /**
+     * Processes submitting of the form which is generated in
+     * {@link \Mibew\Controller\OperatorController::showAvatarFormAction()}
+     * method.
+     *
+     * @param Request $request Incoming request.
+     * @return string Rendered page content.
+     * @throws NotFoundException If the operator with specified ID is not found
+     *   in the system.
+     * @throws AccessDeniedException If the current operator has no rights to
+     *   modify choosen profile.
+     */
+    public function submitAvatarFormAction(Request $request)
+    {
+        csrf_check_token($request);
+
+        $operator = $request->attributes->get('_operator');
+        $op_id = $request->attributes->getInt('operator_id');
+        $errors = array();
+
+        $can_modify = ($op_id == $operator['operatorid'] && is_capable(CAN_MODIFYPROFILE, $operator))
+            || is_capable(CAN_ADMINISTRATE, $operator);
+        if (!$can_modify) {
+            throw new AccessDeniedException('Cannot modify avatar.');
+        }
+
+        // Try to load the target operator.
+        $op = operator_by_id($op_id);
+        if (!$op) {
+            throw new NotFoundException('The operator is not found');
+        }
+
+        $avatar = $op['vcavatar'];
+        $file = $request->files->get('avatarFile');
+
+        if ($file) {
+            // Process uploaded file.
+            $valid_types = array("gif", "jpg", "png", "tif", "jpeg");
+
+            $ext = $file->getClientOriginalExtension();
+            $orig_filename = $file->getClientOriginalName();
+            $new_file_name = intval($op_id) . ".$ext";
+            $file_size = $file->getSize();
+
+            if ($file_size == 0 || $file_size > Settings::get('max_uploaded_file_size')) {
+                $errors[] = failed_uploading_file($orig_filename, "errors.file.size.exceeded");
+            } elseif (!in_array($ext, $valid_types)) {
+                $errors[] = failed_uploading_file($orig_filename, "errors.invalid.file.type");
+            } else {
+                // Remove avatar if it already exists
+                $avatar_local_dir = MIBEW_FS_ROOT . '/files/avatar/';
+                $full_file_path = $avatar_local_dir . $new_file_name;
+                if (file_exists($full_file_path)) {
+                    unlink($full_file_path);
+                }
+
+                // Move uploaded file to avatar directory
+                try {
+                    $file->move($avatar_local_dir, $new_file_name);
+                    $avatar = MIBEW_WEB_ROOT . "/files/avatar/$new_file_name";
+                } catch (Exception $e) {
+                    $errors[] = failed_uploading_file($orig_filename, "errors.file.move.error");
+                }
+            }
+        } else {
+            $errors[] = "No file selected";
+        }
+
+        if (count($errors) != 0) {
+            $request->attributes->set('errors', $errors);
+
+            // The form should be rebuild. Invoke appropriate action.
+            return $this->showAvatarFormAction($request);
+        }
+
+        // Update path to avatar in the database
+        update_operator_avatar($op['operatorid'], $avatar);
+
+        // Operator's data are cached in the session thus we need to update them
+        // manually.
+        if ($avatar && $operator['operatorid'] == $op_id) {
+            $operator['vcavatar'] = $avatar;
+
+            $_SESSION[SESSION_PREFIX . 'operator'] = $operator;
+            $request->attributes->set('_operator', $operator);
+        }
+
+        // Redirect the operator to the same page using GET method.
+        $redirect_to = $this->generateUrl(
+            'operator_avatar',
+            array('operator_id' => $op_id)
+        );
+
+        return $this->redirect($redirect_to);
+    }
+
+    /**
+     * Removes operator's avatar from the database.
+     *
+     * @param Request $request Incoming request.
+     * @return string Rendered page content.
+     * @throws NotFoundException If the operator with specified ID is not found
+     *   in the system.
+     * @throws AccessDeniedException If the current operator has no rights to
+     *   modify choosen profile.
+     */
+    public function deleteAvatarAction(Request $request)
+    {
+        csrf_check_token($request);
+
+        $operator = $request->attributes->get('_operator');
+        $op_id = $request->attributes->getInt('operator_id');
+
+        $can_modify = ($op_id == $operator['operatorid'] && is_capable(CAN_MODIFYPROFILE, $operator))
+            || is_capable(CAN_ADMINISTRATE, $operator);
+        if (!$can_modify) {
+            throw new AccessDeniedException('Cannot modify avatar.');
+        }
+
+        // Try to load the target operator.
+        if (!operator_by_id($op_id)) {
+            throw new NotFoundException('The operator is not found');
+        }
+
+        // Update avatar value in database
+        update_operator_avatar($op_id, '');
+
+        // Redirect the current operator to the same page using GET method.
+        $redirect_to = $this->generateUrl(
+            'operator_avatar',
+            array('operator_id' => $op_id)
         );
 
         return $this->redirect($redirect_to);

@@ -184,6 +184,32 @@ operator_add_save:
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
     methods: [POST]
 
+operator_avatar:
+    path: /operator/operator/{operator_id}/avatar
+    defaults:
+        _controller: Mibew\Controller\OperatorController::showAvatarFormAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+    requirements:
+        operator_id: \d{1,10}
+    methods: [GET]
+
+operator_avatar_delete:
+    path: /operator/operator/{operator_id}/avatar/delete
+    defaults:
+        _controller: Mibew\Controller\OperatorController::deleteAvatarAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+    requirements:
+        operator_id: \d{1,10}
+
+operator_avatar_save:
+    path: /operator/operator/{operator_id}/avatar
+    defaults:
+        _controller: Mibew\Controller\OperatorController::submitAvatarFormAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+    requirements:
+        operator_id: \d{1,10}
+    methods: [POST]
+
 operator_edit:
     path: /operator/operator/{operator_id}/edit
     defaults:

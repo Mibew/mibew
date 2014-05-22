@@ -9,7 +9,7 @@
 
         {{> _errors}}
 
-        <form name="avatarForm" method="post" action="{{mibewRoot}}/operator/avatar.php" enctype="multipart/form-data">
+        <form name="avatarForm" method="post" action="{{mibewRoot}}/operator/operator/{{opid}}/avatar" enctype="multipart/form-data">
             {{csrfTokenInput}}
             <input type="hidden" name="op" value="{{opid}}"/>
 
@@ -31,7 +31,7 @@
                                     <div class="fvalue">
                                         <img src="{{avatar}}" alt="cannot load avatar"/><br/>
                                         {{#if canmodify}}
-                                            <a class="formauth" href="{{mibewRoot}}/operator/avatar.php?op={{opid}}&amp;delete=true">
+                                            <a class="formauth" href="{{mibewRoot}}/operator/operator/{{opid}}/avatar/delete?{{csrfTokenInUrl}}">
                                                 {{l10n "page_agent.clear_avatar"}}
                                             </a>
                                         {{/if}}
