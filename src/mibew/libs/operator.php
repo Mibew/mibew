@@ -589,7 +589,7 @@ function check_login($redirect = true)
 function force_password($operator)
 {
     if (check_password_hash($operator['vclogin'], $operator['vcpassword'], '')) {
-        header("Location: " . MIBEW_WEB_ROOT . "/operator/operator.php?op=1");
+        header("Location: " . MIBEW_WEB_ROOT . "/operator/operator/1/edit");
         exit;
     }
 }

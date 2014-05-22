@@ -32,7 +32,7 @@ $page = array(
     'localeLinks' => get_locale_links(),
     'needUpdate' => Settings::get('dbversion') != DB_VERSION,
     'needChangePassword' => check_password_hash($operator['vclogin'], '', $operator['vcpassword']),
-    'profilePage' => MIBEW_WEB_ROOT . "/operator/operator.php?op=" . $operator['operatorid'],
+    'profilePage' => MIBEW_WEB_ROOT . "/operator/operator/" . $operator['operatorid'] . '/edit',
     'updateWizard' => MIBEW_WEB_ROOT . "/install/",
     'newFeatures' => Settings::get('featuresversion') != FEATURES_VERSION,
     'featuresPage' => MIBEW_WEB_ROOT . "/operator/features.php",

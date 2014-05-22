@@ -36,7 +36,7 @@
                     <li{{#ifEqual menuid "updates"}} class="active"{{/ifEqual}}><a href="{{mibewRoot}}/operator/updates">{{l10n "menu.updates"}}</a></li>
                 {{/if}}
                 {{#if currentopid}}
-                    <li{{#ifEqual menuid "profile"}} class="active"{{/ifEqual}}><a href="{{mibewRoot}}/operator/operator.php?op={{currentopid}}">{{l10n "menu.profile"}}</a></li>
+                    <li{{#ifEqual menuid "profile"}} class="active"{{/ifEqual}}><a href="{{mibewRoot}}/operator/operator/{{currentopid}}/edit">{{l10n "menu.profile"}}</a></li>
                 {{/if}}
             </ul>
         </li>

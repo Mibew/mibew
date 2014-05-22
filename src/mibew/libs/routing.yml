@@ -170,6 +170,38 @@ invite:
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
 
 ## Operators
+operator_add:
+    path: /operator/operator/add
+    defaults:
+        _controller: Mibew\Controller\OperatorController::showEditFormAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+    methods: [GET]
+
+operator_add_save:
+    path: /operator/operator/add
+    defaults:
+        _controller: Mibew\Controller\OperatorController::submitEditFormAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+    methods: [POST]
+
+operator_edit:
+    path: /operator/operator/{operator_id}/edit
+    defaults:
+        _controller: Mibew\Controller\OperatorController::showEditFormAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+    requirements:
+        operator_id: \d{1,10}
+    methods: [GET]
+
+operator_edit_save:
+    path: /operator/operator/{operator_id}/edit
+    defaults:
+        _controller: Mibew\Controller\OperatorController::submitEditFormAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+    requirements:
+        operator_id: \d{1,10}
+    methods: [POST]
+
 operator_enable:
     path: /operator/operator/{operator_id}/enable
     defaults:

@@ -22,6 +22,7 @@
  * @param int $operator_id ID of the operator whose settings page is displayed.
  * @param int $active Number of the active tab. The count starts from 0.
  * @return array Tabs list
+ * @deprecated
  */
 function setup_operator_settings_tabs($operator_id, $active)
 {
@@ -30,7 +31,7 @@ function setup_operator_settings_tabs($operator_id, $active)
     if ($operator_id) {
         $tabs = array(
             getlocal("page_agent.tab.main") => ($active != 0
-                ? (MIBEW_WEB_ROOT . "/operator/operator.php?op=" . $operator_id)
+                ? (MIBEW_WEB_ROOT . "/operator/operator/" . $operator_id . "/edit")
                 : ""),
             getlocal("page_agent.tab.avatar") => ($active != 1
                 ? (MIBEW_WEB_ROOT . "/operator/avatar.php?op=" . $operator_id)

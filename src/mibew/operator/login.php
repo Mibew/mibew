@@ -40,7 +40,7 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 
     if ($operator_can_login) {
         $target = $password == ''
-            ? MIBEW_WEB_ROOT . "/operator/operator.php?op=" . intval($operator['operatorid'])
+            ? MIBEW_WEB_ROOT . "/operator/operator/" . intval($operator['operatorid']) . '/edit'
             : (isset($_SESSION['backpath']) ? $_SESSION['backpath'] : MIBEW_WEB_ROOT . "/operator/index.php");
 
         login_operator($operator, $remember, is_secure_request());

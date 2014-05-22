@@ -63,7 +63,7 @@
         {{#if canmodify}}
             <div class="tabletool">
                 <img src="{{stylePath}}/images/buttons/createagent.gif" border="0" alt="" />
-                <a href="{{mibewRoot}}/operator/operator.php" title="{{l10n "page_agents.new_agent"}}">
+                <a href="{{mibewRoot}}/operator/operator/add" title="{{l10n "page_agents.new_agent"}}">
                     {{l10n "page_agents.new_agent"}}
                 </a>
             </div>
@@ -87,7 +87,7 @@
                 {{#each allowedAgents}}
                     <tr>
                         <td class="notlast">
-                            <a id="ti{{operatorid}}" href="{{../mibewRoot}}/operator/operator.php?op={{operatorid}}" class="man">
+                            <a id="ti{{operatorid}}" href="{{../mibewRoot}}/operator/operator/{{operatorid}}/edit" class="man">
                                 {{vclogin}}
                             </a>
                         </td>

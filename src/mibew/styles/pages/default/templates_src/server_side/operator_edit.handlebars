@@ -23,7 +23,7 @@
         {{/if}}
 
         {{#ifAny opid canmodify}}
-            <form name="agentForm" method="post" action="{{mibewRoot}}/operator/operator.php">
+            <form name="agentForm" method="post" action="{{formaction}}">
                 {{csrfTokenInput}}
                 <input type="hidden" name="opid" value="{{opid}}"/>
 
