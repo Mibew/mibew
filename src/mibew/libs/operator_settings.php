@@ -37,7 +37,7 @@ function setup_operator_settings_tabs($operator_id, $active)
                 ? (MIBEW_WEB_ROOT . "/operator/operator/" . $operator_id . "/avatar")
                 : ""),
             getlocal("page_agent.tab.groups") => ($active != 2
-                ? (MIBEW_WEB_ROOT . "/operator/opgroups.php?op=" . $operator_id)
+                ? (MIBEW_WEB_ROOT . "/operator/operator/" . $operator_id . "/groups")
                 : ""),
             getlocal("page_agent.tab.permissions") => ($active != 3
                 ? (MIBEW_WEB_ROOT . "/operator/permissions.php?op=" . $operator_id)

@@ -255,6 +255,25 @@ operator_disable:
     requirements:
         operator_id: \d{1,10}
 
+operator_groups:
+    path: /operator/operator/{operator_id}/groups
+    defaults:
+        _controller: Mibew\Controller\Operator\GroupsController::showFormAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+    requirements:
+        operator_id: \d{1,10}
+    methods: [GET]
+
+operator_groups_save:
+    path: /operator/operator/{operator_id}/groups
+    defaults:
+        _controller: Mibew\Controller\Operator\GroupsController::submitFormAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    requirements:
+        operator_id: \d{1,10}
+    methods: [POST]
+
 operators:
     path: /operator/operator
     defaults:
