@@ -173,21 +173,21 @@ invite:
 operator_add:
     path: /operator/operator/add
     defaults:
-        _controller: Mibew\Controller\OperatorController::showEditFormAction
+        _controller: Mibew\Controller\Operator\ProfileController::showFormAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
     methods: [GET]
 
 operator_add_save:
     path: /operator/operator/add
     defaults:
-        _controller: Mibew\Controller\OperatorController::submitEditFormAction
+        _controller: Mibew\Controller\Operator\ProfileController::submitFormAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
     methods: [POST]
 
 operator_avatar:
     path: /operator/operator/{operator_id}/avatar
     defaults:
-        _controller: Mibew\Controller\OperatorController::showAvatarFormAction
+        _controller: Mibew\Controller\Operator\AvatarController::showFormAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
     requirements:
         operator_id: \d{1,10}
@@ -196,7 +196,7 @@ operator_avatar:
 operator_avatar_delete:
     path: /operator/operator/{operator_id}/avatar/delete
     defaults:
-        _controller: Mibew\Controller\OperatorController::deleteAvatarAction
+        _controller: Mibew\Controller\Operator\AvatarController::deleteAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
     requirements:
         operator_id: \d{1,10}
@@ -204,7 +204,7 @@ operator_avatar_delete:
 operator_avatar_save:
     path: /operator/operator/{operator_id}/avatar
     defaults:
-        _controller: Mibew\Controller\OperatorController::submitAvatarFormAction
+        _controller: Mibew\Controller\Operator\AvatarController::submitFormAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
     requirements:
         operator_id: \d{1,10}
@@ -213,7 +213,7 @@ operator_avatar_save:
 operator_edit:
     path: /operator/operator/{operator_id}/edit
     defaults:
-        _controller: Mibew\Controller\OperatorController::showEditFormAction
+        _controller: Mibew\Controller\Operator\ProfileController::showFormAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
     requirements:
         operator_id: \d{1,10}
@@ -222,7 +222,7 @@ operator_edit:
 operator_edit_save:
     path: /operator/operator/{operator_id}/edit
     defaults:
-        _controller: Mibew\Controller\OperatorController::submitEditFormAction
+        _controller: Mibew\Controller\Operator\ProfileController::submitFormAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
     requirements:
         operator_id: \d{1,10}
@@ -231,7 +231,7 @@ operator_edit_save:
 operator_enable:
     path: /operator/operator/{operator_id}/enable
     defaults:
-        _controller: Mibew\Controller\OperatorController::enableAction
+        _controller: Mibew\Controller\Operator\ManagementController::enableAction
         _access_check: Mibew\AccessControl\Check\PermissionsCheck
         _access_permissions: [CAN_ADMINISTRATE]
     requirements:
@@ -240,7 +240,7 @@ operator_enable:
 operator_delete:
     path: /operator/operator/{operator_id}/delete
     defaults:
-        _controller: Mibew\Controller\OperatorController::deleteAction
+        _controller: Mibew\Controller\Operator\ManagementController::deleteAction
         _access_check: Mibew\AccessControl\Check\PermissionsCheck
         _access_permissions: [CAN_ADMINISTRATE]
     requirements:
@@ -249,7 +249,7 @@ operator_delete:
 operator_disable:
     path: /operator/operator/{operator_id}/disable
     defaults:
-        _controller: Mibew\Controller\OperatorController::disableAction
+        _controller: Mibew\Controller\Operator\ManagementController::disableAction
         _access_check: Mibew\AccessControl\Check\PermissionsCheck
         _access_permissions: [CAN_ADMINISTRATE]
     requirements:
@@ -258,7 +258,7 @@ operator_disable:
 operators:
     path: /operator/operator
     defaults:
-        _controller: Mibew\Controller\OperatorController::indexAction
+        _controller: Mibew\Controller\Operator\ManagementController::indexAction
         _access_check: Mibew\AccessControl\Check\PermissionsCheck
         _access_permissions: [CAN_ADMINISTRATE]
 
