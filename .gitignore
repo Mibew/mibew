@@ -6,6 +6,10 @@ src/release*
 src/mibew/libs/config.php
 src/tests/server_side/mibew/libs/config.php
 
+# Do not index avatars
+src/mibew/files/avatar/*
+!src/mibew/files/avatar/.keep
+
 # Do not index plugins
 src/mibew/plugins/*
 !src/mibew/plugins/.keep
