@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Provides a set of utility functions.
  */
-class AbstractController extends BaseController
+abstract class AbstractController extends BaseController
 {
     /**
      * Builds list of the group tabs.
