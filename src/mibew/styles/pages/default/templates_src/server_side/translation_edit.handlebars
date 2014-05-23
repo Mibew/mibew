@@ -17,9 +17,8 @@
 
             {{> _errors}}
 
-            <form name="translateForm" method="post" action="{{mibewRoot}}/operator/translate.php">
+            <form name="translateForm" method="post" action="{{mibewRoot}}/operator/translation/{{key}}/edit">
                 {{csrfTokenInput}}
-                <input type="hidden" name="key" value="{{key}}"/>
                 <input type="hidden" name="target" value="{{target}}"/>
 
                 <div class="mform">

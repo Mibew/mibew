@@ -7,7 +7,7 @@
         <br />
         <br />
 
-        <form name="translateForm" method="get" action="{{mibewRoot}}/operator/translate.php">
+        <form name="translateForm" method="get" action="{{mibewRoot}}/operator/translation">
 
             <div class="mform">
                 <div class="formtop">
@@ -79,13 +79,13 @@
             {{#each [pagination.items]}}
                 <tr>
                     <td>
-                        <a href="{{../mibewRoot}}/operator/translate.php?source={{../lang1}}&amp;target={{../lang2}}&amp;key={{id}}" target="_blank" onclick="this.newWindow = window.open('{{../mibewRoot}}/operator/translate.php?source={{../lang1}}&amp;target={{../lang2}}&amp;key={{id}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{idToPage}}</a>
+                        <a href="{{../mibewRoot}}/operator/translation/{{id}}/edit?source={{../lang1}}&amp;target={{../lang2}}" target="_blank" onclick="this.newWindow = window.open('{{../mibewRoot}}/operator/translation/{{id}}/edit?source={{../lang1}}&amp;target={{../lang2}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{id}}</a>
                     </td>
                     <td>
-                        {{{l1ToPage}}}
+                        {{{l1}}}
                     </td>
                     <td>
-                        {{{l2ToPage}}}
+                        {{{l2}}}
                     </td>
                 </tr>
             {{else}}

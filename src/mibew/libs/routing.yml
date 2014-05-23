@@ -323,6 +323,34 @@ statistics:
     requirements:
         type: by-date|by-operator|by-page
 
+## Translation
+translation_edit:
+    path: /operator/translation/{string_id}/edit
+    defaults:
+        _controller: Mibew\Controller\TranslationController::showEditFormAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    requirements:
+        string_id: "[_\.\w]+"
+    methods: [GET]
+
+translation_edit_save:
+    path: /operator/translation/{string_id}/edit
+    defaults:
+        _controller: Mibew\Controller\TranslationController::submitEditFormAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    requirements:
+        string_id: "[_\.\w]+"
+    methods: [POST]
+
+translations:
+    path: /operator/translation
+    defaults:
+        _controller: Mibew\Controller\TranslationController::indexAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+
 ## Updates
 updates:
     path: /operator/updates
