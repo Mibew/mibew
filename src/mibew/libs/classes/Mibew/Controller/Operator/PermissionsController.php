@@ -17,7 +17,6 @@
 
 namespace Mibew\Controller\Operator;
 
-use Mibew\Http\Exception\BadRequestException;
 use Mibew\Http\Exception\NotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -90,21 +89,13 @@ class PermissionsController extends AbstractController
      * @return string Rendered page content.
      * @throws NotFoundException If the operator with specified ID is not found
      *   in the system.
-     * @throws BadRequestException If the "op" field of the form is in wrong
-     *   format.
      */
     public function submitFormAction(Request $request)
     {
         csrf_check_token($request);
 
         $operator = $request->attributes->get('_operator');
-
-        // Use value from the form and not from the path to make sure it is
-        // correct. If not, throw an exception.
-        $op_id = $request->request->get('op');
-        if (!preg_match("/^\d{1,10}$/", $op_id)) {
-            throw new BadRequestException('Wrong value of "op" form field.');
-        }
+        $op_id = $request->attributes->getInt('operator_id');
 
         // Check if the target operator exists
         $op = operator_by_id($op_id);

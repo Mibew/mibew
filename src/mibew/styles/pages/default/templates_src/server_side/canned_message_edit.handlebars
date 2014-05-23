@@ -22,7 +22,6 @@
 
             <form name="cannedForm" method="post" action="{{formaction}}">
                 {{csrfTokenInput}}
-                <input type="hidden" name="key" value="{{key}}"/>
 
                 {{#unless key}}
                     <input type="hidden" name="lang" value="{{locale}}"/>

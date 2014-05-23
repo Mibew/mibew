@@ -117,9 +117,7 @@ class ProfileController extends AbstractController
 
         $errors = array();
         $operator = $request->attributes->get('_operator');
-        // Use value from the form and not from the path to make sure it is
-        // correct. If not, treat the param as empty one.
-        $op_id = $request->request->getInt('opid', false);
+        $op_id = $request->attributes->getInt('operator_id');
 
         if (is_capable(CAN_ADMINISTRATE, $operator)) {
             $login = $request->request->get('login');

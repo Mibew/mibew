@@ -38,7 +38,7 @@ class SettingsController extends AbstractController
         set_csrf_token();
 
         $operator = $request->attributes->get('_operator');
-        $group_id = $request->attributes->getInt('group_id', false);
+        $group_id = $request->attributes->getInt('group_id');
 
         $page = array(
             'gid' => false,
@@ -110,12 +110,7 @@ class SettingsController extends AbstractController
 
         $errors = array();
 
-        // Use value from the form and not from the path to make sure it is
-        // correct. If not, treat the param as empty one.
-        $group_id = $request->request->get('gid', false);
-        if (!preg_match("/^\d{1,10}$/", $group_id)) {
-            $group_id = false;
-        }
+        $group_id = $request->attributes->get('group_id', false);
 
         $parent_group = $request->request->get('parentgroup');
         if (!$parent_group || !preg_match("/^\d{1,10}$/", $parent_group)) {

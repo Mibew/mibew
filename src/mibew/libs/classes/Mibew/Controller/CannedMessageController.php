@@ -145,7 +145,7 @@ class CannedMessageController extends AbstractController
         set_csrf_token();
 
         $operator = $request->attributes->get('_operator');
-        $message_id = $request->attributes->getInt('message_id', false);
+        $message_id = $request->attributes->getInt('message_id');
         $page = array(
             // Use errors list stored in the request. We need to do so to have
             // an ability to pass the request from the "submitEditForm" action.
@@ -205,14 +205,8 @@ class CannedMessageController extends AbstractController
         csrf_check_token($request);
 
         $operator = $request->attributes->get('_operator');
+        $message_id = $request->attributes->getInt('message_id');
         $errors = array();
-
-        // Use value from the form and not from the path to make sure it is
-        // correct. If not, treat the param as empty one.
-        $message_id = $request->request->get('key');
-        if (!preg_match("/^(\d{1,10})?$/", $message_id)) {
-            $message_id = false;
-        }
 
         $title = $request->request->get('title');
         if (!$title) {
