@@ -69,7 +69,7 @@ function get_csrf_token_in_url()
 {
     set_csrf_token();
 
-    return "&amp;csrf_token=" . $_SESSION['csrf_token'];
+    return "csrf_token=" . $_SESSION['csrf_token'];
 }
 
 /* set csrf token */
