@@ -13,7 +13,7 @@
             <div id="formmessage">{{l10n "data.saved"}}</div>
         {{/if}}
 
-        <form name="permissionsForm" method="post" action="{{mibewRoot}}/operator/permissions.php">
+        <form name="permissionsForm" method="post" action="{{mibewRoot}}/operator/operator/{{opid}}/permissions">
             {{csrfTokenInput}}
             <input type="hidden" name="op" value="{{opid}}"/>
 

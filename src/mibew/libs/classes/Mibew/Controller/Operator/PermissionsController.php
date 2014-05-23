@@ -23,12 +23,12 @@ use Mibew\Http\Exception\NotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Contains all actions which are related with operator's profile.
+ * Contains all actions which are related with operator's permissions.
  */
-class GroupsController extends AbstractController
+class PermissionsController extends AbstractController
 {
     /**
-     * Builds a page with form for edit operator's groups.
+     * Builds a page with form for edit operator's permissions.
      *
      * @param Request $request Incoming request.
      * @return string Rendered page content.
@@ -42,66 +42,56 @@ class GroupsController extends AbstractController
         set_csrf_token();
 
         $operator = $request->attributes->get('_operator');
-        $operator_in_isolation = in_isolation($operator);
-        $op_id = $request->attributes->getInt('operator_id');
+        $op_id = $request->attributes->get('operator_id');
+
+        $page = array(
+            'opid' => $op_id,
+            'canmodify' => is_capable(CAN_ADMINISTRATE, $operator) ? '1' : '',
+            'errors' => array(),
+        );
 
         // Check if the curent operator has enough rights to access the page
         if ($op_id != $operator['operatorid'] && !is_capable(CAN_ADMINISTRATE, $operator)) {
             throw new AccessDeniedException();
         }
 
-        // Check if the target user exists
         $op = operator_by_id($op_id);
         if (!$op) {
             throw new NotFoundException('The operator is not found.');
         }
 
-        $page = array(
-            'opid' => $op_id,
-            'errors' => array()
-        );
-
-        $groups = $operator_in_isolation
-            ? get_all_groups_for_operator($operator)
-            : get_all_groups();
-
-        $can_modify = is_capable(CAN_ADMINISTRATE, $operator);
-
+        // Check if the target operator exists
         $page['currentop'] = $op
             ? get_operator_name($op) . ' (' . $op['vclogin'] . ')'
             : getlocal('not_found');
-        $page['canmodify'] = $can_modify ? '1' : '';
 
-        // Get IDs of groups the operator belongs to.
-        $checked_groups = array();
-        if ($op) {
-            foreach (get_operator_group_ids($op_id) as $rel) {
-                $checked_groups[] = $rel['groupid'];
+        // Build list of permissions which belongs to the target operator.
+        $checked_permissions = array();
+        foreach (permission_ids() as $perm => $id) {
+            if (is_capable($perm, $op)) {
+                $checked_permissions[] = $id;
             }
         }
 
-        // Get all available groups
-        $page['groups'] = array();
-        foreach ($groups as $group) {
-            $group['vclocalname'] = $group['vclocalname'];
-            $group['vclocaldescription'] = $group['vclocaldescription'];
-            $group['checked'] = in_array($group['groupid'], $checked_groups);
-
-            $page['groups'][] = $group;
+        // Build list of all available permissions
+        $page['permissionsList'] = array();
+        foreach (get_permission_list() as $perm) {
+            $perm['checked'] = in_array($perm['id'], $checked_permissions);
+            $page['permissionsList'][] = $perm;
         }
 
         $page['stored'] = $request->query->has('stored');
-        $page['title'] = getlocal('operator.groups.title');
+        $page['title'] = getlocal('permissions.title');
         $page['menuid'] = ($operator['operatorid'] == $op_id) ? 'profile' : 'operators';
         $page = array_merge($page, prepare_menu($operator));
         $page['tabs'] = $this->buildTabs($request);
 
-        return $this->render('operator_groups', $page);
+        return $this->render('operator_permissions', $page);
     }
 
     /**
      * Processes submitting of the form which is generated in
-     * {@link \Mibew\Controller\Operator\GroupsController::showFormAction()}
+     * {@link \Mibew\Controller\Operator\PermissionsController::showFormAction()}
      * method.
      *
      * @param Request $request Incoming request.
@@ -116,7 +106,6 @@ class GroupsController extends AbstractController
         csrf_check_token($request);
 
         $operator = $request->attributes->get('_operator');
-        $operator_in_isolation = in_isolation($operator);
 
         // Use value from the form and not from the path to make sure it is
         // correct. If not, throw an exception.
@@ -131,24 +120,29 @@ class GroupsController extends AbstractController
             throw new NotFoundException('The operator is not found.');
         }
 
-        // Get all groups that are available for the target operator.
-        $groups = $operator_in_isolation
-            ? get_all_groups_for_operator($operator)
-            : get_all_groups();
+        $new_permissions = isset($op['iperm']) ? $op['iperm'] : 0;
 
-        // Build list of operator's new groups.
-        $new_groups = array();
-        foreach ($groups as $group) {
-            if ($request->request->get('group' . $group['groupid']) == 'on') {
-                $new_groups[] = $group['groupid'];
+        foreach (permission_ids() as $perm => $id) {
+            if ($request->request->get('permissions' . $id) == 'on') {
+                $new_permissions |= (1 << $perm);
+            } else {
+                $new_permissions &= ~(1 << $perm);
             }
         }
 
-        // Update operator's group and redirect the current operator to the same
-        // page using GET method.
-        update_operator_groups($op['operatorid'], $new_groups);
+        // Update operator's permissions in the database and in cached session
+        // data if it is needed.
+        update_operator_permissions($op['operatorid'], $new_permissions);
+
+        if ($operator['operatorid'] == $op_id) {
+            $operator['iperm'] = $new_permissions;
+            $_SESSION[SESSION_PREFIX . 'operator'] = $operator;
+            $request->attributes->set('_operator', $operator);
+        }
+
+        // Redirect the current operator to the same page using GET method.
         $redirect_to = $this->generateUrl(
-            'operator_groups',
+            'operator_permissions',
             array(
                 'operator_id' => $op_id,
                 'stored' => true,

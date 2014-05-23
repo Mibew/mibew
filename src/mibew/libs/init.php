@@ -105,7 +105,6 @@ require_once(MIBEW_FS_ROOT . '/libs/groups.php');
 require_once(MIBEW_FS_ROOT . '/libs/invitation.php');
 require_once(MIBEW_FS_ROOT . '/libs/notify.php');
 require_once(MIBEW_FS_ROOT . '/libs/operator.php');
-require_once(MIBEW_FS_ROOT . '/libs/operator_settings.php');
 require_once(MIBEW_FS_ROOT . '/libs/pagination.php');
 require_once(MIBEW_FS_ROOT . '/libs/statistics.php');
 require_once(MIBEW_FS_ROOT . '/libs/settings.php');

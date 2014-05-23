@@ -17,7 +17,6 @@
 
 namespace Mibew\Controller\Operator;
 
-use Mibew\Controller\AbstractController;
 use Mibew\Database;
 use Mibew\Http\Exception\NotFoundException;
 use Symfony\Component\HttpFoundation\Request;

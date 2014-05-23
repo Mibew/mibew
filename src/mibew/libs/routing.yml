@@ -274,6 +274,25 @@ operator_groups_save:
         operator_id: \d{1,10}
     methods: [POST]
 
+operator_permissions:
+    path: /operator/operator/{operator_id}/permissions
+    defaults:
+        _controller: Mibew\Controller\Operator\PermissionsController::showFormAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+    requirements:
+        operator_id: \d{1,10}
+    methods: [GET]
+
+operator_permissions_save:
+    path: /operator/operator/{operator_id}/permissions
+    defaults:
+        _controller: Mibew\Controller\Operator\PermissionsController::submitFormAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    requirements:
+        operator_id: \d{1,10}
+    methods: [POST]
+
 operators:
     path: /operator/operator
     defaults:

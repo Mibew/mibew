@@ -17,7 +17,6 @@
 
 namespace Mibew\Controller\Operator;
 
-use Mibew\Controller\AbstractController;
 use Mibew\Settings;
 use Mibew\Http\Exception\AccessDeniedException;
 use Mibew\Http\Exception\NotFoundException;
@@ -67,7 +66,7 @@ class AvatarController extends AbstractController
         $page['menuid'] = ($operator['operatorid'] == $op_id) ? 'profile' : 'operators';
 
         $page = array_merge($page, prepare_menu($operator));
-        $page['tabs'] = setup_operator_settings_tabs($op_id, 1);
+        $page['tabs'] = $this->buildTabs($request);
 
         return $this->render('operator_avatar', $page);
     }
