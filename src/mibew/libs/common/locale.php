@@ -150,46 +150,51 @@ function get_locale_links()
 /**
  * Load localized messages id some service locale info.
  *
- * @global array $messages Localized messages array
+ * Messages are statically cached.
  *
  * @param string $locale Name of a locale whose messages should be loaded.
+ * @return array Localized messages array
  */
 function load_messages($locale)
 {
-    global $messages;
+    static $messages = array();
 
-    // Load core localization
-    $locale_file = MIBEW_FS_ROOT . "/locales/{$locale}/properties";
-    $locale_data = read_locale_file($locale_file);
+    if (!isset($messages[$locale])) {
+        // Load core localization
+        $locale_file = MIBEW_FS_ROOT . "/locales/{$locale}/properties";
+        $locale_data = read_locale_file($locale_file);
 
-    $messages[$locale] = $locale_data['messages'];
+        $messages[$locale] = $locale_data['messages'];
 
-    // Plugins are unavailable on system installation
-    if (!installation_in_progress()) {
-        // Load active plugins localization
-        $plugins_list = array_keys(PluginManager::getAllPlugins());
+        // Plugins are unavailable on system installation
+        if (!installation_in_progress()) {
+            // Load active plugins localization
+            $plugins_list = array_keys(PluginManager::getAllPlugins());
 
-        foreach ($plugins_list as $plugin_name) {
-            // Build plugin path
-            list($vendor_name, $plugin_short_name) = explode(':', $plugin_name, 2);
-            $plugin_name_parts = explode('_', $plugin_short_name);
-            $locale_file = MIBEW_FS_ROOT
-                . "/plugins/" . ucfirst($vendor_name) . "/Mibew/Plugin/"
-                . implode('', array_map('ucfirst', $plugin_name_parts))
-                . "/locales/{$locale}/properties";
+            foreach ($plugins_list as $plugin_name) {
+                // Build plugin path
+                list($vendor_name, $plugin_short_name) = explode(':', $plugin_name, 2);
+                $plugin_name_parts = explode('_', $plugin_short_name);
+                $locale_file = MIBEW_FS_ROOT
+                    . "/plugins/" . ucfirst($vendor_name) . "/Mibew/Plugin/"
+                    . implode('', array_map('ucfirst', $plugin_name_parts))
+                    . "/locales/{$locale}/properties";
 
-            // Get localized strings
-            if (is_readable($locale_file)) {
-                $locale_data = read_locale_file($locale_file);
-                // array_merge used to provide an ability for plugins to override
-                // localized strings
-                $messages[$locale] = array_merge(
-                    $messages[$locale],
-                    $locale_data['messages']
-                );
+                // Get localized strings
+                if (is_readable($locale_file)) {
+                    $locale_data = read_locale_file($locale_file);
+                    // array_merge used to provide an ability for plugins to override
+                    // localized strings
+                    $messages[$locale] = array_merge(
+                        $messages[$locale],
+                        $locale_data['messages']
+                    );
+                }
             }
         }
     }
+
+    return $messages[$locale];
 }
 
 /**
@@ -229,12 +234,7 @@ function read_locale_file($path)
 
 function getstring_($text, $locale, $raw = false)
 {
-    global $messages;
-    if (!isset($messages[$locale])) {
-        load_messages($locale);
-    }
-
-    $localized = $messages[$locale];
+    $localized = load_messages($locale);
     if (isset($localized[$text])) {
         return $raw
             ? $localized[$text]
@@ -373,5 +373,3 @@ function save_message($locale, $key, $value)
         fclose($fp);
     }
 }
-
-$messages = array();

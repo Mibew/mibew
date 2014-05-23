@@ -29,14 +29,8 @@ $source = verify_param("source", "/^[\w-]{2,5}$/", DEFAULT_LOCALE);
 $target = verify_param("target", "/^[\w-]{2,5}$/", CURRENT_LOCALE);
 $string_id = verify_param("key", "/^[_\.\w]+$/", "");
 
-if (!isset($messages[$source])) {
-    load_messages($source);
-}
-$lang1 = $messages[$source];
-if (!isset($messages[$target])) {
-    load_messages($target);
-}
-$lang2 = $messages[$target];
+$lang1 = load_messages($source);
+$lang2 = load_messages($target);
 
 $page = array(
     'lang1' => $source,
