@@ -17,7 +17,6 @@
 
 namespace Mibew\Controller\Operator;
 
-use Mibew\Http\Exception\AccessDeniedException;
 use Mibew\Http\Exception\NotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -88,14 +87,6 @@ class ProfileController extends AbstractController
             $page['formcode'] = $request->request->get('code');
         }
 
-        // Operator without CAN_ADMINISTRATE permission can neither create new
-        // operators nor view/edit other operator's profile.
-        $access_restricted = !is_capable(CAN_ADMINISTRATE, $operator)
-            && (!$op_id || ($operator['operatorid'] != $op_id));
-        if ($access_restricted) {
-            throw new AccessDeniedException();
-        }
-
         $can_modify = ($op_id == $operator['operatorid'] && is_capable(CAN_MODIFYPROFILE, $operator))
             || is_capable(CAN_ADMINISTRATE, $operator);
 
@@ -119,8 +110,6 @@ class ProfileController extends AbstractController
      *
      * @param Request $request Incoming request.
      * @return string Rendered page content.
-     * @throws AccessDeniedException If the current operator has no rights to
-     *   modify choosen profile.
      */
     public function submitFormAction(Request $request)
     {
@@ -144,12 +133,6 @@ class ProfileController extends AbstractController
         $local_name = $request->request->get('name');
         $common_name = $request->request->get('commonname');
         $code = $request->request->get('code');
-
-        $can_modify = ($op_id == $operator['operatorid'] && is_capable(CAN_MODIFYPROFILE, $operator))
-            || is_capable(CAN_ADMINISTRATE, $operator);
-        if (!$can_modify) {
-            throw new AccessDeniedException('Cannot modify profile.');
-        }
 
         if (!$local_name) {
             $errors[] = no_field('form.field.agent_name');

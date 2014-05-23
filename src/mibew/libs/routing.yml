@@ -174,21 +174,23 @@ operator_add:
     path: /operator/operator/add
     defaults:
         _controller: Mibew\Controller\Operator\ProfileController::showFormAction
-        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
     methods: [GET]
 
 operator_add_save:
     path: /operator/operator/add
     defaults:
         _controller: Mibew\Controller\Operator\ProfileController::submitFormAction
-        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
     methods: [POST]
 
 operator_avatar:
     path: /operator/operator/{operator_id}/avatar
     defaults:
         _controller: Mibew\Controller\Operator\AvatarController::showFormAction
-        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+        _access_check: Mibew\AccessControl\Check\OperatorViewCheck
     requirements:
         operator_id: \d{1,10}
     methods: [GET]
@@ -197,7 +199,7 @@ operator_avatar_delete:
     path: /operator/operator/{operator_id}/avatar/delete
     defaults:
         _controller: Mibew\Controller\Operator\AvatarController::deleteAction
-        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+        _access_check: Mibew\AccessControl\Check\OperatorEditCheck
     requirements:
         operator_id: \d{1,10}
 
@@ -205,7 +207,7 @@ operator_avatar_save:
     path: /operator/operator/{operator_id}/avatar
     defaults:
         _controller: Mibew\Controller\Operator\AvatarController::submitFormAction
-        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+        _access_check: Mibew\AccessControl\Check\OperatorEditCheck
     requirements:
         operator_id: \d{1,10}
     methods: [POST]
@@ -214,7 +216,7 @@ operator_edit:
     path: /operator/operator/{operator_id}/edit
     defaults:
         _controller: Mibew\Controller\Operator\ProfileController::showFormAction
-        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+        _access_check: Mibew\AccessControl\Check\OperatorViewCheck
     requirements:
         operator_id: \d{1,10}
     methods: [GET]
@@ -223,7 +225,7 @@ operator_edit_save:
     path: /operator/operator/{operator_id}/edit
     defaults:
         _controller: Mibew\Controller\Operator\ProfileController::submitFormAction
-        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+        _access_check: Mibew\AccessControl\Check\OperatorEditCheck
     requirements:
         operator_id: \d{1,10}
     methods: [POST]
@@ -259,7 +261,7 @@ operator_groups:
     path: /operator/operator/{operator_id}/groups
     defaults:
         _controller: Mibew\Controller\Operator\GroupsController::showFormAction
-        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+        _access_check: Mibew\AccessControl\Check\OperatorViewCheck
     requirements:
         operator_id: \d{1,10}
     methods: [GET]
@@ -278,7 +280,7 @@ operator_permissions:
     path: /operator/operator/{operator_id}/permissions
     defaults:
         _controller: Mibew\Controller\Operator\PermissionsController::showFormAction
-        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+        _access_check: Mibew\AccessControl\Check\OperatorViewCheck
     requirements:
         operator_id: \d{1,10}
     methods: [GET]

@@ -18,7 +18,6 @@
 namespace Mibew\Controller\Operator;
 
 use Mibew\Settings;
-use Mibew\Http\Exception\AccessDeniedException;
 use Mibew\Http\Exception\NotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -51,11 +50,6 @@ class AvatarController extends AbstractController
         $can_modify = ($op_id == $operator['operatorid'] && is_capable(CAN_MODIFYPROFILE, $operator))
             || is_capable(CAN_ADMINISTRATE, $operator);
 
-        // Check if the curent operator has enough rights to access the page
-        if ($op_id != $operator['operatorid'] && !is_capable(CAN_ADMINISTRATE, $operator)) {
-            throw new AccessDeniedException();
-        }
-
         // Try to load the target operator.
         $op = operator_by_id($op_id);
         if (!$op) {
@@ -85,8 +79,6 @@ class AvatarController extends AbstractController
      * @return string Rendered page content.
      * @throws NotFoundException If the operator with specified ID is not found
      *   in the system.
-     * @throws AccessDeniedException If the current operator has no rights to
-     *   modify choosen profile.
      */
     public function submitFormAction(Request $request)
     {
@@ -95,12 +87,6 @@ class AvatarController extends AbstractController
         $operator = $request->attributes->get('_operator');
         $op_id = $request->attributes->getInt('operator_id');
         $errors = array();
-
-        $can_modify = ($op_id == $operator['operatorid'] && is_capable(CAN_MODIFYPROFILE, $operator))
-            || is_capable(CAN_ADMINISTRATE, $operator);
-        if (!$can_modify) {
-            throw new AccessDeniedException('Cannot modify avatar.');
-        }
 
         // Try to load the target operator.
         $op = operator_by_id($op_id);
@@ -179,8 +165,6 @@ class AvatarController extends AbstractController
      * @return string Rendered page content.
      * @throws NotFoundException If the operator with specified ID is not found
      *   in the system.
-     * @throws AccessDeniedException If the current operator has no rights to
-     *   modify choosen profile.
      */
     public function deleteAction(Request $request)
     {
@@ -188,12 +172,6 @@ class AvatarController extends AbstractController
 
         $operator = $request->attributes->get('_operator');
         $op_id = $request->attributes->getInt('operator_id');
-
-        $can_modify = ($op_id == $operator['operatorid'] && is_capable(CAN_MODIFYPROFILE, $operator))
-            || is_capable(CAN_ADMINISTRATE, $operator);
-        if (!$can_modify) {
-            throw new AccessDeniedException('Cannot modify avatar.');
-        }
 
         // Try to load the target operator.
         if (!operator_by_id($op_id)) {

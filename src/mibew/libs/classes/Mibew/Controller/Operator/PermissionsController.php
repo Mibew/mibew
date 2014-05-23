@@ -17,7 +17,6 @@
 
 namespace Mibew\Controller\Operator;
 
-use Mibew\Http\Exception\AccessDeniedException;
 use Mibew\Http\Exception\BadRequestException;
 use Mibew\Http\Exception\NotFoundException;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,8 +33,6 @@ class PermissionsController extends AbstractController
      * @return string Rendered page content.
      * @throws NotFoundException If the operator with specified ID is not found
      *   in the system.
-     * @throws AccessDeniedException If the current operator has not enough
-     *   rights to view the page.
      */
     public function showFormAction(Request $request)
     {
@@ -49,11 +46,6 @@ class PermissionsController extends AbstractController
             'canmodify' => is_capable(CAN_ADMINISTRATE, $operator) ? '1' : '',
             'errors' => array(),
         );
-
-        // Check if the curent operator has enough rights to access the page
-        if ($op_id != $operator['operatorid'] && !is_capable(CAN_ADMINISTRATE, $operator)) {
-            throw new AccessDeniedException();
-        }
 
         $op = operator_by_id($op_id);
         if (!$op) {
