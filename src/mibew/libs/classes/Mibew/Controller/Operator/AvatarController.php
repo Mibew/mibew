@@ -51,6 +51,11 @@ class AvatarController extends AbstractController
         $can_modify = ($op_id == $operator['operatorid'] && is_capable(CAN_MODIFYPROFILE, $operator))
             || is_capable(CAN_ADMINISTRATE, $operator);
 
+        // Check if the curent operator has enough rights to access the page
+        if ($op_id != $operator['operatorid'] && !is_capable(CAN_ADMINISTRATE, $operator)) {
+            throw new AccessDeniedException();
+        }
+
         // Try to load the target operator.
         $op = operator_by_id($op_id);
         if (!$op) {
