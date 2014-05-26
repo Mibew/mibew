@@ -35,7 +35,7 @@ function setup_settings_tabs($active)
             ? (MIBEW_WEB_ROOT . "/operator/features.php")
             : ""),
         getlocal("page_settings.tab.performance") => ($active != 2
-            ? (MIBEW_WEB_ROOT . "/operator/performance.php")
+            ? (MIBEW_WEB_ROOT . "/operator/settings/performance")
             : ""),
         getlocal("page_settings.tab.page_themes") => ($active != 3
             ? (MIBEW_WEB_ROOT . "/operator/page_themes.php")

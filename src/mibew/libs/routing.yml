@@ -377,6 +377,22 @@ settings_common_save:
         _access_permissions: [CAN_ADMINISTRATE]
     methods: [POST]
 
+settings_performance:
+    path: /operator/settings/performance
+    defaults:
+        _controller: Mibew\Controller\Settings\PerformanceController::showFormAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    methods: [GET]
+
+settings_performance_save:
+    path: /operator/settings/performance
+    defaults:
+        _controller: Mibew\Controller\Settings\PerformanceController::submitFormAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    methods: [POST]
+
 ## Statistics
 statistics:
     path: /operator/statistics/{type}
