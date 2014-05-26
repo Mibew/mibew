@@ -360,6 +360,23 @@ password_recovery_reset:
     defaults:
         _controller: Mibew\Controller\PasswordRecoveryController::resetAction
 
+## Settings
+settings_common:
+    path: /operator/settings
+    defaults:
+        _controller: Mibew\Controller\Settings\CommonController::showFormAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    methods: [GET]
+
+settings_common_save:
+    path: /operator/settings
+    defaults:
+        _controller: Mibew\Controller\Settings\CommonController::submitFormAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    methods: [POST]
+
 ## Statistics
 statistics:
     path: /operator/statistics/{type}

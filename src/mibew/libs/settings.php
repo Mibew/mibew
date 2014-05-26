@@ -29,7 +29,7 @@ function setup_settings_tabs($active)
 {
     $tabs = array(
         getlocal("page_settings.tab.main") => ($active != 0
-            ? (MIBEW_WEB_ROOT . "/operator/settings.php")
+            ? (MIBEW_WEB_ROOT . "/operator/settings")
             : ""),
         getlocal("page_settings.tab.features") => ($active != 1
             ? (MIBEW_WEB_ROOT . "/operator/features.php")

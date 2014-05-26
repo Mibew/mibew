@@ -38,7 +38,7 @@ define('SESSION_PREFIX', md5($mysqlhost . '##' . $mysqldb . '##' . $mysqlprefix)
 
 /**
  * Default value for cron security key.
- * Another value can be set at operator/settings.php page.
+ * Another value can be set at operator/settings page.
  */
 define('DEFAULT_CRON_KEY', md5(
     $mysqlhost . '##' . $mysqldb . '##' . $mysqllogin . '##'
