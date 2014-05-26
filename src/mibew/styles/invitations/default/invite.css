@@ -22,50 +22,61 @@
     font-weight: normal !important;
     font-style: normal !important;
     font-family: Arial, Helvetica, sans-serif !important;
-    font-size: 12px !important;
+    font-size: 14px !important;
     vertical-align: baseline !important;
     line-height: normal !important;
     border: 1px solid #aaa !important;
-    background-color: #ddd !important;
+    background: -webkit-linear-gradient(left, #dfdfdf, #fafafa) !important;
+    background: -o-linear-gradient(right, #dfdfdf, #fafafa) !important;
+    background: -moz-linear-gradient(right, #dfdfdf, #fafafa) !important;
+    background: linear-gradient(to right, #dfdfdf, #fafafa) !important;
     color: #000 !important;
     position: fixed !important;
-    top: 50% !important;
-    left: 0 !important;
+    bottom: 5px !important;
+    right: 5px !important;
     width: 400px !important;
+    z-index: 100 !important;
+    border-radius: 10px !important;
+    -webkit-border-radius: 10px !important;
+    -moz-border-radius: 10px !important;
+    box-shadow: 0 1px 1px 1px #ddd !important;
+    -moz-box-shadow: 0 1px 1px 1px #ddd !important;
+    -webkit-box-shadow: 0 1px 1px 1px #ddd !important;
 }
 
 #mibewinvitationpopup h1, #mibewinvitationpopup p, #mibewinvitationclose a {
     cursor: pointer !important;
 }
 
-#mibewinvitationpopup h1{
+#mibewinvitationpopup h1 {
+    color: #909090 !important;
     font-size: 20px !important;
     font-weight: bold !important;
     margin-top: 10px !important;
     margin-bottom: 10px !important;
+    background: url('./24x24.png') 7px 1px no-repeat !important;
+    text-align: left !important;
+    padding-left: 40px !important;
+    display: inline-block !important;
 }
 
 #mibewinvitationclose {
     float: right !important;
-    background-color: red !important;
+    background: url('./close.gif') center no-repeat !important;
     padding: 1px !important;
     margin: 0 !important;
 }
 
 #mibewinvitationclose a {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif !important;
-    font-size: 20px !important;
-    font-weight: bold !important;
-    color: white !important;
+    font-size: 12px !important;
+    font-weight: normal !important;
+    color: transparent !important;
     margin: 0 4px 0 4px !important;
 }
 
 #mibewinvitationclose a, #mibewinvitationclose a:link, #mibewinvitationclose a:hover {
     text-decoration: none !important;
-}
-
-#mibewinvitationpopup h1 {
-    text-align: center !important;
 }
 
 #mibewinvitationpopup p {
@@ -81,14 +92,44 @@
 }
 
 #mibewinvitationframe {
-    width: 398px;
-    height: 150px;
-    overflow: hidden;
-    border: 1px solid #000;
-    background-color: #FFFFFF;
+    width: 388px !important;
+    height: 150px !important;
+    overflow: hidden !important;
+    border: 1px solid #bbc4c4 !important;
+    background-color: #ffffff !important;
+    padding: 5px !important;
+    border-radius: 5px !important;
+    -webkit-border-radius: 5px !important;
+    -moz-border-radius: 5px !important;
+    margin-bottom: 5px !important;
 }
+
 #mibewinvitationaccept {
-    font-weight: bold;
-    text-align: center;
-    cursor: pointer;
+    color: #495151 !important;
+    font-size: 17px !important;
+    font-weight: normal !important;
+    text-align: center !important;
+    cursor: pointer !important;
+    background: -webkit-linear-gradient(#fff, #dfdfdf) !important;
+    background: -o-linear-gradient(#fff, #dfdfdf) !important;
+    background: -moz-linear-gradient(#fff, #dfdfdf) !important;
+    background: linear-gradient(#fff, #dfdfdf) !important;
+    border: 1px solid #777 !important;
+    border-radius: 7px !important;
+    -webkit-border-radius: 7px !important;
+    -moz-border-radius: 7px !important;
+    box-shadow: 0 2px 2px 2px #ddd !important;
+    -moz-box-shadow: 0 2px 2px 2px #ddd !important;
+    -webkit-box-shadow: 0 2px 2px 2px #ddd !important;
+    display: inline-block !important;
+    float: right !important;
+    padding: 5px 65px !important;
+}
+
+#mibewinvitationaccept:hover {
+    color: black !important;
+    background: -webkit-linear-gradient(#e9f6fc, #c6e5f6) !important;
+    background: -o-linear-gradient(#e9f6fc, #c6e5f6) !important;
+    background: -moz-linear-gradient(#e9f6fc, #c6e5f6) !important;
+    background: linear-gradient(#e9f6fc, #c6e5f6) !important;
 }
