@@ -13,6 +13,53 @@ widget_gateway:
 
 # Operators' pages
 
+## Banned visitors
+ban_add:
+    path: /operator/ban/add
+    defaults:
+        _controller: Mibew\Controller\BanController::showEditFormAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+    methods: [GET]
+
+ban_add_save:
+    path: /operator/ban/add
+    defaults:
+        _controller: Mibew\Controller\BanController::submitEditFormAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+    methods: [POST]
+
+ban_delete:
+    path: /operator/ban/{ban_id}/delete
+    defaults:
+        _controller: Mibew\Controller\BanController::deleteAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+    requirements:
+        ban_id: \d{1,10}
+
+ban_edit:
+    path: /operator/ban/{ban_id}/edit
+    defaults:
+        _controller: Mibew\Controller\BanController::showEditFormAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+    requirements:
+        ban_id: \d{1,10}
+    methods: [GET]
+
+ban_edit_save:
+    path: /operator/ban/{ban_id}/edit
+    defaults:
+        _controller: Mibew\Controller\BanController::submitEditFormAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+    requirements:
+        ban_id: \d{1,10}
+    methods: [POST]
+
+bans:
+    path: /operator/ban
+    defaults:
+        _controller: Mibew\Controller\BanController::indexAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+
 ## Canned messages
 canned_message_add:
     path: /operator/canned-message/add

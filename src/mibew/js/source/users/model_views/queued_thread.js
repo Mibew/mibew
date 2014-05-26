@@ -218,10 +218,10 @@
                 // Open ban window
                 Mibew.Popup.open(
                     page.get('banLink')
-                        + '?'
+                        + '/'
                         + (ban !== false
-                            ? 'id='+ban.id
-                            : 'thread='+ thread.id),
+                            ? ban.id + '/edit'
+                            : 'add?thread='+ thread.id),
                     'ImBan' + ban.id,
                     page.get('banWindowParams')
                 );

@@ -5,7 +5,7 @@ admin.content.description=Functions available for site operators.
 agent.not_logged_in=Your session has expired. Please login again
 app.descr=Mibew Messenger is an open-source live support application.
 app.title=Mibew Messenger
-ban.error.duplicate=The specified address is already in use. Click <a href="ban.php?id={1}">here</a> if you want to edit it.
+ban.error.duplicate=The specified address is already in use. Click <a href="{1}">here</a> if you want to edit it.
 button.delete=Delete
 button.enter=Enter
 button.offline.bottom=Leave your message
