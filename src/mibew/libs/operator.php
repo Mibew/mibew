@@ -537,6 +537,8 @@ function append_query($link, $pv)
  *   login page. Default value is true.
  * @return null|array Array with operator info if operator is logged in and
  *   null otherwise.
+ *
+ * @deprecated
  */
 function check_login($redirect = true)
 {
