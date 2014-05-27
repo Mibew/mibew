@@ -8,7 +8,7 @@
         {{#block "head"}}{{/block}}
     </head>
 
-    <body>
+    <body{{#if startFrom}} class="{{startFrom}}"{{/if}}>
         {{#block "page"}}
             {{! Logo block}}
             <div id="top2">
