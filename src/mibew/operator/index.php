@@ -35,7 +35,7 @@ $page = array(
     'profilePage' => MIBEW_WEB_ROOT . "/operator/operator/" . $operator['operatorid'] . '/edit',
     'updateWizard' => MIBEW_WEB_ROOT . "/install/",
     'newFeatures' => Settings::get('featuresversion') != FEATURES_VERSION,
-    'featuresPage' => MIBEW_WEB_ROOT . "/operator/features.php",
+    'featuresPage' => MIBEW_WEB_ROOT . "/operator/settings/features",
     'isOnline' => $is_online,
     'warnOffline' => true,
     'title' => getlocal("topMenu.admin"),

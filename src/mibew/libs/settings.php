@@ -32,7 +32,7 @@ function setup_settings_tabs($active)
             ? (MIBEW_WEB_ROOT . "/operator/settings")
             : ""),
         getlocal("page_settings.tab.features") => ($active != 1
-            ? (MIBEW_WEB_ROOT . "/operator/features.php")
+            ? (MIBEW_WEB_ROOT . "/operator/settings/features")
             : ""),
         getlocal("page_settings.tab.performance") => ($active != 2
             ? (MIBEW_WEB_ROOT . "/operator/settings/performance")
