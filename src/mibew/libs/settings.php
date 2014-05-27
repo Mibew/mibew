@@ -24,6 +24,8 @@ use Mibew\Settings;
  *
  * @param int $active Number of the active tab. The count starts from 0.
  * @return array Tabs list
+ *
+ * @deprecated
  */
 function setup_settings_tabs($active)
 {
