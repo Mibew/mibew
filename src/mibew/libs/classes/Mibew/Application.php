@@ -56,6 +56,11 @@ class Application
     protected $controllerResolver = null;
 
     /**
+     * @var CheckResolver|null
+     */
+    protected $accessCheckResolver = null;
+
+    /**
      * Class constructor.
      */
     public function __construct()
