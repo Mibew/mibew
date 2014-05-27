@@ -17,23 +17,23 @@
 
 namespace Mibew\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Mibew\Routing\Router;
 use Mibew\Routing\RouterAwareInterface;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class ControllerResolver
 {
     /**
-     * @var Router|null
+     * @var RouterInterface|null
      */
     protected $router = null;
 
     /**
      * Class constructor.
      *
-     * @param Router $router Router instance.
+     * @param RouterInterface $router Router instance.
      */
-    public function __construct(Router $router)
+    public function __construct(RouterInterface $router)
     {
         $this->router = $router;
     }
