@@ -52,6 +52,8 @@
     color: #909090 !important;
     font-size: 20px !important;
     font-weight: bold !important;
+    max-width: 220px !important;
+    overflow: hidden !important;
     margin-top: 10px !important;
     margin-bottom: 10px !important;
     background: url('./24x24.png') 7px 1px no-repeat !important;
@@ -85,10 +87,10 @@
 }
 
 #mibewinvitationavatar {
-    margin: 2px !important;
-    margin-right: 5px !important;
+    margin: 2px 10px 5px 2px !important;
     cursor: pointer !important;
-    float: left !important;
+    float: right !important;
+    max-width: 100px !important;
 }
 
 #mibewinvitationframe {
