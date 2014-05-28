@@ -98,6 +98,7 @@ img {
 #logo {
     font: normal 17px Arial;
     color: #495151;
+    padding: 10px 0;
 }
 #logo a {
     float: left;
