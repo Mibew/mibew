@@ -37,16 +37,6 @@ class InvitationStyle extends AbstractStyle implements StyleInterface
     }
 
     /**
-     * Loads configurations of the style.
-     *
-     * @return array Style configurations
-     */
-    public function getConfigurations()
-    {
-        return array();
-    }
-
-    /**
      * Stub for StyleInterface::render method.
      *
      * The method does not contain actual code because inviation styles are not

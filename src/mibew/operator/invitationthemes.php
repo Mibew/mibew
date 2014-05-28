@@ -28,15 +28,26 @@ $style_list = InvitationStyle::getAvailableStyles();
 
 $preview = verify_param("preview", "/^\w+$/", "default");
 if (!in_array($preview, $style_list)) {
+    $style_names = array_keys($style_list);
     $preview = $style_list[0];
 }
 
+$invitation_style = new InvitationStyle($preview);
+$style_config = $invitation_style->getConfigurations();
+
+$screenshots = array();
+foreach ($style_config['screenshots'] as $name => $desc) {
+    $screenshots[] = array(
+        'name' => $name,
+        'file' => (MIBEW_WEB_ROOT . '/' . $invitation_style->getFilesPath()
+            . '/screenshots/' . $name . '.png'),
+        'description' => $desc
+    );
+}
+
 $page['formpreview'] = $preview;
-$page['preview'] = $preview;
 $page['availablePreviews'] = $style_list;
-$page['operatorName'] = (empty($operator['vclocalname'])
-    ? $operator['vccommonname']
-    : $operator['vclocalname']);
+$page['screenshotsList'] = $screenshots;
 $page['title'] = getlocal("page.preview.title");
 $page['menuid'] = "settings";
 
