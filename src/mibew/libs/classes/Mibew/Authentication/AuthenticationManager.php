@@ -17,6 +17,7 @@
 
 namespace Mibew\Authentication;
 
+use Mibew\EventDispatcher;
 use Mibew\Http\CookieFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,6 +34,13 @@ class AuthenticationManager
 
     /**
      * Extracts operator's data from the passed in request object.
+     *
+     * Triggers 'operatorAuthenticate' event if operator is not authenticated by
+     * the system and pass to it an associative array with following items:
+     *  - 'operator': if a plugin has extracted operator from the request it
+     *    should set operator's data to this field.
+     *  - 'request': {@link Request}, incoming request. Can be used by a plugin
+     *    to extract an operator.
      *
      * @param Request $request A request to extract operator from.
      * @return array|bool Associative array with operator's data or boolean
@@ -60,6 +68,19 @@ class AuthenticationManager
 
                 return $op;
             }
+        }
+
+        // Provide an ability for plugins to authenticate operator
+        $args = array(
+            'operator' => false,
+            'request' => $request,
+        );
+        $dispatcher = EventDispatcher::getInstance();
+        $dispatcher->triggerEvent('operatorAuthenticate', $args);
+
+        if (!empty($args['operator'])) {
+            $_SESSION[SESSION_PREFIX . 'operator'] = $args['operator'];
+            return $args['operator'];
         }
 
         // Operator's data cannot be extracted from the request.
