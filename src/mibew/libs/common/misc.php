@@ -15,14 +15,6 @@
  * limitations under the License.
  */
 
-function debugexit_print($var)
-{
-    echo "<html><body><pre>";
-    print_r($var);
-    echo "</pre></body></html>";
-    exit;
-}
-
 function get_gifimage_size($filename)
 {
     if (function_exists('gd_info')) {
@@ -42,68 +34,9 @@ function get_gifimage_size($filename)
     return array(0, 0);
 }
 
-function js_path()
-{
-    return "js/compiled";
-}
-
 function div($a, $b)
 {
     return ($a - ($a % $b)) / $b;
-}
-
-/**
- * Flatten array recursively.
- *
- * For example if input array is:
- * <code>
- *   $input = array(
- *     'first' => 1,
- *     'second' => array(
- *       'f' => 'value',
- *       's' => null,
- *       't' => array(
- *         'one', 'two', 'three'
- *       ),
- *       'f' => 4
- *     ),
- *     'third' => false,
- *   );
- * </code>
- * the output array will be:
- * <code>
- *   $output = array(
- *     'first' => 1,
- *     'second.f' => 'value',
- *     'second.s' => null,
- *     'second.t.0' => 'one',
- *     'second.t.1' => 'two',
- *     'second.t.2' => 'three'
- *     'second.f' => 4,
- *     'third' => false
- *   );
- * </code>
- *
- * @param array $arr Array to flatten
- * @return array
- */
-function array_flatten_recursive($arr)
-{
-    $result = array();
-    foreach ($arr as $key => $value) {
-        if (is_array($value)) {
-            // Flatten nested arrays
-            $value = array_flatten_recursive($value);
-            foreach ($value as $inner_key => $inner_value) {
-                $result[$key . "." . $inner_key] = $inner_value;
-            }
-        } else {
-            // Leave scalar values 'as is'
-            $result[$key] = $value;
-        }
-    }
-
-    return $result;
 }
 
 /**
