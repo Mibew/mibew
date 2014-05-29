@@ -372,7 +372,7 @@ function check_status()
 	if (!check_admin($link)) {
 		$page['nextstep'] = getlocal("installed.login_link");
 		$page['nextnotice'] = getlocal2("installed.notice", array(MIBEW_WEB_ROOT . "/install/"));
-		$page['nextstepurl'] = MIBEW_WEB_ROOT . "/operator/login.php?login=admin";
+		$page['nextstepurl'] = MIBEW_WEB_ROOT . "/operator/login?login=admin";
 	}
 
 	$page['show_small_login'] = true;

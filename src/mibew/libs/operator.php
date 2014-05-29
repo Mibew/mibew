@@ -572,7 +572,7 @@ function check_login($redirect = true)
         // Redirect operator if need
         if ($redirect) {
             $_SESSION['backpath'] = $requested;
-            header("Location: " . MIBEW_WEB_ROOT . "/operator/login.php");
+            header("Location: " . MIBEW_WEB_ROOT . "/operator/login");
             exit;
         } else {
             return null;
@@ -601,63 +601,6 @@ function get_logged_in()
     return isset($_SESSION[SESSION_PREFIX . "operator"])
         ? $_SESSION[SESSION_PREFIX . "operator"]
         : false;
-}
-
-/**
- * Log in operator
- *
- * Triggers 'operatorLogin' event after operator logged in and pass to it an
- * associative array with following items:
- *  - 'operator': array of the logged in operator info;
- *  - 'remember': boolean, indicates if system should remember operator.
- *
- * @param array $operator Operators info
- * @param boolean $remember Indicates if system should remember operator
- * @param boolean $https Indicates if cookie should be flagged as a secure one
- */
-function login_operator($operator, $remember, $https = false)
-{
-    $_SESSION[SESSION_PREFIX . "operator"] = $operator;
-    if ($remember) {
-        $password_hash = calculate_password_hash($operator['vclogin'], $operator['vcpassword']);
-        setcookie(
-            REMEMBER_OPERATOR_COOKIE_NAME,
-            base64_encode($operator['vclogin'] . "\x0" . $password_hash),
-            time() + 60 * 60 * 24 * 1000,
-            MIBEW_WEB_ROOT . "/",
-            null,
-            $https,
-            true
-        );
-    } elseif (isset($_COOKIE[REMEMBER_OPERATOR_COOKIE_NAME])) {
-        setcookie(REMEMBER_OPERATOR_COOKIE_NAME, '', time() - 3600, MIBEW_WEB_ROOT . "/");
-    }
-
-    // Trigger login event
-    $args = array(
-        'operator' => $operator,
-        'remember' => $remember,
-    );
-    $dispatcher = EventDispatcher::getInstance();
-    $dispatcher->triggerEvent('operatorLogin', $args);
-}
-
-/**
- * Log out current operator
- *
- * Triggers 'operatorLogout' event after operator logged out.
- */
-function logout_operator()
-{
-    unset($_SESSION[SESSION_PREFIX . "operator"]);
-    unset($_SESSION['backpath']);
-    if (isset($_COOKIE[REMEMBER_OPERATOR_COOKIE_NAME])) {
-        setcookie(REMEMBER_OPERATOR_COOKIE_NAME, '', time() - 3600, MIBEW_WEB_ROOT . "/");
-    }
-
-    // Trigger logout event
-    $dispatcher = EventDispatcher::getInstance();
-    $dispatcher->triggerEvent('operatorLogout');
 }
 
 function setup_redirect_links($threadid, $operator, $token)

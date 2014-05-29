@@ -18,8 +18,10 @@
 namespace Mibew;
 
 use Mibew\AccessControl\Check\CheckResolver;
+use Mibew\Authentication\AuthenticationManager;
 use Mibew\Controller\ControllerResolver;
 use Mibew\EventDispatcher;
+use Mibew\Http\CookieFactory;
 use Mibew\Http\Exception\AccessDeniedException as AccessDeniedHttpException;
 use Mibew\Http\Exception\HttpException;
 use Mibew\Http\Exception\MethodNotAllowedException as MethodNotAllowedHttpException;
@@ -61,6 +63,11 @@ class Application
     protected $accessCheckResolver = null;
 
     /**
+     * @var AuthenticationManager|null
+     */
+    protected $authenticationManager = null;
+
+    /**
      * Class constructor.
      */
     public function __construct()
@@ -69,6 +76,7 @@ class Application
         $this->router = new Router(new RouteCollectionLoader($this->fileLocator));
         $this->controllerResolver = new ControllerResolver($this->router);
         $this->accessCheckResolver = new CheckResolver();
+        $this->authenticationManager = new AuthenticationManager();
     }
 
     /**
@@ -84,13 +92,20 @@ class Application
         $context->fromRequest($request);
         $this->router->setContext($context);
 
+        // Actualize cookie factory in the authentication manager.
+        $cookie_factory = CookieFactory::fromRequest($request);
+        $this->authenticationManager->setCookieFactory($cookie_factory);
+
         try {
             // Try to match a route, check if the client can access it and add
             // extra data to the request.
             try {
                 $parameters = $this->router->matchRequest($request);
                 $request->attributes->add($parameters);
-                $request->attributes->set('_operator', $this->extractOperator($request));
+                $request->attributes->set(
+                    '_operator',
+                    $this->authenticationManager->extractOperator($request)
+                );
 
                 // Check if the user can access the page
                 $access_check = $this->accessCheckResolver->getCheck($request);
@@ -112,63 +127,30 @@ class Application
             $controller = $this->controllerResolver->getController($request);
             $response = call_user_func($controller, $request);
         } catch (AccessDeniedHttpException $e) {
-            return $this->buildAccessDeniedResponse($request);
+            $response = $this->buildAccessDeniedResponse($request);
         } catch (HttpException $e) {
             // Build response based on status code which is stored in exception
             // instance.
             $http_status = $e->getStatusCode();
             $content = Response::$statusTexts[$http_status];
 
-            return new Response($content, $http_status);
+            $response = new Response($content, $http_status);
         } catch (\Exception $e) {
-            return new Response('Internal Server Error', 500);
+            $response = new Response('Internal Server Error', 500);
         }
 
-        if ($response instanceof Response) {
-            return $response;
-        } else {
+        if (!($response instanceof Response)) {
             // Convert all content returned by a controller's action to Response
             // instance.
-            return new Response((string)$response);
-        }
-    }
-
-    /**
-     * Extracts operator's data from the passed in request object.
-     *
-     * @param Request $request A request to extract operator from.
-     * @return array|bool Associative array with operator's data or boolean
-     *   false if there is no operator related with the request.
-     *
-     * @todo Remove this method when Object Oriented wrapper for an operator
-     *   will be created.
-     */
-    protected function extractOperator(Request $request)
-    {
-        // Try to get operator from session.
-        if (isset($_SESSION[SESSION_PREFIX . "operator"])) {
-            return $_SESSION[SESSION_PREFIX . "operator"];
+            $response = new Response((string)$response);
         }
 
-        // Check if operator had used "remember me" feature.
-        if ($request->cookies->has(REMEMBER_OPERATOR_COOKIE_NAME)) {
-            $cookie_value = $request->cookies->get(REMEMBER_OPERATOR_COOKIE_NAME);
-            list($login, $pwd) = preg_split('/\x0/', base64_decode($cookie_value), 2);
-            $op = operator_by_login($login);
-            $can_login = $op
-                && isset($pwd)
-                && isset($op['vcpassword'])
-                && calculate_password_hash($op['vclogin'], $op['vcpassword']) == $pwd
-                && !operator_is_disabled($op);
-            if ($can_login) {
-                $_SESSION[SESSION_PREFIX . "operator"] = $op;
+        // Get modified operator from the request and attach authentication info
+        // to the response to distinguish him in the next requests.
+        $operator = $request->attributes->get('_operator');
+        $this->authenticationManager->attachOperator($response, $operator);
 
-                return $op;
-            }
-        }
-
-        // Operator's data cannot be extracted from the request.
-        return false;
+        return $response;
     }
 
     /**
@@ -207,7 +189,7 @@ class Application
 
         // Operator is not logged in. Redirect him to the login page.
         $_SESSION['backpath'] = $request->getUri();
-        $response = new RedirectResponse($request->getUriForPath('/operator/login.php'));
+        $response = new RedirectResponse($this->router->generate('login'));
 
         return $response;
     }

@@ -113,13 +113,12 @@ class PermissionsController extends AbstractController
             }
         }
 
-        // Update operator's permissions in the database and in cached session
+        // Update operator's permissions in the database and in cached request
         // data if it is needed.
         update_operator_permissions($op['operatorid'], $new_permissions);
 
         if ($operator['operatorid'] == $op_id) {
             $operator['iperm'] = $new_permissions;
-            $_SESSION[SESSION_PREFIX . 'operator'] = $operator;
             $request->attributes->set('_operator', $operator);
         }
 

@@ -140,12 +140,10 @@ class AvatarController extends AbstractController
         // Update path to avatar in the database
         update_operator_avatar($op['operatorid'], $avatar);
 
-        // Operator's data are cached in the session thus we need to update them
+        // Operator's data are cached in the request thus we need to update them
         // manually.
         if ($avatar && $operator['operatorid'] == $op_id) {
             $operator['vcavatar'] = $avatar;
-
-            $_SESSION[SESSION_PREFIX . 'operator'] = $operator;
             $request->attributes->set('_operator', $operator);
         }
 

@@ -206,7 +206,7 @@ class ProfileController extends AbstractController
         // Update existing operator
         update_operator($op_id, $login, $email, $password, $local_name, $common_name, $code);
 
-        // Operator data are cached in the session, thus we need to manually
+        // Operator data are cached in the request, thus we need to manually
         // update them.
         if (!empty($password) && $op_id == $operator['operatorid']) {
             // Check if the admin has set his password for the first time.
@@ -214,7 +214,6 @@ class ProfileController extends AbstractController
 
             // Update operator's password.
             $operator['vcpassword'] = calculate_password_hash($login, $password);
-            $_SESSION[SESSION_PREFIX . 'operator'] = $operator;
             $request->attributes->set('_operator', $operator);
 
             // Redirect the admin to the home page if needed.

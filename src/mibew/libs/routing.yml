@@ -216,6 +216,26 @@ invite:
         _controller: Mibew\Controller\InvitationController::inviteAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
 
+## Log in
+login:
+    path: /operator/login
+    defaults:
+        _controller: Mibew\Controller\LoginController::showFormAction
+    methods: [GET]
+
+login_submit:
+    path: /operator/login
+    defaults:
+        _controller: Mibew\Controller\LoginController::submitFormAction
+    methods: [POST]
+
+## Log out
+logout:
+    path: /operator/logout
+    defaults:
+        _controller: Mibew\Controller\LogoutController::logoutAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+
 ## Operators
 operator_add:
     path: /operator/operator/add
