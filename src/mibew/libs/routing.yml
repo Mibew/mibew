@@ -60,6 +60,14 @@ bans:
         _controller: Mibew\Controller\BanController::indexAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
 
+## Button code
+button_code:
+    path: /operator/button-code
+    defaults:
+        _controller: Mibew\Controller\ButtonCodeController::generateAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+
 ## Canned messages
 canned_message_add:
     path: /operator/canned-message/add
