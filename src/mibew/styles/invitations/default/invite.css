@@ -26,9 +26,11 @@
     vertical-align: baseline !important;
     line-height: normal !important;
     border: 1px solid #aaa !important;
+    background: #dfdfdf !important;
     background: -webkit-linear-gradient(left, #dfdfdf, #fafafa) !important;
     background: -o-linear-gradient(right, #dfdfdf, #fafafa) !important;
     background: -moz-linear-gradient(right, #dfdfdf, #fafafa) !important;
+    background: -ms-linear-gradient(right, #dfdfdf, #fafafa) !important;
     background: linear-gradient(to right, #dfdfdf, #fafafa) !important;
     color: #000 !important;
     position: fixed !important;
@@ -112,9 +114,11 @@
     font-weight: normal !important;
     text-align: center !important;
     cursor: pointer !important;
+    background: #dfdfdf !important;
     background: -webkit-linear-gradient(#fff, #dfdfdf) !important;
     background: -o-linear-gradient(#fff, #dfdfdf) !important;
     background: -moz-linear-gradient(#fff, #dfdfdf) !important;
+    background: -ms-linear-gradient(#fff, #dfdfdf) !important;
     background: linear-gradient(#fff, #dfdfdf) !important;
     border: 1px solid #777 !important;
     border-radius: 7px !important;
@@ -130,8 +134,10 @@
 
 #mibewinvitationaccept:hover {
     color: black !important;
+    background: #c6e5f6 !important;
     background: -webkit-linear-gradient(#e9f6fc, #c6e5f6) !important;
     background: -o-linear-gradient(#e9f6fc, #c6e5f6) !important;
     background: -moz-linear-gradient(#e9f6fc, #c6e5f6) !important;
+    background: -ms-linear-gradient(#e9f6fc, #c6e5f6) !important;
     background: linear-gradient(#e9f6fc, #c6e5f6) !important;
 }
