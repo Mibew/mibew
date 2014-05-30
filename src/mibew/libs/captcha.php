@@ -43,8 +43,11 @@ function gen_captcha()
  * Send captcha image directly to output
  *
  * @param string $security_code String to show on captcha
+ * @param $return boolean Indicates if the image should be sent to the browser
+ *   or returned as function result.
+ * @return string Image content if $return argument is set to true.
  */
-function draw_captcha($security_code)
+function draw_captcha($security_code, $return = false)
 {
     //Set the image width and height
     $width = 100;
@@ -75,12 +78,23 @@ function draw_captcha($security_code)
     imageline($image, $width / 2 - 14, 0, $width / 2 + 7, $height, $grey);
 
 
-    //Tell the browser what kind of file is come in
-    header("Content-Type: image/jpeg");
+    if ($return) {
+        // Get image content using output bufferezation
+        ob_start();
+        ImageJpeg($image);
+        $result = ob_get_clean();
+    } else {
+        //Tell the browser what kind of file is come in
+        header("Content-Type: image/jpeg");
 
-    //Output the newly created image in jpeg format
-    ImageJpeg($image);
+        //Output the newly created image in jpeg format
+        ImageJpeg($image);
+    }
 
     //Free up resources
     ImageDestroy($image);
+
+    if ($return) {
+        return $result;
+    }
 }

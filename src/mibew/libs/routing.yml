@@ -3,6 +3,10 @@ button:
     path: /b
     defaults: { _controller: Mibew\Controller\ButtonController::indexAction }
 
+captcha:
+    path: /captcha
+    defaults: { _controller: Mibew\Controller\CaptchaController::drawAction }
+
 license:
     path: /license
     defaults: { _controller: Mibew\Controller\LicenseController::indexAction }
