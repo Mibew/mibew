@@ -37,7 +37,7 @@ class ProfileController extends AbstractController
     {
         set_csrf_token();
 
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $page = array(
             'opid' => false,
             // Use errors list stored in the request. We need to do so to have
@@ -116,7 +116,7 @@ class ProfileController extends AbstractController
         csrf_check_token($request);
 
         $errors = array();
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $op_id = $request->attributes->getInt('operator_id');
 
         if (is_capable(CAN_ADMINISTRATE, $operator)) {
@@ -206,15 +206,15 @@ class ProfileController extends AbstractController
         // Update existing operator
         update_operator($op_id, $login, $email, $password, $local_name, $common_name, $code);
 
-        // Operator data are cached in the request, thus we need to manually
-        // update them.
+        // Operator data are cached in the authentication manager, thus we need
+        // to manually update them.
         if (!empty($password) && $op_id == $operator['operatorid']) {
             // Check if the admin has set his password for the first time.
             $to_dashboard = check_password_hash($login, '', $operator['vcpassword']) && $password != '';
 
             // Update operator's password.
             $operator['vcpassword'] = calculate_password_hash($login, $password);
-            $request->attributes->set('_operator', $operator);
+            $this->getAuthenticationManager()->setOperator($operator);
 
             // Redirect the admin to the home page if needed.
             if ($to_dashboard) {

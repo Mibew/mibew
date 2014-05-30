@@ -37,7 +37,7 @@ class GroupsController extends AbstractController
     {
         set_csrf_token();
 
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $operator_in_isolation = in_isolation($operator);
         $op_id = $request->attributes->getInt('operator_id');
 
@@ -104,7 +104,7 @@ class GroupsController extends AbstractController
     {
         csrf_check_token($request);
 
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $operator_in_isolation = in_isolation($operator);
         $op_id = $request->attributes->getInt('operator_id');
 

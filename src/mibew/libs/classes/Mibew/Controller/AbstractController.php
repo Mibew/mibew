@@ -17,6 +17,8 @@
 
 namespace Mibew\Controller;
 
+use Mibew\Authentication\AuthenticationManagerAwareInterface;
+use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Routing\Router;
 use Mibew\Routing\RouterAwareInterface;
 use Mibew\Style\StyleInterface;
@@ -27,12 +29,17 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 /**
  * A base class for all controllers.
  */
-abstract class AbstractController implements RouterAwareInterface
+abstract class AbstractController implements RouterAwareInterface, AuthenticationManagerAwareInterface
 {
     /**
      * @var Router|null
      */
     protected $router = null;
+
+    /**
+     * @var AuthenticationManagerInterface|null
+     */
+    protected $authenticationManager = null;
 
     /**
      * @var StyleInterface|null
@@ -53,6 +60,22 @@ abstract class AbstractController implements RouterAwareInterface
     public function getRouter()
     {
         return $this->router;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setAuthenticationManager(AuthenticationManagerInterface $manager)
+    {
+        $this->authenticationManager = $manager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAuthenticationManager()
+    {
+        return $this->authenticationManager;
     }
 
     /**
@@ -120,5 +143,15 @@ abstract class AbstractController implements RouterAwareInterface
         }
 
         return $this->style;
+    }
+
+    /**
+     * Returns the current operator.
+     *
+     * @return array Operator's data
+     */
+    public function getOperator()
+    {
+        return $this->getAuthenticationManager()->getOperator();
     }
 }

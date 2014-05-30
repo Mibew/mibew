@@ -39,7 +39,7 @@ class HistoryController extends AbstractController
         setlocale(LC_TIME, getstring("time.locale"));
 
         $page = array();
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $query = $request->query->get('q', false);
 
         $search_type = $request->query->get('type');
@@ -179,7 +179,7 @@ class HistoryController extends AbstractController
     {
         setlocale(LC_TIME, getstring("time.locale"));
 
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $page = array();
 
         // Load thread info
@@ -218,7 +218,7 @@ class HistoryController extends AbstractController
     {
         setlocale(LC_TIME, getstring("time.locale"));
 
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $user_id = $request->attributes->get('user_id', '');
         $page = array();
 

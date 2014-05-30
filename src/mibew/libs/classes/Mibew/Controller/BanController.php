@@ -39,7 +39,7 @@ class BanController extends AbstractController
         set_csrf_token();
         setlocale(LC_TIME, getstring('time.locale'));
 
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $page = array(
             'errors' => array(),
         );
@@ -101,7 +101,7 @@ class BanController extends AbstractController
     {
         set_csrf_token();
 
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
 
         $page = array(
             'banId' => '',
@@ -178,7 +178,7 @@ class BanController extends AbstractController
     {
         csrf_check_token($request);
 
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $errors = array();
 
         $page = array(

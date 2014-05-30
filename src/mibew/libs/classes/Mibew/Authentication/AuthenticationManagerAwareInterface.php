@@ -15,17 +15,25 @@
  * limitations under the License.
  */
 
-namespace Mibew\AccessControl\Check;
-
-use Symfony\Component\HttpFoundation\Request;
+namespace Mibew\Authentication;
 
 /**
- * Checks if operator from the request is logged in.
+ * Interface for all classes that knows about authentication manager.
  */
-class LoggedInCheck extends AbstractCheck
+interface AuthenticationManagerAwareInterface
 {
-    public function __invoke(Request $request)
-    {
-        return (bool)$this->getOperator();
-    }
+    /**
+     * Sets internal instance of authentication manager.
+     *
+     * @param AuthenticationManagerInterface $manager An authentication manager
+     * instance.
+     */
+    public function setAuthenticationManager(AuthenticationManagerInterface $manager);
+
+    /**
+     * Gets authentication manager instance.
+     *
+     * @returns AuthenticationManagerInterface
+     */
+    public function getAuthenticationManager();
 }

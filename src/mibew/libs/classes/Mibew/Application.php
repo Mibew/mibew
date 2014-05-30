@@ -74,9 +74,12 @@ class Application
     {
         $this->fileLocator = new FileLocator(array(MIBEW_FS_ROOT));
         $this->router = new Router(new RouteCollectionLoader($this->fileLocator));
-        $this->controllerResolver = new ControllerResolver($this->router);
-        $this->accessCheckResolver = new CheckResolver();
         $this->authenticationManager = new AuthenticationManager();
+        $this->controllerResolver = new ControllerResolver(
+            $this->router,
+            $this->authenticationManager
+        );
+        $this->accessCheckResolver = new CheckResolver($this->authenticationManager);
     }
 
     /**
@@ -95,6 +98,7 @@ class Application
         // Actualize cookie factory in the authentication manager.
         $cookie_factory = CookieFactory::fromRequest($request);
         $this->authenticationManager->setCookieFactory($cookie_factory);
+        $this->authenticationManager->setOperatorFromRequest($request);
 
         try {
             // Try to match a route, check if the client can access it and add
@@ -102,10 +106,6 @@ class Application
             try {
                 $parameters = $this->router->matchRequest($request);
                 $request->attributes->add($parameters);
-                $request->attributes->set(
-                    '_operator',
-                    $this->authenticationManager->extractOperator($request)
-                );
 
                 // Check if the user can access the page
                 $access_check = $this->accessCheckResolver->getCheck($request);
@@ -145,10 +145,9 @@ class Application
             $response = new Response((string)$response);
         }
 
-        // Get modified operator from the request and attach authentication info
-        // to the response to distinguish him in the next requests.
-        $operator = $request->attributes->get('_operator');
-        $this->authenticationManager->attachOperator($response, $operator);
+        // Attach operator's authentication info to the response to distinguish
+        // him in the next requests.
+        $this->authenticationManager->attachOperatorToResponse($response);
 
         return $response;
     }
@@ -182,7 +181,7 @@ class Application
             return $args['response'];
         }
 
-        if ($request->attributes->get('_operator')) {
+        if ($this->authenticationManager->getOperator()) {
             // If the operator already logged in, display 403 page.
             return new Response('Forbidden', 403);
         }

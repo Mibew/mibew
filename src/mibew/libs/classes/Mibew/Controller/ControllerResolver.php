@@ -17,6 +17,8 @@
 
 namespace Mibew\Controller;
 
+use Mibew\Authentication\AuthenticationManagerAwareInterface;
+use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Routing\RouterAwareInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,13 +31,21 @@ class ControllerResolver
     protected $router = null;
 
     /**
+     * @var AuthenticationManagerInterface|null
+     */
+    protected $authenticationManager = null;
+
+    /**
      * Class constructor.
      *
      * @param RouterInterface $router Router instance.
+     * @param AuthenticationManagerInterface $manager Authentication manager
+     *   instance.
      */
-    public function __construct(RouterInterface $router)
+    public function __construct(RouterInterface $router, AuthenticationManagerInterface $manager)
     {
         $this->router = $router;
+        $this->authenticationManager = $manager;
     }
 
     /**
@@ -93,6 +103,10 @@ class ControllerResolver
         $object = new $class();
         if ($object instanceof RouterAwareInterface) {
             $object->setRouter($this->router);
+        }
+
+        if ($object instanceof AuthenticationManagerAwareInterface) {
+            $object->setAuthenticationManager($this->authenticationManager);
         }
 
         return array($object, $method);

@@ -38,7 +38,7 @@ class ButtonCodeController extends AbstractController
      */
     public function generateAction(Request $request)
     {
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
 
         $page = array(
             'errors' => array(),

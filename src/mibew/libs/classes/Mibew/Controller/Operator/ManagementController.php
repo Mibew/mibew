@@ -37,7 +37,7 @@ class ManagementController extends AbstractController
         set_csrf_token();
         setlocale(LC_TIME, getstring('time.locale'));
 
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $page = array(
             // Use errors list stored in the request. We need to do so to have
             // an ability to pass the request from the "submitMembersForm" action.
@@ -104,7 +104,7 @@ class ManagementController extends AbstractController
     {
         csrf_check_token($request);
 
-        $current_operator = $request->attributes->get('_operator');
+        $current_operator = $this->getOperator();
         $operator_id = $request->attributes->getInt('operator_id');
         $errors = array();
 
@@ -145,7 +145,7 @@ class ManagementController extends AbstractController
     {
         csrf_check_token($request);
 
-        $current_operator = $request->attributes->get('_operator');
+        $current_operator = $this->getOperator();
         $operator_id = $request->attributes->getInt('operator_id');
         $errors = array();
 

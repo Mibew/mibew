@@ -51,7 +51,7 @@ class PermissionsCheck extends LoggedInCheck
             return false;
         }
 
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $permissions = $request->attributes->get('_access_permissions', array());
         foreach ($permissions as $permission) {
             if (!is_capable($this->resolvePermission($permission), $operator)) {

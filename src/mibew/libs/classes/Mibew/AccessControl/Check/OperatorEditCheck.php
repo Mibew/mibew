@@ -39,7 +39,7 @@ class OperatorEditCheck extends LoggedInCheck
             return false;
         }
 
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $target_operator_id = $request->attributes->getInt('operator_id', false);
 
         return is_capable(CAN_ADMINISTRATE, $operator)

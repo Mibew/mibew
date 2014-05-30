@@ -17,7 +17,6 @@
 
 namespace Mibew\Controller;
 
-use Mibew\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -34,7 +33,7 @@ class LoginController extends AbstractController
     public function showFormAction(Request $request)
     {
         // Check if the operator already logged in
-        if ($request->attributes->get('_operator')) {
+        if ($this->getOperator()) {
             // Redirect the operator to home page.
             // TODO: Use a route for URI generation.
             return $this->redirect($request->getUriForPath('/operator'));
@@ -93,27 +92,13 @@ class LoginController extends AbstractController
             && !operator_is_disabled($operator);
 
         if ($operator_can_login) {
-            if ($remember) {
-                $operator['remember_me'] = true;
-            }
-
-            // Update operator in the request. Doing so we tell the
-            // Authentication manager that operator should be associated with
-            // the session.
-            $request->attributes->set('_operator', $operator);
+            // Login the operator to the system
+            $this->getAuthenticationManager()->loginOperator($operator, $remember);
 
             // Redirect the current operator to the needed page.
             $target = isset($_SESSION['backpath'])
                 ? $_SESSION['backpath']
                 : $request->getUriForPath('/operator');
-
-            // Trigger login event
-            $args = array(
-                'operator' => $operator,
-                'remember' => $remember,
-            );
-            $dispatcher = EventDispatcher::getInstance();
-            $dispatcher->triggerEvent('operatorLogin', $args);
 
             return $this->redirect($target);
         } else {

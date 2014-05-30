@@ -35,7 +35,7 @@ class PasswordRecoveryController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        if ($request->attributes->get('_operator')) {
+        if ($this->getOperator()) {
             // If the operator is logged in just redirect him to the home page.
             return $this->redirect($request->getUriForPath('/operator'));
         }

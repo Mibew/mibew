@@ -37,7 +37,7 @@ class PermissionsController extends AbstractController
     {
         set_csrf_token();
 
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $op_id = $request->attributes->get('operator_id');
 
         $page = array(
@@ -94,7 +94,7 @@ class PermissionsController extends AbstractController
     {
         csrf_check_token($request);
 
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $op_id = $request->attributes->getInt('operator_id');
 
         // Check if the target operator exists
@@ -113,13 +113,13 @@ class PermissionsController extends AbstractController
             }
         }
 
-        // Update operator's permissions in the database and in cached request
-        // data if it is needed.
+        // Update operator's permissions in the database and in cached
+        // authentication manager data if it is needed.
         update_operator_permissions($op['operatorid'], $new_permissions);
 
         if ($operator['operatorid'] == $op_id) {
             $operator['iperm'] = $new_permissions;
-            $request->attributes->set('_operator', $operator);
+            $this->getAuthenticationManager()->setOperator($operator);
         }
 
         // Redirect the current operator to the same page using GET method.

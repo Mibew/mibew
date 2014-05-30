@@ -34,7 +34,7 @@ class InvitationController extends AbstractController
      */
     public function inviteAction(Request $request)
     {
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
 
         // Get visitor ID from the request and check it
         $visitor_id = $request->query->get('visitor');

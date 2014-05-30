@@ -38,7 +38,7 @@ class StatisticsController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $statistics_type = $request->attributes->get('type');
         setlocale(LC_TIME, getstring("time.locale"));
 

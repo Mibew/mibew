@@ -35,7 +35,7 @@ class UsersController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $status = $request->query->has('away') ? 1 : 0;
 
         notify_operator_alive($operator['operatorid'], $status);

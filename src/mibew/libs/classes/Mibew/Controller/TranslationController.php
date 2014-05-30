@@ -32,7 +32,7 @@ class TranslationController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
 
         $source = $request->query->get('source');
         if (!preg_match("/^[\w-]{2,5}$/", $source)) {
@@ -150,7 +150,7 @@ class TranslationController extends AbstractController
     {
         set_csrf_token();
 
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $string_id = $request->attributes->get('string_id');
 
         $source = $request->query->get('source');
@@ -209,7 +209,7 @@ class TranslationController extends AbstractController
     {
         csrf_check_token($request);
 
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $string_id = $request->attributes->get('string_id');
         $errors = array();
 

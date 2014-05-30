@@ -17,7 +17,6 @@
 
 namespace Mibew\Controller;
 
-use Mibew\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -35,13 +34,8 @@ class LogoutController extends AbstractController
      */
     public function logoutAction(Request $request)
     {
-        // Detach operator's object from the request. This should tells
-        // authentication manager that operator session should be closed.
-        $request->attributes->remove('_operator');
-
-        // Trigger logout event
-        $dispatcher = EventDispatcher::getInstance();
-        $dispatcher->triggerEvent('operatorLogout');
+        // Login the operator from the system
+        $this->getAuthenticationManager()->logoutOperator();
 
         // Redirect the current operator to the login page.
         return $this->redirect($this->generateUrl('login'));

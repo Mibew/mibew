@@ -17,10 +17,28 @@
 
 namespace Mibew\AccessControl\Check;
 
+use Mibew\Authentication\AuthenticationManagerAwareInterface;
+use Mibew\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class CheckResolver
 {
+    /**
+     * @var AuthenticationManagerInterface|null
+     */
+    protected $authenticationManager = null;
+
+    /**
+     * Class contructor.
+     *
+     * @param AuthenticationManagerInterface $manager An instance of
+     * authentication manager.
+     */
+    public function __construct(AuthenticationManagerInterface $manager)
+    {
+        $this->authenticationManager = $manager;
+    }
+
     /**
      * Resolves access check callable by request.
      *
@@ -43,7 +61,12 @@ class CheckResolver
         // directly
         if (strpos($access_check, ':') === false) {
             if (method_exists($access_check, '__invoke')) {
-                return new $access_check();
+                $object = new $access_check();
+                if ($object instanceof AuthenticationManagerAwareInterface) {
+                    $object->setAuthenticationManager($this->authenticationManager);
+                }
+
+                return $object;
             } elseif (function_exists($access_check)) {
                 return $access_check;
             } else {
@@ -90,6 +113,11 @@ class CheckResolver
             throw new \InvalidArgumentException(sprintf('Class "%s" does not exist.', $class));
         }
 
-        return array(new $class(), $method);
+        $object = new $class();
+        if ($object instanceof AuthenticationManagerAwareInterface) {
+            $object->setAuthenticationManager($this->authenticationManager);
+        }
+
+        return array($object, $method);
     }
 }

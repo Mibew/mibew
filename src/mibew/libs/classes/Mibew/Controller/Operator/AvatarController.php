@@ -38,7 +38,7 @@ class AvatarController extends AbstractController
     {
         set_csrf_token();
 
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $op_id = $request->attributes->get('operator_id');
         $page = array(
             'opid' => $op_id,
@@ -84,7 +84,7 @@ class AvatarController extends AbstractController
     {
         csrf_check_token($request);
 
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $op_id = $request->attributes->getInt('operator_id');
         $errors = array();
 
@@ -140,11 +140,11 @@ class AvatarController extends AbstractController
         // Update path to avatar in the database
         update_operator_avatar($op['operatorid'], $avatar);
 
-        // Operator's data are cached in the request thus we need to update them
-        // manually.
+        // Operator's data are cached in the authentication manager thus we need
+        // to update them manually.
         if ($avatar && $operator['operatorid'] == $op_id) {
             $operator['vcavatar'] = $avatar;
-            $request->attributes->set('_operator', $operator);
+            $this->getAuthenticationManager()->setOperator($operator);
         }
 
         // Redirect the operator to the same page using GET method.
@@ -168,7 +168,7 @@ class AvatarController extends AbstractController
     {
         csrf_check_token($request);
 
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $op_id = $request->attributes->getInt('operator_id');
 
         // Try to load the target operator.

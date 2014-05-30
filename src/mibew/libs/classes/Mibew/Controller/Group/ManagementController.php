@@ -35,7 +35,7 @@ class ManagementController extends AbstractController
     {
         set_csrf_token();
 
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $page = array(
             'errors' => array(),
         );

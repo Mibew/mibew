@@ -37,7 +37,7 @@ class MembersController extends AbstractController
     {
         set_csrf_token();
 
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $group_id = $request->attributes->getInt('group_id');
 
         $page = array(

@@ -36,7 +36,7 @@ class PerformanceController extends AbstractController
     {
         set_csrf_token();
 
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $page = array(
             'agentId' => '',
             // Use errors list stored in the request. We need to do so to have

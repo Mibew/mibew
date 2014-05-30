@@ -35,7 +35,7 @@ class CannedMessageController extends AbstractController
     {
         set_csrf_token();
 
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $page = array(
             'errors' => array(),
         );
@@ -144,7 +144,7 @@ class CannedMessageController extends AbstractController
     {
         set_csrf_token();
 
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $message_id = $request->attributes->getInt('message_id');
         $page = array(
             // Use errors list stored in the request. We need to do so to have
@@ -204,7 +204,7 @@ class CannedMessageController extends AbstractController
     {
         csrf_check_token($request);
 
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $message_id = $request->attributes->getInt('message_id');
         $errors = array();
 

@@ -32,7 +32,7 @@ class UpdatesController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        $operator = $request->attributes->get('_operator');
+        $operator = $this->getOperator();
         $default_extensions = array('mysql', 'gd', 'iconv');
 
         $page = array(
