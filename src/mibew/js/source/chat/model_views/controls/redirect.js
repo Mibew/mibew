@@ -62,8 +62,13 @@
                     if (link) {
                         // Redirect browser to user redirection page
                         var style = Mibew.Objects.Models.page.get('style');
+                        var styleArg = '';
+                        if (style) {
+                            styleArg = ((link.indexOf('?') === -1) ? '?' : '&')
+                                + 'style=' + style;
+                        }
                         window.location.href = link.replace(/\&amp\;/g, '&')
-                            + (style ? ('&style=' + style) : '');
+                            + styleArg;
                     }
                 }
             }

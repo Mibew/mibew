@@ -613,10 +613,8 @@ function setup_chatview_for_operator(Thread $thread, $operator)
         $data['chat']['messageForm']['predefinedAnswers'] = $predefined_answers;
     }
     // Set link to user redirection page
-    $params = "thread=" . $thread->id . "&amp;token=" . $thread->lastToken;
-    $data['chat']['links']['redirect'] = MIBEW_WEB_ROOT . "/operator/chat?"
-        . $params
-        . "&amp;redirect=1";
+    $data['chat']['links']['redirect'] = MIBEW_WEB_ROOT . "/operator/chat/"
+        . $thread->id . '/' . $thread->lastToken . '/redirection-links';
 
     $data['namePostfix'] = "";
 

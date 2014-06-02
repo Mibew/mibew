@@ -76,21 +76,11 @@ class ChatController extends AbstractController
 
         $page = setup_chatview_for_operator($thread, $operator);
 
-        if ($request->query->get('redirect')) {
-            $page = array_merge_recursive(
-                $page,
-                setup_redirect_links($thread_id, $operator, $token)
-            );
+        // Build js application options
+        $page['chatOptions'] = json_encode($page['chat']);
 
-            // Render the page with redirection links.
-            return $this->render('redirect', $page);
-        } else {
-            // Build js application options
-            $page['chatOptions'] = json_encode($page['chat']);
-
-            // Render the page with chat.
-            return $this->render('chat', $page);
-        }
+        // Render the page with chat.
+        return $this->render('chat', $page);
     }
 
     /**

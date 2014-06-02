@@ -8,10 +8,22 @@ chat_operator:
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
 
 chat_operator_redirect:
-    path: /operator/chat/redirect
+    path: /operator/chat/{thread_id}/{token}/redirect
     defaults:
-        _controller: Mibew\Controller\Chat\Operator\RedirectController::indexAction
+        _controller: Mibew\Controller\Chat\Operator\RedirectController::redirectAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
+    requirements:
+        thread_id: \d{1,10}
+        token: \d{1,10}
+
+chat_operator_redirection_links:
+    path: /operator/chat/{thread_id}/{token}/redirection-links
+    defaults:
+        _controller: Mibew\Controller\Chat\Operator\RedirectController::showRedirectionLinksAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+    requirements:
+        thread_id: \d{1,10}
+        token: \d{1,10}
 
 ## User's chat
 chat_user:

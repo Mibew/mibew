@@ -20,6 +20,7 @@ namespace Mibew\Controller\Chat\Operator;
 use Mibew\Controller\Chat\AbstractController;
 use Mibew\Database;
 use Mibew\Http\Exception\BadRequestException;
+use Mibew\Http\Exception\NotFoundException;
 use Mibew\Thread;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -29,31 +30,64 @@ use Symfony\Component\HttpFoundation\Request;
 class RedirectController extends AbstractController
 {
     /**
-     * Process chat's redirections.
+     * Renders a page with redirections links.
      *
      * @param Request $request Incoming request.
      * @return string|\Symfony\Component\HttpFoundation\RedirectResponse Rendered
      *   page content or a redirect response.
-     * @throws BadRequestException If the thread cannot be loaded by some
-     * reasons.
+     * @throws NotFoundException If the thread with specified ID and token is
+     * not found.
      */
-    public function indexAction(Request $request)
+    public function showRedirectionLinksAction(Request $request)
     {
-        // Get and validate thread id
-        $thread_id = $request->query->get('thread');
-        if (!preg_match("/^\d{1,10}$/", $thread_id)) {
-            throw new BadRequestException('Wrong value of "thread" argument.');
+        // Check if we should force the user to use SSL
+        $ssl_redirect = $this->sslRedirect($request);
+        if ($ssl_redirect !== false) {
+            return $ssl_redirect;
         }
 
-        // Get and validate token
-        $token = $request->query->get('token');
-        if (!preg_match("/^\d{1,10}$/", $token)) {
-            throw new BadRequestException('Wrong value of "token" argument.');
-        }
+        $operator = $this->getOperator();
+        $thread_id = $request->attributes->get('thread_id');
+        $token = $request->attributes->get('token');
 
         $thread = Thread::load($thread_id, $token);
         if (!$thread) {
-            throw new BadRequestException('Wrong thread.');
+            throw new NotFoundException('The thread is not found.');
+        }
+
+        if ($thread->agentId != $operator['operatorid']) {
+            $page = array('errors' => array('Can redirect only own threads.'));
+
+            return $this->render('error', $page);
+        }
+
+        $page = array_merge_recursive(
+            setup_chatview_for_operator($thread, $operator),
+            setup_redirect_links($this->getRouter()->getGenerator(), $thread_id, $operator, $token)
+        );
+
+        // Render the page with redirection links.
+        return $this->render('redirect', $page);
+    }
+
+    /**
+     * Process chat thread redirection.
+     *
+     * @param Request $request Incoming request.
+     * @return string|\Symfony\Component\HttpFoundation\RedirectResponse Rendered
+     *   page content or a redirect response.
+     * @throws NotFoundException If the thread with specified ID and token is
+     * not found.
+     * @throws BadRequestException If one or more arguments have a wrong format.
+     */
+    public function redirectAction(Request $request)
+    {
+        $thread_id = $request->attributes->get('thread_id');
+        $token = $request->attributes->get('token');
+
+        $thread = Thread::load($thread_id, $token);
+        if (!$thread) {
+            throw new NotFoundException('The thread is not found.');
         }
 
         $page = array(
@@ -109,6 +143,13 @@ class RedirectController extends AbstractController
         }
     }
 
+    /**
+     * Redirects a chat thread to the group with the specified ID.
+     *
+     * @param \Mibew\Thread $thread Chat thread to redirect.
+     * @param int $group_id ID of the target group.
+     * @return boolean True if the thread was redirected and false on failure.
+     */
     protected function redirectToGroup(Thread $thread, $group_id)
     {
         if ($thread->state != Thread::STATE_CHATTING) {
@@ -138,6 +179,13 @@ class RedirectController extends AbstractController
         return true;
     }
 
+    /**
+     * Redirects a chat thread to the operator with the specified ID.
+     *
+     * @param \Mibew\Thread $thread Chat thread to redirect.
+     * @param int $group_id ID of the target operator.
+     * @return boolean True if the thread was redirected and false on failure.
+     */
     protected function redirectToOperator(Thread $thread, $operator_id)
     {
         if ($thread->state != Thread::STATE_CHATTING) {

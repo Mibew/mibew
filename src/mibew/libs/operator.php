@@ -19,6 +19,7 @@
 use Mibew\Database;
 use Mibew\EventDispatcher;
 use Mibew\Settings;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Name of the cookie to remember an operator
@@ -603,7 +604,7 @@ function get_logged_in()
         : false;
 }
 
-function setup_redirect_links($threadid, $operator, $token)
+function setup_redirect_links(UrlGeneratorInterface $url_generator, $threadid, $operator, $token)
 {
     $result = array();
 
@@ -637,7 +638,7 @@ function setup_redirect_links($threadid, $operator, $token)
     $groups = array_slice($groups, $p['start'], $p['end'] - $p['start']);
 
     $agent_list = "";
-    $params = array('thread' => $threadid, 'token' => $token);
+    $params = array('thread_id' => $threadid, 'token' => $token);
     foreach ($operators as $agent) {
         $params['nextAgent'] = $agent['operatorid'];
         $status = $agent['time'] < Settings::get('online_timeout')
@@ -645,7 +646,7 @@ function setup_redirect_links($threadid, $operator, $token)
                 ? getlocal("char.redirect.operator.online_suff")
                 : getlocal("char.redirect.operator.away_suff"))
             : "";
-        $agent_list .= "<li><a href=\"" . add_params(MIBEW_WEB_ROOT . "/operator/chat/redirect", $params)
+        $agent_list .= "<li><a href=\"" . $url_generator->generate('chat_operator_redirect', $params)
             . "\" title=\"" . get_operator_name($agent) . "\">"
             . get_operator_name($agent)
             . "</a> $status</li>";
@@ -654,13 +655,13 @@ function setup_redirect_links($threadid, $operator, $token)
 
     $group_list = "";
     if (Settings::get('enablegroups') == "1") {
-        $params = array('thread' => $threadid, 'token' => $token);
+        $params = array('thread_id' => $threadid, 'token' => $token);
         foreach ($groups as $group) {
             $params['nextGroup'] = $group['groupid'];
             $status = group_is_online($group)
                 ? getlocal("char.redirect.operator.online_suff")
                 : (group_is_away($group) ? getlocal("char.redirect.operator.away_suff") : "");
-            $group_list .= "<li><a href=\"" . add_params(MIBEW_WEB_ROOT . "/operator/chat/redirect", $params)
+            $group_list .= "<li><a href=\"" . $url_generator->generate('chat_operator_redirect', $params)
                 . "\" title=\"" . get_group_name($group) . "\">"
                 . get_group_name($group)
                 . "</a> $status</li>";
