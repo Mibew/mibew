@@ -132,7 +132,7 @@ class ChatController extends AbstractController
 
             if ($force_take == false) {
                 $link = $this->generateUrl(
-                    'chat_operator_start',
+                    'chat_operator',
                     array(
                         'thread' => $thread_id,
                         'force' => true,
