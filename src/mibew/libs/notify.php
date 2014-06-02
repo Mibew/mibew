@@ -17,9 +17,7 @@
 
 function mibew_mail($to_addr, $reply_to, $subject, $body)
 {
-    global $mibew_mailbox;
-
-    $headers = "From: $mibew_mailbox\r\n"
+    $headers = "From: " . MIBEW_MAILBOX . "\r\n"
         . "Reply-To: " . $reply_to . "\r\n"
         . "Content-Type: text/plain; charset=utf-8\r\n"
         . 'X-Mailer: PHP/' . phpversion();
@@ -29,7 +27,7 @@ function mibew_mail($to_addr, $reply_to, $subject, $body)
     $body = preg_replace("/\n/", "\r\n", $body);
 
     $old_from = ini_get('sendmail_from');
-    @ini_set('sendmail_from', $mibew_mailbox);
+    @ini_set('sendmail_from', MIBEW_MAILBOX);
     @mail(
         $to_addr,
         $real_subject,

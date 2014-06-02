@@ -55,3 +55,8 @@ define('VISITOR_COOKIE_NAME', 'MIBEW_VisitorID');
  */
 define('USERID_COOKIE_NAME', 'MIBEW_UserID');
 define('USERNAME_COOKIE_NAME', 'MIBEW_Data');
+
+/**
+ * Mailbox of the current installation
+ */
+define('MIBEW_MAILBOX', $mibew_mailbox);

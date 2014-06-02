@@ -39,8 +39,6 @@ class MailController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        global $mibew_mailbox;
-
         $page = array(
             'errors' => array(),
         );
@@ -102,7 +100,7 @@ class MailController extends AbstractController
             true
         );
 
-        mibew_mail($email, $mibew_mailbox, $subject, $body);
+        mibew_mail($email, MIBEW_MAILBOX, $subject, $body);
 
         $page = array_merge_recursive($page, setup_logo($group));
 
