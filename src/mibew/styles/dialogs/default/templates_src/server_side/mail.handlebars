@@ -8,7 +8,7 @@
     {{/override}}
 
     {{#override "message"}}
-        <form name="mailThreadForm" method="post" action="{{mibewRoot}}/mail.php">
+        <form name="mailThreadForm" method="post" action="{{mibewRoot}}/chat/mail">
             <input type="hidden" name="style" value="{{styleName}}"/>
             <input type="hidden" name="thread" value="{{chat.thread.id}}"/>
             <input type="hidden" name="token" value="{{chat.thread.token}}"/>

@@ -19,6 +19,11 @@ chat_user:
     defaults:
         _controller: Mibew\Controller\Chat\User\ChatController::indexAction
 
+chat_user_mail:
+    path: /chat/mail
+    defaults:
+        _controller: Mibew\Controller\Chat\User\MailController::indexAction
+
 # Pages that are available for all users
 button:
     path: /b
