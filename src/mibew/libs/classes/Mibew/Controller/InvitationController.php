@@ -49,9 +49,13 @@ class InvitationController extends AbstractController
         }
 
         // Open chat window for operator
-        $redirect_to = $request->getBasePath()
-            . '/operator/agent.php?thread=' . intval($thread->id)
-            . '&token=' . urlencode($thread->lastToken);
+        $redirect_to = $this->generateUrl(
+            'chat_operator',
+            array(
+                'thread' => intval($thread->id),
+                'token' => urlencode($thread->lastToken),
+            )
+        );
 
         return $this->redirect($redirect_to);
     }

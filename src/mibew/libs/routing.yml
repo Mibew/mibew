@@ -1,3 +1,12 @@
+# Chat actions
+
+## Operator's chat
+chat_operator:
+    path: /operator/chat
+    defaults:
+        _controller: Mibew\Controller\Chat\Operator\ChatController::indexAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+
 # Pages that are available for all users
 button:
     path: /b

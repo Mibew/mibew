@@ -569,7 +569,7 @@ function setup_chatview_for_operator(Thread $thread, $operator)
     // Set SSL link
     if (Settings::get('enablessl') == "1" && !is_secure_request()) {
         $data['chat']['links']['ssl'] = get_app_location(true, true)
-            . "/operator/agent.php?thread="
+            . "/operator/chat?thread="
             . $thread->id
             . "&amp;token="
             . $thread->lastToken;
@@ -614,9 +614,9 @@ function setup_chatview_for_operator(Thread $thread, $operator)
     }
     // Set link to user redirection page
     $params = "thread=" . $thread->id . "&amp;token=" . $thread->lastToken;
-    $data['chat']['links']['redirect'] = MIBEW_WEB_ROOT . "/operator/agent.php?"
+    $data['chat']['links']['redirect'] = MIBEW_WEB_ROOT . "/operator/chat?"
         . $params
-        . "&amp;act=redirect";
+        . "&amp;redirect=1";
 
     $data['namePostfix'] = "";
 
