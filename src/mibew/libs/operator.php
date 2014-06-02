@@ -645,7 +645,7 @@ function setup_redirect_links($threadid, $operator, $token)
                 ? getlocal("char.redirect.operator.online_suff")
                 : getlocal("char.redirect.operator.away_suff"))
             : "";
-        $agent_list .= "<li><a href=\"" . add_params(MIBEW_WEB_ROOT . "/operator/redirect.php", $params)
+        $agent_list .= "<li><a href=\"" . add_params(MIBEW_WEB_ROOT . "/operator/chat/redirect", $params)
             . "\" title=\"" . get_operator_name($agent) . "\">"
             . get_operator_name($agent)
             . "</a> $status</li>";
@@ -660,7 +660,7 @@ function setup_redirect_links($threadid, $operator, $token)
             $status = group_is_online($group)
                 ? getlocal("char.redirect.operator.online_suff")
                 : (group_is_away($group) ? getlocal("char.redirect.operator.away_suff") : "");
-            $group_list .= "<li><a href=\"" . add_params(MIBEW_WEB_ROOT . "/operator/redirect.php", $params)
+            $group_list .= "<li><a href=\"" . add_params(MIBEW_WEB_ROOT . "/operator/chat/redirect", $params)
                 . "\" title=\"" . get_group_name($group) . "\">"
                 . get_group_name($group)
                 . "</a> $status</li>";
