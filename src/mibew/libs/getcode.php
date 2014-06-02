@@ -54,7 +54,7 @@ function generate_button(
     $disable_invitation
 ) {
     $app_location = get_app_location($show_host, $force_secure);
-    $link = $app_location . "/client.php";
+    $link = $app_location . "/chat";
     if ($locale) {
         $link = append_query($link, "locale=$locale");
     }

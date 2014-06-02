@@ -13,6 +13,12 @@ chat_operator_redirect:
         _controller: Mibew\Controller\Chat\Operator\RedirectController::indexAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
 
+## User's chat
+chat_user:
+    path: /chat
+    defaults:
+        _controller: Mibew\Controller\Chat\User\ChatController::indexAction
+
 # Pages that are available for all users
 button:
     path: /b
