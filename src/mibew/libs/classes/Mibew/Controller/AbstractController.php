@@ -118,13 +118,7 @@ abstract class AbstractController implements RouterAwareInterface, Authenticatio
      */
     public function render($template, array $parameters = array())
     {
-        // TODO: Remove bufferization after all pages will be replaced with
-        // controllers and direct output will be removed from the *Style classes.
-        ob_start();
-        $this->getStyle()->render($template, $parameters);
-        $content = ob_get_clean();
-
-        return $content;
+        return $this->getStyle()->render($template, $parameters);
     }
 
     /**

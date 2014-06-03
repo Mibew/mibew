@@ -298,7 +298,8 @@ function show_install_err($text)
 		'errors' => array($text),
 	);
 	$page_style = new \Mibew\Style\PageStyle('default');
-	$page_style->render('install_err', $page);
+	start_html_output();
+	echo($page_style->render('install_err', $page));
 	exit;
 }
 

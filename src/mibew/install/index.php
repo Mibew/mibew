@@ -395,6 +395,8 @@ $page['fixedwrap'] = true;
 $page['errors'] = $errors;
 
 $page_style = new \Mibew\Style\PageStyle('default');
-$page_style->render('install_index', $page);
+
+start_html_output();
+echo($page_style->render('install_index', $page));
 
 ?>

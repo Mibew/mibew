@@ -77,12 +77,13 @@ interface StyleInterface
     public function getName();
 
     /**
-     * Renders template file to HTML and send it to the output
+     * Renders template file to HTML.
      *
      * @param string $template_name Name of the template file with neither path
      *   nor extension.
      * @param array $data Associative array of values that should be used for
      *   substitutions in a template.
+     * @return string Rendered template.
      */
     public function render($template_name, $data = array());
 }

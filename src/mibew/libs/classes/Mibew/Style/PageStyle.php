@@ -69,18 +69,16 @@ class PageStyle extends AbstractStyle implements StyleInterface
     }
 
     /**
-     * Renders template file to HTML and send it to the output
+     * Renders template file to HTML.
      *
      * @param string $template_name Name of the template file with neither path
      *   nor extension.
      * @param array $data Associative array of values that should be used for
      *   substitutions in a template.
+     * @return string Rendered template.
      */
     public function render($template_name, $data = array())
     {
-        // Prepare to output html
-        start_html_output();
-
         // Pass additional variables to template
         $data['mibewRoot'] = MIBEW_WEB_ROOT;
         $data['mibewVersion'] = MIBEW_VERSION;
@@ -89,7 +87,7 @@ class PageStyle extends AbstractStyle implements StyleInterface
         $data['stylePath'] = MIBEW_WEB_ROOT . '/' . $this->getFilesPath();
         $data['styleName'] = $this->getName();
 
-        echo($this->templateEngine->render($template_name, $data));
+        return $this->templateEngine->render($template_name, $data);
     }
 
     /**
