@@ -25,37 +25,20 @@ use Mibew\Http\Exception\BadRequestException;
  * $_POST and $_GET arrays will be used.
  *
  * @throws BadRequestException If CSRF token check is faild.
- *
- * @todo Remove legacy code, related with $_POST and $_GET arrays.
  */
-function csrf_check_token(Request $request = null)
+function csrf_check_token(Request $request)
 {
     set_csrf_token();
 
-    // If the request instance is provided use it to get the token.
-    if ($request) {
-        $token = $request->isMethod('POST')
-            ? $token = $request->request->get('csrf_token', false)
-            : $token = $request->query->get('csrf_token', false);
+    $token = $request->isMethod('POST')
+        ? $token = $request->request->get('csrf_token', false)
+        : $token = $request->query->get('csrf_token', false);
 
-        if ($token !== $_SESSION['csrf_token']) {
-            throw new BadRequestException('CSRF failure');
-        }
-
-        return;
+    if ($token !== $_SESSION['csrf_token']) {
+        throw new BadRequestException('CSRF failure');
     }
 
-    // Check the turing code for post requests and del requests
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // If token match
-        if (!isset($_POST['csrf_token']) || ($_POST['csrf_token'] != $_SESSION['csrf_token'])) {
-            die("CSRF failure");
-        }
-    } elseif (isset($_GET['act'])) {
-        if (($_GET['act'] == 'del' || $_GET['act'] == 'delete') && $_GET['csrf_token'] != $_SESSION['csrf_token']) {
-            die("CSRF failure");
-        }
-    }
+    return;
 }
 
 function get_csrf_token_input()
