@@ -1,4 +1,8 @@
 # Chat actions
+chat_thread_update:
+    path: /thread/update
+    defaults:
+        _controller: Mibew\Controller\Chat\ThreadController::updateAction
 
 ## Operator's chat
 chat_operator:
