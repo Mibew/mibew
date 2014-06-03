@@ -17,7 +17,6 @@
 
 namespace Mibew\Controller\Settings;
 
-use Mibew\Controller\AbstractController;
 use Mibew\Http\Exception\BadRequestException;
 use Mibew\Settings;
 use Mibew\Style\ChatStyle;
@@ -104,7 +103,7 @@ class CommonController extends AbstractController
         $page['menuid'] = 'settings';
 
         $page = array_merge($page, prepare_menu($operator));
-        $page['tabs'] = setup_settings_tabs(0);
+        $page['tabs'] = $this->buildTabs($request);
 
         return $this->render('settings_common', $page);
     }

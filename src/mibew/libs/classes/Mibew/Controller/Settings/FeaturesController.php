@@ -17,7 +17,6 @@
 
 namespace Mibew\Controller\Settings;
 
-use Mibew\Controller\AbstractController;
 use Mibew\Settings;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -58,7 +57,7 @@ class FeaturesController extends AbstractController
         $page['title'] = getlocal('settings.title');
         $page['menuid'] = 'settings';
         $page = array_merge($page, prepare_menu($operator));
-        $page['tabs'] = setup_settings_tabs(1);
+        $page['tabs'] = $this->buildTabs($request);
 
         return $this->render('settings_features', $page);
     }

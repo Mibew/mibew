@@ -17,7 +17,6 @@
 
 namespace Mibew\Controller\Settings;
 
-use Mibew\Controller\AbstractController;
 use Mibew\Settings;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -91,7 +90,7 @@ class PerformanceController extends AbstractController
         $page['menuid'] = "settings";
 
         $page = array_merge($page, prepare_menu($operator));
-        $page['tabs'] = setup_settings_tabs(2);
+        $page['tabs'] = $this->buildTabs($request);
 
         return $this->render('settings_performance', $page);
     }
