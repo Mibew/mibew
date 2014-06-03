@@ -38,9 +38,17 @@ chat_operator_redirection_links:
 
 ## User's chat
 chat_user:
-    path: /chat
+    path: /chat/{thread_id}/{token}
     defaults:
         _controller: Mibew\Controller\Chat\User\ChatController::indexAction
+    requirements:
+        thread_id: \d{1,10}
+        token: \d{1,10}
+
+chat_user_invitation:
+    path: /chat/invitation
+    defaults:
+        _controller: Mibew\Controller\Chat\User\ChatController::invitationAction
 
 chat_user_mail:
     path: /chat/{thread_id}/{token}/mail
@@ -59,6 +67,11 @@ chat_user_mail_send:
         thread_id: \d{1,10}
         token: \d{1,10}
     methods: [POST]
+
+chat_user_start:
+    path: /chat
+    defaults:
+        _controller: Mibew\Controller\Chat\User\ChatController::startAction
 
 # Pages that are available for all users
 button:

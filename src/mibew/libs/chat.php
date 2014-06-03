@@ -523,8 +523,6 @@ function setup_chatview_for_user(Thread $thread)
         'isAgent' => false,
     );
 
-    $params = "thread=" . $thread->id . "&amp;token=" . $thread->lastToken;
-
     // Set link to send mail page
     $data['chat']['links']['mail'] = MIBEW_WEB_ROOT . "/chat"
         . '/' . $thread->id . '/' . $thread->lastToken . '/mail';
@@ -532,8 +530,7 @@ function setup_chatview_for_user(Thread $thread)
     // Set SSL link
     if (Settings::get('enablessl') == "1" && !is_secure_request()) {
         $data['chat']['links']['ssl'] = get_app_location(true, true)
-            . "/chat?"
-            . $params;
+            . '/chat/' . $thread->id . '/' . $thread->lastToken;
     }
 
     return $data;

@@ -18,7 +18,7 @@
 namespace Mibew\Controller\Chat\User;
 
 use Mibew\Controller\Chat\AbstractController;
-use Mibew\Http\Exception\BadRequestException;
+use Mibew\Http\Exception\NotFoundException;
 use Mibew\Settings;
 use Mibew\Thread;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,12 +32,38 @@ class ChatController extends AbstractController
      * Process chat pages.
      *
      * @param Request $request Incoming request.
-     * @return string|\Symfony\Component\HttpFoundation\RedirectResponse Rendered
-     *   page content or a redirect response.
-     * @throws BadRequestException If the thread cannot be loaded by some
-     * reasons.
+     * @return string Rendered page content or a redirect response.
+     * @throws NotFoundException If the thread with specified ID and token is
+     * not found.
      */
     public function indexAction(Request $request)
+    {
+        $thread_id = $request->attributes->getInt('thread_id');
+        $token = $request->attributes->get('token');
+
+        $thread = Thread::load($thread_id, $token);
+        if (!$thread) {
+            throw new NotFoundException('The thread is not found.');
+        }
+
+        $page = setup_chatview_for_user($thread);
+
+        // Build js application options
+        $page['chatOptions'] = json_encode($page['chat']);
+
+        // Expand page
+        return $this->render('chat', $page);
+    }
+
+    /**
+     * Starts the chat.
+     *
+     * @param Request $request Incoming request.
+     * @return string|\Symfony\Component\HttpFoundation\RedirectResponse
+     *   Rendered page content or a redirect response.
+     * @todo Split the action into pieces.
+     */
+    public function startAction(Request $request)
     {
         // Check if we should force the user to use SSL
         $ssl_redirect = $this->sslRedirect($request);
@@ -55,66 +81,13 @@ class ChatController extends AbstractController
             return $this->render('nochat', $page);
         }
 
-        $action = $request->query->get('act');
-        if ($action != 'invitation') {
-            $action = 'default';
-        }
-
-        if ($action == 'invitation' && Settings::get('enabletracking')) {
-            // Check if user invited to chat
-            $invitation_state = invitation_state($_SESSION['visitorid']);
-
-            if ($invitation_state['invited'] && $invitation_state['threadid']) {
-                $thread = Thread::load($invitation_state['threadid']);
-
-                // Prepare page
-                $page = setup_invitation_view($thread);
-
-                // Build js application options
-                $page['invitationOptions'] = json_encode($page['invitation']);
-
-                // Expand page
-                return $this->render('chat', $page);
-            }
-        }
-
-        if (!$request->query->has('token') || !$request->query->has('thread')) {
-            return $this->startChat($request);
-        }
-
-        // Get and validate thread id
-        $thread_id = $request->query->get('thread');
-        if (!preg_match("/^\d{1,10}$/", $thread_id)) {
-            throw new BadRequestException('Wrong value of "thread" argument.');
-        }
-
-        // Get token and verify it
-        $token = $request->query->get('token');
-        if (!preg_match("/^\d{1,10}$/", $token)) {
-            throw new BadRequestException('Wrong value of "token" argument.');
-        }
-
-        $thread = Thread::load($thread_id, $token);
-        if (!$thread) {
-            throw new BadRequestException('Wrong thread.');
-        }
-
-        $page = setup_chatview_for_user($thread);
-
-        // Build js application options
-        $page['chatOptions'] = json_encode($page['chat']);
-
-        // Expand page
-        return $this->render('chat', $page);
-    }
-
-    protected function startChat(Request $request)
-    {
         $thread = null;
+        // Try to get thread from the session
         if (isset($_SESSION['threadid'])) {
             $thread = Thread::reopen($_SESSION['threadid']);
         }
 
+        // Create new thread
         if (!$thread) {
             // Load group info
             $group_id = '';
@@ -214,7 +187,7 @@ class ChatController extends AbstractController
             );
         }
         $path_args = array(
-            'thread' => intval($thread->id),
+            'thread_id' => intval($thread->id),
             'token' => urlencode($thread->lastToken),
         );
 
@@ -224,5 +197,45 @@ class ChatController extends AbstractController
         }
 
         return $this->redirect($this->generateUrl('chat_user', $path_args));
+    }
+
+    /**
+     * Process chat in an invitation block.
+     *
+     * @param Request $request Incoming request.
+     * @return string|\Symfony\Component\HttpFoundation\RedirectResponse Rendered
+     *   page content or a redirect response.
+     */
+    public function invitationAction(Request $request)
+    {
+        // Check if an user tries to use invitation functionality when it's
+        // disabled.
+        if (!Settings::get('enabletracking')) {
+            return $this->redirect($this->generateUrl('chat_user_start'));
+        }
+
+        // Check if we should force the user to use SSL.
+        $ssl_redirect = $this->sslRedirect($request);
+        if ($ssl_redirect !== false) {
+            return $ssl_redirect;
+        }
+
+        // Check if user invited to chat.
+        $invitation_state = invitation_state($_SESSION['visitorid']);
+
+        if (!$invitation_state['invited'] || !$invitation_state['threadid']) {
+            return $this->redirect($this->generateUrl('chat_user_start'));
+        }
+
+        $thread = Thread::load($invitation_state['threadid']);
+
+        // Prepare page
+        $page = setup_invitation_view($thread);
+
+        // Build js application options
+        $page['invitationOptions'] = json_encode($page['invitation']);
+
+        // Expand page
+        return $this->render('chat', $page);
     }
 }

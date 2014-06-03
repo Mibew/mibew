@@ -118,7 +118,7 @@ class WidgetController extends AbstractController
                 $response_data['data']['invitation'] = array(
                     'operatorName' => htmlspecialchars($operator_name),
                     'avatarUrl' => htmlspecialchars($operator['vcavatar']),
-                    'threadUrl' => $this->generateUrl('chat_user', array('act' => 'invitation')),
+                    'threadUrl' => $this->generateUrl('chat_user_invitation'),
                     'acceptCaption' => getlocal('invitation.accept.caption'),
                 );
 
