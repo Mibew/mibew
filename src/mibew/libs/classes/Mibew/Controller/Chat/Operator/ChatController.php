@@ -18,7 +18,7 @@
 namespace Mibew\Controller\Chat\Operator;
 
 use Mibew\Controller\Chat\AbstractController;
-use Mibew\Http\Exception\BadRequestException;
+use Mibew\Http\Exception\NotFoundException;
 use Mibew\Style\PageStyle;
 use Mibew\Thread;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,8 +34,8 @@ class ChatController extends AbstractController
      * @param Request $request Incoming request.
      * @return string|\Symfony\Component\HttpFoundation\RedirectResponse Rendered
      *   page content or a redirect response.
-     * @throws BadRequestException If the thread cannot be loaded by some
-     * reasons.
+     * @throws NotFoundException If the thread with specified ID and token is
+     * not found.
      */
     public function indexAction(Request $request)
     {
@@ -46,27 +46,13 @@ class ChatController extends AbstractController
         }
 
         $operator = $this->getOperator();
+        $thread_id = $request->attributes->getInt('thread_id');
+        $token = $request->attributes->get('token');
 
-        // Get and validate thread id
-        $thread_id = $request->query->get('thread');
-        if (!preg_match("/^\d{1,10}$/", $thread_id)) {
-            throw new BadRequestException('Wrong value of "thread" argument.');
-        }
-
-        if (!$request->query->has('token')) {
-            // There is no token in the request so we need to start the chat
-            return $this->startChat($request);
-        }
-
-        // Get token and verify it
-        $token = $request->query->get('token');
-        if (!preg_match("/^\d{1,10}$/", $token)) {
-            throw new BadRequestException('Wrong value of "token" argument.');
-        }
 
         $thread = Thread::load($thread_id, $token);
         if (!$thread) {
-            throw new BadRequestException('Wrong thread.');
+            throw new NotFoundException('The thread is not found.');
         }
 
         // Check if the current operator has enough permissions to use the thread
@@ -89,13 +75,11 @@ class ChatController extends AbstractController
      * @param Request $request Incoming request.
      * @return string|\Symfony\Component\HttpFoundation\RedirectResponse Rendered
      *   page content or a redirect response.
-     * @throws BadRequestException If the thread cannot be loaded by some
-     * reasons.
      */
-    protected function startChat(Request $request)
+    public function startAction(Request $request)
     {
         $operator = $this->getOperator();
-        $thread_id = $request->query->getInt('thread');
+        $thread_id = $request->attributes->getInt('thread_id');
 
         // Check operator's browser level because old browsers aren't supported.
         $remote_level = get_remote_level($request->headers->get('User-Agent'));
@@ -122,10 +106,10 @@ class ChatController extends AbstractController
 
             if ($force_take == false) {
                 $link = $this->generateUrl(
-                    'chat_operator',
+                    'chat_operator_start',
                     array(
-                        'thread' => $thread_id,
-                        'force' => true,
+                        'thread_id' => $thread_id,
+                        'force' => 'true',
                     )
                 );
                 $page = array(
@@ -154,7 +138,7 @@ class ChatController extends AbstractController
         $redirect_to = $this->generateUrl(
             'chat_operator',
             array(
-                'thread' => intval($thread_id),
+                'thread_id' => intval($thread_id),
                 'token' => urlencode($thread->lastToken),
             )
         );

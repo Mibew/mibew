@@ -52,7 +52,7 @@ class InvitationController extends AbstractController
         $redirect_to = $this->generateUrl(
             'chat_operator',
             array(
-                'thread' => intval($thread->id),
+                'thread_id' => intval($thread->id),
                 'token' => urlencode($thread->lastToken),
             )
         );

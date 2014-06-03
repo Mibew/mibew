@@ -2,10 +2,13 @@
 
 ## Operator's chat
 chat_operator:
-    path: /operator/chat
+    path: /operator/chat/{thread_id}/{token}
     defaults:
         _controller: Mibew\Controller\Chat\Operator\ChatController::indexAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
+    requirements:
+        thread_id: \d{1,10}
+        token: \d{1,10}
 
 chat_operator_redirect:
     path: /operator/chat/{thread_id}/{token}/redirect
@@ -15,6 +18,14 @@ chat_operator_redirect:
     requirements:
         thread_id: \d{1,10}
         token: \d{1,10}
+
+chat_operator_start:
+    path: /operator/chat/{thread_id}
+    defaults:
+        _controller: Mibew\Controller\Chat\Operator\ChatController::startAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+    requirements:
+        thread_id: \d{1,10}
 
 chat_operator_redirection_links:
     path: /operator/chat/{thread_id}/{token}/redirection-links

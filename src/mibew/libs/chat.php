@@ -569,10 +569,7 @@ function setup_chatview_for_operator(Thread $thread, $operator)
     // Set SSL link
     if (Settings::get('enablessl') == "1" && !is_secure_request()) {
         $data['chat']['links']['ssl'] = get_app_location(true, true)
-            . "/operator/chat?thread="
-            . $thread->id
-            . "&amp;token="
-            . $thread->lastToken;
+            . "/operator/chat/" . $thread->id . '/' . $thread->lastToken;
     }
 
     // Set history window params

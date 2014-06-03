@@ -180,9 +180,8 @@
                 // Open chat window
                 Mibew.Popup.open(
                     page.get('agentLink')
-                        + '?thread='
-                        + threadId
-                        + (viewOnly ? '&viewonly=true': ''),
+                        + '/' + threadId
+                        + (viewOnly ? '?viewonly=true': ''),
                     'ImCenter' + threadId,
                     page.get('chatWindowParams')
                 );
