@@ -8,10 +8,8 @@
     {{/override}}
 
     {{#override "message"}}
-        <form name="mailThreadForm" method="post" action="{{mibewRoot}}/chat/mail">
+        <form name="mailThreadForm" method="post" action="{{mibewRoot}}/chat/{{this.[chat.thread.id]}}/{{this.[chat.thread.token]}}/mail">
             <input type="hidden" name="style" value="{{styleName}}"/>
-            <input type="hidden" name="thread" value="{{chat.thread.id}}"/>
-            <input type="hidden" name="token" value="{{chat.thread.token}}"/>
             <input type="hidden" name="level" value="{{level}}"/>
 
             <strong>{{l10n "mailthread.enter_email"}}</strong>

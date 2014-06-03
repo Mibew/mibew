@@ -526,9 +526,8 @@ function setup_chatview_for_user(Thread $thread)
     $params = "thread=" . $thread->id . "&amp;token=" . $thread->lastToken;
 
     // Set link to send mail page
-    $data['chat']['links']['mail'] = MIBEW_WEB_ROOT . "/chat?"
-        . $params
-        . "&amp;act=mailthread";
+    $data['chat']['links']['mail'] = MIBEW_WEB_ROOT . "/chat"
+        . '/' . $thread->id . '/' . $thread->lastToken . '/mail';
 
     // Set SSL link
     if (Settings::get('enablessl') == "1" && !is_secure_request()) {

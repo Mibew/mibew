@@ -18,7 +18,7 @@
 namespace Mibew\Controller\Chat\User;
 
 use Mibew\Controller\Chat\AbstractController;
-use Mibew\Http\Exception\BadRequestException;
+use Mibew\Http\Exception\NotFoundException;
 use Mibew\Settings;
 use Mibew\Thread;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,57 +29,79 @@ use Symfony\Component\HttpFoundation\Request;
 class MailController extends AbstractController
 {
     /**
-     * Process sending chat history to an email.
+     * Renders the mail form.
      *
      * @param Request $request Incoming request.
-     * @return string|\Symfony\Component\HttpFoundation\RedirectResponse Rendered
-     *   page content or a redirect response.
-     * @throws BadRequestException If the thread cannot be loaded by some
-     * reasons.
+     * @return string Rendered page content.
+     * @throws NotFoundException If the thread with specified ID and token is
+     * not found.
      */
-    public function indexAction(Request $request)
+    public function showFormAction(Request $request)
     {
         $page = array(
-            'errors' => array(),
+            // Use errors list stored in the request. We need to do so to have
+            // an ability to pass the request from the "submitForm" action.
+            'errors' => $request->attributes->get('errors', array()),
         );
 
-        // Get and validate thread id
-        $thread_id = $request->request->get('thread');
-        if (!preg_match("/^\d{1,10}$/", $thread_id)) {
-            throw new BadRequestException('Wrong value of "thread" argument.');
-        }
+        $thread_id = $request->attributes->get('thread_id');
+        $token = $request->attributes->get('token');
 
-        // Get token and verify it
-        $token = $request->request->get('token');
-        if (!preg_match("/^\d{1,10}$/", $token)) {
-            throw new BadRequestException('Wrong value of "token" argument.');
-        }
-
+        // Try to load the thread
         $thread = Thread::load($thread_id, $token);
         if (!$thread) {
-            throw new BadRequestException('Wrong thread.');
+            throw new NotFoundException('The thread is not found.');
+        }
+
+        $email = $request->request->get('email', '');
+        $group = is_null($thread->groupId) ? null : group_by_id($thread->groupId);
+
+        $page['formemail'] = $email;
+        $page['chat.thread.id'] = $thread->id;
+        $page['chat.thread.token'] = $thread->lastToken;
+        $page['level'] = '';
+        $page = array_merge_recursive(
+            $page,
+            setup_logo($group)
+        );
+
+        return $this->render('mail', $page);
+    }
+
+    /**
+     * Process submitting of the mail form.
+     *
+     * @param Request $request Incoming request.
+     * @return string Rendered page content.
+     * @throws NotFoundException If the thread with specified ID and token is
+     * not found.
+     */
+    public function submitFormAction(Request $request)
+    {
+        $errors = array();
+
+        $thread_id = $request->attributes->get('thread_id');
+        $token = $request->attributes->get('token');
+
+        // Try to load the thread
+        $thread = Thread::load($thread_id, $token);
+        if (!$thread) {
+            throw new NotFoundException('The thread is not found.');
         }
 
         $email = $request->request->get('email');
-        $page['email'] = $email;
         $group = is_null($thread->groupId) ? null : group_by_id($thread->groupId);
         if (!$email) {
-            $page['errors'][] = no_field('form.field.email');
+            $errors[] = no_field('form.field.email');
         } elseif (!is_valid_email($email)) {
-            $page['errors'][] = wrong_field('form.field.email');
+            $errors[] = wrong_field('form.field.email');
         }
 
-        if (count($page['errors']) > 0) {
-            $page['formemail'] = $email;
-            $page['chat.thread.id'] = $thread->id;
-            $page['chat.thread.token'] = $thread->lastToken;
-            $page['level'] = '';
-            $page = array_merge_recursive(
-                $page,
-                setup_logo($group)
-            );
+        if (count($errors) > 0) {
+            $request->attributes->set('errors', $errors);
 
-            return $this->render('mail', $page);
+            // Render the mail form again
+            return $this->showFormAction($request);
         }
 
         $history = '';
@@ -102,7 +124,8 @@ class MailController extends AbstractController
 
         mibew_mail($email, MIBEW_MAILBOX, $subject, $body);
 
-        $page = array_merge_recursive($page, setup_logo($group));
+        $page = setup_logo($group);
+        $page['email'] = $email;
 
         return $this->render('mailsent', $page);
     }

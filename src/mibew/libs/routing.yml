@@ -43,9 +43,22 @@ chat_user:
         _controller: Mibew\Controller\Chat\User\ChatController::indexAction
 
 chat_user_mail:
-    path: /chat/mail
+    path: /chat/{thread_id}/{token}/mail
     defaults:
-        _controller: Mibew\Controller\Chat\User\MailController::indexAction
+        _controller: Mibew\Controller\Chat\User\MailController::showFormAction
+    requirements:
+        thread_id: \d{1,10}
+        token: \d{1,10}
+    methods: [GET]
+
+chat_user_mail_send:
+    path: /chat/{thread_id}/{token}/mail
+    defaults:
+        _controller: Mibew\Controller\Chat\User\MailController::submitFormAction
+    requirements:
+        thread_id: \d{1,10}
+        token: \d{1,10}
+    methods: [POST]
 
 # Pages that are available for all users
 button:

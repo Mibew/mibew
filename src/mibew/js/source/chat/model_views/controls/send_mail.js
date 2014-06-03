@@ -44,10 +44,14 @@
                     var winParams = this.model.get('windowParams');
 
                     var style = page.get('style');
+                    var styleArg = '';
+                    if (style) {
+                        styleArg = ((link.indexOf('?') === -1) ? '?' : '&')
+                            + 'style=' + style;
+                    }
 
                     // TODO: Kill &amp; at the server side
-                    link = link.replace(/\&amp\;/g, '&')
-                        + (style ? ('&style=' + style) : '');
+                    link = link.replace(/\&amp\;/g, '&') + styleArg;
 
                     var newWindow = window.open(link, 'ForwardMail', winParams);
                     if (newWindow !== null) {

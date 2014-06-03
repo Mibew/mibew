@@ -56,7 +56,7 @@ class ChatController extends AbstractController
         }
 
         $action = $request->query->get('act');
-        if (!in_array($action, array('invitation', 'mailthread'))) {
+        if ($action != 'invitation') {
             $action = 'default';
         }
 
@@ -101,15 +101,11 @@ class ChatController extends AbstractController
 
         $page = setup_chatview_for_user($thread);
 
-        if ($action == 'mailthread') {
-            return $this->render('mail', $page);
-        } else {
-            // Build js application options
-            $page['chatOptions'] = json_encode($page['chat']);
+        // Build js application options
+        $page['chatOptions'] = json_encode($page['chat']);
 
-            // Expand page
-            return $this->render('chat', $page);
-        }
+        // Expand page
+        return $this->render('chat', $page);
     }
 
     protected function startChat(Request $request)
