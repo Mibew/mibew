@@ -181,9 +181,12 @@ class StatisticsController extends AbstractController
                 $year = $curr['year'];
             }
 
+            $start = mktime(0, 0, 0, $month, 1, $year);
+            $end = mktime(0, 0, 0, $month, date('t', $start), $year) + 24 * 60 * 60;
+
             return array(
-                'start' => mktime(0, 0, 0, $month, 1, $year),
-                'end' => mktime(0, 0, 0, $month, date('t', $start), $year) + 24 * 60 * 60,
+                'start' => $start,
+                'end' => $end,
             );
         }
 
