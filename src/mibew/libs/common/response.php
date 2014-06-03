@@ -40,40 +40,12 @@ function get_image($href, $width, $height)
     return "<img src=\"$href\" border=\"0\" alt=\"\"/>";
 }
 
-/**
- * Sends headers that are needed for XML responses.
- *
- * @deprecated
- */
-function start_xml_output()
-{
-    header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-    header("Cache-Control: no-store, no-cache, must-revalidate");
-    header("Pragma: no-cache");
-    header("Content-type: text/xml; charset=utf-8");
-    echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-}
-
 function start_html_output()
 {
     header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
     header("Cache-Control: no-store, no-cache, must-revalidate");
     header("Pragma: no-cache");
     header("Content-type: text/html; charset=utf-8");
-}
-
-/**
- * Sends headers that are needed for JS responses.
- *
- * @deprecated
- */
-function start_js_output()
-{
-    header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-    header("Cache-Control: no-store, no-cache, must-revalidate");
-    header("Pragma: no-cache");
-    header("Content-type: application/javascript; charset=utf-8");
-    header('P3P:CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');
 }
 
 /**
