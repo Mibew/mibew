@@ -39,19 +39,7 @@ function setup_settings_tabs($active)
         getlocal("page_settings.tab.performance") => ($active != 2
             ? (MIBEW_WEB_ROOT . "/operator/settings/performance")
             : ""),
-        getlocal("page_settings.tab.page_themes") => ($active != 3
-            ? (MIBEW_WEB_ROOT . "/operator/page_themes.php")
-            : ""),
-        getlocal("page_settings.tab.themes") => ($active != 4
-            ? (MIBEW_WEB_ROOT . "/operator/themes.php")
-            : ""),
     );
-
-    if (Settings::get('enabletracking')) {
-        $tabs[getlocal("page_settings.tab.invitationthemes")] = ($active != 5
-            ? (MIBEW_WEB_ROOT . "/operator/invitationthemes.php")
-            : "");
-    }
 
     return $tabs;
 }

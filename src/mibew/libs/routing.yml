@@ -530,6 +530,16 @@ statistics:
     requirements:
         type: by-date|by-operator|by-page
 
+## Styles
+style_preview:
+    path: /operator/style/{type}/preview
+    defaults:
+        _controller: Mibew\Controller\StyleController::previewAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    requirements:
+        type: chat|invitation|page
+
 ## Translation
 translation_edit:
     path: /operator/translation/{string_id}/edit

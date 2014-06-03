@@ -94,6 +94,9 @@ class CommonController extends AbstractController
         $page['availableLocales'] = get_available_locales();
         $page['availableChatStyles'] = ChatStyle::getAvailableStyles();
         $page['availablePageStyles'] = PageStyle::getAvailableStyles();
+        $page['chatStylePreviewPath'] = $this->generateUrl('style_preview', array('type' => 'chat'));
+        $page['pageStylePreviewPath'] = $this->generateUrl('style_preview', array('type' => 'page'));
+        $page['invitationStylePreviewPath'] = $this->generateUrl('style_preview', array('type' => 'invitation'));
         $page['stored'] = $request->query->has('stored');
         $page['enabletracking'] = Settings::get('enabletracking');
         $page['cron_path'] = cron_get_uri($params['cron_key']);

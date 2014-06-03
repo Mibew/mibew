@@ -3,10 +3,11 @@
 
     {{#override "content"}}
         {{l10n "page.preview.intro"}}
+
         <br />
         <br />
 
-        <form name="preview" method="get" action="{{mibewRoot}}/operator/page_themes.php">
+        <form name="preview" method="get" action="{{formaction}}">
             <div>
                 {{> _tabs}}
 
