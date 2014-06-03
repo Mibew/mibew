@@ -23,6 +23,7 @@ use Mibew\Style\ChatStyle;
 use Mibew\Style\InvitationStyle;
 use Mibew\Style\PageStyle;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Contains actions which are related with common system settings.
@@ -98,7 +99,11 @@ class CommonController extends AbstractController
         $page['invitationStylePreviewPath'] = $this->generateUrl('style_preview', array('type' => 'invitation'));
         $page['stored'] = $request->query->has('stored');
         $page['enabletracking'] = Settings::get('enabletracking');
-        $page['cron_path'] = cron_get_uri($params['cron_key']);
+        $page['cron_path'] = $this->generateUrl(
+            'cron',
+            array('cron_key' => $params['cron_key']),
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
         $page['title'] = getlocal('settings.title');
         $page['menuid'] = 'settings';
 

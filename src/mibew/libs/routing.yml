@@ -86,6 +86,10 @@ captcha:
     path: /captcha
     defaults: { _controller: Mibew\Controller\CaptchaController::drawAction }
 
+cron:
+    path: /cron
+    defaults: { _controller: Mibew\Controller\CronController::runAction }
+
 license:
     path: /license
     defaults: { _controller: Mibew\Controller\LicenseController::indexAction }

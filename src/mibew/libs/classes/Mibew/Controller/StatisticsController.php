@@ -20,6 +20,7 @@ namespace Mibew\Controller;
 use Mibew\Http\Exception\BadRequestException;
 use Mibew\Settings;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Display all statistics-related pages
@@ -55,11 +56,16 @@ class StatisticsController extends AbstractController
         $page['showbyagent'] = ($statistics_type == self::TYPE_BY_OPERATOR);
         $page['showbypage'] = ($statistics_type == self::TYPE_BY_PAGE);
 
+        $cron_uri = $this->generateUrl(
+            'cron',
+            array('cron_key' => Settings::get('cron_key')),
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
         $page['pageDescription'] = getlocal2(
             'statistics.description.full',
             array(
                 date_to_text(Settings::get('_last_cron_run')),
-                cron_get_uri(Settings::get('cron_key')),
+                $cron_uri,
             )
         );
 

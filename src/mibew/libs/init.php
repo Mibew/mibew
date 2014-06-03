@@ -99,7 +99,6 @@ if (!empty($plugins_list)) {
 require_once(MIBEW_FS_ROOT . '/libs/canned.php');
 require_once(MIBEW_FS_ROOT . '/libs/captcha.php');
 require_once(MIBEW_FS_ROOT . '/libs/chat.php');
-require_once(MIBEW_FS_ROOT . '/libs/cron.php');
 require_once(MIBEW_FS_ROOT . '/libs/getcode.php');
 require_once(MIBEW_FS_ROOT . '/libs/groups.php');
 require_once(MIBEW_FS_ROOT . '/libs/invitation.php');
