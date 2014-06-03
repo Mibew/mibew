@@ -218,7 +218,7 @@ class ProfileController extends AbstractController
 
             // Redirect the admin to the home page if needed.
             if ($to_dashboard) {
-                return $this->redirect($request->getBasePath() . '/operator/index.php');
+                return $this->redirect($this->generateUrl('home_operator'));
             }
         }
 

@@ -304,6 +304,18 @@ history_user_track:
         _controller: Mibew\Controller\HistoryController::userTrackAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
 
+## Home
+home:
+    path: /
+    defaults:
+        _controller: Mibew\Controller\HomeController::redirectAction
+
+home_operator:
+    path: /operator
+    defaults:
+        _controller: Mibew\Controller\HomeController::dashboardAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+
 ## Invitations
 invite:
     path: /operator/invite
