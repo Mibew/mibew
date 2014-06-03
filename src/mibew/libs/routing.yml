@@ -4,7 +4,7 @@
 chat_operator:
     path: /operator/chat/{thread_id}/{token}
     defaults:
-        _controller: Mibew\Controller\Chat\Operator\ChatController::indexAction
+        _controller: Mibew\Controller\Chat\OperatorChatController::indexAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
     requirements:
         thread_id: \d{1,10}
@@ -13,7 +13,7 @@ chat_operator:
 chat_operator_redirect:
     path: /operator/chat/{thread_id}/{token}/redirect
     defaults:
-        _controller: Mibew\Controller\Chat\Operator\RedirectController::redirectAction
+        _controller: Mibew\Controller\Chat\RedirectController::redirectAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
     requirements:
         thread_id: \d{1,10}
@@ -22,7 +22,7 @@ chat_operator_redirect:
 chat_operator_start:
     path: /operator/chat/{thread_id}
     defaults:
-        _controller: Mibew\Controller\Chat\Operator\ChatController::startAction
+        _controller: Mibew\Controller\Chat\OperatorChatController::startAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
     requirements:
         thread_id: \d{1,10}
@@ -30,7 +30,7 @@ chat_operator_start:
 chat_operator_redirection_links:
     path: /operator/chat/{thread_id}/{token}/redirection-links
     defaults:
-        _controller: Mibew\Controller\Chat\Operator\RedirectController::showRedirectionLinksAction
+        _controller: Mibew\Controller\Chat\RedirectController::showRedirectionLinksAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
     requirements:
         thread_id: \d{1,10}
@@ -40,7 +40,7 @@ chat_operator_redirection_links:
 chat_user:
     path: /chat/{thread_id}/{token}
     defaults:
-        _controller: Mibew\Controller\Chat\User\ChatController::indexAction
+        _controller: Mibew\Controller\Chat\UserChatController::indexAction
     requirements:
         thread_id: \d{1,10}
         token: \d{1,10}
@@ -48,12 +48,12 @@ chat_user:
 chat_user_invitation:
     path: /chat/invitation
     defaults:
-        _controller: Mibew\Controller\Chat\User\ChatController::invitationAction
+        _controller: Mibew\Controller\Chat\UserChatController::invitationAction
 
 chat_user_mail:
     path: /chat/{thread_id}/{token}/mail
     defaults:
-        _controller: Mibew\Controller\Chat\User\MailController::showFormAction
+        _controller: Mibew\Controller\Chat\MailController::showFormAction
     requirements:
         thread_id: \d{1,10}
         token: \d{1,10}
@@ -62,7 +62,7 @@ chat_user_mail:
 chat_user_mail_send:
     path: /chat/{thread_id}/{token}/mail
     defaults:
-        _controller: Mibew\Controller\Chat\User\MailController::submitFormAction
+        _controller: Mibew\Controller\Chat\MailController::submitFormAction
     requirements:
         thread_id: \d{1,10}
         token: \d{1,10}
@@ -71,7 +71,7 @@ chat_user_mail_send:
 chat_user_start:
     path: /chat
     defaults:
-        _controller: Mibew\Controller\Chat\User\ChatController::startAction
+        _controller: Mibew\Controller\Chat\UserChatController::startAction
 
 # Pages that are available for all users
 button:

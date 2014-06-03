@@ -15,9 +15,8 @@
  * limitations under the License.
  */
 
-namespace Mibew\Controller\Chat\User;
+namespace Mibew\Controller\Chat;
 
-use Mibew\Controller\Chat\AbstractController;
 use Mibew\Http\Exception\NotFoundException;
 use Mibew\Settings;
 use Mibew\Thread;

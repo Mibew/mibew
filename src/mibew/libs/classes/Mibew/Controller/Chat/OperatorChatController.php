@@ -15,9 +15,8 @@
  * limitations under the License.
  */
 
-namespace Mibew\Controller\Chat\Operator;
+namespace Mibew\Controller\Chat;
 
-use Mibew\Controller\Chat\AbstractController;
 use Mibew\Http\Exception\NotFoundException;
 use Mibew\Style\PageStyle;
 use Mibew\Thread;
@@ -26,7 +25,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Contains all actions which are related with operator's chat window.
  */
-class ChatController extends AbstractController
+class OperatorChatController extends AbstractController
 {
     /**
      * Process chat pages.

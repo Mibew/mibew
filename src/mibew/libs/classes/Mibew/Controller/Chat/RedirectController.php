@@ -15,9 +15,8 @@
  * limitations under the License.
  */
 
-namespace Mibew\Controller\Chat\Operator;
+namespace Mibew\Controller\Chat;
 
-use Mibew\Controller\Chat\AbstractController;
 use Mibew\Database;
 use Mibew\Http\Exception\BadRequestException;
 use Mibew\Http\Exception\NotFoundException;
