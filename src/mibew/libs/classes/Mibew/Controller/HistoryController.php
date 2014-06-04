@@ -36,7 +36,7 @@ class HistoryController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        setlocale(LC_TIME, getstring("time.locale"));
+        setlocale(LC_TIME, getlocal("time.locale"));
 
         $page = array();
         $operator = $this->getOperator();
@@ -177,7 +177,7 @@ class HistoryController extends AbstractController
      */
     public function threadAction(Request $request)
     {
-        setlocale(LC_TIME, getstring("time.locale"));
+        setlocale(LC_TIME, getlocal("time.locale"));
 
         $operator = $this->getOperator();
         $page = array();
@@ -216,7 +216,7 @@ class HistoryController extends AbstractController
      */
     public function userAction(Request $request)
     {
-        setlocale(LC_TIME, getstring("time.locale"));
+        setlocale(LC_TIME, getlocal("time.locale"));
 
         $operator = $this->getOperator();
         $user_id = $request->attributes->get('user_id', '');
@@ -280,7 +280,7 @@ class HistoryController extends AbstractController
      */
     public function userTrackAction(Request $request)
     {
-        setlocale(LC_TIME, getstring('time.locale'));
+        setlocale(LC_TIME, getlocal('time.locale'));
 
         if (Settings::get('enabletracking') == '0') {
             throw new BadRequestException('Tracking is disabled.');

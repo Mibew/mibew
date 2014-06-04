@@ -310,7 +310,7 @@ function add_canned_messages($link){
 	$result = array();
 	foreach (get_available_locales() as $locale) {
 		if (! in_array($locale, $existlocales)) {
-			foreach (explode("\n", getstring_('chat.predefined_answers', $locale)) as $answer) {
+			foreach (explode("\n", getlocal_('chat.predefined_answers', $locale)) as $answer) {
 				$result[] = array('locale' => $locale, 'vctitle' => cut_string($answer, 97, '...'), 'vcvalue' => $answer);
 			}
 		}

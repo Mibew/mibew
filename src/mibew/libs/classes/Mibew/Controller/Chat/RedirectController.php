@@ -167,7 +167,7 @@ class RedirectController extends AbstractController
         // Send notification message
         $thread->postMessage(
             Thread::KIND_EVENTS,
-            getstring2_(
+            getlocal2_(
                 'chat.status.operator.redirect',
                 array(get_operator_name($this->getOperator())),
                 $thread->locale,
@@ -221,7 +221,7 @@ class RedirectController extends AbstractController
         // Send notification message
         $thread->postMessage(
             Thread::KIND_EVENTS,
-            getstring2_(
+            getlocal2_(
                 'chat.status.operator.redirect',
                 array(get_operator_name($this->getOperator())),
                 $thread->locale,

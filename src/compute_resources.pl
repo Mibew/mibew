@@ -146,7 +146,7 @@ sub process_php($) {
 
 	while( $content =~ s/<\?(?!xml)(.*?)\?>//s ) {
 		my $inner = $1;
-		while($inner =~ s/(getlocal|getstring|no_field)2?_?\((.*?)[,\)]//s) {
+		while($inner =~ s/(getlocal|no_field)2?_?\((.*?)[,\)]//s) {
 			my $firstarg = $2;
 			if( $firstarg =~ /^["']([\w\.]+)['"]$/) {
 				usemsg($1);

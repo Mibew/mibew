@@ -271,7 +271,7 @@ function invitation_close_old()
         $thread = Thread::createFromDbInfo($thread_info);
         $thread->postMessage(
             Thread::KIND_FOR_AGENT,
-            getstring_('chat.visitor.invitation.ignored', $thread->locale, true)
+            getlocal_('chat.visitor.invitation.ignored', $thread->locale, true)
         );
         unset($thread);
     }

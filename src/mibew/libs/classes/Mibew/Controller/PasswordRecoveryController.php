@@ -93,8 +93,8 @@ class PasswordRecoveryController extends AbstractController
                 mibew_mail(
                     $email,
                     $email,
-                    getstring('restore.mailsubj'),
-                    getstring2(
+                    getlocal('restore.mailsubj'),
+                    getlocal2(
                         'restore.mailtext',
                         array(get_operator_name($to_restore), $href)
                     )

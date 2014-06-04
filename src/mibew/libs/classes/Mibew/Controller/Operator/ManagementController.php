@@ -35,7 +35,7 @@ class ManagementController extends AbstractController
     public function indexAction(Request $request)
     {
         set_csrf_token();
-        setlocale(LC_TIME, getstring('time.locale'));
+        setlocale(LC_TIME, getlocal('time.locale'));
 
         $operator = $this->getOperator();
         $page = array(

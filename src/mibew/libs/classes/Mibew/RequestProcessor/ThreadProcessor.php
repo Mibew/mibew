@@ -503,7 +503,7 @@ class ThreadProcessor extends ClientSideProcessor
         if ($email) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getstring2('chat.visitor.email', array($email), true)
+                getlocal2('chat.visitor.email', array($email), true)
             );
         }
 
@@ -617,19 +617,19 @@ class ThreadProcessor extends ClientSideProcessor
         if ($referrer) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getstring2('chat.came.from', array($referrer), true)
+                getlocal2('chat.came.from', array($referrer), true)
             );
         }
         if ($email) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getstring2('chat.visitor.email', array($email), true)
+                getlocal2('chat.visitor.email', array($email), true)
             );
         }
         if ($info) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getstring2('chat.visitor.info', array($info), true)
+                getlocal2('chat.visitor.info', array($info), true)
             );
         }
         $thread->postMessage(Thread::KIND_USER, $message, array('name' => $name));
@@ -644,12 +644,12 @@ class ThreadProcessor extends ClientSideProcessor
         // Send email
         if ($inbox_mail) {
             // Prepare message to send by email
-            $subject = getstring2_(
+            $subject = getlocal2_(
                 "leavemail.subject",
                 array($args['name']),
                 $message_locale
             );
-            $body = getstring2_(
+            $body = getlocal2_(
                 "leavemail.body",
                 array(
                     $args['name'],

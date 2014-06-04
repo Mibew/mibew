@@ -518,7 +518,7 @@ function setup_chatview_for_user(Thread $thread)
     $data['chat']['user'] = array(
         'name' => htmlspecialchars($thread->userName),
         'canChangeName' => (bool) (Settings::get('usercanchangename') == "1"),
-        'defaultName' => (bool) (getstring("chat.default.username") != $thread->userName),
+        'defaultName' => (bool) (getlocal("chat.default.username") != $thread->userName),
         'canPost' => true,
         'isAgent' => false,
     );
@@ -641,7 +641,7 @@ function ban_for_addr($addr)
  */
 function visitor_from_request()
 {
-    $default_name = getstring("chat.default.username");
+    $default_name = getlocal("chat.default.username");
     $user_name = $default_name;
     if (isset($_COOKIE[USERNAME_COOKIE_NAME])) {
         $data = base64_decode(strtr($_COOKIE[USERNAME_COOKIE_NAME], '-_,', '+/='));
@@ -766,7 +766,7 @@ function chat_start_for_user(
         $operator_name = get_operator_name($operator);
         $thread->postMessage(
             Thread::KIND_FOR_AGENT,
-            getstring2(
+            getlocal2(
                 'chat.visitor.invitation.accepted',
                 array($operator_name),
                 true
@@ -776,20 +776,20 @@ function chat_start_for_user(
         if ($referrer) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getstring2('chat.came.from', array($referrer), true)
+                getlocal2('chat.came.from', array($referrer), true)
             );
         }
         if ($requested_operator && !$requested_operator_online) {
             $thread->postMessage(
                 Thread::KIND_INFO,
-                getstring2(
+                getlocal2(
                     'chat.requested_operator.offline',
                     array(get_operator_name($requested_operator)),
                     true
                 )
             );
         } else {
-            $thread->postMessage(Thread::KIND_INFO, getstring('chat.wait', true));
+            $thread->postMessage(Thread::KIND_INFO, getlocal('chat.wait', true));
         }
     }
 
@@ -797,7 +797,7 @@ function chat_start_for_user(
     if ($info) {
         $thread->postMessage(
             Thread::KIND_FOR_AGENT,
-            getstring2('chat.visitor.info', array($info), true)
+            getlocal2('chat.visitor.info', array($info), true)
         );
     }
 

@@ -232,7 +232,12 @@ function read_locale_file($path)
     );
 }
 
-function getstring_($text, $locale, $raw = false)
+function getlocal($text, $raw = false)
+{
+    return getlocal_($text, CURRENT_LOCALE, $raw);
+}
+
+function getlocal_($text, $locale, $raw = false)
 {
     $localized = load_messages($locale);
     if (isset($localized[$text])) {
@@ -241,32 +246,15 @@ function getstring_($text, $locale, $raw = false)
             : sanitize_string($localized[$text], 'low', 'moderate');
     }
     if ($locale != 'en') {
-        return getstring_($text, 'en', $raw);
+        return getlocal_($text, 'en', $raw);
     }
 
     return "!" . ($raw ? $text : sanitize_string($text, 'low', 'moderate'));
 }
 
-function getstring($text, $raw = false)
+function getlocal2_($text, $params, $locale, $raw = false)
 {
-    return getstring_($text, CURRENT_LOCALE, $raw);
-}
-
-function getlocal($text, $raw = false)
-{
-    return getlocal_($text, CURRENT_LOCALE, $raw);
-}
-
-function getlocal_($text, $locale, $raw = false)
-{
-    $string = getstring_($text, $locale, true);
-
-    return $raw ? $string : sanitize_string($string, 'low', 'moderate');
-}
-
-function getstring2_($text, $params, $locale, $raw = false)
-{
-    $string = getstring_($text, $locale, true);
+    $string = getlocal_($text, $locale, true);
     for ($i = 0; $i < count($params); $i++) {
         $string = str_replace("{" . $i . "}", $params[$i], $string);
     }
@@ -274,14 +262,9 @@ function getstring2_($text, $params, $locale, $raw = false)
     return $raw ? $string : sanitize_string($string, 'low', 'moderate');
 }
 
-function getstring2($text, $params, $raw = false)
-{
-    return getstring2_($text, $params, CURRENT_LOCALE, $raw);
-}
-
 function getlocal2($text, $params, $raw = false)
 {
-    $string = getstring_($text, CURRENT_LOCALE, true);
+    $string = getlocal_($text, CURRENT_LOCALE, true);
 
     for ($i = 0; $i < count($params); $i++) {
         $string = str_replace("{" . $i . "}", $params[$i], $string);
@@ -293,7 +276,7 @@ function getlocal2($text, $params, $raw = false)
 /* prepares for Javascript string */
 function get_local_for_js($text, $params)
 {
-    $string = getstring_($text, CURRENT_LOCALE);
+    $string = getlocal_($text, CURRENT_LOCALE);
     $string = str_replace("\"", "\\\"", str_replace("\n", "\\n", $string));
     for ($i = 0; $i < count($params); $i++) {
         $string = str_replace("{" . $i . "}", $params[$i], $string);
