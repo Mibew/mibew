@@ -460,6 +460,46 @@ input.formauth {
 	padding: 10px 20px;
 }
 
+input.submit-bg-button {
+    border: none;
+    border-radius: 0;
+    height: 35px;
+    width: 110px;
+    font-size: 11px;
+    padding: 8px 0 9px 25px;
+    margin: 0;
+    outline: none;
+    cursor: pointer;
+}
+
+.lrtl input.submit-bg-button {
+    padding: 8px 25px 9px 0;
+}
+
+input.login-button {
+    background: url("../images/buttons/login.png") top left no-repeat;
+}
+
+.lrtl input.login-button {
+    background: url("../images/buttons/login_rtl.png") top left no-repeat;
+}
+
+input.save-button {
+    background: url("../images/buttons/save.png") top left no-repeat;
+}
+
+.lrtl input.save-button {
+    background: url("../images/buttons/save_rtl.png") top left no-repeat;
+}
+
+input.search-button {
+    background: url("../images/buttons/search.png") top left no-repeat;
+}
+
+.lrtl input.search-button {
+    background: url("../images/buttons/search_rtl.png") top left no-repeat;
+}
+
 /* tables */
 
 .tabletool {

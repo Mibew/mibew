@@ -31,7 +31,7 @@
                                     </select>
                                 </div>
                                 <div id="searchbutton">
-                                    <input type="image" name="search" src="{{mibewRoot}}{{l10n "image.button.search"}}" alt="{{l10n "button.search"}}"/>
+                                    <input type="submit" name="search" class="submit-bg-button login-button" value="{{l10n "button.search"}}" />
                                 </div><br clear="all"/>
                                 <div class="searchctrl" id="inSystemMessages"{{#if canSearchInSystemMessages}} style="display: none;"{{/if}}>
                                     <input id="insystemmessagesfield" type="checkbox" name="insystemmessages" {{#if forminsystemmessages}}checked="checked"{{/if}}/> <label for="insystemmessagesfield">{{l10n "page_search.search.type.in_system_messages"}}</label>
