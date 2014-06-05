@@ -709,14 +709,14 @@ class Thread
 
             // Prepare message
             if ($this->nextAgent == $operator['operatorid']) {
-                $message_to_post = getlocal2_(
+                $message_to_post = getlocal(
                     "chat.status.operator.changed",
                     array($operator_name, $this->agentName),
                     $this->locale,
                     true
                 );
             } else {
-                $message_to_post = getlocal2_(
+                $message_to_post = getlocal(
                     "chat.status.operator.returned",
                     array($operator_name),
                     $this->locale,
@@ -856,7 +856,7 @@ class Thread
         if ($is_user) {
             $this->postMessage(
                 self::KIND_EVENTS,
-                getlocal2_(
+                getlocal(
                     "chat.status.user.left",
                     array($this->userName),
                     $this->locale,
@@ -877,7 +877,7 @@ class Thread
             } else {
                 $this->postMessage(
                     self::KIND_EVENTS,
-                    getlocal2_(
+                    getlocal(
                         "chat.status.operator.left",
                         array($this->agentName),
                         $this->locale,
@@ -935,14 +935,14 @@ class Thread
             $take_thread = true;
             if ($this->state == self::STATE_WAITING) {
                 if ($operator['operatorid'] != $this->agentId) {
-                    $message = getlocal2_(
+                    $message = getlocal(
                         "chat.status.operator.changed",
                         array($operator_name, $this->agentName),
                         $this->locale,
                         true
                     );
                 } else {
-                    $message = getlocal2_(
+                    $message = getlocal(
                         "chat.status.operator.returned",
                         array($operator_name),
                         $this->locale,
@@ -950,7 +950,7 @@ class Thread
                     );
                 }
             } else {
-                $message = getlocal2_(
+                $message = getlocal(
                     "chat.status.operator.joined",
                     array($operator_name),
                     $this->locale,
@@ -961,7 +961,7 @@ class Thread
             // User chatting
             if ($operator['operatorid'] != $this->agentId) {
                 $take_thread = true;
-                $message = getlocal2_(
+                $message = getlocal(
                     "chat.status.operator.changed",
                     array($operator_name, $this->agentName),
                     $this->locale,
@@ -1012,7 +1012,7 @@ class Thread
             $this->save();
 
             // Send message about renaming
-            $message = getlocal2_(
+            $message = getlocal(
                 "chat.status.user.changedname",
                 array($old_name, $new_name),
                 $this->locale,

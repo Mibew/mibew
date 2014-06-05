@@ -40,7 +40,7 @@ class ButtonController extends AbstractController
         if ($referer && isset($_SESSION['threadid'])) {
             $thread = Thread::load($_SESSION['threadid']);
             if ($thread && $thread->state != Thread::STATE_CLOSED) {
-                $msg = getlocal2_(
+                $msg = getlocal(
                     "chat.client.visited.page",
                     array($referer),
                     $thread->locale,

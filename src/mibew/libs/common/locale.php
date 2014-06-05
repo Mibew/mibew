@@ -278,11 +278,6 @@ function get_localized_string($string, $locale)
     return "!" . $string;
 }
 
-function getlocal2_($text, $params, $locale, $raw = false)
-{
-    return getlocal($text, $params, $locale, $raw);
-}
-
 function getlocal2($text, $params, $raw = false)
 {
     return getlocal($text, $params, CURRENT_LOCALE, $raw);

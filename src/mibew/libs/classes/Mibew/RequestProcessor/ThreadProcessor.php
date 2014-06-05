@@ -644,12 +644,12 @@ class ThreadProcessor extends ClientSideProcessor
         // Send email
         if ($inbox_mail) {
             // Prepare message to send by email
-            $subject = getlocal2_(
+            $subject = getlocal(
                 "leavemail.subject",
                 array($args['name']),
                 $message_locale
             );
-            $body = getlocal2_(
+            $body = getlocal(
                 "leavemail.body",
                 array(
                     $args['name'],
