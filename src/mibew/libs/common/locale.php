@@ -272,7 +272,7 @@ function get_localized_string($string, $locale)
         return $localized[$string];
     }
     if ($locale != 'en') {
-        return _getlocal($string, 'en');
+        return get_localized_string($string, 'en');
     }
 
     return "!" . $string;
