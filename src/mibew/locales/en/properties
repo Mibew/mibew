@@ -124,12 +124,9 @@ errors.captcha=The letters you typed don't match the letters that were shown in 
 errors.failed.uploading.file=Error uploading file "{0}": {1}.
 errors.file.move.error=Error moving file
 errors.file.size.exceeded=Uploaded file size exceeded
-errors.footer=</ul>
-errors.header=<b>Correct the mistakes:</b><br/><ul>
+errors.header=Correct the mistakes:
 errors.invalid.file.type=Invalid file type
-errors.prefix=<li class="error">
 errors.required=Please fill "{0}".  
-errors.suffix=</li>
 errors.wrong_field=Please fill "{0}" correctly.
 error.no_password=This is your first time logging in and your password is blank. For security reasons you have to change it.
 error.no_password.visit_profile=Visit your <a href="{0}">Profile Page</a>.
@@ -179,7 +176,7 @@ form.field.password_confirm.description=Confirm new password.
 form.field.password_confirm=Confirmation
 form.field.title=Title
 form.field.translation=Translation
-harderrors.header=<b>Cannot execute:</b><br/><ul>
+harderrors.header=Cannot execute:
 install.0.app=Application path is {0}
 install.0.package=Mibew package is valid.
 install.0.php=PHP version {0}

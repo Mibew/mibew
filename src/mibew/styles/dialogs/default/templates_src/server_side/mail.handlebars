@@ -20,13 +20,12 @@
 
     {{#override "content"}}
         {{#if errors}}
-            {{l10n "errors.header"}}
+            <b>{{l10n "errors.header"}}</b><br/>
+            <ul>
             {{#each errors}}
-                {{l10n "errors.prefix"}}
-                {{{this}}}
-                {{l10n "errors.suffix"}}
+                <li class="error">{{{this}}}</li>
             {{/each}}
-            {{l10n "errors.footer"}}
+            </ul>
         {{/if}}
     {{/override}}
 {{/extends}}
