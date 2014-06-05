@@ -94,7 +94,7 @@ class PasswordRecoveryController extends AbstractController
                     $email,
                     $email,
                     getlocal('restore.mailsubj'),
-                    getlocal2(
+                    getlocal(
                         'restore.mailtext',
                         array(get_operator_name($to_restore), $href)
                     )

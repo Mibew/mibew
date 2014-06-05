@@ -102,7 +102,7 @@ class RedirectController extends AbstractController
             $next_group = group_by_id($next_id);
 
             if ($next_group) {
-                $page['message'] = getlocal2(
+                $page['message'] = getlocal(
                     'chat.redirected.group.content',
                     array(get_group_name($next_group))
                 );
@@ -121,7 +121,7 @@ class RedirectController extends AbstractController
             $next_operator = operator_by_id($next_id);
 
             if ($next_operator) {
-                $page['message'] = getlocal2(
+                $page['message'] = getlocal(
                     'chat.redirected.content',
                     array(get_operator_name($next_operator))
                 );

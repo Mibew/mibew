@@ -111,13 +111,15 @@ class MailController extends AbstractController
         }
 
         $subject = getlocal('mail.user.history.subject', null, CURRENT_LOCALE, true);
-        $body = getlocal2(
+        $body = getlocal(
             'mail.user.history.body',
-            array($thread->userName,
+            array(
+                $thread->userName,
                 $history,
                 Settings::get('title'),
                 Settings::get('hosturl')
             ),
+            CURRENT_LOCALE,
             true
         );
 

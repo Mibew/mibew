@@ -61,7 +61,7 @@ class StatisticsController extends AbstractController
             array('cron_key' => Settings::get('cron_key')),
             UrlGeneratorInterface::ABSOLUTE_URL
         );
-        $page['pageDescription'] = getlocal2(
+        $page['pageDescription'] = getlocal(
             'statistics.description.full',
             array(
                 date_to_text(Settings::get('_last_cron_run')),

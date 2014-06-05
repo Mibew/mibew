@@ -148,8 +148,8 @@ function setup_pagination($items, $default_items_per_page = 15)
  */
 function generate_pagination($style_path, $pagination, $bottom = true)
 {
-    $result = getlocal2(
-        "tag.pagination.info",
+    $result = getlocal(
+        'tag.pagination.info',
         array(
             $pagination['page'],
             $pagination['total'],

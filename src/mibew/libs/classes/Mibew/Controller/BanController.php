@@ -214,7 +214,7 @@ class BanController extends AbstractController
                 'ban_edit',
                 array('ban_id' => $existing_ban['banid'])
             );
-            $errors[] = getlocal2('ban.error.duplicate', array($address, $ban_url));
+            $errors[] = getlocal('ban.error.duplicate', array($address, $ban_url));
         }
 
         if (count($errors) != 0) {

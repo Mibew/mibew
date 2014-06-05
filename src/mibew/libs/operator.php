@@ -647,7 +647,7 @@ function prepare_menu($operator, $has_right = true)
 
     $result['showMenu'] = true;
     $result['operator'] = get_operator_name($operator);
-    $result['goOnlineLink'] = getlocal2(
+    $result['goOnlineLink'] = getlocal(
         "menu.goonline",
         array(MIBEW_WEB_ROOT . "/operator/users?nomenu")
     );

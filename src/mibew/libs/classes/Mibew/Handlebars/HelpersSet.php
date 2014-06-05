@@ -98,11 +98,7 @@ class HelpersSet
             array_shift($escape_args);
         }
 
-        if (empty($local_args)) {
-            $result = getlocal($text);
-        } else {
-            $result = getlocal2($text, $local_args);
-        }
+        $result = getlocal($text, $local_args);
 
         return new \Handlebars\SafeString($result);
     }

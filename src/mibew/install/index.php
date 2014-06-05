@@ -83,7 +83,7 @@ function check_mibewroot()
 		return false;
 	}
 
-	$page['done'][] = getlocal2("install.0.app", array(MIBEW_WEB_ROOT));
+	$page['done'][] = getlocal("install.0.app", array(MIBEW_WEB_ROOT));
 	return true;
 }
 
@@ -129,9 +129,9 @@ function check_files()
 	$packageFile = MIBEW_FS_ROOT . "/install/package";
 	$fp = @fopen($packageFile, "r");
 	if ($fp === FALSE) {
-		$errors[] = getlocal2("install.cannot_read", array(MIBEW_WEB_ROOT . "/install/package"));
+		$errors[] = getlocal("install.cannot_read", array(MIBEW_WEB_ROOT . "/install/package"));
 		if (file_exists($packageFile)) {
-			$errors[] = getlocal2("install.check_permissions", array(fpermissions($packageFile)));
+			$errors[] = getlocal("install.check_permissions", array(fpermissions($packageFile)));
 		}
 		return false;
 	}
@@ -150,10 +150,10 @@ function check_files()
 		$relativeName = MIBEW_FS_ROOT . "/$file";
 		if (!is_readable($relativeName)) {
 			if (file_exists($relativeName)) {
-				$errors[] = getlocal2("install.cannot_read", array(MIBEW_WEB_ROOT . "/$file"));
-				$errors[] = getlocal2("install.check_permissions", array(fpermissions($relativeName)));
+				$errors[] = getlocal("install.cannot_read", array(MIBEW_WEB_ROOT . "/$file"));
+				$errors[] = getlocal("install.check_permissions", array(fpermissions($relativeName)));
 			} else {
-				$errors[] = getlocal2("install.no_file", array(MIBEW_WEB_ROOT . "/$file"));
+				$errors[] = getlocal("install.no_file", array(MIBEW_WEB_ROOT . "/$file"));
 			}
 			return false;
 		}
@@ -164,7 +164,7 @@ function check_files()
 				$result = md5(str_replace("\r", "", file_get_contents($relativeName)));
 			}
 			if ($result != $sum) {
-				$errors[] = getlocal2("install.bad_checksum", array(MIBEW_WEB_ROOT . "/$file"));
+				$errors[] = getlocal("install.bad_checksum", array(MIBEW_WEB_ROOT . "/$file"));
 				$errors[] = getlocal("install.check_files");
 				return false;
 			}
@@ -182,7 +182,7 @@ function check_connection()
 	if ($link) {
 		$result = mysql_query("SELECT VERSION() as c", $link);
 		if ($result && $ver = mysql_fetch_array($result, MYSQL_ASSOC)) {
-			$page['done'][] = getlocal2("install.1.connected", array($ver['c']));
+			$page['done'][] = getlocal("install.1.connected", array($ver['c']));
 			mysql_free_result($result);
 		} else {
 			$errors[] = "Version of your SQL server is unknown. Please check. Error: " . mysql_error($link);
@@ -191,7 +191,7 @@ function check_connection()
 		}
 		return $link;
 	} else {
-		$errors[] = getlocal2("install.connection.error", array(mysql_error()));
+		$errors[] = getlocal("install.connection.error", array(mysql_error()));
 		return null;
 	}
 }
@@ -200,12 +200,12 @@ function check_database($link)
 {
 	global $mysqldb, $page;
 	if (mysql_select_db($mysqldb, $link)) {
-		$page['done'][] = getlocal2("install.2.db_exists", array($mysqldb));
+		$page['done'][] = getlocal("install.2.db_exists", array($mysqldb));
 		mysql_query("SET character set utf8", $link);
 
 		return true;
 	} else {
-		$page['nextstep'] = getlocal2("install.2.create", array($mysqldb));
+		$page['nextstep'] = getlocal("install.2.create", array($mysqldb));
 		$page['nextnotice'] = getlocal("install.2.notice");
 		$page['nextstepurl'] = MIBEW_WEB_ROOT . "/install/dbperform.php?act=createdb";
 	}
@@ -281,7 +281,7 @@ function check_sound()
 	global $page;
 
 	$page['soundcheck'] = true;
-	$page['done'][] = getlocal2("install.5.text", array(
+	$page['done'][] = getlocal("install.5.text", array(
 													   "<a id='check-nv' href='javascript:void(0)'>" . getlocal("install.5.newvisitor") . "</a>",
 													   "<a id='check-nm' href='javascript:void(0)'>" . getlocal("install.5.newmessage") . "</a>"
 												  ));
@@ -333,7 +333,7 @@ function check_status()
 {
 	global $page, $mysqlprefix;
 
-	$page['done'][] = getlocal2("install.0.php", array(phpversion()));
+	$page['done'][] = getlocal("install.0.php", array(phpversion()));
 
 	if (!check_mibewroot()) {
 		return;
@@ -371,7 +371,7 @@ function check_status()
 
 	if (!check_admin($link)) {
 		$page['nextstep'] = getlocal("installed.login_link");
-		$page['nextnotice'] = getlocal2("installed.notice", array(MIBEW_WEB_ROOT . "/install/"));
+		$page['nextnotice'] = getlocal("installed.notice", array(MIBEW_WEB_ROOT . "/install/"));
 		$page['nextstepurl'] = MIBEW_WEB_ROOT . "/operator/login?login=admin";
 	}
 

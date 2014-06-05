@@ -766,9 +766,10 @@ function chat_start_for_user(
         $operator_name = get_operator_name($operator);
         $thread->postMessage(
             Thread::KIND_FOR_AGENT,
-            getlocal2(
+            getlocal(
                 'chat.visitor.invitation.accepted',
                 array($operator_name),
+                CURRENT_LOCALE,
                 true
             )
         );
@@ -776,15 +777,16 @@ function chat_start_for_user(
         if ($referrer) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getlocal2('chat.came.from', array($referrer), true)
+                getlocal('chat.came.from', array($referrer), CURRENT_LOCALE, true)
             );
         }
         if ($requested_operator && !$requested_operator_online) {
             $thread->postMessage(
                 Thread::KIND_INFO,
-                getlocal2(
+                getlocal(
                     'chat.requested_operator.offline',
                     array(get_operator_name($requested_operator)),
+                    CURRENT_LOCALE,
                     true
                 )
             );
@@ -800,7 +802,7 @@ function chat_start_for_user(
     if ($info) {
         $thread->postMessage(
             Thread::KIND_FOR_AGENT,
-            getlocal2('chat.visitor.info', array($info), true)
+            getlocal('chat.visitor.info', array($info), CURRENT_LOCALE, true)
         );
     }
 

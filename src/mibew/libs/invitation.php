@@ -119,9 +119,10 @@ function invitation_invite($visitor_id, $operator)
     // Send some messages
     $thread->postMessage(
         Thread::KIND_FOR_AGENT,
-        getlocal2(
+        getlocal(
             'chat.visitor.invitation.sent',
             array($operator_name, $last_visited_page),
+            CURRENT_LOCALE,
             true
         )
     );
