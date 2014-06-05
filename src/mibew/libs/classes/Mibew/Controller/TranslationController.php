@@ -62,23 +62,9 @@ class TranslationController extends AbstractController
             $locales_list[] = array('id' => $loc, 'name' => getlocal('localeid', null, $loc));
         }
 
-        // Extract needed localization constants.
-        $show = $request->query->get('show');
-        if (!in_array($show, array('all', 's1', 's2', 's3'))) {
-            $show = 'all';
-        }
-
+        // Prepare localization constants to display.
         $result = array();
         $all_keys = array_keys($lang1);
-        if ($show == 's1') {
-            $all_keys = array_intersect($all_keys, locale_load_id_list('level1'));
-        } elseif ($show == 's2') {
-            $all_keys = array_intersect($all_keys, locale_load_id_list('level2'));
-        } elseif ($show == 's3') {
-            $all_keys = array_diff($all_keys, locale_load_id_list('level1'), locale_load_id_list('level2'));
-        }
-
-        // Prepare localization constants to display.
         foreach ($all_keys as $key) {
             $t_source = htmlspecialchars($lang1[$key]);
             if (isset($lang2[$key])) {
@@ -126,13 +112,6 @@ class TranslationController extends AbstractController
             array('id' => 'l1', 'name' => getlocal('translate.sort.lang')),
         );
         $page['formsort'] = $order;
-        $page['showOptions'] = array(
-            array('id' => 'all', 'name' => getlocal('translate.show.all')),
-            array('id' => 's1', 'name' => getlocal('translate.show.forvisitor')),
-            array('id' => 's2', 'name' => getlocal('translate.show.foroperator')),
-            array('id' => 's3', 'name' => getlocal('translate.show.foradmin')),
-        );
-        $page['formshow'] = $show;
         $page['title'] = getlocal('page.translate.title');
         $page['menuid'] = 'translation';
         $page = array_merge($page, prepare_menu($operator));

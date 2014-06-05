@@ -39,15 +39,6 @@
                         </select>
                     </div>
 
-                    <div class="packedFormField">
-                        {{l10n "translate.show"}}<br/>
-                        <select name="show" onchange="this.form.submit();">
-                            {{#each showOptions}}
-                                <option value="{{id}}"{{#ifEqual id ../formshow}} selected="selected"{{/ifEqual}}>{{name}}</option>
-                            {{/each}}
-                        </select>
-                    </div>
-
                     <br clear="all"/>
 
                 </div>

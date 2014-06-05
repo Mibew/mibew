@@ -290,23 +290,6 @@ function get_local_for_js($text, $params)
     return sanitize_string($string, 'low', 'moderate');
 }
 
-function locale_load_id_list($name)
-{
-    $result = array();
-    $fp = @fopen(MIBEW_FS_ROOT . "/locales/names/$name", "r");
-    if ($fp !== false) {
-        while (!feof($fp)) {
-            $line = trim(fgets($fp, 4096));
-            if ($line && preg_match("/^[\w_\.]+$/", $line)) {
-                $result[] = $line;
-            }
-        }
-        fclose($fp);
-    }
-
-    return $result;
-}
-
 function save_message($locale, $key, $value)
 {
     $result = "";
