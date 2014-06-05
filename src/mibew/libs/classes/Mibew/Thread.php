@@ -364,7 +364,7 @@ class Thread
         // Send message
         $thread->postMessage(
             self::KIND_EVENTS,
-            getlocal_("chat.status.user.reopenedthread", $thread->locale, true)
+            getlocal('chat.status.user.reopenedthread', null, $thread->locale, true)
         );
 
         return $thread;
@@ -600,8 +600,9 @@ class Thread
                 // Check if user chatting at the moment
                 if ($this->state == self::STATE_CHATTING) {
                     // Send message to user
-                    $message_to_post = getlocal_(
-                        "chat.status.operator.dead",
+                    $message_to_post = getlocal(
+                        'chat.status.operator.dead',
+                        null,
                         $this->locale,
                         true
                     );
@@ -625,8 +626,9 @@ class Thread
                 $this->lastPingUser = 0;
 
                 // And send a message to operator
-                $message_to_post = getlocal_(
-                    "chat.status.user.dead",
+                $message_to_post = getlocal(
+                    'chat.status.user.dead',
+                    null,
                     $this->locale,
                     true
                 );
@@ -865,8 +867,9 @@ class Thread
             if ($this->state == self::STATE_INVITED) {
                 $this->postMessage(
                     self::KIND_FOR_AGENT,
-                    getlocal_(
-                        "chat.visitor.invitation.canceled",
+                    getlocal(
+                        'chat.visitor.invitation.canceled',
+                        null,
                         $this->locale,
                         true
                     )

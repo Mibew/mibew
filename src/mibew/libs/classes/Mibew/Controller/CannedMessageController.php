@@ -46,7 +46,7 @@ class CannedMessageController extends AbstractController
         foreach ($all_locales as $id) {
             $locales_with_label[] = array(
                 'id' => $id,
-                'name' => getlocal_($id, 'names')
+                'name' => getlocal($id, null, 'names')
             );
         }
         $page['locales'] = $locales_with_label;

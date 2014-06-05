@@ -59,7 +59,7 @@ class TranslationController extends AbstractController
         $locales_list = array();
         $all_locales = get_available_locales();
         foreach ($all_locales as $loc) {
-            $locales_list[] = array("id" => $loc, "name" => getlocal_("localeid", $loc));
+            $locales_list[] = array('id' => $loc, 'name' => getlocal('localeid', null, $loc));
         }
 
         // Extract needed localization constants.

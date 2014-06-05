@@ -141,7 +141,7 @@ function get_locale_links()
         return null;
     }
     foreach ($all_locales as $k) {
-        $locale_links[$k] = getlocal_($k, "names");
+        $locale_links[$k] = getlocal($k, null, 'names');
     }
 
     return $locale_links;
@@ -278,46 +278,20 @@ function get_localized_string($string, $locale)
     return "!" . $string;
 }
 
-function getlocal_($text, $locale, $raw = false)
-{
-    $localized = load_messages($locale);
-    if (isset($localized[$text])) {
-        return $raw
-            ? $localized[$text]
-            : sanitize_string($localized[$text], 'low', 'moderate');
-    }
-    if ($locale != 'en') {
-        return getlocal_($text, 'en', $raw);
-    }
-
-    return "!" . ($raw ? $text : sanitize_string($text, 'low', 'moderate'));
-}
-
 function getlocal2_($text, $params, $locale, $raw = false)
 {
-    $string = getlocal_($text, $locale, true);
-    for ($i = 0; $i < count($params); $i++) {
-        $string = str_replace("{" . $i . "}", $params[$i], $string);
-    }
-
-    return $raw ? $string : sanitize_string($string, 'low', 'moderate');
+    return getlocal($text, $params, $locale, $raw);
 }
 
 function getlocal2($text, $params, $raw = false)
 {
-    $string = getlocal_($text, CURRENT_LOCALE, true);
-
-    for ($i = 0; $i < count($params); $i++) {
-        $string = str_replace("{" . $i . "}", $params[$i], $string);
-    }
-
-    return $raw ? $string : sanitize_string($string, 'low', 'moderate');
+    return getlocal($text, $params, CURRENT_LOCALE, $raw);
 }
 
 /* prepares for Javascript string */
 function get_local_for_js($text, $params)
 {
-    $string = getlocal_($text, CURRENT_LOCALE);
+    $string = get_localized_string($text, CURRENT_LOCALE);
     $string = str_replace("\"", "\\\"", str_replace("\n", "\\n", $string));
     for ($i = 0; $i < count($params); $i++) {
         $string = str_replace("{" . $i . "}", $params[$i], $string);
