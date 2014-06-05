@@ -24,7 +24,7 @@ use Mibew\Style\InvitationStyle;
  * Return chat button code.
  *
  * @param string $title Page title
- * @param string $locale 2-digit ISO-639-1 code for language
+ * @param string $locale RFC 5646 code for language
  * @param string $style name of available style from styles/dialogs folder
  * @param string $invitation_style_name name of avalabel style from
  * styles/invitations folder

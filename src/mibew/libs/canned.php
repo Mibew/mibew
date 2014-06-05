@@ -21,7 +21,7 @@ use Mibew\Database;
 /**
  * Get information about all existing canned message from database
  *
- * @param string $locale 2-digit ISO-639-1 code for language
+ * @param string $locale RFC 5646 code for language
  * @param integer $group_id Group ID for the canned messages
  *
  * @return array Each its element is canned message structure. contains
@@ -84,7 +84,7 @@ function save_canned_message($key, $title, $message)
 /**
  * Add new canned message to database
  *
- * @param string $locale 2-digit ISO-639-1 code for language
+ * @param string $locale RFC 5646 code for language
  * @param integer $group_id Group ID for the canned messages
  * @param string $title title of canned message
  * @param string $message body of canned message
