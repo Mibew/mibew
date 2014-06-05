@@ -127,7 +127,7 @@ function invitation_invite($visitor_id, $operator)
     );
     $thread->postMessage(
         Thread::KIND_AGENT,
-        getlocal("invitation.message", true),
+        getlocal('invitation.message', null, CURRENT_LOCALE, true),
         array(
             'name' => $operator_name,
             'operator_id' => $operator['operatorid'],
@@ -201,7 +201,7 @@ function invitation_reject($visitor_id)
     if ($thread) {
         $thread->postMessage(
             Thread::KIND_FOR_AGENT,
-            getlocal('chat.visitor.invitation.rejected', true)
+            getlocal('chat.visitor.invitation.rejected', null, CURRENT_LOCALE, true)
         );
     }
 

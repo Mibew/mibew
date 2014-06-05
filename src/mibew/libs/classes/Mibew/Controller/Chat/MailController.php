@@ -110,7 +110,7 @@ class MailController extends AbstractController
             $history .= message_to_text($msg);
         }
 
-        $subject = getlocal('mail.user.history.subject', true);
+        $subject = getlocal('mail.user.history.subject', null, CURRENT_LOCALE, true);
         $body = getlocal2(
             'mail.user.history.body',
             array($thread->userName,

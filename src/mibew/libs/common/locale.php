@@ -232,9 +232,50 @@ function read_locale_file($path)
     );
 }
 
-function getlocal($text, $raw = false)
+/**
+ * Returns localized string.
+ *
+ * @param string $text A text which should be localized
+ * @param array $params Indexed array with placeholders.
+ * @param string $locale Target locale code.
+ * @param boolean $raw Indicates if the result should be sanitized or not.
+ * @return string Localized text.
+ */
+function getlocal($text, $params = null, $locale = CURRENT_LOCALE, $raw = false)
 {
-    return getlocal_($text, CURRENT_LOCALE, $raw);
+    $string = get_localized_string($text, $locale);
+
+    if ($params) {
+        for ($i = 0; $i < count($params); $i++) {
+            $string = str_replace("{" . $i . "}", $params[$i], $string);
+        }
+    }
+
+    return $raw ? $string : sanitize_string($string, 'low', 'moderate');
+}
+
+/**
+ * Return localized string by its key and locale.
+ *
+ * Do not use this function manually because it is for internal use only and may
+ * be removed soon. Use {@link getlocal()} function instead.
+ *
+ * @access private
+ * @param string $string Localization string key.
+ * @param string $locale Target locale code.
+ * @return string Localized string.
+ */
+function get_localized_string($string, $locale)
+{
+    $localized = load_messages($locale);
+    if (isset($localized[$string])) {
+        return $localized[$string];
+    }
+    if ($locale != 'en') {
+        return _getlocal($string, 'en');
+    }
+
+    return "!" . $string;
 }
 
 function getlocal_($text, $locale, $raw = false)

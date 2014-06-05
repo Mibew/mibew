@@ -789,7 +789,10 @@ function chat_start_for_user(
                 )
             );
         } else {
-            $thread->postMessage(Thread::KIND_INFO, getlocal('chat.wait', true));
+            $thread->postMessage(
+                Thread::KIND_INFO,
+                getlocal('chat.wait', null, CURRENT_LOCALE, true)
+            );
         }
     }
 
