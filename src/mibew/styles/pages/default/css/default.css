@@ -811,6 +811,13 @@ table.awaiting .no-threads, table.awaiting .no-visitors  {
 	vertical-align: top;
 }
 
+#confirmpane .visitor {
+    color: blue;
+}
+
+#confirmpane .operator {
+    color: green;
+}
 
 /* thread log */
 
@@ -929,6 +936,10 @@ table.awaiting .no-threads, table.awaiting .no-visitors  {
 	text-decoration: underline;
 }
 
+#install .warning {
+    color: #c13030;
+    font-weight: bold;
+}
 
 /* chat */
 

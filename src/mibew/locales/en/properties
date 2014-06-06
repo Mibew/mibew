@@ -110,7 +110,7 @@ clients.title=List of visitors waiting
 common.asterisk_explanation=<span class="required">*</span> - mandatory fields
 company.title=Mibew Messenger Community
 confirm.take.head=Change operator
-confirm.take.message=Visitor <span style="color:blue;">{0}</span> is already being assisted by <span style="color:green;">{1}</span>.<br/> Are you really sure you want to start chatting the visitor?
+confirm.take.message=Visitor <span class="visitor">{0}</span> is already being assisted by <span class="operator">{1}</span>.<br/> Are you really sure you want to start chatting the visitor?
 confirm.take.no=No. Close the window
 confirm.take.yes=Yes. I'm sure
 content.blocked=Here you can block malicious visitors.
@@ -211,7 +211,7 @@ install.title=Installation
 install.updatedb=Please run the <a href="{0}">Update wizard</a> to adjust your database.
 installed.login_link=Proceed to the login page
 installed.message=<b>Application installed successfully.</b>
-installed.notice=You can logon as <b>admin</b> with empty password.<br/><br/><font color="#c13030"><b>!!! For security reasons please change your password immediately and remove the {0} folder from your server.</b></font>
+installed.notice=You can logon as <b>admin</b> with empty password.<br/><br/><span class="warning">!!! For security reasons please change your password immediately and remove the {0} folder from your server.</span>
 invitation.message=Hello, how can I help you?
 invitation.accept.caption=Answer
 lang.choose=Choose your language
