@@ -331,6 +331,7 @@ div.errinfo {
 	width: 11em;
 } 
 
+.asterisk span.required,
 .flabel span.required {
 	font-size:8.0pt;
 	color:red;
