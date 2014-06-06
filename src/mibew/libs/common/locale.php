@@ -135,16 +135,74 @@ function get_locale()
 
 function get_locale_links()
 {
+    // Get list of available locales
     $locale_links = array();
     $all_locales = get_available_locales();
     if (count($all_locales) < 2) {
         return null;
     }
+
+    // Attache locale names
+    $locale_names = get_locale_names();
     foreach ($all_locales as $k) {
-        $locale_links[$k] = getlocal($k, null, 'names');
+        $locale_links[$k] = isset($locale_names[$k]) ? $locale_names[$k] : $k;
     }
 
     return $locale_links;
+}
+
+/**
+ * Returns list of human readable locale names.
+ *
+ * @return array
+ */
+function get_locale_names()
+{
+    return array(
+        'ar' => 'العربية',
+        'be' => 'Беларуская',
+        'bg' => 'Български',
+        'ca' => 'Català',
+        'cs' => 'Česky',
+        'da' => 'Dansk',
+        'de' => 'Deutsch',
+        'el' => 'Ελληνικά',
+        'en' => 'English',
+        'es' => 'Español',
+        'et' => 'Eesti',
+        'fa' => 'فارسی',
+        'fi' => 'Suomi',
+        'fr' => 'Français',
+        'he' => 'עברית',
+        'hr' => 'Hrvatski',
+        'hu' => 'Magyar',
+        'id' => 'Bahasa Indonesia',
+        'it' => 'Italiano',
+        'jp' => '日本語',
+        'ka' => 'ქართული',
+        'kk' => 'Қазақша',
+        'ko' => '한국어',
+        'ky' => 'Кыргызча',
+        'lt' => 'Lietuvių',
+        'lv' => 'Latviešu',
+        'nl' => 'Nederlands',
+        'nn' => 'Norsk nynorsk',
+        'no' => 'Norsk bokmål',
+        'pl' => 'Polski',
+        'pt-pt' => 'Português',
+        'pt-br' => 'Português Brasil',
+        'ro' => 'Română',
+        'ru' => 'Русский',
+        'sk' => 'Slovenčina',
+        'sl' => 'Slovenščina',
+        'sr' => 'Српски',
+        'sv' => 'Svenska',
+        'th' => 'ไทย',
+        'tr' => 'Türkçe',
+        'ua' => 'Українська',
+        'zh-cn' => '中文',
+        'zh-tw' => '文言',
+    );
 }
 
 /**
