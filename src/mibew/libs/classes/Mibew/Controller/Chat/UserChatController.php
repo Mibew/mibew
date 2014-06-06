@@ -73,9 +73,8 @@ class UserChatController extends AbstractController
         // Do not support old browsers at all
         if (get_remote_level($request->headers->get('User-Agent')) == 'old') {
             // Create page array
-            $page = array_merge_recursive(
-                setup_logo()
-            );
+            $page = setup_logo();
+            $page['supportedBrowsers'] = get_supported_browsers();
 
             return $this->render('nochat', $page);
         }

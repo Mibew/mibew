@@ -135,6 +135,23 @@ function get_remote_level($user_agent)
 }
 
 /**
+ * Returns a list of supported browsers.
+ *
+ * @return array List of supported browsers names.
+ */
+function get_supported_browsers()
+{
+    return array(
+        'Internet Explorer 5.5+',
+        'Firefox 1.0+',
+        'Opera 8.0+',
+        'Mozilla 1.4+',
+        'Netscape 7.1+',
+        'Safari 1.2+',
+    );
+}
+
+/**
  * Returns a list of known user agents code names.
  *
  * @return array List of known user agents
