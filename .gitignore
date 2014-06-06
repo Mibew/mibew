@@ -17,7 +17,6 @@ src/mibew/plugins/*
 # Do not index custom locales
 src/mibew/locales/*
 !src/mibew/locales/en/
-!src/mibew/locales/names/
 
 # Do not index composer files
 src/composer.phar
