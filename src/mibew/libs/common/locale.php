@@ -179,7 +179,7 @@ function get_locale_names()
         'hu' => 'Magyar',
         'id' => 'Bahasa Indonesia',
         'it' => 'Italiano',
-        'jp' => '日本語',
+        'ja' => '日本語',
         'ka' => 'ქართული',
         'kk' => 'Қазақша',
         'ko' => '한국어',
