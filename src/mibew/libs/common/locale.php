@@ -51,14 +51,14 @@ define('CURRENT_LOCALE', get_locale());
 
 function locale_exists($locale)
 {
-    return file_exists(MIBEW_FS_ROOT . "/locales/$locale/properties");
+    return file_exists(MIBEW_FS_ROOT . "/locales/$locale/translation.po");
 }
 
 function locale_pattern_check($locale)
 {
     $locale_pattern = "/^[\w-]{2,5}$/";
 
-    return preg_match($locale_pattern, $locale) && $locale != 'names';
+    return preg_match($locale_pattern, $locale);
 }
 
 function get_available_locales()
