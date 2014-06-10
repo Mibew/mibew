@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-// Import namespaces and classes of the core
 use Mibew\Database;
 use Mibew\Plugin\Manager as PluginManager;
+use Symfony\Component\Translation\Loader\PoFileLoader;
 
 /**
  * Name for the cookie to store locale code in use
@@ -220,7 +220,7 @@ function load_messages($locale)
 
     if (!isset($messages[$locale])) {
         // Load core localization
-        $locale_file = MIBEW_FS_ROOT . "/locales/{$locale}/properties";
+        $locale_file = MIBEW_FS_ROOT . "/locales/{$locale}/translation.po";
         $locale_data = read_locale_file($locale_file);
 
         $messages[$locale] = $locale_data['messages'];
@@ -237,7 +237,7 @@ function load_messages($locale)
                 $locale_file = MIBEW_FS_ROOT
                     . "/plugins/" . ucfirst($vendor_name) . "/Mibew/Plugin/"
                     . implode('', array_map('ucfirst', $plugin_name_parts))
-                    . "/locales/{$locale}/properties";
+                    . "/locales/{$locale}/translation.po";
 
                 // Get localized strings
                 if (is_readable($locale_file)) {
@@ -284,24 +284,13 @@ function read_locale_file($path)
     // Set default values
     $messages = array();
 
-    $fp = fopen($path, "r");
-    if ($fp === false) {
-        die("unable to read locale file $path");
-    }
-    while (!feof($fp)) {
-        $line = fgets($fp, 4096);
-        // Try to get key and value from locale file line
-        $line_parts = preg_split("/=/", $line, 2);
-        if (count($line_parts) == 2) {
-            $key = $line_parts[0];
-            $value = $line_parts[1];
-            $messages[$key] = str_replace("\\n", "\n", trim($value));
-        }
-    }
-    fclose($fp);
+    $loader = new PoFileLoader();
+    // At this point locale name (the second argument of the "load" method) has
+    // no sense, so an empty string is passed in.
+    $messages = $loader->load($path, '');
 
     return array(
-        'messages' => $messages
+        'messages' => $messages->all('messages'),
     );
 }
 
