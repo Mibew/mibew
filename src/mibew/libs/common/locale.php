@@ -16,6 +16,7 @@
  */
 
 // Import namespaces and classes of the core
+use Mibew\Database;
 use Mibew\Plugin\Manager as PluginManager;
 
 /**
@@ -249,6 +250,20 @@ function load_messages($locale)
                     );
                 }
             }
+
+            // Load localizations from the database
+            $db = Database::getInstance();
+            $db_messages = $db->query(
+                'SELECT * FROM {translation} WHERE locale = ?',
+                array($locale),
+                array(
+                    'return_rows' => Database::RETURN_ALL_ROWS
+                )
+            );
+
+            foreach ($db_messages as $message) {
+                $messages[$locale][$message['source']] = $message['translation'];
+            }
         }
     }
 
@@ -348,57 +363,55 @@ function get_local_for_js($text, $params)
     return sanitize_string($string, 'low', 'moderate');
 }
 
+/**
+ * Saves a localized string to the database.
+ *
+ * @param string $locale Locale code.
+ * @param string $key String key.
+ * @param string $value Translated string.
+ */
 function save_message($locale, $key, $value)
 {
-    $result = "";
-    $added = false;
-    $fp = fopen(MIBEW_FS_ROOT . "/locales/$locale/properties", "r");
-    if ($fp === false) {
-        die("unable to open properties for locale $locale");
-    }
-    while (!feof($fp)) {
-        $line = fgets($fp, 4096);
-        $key_val = preg_split("/=/", $line, 2);
-        if (isset($key_val[1])) {
-            if (!$added && $key_val[0] == $key) {
-                $line = "$key="
-                    . str_replace("\r", "", str_replace("\n", "\\n", trim($value)))
-                    . "\n";
-                $added = true;
-            }
-        }
-        $result .= $line;
-    }
-    fclose($fp);
-    if (!$added) {
-        $result .= "$key="
-            . str_replace("\r", "", str_replace("\n", "\\n", trim($value)))
-            . "\n";
-    }
-    $fp = @fopen(MIBEW_FS_ROOT . "/locales/$locale/properties", "w");
-    if ($fp !== false) {
-        fwrite($fp, $result);
-        fclose($fp);
-    } else {
-        die("cannot write /locales/$locale/properties, please check file permissions on your server");
-    }
-    $fp = @fopen(MIBEW_FS_ROOT . "/locales/$locale/properties.log", "a");
-    if ($fp !== false) {
-        $ext_addr = $_SERVER['REMOTE_ADDR'];
-        if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) &&
-            $_SERVER['HTTP_X_FORWARDED_FOR'] != $_SERVER['REMOTE_ADDR']) {
-            $ext_addr = $_SERVER['REMOTE_ADDR'] . ' (' . $_SERVER['HTTP_X_FORWARDED_FOR'] . ')';
-        }
-        $user_browser = $_SERVER['HTTP_USER_AGENT'];
-        $remote_host = isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $ext_addr;
+    $db = Database::getInstance();
 
-        fwrite($fp, "# " . date(DATE_RFC822) . " by $remote_host using $user_browser\n");
-        fwrite(
-            $fp,
-            ("$key="
-                . str_replace("\r", "", str_replace("\n", "\\n", trim($value)))
-                . "\n")
+    // Check if the string is already in the database.
+    list($count) = $db->query(
+        'SELECT COUNT(*) FROM {translation} WHERE locale = :locale AND source = :key',
+        array(
+            ':locale' => $locale,
+            ':key' => $key,
+        ),
+        array(
+            'return_rows' => Database::RETURN_ONE_ROW,
+            'fetch_type' => Database::FETCH_NUM,
+        )
+    );
+    $exists = ($count != 0);
+
+    // Prepare the value to save in the database.
+    $translation = str_replace("\r", "", trim($value));
+
+    if ($exists) {
+        // There is no such string in the database. Create it.
+        $db->query(
+            ('UPDATE {translation} SET translation = :translation '
+                . 'WHERE locale = :locale AND source = :key'),
+            array(
+                ':locale' => $locale,
+                ':key' => $key,
+                ':translation' => $translation,
+            )
         );
-        fclose($fp);
+    } else {
+        // The string is already in the database. Update it.
+        $db->query(
+            ('INSERT INTO {translation} (locale, source, translation) '
+                . 'VALUES (:locale, :key, :translation)'),
+            array(
+                ':locale' => $locale,
+                ':key' => $key,
+                ':translation' => $translation,
+            )
+        );
     }
 }

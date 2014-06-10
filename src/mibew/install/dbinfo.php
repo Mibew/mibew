@@ -116,6 +116,15 @@ $dbtables = array(
 		"arguments" => "varchar(1024)"
 	),
 
+	// Contains updated translations
+	"${mysqlprefix}translation" => array(
+		"stringid" => "int NOT NULL auto_increment PRIMARY KEY",
+		"locale" => "varchar(5) NOT NULL",
+		"context" => "varchar(256) NOT NULL DEFAULT ''",
+		"source" => "text",
+		"translation" => "text",
+    ),
+
 	// Store chat thread messages
 	"${mysqlprefix}chatmessage" => array(
 		// Message ID.
