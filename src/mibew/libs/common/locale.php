@@ -281,9 +281,6 @@ function load_messages($locale)
  */
 function read_locale_file($path)
 {
-    // Set default values
-    $messages = array();
-
     $loader = new PoFileLoader();
     // At this point locale name (the second argument of the "load" method) has
     // no sense, so an empty string is passed in.
