@@ -1,3 +1,10 @@
+  1.6.12
+  -----
+  [!] fix Blowfish password hashing on several platforms
+  [!] implement CSRF protection for deletion of avatars
+  [!] switch to standard code for Japanese locale
+  [!] small bugfixes
+
   1.6.11
   -----
   [!] fix support of unicode
