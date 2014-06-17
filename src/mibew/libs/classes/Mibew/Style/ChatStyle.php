@@ -84,9 +84,8 @@ class ChatStyle extends AbstractStyle implements StyleInterface
         $data['mibewVersion'] = MIBEW_VERSION;
         $data['currentLocale'] = CURRENT_LOCALE;
 
-        $locales = get_locales();
-        $data['rtl'] = isset($locales[CURRENT_LOCALE])
-            && $locales[CURRENT_LOCALE]['rtl'];
+        $locale_info = get_locale_info(CURRENT_LOCALE);
+        $data['rtl'] = $locale_info && $locale_info['rtl'];
 
         $data['stylePath'] = MIBEW_WEB_ROOT . '/' . $this->getFilesPath();
         $data['styleName'] = $this->getName();

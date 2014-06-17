@@ -361,6 +361,24 @@ function get_locales()
 }
 
 /**
+ * Returns locale info by its code.
+ *
+ * It is a wrapper for {@link get_locales()} function and can be used to improve
+ * readability of the code.
+ *
+ * @param string $locale
+ * @return array|false Associative array of locale info or boolean false if the
+ *   locale is unknown. See {@link get_locales()} description for details of the
+ *   info array keys.
+ */
+function get_locale_info($locale)
+{
+    $locales = get_locales();
+
+    return isset($locales[$locale]) ? $locales[$locale] : false;
+}
+
+/**
  * Load localized messages id some service locale info.
  *
  * Messages are statically cached.
