@@ -14,7 +14,7 @@
 </head>
 
 <body{{#unlessOverridden "menu"}} style="min-width: 400px;"{{/unlessOverridden}}>
-    <div id="{{#if fixedwrap}}fixedwrap{{else}}{{#ifOverridden "menu"}}wrap700{{else}}wrap400{{/ifOverridden}}{{/if}}" class="l{{l10n "localedirection"}}">
+    <div id="{{#if fixedwrap}}fixedwrap{{else}}{{#ifOverridden "menu"}}wrap700{{else}}wrap400{{/ifOverridden}}{{/if}}" class="l{{#if rtl}}rtl{{else}}ltr{{/if}}">
         <div id="header">
             <div id="title">
                 <h1><img src="{{stylePath}}/images/logo.png" alt="" width="32" height="32" class="left logo" />

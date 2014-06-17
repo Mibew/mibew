@@ -83,7 +83,11 @@ class PageStyle extends AbstractStyle implements StyleInterface
         $data['mibewRoot'] = MIBEW_WEB_ROOT;
         $data['mibewVersion'] = MIBEW_VERSION;
         $data['currentLocale'] = CURRENT_LOCALE;
-        $data['rtl'] = (getlocal("localedirection") == 'rtl');
+
+        $locales = get_locales();
+        $data['rtl'] = isset($locales[CURRENT_LOCALE])
+            && $locales[CURRENT_LOCALE]['rtl'];
+
         $data['stylePath'] = MIBEW_WEB_ROOT . '/' . $this->getFilesPath();
         $data['styleName'] = $this->getName();
 

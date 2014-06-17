@@ -159,50 +159,204 @@ function get_locale_links()
  */
 function get_locale_names()
 {
+    static $names = false;
+
+    if ($names === false) {
+        $locales = get_locales();
+        $names = array();
+        foreach ($locales as $code => $info) {
+            $names[$code] = $info['name'];
+        }
+    }
+
+    return $names;
+}
+
+/**
+ * Returns meta data for all known locales.
+ *
+ * @return array Associative arrays which keys are locale codes and the values
+ *   are locales info. Locale info itself is an associative array with the
+ *   following keys:
+ *     - name: string, human readable locale name.
+ *     - rtl: boolean, indicates with the locale uses right-to-left
+ *       writing mode.
+ */
+function get_locales()
+{
     return array(
-        'ar' => 'العربية',
-        'be' => 'Беларуская',
-        'bg' => 'Български',
-        'ca' => 'Català',
-        'cs' => 'Česky',
-        'da' => 'Dansk',
-        'de' => 'Deutsch',
-        'el' => 'Ελληνικά',
-        'en' => 'English',
-        'es' => 'Español',
-        'et' => 'Eesti',
-        'fa' => 'فارسی',
-        'fi' => 'Suomi',
-        'fr' => 'Français',
-        'he' => 'עברית',
-        'hr' => 'Hrvatski',
-        'hu' => 'Magyar',
-        'id' => 'Bahasa Indonesia',
-        'it' => 'Italiano',
-        'ja' => '日本語',
-        'ka' => 'ქართული',
-        'kk' => 'Қазақша',
-        'ko' => '한국어',
-        'ky' => 'Кыргызча',
-        'lt' => 'Lietuvių',
-        'lv' => 'Latviešu',
-        'nl' => 'Nederlands',
-        'nn' => 'Norsk nynorsk',
-        'no' => 'Norsk bokmål',
-        'pl' => 'Polski',
-        'pt-pt' => 'Português',
-        'pt-br' => 'Português Brasil',
-        'ro' => 'Română',
-        'ru' => 'Русский',
-        'sk' => 'Slovenčina',
-        'sl' => 'Slovenščina',
-        'sr' => 'Српски',
-        'sv' => 'Svenska',
-        'th' => 'ไทย',
-        'tr' => 'Türkçe',
-        'ua' => 'Українська',
-        'zh-cn' => '中文',
-        'zh-tw' => '文言',
+        'ar' => array(
+            'name' => 'العربية',
+            'rtl' => true,
+        ),
+        'be' => array(
+            'name' => 'Беларуская',
+            'rtl' => false,
+        ),
+        'bg' => array(
+            'name' => 'Български',
+            'rtl' => false,
+        ),
+        'ca' => array(
+            'name' => 'Català',
+            'rtl' => false,
+        ),
+        'cs' => array(
+            'name' => 'Česky',
+            'rtl' => false,
+        ),
+        'da' => array(
+            'name' => 'Dansk',
+            'rtl' => false,
+        ),
+        'de' => array(
+            'name' => 'Deutsch',
+            'rtl' => false,
+        ),
+        'el' => array(
+            'name' => 'Ελληνικά',
+            'rtl' => false,
+        ),
+        'en' => array(
+            'name' => 'English',
+            'rtl' => false,
+        ),
+        'es' => array(
+            'name' => 'Español',
+            'rtl' => false,
+        ),
+        'et' => array(
+            'name' => 'Eesti',
+            'rtl' => false,
+        ),
+        'fa' => array(
+            'name' => 'فارسی',
+            'rtl' => true,
+        ),
+        'fi' => array(
+            'name' => 'Suomi',
+            'rtl' => false,
+        ),
+        'fr' => array(
+            'name' => 'Français',
+            'rtl' => false,
+        ),
+        'he' => array(
+            'name' => 'עברית',
+            'rtl' => true,
+        ),
+        'hr' => array(
+            'name' => 'Hrvatski',
+            'rtl' => false,
+        ),
+        'hu' => array(
+            'name' => 'Magyar',
+            'rtl' => false,
+        ),
+        'id' => array(
+            'name' => 'Bahasa Indonesia',
+            'rtl' => false,
+        ),
+        'it' => array(
+            'name' => 'Italiano',
+            'rtl' => false,
+        ),
+        'ja' => array(
+            'name' => '日本語',
+            'rtl' => false,
+        ),
+        'ka' => array(
+            'name' => 'ქართული',
+            'rtl' => false,
+        ),
+        'kk' => array(
+            'name' => 'Қазақша',
+            'rtl' => false,
+        ),
+        'ko' => array(
+            'name' => '한국어',
+            'rtl' => false,
+        ),
+        'ky' => array(
+            'name' => 'Кыргызча',
+            'rtl' => false,
+        ),
+        'lt' => array(
+            'name' => 'Lietuvių',
+            'rtl' => false,
+        ),
+        'lv' => array(
+            'name' => 'Latviešu',
+            'rtl' => false,
+        ),
+        'nl' => array(
+            'name' => 'Nederlands',
+            'rtl' => false,
+        ),
+        'nn' => array(
+            'name' => 'Norsk nynorsk',
+            'rtl' => false,
+        ),
+        'no' => array(
+            'name' => 'Norsk bokmål',
+            'rtl' => false,
+        ),
+        'pl' => array(
+            'name' => 'Polski',
+            'rtl' => false,
+        ),
+        'pt-pt' => array(
+            'name' => 'Português',
+            'rtl' => false,
+        ),
+        'pt-br' => array(
+            'name' => 'Português Brasil',
+            'rtl' => false,
+        ),
+        'ro' => array(
+            'name' => 'Română',
+            'rtl' => false,
+        ),
+        'ru' => array(
+            'name' => 'Русский',
+            'rtl' => false,
+        ),
+        'sk' => array(
+            'name' => 'Slovenčina',
+            'rtl' => false,
+        ),
+        'sl' => array(
+            'name' => 'Slovenščina',
+            'rtl' => false,
+        ),
+        'sr' => array(
+            'name' => 'Српски',
+            'rtl' => false,
+        ),
+        'sv' => array(
+            'name' => 'Svenska',
+            'rtl' => false,
+        ),
+        'th' => array(
+            'name' => 'ไทย',
+            'rtl' => false,
+        ),
+        'tr' => array(
+            'name' => 'Türkçe',
+            'rtl' => false,
+        ),
+        'ua' => array(
+            'name' => 'Українська',
+            'rtl' => false,
+        ),
+        'zh-cn' => array(
+            'name' => '中文',
+            'rtl' => false,
+        ),
+        'zh-tw' => array(
+            'name' => '文言',
+            'rtl' => false,
+        ),
     );
 }
 
