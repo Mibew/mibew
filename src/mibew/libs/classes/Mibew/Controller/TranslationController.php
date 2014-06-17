@@ -50,8 +50,8 @@ class TranslationController extends AbstractController
         $page = array(
             'lang1' => $source,
             'lang2' => $target,
-            'title1' => isset($lang1['localeid']) ? $lang1['localeid'] : $source,
-            'title2' => isset($lang2['localeid']) ? $lang2['localeid'] : $target,
+            'title1' => $this->getLocaleName($source),
+            'title2' => $this->getLocaleName($target),
             'errors' => array(),
         );
 
@@ -59,7 +59,7 @@ class TranslationController extends AbstractController
         $locales_list = array();
         $all_locales = get_available_locales();
         foreach ($all_locales as $loc) {
-            $locales_list[] = array('id' => $loc, 'name' => getlocal('localeid', null, $loc));
+            $locales_list[] = array('id' => $loc, 'name' => $this->getLocaleName($loc));
         }
 
         // Prepare localization constants to display.
@@ -148,8 +148,8 @@ class TranslationController extends AbstractController
         $lang2 = load_messages($target);
 
         $page = array(
-            'title1' => isset($lang1['localeid']) ? $lang1['localeid'] : $source,
-            'title2' => isset($lang2['localeid']) ? $lang2['localeid'] : $target,
+            'title1' => $this->getLocaleName($source),
+            'title2' => $this->getLocaleName($target),
             // Use errors list stored in the request. We need to do so to have
             // an ability to pass the request from the "submitEditForm" action.
             'errors' => $request->attributes->get('errors', array()),
@@ -219,5 +219,22 @@ class TranslationController extends AbstractController
         );
 
         return $this->render('translation_edit', $page);
+    }
+
+    /**
+     * Builds human readable locale name in "<Native name> (<code>)" format.
+     *
+     * @param string $locale Locale code according to RFC 5646.
+     * @return string Human readable locale name.
+     */
+    protected function getLocaleName($locale)
+    {
+        $names = get_locale_names();
+
+        if (isset($names[$locale])) {
+            return sprintf('%s (%s)', $names[$locale], $locale);
+        }
+
+        return $locale;
     }
 }
