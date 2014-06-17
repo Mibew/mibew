@@ -1,0 +1,60 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "mail_template.intro"}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        <form name="mail_template" method="post" action="{{formaction}}">
+            {{csrfTokenInput}}
+            <input type="hidden" name="lang" value="{{formlang}}" />
+
+            <div>
+                <div class="mform">
+                    <div class="formtop">
+                        <div class="formtopi"></div>
+                    </div>
+
+                    <div class="forminner">
+                        <div class="fieldForm">
+                            <div class="field">
+                                <label for="subject" class="flabel">{{l10n "form.field.mail_template_subject"}}<span class="required">*</span></label>
+                                <div class="fvalue">
+                                    <input id="subject" type="text" name="subject" size="40" value="{{formsubject}}" class="formauth" />
+                                </div>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="body" class="flabel">{{l10n "form.field.mail_template_body"}}<span class="required">*</span></label>
+                                <div class="fvaluenodesc">
+                                    <textarea id="body" name="body" cols="20" rows="5" class="wide">{{formbody}}</textarea>
+                                </div>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="fbutton">
+                                <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "button.save"}}"/>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="formbottom">
+                        <div class="formbottomi"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="asterisk">
+                {{l10n "common.asterisk_explanation"}}
+            </div>
+
+        </form>
+    {{/override}}
+{{/extends}}

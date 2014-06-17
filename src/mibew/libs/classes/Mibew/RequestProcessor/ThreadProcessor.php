@@ -644,20 +644,24 @@ class ThreadProcessor extends ClientSideProcessor
         // Send email
         if ($inbox_mail) {
             // Prepare message to send by email
-            $subject = getlocal(
-                "leavemail.subject",
-                array($args['name']),
-                $message_locale
+            $mail_template = mail_template_load('leave_message', $message_locale);
+            if (!$mail_template) {
+                throw new \RuntimeException('Cannot load "leave_message" mail template');
+            }
+            $subject = str_replace(
+                '{0}',
+                $args['name'],
+                $mail_template['subject']
             );
-            $body = getlocal(
-                "leavemail.body",
+            $body = str_replace(
+                array('{0}', '{1}', '{2}', '{3}'),
                 array(
                     $args['name'],
                     $email,
                     $message,
-                    $info ? $info . "\n" : ""
+                    ($info ? $info . "\n" : "")
                 ),
-                $message_locale
+                $mail_template['body']
             );
 
             // Send

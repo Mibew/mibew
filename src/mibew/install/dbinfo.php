@@ -125,6 +125,20 @@ $dbtables = array(
 		"translation" => "text",
     ),
 
+	// Contains localized mail templates
+	"${mysqlprefix}mailtemplate" => array(
+		// Artificial primary key
+		"templateid" => "int NOT NULL auto_increment PRIMARY KEY",
+		// Locale code a template belongs to
+		"locale" => "varchar(5) NOT NULL",
+		// Machine name of a template
+		"name" => "varchar(256) NOT NULL",
+		// Mail subject
+		"subject" => "varchar(1024) NOT NULL",
+		// Mail body
+		"body" => "text",
+	),
+
 	// Store chat thread messages
 	"${mysqlprefix}chatmessage" => array(
 		// Message ID.

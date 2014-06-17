@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+use Mibew\Database;
+
 function mibew_mail($to_addr, $reply_to, $subject, $body)
 {
     $headers = "From: " . MIBEW_MAILBOX . "\r\n"
@@ -36,5 +38,98 @@ function mibew_mail($to_addr, $reply_to, $subject, $body)
     );
     if (isset($old_from)) {
         @ini_set('sendmail_from', $old_from);
+    }
+}
+
+/**
+ * Loads an email template.
+ *
+ * @param string $name Machine name of the template.
+ * @param string $locale Locale code for the mail template.
+ * @return array|boolean Associative array with localized mail template data. If
+ *   the template with specified locale is not found a template for default
+ *   locale will be loaded. If the last one does not found too boolean FALSE
+ *   will be returned.
+ *   Mail template array contains the following keys:
+ *     - templateid: int, internale id of the template. It should not be used
+ *       directly.
+ *     - name: string, machine name of the template.
+ *     - locale: string, locale code the templates belongs to.
+ *     - title: string, localized human-readable mail template title.
+ *     - subject: string, localized value which will be used as subject field in
+ *       an email.
+ *     - body: string, localized value which will be used as body in an email.
+ */
+function mail_template_load($name, $locale)
+{
+    static $templates = array();
+
+    if (!isset($templates[$locale][$name])) {
+        // Try to load the template from the database.
+        $template = Database::getInstance()->query(
+            "SELECT * FROM {mailtemplate} WHERE name = :name AND locale = :locale",
+            array(
+                ':name' => $name,
+                ':locale' => $locale,
+            ),
+            array(
+                'return_rows' => Database::RETURN_ONE_ROW,
+            )
+        );
+
+        if (!$template) {
+            // There is no template in the database.
+            if ($locale == DEFAULT_LOCALE) {
+                // The template is still not found.
+                $template = false;
+            } else {
+                // Try to load the template for the default locale.
+                $template = $this->loadMailTemplate($name, DEFAULT_LOCALE);
+            }
+        }
+
+        $templates[$locale][$name] = $template;
+    }
+
+    return $templates[$locale][$name];
+}
+
+/**
+ * Saves a mail template to the database.
+ *
+ * @param string $name Machine name of the template to save.
+ * @param string $locale Locale code the template belongs to.
+ * @param string $subject Localized string that is used as email subject.
+ * @param string $body Localized string that is used as email body.
+ */
+function mail_template_save($name, $locale, $subject, $body)
+{
+    $db = Database::getInstance();
+    $template = mail_template_load($name, $locale);
+
+    if ($template && $template['locale'] == $locale) {
+        // Update existing mail template
+        $db->query(
+            ("UPDATE {mailtemplate} "
+                . "SET subject = :subject, body = :body "
+                . "WHERE templateid = :id"),
+            array(
+                ':id' => $template['templateid'],
+                ':subject' => $subject,
+                ':body' => $body,
+            )
+        );
+    } else {
+        // Insert a new mail template
+        $db->query(
+            ("INSERT INTO {mailtemplate} (name, locale, subject, body) "
+                . "VALUES (:name, :locale, :subject, :body)"),
+            array(
+                ':name' => $name,
+                ':locale' => $locale,
+                ':subject' => $subject,
+                ':body' => $body,
+            )
+        );
     }
 }

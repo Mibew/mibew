@@ -110,20 +110,24 @@ class MailController extends AbstractController
             $history .= message_to_text($msg);
         }
 
-        $subject = getlocal('mail.user.history.subject', null, CURRENT_LOCALE, true);
-        $body = getlocal(
-            'mail.user.history.body',
+        // Load mail templates and substitute placeholders there.
+        $mail_template = mail_template_load('user_history', CURRENT_LOCALE);
+        if (!$mail_template) {
+            throw new \RuntimeException('Cannot load "user_history" mail template');
+        }
+
+        $body = str_replace(
+            array('{0}', '{1}', '{2}', '{3}'),
             array(
                 $thread->userName,
                 $history,
                 Settings::get('title'),
-                Settings::get('hosturl')
+                Settings::get('hosturl'),
             ),
-            CURRENT_LOCALE,
-            true
+            $mail_template['body']
         );
 
-        mibew_mail($email, MIBEW_MAILBOX, $subject, $body);
+        mibew_mail($email, MIBEW_MAILBOX, $mail_template['subject'], $body);
 
         $page = setup_logo($group);
         $page['email'] = $email;

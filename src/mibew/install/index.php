@@ -329,6 +329,52 @@ function add_canned_messages($link){
 	}
 }
 
+function add_mail_templates($link){
+	global $mysqlprefix;
+	$localesresult = mysql_query("select distinct locale from ${mysqlprefix}mailtemplate", $link);
+	$existlocales = array();
+	for ($i = 0; $i < mysql_num_rows($localesresult); $i++) {
+		$existlocales[] = mysql_result($localesresult, $i, 'locale');
+	}
+	$result = array();
+	foreach (get_available_locales() as $locale) {
+		if (! in_array($locale, $existlocales)) {
+			$result[] = array(
+				'locale' => $locale,
+				'name' => 'user_history',
+				'subject' => getlocal('mail.user.history.subject', null, $locale),
+				'body' => getlocal('mail.user.history.body', null, $locale)
+			);
+			$result[] = array(
+				'locale' => $locale,
+				'name' => 'password_recovery',
+				'subject' => getlocal('restore.mailsubj', null, $locale),
+				'body' => getlocal('restore.mailtext', null, $locale)
+			);
+			$result[] = array(
+				'locale' => $locale,
+				'name' => 'leave_message',
+				'subject' => getlocal('leavemail.subject', null, $locale),
+				'body' => getlocal('leavemail.body', null, $locale)
+			);
+		}
+	}
+	if (count($result) > 0) {
+		$updatequery = "insert into ${mysqlprefix}mailtemplate (name,locale,subject,body) values ";
+		for ($i = 0; $i < count($result); $i++) {
+			if ($i > 0) {
+				$updatequery .= ", ";
+			}
+			$updatequery .= "('" . mysql_real_escape_string($result[$i]['name'], $link) . "', "
+				. "'" . mysql_real_escape_string($result[$i]['locale'], $link) . "', "
+				. "'" . mysql_real_escape_string($result[$i]['subject'], $link) . "', "
+				. "'" . mysql_real_escape_string($result[$i]['body'], $link) . "')";
+		}
+		mysql_query($updatequery, $link);
+	}
+}
+
+
 function check_status()
 {
 	global $page, $mysqlprefix;
@@ -364,6 +410,7 @@ function check_status()
 	}
 
 	add_canned_messages($link);
+	add_mail_templates($link);
 
 	check_sound();
 

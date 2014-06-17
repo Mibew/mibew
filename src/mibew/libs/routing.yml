@@ -343,6 +343,34 @@ logout:
         _controller: Mibew\Controller\LogoutController::logoutAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
 
+## Mail templates
+mail_template_edit:
+    path: /operator/mail-template/{name}/edit
+    defaults:
+        _controller: Mibew\Controller\MailTemplateController::showEditFormAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    methods: [GET]
+    requirements:
+        name: "[A-Za-z0-9_]+"
+
+mail_template_edit_save:
+    path: /operator/mail-template/{name}/edit
+    defaults:
+        _controller: Mibew\Controller\MailTemplateController::submitEditFormAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    methods: [POST]
+    requirements:
+        name: "[A-Za-z0-9_]+"
+
+mail_templates:
+    path: /operator/mail-template
+    defaults:
+        _controller: Mibew\Controller\MailTemplateController::indexAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+
 ## Operators
 operator_add:
     path: /operator/operator/add

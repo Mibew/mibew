@@ -90,15 +90,20 @@ class PasswordRecoveryController extends AbstractController
                     ),
                     UrlGeneratorInterface::ABSOLUTE_URL
                 );
-                mibew_mail(
-                    $email,
-                    $email,
-                    getlocal('restore.mailsubj'),
-                    getlocal(
-                        'restore.mailtext',
-                        array(get_operator_name($to_restore), $href)
-                    )
+
+                // Load mail templates and substitute placeholders there.
+                $mail_template = mail_template_load('password_recovery', CURRENT_LOCALE);
+                if (!$mail_template) {
+                    throw new \RuntimeException('Cannot load "password_recovery" mail template');
+                }
+
+                $body = str_replace(
+                    array('{0}', '{1}'),
+                    array(get_operator_name($to_restore), $href),
+                    $mail_template['body']
                 );
+
+                mibew_mail($email, $email, $mail_template['subject'], $body);
                 $page['isdone'] = true;
 
                 return $this->render('password_recovery', $page);
