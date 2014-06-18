@@ -41,7 +41,6 @@ class StatisticsController extends AbstractController
     {
         $operator = $this->getOperator();
         $statistics_type = $request->attributes->get('type');
-        setlocale(LC_TIME, getlocal("time.locale"));
 
         $page = array();
         $page['operator'] = get_operator_name($operator);

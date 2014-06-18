@@ -181,6 +181,11 @@ function get_locale_names()
  *     - name: string, human readable locale name.
  *     - rtl: boolean, indicates with the locale uses right-to-left
  *       writing mode.
+ *     - time_locale: string, locale code which is used in {@link setlocale()}
+ *       function to set the correct date/time formatting.
+ *     - date_format: array, list of available date formats. Each key of the
+ *       array is format name and each value is a format string for
+ *       {@link strftime()} function.
  */
 function get_locales()
 {
@@ -188,174 +193,432 @@ function get_locales()
         'ar' => array(
             'name' => 'العربية',
             'rtl' => true,
+            'time_locale' => 'ar_EG.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %I:%M %p',
+                'date' => '%B %d, %Y',
+                'time' => '%I:%M %p',
+            ),
         ),
         'be' => array(
             'name' => 'Беларуская',
             'rtl' => false,
+            'time_locale' => 'be_BY.UTF8',
+            'date_format' => array(
+                'full' => '%d %B %Y, %H:%M',
+                'date' => '%d %B %Y',
+                'time' => '%H:%M',
+            ),
         ),
         'bg' => array(
             'name' => 'Български',
             'rtl' => false,
+            'time_locale' => 'bg_BG.UTF8',
+            'date_format' => array(
+                'full' => '%d %B %Y, %H:%M',
+                'date' => '%d %B %Y',
+                'time' => '%H:%M',
+            ),
         ),
         'ca' => array(
             'name' => 'Català',
             'rtl' => false,
+            'time_locale' => 'ca_ES.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y, %H:%M',
+                'date' => '%B %d, %Y',
+                'time' => '%H:%M',
+            ),
         ),
         'cs' => array(
             'name' => 'Česky',
             'rtl' => false,
+            'time_locale' => 'cs_CZ.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %I:%M %p',
+                'date' => '%B %d, %Y',
+                'time' => '%I:%M %p',
+            ),
         ),
         'da' => array(
             'name' => 'Dansk',
             'rtl' => false,
+            'time_locale' => 'da_DK.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %I:%M %p',
+                'date' => '%B %d, %Y',
+                'time_format' => '%I:%M %p',
+            ),
         ),
         'de' => array(
             'name' => 'Deutsch',
             'rtl' => false,
+            'time_locale' => 'de_DE.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %H:%M',
+                'date' => '%B %d, %Y',
+                'time' => '%H:%M',
+            ),
         ),
         'el' => array(
             'name' => 'Ελληνικά',
             'rtl' => false,
+            'time_locale' => 'el_GR.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %I:%M %p',
+                'date' => '%B %d, %Y',
+                'time' => '%I:%M %p',
+            ),
         ),
         'en' => array(
             'name' => 'English',
             'rtl' => false,
+            'time_locale' => 'en_US',
+            'date_format' => array(
+                'full' => '%B %d, %Y %I:%M %p',
+                'date' => '%B %d, %Y',
+                'time' => '%I:%M %p',
+            ),
         ),
         'es' => array(
             'name' => 'Español',
             'rtl' => false,
+            'time_locale' => 'es_ES.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %H:%M',
+                'date' => '%B %d, %Y',
+                'time' => '%H:%M',
+            ),
         ),
         'et' => array(
             'name' => 'Eesti',
             'rtl' => false,
+            'time_locale' => 'et_EE.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %I:%M %p',
+                'date' => '%B %d, %Y',
+                'time' => '%I:%M %p',
+            ),
         ),
         'fa' => array(
             'name' => 'فارسی',
             'rtl' => true,
+            'time_locale' => 'fa_IR.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %I:%M %p',
+                'date' => '%B %d, %Y',
+                'time' => '%I:%M %p',
+            ),
         ),
         'fi' => array(
             'name' => 'Suomi',
             'rtl' => false,
+            'time_locale' => 'fi_FI.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %I:%M %p',
+                'date' => '%B %d, %Y',
+                'time' => '%I:%M %p',
+            ),
         ),
         'fr' => array(
             'name' => 'Français',
             'rtl' => false,
+            'time_locale' => 'fr_FR.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %H:%M',
+                'date' => '%B %d, %Y',
+                'time' => '%H:%M',
+            ),
         ),
         'he' => array(
             'name' => 'עברית',
             'rtl' => true,
+            'time_locale' => 'he_IL.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %H:%M',
+                'date' => '%B %d, %Y',
+                'time' => '%H:%M',
+            ),
         ),
         'hr' => array(
             'name' => 'Hrvatski',
             'rtl' => false,
+            'time_locale' => 'hr_HR.UTF8',
+            'date_format' => array(
+                'full' => '%d.%m.%Y %H:%M',
+                'date' => '%d.%m.%Y',
+                'time' => '%H:%M',
+            ),
         ),
         'hu' => array(
             'name' => 'Magyar',
             'rtl' => false,
+            'time_locale' => 'hu_HU.UTF8',
+            'date_format' => array(
+                'full' => '%Y-%B-%d %I:%M %p',
+                'date' => '%Y-%B-%d',
+                'time' => '%I:%M %p',
+            ),
         ),
         'id' => array(
             'name' => 'Bahasa Indonesia',
             'rtl' => false,
+            'time_locale' => 'id_ID.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %I:%M %p',
+                'date' => '%B %d, %Y',
+                'time' => '%I:%M %p',
+            ),
         ),
         'it' => array(
             'name' => 'Italiano',
             'rtl' => false,
+            'time_locale' => 'it_IT.UTF8',
+            'date_format' => array(
+                'full' => '%d %b %Y, %H:%M',
+                'date' => '%d %b %Y',
+                'time' => '%H:%M',
+            ),
         ),
         'ja' => array(
             'name' => '日本語',
             'rtl' => false,
+            'time_locale' => 'ja_JP.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %I:%M %p',
+                'date' => '%B %d, %Y',
+                'time' => '%I:%M %p',
+            ),
         ),
         'ka' => array(
             'name' => 'ქართული',
             'rtl' => false,
+            'time_locale' => 'ka_GE.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %I:%M %p',
+                'date' => '%B %d, %Y',
+                'time' => '%I:%M %p',
+            ),
         ),
         'kk' => array(
             'name' => 'Қазақша',
             'rtl' => false,
+            'time_locale' => 'kk_KZ.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %I:%M %p',
+                'date' => '%B %d, %Y',
+                'time' => '%I:%M %p',
+            ),
         ),
         'ko' => array(
             'name' => '한국어',
             'rtl' => false,
+            'time_locale' => 'ko_KR.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %I:%M %p',
+                'date' => '%B %d, %Y',
+                'time' => '%I:%M %p',
+            ),
         ),
         'ky' => array(
             'name' => 'Кыргызча',
             'rtl' => false,
+            'time_locale' => 'ky_KG.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %I:%M %p',
+                'date' => '%B %d, %Y',
+                'time' => '%I:%M %p',
+            ),
         ),
         'lt' => array(
             'name' => 'Lietuvių',
             'rtl' => false,
+            'time_locale' => 'lt_LT.UTF8',
+            'date_format' => array(
+                'full' => '%d %B %Y %H:%M',
+                'date' => '%d %B %Y',
+                'time' => '%H:%M',
+            )
         ),
         'lv' => array(
             'name' => 'Latviešu',
             'rtl' => false,
+            'time_locale' => 'lv_LV.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %H:%M',
+                'date' => '%B %d, %Y',
+                'time' => '%H:%M',
+            ),
         ),
         'nl' => array(
             'name' => 'Nederlands',
             'rtl' => false,
+            'time_locale' => 'nl_NL.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %I:%M %p',
+                'date' => '%B %d, %Y',
+                'time' => '%I:%M %p',
+            ),
         ),
         'nn' => array(
             'name' => 'Norsk nynorsk',
             'rtl' => false,
+            'time_locale' => 'nn_NO.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %I:%M %p',
+                'date' => '%B %d, %Y',
+                'time' => '%I:%M %p',
+            ),
         ),
         'no' => array(
             'name' => 'Norsk bokmål',
             'rtl' => false,
+            'time_locale' => 'no_NO.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %I:%M %p',
+                'date' => '%B %d, %Y',
+                'time' => '%I:%M %p',
+            ),
         ),
         'pl' => array(
             'name' => 'Polski',
             'rtl' => false,
+            'time_locale' => 'pl_PL.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %H:%M',
+                'date' => '%B %d, %Y',
+                'time' => '%H:%M',
+            ),
         ),
         'pt-pt' => array(
             'name' => 'Português',
             'rtl' => false,
+            'time_locale' => 'pt_PT.UTF8',
+            'date_format' => array(
+                'full' => '%d %B, %Y %H:%M',
+                'date' => '%d %B, %Y',
+                'time' => '%H:%M',
+            ),
         ),
         'pt-br' => array(
             'name' => 'Português Brasil',
             'rtl' => false,
+            'time_locale' => 'pt_BR.UTF8',
+            'date_format' => array(
+                'full' => '%d %B, %Y %H:%M',
+                'date' => '%d %B, %Y',
+                'time' => '%H:%M',
+            ),
         ),
         'ro' => array(
             'name' => 'Română',
             'rtl' => false,
+            'time_locale' => 'ro_RO.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %I:%M %p',
+                'date' => '%B %d, %Y',
+                'time' => '%I:%M %p',
+            ),
         ),
         'ru' => array(
             'name' => 'Русский',
             'rtl' => false,
+            'time_locale' => 'ru_RU.UTF8',
+            'date_format' => array(
+                'full' => '%d %B %Y, %H:%M',
+                'date' => '%d %B %Y',
+                'time' => '%H:%M',
+            ),
         ),
         'sk' => array(
             'name' => 'Slovenčina',
             'rtl' => false,
+            'time_locale' => 'sk_SK.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %I:%M %p',
+                'date' => '%B %d, %Y',
+                'time' => '%I:%M %p',
+            ),
         ),
         'sl' => array(
             'name' => 'Slovenščina',
             'rtl' => false,
+            'time_locale' => 'sl_SI.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %I:%M %p',
+                'date' => '%B %d, %Y',
+                'time' => '%I:%M %p',
+            ),
         ),
         'sr' => array(
             'name' => 'Српски',
             'rtl' => false,
+            'time_locale' => 'sr_RS.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %I:%M %p',
+                'date' => '%B %d, %Y',
+                'time' => '%I:%M %p',
+            ),
         ),
         'sv' => array(
             'name' => 'Svenska',
             'rtl' => false,
+            'time_locale' => 'sv_SE.UTF8',
+            'date_format' => array(
+                'full' => '%B %d, %Y %H:%M',
+                'date' => '%B %d, %Y',
+                'time' => '%H:%M',
+            ),
         ),
         'th' => array(
             'name' => 'ไทย',
             'rtl' => false,
+            'time_locale' => 'th_TH.UTF8',
+            'date_format' => array(
+                'full' => '%d %B, %Y %I:%M %p',
+                'date' => '%d %B, %Y',
+                'time' => '%I:%M %p',
+            ),
         ),
         'tr' => array(
             'name' => 'Türkçe',
             'rtl' => false,
+            'time_locale' => 'tr_TR.UTF8',
+            'date_format' => array(
+                'full' => '%d.%m.%Y %H:%i',
+                'date' => '%d.%m.%Y',
+                'time' => '%H:%i',
+            ),
         ),
         'ua' => array(
             'name' => 'Українська',
             'rtl' => false,
+            'time_locale' => 'uk_UA.UTF8',
+            'date_format' => array(
+                'full' => '%d %B %Y, %H:%M',
+                'date' => '%d %B %Y',
+                'time' => '%H:%M',
+            ),
         ),
         'zh-cn' => array(
             'name' => '中文',
             'rtl' => false,
+            'time_locale' => 'zh_CN.UTF8',
+            'date_format' => array(
+                'full' => '%Y-%m-%d， %H:%M',
+                'date' => '%Y-%m-%d',
+                'time' => '%H:%M',
+            ),
         ),
         'zh-tw' => array(
             'name' => '文言',
             'rtl' => false,
+            'time_locale' => 'zh_TW.UTF8',
+            'date_format' => array(
+                'full' => '%Y-%m-%d， %H:%M',
+                'date' => '%Y-%m-%d',
+                'time' => '%H:%M',
+            ),
         ),
     );
 }
