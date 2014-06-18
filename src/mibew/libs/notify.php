@@ -84,7 +84,7 @@ function mail_template_load($name, $locale)
                 $template = false;
             } else {
                 // Try to load the template for the default locale.
-                $template = $this->loadMailTemplate($name, DEFAULT_LOCALE);
+                $template = mail_template_load($name, DEFAULT_LOCALE);
             }
         }
 
