@@ -338,24 +338,42 @@ function add_mail_templates($link){
 	}
 	$result = array();
 	foreach (get_available_locales() as $locale) {
-		if (! in_array($locale, $existlocales)) {
+		if (in_array($locale, $existlocales)) {
+			// Do not export mail templates for existing locales
+			continue;
+		}
+
+        $file_path = MIBEW_FS_ROOT . '/locales/' . $locale . '/mail_templates.yml';
+		if (!is_readable($file_path)) {
+			// Export templates only for locales which have templates
+			continue;
+		}
+
+		$templates = get_yml_file_content($file_path);
+		if (isset($templates['user_history'])) {
 			$result[] = array(
 				'locale' => $locale,
 				'name' => 'user_history',
-				'subject' => getlocal('mail.user.history.subject', null, $locale),
-				'body' => getlocal('mail.user.history.body', null, $locale)
+				'subject' => $templates['user_history']['subject'],
+				'body' => $templates['user_history']['body'],
 			);
+		}
+
+		if (isset($templates['password_recovery'])) {
 			$result[] = array(
 				'locale' => $locale,
 				'name' => 'password_recovery',
-				'subject' => getlocal('restore.mailsubj', null, $locale),
-				'body' => getlocal('restore.mailtext', null, $locale)
+				'subject' => $templates['password_recovery']['subject'],
+				'body' => $templates['password_recovery']['body'],
 			);
+		}
+
+		if (isset($templates['leave_message'])) {
 			$result[] = array(
 				'locale' => $locale,
 				'name' => 'leave_message',
-				'subject' => getlocal('leavemail.subject', null, $locale),
-				'body' => getlocal('leavemail.body', null, $locale)
+				'subject' => $templates['leave_message']['subject'],
+				'body' => $templates['leave_message']['body'],
 			);
 		}
 	}
@@ -374,6 +392,12 @@ function add_mail_templates($link){
 	}
 }
 
+function get_yml_file_content($file)
+{
+	$yaml = new \Symfony\Component\Yaml\Parser();
+
+	return $yaml->parse(file_get_contents($file));
+}
 
 function check_status()
 {

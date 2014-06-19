@@ -1,0 +1,9 @@
+user_history:
+    subject: 'Mibew: dialog history'
+    body: "Hello {0}!\n\nYour chat history: \n\n{1}\n--- \nRegards,\n{2} and Mibew\n{3}"
+password_recovery:
+    subject: 'Reset your Mibew password'
+    body: "Hi, {0}\n\nPlease click on the link below or copy and paste the URL into your browser:\n{1}\n\nThis will let you choose another password.\n\nRegards,\nMibew"
+leave_message:
+    subject: 'Question from {0}'
+    body: "Your have a message from {0}:\n\n{2}\n\nHis email: {1}\n{3}\n--- \nRegards,\nMibew"
