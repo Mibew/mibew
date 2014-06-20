@@ -309,10 +309,20 @@ function add_canned_messages($link){
 	}
 	$result = array();
 	foreach (get_available_locales() as $locale) {
-		if (! in_array($locale, $existlocales)) {
-			foreach (explode("\n", getlocal('chat.predefined_answers', null, $locale)) as $answer) {
-				$result[] = array('locale' => $locale, 'vctitle' => cut_string($answer, 97, '...'), 'vcvalue' => $answer);
-			}
+		if (in_array($locale, $existlocales)) {
+			// Do not export canned messages for existing locales
+			continue;
+		}
+
+		$file_path = MIBEW_FS_ROOT . '/locales/' . $locale . '/canned_messages.yml';
+		if (!is_readable($file_path)) {
+			// Export canned messages only for locales which have canned messages
+			continue;
+		}
+
+		$canned_messages = get_yml_file_content($file_path);
+		foreach ($canned_messages as $answer) {
+			$result[] = array('locale' => $locale, 'vctitle' => cut_string($answer, 97, '...'), 'vcvalue' => $answer);
 		}
 	}
 	if (count($result) > 0) {
