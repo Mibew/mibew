@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-namespace Mibew\Controller;
+namespace Mibew\Controller\Localization;
 
 use Symfony\Component\HttpFoundation\Request;
 
@@ -115,6 +115,7 @@ class TranslationController extends AbstractController
         $page['title'] = getlocal('page.translate.title');
         $page['menuid'] = 'translation';
         $page = array_merge($page, prepare_menu($operator));
+        $page['tabs'] = $this->buildTabs($request);
 
         return $this->render('translations', $page);
     }

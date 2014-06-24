@@ -63,17 +63,51 @@ function locale_pattern_check($locale)
 
 function get_available_locales()
 {
-    $list = array();
-    $folder = MIBEW_FS_ROOT . '/locales';
-    if ($handle = opendir($folder)) {
-        while (false !== ($file = readdir($handle))) {
-            if (locale_pattern_check($file) && is_dir("$folder/$file")) {
-                $list[] = $file;
-            }
-        }
-        closedir($handle);
+    if (installation_in_progress()) {
+        // We cannot get info from database during installation, thus we only
+        // can use discovered locales as available locales.
+        // TODO: Remove this workaround after installation will be rewritten.
+        return discover_locales();
     }
-    sort($list);
+
+    // Get list of enabled locales from the database.
+    $rows = Database::getInstance()->query(
+        "SELECT code FROM {locale} WHERE enabled = 1",
+        array(),
+        array('return_rows' => Database::RETURN_ALL_ROWS)
+    );
+    $enabled_locales = array();
+    foreach ($rows as $row) {
+        $enabled_locales[] = $row['code'];
+    }
+
+    $fs_locales = discover_locales();
+
+    return array_intersect($fs_locales, $enabled_locales);
+}
+
+/**
+ * Returns list of all locales that are present in the file system.
+ *
+ * @return array List of locales codes.
+ */
+function discover_locales()
+{
+    static $list = null;
+
+    if (is_null($list)) {
+        $list = array();
+        $folder = MIBEW_FS_ROOT . '/locales';
+        if ($handle = opendir($folder)) {
+            while (false !== ($file = readdir($handle))) {
+                if (locale_pattern_check($file) && is_dir("$folder/$file")) {
+                    $list[] = $file;
+                }
+            }
+            closedir($handle);
+        }
+        sort($list);
+    }
 
     return $list;
 }
@@ -835,4 +869,60 @@ function save_message($locale, $key, $value)
             )
         );
     }
+}
+
+/**
+ * Enables specified locale.
+ *
+ * @param string $locale Locale code according to RFC 5646.
+ */
+function enable_locale($locale)
+{
+    $db = Database::getInstance();
+
+    // Check if the locale exists in the database
+    list($count) = $db->query(
+        "SELECT COUNT(*) FROM {locale} WHERE code = :code",
+        array(':code' => $locale),
+        array(
+            'return_rows' => Database::RETURN_ONE_ROW,
+            'fetch_type' => Database::FETCH_NUM,
+        )
+    );
+
+    if ($count == 0) {
+        // The locale does not exist in the database. Create it.
+        $db->query(
+            "INSERT INTO {locale} (code, enabled) VALUES (:code, :enabled)",
+            array(
+                ':code' => $locale,
+                ':enabled' => 1,
+            )
+        );
+    } else {
+        // The locale exists in the database. Update it.
+        $db->query(
+            "UPDATE {locale} SET enabled = :enabled WHERE code = :code",
+            array(
+                ':enabled' => 1,
+                ':code' => $locale,
+            )
+        );
+    }
+}
+
+/**
+ * Disables specified locale.
+ *
+ * @param string $locale Locale code according to RFC 5646.
+ */
+function disable_locale($locale)
+{
+    Database::getInstance()->query(
+        "UPDATE {locale} SET enabled = :enabled WHERE code = :code",
+        array(
+            ':enabled' => 0,
+            ':code' => $locale,
+        )
+    );
 }

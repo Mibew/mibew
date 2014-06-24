@@ -1,0 +1,64 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "page_locales.intro"}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        {{> _tabs}}
+
+        <div class="mform">
+            <div class="formtop">
+                <div class="formtopi"></div>
+            </div>
+
+            <div class="forminner">
+                {{! It is just an empty plate under the tabs bar.}}
+
+                <br clear="all"/>
+            </div>
+
+            <div class="formbottom">
+                <div class="formbottomi"></div>
+            </div>
+        </div>
+
+        <br />
+
+        <table class="list">
+            <thead>
+                <tr class="header">
+                    <th>{{l10n "page_locales.code"}}</th>
+                    <th>{{l10n "page_locales.name"}}</th>
+                    <th>{{l10n "page_locales.actions"}}</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each localesList}}
+                    <tr>
+                        <td class="notlast">
+                            {{code}}
+                        </td>
+
+                        <td class="notlast">
+                            {{name}}
+                        </td>
+
+                        <td>
+                            {{#if isDisabled}}
+                                <a href="{{../mibewRoot}}/operator/locale/{{code}}/enable?{{csrfTokenInUrl}}">{{l10n "page_locales.enable.locale"}}</a>
+                            {{else}}
+                                <a href="{{../mibewRoot}}/operator/locale/{{code}}/disable?{{csrfTokenInUrl}}">{{l10n "page_locales.disable.locale"}}</a>
+                            {{/if}}
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    {{/override}}
+{{/extends}}

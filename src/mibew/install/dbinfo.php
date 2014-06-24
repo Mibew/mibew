@@ -125,6 +125,16 @@ $dbtables = array(
 		"translation" => "text",
     ),
 
+    // Contains locales info
+    "${mysqlprefix}locale" => array(
+		// Artificial primary key
+		"localeid" => "int NOT NULL auto_increment PRIMARY KEY",
+		// Locale code
+		"code" => "varchar(5) NOT NULL",
+		// Indicates if a locale is enabled or not.
+		"enabled" => "tinyint NOT NULL DEFAULT 0",
+    ),
+
 	// Contains localized mail templates
 	"${mysqlprefix}mailtemplate" => array(
 		// Artificial primary key

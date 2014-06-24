@@ -402,6 +402,27 @@ function add_mail_templates($link){
 	}
 }
 
+function add_locales($link)
+{
+	global $mysqlprefix;
+
+	$localesresult = mysql_query("select code from ${mysqlprefix}locale", $link);
+	$existlocales = array();
+	for ($i = 0; $i < mysql_num_rows($localesresult); $i++) {
+		$existlocales[] = mysql_result($localesresult, $i, 'code');
+	}
+	$locales = discover_locales();
+	foreach ($locales as $locale) {
+		if (in_array($locale, $existlocales)) {
+			// Do not add locales twice.
+			continue;
+		}
+		$query = "insert into ${mysqlprefix}locale (code, enabled) values ('"
+			. mysql_real_escape_string($locale, $link) . "', 1)";
+		mysql_query($query, $link);
+	}
+}
+
 function get_yml_file_content($file)
 {
 	$yaml = new \Symfony\Component\Yaml\Parser();
@@ -443,6 +464,7 @@ function check_status()
 		return;
 	}
 
+	add_locales($link);
 	add_canned_messages($link);
 	add_mail_templates($link);
 
