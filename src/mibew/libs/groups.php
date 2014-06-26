@@ -124,7 +124,7 @@ function get_available_parent_groups($skip_group)
     $result[] = array(
         'groupid' => '',
         'level' => '',
-        'vclocalname' => getlocal("form.field.groupparent.root"),
+        'vclocalname' => getlocal("-none-"),
     );
 
     $db = Database::getInstance();

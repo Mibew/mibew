@@ -66,17 +66,17 @@ class ManagementController extends AbstractController
         $page['formsortdirection'] = $sort['desc'] ? 'desc' : 'asc';
         $page['canmodify'] = is_capable(CAN_ADMINISTRATE, $operator);
         $page['availableOrders'] = array(
-            array('id' => 'name', 'name' => getlocal('form.field.groupname')),
-            array('id' => 'lastseen', 'name' => getlocal('page_agents.status')),
-            array('id' => 'weight', 'name' => getlocal('page.groups.weight')),
+            array('id' => 'name', 'name' => getlocal('Name')),
+            array('id' => 'lastseen', 'name' => getlocal('Last active')),
+            array('id' => 'weight', 'name' => getlocal('Weight')),
         );
         $page['availableDirections'] = array(
-            array('id' => 'desc', 'name' => getlocal('page.groups.sortdirection.desc')),
-            array('id' => 'asc', 'name' => getlocal('page.groups.sortdirection.asc')),
+            array('id' => 'desc', 'name' => getlocal('descending')),
+            array('id' => 'asc', 'name' => getlocal('ascending')),
         );
 
         // Set other variables and render the response.
-        $page['title'] = getlocal('page.groups.title');
+        $page['title'] = getlocal('Groups');
         $page['menuid'] = 'groups';
         $page = array_merge($page, prepare_menu($operator));
 

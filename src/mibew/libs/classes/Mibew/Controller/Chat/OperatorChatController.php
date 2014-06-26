@@ -83,13 +83,13 @@ class OperatorChatController extends AbstractController
         // Check operator's browser level because old browsers aren't supported.
         $remote_level = get_remote_level($request->headers->get('User-Agent'));
         if ($remote_level != 'ajaxed') {
-            return $this->showErrors(array(getlocal('thread.error.old_browser')));
+            return $this->showErrors(array(getlocal('Old browser is used, please update it')));
         }
 
         // Check if the thread can be loaded.
         $thread = Thread::load($thread_id);
         if (!$thread || !isset($thread->lastToken)) {
-            return $this->showErrors(array(getlocal('thread.error.wrong_thread')));
+            return $this->showErrors(array(getlocal('Wrong thread')));
         }
 
         $view_only = ($request->query->get('viewonly') == 'true');
@@ -100,7 +100,7 @@ class OperatorChatController extends AbstractController
             && $operator['operatorid'] != $thread->agentId;
         if ($try_take_over) {
             if (!is_capable(CAN_TAKEOVER, $operator)) {
-                return $this->showErrors(array(getlocal('thread.error.cannot_take_over')));
+                return $this->showErrors(array(getlocal('Cannot take over')));
             }
 
             if ($force_take == false) {
@@ -115,7 +115,7 @@ class OperatorChatController extends AbstractController
                     'user' => $thread->userName,
                     'agent' => $thread->agentName,
                     'link' => $link,
-                    'title' => getlocal('confirm.take.head'),
+                    'title' => getlocal('Change operator'),
                 );
                 $page_style = new PageStyle(PageStyle::getCurrentStyle());
 
@@ -127,10 +127,10 @@ class OperatorChatController extends AbstractController
 
         if (!$view_only) {
             if (!$thread->take($operator)) {
-                return $this->showErrors(array(getlocal('thread.error.cannot_take')));
+                return $this->showErrors(array(getlocal('Cannot take thread')));
             }
         } elseif (!is_capable(CAN_VIEWTHREADS, $operator)) {
-            return $this->showErrors(array(getlocal('thread.error.cannot_view')));
+            return $this->showErrors(array(getlocal('Cannot view threads')));
         }
 
         // Redrect the operator to initialized chat page

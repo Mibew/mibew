@@ -6,7 +6,7 @@
         <script type="text/javascript" language="javascript"><!--
             (function($) {
                 $(document).ready(function(){
-                    var confirmMessage = "{{#jsString}}{{l10n 'page.groups.confirm' '{groupName}'}}{{/jsString}}";
+                    var confirmMessage = "{{#jsString}}{{l10n 'Are you sure that you want to delete the group "{0}"?' '{groupName}'}}{{/jsString}}";
 
                     $('a.removelink').click(function(){
                         var groupName = $.trim($("#t" + this.id).text());
@@ -18,7 +18,7 @@
     {{/override}}
 
     {{#override "content"}}
-        {{l10n "page.groups.intro"}}
+        {{l10n "This page displays a list of groups. Each group can have separate button and canned responses."}}
 
         <br />
         <br />
@@ -33,7 +33,7 @@
 
                 <div class="forminner">
                     <div class="packedFormField">
-                        {{l10n "page.groups.sort"}}<br/>
+                        {{l10n "Sort by:"}}<br/>
                         <select name="sortby" onchange="this.form.submit();">
                             {{#each availableOrders}}
                                 <option value="{{id}}"{{#ifEqual id ../formsortby}} selected="selected"{{/ifEqual}}>{{name}}</option>
@@ -42,7 +42,7 @@
                     </div>
 
                     <div class="packedFormField">
-                        {{l10n "page.groups.sortdirection"}}<br/>
+                        {{l10n "Sort direction:"}}<br/>
                         <select name="sortdirection" onchange="this.form.submit();">
                             {{#each availableDirections}}
                                 <option value="{{id}}"{{#ifEqual id ../formsortdirection}} selected="selected"{{/ifEqual}}>{{name}}</option>
@@ -63,8 +63,8 @@
         {{#if canmodify}}
             <div class="tabletool">
                 <img src="{{stylePath}}/images/buttons/createdep.gif" border="0" alt="" />
-                <a href="{{mibewRoot}}/operator/group/add" title="{{l10n "page.groups.new"}}">
-                    {{l10n "page.groups.new"}}
+                <a href="{{mibewRoot}}/operator/group/add" title="{{l10n "Create new group"}}">
+                    {{l10n "Create new group"}}
                 </a>
             </div>
             <br clear="all"/>
@@ -73,11 +73,11 @@
         <table class="list">
             <thead>
                 <tr class="header">
-                    <th>{{l10n "form.field.groupname"}}</th>
-                    <th>{{l10n "form.field.groupdesc"}}</th>
-                    <th>{{l10n "page_agents.status"}}</th>
-                    <th>{{l10n "page.group.membersnum"}}</th>
-                    <th>{{l10n "page.groups.weight"}}</th>
+                    <th>{{l10n "Name"}}</th>
+                    <th>{{l10n "Description"}}</th>
+                    <th>{{l10n "Last active"}}</th>
+                    <th>{{l10n "Operators"}}</th>
+                    <th>{{l10n "Weight"}}</th>
                     {{#if canmodify}}
                         <th></th>
                     {{/if}}
@@ -104,9 +104,9 @@
                         <td class="notlast">
                             {{#ifAny isOnline isAway}}
                                 {{#if isOnline}}
-                                    {{l10n "page.groups.isonline"}}
+                                    {{l10n "Online"}}
                                 {{else}}
-                                    {{l10n "page.groups.isaway"}}
+                                    {{l10n "Away"}}
                                 {{/if}}
                             {{else}}
                                 {{formatDate lastTimeOnline}}
@@ -126,14 +126,14 @@
                         {{#if ../canmodify}}
                             <td>
                                 <a href="{{../mibewRoot}}/operator/group/{{groupid}}/delete?{{csrfTokenInUrl}}" id="i{{groupid}}" class="removelink">
-                                    {{l10n "remove.item"}}
+                                    {{l10n "remove"}}
                                 </a>
                             </td>
                         {{/if}}
                     </tr>
                 {{else}}
                     <tr>
-                        <td colspan="5">{{l10n "tag.pagination.no_items.elements"}}</td>
+                        <td colspan="5">{{l10n "No elements"}}</td>
                     </tr>
                 {{/each}}
             </tbody>

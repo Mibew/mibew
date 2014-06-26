@@ -78,7 +78,7 @@
                 if (this.get('showCaptcha')) {
                     if (typeof attributes.captcha != 'undefined') {
                         if (! attributes.captcha) {
-                            return l.get('errors.captcha');
+                            return l.get('The letters you typed don\'t match the letters that were shown in the picture.');
                         }
                     }
                 }

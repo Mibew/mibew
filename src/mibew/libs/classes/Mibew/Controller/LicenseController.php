@@ -35,7 +35,7 @@ class LicenseController extends AbstractController
         return $this->render(
             'license',
             array(
-                'title' => getlocal("license.title"),
+                'title' => getlocal("License"),
                 'no_right_menu' => true,
                 'fixedwrap' => true,
                 'show_small_login' => true,

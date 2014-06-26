@@ -54,7 +54,7 @@ class PermissionsController extends AbstractController
         // Check if the target operator exists
         $page['currentop'] = $op
             ? get_operator_name($op) . ' (' . $op['vclogin'] . ')'
-            : getlocal('not_found');
+            : getlocal('-not found-');
 
         // Build list of permissions which belongs to the target operator.
         $checked_permissions = array();
@@ -72,7 +72,7 @@ class PermissionsController extends AbstractController
         }
 
         $page['stored'] = $request->query->has('stored');
-        $page['title'] = getlocal('permissions.title');
+        $page['title'] = getlocal('Permissions');
         $page['menuid'] = ($operator['operatorid'] == $op_id) ? 'profile' : 'operators';
         $page = array_merge($page, prepare_menu($operator));
         $page['tabs'] = $this->buildTabs($request);

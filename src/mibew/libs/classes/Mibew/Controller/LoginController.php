@@ -58,8 +58,8 @@ class LoginController extends AbstractController
         }
 
         $page['localeLinks'] = get_locale_links();
-        $page['title'] = getlocal('page_login.title');
-        $page['headertitle'] = getlocal('app.title');
+        $page['title'] = getlocal('Login');
+        $page['headertitle'] = getlocal('Mibew Messenger');
         $page['show_small_login'] = false;
         $page['fixedwrap'] = true;
 
@@ -103,9 +103,9 @@ class LoginController extends AbstractController
             return $this->redirect($target);
         } else {
             if (operator_is_disabled($operator)) {
-                $errors[] = getlocal('page_login.operator.disabled');
+                $errors[] = getlocal('Your account is temporarily blocked. Please contact system administrator.');
             } else {
-                $errors[] = getlocal("page_login.error");
+                $errors[] = getlocal("Entered login/password is incorrect");
             }
         }
 

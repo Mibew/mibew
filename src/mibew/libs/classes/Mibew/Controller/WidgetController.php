@@ -119,7 +119,7 @@ class WidgetController extends AbstractController
                     'operatorName' => htmlspecialchars($operator_name),
                     'avatarUrl' => htmlspecialchars($operator['vcavatar']),
                     'threadUrl' => $this->generateUrl('chat_user_invitation'),
-                    'acceptCaption' => getlocal('invitation.accept.caption'),
+                    'acceptCaption' => getlocal('Answer'),
                 );
 
                 $_SESSION['invitation_threadid'] = $thread->id;

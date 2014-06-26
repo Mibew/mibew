@@ -54,7 +54,7 @@ class MailTemplateController extends AbstractController
         $page['formaction'] = $this->generateUrl('mail_templates');
         $page['mailTemplates'] = $this->getMailTemplatesList($lang);
         $page['formlang'] = $lang;
-        $page['title'] = getlocal('mail_template.title');
+        $page['title'] = getlocal('Mail templates');
         $page['menuid'] = 'mail_templates';
 
         $page = array_merge($page, prepare_menu($operator));
@@ -95,7 +95,7 @@ class MailTemplateController extends AbstractController
             'mail_template_edit',
             array('name' => $template_name)
         );
-        $page['title'] = getlocal('mail_template.title');
+        $page['title'] = getlocal('Mail templates');
         $page['menuid'] = 'mail_templates';
 
         $page = array_merge($page, prepare_menu($operator));
@@ -121,12 +121,12 @@ class MailTemplateController extends AbstractController
 
         $subject = $request->request->get('subject');
         if (!$subject) {
-            $errors[] = no_field('form.field.mail_template_subject');
+            $errors[] = no_field('Mail subject');
         }
 
         $body = $request->request->get('body');
         if (!$body) {
-            $errors[] = no_field('form.field.mail_template_body');
+            $errors[] = no_field('Mail body');
         }
 
         if (count($errors) != 0) {

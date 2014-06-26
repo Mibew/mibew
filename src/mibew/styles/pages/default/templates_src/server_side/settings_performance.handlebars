@@ -2,7 +2,7 @@
     {{#override "menu"}}{{> _menu}}{{/override}}
 
     {{#override "content"}}
-        {{l10n "page_settings.intro"}}
+        {{l10n "Specify options affecting chat window and common system behavior."}}
 
         <br />
         <br />
@@ -10,7 +10,7 @@
         {{> _errors}}
 
         {{#if stored}}
-            <div id="formmessage">{{l10n "settings.saved"}}</div>
+            <div id="formmessage">{{l10n "Changes saved"}}</div>
         {{/if}}
 
         <form name="performance" method="post" action="{{mibewRoot}}/operator/settings/performance">
@@ -27,108 +27,108 @@
                     <div class="forminner">
                         <div class="fieldForm">
                             <div class="field">
-                                <label for="onlinetimeout" class="flabel">{{l10n "settings.onlinetimeout"}}</label>
+                                <label for="onlinetimeout" class="flabel">{{l10n "Operator online time threshold"}}</label>
                                 <div class="fvalue">
                                     <input id="onlinetimeout" type="text" name="onlinetimeout" size="40" value="{{formonlinetimeout}}" class="formauth"/>
                                 </div>
-                                <label for="onlinetimeout" class="fdescr"> &mdash; {{l10n "settings.onlinetimeout.description"}}</label>
+                                <label for="onlinetimeout" class="fdescr"> &mdash; {{l10n "Set the number of seconds to show an operator as online. Default is 30 seconds."}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="frequencyoperator" class="flabel">{{l10n "settings.frequencyoperator"}}</label>
+                                <label for="frequencyoperator" class="flabel">{{l10n "Operator's console refresh time"}}</label>
                                 <div class="fvalue">
                                     <input id="frequencyoperator" type="text" name="frequencyoperator" size="40" value="{{formfrequencyoperator}}" class="formauth"/>
                                 </div>
-                                <label for="frequencyoperator" class="fdescr"> &mdash; {{l10n "settings.frequencyoperator.description"}}</label>
+                                <label for="frequencyoperator" class="fdescr"> &mdash; {{l10n "Specify the poll interval in seconds. Default is 2 seconds."}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="frequencychat" class="flabel">{{l10n "settings.frequencychat"}}</label>
+                                <label for="frequencychat" class="flabel">{{l10n "Chat refresh time"}}</label>
                                 <div class="fvalue">
                                     <input id="frequencychat" type="text" name="frequencychat" size="40" value="{{formfrequencychat}}" class="formauth"/>
                                 </div>
-                                <label for="frequencychat" class="fdescr"> &mdash; {{l10n "settings.frequencychat.description"}}</label>
+                                <label for="frequencychat" class="fdescr"> &mdash; {{l10n "Specify the poll interval in seconds. Default is 2 seconds."}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="onehostconnections" class="flabel">{{l10n "settings.onehostconnections"}}</label>
+                                <label for="onehostconnections" class="flabel">{{l10n "Max number of threads from one address"}}</label>
                                 <div class="fvalue">
                                     <input id="onehostconnections" type="text" name="onehostconnections" size="40" value="{{formonehostconnections}}" class="formauth"/>
                                 </div>
-                                <label for="onehostconnections" class="fdescr"> &mdash; {{l10n "settings.onehostconnections.description"}}</label>
+                                <label for="onehostconnections" class="fdescr"> &mdash; {{l10n "0 allows any number of connections"}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="threadlifetime" class="flabel">{{l10n "settings.threadlifetime"}}</label>
+                                <label for="threadlifetime" class="flabel">{{l10n "Thread lifetime"}}</label>
                                 <div class="fvalue">
                                     <input id="threadlifetime" type="text" name="threadlifetime" size="40" value="{{formthreadlifetime}}" class="formauth"/>
                                 </div>
-                                <label for="threadlifetime" class="fdescr"> &mdash; {{l10n "settings.threadlifetime.description"}}</label>
+                                <label for="threadlifetime" class="fdescr"> &mdash; {{l10n "Specify the lifetime of the thread after closing the dialog box in seconds. Default is 600 seconds. Set 0 for unlimited thread lifetime."}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="statistics_aggregation_interval" class="flabel">{{l10n "settings.statistics_aggregation_interval"}}</label>
+                                <label for="statistics_aggregation_interval" class="flabel">{{l10n "Statistics aggregation interval"}}</label>
                                 <div class="fvalue">
                                     <input id="statistics_aggregation_interval" type="text" name="statistics_aggregation_interval" size="40" value="{{formstatistics_aggregation_interval}}" class="formauth"/>
                                 </div>
-                                <label for="statistics_aggregation_interval" class="fdescr"> &mdash; {{l10n "settings.statistics_aggregation_interval.description"}}</label>
+                                <label for="statistics_aggregation_interval" class="fdescr"> &mdash; {{l10n "Specify interval for statistics aggregation in seconds. Default is 86400 (one day)"}}</label>
                                 <br clear="all"/>
                             </div>
 
                             {{#if enabletracking}}
                                 <div class="field">
-                                    <label for="frequencytracking" class="flabel">{{l10n "settings.frequencytracking"}}</label>
+                                    <label for="frequencytracking" class="flabel">{{l10n "Tracking refresh time"}}</label>
                                     <div class="fvalue">
                                         <input id="frequencytracking" type="text" name="frequencytracking" size="40" value="{{formfrequencytracking}}" class="formauth"/>
                                     </div>
-                                    <label for="frequencytracking" class="fdescr"> &mdash; {{l10n "settings.frequencytracking.description"}}</label>
+                                    <label for="frequencytracking" class="fdescr"> &mdash; {{l10n "Specify the poll interval in seconds. Default is 10 seconds."}}</label>
                                     <br clear="all"/>
                                 </div>
 
                                 <div class="field">
-                                    <label for="visitorslimit" class="flabel">{{l10n "settings.visitorslimit"}}</label>
+                                    <label for="visitorslimit" class="flabel">{{l10n "Limit for tracked visitors list"}}</label>
                                     <div class="fvalue">
                                         <input id="visitorslimit" type="text" name="visitorslimit" size="40" value="{{formvisitorslimit}}" class="formauth"/>
                                     </div>
-                                    <label for="visitorslimit" class="fdescr"> &mdash; {{l10n "settings.visitorslimit.description"}}</label>
+                                    <label for="visitorslimit" class="fdescr"> &mdash; {{l10n "Specify the number of items to display in tracked visitors list. Default is 20. Set 0 for all visitors (not recommended)."}}</label>
                                     <br clear="all"/>
                                 </div>
 
                                 <div class="field">
-                                    <label for="invitationlifetime" class="flabel">{{l10n "settings.invitationlifetime"}}</label>
+                                    <label for="invitationlifetime" class="flabel">{{l10n "Invitation lifetime"}}</label>
                                     <div class="fvalue">
                                         <input id="invitationlifetime" type="text" name="invitationlifetime" size="40" value="{{forminvitationlifetime}}" class="formauth"/>
                                     </div>
-                                    <label for="invitationlifetime" class="fdescr"> &mdash; {{l10n "settings.invitationlifetime.description"}}</label>
+                                    <label for="invitationlifetime" class="fdescr"> &mdash; {{l10n "Specify the lifetime of invitation in seconds. Default is 60 seconds."}}</label>
                                     <br clear="all"/>
                                 </div>
 
                                 <div class="field">
-                                    <label for="trackinglifetime" class="flabel">{{l10n "settings.trackinglifetime"}}</label>
+                                    <label for="trackinglifetime" class="flabel">{{l10n "Track lifetime"}}</label>
                                     <div class="fvalue">
                                         <input id="trackinglifetime" type="text" name="trackinglifetime" size="40" value="{{formtrackinglifetime}}" class="formauth"/>
                                     </div>
-                                    <label for="trackinglifetime" class="fdescr"> &mdash; {{l10n "settings.trackinglifetime.description"}}</label>
+                                    <label for="trackinglifetime" class="fdescr"> &mdash; {{l10n "Specify the lifetime of old visitor's tracks in seconds. Default is 600 seconds."}}</label>
                                     <br clear="all"/>
                                 </div>
                             {{/if}}
 
                             <div class="field">
-                                <label for="maxuploadedfilesize" class="flabel">{{l10n "settings.maxuploadedfilesize"}}</label>
+                                <label for="maxuploadedfilesize" class="flabel">{{l10n "Maximum size of uploaded files"}}</label>
                                 <div class="fvalue">
                                     <input id="maxuploadedfilesize" type="text" name="maxuploadedfilesize" size="40" value="{{formmaxuploadedfilesize}}" class="formauth"/>
                                 </div>
-                                <label for="maxuploadedfilesize" class="fdescr"> &mdash; {{l10n "settings.maxuploadedfilesize.description"}}</label>
+                                <label for="maxuploadedfilesize" class="fdescr"> &mdash; {{l10n "The upper limit of uploaded files (avatars) in bytes. Default is 100000 bytes."}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="fbutton">
-                                <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "button.save"}}"/>
+                                <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "Save"}}"/>
                             </div>
 
                         </div>
@@ -141,7 +141,7 @@
             </div>
 
             <div class="asterisk">
-                <span class="required">*</span> - {{l10n "common.asterisk_explanation"}}
+                <span class="required">*</span> - {{l10n "mandatory fields"}}
             </div>
 
         </form>

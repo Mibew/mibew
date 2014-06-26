@@ -56,7 +56,7 @@
                     if (typeof attributes.email != 'undefined') {
                         if(! Mibew.Utils.checkEmail(attributes.email)) {
                             return Mibew.Localization.get(
-                                'presurvey.error.wrong_email'
+                                'Wrong email address.'
                             );
                         }
                     }

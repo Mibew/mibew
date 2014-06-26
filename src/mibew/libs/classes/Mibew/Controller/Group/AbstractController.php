@@ -40,11 +40,11 @@ abstract class AbstractController extends BaseController
         $args = array('group_id' => $group_id);
 
         if ($group_id) {
-            $tabs[getlocal('page_group.tab.main')] = ($route == 'group_members')
+            $tabs[getlocal('General')] = ($route == 'group_members')
                 ? $this->generateUrl('group_edit', $args)
                 : '';
 
-            $tabs[getlocal('page_group.tab.members')] = ($route != 'group_members')
+            $tabs[getlocal('Members')] = ($route != 'group_members')
                 ? $this->generateUrl('group_members', $args)
                 : '';
         }

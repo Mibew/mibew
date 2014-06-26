@@ -60,7 +60,7 @@ class GroupsController extends AbstractController
 
         $page['currentop'] = $op
             ? get_operator_name($op) . ' (' . $op['vclogin'] . ')'
-            : getlocal('not_found');
+            : getlocal('-not found-');
         $page['canmodify'] = $can_modify ? '1' : '';
 
         // Get IDs of groups the operator belongs to.
@@ -82,7 +82,7 @@ class GroupsController extends AbstractController
         }
 
         $page['stored'] = $request->query->has('stored');
-        $page['title'] = getlocal('operator.groups.title');
+        $page['title'] = getlocal('Operator groups');
         $page['menuid'] = ($operator['operatorid'] == $op_id) ? 'profile' : 'operators';
         $page = array_merge($page, prepare_menu($operator));
         $page['tabs'] = $this->buildTabs($request);

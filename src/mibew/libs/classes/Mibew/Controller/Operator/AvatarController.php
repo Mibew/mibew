@@ -59,9 +59,9 @@ class AvatarController extends AbstractController
         $page['avatar'] = $op['vcavatar'];
         $page['currentop'] = $op
             ? get_operator_name($op) . ' (' . $op['vclogin'] . ')'
-            : getlocal('not_found');
+            : getlocal('-not found-');
         $page['canmodify'] = $can_modify ? '1' : '';
-        $page['title'] = getlocal('page_avatar.title');
+        $page['title'] = getlocal('Upload photo');
         $page['menuid'] = ($operator['operatorid'] == $op_id) ? 'profile' : 'operators';
 
         $page = array_merge($page, prepare_menu($operator));
@@ -107,9 +107,9 @@ class AvatarController extends AbstractController
             $file_size = $file->getSize();
 
             if ($file_size == 0 || $file_size > Settings::get('max_uploaded_file_size')) {
-                $errors[] = failed_uploading_file($orig_filename, "errors.file.size.exceeded");
+                $errors[] = failed_uploading_file($orig_filename, "Uploaded file size exceeded");
             } elseif (!in_array($ext, $valid_types)) {
-                $errors[] = failed_uploading_file($orig_filename, "errors.invalid.file.type");
+                $errors[] = failed_uploading_file($orig_filename, "Invalid file type");
             } else {
                 // Remove avatar if it already exists
                 $avatar_local_dir = MIBEW_FS_ROOT . '/files/avatar/';
@@ -123,7 +123,7 @@ class AvatarController extends AbstractController
                     $file->move($avatar_local_dir, $new_file_name);
                     $avatar = MIBEW_WEB_ROOT . "/files/avatar/$new_file_name";
                 } catch (Exception $e) {
-                    $errors[] = failed_uploading_file($orig_filename, "errors.file.move.error");
+                    $errors[] = failed_uploading_file($orig_filename, "Error moving file");
                 }
             }
         } else {

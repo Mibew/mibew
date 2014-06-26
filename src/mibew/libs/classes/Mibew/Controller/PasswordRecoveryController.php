@@ -42,8 +42,8 @@ class PasswordRecoveryController extends AbstractController
 
         $page = array(
             'version' => MIBEW_VERSION,
-            'title' => getlocal('restore.title'),
-            'headertitle' => getlocal('app.title'),
+            'title' => getlocal('Trouble Accessing Your Account?'),
+            'headertitle' => getlocal('Mibew Messenger'),
             'show_small_login' => true,
             'fixedwrap' => true,
             'errors' => array(),
@@ -57,7 +57,7 @@ class PasswordRecoveryController extends AbstractController
                 ? operator_by_email($login_or_email)
                 : operator_by_login($login_or_email);
             if (!$to_restore) {
-                $page['errors'][] = getlocal('no_such_operator');
+                $page['errors'][] = getlocal('No such Operator');
             }
 
             $email = $to_restore['vcemail'];
@@ -128,8 +128,8 @@ class PasswordRecoveryController extends AbstractController
         $page = array(
             'version' => MIBEW_VERSION,
             'showform' => true,
-            'title' => getlocal('resetpwd.title'),
-            'headertitle' => getlocal('app.title'),
+            'title' => getlocal('Change your password'),
+            'headertitle' => getlocal('Mibew Messenger'),
             'show_small_login' => true,
             'fixedwrap' => true,
             'errors' => array(),
@@ -166,11 +166,11 @@ class PasswordRecoveryController extends AbstractController
             $password_confirm = $request->request->get('passwordConfirm');
 
             if (!$password) {
-                $page['errors'][] = no_field('form.field.password');
+                $page['errors'][] = no_field('Password');
             }
 
             if ($password != $password_confirm) {
-                $page['errors'][] = getlocal('my_settings.error.password_match');
+                $page['errors'][] = getlocal('Entered passwords do not match');
             }
 
             if (count($page['errors']) == 0) {

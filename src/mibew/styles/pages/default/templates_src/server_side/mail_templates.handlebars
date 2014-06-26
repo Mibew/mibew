@@ -2,13 +2,13 @@
     {{#override "menu"}}{{> _menu}}{{/override}}
 
     {{#override "content"}}
-        {{l10n "mail_template.intro"}}
+        {{l10n "On this page you can edit mail templates which are used in the system."}}
 
         <br />
         <br />
 
         {{#if stored}}
-            <div id="formmessage">{{l10n "mail_template.saved"}}</div>
+            <div id="formmessage">{{l10n "Changes saved"}}</div>
         {{/if}}
 
         {{> _errors}}
@@ -25,7 +25,7 @@
                     <div class="forminner">
 
                         <div class="packedFormField">
-                            {{l10n "mail_template.locale"}}<br/>
+                            {{l10n "For language:"}}<br/>
                             <select name="lang" onchange="this.form.submit();">
                                 {{#each locales}}
                                     <option value="{{id}}"{{#ifEqual id ../formlang}} selected="selected"{{/ifEqual}}>{{name}}</option>
@@ -48,10 +48,10 @@
         <table class="translate">
             <thead>
                 <tr class="header">
-                    <th>{{l10n "mail_template.name"}}</th>
-                    <th>{{l10n "mail_template.subject"}}</th>
-                    <th>{{l10n "mail_template.body"}}</th>
-                    <th>{{l10n "mail_template.actions"}}</th>
+                    <th>{{l10n "Machine name"}}</th>
+                    <th>{{l10n "Mail subject"}}</th>
+                    <th>{{l10n "Mail body"}}</th>
+                    <th>{{l10n "Modify"}}</th>
                 </tr>
             </thead>
 
@@ -68,7 +68,7 @@
                             {{body}}
                         </td>
                         <td>
-                            <a href="{{../mibewRoot}}/operator/mail-template/{{name}}/edit?lang={{../formlang}}">{{l10n "mail_template.actions.edit"}}</a>
+                            <a href="{{../mibewRoot}}/operator/mail-template/{{name}}/edit?lang={{../formlang}}">{{l10n "edit"}}</a>
                         </td>
                     </tr>
                 {{/each}}

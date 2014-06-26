@@ -1,9 +1,9 @@
 {{#extends "_layout"}}
-    {{#override "pageTitle"}}{{l10n "chat.redirected.title"}}{{/override}}
+    {{#override "pageTitle"}}{{l10n "The visitor has been redirected to another operator"}}{{/override}}
 
     {{#override "buttons"}}
-        <a href="javascript:window.close();" title="{{l10n 'chat.redirected.close'}}">
-            <img class="tpl-image iclosewin" src="{{stylePath}}/images/free.gif" alt="{{l10n 'chat.redirected.close'}}" />
+        <a href="javascript:window.close();" title="{{l10n 'Close...'}}">
+            <img class="tpl-image iclosewin" src="{{stylePath}}/images/free.gif" alt="{{l10n 'Close...'}}" />
         </a>
     {{/override}}
 

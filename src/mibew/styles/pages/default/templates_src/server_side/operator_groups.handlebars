@@ -2,7 +2,7 @@
     {{#override "menu"}}{{> _menu}}{{/override}}
 
     {{#override "content"}}
-        {{l10n "operator.groups.intro"}}
+        {{l10n "Choose groups according to operator skills."}}
 
         <br />
         <br />
@@ -10,7 +10,7 @@
         {{> _errors}}
 
         {{#if stored}}
-            <div id="formmessage">{{l10n "data.saved"}}</div>
+            <div id="formmessage">{{l10n "Changes saved"}}</div>
         {{/if}}
 
         <form name="opgroupsForm" method="post" action="{{mibewRoot}}/operator/operator/{{opid}}/groups">
@@ -33,7 +33,7 @@
                                     <input id="group{{groupid}}" type="checkbox" name="group{{groupid}}" value="on"{{#if checked}} checked="checked"{{/if}}{{#unless ../canmodify}} disabled="disabled"{{/unless}}/>
                                 </div>
                                 <label for="group{{groupid}}" class="fdescr">
-                                    &mdash; {{#if vclocaldescription}}{{vclocaldescription}}{{else}}{{l10n "operator.group.no_description"}}{{/if}}
+                                    &mdash; {{#if vclocaldescription}}{{vclocaldescription}}{{else}}{{l10n "&lt;no description&gt;"}}{{/if}}
                                 </label>
                                 <br clear="all"/>
                             </div>
@@ -41,7 +41,7 @@
 
                         {{#if canmodify}}
                             <div class="fbutton">
-                                <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "button.save"}}"/>
+                                <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "Save"}}"/>
                             </div>
                         {{/if}}
                     </div>

@@ -72,16 +72,16 @@ function set_form_date($utime, $prefix)
 function date_to_text($unixtime)
 {
     if ($unixtime < 60 * 60 * 24 * 30) {
-        return getlocal("time.never");
+        return getlocal("Never");
     }
 
     $then = getdate($unixtime);
     $now = getdate();
 
     if ($then['yday'] == $now['yday'] && $then['year'] == $now['year']) {
-        return getlocal("time.today.at", array(format_date($unixtime, 'time')));
+        return getlocal("Today at {0}", array(format_date($unixtime, 'time')));
     } elseif (($then['yday'] + 1) == $now['yday'] && $then['year'] == $now['year']) {
-        return getlocal("time.yesterday.at", array(format_date($unixtime, 'time')));
+        return getlocal("Yesterday at {0}", array(format_date($unixtime, 'time')));
     } else {
         return format_date($unixtime, 'full');
     }

@@ -86,7 +86,7 @@ class PerformanceController extends AbstractController
 
         $page['enabletracking'] = Settings::get('enabletracking');
         $page['stored'] = $request->query->get('stored');
-        $page['title'] = getlocal("settings.title");
+        $page['title'] = getlocal("Messenger settings");
         $page['menuid'] = "settings";
 
         $page = array_merge($page, prepare_menu($operator));
@@ -112,59 +112,59 @@ class PerformanceController extends AbstractController
 
         $params['online_timeout'] = $request->request->get('onlinetimeout');
         if (!is_numeric($params['online_timeout'])) {
-            $errors[] = wrong_field("settings.onlinetimeout");
+            $errors[] = wrong_field("Operator online time threshold");
         }
 
         $params['updatefrequency_operator'] = $request->request->get('frequencyoperator');
         if (!is_numeric($params['updatefrequency_operator'])) {
-            $errors[] = wrong_field("settings.frequencyoperator");
+            $errors[] = wrong_field("Operator's console refresh time");
         }
 
         $params['updatefrequency_chat'] = $request->request->get('frequencychat');
         if (!is_numeric($params['updatefrequency_chat'])) {
-            $errors[] = wrong_field("settings.frequencychat");
+            $errors[] = wrong_field("Chat refresh time");
         }
 
         $params['max_connections_from_one_host'] = $request->request->get('onehostconnections');
         if (!is_numeric($params['max_connections_from_one_host'])) {
-            $errors[] = getlocal("settings.wrong.onehostconnections");
+            $errors[] = getlocal("\"Max number of threads\" field should be a number");
         }
 
         $params['thread_lifetime'] = $request->request->get('threadlifetime');
         if (!is_numeric($params['thread_lifetime'])) {
-            $errors[] = getlocal("settings.wrong.threadlifetime");
+            $errors[] = getlocal("\"Thread lifetime\" field should be a number");
         }
 
         $params['statistics_aggregation_interval'] = $request->request->get('statistics_aggregation_interval');
         if (!is_numeric($params['statistics_aggregation_interval'])) {
-            $errors[] = wrong_field("settings.statistics_aggregation_interval");
+            $errors[] = wrong_field("Statistics aggregation interval");
         }
 
         if (Settings::get('enabletracking')) {
             $params['updatefrequency_tracking'] = $request->request->get('frequencytracking');
             if (!is_numeric($params['updatefrequency_tracking'])) {
-                $errors[] = wrong_field("settings.frequencytracking");
+                $errors[] = wrong_field("Tracking refresh time");
             }
 
             $params['visitors_limit'] = $request->request->get('visitorslimit');
             if (!is_numeric($params['visitors_limit'])) {
-                $errors[] = wrong_field("settings.visitorslimit");
+                $errors[] = wrong_field("Limit for tracked visitors list");
             }
 
             $params['invitation_lifetime'] = $request->request->get('invitationlifetime');
             if (!is_numeric($params['invitation_lifetime'])) {
-                $errors[] = wrong_field("settings.invitationlifetime");
+                $errors[] = wrong_field("Invitation lifetime");
             }
 
             $params['tracking_lifetime'] = $request->request->get('trackinglifetime');
             if (!is_numeric($params['tracking_lifetime'])) {
-                $errors[] = wrong_field("settings.trackinglifetime");
+                $errors[] = wrong_field("Track lifetime");
             }
         }
 
         $params['max_uploaded_file_size'] = $request->request->get('maxuploadedfilesize');
         if (!is_numeric($params['max_uploaded_file_size'])) {
-            $errors[] = wrong_field("settings.maxuploadedfilesize");
+            $errors[] = wrong_field("Maximum size of uploaded files");
         }
 
         if (count($errors) != 0) {

@@ -23,7 +23,7 @@
         badRequestsCount++;
         // Check if there is
         if (badRequestsCount == 10) {
-            alert(Mibew.Localization.get('pending.errors.network'));
+            alert(Mibew.Localization.get('Network problems detected. Please refresh the page.'));
             badRequestsCount = 0;
         }
     }

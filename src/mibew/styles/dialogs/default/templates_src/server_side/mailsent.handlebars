@@ -1,11 +1,11 @@
 {{#extends "_layout"}}
-    {{#override "pageTitle"}}{{l10n "chat.mailthread.sent.title"}}{{/override}}
+    {{#override "pageTitle"}}{{l10n "Sent"}}{{/override}}
 
     {{#override "buttons"}}
-        <a href="javascript:window.close();" title="{{l10n 'chat.mailthread.sent.close'}}">
-            <img class="tpl-image iclosewin" src="{{stylePath}}/images/free.gif" alt="{{l10n 'chat.mailthread.sent.close'}}" />
+        <a href="javascript:window.close();" title="{{l10n 'Close...'}}">
+            <img class="tpl-image iclosewin" src="{{stylePath}}/images/free.gif" alt="{{l10n 'Close...'}}" />
         </a>
     {{/override}}
 
-    {{#override "message"}}{{l10n "chat.mailthread.sent.content" email}}{{/override}}
+    {{#override "message"}}{{l10n "A history of your chat was sent to address {0}" email}}{{/override}}
 {{/extends}}

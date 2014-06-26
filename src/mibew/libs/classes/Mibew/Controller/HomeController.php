@@ -60,7 +60,7 @@ class HomeController extends AbstractController
             'featuresPage' => $base_url . '/operator/settings/features',
             'isOnline' => $is_online,
             'warnOffline' => true,
-            'title' => getlocal('topMenu.admin'),
+            'title' => getlocal('Home'),
             'menuid' => 'main',
         );
 

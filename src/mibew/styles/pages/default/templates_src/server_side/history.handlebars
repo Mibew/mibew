@@ -2,7 +2,7 @@
     {{#override "menu"}}{{> _menu}}{{/override}}
 
     {{#override "content"}}
-        {{l10n "page_search.intro"}}
+        {{l10n "Search the chat history for a specified user, an operator or a specified phrase in messages."}}
 
         <br />
         <br />
@@ -16,25 +16,25 @@
                 <div class="forminner">
                     <div class="fieldForm">
                         <div class="field">
-                            <label for="q" class="flabel">{{l10n "page_analysis.full.text.search"}}</label>
+                            <label for="q" class="flabel">{{l10n "User name, operator name or message text search:"}}</label>
                             <div class="fvaluenodesc">
                                 <div id="searchtext">
                                     <input id="q" type="text" name="q" size="60" value="{{formq}}" class="formauth"/>
                                 </div>
                                 <div class="searchctrl">
-                                    <label for="type">{{l10n "page_search.type.title"}}</label>
+                                    <label for="type">{{l10n "Search:"}}</label>
                                     <select id="type" name="type" onchange="if (this.value == 'all' || this.value == 'message') {document.getElementById('inSystemMessages').style.display='inline'} else {document.getElementById('inSystemMessages').style.display='none'}; ">
-                                        <option value="all" {{#ifEqual formtype "all"}}selected="selected"{{/ifEqual}}>{{l10n "page_search.type.all"}}</option>
-                                        <option value="message" {{#ifEqual formtype "message"}}selected="selected"{{/ifEqual}}>{{l10n "page_search.type.message"}}</option>
-                                        <option value="operator" {{#ifEqual formtype "operator"}}selected="selected"{{/ifEqual}}>{{l10n "page_search.type.operator"}}</option>
-                                        <option value="visitor" {{#ifEqual formtype "visitor"}}selected="selected"{{/ifEqual}}>{{l10n "page_search.type.visitor"}}</option>
+                                        <option value="all" {{#ifEqual formtype "all"}}selected="selected"{{/ifEqual}}>{{l10n "everywhere"}}</option>
+                                        <option value="message" {{#ifEqual formtype "message"}}selected="selected"{{/ifEqual}}>{{l10n "in messages"}}</option>
+                                        <option value="operator" {{#ifEqual formtype "operator"}}selected="selected"{{/ifEqual}}>{{l10n "by operator"}}</option>
+                                        <option value="visitor" {{#ifEqual formtype "visitor"}}selected="selected"{{/ifEqual}}>{{l10n "by visitor"}}</option>
                                     </select>
                                 </div>
                                 <div id="searchbutton">
-                                    <input type="submit" name="search" class="submit-bg-button login-button" value="{{l10n "button.search"}}" />
+                                    <input type="submit" name="search" class="submit-bg-button login-button" value="{{l10n "Search"}}" />
                                 </div><br clear="all"/>
                                 <div class="searchctrl" id="inSystemMessages"{{#if canSearchInSystemMessages}} style="display: none;"{{/if}}>
-                                    <input id="insystemmessagesfield" type="checkbox" name="insystemmessages" {{#if forminsystemmessages}}checked="checked"{{/if}}/> <label for="insystemmessagesfield">{{l10n "page_search.search.type.in_system_messages"}}</label>
+                                    <input id="insystemmessagesfield" type="checkbox" name="insystemmessages" {{#if forminsystemmessages}}checked="checked"{{/if}}/> <label for="insystemmessagesfield">{{l10n "Search in system messages"}}</label>
                                 </div>
                             </div>
                             <br clear="all"/>
@@ -53,11 +53,11 @@
         <table class="list">
             <thead>
                 <tr class="header">
-                    <th>{{l10n "page.analysis.search.head_name"}}</th>
-                    <th>{{l10n "page.analysis.search.head_host"}}</th>
-                    <th>{{l10n "page.analysis.search.head_operator"}}</th>
-                    <th>{{l10n "page.analysis.search.head_messages"}}</th>
-                    <th>{{l10n "page.analysis.search.head_time"}}</th>
+                    <th>{{l10n "Name"}}</th>
+                    <th>{{l10n "Visitor's address"}}</th>
+                    <th>{{l10n "Operator"}}</th>
+                    <th>{{l10n "Visitor's messages"}}</th>
+                    <th>{{l10n "Time in chat"}}</th>
                 </tr>
             </thead>
 
@@ -89,7 +89,7 @@
                 {{else}}
                     <tr>
                         <td colspan="5">
-                            {{l10n "tag.pagination.no_items"}}
+                            {{l10n "Found 0 elements"}}
                         </td>
                     </tr>
                 {{/each}}

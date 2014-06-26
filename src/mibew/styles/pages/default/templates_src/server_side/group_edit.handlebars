@@ -8,9 +8,9 @@
 
     {{#override "content"}}
         {{#if grid}}
-            {{l10n "page.group.intro"}}
+            {{l10n "On this page you can edit group details."}}
         {{else}}
-            {{l10n "page.group.create_new"}}
+            {{l10n "Create new group here."}}
         {{/if}}
 
         <br />
@@ -19,7 +19,7 @@
         {{> _errors}}
 
         {{#if stored}}
-            <div id="formmessage">{{l10n "data.saved"}}</div>
+            <div id="formmessage">{{l10n "Changes saved"}}</div>
         {{/if}}
 
         <form name="groupForm" method="post" action="{{formaction}}">
@@ -36,61 +36,61 @@
                     <div class="forminner">
                         <div class="fieldForm">
                             <div class="field">
-                                <label for="name" class="flabel">{{l10n "form.field.groupname"}}<span class="required">*</span></label>
+                                <label for="name" class="flabel">{{l10n "Name"}}<span class="required">*</span></label>
                                 <div class="fvalue">
                                     <input id="name" type="text" name="name" size="40" value="{{formname}}" class="formauth"/>
                                 </div>
-                                <label for="name" class="fdescr"> &mdash; {{l10n "form.field.groupname.description"}}</label>
+                                <label for="name" class="fdescr"> &mdash; {{l10n "Name to identify the group."}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="description" class="flabel">{{l10n "form.field.groupdesc"}}</label>
+                                <label for="description" class="flabel">{{l10n "Description"}}</label>
                                 <div class="fvalue">
                                     <input id="description" type="text" name="description" size="40" value="{{formdescription}}" class="formauth"/>
                                 </div>
-                                <label for="description" class="fdescr"> &mdash; {{l10n "form.field.groupdesc.description"}}</label>
+                                <label for="description" class="fdescr"> &mdash; {{l10n "Description of the group."}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="commonname" class="flabel">{{l10n "form.field.groupcommonname"}}</label>
+                                <label for="commonname" class="flabel">{{l10n "International name"}}</label>
                                 <div class="fvalue">
                                     <input id="commonname" type="text" name="commonname" size="40" value="{{formcommonname}}" class="formauth"/>
                                 </div>
-                                <label for="commonname" class="fdescr"> &mdash; {{l10n "form.field.groupcommonname.description"}}</label>
+                                <label for="commonname" class="fdescr"> &mdash; {{l10n "Name in English."}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="commondescription" class="flabel">{{l10n "form.field.groupcommondesc"}}</label>
+                                <label for="commondescription" class="flabel">{{l10n "International description"}}</label>
                                 <div class="fvalue">
                                     <input id="commondescription" type="text" name="commondescription" size="40" value="{{formcommondescription}}" class="formauth"/>
                                 </div>
-                                <label for="commondescription" class="fdescr"> &mdash; {{l10n "form.field.groupcommondesc.description"}}</label>
+                                <label for="commondescription" class="fdescr"> &mdash; {{l10n "Description in English."}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="email" class="flabel">{{l10n "form.field.mail"}}</label>
+                                <label for="email" class="flabel">{{l10n "E-mail"}}</label>
                                 <div class="fvalue">
                                     <input id="email" type="text" name="email" size="40" value="{{formemail}}" class="formauth"/>
                                 </div>
-                                <label for="email" class="fdescr"> &mdash; {{l10n "form.field.groupemail.description"}}</label>
+                                <label for="email" class="fdescr"> &mdash; {{l10n "Group email for notifications. Leave empty to use the default address."}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="weight" class="flabel">{{l10n "form.field.groupweight"}}</label>
+                                <label for="weight" class="flabel">{{l10n "Weight"}}</label>
                                 <div class="fvalue">
                                     <input id="weight" type="text" name="weight" size="40" value="{{formweight}}" class="formauth"/>
                                 </div>
-                                <label for="weight" class="fdescr"> &mdash; {{l10n "form.field.groupweight.description"}}</label>
+                                <label for="weight" class="fdescr"> &mdash; {{l10n "Groups with lower weight display higher in groups list. Group weight is a positive integer value."}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="parentgroup" class="flabel">{{l10n "form.field.groupparent"}}</label>
+                                <label for="parentgroup" class="flabel">{{l10n "Parent group"}}</label>
                                 <div class="fvalue">
                                     <select name="parentgroup" id="parentgroup">
                                         {{#each availableParentGroups}}
@@ -98,52 +98,52 @@
                                         {{/each}}
                                     </select>
                                 </div>
-                                <label for="parentgroup" class="fdescr"> &mdash; {{l10n "form.field.groupparent.description"}}</label>
+                                <label for="parentgroup" class="fdescr"> &mdash; {{l10n "Groups can be organized in a hierarchical structure"}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div id="extrafields">
-                                <div class="fheader">{{l10n "page.group.extrafields.title"}}</div>
+                                <div class="fheader">{{l10n "The fields that located below are extra fields. These fields are only available for the top level groups and override corresponding system settings if specified."}}</div>
 
                                 <div class="field">
-                                    <label for="titlefield" class="flabel">{{l10n "settings.company.title"}}</label>
+                                    <label for="titlefield" class="flabel">{{l10n "Company title"}}</label>
                                     <div class="fvalue">
                                         <input id="titlefield" type="text" name="title" size="40" value="{{formtitle}}" class="formauth"/>
                                     </div>
-                                    <label for="titlefield" class="fdescr"> &mdash; {{l10n "settings.company.title.description"}}</label>
+                                    <label for="titlefield" class="fdescr"> &mdash; {{l10n "Enter your company title"}}</label>
                                     <br clear="all"/>
                                 </div>
 
                                 <div class="field">
-                                    <label for="chattitle" class="flabel">{{l10n "settings.chat.title"}}</label>
+                                    <label for="chattitle" class="flabel">{{l10n "Title in the chat window"}}</label>
                                     <div class="fvalue">
                                         <input id="chattitle" type="text" name="chattitle" size="40" value="{{formchattitle}}" class="formauth"/>
                                     </div>
-                                    <label for="chattitle" class="fdescr"> &mdash; {{l10n "settings.chat.title"}}</label>
+                                    <label for="chattitle" class="fdescr"> &mdash; {{l10n "Title in the chat window"}}</label>
                                     <br clear="all"/>
                                 </div>
 
                                 <div class="field">
-                                    <label for="logofield" class="flabel">{{l10n "settings.logo"}}</label>
+                                    <label for="logofield" class="flabel">{{l10n "Your company logo"}}</label>
                                     <div class="fvalue">
                                         <input id="logofield" type="text" name="logo" size="40" value="{{formlogo}}" class="formauth"/>
                                     </div>
-                                    <label for="logofield" class="fdescr"> &mdash; {{l10n "settings.logo.description"}}</label>
+                                    <label for="logofield" class="fdescr"> &mdash; {{l10n "Enter http address of your company logo"}}</label>
                                     <br clear="all"/>
                                 </div>
 
                                 <div class="field">
-                                    <label for="hosturl" class="flabel">{{l10n "settings.host"}}</label>
+                                    <label for="hosturl" class="flabel">{{l10n "URL of your website"}}</label>
                                     <div class="fvalue">
                                         <input id="hosturl" type="text" name="hosturl" size="40" value="{{formhosturl}}" class="formauth"/>
                                     </div>
-                                    <label for="hosturl" class="fdescr"> &mdash; {{l10n "settings.host.description"}}</label>
+                                    <label for="hosturl" class="fdescr"> &mdash; {{l10n "Destination for your company name or logo link"}}</label>
                                     <br clear="all"/>
                                 </div>
                             </div>
 
                             <div class="fbutton">
-                                <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "button.save"}}"/>
+                                <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "Save"}}"/>
                             </div>
                         </div>
                     </div>
@@ -155,7 +155,7 @@
             </div>
 
             <div class="asterisk">
-                <span class="required">*</span> - {{l10n "common.asterisk_explanation"}}
+                <span class="required">*</span> - {{l10n "mandatory fields"}}
             </div>
 
         </form>

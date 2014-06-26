@@ -2,7 +2,7 @@
     {{#override "menu"}}{{> _menu}}{{/override}}
 
     {{#override "content"}}
-        {{l10n "page_avatar.intro"}}
+        {{l10n "You can upload your photo only as JPG, GIF, PNG or TIF image files."}}
 
         <br />
         <br />
@@ -26,16 +26,16 @@
 
                             {{#if avatar}}
                                 <div class="field">
-                                    <div class="flabel">{{l10n "form.field.avatar.current"}}</div>
+                                    <div class="flabel">{{l10n "Current avatar image"}}</div>
                                     <div class="fvalue">
                                         <img src="{{avatar}}" alt="cannot load avatar"/><br/>
                                         {{#if canmodify}}
                                             <a class="formauth" href="{{mibewRoot}}/operator/operator/{{opid}}/avatar/delete?{{csrfTokenInUrl}}">
-                                                {{l10n "page_agent.clear_avatar"}}
+                                                {{l10n "Remove avatar"}}
                                             </a>
                                         {{/if}}
                                     </div>
-                                    <div class="fdescr"> &mdash; {{l10n "form.field.avatar.current.description"}}</div>
+                                    <div class="fdescr"> &mdash; {{l10n "Your avatar image."}}</div>
                                     <br clear="all"/>
                                 </div>
                             {{else}}
@@ -51,17 +51,17 @@
                             {{#if canmodify}}
                                 <div class="field">
                                     <label for="avatarFile" class="flabel">
-                                        {{l10n "form.field.avatar.upload"}}<span class="required">*</span>
+                                        {{l10n "Upload avatar"}}<span class="required">*</span>
                                     </label>
                                     <div class="fvalue">
                                         <input id="avatarFile" type="file" name="avatarFile" size="40" value="{{formavatarFile}}" class="formauth"/>
                                     </div>
-                                    <label for="avatarFile" class="fdescr"> &mdash; {{l10n "form.field.avatar.upload.description"}}</label>
+                                    <label for="avatarFile" class="fdescr"> &mdash; {{l10n "Choose the avatar file to upload.<br/>The picture size should not exceed 100x100 px."}}</label>
                                     <br clear="all"/>
                                 </div>
 
                                 <div class="fbutton">
-                                    <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "button.save"}}"/>
+                                    <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "Save"}}"/>
                                 </div>
                             {{/if}}
                         </div>
@@ -76,7 +76,7 @@
             </div>
 
             <div class="asterisk">
-                <span class="required">*</span> - {{l10n "common.asterisk_explanation"}}
+                <span class="required">*</span> - {{l10n "mandatory fields"}}
             </div>
         </form>
     {{/override}}

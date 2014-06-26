@@ -59,7 +59,7 @@ class ProfileController extends AbstractController
             $no_password = check_password_hash($operator['vclogin'], '', $operator['vcpassword'])
                 && !$request->query->has('stored');
             if ($no_password) {
-                $page['errors'][] = getlocal('my_settings.error.no_password');
+                $page['errors'][] = getlocal('No Password set for the Administrator');
             }
 
             $page['formlogin'] = $op['vclogin'];
@@ -94,7 +94,7 @@ class ProfileController extends AbstractController
         $page['canmodify'] = $can_modify ? '1' : '';
         $page['canchangelogin'] = is_capable(CAN_ADMINISTRATE, $operator);
         $page['needChangePassword'] = check_password_hash($operator['vclogin'], '', $operator['vcpassword']);
-        $page['title'] = getlocal('page_agent.title');
+        $page['title'] = getlocal('Operator details');
         $page['menuid'] = ($op_id == $operator['operatorid']) ? 'profile' : 'operators';
         $page['requirePassword'] = (!$op_id || $page['needChangePassword']);
         $page['formaction'] = $request->getBaseUrl() . $request->getPathInfo();
@@ -133,33 +133,33 @@ class ProfileController extends AbstractController
         $code = $request->request->get('code');
 
         if (!$local_name) {
-            $errors[] = no_field('form.field.agent_name');
+            $errors[] = no_field('Name');
         }
 
         if (!$common_name) {
-            $errors[] = no_field('form.field.agent_commonname');
+            $errors[] = no_field('International name (Latin)');
         }
 
         if (!$login) {
-            $errors[] = no_field('form.field.login');
+            $errors[] = no_field('Login');
         } elseif (!preg_match("/^[\w_\.]+$/", $login)) {
-            $errors[] = getlocal('page_agent.error.wrong_login');
+            $errors[] = getlocal('Login should contain only latin characters, numbers and underscore symbol.');
         }
 
         if (!$email || !is_valid_email($email)) {
-            $errors[] = wrong_field('form.field.mail');
+            $errors[] = wrong_field('E-mail');
         }
 
         if ($code && (!preg_match("/^[A-Za-z0-9_]+$/", $code))) {
-            $errors[] = getlocal('page_agent.error.wrong_agent_code');
+            $errors[] = getlocal('Code should contain only latin characters, numbers and underscore symbol.');
         }
 
         if (!$op_id && !$password) {
-            $errors[] = no_field('form.field.password');
+            $errors[] = no_field('Password');
         }
 
         if ($password != $password_confirm) {
-            $errors[] = getlocal('my_settings.error.password_match');
+            $errors[] = getlocal('Entered passwords do not match');
         }
 
         $existing_operator = operator_by_login($login);
@@ -168,7 +168,7 @@ class ProfileController extends AbstractController
                 && $existing_operator
                 && $op_id != $existing_operator['operatorid']);
         if ($duplicate_login) {
-            $errors[] = getlocal('page_agent.error.duplicate_login');
+            $errors[] = getlocal('Please choose another login because an operator with that login is already registered in the system.');
         }
 
         // Check if operator with specified email already exists in the database.
@@ -181,7 +181,7 @@ class ProfileController extends AbstractController
                 && $existing_operator
                 && $op_id != $existing_operator['operatorid']);
         if ($duplicate_email) {
-            $errors[] = getlocal('page_agent.error.duplicate_email');
+            $errors[] = getlocal('Please choose another email because an operator with that email is already registered in the system.');
         }
 
         if (count($errors) != 0) {

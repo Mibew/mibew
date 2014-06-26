@@ -109,19 +109,19 @@
             stateToDesc: function(state) {
                 var l = Mibew.Localization;
                 if (state == this.model.STATE_QUEUE) {
-                    return l.get('chat.thread.state_wait');
+                    return l.get('In queue');
                 }
                 if (state == this.model.STATE_WAITING) {
-                    return l.get('chat.thread.state_wait_for_another_agent');
+                    return l.get('Waiting for operator');
                 }
                 if (state == this.model.STATE_CHATTING) {
-                    return l.get('chat.thread.state_chatting_with_agent');
+                    return l.get('In chat');
                 }
                 if (state == this.model.STATE_CLOSED) {
-                    return l.get('chat.thread.state_closed');
+                    return l.get('Closed');
                 }
                 if (state == this.model.STATE_LOADING) {
-                    return l.get('chat.thread.state_loading');
+                    return l.get('Loading');
                 }
                 return "";
             },

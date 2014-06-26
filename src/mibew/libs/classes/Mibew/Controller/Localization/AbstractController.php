@@ -37,11 +37,11 @@ abstract class AbstractController extends BaseAbstractController
         $tabs = array();
         $route = $request->attributes->get('_route');
 
-        $tabs[getlocal('page_localization.tab.translation')] = ($route != 'translations')
+        $tabs[getlocal('Translations')] = ($route != 'translations')
             ? $this->generateUrl('translations')
             : '';
 
-        $tabs[getlocal('page_localization.tab.locale')] = ($route != 'locales')
+        $tabs[getlocal('Locales')] = ($route != 'locales')
             ? $this->generateUrl('locales')
             : '';
 

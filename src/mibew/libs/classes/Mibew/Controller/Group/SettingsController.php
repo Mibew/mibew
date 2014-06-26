@@ -89,7 +89,7 @@ class SettingsController extends AbstractController
         $page['stored'] = $request->query->has('stored');
         $page['availableParentGroups'] = get_available_parent_groups($group_id);
         $page['formaction'] = $request->getBaseUrl() . $request->getPathInfo();
-        $page['title'] = getlocal('page.group.title');
+        $page['title'] = getlocal('Group details');
         $page['menuid'] = 'groups';
         $page = array_merge($page, prepare_menu($operator));
         $page['tabs'] = $this->buildTabs($request);
@@ -129,15 +129,15 @@ class SettingsController extends AbstractController
         $logo = $request->request->get('logo');
 
         if (!$name) {
-            $errors[] = no_field("form.field.groupname");
+            $errors[] = no_field("Name");
         }
 
         if ($email != '' && !is_valid_email($email)) {
-            $errors[] = wrong_field("form.field.mail");
+            $errors[] = wrong_field("E-mail");
         }
 
         if (!preg_match("/^(\d{1,10})?$/", $weight)) {
-            $errors[] = wrong_field("form.field.groupweight");
+            $errors[] = wrong_field("Weight");
         }
 
         if (!$weight) {
@@ -151,7 +151,7 @@ class SettingsController extends AbstractController
                 && $group_id != $existing_group['groupid']);
 
         if ($duplicate_name) {
-            $errors[] = getlocal("page.group.duplicate_name");
+            $errors[] = getlocal("Please choose another name because a group with that name already exists.");
         }
 
         if (count($errors) != 0) {

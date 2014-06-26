@@ -103,11 +103,11 @@ class RedirectController extends AbstractController
 
             if ($next_group) {
                 $page['message'] = getlocal(
-                    'chat.redirected.group.content',
+                    'The visitor has been placed in a priorty queue of the group {0}.',
                     array(get_group_name($next_group))
                 );
                 if (!$this->redirectToGroup($thread, $next_id)) {
-                    $page['errors'][] = getlocal('chat.redirect.cannot');
+                    $page['errors'][] = getlocal('You are not chatting with the visitor.');
                 }
             } else {
                 $page['errors'][] = 'Unknown group';
@@ -122,11 +122,11 @@ class RedirectController extends AbstractController
 
             if ($next_operator) {
                 $page['message'] = getlocal(
-                    'chat.redirected.content',
+                    'The visitor has been placed in the priorty queue of the operator {0}.',
                     array(get_operator_name($next_operator))
                 );
                 if (!$this->redirectToOperator($thread, $next_id)) {
-                    $page['errors'][] = getlocal('chat.redirect.cannot');
+                    $page['errors'][] = getlocal('You are not chatting with the visitor.');
                 }
             } else {
                 $page['errors'][] = 'Unknown operator';
@@ -168,7 +168,7 @@ class RedirectController extends AbstractController
         $thread->postMessage(
             Thread::KIND_EVENTS,
             getlocal(
-                'chat.status.operator.redirect',
+                'Operator {0} redirected you to another operator. Please wait a while.',
                 array(get_operator_name($this->getOperator())),
                 $thread->locale,
                 true
@@ -222,7 +222,7 @@ class RedirectController extends AbstractController
         $thread->postMessage(
             Thread::KIND_EVENTS,
             getlocal(
-                'chat.status.operator.redirect',
+                'Operator {0} redirected you to another operator. Please wait a while.',
                 array(get_operator_name($this->getOperator())),
                 $thread->locale,
                 true

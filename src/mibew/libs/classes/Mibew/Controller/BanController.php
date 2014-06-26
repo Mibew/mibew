@@ -56,7 +56,7 @@ class BanController extends AbstractController
         }
         unset($item);
 
-        $page['title'] = getlocal('page_bans.title');
+        $page['title'] = getlocal('Ban List');
         $page['menuid'] = 'bans';
         $pagination = setup_pagination($blocked_list);
         $page['pagination'] = $pagination['info'];
@@ -159,7 +159,7 @@ class BanController extends AbstractController
             $page['threadid'] = $request->request->get('threadid');
         }
 
-        $page['title'] = getlocal('page_ban.title');
+        $page['title'] = getlocal('Block address');
         $page['formaction'] = $request->getBaseUrl() . $request->getPathInfo();
         $page = array_merge($page, prepare_menu($operator, false));
 
@@ -192,15 +192,15 @@ class BanController extends AbstractController
         $comment = $request->request->get('comment');
 
         if (!$address) {
-            $errors[] = no_field('form.field.address');
+            $errors[] = no_field('Visitor\'s Address');
         }
 
         if (!preg_match("/^\d+$/", $days)) {
-            $errors[] = wrong_field('form.field.ban_days');
+            $errors[] = wrong_field('Days');
         }
 
         if (!$comment) {
-            $errors[] = no_field('form.field.ban_comment');
+            $errors[] = no_field('Comment');
         }
 
         // Check if the ban already exists in the database
@@ -213,7 +213,7 @@ class BanController extends AbstractController
                 'ban_edit',
                 array('ban_id' => $existing_ban['banid'])
             );
-            $errors[] = getlocal('ban.error.duplicate', array($address, $ban_url));
+            $errors[] = getlocal('The specified address is already in use. Click <a href="{1}">here</a> if you want to edit it.', array($address, $ban_url));
         }
 
         if (count($errors) != 0) {
@@ -254,7 +254,7 @@ class BanController extends AbstractController
         // Rerender the form page
         $page['saved'] = true;
         $page['address'] = $address;
-        $page['title'] = getlocal('page_ban.title');
+        $page['title'] = getlocal('Block address');
         $page = array_merge($page, prepare_menu($operator, false));
 
         return $this->render('ban', $page);

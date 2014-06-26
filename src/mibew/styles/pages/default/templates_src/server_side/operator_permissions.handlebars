@@ -2,7 +2,7 @@
     {{#override "menu"}}{{> _menu}}{{/override}}
 
     {{#override "content"}}
-        {{l10n "permissions.intro"}}
+        {{l10n "Change restrictions and available features for this operator."}}
 
         <br />
         <br />
@@ -10,7 +10,7 @@
         {{> _errors}}
 
         {{#if stored}}
-            <div id="formmessage">{{l10n "data.saved"}}</div>
+            <div id="formmessage">{{l10n "Changes saved"}}</div>
         {{/if}}
 
         <form name="permissionsForm" method="post" action="{{mibewRoot}}/operator/operator/{{opid}}/permissions">
@@ -37,7 +37,7 @@
 
                         {{#if canmodify}}
                             <div class="fbutton">
-                                <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "button.save"}}"/>
+                                <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "Save"}}"/>
                             </div>
                         {{/if}}
                     </div>

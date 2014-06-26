@@ -266,10 +266,10 @@ function prepare_chat_app_data()
 
     // Set some localized strings
     $data['localized'] = array(
-        'email.required' => no_field("form.field.email"),
-        'name.required' => no_field("form.field.name"),
-        'message.required' => no_field("form.field.message"),
-        'wrong.email' => wrong_field("form.field.email"),
+        'email.required' => no_field("Your email"),
+        'name.required' => no_field("Your name"),
+        'message.required' => no_field("Message"),
+        'wrong.email' => wrong_field("Your email"),
     );
 
     return $data;
@@ -312,7 +312,7 @@ function setup_leavemessage($name, $email, $group_id, $info, $referrer)
     );
 
     $data['page.title'] = (empty($group_name) ? '' : $group_name . ': ')
-        . getlocal('leavemessage.title');
+        . getlocal('Leave your message');
     $data['leaveMessage']['page'] = array(
         'title' => $data['page.title']
     );
@@ -358,7 +358,7 @@ function setup_survey($name, $email, $group_id, $info, $referrer)
         'canChangeName' => (bool) (Settings::get('usercanchangename') == "1"),
     );
 
-    $data['page.title'] = getlocal('presurvey.title');
+    $data['page.title'] = getlocal('Live support');
     $data['survey']['page'] = array(
         'title' => $data['page.title']
     );
@@ -535,7 +535,7 @@ function setup_chatview_for_user(Thread $thread)
     $data['chat']['user'] = array(
         'name' => htmlspecialchars($thread->userName),
         'canChangeName' => (bool) (Settings::get('usercanchangename') == "1"),
-        'defaultName' => (bool) (getlocal("chat.default.username") != $thread->userName),
+        'defaultName' => (bool) (getlocal("Guest") != $thread->userName),
         'canPost' => true,
         'isAgent' => false,
     );
@@ -658,7 +658,7 @@ function ban_for_addr($addr)
  */
 function visitor_from_request()
 {
-    $default_name = getlocal("chat.default.username");
+    $default_name = getlocal("Guest");
     $user_name = $default_name;
     if (isset($_COOKIE[USERNAME_COOKIE_NAME])) {
         $data = base64_decode(strtr($_COOKIE[USERNAME_COOKIE_NAME], '-_,', '+/='));
@@ -784,7 +784,7 @@ function chat_start_for_user(
         $thread->postMessage(
             Thread::KIND_FOR_AGENT,
             getlocal(
-                'chat.visitor.invitation.accepted',
+                'Visitor accepted invitation from operator {0}',
                 array($operator_name),
                 CURRENT_LOCALE,
                 true
@@ -794,14 +794,14 @@ function chat_start_for_user(
         if ($referrer) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getlocal('chat.came.from', array($referrer), CURRENT_LOCALE, true)
+                getlocal('Vistor came from page {0}', array($referrer), CURRENT_LOCALE, true)
             );
         }
         if ($requested_operator && !$requested_operator_online) {
             $thread->postMessage(
                 Thread::KIND_INFO,
                 getlocal(
-                    'chat.requested_operator.offline',
+                    'Thank you for contacting us. We are sorry, but requested operator <strong>{0}</strong> is offline. Another operator will be with you shortly.',
                     array(get_operator_name($requested_operator)),
                     CURRENT_LOCALE,
                     true
@@ -810,7 +810,7 @@ function chat_start_for_user(
         } else {
             $thread->postMessage(
                 Thread::KIND_INFO,
-                getlocal('chat.wait', null, CURRENT_LOCALE, true)
+                getlocal('Thank you for contacting us. An operator will be with you shortly.', null, CURRENT_LOCALE, true)
             );
         }
     }
@@ -819,7 +819,7 @@ function chat_start_for_user(
     if ($info) {
         $thread->postMessage(
             Thread::KIND_FOR_AGENT,
-            getlocal('chat.visitor.info', array($info), CURRENT_LOCALE, true)
+            getlocal('Info: {0}', array($info), CURRENT_LOCALE, true)
         );
     }
 

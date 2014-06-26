@@ -1,18 +1,18 @@
 {{#extends "_layout"}}
-    {{#override "pageTitle"}}{{l10n "chat.redirect.title"}}{{/override}}
+    {{#override "pageTitle"}}{{l10n "Redirect to<br/>another operator"}}{{/override}}
 
     {{#override "buttons"}}
-        <a href="javascript:window.close();" title="{{l10n 'chat.redirect.back'}}">
-            <img class="tpl-image iclosewin" src="{{stylePath}}/images/free.gif" alt="{{l10n 'chat.redirect.back'}}" />
+        <a href="javascript:window.close();" title="{{l10n 'Back...'}}">
+            <img class="tpl-image iclosewin" src="{{stylePath}}/images/free.gif" alt="{{l10n 'Back...'}}" />
         </a>
     {{/override}}
 
-    {{#override "message"}}{{l10n "chat.redirect.choose"}}{{/override}}
+    {{#override "message"}}{{l10n "Choose:"}}{{/override}}
 
     {{#override "content"}}
         <div class="left">
             {{#if redirectToAgent}}
-                <strong>{{l10n "chat.redirect.operator"}}</strong>
+                <strong>{{l10n "Operator:"}}</strong>
                 <ul class="agentlist">
                     {{{redirectToAgent}}}
                 </ul>
@@ -20,7 +20,7 @@
         </div>
         <div class="right">
             {{#if redirectToGroup}}
-                <strong>{{l10n "chat.redirect.group"}}</strong>
+                <strong>{{l10n "Group:"}}</strong>
                 <ul class="agentlist">
                     {{{redirectToGroup}}}
                 </ul>

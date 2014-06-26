@@ -27,7 +27,7 @@
     {{/override}}
 
     {{#override "content"}}
-        {{l10n "thread.intro"}}
+        {{l10n "This page displays chat details and content."}}
 
         <br/><br/>
 
@@ -35,7 +35,7 @@
             <div class="header">
 
                     <div class="wlabel">
-                        {{l10n "page.analysis.search.head_name"}}:
+                        {{l10n "Name"}}:
                     </div>
                     <div class="wvalue">
                         {{threadInfo.userName}}
@@ -43,7 +43,7 @@
                     <br clear="all"/>
 
                     <div class="wlabel">
-                        {{l10n "page.analysis.search.head_host"}}:
+                        {{l10n "Visitor's address"}}:
                     </div>
                     <div class="wvalue">
                         {{{threadInfo.userAddress}}}
@@ -51,7 +51,7 @@
                     <br clear="all"/>
 
                     <div class="wlabel">
-                        {{l10n "page.analysis.search.head_browser"}}:
+                        {{l10n "Browser"}}:
                     </div>
                     <div class="wvalue">
                         {{threadInfo.userAgentVersion}}
@@ -60,7 +60,7 @@
 
                     {{#if threadInfo.groupName}}
                         <div class="wlabel">
-                            {{l10n "page.analysis.search.head_group"}}:
+                            {{l10n "Group"}}:
                         </div>
                         <div class="wvalue">
                             {{threadInfo.groupName}}
@@ -70,7 +70,7 @@
 
                     {{#if threadInfo.agentName}}
                         <div class="wlabel">
-                            {{l10n "page.analysis.search.head_operator"}}:
+                            {{l10n "Operator"}}:
                         </div>
                         <div class="wvalue">
                             {{threadInfo.agentName}}
@@ -79,7 +79,7 @@
                     {{/if}}
 
                     <div class="wlabel">
-                        {{l10n "page.analysis.search.head_time"}}:
+                        {{l10n "Time in chat"}}:
                     </div>
                     <div class="wvalue">
                         {{formatDateDiff threadInfo.chatTime}}
@@ -93,7 +93,7 @@
 
         <br />
         <a href="{{mibewRoot}}/operator/history">
-            {{l10n "thread.back_to_search"}}
+            {{l10n "Go to search"}}
         </a>
         <br />
     {{/override}}

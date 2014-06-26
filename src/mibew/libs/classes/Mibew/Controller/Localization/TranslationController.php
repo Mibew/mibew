@@ -108,11 +108,11 @@ class TranslationController extends AbstractController
         $page['formsource'] = $source;
         $page['availableLocales'] = $locales_list;
         $page['availableOrders'] = array(
-            array('id' => 'id', 'name' => getlocal('translate.sort.key')),
-            array('id' => 'l1', 'name' => getlocal('translate.sort.lang')),
+            array('id' => 'id', 'name' => getlocal('Key identifier')),
+            array('id' => 'l1', 'name' => getlocal('Source language string')),
         );
         $page['formsort'] = $order;
-        $page['title'] = getlocal('page.translate.title');
+        $page['title'] = getlocal('Translations');
         $page['menuid'] = 'translation';
         $page = array_merge($page, prepare_menu($operator));
         $page['tabs'] = $this->buildTabs($request);
@@ -168,7 +168,7 @@ class TranslationController extends AbstractController
         $page['target'] = $target;
         $page['formoriginal'] = isset($lang1[$string_id]) ? $lang1[$string_id] : '<b><unknown></b>';
         $page['formtranslation'] = $translation;
-        $page['title'] = getlocal('page.translate.title');
+        $page['title'] = getlocal('Translations');
         $page = array_merge(
             $page,
             prepare_menu($operator, false)
@@ -200,7 +200,7 @@ class TranslationController extends AbstractController
 
         $translation = $request->request->get('translation');
         if (!$translation) {
-            $errors[] = no_field("form.field.translation");
+            $errors[] = no_field("Translation");
         }
 
         if (count($errors) != 0) {
@@ -213,7 +213,7 @@ class TranslationController extends AbstractController
         save_message($target, $string_id, $translation);
 
         $page['saved'] = true;
-        $page['title'] = getlocal("page.translate.title");
+        $page['title'] = getlocal("Translations");
         $page = array_merge(
             $page,
             prepare_menu($operator, false)

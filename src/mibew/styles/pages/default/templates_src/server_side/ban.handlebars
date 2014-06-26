@@ -1,7 +1,7 @@
 {{#extends "_layout"}}
     {{#override "content"}}
         {{#if saved}}
-            {{l10n "page_ban.sent" address}}
+            {{l10n "Address {0} is blocked for a specified number of days." address}}
 
             <script type="text/javascript"><!--
                 if(window.opener && window.opener.location) {
@@ -10,7 +10,7 @@
                 setTimeout( (function() { window.close(); }), 1500 );
             //--></script>
         {{else}}
-            {{l10n "page_ban.intro"}}
+            {{l10n "Here you can block malicious visitors that affect your work with spam messages."}}
 
             <br/>
             <br/>
@@ -18,7 +18,7 @@
             {{> _errors}}
 
             {{#if thread}}
-                {{l10n "page_ban.thread" thread}}<br/>
+                {{l10n "You opened this window for \"{0}\" thread. <i>Address</i> field is already filled. Select a number of days and click <i>Send</i>." thread}}<br/>
                 <br/>
             {{/if}}
 
@@ -37,34 +37,34 @@
                     <div class="forminner">
                         <div class="fieldForm">
                             <div class="field">
-                                <label for="address" class="flabel">{{l10n "form.field.address"}}<span class="required">*</span></label>
+                                <label for="address" class="flabel">{{l10n "Visitor's Address"}}<span class="required">*</span></label>
                                 <div class="fvalue">
                                     <input id="address" type="text" name="address" size="40" value="{{formaddress}}" class="formauth"/>
                                 </div>
-                                <label for="address" class="fdescr"> &mdash; {{l10n "form.field.address.description"}}</label>
+                                <label for="address" class="fdescr"> &mdash; {{l10n "Ex: 127.0.0.1 or example.com"}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="days" class="flabel">{{l10n "form.field.ban_days"}}<span class="required">*</span></label>
+                                <label for="days" class="flabel">{{l10n "Days"}}<span class="required">*</span></label>
                                 <div class="fvalue">
                                     <input id="days" type="text" name="days" size="4" value="{{formdays}}" class="formauth"/>
                                 </div>
-                                <label for="days" class="fdescr"> &mdash; {{l10n "form.field.ban_days.description"}}</label>
+                                <label for="days" class="fdescr"> &mdash; {{l10n "Numbers of days this address is blocked"}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="comment" class="flabel">{{l10n "form.field.ban_comment"}}<span class="required">*</span></label>
+                                <label for="comment" class="flabel">{{l10n "Comment"}}<span class="required">*</span></label>
                                 <div class="fvalue">
                                     <input id="comment" type="text" name="comment" size="40" value="{{formcomment}}" class="formauth"/>
                                 </div>
-                                <label for="comment" class="fdescr"> &mdash; {{l10n "form.field.ban_comment.description"}}</label>
+                                <label for="comment" class="fdescr"> &mdash; {{l10n "Reason for block"}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="fbutton">
-                                <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "button.save"}}"/>
+                                <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "Save"}}"/>
                             </div>
                         </div>
                     </div>
@@ -75,7 +75,7 @@
                 </div>
 
                 <div class="asterisk">
-                    <span class="required">*</span> - {{l10n "common.asterisk_explanation"}}
+                    <span class="required">*</span> - {{l10n "mandatory fields"}}
                 </div>
 
             </form>

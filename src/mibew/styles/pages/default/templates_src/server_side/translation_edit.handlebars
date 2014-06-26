@@ -1,7 +1,7 @@
 {{#extends "_layout"}}
     {{#override "content"}}
         {{#if saved}}
-            {{l10n "page.translate.done"}}
+            {{l10n "Your translation is saved."}}
 
             <script type="text/javascript"><!--
                 if(window.opener && window.opener.location) {
@@ -10,7 +10,7 @@
                 setTimeout( (function() { window.close(); }), 1500 );
             //--></script>
         {{else}}
-            {{l10n "page.translate.one"}}
+            {{l10n "Enter your translation."}}
 
             <br/>
             <br/>
@@ -43,7 +43,7 @@
                             </div>
 
                             <div class="fbutton">
-                                <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "button.save"}}"/>
+                                <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "Save"}}"/>
                             </div>
                         </div>
                     </div>

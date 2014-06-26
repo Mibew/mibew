@@ -54,7 +54,7 @@ class FeaturesController extends AbstractController
 
         $page['canmodify'] = is_capable(CAN_ADMINISTRATE, $operator);
         $page['stored'] = $request->query->get('stored');
-        $page['title'] = getlocal('settings.title');
+        $page['title'] = getlocal('Messenger settings');
         $page['menuid'] = 'settings';
         $page = array_merge($page, prepare_menu($operator));
         $page['tabs'] = $this->buildTabs($request);

@@ -1,9 +1,9 @@
 {{#extends "_layout"}}
-    {{#override "pageTitle"}}{{l10n "mailthread.title"}}{{/override}}
+    {{#override "pageTitle"}}{{l10n "Send chat history<br/>by mail"}}{{/override}}
 
     {{#override "buttons"}}
-        <a href="javascript:window.close();" title="{{l10n 'mailthread.close'}}">
-            <img class="tpl-image iclosewin" src="{{stylePath}}/images/free.gif" alt="{{l10n 'mailthread.close'}}" />
+        <a href="javascript:window.close();" title="{{l10n 'Close...'}}">
+            <img class="tpl-image iclosewin" src="{{stylePath}}/images/free.gif" alt="{{l10n 'Close...'}}" />
         </a>
     {{/override}}
 
@@ -12,15 +12,15 @@
             <input type="hidden" name="style" value="{{styleName}}"/>
             <input type="hidden" name="level" value="{{level}}"/>
 
-            <strong>{{l10n "mailthread.enter_email"}}</strong>
+            <strong>{{l10n "Enter your email:"}}</strong>
             <input type="text" name="email" size="20" value="{{formemail}}" class="username" />&nbsp;
-            <a href="javascript:document.mailThreadForm.submit();">{{l10n "mailthread.perform"}}</a>
+            <a href="javascript:document.mailThreadForm.submit();">{{l10n "Send"}}</a>
         </form>
     {{/override}}
 
     {{#override "content"}}
         {{#if errors}}
-            <b>{{l10n "errors.header"}}</b><br/>
+            <b>{{l10n "Correct the mistakes:"}}</b><br/>
             <ul>
             {{#each errors}}
                 <li class="error">{{{this}}}</li>

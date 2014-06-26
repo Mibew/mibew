@@ -74,17 +74,17 @@ class ManagementController extends AbstractController
         $page['allowedAgents'] = $operators_list;
         $page['canmodify'] = is_capable(CAN_ADMINISTRATE, $operator);
         $page['availableOrders'] = array(
-            array('id' => 'login', 'name' => getlocal('page_agents.login')),
-            array('id' => 'localename', 'name' => getlocal('page_agents.agent_name')),
-            array('id' => 'commonname', 'name' => getlocal('page_agents.commonname')),
-            array('id' => 'lastseen', 'name' => getlocal('page_agents.status')),
+            array('id' => 'login', 'name' => getlocal('Login')),
+            array('id' => 'localename', 'name' => getlocal('Name')),
+            array('id' => 'commonname', 'name' => getlocal('International name')),
+            array('id' => 'lastseen', 'name' => getlocal('Last active')),
         );
         $page['availableDirections'] = array(
-            array('id' => 'desc', 'name' => getlocal('page_agents.sortdirection.desc')),
-            array('id' => 'asc', 'name' => getlocal('page_agents.sortdirection.asc')),
+            array('id' => 'desc', 'name' => getlocal('descending')),
+            array('id' => 'asc', 'name' => getlocal('ascending')),
         );
 
-        $page['title'] = getlocal('page_agents.title');
+        $page['title'] = getlocal('Operators');
         $page['menuid'] = 'operators';
         $page = array_merge($page, prepare_menu($operator));
 
@@ -108,13 +108,13 @@ class ManagementController extends AbstractController
         $errors = array();
 
         if ($operator_id == $current_operator['operatorid']) {
-            $errors[] = getlocal('page_agents.error.cannot_remove_self');
+            $errors[] = getlocal('Cannot remove self.');
         } else {
             $operator = operator_by_id($operator_id);
             if (!$operator) {
                 throw new NotFoundException('The operator is not found.');
             } elseif ($operator['vclogin'] == 'admin') {
-                $errors[] = getlocal("page_agents.error.cannot_remove_admin");
+                $errors[] = getlocal("Cannot remove operator \"admin\".");
             }
         }
 
@@ -149,13 +149,13 @@ class ManagementController extends AbstractController
         $errors = array();
 
         if ($operator_id == $current_operator['operatorid']) {
-            $errors[] = getlocal('page_agents.cannot.disable.self');
+            $errors[] = getlocal('Cannot disable self.');
         } else {
             $operator = operator_by_id($operator_id);
             if (!$operator) {
                 throw new NotFoundException('The operator is not found.');
             } elseif ($operator['vclogin'] == 'admin') {
-                $errors[] = getlocal('page_agents.cannot.disable.admin');
+                $errors[] = getlocal('Cannot disable "admin".');
             }
         }
 

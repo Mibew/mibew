@@ -1,20 +1,20 @@
 <td class="visitor">
-    <div><a href="javascript:void(0);" class="user-name open-dialog" title="{{#if canOpen}}{{l10n "pending.table.speak"}}{{else}}{{l10n "pending.table.view"}}{{/if}}">{{#if ban}}{{l10n "chat.client.spam.prefix"}}&nbsp;{{/if}}{{userName}}</a></div>
+    <div><a href="javascript:void(0);" class="user-name open-dialog" title="{{#if canOpen}}{{l10n "Click to chat with the visitor"}}{{else}}{{l10n "Watch the chat"}}{{/if}}">{{#if ban}}{{l10n "[spam]"}}&nbsp;{{/if}}{{userName}}</a></div>
     {{#if firstMessage}}<div class="first-message"><a href="javascript:void(0);" title="{{firstMessage}}">{{firstMessagePreview}}</a></div>{{/if}}
 </td>
 <td class="visitor">
     <div class="default-thread-controls inline-block">
         {{#if canOpen}}
-            <div class="control open-dialog open-control inline-block" title="{{l10n "pending.table.speak"}}"></div>
+            <div class="control open-dialog open-control inline-block" title="{{l10n "Click to chat with the visitor"}}"></div>
         {{/if}}
         {{#if canView}}
-            <div class="control view-control inline-block" title="{{l10n "pending.table.view"}}"></div>
+            <div class="control view-control inline-block" title="{{l10n "Watch the chat"}}"></div>
         {{/if}}
         {{#if tracked}}
-            <div class="control track-control inline-block" title="{{l10n "pending.table.tracked"}}"></div>
+            <div class="control track-control inline-block" title="{{l10n "Tracked visitor's path"}}"></div>
         {{/if}}
         {{#if canBan}}
-            <div class="control ban-control inline-block" title="{{l10n "pending.table.ban"}}"></div>
+            <div class="control ban-control inline-block" title="{{l10n "Ban this visitor"}}"></div>
         {{/if}}
     </div>
     <div class="thread-controls inline-block"></div>

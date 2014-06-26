@@ -39,7 +39,7 @@ class UpdatesController extends AbstractController
             'localizations' => get_available_locales(),
             'phpVersion' => phpversion(),
             'version' => MIBEW_VERSION,
-            'title' => getlocal("updates.title"),
+            'title' => getlocal("Updates"),
             'menuid' => "updates",
             'errors' => array(),
         );

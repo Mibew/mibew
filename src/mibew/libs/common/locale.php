@@ -803,7 +803,7 @@ function get_localized_string($string, $locale)
         return get_localized_string($string, 'en');
     }
 
-    return "!" . $string;
+    return $string;
 }
 
 /* prepares for Javascript string */

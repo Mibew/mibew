@@ -25,7 +25,7 @@
     {{/override}}
 
     {{#override "content"}}
-        {{l10n "install.message"}}
+        {{l10n "Follow the wizard to setup your database."}}
 
         <br/>
         <br/>
@@ -40,7 +40,7 @@
                     </div>
 
                     <div class="forminner">
-                        {{l10n "install.done"}}
+                        {{l10n "Completed:"}}
 
                         <ul>
                             {{#each done}}
@@ -52,7 +52,7 @@
                             <br/>
                             <br/>
 
-                            {{l10n "install.next"}}
+                            {{l10n "Next step:"}}
 
                             <ul>
                                 <li>
@@ -74,6 +74,6 @@
         {{/if}}
 
         <br/>
-        <a href="{{mibewRoot}}/license">{{l10n "install.license"}}</a>
+        <a href="{{mibewRoot}}/license">{{l10n "Software license agreement"}}</a>
     {{/override}}
 {{/extends}}

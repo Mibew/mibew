@@ -65,7 +65,7 @@ class CannedMessageController extends AbstractController
         if ($group_id) {
             $group = group_by_id($group_id);
             if (!$group) {
-                $page['errors'][] = getlocal('page.group.no_such');
+                $page['errors'][] = getlocal('No such group');
                 $group_id = false;
             }
         }
@@ -77,7 +77,7 @@ class CannedMessageController extends AbstractController
         $page['groups'] = array();
         $page['groups'][] = array(
             'groupid' => '',
-            'vclocalname' => getlocal('page.gen_button.default_group'),
+            'vclocalname' => getlocal('-all operators-'),
             'level' => 0,
         );
         foreach ($all_groups as $g) {
@@ -101,7 +101,7 @@ class CannedMessageController extends AbstractController
         $page['formgroup'] = $group_id;
 
         // Set other needed page values and render the response
-        $page['title'] = getlocal('canned.title');
+        $page['title'] = getlocal('Canned Messages');
         $page['menuid'] = 'canned';
         $page = array_merge($page, prepare_menu($operator));
 
@@ -157,7 +157,7 @@ class CannedMessageController extends AbstractController
             // Load existing message
             $canned_message = load_canned_message($message_id);
             if (!$canned_message) {
-                $page['errors'][] = getlocal('cannededit.no_such');
+                $page['errors'][] = getlocal('No such message');
                 $message_id = false;
             } else {
                 $title = $canned_message['vctitle'];
@@ -186,8 +186,8 @@ class CannedMessageController extends AbstractController
         $page['formmessage'] = $message;
         $page['formaction'] = $request->getBaseUrl() . $request->getPathInfo();
         $page['title'] = empty($message_id)
-            ? getlocal('cannednew.title')
-            : getlocal('cannededit.title');
+            ? getlocal('New Message')
+            : getlocal('Edit Message');
         $page = array_merge($page, prepare_menu($operator, false));
 
         return $this->render('canned_message_edit', $page);
@@ -211,12 +211,12 @@ class CannedMessageController extends AbstractController
 
         $title = $request->request->get('title');
         if (!$title) {
-            $errors[] = no_field("form.field.title");
+            $errors[] = no_field("Title");
         }
 
         $message = $request->request->get('message');
         if (!$message) {
-            $errors[] = no_field("form.field.message");
+            $errors[] = no_field("Message");
         }
 
         if (count($errors) != 0) {

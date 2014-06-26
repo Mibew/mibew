@@ -2,7 +2,7 @@
     {{#override "menu"}}{{> _menu}}{{/override}}
 
     {{#override "content"}}
-        {{l10n "page.translate.descr"}}
+        {{l10n "If you don't agree with the translation please send us an update."}}
 
         <br />
         <br />
@@ -17,7 +17,7 @@
 
                 <div class="forminner">
                     <div class="packedFormField">
-                        {{l10n "translate.direction"}}<br/>
+                        {{l10n "Direction:"}}<br/>
                         <select name="source" onchange="this.form.submit();">
                             {{#each availableLocales}}
                                 <option value="{{id}}" {{#ifEqual id ../formsource}} selected="selected"{{/ifEqual}}>{{name}}</option>
@@ -32,7 +32,7 @@
                     </div>
 
                     <div class="packedFormField">
-                        {{l10n "translate.sort"}}<br/>
+                        {{l10n "Sort by:"}}<br/>
                         <select name="sort" onchange="this.form.submit();">
                             {{#each availableOrders}}
                                 <option value="{{id}}"{{#ifEqual id ../formsort}} selected="selected"{{/ifEqual}}>{{name}}</option>
@@ -82,7 +82,7 @@
                 </tr>
             {{else}}
                 <tr>
-                    <td colspan="3">{{l10n "tag.pagination.no_items"}}</td>
+                    <td colspan="3">{{l10n "Found 0 elements"}}</td>
                 </tr>
             {{/each}}
 

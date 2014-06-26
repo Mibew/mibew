@@ -54,14 +54,14 @@ class ButtonCodeController extends AbstractController
         $image_locales = $image_locales_map[$image];
 
         $style_list = ChatStyle::getAvailableStyles();
-        $style_list[''] = getlocal('page.preview.style_default');
+        $style_list[''] = getlocal('-from general settings-');
         $style = $request->query->get('style', '');
         if ($style && !in_array($style, $style_list)) {
             $style = '';
         }
 
         $invitation_style_list = InvitationStyle::getAvailableStyles();
-        $invitation_style_list[''] = getlocal('page.preview.style_default');
+        $invitation_style_list[''] = getlocal('-from general settings-');
         $invitation_style = $request->query->get('invitationstyle', '');
         if ($invitation_style && !in_array($invitation_style, $invitation_style_list)) {
             $invitation_style = '';
@@ -71,7 +71,7 @@ class ButtonCodeController extends AbstractController
 
         $group_id = $request->query->getInt('group');
         if ($group_id && !group_by_id($group_id)) {
-            $page['errors'][] = getlocal("page.group.no_such");
+            $page['errors'][] = getlocal("No such group");
             $group_id = false;
         }
 
@@ -123,7 +123,7 @@ class ButtonCodeController extends AbstractController
                 $lang = in_array(CURRENT_LOCALE, $locales_list) ? CURRENT_LOCALE : $locales_list[0];
             }
 
-            $message = getlocal('page.gen_button.text_link_text');
+            $message = getlocal('Click to chat');
         }
 
         $page['buttonCode'] = generate_button(
@@ -146,9 +146,9 @@ class ButtonCodeController extends AbstractController
         $page['groups'] = get_groups_list();
 
         $page['availableCodeTypes'] = array(
-            'button' => getlocal('page.gen_button.button'),
-            'operator_code' => getlocal('page.gen_button.operator_code'),
-            'text_link' => getlocal('page.gen_button.text_link')
+            'button' => getlocal('button'),
+            'operator_code' => getlocal('operator code field'),
+            'text_link' => getlocal('text link')
         );
 
         $page['formgroup'] = $group_id;
@@ -165,7 +165,7 @@ class ButtonCodeController extends AbstractController
         $page['operator_code'] = $operator_code;
         $page['generateButton'] = $generate_button;
 
-        $page['title'] = getlocal("page.gen_button.title");
+        $page['title'] = getlocal("Button HTML code generation");
         $page['menuid'] = "getcode";
 
         $page = array_merge($page, prepare_menu($operator));

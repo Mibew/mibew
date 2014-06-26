@@ -67,7 +67,7 @@ class UsersController extends AbstractController
         $page['coreStyles.trackedVisitorWindowParams'] = $style_config['tracked']['visitor_window_params'];
         $page['coreStyles.banWindowParams'] = $style_config['ban']['window_params'];
 
-        $page['title'] = getlocal("clients.title");
+        $page['title'] = getlocal("List of visitors waiting");
         $page['menuid'] = "users";
 
         // Get additional plugins data

@@ -2,7 +2,7 @@
     {{#override "menu"}}{{> _menu}}{{/override}}
 
     {{#override "content"}}
-        {{l10n "page_settings.intro"}}
+        {{l10n "Specify options affecting chat window and common system behavior."}}
 
         <br />
         <br />
@@ -10,7 +10,7 @@
         {{> _errors}}
 
         {{#if stored}}
-            <div id="formmessage">{{l10n "settings.saved"}}</div>
+            <div id="formmessage">{{l10n "Changes saved"}}</div>
         {{/if}}
 
         <form name="settings" method="post" action="{{mibewRoot}}/operator/settings">
@@ -28,16 +28,16 @@
 
                         <div class="fieldForm">
                             <div class="field">
-                                <label for="email" class="flabel">{{l10n "settings.email"}}</label>
+                                <label for="email" class="flabel">{{l10n "Email"}}</label>
                                 <div class="fvalue">
                                     <input id="email" type="text" name="email" size="40" value="{{formemail}}" class="formauth"/>
                                 </div>
-                                <label for="email" class="fdescr"> &mdash; {{l10n "settings.email.description"}}</label>
+                                <label for="email" class="fdescr"> &mdash; {{l10n "Enter an email to receive system messages"}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="leftmessageslocale" class="flabel">{{l10n "settings.leftmessageslocale"}}</label>
+                                <label for="leftmessageslocale" class="flabel">{{l10n "Language of the messages left by visitors"}}</label>
                                 <div class="fvalue">
                                     <select id="leftmessageslocale" name="leftmessageslocale">
                                         {{#each availableLocales}}
@@ -45,84 +45,84 @@
                                         {{/each}}
                                     </select>
                                 </div>
-                                <label for="leftmessageslocale" class="fdescr"> &mdash; {{l10n "settings.leftmessageslocale.description"}}</label>
+                                <label for="leftmessageslocale" class="fdescr"> &mdash; {{l10n "Language of the messages that could be left by visitors when operators aren't available"}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="titlefield" class="flabel">{{l10n "settings.company.title"}}</label>
+                                <label for="titlefield" class="flabel">{{l10n "Company title"}}</label>
                                 <div class="fvalue">
                                     <input id="titlefield" type="text" name="title" size="40" value="{{formtitle}}" class="formauth"/>
                                 </div>
-                                <label for="titlefield" class="fdescr"> &mdash; {{l10n "settings.company.title.description"}}</label>
+                                <label for="titlefield" class="fdescr"> &mdash; {{l10n "Enter your company title"}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="chattitle" class="flabel">{{l10n "settings.chat.title"}}</label>
+                                <label for="chattitle" class="flabel">{{l10n "Title in the chat window"}}</label>
                                 <div class="fvalue">
                                     <input id="chattitle" type="text" name="chattitle" size="40" value="{{formchattitle}}" class="formauth"/>
                                 </div>
-                                <label for="chattitle" class="fdescr"> &mdash; {{l10n "settings.chat.title.description"}}</label>
+                                <label for="chattitle" class="fdescr"> &mdash; {{l10n "Name of your company for example."}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="logofield" class="flabel">{{l10n "settings.logo"}}</label>
+                                <label for="logofield" class="flabel">{{l10n "Your company logo"}}</label>
                                 <div class="fvalue">
                                     <input id="logofield" type="text" name="logo" size="40" value="{{formlogo}}" class="formauth"/>
                                 </div>
-                                <label for="logofield" class="fdescr"> &mdash; {{l10n "settings.logo.description"}}</label>
+                                <label for="logofield" class="fdescr"> &mdash; {{l10n "Enter http address of your company logo"}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="hosturl" class="flabel">{{l10n "settings.host"}}</label>
+                                <label for="hosturl" class="flabel">{{l10n "URL of your website"}}</label>
                                 <div class="fvalue">
                                     <input id="hosturl" type="text" name="hosturl" size="40" value="{{formhosturl}}" class="formauth"/>
                                 </div>
-                                <label for="hosturl" class="fdescr"> &mdash; {{l10n "settings.host.description"}}</label>
+                                <label for="hosturl" class="fdescr"> &mdash; {{l10n "Destination for your company name or logo link"}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="geolink" class="flabel">{{l10n "settings.geolink"}}</label>
+                                <label for="geolink" class="flabel">{{l10n "Link to an external geolocation service"}}</label>
                                 <div class="fvalue">
                                     <input id="geolink" type="text" name="geolink" size="40" value="{{formgeolink}}" class="formauth"/>
                                 </div>
-                                <label for="geolink" class="fdescr"> &mdash; {{l10n "settings.geolink.description"}}</label>
+                                <label for="geolink" class="fdescr"> &mdash; {{l10n "Each IP becomes a link opening in a new window. {ip} is substituted with a real IP."}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="geolinkparams" class="flabel">{{l10n "settings.geolinkparams"}}</label>
+                                <label for="geolinkparams" class="flabel">{{l10n "Geolocation window options"}}</label>
                                 <div class="fvalue">
                                     <input id="geolinkparams" type="text" name="geolinkparams" size="40" value="{{formgeolinkparams}}" class="formauth"/>
                                 </div>
-                                <label for="geolinkparams" class="fdescr"> &mdash; {{l10n "settings.geolinkparams.description"}}</label>
+                                <label for="geolinkparams" class="fdescr"> &mdash; {{l10n "Window size and toolbars hiding"}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="usernamepattern" class="flabel">{{l10n "settings.usernamepattern"}}</label>
+                                <label for="usernamepattern" class="flabel">{{l10n "Visitor's identifier"}}</label>
                                 <div class="fvalue">
                                     <input id="usernamepattern" type="text" name="usernamepattern" size="40" value="{{formusernamepattern}}" class="formauth"/>
                                 </div>
-                                <label for="usernamepattern" class="fdescr"> &mdash; {{l10n "settings.usernamepattern.description"}}</label>
+                                <label for="usernamepattern" class="fdescr"> &mdash; {{l10n "How to build visitor's identifying string from {name}, {id} or {addr}. Default: {name}"}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="cronkey" class="flabel">{{l10n "settings.cronkey"}}</label>
+                                <label for="cronkey" class="flabel">{{l10n "Cron security key"}}</label>
                                 <div class="fvalue">
                                     <input id="cronkey" type="text" name="cronkey" size="40" value="{{formcronkey}}" class="formauth"/>
                                 </div>
-                                <label for="cronkey" class="fdescr"> &mdash; {{l10n "settings.cronkey.description" cron_path}}</label>
+                                <label for="cronkey" class="fdescr"> &mdash; {{l10n "To run cron use link <a href=\"{0}\">{0}</a>." cron_path}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="page_style" class="flabel">{{l10n "settings.page_style"}}</label>
+                                <label for="page_style" class="flabel">{{l10n "Select a style for your operator pages"}}</label>
                                 <div class="fvalue">
                                     <select id="pages_style" name="page_style">
                                         {{#each availablePageStyles}}
@@ -130,12 +130,12 @@
                                         {{/each}}
                                     </select>
                                 </div>
-                                <label for="page_style" class="fdescr"> &mdash; {{l10n "settings.page_style.description" pageStylePreviewPath}}</label>
+                                <label for="page_style" class="fdescr"> &mdash; {{l10n "A preview for each style is available <a href=\"{0}\">here</a>" pageStylePreviewPath}}</label>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="chat_style" class="flabel">{{l10n "settings.chatstyle"}}</label>
+                                <label for="chat_style" class="flabel">{{l10n "Select a style for your chat windows"}}</label>
                                 <div class="fvalue">
                                     <select id="chat_style" name="chat_style" >
                                         {{#each availableChatStyles}}
@@ -143,13 +143,13 @@
                                         {{/each}}
                                     </select>
                                 </div>
-                                <label for="chat_style" class="fdescr"> &mdash; {{l10n "settings.chatstyle.description" chatStylePreviewPath}}</label>
+                                <label for="chat_style" class="fdescr"> &mdash; {{l10n "A preview all pages for each style is available <a href=\"{0}\">here</a>" chatStylePreviewPath}}</label>
                                 <br clear="all"/>
                             </div>
 
                             {{#if enabletracking}}
                                 <div class="field">
-                                    <label for="invitation_style" class="flabel">{{l10n "settings.invitationstyle"}}</label>
+                                    <label for="invitation_style" class="flabel">{{l10n "Select a style for your invitation"}}</label>
                                     <div class="fvalue">
                                         <select id="invitation_style" name="invitation_style" >
                                             {{#each availableInvitationStyles}}
@@ -157,13 +157,13 @@
                                             {{/each}}
                                         </select>
                                     </div>
-                                    <label for="invitation_style" class="fdescr"> &mdash; {{l10n "settings.invitationstyle.description" invitationStylePreviewPath}}</label>
+                                    <label for="invitation_style" class="fdescr"> &mdash; {{l10n "A preview for invitation style is available <a href=\"{0}\">here</a>" invitationStylePreviewPath}}</label>
                                     <br clear="all"/>
                                 </div>
                             {{/if}}
 
                             <div class="field">
-                                <div class="flabel">{{l10n "settings.sendmessagekey"}}</div>
+                                <div class="flabel">{{l10n "Send messages with:"}}</div>
                                 <div class="fvaluenodesc">
                                     <input id="sendmessagekeyenter" type="radio" name="sendmessagekey" value="enter" {{#ifEqual formsendmessagekey "enter"}} checked="checked"{{/ifEqual}}/><label for="sendmessagekeyenter">Enter</label>
                                     <input id="sendmessagekeycenter" type="radio" name="sendmessagekey" value="center" {{#ifEqual formsendmessagekey "center"}} checked="checked"{{/ifEqual}}/><label for="sendmessagekeycenter">Ctrl-Enter</label>
@@ -171,7 +171,7 @@
                             </div>
 
                             <div class="fbutton">
-                                <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "button.save"}}"/>
+                                <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "Save"}}"/>
                             </div>
 
                         </div>
@@ -185,7 +185,7 @@
             </div>
 
             <div class="asterisk">
-                <span class="required">*</span> - {{l10n "common.asterisk_explanation"}}
+                <span class="required">*</span> - {{l10n "mandatory fields"}}
             </div>
 
         </form>

@@ -2,7 +2,7 @@
     {{#override "menu"}}{{> _menu}}{{/override}}
 
     {{#override "content"}}
-        {{l10n "page_locales.intro"}}
+        {{l10n "On this page you can configure locales which are used in the system"}}
 
         <br />
         <br />
@@ -32,9 +32,9 @@
         <table class="list">
             <thead>
                 <tr class="header">
-                    <th>{{l10n "page_locales.code"}}</th>
-                    <th>{{l10n "page_locales.name"}}</th>
-                    <th>{{l10n "page_locales.actions"}}</th>
+                    <th>{{l10n "Code"}}</th>
+                    <th>{{l10n "Name"}}</th>
+                    <th>{{l10n "Modify"}}</th>
                 </tr>
             </thead>
 
@@ -51,9 +51,9 @@
 
                         <td>
                             {{#if isDisabled}}
-                                <a href="{{../mibewRoot}}/operator/locale/{{code}}/enable?{{csrfTokenInUrl}}">{{l10n "page_locales.enable.locale"}}</a>
+                                <a href="{{../mibewRoot}}/operator/locale/{{code}}/enable?{{csrfTokenInUrl}}">{{l10n "enable"}}</a>
                             {{else}}
-                                <a href="{{../mibewRoot}}/operator/locale/{{code}}/disable?{{csrfTokenInUrl}}">{{l10n "page_locales.disable.locale"}}</a>
+                                <a href="{{../mibewRoot}}/operator/locale/{{code}}/disable?{{csrfTokenInUrl}}">{{l10n "disable"}}</a>
                             {{/if}}
                         </td>
                     </tr>

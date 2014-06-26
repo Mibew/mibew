@@ -572,8 +572,8 @@ function setup_redirect_links(UrlGeneratorInterface $url_generator, $threadid, $
         $params['nextAgent'] = $agent['operatorid'];
         $status = $agent['time'] < Settings::get('online_timeout')
             ? ($agent['istatus'] == 0
-                ? getlocal("char.redirect.operator.online_suff")
-                : getlocal("char.redirect.operator.away_suff"))
+                ? getlocal("(online)")
+                : getlocal("(away)"))
             : "";
         $agent_list .= "<li><a href=\"" . $url_generator->generate('chat_operator_redirect', $params)
             . "\" title=\"" . get_operator_name($agent) . "\">"
@@ -588,8 +588,8 @@ function setup_redirect_links(UrlGeneratorInterface $url_generator, $threadid, $
         foreach ($groups as $group) {
             $params['nextGroup'] = $group['groupid'];
             $status = group_is_online($group)
-                ? getlocal("char.redirect.operator.online_suff")
-                : (group_is_away($group) ? getlocal("char.redirect.operator.away_suff") : "");
+                ? getlocal("(online)")
+                : (group_is_away($group) ? getlocal("(away)") : "");
             $group_list .= "<li><a href=\"" . $url_generator->generate('chat_operator_redirect', $params)
                 . "\" title=\"" . get_group_name($group) . "\">"
                 . get_group_name($group)
@@ -648,7 +648,7 @@ function prepare_menu($operator, $has_right = true)
     $result['showMenu'] = true;
     $result['operator'] = get_operator_name($operator);
     $result['goOnlineLink'] = getlocal(
-        "menu.goonline",
+        "You are Offline.<br/><a href=\"{0}\">Connect...</a>",
         array(MIBEW_WEB_ROOT . "/operator/users?nomenu")
     );
     if ($has_right) {

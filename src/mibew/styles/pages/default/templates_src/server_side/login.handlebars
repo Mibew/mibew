@@ -5,18 +5,18 @@
 
     {{#override "content"}}
         <div id="loginintro">
-        <p>{{l10n "app.descr"}}</p>
+        <p>{{l10n "Mibew Messenger is an open-source live support application."}}</p>
         </div>
 
         <form name="loginForm" method="post" action="{{mibewRoot}}/operator/login">
             <div id="loginpane">
 
                 <div class="header">
-                    <h2>{{l10n "page_login.title"}}</h2>
+                    <h2>{{l10n "Login"}}</h2>
                 </div>
 
                 <div class="fieldForm">
-                    {{l10n "page_login.intro"}}
+                    {{l10n "Please enter your username and password to access administrative tools. See your visitors and browse the history."}}
 
                     <br/>
                     <br/>
@@ -24,7 +24,7 @@
                     {{> _errors}}
 
                     <div class="field">
-                        <div class="fleftlabel">{{l10n "page_login.login"}}</div>
+                        <div class="fleftlabel">{{l10n "Login:"}}</div>
                         <div class="fvalue">
                             <input type="text" name="login" size="25" value="{{formlogin}}" class="formauth"/>
                         </div>
@@ -32,7 +32,7 @@
                     </div>
 
                     <div class="field">
-                        <div class="fleftlabel">{{l10n "page_login.password"}}</div>
+                        <div class="fleftlabel">{{l10n "Password:"}}</div>
                         <div class="fvalue">
                             <input type="password" name="password" size="25" value="" class="formauth" autocomplete="off"/>
                         </div>
@@ -44,17 +44,17 @@
                         <div class="fvalue">
                             <label>
                                 <input type="checkbox" name="isRemember" value="on"{{#if formisRemember}} checked="checked"{{/if}} />
-                                {{l10n "page_login.remember"}}
+                                {{l10n "Remember"}}
                             </label>
                         </div>
                         <br clear="all"/>
                     </div>
 
                     <div class="fbutton">
-                        <input type="submit" name="submit" class="submit-bg-button login-button" value="{{l10n "button.enter"}}" />
+                        <input type="submit" name="submit" class="submit-bg-button login-button" value="{{l10n "Enter"}}" />
 
                         <div class="links">
-                            <a href="{{mibewRoot}}/operator/password-recovery">{{l10n "restore.pwd.message"}}</a><br/>
+                            <a href="{{mibewRoot}}/operator/password-recovery">{{l10n "Forgot your password?"}}</a><br/>
                         </div>
                     </div>
 

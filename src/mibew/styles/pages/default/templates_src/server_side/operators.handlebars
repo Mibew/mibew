@@ -6,7 +6,7 @@
         <script type="text/javascript" language="javascript"><!--
             (function($) {
                 $(document).ready(function(){
-                    var confirmMessage = "{{#jsString}}{{l10n 'page_agents.confirm' '{login}'}}{{/jsString}}";
+                    var confirmMessage = "{{#jsString}}{{l10n 'Are you sure that you want to delete operator "{0}"?' '{login}'}}{{/jsString}}";
 
                     $('a.removelink').click(function(){
                         var login = $.trim($("#t" + this.id).text());
@@ -18,7 +18,7 @@
     {{/override}}
 
     {{#override "content"}}
-        {{l10n "page_agents.intro"}}
+        {{l10n "This page displays a list of company operators."}}
 
         <br />
         <br />
@@ -33,7 +33,7 @@
 
                 <div class="forminner">
                     <div class="packedFormField">
-                        {{l10n "page_agents.sort"}}<br/>
+                        {{l10n "Sort by:"}}<br/>
                         <select name="sortby" onchange="this.form.submit();">
                             {{#each availableOrders}}
                                 <option value="{{id}}"{{#ifEqual id ../formsortby}} selected="selected"{{/ifEqual}}>{{name}}</option>
@@ -42,7 +42,7 @@
                     </div>
 
                     <div class="packedFormField">
-                        {{l10n "page_agents.sortdirection"}}<br/>
+                        {{l10n "Sort direction:"}}<br/>
                         <select name="sortdirection" onchange="this.form.submit();">
                             {{#each availableDirections}}
                                 <option value="{{id}}"{{#ifEqual id ../formsortdirection}} selected="selected"{{/ifEqual}}>{{name}}</option>
@@ -63,8 +63,8 @@
         {{#if canmodify}}
             <div class="tabletool">
                 <img src="{{stylePath}}/images/buttons/createagent.gif" border="0" alt="" />
-                <a href="{{mibewRoot}}/operator/operator/add" title="{{l10n "page_agents.new_agent"}}">
-                    {{l10n "page_agents.new_agent"}}
+                <a href="{{mibewRoot}}/operator/operator/add" title="{{l10n "Add operator..."}}">
+                    {{l10n "Add operator..."}}
                 </a>
             </div>
             <br clear="all"/>
@@ -73,9 +73,9 @@
         <table class="list">
             <thead>
                 <tr class="header">
-                    <th>{{l10n "page_agents.login"}}</th>
-                    <th>{{l10n "page_agents.agent_name"}}</th>
-                    <th>{{l10n "page_agents.status"}}</th>
+                    <th>{{l10n "Login"}}</th>
+                    <th>{{l10n "Name"}}</th>
+                    <th>{{l10n "Last active"}}</th>
                     {{#if canmodify}}
                         <th></th>
                         <th></th>
@@ -99,9 +99,9 @@
                         <td class="notlast">
                             {{#ifAny isAvailable isAway}}
                                 {{#if isAvailable}}
-                                    {{l10n "page_agents.isonline"}}
+                                    {{l10n "Online"}}
                                 {{else}}
-                                    {{l10n "page_agents.isaway"}}
+                                    {{l10n "Away"}}
                                 {{/if}}
                             {{else}}
                                 {{formatDate lastTimeOnline}}
@@ -111,15 +111,15 @@
                         {{#if ../canmodify}}
                             <td>
                                 {{#if isDisabled}}
-                                    <a href="{{../mibewRoot}}/operator/operator/{{operatorid}}/enable?{{csrfTokenInUrl}}">{{l10n "page_agents.enable.agent"}}</a>
+                                    <a href="{{../mibewRoot}}/operator/operator/{{operatorid}}/enable?{{csrfTokenInUrl}}">{{l10n "enable"}}</a>
                                 {{else}}
-                                    <a href="{{../mibewRoot}}/operator/operator/{{operatorid}}/disable?{{csrfTokenInUrl}}">{{l10n "page_agents.disable.agent"}}</a>
+                                    <a href="{{../mibewRoot}}/operator/operator/{{operatorid}}/disable?{{csrfTokenInUrl}}">{{l10n "disable"}}</a>
                                 {{/if}}
                             </td>
 
                             <td>
                                 <a class="removelink" id="i{{operatorid}}" href="{{../mibewRoot}}/operator/operator/{{operatorid}}/delete?{{csrfTokenInUrl}}">
-                                    {{l10n "remove.item"}}
+                                    {{l10n "remove"}}
                                 </a>
                             </td>
                         {{/if}}

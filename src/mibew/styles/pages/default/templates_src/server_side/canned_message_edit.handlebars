@@ -1,7 +1,7 @@
 {{#extends "_layout"}}
     {{#override "content"}}
         {{#if saved}}
-            {{l10n "cannededit.done"}}
+            {{l10n "Saved"}}
             <script type="text/javascript"><!--
                 if(window.opener && window.opener.location) {
                     window.opener.location.reload();
@@ -10,9 +10,9 @@
             //--></script>
         {{else}}
             {{#if key}}
-                {{l10n "cannededit.descr"}}
+                {{l10n "Edit an existing message."}}
             {{else}}
-                {{l10n "cannednew.descr"}}
+                {{l10n "Add new message."}}
             {{/if}}
 
             <br/>
@@ -36,21 +36,21 @@
                     <div class="forminner">
                         <div class="fieldForm">
                             <div class="field">
-                                <label for="titlefield" class="flabel">{{l10n "canned.message_title"}}</label>
+                                <label for="titlefield" class="flabel">{{l10n "Title"}}</label>
                                 <div class="fvaluenodesc">
                                     <input id="titlefield" type="text" name="title" class="wide" maxlength="100" value="{{formtitle}}"/>
                                 </div>
                             </div>
 
                             <div class="field">
-                                <label for="message" class="flabel">{{l10n "cannededit.message"}}</label>
+                                <label for="message" class="flabel">{{l10n "Message"}}</label>
                                 <div class="fvaluenodesc">
                                     <textarea id="message" name="message" cols="20" rows="5" class="wide">{{formmessage}}</textarea>
                                 </div>
                             </div>
 
                             <div class="fbutton">
-                                <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "button.save"}}"/>
+                                <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "Save"}}"/>
                             </div>
                         </div>
                     </div>

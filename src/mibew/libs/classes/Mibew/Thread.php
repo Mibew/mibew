@@ -364,7 +364,7 @@ class Thread
         // Send message
         $thread->postMessage(
             self::KIND_EVENTS,
-            getlocal('chat.status.user.reopenedthread', null, $thread->locale, true)
+            getlocal('Visitor joined chat again', null, $thread->locale, true)
         );
 
         return $thread;
@@ -601,7 +601,7 @@ class Thread
                 if ($this->state == self::STATE_CHATTING) {
                     // Send message to user
                     $message_to_post = getlocal(
-                        'chat.status.operator.dead',
+                        'Your operator has connection issues. We have moved you to a priorty position in the queue. Sorry for keeping you waiting.',
                         null,
                         $this->locale,
                         true
@@ -627,7 +627,7 @@ class Thread
 
                 // And send a message to operator
                 $message_to_post = getlocal(
-                    'chat.status.user.dead',
+                    'Visitor closed chat window',
                     null,
                     $this->locale,
                     true
@@ -710,14 +710,14 @@ class Thread
             // Prepare message
             if ($this->nextAgent == $operator['operatorid']) {
                 $message_to_post = getlocal(
-                    "chat.status.operator.changed",
+                    "Operator <strong>{0}</strong> changed operator <strong>{1}</strong>",
                     array($operator_name, $this->agentName),
                     $this->locale,
                     true
                 );
             } else {
                 $message_to_post = getlocal(
-                    "chat.status.operator.returned",
+                    "Operator {0} is back",
                     array($operator_name),
                     $this->locale,
                     true
@@ -857,7 +857,7 @@ class Thread
             $this->postMessage(
                 self::KIND_EVENTS,
                 getlocal(
-                    "chat.status.user.left",
+                    "Visitor {0} left the chat",
                     array($this->userName),
                     $this->locale,
                     true
@@ -868,7 +868,7 @@ class Thread
                 $this->postMessage(
                     self::KIND_FOR_AGENT,
                     getlocal(
-                        'chat.visitor.invitation.canceled',
+                        'Operator canceled invitation',
                         null,
                         $this->locale,
                         true
@@ -878,7 +878,7 @@ class Thread
                 $this->postMessage(
                     self::KIND_EVENTS,
                     getlocal(
-                        "chat.status.operator.left",
+                        "Operator {0} left the chat",
                         array($this->agentName),
                         $this->locale,
                         true
@@ -936,14 +936,14 @@ class Thread
             if ($this->state == self::STATE_WAITING) {
                 if ($operator['operatorid'] != $this->agentId) {
                     $message = getlocal(
-                        "chat.status.operator.changed",
+                        "Operator <strong>{0}</strong> changed operator <strong>{1}</strong>",
                         array($operator_name, $this->agentName),
                         $this->locale,
                         true
                     );
                 } else {
                     $message = getlocal(
-                        "chat.status.operator.returned",
+                        "Operator {0} is back",
                         array($operator_name),
                         $this->locale,
                         true
@@ -951,7 +951,7 @@ class Thread
                 }
             } else {
                 $message = getlocal(
-                    "chat.status.operator.joined",
+                    "Operator {0} joined the chat",
                     array($operator_name),
                     $this->locale,
                     true
@@ -962,7 +962,7 @@ class Thread
             if ($operator['operatorid'] != $this->agentId) {
                 $take_thread = true;
                 $message = getlocal(
-                    "chat.status.operator.changed",
+                    "Operator <strong>{0}</strong> changed operator <strong>{1}</strong>",
                     array($operator_name, $this->agentName),
                     $this->locale,
                     true
@@ -1013,7 +1013,7 @@ class Thread
 
             // Send message about renaming
             $message = getlocal(
-                "chat.status.user.changedname",
+                "The visitor changed their name <strong>{0}</strong> to <strong>{1}</strong>",
                 array($old_name, $new_name),
                 $this->locale,
                 true

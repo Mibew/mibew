@@ -2,7 +2,7 @@
     {{#override "menu"}}{{> _menu}}{{/override}}
 
     {{#override "content"}}
-        {{l10n "page.preview.intro"}}
+        {{l10n "You can view the list of themes you currently have installed here."}}
 
         <br />
         <br />
@@ -19,7 +19,7 @@
                     <div class="forminner">
                         <div class="fieldForm">
                             <div class="field">
-                                <label for="preview" class="flabel">{{l10n "page.preview.choose"}}</label>
+                                <label for="preview" class="flabel">{{l10n "Choose style"}}</label>
                                 <div class="fvaluenodesc">
                                     <select id="preview" name="preview" onchange="this.form.submit();">
                                         {{#each availablePreviews}}

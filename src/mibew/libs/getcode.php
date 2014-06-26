@@ -147,7 +147,7 @@ function verifyparam_groupid($param_id, &$errors)
     if ($group_id) {
         $group = group_by_id($group_id);
         if (!$group) {
-            $errors[] = getlocal("page.group.no_such");
+            $errors[] = getlocal("No such group");
             $group_id = "";
         }
     }
@@ -166,7 +166,7 @@ function get_groups_list()
     $all_groups = get_all_groups();
     $result[] = array(
         'groupid' => '',
-        'vclocalname' => getlocal("page.gen_button.default_group"),
+        'vclocalname' => getlocal("-all operators-"),
         'level' => 0,
     );
     foreach ($all_groups as $g) {

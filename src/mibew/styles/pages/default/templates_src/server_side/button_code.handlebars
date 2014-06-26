@@ -2,7 +2,7 @@
     {{#override "menu"}}{{> _menu}}{{/override}}
 
     {{#override "content"}}
-        {{l10n "page.gen_button.intro"}}
+        {{l10n "You can generate HTML code to place at your site here."}}
 
         <br />
         <br />
@@ -18,7 +18,7 @@
                 <div class="forminner">
                     <div class="fieldForm">
                         <div class="fieldinrow">
-                            <label for="lang" class="flabel">{{l10n "page.gen_button.choose_locale"}}</label>
+                            <label for="lang" class="flabel">{{l10n "Code for language"}}</label>
                             <div class="fvaluenodesc">
                                 <select id="lang" name="lang" onchange="this.form.submit();">
                                     {{#each availableLocales}}
@@ -29,7 +29,7 @@
                         </div>
 
                         <div class="fieldinrow">
-                            <label for="style" class="flabel">{{l10n "page.gen_button.choose_style"}}</label>
+                            <label for="style" class="flabel">{{l10n "Chat window style"}}</label>
                             <div class="fvaluenodesc">
                                 <select id="style" name="style" onchange="this.form.submit();">
                                     {{#each availableChatStyles}}
@@ -41,7 +41,7 @@
                         <br clear="all"/>
 
                         <div class="fieldinrow">
-                            <label for="codetype" class="flabel">{{l10n "page.gen_button.choose_type"}}</label>
+                            <label for="codetype" class="flabel">{{l10n "Generating code type"}}</label>
                             <div class="fvaluenodesc">
                                 <select id="codetype" name="codetype" onchange="this.form.submit();">
                                     {{#each availableCodeTypes}}
@@ -54,7 +54,7 @@
 
                         {{#if generateButton}}
                             <div class="fieldinrow">
-                                <label for="i" class="flabel">{{l10n "page.gen_button.choose_image"}}</label>
+                                <label for="i" class="flabel">{{l10n "Choose image"}}</label>
                                 <div class="fvaluenodesc">
                                     <select id="i" name="i" onchange="this.form.submit();">
                                         {{#each availableImages}}
@@ -66,7 +66,7 @@
 
                             {{#if enabletracking}}
                                 <div class="fieldinrow">
-                                    <label for="invitationstyle" class="flabel">{{l10n "page.gen_button.choose_invitationstyle"}}</label>
+                                    <label for="invitationstyle" class="flabel">{{l10n "Invitation style"}}</label>
                                     <div class="fvaluenodesc">
                                         <select id="invitationstyle" name="invitationstyle" onchange="this.form.submit();">
                                             {{#each availableInvitationStyles}}
@@ -81,7 +81,7 @@
                         {{/if}}
 
                         <div class="fieldinrow">
-                            <label for="group" class="flabel">{{l10n "page.gen_button.choose_group"}}</label>
+                            <label for="group" class="flabel">{{l10n "Code for group"}}</label>
                             <div class="fvaluenodesc">
                                 <select id="group" name="group" onchange="this.form.submit();">
                                     {{#each groups}}
@@ -93,7 +93,7 @@
                         <br clear="all"/>
 
                         <div class="fieldinrow">
-                            <label for="hostname" class="flabel">{{l10n "page.gen_button.include_site_name"}}</label>
+                            <label for="hostname" class="flabel">{{l10n "Include host name into the code"}}</label>
                             <div class="fvaluenodesc">
                                 <input id="hostname" type="checkbox" name="hostname" value="on"{{#if formhostname}} checked="checked"{{/if}} onchange="this.form.submit();"/>
                             </div>
@@ -101,7 +101,7 @@
 
                         {{#if formhostname}}
                             <div class="fieldinrow">
-                                <label for="secure" class="flabel">{{l10n "page.gen_button.secure_links"}}</label>
+                                <label for="secure" class="flabel">{{l10n "Use secure links (https)"}}</label>
                                 <div class="fvaluenodesc">
                                     <input id="secure" type="checkbox" name="secure" value="on"{{#if formsecure}} checked="checked"{{/if}} onchange="this.form.submit();"/>
                                 </div>
@@ -111,23 +111,23 @@
                         <br clear="all"/>
 
                         <div class="field">
-                            <label for="modsecurity" class="flabel">{{l10n "page.gen_button.modsecurity"}}</label>
+                            <label for="modsecurity" class="flabel">{{l10n "Compatibility with mod_security (modsecurity.org), turn on only if you have problems with it"}}</label>
                             <div class="fvaluenodesc">
                                 <input id="modsecurity" type="checkbox" name="modsecurity" value="on"{{#if formmodsecurity}} checked="checked"{{/if}} onchange="this.form.submit();"/>
                             </div>
                         </div>
 
                         <div class="field">
-                            <label for="buttonCode" class="flabel">{{l10n "page.gen_button.code"}}</label>
+                            <label for="buttonCode" class="flabel">{{l10n "HTML code"}}</label>
                             <div class="fvaluewithta" dir="ltr">
                                 <textarea id="buttonCode" cols="44" rows="15">{{buttonCode}}</textarea>
                             </div>
-                            <label for="buttonCode" class="fdescr">{{l10n "page.gen_button.code.description"}}</label>
+                            <label for="buttonCode" class="fdescr">{{l10n "<strong>Caution!</strong> Please don't change<br/> the code manually because<br/> we don't guarantee that<br/> it will work!"}}</label>
                             <br clear="all"/>
                         </div>
 
                         <div class="field">
-                            <div class="flabel">{{l10n "page.gen_button.sample"}}</div>
+                            <div class="flabel">{{l10n "Example"}}</div>
                             <div class="fvaluenodesc">
                                 {{{buttonCode}}}
                             </div>

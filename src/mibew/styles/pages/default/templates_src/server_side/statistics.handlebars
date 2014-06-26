@@ -22,10 +22,10 @@
                 <div class="forminner">
                     <div class="fieldForm">
                         <div class="field">
-                            <div class="flabel">{{l10n "statistics.dates"}}</div>
+                            <div class="flabel">{{l10n "Select dates"}}</div>
                             <div class="fvaluenodesc">
                                 <div class="searchctrl">
-                                    <label for="startday">{{l10n "statistics.from"}}</label>
+                                    <label for="startday">{{l10n "From:"}}</label>
                                     <select id="startday" name="startday">
                                         {{#each availableDays}}
                                             <option value="{{this}}"{{#ifEqual this ../formstartday}} selected="selected"{{/ifEqual}}>{{this}}</option>
@@ -39,7 +39,7 @@
                                     </select>
                                 </div>
                                 <div class="searchctrl">
-                                    <label for="endday">{{l10n "statistics.till"}}</label>
+                                    <label for="endday">{{l10n "Till:"}}</label>
                                     <select id="endday" name="endday">
                                         {{#each availableDays}}
                                             <option value="{{this}}"{{#ifEqual this ../formendday}} selected="selected"{{/ifEqual}}>{{this}}</option>
@@ -53,7 +53,7 @@
                                     </select>
                                 </div>
                                 <div id="searchbutton">
-                                    <input type="submit" name="search" class="submit-bg-button login-button" value="{{l10n "button.search"}}" />
+                                    <input type="submit" name="search" class="submit-bg-button login-button" value="{{l10n "Search"}}" />
                                 </div>
                             </div>
                             <br clear="all"/>
@@ -73,24 +73,24 @@
                 <br/>
 
                 <div class="tabletitle">
-                    {{l10n "report.bydate.title"}}
+                    {{l10n "Usage statistics for each date"}}
                 </div>
 
                 <table class="statistics">
                     <thead>
                         <tr>
-                            <th>{{l10n "report.bydate.1"}}</th>
-                            <th>{{l10n "report.bydate.2"}}</th>
-                            <th>{{l10n "report.bydate.7"}}</th>
-                            <th>{{l10n "report.bydate.3"}}</th>
-                            <th>{{l10n "report.bydate.4"}}</th>
-                            <th>{{l10n "report.bydate.5"}}</th>
-                            <th>{{l10n "report.bydate.6"}}</th>
+                            <th>{{l10n "Date"}}</th>
+                            <th>{{l10n "Chat threads"}}</th>
+                            <th>{{l10n "Missed threads"}}</th>
+                            <th>{{l10n "Messages from operators"}}</th>
+                            <th>{{l10n "Messages from visitors"}}</th>
+                            <th>{{l10n "Average waiting time (in seconds)"}}</th>
+                            <th>{{l10n "Average chat time (in seconds)"}}</th>
                             {{#if show_invitations_info}}
-                                <th>{{l10n "report.bydate.8"}}</th>
-                                <th>{{l10n "report.bydate.9"}}</th>
-                                <th>{{l10n "report.bydate.10"}}</th>
-                                <th>{{l10n "report.bydate.11"}}</th>
+                                <th>{{l10n "Invitations sent"}}</th>
+                                <th>{{l10n "Invitations accepted"}}</th>
+                                <th>{{l10n "Invitations rejected"}}</th>
+                                <th>{{l10n "Invitations ignored"}}</th>
                             {{/if}}
                         </tr>
                     </thead>
@@ -114,7 +114,7 @@
                                 </tr>
                             {{/each}}
                             <tr>
-                                <td><b>{{l10n "report.total"}}</b></td>
+                                <td><b>{{l10n "Total:"}}</b></td>
                                 <td>{{reportByDateTotal.threads}}</td>
                                 <td>{{reportByDateTotal.missedthreads}}</td>
                                 <td>{{reportByDateTotal.agents}}</td>
@@ -131,7 +131,7 @@
                         {{else}}
                             <tr>
                                 <td colspan="{{#if show_invitations_info}}11{{else}}7{{/if}}">
-                                    {{l10n "report.no_items"}}
+                                    {{l10n "Not enough data"}}
                                 </td>
                             </tr>
                         {{/if}}
@@ -143,19 +143,19 @@
                 <br/>
                 <br/>
 
-                <div class="tabletitle">{{l10n "report.byoperator.title"}}</div>
+                <div class="tabletitle">{{l10n "Threads by operator"}}</div>
                 <table class="statistics">
                     <thead>
                         <tr>
-                            <th>{{l10n "report.byoperator.1"}}</th>
-                            <th>{{l10n "report.byoperator.2"}}</th>
-                            <th>{{l10n "report.byoperator.3"}}</th>
-                            <th>{{l10n "report.byoperator.4"}}</th>
+                            <th>{{l10n "Operator"}}</th>
+                            <th>{{l10n "Chat Threads"}}</th>
+                            <th>{{l10n "Messages"}}</th>
+                            <th>{{l10n "Average message length (in chars)"}}</th>
                             {{#if show_invitations_info}}
-                                <th>{{l10n "report.byoperator.5"}}</th>
-                                <th>{{l10n "report.byoperator.6"}}</th>
-                                <th>{{l10n "report.byoperator.7"}}</th>
-                                <th>{{l10n "report.byoperator.8"}}</th>
+                                <th>{{l10n "Invitations sent"}}</th>
+                                <th>{{l10n "Invitations accepted"}}</th>
+                                <th>{{l10n "Invitations rejected"}}</th>
+                                <th>{{l10n "Invitations ignored"}}</th>
                             {{/if}}
                         </tr>
                     </thead>
@@ -177,7 +177,7 @@
                         {{else}}
                             <tr>
                                 <td colspan="{{#if show_invitations_info}}8{{else}}4{{/if}}">
-                                    {{l10n "report.no_items"}}
+                                    {{l10n "Not enough data"}}
                                 </td>
                             </tr>
                         {{/each}}
@@ -189,18 +189,18 @@
                 <br/>
                 <br/>
 
-                <div class="tabletitle">{{l10n "report.bypage.title"}}</div>
+                <div class="tabletitle">{{l10n "Chat threads by page"}}</div>
                 <table class="statistics">
                     <thead>
                         <tr>
-                            <th>{{l10n "report.bypage.1"}}</th>
-                            <th>{{l10n "report.bypage.2"}}</th>
-                            <th>{{l10n "report.bypage.3"}}</th>
+                            <th>{{l10n "Page"}}</th>
+                            <th>{{l10n "View times"}}</th>
+                            <th>{{l10n "Chat threads"}}</th>
                             {{#if show_invitations_info}}
-                                <th>{{l10n "report.bypage.4"}}</th>
-                                <th>{{l10n "report.bypage.5"}}</th>
-                                <th>{{l10n "report.bypage.6"}}</th>
-                                <th>{{l10n "report.bypage.7"}}</th>
+                                <th>{{l10n "Invitations sent"}}</th>
+                                <th>{{l10n "Invitations accepted"}}</th>
+                                <th>{{l10n "Invitations rejected"}}</th>
+                                <th>{{l10n "Invitations ignored"}}</th>
                             {{/if}}
                         </tr>
                     </thead>
@@ -221,7 +221,7 @@
                         {{else}}
                             <tr>
                                 <td colspan="{{#if show_invitations_info}}7{{else}}3{{/if}}">
-                                    {{l10n "report.no_items"}}
+                                    {{l10n "Not enough data"}}
                                 </td>
                             </tr>
                         {{/each}}

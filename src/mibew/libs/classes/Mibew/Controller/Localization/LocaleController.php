@@ -47,7 +47,7 @@ class LocaleController extends AbstractController
         $available_locales = get_available_locales();
 
         $locales_list = array();
-        foreach($fs_locales as $locale) {
+        foreach ($fs_locales as $locale) {
             $locales_list[] = array(
                 'code' => $locale,
                 'name' => (isset($locale_names[$locale]) ? $locale_names[$locale] : $locale),

@@ -503,7 +503,7 @@ class ThreadProcessor extends ClientSideProcessor
         if ($email) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getlocal('chat.visitor.email', array($email), CURRENT_LOCALE, true)
+                getlocal('E-Mail: {0}', array($email), CURRENT_LOCALE, true)
             );
         }
 
@@ -558,7 +558,7 @@ class ThreadProcessor extends ClientSideProcessor
             unset($_SESSION['mibew_captcha']);
             if (empty($original) || empty($captcha) || $captcha != $original) {
                 throw new ThreadProcessorException(
-                    getlocal('errors.captcha'),
+                    getlocal('The letters you typed don\'t match the letters that were shown in the picture.'),
                     ThreadProcessorException::ERROR_WRONG_CAPTCHA
                 );
             }
@@ -573,7 +573,7 @@ class ThreadProcessor extends ClientSideProcessor
 
         if (!is_valid_email($email)) {
             throw new ThreadProcessorException(
-                wrong_field("form.field.email"),
+                wrong_field("Your email"),
                 ThreadProcessorException::ERROR_WRONG_EMAIL
             );
         }
@@ -617,19 +617,19 @@ class ThreadProcessor extends ClientSideProcessor
         if ($referrer) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getlocal('chat.came.from', array($referrer), CURRENT_LOCALE, true)
+                getlocal('Vistor came from page {0}', array($referrer), CURRENT_LOCALE, true)
             );
         }
         if ($email) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getlocal('chat.visitor.email', array($email), CURRENT_LOCALE, true)
+                getlocal('E-Mail: {0}', array($email), CURRENT_LOCALE, true)
             );
         }
         if ($info) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getlocal('chat.visitor.info', array($info), CURRENT_LOCALE, true)
+                getlocal('Info: {0}', array($info), CURRENT_LOCALE, true)
             );
         }
         $thread->postMessage(Thread::KIND_USER, $message, array('name' => $name));

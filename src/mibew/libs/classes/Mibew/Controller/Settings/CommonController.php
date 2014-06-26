@@ -104,7 +104,7 @@ class CommonController extends AbstractController
             array('cron_key' => $params['cron_key']),
             UrlGeneratorInterface::ABSOLUTE_URL
         );
-        $page['title'] = getlocal('settings.title');
+        $page['title'] = getlocal('Messenger settings');
         $page['menuid'] = 'settings';
 
         $page = array_merge($page, prepare_menu($operator));
@@ -152,7 +152,7 @@ class CommonController extends AbstractController
         }
 
         if ($params['email'] && !is_valid_email($params['email'])) {
-            $errors[] = getlocal('settings.wrong.email');
+            $errors[] = getlocal('Enter a valid email address');
         }
 
         if ($params['geolinkparams']) {
@@ -170,7 +170,7 @@ class CommonController extends AbstractController
         }
 
         if (preg_match("/^[0-9A-Za-z]*$/", $params['cron_key']) == 0) {
-            $errors[] = getlocal('settings.wrong.cronkey');
+            $errors[] = getlocal('Use only Latin letters(upper and lower case) and numbers in cron key.');
         }
 
         // Load styles configs

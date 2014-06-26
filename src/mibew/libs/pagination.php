@@ -149,7 +149,7 @@ function setup_pagination($items, $default_items_per_page = 15)
 function generate_pagination($style_path, $pagination, $bottom = true)
 {
     $result = getlocal(
-        'tag.pagination.info',
+        'Page {0} of {1}, {2}-{3} from {4}',
         array(
             $pagination['page'],
             $pagination['total'],
@@ -177,7 +177,7 @@ function generate_pagination($style_path, $pagination, $bottom = true)
                 generate_pagination_image(
                     $style_path,
                     "prevpage",
-                    getlocal("tag.pagination.previous")
+                    getlocal("previous")
                 )
             ) . PAGINATION_SPACING;
         }
@@ -200,7 +200,7 @@ function generate_pagination($style_path, $pagination, $bottom = true)
                 generate_pagination_image(
                     $style_path,
                     "nextpage",
-                    getlocal("tag.pagination.next")
+                    getlocal("next")
                 )
             );
         }

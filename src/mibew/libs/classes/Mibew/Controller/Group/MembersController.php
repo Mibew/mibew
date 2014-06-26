@@ -78,7 +78,7 @@ class MembersController extends AbstractController
 
         // Set other values and render the page
         $page['stored'] = $request->query->get('stored');
-        $page['title'] = getlocal('page.groupmembers.title');
+        $page['title'] = getlocal('Members');
         $page['menuid'] = 'groups';
         $page = array_merge($page, prepare_menu($operator));
         $page['tabs'] = $this->buildTabs($request);

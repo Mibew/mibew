@@ -157,7 +157,7 @@ class HistoryController extends AbstractController
 
         $page['formtype'] = $search_type;
         $page['forminsystemmessages'] = $search_in_system_messages;
-        $page['title'] = getlocal("page_analysis.search.title");
+        $page['title'] = getlocal("Chat history");
         $page['menuid'] = "history";
         $page['canSearchInSystemMessages'] = ($search_type != 'all')
             && ($search_type != 'message');
@@ -197,7 +197,7 @@ class HistoryController extends AbstractController
         $last_id = -1;
         $messages = $thread->getMessages(false, $last_id);
         $page['threadMessages'] = json_encode($messages);
-        $page['title'] = getlocal("thread.chat_log");
+        $page['title'] = getlocal("Chat log");
 
         $page = array_merge($page, prepare_menu($operator, false));
 
@@ -260,7 +260,7 @@ class HistoryController extends AbstractController
             }
         }
 
-        $page['title'] = getlocal("page.analysis.userhistory.title");
+        $page['title'] = getlocal("Visit history");
         $page['menuid'] = "history";
 
         return $this->render('history_user', $page);
@@ -310,7 +310,7 @@ class HistoryController extends AbstractController
             );
         }
 
-        $page['title'] = getlocal('tracked.path');
+        $page['title'] = getlocal('Tracked path of visitor');
         $page['show_small_login'] = false;
 
         return $this->render('tracked', $page);

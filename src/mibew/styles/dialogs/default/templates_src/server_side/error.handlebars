@@ -1,17 +1,17 @@
 {{#extends "_layout"}}
-    {{#override "windowTitle"}}{{l10n "chat.error_page.title"}}{{/override}}
+    {{#override "windowTitle"}}{{l10n "Error"}}{{/override}}
 
-    {{#override "pageTitle"}}{{l10n "chat.error_page.title"}}{{/override}}
+    {{#override "pageTitle"}}{{l10n "Error"}}{{/override}}
 
     {{#override "buttons"}}
-        <a href="javascript:window.close();" title="{{l10n 'chat.error_page.close'}}">
-            <img class="tpl-image iclosewin" src="{{stylePath}}/images/free.gif" alt="{{l10n 'chat.error_page.close'}}" />
+        <a href="javascript:window.close();" title="{{l10n 'Close...'}}">
+            <img class="tpl-image iclosewin" src="{{stylePath}}/images/free.gif" alt="{{l10n 'Close...'}}" />
         </a>
     {{/override}}
 
     {{#override "content"}}
         {{#if errors}}
-            <b>{{l10n "harderrors.header"}}</b><br/>
+            <b>{{l10n "Cannot execute:"}}</b><br/>
             <ul>
             {{#each errors}}
                 <li class="error">{{{this}}}</li>

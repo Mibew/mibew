@@ -1,13 +1,13 @@
 {{#extends "_layout"}}
-    {{#override "pageTitle"}}{{l10n "chat.error_page.title"}}{{/override}}
+    {{#override "pageTitle"}}{{l10n "Error"}}{{/override}}
 
     {{#override "buttons"}}
-        <a href="javascript:window.close();" title="{{l10n 'page.chat.old_browser.close'}}">
-            <img class="tpl-image iclosewin" src="{{stylePath}}/images/free.gif" alt="{{l10n 'page.chat.old_browser.close'}}" />
+        <a href="javascript:window.close();" title="{{l10n 'Close...'}}">
+            <img class="tpl-image iclosewin" src="{{stylePath}}/images/free.gif" alt="{{l10n 'Close...'}}" />
         </a>
     {{/override}}
 
-    {{#override "message"}}<p>{{l10n "page.chat.old_browser.problem"}}</p>{{/override}}
+    {{#override "message"}}<p>{{l10n "Your web browser is not fully supported. \nPlease, use one of the following web browsers:"}}</p>{{/override}}
 
     {{#override "content"}}
         <ul>

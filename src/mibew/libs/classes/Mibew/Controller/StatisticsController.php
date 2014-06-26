@@ -61,7 +61,7 @@ class StatisticsController extends AbstractController
             UrlGeneratorInterface::ABSOLUTE_URL
         );
         $page['pageDescription'] = getlocal(
-            'statistics.description.full',
+            'From this page you can generate a variety of usage reports. Last time statistics was calculated {0}. You can calculate it <a href="{1}" target="_blank">manually</a>.',
             array(
                 date_to_text(Settings::get('_last_cron_run')),
                 $cron_uri,
@@ -76,7 +76,7 @@ class StatisticsController extends AbstractController
         $start = $time_interval['start'];
         $end = $time_interval['end'];
         if ($start > $end) {
-            $page['errors'][] = getlocal('statistics.wrong.dates');
+            $page['errors'][] = getlocal('You have selected From date after Till date');
         }
 
         $page = array_merge(
@@ -97,7 +97,7 @@ class StatisticsController extends AbstractController
         }
 
         $page['showresults'] = count($page['errors']) == 0;
-        $page['title'] = getlocal("statistics.title");
+        $page['title'] = getlocal("Statistics");
         $page['menuid'] = "statistics";
         $page = array_merge($page, prepare_menu($operator));
         $page['tabs'] = $this->buildTabs($request);
@@ -118,16 +118,16 @@ class StatisticsController extends AbstractController
         $args = $request->query->all();
         $type = $request->attributes->get('type');
 
-        $tabs[getlocal('report.bydate.title')] = $type != self::TYPE_BY_DATE
+        $tabs[getlocal('Usage statistics for each date')] = $type != self::TYPE_BY_DATE
             ? $this->generateUrl('statistics', ($args + array('type' => self::TYPE_BY_DATE)))
             : '';
 
-        $tabs[getlocal('report.byoperator.title')] = $type != self::TYPE_BY_OPERATOR
+        $tabs[getlocal('Threads by operator')] = $type != self::TYPE_BY_OPERATOR
             ? $this->generateUrl('statistics', ($args + array('type' => self::TYPE_BY_OPERATOR)))
             : '';
 
         if (Settings::get('enabletracking')) {
-            $tabs[getlocal('report.bypage.title')] = $type != self::TYPE_BY_PAGE
+            $tabs[getlocal('Chat threads by page')] = $type != self::TYPE_BY_PAGE
                 ? $this->generateUrl('statistics', ($args + array('type' => self::TYPE_BY_PAGE)))
                 : '';
         }

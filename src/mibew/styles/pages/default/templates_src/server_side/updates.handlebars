@@ -8,7 +8,7 @@
     {{/override}}
 
     {{#override "content"}}
-        {{l10n "updates.intro"}}
+        {{l10n "Messenger updates."}}
 
         <br />
         <br />
@@ -20,27 +20,27 @@
                 </div>
 
                 <div class="forminner">
-                    {{l10n "updates.news"}}<br/>
+                    {{l10n "News:"}}<br/>
                     <div id="news"></div>
 
-                    {{l10n "updates.current"}}<br/>
+                    {{l10n "You are using:"}}<br/>
                     <div id="cver">{{version}}</div>
 
                     <br/>
 
-                    {{l10n "updates.latest"}}
+                    {{l10n "Latest version:"}}
                     <div id="lver"></div>
 
                     <br/>
 
-                    {{l10n "updates.installed_locales"}}<br/>
+                    {{l10n "Installed localizations:"}}<br/>
                     {{#each localizations}}
                         {{this}}
                     {{/each}}
 
                     <br/><br/>
 
-                    {{l10n "updates.env"}}<br/>
+                    {{l10n "Environment:"}}<br/>
                     PHP {{phpVersion}}
 
                 </div>

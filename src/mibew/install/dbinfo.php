@@ -325,7 +325,7 @@ function show_install_err($text)
 	$page = array(
 		'version' => MIBEW_VERSION,
 		'localeLinks' => get_locale_links(),
-		'title' => getlocal("install.err.title"),
+		'title' => getlocal("Problem"),
 		'no_right_menu' => true,
 		'fixedwrap' => true,
 		'errors' => array($text),

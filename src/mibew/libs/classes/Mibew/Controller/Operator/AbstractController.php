@@ -40,19 +40,19 @@ abstract class AbstractController extends BaseController
         $args = array('operator_id' => $operator_id);
 
         if ($operator_id) {
-            $tabs[getlocal('page_agent.tab.main')] = ($route != 'operator_edit')
+            $tabs[getlocal('General')] = ($route != 'operator_edit')
                 ? $this->generateUrl('operator_edit', $args)
                 : '';
 
-            $tabs[getlocal('page_agent.tab.avatar')] = ($route != 'operator_avatar')
+            $tabs[getlocal('Photo')] = ($route != 'operator_avatar')
                 ? $this->generateUrl('operator_avatar', $args)
                 : '';
 
-            $tabs[getlocal('page_agent.tab.groups')] = ($route != 'operator_groups')
+            $tabs[getlocal('Groups')] = ($route != 'operator_groups')
                 ? $this->generateUrl('operator_groups', $args)
                 : '';
 
-            $tabs[getlocal('page_agent.tab.permissions')] = ($route != 'operator_permissions')
+            $tabs[getlocal('Permissions')] = ($route != 'operator_permissions')
                 ? $this->generateUrl('operator_permissions', $args)
                 : '';
         }

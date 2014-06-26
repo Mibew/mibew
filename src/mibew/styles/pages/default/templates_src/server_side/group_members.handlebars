@@ -2,7 +2,7 @@
     {{#override "menu"}}{{> _menu}}{{/override}}
 
     {{#override "content"}}
-        {{l10n "page.groupmembers.intro"}}
+        {{l10n "View and edit the member list."}}
 
         <br />
         <br />
@@ -10,7 +10,7 @@
         {{> _errors}}
 
         {{#if stored}}
-            <div id="formmessage">{{l10n "data.saved"}}</div>
+            <div id="formmessage">{{l10n "Changes saved"}}</div>
         {{/if}}
 
         <form name="membersForm" method="post" action="{{mibewRoot}}/operator/group/{{groupid}}/members">
@@ -37,7 +37,7 @@
                         {{/each}}
 
                         <div class="fbutton">
-                            <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "button.save"}}"/>
+                            <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "Save"}}"/>
                         </div>
                     </div>
 

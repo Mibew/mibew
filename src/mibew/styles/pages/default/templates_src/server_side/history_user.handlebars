@@ -1,6 +1,6 @@
 {{#extends "_layout"}}
     {{#override "content"}}
-        {{l10n "page.analysis.userhistory.intro"}}
+        {{l10n "You can find the chat history of your visitors here."}}
 
         <br />
         <br />
@@ -8,10 +8,10 @@
         <table class="list">
             <thead>
                 <tr class="header">
-                    <th>{{l10n "page.analysis.search.head_name"}}</th>
-                    <th>{{l10n "page.analysis.search.head_host"}}</th>
-                    <th>{{l10n "page.analysis.search.head_operator"}}</th>
-                    <th>{{l10n "page.analysis.search.head_time"}}</th>
+                    <th>{{l10n "Name"}}</th>
+                    <th>{{l10n "Visitor's address"}}</th>
+                    <th>{{l10n "Operator"}}</th>
+                    <th>{{l10n "Time in chat"}}</th>
                 </tr>
             </thead>
 
@@ -28,7 +28,7 @@
                 {{else}}
                     <tr>
                         <td colspan="5">
-                            {{l10n "tag.pagination.no_items"}}
+                            {{l10n "Found 0 elements"}}
                         </td>
                     </tr>
                 {{/each}}

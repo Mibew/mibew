@@ -42,15 +42,15 @@ abstract class AbstractController extends BaseController
         $performance = $route == 'settings_performance' || $route == 'settings_performance_save';
 
 
-        $tabs[getlocal('page_settings.tab.main')] = (!$common)
+        $tabs[getlocal('General')] = (!$common)
             ? $this->generateUrl('settings_common')
             : '';
 
-        $tabs[getlocal('page_settings.tab.features')] = (!$features)
+        $tabs[getlocal('Optional Services')] = (!$features)
             ? $this->generateUrl('settings_features')
             : '';
 
-        $tabs[getlocal('page_settings.tab.performance')] = (!$performance)
+        $tabs[getlocal('Performance')] = (!$performance)
             ? $this->generateUrl('settings_performance')
             : '';
 

@@ -56,7 +56,7 @@ class StyleController extends AbstractController
         $page['formaction'] = $request->getBaseUrl() . $request->getPathInfo();
         $page['availablePreviews'] = $style_list;
         $page['screenshotsList'] = $screenshots;
-        $page['title'] = getlocal('page.preview.title');
+        $page['title'] = getlocal('Site style');
         $page['menuid'] = 'styles';
 
         $page = array_merge($page, prepare_menu($operator));
@@ -78,16 +78,16 @@ class StyleController extends AbstractController
         $tabs = array();
         $type = $request->attributes->get('type');
 
-        $tabs[getlocal("page_settings.tab.page_themes")] = ($type != self::TYPE_PAGE)
+        $tabs[getlocal("Operator pages themes preview")] = ($type != self::TYPE_PAGE)
             ? $this->generateUrl('style_preview', array('type' => self::TYPE_PAGE))
             : '';
 
-        $tabs[getlocal("page_settings.tab.themes")] = ($type != self::TYPE_CHAT)
+        $tabs[getlocal("Chat themes preview")] = ($type != self::TYPE_CHAT)
             ? $this->generateUrl('style_preview', array('type' => self::TYPE_CHAT))
             : '';
 
         if (Settings::get('enabletracking')) {
-            $tabs[getlocal("page_settings.tab.invitationthemes")] = ($type != self::TYPE_INVITATION)
+            $tabs[getlocal("Invitation themes preview")] = ($type != self::TYPE_INVITATION)
                 ? $this->generateUrl('style_preview', array('type' => self::TYPE_INVITATION))
                 : '';
         }

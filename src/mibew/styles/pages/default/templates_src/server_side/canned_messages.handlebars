@@ -2,7 +2,7 @@
     {{#override "menu"}}{{> _menu}}{{/override}}
 
     {{#override "content"}}
-        {{l10n "canned.descr"}}
+        {{l10n "Edit messages that you frequently type into the chat."}}
 
         <br />
         <br />
@@ -17,7 +17,7 @@
 
                 <div class="forminner">
                     <div class="packedFormField">
-                        {{l10n "canned.locale"}}<br/>
+                        {{l10n "For language:"}}<br/>
                         <select name="lang" onchange="this.form.submit();">
                             {{#each locales}}
                                 <option value="{{id}}"{{#ifEqual id ../formlang}} selected="selected"{{/ifEqual}}>{{name}}</option>
@@ -26,7 +26,7 @@
                     </div>
 
                     <div class="packedFormField">
-                        {{l10n "canned.group"}}<br/>
+                        {{l10n "For group:"}}<br/>
                         <select name="group" onchange="this.form.submit();">
                             {{#each groups}}
                                 <option value="{{groupid}}"{{#ifEqual groupid ../formgroup}} selected="selected"{{/ifEqual}}>{{#repeat level}}&nbsp;&nbsp;{{/repeat}}{{vclocalname}}</option>
@@ -48,7 +48,7 @@
             <img src="{{stylePath}}/images/buttons/createban.gif" border="0" alt=""/>
             <a href="{{mibewRoot}}/operator/canned-message/add?lang={{formlang}}&amp;group={{formgroup}}" target="_blank"
                         onclick="this.newWindow = window.open('{{mibewRoot}}/operator/canned-message/add?lang={{formlang}}&amp;group={{formgroup}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">
-                {{l10n "canned.add"}}
+                {{l10n "Add message..."}}
             </a>
         </div>
         <br clear="all"/>
@@ -56,9 +56,9 @@
         <table class="translate">
             <thead>
                 <tr class="header">
-                    <th>{{l10n "canned.message_title"}}</th>
-                    <th>{{l10n "cannededit.message"}}</th>
-                    <th>{{l10n "canned.actions"}}</th>
+                    <th>{{l10n "Title"}}</th>
+                    <th>{{l10n "Message"}}</th>
+                    <th>{{l10n "Modify"}}</th>
                 </tr>
             </thead>
 
@@ -73,13 +73,13 @@
                         </td>
                         <td>
                             <a href="{{../mibewRoot}}/operator/canned-message/{{id}}/edit" target="_blank"
-                                onclick="this.newWindow = window.open('{{../mibewRoot}}/operator/canned-message/{{id}}/edit', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{l10n "canned.actions.edit"}}</a>,
-                            <a href="{{../mibewRoot}}/operator/canned-message/{{id}}/delete?lang={{../formlang}}&amp;group={{../formgroup}}&amp;{{csrfTokenInUrl}}">{{l10n "canned.actions.del"}}</a>
+                                onclick="this.newWindow = window.open('{{../mibewRoot}}/operator/canned-message/{{id}}/edit', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{l10n "edit"}}</a>,
+                            <a href="{{../mibewRoot}}/operator/canned-message/{{id}}/delete?lang={{../formlang}}&amp;group={{../formgroup}}&amp;{{csrfTokenInUrl}}">{{l10n "remove"}}</a>
                         </td>
                     </tr>
                 {{else}}
                     <tr>
-                        <td colspan="3">{{l10n "tag.pagination.no_items.elements"}}</td>
+                        <td colspan="3">{{l10n "No elements"}}</td>
                     </tr>
                 {{/each}}
             </tbody>

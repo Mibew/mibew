@@ -3,9 +3,9 @@
 
     {{#override "content"}}
         {{#if opid}}
-            {{l10n "page_agent.intro"}}
+            {{l10n "Edit general operator settings."}}
         {{else}}
-            {{l10n "page_agent.create_new"}}
+            {{l10n "You can create a new operator here."}}
         {{/if}}
 
         <br />
@@ -14,11 +14,11 @@
         {{> _errors}}
 
         {{#if needChangePassword}}
-            <div id="formmessage">{{l10n "error.no_password"}}</div>
+            <div id="formmessage">{{l10n "This is your first time logging in and your password is blank. For security reasons you have to change it."}}</div>
             <br/>
         {{else}}
             {{#if stored}}
-                <div id="formmessage">{{l10n "data.saved"}}</div>
+                <div id="formmessage">{{l10n "Changes saved"}}</div>
             {{/if}}
         {{/if}}
 
@@ -38,75 +38,75 @@
 
                             <div class="fieldForm">
                                 <div class="field">
-                                    <label for="login" class="flabel">{{l10n "form.field.login"}}<span class="required">*</span></label>
+                                    <label for="login" class="flabel">{{l10n "Login"}}<span class="required">*</span></label>
                                     <div class="fvalue">
                                         <input id="login" type="text" name="login" size="40" value="{{formlogin}}" class="formauth"{{#unless canchangelogin}} disabled="disabled"{{/unless}}/>
                                     </div>
-                                    <label for="login" class="fdescr"> &mdash; {{l10n "form.field.login.description"}}</label>
+                                    <label for="login" class="fdescr"> &mdash; {{l10n "Login can consist of small Latin letters and underscore."}}</label>
                                     <br clear="all"/>
                                 </div>
 
                                 <div class="field">
-                                    <label for="email" class="flabel">{{l10n "form.field.mail"}}<span class="required">*</span></label>
+                                    <label for="email" class="flabel">{{l10n "E-mail"}}<span class="required">*</span></label>
                                     <div class="fvalue">
                                         <input id="email" type="text" name="email" size="40" value="{{formemail}}" class="formauth"{{#unless canmodify}} disabled="disabled"{{/unless}}/>
                                     </div>
-                                    <label for="email" class="fdescr"> &mdash; {{l10n "form.field.mail.description"}}</label>
+                                    <label for="email" class="fdescr"> &mdash; {{l10n "For notifications and password retrieval."}}</label>
                                     <br clear="all"/>
                                 </div>
 
                                 <div class="field">
                                     <label for="password" class="flabel">
-                                        {{l10n "form.field.password"}}{{#if requirePassword}}<span class="required">*</span>{{/if}}
+                                        {{l10n "Password"}}{{#if requirePassword}}<span class="required">*</span>{{/if}}
                                     </label>
                                     <div class="fvalue">
                                         <input id="password" type="password" name="password" size="40" value="" class="formauth"{{#unless canmodify}} disabled="disabled"{{/unless}} autocomplete="off"/>
                                     </div>
-                                    <label for="password" class="fdescr"> &mdash; {{l10n "form.field.password.description"}}</label>
+                                    <label for="password" class="fdescr"> &mdash; {{l10n "Enter a new password or leave the field empty to keep the previous one."}}</label>
                                     <br clear="all"/>
                                 </div>
 
                                 <div class="field">
                                     <label for="passwordConfirm" class="flabel">
-                                        {{l10n "form.field.password_confirm"}}{{#if requirePassword}}<span class="required">*</span>{{/if}}
+                                        {{l10n "Confirmation"}}{{#if requirePassword}}<span class="required">*</span>{{/if}}
                                     </label>
                                     <div class="fvalue">
                                         <input id="passwordConfirm" type="password" name="passwordConfirm" size="40" value="" class="formauth"{{#unless canmodify}} disabled="disabled"{{/unless}} autocomplete="off"/>
                                     </div>
-                                    <label for="passwordConfirm" class="fdescr"> &mdash; {{l10n "form.field.password_confirm.description"}}</label>
+                                    <label for="passwordConfirm" class="fdescr"> &mdash; {{l10n "Confirm new password."}}</label>
                                     <br clear="all"/>
                                 </div>
 
                                 <div class="field">
-                                    <label for="name" class="flabel">{{l10n "form.field.agent_name"}}<span class="required">*</span></label>
+                                    <label for="name" class="flabel">{{l10n "Name"}}<span class="required">*</span></label>
                                     <div class="fvalue">
                                         <input id="name" type="text" name="name" size="40" value="{{formname}}" class="formauth"{{#unless canmodify}} disabled="disabled"{{/unless}}/>
                                     </div>
-                                    <label for="name" class="fdescr"> &mdash; {{l10n "form.field.agent_name.description"}}</label>
+                                    <label for="name" class="fdescr"> &mdash; {{l10n "This name will be seen by your visitors."}}</label>
                                     <br clear="all"/>
                                 </div>
 
                                 <div class="field">
-                                    <label for="commonname" class="flabel">{{l10n "form.field.agent_commonname"}}<span class="required">*</span></label>
+                                    <label for="commonname" class="flabel">{{l10n "International name (Latin)"}}<span class="required">*</span></label>
                                     <div class="fvalue">
                                         <input id="commonname" type="text" name="commonname" size="40" value="{{formcommonname}}" class="formauth"{{#unless canmodify}} disabled="disabled"{{/unless}}/>
                                     </div>
-                                    <label for="commonname" class="fdescr"> &mdash; {{l10n "form.field.agent_commonname.description"}}</label>
+                                    <label for="commonname" class="fdescr"> &mdash; {{l10n "This name will be seen by your visitors."}}</label>
                                     <br clear="all"/>
                                 </div>
 
                                 <div class="field">
-                                    <label for="code" class="flabel">{{l10n "form.field.agent_code"}}</label>
+                                    <label for="code" class="flabel">{{l10n "Code"}}</label>
                                     <div class="fvalue">
                                         <input id="code" type="text" name="code" size="40" value="{{formcode}}" class="formauth"{{#unless canmodify}} disabled="disabled"{{/unless}}/>
                                     </div>
-                                    <label for="code" class="fdescr"> &mdash; {{l10n "form.field.agent_code.description"}}</label>
+                                    <label for="code" class="fdescr"> &mdash; {{l10n "Use to start chat with determined operator"}}</label>
                                     <br clear="all"/>
                                 </div>
 
                                 {{#if canmodify}}
                                     <div class="fbutton">
-                                        <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "button.save"}}"/>
+                                        <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "Save"}}"/>
                                     </div>
                                 {{/if}}
                             </div>
@@ -119,7 +119,7 @@
                 </div>
 
                 <div class="asterisk">
-                    <span class="required">*</span> - {{l10n "common.asterisk_explanation"}}
+                    <span class="required">*</span> - {{l10n "mandatory fields"}}
                 </div>
 
             </form>

@@ -6,7 +6,7 @@
         <script type="text/javascript" language="javascript"><!--
             (function($) {
                 $(document).ready(function(){
-                    var confirmMessage = "{{#jsString}}{{l10n 'page_bans.confirm' '{addr}'}}{{/jsString}}";
+                    var confirmMessage = "{{#jsString}}{{l10n 'Are you sure that you want to delete address {0} from the blocked list?' '{addr}'}}{{/jsString}}";
 
                     $('a.removelink').click(function(){
                         var addr = $.trim($("#t" + this.id).text());
@@ -18,7 +18,7 @@
     {{/override}}
 
     {{#override "content"}}
-        {{l10n "page_ban.intro"}}
+        {{l10n "Here you can block malicious visitors that affect your work with spam messages."}}
 
         <br />
         <br />
@@ -27,18 +27,18 @@
 
         <div class="tabletool">
             <img src="{{stylePath}}/images/buttons/createban.gif" border="0" alt=""/>
-            <a href="{{mibewRoot}}/operator/ban/add" title="{{l10n "page_bans.add"}}"
-                onclick="this.newWindow = window.open('{{mibewRoot}}/operator/ban/add', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{l10n "page_bans.add"}}</a>
+            <a href="{{mibewRoot}}/operator/ban/add" title="{{l10n "Add address"}}"
+                onclick="this.newWindow = window.open('{{mibewRoot}}/operator/ban/add', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{l10n "Add address"}}</a>
         </div>
         <br clear="all"/>
 
         <table class="list">
             <thead>
                 <tr class="header">
-                    <th>{{l10n "form.field.address"}}</th>
-                    <th>{{l10n "page_bans.to"}}</th>
-                    <th>{{l10n "form.field.ban_comment"}}</th>
-                    <th>{{l10n "page_bans.edit"}}</th>
+                    <th>{{l10n "Visitor's Address"}}</th>
+                    <th>{{l10n "Till"}}</th>
+                    <th>{{l10n "Comment"}}</th>
+                    <th>{{l10n "Edit"}}</th>
                 </tr>
             </thead>
 
@@ -57,16 +57,16 @@
 
                         <td>
                             <a class="removelink" id="i{{banid}}" href="{{../mibewRoot}}/operator/ban/{{banid}}/delete?{{csrfTokenInUrl}}">
-                                {{l10n "remove.item"}}
+                                {{l10n "remove"}}
                             </a>,
                             <a href="{{../mibewRoot}}/operator/ban/{{banid}}/edit"
-                                onclick="this.newWindow = window.open('{{../mibewRoot}}/operator/ban/{{banid}}/edit', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{l10n "edit.item"}}</a>
+                                onclick="this.newWindow = window.open('{{../mibewRoot}}/operator/ban/{{banid}}/edit', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{l10n "edit"}}</a>
                         </td>
                     </tr>
                 {{else}}
                     <tr>
                         <td colspan="4">
-                            {{l10n "tag.pagination.no_items.elements"}}
+                            {{l10n "No elements"}}
                         </td>
                     </tr>
                 {{/each}}
