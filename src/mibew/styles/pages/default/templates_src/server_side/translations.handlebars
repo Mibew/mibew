@@ -17,13 +17,7 @@
 
                 <div class="forminner">
                     <div class="packedFormField">
-                        {{l10n "Direction:"}}<br/>
-                        <select name="source" onchange="this.form.submit();">
-                            {{#each availableLocales}}
-                                <option value="{{id}}" {{#ifEqual id ../formsource}} selected="selected"{{/ifEqual}}>{{name}}</option>
-                            {{/each}}
-                        </select>
-                        =&gt;
+                        {{l10n "For language:"}}<br/>
                         <select name="target" onchange="this.form.submit();">
                             {{#each availableLocales}}
                                 <option value="{{id}}"{{#ifEqual id ../formtarget}} selected="selected"{{/ifEqual}}>{{name}}</option>
@@ -59,11 +53,9 @@
         <table class="translate">
             <thead>
                 <tr class="header"><th>
-                    Key
+                    {{l10n "Source string"}}
                 </th><th>
-                    {{title1}}
-                </th><th>
-                    {{title2}}
+                    {{localeName}}
                 </th></tr>
             </thead>
             <tbody>
@@ -71,18 +63,15 @@
             {{#each [pagination.items]}}
                 <tr>
                     <td>
-                        <a href="{{../mibewRoot}}/operator/translation/{{id}}/edit?source={{../lang1}}&amp;target={{../lang2}}" target="_blank" onclick="this.newWindow = window.open('{{../mibewRoot}}/operator/translation/{{id}}/edit?source={{../lang1}}&amp;target={{../lang2}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{id}}</a>
+                        {{{source}}}
                     </td>
                     <td>
-                        {{{l1}}}
-                    </td>
-                    <td>
-                        {{{l2}}}
+                        <a href="{{../mibewRoot}}/operator/translation/{{id}}/edit" target="_blank" onclick="this.newWindow = window.open('{{../mibewRoot}}/operator/translation/{{id}}/edit', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{{translation}}}</a>
                     </td>
                 </tr>
             {{else}}
                 <tr>
-                    <td colspan="3">{{l10n "Found 0 elements"}}</td>
+                    <td colspan="2">{{l10n "Found 0 elements"}}</td>
                 </tr>
             {{/each}}
 

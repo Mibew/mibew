@@ -618,7 +618,7 @@ translation_edit:
         _access_check: Mibew\AccessControl\Check\PermissionsCheck
         _access_permissions: [CAN_ADMINISTRATE]
     requirements:
-        string_id: "[_\.\w]+"
+        string_id: "\d{1,10}"
     methods: [GET]
 
 translation_edit_save:
@@ -628,7 +628,7 @@ translation_edit_save:
         _access_check: Mibew\AccessControl\Check\PermissionsCheck
         _access_permissions: [CAN_ADMINISTRATE]
     requirements:
-        string_id: "[_\.\w]+"
+        string_id: "\d{1,10}"
     methods: [POST]
 
 translations:

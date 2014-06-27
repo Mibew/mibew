@@ -17,6 +17,8 @@
 
 namespace Mibew\Controller\Localization;
 
+use Mibew\Database;
+use Mibew\Http\Exception\NotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -34,24 +36,13 @@ class TranslationController extends AbstractController
     {
         $operator = $this->getOperator();
 
-        $source = $request->query->get('source');
-        if (!preg_match("/^[\w-]{2,5}$/", $source)) {
-            $source = DEFAULT_LOCALE;
-        }
-
         $target = $request->query->get('target');
         if (!preg_match("/^[\w-]{2,5}$/", $target)) {
             $target = CURRENT_LOCALE;
         }
 
-        $lang1 = load_messages($source);
-        $lang2 = load_messages($target);
-
         $page = array(
-            'lang1' => $source,
-            'lang2' => $target,
-            'title1' => $this->getLocaleName($source),
-            'title2' => $this->getLocaleName($target),
+            'localeName' => $this->getLocaleName($target),
             'errors' => array(),
         );
 
@@ -63,53 +54,47 @@ class TranslationController extends AbstractController
         }
 
         // Prepare localization constants to display.
-        $result = array();
-        $all_keys = array_keys($lang1);
-        foreach ($all_keys as $key) {
-            $t_source = htmlspecialchars($lang1[$key]);
-            if (isset($lang2[$key])) {
-                $value = htmlspecialchars($lang2[$key]);
-            } else {
-                $value = "<font color=\"#c13030\"><b>absent</b></font>";
-            }
-            $result[] = array(
-                'id' => $key,
-                'l1' => $t_source,
-                'l2' => $value,
+        $strings = $this->loadStrings($target);
+        foreach ($strings as $key => $item) {
+            $strings[$key] = array(
+                'id' => $item['stringid'],
+                'source' => htmlentities($item['source']),
+                'translation' => (empty($item['translation'])
+                    ? "<font color=\"#c13030\"><b>absent</b></font>"
+                    : htmlspecialchars($item['translation'])),
             );
         }
 
         // Sort localization constants in the specified order.
         $order = $request->query->get('sort');
-        if (!in_array($order, array('id', 'l1'))) {
-            $order = 'id';
+        if (!in_array($order, array('source', 'translation'))) {
+            $order = 'source';
         }
 
-        if ($order == 'id') {
+        if ($order == 'source') {
             usort(
-                $result,
+                $strings,
                 function ($a, $b) {
-                    return strcmp($a['id'], $b['id']);
+                    return strcmp($a['source'], $b['source']);
                 }
             );
-        } elseif ($order == 'l1') {
+        } elseif ($order == 'translation') {
             usort(
-                $result,
+                $strings,
                 function ($a, $b) {
-                    return strcmp($a['l1'], $b['l1']);
+                    return strcmp($a['translation'], $b['translation']);
                 }
             );
         }
 
-        $pagination = setup_pagination($result, 100);
+        $pagination = setup_pagination($strings, 100);
         $page['pagination'] = $pagination['info'];
         $page['pagination.items'] = $pagination['items'];
         $page['formtarget'] = $target;
-        $page['formsource'] = $source;
         $page['availableLocales'] = $locales_list;
         $page['availableOrders'] = array(
-            array('id' => 'id', 'name' => getlocal('Key identifier')),
-            array('id' => 'l1', 'name' => getlocal('Source language string')),
+            array('id' => 'source', 'name' => getlocal('Source string')),
+            array('id' => 'translation', 'name' => getlocal('Translation')),
         );
         $page['formsort'] = $order;
         $page['title'] = getlocal('Translations');
@@ -132,41 +117,27 @@ class TranslationController extends AbstractController
 
         $operator = $this->getOperator();
         $string_id = $request->attributes->get('string_id');
-
-        $source = $request->query->get('source');
-        if (!preg_match("/^[\w-]{2,5}$/", $source)) {
-            $source = DEFAULT_LOCALE;
+        $string = $this->loadString($string_id);
+        if (!$string) {
+            throw new NotFoundException('The string is not found.');
         }
 
-        $target = $request->query->has('target')
-            ? $request->query->get('target')
-            : $request->request->get('target');
-        if (!preg_match("/^[\w-]{2,5}$/", $target)) {
-            $target = CURRENT_LOCALE;
-        }
-
-        $lang1 = load_messages($source);
-        $lang2 = load_messages($target);
+        $target = $string['locale'];
 
         $page = array(
-            'title1' => $this->getLocaleName($source),
-            'title2' => $this->getLocaleName($target),
+            'localeName' => $this->getLocaleName($target),
             // Use errors list stored in the request. We need to do so to have
             // an ability to pass the request from the "submitEditForm" action.
             'errors' => $request->attributes->get('errors', array()),
         );
 
-
-        $translation = isset($lang2[$string_id]) ? $lang2[$string_id] : '';
         // Override translation value from the request if needed.
-        if ($request->request->has('translation')) {
-            $translation = $request->request->get('translation');
-        }
+        $translation = $request->request->get('translation', $string['translation']);
 
         $page['saved'] = false;
         $page['key'] = $string_id;
         $page['target'] = $target;
-        $page['formoriginal'] = isset($lang1[$string_id]) ? $lang1[$string_id] : '<b><unknown></b>';
+        $page['formoriginal'] = $string['source'];
         $page['formtranslation'] = $translation;
         $page['title'] = getlocal('Translations');
         $page = array_merge(
@@ -190,13 +161,15 @@ class TranslationController extends AbstractController
         csrf_check_token($request);
 
         $operator = $this->getOperator();
-        $string_id = $request->attributes->get('string_id');
         $errors = array();
 
-        $target = $request->request->get('target');
-        if (!preg_match("/^[\w-]{2,5}$/", $target)) {
-            $target = CURRENT_LOCALE;
+        $string_id = $request->attributes->get('string_id');
+        $string = $this->loadString($string_id);
+        if (!$string) {
+            throw new NotFoundException('The string is not found.');
         }
+
+        $target = $string['locale'];
 
         $translation = $request->request->get('translation');
         if (!$translation) {
@@ -210,7 +183,7 @@ class TranslationController extends AbstractController
             return $this->showEditFormAction($request);
         }
 
-        save_message($target, $string_id, $translation);
+        save_message($target, $string['source'], $translation);
 
         $page['saved'] = true;
         $page['title'] = getlocal("Translations");
@@ -237,5 +210,44 @@ class TranslationController extends AbstractController
         }
 
         return $locale;
+    }
+
+    /**
+     * Loads all editable translation strings.
+     *
+     * @param string $locale Locale code.
+     * @return array List of translated strings. Each element of this array is
+     *   an associative with the following keys:
+     *     - id: int, ID of the translated string in the database.
+     *     - source: string, english string.
+     *     - translation: string, translated string.
+     */
+    protected function loadStrings($locale)
+    {
+        $rows = Database::getInstance()->query(
+            "SELECT * FROM {translation} WHERE locale = :locale",
+            array(':locale' => $locale),
+            array('return_rows' => Database::RETURN_ALL_ROWS)
+        );
+
+        return $rows ? $rows : array();
+    }
+
+    /**
+     * Loads translated string from the database by its ID.
+     *
+     * @param int $id ID of the translated string in the database.
+     * @return array|boolean Associative array with string info or boolean false
+     *   it the string is not found.
+     */
+    protected function loadString($id)
+    {
+        $string = Database::getInstance()->query(
+            "SELECT * FROM {translation} WHERE stringid = :id",
+            array(':id' => $id),
+            array('return_rows' => Database::RETURN_ONE_ROW)
+        );
+
+        return $string ? $string : false;
     }
 }

@@ -19,7 +19,6 @@
 
             <form name="translateForm" method="post" action="{{mibewRoot}}/operator/translation/{{key}}/edit">
                 {{csrfTokenInput}}
-                <input type="hidden" name="target" value="{{target}}"/>
 
                 <div class="mform">
                     <div class="formtop">
@@ -29,14 +28,14 @@
                     <div class="forminner">
                         <div class="fieldForm">
                             <div class="field">
-                                <label for="original" class="flabel">{{title1}}</label>
+                                <label for="original" class="flabel">{{l10n "Source string"}}</label>
                                 <div class="fvaluenodesc">
                                     <textarea id="original" name="original" disabled="disabled" cols="20" rows="5" class="wide">{{formoriginal}}</textarea>
                                 </div>
                             </div>
 
                             <div class="field">
-                                <label for="translation" class="flabel">{{title2}}</label>
+                                <label for="translation" class="flabel">{{localeName}}</label>
                                 <div class="fvaluenodesc">
                                     <textarea id="translation" name="translation" cols="20" rows="5" class="wide">{{formtranslation}}</textarea>
                                 </div>
