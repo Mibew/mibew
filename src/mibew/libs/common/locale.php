@@ -799,10 +799,19 @@ function get_localized_string($string, $locale)
     if (isset($localized[$string])) {
         return $localized[$string];
     }
+
+    // The string is not localized, save it to the database to provide an
+    // ability to translate it from the UI later.
+    if (!installation_in_progress()) {
+        save_message($locale, $string, $string);
+    }
+
+    // One can change english strings from the UI. Try to use these strings.
     if ($locale != 'en') {
         return get_localized_string($string, 'en');
     }
 
+    // The string is not localized at all. Use it "as is".
     return $string;
 }
 
