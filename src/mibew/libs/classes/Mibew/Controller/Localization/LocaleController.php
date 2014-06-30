@@ -56,7 +56,7 @@ class LocaleController extends AbstractController
         }
 
         $page['localesList'] = $locales_list;
-        $page['title'] = getlocal('page_locales.title');
+        $page['title'] = getlocal('Locales');
         $page['menuid'] = 'translation';
         $page = array_merge($page, prepare_menu($operator));
         $page['tabs'] = $this->buildTabs($request);
