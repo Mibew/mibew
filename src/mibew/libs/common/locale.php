@@ -815,18 +815,6 @@ function get_localized_string($string, $locale)
     return $string;
 }
 
-/* prepares for Javascript string */
-function get_local_for_js($text, $params)
-{
-    $string = get_localized_string($text, CURRENT_LOCALE);
-    $string = str_replace("\"", "\\\"", str_replace("\n", "\\n", $string));
-    for ($i = 0; $i < count($params); $i++) {
-        $string = str_replace("{" . $i . "}", $params[$i], $string);
-    }
-
-    return sanitize_string($string, 'low', 'moderate');
-}
-
 /**
  * Saves a localized string to the database.
  *
