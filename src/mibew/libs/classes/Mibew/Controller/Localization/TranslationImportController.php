@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Contains actions for all translations import functionality.
  */
-class TranslationsImportController extends AbstractController
+class TranslationImportController extends AbstractController
 {
     /**
      * Builds a page with form for upload translation file.
@@ -65,12 +65,12 @@ class TranslationsImportController extends AbstractController
         $page = array_merge($page, prepare_menu($operator));
         $page['tabs'] = $this->buildTabs($request);
 
-        return $this->render('translations_import', $page);
+        return $this->render('translation_import', $page);
     }
 
     /**
      * Processes submitting of the form which is generated in
-     * {@link \Mibew\Controller\TranslationsImportController::showFormAction()}
+     * {@link \Mibew\Controller\TranslationImportController::showFormAction()}
      * method.
      *
      * @param Request $request Incoming request.
@@ -125,7 +125,7 @@ class TranslationsImportController extends AbstractController
 
         // Redirect the operator to the same page using GET method.
         $redirect_to = $this->generateUrl(
-            'translations_import',
+            'translation_import',
             array('stored' => true)
         );
         return $this->redirect($redirect_to);

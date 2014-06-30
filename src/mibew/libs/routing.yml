@@ -631,28 +631,28 @@ translation_edit_save:
         string_id: "\d{1,10}"
     methods: [POST]
 
+translation_import:
+    path: /operator/translation/import
+    defaults:
+        _controller: Mibew\Controller\Localization\TranslationImportController::showFormAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    methods: [GET]
+
+translation_import_process:
+    path: /operator/translation/import
+    defaults:
+        _controller: Mibew\Controller\Localization\TranslationImportController::submitFormAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    methods: [POST]
+
 translations:
     path: /operator/translation
     defaults:
         _controller: Mibew\Controller\Localization\TranslationController::indexAction
         _access_check: Mibew\AccessControl\Check\PermissionsCheck
         _access_permissions: [CAN_ADMINISTRATE]
-
-translations_import:
-    path: /operator/translation/import
-    defaults:
-        _controller: Mibew\Controller\Localization\TranslationsImportController::showFormAction
-        _access_check: Mibew\AccessControl\Check\PermissionsCheck
-        _access_permissions: [CAN_ADMINISTRATE]
-    methods: [GET]
-
-translations_import_process:
-    path: /operator/translation/import
-    defaults:
-        _controller: Mibew\Controller\Localization\TranslationsImportController::submitFormAction
-        _access_check: Mibew\AccessControl\Check\PermissionsCheck
-        _access_permissions: [CAN_ADMINISTRATE]
-    methods: [POST]
 
 ## Updates
 updates:
