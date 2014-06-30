@@ -87,6 +87,16 @@ function get_available_locales()
 }
 
 /**
+ * Returns list of locales which are available and enabled.
+ *
+ * @return array List of enabled locale codes.
+ */
+function get_enabled_locales()
+{
+    return array();
+}
+
+/**
  * Returns list of all locales that are present in the file system.
  *
  * @return array List of locales codes.
@@ -668,14 +678,16 @@ function load_messages($locale)
     static $messages = array();
 
     if (!isset($messages[$locale])) {
-        // Load core localization
-        $locale_file = MIBEW_FS_ROOT . "/locales/{$locale}/translation.po";
-        $locale_data = read_locale_file($locale_file);
+        $messages[$locale] = array();
 
-        $messages[$locale] = $locale_data['messages'];
+        if (installation_in_progress()) {
+            // Load localization files because we cannot use database during
+            // installation.
+            $locale_file = MIBEW_FS_ROOT . "/locales/{$locale}/translation.po";
+            $locale_data = read_locale_file($locale_file);
 
-        // Plugins are unavailable on system installation
-        if (!installation_in_progress()) {
+            $messages[$locale] = $locale_data['messages'];
+        } else {
             // Load active plugins localization
             $plugins_list = array_keys(PluginManager::getAllPlugins());
 
@@ -718,6 +730,28 @@ function load_messages($locale)
 
     return $messages[$locale];
 }
+
+/**
+ * Imports localized messages from the specified file to the specified locale.
+ *
+ * @param string $locale Traget locale code.
+ * @param string $file Full path to translation file.
+ * @param boolean $override Indicates if messages should be overridden or not.
+ */
+function import_messages($locale, $file, $override = false)
+{
+    $available_messages = load_messages($locale);
+    $locale_data = read_locale_file($file);
+
+    foreach ($locale_data['messages'] as $source => $translation) {
+        if (isset($available_messages[$source]) && !$override) {
+            continue;
+        }
+
+        save_message($locale, $source, $translation);
+    }
+}
+
 
 /**
  * Read and parse locale file.
@@ -852,6 +886,7 @@ function save_message($locale, $key, $value)
  * Enables specified locale.
  *
  * @param string $locale Locale code according to RFC 5646.
+ * @todo Rewrite the function and move somewhere locale creation and its import.
  */
 function enable_locale($locale)
 {
@@ -875,6 +910,13 @@ function enable_locale($locale)
                 ':code' => $locale,
                 ':enabled' => 1,
             )
+        );
+
+        // Import localized messages to just created locale
+        import_messages(
+            $locale,
+            MIBEW_FS_ROOT . '/locales/' . $locale . '/translation.po',
+            true
         );
     } else {
         // The locale exists in the database. Update it.
