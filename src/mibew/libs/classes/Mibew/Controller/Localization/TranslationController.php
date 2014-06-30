@@ -50,7 +50,10 @@ class TranslationController extends AbstractController
         $locales_list = array();
         $all_locales = get_available_locales();
         foreach ($all_locales as $loc) {
-            $locales_list[] = array('id' => $loc, 'name' => $this->getLocaleName($loc));
+            $locales_list[] = array(
+                'id' => $loc,
+                'name' => $this->getLocaleName($loc)
+            );
         }
 
         // Prepare localization constants to display.
@@ -193,21 +196,6 @@ class TranslationController extends AbstractController
         );
 
         return $this->render('translation_edit', $page);
-    }
-
-    /**
-     * Builds human readable locale name in "<Native name> (<code>)" format.
-     *
-     * @param string $locale Locale code according to RFC 5646.
-     * @return string Human readable locale name.
-     */
-    protected function getLocaleName($locale)
-    {
-        $locale_info = get_locale_info($locale);
-
-        return $locale_info
-            ? sprintf('%s (%s)', $locale_info['name'], $locale)
-            : $locale;
     }
 
     /**

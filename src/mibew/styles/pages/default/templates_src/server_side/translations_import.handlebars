@@ -1,0 +1,62 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "On this page you can upload a custom translation file."}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        {{#if stored}}
+            <div id="formmessage">{{l10n "Translation imported"}}</div>
+        {{/if}}
+
+        <form  method="post" action="{{mibewRoot}}/operator/translation/import" enctype="multipart/form-data">
+            {{csrfTokenInput}}
+
+            <div>
+                {{> _tabs}}
+
+                <div class="mform">
+                    <div class="formtop">
+                        <div class="formtopi"></div>
+                    </div>
+
+                    <div class="forminner">
+                        <div class="fieldForm">
+                            {{l10n "For language:"}}<br/>
+                            <select name="target">
+                                {{#each localesList}}
+                                    <option value="{{id}}"{{#ifEqual id ../formtarget}} selected="selected"{{/ifEqual}}>{{name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                        <div class="fieldForm">
+                            <div class="field">
+                                <label for="translation_file" class="flabel">
+                                    {{l10n "Upload translation"}}<span class="required">*</span>
+                                </label>
+                                <div class="fvalue">
+                                    <input id="translation_file" type="file" name="translation_file" size="40" value="{{formtranslationFile}}" class="formauth"/>
+                                </div>
+                                <label for="translation_file" class="fdescr"> &mdash; {{l10n "Choose the translation file to upload."}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="fbutton">
+                                <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "Upload"}}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="formbottom">
+                        <div class="formbottomi"></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    {{/override}}
+{{/extends}}
