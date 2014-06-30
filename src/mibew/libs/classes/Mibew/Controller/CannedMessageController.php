@@ -42,12 +42,12 @@ class CannedMessageController extends AbstractController
 
         // Build list of available locales
         $all_locales = get_available_locales();
-        $locale_names = get_locale_names();
         $locales_with_label = array();
         foreach ($all_locales as $id) {
+            $locale_info = get_locale_info($id);
             $locales_with_label[] = array(
                 'id' => $id,
-                'name' => (isset($locale_names[$id]) ? $locale_names[$id] : $id)
+                'name' => ($locale_info ? $locale_info['name'] : $id)
             );
         }
         $page['locales'] = $locales_with_label;

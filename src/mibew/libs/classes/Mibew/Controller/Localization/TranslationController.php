@@ -203,13 +203,11 @@ class TranslationController extends AbstractController
      */
     protected function getLocaleName($locale)
     {
-        $names = get_locale_names();
+        $locale_info = get_locale_info($locale);
 
-        if (isset($names[$locale])) {
-            return sprintf('%s (%s)', $names[$locale], $locale);
-        }
-
-        return $locale;
+        return $locale_info
+            ? sprintf('%s (%s)', $locale_info['name'], $locale)
+            : $locale;
     }
 
     /**

@@ -178,32 +178,12 @@ function get_locale_links()
     }
 
     // Attache locale names
-    $locale_names = get_locale_names();
     foreach ($all_locales as $k) {
-        $locale_links[$k] = isset($locale_names[$k]) ? $locale_names[$k] : $k;
+        $locale_info = get_locale_info($k);
+        $locale_links[$k] = $locale_info ? $locale_info['name'] : $k;
     }
 
     return $locale_links;
-}
-
-/**
- * Returns list of human readable locale names.
- *
- * @return array
- */
-function get_locale_names()
-{
-    static $names = false;
-
-    if ($names === false) {
-        $locales = get_locales();
-        $names = array();
-        foreach ($locales as $code => $info) {
-            $names[$code] = $info['name'];
-        }
-    }
-
-    return $names;
 }
 
 /**

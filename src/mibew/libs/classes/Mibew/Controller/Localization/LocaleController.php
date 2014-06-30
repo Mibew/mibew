@@ -43,14 +43,14 @@ class LocaleController extends AbstractController
         );
 
         $fs_locales = discover_locales();
-        $locale_names = get_locale_names();
         $available_locales = get_available_locales();
 
         $locales_list = array();
         foreach ($fs_locales as $locale) {
+            $locale_info = get_locale_info($locale);
             $locales_list[] = array(
                 'code' => $locale,
-                'name' => (isset($locale_names[$locale]) ? $locale_names[$locale] : $locale),
+                'name' => ($locale_info ? $locale_info['name'] : $locale),
                 'isDisabled' => !in_array($locale, $available_locales),
             );
         }
