@@ -15,37 +15,6 @@
  * limitations under the License.
  */
 
-// Import namespaces and classes of the core
-use Mibew\Settings;
-
-/* ajax server actions use utf-8 */
-function get_raw_param($name)
-{
-    if (isset($_POST[$name])) {
-        $value = $_POST[$name];
-        if (get_magic_quotes_gpc()) {
-            $value = stripslashes($value);
-        }
-
-        return $value;
-    }
-    die("no " . $name . " parameter");
-}
-/* form processors use current Output encoding */
-
-function get_param($name)
-{
-    if (isset($_POST[$name])) {
-        $value = $_POST[$name];
-        if (get_magic_quotes_gpc()) {
-            $value = stripslashes($value);
-        }
-
-        return $value;
-    }
-    die("no " . $name . " parameter");
-}
-
 function get_get_param($name, $default = '')
 {
     if (!isset($_GET[$name]) || !$_GET[$name]) {
@@ -73,14 +42,4 @@ function is_secure_request()
     return (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443')
         || (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on")
         || (isset($_SERVER["HTTP_HTTPS"]) && $_SERVER["HTTP_HTTPS"] == "on");
-}
-
-/**
- * Returns name of the current operator pages style
- *
- * @return string
- */
-function get_page_style()
-{
-    return Settings::get('page_style');
 }
