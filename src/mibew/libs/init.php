@@ -56,7 +56,6 @@ require_once(MIBEW_FS_ROOT . '/libs/common/verification.php');
 require_once(MIBEW_FS_ROOT . '/libs/common/locale.php');
 require_once(MIBEW_FS_ROOT . '/libs/common/csrf.php');
 require_once(MIBEW_FS_ROOT . '/libs/common/datetime.php');
-require_once(MIBEW_FS_ROOT . '/libs/common/forms.php');
 require_once(MIBEW_FS_ROOT . '/libs/common/misc.php');
 require_once(MIBEW_FS_ROOT . '/libs/common/request.php');
 require_once(MIBEW_FS_ROOT . '/libs/common/response.php');
