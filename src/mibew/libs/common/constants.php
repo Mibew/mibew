@@ -34,15 +34,20 @@ define('FEATURES_VERSION', '2.0');
  * Prefix for session variables.
  * Provide an ability to instal several mibew instances on one server.
  */
-define('SESSION_PREFIX', md5($mysqlhost . '##' . $mysqldb . '##' . $mysqlprefix) . '_');
+define('SESSION_PREFIX', md5(
+    $configs['database']['host'] . '##'
+    . $configs['database']['db']. '##'
+    . $configs['database']['tables_prefix']
+) . '_');
 
 /**
  * Default value for cron security key.
  * Another value can be set at operator/settings page.
  */
 define('DEFAULT_CRON_KEY', md5(
-    $mysqlhost . '##' . $mysqldb . '##' . $mysqllogin . '##'
-    . $mysqlpass . '##' . $mysqlprefix . '##'
+    $configs['database']['host'] . '##' . $configs['database']['db'] . '##'
+    . $configs['database']['login'] . '##' . $configs['database']['pass'] . '##'
+    . $configs['database']['tables_prefix'] . '##'
 ));
 
 /**
@@ -59,4 +64,4 @@ define('USERNAME_COOKIE_NAME', 'MIBEW_Data');
 /**
  * Mailbox of the current installation
  */
-define('MIBEW_MAILBOX', $mibew_mailbox);
+define('MIBEW_MAILBOX', $configs['mailbox']);

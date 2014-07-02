@@ -16,7 +16,6 @@
  */
 
 use Mibew\Database;
-use Mibew\Plugin\Manager as PluginManager;
 use Symfony\Component\Translation\Loader\PoFileLoader;
 
 /**
@@ -32,7 +31,9 @@ define('LOCALE_COOKIE_NAME', 'mibew_locale');
  */
 define(
     'DEFAULT_LOCALE',
-    locale_pattern_check($default_locale) && locale_exists($default_locale) ? $default_locale : 'en'
+    (locale_pattern_check($configs['default_locale']) && locale_exists($configs['default_locale'])
+        ? $configs['default_locale']
+        : 'en')
 );
 
 /**
@@ -41,7 +42,9 @@ define(
  */
 define(
     'HOME_LOCALE',
-    locale_pattern_check($home_locale) && locale_exists($home_locale) ? $home_locale : 'en'
+    (locale_pattern_check($configs['home_locale']) && locale_exists($configs['home_locale'])
+        ? $configs['home_locale']
+        : 'en')
 );
 
 /**

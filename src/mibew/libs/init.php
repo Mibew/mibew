@@ -20,15 +20,16 @@
  */
 define('MIBEW_FS_ROOT', dirname(dirname(__FILE__)));
 
-// Include configuration file
-require_once(MIBEW_FS_ROOT . '/libs/config.php');
+// Load system configurations
+require_once(MIBEW_FS_ROOT . '/libs/common/configurations.php');
+$configs = load_system_configs();
 
 // Sanitize path to application and remove extra slashes
 $mibewroot = join(
     "/",
     array_map(
         "rawurlencode",
-        preg_split('/\//', preg_replace('/\/+$/', '', preg_replace('/\/{2,}/', '/', '/' . $mibewroot)))
+        preg_split('/\//', preg_replace('/\/+$/', '', preg_replace('/\/{2,}/', '/', '/' . $configs['mibew_root'])))
     )
 );
 
@@ -51,7 +52,6 @@ Mibew\Autoloader::register(MIBEW_FS_ROOT . '/plugins');
 require_once(MIBEW_FS_ROOT . '/vendor/autoload.php');
 
 // Include common libs
-require_once(MIBEW_FS_ROOT . '/libs/common/configurations.php');
 require_once(MIBEW_FS_ROOT . '/libs/common/verification.php');
 require_once(MIBEW_FS_ROOT . '/libs/common/locale.php');
 require_once(MIBEW_FS_ROOT . '/libs/common/csrf.php');
@@ -74,12 +74,12 @@ session_start();
 
 // Initialize the database
 \Mibew\Database::initialize(
-    $mysqlhost,
-    $mysqllogin,
-    $mysqlpass,
-    $use_persistent_connection,
-    $mysqldb,
-    $mysqlprefix
+    $configs['database']['host'],
+    $configs['database']['login'],
+    $configs['database']['pass'],
+    $configs['database']['use_persistent_connection'],
+    $configs['database']['db'],
+    $configs['database']['tables_prefix']
 );
 
 if (function_exists("date_default_timezone_set")) {
@@ -88,9 +88,9 @@ if (function_exists("date_default_timezone_set")) {
     @date_default_timezone_set(function_exists("date_default_timezone_get") ? @date_default_timezone_get() : "GMT");
 }
 
-if (!empty($plugins_list)) {
-    // Variable $plugins_config defined in libs/config.php
-    \Mibew\Plugin\Manager::loadPlugins($plugins_list);
+if (!empty($configs['plugins'])) {
+    // A list of plugins is defined in $plugins_list variable in libs/config.php
+    \Mibew\Plugin\Manager::loadPlugins($configs['plugins']);
 }
 
 // Load all other libraries
