@@ -16,22 +16,6 @@
  */
 
 /**
- * Read and parse configuration ini file
- *
- * @param string $file Path to Configuration file
- * @return boolean|array Array of configurations or boolean false if file can
- *   not be read.
- */
-function read_config_file($file)
-{
-    if (!is_readable($file)) {
-        return false;
-    }
-
-    return parse_ini_file($file, true);
-}
-
-/**
  * Loads system configurations.
  *
  * The configs are cached inside the function.
