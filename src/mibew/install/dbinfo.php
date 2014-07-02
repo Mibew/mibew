@@ -121,7 +121,7 @@ $dbtables = array(
 		"stringid" => "int NOT NULL auto_increment PRIMARY KEY",
 		"locale" => "varchar(5) NOT NULL",
 		"context" => "varchar(256) NOT NULL DEFAULT ''",
-		"source" => "text",
+		"source" => "text COLLATE utf8_bin",
 		"translation" => "text",
     ),
 
