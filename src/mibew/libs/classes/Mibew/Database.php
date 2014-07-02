@@ -182,6 +182,17 @@ class Database
     }
 
     /**
+     * Checks if the database was initialized correctly.
+     *
+     * @return boolean True if the database was initialized correctly and false
+     *   otherwise.
+     */
+    public static function isInitialized()
+    {
+        return !is_null(self::$instance);
+    }
+
+    /**
      * Set if exceptions must be process into the class or thrown and return
      * previous value.
      *

@@ -66,10 +66,9 @@ function locale_pattern_check($locale)
 
 function get_available_locales()
 {
-    if (installation_in_progress()) {
-        // We cannot get info from database during installation, thus we only
-        // can use discovered locales as available locales.
-        // TODO: Remove this workaround after installation will be rewritten.
+    if (!Database::isInitialized()) {
+        // We cannot use database by some reasons, thus we only can use
+        // discovered locales as available locales.
         return discover_locales();
     }
 
@@ -683,9 +682,9 @@ function load_messages($locale)
     if (!isset($messages[$locale])) {
         $messages[$locale] = array();
 
-        if (installation_in_progress()) {
-            // Load localization files because we cannot use database during
-            // installation.
+        if (!Database::isInitialized()) {
+            // Load localized strings from files because we cannot use database
+            // by some reasons.
             $locale_file = MIBEW_FS_ROOT . "/locales/{$locale}/translation.po";
             $locale_data = read_locale_file($locale_file);
 
@@ -795,9 +794,7 @@ function get_localized_string($string, $locale)
 
     // The string is not localized, save it to the database to provide an
     // ability to translate it from the UI later.
-    if (!installation_in_progress()) {
-        save_message($locale, $string, $string);
-    }
+    save_message($locale, $string, $string);
 
     // One can change english strings from the UI. Try to use these strings.
     if ($locale != 'en') {
@@ -817,6 +814,12 @@ function get_localized_string($string, $locale)
  */
 function save_message($locale, $key, $value)
 {
+    if (!Database::isInitialized()) {
+        // We cannot save a message if the database was not initialized
+        // correctly by some reasons. Just do nothing in that case.
+        return;
+    }
+
     $db = Database::getInstance();
 
     // Check if the string is already in the database.
