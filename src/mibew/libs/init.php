@@ -72,25 +72,28 @@ if (is_secure_request()) {
 // Initialize user session
 session_start();
 
-// Initialize the database
-\Mibew\Database::initialize(
-    $configs['database']['host'],
-    $configs['database']['login'],
-    $configs['database']['pass'],
-    $configs['database']['use_persistent_connection'],
-    $configs['database']['db'],
-    $configs['database']['tables_prefix']
-);
-
 if (function_exists("date_default_timezone_set")) {
     // TODO try to get timezone from config.php/session etc.
     // autodetect timezone
     @date_default_timezone_set(function_exists("date_default_timezone_get") ? @date_default_timezone_get() : "GMT");
 }
 
-if (!empty($configs['plugins'])) {
-    // A list of plugins is defined in $plugins_list variable in libs/config.php
-    \Mibew\Plugin\Manager::loadPlugins($configs['plugins']);
+if (!installation_in_progress()) {
+    // Initialize the database
+    \Mibew\Database::initialize(
+        $configs['database']['host'],
+        $configs['database']['login'],
+        $configs['database']['pass'],
+        $configs['database']['use_persistent_connection'],
+        $configs['database']['db'],
+        $configs['database']['tables_prefix']
+    );
+
+    if (!empty($configs['plugins'])) {
+        // A list of plugins is defined in $plugins_list variable in
+        // libs/config.php
+        \Mibew\Plugin\Manager::loadPlugins($configs['plugins']);
+    }
 }
 
 // Load all other libraries
