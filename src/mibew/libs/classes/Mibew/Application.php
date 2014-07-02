@@ -27,9 +27,8 @@ use Mibew\Http\Exception\HttpException;
 use Mibew\Http\Exception\MethodNotAllowedException as MethodNotAllowedHttpException;
 use Mibew\Http\Exception\NotFoundException as NotFoundHttpException;
 use Mibew\Routing\Router;
-use Mibew\Routing\RouteCollectionLoader;
+use Mibew\Routing\RouterAwareInterface;
 use Mibew\Routing\Exception\AccessDeniedException as AccessDeniedRoutingException;
-use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -40,17 +39,12 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException as ResourceNot
 /**
  * Incapsulates whole application
  */
-class Application
+class Application implements RouterAwareInterface
 {
     /**
      * @var Router|null
      */
     protected $router = null;
-
-    /**
-     * @var FileLocator|null
-     */
-    protected $fileLocator = null;
 
     /**
      * @var ControllerResolver|null
@@ -69,11 +63,12 @@ class Application
 
     /**
      * Class constructor.
+     *
+     * @param Router $router Appropriate router instance.
      */
-    public function __construct()
+    public function __construct(Router $router)
     {
-        $this->fileLocator = new FileLocator(array(MIBEW_FS_ROOT));
-        $this->router = new Router(new RouteCollectionLoader($this->fileLocator));
+        $this->router = $router;
         $this->authenticationManager = new AuthenticationManager();
         $this->controllerResolver = new ControllerResolver(
             $this->router,
@@ -93,7 +88,7 @@ class Application
         // Actualize request context in the internal router instance
         $context = new RequestContext();
         $context->fromRequest($request);
-        $this->router->setContext($context);
+        $this->getRouter()->setContext($context);
 
         // Actualize cookie factory in the authentication manager.
         $cookie_factory = CookieFactory::fromRequest($request);
@@ -104,7 +99,7 @@ class Application
             // Try to match a route, check if the client can access it and add
             // extra data to the request.
             try {
-                $parameters = $this->router->matchRequest($request);
+                $parameters = $this->getRouter()->matchRequest($request);
                 $request->attributes->add($parameters);
 
                 // Check if the user can access the page
@@ -153,6 +148,22 @@ class Application
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function setRouter(Router $router)
+    {
+        $this->router = $router;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRouter()
+    {
+        return $this->router;
+    }
+
+    /**
      * Builds response for pages with denied access
      *
      * Triggers "accessDenied' event to provide an ability for plugins to set custom response.
@@ -188,7 +199,7 @@ class Application
 
         // Operator is not logged in. Redirect him to the login page.
         $_SESSION['backpath'] = $request->getUri();
-        $response = new RedirectResponse($this->router->generate('login'));
+        $response = new RedirectResponse($this->getRouter()->generate('login'));
 
         return $response;
     }

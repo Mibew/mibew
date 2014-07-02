@@ -56,7 +56,7 @@ class Router implements RouterInterface, RequestMatcherInterface
     /**
      * Class constructor.
      *
-     * @  param RouteLoader $loader An instance of route loader.
+     * @param RouteLoader $loader An instance of route loader.
      * @param RequestContext $context The context of the request.
      */
     public function __construct(RouteCollectionLoader $loader, RequestContext $context = null)

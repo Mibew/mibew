@@ -18,10 +18,16 @@
 // Initialize libraries
 require_once(dirname(__FILE__) . '/libs/init.php');
 
-use Symfony\Component\HttpFoundation\Request;
 use Mibew\Application;
+use Mibew\Routing\RouteCollectionLoader;
+use Mibew\Routing\Router;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Config\FileLocator;
 
-$application = new Application();
+$file_locator = new FileLocator(array(MIBEW_FS_ROOT));
+$router = new Router(new RouteCollectionLoader($file_locator));
+
+$application = new Application($router);
 
 // Process request
 $request = Request::createFromGlobals();
