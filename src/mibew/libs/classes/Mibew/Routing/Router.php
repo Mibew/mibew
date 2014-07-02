@@ -54,15 +54,21 @@ class Router implements RouterInterface, RequestMatcherInterface
     protected $loader = null;
 
     /**
+     * @var array Router's options.
+     */
+    protected $options = array();
+
+    /**
      * Class constructor.
      *
      * @param RouteLoader $loader An instance of route loader.
      * @param RequestContext $context The context of the request.
      */
-    public function __construct(RouteCollectionLoader $loader, RequestContext $context = null)
+    public function __construct(RouteCollectionLoader $loader, RequestContext $context = null, $options = array())
     {
         $this->context = $context ? $context : new RequestContext();
         $this->loader = $loader;
+        $this->setOptions($options);
     }
 
     /**
@@ -71,7 +77,7 @@ class Router implements RouterInterface, RequestMatcherInterface
     public function getRouteCollection()
     {
         if (is_null($this->collection)) {
-            $this->collection = $this->loader->load();
+            $this->collection = $this->loader->load($this->getOption('route_collection'));
         }
 
         return $this->collection;
@@ -153,5 +159,68 @@ class Router implements RouterInterface, RequestMatcherInterface
         }
 
         return $this->generator;
+    }
+
+    /**
+     * Sets all router's options.
+     *
+     * @param array $options List of options to set.
+     * @throws \InvalidArgumentException If not supported option is found.
+     */
+    public function setOptions($options)
+    {
+        // Reset router's options to defaults.
+        $this->options = array(
+            'route_collection' => RouteCollectionLoader::ROUTES_ALL,
+        );
+
+        // Update options and find invalid ones.
+        $invalid = array();
+        foreach ($options as $name => $value) {
+            if (array_key_exists($name, $this->options)) {
+                $this->options[$name] = $value;
+            } else {
+                $invalid[] = $name;
+            }
+        }
+
+        if (!empty($invalid)) {
+            throw new \InvalidArgumentException(sprintf(
+                'The Router does not support the following options: "%s".',
+                implode('", "', $invalid)
+            ));
+        }
+    }
+
+    /**
+     * Sets router's option to the specified value.
+     *
+     * @param string $name Option name.
+     * @param string $value Option value.
+     * @throws \InvalidArgumentException If the option is not supported.
+     */
+    public function setOption($name, $value)
+    {
+        if (!array_key_exists($name, $this->options)) {
+            throw new \InvalidArgumentException(sprintf('The Router does not support "%s" option.', $name));
+        }
+
+        $this->options[$name] = $value;
+    }
+
+    /**
+     * Gets router's option by its name.
+     *
+     * @param string $name Option name.
+     * @return mixed Option value.
+     * @throws \InvalidArgumentException If the option is not supported.
+     */
+    public function getOption($name)
+    {
+        if (!array_key_exists($name, $this->options)) {
+            throw new \InvalidArgumentException(sprintf('The Router does not support "%s" option.', $name));
+        }
+
+        return $this->options[$name];
     }
 }

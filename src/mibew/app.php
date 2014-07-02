@@ -26,6 +26,7 @@ use Symfony\Component\Config\FileLocator;
 
 $file_locator = new FileLocator(array(MIBEW_FS_ROOT));
 $router = new Router(new RouteCollectionLoader($file_locator));
+$router->setOption('route_collection', RouteCollectionLoader::ROUTES_ALL);
 
 $application = new Application($router);
 
