@@ -153,6 +153,11 @@ class Application implements RouterAwareInterface
     public function setRouter(RouterInterface $router)
     {
         $this->router = $router;
+
+        // Update router in internal objects
+        if (!is_null($this->controllerResolver)) {
+            $this->controllerResolver->setRouter($router);
+        }
     }
 
     /**
