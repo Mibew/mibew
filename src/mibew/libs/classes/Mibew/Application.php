@@ -18,7 +18,8 @@
 namespace Mibew;
 
 use Mibew\AccessControl\Check\CheckResolver;
-use Mibew\Authentication\AuthenticationManager;
+use Mibew\Authentication\AuthenticationManagerInterface;
+use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Controller\ControllerResolver;
 use Mibew\EventDispatcher;
 use Mibew\Http\CookieFactory;
@@ -39,7 +40,7 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException as ResourceNot
 /**
  * Incapsulates whole application
  */
-class Application implements RouterAwareInterface
+class Application implements RouterAwareInterface, AuthenticationManagerAwareInterface
 {
     /**
      * @var RouterInterface|null
@@ -57,7 +58,7 @@ class Application implements RouterAwareInterface
     protected $accessCheckResolver = null;
 
     /**
-     * @var AuthenticationManager|null
+     * @var AuthenticationManagerInterface|null
      */
     protected $authenticationManager = null;
 
@@ -65,11 +66,13 @@ class Application implements RouterAwareInterface
      * Class constructor.
      *
      * @param RouterInterface $router Appropriate router instance.
+     * @param AuthenticationManagerInterface $manager Appropriate authentication
+     *   manager.
      */
-    public function __construct(RouterInterface $router)
+    public function __construct(RouterInterface $router, AuthenticationManagerInterface $manager)
     {
         $this->router = $router;
-        $this->authenticationManager = new AuthenticationManager();
+        $this->authenticationManager = $manager;
         $this->controllerResolver = new ControllerResolver(
             $this->router,
             $this->authenticationManager
@@ -91,9 +94,10 @@ class Application implements RouterAwareInterface
         $this->getRouter()->setContext($context);
 
         // Actualize cookie factory in the authentication manager.
+        $authentication_manager = $this->getAuthenticationManager();
         $cookie_factory = CookieFactory::fromRequest($request);
-        $this->authenticationManager->setCookieFactory($cookie_factory);
-        $this->authenticationManager->setOperatorFromRequest($request);
+        $authentication_manager->setCookieFactory($cookie_factory);
+        $authentication_manager->setOperatorFromRequest($request);
 
         try {
             // Try to match a route, check if the client can access it and add
@@ -142,7 +146,7 @@ class Application implements RouterAwareInterface
 
         // Attach operator's authentication info to the response to distinguish
         // him in the next requests.
-        $this->authenticationManager->attachOperatorToResponse($response);
+        $authentication_manager->attachOperatorToResponse($response);
 
         return $response;
     }
@@ -166,6 +170,31 @@ class Application implements RouterAwareInterface
     public function getRouter()
     {
         return $this->router;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setAuthenticationManager(AuthenticationManagerInterface $manager)
+    {
+        $this->authenticationManager = $manager;
+
+        // Update authentication manager in internal objects
+        if (!is_null($this->controllerResolver)) {
+            $this->controllerResolver->setAuthenticationManager($manager);
+        }
+
+        if (!is_null($this->accessCheckResolver)) {
+            $this->accessCheckResolver->setAuthenticationManager($manager);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAuthenticationManager()
+    {
+        return $this->authenticationManager;
     }
 
     /**

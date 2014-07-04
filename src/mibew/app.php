@@ -19,6 +19,7 @@
 require_once(dirname(__FILE__) . '/libs/init.php');
 
 use Mibew\Application;
+use Mibew\Authentication\AuthenticationManager;
 use Mibew\Routing\RouteCollectionLoader;
 use Mibew\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +29,7 @@ $file_locator = new FileLocator(array(MIBEW_FS_ROOT));
 $router = new Router(new RouteCollectionLoader($file_locator));
 $router->setOption('route_collection', RouteCollectionLoader::ROUTES_ALL);
 
-$application = new Application($router);
+$application = new Application($router, new AuthenticationManager());
 
 // Process request
 $request = Request::createFromGlobals();
