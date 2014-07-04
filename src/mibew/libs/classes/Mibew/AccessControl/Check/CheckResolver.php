@@ -21,7 +21,7 @@ use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class CheckResolver
+class CheckResolver implements AuthenticationManagerAwareInterface
 {
     /**
      * @var AuthenticationManagerInterface|null
@@ -35,6 +35,22 @@ class CheckResolver
      * authentication manager.
      */
     public function __construct(AuthenticationManagerInterface $manager)
+    {
+        $this->authenticationManager = $manager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAuthenticationManager()
+    {
+        return $this->authenticationManager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setAuthenticationManager(AuthenticationManagerInterface $manager)
     {
         $this->authenticationManager = $manager;
     }
@@ -63,7 +79,7 @@ class CheckResolver
             if (method_exists($access_check, '__invoke')) {
                 $object = new $access_check();
                 if ($object instanceof AuthenticationManagerAwareInterface) {
-                    $object->setAuthenticationManager($this->authenticationManager);
+                    $object->setAuthenticationManager($this->getAuthenticationManager());
                 }
 
                 return $object;
@@ -115,7 +131,7 @@ class CheckResolver
 
         $object = new $class();
         if ($object instanceof AuthenticationManagerAwareInterface) {
-            $object->setAuthenticationManager($this->authenticationManager);
+            $object->setAuthenticationManager($this->getAuthenticationManager());
         }
 
         return array($object, $method);
