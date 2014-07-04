@@ -26,13 +26,13 @@ use Mibew\Http\Exception\AccessDeniedException as AccessDeniedHttpException;
 use Mibew\Http\Exception\HttpException;
 use Mibew\Http\Exception\MethodNotAllowedException as MethodNotAllowedHttpException;
 use Mibew\Http\Exception\NotFoundException as NotFoundHttpException;
-use Mibew\Routing\Router;
 use Mibew\Routing\RouterAwareInterface;
 use Mibew\Routing\Exception\AccessDeniedException as AccessDeniedRoutingException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException as MethodNotAllowedRoutingException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException as ResourceNotFoundRoutingException;
 
@@ -42,7 +42,7 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException as ResourceNot
 class Application implements RouterAwareInterface
 {
     /**
-     * @var Router|null
+     * @var RouterInterface|null
      */
     protected $router = null;
 
@@ -64,9 +64,9 @@ class Application implements RouterAwareInterface
     /**
      * Class constructor.
      *
-     * @param Router $router Appropriate router instance.
+     * @param RouterInterface $router Appropriate router instance.
      */
-    public function __construct(Router $router)
+    public function __construct(RouterInterface $router)
     {
         $this->router = $router;
         $this->authenticationManager = new AuthenticationManager();
@@ -150,7 +150,7 @@ class Application implements RouterAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function setRouter(Router $router)
+    public function setRouter(RouterInterface $router)
     {
         $this->router = $router;
     }
