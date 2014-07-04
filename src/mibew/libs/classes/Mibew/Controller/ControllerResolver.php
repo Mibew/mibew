@@ -23,7 +23,7 @@ use Mibew\Routing\RouterAwareInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class ControllerResolver implements RouterAwareInterface
+class ControllerResolver implements RouterAwareInterface, AuthenticationManagerAwareInterface
 {
     /**
      * @var RouterInterface|null
@@ -62,6 +62,22 @@ class ControllerResolver implements RouterAwareInterface
     public function setRouter(RouterInterface $router)
     {
         $this->router = $router;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAuthenticationManager()
+    {
+        return $this->authenticationManager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setAuthenticationManager(AuthenticationManagerInterface $manager)
+    {
+        $this->authenticationManager = $manager;
     }
 
     /**
@@ -122,7 +138,7 @@ class ControllerResolver implements RouterAwareInterface
         }
 
         if ($object instanceof AuthenticationManagerAwareInterface) {
-            $object->setAuthenticationManager($this->authenticationManager);
+            $object->setAuthenticationManager($this->getAuthenticationManager());
         }
 
         return array($object, $method);
