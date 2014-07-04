@@ -19,11 +19,11 @@ namespace Mibew\Controller;
 
 use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
-use Mibew\Routing\Router;
 use Mibew\Routing\RouterAwareInterface;
 use Mibew\Style\StyleInterface;
 use Mibew\Style\PageStyle;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -32,7 +32,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 abstract class AbstractController implements RouterAwareInterface, AuthenticationManagerAwareInterface
 {
     /**
-     * @var Router|null
+     * @var RouterInterface|null
      */
     protected $router = null;
 
@@ -49,7 +49,7 @@ abstract class AbstractController implements RouterAwareInterface, Authenticatio
     /**
      * {@inheritdoc}
      */
-    public function setRouter(Router $router)
+    public function setRouter(RouterInterface $router)
     {
         $this->router = $router;
     }
