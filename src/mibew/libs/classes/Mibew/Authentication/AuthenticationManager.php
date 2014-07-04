@@ -19,13 +19,14 @@ namespace Mibew\Authentication;
 
 use Mibew\EventDispatcher;
 use Mibew\Http\CookieFactory;
+use Mibew\Http\CookieFactoryAwareInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Controls operator's authentication.
  */
-class AuthenticationManager implements AuthenticationManagerInterface
+class AuthenticationManager implements AuthenticationManagerInterface, CookieFactoryAwareInterface
 {
     /**
      * Indicates if the operator is logged in.
@@ -57,9 +58,7 @@ class AuthenticationManager implements AuthenticationManagerInterface
     protected $cookieFactory = null;
 
     /**
-     * Updates instance of cookie factory related with the manager.
-     *
-     * @param CookieFactory $factory An instance of CookieFactory.
+     * {@inheritdoc}
      */
     public function setCookieFactory(CookieFactory $factory)
     {
@@ -67,9 +66,7 @@ class AuthenticationManager implements AuthenticationManagerInterface
     }
 
     /**
-     * Returns an instance of cookie factory related with the manager.
-     *
-     * @return CookieFactory
+     * {@inheritdoc}
      */
     public function getCookieFactory()
     {

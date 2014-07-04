@@ -23,6 +23,7 @@ use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Controller\ControllerResolver;
 use Mibew\EventDispatcher;
 use Mibew\Http\CookieFactory;
+use Mibew\Http\CookieFactoryAwareInterface;
 use Mibew\Http\Exception\AccessDeniedException as AccessDeniedHttpException;
 use Mibew\Http\Exception\HttpException;
 use Mibew\Http\Exception\MethodNotAllowedException as MethodNotAllowedHttpException;
@@ -93,10 +94,13 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
         $context->fromRequest($request);
         $this->getRouter()->setContext($context);
 
-        // Actualize cookie factory in the authentication manager.
         $authentication_manager = $this->getAuthenticationManager();
-        $cookie_factory = CookieFactory::fromRequest($request);
-        $authentication_manager->setCookieFactory($cookie_factory);
+        // Actualize cookie factory in the authentication manager if it is
+        // needed.
+        if ($authentication_manager instanceof CookieFactoryAwareInterface) {
+            $cookie_factory = CookieFactory::fromRequest($request);
+            $authentication_manager->setCookieFactory($cookie_factory);
+        }
         $authentication_manager->setOperatorFromRequest($request);
 
         try {
