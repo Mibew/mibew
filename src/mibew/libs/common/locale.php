@@ -792,8 +792,12 @@ function get_localized_string($string, $locale)
     }
 
     // The string is not localized, save it to the database to provide an
-    // ability to translate it from the UI later.
-    save_message($locale, $string, $string);
+    // ability to translate it from the UI later. At the same time we cannot
+    // rely on the database during installation, thus we should check if the
+    // installation is in progress.
+    if (!installation_in_progress()) {
+        save_message($locale, $string, $string);
+    }
 
     // One can change english strings from the UI. Try to use these strings.
     if ($locale != 'en') {
@@ -813,13 +817,6 @@ function get_localized_string($string, $locale)
  */
 function save_message($locale, $key, $value)
 {
-    if (installation_in_progress()) {
-        // We cannot save a message if the installation is in progres because
-        // there are no guarantees that database is initialized and has all
-        // necessary tables. Just do nothing in that case.
-        return;
-    }
-
     $db = Database::getInstance();
 
     // Check if the string is already in the database.
