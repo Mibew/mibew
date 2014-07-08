@@ -730,7 +730,6 @@ function import_messages($locale, $file, $override = false)
     }
 }
 
-
 /**
  * Read and parse locale file.
  *
@@ -894,12 +893,19 @@ function enable_locale($locale)
             )
         );
 
-        // Import localized messages to just created locale
+        // Import localized messages to the just created locale
         import_messages(
             $locale,
             MIBEW_FS_ROOT . '/locales/' . $locale . '/translation.po',
             true
         );
+
+        // Import canned messages for the locale if they exist in the locale's
+        // files.
+        $canned_messages_file = MIBEW_FS_ROOT . '/locales/' . $locale . '/canned_messages.yml';
+        if (is_readable($canned_messages_file)) {
+            import_canned_messages($locale, $canned_messages_file);
+        }
     } else {
         // The locale exists in the database. Update it.
         $db->query(

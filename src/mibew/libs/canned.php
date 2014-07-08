@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-// Import namespaces and classes of the core
+use Symfony\Component\Yaml\Parser as YamlParser;
 use Mibew\Database;
 
 /**
@@ -97,9 +97,50 @@ function add_canned_message($locale, $group_id, $title, $message)
             . "VALUES (?, ?, ?, ?)"),
         array(
             $locale,
-            ($group_id ? $group_id : "null"),
+            ($group_id ? $group_id : null),
             $title,
             $message,
         )
     );
+}
+
+/**
+ * Import canned messages from a YAML file.
+ *
+ * @param string $locale Locale code.
+ * @param string $file Full path to the file that should be imported.
+ */
+function import_canned_messages($locale, $file)
+{
+    // Get new canned messages that should be imported.
+    $parser = new YamlParser();
+    $new_messages = $parser->parse(file_get_contents($file));
+    if (empty($new_messages)) {
+        // Nothing to import.
+        return;
+    }
+
+    // Get list of existing canned messages for specified locale an key it by
+    // message value.
+    $loaded_messages = load_canned_messages($locale, false);
+    $existing_messages = array();
+    if (!empty($loaded_messages)) {
+        foreach ($loaded_messages as $message) {
+            $existing_messages[$message['vcvalue']] = $message;
+        }
+    }
+
+    // Save only new messages to avoid duplication
+    foreach ($new_messages as $message) {
+        if (array_key_exists($message, $existing_messages)) {
+            continue;
+        }
+
+        add_canned_message(
+            $locale,
+            null,
+            cut_string($message, 97, '...'),
+            $message
+        );
+    }
 }
