@@ -66,9 +66,9 @@ function locale_pattern_check($locale)
 
 function get_available_locales()
 {
-    if (!Database::isInitialized()) {
-        // We cannot use database by some reasons, thus we only can use
-        // discovered locales as available locales.
+    if (installation_in_progress()) {
+        // We cannot rely on the database during installation, thus we only can
+        // use discovered locales as available locales.
         return discover_locales();
     }
 
@@ -682,9 +682,9 @@ function load_messages($locale)
     if (!isset($messages[$locale])) {
         $messages[$locale] = array();
 
-        if (!Database::isInitialized()) {
-            // Load localized strings from files because we cannot use database
-            // by some reasons.
+        if (installation_in_progress()) {
+            // Load localized strings from files because we cannot rely on the
+            // database during installation.
             $locale_file = MIBEW_FS_ROOT . "/locales/{$locale}/translation.po";
             $locale_data = read_locale_file($locale_file);
 
@@ -813,9 +813,10 @@ function get_localized_string($string, $locale)
  */
 function save_message($locale, $key, $value)
 {
-    if (!Database::isInitialized()) {
-        // We cannot save a message if the database was not initialized
-        // correctly by some reasons. Just do nothing in that case.
+    if (installation_in_progress()) {
+        // We cannot save a message if the installation is in progres because
+        // there are no guarantees that database is initialized and has all
+        // necessary tables. Just do nothing in that case.
         return;
     }
 
