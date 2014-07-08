@@ -906,6 +906,13 @@ function enable_locale($locale)
         if (is_readable($canned_messages_file)) {
             import_canned_messages($locale, $canned_messages_file);
         }
+
+        // Import mail templates for the locale if they exist in the locale's
+        // files.
+        $mail_templates_file = MIBEW_FS_ROOT . '/locales/' . $locale . '/mail_templates.yml';
+        if (is_readable($mail_templates_file)) {
+            import_mail_templates($locale, $mail_templates_file);
+        }
     } else {
         // The locale exists in the database. Update it.
         $db->query(

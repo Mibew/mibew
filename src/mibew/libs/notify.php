@@ -16,6 +16,7 @@
  */
 
 use Mibew\Database;
+use Symfony\Component\Yaml\Parser as YamlParser;
 
 function mibew_mail($to_addr, $reply_to, $subject, $body)
 {
@@ -46,6 +47,8 @@ function mibew_mail($to_addr, $reply_to, $subject, $body)
  *
  * @param string $name Machine name of the template.
  * @param string $locale Locale code for the mail template.
+ * @param boolean $strict If it is set to true no fall back to default locale
+ *   will be made.
  * @return array|boolean Associative array with localized mail template data. If
  *   the template with specified locale is not found a template for default
  *   locale will be loaded. If the last one does not found too boolean FALSE
@@ -60,7 +63,7 @@ function mibew_mail($to_addr, $reply_to, $subject, $body)
  *       an email.
  *     - body: string, localized value which will be used as body in an email.
  */
-function mail_template_load($name, $locale)
+function mail_template_load($name, $locale, $strict = false)
 {
     static $templates = array();
 
@@ -78,6 +81,10 @@ function mail_template_load($name, $locale)
         );
 
         if (!$template) {
+            if ($strict) {
+                return false;
+            }
+
             // There is no template in the database.
             if ($locale == DEFAULT_LOCALE) {
                 // The template is still not found.
@@ -131,5 +138,46 @@ function mail_template_save($name, $locale, $subject, $body)
                 ':body' => $body,
             )
         );
+    }
+}
+
+/**
+ * Import mail templates from a YAML file.
+ *
+ * @param string $locale Locale code.
+ * @param string $file Full path to the file that should be imported.
+ */
+function import_mail_templates($locale, $file)
+{
+    // Get new mail templates
+    $parser = new YamlParser();
+    $new_templates = $parser->parse(file_get_contents($file));
+    if (empty($new_templates)) {
+        // Nothing to import.
+        return;
+    }
+
+    foreach ($new_templates as $name => $template) {
+        // Validate the template
+        $is_valid_template = is_array($template)
+            && array_key_exists('subject', $template)
+            && array_key_exists('body', $template);
+        if (!$is_valid_template) {
+            throw new \RuntimeException(sprintf(
+                'An invalid mail template "%s" is found in "%s".',
+                $name,
+                $file
+            ));
+        }
+
+        if (!mail_template_load($name, $locale, true)) {
+            // Import only templates that are not already in the database.
+            mail_template_save(
+                $name,
+                $locale,
+                $template['subject'],
+                $template['body']
+            );
+        }
     }
 }
