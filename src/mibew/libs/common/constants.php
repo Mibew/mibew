@@ -23,7 +23,7 @@ define('MIBEW_VERSION', '2.0');
 /**
  * Current version of database structure
  */
-define('DB_VERSION', '2.0');
+define('DB_VERSION', 20000);
 
 /**
  * Current version of implemented features

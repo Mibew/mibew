@@ -39,9 +39,14 @@ class RouteCollectionLoader
     const ROUTES_PLUGINS = 2;
 
     /**
+     * Indicates that only routes related with installation should be loaded.
+     */
+    const ROUTES_INSTALLATION = 4;
+
+    /**
      * Indicates that all available routes should be loaded.
      */
-    const ROUTES_ALL = 3;
+    const ROUTES_ALL = 7;
 
     /**
      * @var YamlFileLoader|null
@@ -72,6 +77,11 @@ class RouteCollectionLoader
             $collection->addCollection($this->loadCoreRoutes());
         }
 
+        // Load installation routes if needed
+        if ($type & self::ROUTES_INSTALLATION) {
+            $collection->addCollection($this->loadInstallationRoutes());
+        }
+
         // Load plugins routes if needed
         if ($type & self::ROUTES_PLUGINS) {
             $collection->addCollection($this->loadPluginRoutes());
@@ -93,6 +103,17 @@ class RouteCollectionLoader
     protected function loadCoreRoutes()
     {
         return $this->loader->load('libs/routing.yml');
+    }
+
+    /**
+     * Loads routes related with installation process.
+     *
+     * @return RouteCollection
+     * @throws \RuntimeException If core installation routing file is not found.
+     */
+    protected function loadInstallationRoutes()
+    {
+        return $this->loader->load('libs/routing_install.yml');
     }
 
     /**

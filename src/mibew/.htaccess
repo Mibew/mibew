@@ -34,9 +34,13 @@ Options +FollowSymLinks
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+    # Use separate front controller for the system installator
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^install(|/(.*))$ install.php [QSA,L]
+
     # Alter only requests for files that do not exist
     RewriteCond %{REQUEST_FILENAME} !-f
-    # Rewrite all requests to front controller
+    # Rewrite all other requests to front controller
     RewriteRule ^(.*)$ app.php [QSA,L]
 </IfModule>
 

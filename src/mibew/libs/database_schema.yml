@@ -1,0 +1,284 @@
+# This file contains current database schema that is used for installation.
+# Do not change anything in this file unless you know what you are doing!
+
+# Contains information about chat groups
+chatgroup:
+    fields:
+        groupid: "int NOT NULL auto_increment PRIMARY KEY"
+        parent: "int DEFAULT NULL"
+        vcemail: "varchar(64)"
+        vclocalname: "varchar(64) NOT NULL"
+        vccommonname: "varchar(64) NOT NULL"
+        vclocaldescription: "varchar(1024) NOT NULL"
+        vccommondescription: "varchar(1024) NOT NULL"
+        iweight: "int NOT NULL DEFAULT 0"
+        vctitle: "varchar(255) DEFAULT ''"
+        vcchattitle: "varchar(255) DEFAULT ''"
+        vclogo: "varchar(255) DEFAULT ''"
+        vchosturl: "varchar(255) DEFAULT ''"
+    indexes:
+        parent: [parent]
+
+# Contains info about chat threads
+chatthread:
+    fields:
+        # ID of the thread.
+        threadid: "int NOT NULL auto_increment PRIMARY KEY"
+        # Name of the user in chat.
+        userName: "varchar(64) NOT NULL"
+        # ID of the user. This field is foreign key for {chatsitevisitor}.userid
+        userid: "varchar(255)"
+        # Name of the operator who took place in the chat.
+        agentName: "varchar(64)"
+        # ID of the operator who took place in the chat.
+        agentId: "int NOT NULL DEFAULT 0"
+        # Unix timestamp of the moment when the thread was created.
+        dtmcreated: "int NOT NULL DEFAULT 0"
+        # Unix timestamp of the moment when chat actually started.
+        dtmchatstarted: "int NOT NULL DEFAULT 0"
+        # Unix timestamp of the last thread modification.
+        dtmmodified: "int NOT NULL DEFAULT 0"
+        # Unix timestamp of the moment when the thread was closed.
+        dtmclosed: "int NOT NULL DEFAULT 0"
+        # ID of the last thread revision.
+        lrevision: "int NOT NULL DEFAULT 0"
+        # State of the thread. It is one of Thread::STATE_* constants.
+        istate: "int NOT NULL DEFAULT 0"
+        # State of invitation related with the thread. It is one of
+        # Thread::INVITATION_* constants.
+        invitationstate: "int NOT NULL DEFAULT 0"
+        # Last token of the thread.
+        ltoken: "int NOT NULL"
+        # IP address of the user.
+        remote: "varchar(255)"
+        # Page from which chat thread was started.
+        referer: "text"
+        # ID of the operator who will next in the chat.
+        nextagent: "int NOT NULL DEFAULT 0"
+        # Code of chat locale.
+        locale: "varchar(8)"
+        # Unix timestamp of the last request from user's window to server.
+        lastpinguser: "int NOT NULL DEFAULT 0"
+        # Unix timestamp of the last request from operator's window to server.
+        lastpingagent: "int NOT NULL DEFAULT 0"
+        # Indicates if user typing or not. It can take two values 0 and 1.
+        userTyping: "int DEFAULT 0"
+        # Indicates if operator typing or not. It can take two values 0 and 1.
+        agentTyping: "int DEFAULT 0"
+        # ID of shown message in the chat.
+        shownmessageid: "int NOT NULL DEFAULT 0"
+        # User agent description that took from 'User-Agent' HTTP header.
+        userAgent: "varchar(255)"
+        # Total count of user's messages related with the thread.
+        messageCount: "varchar(16)"
+        # ID of the group at Mibew side related with the thread.
+        groupid: "int references {chatgroup}(groupid)"
+
+# Contains "by thread" statistics
+chatthreadstatistics:
+    fields:
+        statid: "int NOT NULL auto_increment PRIMARY KEY"
+        date: "int NOT NULL DEFAULT 0"
+        threads: "int NOT NULL DEFAULT 0"
+        missedthreads: "int NOT NULL DEFAULT 0"
+        sentinvitations: "int NOT NULL DEFAULT 0"
+        acceptedinvitations: "int NOT NULL DEFAULT 0"
+        rejectedinvitations: "int NOT NULL DEFAULT 0"
+        ignoredinvitations: "int NOT NULL DEFAULT 0"
+        operatormessages: "int NOT NULL DEFAULT 0"
+        usermessages: "int NOT NULL DEFAULT 0"
+        averagewaitingtime: "FLOAT(10, 1) NOT NULL DEFAULT 0"
+        averagechattime: "FLOAT(10, 1) NOT NULL DEFAULT 0"
+
+requestbuffer:
+    fields:
+        requestid: "int NOT NULL auto_increment PRIMARY KEY"
+        # Use MD5 hashes as keys
+        requestkey: "char(32) NOT NULL"
+        request: "text NOT NULL"
+    indexes:
+        requestkey: [requestkey]
+
+requestcallback:
+    fields:
+        callbackid: "int NOT NULL auto_increment PRIMARY KEY"
+        token: "varchar(64) NOT NULL DEFAULT ''"
+        function: "varchar(64) NOT NULL"
+        arguments: "varchar(1024)"
+    indexes:
+        token: [token]
+
+# Contains updated translations
+translation:
+    fields:
+        stringid: "int NOT NULL auto_increment PRIMARY KEY"
+        locale: "varchar(5) NOT NULL"
+        context: "varchar(256) NOT NULL DEFAULT ''"
+        source: "text COLLATE utf8_bin"
+        translation: "text"
+
+# Contains locales info
+locale:
+    fields:
+        # Artificial primary key
+        localeid: "int NOT NULL auto_increment PRIMARY KEY"
+        # Locale code
+        code: "varchar(5) NOT NULL"
+        # Indicates if a locale is enabled or not.
+        enabled: "tinyint NOT NULL DEFAULT 0"
+
+# Contains localized mail templates
+mailtemplate:
+    fields:
+        # Artificial primary key
+        templateid: "int NOT NULL auto_increment PRIMARY KEY"
+        # Locale code a template belongs to
+        locale: "varchar(5) NOT NULL"
+        # Machine name of a template
+        name: "varchar(256) NOT NULL"
+        # Mail subject
+        subject: "varchar(1024) NOT NULL"
+        # Mail body
+        body: "text"
+
+# Store chat thread messages
+chatmessage:
+    fields:
+        # Message ID.
+        messageid: "int NOT NULL auto_increment PRIMARY KEY"
+        # ID of the thread related with the message.
+        threadid: "int NOT NULL references {chatthread}(threadid)"
+        # Message kind. It is one of Thread::KIND_* constants.
+        ikind: "int NOT NULL"
+        # ID of operator who sent the message. This value will be ignored for
+        # system messages and messages which sent by users.
+        agentId: "int NOT NULL DEFAULT 0"
+        # Message text body.
+        tmessage: "text NOT NULL"
+        # Name of the plugin which sent the message. If message was not sent by
+        # a plugin this field equals to an empty string.
+        plugin: "varchar(256) NOT NULL DEFAULT ''"
+        # Arbitrary serialized data related with message.
+        data: "text"
+        # Unix timestamp when message was created.
+        dtmcreated: "int NOT NULL DEFAULT 0"
+        # Name of the message sender.
+        tname: "varchar(64)"
+    indexes:
+        idx_agentid: [agentid]
+
+# Contains info about operators
+chatoperator:
+    fields:
+        operatorid: "int NOT NULL auto_increment PRIMARY KEY"
+        vclogin: "varchar(64) NOT NULL"
+        vcpassword: "varchar(64) NOT NULL"
+        vclocalename: "varchar(64) NOT NULL"
+        vccommonname: "varchar(64) NOT NULL"
+        vcemail: "varchar(64)"
+        dtmlastvisited: "int NOT NULL DEFAULT 0"
+        # Current status of an operator: 0 - online, 1 - away
+        istatus: "int DEFAULT 0"
+        idisabled: "int DEFAULT 0"
+        vcavatar: "varchar(255)"
+        vcjabbername: "varchar(255)"
+        # Operators privileges bitmask.
+        iperm: "int DEFAULT 0"
+        dtmrestore: "int NOT NULL DEFAULT 0"
+        vcrestoretoken: "varchar(64)"
+        # Use to start chat with specified operator.
+        code: "varchar(64) DEFAULT ''"
+
+# Contains "by operator" statistics
+chatoperatorstatistics:
+    fields:
+        statid: "int NOT NULL auto_increment PRIMARY KEY"
+        date: "int NOT NULL DEFAULT 0"
+        operatorid: "int NOT NULL"
+        threads: "int NOT NULL DEFAULT 0"
+        messages: "int NOT NULL DEFAULT 0"
+        averagelength: "FLOAT(10, 1) NOT NULL DEFAULT 0"
+        sentinvitations: "int NOT NULL DEFAULT 0"
+        acceptedinvitations: "int NOT NULL DEFAULT 0"
+        rejectedinvitations: "int NOT NULL DEFAULT 0"
+        ignoredinvitations: "int NOT NULL DEFAULT 0"
+    indexes:
+        operatorid: [operatorid]
+
+chatrevision:
+    fields:
+        id: "INT NOT NULL"
+
+# Contains relations between operators and groups
+chatgroupoperator:
+    fields:
+        groupid: "int NOT NULL references {chatgroup}(groupid)"
+        operatorid: "int NOT NULL references {chatoperator}(operatorid)"
+    indexes:
+        groupid: [groupid]
+        operatorid: [operatorid]
+
+# Contains banned visitors
+chatban:
+    fields:
+        banid: "INT NOT NULL auto_increment PRIMARY KEY"
+        dtmcreated: "int NOT NULL DEFAULT 0"
+        dtmtill: "int NOT NULL DEFAULT 0"
+        address: "varchar(255)"
+        comment: "varchar(255)"
+        blockedCount: "int DEFAULT 0"
+
+# Contains dynamic configs
+chatconfig:
+    fields:
+        id: "INT NOT NULL auto_increment PRIMARY KEY"
+        vckey: "varchar(255)"
+        vcvalue: "varchar(255)"
+
+# Contains canned messages
+chatresponses:
+    fields:
+        id: "INT NOT NULL auto_increment PRIMARY KEY"
+        locale: "varchar(8)"
+        groupid: "int references {chatgroup}(groupid)"
+        vctitle: "varchar(100) NOT NULL DEFAULT ''"
+        vcvalue: "varchar(1024) NOT NULL"
+
+chatsitevisitor:
+    fields:
+        visitorid: "INT NOT NULL auto_increment PRIMARY KEY"
+        userid: "varchar(255) NOT NULL"
+        username: "varchar(64)"
+        firsttime: "int NOT NULL DEFAULT 0"
+        lasttime: "int NOT NULL DEFAULT 0"
+        entry: "text NOT NULL"
+        details: "text NOT NULL"
+        invitations: "INT NOT NULL DEFAULT 0"
+        chats: "INT NOT NULL DEFAULT 0"
+        threadid: "INT references {chatthread}(threadid) on delete set null"
+    indexes:
+        threadid: [threadid]
+
+visitedpage:
+    fields:
+        pageid: "INT NOT NULL auto_increment PRIMARY KEY"
+        address: "varchar(1024)"
+        visittime: "int NOT NULL DEFAULT 0"
+        visitorid: "INT"
+        # Indicates if path included in 'by page' statistics
+        calculated: "tinyint NOT NULL DEFAULT 0"
+    indexes:
+        visitorid: [visitorid]
+
+# Contains "by page" statistics
+visitedpagestatistics:
+    fields:
+        pageid: "INT NOT NULL auto_increment PRIMARY KEY"
+        date: "int NOT NULL DEFAULT 0"
+        address: "varchar(1024)"
+        visits: "int NOT NULL DEFAULT 0"
+        chats: "int NOT NULL DEFAULT 0"
+        sentinvitations: "int NOT NULL DEFAULT 0"
+        acceptedinvitations: "int NOT NULL DEFAULT 0"
+        rejectedinvitations: "int NOT NULL DEFAULT 0"
+        ignoredinvitations: "int NOT NULL DEFAULT 0"

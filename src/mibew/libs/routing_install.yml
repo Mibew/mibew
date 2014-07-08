@@ -1,0 +1,9 @@
+install:
+    path: /install
+    defaults:
+        _controller: Mibew\Controller\InstallController::indexAction
+
+install_create_tables:
+    path: /install/create-tables
+    defaults:
+        _controller: Mibew\Controller\InstallController::createTablesAction

@@ -15,11 +15,13 @@
  * limitations under the License.
  */
 
+define('INSTALLATION_IN_PROGRESS', true);
+
 // Initialize libraries
 require_once(dirname(__FILE__) . '/libs/init.php');
 
 use Mibew\Application;
-use Mibew\Authentication\AuthenticationManager;
+use Mibew\Authentication\DummyAuthenticationManager;
 use Mibew\Routing\RouteCollectionLoader;
 use Mibew\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,10 +31,10 @@ $file_locator = new FileLocator(array(MIBEW_FS_ROOT));
 $router = new Router(new RouteCollectionLoader($file_locator));
 $router->setOption(
     'route_collection',
-    RouteCollectionLoader::ROUTES_CORE | RouteCollectionLoader::ROUTES_PLUGINS
+    RouteCollectionLoader::ROUTES_CORE | RouteCollectionLoader::ROUTES_INSTALLATION
 );
 
-$application = new Application($router, new AuthenticationManager());
+$application = new Application($router, new DummyAuthenticationManager());
 
 // Process request
 $request = Request::createFromGlobals();

@@ -167,3 +167,28 @@ function safe_htmlspecialchars($string)
     $string = preg_replace('/[\x00-\x08\x0b\x0c\x0e-\x1f]/', '', $string);
     return htmlspecialchars($string, ENT_QUOTES);
 }
+
+/**
+ * Converts version ID to human readable representation.
+ *
+ * Example of usage:
+ * <code>
+ *   $version = 50303;
+ *   echo(format_version_id($version)); // Outputs "5.3.3"
+ * </code>
+ *
+ * @param int $version_id Version ID
+ * @return string Human readable version.
+ */
+function format_version_id($version_id)
+{
+    $parts = array();
+    $tmp = (int)$version_id;
+
+    for ($i = 0; $i < 3; $i++) {
+        $parts[] = $tmp % 100;
+        $tmp = floor($tmp / 100);
+    }
+
+    return implode('.', array_reverse($parts));
+}
