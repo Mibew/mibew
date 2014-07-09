@@ -102,7 +102,7 @@ class RouteCollectionLoader
      */
     protected function loadCoreRoutes()
     {
-        return $this->loader->load('libs/routing.yml');
+        return $this->loader->load('configs/routing.yml');
     }
 
     /**
@@ -113,7 +113,7 @@ class RouteCollectionLoader
      */
     protected function loadInstallationRoutes()
     {
-        return $this->loader->load('libs/routing_install.yml');
+        return $this->loader->load('configs/routing_install.yml');
     }
 
     /**

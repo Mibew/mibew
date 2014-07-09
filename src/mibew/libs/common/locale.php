@@ -27,7 +27,7 @@ define('LOCALE_COOKIE_NAME', 'mibew_locale');
 
 /**
  * Verified value of the $default_locale configuration parameter (see
- * "libs/default_config.php" for details)
+ * "configs/default_config.php" for details)
  */
 define(
     'DEFAULT_LOCALE',
@@ -38,7 +38,7 @@ define(
 
 /**
  * Verified value of the $home_locale configuration parameter (see
- * "libs/default_config.php" for details)
+ * "configs/default_config.php" for details)
  */
 define(
     'HOME_LOCALE',

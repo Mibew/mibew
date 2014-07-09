@@ -29,7 +29,7 @@ function load_system_configs()
     if (is_null($configs)) {
         // Load and "parse" configs file. While configs are written in a php
         // file include is the only option to load and parse them.
-        include(MIBEW_FS_ROOT . "/libs/config.php");
+        include(MIBEW_FS_ROOT . "/configs/config.php");
 
         $configs = array(
             'mibew_root' => $mibewroot,

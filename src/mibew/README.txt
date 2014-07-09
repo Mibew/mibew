@@ -13,8 +13,8 @@ INSTALLATION
 2. Upload all the files contained in this archive (retaining the directory structure) into created folder.
    Be sure to chmod the mibew folder to 755 and the install folder to 644.
 3. Add a MySQL database with the name 'mibew'
-4. Copy /mibew/libs/default_config.php to /mibew/libs/config.php
-5. Edit /mibew/libs/config.php to the information needed to connect to the database
+4. Copy /mibew/configs/default_config.php to /mibew/configs/config.php
+5. Edit /mibew/configs/config.php to the information needed to connect to the database
 6. Using your web browser visit http://<yourdomain>/mibew/install/ and
    hit 'Create tables'
 7. Remove /mibew/install/ directory from your server
@@ -32,7 +32,7 @@ The owner should have all rights on the folder /mibew/files/avatar
 
 UPDATE
 
-1. Backup your /mibew/libs/config.php
+1. Backup your /mibew/configs/config.php
 2. Backup your /mibew/files/avatar folder.
 3. Delete the items in the mibew folder on the server.
 4. Upload all the files contained in the downloaded archive (retaining the directory structure) into mibew folder.

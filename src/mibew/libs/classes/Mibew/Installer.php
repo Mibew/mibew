@@ -370,7 +370,7 @@ class Installer
             $this->errors[] = getlocal(
                 "Please, check file {0}<br/>Wrong value of \$mibewroot variable, should be \"{1}\"",
                 array(
-                    $real_base_path . "/libs/config.php",
+                    $real_base_path . "/configs/config.php",
                     $real_base_path
                 )
             );
@@ -730,7 +730,7 @@ class Installer
      */
     protected function getDatabaseSchema()
     {
-        return $this->parser->parse(file_get_contents(MIBEW_FS_ROOT . '/libs/database_schema.yml'));
+        return $this->parser->parse(file_get_contents(MIBEW_FS_ROOT . '/configs/database_schema.yml'));
     }
 
     /**

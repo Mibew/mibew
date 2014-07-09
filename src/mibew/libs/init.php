@@ -91,7 +91,7 @@ if (!installation_in_progress()) {
 
     if (!empty($configs['plugins'])) {
         // A list of plugins is defined in $plugins_list variable in
-        // libs/config.php
+        // configs/config.php
         \Mibew\Plugin\Manager::loadPlugins($configs['plugins']);
     }
 }

@@ -3,7 +3,7 @@ src/absent_*
 src/release*
 
 # Do not index actual configuration files
-src/mibew/libs/config.php
+src/mibew/configs/config.php
 src/tests/server_side/mibew/libs/config.php
 
 # Do not index avatars
