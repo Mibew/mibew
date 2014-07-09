@@ -1,0 +1,39 @@
+# IMPORTANT: Before install mibew copy this file to config.yml and fill it with
+# your own settings!
+
+
+# Application path on server
+mibew_root: /mibew
+
+# MySQL Database parameters
+database:
+    host: ""
+    db: ""
+    login: ""
+    pass: ""
+    tables_prefix: ""
+    use_persistent_connection: false
+
+# Mailbox
+mailbox: mibew@yourdomain.com
+
+# Locales
+## Native name will be used in this locale
+home_locale: en
+## If user does not provide known lang
+default_locale: en
+
+# Plugins
+plugins: []
+
+## Exapmle of plugins configuration
+# plugins:
+#     -
+#         name: "VendorName:PluginName"
+#         config:
+#             weight: 100
+#             some_configurable_value: value
+#     -
+#         name: "VendorName:AnotherPluginName"
+#         config:
+#             very_important_value: "$3.50"

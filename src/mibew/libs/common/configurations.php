@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+use Symfony\Component\Yaml\Parser as YamlParser;
+
 /**
  * Loads system configurations.
  *
@@ -27,25 +29,8 @@ function load_system_configs()
     static $configs = null;
 
     if (is_null($configs)) {
-        // Load and "parse" configs file. While configs are written in a php
-        // file include is the only option to load and parse them.
-        include(MIBEW_FS_ROOT . "/configs/config.php");
-
-        $configs = array(
-            'mibew_root' => $mibewroot,
-            'database' => array(
-                'host' => $mysqlhost,
-                'db' => $mysqldb,
-                'login' => $mysqllogin,
-                'pass' => $mysqlpass,
-                'tables_prefix' => $mysqlprefix,
-                'use_persistent_connection' => $use_persistent_connection,
-            ),
-            'mailbox' => $mibew_mailbox,
-            'home_locale' => $home_locale,
-            'default_locale' => $default_locale,
-            'plugins' => $plugins_list,
-        );
+        $parser = new YamlParser();
+        $configs = $parser->parse(file_get_contents(MIBEW_FS_ROOT . '/configs/config.yml'));
     }
 
     return $configs;

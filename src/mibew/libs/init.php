@@ -20,6 +20,16 @@
  */
 define('MIBEW_FS_ROOT', dirname(dirname(__FILE__)));
 
+// Initialize classes autoloading
+require_once(MIBEW_FS_ROOT . '/libs/classes/Mibew/Autoloader.php');
+Mibew\Autoloader::register(MIBEW_FS_ROOT . '/libs/classes');
+
+// Automatically load plugins
+Mibew\Autoloader::register(MIBEW_FS_ROOT . '/plugins');
+
+// Initialize external dependencies
+require_once(MIBEW_FS_ROOT . '/vendor/autoload.php');
+
 // Load system configurations
 require_once(MIBEW_FS_ROOT . '/libs/common/configurations.php');
 $configs = load_system_configs();
@@ -40,16 +50,6 @@ define('MIBEW_WEB_ROOT', $mibewroot);
 
 // Include system constants file
 require_once(MIBEW_FS_ROOT . '/libs/common/constants.php');
-
-// Initialize classes autoloading
-require_once(MIBEW_FS_ROOT . '/libs/classes/Mibew/Autoloader.php');
-Mibew\Autoloader::register(MIBEW_FS_ROOT . '/libs/classes');
-
-// Automatically load plugins
-Mibew\Autoloader::register(MIBEW_FS_ROOT . '/plugins');
-
-// Initialize external dependencies
-require_once(MIBEW_FS_ROOT . '/vendor/autoload.php');
 
 // Include common libs
 require_once(MIBEW_FS_ROOT . '/libs/common/verification.php');
@@ -73,7 +73,7 @@ if (is_secure_request()) {
 session_start();
 
 if (function_exists("date_default_timezone_set")) {
-    // TODO try to get timezone from config.php/session etc.
+    // TODO try to get timezone from config.yml/session etc.
     // autodetect timezone
     @date_default_timezone_set(function_exists("date_default_timezone_get") ? @date_default_timezone_get() : "GMT");
 }
@@ -91,7 +91,7 @@ if (!installation_in_progress()) {
 
     if (!empty($configs['plugins'])) {
         // A list of plugins is defined in $plugins_list variable in
-        // configs/config.php
+        // configs/config.yml
         \Mibew\Plugin\Manager::loadPlugins($configs['plugins']);
     }
 }

@@ -368,9 +368,9 @@ class Installer
     {
         if ($real_base_path != MIBEW_WEB_ROOT) {
             $this->errors[] = getlocal(
-                "Please, check file {0}<br/>Wrong value of \$mibewroot variable, should be \"{1}\"",
+                "Please, check file {0}<br/>Wrong value of \"mibew_root\" variable, should be \"{1}\"",
                 array(
-                    $real_base_path . "/configs/config.php",
+                    $real_base_path . "/configs/config.yml",
                     $real_base_path
                 )
             );
@@ -699,7 +699,7 @@ class Installer
                 );
             } catch(\PDOException $e) {
                 $this->errors[] = getlocal(
-                    "Could not connect. Please check server settings in config.php. Error: {0}",
+                    "Could not connect. Please check server settings in config.yml. Error: {0}",
                     array($e->getMessage())
                 );
 
