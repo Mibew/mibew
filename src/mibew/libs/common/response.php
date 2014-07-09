@@ -40,14 +40,6 @@ function get_image($href, $width, $height)
     return "<img src=\"$href\" border=\"0\" alt=\"\"/>";
 }
 
-function start_html_output()
-{
-    header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-    header("Cache-Control: no-store, no-cache, must-revalidate");
-    header("Pragma: no-cache");
-    header("Content-type: text/html; charset=utf-8");
-}
-
 /**
  * Load additional CSS files, required by plugins, and build HTML code to
  * include them
