@@ -3,7 +3,45 @@ install:
     defaults:
         _controller: Mibew\Controller\InstallController::indexAction
 
+install_check_requirements:
+    path: /install/check-requirements
+    defaults:
+        _controller: Mibew\Controller\InstallController::checkRequirementsAction
+        _access_check: Mibew\AccessControl\Check\CanInstallCheck
+
+install_check_connection:
+    path: /install/check-connection
+    defaults:
+        _controller: Mibew\Controller\InstallController::checkConnectionAction
+        _access_check: Mibew\AccessControl\Check\CanInstallCheck
+
 install_create_tables:
     path: /install/create-tables
     defaults:
         _controller: Mibew\Controller\InstallController::createTablesAction
+        _access_check: Mibew\AccessControl\Check\CanInstallCheck
+
+install_set_password:
+    path: /install/set-password
+    defaults:
+        _controller: Mibew\Controller\InstallController::showPasswordFormAction
+        _access_check: Mibew\AccessControl\Check\CanInstallCheck
+    methods: [GET]
+
+install_set_password_submit:
+    path: /install/set-password
+    defaults:
+        _controller: Mibew\Controller\InstallController::submitPasswordFormAction
+        _access_check: Mibew\AccessControl\Check\CanInstallCheck
+    methods: [POST]
+
+install_import_locales:
+    path: /install/import-locales
+    defaults:
+        _controller: Mibew\Controller\InstallController::importLocalesAction
+        _access_check: Mibew\AccessControl\Check\CanInstallCheck
+
+install_done:
+    path: /install/done
+    defaults:
+        _controller: Mibew\Controller\InstallController::doneAction

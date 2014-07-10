@@ -48,22 +48,24 @@
                             {{/each}}
                         </ul>
 
-                        {{#if nextstep}}
-                            <br/>
-                            <br/>
+                        {{#block "nextStep"}}
+                            {{#if nextstep}}
+                                <br/>
+                                <br/>
 
-                            {{l10n "Next step:"}}
+                                {{l10n "Next step:"}}
 
-                            <ul>
-                                <li>
-                                    {{#if nextnotice}}
-                                        {{{nextnotice}}}<br/><br/>
-                                    {{/if}}
+                                <ul>
+                                    <li>
+                                        {{#if nextnotice}}
+                                            {{{nextnotice}}}<br/><br/>
+                                        {{/if}}
 
-                                    <a href="{{nextstepurl}}">{{nextstep}}</a>
-                                </li>
-                            </ul>
-                        {{/if}}
+                                        <a href="{{nextstepurl}}">{{nextstep}}</a>
+                                    </li>
+                                </ul>
+                            {{/if}}
+                        {{/block}}
                     </div>
 
                     <div class="formbottom">

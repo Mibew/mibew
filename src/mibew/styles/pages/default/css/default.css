@@ -927,6 +927,10 @@ table.awaiting .no-threads, table.awaiting .no-visitors  {
 	margin-left: 2em;
 }
 
+#install .password-form {
+	margin-left: 2em;
+}
+
 #check-nv, #check-nm {
 	color: #2f7599;
 	text-decoration: none;

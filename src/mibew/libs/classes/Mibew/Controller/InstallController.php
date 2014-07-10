@@ -20,6 +20,7 @@ namespace Mibew\Controller;
 use Mibew\Installer;
 use Mibew\Style\PageStyle;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Process all pages related with installation.
@@ -33,111 +34,429 @@ class InstallController extends AbstractController
      */
     protected $installer = null;
 
+    const STEP_CHECK_REQUIREMENTS = 0;
+    const STEP_CHECK_CONNECTION = 1;
+    const STEP_CREATE_TABLES = 2;
+    const STEP_SET_PASSWORD = 3;
+    const STEP_IMPORT_LOCALES = 4;
+    const STEP_DONE = 5;
+
     /**
-     * The main entry point of installation process.
+     * Redirects the user to the current installation step.
      *
      * @param Request $request Incoming request.
-     * @return string Rendered page content.
+     * @return Response
      */
     public function indexAction(Request $request)
     {
-        $page = array(
-            'version' => MIBEW_VERSION,
-            'localeLinks' => get_locale_links(),
-            'fixedwrap' => true,
-            'title' => getlocal("Installation"),
-        );
-
-        $installer = $this->getInstaller();
-        $state = $installer->install($request->getBasePath());
-        $installation_error = $state == Installer::STATE_NEED_UPDATE_TABLES
-            || $state == Installer::STATE_ERROR;
-
-        if ($installation_error) {
-            $page['title'] = getlocal('Problem');
-            $page['no_right_menu'] = true;
-
-            if ($state == Installer::STATE_NEED_UPDATE_TABLES) {
-                // The installer should not update tables structure.
-                $page['errors'] = array(
-                    getlocal('Mibew is already installed and must be updated. Use the updater.')
+        // Check if Mibew is already installed.
+        $in_progress = !empty($_SESSION[SESSION_PREFIX . 'installation_in_progress']);
+        if (!$in_progress) {
+            if ($this->getInstaller()->isInstalled()) {
+                // The system is already installed.
+                return new Response(
+                    $this->renderError(
+                        'install_err',
+                        array('errors' => array(getlocal('The system is already installed!')))
+                    ),
+                    403
                 );
-            } else {
-                // Installer thinks that something went wrong. Believe it and
-                // use its errors.
-                $page['errors'] = $installer->getErrors();
             }
 
-            return $this->render('install_err', $page);
+            // The system is not installed. Mark the user to know that he starts
+            // installation.
+            $_SESSION[SESSION_PREFIX . 'installation_in_progress'] = true;
+            $this->setCurrentStep(self::STEP_CHECK_REQUIREMENTS);
         }
 
-        $page['done'] = $installer->getLog();
-        $page['errors'] = $installer->getErrors();
-
-        if ($state == Installer::STATE_SUCCESS || $state == Installer::STATE_NEED_CHANGE_PASSWORD) {
-            // Everything is ok. The installation is completed.
-            $page['soundcheck'] = true;
-            $page['done'][] = getlocal("Click to check the sound: {0} and {1}", array(
-                "<a id='check-nv' href='javascript:void(0)'>" . getlocal("New Visitor") . "</a>",
-                "<a id='check-nm' href='javascript:void(0)'>" . getlocal("New Message") . "</a>"
-            ));
-            $page['done'][] = getlocal("<b>Application installed successfully.</b>");
-
-            if ($state == Installer::STATE_NEED_CHANGE_PASSWORD) {
-                $notice = getlocal('You can logon as <b>admin</b> with empty password.')
-                    . '<br /><br />'
-                    . '<span class=\"warning\">'
-                    . getlocal(
-                        'For security reasons please change your password immediately and remove {0} file from your server.',
-                        array(MIBEW_WEB_ROOT . '/install.php')
-                    )
-                    . '</span>';
-
-                $page['nextstep'] = getlocal("Proceed to the login page");
-                $page['nextnotice'] = $notice;
-                $page['nextstepurl'] = $this->generateUrl('login', array('login' => 'admin'));
-            }
-        } elseif ($state == Installer::STATE_NEED_CREATE_TABLES) {
-            // There is no tables in the database. We need to create them.
-            $page['nextstep'] = getlocal("Create required tables.");
-            $page['nextstepurl'] = $this->generateUrl('install_create_tables');
-        } else {
-            throw new \RuntimeException(
-                sprintf('Unknown installer state "%s".', $state)
-            );
-        }
-
-        return $this->render('install_index', $page);
+        // Run an installation step.
+        return $this->redirect($this->generateStepUrl($this->getCurrentStep()));
     }
 
     /**
-     * An action that create necessary database tables.
+     * Renders a page for "Check requirements" installation step.
      *
-     * @param Request $request Incoming request
-     * @return string Rendered page content.
+     * @param Request $request Incoming request.
+     * @return Response
      */
-    public function createTablesAction(Request $request)
+    public function checkRequirementsAction(Request $request)
     {
-        $installer = $this->getInstaller();
+        // Check if the user can run this step
+        if ($this->getCurrentStep() < self::STEP_CHECK_REQUIREMENTS) {
+            return $this->redirect($this->generateStepUrl($this->getCurrentStep()));
+        } elseif ($this->getCurrentStep() != self::STEP_CHECK_REQUIREMENTS) {
+            $this->setCurrentStep(self::STEP_CHECK_REQUIREMENTS);
+        }
 
-        if (!$installer->createTables()) {
-            // By some reasons tables cannot be created. Tell it to the user.
-            return $this->render(
+        $installer = $this->getInstaller();
+        if (!$installer->checkRequirements($request->getBasePath())) {
+            return $this->renderError(
                 'install_err',
-                array(
-                    'version' => MIBEW_VERSION,
-                    'localeLinks' => get_locale_links(),
-                    'title' => getlocal('Problem'),
-                    'no_right_menu' => true,
-                    'fixedwrap' => true,
-                    'errors' => $installer->getErrors(),
-                )
+                array('error' => $installer->getErrors())
             );
         }
 
-        // Tables are successfully created. Go back to the main installation
-        // page.
-        return $this->redirect($this->generateUrl('install'));
+        // Everything is fine. Log the messages and go to the next step
+        $this->setLog(self::STEP_CHECK_REQUIREMENTS, $installer->getLog());
+        $this->setCurrentStep(self::STEP_CHECK_CONNECTION);
+
+        return $this->renderStep(
+            'install_step',
+            array('nextstep' => getlocal('Check database connection'))
+        );
+    }
+
+    /**
+     * Renders a page for "Check connection" installation step.
+     *
+     * @param Request $request Incoming request.
+     * @return Response
+     */
+    public function checkConnectionAction(Request $request)
+    {
+        // Check if the user can run this step
+        if ($this->getCurrentStep() < self::STEP_CHECK_CONNECTION) {
+            return $this->redirect($this->generateStepUrl($this->getCurrentStep()));
+        } elseif ($this->getCurrentStep() != self::STEP_CHECK_CONNECTION) {
+            $this->setCurrentStep(self::STEP_CHECK_CONNECTION);
+        }
+
+        $installer = $this->getInstaller();
+        if (!$installer->checkConnection()) {
+            return $this->renderError(
+                'install_err',
+                array('error' => $installer->getErrors())
+            );
+        }
+
+        // Everything is fine. Go to the next step.
+        $this->setLog(self::STEP_CHECK_CONNECTION, $installer->getLog());
+        $this->setCurrentStep(self::STEP_CREATE_TABLES);
+
+        return $this->renderStep(
+            'install_step',
+            array('nextstep' => getlocal('Create necessary tables'))
+        );
+    }
+
+    /**
+     * Renders a page for "Create tables" installation step.
+     *
+     * @param Request $request Incoming request.
+     * @return Response
+     */
+    public function createTablesAction(Request $request)
+    {
+        // Check if the user can run this step
+        if ($this->getCurrentStep() < self::STEP_CREATE_TABLES) {
+            return $this->redirect($this->generateStepUrl($this->getCurrentStep()));
+        } elseif ($this->getCurrentStep() != self::STEP_CREATE_TABLES) {
+            $this->setCurrentStep(self::STEP_CREATE_TABLES);
+        }
+
+        $installer = $this->getInstaller();
+        if (!$installer->createTables()) {
+            return $this->renderError(
+                'install_err',
+                array('error' => $installer->getErrors())
+            );
+        }
+
+        $this->setLog(self::STEP_CREATE_TABLES, $installer->getLog());
+        $this->setCurrentStep(self::STEP_SET_PASSWORD);
+
+        return $this->renderStep(
+            'install_step',
+            array('nextstep' => getlocal('Set administrator password'))
+        );
+    }
+
+    /**
+     * Renders a page for "Set password" installation step.
+     *
+     * @param Request $request Incoming request.
+     * @return Response
+     */
+    public function showPasswordFormAction(Request $request)
+    {
+        // Check if the user can run this step
+        if ($this->getCurrentStep() < self::STEP_SET_PASSWORD) {
+            return $this->redirect($this->generateStepUrl($this->getCurrentStep()));
+        } elseif ($this->getCurrentStep() != self::STEP_SET_PASSWORD) {
+            $this->setCurrentStep(self::STEP_SET_PASSWORD);
+        }
+
+        return $this->renderStep(
+            'install_password',
+            array(
+                'errors' => $request->attributes->get('errors', array()),
+            )
+        );
+    }
+
+    /**
+     * Processes submitting of password form.
+     *
+     * @param Request $request Incoming request.
+     * @return Response
+     */
+    public function submitPasswordFormAction(Request $request)
+    {
+        // Check if the user can run this step
+        if ($this->getCurrentStep() != self::STEP_SET_PASSWORD) {
+            $this->redirect($this->generateStepUrl(self::STEP_SET_PASSWORD));
+        }
+
+        $password = $request->request->get('password');
+        $password_confirm = $request->request->get('password_confirm');
+        $errors = array();
+
+        // Validate passwords
+        if (!$password) {
+            $errors[] = no_field('Password');
+        }
+        if (!$password_confirm) {
+            $errors[] = no_field('Confirmation');
+        }
+        if ($password !== $password_confirm) {
+            $errors[] = getlocal('Passwords do not match.');
+        }
+        if (!empty($errors)) {
+            // Something went wrong we should rerender the form.
+            $request->attributes->set('errors', $errors);
+
+            return $this->showPasswordFormAction($request);
+        }
+
+        $installer = $this->getInstaller();
+        if (!$installer->setPassword($password)) {
+            return $this->renderError(
+                'install_err',
+                array('errors' => $installer->getErrors())
+            );
+        }
+
+        $this->setLog(
+            self::STEP_SET_PASSWORD,
+            array(getlocal('Password is set.'))
+        );
+        $this->setCurrentStep(self::STEP_IMPORT_LOCALES);
+
+        return $this->renderStep(
+            'install_step',
+            array('nextstep' => getlocal('Import locales'))
+        );
+    }
+
+    /**
+     * Renders a page for "Import locales" installation step.
+     *
+     * @param Request $request Incoming request.
+     * @return Response
+     */
+    public function importLocalesAction()
+    {
+        // Check if the user can run this step
+        if ($this->getCurrentStep() < self::STEP_IMPORT_LOCALES) {
+            return $this->redirect($this->generateStepUrl($this->getCurrentStep()));
+        } elseif ($this->getCurrentStep() != self::STEP_IMPORT_LOCALES) {
+            $this->setCurrentStep(self::STEP_IMPORT_LOCALES);
+        }
+
+        $installer = $this->getInstaller();
+        if (!$installer->importLocales()) {
+            return $this->renderError(
+                'install_err',
+                array('errors' => $installer->getErrors())
+            );
+        }
+
+        $this->setLog(self::STEP_IMPORT_LOCALES, $installer->getLog());
+        $this->setCurrentStep(self::STEP_DONE);
+
+        return $this->renderStep(
+            'install_step',
+            array('nextstep' => getlocal('Check sound and lock the installation'))
+        );
+    }
+
+    /**
+     * Renders a page for "Done" installation step.
+     *
+     * @param Request $request Incoming request.
+     * @return Response
+     */
+    public function doneAction(Request $request)
+    {
+        if (empty($_SESSION[SESSION_PREFIX . 'installation_in_progress'])) {
+            // The installation has been finished (or had not been started yet)
+            // We should prevent access to this action but cannot use Access
+            // Check functionallity becase the user should be redirected to the
+            // beginnig.
+            return $this->redirect($this->generateUrl('install'));
+        }
+
+        // Check if the user can run this step
+        if ($this->getCurrentStep() < self::STEP_DONE) {
+            return $this->redirect($this->generateStepUrl($this->getCurrentStep()));
+        } elseif ($this->getCurrentStep() != self::STEP_DONE) {
+            $this->setCurrentStep(self::STEP_DONE);
+        }
+
+        // The installation is done.
+        unset($_SESSION[SESSION_PREFIX . 'installation_in_progress']);
+
+        $login_link = getlocal(
+            'You can login to usgin <a href="{0}">this</a> link.',
+            array($this->generateUrl('login', array('user' => 'admin')))
+        );
+
+        return $this->renderStep(
+            'install_done',
+            array('loginLink' => $login_link)
+        );
+    }
+
+    /**
+     * Renders installation step page.
+     *
+     * It is just a wrapper for {@link AbstractController::render()} method
+     * which adds several default values to $parameters array.
+     *
+     * @param string $template Name of the template which should be rendered
+     * @param array $parameters List of values that should be passed to the
+     *   template.
+     * @return string Rendered page content
+     */
+    protected function renderStep($template, array $parameters = array())
+    {
+        // Add default values
+        $parameters += array(
+            'version' => MIBEW_VERSION,
+            'localeLinks' => get_locale_links(),
+            'fixedwrap' => true,
+            'title' => getlocal('Installation'),
+            'done' => $this->getLog(),
+            'error' => array(),
+            'nextstep' => false,
+            'nextstepurl' => $this->generateStepUrl($this->getCurrentStep()),
+            'nextnotice' => false,
+        );
+
+        return $this->render($template, $parameters);
+    }
+
+    /**
+     * Renders installation error page.
+     *
+     * It is just a wrapper for {@link AbstractController::render()} method
+     * which adds several default values to $parameters array.
+     *
+     * @param string $template Name of the template which should be rendered
+     * @param array $parameters List of values that should be passed to the
+     *   template.
+     * @return string Rendered page content
+     */
+    protected function renderError($template, array $parameters = array())
+    {
+        // Add default values
+        $parameters += array(
+            'version' => MIBEW_VERSION,
+            'localeLinks' => get_locale_links(),
+            'title' => getlocal('Problem'),
+            'fixedwrap' => true,
+        );
+
+        return $this->render($template, $parameters);
+    }
+
+    /**
+     * Returns log messages for all steps excluding current.
+     *
+     * @return string[] List of logged messages.
+     */
+    protected function getLog()
+    {
+        if (!isset($_SESSION[SESSION_PREFIX . 'installation_log'])) {
+            return array();
+        }
+
+        $log = array();
+        foreach ($_SESSION[SESSION_PREFIX . 'installation_log'] as $step => $messages) {
+            if ($this->getCurrentStep() <= $step) {
+                // Combine only messages for previous steps
+                break;
+            }
+            $log = array_merge($log, $messages);
+        }
+
+        return $log;
+    }
+
+    /**
+     * Sets log for the specified installation step.
+     *
+     * @param integer $step An installation step. One of
+     *   InstallController::STEP_* constants.
+     * @param string[] $messages List of logged messages.
+     */
+    protected function setLog($step, $messages)
+    {
+        $_SESSION[SESSION_PREFIX . 'installation_log'][$step] = $messages;
+    }
+
+    /**
+     * Returns current step of the installation process.
+     *
+     * @return integer An installation step. One of InstallController::STEP_*
+     *   constants.
+     */
+    protected function getCurrentStep()
+    {
+        // Set current step from the session.
+        return $this->currentStep = isset($_SESSION[SESSION_PREFIX . 'installation_step'])
+            ? $_SESSION[SESSION_PREFIX . 'installation_step']
+            : self::STEP_CHECK_REQUIREMENTS;
+    }
+
+    /**
+     * Sets the current installation step.
+     *
+     * @param integer $step An installation step. One of
+     *   InstallController::STEP_* constants.
+     */
+    protected function setCurrentStep($step)
+    {
+        $_SESSION[SESSION_PREFIX . 'installation_step'] = $step;
+    }
+
+    /**
+     * Generates URL for the specified installation step.
+     *
+     * @param integer $step An installation step. One of
+     *   InstallController::STEP_* constants.
+     * @return string An URL for the specified step.
+     * @throws \InvalidArgumentException If the step is unknown.
+     */
+    protected function generateStepUrl($step)
+    {
+        $routes_map = array(
+            self::STEP_CHECK_REQUIREMENTS => 'install_check_requirements',
+            self::STEP_CHECK_CONNECTION => 'install_check_connection',
+            self::STEP_CREATE_TABLES => 'install_create_tables',
+            self::STEP_SET_PASSWORD => 'install_set_password',
+            self::STEP_IMPORT_LOCALES => 'install_import_locales',
+            self::STEP_DONE => 'install_done',
+        );
+
+        if (!array_key_exists($step, $routes_map)) {
+            throw new \InvalidArgumentException(sprintf(
+                'Unknown step "%s"',
+                $step
+            ));
+        }
+
+        return $this->generateUrl($routes_map[$step]);
     }
 
     /**

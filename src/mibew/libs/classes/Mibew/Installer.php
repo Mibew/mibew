@@ -31,31 +31,6 @@ class Installer
     const MIN_PHP_VERSION = 50303;
 
     /**
-     * Installation process finished with error.
-     */
-    const STATE_ERROR = 'error';
-
-    /**
-     * Installation process finished successfully.
-     */
-    const STATE_SUCCESS = 'success';
-
-    /**
-     * Database tables should be created.
-     */
-    const STATE_NEED_CREATE_TABLES = 'need_create_tables';
-
-    /**
-     * Database tables should be updated.
-     */
-    const STATE_NEED_UPDATE_TABLES = 'need_update_tables';
-
-    /**
-     * Indicates that the main admin must change his password.
-     */
-    const STATE_NEED_CHANGE_PASSWORD = 'need_change_password';
-
-    /**
      * Associative array of system configs.
      *
      * @var array
@@ -115,17 +90,34 @@ class Installer
     }
 
     /**
-     * Install Mibew.
+     * Checks if Mibew is already installed or not.
+     *
+     * @return boolean
+     */
+    public function isInstalled()
+    {
+        return ($this->getDatabaseVersion() !== false);
+    }
+
+    /**
+     * Checks installation requirements.
+     *
+     * It is one of the installation steps. Normally it should be called the
+     * first one.
+     *
+     * One can get all logged messages of this step using
+     * {@link Installer::getLog()} method. Also the list of all errors can be
+     * got using {@link \Mibew\Installer::getErrors()}.
      *
      * @param string $real_base_path Real base path of the Mibew instance. For
      *   example if one tries to install Mibew to http://example.com/foo/mibew/
      *   the argument should be equal to "foo/mibew".
-     * @return string Installation state. One of Installer::STATE_* constant.
+     * @return boolean True if all reqirements are satisfied and false otherwise
      */
-    public function install($real_base_path)
+    public function checkRequirements($real_base_path)
     {
         if (!$this->checkPhpVersion()) {
-            return self::STATE_ERROR;
+            return false;
         }
 
         $this->log[] = getlocal(
@@ -134,7 +126,7 @@ class Installer
         );
 
         if (!$this->checkMibewRoot($real_base_path)) {
-            return self::STATE_ERROR;
+            return false;
         }
 
         $this->log[] = getlocal(
@@ -142,12 +134,29 @@ class Installer
             array($real_base_path)
         );
 
-        if (!$this->checkConnection()) {
-            return self::STATE_ERROR;
+        return true;
+    }
+
+    /**
+     * Checks database connection and MySQL version.
+     *
+     * It is one of the installation steps. Normally it should be called after
+     * {@link Installer::checkRequirements()}.
+     *
+     * One can get all logged messages of this step using
+     * {@link Installer::getLog()} method. Also the list of all errors can be
+     * got using {@link \Mibew\Installer::getErrors()}.
+     *
+     * @return boolean True if connection is established and false otherwise.
+     */
+    public function checkConnection()
+    {
+        if (!$this->doCheckConnection()) {
+            return false;
         }
 
         if (!$this->checkMysqlVersion()) {
-            return self::STATE_ERROR;
+            return false;
         }
 
         $this->log[] = getlocal(
@@ -155,41 +164,123 @@ class Installer
             array($this->getMysqlVersion())
         );
 
-        if (!$this->databaseExists()) {
-            return self::STATE_NEED_CREATE_TABLES;
+        return true;
+    }
+
+    /**
+     * Create tables and prepopulate them with some info.
+     *
+     * It is one of the installation steps. Normally it should be called after
+     * {@link Installer::checkConnection()}.
+     *
+     * One can get all logged messages of this step using
+     * {@link Installer::getLog()} method. Also the list of all errors can be
+     * got using {@link \Mibew\Installer::getErrors()}.
+     *
+     * @return boolean True if all tables are created and false otherwise.
+     */
+    public function createTables()
+    {
+        if ($this->tablesExist() && $this->tablesNeedUpdate()) {
+            // Tables already exists but they should be updated
+            $this->errors[] = getlocal('The tables are alredy in place but outdated. Run the updater to fix it.');
+
+            return false;
         }
 
-        if ($this->databaseNeedUpdate()) {
-            return self::STATE_NEED_UPDATE_TABLES;
+        if ($this->tablesExist()) {
+            $this->log[] = getlocal('Tables structure is up to date.');
+
+            return true;
         }
 
-        $this->log[] = getlocal('Required tables are created.');
-        $this->log[] = getlocal('Tables structure is up to date.');
+        // There are no tables in the database. We need to create them.
+        if (!$this->doCreateTables()) {
+            return false;
+        }
+        $this->log[] = getlocal('Tables are created.');
 
-        if (!$this->importLocales()) {
-            return self::STATE_ERROR;
+        if (!$this->prepopulateDatabase()) {
+            return false;
+        }
+        $this->log[] = getlocal('Tables are pre popluated with necessary info.');
+
+        return true;
+    }
+
+    /**
+     * Sets password of the main administrator of the system.
+     *
+     * It is one of the installation steps. Normally it should be called after
+     * {@link Installer::createTables()}.
+     *
+     * One can get all logged messages of this step using
+     * {@link Installer::getLog()} method. Also the list of all errors can be
+     * got using {@link \Mibew\Installer::getErrors()}.
+     *
+     * @param string $password Administrator password.
+     * @return boolean True if the password was set and false otherwise.
+     */
+    public function setPassword($password)
+    {
+        if (!($db = $this->getDatabase())) {
+            return false;
+        }
+
+        try {
+            $db->query(
+                'UPDATE {chatoperator} SET vcpassword = :pass WHERE vclogin = :login',
+                array(
+                    ':login' => 'admin',
+                    ':pass' => calculate_password_hash('admin', $password)
+                )
+            );
+        } catch (\Exception $e) {
+            $this->errors[] = getlocal(
+                'Cannot set password. Error: {0}',
+                array($e->getMessage())
+            );
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Import locales and all their content to the database.
+     *
+     * It is one of the installation steps. Normally it should be called after
+     * {@link Installer::createTables()}.
+     *
+     * One can get all logged messages of this step using
+     * {@link Installer::getLog()} method. Also the list of all errors can be
+     * got using {@link \Mibew\Installer::getErrors()}.
+     *
+     * @return boolean True if all locales with content are imported
+     *   successfully and false otherwise.
+     */
+    public function importLocales()
+    {
+        if (!$this->doImportLocales()) {
+            return false;
         }
         $this->log[] = getlocal('Locales are imported.');
 
         if (!$this->importLocalesContent()) {
-            return self::STATE_ERROR;
+            return false;
         }
         $this->log[] = getlocal('Locales content is imported.');
 
-        if ($this->needChangePassword()) {
-            return self::STATE_NEED_CHANGE_PASSWORD;
-        }
-
-        return self::STATE_SUCCESS;
+        return true;
     }
 
     /**
      * Creates necessary tables.
      *
-     * @return boolean Indicates if tables created or not. A list of all errors
-     *   can be got using {@link \Mibew\Installer::getErrors()} method.
+     * @return boolean Indicates if tables created or not.
      */
-    public function createTables()
+    protected function doCreateTables()
     {
         if (!($db = $this->getDatabase())) {
             return false;
@@ -234,16 +325,12 @@ class Installer
                     implode(', ', $table_items)
                 ));
             }
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->errors[] = getlocal(
                 'Cannot create tables. Error: {0}',
                 array($e->getMessage())
             );
 
-            return false;
-        }
-
-        if (!$this->prepopulateDatabase()) {
             return false;
         }
 
@@ -292,7 +379,7 @@ class Installer
                     )
                 );
             }
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->errors[] = getlocal(
                 'Cannot create the first administrator. Error {0}',
                 array($e->getMessage())
@@ -317,7 +404,7 @@ class Installer
                     array(':init_revision' => 1)
                 );
             }
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->errors[] = getlocal(
                 'Cannot initialize chat revision sequence. Error {0}',
                 array($e->getMessage())
@@ -345,7 +432,7 @@ class Installer
                     )
                 );
             }
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->errors[] = getlocal(
                 'Cannot store database structure version. Error {0}',
                 array($e->getMessage())
@@ -386,7 +473,7 @@ class Installer
      *
      * @return boolean True if connection is established and false otherwise.
      */
-    protected function checkConnection()
+    protected function doCheckConnection()
     {
         if (!$this->getDatabase()) {
             return false;
@@ -509,7 +596,7 @@ class Installer
      *
      * @return boolean
      */
-    protected function databaseNeedUpdate()
+    protected function tablesNeedUpdate()
     {
         return ($this->getDatabaseVersion() < DB_VERSION);
     }
@@ -519,54 +606,18 @@ class Installer
      *
      * @return boolean
      */
-    protected function databaseExists()
+    protected function tablesExist()
     {
         return ($this->getDatabaseVersion() !== false);
     }
 
     /**
-     * Check if the admin must change his password to a new one.
-     *
-     * @return boolean True if the password must be changed and false otherwise.
-     */
-    protected function needChangePassword()
-    {
-        if (!($db = $this->getDatabase())) {
-            return false;
-        }
-
-        try {
-            $admin = $db->query(
-                'SELECT * FROM {chatoperator} WHERE vclogin = :login',
-                array(':login' => 'admin'),
-                array('return_rows' => Database::RETURN_ONE_ROW)
-            );
-        } catch (\Exception $e) {
-            $this->errors[] = getlocal(
-                'Cannot load the main administrator\'s data. Error: {0}',
-                array($e->getMessage())
-            );
-
-            return false;
-        }
-
-        if (!$admin) {
-            $this->errors[] = getlocal('The main administrator has disappeared '
-                . 'from the database. Do not know how to continue');
-
-            return false;
-        }
-
-        return ($admin['vcpassword'] == md5(''));
-    }
-
-    /**
-     * Import all available locales to the database and enable each of them.
+     * Import all available locales to the database.
      *
      * @return boolean Indicates if the locales were imported correctly. True if
      *   everything is OK and false otherwise.
      */
-    protected function importLocales()
+    protected function doImportLocales()
     {
         if (!($db = $this->getDatabase())) {
             return false;
@@ -697,7 +748,7 @@ class Installer
                     $this->configs['database']['db'],
                     $this->configs['database']['tables_prefix']
                 );
-            } catch(\PDOException $e) {
+            } catch (\PDOException $e) {
                 $this->errors[] = getlocal(
                     "Could not connect. Please check server settings in config.yml. Error: {0}",
                     array($e->getMessage())
