@@ -34,19 +34,13 @@ require_once(MIBEW_FS_ROOT . '/vendor/autoload.php');
 require_once(MIBEW_FS_ROOT . '/libs/common/configurations.php');
 $configs = load_system_configs();
 
-// Sanitize path to application and remove extra slashes
-$mibewroot = join(
-    "/",
-    array_map(
-        "rawurlencode",
-        preg_split('/\//', preg_replace('/\/+$/', '', preg_replace('/\/{2,}/', '/', '/' . $configs['mibew_root'])))
-    )
-);
-
 /**
  * Base URL of the Mibew installation
  */
-define('MIBEW_WEB_ROOT', $mibewroot);
+define(
+    'MIBEW_WEB_ROOT',
+    \Symfony\Component\HttpFoundation\Request::createFromGlobals()->getBasePath()
+);
 
 // Include system constants file
 require_once(MIBEW_FS_ROOT . '/libs/common/constants.php');

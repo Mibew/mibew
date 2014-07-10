@@ -2,9 +2,6 @@
 # your own settings!
 
 
-# Application path on server
-mibew_root: /mibew
-
 # MySQL Database parameters
 database:
     host: ""

@@ -89,7 +89,7 @@ class InstallController extends AbstractController
         }
 
         $installer = $this->getInstaller();
-        if (!$installer->checkRequirements($request->getBasePath())) {
+        if (!$installer->checkRequirements()) {
             return $this->renderError(
                 'install_err',
                 array('error' => $installer->getErrors())

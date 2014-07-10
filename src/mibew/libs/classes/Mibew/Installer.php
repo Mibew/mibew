@@ -109,12 +109,9 @@ class Installer
      * {@link Installer::getLog()} method. Also the list of all errors can be
      * got using {@link \Mibew\Installer::getErrors()}.
      *
-     * @param string $real_base_path Real base path of the Mibew instance. For
-     *   example if one tries to install Mibew to http://example.com/foo/mibew/
-     *   the argument should be equal to "foo/mibew".
      * @return boolean True if all reqirements are satisfied and false otherwise
      */
-    public function checkRequirements($real_base_path)
+    public function checkRequirements()
     {
         if (!$this->checkPhpVersion()) {
             return false;
@@ -123,15 +120,6 @@ class Installer
         $this->log[] = getlocal(
             'PHP version {0}',
             array(format_version_id($this->getPhpVersionId()))
-        );
-
-        if (!$this->checkMibewRoot($real_base_path)) {
-            return false;
-        }
-
-        $this->log[] = getlocal(
-            'Application path is {0}',
-            array($real_base_path)
         );
 
         return true;
@@ -436,30 +424,6 @@ class Installer
             $this->errors[] = getlocal(
                 'Cannot store database structure version. Error {0}',
                 array($e->getMessage())
-            );
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Checks if $mibewroot param in system configs is correct or not.
-     *
-     * @param string $real_base_path Real base path of the Mibew instance.
-     * @return boolean True if the $mibewroot param in config is correct and
-     *   false otherwise.
-     */
-    protected function checkMibewRoot($real_base_path)
-    {
-        if ($real_base_path != MIBEW_WEB_ROOT) {
-            $this->errors[] = getlocal(
-                "Please, check file {0}<br/>Wrong value of \"mibew_root\" variable, should be \"{1}\"",
-                array(
-                    $real_base_path . "/configs/config.yml",
-                    $real_base_path
-                )
             );
 
             return false;
