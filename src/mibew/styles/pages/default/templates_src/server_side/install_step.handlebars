@@ -3,27 +3,6 @@
         {{#override "menu"}}{{> _locales}}{{/override}}
     {{/if}}
 
-    {{#override "head"}}
-        {{#if soundcheck}}
-            <!-- External libs -->
-            <script type="text/javascript" src="{{mibewRoot}}/js/libs/jquery.min.js"></script>
-            <script type="text/javascript" src="{{mibewRoot}}/js/libs/json2.js"></script>
-            <script type="text/javascript" src="{{mibewRoot}}/js/libs/underscore-min.js"></script>
-            <script type="text/javascript" src="{{mibewRoot}}/js/libs/backbone-min.js"></script>
-            <script type="text/javascript" src="{{mibewRoot}}/js/libs/backbone.marionette.min.js"></script>
-            <script type="text/javascript" src="{{mibewRoot}}/js/libs/handlebars.js"></script>
-
-            <!-- Client side templates -->
-            <script type="text/javascript" src="{{stylePath}}/templates_compiled/client_side/default_app.tpl.js"></script>
-
-            <!-- Default application files -->
-            <script type="text/javascript" src="{{mibewRoot}}/js/compiled/mibewapi.js"></script>
-            <script type="text/javascript" src="{{mibewRoot}}/js/compiled/default_app.js"></script>
-
-            <script type="text/javascript" language="javascript" src="{{mibewRoot}}/js/compiled/soundcheck.js"></script>
-        {{/if}}
-    {{/override}}
-
     {{#override "content"}}
         {{l10n "Follow the wizard to setup your database."}}
 
