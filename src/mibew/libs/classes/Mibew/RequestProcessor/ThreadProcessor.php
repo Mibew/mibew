@@ -597,7 +597,7 @@ class ThreadProcessor extends ClientSideProcessor
         // Get message locale
         $message_locale = Settings::get('left_messages_locale');
         if (!locale_exists($message_locale)) {
-            $message_locale = HOME_LOCALE;
+            $message_locale = get_home_locale();
         }
 
         // Create thread

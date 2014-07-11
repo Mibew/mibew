@@ -23,19 +23,6 @@ use Symfony\Component\Translation\Loader\PoFileLoader;
  */
 define('LOCALE_COOKIE_NAME', 'mibew_locale');
 
-// Test and set default locales
-
-/**
- * Verified value of the $home_locale configuration parameter (see
- * "configs/default_config.yml" for details)
- */
-define(
-    'HOME_LOCALE',
-    (locale_pattern_check($configs['home_locale']) && locale_exists($configs['home_locale'])
-        ? $configs['home_locale']
-        : 'en')
-);
-
 function locale_exists($locale)
 {
     return file_exists(MIBEW_FS_ROOT . "/locales/$locale/translation.po");
@@ -136,7 +123,8 @@ function get_user_locale()
 /**
  * Returns a value of the default locale.
  *
- * Generally it should be used if a user does not provide known lang.
+ * Generally, the locale returned by the function, should be used as a user
+ * locale if does not provide known lang.
  *
  * In fact the function returns verified value of "default_locale" variable from
  * the system configurations file.
@@ -157,6 +145,33 @@ function get_default_locale()
     }
 
     return $default_locale;
+}
+
+/**
+ * Returns a value of the home locale.
+ *
+ * Generally, the locale returned by the function, should be used as a locale
+ * for operators' native names.
+ *
+ * In fact the function returns verified value of "home_locale" variable from
+ * the system configurations file.
+ *
+ * @return string Locale code.
+ */
+function get_home_locale()
+{
+    static $home_locale = null;
+
+    if (is_null($home_locale)) {
+        $configs = load_system_configs();
+        $is_correct = !empty($configs['home_locale'])
+            && locale_pattern_check($configs['home_locale'])
+            && locale_exists($configs['home_locale']);
+
+        $home_locale = $is_correct ? $configs['home_locale'] : 'en';
+    }
+
+    return $home_locale;
 }
 
 /**

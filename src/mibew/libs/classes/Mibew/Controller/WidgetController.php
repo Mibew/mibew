@@ -108,7 +108,7 @@ class WidgetController extends AbstractController
                 // Get operator info
                 $operator = operator_by_id($thread->agentId);
                 $locale = $request->query->get('locale', '');
-                $operator_name = ($locale == HOME_LOCALE)
+                $operator_name = ($locale == get_home_locale())
                     ? $operator['vclocalename']
                     : $operator['vccommonname'];
 

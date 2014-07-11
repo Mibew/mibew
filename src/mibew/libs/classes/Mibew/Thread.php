@@ -698,7 +698,7 @@ class Thread
      */
     public function checkForReassign($operator)
     {
-        $operator_name = ($this->locale == HOME_LOCALE)
+        $operator_name = ($this->locale == get_home_locale())
             ? $operator['vclocalename']
             : $operator['vccommonname'];
 
@@ -922,7 +922,7 @@ class Thread
     {
         $take_thread = false;
         $message = '';
-        $operator_name = ($this->locale == HOME_LOCALE)
+        $operator_name = ($this->locale == get_home_locale())
             ? $operator['vclocalename']
             : $operator['vccommonname'];
 

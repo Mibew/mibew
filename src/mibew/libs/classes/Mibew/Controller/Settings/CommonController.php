@@ -148,7 +148,7 @@ class CommonController extends AbstractController
 
         $params['left_messages_locale'] = $request->request->get('leftmessageslocale');
         if (!in_array($params['left_messages_locale'], get_available_locales())) {
-            $params['left_messages_locale'] = HOME_LOCALE;
+            $params['left_messages_locale'] = get_home_locale();
         }
 
         if ($params['email'] && !is_valid_email($params['email'])) {

@@ -81,7 +81,7 @@ class Settings
             'max_connections_from_one_host' => 10,
             'thread_lifetime' => 600,
             'email' => '', /* inbox for left messages */
-            'left_messages_locale' => HOME_LOCALE,
+            'left_messages_locale' => get_home_locale(),
             'sendmessagekey' => 'center',
             'enableban' => '0',
             'enablessl' => '0',
