@@ -81,10 +81,10 @@ class HistoryController extends AbstractController
                 }
             }
             if ($search_type == 'operator' || $search_type == 'all') {
-                $search_conditions[] = "({chatthread}.agentName LIKE :query)";
+                $search_conditions[] = "({chatthread}.agentname LIKE :query)";
             }
             if ($search_type == 'visitor' || $search_type == 'all') {
-                $search_conditions[] = "({chatthread}.userName LIKE :query)";
+                $search_conditions[] = "({chatthread}.username LIKE :query)";
                 $search_conditions[] = "({chatthread}.remote LIKE :query)";
             }
 

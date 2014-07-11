@@ -178,23 +178,23 @@ class Thread
         'nextAgent' => 'nextagent',
         'groupId' => 'groupid',
         'shownMessageId' => 'shownmessageid',
-        'messageCount' => 'messageCount',
+        'messageCount' => 'messagecount',
         'created' => 'dtmcreated',
         'modified' => 'dtmmodified',
         'chatStarted' => 'dtmchatstarted',
         'closed' => 'dtmclosed',
-        'agentId' => 'agentId',
-        'agentName' => 'agentName',
-        'agentTyping' => 'agentTyping',
+        'agentId' => 'agentid',
+        'agentName' => 'agentname',
+        'agentTyping' => 'agenttyping',
         'lastPingAgent' => 'lastpingagent',
         'locale' => 'locale',
         'userId' => 'userid',
-        'userName' => 'userName',
-        'userTyping' => 'userTyping',
+        'userName' => 'username',
+        'userTyping' => 'usertyping',
         'lastPingUser' => 'lastpinguser',
         'remote' => 'remote',
         'referer' => 'referer',
-        'userAgent' => 'userAgent',
+        'userAgent' => 'useragent',
     );
 
     /**
@@ -1077,7 +1077,7 @@ class Thread
 
         // Prepare query
         $query = "INSERT INTO {chatmessage} ("
-                . "threadid, ikind, tmessage, tname, agentId, "
+                . "threadid, ikind, tmessage, tname, agentid, "
                 . "dtmcreated, plugin, data"
             . ") VALUES ("
                 . ":threadid, :kind, :message, :name, :agentid, "

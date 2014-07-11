@@ -420,7 +420,7 @@ function calculate_operator_statistics()
         // Get base operator's info
         $db_results = $db->query(
             ("SELECT (FLOOR(m.dtmcreated / :interval) * :interval) AS date, "
-                . "m.agentId AS operator_id, "
+                . "m.agentid AS operator_id, "
                 . "COUNT(distinct m.threadid) AS threads, "
                 . "COUNT(m.messageid) AS messages, "
                 . "AVG(CHAR_LENGTH(m.tmessage)) AS avg_msg_length "
@@ -459,7 +459,7 @@ function calculate_operator_statistics()
         // Get info about invitations
         $db_results = $db->query(
             ("SELECT (FLOOR(dtmcreated / :interval) * :interval) AS date, "
-                . "agentId AS operator_id, "
+                . "agentid AS operator_id, "
                 . "COUNT(threadid) AS invitations_sent, "
                 . "SUM(invitationstate = :invitation_accepted) AS invitations_accepted, "
                 . "SUM(invitationstate = :invitation_rejected) AS invitations_rejected, "
@@ -470,7 +470,7 @@ function calculate_operator_statistics()
                 // statistics_aggregation_interval
                 . "AND (:today - dtmcreated) > :interval "
                 // Check if thread has related operator
-                . "AND agentId != 0 "
+                . "AND agentid != 0 "
                 // Ignore not accepted invitations
                 . "AND (invitationstate = :invitation_accepted "
                     . "OR invitationstate = :invitation_rejected "

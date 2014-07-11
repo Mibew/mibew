@@ -25,13 +25,13 @@ chatthread:
         # ID of the thread.
         threadid: "int NOT NULL auto_increment PRIMARY KEY"
         # Name of the user in chat.
-        userName: "varchar(64) NOT NULL"
+        username: "varchar(64) NOT NULL"
         # ID of the user. This field is foreign key for {chatsitevisitor}.userid
         userid: "varchar(255)"
         # Name of the operator who took place in the chat.
-        agentName: "varchar(64)"
+        agentname: "varchar(64)"
         # ID of the operator who took place in the chat.
-        agentId: "int NOT NULL DEFAULT 0"
+        agentid: "int NOT NULL DEFAULT 0"
         # Unix timestamp of the moment when the thread was created.
         dtmcreated: "int NOT NULL DEFAULT 0"
         # Unix timestamp of the moment when chat actually started.
@@ -62,15 +62,15 @@ chatthread:
         # Unix timestamp of the last request from operator's window to server.
         lastpingagent: "int NOT NULL DEFAULT 0"
         # Indicates if user typing or not. It can take two values 0 and 1.
-        userTyping: "int DEFAULT 0"
+        usertyping: "int DEFAULT 0"
         # Indicates if operator typing or not. It can take two values 0 and 1.
-        agentTyping: "int DEFAULT 0"
+        agenttyping: "int DEFAULT 0"
         # ID of shown message in the chat.
         shownmessageid: "int NOT NULL DEFAULT 0"
         # User agent description that took from 'User-Agent' HTTP header.
-        userAgent: "varchar(255)"
+        useragent: "varchar(255)"
         # Total count of user's messages related with the thread.
-        messageCount: "varchar(16)"
+        messagecount: "varchar(16)"
         # ID of the group at Mibew side related with the thread.
         groupid: "int references {chatgroup}(groupid)"
 
@@ -152,7 +152,7 @@ chatmessage:
         ikind: "int NOT NULL"
         # ID of operator who sent the message. This value will be ignored for
         # system messages and messages which sent by users.
-        agentId: "int NOT NULL DEFAULT 0"
+        agentid: "int NOT NULL DEFAULT 0"
         # Message text body.
         tmessage: "text NOT NULL"
         # Name of the plugin which sent the message. If message was not sent by
@@ -226,7 +226,7 @@ chatban:
         dtmtill: "int NOT NULL DEFAULT 0"
         address: "varchar(255)"
         comment: "varchar(255)"
-        blockedCount: "int DEFAULT 0"
+        blockedcount: "int DEFAULT 0"
 
 # Contains dynamic configs
 chatconfig:
