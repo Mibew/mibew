@@ -79,7 +79,7 @@ class Database
 
     /**
      * Determine if connection to the database must be persistent
-     * @var type
+     * @var boolean
      */
     protected $usePersistentConnection = false;
 
@@ -91,7 +91,7 @@ class Database
 
     /**
      * Id of the last query
-     * @var type
+     * @var string|null
      */
     protected $lastQuery = null;
 
