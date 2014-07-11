@@ -86,12 +86,12 @@ function mail_template_load($name, $locale, $strict = false)
             }
 
             // There is no template in the database.
-            if ($locale == DEFAULT_LOCALE) {
+            if ($locale == get_default_locale()) {
                 // The template is still not found.
                 $template = false;
             } else {
                 // Try to load the template for the default locale.
-                $template = mail_template_load($name, DEFAULT_LOCALE);
+                $template = mail_template_load($name, get_default_locale());
             }
         }
 

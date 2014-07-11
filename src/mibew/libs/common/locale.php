@@ -26,17 +26,6 @@ define('LOCALE_COOKIE_NAME', 'mibew_locale');
 // Test and set default locales
 
 /**
- * Verified value of the $default_locale configuration parameter (see
- * "configs/default_config.yml" for details)
- */
-define(
-    'DEFAULT_LOCALE',
-    (locale_pattern_check($configs['default_locale']) && locale_exists($configs['default_locale'])
-        ? $configs['default_locale']
-        : 'en')
-);
-
-/**
  * Verified value of the $home_locale configuration parameter (see
  * "configs/default_config.yml" for details)
  */
@@ -141,11 +130,33 @@ function get_user_locale()
         }
     }
 
-    if (locale_pattern_check(DEFAULT_LOCALE) && locale_exists(DEFAULT_LOCALE)) {
-        return DEFAULT_LOCALE;
+    return get_default_locale();
+}
+
+/**
+ * Returns a value of the default locale.
+ *
+ * Generally it should be used if a user does not provide known lang.
+ *
+ * In fact the function returns verified value of "default_locale" variable from
+ * the system configurations file.
+ *
+ * @return string Locale code.
+ */
+function get_default_locale()
+{
+    static $default_locale = null;
+
+    if (is_null($default_locale)) {
+        $configs = load_system_configs();
+        $is_correct = !empty($configs['default_locale'])
+            && locale_pattern_check($configs['default_locale'])
+            && locale_exists($configs['default_locale']);
+
+        $default_locale = $is_correct ? $configs['default_locale'] : 'en';
     }
 
-    return 'en';
+    return $default_locale;
 }
 
 /**
