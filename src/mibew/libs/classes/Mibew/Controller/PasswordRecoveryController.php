@@ -92,7 +92,7 @@ class PasswordRecoveryController extends AbstractController
                 );
 
                 // Load mail templates and substitute placeholders there.
-                $mail_template = mail_template_load('password_recovery', CURRENT_LOCALE);
+                $mail_template = mail_template_load('password_recovery', get_current_locale());
                 if (!$mail_template) {
                     throw new \RuntimeException('Cannot load "password_recovery" mail template');
                 }

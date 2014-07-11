@@ -47,11 +47,6 @@ define(
         : 'en')
 );
 
-/**
- * Code of the current system locale
- */
-define('CURRENT_LOCALE', get_locale());
-
 function locale_exists($locale)
 {
     return file_exists(MIBEW_FS_ROOT . "/locales/$locale/translation.po");
@@ -153,31 +148,42 @@ function get_user_locale()
     return 'en';
 }
 
-function get_locale()
+/**
+ * Retrieves locale for the current request.
+ *
+ * @return string Locale code
+ */
+function get_current_locale()
 {
-    $locale = verify_param("locale", "/./", "");
+    static $current_locale = null;
 
-    // Check if locale code passed in as a param is valid
-    $locale_param_valid = $locale
-        && locale_pattern_check($locale)
-        && locale_exists($locale);
+    if (is_null($current_locale)) {
+        $locale = verify_param("locale", "/./", "");
 
-    // Check if locale code stored in session data is valid
-    $session_locale_valid = isset($_SESSION['locale'])
-        && locale_pattern_check($_SESSION['locale'])
-        && locale_exists($_SESSION['locale']);
+        // Check if locale code passed in as a param is valid
+        $locale_param_valid = $locale
+            && locale_pattern_check($locale)
+            && locale_exists($locale);
 
-    if ($locale_param_valid) {
-        $_SESSION['locale'] = $locale;
-    } elseif ($session_locale_valid) {
-        $locale = $_SESSION['locale'];
-    } else {
-        $locale = get_user_locale();
+        // Check if locale code stored in session data is valid
+        $session_locale_valid = isset($_SESSION['locale'])
+            && locale_pattern_check($_SESSION['locale'])
+            && locale_exists($_SESSION['locale']);
+
+        if ($locale_param_valid) {
+            $_SESSION['locale'] = $locale;
+        } elseif ($session_locale_valid) {
+            $locale = $_SESSION['locale'];
+        } else {
+            $locale = get_user_locale();
+        }
+
+        setcookie(LOCALE_COOKIE_NAME, $locale, time() + 60 * 60 * 24 * 1000, MIBEW_WEB_ROOT . "/");
+
+        $current_locale = $locale;
     }
 
-    setcookie(LOCALE_COOKIE_NAME, $locale, time() + 60 * 60 * 24 * 1000, MIBEW_WEB_ROOT . "/");
-
-    return $locale;
+    return $current_locale;
 }
 
 function get_locale_links()
@@ -756,12 +762,17 @@ function read_locale_file($path)
  *
  * @param string $text A text which should be localized
  * @param array $params Indexed array with placeholders.
- * @param string $locale Target locale code.
+ * @param string|null $locale Target locale code. If null is passed in the
+ *   current locale will be used.
  * @param boolean $raw Indicates if the result should be sanitized or not.
  * @return string Localized text.
  */
-function getlocal($text, $params = null, $locale = CURRENT_LOCALE, $raw = false)
+function getlocal($text, $params = null, $locale = null, $raw = false)
 {
+    if (is_null($locale)) {
+        $locale = get_current_locale();
+    }
+
     $string = get_localized_string($text, $locale);
 
     if ($params) {

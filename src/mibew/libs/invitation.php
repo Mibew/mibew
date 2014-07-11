@@ -97,7 +97,7 @@ function invitation_invite($visitor_id, $operator)
     $thread->remote = $visitor_details['remote_host'];
     $thread->referer = $last_visited_page;
     // User's locale is unknown, set operator locale to the thread
-    $thread->locale = CURRENT_LOCALE;
+    $thread->locale = get_current_locale();
     $thread->userId = $visitor['userid'];
     $thread->userAgent = $visitor_details['user_agent'];
     $thread->state = Thread::STATE_INVITED;
@@ -122,13 +122,13 @@ function invitation_invite($visitor_id, $operator)
         getlocal(
             'Operator {0} invites visitor at {1} page',
             array($operator_name, $last_visited_page),
-            CURRENT_LOCALE,
+            get_current_locale(),
             true
         )
     );
     $thread->postMessage(
         Thread::KIND_AGENT,
-        getlocal('Hello, how can I help you?', null, CURRENT_LOCALE, true),
+        getlocal('Hello, how can I help you?', null, get_current_locale(), true),
         array(
             'name' => $operator_name,
             'operator_id' => $operator['operatorid'],
@@ -202,7 +202,7 @@ function invitation_reject($visitor_id)
     if ($thread) {
         $thread->postMessage(
             Thread::KIND_FOR_AGENT,
-            getlocal('Visitor rejected invitation', null, CURRENT_LOCALE, true)
+            getlocal('Visitor rejected invitation', null, get_current_locale(), true)
         );
     }
 

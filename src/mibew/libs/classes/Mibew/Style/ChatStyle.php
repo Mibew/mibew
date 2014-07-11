@@ -82,9 +82,9 @@ class ChatStyle extends AbstractStyle implements StyleInterface
         // Pass additional variables to template
         $data['mibewRoot'] = MIBEW_WEB_ROOT;
         $data['mibewVersion'] = MIBEW_VERSION;
-        $data['currentLocale'] = CURRENT_LOCALE;
+        $data['currentLocale'] = get_current_locale();
 
-        $locale_info = get_locale_info(CURRENT_LOCALE);
+        $locale_info = get_locale_info(get_current_locale());
         $data['rtl'] = $locale_info && $locale_info['rtl'];
 
         $data['stylePath'] = MIBEW_WEB_ROOT . '/' . $this->getFilesPath();

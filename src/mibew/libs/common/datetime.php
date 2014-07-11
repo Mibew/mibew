@@ -32,7 +32,7 @@ function date_diff_to_text($seconds)
 function get_month_selection($from_time, $to_time)
 {
     // Use correct months names and over translatable date/time strings.
-    $locale_info = get_locale_info(CURRENT_LOCALE);
+    $locale_info = get_locale_info(get_current_locale());
     setlocale(LC_TIME, $locale_info['time_locale']);
 
     $start = getdate($from_time);
@@ -92,12 +92,17 @@ function date_to_text($unixtime)
  *
  * @param int $timestamp Unix timestamp
  * @param string $format Format name. Can be one of "full", "date", "time".
- * @param string $locale Locale code.
+ * @param string|null $locale Locale code. If null is passed in the current
+ *   locale will be used.
  * @return string Formatted date.
  * @throws \InvalidArgumentException If $type argument has wrong value.
  */
-function format_date($timestamp, $format, $locale = CURRENT_LOCALE)
+function format_date($timestamp, $format, $locale = null)
 {
+    if (is_null($locale)) {
+        $locale = get_current_locale();
+    }
+
     // Get locale info
     $locale_info = get_locale_info($locale);
     $date_format = $locale_info['date_format'];

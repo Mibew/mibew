@@ -509,7 +509,7 @@ function is_operator_online($operator_id)
  */
 function get_operator_name($operator)
 {
-    if (HOME_LOCALE == CURRENT_LOCALE) {
+    if (HOME_LOCALE == get_current_locale()) {
         return $operator['vclocalename'];
     } else {
         return $operator['vccommonname'];

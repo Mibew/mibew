@@ -208,8 +208,8 @@ class MailTemplateController extends AbstractController
             && preg_match("/^[\w-]{2,5}$/", $lang)
             && in_array($lang, $all_locales);
         if (!$correct_locale) {
-            $lang = in_array(CURRENT_LOCALE, $all_locales)
-                ? CURRENT_LOCALE
+            $lang = in_array(get_current_locale(), $all_locales)
+                ? get_current_locale()
                 : $all_locales[0];
         }
 

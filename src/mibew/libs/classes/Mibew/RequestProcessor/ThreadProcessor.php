@@ -503,7 +503,7 @@ class ThreadProcessor extends ClientSideProcessor
         if ($email) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getlocal('E-Mail: {0}', array($email), CURRENT_LOCALE, true)
+                getlocal('E-Mail: {0}', array($email), get_current_locale(), true)
             );
         }
 
@@ -606,7 +606,7 @@ class ThreadProcessor extends ClientSideProcessor
         $thread->userName = $name;
         $thread->remote = $remote_host;
         $thread->referer = $referrer;
-        $thread->locale = CURRENT_LOCALE;
+        $thread->locale = get_current_locale();
         $thread->userId = $visitor['id'];
         $thread->userAgent = $user_browser;
         $thread->state = Thread::STATE_LEFT;
@@ -617,19 +617,19 @@ class ThreadProcessor extends ClientSideProcessor
         if ($referrer) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getlocal('Vistor came from page {0}', array($referrer), CURRENT_LOCALE, true)
+                getlocal('Vistor came from page {0}', array($referrer), get_current_locale(), true)
             );
         }
         if ($email) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getlocal('E-Mail: {0}', array($email), CURRENT_LOCALE, true)
+                getlocal('E-Mail: {0}', array($email), get_current_locale(), true)
             );
         }
         if ($info) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getlocal('Info: {0}', array($info), CURRENT_LOCALE, true)
+                getlocal('Info: {0}', array($info), get_current_locale(), true)
             );
         }
         $thread->postMessage(Thread::KIND_USER, $message, array('name' => $name));

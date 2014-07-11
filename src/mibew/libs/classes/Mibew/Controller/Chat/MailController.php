@@ -111,7 +111,7 @@ class MailController extends AbstractController
         }
 
         // Load mail templates and substitute placeholders there.
-        $mail_template = mail_template_load('user_history', CURRENT_LOCALE);
+        $mail_template = mail_template_load('user_history', get_current_locale());
         if (!$mail_template) {
             throw new \RuntimeException('Cannot load "user_history" mail template');
         }

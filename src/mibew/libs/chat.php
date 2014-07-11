@@ -765,7 +765,7 @@ function chat_start_for_user(
     $thread->userName = $visitor_name;
     $thread->remote = $remote_host;
     $thread->referer = $referrer;
-    $thread->locale = CURRENT_LOCALE;
+    $thread->locale = get_current_locale();
     $thread->userId = $visitor_id;
     $thread->userAgent = $user_browser;
     $thread->save();
@@ -786,7 +786,7 @@ function chat_start_for_user(
             getlocal(
                 'Visitor accepted invitation from operator {0}',
                 array($operator_name),
-                CURRENT_LOCALE,
+                get_current_locale(),
                 true
             )
         );
@@ -794,7 +794,7 @@ function chat_start_for_user(
         if ($referrer) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getlocal('Vistor came from page {0}', array($referrer), CURRENT_LOCALE, true)
+                getlocal('Vistor came from page {0}', array($referrer), get_current_locale(), true)
             );
         }
         if ($requested_operator && !$requested_operator_online) {
@@ -803,14 +803,14 @@ function chat_start_for_user(
                 getlocal(
                     'Thank you for contacting us. We are sorry, but requested operator <strong>{0}</strong> is offline. Another operator will be with you shortly.',
                     array(get_operator_name($requested_operator)),
-                    CURRENT_LOCALE,
+                    get_current_locale(),
                     true
                 )
             );
         } else {
             $thread->postMessage(
                 Thread::KIND_INFO,
-                getlocal('Thank you for contacting us. An operator will be with you shortly.', null, CURRENT_LOCALE, true)
+                getlocal('Thank you for contacting us. An operator will be with you shortly.', null, get_current_locale(), true)
             );
         }
     }
@@ -819,7 +819,7 @@ function chat_start_for_user(
     if ($info) {
         $thread->postMessage(
             Thread::KIND_FOR_AGENT,
-            getlocal('Info: {0}', array($info), CURRENT_LOCALE, true)
+            getlocal('Info: {0}', array($info), get_current_locale(), true)
         );
     }
 

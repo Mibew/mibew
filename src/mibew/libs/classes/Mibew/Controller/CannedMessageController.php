@@ -55,8 +55,8 @@ class CannedMessageController extends AbstractController
         // Get selected locale, if any.
         $lang = $this->extractLocale($request);
         if (!$lang) {
-            $lang = in_array(CURRENT_LOCALE, $all_locales)
-                ? CURRENT_LOCALE
+            $lang = in_array(get_current_locale(), $all_locales)
+                ? get_current_locale()
                 : $all_locales[0];
         }
 

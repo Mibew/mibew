@@ -96,8 +96,8 @@ class ButtonCodeController extends AbstractController
             $disable_invitation = false;
 
             if (!$lang || !in_array($lang, $image_locales)) {
-                $lang = in_array(CURRENT_LOCALE, $image_locales)
-                    ? CURRENT_LOCALE
+                $lang = in_array(get_current_locale(), $image_locales)
+                    ? get_current_locale()
                     : $image_locales[0];
             }
 
@@ -120,7 +120,9 @@ class ButtonCodeController extends AbstractController
             $disable_invitation = true;
 
             if (!$lang || !in_array($lang, $locales_list)) {
-                $lang = in_array(CURRENT_LOCALE, $locales_list) ? CURRENT_LOCALE : $locales_list[0];
+                $lang = in_array(get_current_locale(), $locales_list)
+                    ? get_current_locale()
+                    : $locales_list[0];
             }
 
             $message = getlocal('Click to chat');

@@ -38,7 +38,7 @@ class TranslationController extends AbstractController
 
         $target = $request->query->get('target');
         if (!preg_match("/^[\w-]{2,5}$/", $target)) {
-            $target = CURRENT_LOCALE;
+            $target = get_current_locale();
         }
 
         $page = array(

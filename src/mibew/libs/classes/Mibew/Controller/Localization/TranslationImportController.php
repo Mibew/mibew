@@ -38,7 +38,7 @@ class TranslationImportController extends AbstractController
 
         $target = $request->request->get('target');
         if (!preg_match("/^[\w-]{2,5}$/", $target)) {
-            $target = CURRENT_LOCALE;
+            $target = get_current_locale();
         }
 
         $page = array(
@@ -84,7 +84,7 @@ class TranslationImportController extends AbstractController
 
         $target = $request->request->get('target');
         if (!preg_match("/^[\w-]{2,5}$/", $target)) {
-            $target = CURRENT_LOCALE;
+            $target = get_current_locale();
         }
 
         // Validate uploaded file

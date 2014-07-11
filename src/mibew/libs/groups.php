@@ -72,7 +72,7 @@ function group_by_name($name)
  */
 function get_group_name($group)
 {
-    if (HOME_LOCALE == CURRENT_LOCALE || !isset($group['vccommonname']) || !$group['vccommonname']) {
+    if (HOME_LOCALE == get_current_locale() || !isset($group['vccommonname']) || !$group['vccommonname']) {
         return $group['vclocalname'];
     } else {
         return $group['vccommonname'];
@@ -242,7 +242,7 @@ function group_is_away($group)
  */
 function get_group_description($group)
 {
-    $use_local_description = HOME_LOCALE == CURRENT_LOCALE
+    $use_local_description = HOME_LOCALE == get_current_locale()
         || !isset($group['vccommondescription'])
         || !$group['vccommondescription'];
 

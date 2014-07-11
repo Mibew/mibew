@@ -60,7 +60,7 @@ class ButtonController extends AbstractController
             $lang = '';
         }
         if (!$lang || !locale_exists($lang)) {
-            $lang = CURRENT_LOCALE;
+            $lang = get_current_locale();
         }
 
         $group_id = $request->query->get('group', '');
