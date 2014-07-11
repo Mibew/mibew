@@ -23,9 +23,16 @@ use Symfony\Component\Translation\Loader\PoFileLoader;
  */
 define('LOCALE_COOKIE_NAME', 'mibew_locale');
 
-function locale_exists($locale)
+/**
+ * Checks if a locale exists and is enabled or does not.
+ *
+ * @param string $locale Locale code.
+ * @return boolean True if the specified locale exists and is enabled and false
+ *   otherwise.
+ */
+function locale_is_available($locale)
 {
-    return file_exists(MIBEW_FS_ROOT . "/locales/$locale/translation.po");
+    return in_array($locale, get_available_locales());
 }
 
 function locale_pattern_check($locale)
@@ -35,28 +42,42 @@ function locale_pattern_check($locale)
     return preg_match($locale_pattern, $locale);
 }
 
+/**
+ * Gets available locales list.
+ *
+ * Returns a list of locales wich are exist and are enabled in the system. That
+ * list is statically cached inside the function.
+ *
+ * @return string[] List of available locales codes.
+ */
 function get_available_locales()
 {
-    if (installation_in_progress()) {
-        // We cannot rely on the database during installation, thus we only can
-        // use discovered locales as available locales.
-        return discover_locales();
+    static $available_locales = null;
+
+    if (is_null($available_locales)) {
+        if (installation_in_progress()) {
+            // We cannot rely on the database during installation, thus we only
+            // can use discovered locales as available locales.
+            $available_locales = discover_locales();
+        } else {
+            // Get list of enabled locales from the database.
+            $rows = Database::getInstance()->query(
+                "SELECT code FROM {locale} WHERE enabled = 1",
+                array(),
+                array('return_rows' => Database::RETURN_ALL_ROWS)
+            );
+            $enabled_locales = array();
+            foreach ($rows as $row) {
+                $enabled_locales[] = $row['code'];
+            }
+
+            $fs_locales = discover_locales();
+
+            $available_locales = array_intersect($fs_locales, $enabled_locales);
+        }
     }
 
-    // Get list of enabled locales from the database.
-    $rows = Database::getInstance()->query(
-        "SELECT code FROM {locale} WHERE enabled = 1",
-        array(),
-        array('return_rows' => Database::RETURN_ALL_ROWS)
-    );
-    $enabled_locales = array();
-    foreach ($rows as $row) {
-        $enabled_locales[] = $row['code'];
-    }
-
-    $fs_locales = discover_locales();
-
-    return array_intersect($fs_locales, $enabled_locales);
+    return $available_locales;
 }
 
 /**
@@ -99,7 +120,7 @@ function get_user_locale()
 {
     if (isset($_COOKIE[LOCALE_COOKIE_NAME])) {
         $requested_lang = $_COOKIE[LOCALE_COOKIE_NAME];
-        if (locale_pattern_check($requested_lang) && locale_exists($requested_lang)) {
+        if (locale_pattern_check($requested_lang) && locale_is_available($requested_lang)) {
             return $requested_lang;
         }
     }
@@ -111,7 +132,7 @@ function get_user_locale()
                 $requested_lang = substr($requested_lang, 0, 2);
             }
 
-            if (locale_pattern_check($requested_lang) && locale_exists($requested_lang)) {
+            if (locale_pattern_check($requested_lang) && locale_is_available($requested_lang)) {
                 return $requested_lang;
             }
         }
@@ -139,7 +160,7 @@ function get_default_locale()
         $configs = load_system_configs();
         $is_correct = !empty($configs['default_locale'])
             && locale_pattern_check($configs['default_locale'])
-            && locale_exists($configs['default_locale']);
+            && locale_is_available($configs['default_locale']);
 
         $default_locale = $is_correct ? $configs['default_locale'] : 'en';
     }
@@ -166,7 +187,7 @@ function get_home_locale()
         $configs = load_system_configs();
         $is_correct = !empty($configs['home_locale'])
             && locale_pattern_check($configs['home_locale'])
-            && locale_exists($configs['home_locale']);
+            && locale_is_available($configs['home_locale']);
 
         $home_locale = $is_correct ? $configs['home_locale'] : 'en';
     }
@@ -189,12 +210,12 @@ function get_current_locale()
         // Check if locale code passed in as a param is valid
         $locale_param_valid = $locale
             && locale_pattern_check($locale)
-            && locale_exists($locale);
+            && locale_is_available($locale);
 
         // Check if locale code stored in session data is valid
         $session_locale_valid = isset($_SESSION['locale'])
             && locale_pattern_check($_SESSION['locale'])
-            && locale_exists($_SESSION['locale']);
+            && locale_is_available($_SESSION['locale']);
 
         if ($locale_param_valid) {
             $_SESSION['locale'] = $locale;

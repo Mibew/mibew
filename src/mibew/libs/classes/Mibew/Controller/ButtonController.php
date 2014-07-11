@@ -59,7 +59,7 @@ class ButtonController extends AbstractController
         if (!preg_match("/^[\w-]{2,5}$/", $lang)) {
             $lang = '';
         }
-        if (!$lang || !locale_exists($lang)) {
+        if (!$lang || !locale_is_available($lang)) {
             $lang = get_current_locale();
         }
 
