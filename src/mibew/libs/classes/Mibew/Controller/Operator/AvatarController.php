@@ -176,6 +176,12 @@ class AvatarController extends AbstractController
             throw new NotFoundException('The operator is not found');
         }
 
+        // Try to remove the current operator's avatar if it exists.
+        $current_avatar = $operator['vcavatar'];
+        if ($current_avatar) {
+            @unlink(MIBEW_FS_ROOT . '/files/avatar/' . basename($current_avatar));
+        }
+
         // Update avatar value in database
         update_operator_avatar($op_id, '');
 
