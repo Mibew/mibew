@@ -81,16 +81,6 @@ function get_available_locales()
 }
 
 /**
- * Returns list of locales which are available and enabled.
- *
- * @return array List of enabled locale codes.
- */
-function get_enabled_locales()
-{
-    return array();
-}
-
-/**
  * Returns list of all locales that are present in the file system.
  *
  * @return array List of locales codes.
