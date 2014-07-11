@@ -44,7 +44,7 @@ Options +FollowSymLinks
     RewriteRule ^(.*)$ app.php [QSA,L]
 </IfModule>
 
-# Deny access to .yml files
-<FilesMatch "\.yml$">
+# Deny access to internal system files
+<FilesMatch "\.(yml|po|ini|handlebars|keep)$">
     Deny from all
 </FilesMatch>
