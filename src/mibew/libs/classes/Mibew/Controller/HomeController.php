@@ -53,7 +53,6 @@ class HomeController extends AbstractController
             'version' => MIBEW_VERSION,
             'localeLinks' => get_locale_links(),
             'needUpdate' => Settings::get('dbversion') != DB_VERSION,
-            'needChangePassword' => check_password_hash($operator['vclogin'], '', $operator['vcpassword']),
             'profilePage' => $base_url . '/operator/operator/' . $operator['operatorid'] . '/edit',
             'updateWizard' => $base_url . '/install/',
             'newFeatures' => Settings::get('featuresversion') != FEATURES_VERSION,

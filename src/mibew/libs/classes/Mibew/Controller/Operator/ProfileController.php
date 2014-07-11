@@ -93,7 +93,6 @@ class ProfileController extends AbstractController
         $page['stored'] = $request->query->has('stored');
         $page['canmodify'] = $can_modify ? '1' : '';
         $page['canchangelogin'] = is_capable(CAN_ADMINISTRATE, $operator);
-        $page['needChangePassword'] = check_password_hash($operator['vclogin'], '', $operator['vcpassword']);
         $page['title'] = getlocal('Operator details');
         $page['menuid'] = ($op_id == $operator['operatorid']) ? 'profile' : 'operators';
         $page['requirePassword'] = (!$op_id || $page['needChangePassword']);

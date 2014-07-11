@@ -13,13 +13,8 @@
 
         {{> _errors}}
 
-        {{#if needChangePassword}}
-            <div id="formmessage">{{l10n "This is your first time logging in and your password is blank. For security reasons you have to change it."}}</div>
-            <br/>
-        {{else}}
-            {{#if stored}}
-                <div id="formmessage">{{l10n "Changes saved"}}</div>
-            {{/if}}
+        {{#if stored}}
+            <div id="formmessage">{{l10n "Changes saved"}}</div>
         {{/if}}
 
         {{#ifAny opid canmodify}}

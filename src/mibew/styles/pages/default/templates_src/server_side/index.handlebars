@@ -10,18 +10,13 @@
 
     {{#override "content"}}
         <br/>
-        {{#if needChangePassword}}
-            <div id="formmessage">{{l10n "This is your first time logging in and your password is blank. For security reasons you have to change it."}} {{l10n "Visit your <a href=\"{0}\">Profile Page</a>." profilePage}}</div>
+        {{#if needUpdate}}
+            <div id="formmessage">{{l10n "Please run the <a href=\"{0}\">Update wizard</a> to adjust your database." updateWizard}}</div>
             <br/>
         {{else}}
-            {{#if needUpdate}}
-                <div id="formmessage">{{l10n "Please run the <a href=\"{0}\">Update wizard</a> to adjust your database." updateWizard}}</div>
+            {{#if newFeatures}}
+                <div><div id="formmessage">{{l10n "Congratulations! You now have Mibew Messenger {1} installed. Turn on more features on the <a href=\"{0}\">Optional services</a> page." featuresPage mibewVersion}}</div></div>
                 <br/>
-            {{else}}
-                {{#if newFeatures}}
-                    <div><div id="formmessage">{{l10n "Congratulations! You now have Mibew Messenger {1} installed. Turn on more features on the <a href=\"{0}\">Optional services</a> page." featuresPage mibewVersion}}</div></div>
-                    <br/>
-                {{/if}}
             {{/if}}
         {{/if}}
 
