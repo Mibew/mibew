@@ -48,6 +48,12 @@ class Database
     protected $dbHost = '';
 
     /**
+     * Database port
+     * @var int
+     */
+    protected $dbPort = 0;
+
+    /**
      * Database user's login
      * @var string
      */
@@ -132,6 +138,7 @@ class Database
      * Create PDO object and store it in the Database object.
      *
      * @param string $host Database host.
+     * @param int $port Database port.
      * @param string $user Database user name.
      * @param string $pass Database for user with $name password.
      * @param boolean $use_pconn Control use persistent connection to the
@@ -139,7 +146,7 @@ class Database
      * @param string $db Database name.
      * @param string $prefix Database tables prefix
      */
-    public static function initialize($host, $user, $pass, $use_pconn, $db, $prefix)
+    public static function initialize($host, $port, $user, $pass, $use_pconn, $db, $prefix)
     {
         // Check PDO
         if (!extension_loaded('PDO')) {
@@ -160,6 +167,7 @@ class Database
 
         // Set database and connection properties
         $instance->dbHost = $host;
+        $instance->dbPort = $port;
         $instance->dbLogin = $user;
         $instance->dbPass = $pass;
         $instance->dbName = $db;
@@ -168,7 +176,7 @@ class Database
 
         // Create PDO object
         $instance->dbh = new \PDO(
-            "mysql:host={$instance->dbHost};dbname={$instance->dbName}",
+            "mysql:host={$instance->dbHost};port={$instance->dbPort};dbname={$instance->dbName}",
             $instance->dbLogin,
             $instance->dbPass,
             array(\PDO::ATTR_PERSISTENT => $instance->usePersistentConnection)

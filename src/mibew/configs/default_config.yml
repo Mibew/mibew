@@ -5,6 +5,7 @@
 # MySQL Database parameters
 database:
     host: ""
+    port: 3306
     db: ""
     login: ""
     pass: ""

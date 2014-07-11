@@ -76,6 +76,7 @@ if (!installation_in_progress()) {
     // Initialize the database
     \Mibew\Database::initialize(
         $configs['database']['host'],
+        $configs['database']['port'],
         $configs['database']['login'],
         $configs['database']['pass'],
         $configs['database']['use_persistent_connection'],

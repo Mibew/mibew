@@ -706,6 +706,7 @@ class Installer
             try {
                 Database::initialize(
                     $this->configs['database']['host'],
+                    $this->configs['database']['port'],
                     $this->configs['database']['login'],
                     $this->configs['database']['pass'],
                     $this->configs['database']['use_persistent_connection'],
