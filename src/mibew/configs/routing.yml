@@ -673,3 +673,13 @@ users_update:
     defaults:
         _controller: Mibew\Controller\UsersController::updateAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
+
+# Remove trailing slashe. This route is the last one because previous rotes can
+# (but definitely should not) have trailing slashes.
+remove_trailing_slash:
+    path: /{url}
+    defaults:
+        _controller: Mibew\Controller\RedirectController::removeTrailingSlashAction
+    requirements:
+        url: .*/$
+    methods: [GET]
