@@ -24,24 +24,20 @@ Options +FollowSymLinks
     php_flag session.auto_start			off
 </IfModule>
 
-# Do not allow apache to automatically add trailing slashes for existing
-# directories. They should be processed by the application.
-<IfModule mod_dir.c>
-   DirectorySlash Off
-</IfModule>
-
 # Redirect requests to the front controller
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
     # Use separate front controller for the system installator
     RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^install(|/(.*))$ install.php [QSA,L]
 
-    # Alter only requests for files that do not exist
+    # Rewrite all other requests for files and directories that do not exist to
+    # the main front controller
     RewriteCond %{REQUEST_FILENAME} !-f
-    # Rewrite all other requests to front controller
-    RewriteRule ^(.*)$ app.php [QSA,L]
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php [QSA,L]
 </IfModule>
 
 # Deny access to internal system files
