@@ -60,7 +60,7 @@ class TranslationController extends AbstractController
         $strings = $this->loadStrings($target);
         foreach ($strings as $key => $item) {
             $strings[$key] = array(
-                'id' => $item['stringid'],
+                'id' => $item['translationid'],
                 'source' => htmlentities($item['source']),
                 'translation' => (empty($item['translation'])
                     ? "<font color=\"#c13030\"><b>absent</b></font>"
@@ -229,7 +229,7 @@ class TranslationController extends AbstractController
     protected function loadString($id)
     {
         $string = Database::getInstance()->query(
-            "SELECT * FROM {translation} WHERE stringid = :id",
+            "SELECT * FROM {translation} WHERE translationid = :id",
             array(':id' => $id),
             array('return_rows' => Database::RETURN_ONE_ROW)
         );
