@@ -117,7 +117,7 @@ class Settings
         // Load values from database
         $db = Database::getInstance();
         $rows = $db->query(
-            "SELECT vckey, vcvalue FROM {chatconfig}",
+            "SELECT vckey, vcvalue FROM {config}",
             null,
             array('return_rows' => Database::RETURN_ALL_ROWS)
         );
@@ -164,12 +164,12 @@ class Settings
         foreach ($instance->settings as $key => $value) {
             if (!isset($instance->settingsInDb[$key])) {
                 $db->query(
-                    "INSERT INTO {chatconfig} (vckey) VALUES (?)",
+                    "INSERT INTO {config} (vckey) VALUES (?)",
                     array($key)
                 );
             }
             $db->query(
-                "UPDATE {chatconfig} SET vcvalue=? WHERE vckey=?",
+                "UPDATE {config} SET vcvalue=? WHERE vckey=?",
                 array($value, $key)
             );
         }

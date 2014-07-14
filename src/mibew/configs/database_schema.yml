@@ -1,8 +1,9 @@
 # This file contains current database schema that is used for installation.
 # Do not change anything in this file unless you know what you are doing!
 
-# Contains information about chat groups
-chatgroup:
+# Contains information about chat groups. This table cannot be named just
+# "group" because it is reserved SQL word.
+opgroup:
     fields:
         groupid: "int NOT NULL auto_increment PRIMARY KEY"
         parent: "int DEFAULT NULL"
@@ -20,13 +21,13 @@ chatgroup:
         parent: [parent]
 
 # Contains info about chat threads
-chatthread:
+thread:
     fields:
         # ID of the thread.
         threadid: "int NOT NULL auto_increment PRIMARY KEY"
         # Name of the user in chat.
         username: "varchar(64) NOT NULL"
-        # ID of the user. This field is foreign key for {chatsitevisitor}.userid
+        # ID of the user. This field is foreign key for {sitevisitor}.userid
         userid: "varchar(255)"
         # Name of the operator who took place in the chat.
         agentname: "varchar(64)"
@@ -72,10 +73,10 @@ chatthread:
         # Total count of user's messages related with the thread.
         messagecount: "varchar(16)"
         # ID of the group at Mibew side related with the thread.
-        groupid: "int references {chatgroup}(groupid)"
+        groupid: "int references {opgroup}(groupid)"
 
 # Contains "by thread" statistics
-chatthreadstatistics:
+threadstatistics:
     fields:
         statid: "int NOT NULL auto_increment PRIMARY KEY"
         date: "int NOT NULL DEFAULT 0"
@@ -142,12 +143,12 @@ mailtemplate:
         body: "text"
 
 # Store chat thread messages
-chatmessage:
+message:
     fields:
         # Message ID.
         messageid: "int NOT NULL auto_increment PRIMARY KEY"
         # ID of the thread related with the message.
-        threadid: "int NOT NULL references {chatthread}(threadid)"
+        threadid: "int NOT NULL references {thread}(threadid)"
         # Message kind. It is one of Thread::KIND_* constants.
         ikind: "int NOT NULL"
         # ID of operator who sent the message. This value will be ignored for
@@ -168,7 +169,7 @@ chatmessage:
         idx_agentid: [agentid]
 
 # Contains info about operators
-chatoperator:
+operator:
     fields:
         operatorid: "int NOT NULL auto_increment PRIMARY KEY"
         vclogin: "varchar(64) NOT NULL"
@@ -190,7 +191,7 @@ chatoperator:
         code: "varchar(64) DEFAULT ''"
 
 # Contains "by operator" statistics
-chatoperatorstatistics:
+operatorstatistics:
     fields:
         statid: "int NOT NULL auto_increment PRIMARY KEY"
         date: "int NOT NULL DEFAULT 0"
@@ -205,21 +206,21 @@ chatoperatorstatistics:
     indexes:
         operatorid: [operatorid]
 
-chatrevision:
+revision:
     fields:
         id: "INT NOT NULL"
 
 # Contains relations between operators and groups
-chatgroupoperator:
+operatortoopgroup:
     fields:
-        groupid: "int NOT NULL references {chatgroup}(groupid)"
-        operatorid: "int NOT NULL references {chatoperator}(operatorid)"
+        groupid: "int NOT NULL references {opgroup}(groupid)"
+        operatorid: "int NOT NULL references {operator}(operatorid)"
     indexes:
         groupid: [groupid]
         operatorid: [operatorid]
 
 # Contains banned visitors
-chatban:
+ban:
     fields:
         banid: "INT NOT NULL auto_increment PRIMARY KEY"
         dtmcreated: "int NOT NULL DEFAULT 0"
@@ -229,22 +230,22 @@ chatban:
         blockedcount: "int DEFAULT 0"
 
 # Contains dynamic configs
-chatconfig:
+config:
     fields:
         id: "INT NOT NULL auto_increment PRIMARY KEY"
         vckey: "varchar(255)"
         vcvalue: "varchar(255)"
 
 # Contains canned messages
-chatresponses:
+cannedmessage:
     fields:
         id: "INT NOT NULL auto_increment PRIMARY KEY"
         locale: "varchar(8)"
-        groupid: "int references {chatgroup}(groupid)"
+        groupid: "int references {opgroup}(groupid)"
         vctitle: "varchar(100) NOT NULL DEFAULT ''"
         vcvalue: "varchar(1024) NOT NULL"
 
-chatsitevisitor:
+sitevisitor:
     fields:
         visitorid: "INT NOT NULL auto_increment PRIMARY KEY"
         userid: "varchar(255) NOT NULL"
@@ -255,7 +256,7 @@ chatsitevisitor:
         details: "text NOT NULL"
         invitations: "INT NOT NULL DEFAULT 0"
         chats: "INT NOT NULL DEFAULT 0"
-        threadid: "INT references {chatthread}(threadid) on delete set null"
+        threadid: "INT references {thread}(threadid) on delete set null"
     indexes:
         threadid: [threadid]
 

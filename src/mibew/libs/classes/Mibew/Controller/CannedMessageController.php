@@ -123,7 +123,7 @@ class CannedMessageController extends AbstractController
         $db = Database::getInstance();
 
         $key = $request->attributes->getInt('message_id');
-        $db->query("DELETE FROM {chatresponses} WHERE id = ?", array($key));
+        $db->query("DELETE FROM {cannedmessage} WHERE id = ?", array($key));
 
         // Redirect user to canned messages list. Use only "lang" and "group"
         // get params for the target URL.

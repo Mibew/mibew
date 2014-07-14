@@ -48,7 +48,7 @@ function get_by_date_statistics($start, $end)
             . "usermessages AS users, "
             . "averagewaitingtime AS avgwaitingtime, "
             . "averagechattime AS avgchattime "
-        . "FROM {chatthreadstatistics} s "
+        . "FROM {threadstatistics} s "
         . "WHERE s.date >= :start "
             . "AND s.date < :end "
         . "GROUP BY DATE(FROM_UNIXTIME(date)) "
@@ -73,7 +73,7 @@ function get_by_date_statistics($start, $end)
             . "SUM(usermessages) AS users, "
             . "ROUND(SUM(averagewaitingtime * s.threads) / SUM(s.threads),1) AS avgwaitingtime, "
             . "ROUND(SUM(averagechattime * s.threads) / SUM(s.threads),1) AS avgchattime "
-        . "FROM {chatthreadstatistics} s "
+        . "FROM {threadstatistics} s "
         . "WHERE s.date >= :start "
             . "AND s.date < :end"),
         array(
@@ -111,7 +111,7 @@ function get_by_operator_statistics($start, $end)
             . "SUM(acceptedinvitations) AS acceptedinvitations, "
             . "SUM(rejectedinvitations) AS rejectedinvitations, "
             . "SUM(ignoredinvitations) AS ignoredinvitations "
-        . "FROM {chatoperatorstatistics} s, {chatoperator} o "
+        . "FROM {operatorstatistics} s, {operator} o "
         . "WHERE s.operatorid = o.operatorid "
             . "AND s.date >= :start "
             . "AND s.date < :end "
@@ -172,7 +172,7 @@ function calculate_thread_statistics()
 
         // Get last record date
         $result = $db->query(
-            "SELECT MAX(date) as start FROM {chatthreadstatistics}",
+            "SELECT MAX(date) as start FROM {threadstatistics}",
             array(),
             array('return_rows' => Database::RETURN_ONE_ROW)
         );
@@ -196,12 +196,12 @@ function calculate_thread_statistics()
                     . "ABS(tmp.last_msg_time - t.dtmchatstarted) + "
                         . "(tmp.last_msg_time - t.dtmchatstarted) "
                 . ")/2,1) AS avg_chat_time "
-            . "FROM {chatthread} t, "
+            . "FROM {thread} t, "
             . "(SELECT SUM(m.ikind = :kind_agent) AS operator_msgs, "
                     . "SUM(m.ikind = :kind_user) AS user_msgs, "
                     . "MAX(m.dtmcreated) as last_msg_time, "
                     . "threadid "
-                . "FROM {chatmessage} m "
+                . "FROM {message} m "
                 // Calculate only users' and operators' messages
                 . "WHERE m.ikind = :kind_user "
                     . "OR m.ikind = :kind_agent "
@@ -240,7 +240,7 @@ function calculate_thread_statistics()
         $db_results = $db->query(
             ("SELECT (FLOOR(dtmcreated / :interval) * :interval) AS date, "
                 . "COUNT(*) as missed_threads "
-            . "FROM {chatthread} "
+            . "FROM {thread} "
             . "WHERE (dtmcreated - :start) > :interval "
                 // Calculate statistics only for threads that older than
                 // statistics_aggregation_interval
@@ -270,7 +270,7 @@ function calculate_thread_statistics()
         $db_results = $db->query(
             ("SELECT (FLOOR(dtmcreated / :interval) * :interval) AS date, "
                 . "ROUND(AVG(dtmchatstarted-dtmcreated),1) AS avg_waiting_time "
-            . "FROM {chatthread} "
+            . "FROM {thread} "
             . "WHERE (dtmcreated - :start) > :interval "
                 // Calculate statistics only for threads that older than
                 // statistics_aggregation_interval
@@ -303,7 +303,7 @@ function calculate_thread_statistics()
                 . "SUM(invitationstate = :invitation_accepted) AS invitations_accepted, "
                 . "SUM(invitationstate = :invitation_rejected) AS invitations_rejected, "
                 . "SUM(invitationstate = :invitation_ignored) AS invitations_ignored "
-            . "FROM {chatthread} "
+            . "FROM {thread} "
             . "WHERE (dtmcreated - :start) > :interval "
                 // Calculate statistics only for threads that older than
                 // statistics_aggregation_interval
@@ -356,7 +356,7 @@ function calculate_thread_statistics()
 
             // Store data in database
             $db->query(
-                ("INSERT INTO {chatthreadstatistics} ("
+                ("INSERT INTO {threadstatistics} ("
                     . "date, threads, missedthreads, sentinvitations, "
                     . "acceptedinvitations, rejectedinvitations, "
                     . "ignoredinvitations, operatormessages, usermessages, "
@@ -408,7 +408,7 @@ function calculate_operator_statistics()
 
         // Get last record date
         $result = $db->query(
-            "SELECT MAX(date) as start FROM {chatoperatorstatistics}",
+            "SELECT MAX(date) as start FROM {operatorstatistics}",
             array(),
             array('return_rows' => Database::RETURN_ONE_ROW)
         );
@@ -424,10 +424,10 @@ function calculate_operator_statistics()
                 . "COUNT(distinct m.threadid) AS threads, "
                 . "COUNT(m.messageid) AS messages, "
                 . "AVG(CHAR_LENGTH(m.tmessage)) AS avg_msg_length "
-                // Use {chatmessage} as base table because of one thread can
+                // Use {message} as base table because of one thread can
                 // be related with more than one operator (they can change each
                 // other during conversation).
-            . "FROM {chatmessage} m, {chatthread} t "
+            . "FROM {message} m, {thread} t "
             . "WHERE m.ikind = :kind_agent "
                 . "AND  m.threadid = t.threadid "
                 . "AND (m.dtmcreated - :start) > :interval "
@@ -464,7 +464,7 @@ function calculate_operator_statistics()
                 . "SUM(invitationstate = :invitation_accepted) AS invitations_accepted, "
                 . "SUM(invitationstate = :invitation_rejected) AS invitations_rejected, "
                 . "SUM(invitationstate = :invitation_ignored) AS invitations_ignored "
-            . "FROM {chatthread} "
+            . "FROM {thread} "
             . "WHERE (dtmcreated - :start) > :interval "
                 // Calculate statistics only for threads that older than
                 // statistics_aggregation_interval
@@ -516,7 +516,7 @@ function calculate_operator_statistics()
             }
 
             $db->query(
-                ("INSERT INTO {chatoperatorstatistics} ("
+                ("INSERT INTO {operatorstatistics} ("
                     . "date, operatorid, threads, messages, averagelength, "
                     . "sentinvitations, acceptedinvitations, "
                     . "rejectedinvitations, ignoredinvitations "
@@ -608,11 +608,11 @@ function calculate_page_statistics()
             ("SELECT FLOOR(p.visittime / :interval) * :interval AS date, "
                 . "p.address AS address, "
                 . "COUNT(DISTINCT t.threadid) AS chats "
-            . "FROM {visitedpage} p, {chatthread} t, "
+            . "FROM {visitedpage} p, {thread} t, "
                 . "(SELECT "
                     . "COUNT(*) AS msgs, "
                     . "m.threadid "
-                . "FROM {chatmessage} m "
+                . "FROM {message} m "
                 . "WHERE m.ikind = :kind_user OR m.ikind = :kind_agent "
                 . "GROUP BY m.threadid) tmp "
             . "WHERE t.referer = p.address "
@@ -651,7 +651,7 @@ function calculate_page_statistics()
             ("SELECT FLOOR(p.visittime / :interval) * :interval AS date, "
                 . "p.address AS address, "
                 . "COUNT(DISTINCT t.threadid) AS invitations_accepted "
-            . "FROM {visitedpage} p, {chatthread} t "
+            . "FROM {visitedpage} p, {thread} t "
             . "WHERE t.referer = p.address "
                 . "AND p.calculated = 0 "
                 . "AND (p.visittime - :start) > :interval "
@@ -681,7 +681,7 @@ function calculate_page_statistics()
             ("SELECT FLOOR(p.visittime / :interval) * :interval AS date, "
                 . "p.address AS address, "
                 . "COUNT(DISTINCT t.threadid) AS invitations_rejected "
-            . "FROM {visitedpage} p, {chatthread} t "
+            . "FROM {visitedpage} p, {thread} t "
             . "WHERE t.referer = p.address "
                 . "AND p.calculated = 0 "
                 . "AND (p.visittime - :start) > :interval "
@@ -711,7 +711,7 @@ function calculate_page_statistics()
             ("SELECT FLOOR(p.visittime / :interval) * :interval AS date, "
                 . "p.address AS address, "
                 . "COUNT(DISTINCT t.threadid) AS invitations_ignored "
-            . "FROM {visitedpage} p, {chatthread} t "
+            . "FROM {visitedpage} p, {thread} t "
             . "WHERE t.referer = p.address "
                 . "AND p.calculated = 0 "
                 . "AND (p.visittime - :start) > :interval "

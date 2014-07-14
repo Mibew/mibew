@@ -203,7 +203,7 @@ class RedirectController extends AbstractController
             $db = Database::getInstance();
             list($groups_count) = $db->query(
                 ("SELECT count(*) AS count "
-                    . "FROM {chatgroupoperator} "
+                    . "FROM {operatortoopgroup} "
                     . "WHERE operatorid = ? AND groupid = ?"),
                 array($operator_id, $thread->groupId),
                 array(

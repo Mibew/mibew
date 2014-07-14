@@ -34,7 +34,7 @@ function invitation_state($visitor_id)
     $db = Database::getInstance();
     $db_result = $db->query(
         ("SELECT t.threadid, t.invitationstate, t.istate "
-            . "FROM {chatsitevisitor} v, {chatthread} t "
+            . "FROM {sitevisitor} v, {thread} t "
             . "WHERE visitorid = ? "
             . "AND t.threadid = v.threadid"),
         array($visitor_id),
@@ -106,7 +106,7 @@ function invitation_invite($visitor_id, $operator)
 
     $db = Database::getInstance();
     $db->query(
-        ("UPDATE {chatsitevisitor} set "
+        ("UPDATE {sitevisitor} set "
             . "invitations = invitations + 1, "
             . "threadid = :thread_id "
             . "WHERE visitorid = :visitor_id"),
@@ -156,7 +156,7 @@ function invitation_accept($visitor_id)
     // Get thread related with the visitor
     $db = Database::getInstance();
     $result = $db->query(
-        "SELECT threadid FROM {chatsitevisitor} WHERE visitorid = :visitor_id",
+        "SELECT threadid FROM {sitevisitor} WHERE visitorid = :visitor_id",
         array(':visitor_id' => $visitor_id),
         array('return_rows' => Database::RETURN_ONE_ROW)
     );
@@ -180,7 +180,7 @@ function invitation_accept($visitor_id)
 
     // Update visitor info
     $db->query(
-        ("UPDATE {chatsitevisitor} SET chats = chats + 1 "
+        ("UPDATE {sitevisitor} SET chats = chats + 1 "
             . "WHERE visitorid = :visitor_id"),
         array(':visitor_id' => $visitor_id)
     );
@@ -208,7 +208,7 @@ function invitation_reject($visitor_id)
 
     $db = Database::getInstance();
     $db->query(
-        ("UPDATE {chatsitevisitor} v, {chatthread} t SET "
+        ("UPDATE {sitevisitor} v, {thread} t SET "
             . "v.threadid = NULL, "
             . "t.invitationstate = :invitation_rejected, "
             . "t.istate = :state_closed, "
@@ -233,7 +233,7 @@ function invitation_close_old()
 
     // Get all threads to close
     $threads = $db->query(
-        ("SELECT * FROM {chatthread} "
+        ("SELECT * FROM {thread} "
             . "WHERE istate = :state_invited "
             . "AND invitationstate = :invitation_wait "
             . "AND (:now - dtmcreated) > :lifetime"),
@@ -248,7 +248,7 @@ function invitation_close_old()
 
     // Remove old invitations
     $db->query(
-        ("UPDATE {chatsitevisitor} v, {chatthread} t SET "
+        ("UPDATE {sitevisitor} v, {thread} t SET "
             . "t.invitationstate = :invitation_ignored, "
             . "t.istate = :state_closed, "
             . "t.dtmclosed = :now, "

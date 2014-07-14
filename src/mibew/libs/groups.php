@@ -33,7 +33,7 @@ function group_by_id($id)
 {
     $db = Database::getInstance();
     $group = $db->query(
-        "SELECT * FROM {chatgroup} WHERE groupid = ?",
+        "SELECT * FROM {opgroup} WHERE groupid = ?",
         array($id),
         array('return_rows' => Database::RETURN_ONE_ROW)
     );
@@ -55,7 +55,7 @@ function group_by_name($name)
 {
     $db = Database::getInstance();
     $group = $db->query(
-        "SELECT * FROM {chatgroup} WHERE vclocalname = ?",
+        "SELECT * FROM {opgroup} WHERE vclocalname = ?",
         array($name),
         array('return_rows' => Database::RETURN_ONE_ROW)
     );
@@ -95,7 +95,7 @@ function get_operator_groups_list($operator_id)
     if (Settings::get('enablegroups') == '1') {
         $group_ids = array(0);
         $all_groups = $db->query(
-            "SELECT groupid FROM {chatgroupoperator} WHERE operatorid = ? ORDER BY groupid",
+            "SELECT groupid FROM {operatortoopgroup} WHERE operatorid = ? ORDER BY groupid",
             array($operator_id),
             array('return_rows' => Database::RETURN_ALL_ROWS)
         );
@@ -132,8 +132,8 @@ function get_available_parent_groups($skip_group)
 
     $db = Database::getInstance();
     $groups_list = $db->query(
-        ("SELECT {chatgroup}.groupid AS groupid, parent, vclocalname "
-            . "FROM {chatgroup} ORDER BY vclocalname"),
+        ("SELECT {opgroup}.groupid AS groupid, parent, vclocalname "
+            . "FROM {opgroup} ORDER BY vclocalname"),
         null,
         array('return_rows' => Database::RETURN_ALL_ROWS)
     );
@@ -160,7 +160,7 @@ function group_has_children($group_id)
 {
     $db = Database::getInstance();
     $children = $db->query(
-        "SELECT COUNT(*) AS count FROM {chatgroup} WHERE parent = ?",
+        "SELECT COUNT(*) AS count FROM {opgroup} WHERE parent = ?",
         array($group_id),
         array('return_rows' => Database::RETURN_ONE_ROW)
     );
@@ -310,7 +310,7 @@ function create_group($group)
 
     $db = Database::getInstance();
     $db->query(
-        ("INSERT INTO {chatgroup} ("
+        ("INSERT INTO {opgroup} ("
             . "parent, vclocalname, vclocaldescription, vccommonname, "
             . "vccommondescription, vcemail, vctitle, vcchattitle, vchosturl, "
             . "vclogo, iweight"
@@ -332,7 +332,7 @@ function create_group($group)
     $id = $db->insertedId();
 
     $new_group = $db->query(
-        "SELECT * FROM {chatgroup} WHERE groupid = ?",
+        "SELECT * FROM {opgroup} WHERE groupid = ?",
         array($id),
         array('return_rows' => Database::RETURN_ONE_ROW)
     );
@@ -364,7 +364,7 @@ function update_group($group)
 
     $db = Database::getInstance();
     $db->query(
-        ("UPDATE {chatgroup} SET "
+        ("UPDATE {opgroup} SET "
             . "parent = ?, vclocalname = ?, vclocaldescription = ?, "
             . "vccommonname = ?, vccommondescription = ?, "
             . "vcemail = ?, vctitle = ?, vcchattitle = ?, "
@@ -388,7 +388,7 @@ function update_group($group)
 
     if ($group['parent']) {
         $db->query(
-            "UPDATE {chatgroup} SET parent = NULL WHERE parent = ?",
+            "UPDATE {opgroup} SET parent = NULL WHERE parent = ?",
             array($group['id'])
         );
     }
@@ -405,7 +405,7 @@ function get_group_members($group_id)
 {
     $db = Database::getInstance();
     return $db->query(
-        "SELECT operatorid FROM {chatgroupoperator} WHERE groupid = ?",
+        "SELECT operatorid FROM {operatortoopgroup} WHERE groupid = ?",
         array($group_id),
         array('return_rows' => Database::RETURN_ALL_ROWS)
     );
@@ -421,13 +421,13 @@ function update_group_members($group_id, $new_value)
 {
     $db = Database::getInstance();
     $db->query(
-        "DELETE FROM {chatgroupoperator} WHERE groupid = ?",
+        "DELETE FROM {operatortoopgroup} WHERE groupid = ?",
         array($group_id)
     );
 
     foreach ($new_value as $operator_id) {
         $db->query(
-            "INSERT INTO {chatgroupoperator} (groupid, operatorid) VALUES (?, ?)",
+            "INSERT INTO {operatortoopgroup} (groupid, operatorid) VALUES (?, ?)",
             array($group_id, $operator_id)
         );
     }

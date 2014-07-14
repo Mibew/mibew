@@ -170,7 +170,7 @@ class ManagementController extends AbstractController
         // Disable the operator
         $db = Database::getInstance();
         $db->query(
-            "update {chatoperator} set idisabled = ? where operatorid = ?",
+            "update {operator} set idisabled = ? where operatorid = ?",
             array('1', $operator_id)
         );
 
@@ -198,7 +198,7 @@ class ManagementController extends AbstractController
 
         $db = Database::getInstance();
         $db->query(
-            "update {chatoperator} set idisabled = ? where operatorid = ?",
+            "update {operator} set idisabled = ? where operatorid = ?",
             array('0', $operator_id)
         );
 

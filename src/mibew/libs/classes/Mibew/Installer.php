@@ -217,7 +217,7 @@ class Installer
 
         try {
             $db->query(
-                'UPDATE {chatoperator} SET vcpassword = :pass WHERE vclogin = :login',
+                'UPDATE {operator} SET vcpassword = :pass WHERE vclogin = :login',
                 array(
                     ':login' => 'admin',
                     ':pass' => calculate_password_hash('admin', $password)
@@ -341,7 +341,7 @@ class Installer
         // Create The First Administrator if needed
         try {
             list($count) = $db->query(
-                'SELECT COUNT(*) FROM {chatoperator} WHERE vclogin = :login',
+                'SELECT COUNT(*) FROM {operator} WHERE vclogin = :login',
                 array(':login' => 'admin'),
                 array(
                     'return_rows' => Database::RETURN_ONE_ROW,
@@ -350,7 +350,7 @@ class Installer
             );
             if ($count == 0) {
                 $db->query(
-                    ('INSERT INTO {chatoperator} ( '
+                    ('INSERT INTO {operator} ( '
                             . 'vclogin, vcpassword, vclocalename, vccommonname, '
                             . 'vcavatar, vcemail, iperm '
                         . ') values ( '
@@ -379,7 +379,7 @@ class Installer
         // Initialize chat revision counter if it is needed
         try {
             list($count) = $db->query(
-                'SELECT COUNT(*) FROM {chatrevision}',
+                'SELECT COUNT(*) FROM {revision}',
                 null,
                 array(
                     'return_rows' => Database::RETURN_ONE_ROW,
@@ -388,7 +388,7 @@ class Installer
             );
             if ($count == 0) {
                 $db->query(
-                    'INSERT INTO {chatrevision} VALUES (:init_revision)',
+                    'INSERT INTO {revision} VALUES (:init_revision)',
                     array(':init_revision' => 1)
                 );
             }
@@ -404,7 +404,7 @@ class Installer
         // Set correct database structure version if needed
         try {
             list($count) = $db->query(
-                'SELECT COUNT(*) FROM {chatconfig} WHERE vckey = :key',
+                'SELECT COUNT(*) FROM {config} WHERE vckey = :key',
                 array(':key' => 'dbversion'),
                 array(
                     'return_rows' => Database::RETURN_ONE_ROW,
@@ -413,7 +413,7 @@ class Installer
             );
             if ($count == 0) {
                 $db->query(
-                    'INSERT INTO {chatconfig} (vckey, vcvalue) VALUES (:key, :value)',
+                    'INSERT INTO {config} (vckey, vcvalue) VALUES (:key, :value)',
                     array(
                         ':key' => 'dbversion',
                         ':value' => DB_VERSION,
@@ -538,7 +538,7 @@ class Installer
 
         try {
             $result = $db->query(
-                "SELECT vcvalue AS version FROM {chatconfig} WHERE vckey = :key LIMIT 1",
+                "SELECT vcvalue AS version FROM {config} WHERE vckey = :key LIMIT 1",
                 array(':key' => 'dbversion'),
                 array('return_rows' => Database::RETURN_ONE_ROW)
             );

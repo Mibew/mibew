@@ -72,7 +72,7 @@ class PasswordRecoveryController extends AbstractController
 
                 $db = Database::getInstance();
                 $db->query(
-                    ("UPDATE {chatoperator} "
+                    ("UPDATE {operator} "
                         . "SET dtmrestore = :now, vcrestoretoken = :token "
                         . "WHERE operatorid = :operatorid"),
                     array(
@@ -178,7 +178,7 @@ class PasswordRecoveryController extends AbstractController
 
                 $db = Database::getInstance();
                 $db->query(
-                    ("UPDATE {chatoperator} "
+                    ("UPDATE {operator} "
                         . "SET vcpassword = ?, vcrestoretoken = '' "
                         . "WHERE operatorid = ?"),
                     array(

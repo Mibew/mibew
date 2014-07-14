@@ -74,7 +74,7 @@ function update_operator_permissions($operator_id, $perm)
 {
     $db = Database::getInstance();
     $db->query(
-        "UPDATE {chatoperator} SET iperm = ? WHERE operatorid = ?",
+        "UPDATE {operator} SET iperm = ? WHERE operatorid = ?",
         array($perm, $operator_id)
     );
 }
@@ -84,7 +84,7 @@ function operator_by_login($login)
     $db = Database::getInstance();
 
     return $db->query(
-        "SELECT * FROM {chatoperator} WHERE vclogin = ?",
+        "SELECT * FROM {operator} WHERE vclogin = ?",
         array($login),
         array('return_rows' => Database::RETURN_ONE_ROW)
     );
@@ -95,7 +95,7 @@ function operator_by_email($mail)
     $db = Database::getInstance();
 
     return $db->query(
-        "SELECT * FROM {chatoperator} WHERE vcemail = ?",
+        "SELECT * FROM {operator} WHERE vcemail = ?",
         array($mail),
         array('return_rows' => Database::RETURN_ONE_ROW)
     );
@@ -106,7 +106,7 @@ function operator_by_id($id)
     $db = Database::getInstance();
 
     return $db->query(
-        "SELECT * FROM {chatoperator} WHERE operatorid = ?",
+        "SELECT * FROM {operator} WHERE operatorid = ?",
         array($id),
         array('return_rows' => Database::RETURN_ONE_ROW)
     );
@@ -124,7 +124,7 @@ function operator_by_code($code)
     $db = Database::getInstance();
 
     return $db->query(
-        "SELECT * FROM {chatoperator} WHERE code = ?",
+        "SELECT * FROM {operator} WHERE code = ?",
         array($code),
         array('return_rows' => Database::RETURN_ONE_ROW)
     );
@@ -170,7 +170,7 @@ function get_operators_list($options = array())
     }
 
     $query = "SELECT DISTINCT "
-        . "{chatoperator}.operatorid, "
+        . "{operator}.operatorid, "
         . "vclogin, "
         . "vclocalename, "
         . "vccommonname, "
@@ -178,16 +178,16 @@ function get_operators_list($options = array())
         . "istatus, "
         . "idisabled, "
         . "(:now - dtmlastvisited) AS time "
-        . "FROM {chatoperator}"
+        . "FROM {operator}"
         . (empty($options['isolated_operator_id'])
             ? ""
-            : ", {chatgroupoperator} "
-                . "WHERE {chatoperator}.operatorid = {chatgroupoperator}.operatorid "
-                . "AND {chatgroupoperator}.groupid IN ("
-                    . "SELECT g.groupid FROM {chatgroup} g, "
-                        . "(SELECT DISTINCT parent FROM {chatgroup}, {chatgroupoperator} "
-                        . "WHERE {chatgroup}.groupid = {chatgroupoperator}.groupid "
-                        . "AND {chatgroupoperator}.operatorid = :operatorid) i "
+            : ", {operatortoopgroup} "
+                . "WHERE {operator}.operatorid = {operatortoopgroup}.operatorid "
+                . "AND {operatortoopgroup}.groupid IN ("
+                    . "SELECT g.groupid FROM {opgroup} g, "
+                        . "(SELECT DISTINCT parent FROM {opgroup}, {operatortoopgroup} "
+                        . "WHERE {opgroup}.groupid = {operatortoopgroup}.groupid "
+                        . "AND {operatortoopgroup}.operatorid = :operatorid) i "
                     . "WHERE g.groupid = i.parent OR g.parent = i.parent "
                 . ")")
         . " ORDER BY " . $orderby;
@@ -222,7 +222,7 @@ function operator_get_all()
     return $operators = $db->query(
         ("SELECT operatorid, vclogin, vclocalename, vccommonname, istatus, "
             . "code, idisabled, (:now - dtmlastvisited) AS time "
-            . "FROM {chatoperator} ORDER BY vclogin"),
+            . "FROM {operator} ORDER BY vclogin"),
         array(':now' => time()),
         array('return_rows' => Database::RETURN_ALL_ROWS)
     );
@@ -230,17 +230,17 @@ function operator_get_all()
 function get_operators_from_adjacent_groups($operator)
 {
     $db = Database::getInstance();
-    $query = "SELECT DISTINCT {chatoperator}.operatorid, vclogin, "
+    $query = "SELECT DISTINCT {operator}.operatorid, vclogin, "
             . "vclocalename,vccommonname, "
             . "istatus, idisabled, code, "
             . "(:now - dtmlastvisited) AS time "
-        . "FROM {chatoperator}, {chatgroupoperator} "
-        . "WHERE {chatoperator}.operatorid = {chatgroupoperator}.operatorid "
-            . "AND {chatgroupoperator}.groupid IN ("
-                . "SELECT g.groupid from {chatgroup} g, "
-                    . "(SELECT DISTINCT parent FROM {chatgroup}, {chatgroupoperator} "
-                    . "WHERE {chatgroup}.groupid = {chatgroupoperator}.groupid "
-                        . "AND {chatgroupoperator}.operatorid = :operatorid) i "
+        . "FROM {operator}, {operatortoopgroup} "
+        . "WHERE {operator}.operatorid = {operatortoopgroup}.operatorid "
+            . "AND {operatortoopgroup}.groupid IN ("
+                . "SELECT g.groupid from {opgroup} g, "
+                    . "(SELECT DISTINCT parent FROM {opgroup}, {operatortoopgroup} "
+                    . "WHERE {opgroup}.groupid = {operatortoopgroup}.groupid "
+                        . "AND {operatortoopgroup}.operatorid = :operatorid) i "
                 . "WHERE g.groupid = i.parent OR g.parent = i.parent "
         . ") ORDER BY vclogin";
 
@@ -315,7 +315,7 @@ function update_operator(
         $values[':password'] = calculate_password_hash($login, $password);
     }
     $db->query(
-        ("UPDATE {chatoperator} SET vclogin = :login, "
+        ("UPDATE {operator} SET vclogin = :login, "
             . ($password ? " vcpassword=:password, " : "")
             . "vclocalename = :localname, vccommonname = :commonname, "
             . "vcemail = :email, code = :code, vcjabbername= :jabbername "
@@ -328,7 +328,7 @@ function update_operator_avatar($operator_id, $avatar)
 {
     $db = Database::getInstance();
     $db->query(
-        "UPDATE {chatoperator} SET vcavatar = ? WHERE operatorid = ?",
+        "UPDATE {operator} SET vcavatar = ? WHERE operatorid = ?",
         array($avatar, $operator_id)
     );
 }
@@ -357,7 +357,7 @@ function create_operator(
 ) {
     $db = Database::getInstance();
     $db->query(
-        ("INSERT INTO {chatoperator} ("
+        ("INSERT INTO {operator} ("
             . "vclogin, vcpassword, vclocalename, vccommonname, vcavatar, "
             . "vcemail, code, vcjabbername "
         . ") VALUES ("
@@ -379,7 +379,7 @@ function create_operator(
     $id = $db->insertedId();
 
     return $db->query(
-        "SELECT * FROM {chatoperator} WHERE operatorid = ?",
+        "SELECT * FROM {operator} WHERE operatorid = ?",
         array($id),
         array('return_rows' => Database::RETURN_ONE_ROW)
     );
@@ -400,11 +400,11 @@ function delete_operator($operator_id)
 {
     $db = Database::getInstance();
     $db->query(
-        "DELETE FROM {chatgroupoperator} WHERE operatorid = ?",
+        "DELETE FROM {operatortoopgroup} WHERE operatorid = ?",
         array($operator_id)
     );
     $db->query(
-        "DELETE FROM {chatoperator} WHERE operatorid = ?",
+        "DELETE FROM {operator} WHERE operatorid = ?",
         array($operator_id)
     );
 
@@ -425,7 +425,7 @@ function notify_operator_alive($operator_id, $istatus)
 {
     $db = Database::getInstance();
     $db->query(
-        ("UPDATE {chatoperator} SET istatus = :istatus, dtmlastvisited = :now "
+        ("UPDATE {operator} SET istatus = :istatus, dtmlastvisited = :now "
             . "WHERE operatorid = :operatorid"),
         array(
             ':istatus' => $istatus,
@@ -450,19 +450,19 @@ function has_online_operators($group_id = "")
     $db = Database::getInstance();
 
     $query = "SELECT count(*) AS total, MIN(:now - dtmlastvisited) AS time "
-        . "FROM {chatoperator}";
+        . "FROM {operator}";
     $values = array(':now' => time());
     if ($group_id) {
-        $query .= ", {chatgroupoperator}, {chatgroup} "
-            . "WHERE {chatgroup}.groupid = {chatgroupoperator}.groupid "
-                . "AND ({chatgroup}.groupid = :groupid OR {chatgroup}.parent = :groupid) "
-                . "AND {chatoperator}.operatorid = {chatgroupoperator}.operatorid "
+        $query .= ", {operatortoopgroup}, {opgroup} "
+            . "WHERE {opgroup}.groupid = {operatortoopgroup}.groupid "
+                . "AND ({opgroup}.groupid = :groupid OR {opgroup}.parent = :groupid) "
+                . "AND {operator}.operatorid = {operatortoopgroup}.operatorid "
                 . "AND istatus = 0";
         $values[':groupid'] = $group_id;
     } else {
         if (Settings::get('enablegroups') == 1) {
-            $query .= ", {chatgroupoperator} "
-                . "WHERE {chatoperator}.operatorid = {chatgroupoperator}.operatorid "
+            $query .= ", {operatortoopgroup} "
+                . "WHERE {operator}.operatorid = {operatortoopgroup}.operatorid "
                 . "AND istatus = 0";
         } else {
             $query .= " WHERE istatus = 0";
@@ -490,7 +490,7 @@ function is_operator_online($operator_id)
     $row = $db->query(
         ("SELECT count(*) AS total, "
             . "MIN(:now - dtmlastvisited) AS time "
-            . "FROM {chatoperator} WHERE operatorid = :operatorid"),
+            . "FROM {operator} WHERE operatorid = :operatorid"),
         array(
             ':now' => time(),
             ':operatorid' => $operator_id,
@@ -665,9 +665,9 @@ function get_all_groups()
 {
     $db = Database::getInstance();
     $groups = $db->query(
-        ("SELECT {chatgroup}.groupid AS groupid, parent, "
+        ("SELECT {opgroup}.groupid AS groupid, parent, "
             . "vclocalname, vclocaldescription "
-            . "FROM {chatgroup} ORDER BY vclocalname"),
+            . "FROM {opgroup} ORDER BY vclocalname"),
         null,
         array('return_rows' => Database::RETURN_ALL_ROWS)
     );
@@ -679,10 +679,10 @@ function get_all_groups_for_operator($operator)
 {
     $db = Database::getInstance();
     $query = "SELECT g.groupid AS groupid, g.parent, g.vclocalname, g.vclocaldescription "
-        . "FROM {chatgroup} g, "
-        . "(SELECT DISTINCT parent FROM {chatgroup}, {chatgroupoperator} "
-            . "WHERE {chatgroup}.groupid = {chatgroupoperator}.groupid "
-                . "AND {chatgroupoperator}.operatorid = ?) i "
+        . "FROM {opgroup} g, "
+        . "(SELECT DISTINCT parent FROM {opgroup}, {operatortoopgroup} "
+            . "WHERE {opgroup}.groupid = {operatortoopgroup}.groupid "
+                . "AND {operatortoopgroup}.operatorid = ?) i "
         . "WHERE g.groupid = i.parent OR g.parent = i.parent "
         . "ORDER BY vclocalname";
 
@@ -737,10 +737,10 @@ function get_groups_($check_away, $operator, $order = null)
                 $orderby = "ilastseen";
                 break;
             default:
-                $orderby = "{chatgroup}.vclocalname";
+                $orderby = "{opgroup}.vclocalname";
         }
         $orderby = sprintf(
-            " IF(ISNULL({chatgroup}.parent),CONCAT('_',%s),'') %s, {chatgroup}.iweight ",
+            " IF(ISNULL({opgroup}.parent),CONCAT('_',%s),'') %s, {opgroup}.iweight ",
             $orderby,
             ($order['desc'] ? 'DESC' : 'ASC')
         );
@@ -751,35 +751,35 @@ function get_groups_($check_away, $operator, $order = null)
     $values = array(
         ':now' => time(),
     );
-    $query = "SELECT {chatgroup}.groupid AS groupid, "
-        . "{chatgroup}.parent AS parent, "
+    $query = "SELECT {opgroup}.groupid AS groupid, "
+        . "{opgroup}.parent AS parent, "
         . "vclocalname, vclocaldescription, iweight, "
         . "(SELECT count(*) "
-            . "FROM {chatgroupoperator} "
-            . "WHERE {chatgroup}.groupid = {chatgroupoperator}.groupid"
+            . "FROM {operatortoopgroup} "
+            . "WHERE {opgroup}.groupid = {operatortoopgroup}.groupid"
         . ") AS inumofagents, "
         . "(SELECT MIN(:now - dtmlastvisited) AS time "
-            . "FROM {chatgroupoperator}, {chatoperator} "
+            . "FROM {operatortoopgroup}, {operator} "
             . "WHERE istatus = 0 "
-                . "AND {chatgroup}.groupid = {chatgroupoperator}.groupid "
-                . "AND {chatgroupoperator}.operatorid = {chatoperator}.operatorid" .
+                . "AND {opgroup}.groupid = {operatortoopgroup}.groupid "
+                . "AND {operatortoopgroup}.operatorid = {operator}.operatorid" .
         ") AS ilastseen"
         . ($check_away
             ? ", (SELECT MIN(:now - dtmlastvisited) AS time "
-                    . "FROM {chatgroupoperator}, {chatoperator} "
+                    . "FROM {operatortoopgroup}, {operator} "
                     . "WHERE istatus <> 0 "
-                    . "AND {chatgroup}.groupid = {chatgroupoperator}.groupid "
-                    . "AND {chatgroupoperator}.operatorid = {chatoperator}.operatorid"
+                    . "AND {opgroup}.groupid = {operatortoopgroup}.groupid "
+                    . "AND {operatortoopgroup}.operatorid = {operator}.operatorid"
                 . ") AS ilastseenaway"
             : "")
-        . " FROM {chatgroup} ";
+        . " FROM {opgroup} ";
 
     if ($operator) {
         $query .= ", (SELECT DISTINCT parent "
-            . "FROM {chatgroup}, {chatgroupoperator} "
-            . "WHERE {chatgroup}.groupid = {chatgroupoperator}.groupid "
-                . "AND {chatgroupoperator}.operatorid = :operatorid) i "
-            . "WHERE {chatgroup}.groupid = i.parent OR {chatgroup}.parent = i.parent ";
+            . "FROM {opgroup}, {operatortoopgroup} "
+            . "WHERE {opgroup}.groupid = {operatortoopgroup}.groupid "
+                . "AND {operatortoopgroup}.operatorid = :operatorid) i "
+            . "WHERE {opgroup}.groupid = i.parent OR {opgroup}.parent = i.parent ";
 
         $values[':operatorid'] = $operator['operatorid'];
     }
@@ -814,7 +814,7 @@ function get_operator_group_ids($operator_id)
     $db = Database::getInstance();
 
     return $db->query(
-        "SELECT groupid FROM {chatgroupoperator} WHERE operatorid = ?",
+        "SELECT groupid FROM {operatortoopgroup} WHERE operatorid = ?",
         array($operator_id),
         array('return_rows' => Database::RETURN_ALL_ROWS)
     );
@@ -928,13 +928,13 @@ function update_operator_groups($operator_id, $new_value)
 {
     $db = Database::getInstance();
     $db->query(
-        "DELETE FROM {chatgroupoperator} WHERE operatorid = ?",
+        "DELETE FROM {operatortoopgroup} WHERE operatorid = ?",
         array($operator_id)
     );
 
     foreach ($new_value as $group_id) {
         $db->query(
-            "INSERT INTO {chatgroupoperator} (groupid, operatorid) VALUES (?,?)",
+            "INSERT INTO {operatortoopgroup} (groupid, operatorid) VALUES (?,?)",
             array($group_id, $operator_id)
         );
     }

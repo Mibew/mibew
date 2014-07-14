@@ -50,8 +50,8 @@ class HistoryController extends AbstractController
         if ($query !== false) {
             $db = Database::getInstance();
             $groups = $db->query(
-                ("SELECT {chatgroup}.groupid AS groupid, vclocalname " .
-                    "FROM {chatgroup} " .
+                ("SELECT {opgroup}.groupid AS groupid, vclocalname " .
+                    "FROM {opgroup} " .
                     "ORDER BY vclocalname"),
                 null,
                 array('return_rows' => Database::RETURN_ALL_ROWS)
@@ -70,10 +70,10 @@ class HistoryController extends AbstractController
 
             $search_conditions = array();
             if ($search_type == 'message' || $search_type == 'all') {
-                $search_conditions[] = "({chatmessage}.tmessage LIKE :query"
+                $search_conditions[] = "({message}.tmessage LIKE :query"
                     . ($search_in_system_messages
                         ? ''
-                        : " AND ({chatmessage}.ikind = :kind_user OR {chatmessage}.ikind = :kind_agent)")
+                        : " AND ({message}.ikind = :kind_user OR {message}.ikind = :kind_agent)")
                     . ")";
                 if (!$search_in_system_messages) {
                     $values[':kind_user'] = Thread::KIND_USER;
@@ -81,20 +81,20 @@ class HistoryController extends AbstractController
                 }
             }
             if ($search_type == 'operator' || $search_type == 'all') {
-                $search_conditions[] = "({chatthread}.agentname LIKE :query)";
+                $search_conditions[] = "({thread}.agentname LIKE :query)";
             }
             if ($search_type == 'visitor' || $search_type == 'all') {
-                $search_conditions[] = "({chatthread}.username LIKE :query)";
-                $search_conditions[] = "({chatthread}.remote LIKE :query)";
+                $search_conditions[] = "({thread}.username LIKE :query)";
+                $search_conditions[] = "({thread}.remote LIKE :query)";
             }
 
             // Load threads
             list($threads_count) = $db->query(
-                ("SELECT COUNT(DISTINCT {chatthread}.dtmcreated) "
-                . "FROM {chatthread}, {chatmessage} "
-                . "WHERE {chatmessage}.threadid = {chatthread}.threadid "
-                    . "AND ({chatthread}.invitationstate = :invitation_accepted "
-                        . "OR {chatthread}.invitationstate = :invitation_not_invited) "
+                ("SELECT COUNT(DISTINCT {thread}.dtmcreated) "
+                . "FROM {thread}, {message} "
+                . "WHERE {message}.threadid = {thread}.threadid "
+                    . "AND ({thread}.invitationstate = :invitation_accepted "
+                        . "OR {thread}.invitationstate = :invitation_not_invited) "
                     . "AND (" . implode(' OR ', $search_conditions) . ")"),
                 $values,
                 array(
@@ -112,13 +112,13 @@ class HistoryController extends AbstractController
                 $limit_end = intval($pagination_info['end'] - $pagination_info['start']);
 
                 $threads_list = $db->query(
-                    ("SELECT DISTINCT {chatthread}.* "
-                    . "FROM {chatthread}, {chatmessage} "
-                    . "WHERE {chatmessage}.threadid = {chatthread}.threadid "
-                        . "AND ({chatthread}.invitationstate = :invitation_accepted "
-                            . "OR {chatthread}.invitationstate = :invitation_not_invited) "
+                    ("SELECT DISTINCT {thread}.* "
+                    . "FROM {thread}, {message} "
+                    . "WHERE {message}.threadid = {thread}.threadid "
+                        . "AND ({thread}.invitationstate = :invitation_accepted "
+                            . "OR {thread}.invitationstate = :invitation_not_invited) "
                         . "AND (" . implode(' OR ', $search_conditions) . ") "
-                    . "ORDER BY {chatthread}.dtmcreated DESC "
+                    . "ORDER BY {thread}.dtmcreated DESC "
                     . "LIMIT " . $limit_start . ", " . $limit_end),
                     $values,
                     array('return_rows' => Database::RETURN_ALL_ROWS)
@@ -219,8 +219,8 @@ class HistoryController extends AbstractController
         if (!empty($user_id)) {
             $db = Database::getInstance();
 
-            $query = "SELECT {chatthread}.* "
-                . "FROM {chatthread} "
+            $query = "SELECT {thread}.* "
+                . "FROM {thread} "
                 . "WHERE userid=:user_id "
                     . "AND (invitationstate = :invitation_accepted "
                         . "OR invitationstate = :invitation_not_invited) "

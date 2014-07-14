@@ -179,7 +179,7 @@ class UsersProcessor extends ClientSideProcessor
         $query = "SELECT t.*, "
                 . " g.vclocalname AS group_localname, "
                 . " g.vccommonname AS group_commonname "
-            . " FROM {chatthread} t LEFT OUTER JOIN {chatgroup} g ON "
+            . " FROM {thread} t LEFT OUTER JOIN {opgroup} g ON "
                 . " t.groupid = g.groupid "
             . " WHERE t.lrevision > :since "
                 . " AND t.istate <> " . Thread::STATE_INVITED
@@ -196,7 +196,7 @@ class UsersProcessor extends ClientSideProcessor
                 // If groups are enabled select only threads with empty groupid
                 // or groups related to current operator
                 ? " AND (g.groupid is NULL" . ($group_ids ? " OR g.groupid IN ($group_ids) OR g.groupid IN "
-                    . "(SELECT parent FROM {chatgroup} "
+                    . "(SELECT parent FROM {opgroup} "
                     . "WHERE groupid IN ($group_ids)) " : "")
                     . ") "
                 : ""
@@ -279,7 +279,7 @@ class UsersProcessor extends ClientSideProcessor
             $first_message = null;
             if ($thread->shownMessageId != 0) {
                 $line = $db->query(
-                    "SELECT tmessage FROM {chatmessage} WHERE messageid = ? LIMIT 1",
+                    "SELECT tmessage FROM {message} WHERE messageid = ? LIMIT 1",
                     array($thread->shownMessageId),
                     array('return_rows' => Database::RETURN_ONE_ROW)
                 );
@@ -398,8 +398,8 @@ class UsersProcessor extends ClientSideProcessor
                     . "t.agentId AS invitedby, "
                     . "v.invitations, "
                     . "v.chats "
-                . "FROM {chatsitevisitor} v "
-                    . "LEFT OUTER JOIN {chatthread} t "
+                . "FROM {sitevisitor} v "
+                    . "LEFT OUTER JOIN {thread} t "
                         . "ON t.threadid = v.threadid "
                 . "WHERE v.threadid IS NULL "
                     . "OR (t.istate = :state_invited "

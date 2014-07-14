@@ -46,7 +46,7 @@ class BanController extends AbstractController
         // Prepare list of all banned visitors
         $db = Database::getInstance();
         $blocked_list = $db->query(
-            "SELECT banid, dtmtill AS till, address, comment FROM {chatban}",
+            "SELECT banid, dtmtill AS till, address, comment FROM {ban}",
             null,
             array('return_rows' => Database::RETURN_ALL_ROWS)
         );
@@ -80,7 +80,7 @@ class BanController extends AbstractController
 
         // Remove ban from database
         $db = Database::getInstance();
-        $db->query("DELETE FROM {chatban} WHERE banid = ?", array($ban_id));
+        $db->query("DELETE FROM {ban} WHERE banid = ?", array($ban_id));
 
         // Redirect the current operator to page with bans list
         return $this->redirect($this->generateUrl('bans'));
@@ -119,7 +119,7 @@ class BanController extends AbstractController
             $db = Database::getInstance();
             $ban = $db->query(
                 ("SELECT banid, (dtmtill - :now) AS days, address, comment "
-                    . "FROM {chatban} WHERE banid = :banid"),
+                    . "FROM {ban} WHERE banid = :banid"),
                 array(
                     ':banid' => $ban_id,
                     ':now' => time(),
@@ -229,7 +229,7 @@ class BanController extends AbstractController
         $till_time = $now + $days * 24 * 60 * 60;
         if (!$ban_id) {
             $db->query(
-                ("INSERT INTO {chatban} (dtmcreated, dtmtill, address, comment) "
+                ("INSERT INTO {ban} (dtmcreated, dtmtill, address, comment) "
                     . "VALUES (:now,:till,:address,:comment)"),
                 array(
                     ':now' => $now,
@@ -240,7 +240,7 @@ class BanController extends AbstractController
             );
         } else {
             $db->query(
-                ("UPDATE {chatban} SET dtmtill = :till, address = :address, "
+                ("UPDATE {ban} SET dtmtill = :till, address = :address, "
                     . "comment = :comment WHERE banid = :banid"),
                 array(
                     ':till' => $till_time,

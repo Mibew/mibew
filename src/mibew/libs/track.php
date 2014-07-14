@@ -31,7 +31,7 @@ function track_visitor($visitor_id, $entry, $referer)
     } else {
         $db = Database::getInstance();
         $db->query(
-            "UPDATE {chatsitevisitor} SET lasttime = :now WHERE visitorid = :visitorid",
+            "UPDATE {sitevisitor} SET lasttime = :now WHERE visitorid = :visitorid",
             array(
                 ':visitorid' => $visitor['visitorid'],
                 ':now' => time(),
@@ -49,7 +49,7 @@ function track_visitor_start($entry, $referer)
 
     $db = Database::getInstance();
     $db->query(
-        ("INSERT INTO {chatsitevisitor} ( "
+        ("INSERT INTO {sitevisitor} ( "
             . "userid, username, firsttime, lasttime, entry,details "
         . ") VALUES ( "
             . ":userid, :username, :now, :now, :entry, :details "
@@ -77,7 +77,7 @@ function track_get_visitor_by_id($visitor_id)
     $db = Database::getInstance();
 
     return $db->query(
-        "SELECT * FROM {chatsitevisitor} WHERE visitorid = ?",
+        "SELECT * FROM {sitevisitor} WHERE visitorid = ?",
         array($visitor_id),
         array('return_rows' => Database::RETURN_ONE_ROW)
     );
@@ -88,7 +88,7 @@ function track_get_visitor_by_thread_id($thread_id)
     $db = Database::getInstance();
 
     return $db->query(
-        "SELECT * FROM {chatsitevisitor} WHERE threadid = ?",
+        "SELECT * FROM {sitevisitor} WHERE threadid = ?",
         array($thread_id),
         array('return_rows' => Database::RETURN_ONE_ROW)
     );
@@ -105,7 +105,7 @@ function track_get_visitor_by_user_id($user_id)
     $db = Database::getInstance();
 
     return $db->query(
-        "SELECT * FROM {chatsitevisitor} WHERE userid = ?",
+        "SELECT * FROM {sitevisitor} WHERE userid = ?",
         array($user_id),
         array('return_rows' => Database::RETURN_ONE_ROW)
     );
@@ -183,17 +183,17 @@ function track_remove_old_visitors()
 
     // Remove associations of visitors with closed threads
     $db->query(
-        "UPDATE {chatsitevisitor} SET threadid = NULL "
+        "UPDATE {sitevisitor} SET threadid = NULL "
         . "WHERE threadid IS NOT NULL AND "
-        . "(SELECT count(*) FROM {chatthread} "
-        . "WHERE threadid = {chatsitevisitor}.threadid "
+        . "(SELECT count(*) FROM {thread} "
+        . "WHERE threadid = {sitevisitor}.threadid "
         . "AND istate <> " . Thread::STATE_CLOSED . " "
         . "AND istate <> " . Thread::STATE_LEFT . ") = 0 "
     );
 
     // Remove old visitors
     $db->query(
-        ("DELETE FROM {chatsitevisitor} "
+        ("DELETE FROM {sitevisitor} "
             . "WHERE (:now - lasttime) > :lifetime "
             . "AND threadid IS NULL"),
         array(
@@ -216,7 +216,7 @@ function track_remove_old_tracks()
             . "WHERE (:now - visittime) > :lifetime "
             // Remove only tracks that are included in statistics
             . "AND calculated = 1 "
-            . "AND visitorid NOT IN (SELECT visitorid FROM {chatsitevisitor}) "),
+            . "AND visitorid NOT IN (SELECT visitorid FROM {sitevisitor}) "),
         array(
             ':lifetime' => Settings::get('tracking_lifetime'),
             ':now' => time(),
@@ -244,7 +244,7 @@ function track_get_user_id($visitor_id)
 /**
  * Bind chat thread with visitor
  *
- * @param string $user_id User ID ({chatsitevisitor}.userid field) of the
+ * @param string $user_id User ID ({sitevisitor}.userid field) of the
  * visitor.
  * @param Thread $thread Chat thread object
  */
@@ -252,7 +252,7 @@ function track_visitor_bind_thread($user_id, $thread)
 {
     $db = Database::getInstance();
     $db->query(
-        ('UPDATE {chatsitevisitor} '
+        ('UPDATE {sitevisitor} '
             . 'SET threadid = :thread_id '
             . 'WHERE userid = :user_id'),
         array(

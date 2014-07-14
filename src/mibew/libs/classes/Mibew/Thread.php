@@ -129,7 +129,7 @@ class Thread
     /**
      * Contain mapping of thread object properties to fields in database.
      *
-     * Keys are object properties and vlues are {chatthread} table fields.
+     * Keys are object properties and vlues are {thread} table fields.
      * Properties are available via magic __get and __set methods. Real values
      * are stored in the Thread::$threadInfo array.
      *
@@ -230,7 +230,7 @@ class Thread
         $thread = new self();
 
         // Create thread
-        $db->query("insert into {chatthread} (threadid) values (NULL)");
+        $db->query("insert into {thread} (threadid) values (NULL)");
 
         // Set thread Id
         // In this case Thread::$threadInfo array use because id of a thread
@@ -300,7 +300,7 @@ class Thread
 
         // Load thread
         $thread_info = $db->query(
-            "SELECT * FROM {chatthread} WHERE threadid = :threadid",
+            "SELECT * FROM {thread} WHERE threadid = :threadid",
             array(':threadid' => $id),
             array('return_rows' => Database::RETURN_ONE_ROW)
         );
@@ -381,7 +381,7 @@ class Thread
 
         $db = Database::getInstance();
 
-        $query = "UPDATE {chatthread} SET "
+        $query = "UPDATE {thread} SET "
                 . "lrevision = :next_revision, "
                 . "dtmmodified = :now, "
                 . "dtmclosed = :now, "
@@ -445,7 +445,7 @@ class Thread
 
         $db = Database::getInstance();
         $result = $db->query(
-            "SELECT COUNT(*) AS opened FROM {chatthread} WHERE remote = ? AND istate <> ? AND istate <> ?",
+            "SELECT COUNT(*) AS opened FROM {thread} WHERE remote = ? AND istate <> ? AND istate <> ?",
             array(
                 $remote,
                 Thread::STATE_CLOSED,
@@ -547,7 +547,7 @@ class Thread
     {
         $db = Database::getInstance();
         $db->query(
-            "DELETE FROM {chatthread} WHERE threadid = :id LIMIT 1",
+            "DELETE FROM {thread} WHERE threadid = :id LIMIT 1",
             array(':id' => $this->id)
         );
     }
@@ -672,7 +672,7 @@ class Thread
             $values[] = $this->threadInfo[$field_db_name];
         }
 
-        $query = "UPDATE {chatthread} t SET " . implode(', ', $set_clause)
+        $query = "UPDATE {thread} t SET " . implode(', ', $set_clause)
             . " WHERE threadid = ?";
         $values[] = $this->id;
         $db->query($query, $values);
@@ -765,7 +765,7 @@ class Thread
         // Load messages
         $query = "SELECT messageid AS id, ikind AS kind, dtmcreated AS created, "
                 . " tname AS name, tmessage AS message, plugin, data "
-            . "FROM {chatmessage} "
+            . "FROM {message} "
             . "WHERE threadid = :threadid AND messageid > :lastid "
                 . ($is_user ? "AND ikind <> " . self::KIND_FOR_AGENT : "")
             . " ORDER BY messageid";
@@ -891,8 +891,8 @@ class Thread
         $db = Database::getInstance();
 
         list($message_count) = $db->query(
-            ("SELECT COUNT(*) FROM {chatmessage} "
-                . "WHERE {chatmessage}.threadid = :threadid AND ikind = :kind_user"),
+            ("SELECT COUNT(*) FROM {message} "
+                . "WHERE {message}.threadid = :threadid AND ikind = :kind_user"),
             array(
                 ':threadid' => $this->id,
                 ':kind_user' => Thread::KIND_USER,
@@ -1076,7 +1076,7 @@ class Thread
         $options['data'] = serialize((array) $options['data']);
 
         // Prepare query
-        $query = "INSERT INTO {chatmessage} ("
+        $query = "INSERT INTO {message} ("
                 . "threadid, ikind, tmessage, tname, agentid, "
                 . "dtmcreated, plugin, data"
             . ") VALUES ("
@@ -1109,7 +1109,7 @@ class Thread
     protected static function nextRevision()
     {
         $db = Database::getInstance();
-        $db->query("UPDATE {chatrevision} SET id=LAST_INSERT_ID(id+1)");
+        $db->query("UPDATE {revision} SET id=LAST_INSERT_ID(id+1)");
         $val = $db->insertedId();
 
         return $val;

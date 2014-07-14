@@ -97,9 +97,9 @@ class ManagementController extends AbstractController
 
         // Remove the group and all its relations.
         $group_id = $request->attributes->getInt('group_id');
-        $db->query("DELETE FROM {chatgroup} WHERE groupid = ?", array($group_id));
-        $db->query("DELETE FROM {chatgroupoperator} WHERE groupid = ?", array($group_id));
-        $db->query("UPDATE {chatthread} SET groupid = 0 WHERE groupid = ?", array($group_id));
+        $db->query("DELETE FROM {opgroup} WHERE groupid = ?", array($group_id));
+        $db->query("DELETE FROM {operatortoopgroup} WHERE groupid = ?", array($group_id));
+        $db->query("UPDATE {thread} SET groupid = 0 WHERE groupid = ?", array($group_id));
 
         // Redirect user to canned messages list. Use only "sortby" and
         // "sortdirection" get params for the target URL.

@@ -643,7 +643,7 @@ function ban_for_addr($addr)
 {
     $db = Database::getInstance();
     return $db->query(
-        "SELECT banid,comment FROM {chatban} WHERE dtmtill > :now AND address = :addr",
+        "SELECT banid,comment FROM {ban} WHERE dtmtill > :now AND address = :addr",
         array(
             ':addr' => $addr,
             ':now' => time(),

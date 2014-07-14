@@ -36,7 +36,7 @@ function load_canned_messages($locale, $group_id)
     }
 
     return $db->query(
-        ("SELECT id, vctitle, vcvalue FROM {chatresponses} "
+        ("SELECT id, vctitle, vcvalue FROM {cannedmessage} "
             . "WHERE locale = :locale AND ("
                 . ($group_id ? "groupid = :groupid" : "groupid is NULL OR groupid = 0")
             . ") ORDER BY vcvalue"),
@@ -57,7 +57,7 @@ function load_canned_message($key)
 {
     $db = Database::getInstance();
     $result = $db->query(
-        "SELECT vctitle, vcvalue FROM {chatresponses} WHERE id = ?",
+        "SELECT vctitle, vcvalue FROM {cannedmessage} WHERE id = ?",
         array($key),
         array('return_rows' => Database::RETURN_ONE_ROW)
     );
@@ -76,7 +76,7 @@ function save_canned_message($key, $title, $message)
 {
     $db = Database::getInstance();
     $db->query(
-        "UPDATE {chatresponses} SET vcvalue = ?, vctitle = ? WHERE id = ?",
+        "UPDATE {cannedmessage} SET vcvalue = ?, vctitle = ? WHERE id = ?",
         array($message, $title, $key)
     );
 }
@@ -93,7 +93,7 @@ function add_canned_message($locale, $group_id, $title, $message)
 {
     $db = Database::getInstance();
     $db->query(
-        ("INSERT INTO {chatresponses} (locale,groupid,vctitle,vcvalue) "
+        ("INSERT INTO {cannedmessage} (locale,groupid,vctitle,vcvalue) "
             . "VALUES (?, ?, ?, ?)"),
         array(
             $locale,
