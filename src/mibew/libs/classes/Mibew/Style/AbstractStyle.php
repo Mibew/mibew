@@ -17,6 +17,8 @@
 
 namespace Mibew\Style;
 
+use Symfony\Component\Yaml\Parser as YamlParser;
+
 /**
  * Base class for styles
  */
@@ -35,6 +37,13 @@ abstract class AbstractStyle
      * @var string
      */
     protected $styleName;
+
+    /**
+     * An instance of a parser for config files.
+     *
+     * @var YamlParser|null
+     */
+    protected $configParser = null;
 
     /**
      * Contains cached results of the \Mibew\Style\StyleInterface::getStyleList
@@ -74,7 +83,7 @@ abstract class AbstractStyle
      */
     public function getConfigurations()
     {
-        $config_file = MIBEW_FS_ROOT . '/' . $this->getFilesPath() . '/config.ini';
+        $config_file = MIBEW_FS_ROOT . '/' . $this->getFilesPath() . '/config.yml';
 
         // Check if configurations already loaded. Do not do the job twice.
         if (is_null($this->cachedConfigurations)) {
@@ -88,12 +97,26 @@ abstract class AbstractStyle
 
             // Load configurations from file, merge it with default configs and
             // cache the result.
-            $loaded_config = parse_ini_file($config_file, true);
+            $loaded_config = $this->getConfigParser()->parse(file_get_contents($config_file));
             $default_config = $this->getDefaultConfigurations();
             $this->cachedConfigurations = $loaded_config + $default_config;
         }
 
         return $this->cachedConfigurations;
+    }
+
+    /**
+     * Returns a parser which is sutable for parse config files of the style.
+     *
+     * @return YamlParser
+     */
+    protected function getConfigParser()
+    {
+        if (is_null($this->configParser)) {
+            $this->configParser = new YamlParser();
+        }
+
+        return $this->configParser;
     }
 
     /**
