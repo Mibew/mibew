@@ -711,7 +711,10 @@ function get_locale_info($locale)
 }
 
 /**
- * Load localized messages id some service locale info.
+ * Loads localized messages for the specified locale.
+ *
+ * In common case messages will be loaded from the database but if the
+ * installation is runnig they will be loaded from files.
  *
  * Messages are statically cached.
  *
@@ -734,22 +737,37 @@ function load_messages($locale)
             $messages[$locale] = $locale_data['messages'];
         } else {
             // Load localizations from the database
-            $db = Database::getInstance();
-            $db_messages = $db->query(
-                'SELECT * FROM {translation} WHERE locale = ?',
-                array($locale),
-                array(
-                    'return_rows' => Database::RETURN_ALL_ROWS
-                )
-            );
-
-            foreach ($db_messages as $message) {
-                $messages[$locale][$message['source']] = $message['translation'];
-            }
+            $messages[$locale] = load_db_messages($locale);
         }
     }
 
     return $messages[$locale];
+}
+
+/**
+ * Loads localized messages from the database for the specified locale.
+ *
+ * @param string $locale Name of a locale whose messages should be loaded.
+ * @return array Localized messages array
+ */
+function load_db_messages($locale)
+{
+    // Load localizations from the database
+    $db = Database::getInstance();
+    $db_messages = $db->query(
+        'SELECT * FROM {translation} WHERE locale = ?',
+        array($locale),
+        array(
+            'return_rows' => Database::RETURN_ALL_ROWS
+        )
+    );
+
+    $messages = array();
+    foreach ($db_messages as $message) {
+        $messages[$message['source']] = $message['translation'];
+    }
+
+    return $messages;
 }
 
 /**
@@ -761,7 +779,7 @@ function load_messages($locale)
  */
 function import_messages($locale, $file, $override = false)
 {
-    $available_messages = load_messages($locale);
+    $available_messages = load_db_messages($locale);
     $locale_data = read_locale_file($file);
 
     foreach ($locale_data['messages'] as $source => $translation) {
@@ -865,27 +883,18 @@ function get_localized_string($string, $locale)
  */
 function save_message($locale, $key, $value)
 {
-    $db = Database::getInstance();
+    static $available_messages = null;
 
-    // Check if the string is already in the database.
-    list($count) = $db->query(
-        'SELECT COUNT(*) FROM {translation} WHERE locale = :locale AND source = :key',
-        array(
-            ':locale' => $locale,
-            ':key' => $key,
-        ),
-        array(
-            'return_rows' => Database::RETURN_ONE_ROW,
-            'fetch_type' => Database::FETCH_NUM,
-        )
-    );
-    $exists = ($count != 0);
+    if (is_null($available_messages)) {
+        $available_messages = load_db_messages($locale);
+    }
 
     // Prepare the value to save in the database.
     $translation = str_replace("\r", "", trim($value));
 
-    if ($exists) {
-        // There is no such string in the database. Create it.
+    $db = Database::getInstance();
+    if (array_key_exists($key, $available_messages)) {
+        // The string is already in the database. Update it.
         $db->query(
             ('UPDATE {translation} SET translation = :translation '
                 . 'WHERE locale = :locale AND source = :key'),
@@ -896,16 +905,19 @@ function save_message($locale, $key, $value)
             )
         );
     } else {
-        // The string is already in the database. Update it.
+        // There is no such string in the database. Create it.
         $db->query(
-            ('INSERT INTO {translation} (locale, source, translation) '
-                . 'VALUES (:locale, :key, :translation)'),
+            ('INSERT INTO {translation} (locale, source, translation, hash) '
+                . 'VALUES (:locale, :key, :translation, :hash)'),
             array(
                 ':locale' => $locale,
                 ':key' => $key,
                 ':translation' => $translation,
+                ':hash' => sha1($locale . '##'. $key),
             )
         );
+        // The message is now in the database. Next time it should be updated.
+        $available_messages[$key] = $value;
     }
 }
 

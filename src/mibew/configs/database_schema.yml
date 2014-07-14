@@ -117,6 +117,14 @@ translation:
         context: "varchar(256) NOT NULL DEFAULT ''"
         source: "text COLLATE utf8_bin"
         translation: "text"
+        # An artificial unique key for the record. It is needed to avoid
+        # duplication of translation strings. The field contains SHA-1 hash of
+        # combination of locale, context and source fields. Native MySQL unique
+        # keys cannot be applied to them because "source" field has text data
+        # type.
+        hash: "char(40) NOT NULL"
+    unique_keys:
+        hash: [hash]
 
 # Contains locales info
 locale:
