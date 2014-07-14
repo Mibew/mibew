@@ -95,7 +95,7 @@ class ProfileController extends AbstractController
         $page['canchangelogin'] = is_capable(CAN_ADMINISTRATE, $operator);
         $page['title'] = getlocal('Operator details');
         $page['menuid'] = ($op_id == $operator['operatorid']) ? 'profile' : 'operators';
-        $page['requirePassword'] = (!$op_id || $page['needChangePassword']);
+        $page['requirePassword'] = (!$op_id);
         $page['formaction'] = $request->getBaseUrl() . $request->getPathInfo();
         $page = array_merge($page, prepare_menu($operator));
         $page['tabs'] = $this->buildTabs($request);
