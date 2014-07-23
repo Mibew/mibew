@@ -92,7 +92,7 @@ class InstallController extends AbstractController
         if (!$installer->checkRequirements()) {
             return $this->renderError(
                 'install_err',
-                array('error' => $installer->getErrors())
+                array('errors' => $installer->getErrors())
             );
         }
 
@@ -125,7 +125,7 @@ class InstallController extends AbstractController
         if (!$installer->checkConnection()) {
             return $this->renderError(
                 'install_err',
-                array('error' => $installer->getErrors())
+                array('errors' => $installer->getErrors())
             );
         }
 
@@ -158,7 +158,7 @@ class InstallController extends AbstractController
         if (!$installer->createTables()) {
             return $this->renderError(
                 'install_err',
-                array('error' => $installer->getErrors())
+                array('errors' => $installer->getErrors())
             );
         }
 
