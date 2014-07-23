@@ -306,9 +306,17 @@ class InstallController extends AbstractController
         // The installation is done.
         unset($_SESSION[SESSION_PREFIX . 'installation_in_progress']);
 
+        // We need to manually change front controller and use normal
+        // application's entry point.
+        $login_url = str_replace(
+            'install.php',
+            'index.php',
+            $this->generateUrl('login', array('login' => 'admin'))
+        );
+
         $login_link = getlocal(
             'You can login to usgin <a href="{0}">this</a> link.',
-            array($this->generateUrl('login', array('user' => 'admin')))
+            array($login_url)
         );
 
         return $this->renderStep(
