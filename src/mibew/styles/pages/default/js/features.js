@@ -31,6 +31,14 @@
         }
     }
 
+    function updateTracking() {
+        if ($("#enabletracking").is(":checked")) {
+            $(".undertracking").show();
+        } else {
+            $(".undertracking").hide();
+        }
+    }
+
     $(function() {
         $("#enablepresurvey").change(function() {
             updateSurvey();
@@ -41,8 +49,12 @@
         $("#enablegroups").change(function() {
             updateGroups();
         });
+        $("#enabletracking").change(function() {
+            updateTracking();
+        });
         updateSurvey();
         updateSSL();
         updateGroups();
+        updateTracking();
     });
 })(jQuery);

@@ -44,7 +44,10 @@ class WidgetController extends AbstractController
             'data' => array(),
         );
 
-        if (Settings::get('enabletracking') == '1') {
+        $tracking_allowed = (Settings::get('enabletracking') == '1')
+            && (Settings::get('trackoperators') == '1' || !$this->getOperator());
+
+        if ($tracking_allowed) {
 
             $entry = $request->query->get('entry', '');
             $referer = $request->server->get('HTTP_REFERER', '');

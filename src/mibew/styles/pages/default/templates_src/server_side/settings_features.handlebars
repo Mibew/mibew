@@ -94,6 +94,15 @@
                                 </div>
                                 <label for="enabletracking" class="fdescr"> &mdash; {{l10n "Enable tracking of visitors' activity on your site and ability to invite visitors to chat."}}</label>
                                 <br clear="all"/>
+
+                                <div class="subfield undertracking">
+                                    <label for="trackoperators" class="flabel">{{l10n "Track operators"}}</label>
+                                    <div class="fvalue">
+                                        <input id="trackoperators" type="checkbox" name="trackoperators" value="on"{{#if formtrackoperators}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="trackoperators" class="fdescr"> &mdash; {{l10n "Track operators like any other visitors."}}</label>
+                                    <br clear="all"/>
+                                </div>
                             </div>
 
                             <div class="field">

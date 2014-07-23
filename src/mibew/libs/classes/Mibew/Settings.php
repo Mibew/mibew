@@ -106,6 +106,7 @@ class Settings
             'visitors_limit' => 20, /* Number of visitors to look over */
             'invitation_lifetime' => 60, /* Lifetime for invitation to chat */
             'tracking_lifetime' => 600, /* Time to store tracked old visitors' data */
+            'trackoperators' => '0',
             'cron_key' => DEFAULT_CRON_KEY,
             // System values are listed below. They cannot be changed via
             // administrative interface. Start names for these values from
