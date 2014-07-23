@@ -90,8 +90,8 @@ class InstallController extends AbstractController
 
         $installer = $this->getInstaller();
         if (!$installer->checkRequirements()) {
-            return $this->renderError(
-                'install_err',
+            return $this->renderStep(
+                'install_step',
                 array('errors' => $installer->getErrors())
             );
         }
@@ -123,8 +123,8 @@ class InstallController extends AbstractController
 
         $installer = $this->getInstaller();
         if (!$installer->checkConnection()) {
-            return $this->renderError(
-                'install_err',
+            return $this->renderStep(
+                'install_step',
                 array('errors' => $installer->getErrors())
             );
         }
@@ -156,8 +156,8 @@ class InstallController extends AbstractController
 
         $installer = $this->getInstaller();
         if (!$installer->createTables()) {
-            return $this->renderError(
-                'install_err',
+            return $this->renderStep(
+                'install_step',
                 array('errors' => $installer->getErrors())
             );
         }
@@ -230,8 +230,8 @@ class InstallController extends AbstractController
 
         $installer = $this->getInstaller();
         if (!$installer->setPassword($password)) {
-            return $this->renderError(
-                'install_err',
+            return $this->renderStep(
+                'install_step',
                 array('errors' => $installer->getErrors())
             );
         }
@@ -265,8 +265,8 @@ class InstallController extends AbstractController
 
         $installer = $this->getInstaller();
         if (!$installer->importLocales()) {
-            return $this->renderError(
-                'install_err',
+            return $this->renderStep(
+                'install_step',
                 array('errors' => $installer->getErrors())
             );
         }

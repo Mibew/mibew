@@ -27,24 +27,26 @@
                             {{/each}}
                         </ul>
 
-                        {{#block "nextStep"}}
-                            {{#if nextstep}}
-                                <br/>
-                                <br/>
+                        {{#unless errors}}
+                            {{#block "nextStep"}}
+                                {{#if nextstep}}
+                                    <br/>
+                                    <br/>
 
-                                {{l10n "Next step:"}}
+                                    {{l10n "Next step:"}}
 
-                                <ul>
-                                    <li>
-                                        {{#if nextnotice}}
-                                            {{{nextnotice}}}<br/><br/>
-                                        {{/if}}
+                                    <ul>
+                                        <li>
+                                            {{#if nextnotice}}
+                                                {{{nextnotice}}}<br/><br/>
+                                            {{/if}}
 
-                                        <a href="{{nextstepurl}}">{{nextstep}}</a>
-                                    </li>
-                                </ul>
-                            {{/if}}
-                        {{/block}}
+                                            <a href="{{nextstepurl}}">{{nextstep}}</a>
+                                        </li>
+                                    </ul>
+                                {{/if}}
+                            {{/block}}
+                        {{/unless}}
                     </div>
 
                     <div class="formbottom">
