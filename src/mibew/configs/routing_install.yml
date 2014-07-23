@@ -1,3 +1,10 @@
+# Override the home route to allow users use <mibew root>/install.php path to
+# the installer.
+home:
+    path: /
+    defaults:
+        _controller: Mibew\Controller\InstallController::indexAction
+
 install:
     path: /install
     defaults:
