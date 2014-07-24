@@ -18,7 +18,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.chat_message
+            template: Handlebars.templates['chat/message']
         }
     );
 

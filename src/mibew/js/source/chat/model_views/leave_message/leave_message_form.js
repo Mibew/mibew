@@ -21,7 +21,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.leave_message_form,
+            template: Handlebars.templates['leave_message/form'],
 
             /**
              * Map ui events to view methods.

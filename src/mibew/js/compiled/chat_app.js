@@ -172,7 +172,7 @@ arguments:{"return":{messages:"messages",lastId:"lastId"},references:{},threadId
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(a,b,c){a.Views.Status=b.Marionette.ItemView.extend({template:c.templates.chat_status_base,className:"status",modelEvents:{change:"render"},onBeforeRender:function(){this.model.get("visible")?this.$el.show():this.$el.hide()}})})(Mibew,Backbone,Handlebars);
+(function(a,b,c){a.Views.Status=b.Marionette.ItemView.extend({template:c.templates["chat/status/base"],className:"status",modelEvents:{change:"render"},onBeforeRender:function(){this.model.get("visible")?this.$el.show():this.$el.hide()}})})(Mibew,Backbone,Handlebars);
 /*
  Copyright 2005-2014 the original author or authors.
  Licensed under the Apache License, Version 2.0 (the "License").
@@ -187,28 +187,28 @@ changeGroupDescription:function(){var a=this.ui.groupSelect.prop("selectedIndex"
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(a,b,c){a.Views.Avatar=b.Marionette.ItemView.extend({template:c.templates.chat_avatar,className:"avatar",modelEvents:{change:"render"}})})(Mibew,Backbone,Handlebars);
+(function(a,b,c){a.Views.Avatar=b.Marionette.ItemView.extend({template:c.templates["chat/avatar"],className:"avatar",modelEvents:{change:"render"}})})(Mibew,Backbone,Handlebars);
 /*
  Copyright 2005-2014 the original author or authors.
  Licensed under the Apache License, Version 2.0 (the "License").
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(a,c,d){a.Views.CloseControl=a.Views.Control.extend({template:c.templates.chat_controls_close,events:d.extend({},a.Views.Control.prototype.events,{click:"closeThread"}),closeThread:function(){var b=a.Localization.get("Are you sure want to leave chat?");(!1===b||confirm(b))&&this.model.closeThread()}})})(Mibew,Handlebars,_);
+(function(a,c,d){a.Views.CloseControl=a.Views.Control.extend({template:c.templates["chat/controls/close"],events:d.extend({},a.Views.Control.prototype.events,{click:"closeThread"}),closeThread:function(){var b=a.Localization.get("Are you sure want to leave chat?");(!1===b||confirm(b))&&this.model.closeThread()}})})(Mibew,Handlebars,_);
 /*
  Copyright 2005-2014 the original author or authors.
  Licensed under the Apache License, Version 2.0 (the "License").
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(b,d,e){b.Views.HistoryControl=b.Views.Control.extend({template:d.templates.chat_controls_history,events:e.extend({},b.Views.Control.prototype.events,{click:"showHistory"}),showHistory:function(){var c=b.Objects.Models.user,a=this.model.get("link");c.get("isAgent")&&a&&(c=this.model.get("windowParams"),a=a.replace("&amp;","&","g"),a=window.open(a,"UserHistory",c),null!==a&&(a.focus(),a.opener=window))}})})(Mibew,Handlebars,_);
+(function(b,d,e){b.Views.HistoryControl=b.Views.Control.extend({template:d.templates["chat/controls/history"],events:e.extend({},b.Views.Control.prototype.events,{click:"showHistory"}),showHistory:function(){var c=b.Objects.Models.user,a=this.model.get("link");c.get("isAgent")&&a&&(c=this.model.get("windowParams"),a=a.replace("&amp;","&","g"),a=window.open(a,"UserHistory",c),null!==a&&(a.focus(),a.opener=window))}})})(Mibew,Handlebars,_);
 /*
  Copyright 2005-2014 the original author or authors.
  Licensed under the Apache License, Version 2.0 (the "License").
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(b,e,f){b.Views.RedirectControl=b.Views.Control.extend({template:e.templates.chat_controls_redirect,events:f.extend({},b.Views.Control.prototype.events,{click:"redirect"}),initialize:function(){b.Objects.Models.user.on("change",this.render,this)},serializeData:function(){var a=this.model.toJSON();a.user=b.Objects.Models.user.toJSON();return a},redirect:function(){var a=b.Objects.Models.user;if(a.get("isAgent")&&a.get("canPost")&&(a=this.model.get("link"))){var c=b.Objects.Models.page.get("style"),
+(function(b,e,f){b.Views.RedirectControl=b.Views.Control.extend({template:e.templates["chat/controls/redirect"],events:f.extend({},b.Views.Control.prototype.events,{click:"redirect"}),initialize:function(){b.Objects.Models.user.on("change",this.render,this)},serializeData:function(){var a=this.model.toJSON();a.user=b.Objects.Models.user.toJSON();return a},redirect:function(){var a=b.Objects.Models.user;if(a.get("isAgent")&&a.get("canPost")&&(a=this.model.get("link"))){var c=b.Objects.Models.page.get("style"),
 d="";c&&(d=(-1===a.indexOf("?")?"?":"&")+"style="+c);window.location.href=a.replace(/\&amp\;/g,"&")+d}}})})(Mibew,Handlebars,_);
 /*
  Copyright 2005-2014 the original author or authors.
@@ -216,50 +216,50 @@ d="";c&&(d=(-1===a.indexOf("?")?"?":"&")+"style="+c);window.location.href=a.repl
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(a,b,c){a.Views.RefreshControl=a.Views.Control.extend({template:b.templates.chat_controls_refresh,events:c.extend({},a.Views.Control.prototype.events,{click:"refresh"}),refresh:function(){this.model.refresh()}})})(Mibew,Handlebars,_);
+(function(a,b,c){a.Views.RefreshControl=a.Views.Control.extend({template:b.templates["chat/controls/refresh"],events:c.extend({},a.Views.Control.prototype.events,{click:"refresh"}),refresh:function(){this.model.refresh()}})})(Mibew,Handlebars,_);
 /*
  Copyright 2005-2014 the original author or authors.
  Licensed under the Apache License, Version 2.0 (the "License").
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(a,d,e){a.Views.SecureModeControl=a.Views.Control.extend({template:d.templates.chat_controls_secure_mode,events:e.extend({},a.Views.Control.prototype.events,{click:"secure"}),secure:function(){var b=this.model.get("link");if(b){var c=a.Objects.Models.page.get("style");window.location.href=b.replace(/\&amp\;/g,"&")+(c?"&style="+c:"")}}})})(Mibew,Handlebars,_);
+(function(a,d,e){a.Views.SecureModeControl=a.Views.Control.extend({template:d.templates["chat/controls/secure_mode"],events:e.extend({},a.Views.Control.prototype.events,{click:"secure"}),secure:function(){var b=this.model.get("link");if(b){var c=a.Objects.Models.page.get("style");window.location.href=b.replace(/\&amp\;/g,"&")+(c?"&style="+c:"")}}})})(Mibew,Handlebars,_);
 /*
  Copyright 2005-2014 the original author or authors.
  Licensed under the Apache License, Version 2.0 (the "License").
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(b,d,f){b.Views.SendMailControl=b.Views.Control.extend({template:d.templates.chat_controls_send_mail,events:f.extend({},b.Views.Control.prototype.events,{click:"sendMail"}),sendMail:function(){var a=this.model.get("link"),c=b.Objects.Models.page;if(a){var d=this.model.get("windowParams"),c=c.get("style"),e="";c&&(e=(-1===a.indexOf("?")?"?":"&")+"style="+c);a=a.replace(/\&amp\;/g,"&")+e;a=window.open(a,"ForwardMail",d);null!==a&&(a.focus(),a.opener=window)}}})})(Mibew,Handlebars,_);
+(function(b,d,f){b.Views.SendMailControl=b.Views.Control.extend({template:d.templates["chat/controls/send_mail"],events:f.extend({},b.Views.Control.prototype.events,{click:"sendMail"}),sendMail:function(){var a=this.model.get("link"),c=b.Objects.Models.page;if(a){var d=this.model.get("windowParams"),c=c.get("style"),e="";c&&(e=(-1===a.indexOf("?")?"?":"&")+"style="+c);a=a.replace(/\&amp\;/g,"&")+e;a=window.open(a,"ForwardMail",d);null!==a&&(a.focus(),a.opener=window)}}})})(Mibew,Handlebars,_);
 /*
  Copyright 2005-2014 the original author or authors.
  Licensed under the Apache License, Version 2.0 (the "License").
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(a,b,c){a.Views.SoundControl=a.Views.Control.extend({template:b.templates.chat_controls_sound,events:c.extend({},a.Views.Control.prototype.events,{click:"toggle"}),toggle:function(){this.model.toggle()}})})(Mibew,Handlebars,_);
+(function(a,b,c){a.Views.SoundControl=a.Views.Control.extend({template:b.templates["chat/controls/sound"],events:c.extend({},a.Views.Control.prototype.events,{click:"toggle"}),toggle:function(){this.model.toggle()}})})(Mibew,Handlebars,_);
 /*
  Copyright 2005-2014 the original author or authors.
  Licensed under the Apache License, Version 2.0 (the "License").
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(b,c,d){b.Views.UserNameControl=b.Views.Control.extend({template:c.templates.chat_controls_user_name,events:d.extend({},b.Views.Control.prototype.events,{"click .user-name-control-set":"changeName","click .user-name-control-change":"showNameInput","keydown #user-name-control-input":"inputKeyDown"}),ui:{nameInput:"#user-name-control-input"},initialize:function(){b.Objects.Models.user.on("change:name",this.hideNameInput,this);this.nameInput=b.Objects.Models.user.get("defaultName")},serializeData:function(){var a=
-this.model.toJSON();a.user=b.Objects.Models.user.toJSON();a.nameInput=this.nameInput;return a},inputKeyDown:function(a){a=a.which;(13==a||10==a)&&this.changeName()},hideNameInput:function(){this.nameInput=!1;this.render()},showNameInput:function(){this.nameInput=!0;this.render()},changeName:function(){var a=this.ui.nameInput.val();this.model.changeName(a)}})})(Mibew,Handlebars,_);
+(function(b,c,d){b.Views.UserNameControl=b.Views.Control.extend({template:c.templates["chat/controls/user_name"],events:d.extend({},b.Views.Control.prototype.events,{"click .user-name-control-set":"changeName","click .user-name-control-change":"showNameInput","keydown #user-name-control-input":"inputKeyDown"}),ui:{nameInput:"#user-name-control-input"},initialize:function(){b.Objects.Models.user.on("change:name",this.hideNameInput,this);this.nameInput=b.Objects.Models.user.get("defaultName")},serializeData:function(){var a=
+this.model.toJSON();a.user=b.Objects.Models.user.toJSON();a.nameInput=this.nameInput;return a},inputKeyDown:function(a){a=a.which;13!=a&&10!=a||this.changeName()},hideNameInput:function(){this.nameInput=!1;this.render()},showNameInput:function(){this.nameInput=!0;this.render()},changeName:function(){var a=this.ui.nameInput.val();this.model.changeName(a)}})})(Mibew,Handlebars,_);
 /*
  Copyright 2005-2014 the original author or authors.
  Licensed under the Apache License, Version 2.0 (the "License").
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(a,b,c){a.Views.LeaveMessageDescription=b.Marionette.ItemView.extend({template:c.templates.leave_message_description,serializeData:function(){return{page:a.Objects.Models.page.toJSON()}}})})(Mibew,Backbone,Handlebars);
+(function(a,b,c){a.Views.LeaveMessageDescription=b.Marionette.ItemView.extend({template:c.templates["leave_message/description"],serializeData:function(){return{page:a.Objects.Models.page.toJSON()}}})})(Mibew,Backbone,Handlebars);
 /*
  Copyright 2005-2014 the original author or authors.
  Licensed under the Apache License, Version 2.0 (the "License").
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(d,e,b){var c=d.Views.BaseSurveyForm;d.Views.LeaveMessageForm=c.extend({template:e.templates.leave_message_form,events:b.extend({},c.prototype.events,{"click #send-message":"submitForm"}),ui:b.extend({},c.prototype.ui,{captcha:'input[name="captcha"]',captchaImg:"#captcha-img"}),modelEvents:b.extend({},c.prototype.modelEvents,{"submit:error":"hideAjaxLoader showError submitError"}),submitForm:function(){this.showAjaxLoader();var a={};this.model.get("groups")&&(a.groupId=this.ui.groupSelect.val());
+(function(d,e,b){var c=d.Views.BaseSurveyForm;d.Views.LeaveMessageForm=c.extend({template:e.templates["leave_message/form"],events:b.extend({},c.prototype.events,{"click #send-message":"submitForm"}),ui:b.extend({},c.prototype.ui,{captcha:'input[name="captcha"]',captchaImg:"#captcha-img"}),modelEvents:b.extend({},c.prototype.modelEvents,{"submit:error":"hideAjaxLoader showError submitError"}),submitForm:function(){this.showAjaxLoader();var a={};this.model.get("groups")&&(a.groupId=this.ui.groupSelect.val());
 a.name=this.ui.name.val()||"";a.email=this.ui.email.val()||"";a.message=this.ui.message.val()||"";this.model.get("showCaptcha")&&(a.captcha=this.ui.captcha.val()||"");this.model.set(a,{validate:!0});this.model.submit()},submitError:function(a,c){if(c.code==a.ERROR_WRONG_CAPTCHA&&a.get("showCaptcha")){var b=this.ui.captchaImg.attr("src"),b=b.replace(/\?d\=[0-9]+/,"");this.ui.captchaImg.attr("src",b+"?d="+(new Date).getTime())}}})})(Mibew,Handlebars,_);
 /*
  Copyright 2005-2014 the original author or authors.
@@ -267,21 +267,21 @@ a.name=this.ui.name.val()||"";a.email=this.ui.email.val()||"";a.message=this.ui.
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(a,b,c){a.Views.LeaveMessageSentDescription=b.Marionette.ItemView.extend({template:c.templates.leave_message_sent_description,serializeData:function(){return{page:a.Objects.Models.page.toJSON()}}})})(Mibew,Backbone,Handlebars);
+(function(a,b,c){a.Views.LeaveMessageSentDescription=b.Marionette.ItemView.extend({template:c.templates["leave_message/sent_description"],serializeData:function(){return{page:a.Objects.Models.page.toJSON()}}})})(Mibew,Backbone,Handlebars);
 /*
  Copyright 2005-2014 the original author or authors.
  Licensed under the Apache License, Version 2.0 (the "License").
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(a,b){a.Views.Message=a.Views.Message.extend({template:b.templates.chat_message})})(Mibew,Handlebars);
+(function(a,b){a.Views.Message=a.Views.Message.extend({template:b.templates["chat/message"]})})(Mibew,Handlebars);
 /*
  Copyright 2005-2014 the original author or authors.
  Licensed under the Apache License, Version 2.0 (the "License").
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(b,d,e){b.Views.MessageForm=d.Marionette.ItemView.extend({template:e.templates.chat_message_form,events:{"click #send-message":"postMessage","keydown #message-input":"messageKeyDown","keyup #message-input":"checkUserTyping","change #message-input":"checkUserTyping","change #predefined":"selectPredefinedAnswer","focus #message-input":"setFocus","blur #message-input":"dropFocus"},modelEvents:{change:"render"},ui:{message:"#message-input",send:"#send-message",predefinedAnswer:"#predefined"},
+(function(b,d,e){b.Views.MessageForm=d.Marionette.ItemView.extend({template:e.templates["chat/message_form"],events:{"click #send-message":"postMessage","keydown #message-input":"messageKeyDown","keyup #message-input":"checkUserTyping","change #message-input":"checkUserTyping","change #predefined":"selectPredefinedAnswer","focus #message-input":"setFocus","blur #message-input":"dropFocus"},modelEvents:{change:"render"},ui:{message:"#message-input",send:"#send-message",predefinedAnswer:"#predefined"},
 initialize:function(){b.Objects.Models.user.on("change:canPost",this.render,this)},serializeData:function(){var a=this.model.toJSON();a.user=b.Objects.Models.user.toJSON();return a},postMessage:function(){var a=this.ui.message.val();""!=a&&(this.disableInput(),this.model.postMessage(a));b.Objects.Collections.messages.on("multiple:add",this.postMessageComplete,this)},messageKeyDown:function(a){var c=a.which;a=a.ctrlKey;(13==c&&(a||this.model.get("ignoreCtrl"))||10==c)&&this.postMessage()},enableInput:function(){this.ui.message.removeAttr("disabled")},
 disableInput:function(){this.ui.message.attr("disabled","disabled")},clearInput:function(){this.ui.message.val("").change()},postMessageComplete:function(){this.clearInput();this.enableInput();this.focused&&this.ui.focus();b.Objects.Collections.messages.off("multiple:add",this.postMessageComplete,this)},selectPredefinedAnswer:function(){var a=this.ui.message,c=this.ui.predefinedAnswer,b=c.get(0).selectedIndex;b&&(a.val(this.model.get("predefinedAnswers")[b-1].full).change(),a.focus(),c.get(0).selectedIndex=
 0)},checkUserTyping:function(){var a=b.Objects.Models.user,c=""!=this.ui.message.val();c!=a.get("typing")&&a.set({typing:c})},setFocus:function(){this.focused=!0},dropFocus:function(){this.focused=!1}})})(Mibew,Backbone,Handlebars);
@@ -291,22 +291,22 @@ disableInput:function(){this.ui.message.attr("disabled","disabled")},clearInput:
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(a,b){a.Views.StatusMessage=a.Views.Status.extend({template:b.templates.chat_status_message})})(Mibew,Handlebars);
+(function(a,b){a.Views.StatusMessage=a.Views.Status.extend({template:b.templates["chat/status/message"]})})(Mibew,Handlebars);
 /*
  Copyright 2005-2014 the original author or authors.
  Licensed under the Apache License, Version 2.0 (the "License").
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(a,b){a.Views.StatusTyping=a.Views.Status.extend({template:b.templates.chat_status_typing})})(Mibew,Handlebars);
+(function(a,b){a.Views.StatusTyping=a.Views.Status.extend({template:b.templates["chat/status/typing"]})})(Mibew,Handlebars);
 /*
  Copyright 2005-2014 the original author or authors.
  Licensed under the Apache License, Version 2.0 (the "License").
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(b,d,e){var c=b.Views.BaseSurveyForm;b.Views.SurveyForm=c.extend({template:d.templates.survey_form,events:e.extend({},c.prototype.events,{"click #submit-survey":"submitForm"}),submitForm:function(){this.showAjaxLoader();var a={};this.model.get("groups")&&(a.groupId=this.ui.groupSelect.val());this.model.get("canChangeName")&&(a.name=this.ui.name.val()||"");this.model.get("showEmail")&&(a.email=this.ui.email.val()||"");this.model.get("showMessage")&&(a.message=this.ui.message.val()||"");this.model.set(a,
-{validate:!0});this.model.submit()}})})(Mibew,Handlebars,_);
+(function(b,d,e){var c=b.Views.BaseSurveyForm;b.Views.SurveyForm=c.extend({template:d.templates["survey/form"],events:e.extend({},c.prototype.events,{"click #submit-survey":"submitForm"}),submitForm:function(){this.showAjaxLoader();var a={};this.model.get("groups")&&(a.groupId=this.ui.groupSelect.val());this.model.get("canChangeName")&&(a.name=this.ui.name.val()||"");this.model.get("showEmail")&&(a.email=this.ui.email.val()||"");this.model.get("showMessage")&&(a.message=this.ui.message.val()||"");
+this.model.set(a,{validate:!0});this.model.submit()}})})(Mibew,Handlebars,_);
 /*
  Copyright 2005-2014 the original author or authors.
  Licensed under the Apache License, Version 2.0 (the "License").
@@ -334,28 +334,28 @@ disableInput:function(){this.ui.message.attr("disabled","disabled")},clearInput:
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(a,c){a.Layouts.Chat=c.Marionette.Layout.extend({template:Handlebars.templates.chat_layout,regions:{controlsRegion:"#controls-region",avatarRegion:"#avatar-region",messagesRegion:{selector:"#messages-region",regionType:a.Regions.Messages},statusRegion:"#status-region",messageFormRegion:"#message-form-region"},serializeData:function(){var b=a.Objects.Models;return{page:b.page.toJSON(),user:b.user.toJSON()}}})})(Mibew,Backbone);
+(function(a,c){a.Layouts.Chat=c.Marionette.Layout.extend({template:Handlebars.templates["chat/layout"],regions:{controlsRegion:"#controls-region",avatarRegion:"#avatar-region",messagesRegion:{selector:"#messages-region",regionType:a.Regions.Messages},statusRegion:"#status-region",messageFormRegion:"#message-form-region"},serializeData:function(){var b=a.Objects.Models;return{page:b.page.toJSON(),user:b.user.toJSON()}}})})(Mibew,Backbone);
 /*
  Copyright 2005-2014 the original author or authors.
  Licensed under the Apache License, Version 2.0 (the "License").
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(a,b){a.Layouts.Invitation=b.Marionette.Layout.extend({template:Handlebars.templates.invitation_layout,regions:{messagesRegion:{selector:"#invitation-messages-region",regionType:a.Regions.Messages}}})})(Mibew,Backbone);
+(function(a,b){a.Layouts.Invitation=b.Marionette.Layout.extend({template:Handlebars.templates["invitation/layout"],regions:{messagesRegion:{selector:"#invitation-messages-region",regionType:a.Regions.Messages}}})})(Mibew,Backbone);
 /*
  Copyright 2005-2014 the original author or authors.
  Licensed under the Apache License, Version 2.0 (the "License").
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(a,b){a.Layouts.LeaveMessage=b.Marionette.Layout.extend({template:Handlebars.templates.leave_message_layout,regions:{leaveMessageFormRegion:"#content-wrapper",descriptionRegion:"#description-region"},serializeData:function(){return{page:a.Objects.Models.page.toJSON()}}})})(Mibew,Backbone);
+(function(a,b){a.Layouts.LeaveMessage=b.Marionette.Layout.extend({template:Handlebars.templates["leave_message/layout"],regions:{leaveMessageFormRegion:"#content-wrapper",descriptionRegion:"#description-region"},serializeData:function(){return{page:a.Objects.Models.page.toJSON()}}})})(Mibew,Backbone);
 /*
  Copyright 2005-2014 the original author or authors.
  Licensed under the Apache License, Version 2.0 (the "License").
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(a,b){a.Layouts.Survey=b.Marionette.Layout.extend({template:Handlebars.templates.survey_layout,regions:{surveyFormRegion:"#content-wrapper"},serializeData:function(){return{page:a.Objects.Models.page.toJSON()}}})})(Mibew,Backbone);
+(function(a,b){a.Layouts.Survey=b.Marionette.Layout.extend({template:Handlebars.templates["survey/layout"],regions:{surveyFormRegion:"#content-wrapper"},serializeData:function(){return{page:a.Objects.Models.page.toJSON()}}})})(Mibew,Backbone);
 /*
  Copyright 2005-2014 the original author or authors.
  Licensed under the Apache License, Version 2.0 (the "License").

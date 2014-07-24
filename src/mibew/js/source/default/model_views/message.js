@@ -39,7 +39,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.message,
+            template: Handlebars.templates['message'],
 
             /**
              * Class name for view's DOM element

@@ -14,7 +14,7 @@
     Mibew.Views.VisitorsCollection = Mibew.Views.CompositeBase.extend(
         /** @lends Mibew.Views.VisitorsCollection.prototype */
         {
-            template: Handlebars.templates.visitors_collection,
+            template: Handlebars.templates['visitors_collection'],
 
             /**
              * Default item view constructor.

@@ -14,7 +14,7 @@
     Mibew.Views.ThreadsCollection = Mibew.Views.CompositeBase.extend(
         /** @lends Mibew.Views.ThreadsCollection.prototype */
         {
-            template: Handlebars.templates.threads_collection,
+            template: Handlebars.templates['threads_collection'],
 
             /**
              * Default item view constructor.

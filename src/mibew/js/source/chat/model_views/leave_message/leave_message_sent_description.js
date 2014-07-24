@@ -18,7 +18,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.leave_message_sent_description,
+            template: Handlebars.templates['leave_message/sent_description'],
 
             /**
              * Override Backbone.Marionette.ItemView.serializeData to pass some

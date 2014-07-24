@@ -18,7 +18,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.status_panel,
+            template: Handlebars.templates['status_panel'],
 
             /**
              * Map model events to the view methods

@@ -18,7 +18,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.leave_message_layout,
+            template: Handlebars.templates['leave_message/layout'],
 
             /**
              * Regions list

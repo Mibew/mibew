@@ -18,7 +18,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.chat_controls_send_mail,
+            template: Handlebars.templates['chat/controls/send_mail'],
 
             /**
              * Map ui events to view methods

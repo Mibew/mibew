@@ -18,7 +18,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.chat_message_form,
+            template: Handlebars.templates['chat/message_form'],
 
             /**
              * UI events hash.

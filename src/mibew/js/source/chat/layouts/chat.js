@@ -18,7 +18,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.chat_layout,
+            template: Handlebars.templates['chat/layout'],
 
             /**
              * Regions list

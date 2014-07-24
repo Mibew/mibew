@@ -5,4 +5,4 @@
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(a,b){a.Views.Message=a.Views.Message.extend({template:b.templates.chat_message})})(Mibew,Handlebars);
+(function(a,b){a.Views.Message=a.Views.Message.extend({template:b.templates["chat/message"]})})(Mibew,Handlebars);

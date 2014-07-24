@@ -18,7 +18,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.chat_controls_secure_mode,
+            template: Handlebars.templates['chat/controls/secure_mode'],
 
             /**
              * Map ui events to view methods

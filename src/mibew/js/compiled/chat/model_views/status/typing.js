@@ -5,4 +5,4 @@
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(a,b){a.Views.StatusTyping=a.Views.Status.extend({template:b.templates.chat_status_typing})})(Mibew,Handlebars);
+(function(a,b){a.Views.StatusTyping=a.Views.Status.extend({template:b.templates["chat/status/typing"]})})(Mibew,Handlebars);

@@ -18,7 +18,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.chat_controls_sound,
+            template: Handlebars.templates['chat/controls/sound'],
 
             /**
              * Map ui events to view methods

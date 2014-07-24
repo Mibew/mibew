@@ -11,29 +11,6 @@
 
     <!-- Compile Handlebars templates for dialogs styles -->
     <target name="dialogs_handlebars" description="Compile Handlebars templates for dialogs styles">
-        <echo>Flatten templates directory structure</echo>
-
-        <!-- Use system 'mkdir' instead of ant 'mkdir' task because it do not
-             work with dirsets -->
-        <apply executable="mkdir" addsourcefile="false">
-            <targetfile />
-            <dirset dir=".">
-                <include name="${dialogs_styles_path}/*/templates_src/client_side" />
-            </dirset>
-            <mapper type="glob" from="*/templates_src/client_side" to="*/templates_compiled/client_side_tmp" />
-        </apply>
-
-        <!-- Flatten templates directory structure -->
-        <apply executable="tools/flat_cp" force="true">
-            <srcfile />
-            <targetfile />
-            <arg value="client_side" />
-            <fileset dir=".">
-                <include name="${dialogs_styles_path}/*/templates_src/client_side/**/*.handlebars" />
-            </fileset>
-            <mapper type="regexp" from="^(.*)/templates_src/client_side/(.*)$$" to="\1/templates_compiled/client_side_tmp" />
-        </apply>
-
         <echo>Compile templates</echo>
 
         <!-- Compile templates -->
@@ -41,9 +18,9 @@
             <arg value="-f"/>
             <targetfile />
             <dirset dir=".">
-                <include name="${dialogs_styles_path}/*/templates_compiled/client_side_tmp" />
+                <include name="${dialogs_styles_path}/*/templates_src/client_side" />
             </dirset>
-            <mapper type="glob" from="*/client_side_tmp" to="*/client_side/templates_tmp.js" />
+            <mapper type="glob" from="*/templates_src/client_side" to="*/templates_compiled/client_side/templates_tmp.js" />
         </apply>
 
         <!-- Use closule compiler instead of handlebars minifyer (-m flag)
@@ -78,18 +55,8 @@
             </filterchain>
         </move>
 
-        <!-- Remove all temporary files -->
-        <!-- Use system 'rm' instead of ant
-             'delete' task because it does not work with dirsets -->
+        <!-- Remove temporary files -->
         <echo>Remove temporary files</echo>
-        <apply executable="rm">
-            <arg value="-r" />
-            <arg value="-f" />
-            <dirset dir=".">
-                <include name="${dialogs_styles_path}/*/templates_compiled/client_side_tmp" />
-            </dirset>
-        </apply>
-
         <delete>
             <fileset dir=".">
                 <include name="${dialogs_styles_path}/*/templates_compiled/client_side/templates_tmp.js" />

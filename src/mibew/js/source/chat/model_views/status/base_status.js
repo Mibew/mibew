@@ -18,7 +18,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.chat_status_base,
+            template: Handlebars.templates['chat/status/base'],
 
             /**
              * Class name for view's DOM element

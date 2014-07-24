@@ -18,7 +18,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.chat_controls_redirect,
+            template: Handlebars.templates['chat/controls/redirect'],
 
             /**
              * Map ui events to view methods

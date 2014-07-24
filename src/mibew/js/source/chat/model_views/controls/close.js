@@ -18,7 +18,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.chat_controls_close,
+            template: Handlebars.templates['chat/controls/close'],
 
             /**
              * Map ui events to view methods

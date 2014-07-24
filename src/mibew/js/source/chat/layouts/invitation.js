@@ -18,7 +18,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.invitation_layout,
+            template: Handlebars.templates['invitation/layout'],
 
             /**
              * Regions list

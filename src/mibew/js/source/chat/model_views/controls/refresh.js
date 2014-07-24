@@ -18,7 +18,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.chat_controls_refresh,
+            template: Handlebars.templates['chat/controls/refresh'],
 
             /**
              * Map ui events to view methods

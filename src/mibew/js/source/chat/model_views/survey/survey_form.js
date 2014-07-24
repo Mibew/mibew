@@ -21,7 +21,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.survey_form,
+            template: Handlebars.templates['survey/form'],
 
             /**
              * Map ui events to view methods.

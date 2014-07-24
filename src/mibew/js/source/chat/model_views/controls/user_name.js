@@ -15,7 +15,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.chat_controls_user_name,
+            template: Handlebars.templates['chat/controls/user_name'],
 
             /**
              * Map ui events to view methods

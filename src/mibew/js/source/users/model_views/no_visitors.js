@@ -18,7 +18,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.no_visitors,
+            template: Handlebars.templates['no_visitors'],
 
             /**
              * View initializer

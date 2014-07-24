@@ -18,7 +18,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.no_threads,
+            template: Handlebars.templates['no_threads'],
 
             /**
              * View initializer

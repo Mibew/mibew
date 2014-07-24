@@ -5,4 +5,4 @@
  You may obtain a copy of the License at
      http://www.apache.org/licenses/LICENSE-2.0
 */
-(function(a,b){a.Layouts.Invitation=b.Marionette.Layout.extend({template:Handlebars.templates.invitation_layout,regions:{messagesRegion:{selector:"#invitation-messages-region",regionType:a.Regions.Messages}}})})(Mibew,Backbone);
+(function(a,b){a.Layouts.Invitation=b.Marionette.Layout.extend({template:Handlebars.templates["invitation/layout"],regions:{messagesRegion:{selector:"#invitation-messages-region",regionType:a.Regions.Messages}}})})(Mibew,Backbone);

@@ -18,7 +18,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates.survey_layout,
+            template: Handlebars.templates['survey/layout'],
 
             /**
              * Regions list
