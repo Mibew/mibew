@@ -52,7 +52,7 @@ define('CAN_MODIFYPROFILE', 3);
 
 /**
  * Map numerical permissions ids onto string names.
- * @return array Associativa array whose keys are numerical permission ids and
+ * @return array Associative array whose keys are numerical permission ids and
  * values are string permission names.
  */
 function permission_ids()
@@ -62,6 +62,24 @@ function permission_ids()
         CAN_TAKEOVER => "takeover",
         CAN_VIEWTHREADS => "viewthreads",
         CAN_MODIFYPROFILE => "modifyprofile",
+    );
+}
+
+/**
+ * Map numerical permissions ids onto its descriptions.
+ *
+ * The descriptions are NOT localized.
+ *
+ * @return array Array whose keys are numerical permission ids and values are
+ * permission descriptions.
+ */
+function permission_descriptions()
+{
+    return array(
+        CAN_ADMINISTRATE => 'System administration: settings, operators management, button generation',
+        CAN_TAKEOVER => 'Take over chat thread',
+        CAN_VIEWTHREADS => 'View another operator\'s chat thread',
+        CAN_MODIFYPROFILE => 'Ability to modify profile',
     );
 }
 
@@ -606,10 +624,11 @@ function get_permission_list()
     static $permission_list = array();
 
     if (count($permission_list) == 0) {
-        foreach (permission_ids() as $perm_id) {
+        $descriptions = permission_descriptions();
+        foreach (permission_ids() as $perm_code => $perm_id) {
             $permission_list[] = array(
                 'id' => $perm_id,
-                'descr' => getlocal("permission.$perm_id"),
+                'descr' => getlocal($descriptions[$perm_code]),
             );
         }
     }
