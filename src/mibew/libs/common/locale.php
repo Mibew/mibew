@@ -883,17 +883,17 @@ function get_localized_string($string, $locale)
  */
 function save_message($locale, $key, $value)
 {
-    static $available_messages = null;
+    static $available_messages = array();
 
-    if (is_null($available_messages)) {
-        $available_messages = load_db_messages($locale);
+    if (empty($available_messages[$locale])) {
+        $available_messages[$locale] = load_db_messages($locale);
     }
 
     // Prepare the value to save in the database.
     $translation = str_replace("\r", "", trim($value));
 
     $db = Database::getInstance();
-    if (array_key_exists($key, $available_messages)) {
+    if (array_key_exists($key, $available_messages[$locale])) {
         // The string is already in the database. Update it.
         $db->query(
             ('UPDATE {translation} SET translation = :translation '
@@ -917,7 +917,7 @@ function save_message($locale, $key, $value)
             )
         );
         // The message is now in the database. Next time it should be updated.
-        $available_messages[$key] = $value;
+        $available_messages[$locale][$key] = $value;
     }
 }
 
