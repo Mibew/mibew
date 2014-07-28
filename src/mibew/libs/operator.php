@@ -68,18 +68,18 @@ function permission_ids()
 /**
  * Map numerical permissions ids onto its descriptions.
  *
- * The descriptions are NOT localized.
+ * The descriptions are localized.
  *
  * @return array Array whose keys are numerical permission ids and values are
- * permission descriptions.
+ * localized permission descriptions.
  */
 function permission_descriptions()
 {
     return array(
-        CAN_ADMINISTRATE => 'System administration: settings, operators management, button generation',
-        CAN_TAKEOVER => 'Take over chat thread',
-        CAN_VIEWTHREADS => 'View another operator\'s chat thread',
-        CAN_MODIFYPROFILE => 'Ability to modify profile',
+        CAN_ADMINISTRATE => getlocal('System administration: settings, operators management, button generation'),
+        CAN_TAKEOVER => getlocal('Take over chat thread'),
+        CAN_VIEWTHREADS => getlocal('View another operator\'s chat thread'),
+        CAN_MODIFYPROFILE => getlocal('Ability to modify profile'),
     );
 }
 
@@ -628,7 +628,7 @@ function get_permission_list()
         foreach (permission_ids() as $perm_code => $perm_id) {
             $permission_list[] = array(
                 'id' => $perm_id,
-                'descr' => getlocal($descriptions[$perm_code]),
+                'descr' => $descriptions[$perm_code],
             );
         }
     }
