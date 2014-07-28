@@ -842,7 +842,7 @@ function get_operator_group_ids($operator_id)
 /**
  * Calculate hashed password value based upon operator's login and password
  *
- * By default function tries to make us of Blowfish encryption algorithm,
+ * By default function tries to make use of Blowfish encryption algorithm,
  * with salted MD5 as a second possible choice, and unsalted MD5 as a fallback
  * option
  *
