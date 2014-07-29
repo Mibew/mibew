@@ -22,6 +22,7 @@ use Mibew\Settings;
 use Mibew\Thread;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Processes widget requests.
@@ -121,7 +122,11 @@ class WidgetController extends AbstractController
                 $response_data['data']['invitation'] = array(
                     'operatorName' => htmlspecialchars($operator_name),
                     'avatarUrl' => htmlspecialchars($operator['vcavatar']),
-                    'threadUrl' => $this->generateUrl('chat_user_invitation'),
+                    'threadUrl' => $this->generateUrl(
+                        'chat_user_invitation',
+                        array(),
+                        UrlGeneratorInterface::ABSOLUTE_URL
+                    ),
                     'acceptCaption' => getlocal('Answer'),
                 );
 
