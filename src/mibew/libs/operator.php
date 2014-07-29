@@ -478,13 +478,7 @@ function has_online_operators($group_id = "")
                 . "AND istatus = 0";
         $values[':groupid'] = $group_id;
     } else {
-        if (Settings::get('enablegroups') == 1) {
-            $query .= ", {operatortoopgroup} "
-                . "WHERE {operator}.operatorid = {operatortoopgroup}.operatorid "
-                . "AND istatus = 0";
-        } else {
-            $query .= " WHERE istatus = 0";
-        }
+        $query .= " WHERE istatus = 0";
     }
 
     $row = $db->query(
