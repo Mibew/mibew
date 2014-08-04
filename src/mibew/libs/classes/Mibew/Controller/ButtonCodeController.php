@@ -101,8 +101,12 @@ class ButtonCodeController extends AbstractController
                     : $image_locales[0];
             }
 
-            $file = MIBEW_FS_ROOT . '/locales/${lang}/button/${image}_on.gif';
-            $size = get_gifimage_size($file);
+            $file = MIBEW_FS_ROOT . '/locales/${lang}/button/${image}_on.png';
+            if (!is_readable($file)) {
+                // Fallback to .gif image
+                $file = MIBEW_FS_ROOT . '/locales/${lang}/button/${image}_on.gif';
+            }
+            $size = get_image_size($file);
 
             $image_link_args = array(
                 'i' => $image,

@@ -80,7 +80,13 @@ class ButtonController extends AbstractController
 
         // Get image file content
         $image_postfix = has_online_operators($group_id) ? "on" : "off";
-        $file_name = "locales/${lang}/button/${image}_${image_postfix}.gif";
+        $file_name = "locales/${lang}/button/${image}_${image_postfix}.png";
+        $content_type = 'image/png';
+        if (!is_readable($file_name)) {
+            // Fall back to .gif image
+            $file_name = "locales/${lang}/button/${image}_${image_postfix}.gif";
+            $content_type = 'image/gif';
+        }
 
         $fh = fopen($file_name, 'rb');
         if ($fh) {
@@ -91,7 +97,7 @@ class ButtonController extends AbstractController
             $response = new Response($content, 200);
 
             // Set correct content info
-            $response->headers->set('Content-Type', 'image/gif');
+            $response->headers->set('Content-Type', $content_type);
             $response->headers->set('Content-Length', $file_size);
         } else {
             $response = new Response('Not found', 404);

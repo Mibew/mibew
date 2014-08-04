@@ -190,8 +190,8 @@ function get_image_locales_map($locales_dir)
         $images_dir = "$locales_dir/$curr/button";
         if ($handle = @opendir($images_dir)) {
             while (false !== ($file = readdir($handle))) {
-                $both_files_exist = preg_match("/^(\w+)_on.gif$/", $file, $matches)
-                    && is_file("$images_dir/" . $matches[1] . "_off.gif");
+                $both_files_exist = preg_match("/^(\w+)_on\.(gif|png)$/", $file, $matches)
+                    && is_file("$images_dir/" . $matches[1] . "_off." . $matches[2]);
                 if ($both_files_exist) {
                     $image = $matches[1];
                     if (!isset($image_locales[$image])) {

@@ -15,19 +15,26 @@
  * limitations under the License.
  */
 
-function get_gifimage_size($filename)
+function get_image_size($filename)
 {
-    if (function_exists('gd_info')) {
-        $info = gd_info();
-        if (isset($info['GIF Read Support']) && $info['GIF Read Support']) {
-            $img = @imagecreatefromgif($filename);
-            if ($img) {
-                $height = imagesy($img);
-                $width = imagesx($img);
-                imagedestroy($img);
+    $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
-                return array($width, $height);
-            }
+    if (function_exists('gd_info') && ($ext == 'gif' || $ext == 'png')) {
+        $info = gd_info();
+
+        $img = false;
+        if ($ext == 'gif' && !empty($info['GIF Read Support'])) {
+            $img = @imagecreatefromgif($filename);
+        } elseif ($ext == 'png' && !empty($info['PNG Support'])) {
+            $img = @imagecreatefrompng($filename);
+        }
+
+        if ($img) {
+            $height = imagesy($img);
+            $width = imagesx($img);
+            imagedestroy($img);
+
+            return array($width, $height);
         }
     }
 
