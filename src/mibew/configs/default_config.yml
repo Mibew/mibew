@@ -21,6 +21,11 @@ home_locale: en
 ## If user does not provide known lang
 default_locale: en
 
+# A timezone to use. Leave this value empty to use the default timezone from the
+# system settings. For the details about available timezones see
+# http://php.net/manual/en/timezones.php
+timezone: ""
+
 # Plugins
 plugins: []
 

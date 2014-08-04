@@ -67,9 +67,10 @@ if (is_secure_request()) {
 session_start();
 
 if (function_exists("date_default_timezone_set")) {
-    // TODO try to get timezone from config.yml/session etc.
-    // autodetect timezone
-    @date_default_timezone_set(function_exists("date_default_timezone_get") ? @date_default_timezone_get() : "GMT");
+    $timezone = !empty($configs['timezone'])
+        ? $configs['timezone']
+        : (function_exists("date_default_timezone_get") ? @date_default_timezone_get() : "GMT");
+    @date_default_timezone_set($timezone);
 }
 
 if (!installation_in_progress()) {
