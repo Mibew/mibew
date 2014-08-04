@@ -24,3 +24,6 @@ src/composer.lock
 
 # Do not index third-party libraries
 src/mibew/vendor
+
+# Do not index node.js modules that are used for building
+src/node_modules

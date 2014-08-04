@@ -1,10 +1,8 @@
-/*
- Copyright 2005-2014 the original author or authors.
-
- Licensed under the Apache License, Version 2.0 (the "License").
- You may obtain a copy of the License at
-     http://www.apache.org/licenses/LICENSE-2.0
-*/
-(function(c,e){var d=c.Models.BaseSurveyForm;c.Models.LeaveMessageForm=d.extend({defaults:e.extend({},d.prototype.defaults,{showCaptcha:!1,captcha:""}),validate:function(a){var b=c.Localization;if("undefined"!=typeof a.email){if(!a.email)return b.get("leavemessage.error.email.required");if(!c.Utils.checkEmail(a.email))return b.get("leavemessage.error.wrong.email")}if("undefined"!=typeof a.name&&!a.name)return b.get("leavemessage.error.name.required");if("undefined"!=typeof a.message&&!a.message)return b.get("leavemessage.error.message.required");
-if(this.get("showCaptcha")&&"undefined"!=typeof a.captcha&&!a.captcha)return b.get("The letters you typed don't match the letters that were shown in the picture.")},submit:function(){if(!this.validate(this.attributes)){var a=this;c.Objects.server.callFunctions([{"function":"processLeaveMessage",arguments:{references:{},"return":{},groupId:a.get("groupId"),name:a.get("name"),info:a.get("info"),email:a.get("email"),message:a.get("message"),referrer:a.get("referrer"),captcha:a.get("captcha"),threadId:null,token:null}}],function(b){0==b.errorCode?a.trigger("submit:complete",
-a):a.trigger("submit:error",a,{code:b.errorCode,message:b.errorMessage||""})},!0)}},ERROR_WRONG_CAPTCHA:10})})(Mibew,_);
+/**
+ * @preserve Copyright 2005-2014 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License").
+ * You may obtain a copy of the License at
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ */
+!function(e,t){var r=e.Models.BaseSurveyForm;e.Models.LeaveMessageForm=r.extend({defaults:t.extend({},r.prototype.defaults,{showCaptcha:!1,captcha:""}),validate:function(t){var r=e.Localization;if("undefined"!=typeof t.email){if(!t.email)return r.get("leavemessage.error.email.required");if(!e.Utils.checkEmail(t.email))return r.get("leavemessage.error.wrong.email")}return"undefined"==typeof t.name||t.name?"undefined"==typeof t.message||t.message?this.get("showCaptcha")&&"undefined"!=typeof t.captcha&&!t.captcha?r.get("The letters you typed don't match the letters that were shown in the picture."):void 0:r.get("leavemessage.error.message.required"):r.get("leavemessage.error.name.required")},submit:function(){if(!this.validate(this.attributes)){var t=this;e.Objects.server.callFunctions([{"function":"processLeaveMessage",arguments:{references:{},"return":{},groupId:t.get("groupId"),name:t.get("name"),info:t.get("info"),email:t.get("email"),message:t.get("message"),referrer:t.get("referrer"),captcha:t.get("captcha"),threadId:null,token:null}}],function(e){0==e.errorCode?t.trigger("submit:complete",t):t.trigger("submit:error",t,{code:e.errorCode,message:e.errorMessage||""})},!0)}},ERROR_WRONG_CAPTCHA:10})}(Mibew,_);

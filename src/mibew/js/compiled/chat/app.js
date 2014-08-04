@@ -1,9 +1,8 @@
-/*
- Copyright 2005-2014 the original author or authors.
-
- Licensed under the Apache License, Version 2.0 (the "License").
- You may obtain a copy of the License at
-     http://www.apache.org/licenses/LICENSE-2.0
-*/
-(function(b,d){var c=b.Application;c.addRegions({mainRegion:"#main-region"});c.addInitializer(function(a){b.PluginOptions=a.plugins||{};b.Objects.server=new b.Server(d.extend({interactionType:MibewAPIChatInteraction},a.server));b.Objects.Models.page=new b.Models.Page(a.page);switch(a.startFrom){case "chat":c.Chat.start(a.chatOptions);break;case "survey":c.Survey.start(a.surveyOptions);break;case "leaveMessage":c.LeaveMessage.start(a.leaveMessageOptions);break;case "invitation":c.Invitation.start(a.invitationOptions);
-break;default:throw Error("Dont know how to start!");}});c.on("start",function(){b.Objects.server.runUpdater()})})(Mibew,_);
+/**
+ * @preserve Copyright 2005-2014 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License").
+ * You may obtain a copy of the License at
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ */
+!function(e,t){var a=e.Application;a.addRegions({mainRegion:"#main-region"}),a.addInitializer(function(n){switch(e.PluginOptions=n.plugins||{},e.Objects.server=new e.Server(t.extend({interactionType:MibewAPIChatInteraction},n.server)),e.Objects.Models.page=new e.Models.Page(n.page),n.startFrom){case"chat":a.Chat.start(n.chatOptions);break;case"survey":a.Survey.start(n.surveyOptions);break;case"leaveMessage":a.LeaveMessage.start(n.leaveMessageOptions);break;case"invitation":a.Invitation.start(n.invitationOptions);break;default:throw new Error("Dont know how to start!")}}),a.on("start",function(){e.Objects.server.runUpdater()})}(Mibew,_);
