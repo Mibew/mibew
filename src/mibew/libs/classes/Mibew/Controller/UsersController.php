@@ -36,11 +36,6 @@ class UsersController extends AbstractController
     public function indexAction(Request $request)
     {
         $operator = $this->getOperator();
-        $status = $request->query->has('away') ? 1 : 0;
-
-        notify_operator_alive($operator['operatorid'], $status);
-        $operator['istatus'] = $status;
-        $this->getAuthenticationManager()->setOperator($operator);
 
         $_SESSION[SESSION_PREFIX . "operatorgroups"] = get_operator_groups_list($operator['operatorid']);
 
@@ -48,7 +43,6 @@ class UsersController extends AbstractController
         $page['havemenu'] = !$request->query->has('nomenu');
         $page['showpopup'] = (Settings::get('enablepopupnotification') == '1') ? "1" : "0";
         $page['frequency'] = Settings::get('updatefrequency_operator');
-        $page['istatus'] = $status;
         $page['showonline'] = (Settings::get('showonlineoperators') == '1') ? "1" : "0";
         $page['showvisitors'] = (Settings::get('enabletracking') == '1') ? "1" : "0";
         $page['agentId'] = $operator['operatorid'];
