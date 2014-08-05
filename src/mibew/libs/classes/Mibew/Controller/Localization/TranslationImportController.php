@@ -41,6 +41,8 @@ class TranslationImportController extends AbstractController
             $target = get_current_locale();
         }
 
+        $override = (bool)$request->request->get('override', false);
+
         $page = array(
             // Use errors list stored in the request. We need to do so to have
             // an ability to pass the request from other actions.
@@ -60,6 +62,7 @@ class TranslationImportController extends AbstractController
         $page['stored'] = $request->query->has('stored');
         $page['localesList'] = $locales_list;
         $page['formtarget'] = $target;
+        $page['formoverride'] = $override;
         $page['title'] = getlocal('Translations import');
         $page['menuid'] = 'translation';
         $page = array_merge($page, prepare_menu($operator));
@@ -87,6 +90,8 @@ class TranslationImportController extends AbstractController
             $target = get_current_locale();
         }
 
+        $override = (bool)$request->request->get('override', false);
+
         // Validate uploaded file
         $file = $request->files->get('translation_file');
         if ($file) {
@@ -107,7 +112,7 @@ class TranslationImportController extends AbstractController
         if (count($errors) == 0) {
             try {
                 // Try to import new messages.
-                import_messages($target, $file->getRealPath());
+                import_messages($target, $file->getRealPath(), $override);
 
                 // The file is not needed any more. Remove it.
                 unlink($file->getRealPath());

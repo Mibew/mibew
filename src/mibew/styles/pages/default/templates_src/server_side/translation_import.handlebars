@@ -36,6 +36,15 @@
 
                         <div class="fieldForm">
                             <div class="field">
+                                <label for="override" class="flabel">{{l10n "Override existing translations"}}</label>
+                                <div class="fvalue">
+                                    <input id="override" type="checkbox" name="override" value="on"{{#if formoverride}} checked="checked"{{/if}}/>
+                                </div>
+                                <label for="override" class="fdescr"> &mdash; {{l10n "Replaces translated strings in the database with values from the imported file."}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
                                 <label for="translation_file" class="flabel">
                                     {{l10n "Upload translation"}}<span class="required">*</span>
                                 </label>
