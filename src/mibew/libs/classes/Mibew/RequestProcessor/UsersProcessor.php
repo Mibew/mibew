@@ -155,6 +155,9 @@ class UsersProcessor extends ClientSideProcessor implements AuthenticationManage
     {
         $operator = $this->checkOperator($args['agentId']);
         notify_operator_alive($operator['operatorid'], 1);
+        // Update operator's data thus they will be sent with the response.
+        $operator['istatus'] = 1;
+        $this->getAuthenticationManager()->setOperator($operator);
     }
 
     /**
@@ -168,6 +171,9 @@ class UsersProcessor extends ClientSideProcessor implements AuthenticationManage
     {
         $operator = $this->checkOperator($args['agentId']);
         notify_operator_alive($operator['operatorid'], 0);
+        // Update operator's data thus they will be sent with the response.
+        $operator['istatus'] = 0;
+        $this->getAuthenticationManager()->setOperator($operator);
     }
 
     /**

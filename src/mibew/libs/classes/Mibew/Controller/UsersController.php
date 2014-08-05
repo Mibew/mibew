@@ -39,6 +39,8 @@ class UsersController extends AbstractController
         $status = $request->query->has('away') ? 1 : 0;
 
         notify_operator_alive($operator['operatorid'], $status);
+        $operator['istatus'] = $status;
+        $this->getAuthenticationManager()->setOperator($operator);
 
         $_SESSION[SESSION_PREFIX . "operatorgroups"] = get_operator_groups_list($operator['operatorid']);
 

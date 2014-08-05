@@ -435,7 +435,7 @@ function delete_operator($operator_id)
 /**
  * Set current status of the operator('available' or 'away')
  *
- * @param int $operatorid Id of the operator
+ * @param int $operator_id Id of the operator
  * @param int $istatus Operator status: '0' means 'available' and '1' means
  *   'away'
  */
@@ -451,11 +451,6 @@ function notify_operator_alive($operator_id, $istatus)
             ':operatorid' => $operator_id,
         )
     );
-    if (isset($_SESSION[SESSION_PREFIX . "operator"])) {
-        if ($_SESSION[SESSION_PREFIX . "operator"]['operatorid'] == $operator_id) {
-            $_SESSION[SESSION_PREFIX . "operator"]['istatus'] = $istatus;
-        }
-    }
 }
 
 /**
