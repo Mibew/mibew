@@ -18,6 +18,8 @@
 namespace Mibew\RequestProcessor;
 
 // Import namespaces and classes of the core
+use Mibew\Authentication\AuthenticationManagerAwareInterface;
+use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Database;
 use Mibew\EventDispatcher;
 use Mibew\Settings;
@@ -39,8 +41,29 @@ use Mibew\RequestProcessor\Exception\UsersProcessorException;
  *  - usersUpdateVisitorsLoad
  *  - usersUpdateVisitorsAlter
  */
-class UsersProcessor extends ClientSideProcessor
+class UsersProcessor extends ClientSideProcessor implements AuthenticationManagerAwareInterface
 {
+    /**
+     * @var AuthenticationManagerInterface|null
+     */
+    protected $authenticationManager = null;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setAuthenticationManager(AuthenticationManagerInterface $manager)
+    {
+        $this->authenticationManager = $manager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAuthenticationManager()
+    {
+        return $this->authenticationManager;
+    }
+
     /**
      * Class constructor
      */
@@ -102,9 +125,9 @@ class UsersProcessor extends ClientSideProcessor
      * @throws UsersProcessorException If operators not logged in or if
      *   $operator_id varies from current logged in operator.
      */
-    protected static function checkOperator($operator_id)
+    protected function checkOperator($operator_id)
     {
-        $operator = get_logged_in();
+        $operator = $this->getAuthenticationManager()->getOperator();
         if (!$operator) {
             throw new UsersProcessorException(
                 "Operator not logged in!",
@@ -130,7 +153,7 @@ class UsersProcessor extends ClientSideProcessor
      */
     protected function apiAway($args)
     {
-        $operator = self::checkOperator($args['agentId']);
+        $operator = $this->checkOperator($args['agentId']);
         notify_operator_alive($operator['operatorid'], 1);
     }
 
@@ -143,7 +166,7 @@ class UsersProcessor extends ClientSideProcessor
      */
     protected function apiAvailable($args)
     {
-        $operator = self::checkOperator($args['agentId']);
+        $operator = $this->checkOperator($args['agentId']);
         notify_operator_alive($operator['operatorid'], 0);
     }
 
@@ -165,7 +188,7 @@ class UsersProcessor extends ClientSideProcessor
      */
     protected function apiUpdateThreads($args)
     {
-        $operator = self::checkOperator($args['agentId']);
+        $operator = $this->checkOperator($args['agentId']);
 
         $since = $args['revision'];
         // Get operator groups
@@ -364,7 +387,7 @@ class UsersProcessor extends ClientSideProcessor
     protected function apiUpdateVisitors($args)
     {
         // Check access
-        self::checkOperator($args['agentId']);
+        $this->checkOperator($args['agentId']);
 
         // Close old invitations
         invitation_close_old();
@@ -495,7 +518,7 @@ class UsersProcessor extends ClientSideProcessor
     protected function apiUpdateOperators($args)
     {
         // Check access and get operators info
-        $operator = self::checkOperator($args['agentId']);
+        $operator = $this->checkOperator($args['agentId']);
 
         // Return empty array if show operators option disabled
         if (Settings::get('showonlineoperators') != '1') {
@@ -543,7 +566,7 @@ class UsersProcessor extends ClientSideProcessor
     protected function apiUpdate($args)
     {
         // Check access and get operator array
-        $operator = self::checkOperator($args['agentId']);
+        $operator = $this->checkOperator($args['agentId']);
 
         // Update operator status
         notify_operator_alive($operator['operatorid'], $operator['istatus']);
@@ -571,7 +594,7 @@ class UsersProcessor extends ClientSideProcessor
     protected function apiCurrentTime($args)
     {
         // Check access
-        self::checkOperator($args['agentId']);
+        $this->checkOperator($args['agentId']);
 
         // Return time
         return array(
