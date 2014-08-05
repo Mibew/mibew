@@ -473,7 +473,19 @@ function has_online_operators($group_id = "")
                 . "AND istatus = 0";
         $values[':groupid'] = $group_id;
     } else {
-        $query .= " WHERE istatus = 0";
+        if (Settings::get('enablegroups') == 1) {
+            // If the groups and prechat survey are enabled and a button was
+            // generated not for concrete group a user must select a group to
+            // chat with. All groups will be checked for online operators. If
+            // only operators, who do not related with groups, are online a user
+            // cannot complete prechat survey because there will be no online
+            // groups. The following code fixes this strange behaviour.
+            $query .= ", {operatortoopgroup} "
+                . "WHERE {operator}.operatorid = {operatortoopgroup}.operatorid "
+                . "AND istatus = 0";
+        } else {
+            $query .= " WHERE istatus = 0";
+        }
     }
 
     $row = $db->query(
