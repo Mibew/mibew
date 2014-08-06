@@ -41,10 +41,16 @@ abstract class AbstractController extends BaseAbstractController
             ? $this->generateUrl('translations')
             : '';
 
-        $import = $route == 'translation_import'
-            || $route == 'translation_import_process';
+        $import = ($route == 'translation_import'
+            || $route == 'translation_import_process');
         $tabs[getlocal('Translations import')] = !$import
             ? $this->generateUrl('translation_import')
+            : '';
+
+        $export = ($route == 'translation_export'
+            || $route == 'translation_export_process');
+        $tabs[getlocal('Translations export')] = !$export
+            ? $this->generateUrl('translation_export')
             : '';
 
         $tabs[getlocal('Locales')] = ($route != 'locales')

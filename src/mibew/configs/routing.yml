@@ -631,6 +631,22 @@ translation_edit_save:
         string_id: "\d{1,10}"
     methods: [POST]
 
+translation_export:
+    path: /operator/translation/export
+    defaults:
+        _controller: Mibew\Controller\Localization\TranslationExportController::showFormAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    methods: [GET]
+
+translation_export_process:
+    path: /operator/translation/export
+    defaults:
+        _controller: Mibew\Controller\Localization\TranslationExportController::submitFormAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    methods: [POST]
+
 translation_import:
     path: /operator/translation/import
     defaults:
