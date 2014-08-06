@@ -1,4 +1,6 @@
 var fs = require('fs'),
+    https = require('https'),
+    exec = require('child_process').exec,
     eventStream = require('event-stream'),
     gulp = require('gulp'),
     uglify = require('gulp-uglify'),
@@ -17,12 +19,13 @@ var config = {
     jsPath: 'mibew/js',
     chatStylesPath: 'mibew/styles/dialogs',
     pageStylesPath: 'mibew/styles/pages',
-    compiledTemplatesHeader: fs.readFileSync('tools/compiled_templates_header.txt')
+    compiledTemplatesHeader: fs.readFileSync('tools/compiled_templates_header.txt'),
+    getComposerUrl: 'https://getcomposer.org/installer'
 }
 
 
 // Checks all PHP files with PHP Code Sniffer.
-gulp.task('phpcs', function() {
+gulp.task('phpcs', ['composer-install-dev'], function() {
     return gulp.src([
         config.mibewPath + '/**/*.php',
         '!' + config.phpVendorPath + '/**/*.*',
@@ -33,6 +36,40 @@ gulp.task('phpcs', function() {
         standard: 'PSR2',
         warningSeverity: 0
     }));
+});
+
+// Get and install PHP Composer
+gulp.task('get-composer', function(callback) {
+    // Check if Composer already in place
+    if (fs.existsSync('./composer.phar')) {
+        callback(null);
+
+        return;
+    }
+
+    // Get installer from the internet
+    https.get(config.getComposerUrl, function(response) {
+        // Run PHP to install Composer
+        var php = exec('php', function(error, stdout, stderr) {
+            callback(error ? stderr : null);
+        });
+        // Pass installer code to PHP via STDIN
+        response.pipe(php.stdin);
+    });
+});
+
+// Install Composer dependencies excluding development ones
+gulp.task('composer-install', ['get-composer'], function(callback) {
+    exec('php composer.phar install --no-dev', function(error, stdout, stderr) {
+        callback(error ? stderr : null);
+    });
+});
+
+// Install all Composer dependencies
+gulp.task('composer-install-dev', ['get-composer'], function(callback) {
+    exec('php composer.phar install', function(error, stdout, stderr) {
+        callback(error ? stderr : null);
+    });
 });
 
 // Compile all JavaScript files of the Mibew Core
