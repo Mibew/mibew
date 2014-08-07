@@ -14,6 +14,19 @@ This repository contains the core of Mibew Messenger application.
 2. PHP (5.3.3 and above) with MySQL support
 3. MySQL 5.0 and above
 
+## Build from sources
+
+There are several actions one should do before use the latest version of Mibew from the repository:
+
+1. Obtain a copy of the repository using `git clone`, download button, or another way.
+2. Install [node.js](http://nodejs.org/) and [npm](https://www.npmjs.org/).
+3. Install [Gulp](http://gulpjs.com/).
+4. Navigate to `src/` directory of the local copy of the repository.
+5. Install npm dependencies using `npm install`.
+6. Run Gulp to build Mibew using `gulp default`.
+
+Finally `.tar.gz` and `.zip` archives of the ready-to-use Mibew will be available in `src/release` directory.
+
 ## Terms of Use
 
 Mibew Messenger is licensed under the terms of [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
