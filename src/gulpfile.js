@@ -2,6 +2,7 @@ var fs = require('fs'),
     https = require('https'),
     exec = require('child_process').exec,
     eventStream = require('event-stream'),
+    runSequence = require('run-sequence'),
     gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     concat = require('gulp-concat'),
@@ -9,7 +10,11 @@ var fs = require('fs'),
     order = require('gulp-order'),
     handlebars = require('gulp-handlebars'),
     defineModule = require('gulp-define-module'),
-    header = require('gulp-header');
+    header = require('gulp-header'),
+    zip = require('gulp-zip'),
+    tar = require('gulp-tar'),
+    gzip = require('gulp-gzip'),
+    chmod = require('gulp-chmod');
 
 // Set global configs.
 var config = {
@@ -20,7 +25,8 @@ var config = {
     chatStylesPath: 'mibew/styles/dialogs',
     pageStylesPath: 'mibew/styles/pages',
     compiledTemplatesHeader: fs.readFileSync('tools/compiled_templates_header.txt'),
-    getComposerUrl: 'https://getcomposer.org/installer'
+    getComposerUrl: 'https://getcomposer.org/installer',
+    package: require('./package.json')
 }
 
 
@@ -136,10 +142,29 @@ gulp.task('page-styles', function() {
     .pipe(gulp.dest(stylePath + '/templates_compiled/client_side'));
 });
 
-// Runs all existing tasks.
-gulp.task('default', ['phpcs', 'js', 'chat-styles', 'page-styles'], function() {
-    // This task is just a combination of other tasks. That is why there is no
-    // real code.
+// Pack sources to .zip and .tar.gz archives.
+gulp.task('pack-sources', ['composer-install'], function() {
+    var sources = config.mibewPath + '/**/*',
+        version = config.package.version;
+
+    return eventStream.merge(
+        gulp.src(sources, {dot: true})
+            .pipe(zip('mibew-' + version + '.zip')),
+        gulp.src(sources, {dot: true})
+            .pipe(tar('mibew-' + version + '.tar'))
+            .pipe(gzip())
+    )
+    .pipe(chmod(0644))
+    .pipe(gulp.dest('release'));
+});
+
+// Builds all the sources
+gulp.task('default', function(callback) {
+    runSequence(
+        ['phpcs', 'js', 'chat-styles', 'page-styles'],
+        'pack-sources',
+        callback
+    );
 });
 
 
