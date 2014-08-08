@@ -120,14 +120,6 @@ abstract class AbstractStyle
     }
 
     /**
-     * Builds base path for style files. This path is relative to Mibew root and
-     * does not contain neither leading nor trailing slash.
-     *
-     * @return string Base path for style files
-     */
-    abstract public function getFilesPath();
-
-    /**
      * Gets names of styles which are located in the $root_dir.
      *
      * @param string $root_dir Root styles directory
