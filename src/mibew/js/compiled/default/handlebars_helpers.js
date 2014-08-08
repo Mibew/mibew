@@ -1,8 +1,0 @@
-/**
- * @preserve Copyright 2005-2014 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License").
- * You may obtain a copy of the License at
- *     http://www.apache.org/licenses/LICENSE-2.0
- */
-!function(e,r){r.registerHelper("apply",function(e,t){var n=e,i=/^[0-9A-z_]+$/;t=t.split(/\s*,\s*/);for(var s in t)if(t.hasOwnProperty(s)&&i.test(t[s])){if("function"!=typeof r.helpers[t[s]])throw new Error("Unregistered helper '"+t[s]+"'!");n=r.helpers[t[s]](n).toString()}return new r.SafeString(n)}),r.registerHelper("allowTags",function(e){var t=e;return t=t.replace(/&lt;(span|strong)&gt;(.*?)&lt;\/\1&gt;/g,"<$1>$2</$1>"),t=t.replace(/&lt;span class=&quot;(.*?)&quot;&gt;(.*?)&lt;\/span&gt;/g,'<span class="$1">$2</span>'),new r.SafeString(t)}),r.registerHelper("formatTime",function(e){var r=new Date(1e3*e),t=r.getHours().toString(),n=r.getMinutes().toString(),i=r.getSeconds().toString();return t=10>t?"0"+t:t,n=10>n?"0"+n:n,i=10>i?"0"+i:i,t+":"+n+":"+i}),r.registerHelper("urlReplace",function(e){return new r.SafeString(e.replace(/((?:https?|ftp):\/\/\S*)/g,'<a href="$1" target="_blank">$1</a>'))}),r.registerHelper("nl2br",function(e){return new r.SafeString(e.replace(/\n/g,"<br/>"))}),r.registerHelper("l10n",function(r){return e.Localization.get(r)||""}),r.registerHelper("ifEven",function(e,r){return e%2===0?r.fn(this):r.inverse(this)}),r.registerHelper("ifOdd",function(e,r){return e%2!==0?r.fn(this):r.inverse(this)})}(Mibew,Handlebars);

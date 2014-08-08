@@ -1,8 +1,0 @@
-/**
- * @preserve Copyright 2005-2014 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License").
- * You may obtain a copy of the License at
- *     http://www.apache.org/licenses/LICENSE-2.0
- */
-!function(e,t){var r=e.Models.BaseSurveyForm;e.Models.LeaveMessageForm=r.extend({defaults:t.extend({},r.prototype.defaults,{showCaptcha:!1,captcha:""}),validate:function(t){var r=e.Localization;if("undefined"!=typeof t.email){if(!t.email)return r.get("leavemessage.error.email.required");if(!e.Utils.checkEmail(t.email))return r.get("leavemessage.error.wrong.email")}return"undefined"==typeof t.name||t.name?"undefined"==typeof t.message||t.message?this.get("showCaptcha")&&"undefined"!=typeof t.captcha&&!t.captcha?r.get("The letters you typed don't match the letters that were shown in the picture."):void 0:r.get("leavemessage.error.message.required"):r.get("leavemessage.error.name.required")},submit:function(){if(!this.validate(this.attributes)){var t=this;e.Objects.server.callFunctions([{"function":"processLeaveMessage",arguments:{references:{},"return":{},groupId:t.get("groupId"),name:t.get("name"),info:t.get("info"),email:t.get("email"),message:t.get("message"),referrer:t.get("referrer"),captcha:t.get("captcha"),threadId:null,token:null}}],function(e){0==e.errorCode?t.trigger("submit:complete",t):t.trigger("submit:error",t,{code:e.errorCode,message:e.errorMessage||""})},!0)}},ERROR_WRONG_CAPTCHA:10})}(Mibew,_);

@@ -27,3 +27,17 @@ src/mibew/vendor
 
 # Do not index node.js modules that are used for building
 src/node_modules
+
+# Do not index compiled js files of the core
+src/mibew/js/compiled/*
+!src/mibew/js/compiled/.keep
+
+# Do not index compiled files of chat styles
+src/mibew/styles/dialogs/default/templates_compiled/client_side/*
+!src/mibew/styles/dialogs/default/templates_compiled/client_side/.keep
+src/mibew/styles/dialogs/default/js/compiled/*
+!src/mibew/styles/dialogs/default/js/compiled/.keep
+
+# Do not index compiled files of page styles
+src/mibew/styles/pages/default/templates_compiled/client_side/*
+!src/mibew/styles/pages/default/templates_compiled/client_side/.keep

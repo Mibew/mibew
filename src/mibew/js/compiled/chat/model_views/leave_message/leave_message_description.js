@@ -1,8 +1,0 @@
-/**
- * @preserve Copyright 2005-2014 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License").
- * You may obtain a copy of the License at
- *     http://www.apache.org/licenses/LICENSE-2.0
- */
-!function(e,t,a){e.Views.LeaveMessageDescription=t.Marionette.ItemView.extend({template:a.templates["leave_message/description"],serializeData:function(){return{page:e.Objects.Models.page.toJSON()}}})}(Mibew,Backbone,Handlebars);

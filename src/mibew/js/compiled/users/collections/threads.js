@@ -1,8 +1,0 @@
-/**
- * @preserve Copyright 2005-2014 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License").
- * You may obtain a copy of the License at
- *     http://www.apache.org/licenses/LICENSE-2.0
- */
-!function(e,t,r){e.Collections.Threads=t.Collection.extend({model:e.Models.QueuedThread,initialize:function(){this.revision=0;var t=this,i=e.Objects.Models.agent;e.Objects.server.callFunctionsPeriodically(function(){return[{"function":"currentTime",arguments:{agentId:i.id,"return":{time:"currentTime"},references:{}}},{"function":"updateThreads",arguments:{agentId:i.id,revision:t.revision,"return":{threads:"threads",lastRevision:"lastRevision"},references:{}}}]},r.bind(this.updateThreads,this))},comparator:function(e){var t={field:e.get("waitingTime").toString()};return this.trigger("sort:field",e,t),t.field},updateThreads:function(t){if(0==t.errorCode){if(t.threads.length>0){var r;r=t.currentTime?Math.round((new Date).getTime()/1e3)-t.currentTime:0;for(var i=0,s=t.threads.length;s>i;i++)t.threads[i].totalTime=parseInt(t.threads[i].totalTime)+r,t.threads[i].waitingTime=parseInt(t.threads[i].waitingTime)+r;this.trigger("before:update:threads",t.threads);var n=e.Models.Thread.prototype.STATE_CLOSED,a=e.Models.Thread.prototype.STATE_LEFT,o=[];this.set(t.threads,{remove:!1,sort:!1}),o=this.filter(function(e){return e.get("state")==n||e.get("state")==a}),o.length>0&&this.remove(o),this.sort(),this.trigger("after:update:threads")}this.revision=t.lastRevision}}})}(Mibew,Backbone,_);
