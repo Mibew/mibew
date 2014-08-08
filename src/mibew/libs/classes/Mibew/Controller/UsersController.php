@@ -37,6 +37,11 @@ class UsersController extends AbstractController
     {
         $operator = $this->getOperator();
 
+        // Operator becomes online as soon as he open "operator/users" page
+        notify_operator_alive($operator['operatorid'], 0);
+        $operator['istatus'] = 0;
+        $this->getAuthenticationManager()->setOperator($operator);
+
         $_SESSION[SESSION_PREFIX . "operatorgroups"] = get_operator_groups_list($operator['operatorid']);
 
         $page = array();
