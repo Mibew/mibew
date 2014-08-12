@@ -26,6 +26,7 @@ var config = {
     pageStylesPath: 'mibew/styles/pages',
     compiledTemplatesHeader: fs.readFileSync('tools/compiled_templates_header.txt'),
     getComposerUrl: 'https://getcomposer.org/installer',
+    phpBin: 'php -d "suhosin.executor.include.whitelist = phar"',
     package: require('./package.json')
 }
 
@@ -56,7 +57,7 @@ gulp.task('get-composer', function(callback) {
     // Get installer from the internet
     https.get(config.getComposerUrl, function(response) {
         // Run PHP to install Composer
-        var php = exec('php', function(error, stdout, stderr) {
+        var php = exec(config.phpBin, function(error, stdout, stderr) {
             callback(error ? stderr : null);
         });
         // Pass installer code to PHP via STDIN
@@ -66,14 +67,14 @@ gulp.task('get-composer', function(callback) {
 
 // Install Composer dependencies excluding development ones
 gulp.task('composer-install', ['get-composer'], function(callback) {
-    exec('php composer.phar install --no-dev', function(error, stdout, stderr) {
+    exec(config.phpBin + ' composer.phar install --no-dev', function(error, stdout, stderr) {
         callback(error ? stderr : null);
     });
 });
 
 // Install all Composer dependencies
 gulp.task('composer-install-dev', ['get-composer'], function(callback) {
-    exec('php composer.phar install', function(error, stdout, stderr) {
+    exec(config.phpBin + ' composer.phar install', function(error, stdout, stderr) {
         callback(error ? stderr : null);
     });
 });
