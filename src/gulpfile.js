@@ -14,7 +14,9 @@ var fs = require('fs'),
     zip = require('gulp-zip'),
     tar = require('gulp-tar'),
     gzip = require('gulp-gzip'),
-    chmod = require('gulp-chmod');
+    chmod = require('gulp-chmod'),
+    xgettext = require('gulp-xgettext'),
+    concatPo = require('gulp-concat-po');
 
 // Set global configs.
 var config = {
@@ -143,6 +145,32 @@ gulp.task('page-styles', function() {
     .pipe(gulp.dest(stylePath + '/templates_compiled/client_side'));
 });
 
+// Generate .pot files based on the sources
+gulp.task('generate-pot', function() {
+    return gulp.src([
+        config.mibewPath + '/**/*.php',
+        '!' + config.phpVendorPath + '/**/*.*',
+        '!' + config.pluginsPath + '/**/*.*'
+    ])
+    .pipe(xgettext({
+        language: 'PHP',
+        keywords: [
+            {name: 'getlocal'}
+        ]
+    }))
+    .pipe(concatPo('translation.pot', {
+        headers: {
+            'Project-Id-Version': config.package.version,
+            'Report-Msgid-Bugs-To': config.package.bugs.email,
+            'PO-Revision-Date': '',
+            'Last-Translator': '',
+            'Language-Team': '',
+            'Content-Type': 'text/plain; charset=UTF-8'
+        }
+    }))
+    .pipe(gulp.dest('release'));
+});
+
 // Pack sources to .zip and .tar.gz archives.
 gulp.task('pack-sources', ['composer-install'], function() {
     var sources = config.mibewPath + '/**/*',
@@ -162,7 +190,7 @@ gulp.task('pack-sources', ['composer-install'], function() {
 // Builds all the sources
 gulp.task('default', function(callback) {
     runSequence(
-        ['phpcs', 'js', 'chat-styles', 'page-styles'],
+        ['phpcs', 'js', 'chat-styles', 'page-styles', 'generate-pot'],
         'pack-sources',
         callback
     );
