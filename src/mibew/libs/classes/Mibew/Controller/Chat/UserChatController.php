@@ -143,7 +143,7 @@ class UserChatController extends AbstractController
             }
 
             // Get invitation info
-            if (Settings::get('enabletracking')) {
+            if (Settings::get('enabletracking') && !empty($_SESSION['visitorid'])) {
                 $invitation_state = invitation_state($_SESSION['visitorid']);
                 $visitor_is_invited = $invitation_state['invited'];
             } else {
