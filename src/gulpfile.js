@@ -3,6 +3,10 @@ var fs = require('fs'),
     exec = require('child_process').exec,
     eventStream = require('event-stream'),
     runSequence = require('run-sequence'),
+    through = require('through2'),
+    lodash = require('lodash'),
+    PoFile = require('pofile'),
+    strftime = require('strftime'),
     gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     concat = require('gulp-concat'),
@@ -149,21 +153,29 @@ gulp.task('page-styles', function() {
 
 // Generate .pot files based on the sources
 gulp.task('generate-pot', function() {
-    return gulp.src([
-        config.mibewPath + '/**/*.php',
-        '!' + config.phpVendorPath + '/**/*.*',
-        '!' + config.pluginsPath + '/**/*.*'
-    ])
-    .pipe(xgettext({
-        language: 'PHP',
-        keywords: [
-            {name: 'getlocal'}
-        ]
-    }))
+    return eventStream.merge(
+        gulp.src([
+            config.mibewPath + '/**/*.php',
+            '!' + config.phpVendorPath + '/**/*.*',
+            '!' + config.pluginsPath + '/**/*.*'
+        ])
+            .pipe(xgettext({
+                language: 'PHP',
+                keywords: [
+                    {name: 'getlocal'}
+                ]
+            })),
+        gulp.src([
+            config.chatStylesPath + '/default/templates_src/**/*.handlebars',
+            config.pageStylesPath + '/default/templates_src/**/*.handlebars'
+        ], {base: config.mibewPath})
+            .pipe(xgettextHandlebars())
+    )
     .pipe(concatPo('translation.pot', {
         headers: {
             'Project-Id-Version': config.package.version,
             'Report-Msgid-Bugs-To': config.package.bugs.email,
+            'POT-Creation-Date': strftime('%Y-%m-%d %H:%M%z'),
             'PO-Revision-Date': '',
             'Last-Translator': '',
             'Language-Team': '',
@@ -260,5 +272,46 @@ var wrapHandlebarsTemplate = function() {
         context: function(context) {
             return {relative: context.file.relative.replace(/\.js$/, '')};
         }
+    });
+}
+
+/**
+ * Extracts gettext messages from handlebars templates.
+ *
+ * @returns {Function} A function that can be used in pipe() method of a file
+ *   stream.
+ */
+var xgettextHandlebars = function() {
+    var helperRegExp = /\{{2}l10n\s*('|")(.*?[^\\])\1.*?\}{2}/g;
+
+    return through.obj(function (file, enc, callback) {
+        var po = new PoFile();
+            match = false,
+            contents = file.contents.toString();
+
+        while (match = helperRegExp.exec(contents)) {
+            // Try to find item in the .po file by its name.
+            var item = lodash.find(po.items, function(item) {
+                return match[2] === item.msgid;
+            });
+
+            var line = contents.substr(0, match.index).split(/\r?\n|\r/g).length;
+
+            if (!item) {
+                // There is no such item. Create new one.
+                item = new PoFile.Item();
+                item.msgid = match[2].replace(/\\'/g, "'").replace(/\\"/g, '"');
+                po.items.push(item);
+            }
+
+            // Add new reference
+            item.references.push(file.relative + ':' + line);
+        }
+
+        // Update file contents
+        file.contents = new Buffer(po.toString());
+        this.push(file);
+
+        callback();
     });
 }

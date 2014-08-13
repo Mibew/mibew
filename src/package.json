@@ -23,6 +23,10 @@
         "gulp-xgettext": "~0.2.0",
         "gulp-concat-po": "~0.1.0",
         "run-sequence": "~0.3.6",
+        "through2": "^0.5.1",
+        "pofile": "~0.2.12",
+        "lodash": "~2.4.1",
+        "strftime": "~0.8.2",
         "event-stream": "~3.1.7"
     }
 }
