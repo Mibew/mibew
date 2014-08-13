@@ -173,8 +173,13 @@ gulp.task('generate-pot', function() {
 
 // Pack sources to .zip and .tar.gz archives.
 gulp.task('pack-sources', ['composer-install'], function() {
-    var sources = config.mibewPath + '/**/*',
-        version = config.package.version;
+    var sources = [
+        config.mibewPath + '/**/*',
+        // Exclude Git repositories that can be shipped with third-party libs
+        '!' + config.phpVendorPath + '/**/.git',
+        '!' + config.phpVendorPath + '/**/.git/**/*'
+    ];
+    var version = config.package.version;
 
     return eventStream.merge(
         gulp.src(sources, {dot: true})
