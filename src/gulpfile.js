@@ -44,7 +44,9 @@ gulp.task('phpcs', ['composer-install-dev'], function() {
         bin: config.phpVendorPath + '/bin/phpcs',
         standard: 'PSR2',
         warningSeverity: 0
-    }));
+    }))
+    .pipe(phpcs.reporter('log'))
+    .pipe(phpcs.reporter('fail'));
 });
 
 // Get and install PHP Composer
