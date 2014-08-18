@@ -24,7 +24,7 @@
      * @param {String} str String for localization
      * @returns {String} Localized string
      */
-    Mibew.Localization.get = function(str) {
+    Mibew.Localization.trans = function(str) {
         if (! localStrings.hasOwnProperty(str)) {
             return false;
         }

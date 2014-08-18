@@ -108,7 +108,7 @@
      * This helper returns translated string with specified key
      */
     Handlebars.registerHelper('l10n', function(key) {
-        return (Mibew.Localization.get(key) || '');
+        return (Mibew.Localization.trans(key) || '');
     });
 
     /**

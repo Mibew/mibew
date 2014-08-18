@@ -39,7 +39,7 @@
              */
             closeThread: function() {
                 // Show confirmation message if can
-                var confirmMessage = Mibew.Localization.get('Are you sure want to leave chat?');
+                var confirmMessage = Mibew.Localization.trans('Are you sure want to leave chat?');
                 if (confirmMessage !== false) {
                     if (! confirm(confirmMessage)) {
                         return;

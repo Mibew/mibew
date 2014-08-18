@@ -55,7 +55,7 @@
                 if (this.get('showEmail')) {
                     if (typeof attributes.email != 'undefined') {
                         if(! Mibew.Utils.checkEmail(attributes.email)) {
-                            return Mibew.Localization.get(
+                            return Mibew.Localization.trans(
                                 'Wrong email address.'
                             );
                         }

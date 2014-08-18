@@ -53,24 +53,24 @@
                 // Check email
                 if (typeof attributes.email != 'undefined') {
                     if (! attributes.email) {
-                        return l.get('leavemessage.error.email.required');
+                        return l.trans('leavemessage.error.email.required');
                     }
                     if(! Mibew.Utils.checkEmail(attributes.email)) {
-                        return l.get('leavemessage.error.wrong.email');
+                        return l.trans('leavemessage.error.wrong.email');
                     }
                 }
 
                 // Check name
                 if (typeof attributes.name != 'undefined') {
                     if (! attributes.name) {
-                        return l.get('leavemessage.error.name.required');
+                        return l.trans('leavemessage.error.name.required');
                     }
                 }
 
                 // Check message
                 if (typeof attributes.message != 'undefined') {
                     if (! attributes.message) {
-                        return l.get('leavemessage.error.message.required');
+                        return l.trans('leavemessage.error.message.required');
                     }
                 }
 
@@ -78,7 +78,7 @@
                 if (this.get('showCaptcha')) {
                     if (typeof attributes.captcha != 'undefined') {
                         if (! attributes.captcha) {
-                            return l.get('The letters you typed don\'t match the letters that were shown in the picture.');
+                            return l.trans('The letters you typed don\'t match the letters that were shown in the picture.');
                         }
                     }
                 }

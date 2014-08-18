@@ -166,7 +166,7 @@
                 if (Mibew.Objects.Models.page.get('showPopup')) {
                     this.once('render', function() {
                         alert(
-                            Mibew.Localization.get('A new visitor is waiting for an answer.')
+                            Mibew.Localization.trans('A new visitor is waiting for an answer.')
                         );
                     })
                 }
