@@ -165,6 +165,13 @@ gulp.task('generate-pot', function() {
                     {name: 'getlocal'}
                 ]
             })),
+        gulp.src(config.jsPath + '/source/**/*.js', {base: config.mibewPath})
+            .pipe(xgettext({
+                language: 'JavaScript',
+                keywords: [
+                    {name: 'trans'}
+                ]
+            })),
         gulp.src([
             config.chatStylesPath + '/default/templates_src/**/*.handlebars',
             config.pageStylesPath + '/default/templates_src/**/*.handlebars'
