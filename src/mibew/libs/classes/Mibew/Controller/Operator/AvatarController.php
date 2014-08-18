@@ -127,7 +127,7 @@ class AvatarController extends AbstractController
                 }
             }
         } else {
-            $errors[] = "No file selected";
+            $errors[] = getlocal("No file selected");
         }
 
         if (count($errors) != 0) {

@@ -105,7 +105,7 @@ class TranslationImportController extends AbstractController
                 $errors[] = failed_uploading_file($orig_filename, "Invalid file type");
             }
         } else {
-            $errors[] = "No file selected";
+            $errors[] = getlocal("No file selected");
         }
 
         // Try to process uploaded file
