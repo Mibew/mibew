@@ -162,7 +162,10 @@ gulp.task('generate-pot', function() {
             .pipe(xgettext({
                 language: 'PHP',
                 keywords: [
-                    {name: 'getlocal'}
+                    {name: 'getlocal'},
+                    {name: 'no_field'},
+                    {name: 'wrong_field'},
+                    {name: 'failed_uploading_file', singular: 2}
                 ]
             })),
         gulp.src(config.jsPath + '/source/**/*.js', {base: config.mibewPath})
