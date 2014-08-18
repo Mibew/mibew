@@ -1,5 +1,5 @@
 /*
- This file is part of Mibew Messenger project.
+ This file is a part of Mibew Messenger.
  http://mibew.org
 
  Copyright (c) 2005-2014 Mibew Messenger Community
