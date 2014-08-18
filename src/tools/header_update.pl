@@ -1,6 +1,8 @@
 #!/usr/bin/perl
 =head1 cli-script for headers update
 
+ This file is a part of Mibew Messenger.
+
  Copyright 2005-2014 the original author or authors.
 
  Licensed under the Apache License, Version 2.0 (the "License");
