@@ -183,7 +183,7 @@ gulp.task('generate-pot', function() {
     )
     .pipe(concatPo('translation.pot', {
         headers: {
-            'Project-Id-Version': config.package.version,
+            'Project-Id-Version': 'Mibew Messenger ' + config.package.version,
             'Report-Msgid-Bugs-To': config.package.bugs.email,
             'POT-Creation-Date': strftime('%Y-%m-%d %H:%M%z'),
             'PO-Revision-Date': '',
