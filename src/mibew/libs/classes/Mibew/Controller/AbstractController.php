@@ -98,6 +98,26 @@ abstract class AbstractController implements RouterAwareInterface, Authenticatio
     }
 
     /**
+     * Generates an HTTPS URL from the given parameters.
+     *
+     * @param string $route The name of the route.
+     * @param mixed $parameters An array of parameters.
+     *
+     * @return string The generated URL.
+     */
+    public function generateSecureUrl($route, $parameters = array())
+    {
+        $context = $this->getRouter()->getContext();
+
+        return 'https://' . $context->getHost()
+            . $this->getRouter()->generate(
+                $route,
+                $parameters,
+                UrlGeneratorInterface::ABSOLUTE_PATH
+            );
+    }
+
+    /**
      * Returns a RedirectResponse to the given URL.
      *
      * @param string $url The URL to redirect to.
