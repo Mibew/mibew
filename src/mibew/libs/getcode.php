@@ -136,26 +136,7 @@ function generate_button(
 
     return "<!-- mibew button -->" . $temp . "<!-- / mibew button -->";
 }
-/**
- * Return chat group id from GET or POST arrays.
- *
- * @param string $param_id key of group_id in client request
- *
- * @return integer Chat group id from client request
- */
-function verifyparam_groupid($param_id, &$errors)
-{
-    $group_id = verify_param($param_id, "/^\d{0,8}$/", "");
-    if ($group_id) {
-        $group = group_by_id($group_id);
-        if (!$group) {
-            $errors[] = getlocal("No such group");
-            $group_id = "";
-        }
-    }
 
-    return $group_id;
-}
 /**
  * Return list of all chat groups.
  *
@@ -177,6 +158,7 @@ function get_groups_list()
 
     return $result;
 }
+
 /**
  * Return map of chat button images.
  *
