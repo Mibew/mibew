@@ -46,7 +46,7 @@ class ButtonCodeController extends AbstractController
             'errors' => array(),
         );
 
-        $image_locales_map = get_image_locales_map(MIBEW_FS_ROOT . '/locales');
+        $image_locales_map = $this->getImageLocalesMap(MIBEW_FS_ROOT . '/locales');
         $image = $request->query->get('i', 'mibew');
         if (!isset($image_locales_map[$image])) {
             $page['errors'][] = 'Unknown image: ' . $image;
@@ -134,7 +134,8 @@ class ButtonCodeController extends AbstractController
             $message = getlocal('Click to chat');
         }
 
-        $page['buttonCode'] = generate_button(
+        $page['buttonCode'] = $this->generateButton(
+            $request,
             '',
             $lang,
             $style,
@@ -151,7 +152,7 @@ class ButtonCodeController extends AbstractController
         $page['availableLocales'] = $generate_button ? $image_locales : $locales_list;
         $page['availableChatStyles'] = $style_list;
         $page['availableInvitationStyles'] = $invitation_style_list;
-        $page['groups'] = get_groups_list();
+        $page['groups'] = $this->getGroupsList();
 
         $page['availableCodeTypes'] = array(
             'button' => getlocal('button'),
@@ -179,5 +180,190 @@ class ButtonCodeController extends AbstractController
         $page = array_merge($page, prepare_menu($operator));
 
         return $this->render('button_code', $page);
+    }
+
+    /**
+     * Generates button code.
+     *
+     * @param string $request Request incoming request.
+     * @param string $title Page title
+     * @param string $locale RFC 5646 code for language
+     * @param string $style name of available style from styles/dialogs folder
+     * @param string $invitation_style_name name of avalabel style from
+     * styles/invitations folder
+     * @param integer $group chat group id
+     * @param integer $inner chat link message or html code like image code
+     * @param bool $show_host generated link contains protocol and domain or not
+     * @param bool $force_secure force protocol to secure (https) or not
+     * @param bool $mod_security add rule to remove protocol from document location
+     * in generated javascript code
+     * @param bool $operator_code add operator code to generated button code or not
+     * @param bool $disable_invitation forcibly disable invitation regadless of
+     * tracking settings
+     *
+     * @return string Generate chat button code
+     */
+    protected function generateButton(
+        $request,
+        $title,
+        $locale,
+        $style,
+        $invitation_style_name,
+        $group,
+        $inner,
+        $show_host,
+        $force_secure,
+        $mod_security,
+        $operator_code,
+        $disable_invitation
+    ) {
+        $host = ($force_secure ? 'https://' : 'http://') . $request->getHost();
+        $base_url = ($show_host ? $host : '')
+            . $request->getBasePath();
+
+        $url_type = $show_host
+            ? UrlGeneratorInterface::ABSOLUTE_URL
+            : UrlGeneratorInterface::ABSOLUTE_PATH;
+
+        // Build the main link
+        $link_params = array();
+        if ($locale) {
+            $link_params['locale'] = $locale;
+        }
+        if ($style) {
+            $link_params['style'] = $style;
+        }
+        if ($group) {
+            $link_params['group'] = $group;
+        }
+        $link = ($show_host && $force_secure)
+            ? $this->generateSecureUrl('chat_user_start', $link_params)
+            : $this->generateUrl('chat_user_start', $link_params, $url_type);
+
+        $modsecfix = $mod_security ? ".replace('http://','').replace('https://','')" : "";
+        $js_link = "'" . $link
+            . (empty($link_params) ? '?' : '&amp;')
+            . "url='+escape(document.location.href$modsecfix)+'&amp;referrer='+escape(document.referrer$modsecfix)";
+
+        // Get popup window configurations
+        if ($style) {
+            $chat_style = new ChatStyle($style);
+            $chat_configurations = $chat_style->getConfigurations();
+            $popup_options = $chat_configurations['chat']['window_params'];
+        } else {
+            $popup_options = "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1";
+        }
+
+        // Generate operator code field
+        if ($operator_code) {
+            $form_on_submit = "if(navigator.userAgent.toLowerCase().indexOf('opera') != -1 "
+                . "&amp;&amp; window.event.preventDefault) window.event.preventDefault();"
+                . "this.newWindow = window.open({$js_link} + '&amp;operator_code=' "
+                . "+ document.getElementById('mibewOperatorCodeField').value, 'mibew', '{$popup_options}');"
+                . "this.newWindow.focus();this.newWindow.opener=window;return false;";
+            $temp = '<form action="" onsubmit="' . $form_on_submit . '" id="mibewOperatorCodeForm">'
+                . '<input type="text" id="mibewOperatorCodeField" />'
+                . '</form>';
+            return "<!-- mibew operator code field -->" . $temp . "<!-- / mibew operator code field -->";
+        }
+
+        // Generate button
+        $temp = get_popup($link, "$js_link", $inner, $title, "mibew", $popup_options);
+        if (!$disable_invitation && Settings::get('enabletracking')) {
+            $widget_data = array();
+
+            // Get actual invitation style instance
+            if (!$invitation_style_name) {
+                $invitation_style_name = InvitationStyle::getCurrentStyle();
+            }
+            $invitation_style = new InvitationStyle($invitation_style_name);
+
+            // URL of file with additional CSS rules for invitation popup
+            $widget_data['inviteStyle'] = $base_url . '/' .
+                $invitation_style->getFilesPath() .
+                '/invite.css';
+
+            // Time between requests to the server in milliseconds
+            $widget_data['requestTimeout'] = Settings::get('updatefrequency_tracking') * 1000;
+
+            // URL for requests
+            $widget_data['requestURL'] = ($show_host && $force_secure)
+                ? $this->generateSecureUrl('widget_gateway', array())
+                : $this->generateUrl('widget_gateway', array(), $url_type);
+
+            // Locale for invitation
+            $widget_data['locale'] = $locale;
+
+            // Name of the cookie to track user. Use if third-party cookie blocked
+            $widget_data['visitorCookieName'] = VISITOR_COOKIE_NAME;
+
+            // Build additional button code
+            $temp = preg_replace('/^(<a )/', '\1id="mibewAgentButton" ', $temp)
+                . '<div id="mibewinvitation"></div>'
+                . '<script type="text/javascript" src="'
+                . $base_url . '/js/compiled/widget.js'
+                . '"></script>'
+                . '<script type="text/javascript">'
+                . 'Mibew.Widget.init(' . json_encode($widget_data) . ')'
+                . '</script>';
+        }
+
+        return "<!-- mibew button -->" . $temp . "<!-- / mibew button -->";
+    }
+
+    /**
+     * Prepares list of group options.
+     *
+     * @return array Each element of the resultion array is an array with group
+     *   info. See {@link get_all_groups()} description for more details.
+     */
+    protected function getGroupsList()
+    {
+        $result = array();
+        $all_groups = get_all_groups();
+
+        $result[] = array(
+            'groupid' => '',
+            'vclocalname' => getlocal("-all operators-"),
+            'level' => 0,
+        );
+        foreach ($all_groups as $g) {
+            $result[] = $g;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Maps locales onto existing images.
+     *
+     * @param string $locales_dir Base directory of locales.
+     *
+     * @return array The keys of the resulting array are images names and the
+     *   values are arrays of locales which contains the image.
+     */
+    function getImageLocalesMap($locales_dir)
+    {
+        $image_locales = array();
+        $all_locales = get_available_locales();
+        foreach ($all_locales as $curr) {
+            $images_dir = "$locales_dir/$curr/button";
+            if ($handle = @opendir($images_dir)) {
+                while (false !== ($file = readdir($handle))) {
+                    $both_files_exist = preg_match("/^(\w+)_on\.(gif|png)$/", $file, $matches)
+                        && is_file("$images_dir/" . $matches[1] . "_off." . $matches[2]);
+                    if ($both_files_exist) {
+                        $image = $matches[1];
+                        if (!isset($image_locales[$image])) {
+                            $image_locales[$image] = array();
+                        }
+                        $image_locales[$image][] = $curr;
+                    }
+                }
+                closedir($handle);
+            }
+        }
+
+        return $image_locales;
     }
 }
