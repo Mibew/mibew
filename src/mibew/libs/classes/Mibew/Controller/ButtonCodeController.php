@@ -342,7 +342,7 @@ class ButtonCodeController extends AbstractController
      * @return array The keys of the resulting array are images names and the
      *   values are arrays of locales which contains the image.
      */
-    function getImageLocalesMap($locales_dir)
+    protected function getImageLocalesMap($locales_dir)
     {
         $image_locales = array();
         $all_locales = get_available_locales();
