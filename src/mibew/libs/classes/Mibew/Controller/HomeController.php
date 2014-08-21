@@ -47,18 +47,18 @@ class HomeController extends AbstractController
     public function dashboardAction(Request $request)
     {
         $operator = $this->getOperator();
-        $base_url = $request->getBaseUrl();
-
         $is_online = is_operator_online($operator['operatorid']);
 
         $page = array(
             'version' => MIBEW_VERSION,
             'localeLinks' => get_locale_links(),
             'needUpdate' => Settings::get('dbversion') != DB_VERSION,
-            'profilePage' => $base_url . '/operator/operator/' . $operator['operatorid'] . '/edit',
-            'updateWizard' => $base_url . '/install/',
+            'profilePage' => $this->generateUrl('operator_edit', array('operator_id' => $operator['operatorid'])),
+            // Use another entry point as an install URL.
+            // TODO: Use real update route when the System Updater will be ready
+            'updateWizard' => $request->getBasePath() . '/install.php',
             'newFeatures' => Settings::get('featuresversion') != FEATURES_VERSION,
-            'featuresPage' => $base_url . '/operator/settings/features',
+            'featuresPage' => $this->generateUrl('settings_features'),
             'isOnline' => $is_online,
             'warnOffline' => true,
             'title' => getlocal('Home'),
