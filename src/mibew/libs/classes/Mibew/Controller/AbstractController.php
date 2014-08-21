@@ -19,6 +19,8 @@
 
 namespace Mibew\Controller;
 
+use Mibew\Asset\AssetUrlGeneratorAwareInterface;
+use Mibew\Asset\AssetUrlGeneratorInterface;
 use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Routing\RouterAwareInterface;
@@ -31,7 +33,10 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 /**
  * A base class for all controllers.
  */
-abstract class AbstractController implements RouterAwareInterface, AuthenticationManagerAwareInterface
+abstract class AbstractController implements
+    RouterAwareInterface,
+    AuthenticationManagerAwareInterface,
+    AssetUrlGeneratorAwareInterface
 {
     /**
      * @var RouterInterface|null
@@ -47,6 +52,11 @@ abstract class AbstractController implements RouterAwareInterface, Authenticatio
      * @var StyleInterface|null
      */
     protected $style = null;
+
+    /**
+     * @var AssetUrlGeneratorInterface|null
+     */
+    protected $assetUrlGenerator = null;
 
     /**
      * {@inheritdoc}
@@ -78,6 +88,22 @@ abstract class AbstractController implements RouterAwareInterface, Authenticatio
     public function getAuthenticationManager()
     {
         return $this->authenticationManager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setAssetUrlGenerator(AssetUrlGeneratorInterface $generator)
+    {
+        $this->assetUrlGenerator = $generator;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAssetUrlGenerator()
+    {
+        return $this->assetUrlGenerator;
     }
 
     /**
@@ -169,5 +195,20 @@ abstract class AbstractController implements RouterAwareInterface, Authenticatio
     public function getOperator()
     {
         return $this->getAuthenticationManager()->getOperator();
+    }
+
+    /**
+     * Generates URL for an asset with the specified relative path.
+     *
+     * @param string $relative_path Relative path of an asset.
+     * @param bool|string $reference_type Indicates what type of URL should be
+     *   generated. It is equal to one of the
+     *   {@link \Mibew\Asset\AssetUrlGeneratorInterface} constants.
+     * @return string Asset URL.
+     */
+    public function asset($relative_path, $reference_type = AssetUrlGeneratorInterface::ABSOLUTE_PATH)
+    {
+        return $this->getAssetUrlGenerator()
+            ->generate($relative_path, $reference_type);
     }
 }

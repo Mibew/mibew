@@ -19,13 +19,18 @@
 
 namespace Mibew\Controller;
 
+use Mibew\Asset\AssetUrlGeneratorAwareInterface;
+use Mibew\Asset\AssetUrlGeneratorInterface;
 use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Routing\RouterAwareInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class ControllerResolver implements RouterAwareInterface, AuthenticationManagerAwareInterface
+class ControllerResolver implements
+    RouterAwareInterface,
+    AuthenticationManagerAwareInterface,
+    AssetUrlGeneratorAwareInterface
 {
     /**
      * @var RouterInterface|null
@@ -36,6 +41,11 @@ class ControllerResolver implements RouterAwareInterface, AuthenticationManagerA
      * @var AuthenticationManagerInterface|null
      */
     protected $authenticationManager = null;
+
+    /**
+     * @var AssetUrlGeneratorInterface|null
+     */
+    protected $assetUrlGenerator = null;
 
     /**
      * Class constructor.
@@ -80,6 +90,22 @@ class ControllerResolver implements RouterAwareInterface, AuthenticationManagerA
     public function setAuthenticationManager(AuthenticationManagerInterface $manager)
     {
         $this->authenticationManager = $manager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setAssetUrlGenerator(AssetUrlGeneratorInterface $generator)
+    {
+        $this->assetUrlGenerator = $generator;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAssetUrlGenerator()
+    {
+        return $this->assetUrlGenerator;
     }
 
     /**
@@ -141,6 +167,10 @@ class ControllerResolver implements RouterAwareInterface, AuthenticationManagerA
 
         if ($object instanceof AuthenticationManagerAwareInterface) {
             $object->setAuthenticationManager($this->getAuthenticationManager());
+        }
+
+        if ($object instanceof AssetUrlGeneratorAwareInterface) {
+            $object->setAssetUrlGenerator($this->getAssetUrlGenerator());
         }
 
         return array($object, $method);

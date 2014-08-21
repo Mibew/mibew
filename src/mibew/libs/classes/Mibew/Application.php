@@ -20,6 +20,7 @@
 namespace Mibew;
 
 use Mibew\AccessControl\Check\CheckResolver;
+use Mibew\Asset\AssetUrlGenerator;
 use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Controller\ControllerResolver;
@@ -66,6 +67,11 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
     protected $authenticationManager = null;
 
     /**
+     * @var AssetUrlGenerator|null
+     */
+    protected $assetUrlGenerator = null;
+
+    /**
      * Class constructor.
      *
      * @param RouterInterface $router Appropriate router instance.
@@ -76,10 +82,12 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
     {
         $this->router = $router;
         $this->authenticationManager = $manager;
+        $this->assetUrlGenerator = new AssetUrlGenerator();
         $this->controllerResolver = new ControllerResolver(
             $this->router,
             $this->authenticationManager
         );
+        $this->controllerResolver->setAssetUrlGenerator($this->assetUrlGenerator);
         $this->accessCheckResolver = new CheckResolver($this->authenticationManager);
     }
 
@@ -104,6 +112,9 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
             $authentication_manager->setCookieFactory($cookie_factory);
         }
         $authentication_manager->setOperatorFromRequest($request);
+
+        // Actualize properties in AssetUrlGenerator
+        $this->assetUrlGenerator->fromRequest($request);
 
         try {
             // Try to match a route, check if the client can access it and add

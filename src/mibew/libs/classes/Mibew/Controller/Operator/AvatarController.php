@@ -123,7 +123,7 @@ class AvatarController extends AbstractController
                 // Move uploaded file to avatar directory
                 try {
                     $file->move($avatar_local_dir, $new_file_name);
-                    $avatar = $request->getBasePath() . "/files/avatar/" . $new_file_name;
+                    $avatar = $this->asset('files/avatar/' . $new_file_name);
                 } catch (Exception $e) {
                     $errors[] = failed_uploading_file($orig_filename, "Error moving file");
                 }
