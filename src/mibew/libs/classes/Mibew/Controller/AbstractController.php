@@ -24,10 +24,10 @@ use Mibew\Asset\AssetUrlGeneratorInterface;
 use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Routing\RouterAwareInterface;
+use Mibew\Routing\RouterInterface;
 use Mibew\Style\StyleInterface;
 use Mibew\Style\PageStyle;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -111,16 +111,16 @@ abstract class AbstractController implements
      *
      * @param string $route The name of the route.
      * @param mixed $parameters An array of parameters.
-     * @param bool|string $referenceType The type of reference (one of the
+     * @param bool|string $reference_type The type of reference (one of the
      *   constants in UrlGeneratorInterface).
      *
      * @return string The generated URL.
      *
      * @see UrlGeneratorInterface
      */
-    public function generateUrl($route, $parameters = array(), $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
+    public function generateUrl($route, $parameters = array(), $reference_type = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
-        return $this->getRouter()->generate($route, $parameters, $referenceType);
+        return $this->getRouter()->generate($route, $parameters, $reference_type);
     }
 
     /**
@@ -128,19 +128,14 @@ abstract class AbstractController implements
      *
      * @param string $route The name of the route.
      * @param mixed $parameters An array of parameters.
+     * @param bool|string $reference_type The type of reference (one of the
+     *   constants in UrlGeneratorInterface).
      *
      * @return string The generated URL.
      */
-    public function generateSecureUrl($route, $parameters = array())
+    public function generateSecureUrl($route, $parameters = array(), $reference_type = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
-        $context = $this->getRouter()->getContext();
-
-        return 'https://' . $context->getHost()
-            . $this->getRouter()->generate(
-                $route,
-                $parameters,
-                UrlGeneratorInterface::ABSOLUTE_PATH
-            );
+        return $this->getRouter()->generateSecure($route, $parameters, $reference_type);
     }
 
     /**

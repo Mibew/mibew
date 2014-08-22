@@ -32,12 +32,12 @@ use Mibew\Http\Exception\HttpException;
 use Mibew\Http\Exception\MethodNotAllowedException as MethodNotAllowedHttpException;
 use Mibew\Http\Exception\NotFoundException as NotFoundHttpException;
 use Mibew\Routing\RouterAwareInterface;
+use Mibew\Routing\RouterInterface;
 use Mibew\Routing\Exception\AccessDeniedException as AccessDeniedRoutingException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException as MethodNotAllowedRoutingException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException as ResourceNotFoundRoutingException;
 

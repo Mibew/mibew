@@ -24,7 +24,7 @@ use Mibew\Asset\AssetUrlGeneratorInterface;
 use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Routing\RouterAwareInterface;
-use Symfony\Component\Routing\RouterInterface;
+use Mibew\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class ControllerResolver implements

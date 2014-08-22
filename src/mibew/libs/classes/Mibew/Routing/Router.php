@@ -21,11 +21,10 @@ namespace Mibew\Routing;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Routing\RouteCollection;
-use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
+use Mibew\Routing\Generator\UrlGenerator;
 use Mibew\Routing\RouteCollectionLoader;
 
 class Router implements RouterInterface, RequestMatcherInterface
@@ -91,6 +90,14 @@ class Router implements RouterInterface, RequestMatcherInterface
     public function generate($name, $parameters = array(), $referenceType = self::ABSOLUTE_PATH)
     {
         return $this->getGenerator()->generate($name, $parameters, $referenceType);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function generateSecure($name, $parameters = array(), $referenceType = self::ABSOLUTE_PATH)
+    {
+        return $this->getGenerator()->generateSecure($name, $parameters, $referenceType);
     }
 
     /**

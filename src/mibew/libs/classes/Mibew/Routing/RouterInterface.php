@@ -19,22 +19,12 @@
 
 namespace Mibew\Routing;
 
-/**
- * An interface for all router aware objects.
- */
-interface RouterAwareInterface
-{
-    /**
-     * Sets associated router object.
-     *
-     * @param RouterInterface $router A router instance.
-     */
-    public function setRouter(RouterInterface $router);
+use Mibew\Routing\Generator\SecureUrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface as BaseRouterInterface;
 
-    /**
-     * Gets associated router object.
-     *
-     * @return RouterInterface A router instance;
-     */
-    public function getRouter();
+/**
+ * RouterInterface is the interface that all Router classes must implement.
+ */
+interface RouterInterface extends BaseRouterInterface, SecureUrlGeneratorInterface
+{
 }

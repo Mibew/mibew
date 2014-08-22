@@ -237,7 +237,7 @@ class ButtonCodeController extends AbstractController
             $link_params['group'] = $group;
         }
         $link = ($show_host && $force_secure)
-            ? $this->generateSecureUrl('chat_user_start', $link_params)
+            ? $this->generateSecureUrl('chat_user_start', $link_params, $url_type)
             : $this->generateUrl('chat_user_start', $link_params, $url_type);
 
         $modsecfix = $mod_security ? ".replace('http://','').replace('https://','')" : "";
