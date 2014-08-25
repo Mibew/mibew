@@ -113,8 +113,8 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
         }
         $authentication_manager->setOperatorFromRequest($request);
 
-        // Actualize properties in AssetUrlGenerator
-        $this->assetUrlGenerator->fromRequest($request);
+        // Actualize AssetUrlGenerator
+        $this->assetUrlGenerator->setRequest($request);
 
         try {
             // Try to match a route, check if the client can access it and add

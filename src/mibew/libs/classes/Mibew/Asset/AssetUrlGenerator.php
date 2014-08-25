@@ -23,10 +23,10 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AssetUrlGenerator implements AssetUrlGeneratorInterface
 {
-
     protected $scheme;
     protected $host;
-    protected $port;
+    protected $httpPort;
+    protected $httpsPort;
     protected $basePath;
 
     /**
@@ -35,27 +35,33 @@ class AssetUrlGenerator implements AssetUrlGeneratorInterface
      * @param string $host The HTTP host name without port and scheme.
      * @param string $base_path The base path.
      * @param string $scheme The scheme.
-     * @param int $port The port.
+     * @param int $http_port The port which is used for HTTP requests.
+     * @param int $https_port The port which is used for HTTPS requests.
      */
-    public function __construct($host = 'localhost', $base_path = '', $scheme = 'http', $port = 80)
+    public function __construct($host = 'localhost', $base_path = '', $scheme = 'http', $http_port = 80, $https_port = 443)
     {
         $this->scheme = strtolower($scheme);
         $this->host = $host;
-        $this->port = $port;
+        $this->httpPort = $http_port;
+        $this->httpsPort = $https_port;
         $this->basePath = $base_path;
     }
 
     /**
-     * Sets all needed values according to the request.
+     * Sets all needed values from the request.
      *
      * @param Request $request A request to get values from.
      */
-    public function fromRequest(Request $request)
+    public function setRequest(Request $request)
     {
         $this->setScheme($request->getScheme());
         $this->setHost($request->getHost());
-        $this->setPort($request->getPort());
         $this->setBasePath($request->getBasePath());
+        if ($request->isSecure()) {
+            $this->setHttpsPort($request->getPort());
+        } else {
+            $this->setHttpPort($request->getPort());
+        }
     }
 
     /**
@@ -99,23 +105,43 @@ class AssetUrlGenerator implements AssetUrlGeneratorInterface
     }
 
     /**
-     * Gets the port.
+     * Gets the HTTP port.
      *
      * @return int
      */
-    public function getPort()
+    public function getHttpPort()
     {
-        return $this->port;
+        return $this->httpPort;
     }
 
     /**
-     * Sets the port.
+     * Sets the HTTP port.
      *
      * @param int $port
      */
-    public function setPort($port)
+    public function setHttpPort($port)
     {
-        $this->port = $port;
+        $this->httpPort = $port;
+    }
+
+    /**
+     * Gets the HTTPS port.
+     *
+     * @return int
+     */
+    public function getHttpsPort()
+    {
+        return $this->httpsPort;
+    }
+
+    /**
+     * Sets the HTTPS port.
+     *
+     * @param int $port
+     */
+    public function setHttpsPort($port)
+    {
+        $this->httpsPort = $port;
     }
 
     /**
@@ -143,17 +169,43 @@ class AssetUrlGenerator implements AssetUrlGeneratorInterface
      */
     public function generate($relative_path, $reference_type = AssetUrlGeneratorInterface::ABSOLUTE_PATH)
     {
+        return $this->doGenerate($relative_path, $reference_type, false);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function generateSecure($relative_path, $reference_type = AssetUrlGeneratorInterface::ABSOLUTE_PATH)
+    {
+        return $this->doGenerate($relative_path, $reference_type, true);
+    }
+
+    protected function doGenerate($relative_path, $reference_type, $force_secure)
+    {
+        $scheme = $force_secure ? 'https' : $this->getScheme();
         $host = '';
-        $need_port = ($this->getScheme() == 'http' && $this->getPort() != 80)
-            || ($this->getScheme() == 'https' && $this->getPort() != 443);
+        $port = false;
 
-        if ($need_port || $reference_type === AssetUrlGeneratorInterface::ABSOLUTE_URL) {
-            $host = $this->getScheme() . '://' . $this->getHost();
+        // Check if a non-standard port is used.
+        if ($scheme == 'http' && $this->getHttpPort() != 80) {
+            $port = $this->getHttpPort();
+        } elseif ($scheme == 'https' && $this->getHttpsPort() != 443) {
+            $port = $this->getHttpsPort();
+        }
 
-            if ($need_port) {
-                // A non standatd port is used. It should be added to the
-                // resulting URL.
-                $host .= ':' . $this->getPort();
+        $need_host =
+            // A user wants an absolute URL
+            ($reference_type === AssetUrlGeneratorInterface::ABSOLUTE_URL)
+                // A scheme deffers from one from request.
+                || $scheme !== $this->getScheme()
+                // A non-standard port is used.
+                || $port;
+
+        if ($need_host) {
+            $host = $scheme . '://' . $this->getHost();
+
+            if ($port) {
+                $host .= ':' . $port;
             }
         }
 

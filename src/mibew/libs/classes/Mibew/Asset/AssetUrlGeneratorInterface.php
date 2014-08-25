@@ -44,4 +44,14 @@ interface AssetUrlGeneratorInterface
      * @return string Asset URL.
      */
     public function generate($relative_path, $reference_type = self::ABSOLUTE_PATH);
+
+    /**
+     * Generates HTTPS URL for an asset with the specified relative path.
+     *
+     * @param string $relative_path Relative path of an asset.
+     * @param bool|string $reference_type Indicates what type of URL should be
+     *   generated. It is equal to one of the interface constants.
+     * @return string Asset URL.
+     */
+    public function generateSecure($relative_path, $reference_type = self::ABSOLUTE_PATH);
 }
