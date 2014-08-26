@@ -33,15 +33,6 @@ function get_popup($href, $js_href, $message, $title, $wnd_name, $options)
         . "this.newWindow.focus();this.newWindow.opener=window;return false;\">$message</a>";
 }
 
-function get_image($href, $width, $height)
-{
-    if ($width != 0 && $height != 0) {
-        return "<img src=\"$href\" border=\"0\" width=\"$width\" height=\"$height\" alt=\"\"/>";
-    }
-
-    return "<img src=\"$href\" border=\"0\" alt=\"\"/>";
-}
-
 /**
  * Load additional CSS files, required by plugins, and build HTML code to
  * include them

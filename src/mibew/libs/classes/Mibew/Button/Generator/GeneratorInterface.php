@@ -17,21 +17,33 @@
  * limitations under the License.
  */
 
-function div($a, $b)
-{
-    return ($a - ($a % $b)) / $b;
-}
+namespace Mibew\Button\Generator;
 
 /**
- * Checks if currently processed script is installation script.
- *
- * @return boolean
+ * An interface that all button generators must implement.
  */
-function installation_in_progress()
+interface GeneratorInterface
 {
-    if (!defined('INSTALLATION_IN_PROGRESS')) {
-        return false;
-    }
+    /**
+     * Sets a generator's option.
+     *
+     * @param string $name Name of the option.
+     * @param mixed $value Value of the option.
+     */
+    public function setOption($name, $value);
 
-    return INSTALLATION_IN_PROGRESS;
+    /**
+     * Gets a generator's option.
+     *
+     * @param type $name
+     * @param type $default
+     */
+    public function getOption($name, $default);
+
+    /**
+     * Generates a button code.
+     *
+     * @return string
+     */
+    public function generate();
 }

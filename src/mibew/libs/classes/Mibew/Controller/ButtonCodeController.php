@@ -19,13 +19,15 @@
 
 namespace Mibew\Controller;
 
+use Mibew\Button\Generator\ImageGenerator as ImageButtonGenerator;
+use Mibew\Button\Generator\OperatorCodeGenerator as OperatorCodeFieldGenerator;
+use Mibew\Button\Generator\TextGenerator as TextButtonGenerator;
 use Mibew\Http\Exception\BadRequestException;
 use Mibew\Settings;
 use Mibew\Style\ChatStyle;
 use Mibew\Style\InvitationStyle;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Represents actions that are related with button code generation.
@@ -93,61 +95,56 @@ class ButtonCodeController extends AbstractController
 
         $operator_code = ($code_type == 'operator_code');
         $generate_button = ($code_type == 'button');
+        $button_generator_options = array(
+            'chat_style' => $style,
+            'group_id' => $group_id,
+            'show_host' => $show_host,
+            'force_secure' => $force_secure,
+            'mod_security' => $mod_security,
+        );
 
-        if ($generate_button) {
-            $disable_invitation = false;
-
+        if ($operator_code) {
+            $button_generator = new OperatorCodeFieldGenerator(
+                $this->getRouter(),
+                $button_generator_options
+            );
+        } elseif ($generate_button) {
+            // Make sure locale exists
             if (!$lang || !in_array($lang, $image_locales)) {
                 $lang = in_array(get_current_locale(), $image_locales)
                     ? get_current_locale()
                     : $image_locales[0];
             }
 
-            $file = MIBEW_FS_ROOT . "/locales/{$lang}/button/{$image}_on.png";
-            if (!is_readable($file)) {
-                // Fallback to .gif image
-                $file = MIBEW_FS_ROOT . "/locales/{$lang}/button/{$image}_on.gif";
-            }
-            $size = get_image_size($file);
-
-            $image_link_args = array(
-                'i' => $image,
-                'lang' => $lang,
+            $button_generator = new ImageButtonGenerator(
+                $this->getRouter(),
+                $this->getAssetUrlGenerator(),
+                $button_generator_options
             );
-            if ($group_id) {
-                $image_link_args['group'] = $group_id;
-            }
-            $host = ($force_secure ? 'https://' : 'http://') . $request->getHost();
-            $image_href = ($show_host ? $host : '')
-                . $this->generateUrl('button', $image_link_args, UrlGeneratorInterface::ABSOLUTE_PATH);
 
-            $message = get_image(htmlspecialchars($image_href), $size[0], $size[1]);
+            // Set generator-specific options
+            $button_generator->setOption('image', $image);
         } else {
-            $disable_invitation = true;
-
+            // Make sure locale exists
             if (!$lang || !in_array($lang, $locales_list)) {
                 $lang = in_array(get_current_locale(), $locales_list)
                     ? get_current_locale()
                     : $locales_list[0];
             }
 
-            $message = getlocal('Click to chat');
+            $button_generator = new TextButtonGenerator(
+                $this->getRouter(),
+                $button_generator_options
+            );
+
+            // Set generator-specific options
+            $button_generator->setOption('caption', getlocal('Click to chat'));
         }
 
-        $page['buttonCode'] = $this->generateButton(
-            $request,
-            '',
-            $lang,
-            $style,
-            $invitation_style,
-            $group_id,
-            $message,
-            $show_host,
-            $force_secure,
-            $mod_security,
-            $operator_code,
-            $disable_invitation
-        );
+        // Set verified locale code to a button generator
+        $button_generator->setOption('locale', $lang);
+
+        $page['buttonCode'] = $button_generator->generate();
         $page['availableImages'] = array_keys($image_locales_map);
         $page['availableLocales'] = $generate_button ? $image_locales : $locales_list;
         $page['availableChatStyles'] = $style_list;
@@ -180,135 +177,6 @@ class ButtonCodeController extends AbstractController
         $page = array_merge($page, prepare_menu($operator));
 
         return $this->render('button_code', $page);
-    }
-
-    /**
-     * Generates button code.
-     *
-     * @param string $request Request incoming request.
-     * @param string $title Page title
-     * @param string $locale RFC 5646 code for language
-     * @param string $style name of available style from styles/dialogs folder
-     * @param string $invitation_style_name name of avalabel style from
-     * styles/invitations folder
-     * @param integer $group chat group id
-     * @param integer $inner chat link message or html code like image code
-     * @param bool $show_host generated link contains protocol and domain or not
-     * @param bool $force_secure force protocol to secure (https) or not
-     * @param bool $mod_security add rule to remove protocol from document location
-     * in generated javascript code
-     * @param bool $operator_code add operator code to generated button code or not
-     * @param bool $disable_invitation forcibly disable invitation regadless of
-     * tracking settings
-     *
-     * @return string Generate chat button code
-     */
-    protected function generateButton(
-        $request,
-        $title,
-        $locale,
-        $style,
-        $invitation_style_name,
-        $group,
-        $inner,
-        $show_host,
-        $force_secure,
-        $mod_security,
-        $operator_code,
-        $disable_invitation
-    ) {
-        $host = ($force_secure ? 'https://' : 'http://') . $request->getHost();
-        $base_url = ($show_host ? $host : '')
-            . $request->getBasePath();
-
-        $url_type = $show_host
-            ? UrlGeneratorInterface::ABSOLUTE_URL
-            : UrlGeneratorInterface::ABSOLUTE_PATH;
-
-        // Build the main link
-        $link_params = array();
-        if ($locale) {
-            $link_params['locale'] = $locale;
-        }
-        if ($style) {
-            $link_params['style'] = $style;
-        }
-        if ($group) {
-            $link_params['group'] = $group;
-        }
-        $link = ($show_host && $force_secure)
-            ? $this->generateSecureUrl('chat_user_start', $link_params, $url_type)
-            : $this->generateUrl('chat_user_start', $link_params, $url_type);
-
-        $modsecfix = $mod_security ? ".replace('http://','').replace('https://','')" : "";
-        $js_link = "'" . $link
-            . (empty($link_params) ? '?' : '&amp;')
-            . "url='+escape(document.location.href$modsecfix)+'&amp;referrer='+escape(document.referrer$modsecfix)";
-
-        // Get popup window configurations
-        if ($style) {
-            $chat_style = new ChatStyle($style);
-            $chat_configurations = $chat_style->getConfigurations();
-            $popup_options = $chat_configurations['chat']['window_params'];
-        } else {
-            $popup_options = "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1";
-        }
-
-        // Generate operator code field
-        if ($operator_code) {
-            $form_on_submit = "if(navigator.userAgent.toLowerCase().indexOf('opera') != -1 "
-                . "&amp;&amp; window.event.preventDefault) window.event.preventDefault();"
-                . "this.newWindow = window.open({$js_link} + '&amp;operator_code=' "
-                . "+ document.getElementById('mibewOperatorCodeField').value, 'mibew', '{$popup_options}');"
-                . "this.newWindow.focus();this.newWindow.opener=window;return false;";
-            $temp = '<form action="" onsubmit="' . $form_on_submit . '" id="mibewOperatorCodeForm">'
-                . '<input type="text" id="mibewOperatorCodeField" />'
-                . '</form>';
-            return "<!-- mibew operator code field -->" . $temp . "<!-- / mibew operator code field -->";
-        }
-
-        // Generate button
-        $temp = get_popup($link, "$js_link", $inner, $title, "mibew", $popup_options);
-        if (!$disable_invitation && Settings::get('enabletracking')) {
-            $widget_data = array();
-
-            // Get actual invitation style instance
-            if (!$invitation_style_name) {
-                $invitation_style_name = InvitationStyle::getCurrentStyle();
-            }
-            $invitation_style = new InvitationStyle($invitation_style_name);
-
-            // URL of file with additional CSS rules for invitation popup
-            $widget_data['inviteStyle'] = $base_url . '/' .
-                $invitation_style->getFilesPath() .
-                '/invite.css';
-
-            // Time between requests to the server in milliseconds
-            $widget_data['requestTimeout'] = Settings::get('updatefrequency_tracking') * 1000;
-
-            // URL for requests
-            $widget_data['requestURL'] = ($show_host && $force_secure)
-                ? $this->generateSecureUrl('widget_gateway', array())
-                : $this->generateUrl('widget_gateway', array(), $url_type);
-
-            // Locale for invitation
-            $widget_data['locale'] = $locale;
-
-            // Name of the cookie to track user. Use if third-party cookie blocked
-            $widget_data['visitorCookieName'] = VISITOR_COOKIE_NAME;
-
-            // Build additional button code
-            $temp = preg_replace('/^(<a )/', '\1id="mibewAgentButton" ', $temp)
-                . '<div id="mibewinvitation"></div>'
-                . '<script type="text/javascript" src="'
-                . $base_url . '/js/compiled/widget.js'
-                . '"></script>'
-                . '<script type="text/javascript">'
-                . 'Mibew.Widget.init(' . json_encode($widget_data) . ')'
-                . '</script>';
-        }
-
-        return "<!-- mibew button -->" . $temp . "<!-- / mibew button -->";
     }
 
     /**
