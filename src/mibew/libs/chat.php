@@ -205,18 +205,6 @@ function is_mac_opera()
 }
 
 /**
- * Check if frame src needed
- *
- * @return bool True if frame is necessary otherwise return False
- */
-function needs_frame_src()
-{
-    $user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
-
-    return strstr($user_agent, "safari/");
-}
-
-/**
  * Prepare logo data
  *
  * @param array $group Group info
@@ -501,7 +489,6 @@ function setup_chatview(Thread $thread)
 
     // Set some browser info
     $data['isOpera95'] = is_agent_opera95();
-    $data['neediframesrc'] = needs_frame_src();
 
     // Load dialogs style options
     $chat_style = new ChatStyle(ChatStyle::getCurrentStyle());
