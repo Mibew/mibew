@@ -21,6 +21,7 @@ namespace Mibew\RequestProcessor;
 
 use Mibew\Database;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Base class for all request processors that interact with JavaScript
@@ -57,19 +58,24 @@ abstract class ClientSideProcessor extends AbstractProcessor
     }
 
     /**
-     * Sends asynchronous responses
+     * Builds asynchronous responses
      *
      * @param array $responses An array of the 'Request' arrays. See Mibew API
-     * for details
+     *   for details
+     * @return Response A response object that is ready for sending to client.
      */
-    protected function sendAsyncResponses($responses)
+    protected function buildAsyncResponses($responses)
     {
-        header("Content-type: text/plain; charset=UTF-8");
-        echo($this->mibewAPI->encodePackage(
+        $resp = new Response($this->mibewAPI->encodePackage(
             $responses,
             $this->config['signature'],
             true
         ));
+
+        $resp->headers->set('Content-type', 'text/plain');
+        $resp->setCharset('UTF-8');
+
+        return $resp;
     }
 
     /**

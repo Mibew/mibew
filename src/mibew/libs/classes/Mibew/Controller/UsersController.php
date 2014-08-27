@@ -91,12 +91,6 @@ class UsersController extends AbstractController
         $processor = UsersProcessor::getInstance();
         $processor->setAuthenticationManager($this->getAuthenticationManager());
 
-        // TODO: Remove bufferization after *Processor classes will be rewritten
-        // to play nice with symfony request/response objects
-        ob_start();
-        $processor->handleRequest($request);
-        $content = ob_get_clean();
-
-        return $content;
+        return $processor->handleRequest($request);
     }
 }

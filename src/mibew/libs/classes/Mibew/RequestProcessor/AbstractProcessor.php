@@ -24,6 +24,7 @@ use Mibew\Database;
 use Mibew\EventDispatcher;
 use Mibew\RequestProcessor\Exception\AbstractProcessorException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Implements abstract class for request processing
@@ -155,8 +156,8 @@ abstract class AbstractProcessor
      * listener to the "<eventPrefix>RequestError" event.
      *
      * @param Request $request The request to handle.
-     * @return boolean true if request processed succussfully or false on
-     *   failure
+     * @return Response|boolean A response object if request processed
+     *   succussfully or boolean false on failure
      */
     public function handleRequest($request)
     {
@@ -229,9 +230,9 @@ abstract class AbstractProcessor
             if (count($this->responses) != 0) {
                 // Send responses
                 if ($request_package['async']) {
-                    $this->sendAsyncResponses($this->responses);
+                    return $this->buildAsyncResponses($this->responses);
                 } else {
-                    $this->sendSyncResponses($this->responses);
+                    return $this->buildSyncResponses($this->responses);
                 }
             }
 
@@ -244,7 +245,8 @@ abstract class AbstractProcessor
             return false;
         }
 
-        return true;
+        // Return an empty response
+        return new Response();
     }
 
     /**
@@ -542,7 +544,7 @@ abstract class AbstractProcessor
      */
     protected function sendSyncRequest($request)
     {
-        trigger_error('Method sendSyncRequest does not implement!', E_USER_WARNING);
+        trigger_error('Method sendSyncRequest is not implemented!', E_USER_WARNING);
     }
 
     /**
@@ -553,29 +555,31 @@ abstract class AbstractProcessor
      */
     protected function sendAsyncRequest($request)
     {
-        trigger_error('Method sendAsyncRequest does not implement!', E_USER_WARNING);
+        trigger_error('Method sendAsyncRequest is not implemented!', E_USER_WARNING);
     }
 
     /**
-     * Sends synchronous responses
+     * Builds synchronous responses
      *
      * @param array $responses An array of the 'Request' arrays. See Mibew API
      *   for details
+     * @return Response A response object that is ready for sending to client.
      */
-    protected function sendSyncResponses($responses)
+    protected function buildSyncResponses($responses)
     {
-        trigger_error('Method sendSyncResponses does not implement!', E_USER_WARNING);
+        trigger_error('Method buildSyncResponses is not implemented!', E_USER_WARNING);
     }
 
     /**
-     * Sends asynchronous responses
+     * Builds asynchronous responses
      *
      * @param array $responses An array of the 'Request' arrays. See Mibew API
      *   for details
+     * @return Response A response object that is ready for sending to client.
      */
-    protected function sendAsyncResponses($responses)
+    protected function buildAsyncResponses($responses)
     {
-        trigger_error('Method sendAsyncResponses does not implement!', E_USER_WARNING);
+        trigger_error('Method buildAsyncResponses is not implemented!', E_USER_WARNING);
     }
 
     /**
