@@ -40,7 +40,7 @@ class ThreadController extends AbstractController
         // TODO: Remove bufferization after *Processor classes will be rewritten
         // to play nice with symfony request/response objects
         ob_start();
-        $processor->receiveRequest($request->request->get('data'));
+        $processor->handleRequest($request);
         $content = ob_get_clean();
 
         return $content;

@@ -23,6 +23,7 @@ namespace Mibew\RequestProcessor;
 use Mibew\Database;
 use Mibew\EventDispatcher;
 use Mibew\RequestProcessor\Exception\AbstractProcessorException;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Implements abstract class for request processing
@@ -153,12 +154,13 @@ abstract class AbstractProcessor
      * On any error function returns only boolean false. To handle error add
      * listener to the "<eventPrefix>RequestError" event.
      *
-     * @param string $package Encoded package
+     * @param Request $request The request to handle.
      * @return boolean true if request processed succussfully or false on
      *   failure
      */
-    public function receiveRequest($package)
+    public function handleRequest($request)
     {
+        $package = $this->extractPackage($request);
         $dispatcher = EventDispatcher::getInstance();
         // Try to handle request
         try {
@@ -593,4 +595,12 @@ abstract class AbstractProcessor
      * @return \Mibew\API\API
      */
     abstract protected function getMibewAPIInstance();
+
+    /**
+     * Extrats a package from an request.
+     *
+     * @param Request $request The request to extract package from.
+     * @return string Encoded package.
+     */
+    abstract protected function extractPackage(Request $request);
 }

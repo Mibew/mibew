@@ -19,8 +19,8 @@
 
 namespace Mibew\RequestProcessor;
 
-// Import namespaces and classes of the core
 use Mibew\Database;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Base class for all request processors that interact with JavaScript
@@ -119,5 +119,16 @@ abstract class ClientSideProcessor extends AbstractProcessor
         }
 
         return $result;
+    }
+
+    /**
+     * Extrats a package from an request.
+     *
+     * @param Request $request The request to extract package from.
+     * @return string Encoded package.
+     */
+    protected function extractPackage(Request $request)
+    {
+        return $request->request->get('data');
     }
 }
