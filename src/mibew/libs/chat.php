@@ -539,6 +539,10 @@ function setup_chatview_for_user(Thread $thread)
             . '/chat/' . $thread->id . '/' . $thread->lastToken;
     }
 
+    // Set default operator's avatar
+    $operator = operator_by_id($thread->agentId);
+    $data['chat']['avatar'] = ($operator['vcavatar'] ? $operator['vcavatar'] : '');
+
     return $data;
 }
 
