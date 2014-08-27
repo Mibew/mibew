@@ -172,27 +172,6 @@ function get_known_user_agents()
 }
 
 /**
- * Check if browser is opera 9.5 or greater
- *
- * @return bool Result of comparison of visitor browser and Opera 9.5
- */
-function is_agent_opera95()
-{
-    $user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
-    if (strstr($user_agent, "opera")) {
-        if (preg_match("/opera[\\s\/]?(\\d+(\\.\\d+)?)/", $user_agent, $matches)) {
-            $ver = $matches[1];
-
-            if ($ver >= "9.5") {
-                return true;
-            }
-        }
-    }
-
-    return false;
-}
-
-/**
  * Check if browser is opera with mac os
  *
  * @return bool Result of comparison of visitor browser and Opera_on_mac
@@ -486,9 +465,6 @@ function setup_chatview(Thread $thread)
     } else {
         $data['chat']['messageForm']['ignoreCtrl'] = false;
     }
-
-    // Set some browser info
-    $data['isOpera95'] = is_agent_opera95();
 
     // Load dialogs style options
     $chat_style = new ChatStyle(ChatStyle::getCurrentStyle());
