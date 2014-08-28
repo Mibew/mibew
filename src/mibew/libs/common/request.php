@@ -30,15 +30,6 @@ function get_get_param($name, $default = '')
     return $value;
 }
 
-function get_app_location($show_host, $is_secure)
-{
-    if ($show_host) {
-        return ($is_secure ? "https://" : "http://") . $_SERVER['HTTP_HOST'] . MIBEW_WEB_ROOT;
-    } else {
-        return MIBEW_WEB_ROOT;
-    }
-}
-
 function is_secure_request()
 {
     return (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443')
