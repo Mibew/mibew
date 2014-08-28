@@ -217,8 +217,6 @@ function get_current_locale()
             $locale = get_user_locale();
         }
 
-        setcookie(LOCALE_COOKIE_NAME, $locale, time() + 60 * 60 * 24 * 1000, MIBEW_WEB_ROOT . "/");
-
         $current_locale = $locale;
     }
 

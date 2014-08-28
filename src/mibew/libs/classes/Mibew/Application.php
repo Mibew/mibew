@@ -104,11 +104,13 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
         $context->fromRequest($request);
         $this->getRouter()->setContext($context);
 
+        // Make cookie creation easy
+        $cookie_factory = CookieFactory::fromRequest($request);
+
         $authentication_manager = $this->getAuthenticationManager();
         // Actualize cookie factory in the authentication manager if it is
         // needed.
         if ($authentication_manager instanceof CookieFactoryAwareInterface) {
-            $cookie_factory = CookieFactory::fromRequest($request);
             $authentication_manager->setCookieFactory($cookie_factory);
         }
         $authentication_manager->setOperatorFromRequest($request);
@@ -164,6 +166,16 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
         // Attach operator's authentication info to the response to distinguish
         // him in the next requests.
         $authentication_manager->attachOperatorToResponse($response);
+
+        // Cache user's locale in the cookie. The code below should be treated
+        // as a temporary workaround.
+        // TODO: Move the following lines to Locales Manager when object
+        // oriented approach for locales will be implemented.
+        $response->headers->setCookie($cookie_factory->createCookie(
+            LOCALE_COOKIE_NAME,
+            get_current_locale(),
+            time() + 60 * 60 * 24 * 1000
+        ));
 
         return $response;
     }
