@@ -216,10 +216,19 @@ gulp.task('pack-sources', ['composer-install'], function() {
     .pipe(gulp.dest('release'));
 });
 
-// Builds all the sources
-gulp.task('default', function(callback) {
+// Performs all tasks in the correct order.
+gulp.task('prepare-release', function(callback) {
     runSequence(
         ['phpcs', 'js', 'chat-styles', 'page-styles', 'generate-pot'],
+        'pack-sources',
+        callback
+    );
+});
+
+// Builds the sources
+gulp.task('default', function(callback) {
+    runSequence(
+        ['js', 'chat-styles', 'page-styles'],
         'pack-sources',
         callback
     );
