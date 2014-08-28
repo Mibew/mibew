@@ -61,7 +61,12 @@ class OperatorChatController extends AbstractController
             return $this->showErrors(array('Cannot view threads'));
         }
 
-        $page = setup_chatview_for_operator($thread, $operator);
+        $page = setup_chatview_for_operator(
+            $this->getRouter(),
+            $request,
+            $thread,
+            $operator
+        );
 
         // Build js application options
         $page['chatOptions'] = json_encode($page['chat']);

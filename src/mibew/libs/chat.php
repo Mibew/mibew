@@ -23,6 +23,8 @@ use Mibew\Settings;
 use Mibew\Thread;
 use Mibew\Style\ChatStyle;
 use Mibew\Style\PageStyle;
+use Mibew\Routing\Generator\SecureUrlGeneratorInterface as UrlGeneratorInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Convert messages to formated text
@@ -525,11 +527,18 @@ function setup_chatview_for_user(Thread $thread)
 /**
  * Prepare some data for chat for operator
  *
- * @param Thread $thread thread object
+ * @param UrlGeneratorInterface $url_generator A URL generator object.
+ * @param Request $request The current request.
+ * @param Thread $thread thread object.
+ * @param array $operator Operator's data.
  * @return array Array of chat view data
  */
-function setup_chatview_for_operator(Thread $thread, $operator)
-{
+function setup_chatview_for_operator(
+    UrlGeneratorInterface $url_generator,
+    Request $request,
+    Thread $thread,
+    $operator
+) {
     $data = setup_chatview($thread);
 
     // Load JavaScript plugins and JavaScripts, CSS files required by them
@@ -549,23 +558,29 @@ function setup_chatview_for_operator(Thread $thread, $operator)
     );
 
     // Set SSL link
-    if (Settings::get('enablessl') == "1" && !is_secure_request()) {
-        $data['chat']['links']['ssl'] = get_app_location(true, true)
-            . "/operator/chat/" . $thread->id . '/' . $thread->lastToken;
+    if (Settings::get('enablessl') == "1" && !$request->isSecure()) {
+        $data['chat']['links']['ssl'] = $url_generator->generateSecure(
+            'chat_operator',
+            array(
+                'thread_id' => $thread->id,
+                'token' => $thread->lastToken,
+            ),
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
     }
 
     // Set history window params
-    $data['chat']['links']['history'] = MIBEW_WEB_ROOT
-        . '/operator/history/user/'
-        . ((string) $thread->userId);
+    $data['chat']['links']['history'] = $url_generator->generate(
+        'history_user',
+        array('user_id' => $thread->userId)
+    );
 
     // Set tracking params
     if (Settings::get('enabletracking')) {
         $visitor = track_get_visitor_by_thread_id($thread->id);
-        $tracked_link_params = array("visitor" => "" . $visitor['visitorid']);
-        $data['chat']['links']['tracked'] = add_params(
-            MIBEW_WEB_ROOT . "/operator/history/user-track",
-            $tracked_link_params
+        $data['chat']['links']['tracked'] = $url_generator->generate(
+            'history_user_track',
+            array('visitor' => $visitor['visitorid'])
         );
     }
 
@@ -592,8 +607,13 @@ function setup_chatview_for_operator(Thread $thread, $operator)
         $data['chat']['messageForm']['predefinedAnswers'] = $predefined_answers;
     }
     // Set link to user redirection page
-    $data['chat']['links']['redirect'] = MIBEW_WEB_ROOT . "/operator/chat/"
-        . $thread->id . '/' . $thread->lastToken . '/redirection-links';
+    $data['chat']['links']['redirect'] = $url_generator->generate(
+        'chat_operator_redirection_links',
+        array(
+            'thread_id' => $thread->id,
+            'token' => $thread->lastToken,
+        )
+    );
 
     $data['namePostfix'] = "";
 

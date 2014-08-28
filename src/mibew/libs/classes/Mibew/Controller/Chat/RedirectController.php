@@ -63,8 +63,18 @@ class RedirectController extends AbstractController
         }
 
         $page = array_merge_recursive(
-            setup_chatview_for_operator($thread, $operator),
-            setup_redirect_links($this->getRouter()->getGenerator(), $thread_id, $operator, $token)
+            setup_chatview_for_operator(
+                $this->getRouter(),
+                $request,
+                $thread,
+                $operator
+            ),
+            setup_redirect_links(
+                $this->getRouter()->getGenerator(),
+                $thread_id,
+                $operator,
+                $token
+            )
         );
 
         // Render the page with redirection links.
