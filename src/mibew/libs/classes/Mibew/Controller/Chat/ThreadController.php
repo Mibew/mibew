@@ -37,6 +37,7 @@ class ThreadController extends AbstractController
     public function updateAction(Request $request)
     {
         $processor = ThreadProcessor::getInstance();
+        $processor->setRouter($this->getRouter());
 
         return $processor->handleRequest($request);
     }

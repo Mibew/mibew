@@ -488,11 +488,16 @@ function setup_chatview(Thread $thread)
 /**
  * Prepare some data for chat for user
  *
+ * @param UrlGeneratorInterface $url_generator A URL generator object.
+ * @param Request $request The current request.
  * @param Thread $thread thread object that will be used
  * @return array Array of chat view data
  */
-function setup_chatview_for_user(Thread $thread)
-{
+function setup_chatview_for_user(
+    UrlGeneratorInterface $url_generator,
+    Request $request,
+    Thread $thread
+) {
     $data = setup_chatview($thread);
 
     // Load JavaScript plugins and JavaScripts, CSS files required by them
@@ -508,13 +513,24 @@ function setup_chatview_for_user(Thread $thread)
     );
 
     // Set link to send mail page
-    $data['chat']['links']['mail'] = MIBEW_WEB_ROOT . "/chat"
-        . '/' . $thread->id . '/' . $thread->lastToken . '/mail';
+    $data['chat']['links']['mail'] = $url_generator->generate(
+        'chat_user_mail',
+        array(
+            'thread_id' => $thread->id,
+            'token' => $thread->lastToken,
+        )
+    );
 
     // Set SSL link
-    if (Settings::get('enablessl') == "1" && !is_secure_request()) {
-        $data['chat']['links']['ssl'] = get_app_location(true, true)
-            . '/chat/' . $thread->id . '/' . $thread->lastToken;
+    if (Settings::get('enablessl') == "1" && $request->isSecure()) {
+        $data['chat']['links']['ssl'] = $url_generator->generateSecure(
+            'chat_user',
+            array(
+                'thread_id' => $thread->id,
+                'token' => $thread->lastToken,
+            ),
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
     }
 
     // Set default operator's avatar

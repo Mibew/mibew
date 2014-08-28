@@ -24,6 +24,9 @@ use Mibew\Settings;
 use Mibew\Thread;
 use Mibew\API\API as MibewAPI;
 use Mibew\RequestProcessor\Exception\ThreadProcessorException;
+use Mibew\Routing\RouterAwareInterface;
+use Mibew\Routing\RouterInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Incapsulates thread api and thread processing functions.
@@ -38,9 +41,25 @@ use Mibew\RequestProcessor\Exception\ThreadProcessorException;
  * WARNING:
  *  threadResponseReceived registered but never called because of asynchronous
  *  nature of Core-to-Window interaction
+ *
+ * @todo Move all API functions to another place.
  */
-class ThreadProcessor extends ClientSideProcessor
+class ThreadProcessor extends ClientSideProcessor implements RouterAwareInterface
 {
+    /**
+     * The request which is hadled now.
+     *
+     * @var Request|null
+     */
+    protected $currentRequest = null;
+
+    /**
+     * A Router instance.
+     *
+     * @var RouterInterface|null
+     */
+    protected $router = null;
+
     /**
      * Loads thread by id and token and checks if thread loaded
      *
@@ -106,6 +125,34 @@ class ThreadProcessor extends ClientSideProcessor
         }
 
         return $operator;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function handleRequest($request)
+    {
+        $this->currentRequest = $request;
+        $response = parent::handleRequest($request);
+        $this->currentRequest = null;
+
+        return $response;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRouter()
+    {
+        return $this->router;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setRouter(RouterInterface $router)
+    {
+        $this->router = $router;
     }
 
     /**
@@ -520,7 +567,11 @@ class ThreadProcessor extends ClientSideProcessor
         }
 
         // Prepare chat options
-        $client_data = setup_chatview_for_user($thread);
+        $client_data = setup_chatview_for_user(
+            $this->getRouter(),
+            $this->currentRequest,
+            $thread
+        );
         $options = $client_data['chat'];
         $options['page'] += setup_logo($group);
 

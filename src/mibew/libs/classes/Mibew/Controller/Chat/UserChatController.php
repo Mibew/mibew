@@ -47,7 +47,11 @@ class UserChatController extends AbstractController
             throw new NotFoundException('The thread is not found.');
         }
 
-        $page = setup_chatview_for_user($thread);
+        $page = setup_chatview_for_user(
+            $this->getRouter(),
+            $request,
+            $thread
+        );
 
         // Build js application options
         $page['chatOptions'] = json_encode($page['chat']);
