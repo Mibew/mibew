@@ -70,7 +70,7 @@ class RedirectController extends AbstractController
                 $operator
             ),
             setup_redirect_links(
-                $this->getRouter()->getGenerator(),
+                $this->getRouter(),
                 $thread_id,
                 $operator,
                 $token
