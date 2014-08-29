@@ -124,11 +124,9 @@ class OperatorChatController extends AbstractController
                     'link' => $link,
                     'title' => getlocal('Change operator'),
                 );
-                $page_style = new PageStyle(PageStyle::getCurrentStyle());
 
                 // Show confirmation page.
-                // TODO: Move this template to chat style.
-                return $page_style->render('confirm', $page);
+                return $this->render('confirm', $page);
             }
         }
 

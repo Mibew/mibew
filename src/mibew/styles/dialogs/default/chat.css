@@ -344,7 +344,7 @@ a:hover .iclosewin {
 /* #send */
 #postmessage {
 }
-#send-message {
+#send-message, .submit-button {
     float: right;
     width: 190px;
     height: 33px;
@@ -355,7 +355,7 @@ a:hover .iclosewin {
     color: #495151;
     background: url("images/submit.gif") no-repeat 0 0 transparent;
 }
-#send-message:hover {
+#send-message:hover, .submit-button:hover {
     color: #000;
     background: url("images/submit.gif") no-repeat -190px 0 transparent;
 }
@@ -515,5 +515,25 @@ ul li {
 #invitation-messages-region .muser {
     font-size: 1.1em;
     color: #000;
+}
+/* ----- */
+
+/* Confirmation */
+.messagetxt .visitor {
+    color: blue;
+}
+.messagetxt .operator {
+    color: green;
+}
+#confirmpane {
+    width: 100%;
+}
+#confirmpane .button-wrapper {
+    width: 400px;
+    margin: 140px auto 0;
+}
+#confirmpane .submit-button {
+    float: none;
+    display: inline-block;
 }
 /* ----- */

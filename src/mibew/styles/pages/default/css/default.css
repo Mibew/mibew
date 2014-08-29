@@ -788,12 +788,6 @@ table.awaiting .no-threads, table.awaiting .no-visitors  {
 
 /* nice button */
 
-#confirmpane {
-	width:450px;
-	margin:0px auto 5px;
-	padding-top: 70px;
-}
-
 .nicebutton {
 	border: none;
 	float: left;
@@ -811,14 +805,6 @@ table.awaiting .no-threads, table.awaiting .no-visitors  {
 .submit {
 	background: url(../images/submitbg.gif) repeat-x;
 	vertical-align: top;
-}
-
-#confirmpane .visitor {
-    color: blue;
-}
-
-#confirmpane .operator {
-    color: green;
 }
 
 /* thread log */

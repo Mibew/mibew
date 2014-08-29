@@ -18,7 +18,8 @@
 .control,
 .user-name-control-set,
 .user-name-control-change,
-.user-name-control-input-bg
+.user-name-control-input-bg,
+#confirmpane .submit-button
 {
     display: inline;
     zoom: 1;
