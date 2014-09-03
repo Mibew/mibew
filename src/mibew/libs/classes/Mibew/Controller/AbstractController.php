@@ -23,6 +23,8 @@ use Mibew\Asset\AssetUrlGeneratorAwareInterface;
 use Mibew\Asset\AssetUrlGeneratorInterface;
 use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
+use Mibew\Handlebars\HandlebarsAwareInterface;
+use Mibew\Handlebars\Helper\RouteHelper;
 use Mibew\Routing\RouterAwareInterface;
 use Mibew\Routing\RouterInterface;
 use Mibew\Style\StyleInterface;
@@ -64,6 +66,13 @@ abstract class AbstractController implements
     public function setRouter(RouterInterface $router)
     {
         $this->router = $router;
+
+        // Update router in the style helpers
+        if (!is_null($this->style) && $this->style instanceof HandlebarsAwareInterface) {
+            if ($this->style->getHandlebars()->hasHelper('route')) {
+                $this->style->getHandlebars()->getHelper('route')->setRouter($router);
+            }
+        }
     }
 
     /**
@@ -176,7 +185,7 @@ abstract class AbstractController implements
     protected function getStyle()
     {
         if (is_null($this->style)) {
-            $this->style = new PageStyle(PageStyle::getDefaultStyle());
+            $this->style = $this->prepareStyle(new PageStyle(PageStyle::getDefaultStyle()));
         }
 
         return $this->style;
@@ -205,5 +214,27 @@ abstract class AbstractController implements
     {
         return $this->getAssetUrlGenerator()
             ->generate($relative_path, $reference_type);
+    }
+
+    /**
+     * Prepares a style right after creation.
+     *
+     * One can use this method to add custom helpers to a template engine using
+     * by the style.
+     *
+     * @param StyleInterface $style A style that should be prepared.
+     * @return StyleInterface A ready to use style instance.
+     */
+    protected function prepareStyle(StyleInterface $style)
+    {
+        if ($style instanceof HandlebarsAwareInterface) {
+            // Add more helpers to template engine
+            $style->getHandlebars()->addHelper(
+                'route',
+                new RouteHelper($this->getRouter())
+            );
+        }
+
+        return $style;
     }
 }

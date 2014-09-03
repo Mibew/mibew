@@ -36,7 +36,7 @@ abstract class AbstractController extends BaseAbstractController
     protected function getStyle()
     {
         if (is_null($this->style)) {
-            $this->style = new ChatStyle(ChatStyle::getDefaultStyle());
+            $this->style = $this->prepareStyle(new ChatStyle(ChatStyle::getDefaultStyle()));
         }
 
         return $this->style;
