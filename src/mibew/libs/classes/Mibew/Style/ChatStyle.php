@@ -21,44 +21,12 @@ namespace Mibew\Style;
 
 // Import namespaces and classes of the core
 use Mibew\Settings;
-use Mibew\Handlebars\HelpersSet;
 
 /**
  * Represents a chat style
  */
-class ChatStyle extends AbstractStyle implements StyleInterface
+class ChatStyle extends AbstractHandlebarsPoweredStyle implements StyleInterface
 {
-    /**
-     * Template engine for chat templates.
-     *
-     * @var \Handlebars\Handlebars
-     */
-    protected $templateEngine;
-
-    /**
-     * Object constructor
-     *
-     * @param string $style_name Name of the style
-     */
-    public function __construct($style_name)
-    {
-        parent::__construct($style_name);
-
-        $templates_loader = new \Handlebars\Loader\FilesystemLoader(
-            MIBEW_FS_ROOT . '/' . $this->getFilesPath() . '/templates_src/server_side/'
-        );
-
-        $this->templateEngine = new \Handlebars\Handlebars(array(
-            'loader' => $templates_loader,
-            'partials_loader' => $templates_loader,
-            'helpers' => new \Handlebars\Helpers(HelpersSet::getHelpers())
-        ));
-
-        // Use custom function to escape strings
-        $this->templateEngine->setEscape('safe_htmlspecialchars');
-        $this->templateEngine->setEscapeArgs(array());
-    }
-
     /**
      * Builds base path for style files. This path is relative Mibew root and
      * does not contain neither leading nor trailing slash.
@@ -92,7 +60,7 @@ class ChatStyle extends AbstractStyle implements StyleInterface
         $data['stylePath'] = MIBEW_WEB_ROOT . '/' . $this->getFilesPath();
         $data['styleName'] = $this->getName();
 
-        return $this->templateEngine->render($template_name, $data);
+        return $this->getHandlebars()->render($template_name, $data);
     }
 
     /**
