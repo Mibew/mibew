@@ -27,8 +27,8 @@
 
         <div class="tabletool">
             <img src="{{stylePath}}/images/buttons/createban.gif" border="0" alt=""/>
-            <a href="{{mibewRoot}}/operator/ban/add" title="{{l10n "Add address"}}"
-                onclick="this.newWindow = window.open('{{mibewRoot}}/operator/ban/add', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{l10n "Add address"}}</a>
+            <a href="{{route "ban_add"}}" title="{{l10n "Add address"}}"
+                onclick="this.newWindow = window.open('{{route "ban_add"}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{l10n "Add address"}}</a>
         </div>
         <br clear="all"/>
 
@@ -46,7 +46,7 @@
                 {{#each [pagination.items]}}
                     <tr>
                         <td class="notlast">
-                            <a href="{{../mibewRoot}}/operator/history?q={{address}}&type=visitor" class="man" id="ti{{banid}}">
+                            <a href="{{route "history" q=address type="visitor"}}" class="man" id="ti{{banid}}">
                                 {{address}}
                             </a>
                         </td>
@@ -56,11 +56,11 @@
                         <td>{{cutString comment "30"}}</td>
 
                         <td>
-                            <a class="removelink" id="i{{banid}}" href="{{../mibewRoot}}/operator/ban/{{banid}}/delete?{{csrfTokenInUrl}}">
+                            <a class="removelink" id="i{{banid}}" href="{{route "ban_delete" ban_id=banid}}?{{csrfTokenInUrl}}">
                                 {{l10n "remove"}}
                             </a>,
-                            <a href="{{../mibewRoot}}/operator/ban/{{banid}}/edit"
-                                onclick="this.newWindow = window.open('{{../mibewRoot}}/operator/ban/{{banid}}/edit', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{l10n "edit"}}</a>
+                            <a href="{{route "ban_edit" ban_id=banid}}/edit"
+                                onclick="this.newWindow = window.open('{{route "ban_edit" ban_id=banid}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{l10n "edit"}}</a>
                         </td>
                     </tr>
                 {{else}}

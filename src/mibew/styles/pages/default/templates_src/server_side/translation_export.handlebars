@@ -9,7 +9,7 @@
 
         {{> _errors}}
 
-        <form  method="post" action="{{mibewRoot}}/operator/translation/export">
+        <form  method="post" action="{{route "translation_export_process"}}">
             {{csrfTokenInput}}
 
             <div>

@@ -13,7 +13,7 @@
             <div id="formmessage">{{l10n "Changes saved"}}</div>
         {{/if}}
 
-        <form name="permissionsForm" method="post" action="{{mibewRoot}}/operator/operator/{{opid}}/permissions">
+        <form name="permissionsForm" method="post" action="{{route "operator_permissions_save" operator_id=opid}}">
             {{csrfTokenInput}}
 
             <div>

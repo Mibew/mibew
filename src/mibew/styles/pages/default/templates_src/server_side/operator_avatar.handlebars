@@ -9,7 +9,7 @@
 
         {{> _errors}}
 
-        <form name="avatarForm" method="post" action="{{mibewRoot}}/operator/operator/{{opid}}/avatar" enctype="multipart/form-data">
+        <form name="avatarForm" method="post" action="{{route "operator_avatar_save" operator_id=opid}}" enctype="multipart/form-data">
             {{csrfTokenInput}}
 
             <div>
@@ -30,7 +30,7 @@
                                     <div class="fvalue">
                                         <img src="{{avatar}}" alt="cannot load avatar"/><br/>
                                         {{#if canmodify}}
-                                            <a class="formauth" href="{{mibewRoot}}/operator/operator/{{opid}}/avatar/delete?{{csrfTokenInUrl}}">
+                                            <a class="formauth" href="{{route "operator_avatar_delete" operator_id=opid}}?{{csrfTokenInUrl}}">
                                                 {{l10n "Remove avatar"}}
                                             </a>
                                         {{/if}}

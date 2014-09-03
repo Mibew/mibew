@@ -13,7 +13,7 @@
             <div id="formmessage">{{l10n "Changes saved"}}</div>
         {{/if}}
 
-        <form name="settings" method="post" action="{{mibewRoot}}/operator/settings">
+        <form name="settings" method="post" action="{{route "settings_common_save"}}">
             {{csrfTokenInput}}
 
             <div>

@@ -17,7 +17,7 @@
 
             {{> _errors}}
 
-            <form name="translateForm" method="post" action="{{mibewRoot}}/operator/translation/{{key}}/edit">
+            <form name="translateForm" method="post" action="{{route "translation_edit_save" string_id=key}}">
                 {{csrfTokenInput}}
 
                 <div class="mform">

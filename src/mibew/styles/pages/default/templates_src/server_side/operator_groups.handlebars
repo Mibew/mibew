@@ -13,7 +13,7 @@
             <div id="formmessage">{{l10n "Changes saved"}}</div>
         {{/if}}
 
-        <form name="opgroupsForm" method="post" action="{{mibewRoot}}/operator/operator/{{opid}}/groups">
+        <form name="opgroupsForm" method="post" action="{{route "operator_groups_save" operator_id=opid}}">
             {{csrfTokenInput}}
 
             <div>

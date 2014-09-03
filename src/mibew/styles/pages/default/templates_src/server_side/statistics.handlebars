@@ -9,8 +9,7 @@
 
         {{> _errors}}
 
-        <form name="statisticsForm" method="get" action="{{mibewRoot}}/operator/statistics">
-            <input type="hidden" name="type" value="{{type}}" />
+        <form name="statisticsForm" method="get" action="{{route "statistics" type=type}}">
 
             {{> _tabs}}
 
@@ -163,7 +162,7 @@
                     <tbody>
                         {{#each reportByAgent}}
                             <tr>
-                                <td><a href="{{../mibewRoot}}/operator/history?q={{name}}&type=operator">{{name}}</a></td>
+                                <td><a href="{{route "history" q=name type="operator"}}">{{name}}</a></td>
                                 <td>{{threads}}</td>
                                 <td>{{msgs}}</td>
                                 <td>{{avglen}}</td>

@@ -8,7 +8,7 @@
         <p>{{l10n "Mibew Messenger is an open-source live support application."}}</p>
         </div>
 
-        <form name="loginForm" method="post" action="{{mibewRoot}}/operator/login">
+        <form name="loginForm" method="post" action="{{route "login_submit"}}">
             <div id="loginpane">
 
                 <div class="header">
@@ -54,7 +54,7 @@
                         <input type="submit" name="submit" class="submit-bg-button login-button" value="{{l10n "Enter"}}" />
 
                         <div class="links">
-                            <a href="{{mibewRoot}}/operator/password-recovery">{{l10n "Forgot your password?"}}</a><br/>
+                            <a href="{{route "password_recovery"}}">{{l10n "Forgot your password?"}}</a><br/>
                         </div>
                     </div>
 

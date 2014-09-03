@@ -7,7 +7,7 @@
         <br />
         <br />
 
-        <form name="searchForm" method="get" action="{{mibewRoot}}/operator/history">
+        <form name="searchForm" method="get" action="{{route "history"}}">
             <div class="mform">
                 <div class="formtop">
                     <div class="formtopi"></div>
@@ -65,7 +65,7 @@
                 {{#each [pagination.items]}}
                     <tr>
                         <td>
-                            <a class="man" href="{{../mibewRoot}}/operator/history/thread/{{threadId}}" target="_blank" onclick="this.newWindow = window.open('{{../mibewRoot}}/operator/history/thread/{{threadId}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=720,height=520,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{userName}}</a>
+                            <a class="man" href="{{route "history_thread" thread_id=threadId}}" target="_blank" onclick="this.newWindow = window.open('{{route "history_thread" thread_id=threadId}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=720,height=520,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{userName}}</a>
                         </td>
                         <td>
                             {{{userAddress}}}

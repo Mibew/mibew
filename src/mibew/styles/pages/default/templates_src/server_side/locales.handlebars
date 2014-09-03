@@ -51,9 +51,9 @@
 
                         <td>
                             {{#if isDisabled}}
-                                <a href="{{../mibewRoot}}/operator/locale/{{code}}/enable?{{csrfTokenInUrl}}">{{l10n "enable"}}</a>
+                                <a href="{{route "locale_enable" locale=code}}?{{csrfTokenInUrl}}">{{l10n "enable"}}</a>
                             {{else}}
-                                <a href="{{../mibewRoot}}/operator/locale/{{code}}/disable?{{csrfTokenInUrl}}">{{l10n "disable"}}</a>
+                                <a href="{{route "locale_disable" locale=code}}?{{csrfTokenInUrl}}">{{l10n "disable"}}</a>
                             {{/if}}
                         </td>
                     </tr>

@@ -7,7 +7,7 @@
         <br />
         <br />
 
-        <form name="translateForm" method="get" action="{{mibewRoot}}/operator/translation">
+        <form name="translateForm" method="get" action="{{route "translations"}}">
             {{> _tabs}}
 
             <div class="mform">
@@ -66,7 +66,7 @@
                         {{{source}}}
                     </td>
                     <td>
-                        <a href="{{../mibewRoot}}/operator/translation/{{id}}/edit" target="_blank" onclick="this.newWindow = window.open('{{../mibewRoot}}/operator/translation/{{id}}/edit', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{{translation}}}</a>
+                        <a href="{{route "translation_edit" string_id=id}}" target="_blank" onclick="this.newWindow = window.open('{{route "translation_edit" string_id=id}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{{translation}}}</a>
                     </td>
                 </tr>
             {{else}}

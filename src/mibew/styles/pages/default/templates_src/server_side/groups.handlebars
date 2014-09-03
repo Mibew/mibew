@@ -25,7 +25,7 @@
 
         {{> _errors}}
 
-        <form name="groupsForm" method="get" action="{{mibewRoot}}/operator/group">
+        <form name="groupsForm" method="get" action="{{route "groups"}}">
             <div class="mform">
                 <div class="formtop">
                     <div class="formtopi"></div>
@@ -63,7 +63,7 @@
         {{#if canmodify}}
             <div class="tabletool">
                 <img src="{{stylePath}}/images/buttons/createdep.gif" border="0" alt="" />
-                <a href="{{mibewRoot}}/operator/group/add" title="{{l10n "Create new group"}}">
+                <a href="{{route "group_add"}}" title="{{l10n "Create new group"}}">
                     {{l10n "Create new group"}}
                 </a>
             </div>
@@ -88,7 +88,7 @@
                 {{#each groups}}
                     <tr>
                         <td class="notlast level{{level}}">
-                            <a href="{{../mibewRoot}}/operator/group/{{groupid}}/edit" id="ti{{groupid}}" class="man">
+                            <a href="{{route "group_edit" group_id=groupid}}" id="ti{{groupid}}" class="man">
                                 {{vclocalname}}
                             </a>
                         </td>
@@ -114,7 +114,7 @@
                         </td>
 
                         <td>
-                            <a href="{{../mibewRoot}}/operator/group/{{groupid}}/members">
+                            <a href="{{route "group_members" group_id=groupid}}">
                                 {{inumofagents}}
                             </a>
                         </td>
@@ -125,7 +125,7 @@
 
                         {{#if ../canmodify}}
                             <td>
-                                <a href="{{../mibewRoot}}/operator/group/{{groupid}}/delete?{{csrfTokenInUrl}}" id="i{{groupid}}" class="removelink">
+                                <a href="{{route "group_delete" group_id=groupid}}?{{csrfTokenInUrl}}" id="i{{groupid}}" class="removelink">
                                     {{l10n "remove"}}
                                 </a>
                             </td>

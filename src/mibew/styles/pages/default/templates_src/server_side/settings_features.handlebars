@@ -18,7 +18,7 @@
             <div id="formmessage">{{l10n "Features activated"}}</div>
         {{/if}}
 
-        <form name="features" method="post" action="{{mibewRoot}}/operator/settings/features">
+        <form name="features" method="post" action="{{route "settings_features_save"}}">
             {{csrfTokenInput}}
             <input type="hidden" name="sent" value="true"/>
 

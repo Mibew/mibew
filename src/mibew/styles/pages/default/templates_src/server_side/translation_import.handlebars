@@ -13,7 +13,7 @@
             <div id="formmessage">{{l10n "Translation imported"}}</div>
         {{/if}}
 
-        <form  method="post" action="{{mibewRoot}}/operator/translation/import" enctype="multipart/form-data">
+        <form  method="post" action="{{route "translation_import_process"}}" enctype="multipart/form-data">
             {{csrfTokenInput}}
 
             <div>

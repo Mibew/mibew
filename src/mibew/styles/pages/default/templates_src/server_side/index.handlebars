@@ -24,7 +24,7 @@
             <div class="dashitem">
                 <div class="dashitem-content">
                     <img src="{{stylePath}}/images/dash/visitors.gif" alt=""/>
-                    <a href="{{mibewRoot}}/operator/users">
+                    <a href="{{route "users"}}">
                         {{l10n "Visitors"}}
                     </a>
                     {{l10n "You can find awaiting visitors."}}
@@ -34,7 +34,7 @@
             <div class="dashitem">
                 <div class="dashitem-content">
                     <img src="{{stylePath}}/images/dash/history.gif" alt=""/>
-                    <a href="{{mibewRoot}}/operator/history">
+                    <a href="{{route "history"}}">
                         {{l10n "Chat history"}}
                     </a>
                     {{l10n "Search the dialogs history."}}
@@ -45,7 +45,7 @@
                 <div class="dashitem">
                     <div class="dashitem-content">
                         <img src="{{stylePath}}/images/dash/stat.gif" alt=""/>
-                        <a href="{{mibewRoot}}/operator/statistics">
+                        <a href="{{route "statistics"}}">
                             {{l10n "Statistics"}}
                         </a>
                         {{l10n "From this page you can generate a variety of usage reports."}}
@@ -57,7 +57,7 @@
                 <div class="dashitem">
                     <div class="dashitem-content">
                         <img src="{{stylePath}}/images/dash/blocked.gif" alt=""/>
-                        <a href="{{mibewRoot}}/operator/ban">
+                        <a href="{{route "bans"}}">
                             {{l10n "Blocked visitors"}}
                         </a>
                         {{l10n "Here you can block malicious visitors."}}
@@ -68,7 +68,7 @@
             <div class="dashitem">
                 <div class="dashitem-content">
                     <img src="{{stylePath}}/images/dash/canned.gif" alt=""/>
-                    <a href="{{mibewRoot}}/operator/canned-message">
+                    <a href="{{route "canned_messages"}}">
                         {{l10n "Canned Messages"}}
                     </a>
                     {{l10n "Edit messages that you frequently type into the chat."}}
@@ -79,7 +79,7 @@
                 <div class="dashitem">
                     <div class="dashitem-content">
                         <img src="{{stylePath}}/images/dash/getcode.gif" alt=""/>
-                        <a href="{{mibewRoot}}/operator/button-code">
+                        <a href="{{route "button_code"}}">
                             {{l10n "Button code"}}
                         </a>
                         {{l10n "Button HTML code generation."}}
@@ -89,7 +89,7 @@
                 <div class="dashitem">
                     <div class="dashitem-content">
                         <img src="{{stylePath}}/images/dash/operators.gif" alt=""/>
-                        <a href="{{mibewRoot}}/operator/operator">
+                        <a href="{{route "operators"}}">
                             {{l10n "Operators"}}
                         </a>
                         {{l10n "Create or delete company operators. Manage their permissions."}}
@@ -99,7 +99,7 @@
                 <div class="dashitem">
                     <div class="dashitem-content">
                         <img src="{{stylePath}}/images/dash/dep.gif" alt=""/>
-                        <a href="{{mibewRoot}}/operator/group">
+                        <a href="{{route "groups"}}">
                             {{l10n "Groups"}}
                         </a>
                         {{l10n "Department or skill based groups."}}
@@ -109,7 +109,7 @@
                 <div class="dashitem">
                     <div class="dashitem-content">
                         <img src="{{stylePath}}/images/dash/settings.gif" alt=""/>
-                        <a href="{{mibewRoot}}/operator/settings">
+                        <a href="{{route "settings_common"}}">
                             {{l10n "Settings"}}
                         </a>
                         {{l10n "Specify options affecting chat window and common system behavior."}}
@@ -121,7 +121,7 @@
                 <div class="dashitem">
                     <div class="dashitem-content">
                         <img src="{{stylePath}}/images/dash/profile.gif"  alt=""/>
-                        <a href="{{mibewRoot}}/operator/operator/{{currentopid}}/edit">
+                        <a href="{{route "operator_edit" operator_id=currentopid}}">
                             {{l10n "Profile"}}
                         </a>
                         {{l10n "You can change your personal information on this page."}}
@@ -145,7 +145,7 @@
                 <div class="dashitem">
                     <div class="dashitem-content">
                         <img src="{{stylePath}}/images/dash/updates.gif" alt=""/>
-                        <a href="{{mibewRoot}}/operator/updates">
+                        <a href="{{route "updates"}}">
                             {{l10n "Updates"}}
                         </a>
                         {{l10n "Check for news and updates."}}
@@ -156,7 +156,7 @@
             <div class="dashitem">
                 <div class="dashitem-content">
                     <img src="{{stylePath}}/images/dash/exit.gif" alt=""/>
-                    <a href="{{mibewRoot}}/operator/logout">
+                    <a href="{{route "logout"}}">
                         {{l10n "Exit"}}
                     </a>
                     {{l10n "Log out of the system."}}

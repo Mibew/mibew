@@ -25,7 +25,7 @@
 
         {{> _errors}}
 
-        <form name="agentsForm" method="get" action="{{mibewRoot}}/operator/operator">
+        <form name="agentsForm" method="get" action="{{route "operators"}}">
             <div class="mform">
                 <div class="formtop">
                     <div class="formtopi"></div>
@@ -63,7 +63,7 @@
         {{#if canmodify}}
             <div class="tabletool">
                 <img src="{{stylePath}}/images/buttons/createagent.gif" border="0" alt="" />
-                <a href="{{mibewRoot}}/operator/operator/add" title="{{l10n "Add operator..."}}">
+                <a href="{{route "operator_add"}}" title="{{l10n "Add operator..."}}">
                     {{l10n "Add operator..."}}
                 </a>
             </div>
@@ -87,7 +87,7 @@
                 {{#each allowedAgents}}
                     <tr>
                         <td class="notlast">
-                            <a id="ti{{operatorid}}" href="{{../mibewRoot}}/operator/operator/{{operatorid}}/edit" class="man">
+                            <a id="ti{{operatorid}}" href="{{route "operator_edit" operator_id=operatorid}}" class="man">
                                 {{vclogin}}
                             </a>
                         </td>
@@ -111,14 +111,14 @@
                         {{#if ../canmodify}}
                             <td>
                                 {{#if isDisabled}}
-                                    <a href="{{../mibewRoot}}/operator/operator/{{operatorid}}/enable?{{csrfTokenInUrl}}">{{l10n "enable"}}</a>
+                                    <a href="{{route "operator_enable" operator_id=operatorid}}?{{csrfTokenInUrl}}">{{l10n "enable"}}</a>
                                 {{else}}
-                                    <a href="{{../mibewRoot}}/operator/operator/{{operatorid}}/disable?{{csrfTokenInUrl}}">{{l10n "disable"}}</a>
+                                    <a href="{{route "operator_disable" operator_id=operatorid}}?{{csrfTokenInUrl}}">{{l10n "disable"}}</a>
                                 {{/if}}
                             </td>
 
                             <td>
-                                <a class="removelink" id="i{{operatorid}}" href="{{../mibewRoot}}/operator/operator/{{operatorid}}/delete?{{csrfTokenInUrl}}">
+                                <a class="removelink" id="i{{operatorid}}" href="{{route "operator_delete" operator_id=operatorid}}?{{csrfTokenInUrl}}">
                                     {{l10n "remove"}}
                                 </a>
                             </td>

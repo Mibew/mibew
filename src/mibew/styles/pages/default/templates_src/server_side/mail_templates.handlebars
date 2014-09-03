@@ -68,7 +68,7 @@
                             {{body}}
                         </td>
                         <td>
-                            <a href="{{../mibewRoot}}/operator/mail-template/{{name}}/edit?lang={{../formlang}}">{{l10n "edit"}}</a>
+                            <a href="{{route "mail_template_edit" name=name lang=../formlang}}">{{l10n "edit"}}</a>
                         </td>
                     </tr>
                 {{/each}}

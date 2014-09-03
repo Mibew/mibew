@@ -13,7 +13,7 @@
             <div id="formmessage">{{l10n "Changes saved"}}</div>
         {{/if}}
 
-        <form name="membersForm" method="post" action="{{mibewRoot}}/operator/group/{{groupid}}/members">
+        <form name="membersForm" method="post" action="{{route "group_members_save" group_id=groupid}}">
             {{csrfTokenInput}}
 
             <div>
@@ -31,7 +31,7 @@
                             <div class="field">
                                 <div class="fvaluenodesc">
                                     <input id="op{{operatorid}}" type="checkbox" name="op{{operatorid}}" value="on"{{#if checked}} checked="checked"{{/if}}/>
-                                    <label for="op{{operatorid}}">{{vclocalename}} (<a href="{{../mibewRoot}}/operator/operator/{{operatorid}}/edit">{{vclogin}}</a>)</label>
+                                    <label for="op{{operatorid}}">{{vclocalename}} (<a href="{{route "operator_edit" operator_id=operatorid}}/edit">{{vclogin}}</a>)</label>
                                 </div>
                             </div>
                         {{/each}}
