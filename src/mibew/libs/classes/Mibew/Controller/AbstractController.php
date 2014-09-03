@@ -174,24 +174,6 @@ abstract class AbstractController implements
     }
 
     /**
-     * Returns style object related with the controller.
-     *
-     * The method can be overridden in child classes to implement style choosing
-     * logic.
-     *
-     * @return StyleInterface
-     * @todo Update the method after rewriting style choosing logic
-     */
-    protected function getStyle()
-    {
-        if (is_null($this->style)) {
-            $this->style = $this->prepareStyle(new PageStyle(PageStyle::getDefaultStyle()));
-        }
-
-        return $this->style;
-    }
-
-    /**
      * Returns the current operator.
      *
      * @return array Operator's data
@@ -214,6 +196,24 @@ abstract class AbstractController implements
     {
         return $this->getAssetUrlGenerator()
             ->generate($relative_path, $reference_type);
+    }
+
+    /**
+     * Returns style object related with the controller.
+     *
+     * The method can be overridden in child classes to implement style choosing
+     * logic.
+     *
+     * @return StyleInterface
+     * @todo Update the method after rewriting style choosing logic
+     */
+    protected function getStyle()
+    {
+        if (is_null($this->style)) {
+            $this->style = $this->prepareStyle(new PageStyle(PageStyle::getDefaultStyle()));
+        }
+
+        return $this->style;
     }
 
     /**
