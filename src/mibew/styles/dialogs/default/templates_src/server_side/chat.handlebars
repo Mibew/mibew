@@ -77,7 +77,7 @@
             jQuery(document).ready(function(){
                 Mibew.Application.start({
                     server: {
-                        url: '{{mibewRoot}}/thread/update',
+                        url: '{{route "chat_thread_update"}}',
                         requestsFrequency: {{frequency}}
                     },
                     page: {
