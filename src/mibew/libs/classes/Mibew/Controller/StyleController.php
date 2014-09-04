@@ -110,16 +110,14 @@ class StyleController extends AbstractController
      */
     protected function buildScreenshotList(StyleInterface $style)
     {
-        $base_url = $this->getRouter()->getContext()->getBaseUrl();
+        $base_path = $style->getFilesPath() . '/screenshots';
         $style_config = $style->getConfigurations();
 
         $screenshots = array();
         foreach ($style_config['screenshots'] as $name => $desc) {
             $screenshots[] = array(
                 'name' => $name,
-                'file' => ($base_url . '/'
-                    . $style->getFilesPath() . '/screenshots/'
-                    . $name . '.png'),
+                'file' => $this->asset($base_path . '/' . $name . '.png'),
                 'description' => $desc,
             );
         }
