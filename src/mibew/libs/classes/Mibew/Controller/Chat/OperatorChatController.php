@@ -20,7 +20,6 @@
 namespace Mibew\Controller\Chat;
 
 use Mibew\Http\Exception\NotFoundException;
-use Mibew\Style\PageStyle;
 use Mibew\Thread;
 use Symfony\Component\HttpFoundation\Request;
 
