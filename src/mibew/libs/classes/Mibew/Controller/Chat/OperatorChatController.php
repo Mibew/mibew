@@ -70,6 +70,9 @@ class OperatorChatController extends AbstractController
         // Build js application options
         $page['chatOptions'] = json_encode($page['chat']);
 
+        $page['mibewBasePath'] = $request->getBasePath();
+        $page['mibewBaseUrl'] = $request->getBaseUrl();
+
         // Render the page with chat.
         return $this->render('chat', $page);
     }

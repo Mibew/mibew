@@ -60,6 +60,9 @@ class UsersController extends AbstractController
         $page['inviteLink'] = $request->getBaseUrl() . '/operator/invite';
         $page['agentLink'] = $request->getBaseUrl() . '/operator/chat';
 
+        $page['mibewBasePath'] = $request->getBasePath();
+        $page['mibewBaseUrl'] = $request->getBaseUrl();
+
         // Load dialogs style options
         $chat_style = new ChatStyle(ChatStyle::getCurrentStyle());
         $style_config = $chat_style->getConfigurations();

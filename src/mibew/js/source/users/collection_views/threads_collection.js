@@ -165,7 +165,7 @@
              */
             threadAdded: function() {
                 // Build sound path
-                var path = Mibew.Objects.Models.page.get('mibewRoot');
+                var path = Mibew.Objects.Models.page.get('mibewBasePath');
                 if (typeof path !== 'undefined') {
                     path += '/sounds/new_user';
                     // Play sound

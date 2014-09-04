@@ -56,6 +56,9 @@ class UserChatController extends AbstractController
         // Build js application options
         $page['chatOptions'] = json_encode($page['chat']);
 
+        $page['mibewBasePath'] = $request->getBasePath();
+        $page['mibewBaseUrl'] = $request->getBaseUrl();
+
         // Expand page
         return $this->render('chat', $page);
     }
@@ -141,6 +144,10 @@ class UserChatController extends AbstractController
                         $group_id,
                         $info,
                         $referrer
+                    ),
+                    array(
+                        'mibewBasePath' => $request->getBasePath(),
+                        'mibewBaseUrl' => $request->getBaseUrl(),
                     )
                 );
                 $page['leaveMessageOptions'] = json_encode($page['leaveMessage']);
@@ -173,6 +180,10 @@ class UserChatController extends AbstractController
                         $group_id,
                         $info,
                         $referrer
+                    ),
+                    array(
+                        'mibewBasePath' => $request->getBasePath(),
+                        'mibewBaseUrl' => $request->getBaseUrl(),
                     )
                 );
                 $page['surveyOptions'] = json_encode($page['survey']);
@@ -238,6 +249,9 @@ class UserChatController extends AbstractController
 
         // Build js application options
         $page['invitationOptions'] = json_encode($page['invitation']);
+
+        $page['mibewBasePath'] = $request->getBasePath();
+        $page['mibewBaseUrl'] = $request->getBaseUrl();
 
         // Expand page
         return $this->render('chat', $page);

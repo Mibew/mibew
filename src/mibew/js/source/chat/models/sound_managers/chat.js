@@ -70,7 +70,7 @@
             playNewMessageSound: function() {
                 if (! this.get('skipNextMessageSound')) {
                     // Build sound path
-                    var path = Mibew.Objects.Models.page.get('mibewRoot');
+                    var path = Mibew.Objects.Models.page.get('mibewBasePath');
                     if (typeof path !== 'undefined') {
                         path += '/sounds/new_message';
                         // Play sound
