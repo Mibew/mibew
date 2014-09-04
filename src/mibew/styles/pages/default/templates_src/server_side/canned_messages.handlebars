@@ -74,7 +74,7 @@
                         <td>
                             <a href="{{route "canned_message_edit" message_id=id}}" target="_blank"
                                 onclick="this.newWindow = window.open('{{route "canned_message_edit" message_id=id}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{l10n "edit"}}</a>,
-                            <a href="{{route "canned_message_delete" message_id=id lang=../formlang group=../formgroup}}&amp;{{csrfTokenInUrl}}">{{l10n "remove"}}</a>
+                            <a href="{{csrfProtectedRoute "canned_message_delete" message_id=id lang=../formlang group=../formgroup}}">{{l10n "remove"}}</a>
                         </td>
                     </tr>
                 {{else}}

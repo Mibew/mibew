@@ -30,7 +30,7 @@
                                     <div class="fvalue">
                                         <img src="{{avatar}}" alt="cannot load avatar"/><br/>
                                         {{#if canmodify}}
-                                            <a class="formauth" href="{{route "operator_avatar_delete" operator_id=opid}}?{{csrfTokenInUrl}}">
+                                            <a class="formauth" href="{{csrfProtectedRoute "operator_avatar_delete" operator_id=opid}}">
                                                 {{l10n "Remove avatar"}}
                                             </a>
                                         {{/if}}

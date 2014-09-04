@@ -50,11 +50,11 @@ function get_csrf_token_input()
     return '<input name="csrf_token" type="hidden" value="' . $_SESSION['csrf_token'] . '" />';
 }
 
-function get_csrf_token_in_url()
+function get_csrf_token()
 {
     set_csrf_token();
 
-    return "csrf_token=" . $_SESSION['csrf_token'];
+    return $_SESSION['csrf_token'];
 }
 
 /* set csrf token */

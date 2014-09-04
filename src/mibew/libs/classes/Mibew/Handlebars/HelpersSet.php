@@ -60,7 +60,6 @@ class HelpersSet
                 'formatDateDiff' => (new Helper\FormatDateDiffHelper()),
                 'cutString' => (new Helper\CutStringHelper()),
                 'csrfTokenInput' => (new Helper\CsrfTokenInputHelper()),
-                'csrfTokenInUrl' => (new Helper\CsrfTokenInUrlHelper()),
             );
         }
 

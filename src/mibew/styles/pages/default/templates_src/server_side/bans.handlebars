@@ -56,7 +56,7 @@
                         <td>{{cutString comment "30"}}</td>
 
                         <td>
-                            <a class="removelink" id="i{{banid}}" href="{{route "ban_delete" ban_id=banid}}?{{csrfTokenInUrl}}">
+                            <a class="removelink" id="i{{banid}}" href="{{csrfProtectedRoute "ban_delete" ban_id=banid}}">
                                 {{l10n "remove"}}
                             </a>,
                             <a href="{{route "ban_edit" ban_id=banid}}/edit"

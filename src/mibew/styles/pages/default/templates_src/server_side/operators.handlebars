@@ -111,14 +111,14 @@
                         {{#if ../canmodify}}
                             <td>
                                 {{#if isDisabled}}
-                                    <a href="{{route "operator_enable" operator_id=operatorid}}?{{csrfTokenInUrl}}">{{l10n "enable"}}</a>
+                                    <a href="{{csrfProtectedRoute "operator_enable" operator_id=operatorid}}">{{l10n "enable"}}</a>
                                 {{else}}
-                                    <a href="{{route "operator_disable" operator_id=operatorid}}?{{csrfTokenInUrl}}">{{l10n "disable"}}</a>
+                                    <a href="{{csrfProtectedRoute "operator_disable" operator_id=operatorid}}">{{l10n "disable"}}</a>
                                 {{/if}}
                             </td>
 
                             <td>
-                                <a class="removelink" id="i{{operatorid}}" href="{{route "operator_delete" operator_id=operatorid}}?{{csrfTokenInUrl}}">
+                                <a class="removelink" id="i{{operatorid}}" href="{{csrfProtectedRoute "operator_delete" operator_id=operatorid}}">
                                     {{l10n "remove"}}
                                 </a>
                             </td>

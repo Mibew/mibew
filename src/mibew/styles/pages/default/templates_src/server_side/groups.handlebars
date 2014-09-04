@@ -125,7 +125,7 @@
 
                         {{#if ../canmodify}}
                             <td>
-                                <a href="{{route "group_delete" group_id=groupid}}?{{csrfTokenInUrl}}" id="i{{groupid}}" class="removelink">
+                                <a href="{{csrfProtectedRoute "group_delete" group_id=groupid}}" id="i{{groupid}}" class="removelink">
                                     {{l10n "remove"}}
                                 </a>
                             </td>

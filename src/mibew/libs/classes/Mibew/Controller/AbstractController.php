@@ -24,6 +24,7 @@ use Mibew\Asset\AssetUrlGeneratorInterface;
 use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Handlebars\HandlebarsAwareInterface;
+use Mibew\Handlebars\Helper\CsrfProtectedRouteHelper;
 use Mibew\Handlebars\Helper\RouteHelper;
 use Mibew\Routing\RouterAwareInterface;
 use Mibew\Routing\RouterInterface;
@@ -69,8 +70,12 @@ abstract class AbstractController implements
 
         // Update router in the style helpers
         if (!is_null($this->style) && $this->style instanceof HandlebarsAwareInterface) {
-            if ($this->style->getHandlebars()->hasHelper('route')) {
-                $this->style->getHandlebars()->getHelper('route')->setRouter($router);
+            $handlebars = $this->style->getHandlebars();
+            if ($handlebars->hasHelper('route')) {
+                $handlebars->getHelper('route')->setRouter($router);
+            }
+            if ($handlebars->hasHelper('csrfProtectedRoute')) {
+                $handlebars->getHelper('csrfProtectedRoute')->setRouter($router);
             }
         }
     }
@@ -232,6 +237,10 @@ abstract class AbstractController implements
             $style->getHandlebars()->addHelper(
                 'route',
                 new RouteHelper($this->getRouter())
+            );
+            $style->getHandlebars()->addHelper(
+                'csrfProtectedRoute',
+                new CsrfProtectedRouteHelper($this->getRouter())
             );
         }
 
