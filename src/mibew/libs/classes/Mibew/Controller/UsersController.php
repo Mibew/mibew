@@ -55,6 +55,10 @@ class UsersController extends AbstractController
         $page['agentId'] = $operator['operatorid'];
         $page['geoLink'] = Settings::get('geolink');
         $page['geoWindowParams'] = Settings::get('geolinkparams');
+        $page['trackedLink'] = $request->getBaseUrl() . '/operator/history/user-track';
+        $page['banLink'] = $request->getBaseUrl() . '/operator/ban';
+        $page['inviteLink'] = $request->getBaseUrl() . '/operator/invite';
+        $page['agentLink'] = $request->getBaseUrl() . '/operator/chat';
 
         // Load dialogs style options
         $chat_style = new ChatStyle(ChatStyle::getCurrentStyle());
