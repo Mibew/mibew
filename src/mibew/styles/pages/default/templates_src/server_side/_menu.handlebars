@@ -3,7 +3,7 @@
     {{#if warnOffline}}
         {{#unless isOnline}}
             <li id="offwarn">
-                <img src="{{stylePath}}/images/dash/warn.gif" alt="" width="24" height="24"/>
+                <img src="{{asset "@CurrentStyle/images/dash/warn.gif"}}" alt="" width="24" height="24"/>
                 <p>{{{goOnlineLink}}}</p>
             </li>
         {{/unless}}

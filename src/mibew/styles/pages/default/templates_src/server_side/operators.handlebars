@@ -2,7 +2,7 @@
     {{#override "menu"}}{{> _menu}}{{/override}}
 
     {{#override "head"}}
-        <script type="text/javascript" language="javascript" src="{{mibewRoot}}/js/libs/jquery.min.js"></script>
+        <script type="text/javascript" language="javascript" src="{{asset "js/libs/jquery.min.js"}}"></script>
         <script type="text/javascript" language="javascript"><!--
             (function($) {
                 $(document).ready(function(){
@@ -62,7 +62,7 @@
 
         {{#if canmodify}}
             <div class="tabletool">
-                <img src="{{stylePath}}/images/buttons/createagent.gif" border="0" alt="" />
+                <img src="{{asset "@CurrentStyle/images/buttons/createagent.gif"}}" border="0" alt="" />
                 <a href="{{route "operator_add"}}" title="{{l10n "Add operator..."}}">
                     {{l10n "Add operator..."}}
                 </a>

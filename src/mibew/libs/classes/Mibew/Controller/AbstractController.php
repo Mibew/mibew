@@ -24,6 +24,7 @@ use Mibew\Asset\AssetUrlGeneratorInterface;
 use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Handlebars\HandlebarsAwareInterface;
+use Mibew\Handlebars\Helper\AssetHelper;
 use Mibew\Handlebars\Helper\CsrfProtectedRouteHelper;
 use Mibew\Handlebars\Helper\RouteHelper;
 use Mibew\Routing\RouterAwareInterface;
@@ -110,6 +111,14 @@ abstract class AbstractController implements
     public function setAssetUrlGenerator(AssetUrlGeneratorInterface $generator)
     {
         $this->assetUrlGenerator = $generator;
+
+        // Update URL generator in the style helpers
+        if (!is_null($this->style) && $this->style instanceof HandlebarsAwareInterface) {
+            $handlebars = $this->style->getHandlebars();
+            if ($handlebars->hasHelper('asset')) {
+                $handlebars->getHelper('asset')->setAssetUrlGenerator($generator);
+            }
+        }
     }
 
     /**
@@ -241,6 +250,13 @@ abstract class AbstractController implements
             $style->getHandlebars()->addHelper(
                 'csrfProtectedRoute',
                 new CsrfProtectedRouteHelper($this->getRouter())
+            );
+            $style->getHandlebars()->addHelper(
+                'asset',
+                new AssetHelper(
+                    $this->getAssetUrlGenerator(),
+                    array('CurrentStyle' => $style->getFilesPath())
+                )
             );
         }
 

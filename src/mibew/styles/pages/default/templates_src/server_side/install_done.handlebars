@@ -2,21 +2,21 @@
 
     {{#override "head"}}
         <!-- External libs -->
-        <script type="text/javascript" src="{{mibewRoot}}/js/libs/jquery.min.js"></script>
-        <script type="text/javascript" src="{{mibewRoot}}/js/libs/json2.js"></script>
-        <script type="text/javascript" src="{{mibewRoot}}/js/libs/underscore-min.js"></script>
-        <script type="text/javascript" src="{{mibewRoot}}/js/libs/backbone-min.js"></script>
-        <script type="text/javascript" src="{{mibewRoot}}/js/libs/backbone.marionette.min.js"></script>
-        <script type="text/javascript" src="{{mibewRoot}}/js/libs/handlebars.js"></script>
+        <script type="text/javascript" src="{{asset "js/libs/jquery.min.js"}}"></script>
+        <script type="text/javascript" src="{{asset "js/libs/json2.js"}}"></script>
+        <script type="text/javascript" src="{{asset "js/libs/underscore-min.js"}}"></script>
+        <script type="text/javascript" src="{{asset "js/libs/backbone-min.js"}}"></script>
+        <script type="text/javascript" src="{{asset "js/libs/backbone.marionette.min.js"}}"></script>
+        <script type="text/javascript" src="{{asset "js/libs/handlebars.js"}}"></script>
 
         <!-- Client side templates -->
-        <script type="text/javascript" src="{{stylePath}}/templates_compiled/client_side/default_app.tpl.js"></script>
+        <script type="text/javascript" src="{{asset "@CurrentStyle/templates_compiled/client_side/default_app.tpl.js"}}"></script>
 
         <!-- Default application files -->
-        <script type="text/javascript" src="{{mibewRoot}}/js/compiled/mibewapi.js"></script>
-        <script type="text/javascript" src="{{mibewRoot}}/js/compiled/default_app.js"></script>
+        <script type="text/javascript" src="{{asset "js/compiled/mibewapi.js"}}"></script>
+        <script type="text/javascript" src="{{asset "js/compiled/default_app.js"}}"></script>
 
-        <script type="text/javascript" language="javascript" src="{{mibewRoot}}/js/compiled/soundcheck.js"></script>
+        <script type="text/javascript" language="javascript" src="{{asset "js/compiled/soundcheck.js"}}"></script>
     {{/override}}
 
     {{#override "nextStep"}}

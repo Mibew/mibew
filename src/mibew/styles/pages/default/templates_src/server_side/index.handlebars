@@ -1,8 +1,8 @@
 {{#extends "_layout"}}
     {{#override "head"}}
         {{#if localeLinks}}
-            <script type="text/javascript" language="javascript" src="{{mibewRoot}}/js/libs/jquery.min.js"></script>
-            <script type="text/javascript" language="javascript" src="{{stylePath}}/js/locale.js"></script>
+            <script type="text/javascript" language="javascript" src="{{asset "js/libs/jquery.min.js"}}"></script>
+            <script type="text/javascript" language="javascript" src="{{asset "@CurrentStyle/js/locale.js"}}"></script>
         {{/if}}
     {{/override}}
 
@@ -23,7 +23,7 @@
         <div id="dashboard">
             <div class="dashitem">
                 <div class="dashitem-content">
-                    <img src="{{stylePath}}/images/dash/visitors.gif" alt=""/>
+                    <img src="{{asset "@CurrentStyle/images/dash/visitors.gif"}}" alt=""/>
                     <a href="{{route "users"}}">
                         {{l10n "Visitors"}}
                     </a>
@@ -33,7 +33,7 @@
 
             <div class="dashitem">
                 <div class="dashitem-content">
-                    <img src="{{stylePath}}/images/dash/history.gif" alt=""/>
+                    <img src="{{asset "@CurrentStyle/images/dash/history.gif"}}" alt=""/>
                     <a href="{{route "history"}}">
                         {{l10n "Chat history"}}
                     </a>
@@ -44,7 +44,7 @@
             {{#if showstat}}
                 <div class="dashitem">
                     <div class="dashitem-content">
-                        <img src="{{stylePath}}/images/dash/stat.gif" alt=""/>
+                        <img src="{{asset "@CurrentStyle/images/dash/stat.gif"}}" alt=""/>
                         <a href="{{route "statistics"}}">
                             {{l10n "Statistics"}}
                         </a>
@@ -56,7 +56,7 @@
             {{#if showban}}
                 <div class="dashitem">
                     <div class="dashitem-content">
-                        <img src="{{stylePath}}/images/dash/blocked.gif" alt=""/>
+                        <img src="{{asset "@CurrentStyle/images/dash/blocked.gif"}}" alt=""/>
                         <a href="{{route "bans"}}">
                             {{l10n "Blocked visitors"}}
                         </a>
@@ -67,7 +67,7 @@
 
             <div class="dashitem">
                 <div class="dashitem-content">
-                    <img src="{{stylePath}}/images/dash/canned.gif" alt=""/>
+                    <img src="{{asset "@CurrentStyle/images/dash/canned.gif"}}" alt=""/>
                     <a href="{{route "canned_messages"}}">
                         {{l10n "Canned Messages"}}
                     </a>
@@ -78,7 +78,7 @@
             {{#if showadmin}}
                 <div class="dashitem">
                     <div class="dashitem-content">
-                        <img src="{{stylePath}}/images/dash/getcode.gif" alt=""/>
+                        <img src="{{asset "@CurrentStyle/images/dash/getcode.gif"}}" alt=""/>
                         <a href="{{route "button_code"}}">
                             {{l10n "Button code"}}
                         </a>
@@ -88,7 +88,7 @@
 
                 <div class="dashitem">
                     <div class="dashitem-content">
-                        <img src="{{stylePath}}/images/dash/operators.gif" alt=""/>
+                        <img src="{{asset "@CurrentStyle/images/dash/operators.gif"}}" alt=""/>
                         <a href="{{route "operators"}}">
                             {{l10n "Operators"}}
                         </a>
@@ -98,7 +98,7 @@
 
                 <div class="dashitem">
                     <div class="dashitem-content">
-                        <img src="{{stylePath}}/images/dash/dep.gif" alt=""/>
+                        <img src="{{asset "@CurrentStyle/images/dash/dep.gif"}}" alt=""/>
                         <a href="{{route "groups"}}">
                             {{l10n "Groups"}}
                         </a>
@@ -108,7 +108,7 @@
 
                 <div class="dashitem">
                     <div class="dashitem-content">
-                        <img src="{{stylePath}}/images/dash/settings.gif" alt=""/>
+                        <img src="{{asset "@CurrentStyle/images/dash/settings.gif"}}" alt=""/>
                         <a href="{{route "settings_common"}}">
                             {{l10n "Settings"}}
                         </a>
@@ -120,7 +120,7 @@
             {{#if currentopid}}
                 <div class="dashitem">
                     <div class="dashitem-content">
-                        <img src="{{stylePath}}/images/dash/profile.gif"  alt=""/>
+                        <img src="{{asset "@CurrentStyle/images/dash/profile.gif"}}"  alt=""/>
                         <a href="{{route "operator_edit" operator_id=currentopid}}">
                             {{l10n "Profile"}}
                         </a>
@@ -132,7 +132,7 @@
             {{#if localeLinks}}
                 <div class="dashitem">
                     <div class="dashitem-content">
-                        <img src="{{stylePath}}/images/dash/locale.gif"  alt=""/>
+                        <img src="{{asset "@CurrentStyle/images/dash/locale.gif"}}"  alt=""/>
                         <a href="#" id="changelang">
                             {{l10n "Language"}}
                         </a>
@@ -144,7 +144,7 @@
             {{#if showadmin}}
                 <div class="dashitem">
                     <div class="dashitem-content">
-                        <img src="{{stylePath}}/images/dash/updates.gif" alt=""/>
+                        <img src="{{asset "@CurrentStyle/images/dash/updates.gif"}}" alt=""/>
                         <a href="{{route "updates"}}">
                             {{l10n "Updates"}}
                         </a>
@@ -155,7 +155,7 @@
 
             <div class="dashitem">
                 <div class="dashitem-content">
-                    <img src="{{stylePath}}/images/dash/exit.gif" alt=""/>
+                    <img src="{{asset "@CurrentStyle/images/dash/exit.gif"}}" alt=""/>
                     <a href="{{route "logout"}}">
                         {{l10n "Exit"}}
                     </a>
@@ -167,8 +167,8 @@
 
         {{#if localeLinks}}
             <div id="dashlocalesPopup">
-                <a href="#" id="dashlocalesPopupClose"><img src="{{stylePath}}/images/dash/close.gif" alt="X"/></a>
-                <h2><img src="{{stylePath}}/images/dash/locale.gif" alt=""/><b>{{l10n "Choose your language"}}</b></h2>
+                <a href="#" id="dashlocalesPopupClose"><img src="{{asset "@CurrentStyle/images/dash/close.gif"}}" alt="X"/></a>
+                <h2><img src="{{asset "@CurrentStyle/images/dash/locale.gif"}}" alt=""/><b>{{l10n "Choose your language"}}</b></h2>
                 <ul class="locales">
                     {{#each localeLinks}}
                         <li{{#ifEqual currentLocale @key}} class="active"{{/ifEqual}}><a href="?locale={{@key}}">{{this}}</a></li>

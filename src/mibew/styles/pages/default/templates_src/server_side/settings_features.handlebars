@@ -2,8 +2,8 @@
     {{#override "menu"}}{{> _menu}}{{/override}}
 
     {{#override "head"}}
-        <script type="text/javascript" language="javascript" src="{{mibewRoot}}/js/libs/jquery.min.js"></script>
-        <script type="text/javascript" language="javascript" src="{{stylePath}}/js/features.js"></script>
+        <script type="text/javascript" language="javascript" src="{{asset "js/libs/jquery.min.js"}}"></script>
+        <script type="text/javascript" language="javascript" src="{{asset "@CurrentStyle/js/features.js"}}"></script>
     {{/override}}
 
     {{#override "content"}}
