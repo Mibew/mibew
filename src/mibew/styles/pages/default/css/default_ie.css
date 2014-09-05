@@ -16,12 +16,10 @@
  * limitations under the License.
  */
 
-.inline-block {
-    display: inline;
-    zoom: 1;
-}
-
-.dashitem {
+.inline-block,
+.dashitem,
+.pagination .prevpage,
+.pagination .nextpage {
     display: inline;
     zoom: 1;
 }

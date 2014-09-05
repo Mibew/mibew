@@ -994,6 +994,25 @@ table.awaiting .no-threads, table.awaiting .no-visitors  {
 	margin-bottom:1em;
 }
 
+/* Pagination */
+
+.pagination .nextpage,
+.pagination .prevpage {
+    height: 13px;
+    width: 13px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: top left;
+}
+
+.pagination .nextpage {
+    background-image: url('../images/nextpage.gif');
+}
+
+.pagination .prevpage {
+    background-image: url('../images/prevpage.gif');
+}
+
 /* rtl rules */
 
 .lrtl .dashitem img, .lrtl #dashlocalesPopup h2 img, .lrtl #offwarn img {

@@ -44,16 +44,17 @@ function generate_pagination_link($page, $title)
 }
 
 /**
- * Builds HTML markup for pagination image
+ * Builds HTML markup for pagination arrow
  *
- * @param string $style_path Root path of the style
- * @param string $id Name of the image with neither path nor extension.
- * @param string $alt Value of an 'alt' atribute of the image tag.
+ * The resulting markup is a div tag with specifed class and title.
+ *
+ * @param string $class Name of the CSS class which should be used.
+ * @param string $title Value of an 'title' atribute of the div tag.
  * @return string HTML markup
  */
-function generate_pagination_image($style_path, $id, $alt)
+function generate_pagination_arrow($class, $title)
 {
-    return "<img src=\"" . $style_path . "/images/$id.gif\" border=\"0\" alt=\"" . htmlspecialchars($alt) . "\"/>";
+    return '<div class="' . $class . '" title="' . htmlspecialchars($title) . '"></div>';
 }
 
 /**
@@ -176,8 +177,7 @@ function generate_pagination($style_path, $pagination, $bottom = true)
         if ($curr_page > 1) {
             $result .= generate_pagination_link(
                 $curr_page - 1,
-                generate_pagination_image(
-                    $style_path,
+                generate_pagination_arrow(
                     "prevpage",
                     getlocal("previous")
                 )
@@ -199,8 +199,7 @@ function generate_pagination($style_path, $pagination, $bottom = true)
         if ($curr_page < $pagination['total']) {
             $result .= PAGINATION_SPACING . generate_pagination_link(
                 $curr_page + 1,
-                generate_pagination_image(
-                    $style_path,
+                generate_pagination_arrow(
                     "nextpage",
                     getlocal("next")
                 )
