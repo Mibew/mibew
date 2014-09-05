@@ -50,14 +50,13 @@ class ChatStyle extends AbstractHandlebarsPoweredStyle implements StyleInterface
     public function render($template_name, $data = array())
     {
         // Pass additional variables to template
-        $data['mibewRoot'] = MIBEW_WEB_ROOT;
         $data['mibewVersion'] = MIBEW_VERSION;
         $data['currentLocale'] = get_current_locale();
 
         $locale_info = get_locale_info(get_current_locale());
         $data['rtl'] = $locale_info && $locale_info['rtl'];
 
-        $data['stylePath'] = MIBEW_WEB_ROOT . '/' . $this->getFilesPath();
+        $data['stylePath'] = $this->getFilesPath();
         $data['styleName'] = $this->getName();
 
         return $this->getHandlebars()->render($template_name, $data);
