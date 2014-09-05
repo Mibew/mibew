@@ -142,14 +142,13 @@ function setup_pagination($items, $default_items_per_page = 15)
 /**
  * Builds HTML markup for pagination pager.
  *
- * @param string $style_path Root path of the style.
  * @param array $pagination Pagination info. See description of the result of
  * pagination_info function for details.
  * @param bool $bottom Indicates if pager will be displayed at the bottom of a
  * page.
  * @return string HTML markup
  */
-function generate_pagination($style_path, $pagination, $bottom = true)
+function generate_pagination($pagination, $bottom = true)
 {
     $result = getlocal(
         'Page {0} of {1}, {2}-{3} from {4}',

@@ -29,10 +29,9 @@ use Handlebars\Template;
  *
  * Example of usage:
  * <code>
- *   {{generatePagination stylePath paginationInfo bottom}}
+ *   {{generatePagination paginationInfo bottom}}
  * </code>
  * where:
- *   - "stylePath" is expression for path to current style.
  *   - "paginationInfo" is 'info' key from the result of setup_pagination
  *     function.
  *   - "bottom": optional argument that indicate if pagination block shoud
@@ -48,16 +47,14 @@ class GeneratePaginationHelper implements HelperInterface
     public function execute(Template $template, Context $context, $args, $source)
     {
         $parsed_args = $template->parseArguments($args);
-        if (empty($parsed_args) || count($parsed_args) < 2) {
+        if (empty($parsed_args) || count($parsed_args) < 1) {
             return '';
         }
 
-        $stylePath = $context->get($parsed_args[0]);
-        $pagination_info = $context->get($parsed_args[1]);
-        $bottom = empty($parsed_args[2]) ? true : $context->get($parsed_args[2]);
+        $pagination_info = $context->get($parsed_args[0]);
+        $bottom = empty($parsed_args[1]) ? true : $context->get($parsed_args[1]);
 
         $pagination = generate_pagination(
-            $stylePath,
             $pagination_info,
             ($bottom === "false") ? false : true
         );
