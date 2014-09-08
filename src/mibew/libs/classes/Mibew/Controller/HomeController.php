@@ -48,6 +48,7 @@ class HomeController extends AbstractController
     {
         $operator = $this->getOperator();
         $is_online = is_operator_online($operator['operatorid']);
+        $users_url = $this->generateUrl('users', array('nomenu' => 1));
 
         $page = array(
             'version' => MIBEW_VERSION,
@@ -61,6 +62,10 @@ class HomeController extends AbstractController
             'featuresPage' => $this->generateUrl('settings_features'),
             'isOnline' => $is_online,
             'warnOffline' => true,
+            'goOnlineLink' => getlocal(
+                "You are Offline.<br/><a href=\"{0}\">Connect...</a>",
+                array($users_url)
+            ),
             'title' => getlocal('Home'),
             'menuid' => 'main',
         );

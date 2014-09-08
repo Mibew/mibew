@@ -669,10 +669,6 @@ function prepare_menu($operator, $has_right = true)
 
     $result['showMenu'] = true;
     $result['operator'] = get_operator_name($operator);
-    $result['goOnlineLink'] = getlocal(
-        "You are Offline.<br/><a href=\"{0}\">Connect...</a>",
-        array(MIBEW_WEB_ROOT . "/operator/users?nomenu")
-    );
     if ($has_right) {
         $result['showban'] = Settings::get('enableban') == "1";
         $result['showstat'] = Settings::get('enablestatistics') == "1";
