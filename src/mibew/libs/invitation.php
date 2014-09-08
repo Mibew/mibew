@@ -293,9 +293,6 @@ function setup_invitation_view(Thread $thread)
     // Set refresh frequency
     $data['frequency'] = Settings::get('updatefrequency_chat');
 
-    // Load JavaScript plugins and JavaScripts, CSS files required by them
-    $data = array_merge_recursive($data, get_plugins_data('client_chat_window'));
-
     // Create some empty arrays
     $data['invitation'] = array();
 
