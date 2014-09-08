@@ -36,14 +36,6 @@ require_once(MIBEW_FS_ROOT . '/vendor/autoload.php');
 require_once(MIBEW_FS_ROOT . '/libs/common/configurations.php');
 $configs = load_system_configs();
 
-/**
- * Base URL of the Mibew installation
- */
-define(
-    'MIBEW_WEB_ROOT',
-    \Symfony\Component\HttpFoundation\Request::createFromGlobals()->getBasePath()
-);
-
 // Include system constants file
 require_once(MIBEW_FS_ROOT . '/libs/common/constants.php');
 
@@ -62,7 +54,10 @@ require_once(MIBEW_FS_ROOT . '/libs/common/string.php');
 if (is_secure_request()) {
     @ini_set('session.cookie_secure', true);
 }
-@ini_set('session.cookie_path', MIBEW_WEB_ROOT . "/");
+@ini_set(
+    'session.cookie_path',
+    \Symfony\Component\HttpFoundation\Request::createFromGlobals()->getBasePath() . "/"
+);
 @ini_set('session.name', 'MibewSessionID');
 
 // Initialize user session
