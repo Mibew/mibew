@@ -657,7 +657,7 @@ function in_isolation($operator)
  * Prepare values to render page menu.
  *
  * @param array $operator An array with operators data.
- * @param boolean $hasright Restricts access to menu items. If it equals to
+ * @param boolean $has_right Restricts access to menu items. If it equals to
  *   FALSE only "Home", "Visitors", and "Chat history" items will be displayed.
  *   Otherwise items set depends on operator's permissions and system settings.
  *   Default value is TRUE.
