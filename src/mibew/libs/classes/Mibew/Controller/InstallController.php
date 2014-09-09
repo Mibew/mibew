@@ -489,7 +489,7 @@ class InstallController extends AbstractController
     protected function getStyle()
     {
         if (is_null($this->style)) {
-            $this->style = new PageStyle('default');
+            $this->style = $this->prepareStyle(new PageStyle('default'));
         }
 
         return $this->style;
