@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"{{#if rtl}} dir="rtl"{{/if}}>
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
         <title>{{#block "windowTitle"}}{{l10n "Mibew Messenger"}}{{/block}}</title>
@@ -8,7 +8,7 @@
         {{#block "head"}}{{/block}}
     </head>
 
-    <body{{#if startFrom}} class="{{startFrom}}"{{/if}}>
+    <body class="{{#if startFrom}}{{startFrom}}{{/if}}{{#if rtl}} rtl{{/if}}">
         {{#block "page"}}
             {{! Logo block}}
             <div id="top2">

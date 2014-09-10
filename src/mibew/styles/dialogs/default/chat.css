@@ -25,6 +25,10 @@ body {
     min-width: 500px;
     background-color: #F1F2F2;
 }
+body.rtl {
+    text-align: right;
+    direction: rtl;
+}
 body.invitation {
     min-width: 0;
     min-height: 0;
