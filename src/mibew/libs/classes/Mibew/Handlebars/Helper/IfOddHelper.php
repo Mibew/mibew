@@ -21,7 +21,6 @@ namespace Mibew\Handlebars\Helper;
 
 use Handlebars\Context;
 use Handlebars\Helper as HelperInterface;
-use Handlebars\String;
 use Handlebars\Template;
 
 /**
