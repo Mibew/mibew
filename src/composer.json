@@ -19,11 +19,11 @@
     },
     "require": {
         "xamin/handlebars.php": "dev-master#c6f3e0fd5efafb693b537d1f298d2963fa213817",
-        "symfony/http-foundation": "2.4.*",
-        "symfony/routing": "2.4.*",
-        "symfony/config": "2.4.*",
-        "symfony/yaml": "2.4.*",
-        "symfony/translation": "2.4.*"
+        "symfony/http-foundation": "2.5.*",
+        "symfony/routing": "2.5.*",
+        "symfony/config": "2.5.*",
+        "symfony/yaml": "2.5.*",
+        "symfony/translation": "2.5.*"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "1.*"
