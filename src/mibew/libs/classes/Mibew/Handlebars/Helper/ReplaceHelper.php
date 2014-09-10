@@ -39,8 +39,10 @@ class ReplaceHelper implements HelperInterface
     public function execute(Template $template, Context $context, $args, $source)
     {
         $parsed_args = $template->parseArguments($args);
-        if (empty($parsed_args) || count($parsed_args) < 2) {
-            return '';
+        if (count($parsed_args) != 2) {
+            throw new \InvalidArgumentException(
+                '"replace" helper expects exactly two arguments.'
+            );
         }
 
         $search = $context->get($parsed_args[0]);

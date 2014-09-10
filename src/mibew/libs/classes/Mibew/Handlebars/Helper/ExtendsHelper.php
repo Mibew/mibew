@@ -48,8 +48,10 @@ class ExtendsHelper implements HelperInterface
     {
         // Get name of the parent template
         $parsed_args = $template->parseArguments($args);
-        if (empty($parsed_args)) {
-            return '';
+        if (count($parsed_args) != 1) {
+            throw new \InvalidArgumentException(
+                '"extends" helper expects exactly one argument.'
+            );
         }
         $parent_template = $context->get(array_shift($parsed_args));
 

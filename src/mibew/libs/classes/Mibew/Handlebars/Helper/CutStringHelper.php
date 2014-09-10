@@ -39,8 +39,10 @@ class CutStringHelper implements HelperInterface
     public function execute(Template $template, Context $context, $args, $source)
     {
         $parsed_args = $template->parseArguments($args);
-        if (empty($parsed_args) || count($parsed_args) < 2) {
-            return '';
+        if (count($parsed_args) != 2) {
+            throw new \InvalidArgumentException(
+                '"cutString" helper expects exactly two arguments.'
+            );
         }
 
         $string = $context->get($parsed_args[0]);

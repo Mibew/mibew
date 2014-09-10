@@ -47,8 +47,10 @@ class GeneratePaginationHelper implements HelperInterface
     public function execute(Template $template, Context $context, $args, $source)
     {
         $parsed_args = $template->parseArguments($args);
-        if (empty($parsed_args) || count($parsed_args) < 1) {
-            return '';
+        if (count($parsed_args) < 1 || count($parsed_args) > 2) {
+            throw new \InvalidArgumentException(
+                '"generatePagination" helper expects one or two arguments.'
+            );
         }
 
         $pagination_info = $context->get($parsed_args[0]);

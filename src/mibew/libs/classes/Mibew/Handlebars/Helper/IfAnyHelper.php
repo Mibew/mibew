@@ -45,8 +45,10 @@ class IfAnyHelper implements HelperInterface
     public function execute(Template $template, Context $context, $args, $source)
     {
         $parsed_args = $template->parseArguments($args);
-        if (empty($parsed_args)) {
-            return '';
+        if (count($parsed_args) == 0) {
+            throw new \InvalidArgumentException(
+                '"ifAny" helper expects at least one argument.'
+            );
         }
 
         $condition = false;

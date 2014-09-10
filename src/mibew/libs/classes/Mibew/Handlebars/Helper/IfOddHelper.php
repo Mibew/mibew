@@ -44,8 +44,10 @@ class IfOddHelper implements HelperInterface
     public function execute(Template $template, Context $context, $args, $source)
     {
         $parsed_args = $template->parseArguments($args);
-        if (empty($parsed_args)) {
-            return '';
+        if (count($parsed_args) != 1) {
+            throw new \InvalidArgumentException(
+                '"ifOdd" helper expects exactly one argument.'
+            );
         }
 
         $condition = ($context->get($parsed_args[0]) % 2 == 1);

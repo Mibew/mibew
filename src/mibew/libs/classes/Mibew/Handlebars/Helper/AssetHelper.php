@@ -100,8 +100,10 @@ class AssetHelper implements HelperInterface, AssetUrlGeneratorAwareInterface
     public function execute(Template $template, Context $context, $args, $source)
     {
         $parsed_args = $template->parseArguments($args);
-        if (empty($parsed_args)) {
-            return '';
+        if (count($parsed_args) != 1) {
+            throw new \InvalidArgumentException(
+                '"asset" helper expects exactly one argument.'
+            );
         }
         $relative_path = $context->get($parsed_args[0]);
 

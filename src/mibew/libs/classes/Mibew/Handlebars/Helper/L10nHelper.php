@@ -45,8 +45,10 @@ class L10nHelper implements HelperInterface
     {
         // Check if there is at least one argument
         $parsed_arguments = $template->parseArguments($args);
-        if (empty($parsed_arguments)) {
-            return '';
+        if (count($parsed_arguments) == 0) {
+            throw new \InvalidArgumentException(
+                '"l10n" helper expects at least one argument.'
+            );
         }
 
         $text = $context->get(array_shift($parsed_arguments));

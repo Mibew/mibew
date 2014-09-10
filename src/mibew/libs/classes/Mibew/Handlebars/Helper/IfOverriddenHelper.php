@@ -32,7 +32,7 @@ use Handlebars\Template;
  *     The block was overridden
  *   {{else}}
  *     The block was not overridden
- *   {{/ifOverriden}}
+ *   {{/ifOverridden}}
  * </code>
  */
 class IfOverriddenHelper extends AbstractBlockHelper implements HelperInterface
@@ -44,8 +44,10 @@ class IfOverriddenHelper extends AbstractBlockHelper implements HelperInterface
     {
         // Get block name
         $parsed_args = $template->parseArguments($args);
-        if (empty($parsed_args)) {
-            return '';
+        if (count($parsed_args) != 1) {
+            throw new \InvalidArgumentException(
+                '"ifOverridden" helper expects exactly one argument.'
+            );
         }
         $block_name = $context->get(array_shift($parsed_args));
 
