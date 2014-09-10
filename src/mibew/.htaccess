@@ -1,6 +1,3 @@
-# Set default handler for incoming requests
-DirectoryIndex index.php
-
 # Disable directory listing
 Options -Indexes
 
@@ -26,6 +23,9 @@ Options +FollowSymLinks
 
 # Redirect requests to the front controller
 <IfModule mod_rewrite.c>
+    # Use the front controller as a default handler
+    DirectoryIndex index.php
+
     RewriteEngine On
 
     # Use separate front controller for the system installator
@@ -38,6 +38,13 @@ Options +FollowSymLinks
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
+
+<IfModule !mod_rewrite.c>
+    # There is no mod_rewrite in the system. For the root Mibew directory
+    # index_fallback.php should be loaded first to activate old-fashioned URLs.
+    # For all other directories index.php is just a directory index file.
+    DirectoryIndex index_fallback.php index.php
 </IfModule>
 
 # Deny access to internal system files
