@@ -29,9 +29,9 @@ class TextGenerator extends AbstractGenerator implements GeneratorInterface
      */
     public function generate()
     {
-        return "<!-- mibew button -->"
+        return "<!-- mibew text link -->"
             . $this->getPopup($this->getOption('caption'))
-            . "<!-- / mibew button -->";
+            . "<!-- / mibew text link -->";
     }
 
     /**
