@@ -251,7 +251,7 @@ class UserChatController extends AbstractController
 
         // Prepare page
         $page = array_merge_recursive(
-            setup_invitation_view($request, $thread),
+            setup_invitation_view($thread),
             get_plugins_data($request)
         );
 
