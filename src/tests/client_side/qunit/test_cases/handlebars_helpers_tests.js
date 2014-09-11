@@ -168,6 +168,52 @@ test('repeat', function() {
     );
 });
 
+// Test "replace" Handlebars helper
+test('replace', function() {
+    var template = '{{#replace search replacement}}{{source}}{{/replace}}';
+    var compiledTemplate = Handlebars.compile(template);
+
+    equal(
+        compiledTemplate({
+            source: 'test source',
+            search: 'source',
+            replacement: 'target'
+        }),
+        'test target',
+        'Test single replace'
+    );
+
+    equal(
+        compiledTemplate({
+            source: 'Hello\ncruel\nworld!\n',
+            search: '\n',
+            replacement: '<br/>'
+        }),
+        'Hello<br/>cruel<br/>world!<br/>',
+        'Test multiple replace'
+    );
+
+    equal(
+        compiledTemplate({
+            source: '{{!-- comment',
+            search: '{{!--',
+            replacement: '<!--'
+        }),
+        '<!-- comment',
+        'Test special regexp characters'
+    );
+
+    equal(
+        compiledTemplate({
+            source: '010203040506070809',
+            search: 0,
+            replacement: ''
+        }),
+        '123456789',
+        'Test a number as the search value'
+    );
+});
+
 // Test "cutString" Handlebars helper
 test('cutString', function() {
     var template = '{{#cutString length}}{{str}}{{/cutString}}';

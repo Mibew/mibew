@@ -235,6 +235,26 @@
     });
 
     /**
+     * Registers "replace" helper.
+     *
+     * This helper replaces all found substrings with the specifed replacement.
+     * Example of usage:
+     * <code>
+     *   {{#replace search replacement}}target content{{/replace}}
+     * </code>
+     */
+    Handlebars.registerHelper('replace', function(search, replacement, options) {
+        // Convert serch value to string and escape special regexp characters
+        var searchPattern = search.toString().replace(
+                /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g,
+                "\\$&"
+            ),
+            re = new RegExp(searchPattern, 'g');
+
+        return options.fn(this).replace(re, replacement);
+    });
+
+    /**
      * Registers "cutString" helper.
      *
      * This helper cuts a string if it exceeds specified length. Example of
