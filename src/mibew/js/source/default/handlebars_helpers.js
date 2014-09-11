@@ -214,4 +214,23 @@
             return options.inverse(this);
         }
     });
+
+    /**
+     * Registers "repeat" helper.
+     *
+     * This helper repeats a string specified number of times. Example of usage:
+     * <code>
+     *   {{#repeat times}}content to repeat{{/repeat}}
+     * </code>
+     */
+    Handlebars.registerHelper('repeat', function(count, options) {
+        var result = '',
+            content = options.fn(this);
+
+        for (var i = 0; i < count; i++) {
+            result += content;
+        }
+
+        return result;
+    });
 })(Mibew, Handlebars);

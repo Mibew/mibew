@@ -155,3 +155,15 @@ test('ifEqual', function() {
         'Test equal values'
     );
 });
+
+// Test "repeat" Handlebars helper
+test('repeat', function() {
+    var template = '{{#repeat times}}{{foo}}{{/repeat}}';
+    var compiledTemplate = Handlebars.compile(template);
+
+    equal(
+        compiledTemplate({foo: 'Foo.', times: 3}),
+        'Foo.Foo.Foo.',
+        'Test repeating'
+    );
+});
