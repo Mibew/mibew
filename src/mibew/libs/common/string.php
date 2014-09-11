@@ -84,7 +84,7 @@ function sanitize_string($string, $tags_level = 'high', $attr_level = 'high')
 
     $sanitize_attributes = array(
         'high' => array(),
-        'moderate' => array('class', 'style', 'href', 'rel', 'id'),
+        'moderate' => array('class', 'href', 'rel', 'id'),
         'low' => false,
     );
 
