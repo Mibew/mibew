@@ -160,4 +160,37 @@
             return options.inverse(this);
         }
     });
+
+    /**
+     * Registers "ifAny" helper.
+     *
+     * This helper checks if at least one argumet can be treated as
+     * "true" value. Example of usage:
+     * <code>
+     *   {{#ifAny first second third}}
+     *     At least one of argument can be threated as "true".
+     *   {{else}}
+     *     All values are "falsy"
+     *   {{/ifAny}}
+     * </code>
+     */
+    Handlebars.registerHelper('ifAny', function() {
+        var argsCount = arguments.length,
+            // The last helper's argument is the options hash. We need it to
+            // render the template.
+            options = arguments[argsCount - 1],
+            // All other helper's arguments are values that are used to evalute
+            // condition. Exctract that values from arguments pseudo array.
+            values = [].slice.call(arguments, 0, argsCount - 1);
+
+        for (var i = 0, l = values.length; i < l; i++) {
+            if (values[i]) {
+                // A true value is found. Render the positive block.
+                return options.fn(this);
+            }
+        }
+
+        // All values are "falsy". Render the negative block.
+        return options.inverse(this);
+    });
 })(Mibew, Handlebars);

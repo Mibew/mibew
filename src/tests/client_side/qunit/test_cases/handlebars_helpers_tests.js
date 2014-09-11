@@ -71,3 +71,27 @@ test('apply', function() {
         );
     }
 });
+
+// Test "ifAny" Handlebars helper
+test('ifAny', function() {
+    var template = '{{#ifAny foo bar baz}}true{{else}}false{{/ifAny}}';
+    var compiledTemplate = Handlebars.compile(template);
+
+    equal(
+        compiledTemplate({}),
+        'false',
+        'Test only falsy values'
+    );
+
+    equal(
+        compiledTemplate({baz: true}),
+        'true',
+        'Test only one true value'
+    );
+
+    equal(
+        compiledTemplate({foo: true, bar: 1}),
+        'true',
+        'Test more than one true values'
+    );
+});
