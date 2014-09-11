@@ -72,6 +72,42 @@ test('apply', function() {
     }
 });
 
+// Test "ifEven" Handlebars helper
+test('ifEven', function() {
+    var template = '{{#ifEven foo}}true{{else}}false{{/ifEven}}';
+    var compiledTemplate = Handlebars.compile(template);
+
+    equal(
+        compiledTemplate({foo: 0}),
+        'true',
+        'Test even value'
+    );
+
+    equal(
+        compiledTemplate({foo: 1}),
+        'false',
+        'Test odd value'
+    );
+});
+
+// Test "ifOdd" Handlebars helper
+test('ifOdd', function() {
+    var template = '{{#ifOdd foo}}true{{else}}false{{/ifOdd}}';
+    var compiledTemplate = Handlebars.compile(template);
+
+    equal(
+        compiledTemplate({foo: 0}),
+        'false',
+        'Test even value'
+    );
+
+    equal(
+        compiledTemplate({foo: 1}),
+        'true',
+        'Test odd value'
+    );
+});
+
 // Test "ifAny" Handlebars helper
 test('ifAny', function() {
     var template = '{{#ifAny foo bar baz}}true{{else}}false{{/ifAny}}';
