@@ -95,3 +95,27 @@ test('ifAny', function() {
         'Test more than one true values'
     );
 });
+
+// Test "ifEqual" Handlebars helper
+test('ifEqual', function() {
+    var template = '{{#ifEqual left right}}true{{else}}false{{/ifEqual}}';
+    var compiledTemplate = Handlebars.compile(template);
+
+    equal(
+        compiledTemplate({left: 12, right: "foo"}),
+        'false',
+        'Test different values'
+    );
+
+    equal(
+        compiledTemplate({left: "10", right: 10}),
+        'true',
+        'Test equal values with different types'
+    );
+
+    equal(
+        compiledTemplate({left: "Bar", right: "Bar"}),
+        'true',
+        'Test equal values'
+    );
+});

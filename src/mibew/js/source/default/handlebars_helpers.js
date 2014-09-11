@@ -193,4 +193,25 @@
         // All values are "falsy". Render the negative block.
         return options.inverse(this);
     });
+
+    /**
+     * Registers "ifEqual" helper.
+     *
+     * This helper checks if two values are equal or not. Example of usage:
+     * <code>
+     *   {{#ifEqual first second}}
+     *     The first argument is equal to the second one.
+     *   {{else}}
+     *     The arguments are not equal.
+     *   {{/ifEqual}}
+     * </code>
+     */
+    Handlebars.registerHelper('ifEqual', function(left, right, options) {
+        // Not strict equality is used intentionally here.
+        if (left == right) {
+            return options.fn(this);
+        } else {
+            return options.inverse(this);
+        }
+    });
 })(Mibew, Handlebars);
