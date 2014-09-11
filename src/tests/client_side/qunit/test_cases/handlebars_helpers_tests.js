@@ -72,6 +72,42 @@ test('apply', function() {
     }
 });
 
+// Test "urlReplace" Handlebars helper
+test('urlReplace', function() {
+    var template = '{{urlReplace foo}}';
+    var compiledTemplate = Handlebars.compile(template);
+
+    equal(
+        compiledTemplate({foo: 'http://example.com'}),
+        '<a href="http://example.com" target="_blank">http://example.com</a>',
+        'Test HTTP URL'
+    );
+
+    equal(
+        compiledTemplate({foo: 'https://example.com'}),
+        '<a href="https://example.com" target="_blank">https://example.com</a>',
+        'Test HTTPS URL'
+    );
+
+    equal(
+        compiledTemplate({foo: 'ftp://example.com'}),
+        '<a href="ftp://example.com" target="_blank">ftp://example.com</a>',
+        'Test FTP URL'
+    );
+
+    equal(
+        compiledTemplate({foo: 'plain text'}),
+        'plain text',
+        'Test not a URL'
+    );
+
+    equal(
+        compiledTemplate({foo: 456}),
+        '456',
+        'Test number argument'
+    );
+});
+
 // Test "nl2br" Handlebars helper
 test('nl2br', function() {
     var template = '{{nl2br foo}}';

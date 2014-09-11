@@ -96,7 +96,7 @@
      */
     Handlebars.registerHelper('urlReplace', function(text) {
         return new Handlebars.SafeString(
-            text.replace(
+            text.toString().replace(
                 /((?:https?|ftp):\/\/\S*)/g,
                 '<a href="$1" target="_blank">$1</a>'
             )
