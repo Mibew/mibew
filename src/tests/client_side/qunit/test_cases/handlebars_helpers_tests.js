@@ -167,3 +167,21 @@ test('repeat', function() {
         'Test repeating'
     );
 });
+
+// Test "cutString" Handlebars helper
+test('cutString', function() {
+    var template = '{{#cutString length}}{{str}}{{/cutString}}';
+    var compiledTemplate = Handlebars.compile(template);
+
+    equal(
+        compiledTemplate({str: 'Hello world!', length: 40}),
+        'Hello world!',
+        'Test cutting of a string that is shorter than specified length'
+    );
+
+    equal(
+        compiledTemplate({str: 'Hello world!', length: 5}),
+        'Hello',
+        'Test cutting of a string that is longer than specified length'
+    );
+});

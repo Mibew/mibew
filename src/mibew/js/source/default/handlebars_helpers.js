@@ -233,4 +233,17 @@
 
         return result;
     });
+
+    /**
+     * Registers "cutString" helper.
+     *
+     * This helper cuts a string if it exceeds specified length. Example of
+     * usage:
+     * <code>
+     *   {{cutString string length}}
+     * </code>
+     */
+    Handlebars.registerHelper('cutString', function(length, options) {
+        return options.fn(this).substr(0, length);
+    });
 })(Mibew, Handlebars);
