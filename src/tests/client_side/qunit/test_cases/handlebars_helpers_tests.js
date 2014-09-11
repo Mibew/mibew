@@ -72,6 +72,24 @@ test('apply', function() {
     }
 });
 
+// Test "nl2br" Handlebars helper
+test('nl2br', function() {
+    var template = '{{nl2br foo}}';
+    var compiledTemplate = Handlebars.compile(template);
+
+    equal(
+        compiledTemplate({foo: 'Hello\ncruel\nworld!\n'}),
+        'Hello<br/>cruel<br/>world!<br/>',
+        'Test simple replacements'
+    );
+
+    equal(
+        compiledTemplate({foo: 456}),
+        '456',
+        'Test number argument'
+    );
+});
+
 // Test "ifEven" Handlebars helper
 test('ifEven', function() {
     var template = '{{#ifEven foo}}true{{else}}false{{/ifEven}}';

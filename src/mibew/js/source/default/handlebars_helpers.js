@@ -109,7 +109,9 @@
      * This helper replace all new line characters (\n) by 'br' tags
      */
     Handlebars.registerHelper('nl2br', function(text) {
-        return new Handlebars.SafeString(text.replace(/\n/g, "<br/>"));
+        return new Handlebars.SafeString(
+            text.toString().replace(/\n/g, "<br/>")
+        );
     });
 
     /**
