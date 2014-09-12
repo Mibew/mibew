@@ -53,17 +53,6 @@
     });
 
     /**
-     * Register 'nl2br' Handlebars helper.
-     *
-     * This helper replace all new line characters (\n) by 'br' tags
-     */
-    Handlebars.registerHelper('nl2br', function(text) {
-        return new Handlebars.SafeString(
-            text.toString().replace(/\n/g, "<br/>")
-        );
-    });
-
-    /**
      * Register 'l10n' Handlebars helper
      *
      * This helper returns translated string with specified key
