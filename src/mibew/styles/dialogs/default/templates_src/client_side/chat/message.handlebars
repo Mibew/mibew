@@ -1,3 +1,3 @@
 <span>{{formatTime created}}</span> 
 {{#if name}}<span class='n{{kindName}}'>{{name}}</span>: {{/if}}
-<span class='m{{kindName}}'>{{#if allowFormatting}}{{allowTags (nl2br (urlReplace message))}}{{else}}{{nl2br (urlReplace message)}}{{/if}}</span><br/>
+<span class='m{{kindName}}'>{{nl2br (urlReplace message)}}</span><br/>

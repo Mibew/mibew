@@ -51,6 +51,26 @@ function message_to_text($msg)
 }
 
 /**
+ * Sanitize message body and make it a safe HTML string.
+ *
+ * @param array $msg Message object
+ * @return array Message object with sanitized body.
+ */
+function sanitize_message($msg)
+{
+    $message_body = $msg['message'];
+
+    // Messages entered by user or operator cannot contain any markup
+    if ($msg['kind'] == Thread::KIND_USER || $msg['kind'] == Thread::KIND_AGENT) {
+        $message_body = safe_htmlspecialchars($message_body);
+    }
+
+    $msg['message'] = sanitize_string($message_body, 'low', 'moderate');
+
+    return $msg;
+}
+
+/**
  * Format username
  *
  * @param string $user_name client username

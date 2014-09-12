@@ -340,10 +340,10 @@ class ThreadProcessor extends ClientSideProcessor implements RouterAwareInterfac
 
         // Send new messages
         $last_message_id = $args['lastId'];
-        $messages = $thread->getMessages($args['user'], $last_message_id);
-        if (empty($messages)) {
-            $messages = array();
-        }
+        $messages = array_map(
+            'sanitize_message',
+            $thread->getMessages($args['user'], $last_message_id)
+        );
 
         return array(
             'messages' => $messages,

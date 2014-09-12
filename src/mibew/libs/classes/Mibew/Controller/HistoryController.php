@@ -197,7 +197,10 @@ class HistoryController extends AbstractController
 
         // Build messages list
         $last_id = -1;
-        $messages = $thread->getMessages(false, $last_id);
+        $messages = array_map(
+            'sanitize_message',
+            $thread->getMessages(false, $last_id)
+        );
         $page['threadMessages'] = json_encode($messages);
         $page['title'] = getlocal("Chat log");
 

@@ -37,43 +37,6 @@ test('urlReplace', function() {
     );
 });
 
-// Test "allowTags" Handlebars helper
-test('allowTags', function() {
-    var template = '{{allowTags foo}}';
-    var compiledTemplate = Handlebars.compile(template);
-    var escape = Handlebars.Utils.escapeExpression;
-
-    equal(
-        compiledTemplate({foo: escape('<span>The content</span>')}),
-        '<span>The content</span>',
-        'Test a tag without attributes'
-    );
-
-    equal(
-        compiledTemplate({foo: escape('<span class="red">The content</span>')}),
-        '<span class="red">The content</span>',
-        'Test a tag with class attribute'
-    );
-
-    equal(
-        compiledTemplate({foo: escape('<span data-foo="bar">The content</span>')}),
-        escape('<span data-foo="bar">The content</span>'),
-        'Test a tag with arbitrary attributes'
-    );
-
-    equal(
-        compiledTemplate({foo: 'content'}),
-        'content',
-        'Test not a tag'
-    );
-
-    equal(
-        compiledTemplate({foo: 456}),
-        '456',
-        'Test not a string argument'
-    );
-});
-
 // Test "nl2br" Handlebars helper
 test('nl2br', function() {
     var template = '{{nl2br foo}}';

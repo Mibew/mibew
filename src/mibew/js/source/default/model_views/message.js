@@ -19,27 +19,6 @@
 (function(Mibew, Backbone, Handlebars) {
 
     /**
-     * List of replacements pairs
-     * @type Object
-     * @private
-     */
-    var badCharList = {
-        "<": "&lt;",
-        ">": "&gt;",
-        "&": "&amp;",
-        '"': "&quot;",
-        "'": "&#x27;",
-        "`": "&#x60;"
-    }
-
-    /**
-     * Regular expression for characters that must be replaced by HTML entities
-     * @type RegExp
-     * @private
-     */
-    var badCharRegEx = /[&<>'"`]/g;
-
-    /**
      * @class Represents default message view
      */
     Mibew.Views.Message = Backbone.Marionette.ItemView.extend(
@@ -75,10 +54,7 @@
                 var messageKind = this.model.get('kind');
 
                 // Add message fields
-                msg.allowFormatting = (messageKind != this.model.KIND_USER
-                    && messageKind != this.model.KIND_AGENT);
                 msg.kindName = this.kindToString(messageKind);
-                msg.message = this.escapeString(msg.message);
 
                 return msg;
             },
@@ -111,22 +87,6 @@
                     return "plugin";
                 }
                 return "";
-            },
-
-            /**
-             * Replace HTML special characters('<', '>', '&', "'", '"', '`') by
-             * corresponding HTML entities.
-             *
-             * @param {String} str Unescaped string
-             * @returns {String} Escaped string
-             */
-            escapeString: function(str) {
-                return str.replace(
-                    badCharRegEx,
-                    function(chr) {
-                        return badCharList[chr] || "&amp;";
-                    }
-                );
             }
         }
     );
