@@ -13,6 +13,7 @@ var fs = require('fs'),
     phpcs = require('gulp-phpcs'),
     order = require('gulp-order'),
     handlebars = require('gulp-handlebars'),
+    handlebarsEngine = require('handlebars'),
     defineModule = require('gulp-define-module'),
     header = require('gulp-header'),
     zip = require('gulp-zip'),
@@ -112,7 +113,10 @@ gulp.task('chat-styles-handlebars', function() {
     var stylePath = config.chatStylesPath + '/default';
 
     return gulp.src(stylePath + '/templates_src/client_side/**/*.handlebars')
-        .pipe(handlebars())
+        .pipe(handlebars({
+            // Use specific version of Handlebars.js
+            handlebars: handlebarsEngine
+        }))
         .pipe(wrapHandlebarsTemplate())
         .pipe(concat('templates.js'))
         .pipe(uglify({preserveComments: 'some'}))
@@ -138,11 +142,17 @@ gulp.task('page-styles', function() {
 
     return eventStream.merge(
         gulp.src(stylePath + '/templates_src/client_side/default/**/*.handlebars')
-            .pipe(handlebars())
+            .pipe(handlebars({
+                // Use specific version of Handlebars.js
+                handlebars: handlebarsEngine
+            }))
             .pipe(wrapHandlebarsTemplate())
             .pipe(concat('default_app.tpl.js')),
         gulp.src(stylePath + '/templates_src/client_side/users/**/*.handlebars')
-            .pipe(handlebars())
+            .pipe(handlebars({
+                // Use specific version of Handlebars.js
+                handlebars: handlebarsEngine
+            }))
             .pipe(wrapHandlebarsTemplate())
             .pipe(concat('users_app.tpl.js'))
     )
