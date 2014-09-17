@@ -18,7 +18,7 @@
         "source": "https://github.com/mibew/mibew"
     },
     "require": {
-        "xamin/handlebars.php": "dev-master#c6f3e0fd5efafb693b537d1f298d2963fa213817",
+        "xamin/handlebars.php": "dev-master#e863d7af80fb485b7f6df45a191dda431f42b17c",
         "symfony/http-foundation": "2.5.*",
         "symfony/routing": "2.5.*",
         "symfony/config": "2.5.*",
