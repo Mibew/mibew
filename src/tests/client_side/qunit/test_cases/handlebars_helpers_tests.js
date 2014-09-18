@@ -196,3 +196,24 @@ test('cutString', function() {
         'Test cutting of a string that is longer than specified length'
     );
 });
+
+// Test "l10n" Handlebars helper
+test('l10n', function() {
+    // Add some localization strings that are needed helper testing
+    Mibew.Localization.set({
+        'one': 'uno',
+        'Hello {0}!': '¡Hola {0}!'
+    });
+
+    equal(
+        Handlebars.compile('{{l10n "one"}}')({}),
+        'uno',
+        'Test simple string'
+    );
+
+    equal(
+        Handlebars.compile('{{l10n "Hello {0}!" "world"}}')({}),
+        '¡Hola world!',
+        'Test string with placeholder'
+    );
+});

@@ -55,10 +55,23 @@
     /**
      * Register 'l10n' Handlebars helper
      *
-     * This helper returns translated string with specified key
+     * This helper returns translated string with specified key. Example of usage:
+     * <code>
+     *   {{l10n "localization.string" arg1 arg2 arg3}}
+     * </code>
+     * where:
+     *   - "localization.string" is localization constant.
+     *   - arg* are arguments that will be passed to getlocal function. There
+     *     can be arbitrary number of such arguments.
      */
-    Handlebars.registerHelper('l10n', function(key) {
-        return (Mibew.Localization.trans(key) || '');
+    Handlebars.registerHelper('l10n', function() {
+        var key = arguments[0],
+            placeholders = Array.prototype.slice.call(arguments, 1),
+            localized = (Mibew.Localization.trans(key) || '');
+
+        return localized.replace(/\{([0-9]+)\}/g, function(match, index) {
+            return placeholders[parseInt(index)] || '';
+        });
     });
 
     /**
