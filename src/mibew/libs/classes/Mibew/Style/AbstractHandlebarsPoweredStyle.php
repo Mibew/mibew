@@ -20,7 +20,7 @@
 namespace Mibew\Style;
 
 use Handlebars\Handlebars as HandlebarsEngine;
-use Mibew\Handlebars\HelpersSet;
+use Mibew\Handlebars\Helpers;
 use Mibew\Handlebars\HandlebarsAwareInterface;
 
 /**
@@ -48,7 +48,7 @@ abstract class AbstractHandlebarsPoweredStyle extends AbstractStyle implements H
             $this->templateEngine = new \Handlebars\Handlebars(array(
                 'loader' => $templates_loader,
                 'partials_loader' => $templates_loader,
-                'helpers' => new \Handlebars\Helpers(HelpersSet::getHelpers())
+                'helpers' => new Helpers(),
             ));
 
             // Use custom function to escape strings
