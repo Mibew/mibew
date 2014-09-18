@@ -217,3 +217,139 @@ test('l10n', function() {
         'Test string with placeholder'
     );
 });
+
+// Test "block", "extends" and "override" Handlebars helpers.
+test('inheritance', function() {
+    // Test inheritance
+    Handlebars.templates = {
+        parent: Handlebars.compile(
+            'Test {{#block "first"}}1{{/block}} {{#block "second"}}2{{/block}}'
+        ),
+        child: Handlebars.compile(
+            '{{#extends "parent"}}{{#override "first"}}0{{/override}}{{/extends}}'
+        ),
+        grandChild: Handlebars.compile(
+            '{{#extends "child"}}{{#override "first"}}one{{/override}}{{#override "second"}}two{{/override}}{{/extends}}'
+        )
+    };
+
+    equal(
+        Handlebars.templates['parent']({}),
+        'Test 1 2',
+        'Test default block content'
+    );
+
+    equal(
+        Handlebars.templates['child']({}),
+        'Test 0 2',
+        'Test inheritance'
+    );
+
+    equal(
+        Handlebars.templates['grandChild']({}),
+        'Test one two',
+        'Test nested inheritance'
+    );
+
+    // Test nested blocks
+    Handlebars.templates = {
+        parent: Handlebars.compile(
+            'Test {{#block "first"}}1 {{#block "second"}}2{{/block}}{{/block}}'
+        ),
+        childInnerBlock: Handlebars.compile(
+            '{{#extends "parent"}}{{#override "second"}}two{{/override}}{{/extends}}'
+        ),
+        childOuterBlock: Handlebars.compile(
+            '{{#extends "parent"}}{{#override "first"}}foo{{/override}}{{/extends}}'
+        )
+    }
+
+    equal(
+        Handlebars.templates['childInnerBlock']({}),
+        'Test 1 two',
+        'Test overriding of the inner block'
+    );
+
+    equal(
+        Handlebars.templates['childOuterBlock']({}),
+        'Test foo',
+        'Test overriding of the outer block'
+    );
+
+    // Clean up environment
+    delete Handlebars.templates;
+});
+
+// Test "ifOverridden" Handlebars helper.
+test('ifOverridden', function() {
+    // Test inheritance
+    Handlebars.templates = {
+        parent: Handlebars.compile(
+            '{{#ifOverridden "foo"}}Child{{else}}Parent{{/ifOverridden}}{{#block "foo"}}{{/block}}'
+        ),
+        child: Handlebars.compile(
+            '{{#extends "parent"}}{{/extends}}'
+        ),
+        childOverridden: Handlebars.compile(
+            '{{#extends "parent"}}{{#override "foo"}}{{/override}}{{/extends}}'
+        )
+    };
+
+    equal(
+        Handlebars.templates['childOverridden']({}),
+        'Child',
+        'Test overridden block'
+    );
+
+    equal(
+        Handlebars.templates['child']({}),
+        'Parent',
+        'Test not overridden block'
+    );
+
+    equal(
+        Handlebars.templates['parent']({}),
+        'Parent',
+        'Test with no inheritance'
+    );
+
+    // Clean up environment
+    delete Handlebars.templates;
+});
+
+// Test "unlessOverridden" Handlebars helper.
+test('unlessOverridden', function() {
+    // Test inheritance
+    Handlebars.templates = {
+        parent: Handlebars.compile(
+            '{{#unlessOverridden "foo"}}Parent{{else}}Child{{/unlessOverridden}}{{#block "foo"}}{{/block}}'
+        ),
+        child: Handlebars.compile(
+            '{{#extends "parent"}}{{/extends}}'
+        ),
+        childOverridden: Handlebars.compile(
+            '{{#extends "parent"}}{{#override "foo"}}{{/override}}{{/extends}}'
+        )
+    };
+
+    equal(
+        Handlebars.templates['childOverridden']({}),
+        'Child',
+        'Test overridden block'
+    );
+
+    equal(
+        Handlebars.templates['child']({}),
+        'Parent',
+        'Test not overridden block'
+    );
+
+    equal(
+        Handlebars.templates['parent']({}),
+        'Parent',
+        'Test with no inheritance'
+    );
+
+    // Clean up environment
+    delete Handlebars.templates;
+});

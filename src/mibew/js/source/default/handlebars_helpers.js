@@ -219,4 +219,127 @@
     Handlebars.registerHelper('cutString', function(length, options) {
         return options.fn(this).substr(0, length);
     });
+
+    /**
+     * Registers "block" helper.
+     *
+     * This helper defines default content of a block. Example of usage:
+     * <code>
+     *   {{#block "blockName"}}
+     *     Default content for the block
+     *   {{/block}}
+     * </code>
+     */
+    Handlebars.registerHelper('block', function(name, options) {
+        if (this._blocksStorage && this._blocksStorage.hasOwnProperty(name)) {
+            return this._blocksStorage[name];
+        }
+
+        return options.fn(this);
+    });
+
+    /**
+     * Registers "extends" helper.
+     *
+     * This is used for templates inheritance. Example of usage:
+     * <code>
+     *   {{#extends "parentTemplateName"}}
+     *     {{#override "blockName"}}
+     *       Overridden first block
+     *     {{/override}}
+     *
+     *     {{#override "anotherBlockName"}}
+     *       Overridden second block
+     *     {{/override}}
+     *   {{/extends}}
+     * </code>
+     */
+    Handlebars.registerHelper('extends', function(parentTemplate, options) {
+        // Create a blocks storage. If the current inheritance level is not the
+        // deepest one, a storage already exists. In this case we do not need
+        // to override it.
+        this._blocksStorage = this._blocksStorage || {};
+
+        // Render content inside "extends" helper to override blocks
+        options.fn(this);
+
+        // Check if the parent template exists
+        if (!Handlebars.templates.hasOwnProperty(parentTemplate)) {
+            throw Error('Parent template "' + parentTemplate + '" is not defined');
+        }
+
+        // Render the parent template. We assume that templates are stored in
+        // Handlebars.templates property. It is the most common case and take
+        // place when templates were compiled with node.js Handlebars CLI tool.
+        return Handlebars.templates[parentTemplate](this);
+    });
+
+    /**
+     * Registers "override" helper.
+     *
+     * This helper overrides content of a block. Example of usage:
+     * <code>
+     *   {{#extends "parentTemplateName"}}
+     *     {{#override "blockName"}}
+     *       Overridden first block
+     *     {{/override}}
+     *
+     *     {{#override "anotherBlockName"}}
+     *       Overridden second block
+     *     {{/override}}
+     *   {{/extends}}
+     * </code>
+     */
+    Handlebars.registerHelper('override', function(name, options) {
+        // We need to provide unlimited inheritence level. Rendering is started
+        // from the deepest level template. If the content is in the block
+        // storage it is related with the deepest level template. Thus we do not
+        // need to override it.
+        if (!this._blocksStorage.hasOwnProperty(name)) {
+            this._blocksStorage[name] = options.fn(this);
+        }
+
+        // An empty string is returned for consistency.
+        return '';
+    });
+
+    /**
+     * Registers "ifOverridden" helper.
+     *
+     * This helper checks if a block is overridden or not. Example of usage:
+     * <code>
+     *   {{#ifOverridden "blockName"}}
+     *     The block was overridden
+     *   {{else}}
+     *     The block was not overridden
+     *   {{/ifOverridden}}
+     * </code>
+     */
+    Handlebars.registerHelper('ifOverridden', function(name, options) {
+        if (this._blocksStorage && this._blocksStorage.hasOwnProperty(name)) {
+            return options.fn(this);
+        } else {
+            return options.inverse(this);
+        }
+    });
+
+    /**
+     * Registers "unlessOverridden" helper.
+     *
+     * This helper checks if a block is overridden or not. Example of usage:
+     * <code>
+     *   {{#unlessOverridden "blockName"}}
+     *     The block was not overridden
+     *   {{else}}
+     *     The block was overridden
+     *   {{/unlessOverridden}}
+     * </code>
+     */
+    Handlebars.registerHelper('unlessOverridden', function(name, options) {
+        if (this._blocksStorage && this._blocksStorage.hasOwnProperty(name)) {
+            return options.inverse(this);
+        } else {
+            return options.fn(this);
+        }
+    });
 })(Mibew, Handlebars);
