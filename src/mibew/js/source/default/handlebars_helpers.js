@@ -61,17 +61,13 @@
      * </code>
      * where:
      *   - "localization.string" is localization constant.
-     *   - arg* are arguments that will be passed to getlocal function. There
-     *     can be arbitrary number of such arguments.
+     *   - arg* are arguments that will replace the placeholders.
      */
     Handlebars.registerHelper('l10n', function() {
-        var key = arguments[0],
-            placeholders = Array.prototype.slice.call(arguments, 1),
-            localized = (Mibew.Localization.trans(key) || '');
+        var l = Mibew.Localization,
+            slice = Array.prototype.slice;
 
-        return localized.replace(/\{([0-9]+)\}/g, function(match, index) {
-            return placeholders[parseInt(index)] || '';
-        });
+        return l.trans.apply(l, slice.call(arguments));
     });
 
     /**

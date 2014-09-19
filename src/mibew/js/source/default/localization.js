@@ -30,15 +30,24 @@
     var localStrings = {};
 
     /**
-     * Localize string
-     * @param {String} str String for localization
-     * @returns {String} Localized string
+     * Localize string.
+     *
+     * @param {String} str String for localization.
+     * @param {...String} placeholder A value that will replace a placeholder.
+     * @returns {String} Localized string.
      */
     Mibew.Localization.trans = function(str) {
         if (! localStrings.hasOwnProperty(str)) {
             return false;
         }
-        return localStrings[str];
+
+        // Replace "{n}" style placeholders with specified arguments. The first
+        // argument is skipped because it is the localized string.
+        var placeholders = Array.prototype.slice.call(arguments, 1);
+
+        return localStrings[str].replace(/\{([0-9]+)\}/g, function(match, index) {
+            return placeholders[parseInt(index)] || '';
+        });
     }
 
     /**
