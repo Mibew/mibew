@@ -53,11 +53,17 @@ class ControllerResolver implements
      * @param RouterInterface $router Router instance.
      * @param AuthenticationManagerInterface $manager Authentication manager
      *   instance.
+     * @param AssetUrlGeneratorInterface $url_generator An instance of Asset
+     *   URL generator
      */
-    public function __construct(RouterInterface $router, AuthenticationManagerInterface $manager)
-    {
+    public function __construct(
+        RouterInterface $router,
+        AuthenticationManagerInterface $manager,
+        AssetUrlGeneratorInterface $url_generator
+    ) {
         $this->router = $router;
         $this->authenticationManager = $manager;
+        $this->assetUrlGenerator = $url_generator;
     }
 
     /**

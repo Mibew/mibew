@@ -85,9 +85,9 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
         $this->assetUrlGenerator = new AssetUrlGenerator();
         $this->controllerResolver = new ControllerResolver(
             $this->router,
-            $this->authenticationManager
+            $this->authenticationManager,
+            $this->assetUrlGenerator
         );
-        $this->controllerResolver->setAssetUrlGenerator($this->assetUrlGenerator);
         $this->accessCheckResolver = new CheckResolver($this->authenticationManager);
     }
 
