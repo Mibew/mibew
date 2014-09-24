@@ -28,6 +28,7 @@ var config = {
     mibewPath: 'mibew',
     phpVendorPath: 'mibew/vendor',
     pluginsPath: 'mibew/plugins',
+    cachePath: 'mibew/cache',
     jsPath: 'mibew/js',
     chatStylesPath: 'mibew/styles/dialogs',
     pageStylesPath: 'mibew/styles/pages',
@@ -43,8 +44,15 @@ gulp.task('phpcs', ['composer-install-dev'], function() {
     return gulp.src([
         config.mibewPath + '/**/*.php',
         '!' + config.phpVendorPath + '/**/*.*',
-        '!' + config.pluginsPath + '/**/*.*'
-    ])
+        '!' + config.pluginsPath + '/**/*.*',
+        '!' + config.cachePath + '/**/*.*'
+    ], {
+        // Content of the cache directory is readable only for webserver. Thus
+        // we must to set "strict" option to false to prevent "EACCES" errors.
+        // At the same we need to see all errors that take place.
+        strict: false,
+        silent: false
+    })
     .pipe(phpcs({
         bin: config.phpVendorPath + '/bin/phpcs',
         standard: 'PSR2',
@@ -167,8 +175,15 @@ gulp.task('generate-pot', function() {
         gulp.src([
             config.mibewPath + '/**/*.php',
             '!' + config.phpVendorPath + '/**/*.*',
-            '!' + config.pluginsPath + '/**/*.*'
-        ])
+            '!' + config.pluginsPath + '/**/*.*',
+            '!' + config.cachePath + '/**/*.*'
+        ], {
+            // Content of the cache directory is readable only for webserver.
+            // Thus we must to set "strict" option to false to prevent "EACCES"
+            // errors. At the same we need to see all errors that take place.
+            strict: false,
+            silent: false
+        })
             .pipe(xgettext({
                 language: 'PHP',
                 keywords: [
@@ -209,16 +224,27 @@ gulp.task('generate-pot', function() {
 gulp.task('pack-sources', ['composer-install'], function() {
     var sources = [
         config.mibewPath + '/**/*',
+        // Exclude cache files but include ".keep" file.
+        '!' + config.cachePath + '/**/!(.keep)',
         // Exclude Git repositories that can be shipped with third-party libs
         '!' + config.phpVendorPath + '/**/.git',
         '!' + config.phpVendorPath + '/**/.git/**/*'
     ];
+    var srcOptions = {
+        // Dot files (.htaccess, .keep, etc.) must be included in the package.
+        dot: true,
+        // Content of the cache directory is readable only for webserver. Thus
+        // we must to set "strict" option to false to prevent "EACCES" errors.
+        // At the same we need to see all errors that take place.
+        strict: false,
+        silent: false
+    }
     var version = config.package.version;
 
     return eventStream.merge(
-        gulp.src(sources, {dot: true})
+        gulp.src(sources, srcOptions)
             .pipe(zip('mibew-' + version + '.zip')),
-        gulp.src(sources, {dot: true})
+        gulp.src(sources, srcOptions)
             .pipe(tar('mibew-' + version + '.tar'))
             .pipe(gzip())
     )

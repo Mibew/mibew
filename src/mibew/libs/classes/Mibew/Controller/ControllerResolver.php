@@ -23,14 +23,17 @@ use Mibew\Asset\AssetUrlGeneratorAwareInterface;
 use Mibew\Asset\AssetUrlGeneratorInterface;
 use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
+use Mibew\Cache\CacheAwareInterface;
 use Mibew\Routing\RouterAwareInterface;
 use Mibew\Routing\RouterInterface;
+use Stash\Interfaces\PoolInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class ControllerResolver implements
     RouterAwareInterface,
     AuthenticationManagerAwareInterface,
-    AssetUrlGeneratorAwareInterface
+    AssetUrlGeneratorAwareInterface,
+    CacheAwareInterface
 {
     /**
      * @var RouterInterface|null
@@ -48,22 +51,30 @@ class ControllerResolver implements
     protected $assetUrlGenerator = null;
 
     /**
+     * @var PoolInterface|null;
+     */
+    protected $cache = null;
+
+    /**
      * Class constructor.
      *
      * @param RouterInterface $router Router instance.
      * @param AuthenticationManagerInterface $manager Authentication manager
      *   instance.
      * @param AssetUrlGeneratorInterface $url_generator An instance of Asset
-     *   URL generator
+     *   URL generator.
+     * @param PoolInterface $cache An instance of Cache pool.
      */
     public function __construct(
         RouterInterface $router,
         AuthenticationManagerInterface $manager,
-        AssetUrlGeneratorInterface $url_generator
+        AssetUrlGeneratorInterface $url_generator,
+        PoolInterface $cache
     ) {
         $this->router = $router;
         $this->authenticationManager = $manager;
         $this->assetUrlGenerator = $url_generator;
+        $this->cache = $cache;
     }
 
     /**
@@ -112,6 +123,22 @@ class ControllerResolver implements
     public function getAssetUrlGenerator()
     {
         return $this->assetUrlGenerator;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCache()
+    {
+        return $this->cache;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCache(PoolInterface $cache)
+    {
+        $this->cache = $cache;
     }
 
     /**
@@ -177,6 +204,10 @@ class ControllerResolver implements
 
         if ($object instanceof AssetUrlGeneratorAwareInterface) {
             $object->setAssetUrlGenerator($this->getAssetUrlGenerator());
+        }
+
+        if ($object instanceof CacheAwareInterface) {
+            $object->setCache($this->getCache());
         }
 
         return array($object, $method);

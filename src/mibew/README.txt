@@ -25,7 +25,8 @@ INSTALLATION
 10. Change your name.
 11. Wait for your visitors on 'Pending users' page.
 
-On unix/linux platforms change the owner of /mibew/files/avatar folder
-to the user, under which the web server is running (for instance, www).
-The owner should have all rights on the folder /mibew/files/avatar
-(chmod 700 /mibew/files/avatar).
+On unix/linux platforms change the owner of /mibew/files/avatar and
+/mibew/cache folders to the user, under which the web server is running
+(for instance, www). The owner should have all rights on the folders
+/mibew/files/avatar and /mibew/cache
+(chmod 700 /mibew/files/avatar && chmod 700 /mibew/cache).

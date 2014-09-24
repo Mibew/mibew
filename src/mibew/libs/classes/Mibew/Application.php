@@ -82,11 +82,17 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
     {
         $this->router = $router;
         $this->authenticationManager = $manager;
+
+        $driver = new \Stash\Driver\FileSystem();
+        $driver->setOptions(array('path' => MIBEW_FS_ROOT . '/cache'));
+        $this->cache = new \Stash\Pool($driver);
+
         $this->assetUrlGenerator = new AssetUrlGenerator();
         $this->controllerResolver = new ControllerResolver(
             $this->router,
             $this->authenticationManager,
-            $this->assetUrlGenerator
+            $this->assetUrlGenerator,
+            $this->cache
         );
         $this->accessCheckResolver = new CheckResolver($this->authenticationManager);
     }

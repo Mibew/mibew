@@ -23,6 +23,7 @@ use Mibew\Asset\AssetUrlGeneratorAwareInterface;
 use Mibew\Asset\AssetUrlGeneratorInterface;
 use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
+use Mibew\Cache\CacheAwareInterface;
 use Mibew\Handlebars\HandlebarsAwareInterface;
 use Mibew\Handlebars\Helper\AssetHelper;
 use Mibew\Handlebars\Helper\CsrfProtectedRouteHelper;
@@ -31,6 +32,7 @@ use Mibew\Routing\RouterAwareInterface;
 use Mibew\Routing\RouterInterface;
 use Mibew\Style\StyleInterface;
 use Mibew\Style\PageStyle;
+use Stash\Interfaces\PoolInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -40,7 +42,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 abstract class AbstractController implements
     RouterAwareInterface,
     AuthenticationManagerAwareInterface,
-    AssetUrlGeneratorAwareInterface
+    AssetUrlGeneratorAwareInterface,
+    CacheAwareInterface
 {
     /**
      * @var RouterInterface|null
@@ -61,6 +64,11 @@ abstract class AbstractController implements
      * @var AssetUrlGeneratorInterface|null
      */
     protected $assetUrlGenerator = null;
+
+    /**
+     * @var PoolInterface|null;
+     */
+    protected $cache = null;
 
     /**
      * {@inheritdoc}
@@ -127,6 +135,22 @@ abstract class AbstractController implements
     public function getAssetUrlGenerator()
     {
         return $this->assetUrlGenerator;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCache()
+    {
+        return $this->cache;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCache(PoolInterface $cache)
+    {
+        $this->cache = $cache;
     }
 
     /**

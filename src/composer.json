@@ -23,7 +23,8 @@
         "symfony/routing": "2.5.*",
         "symfony/config": "2.5.*",
         "symfony/yaml": "2.5.*",
-        "symfony/translation": "2.5.*"
+        "symfony/translation": "2.5.*",
+        "tedivm/stash": "0.12.*"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "1.*"
