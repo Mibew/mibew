@@ -49,6 +49,9 @@ class CronController extends AbstractController
 
         set_time_limit(0);
 
+        // Remove stale cached items
+        $this->getCache()->purge();
+
         // Run cron jobs of the core
         calculate_thread_statistics();
         calculate_operator_statistics();
