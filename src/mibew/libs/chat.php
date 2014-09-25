@@ -255,14 +255,6 @@ function prepare_chat_app_data()
     // Set refresh frequency
     $data['frequency'] = Settings::get('updatefrequency_chat');
 
-    // Set some localized strings
-    $data['localized'] = array(
-        'email.required' => no_field("Your email"),
-        'name.required' => no_field("Your name"),
-        'message.required' => no_field("Message"),
-        'wrong.email' => wrong_field("Your email"),
-    );
-
     return $data;
 }
 
