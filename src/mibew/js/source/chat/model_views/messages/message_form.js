@@ -78,6 +78,7 @@
             serializeData: function() {
                 var data = this.model.toJSON();
                 data.user = Mibew.Objects.Models.user.toJSON();
+                data.sendShortcut = this.getSendShortcut();
                 return data;
             },
 
@@ -204,6 +205,23 @@
              */
             dropFocus: function() {
                 this.focused = false;
+            },
+
+            /**
+             * Builds a string with send shortcut.
+             *
+             * @returns {String}
+             */
+            getSendShortcut: function() {
+                if (this.model.get('ignoreCtrl')) {
+                    return 'Enter';
+                }
+
+                // There is no Ctrl key on mac, thus we need to use a command
+                // key instead.
+                return (navigator.userAgent.indexOf('mac') !== -1)
+                    ? '&#8984;-Enter'
+                    : 'Ctrl-Enter';
             }
         }
     );

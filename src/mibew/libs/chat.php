@@ -194,18 +194,6 @@ function get_known_user_agents()
 }
 
 /**
- * Check if browser is opera with mac os
- *
- * @return bool Result of comparison of visitor browser and Opera_on_mac
- */
-function is_mac_opera()
-{
-    $user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
-
-    return strstr($user_agent, "opera") && strstr($user_agent, "mac");
-}
-
-/**
  * Prepare logo data
  *
  * @param array $group Group info
@@ -244,13 +232,6 @@ function setup_logo($group = null)
 function prepare_chat_app_data()
 {
     $data = array();
-
-    // Set enter key shortcut
-    if (Settings::get('sendmessagekey') == 'enter') {
-        $data['send_shortcut'] = "Enter";
-    } else {
-        $data['send_shortcut'] = is_mac_opera() ? "&#8984;-Enter" : "Ctrl-Enter";
-    }
 
     // Set refresh frequency
     $data['frequency'] = Settings::get('updatefrequency_chat');
