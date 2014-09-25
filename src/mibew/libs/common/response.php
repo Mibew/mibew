@@ -104,39 +104,6 @@ function get_additional_js(Request $request)
 }
 
 /**
- * Add additional localized strings for JavaScript application
- *
- * Triggers 'pageAddLocalizedStrings' and pass listeners associative array with
- * following keys:
- *  - 'request': {@link \Symfony\Component\HttpFoundation\Request}, a request
- *    instance. Localized strings will be attached to the requested page.
- *  - 'localized_strings': associative array with localized strings.
- *
- * @param Request $request A Request instance.
- * @return string JSON encoded localized strings
- */
-function get_additional_localized_strings(Request $request)
-{
-    // Prepare event arguments array
-    $args = array(
-        'request' => $request,
-        'localized_strings' => array(),
-    );
-
-    // Trigger event
-    $dispatcher = EventDispatcher::getInstance();
-    $dispatcher->triggerEvent('pageAddLocalizedStrings', $args);
-
-    // Build result
-    $result = array();
-    if (!empty($args['localized_strings']) && is_array($args['localized_strings'])) {
-        $result = $args['localized_strings'];
-    }
-
-    return json_encode($result);
-}
-
-/**
  * Build Javascript code that contains initializing options for JavaScript
  * plugins
  *
@@ -173,8 +140,6 @@ function get_js_plugin_options(Request $request)
  * @return array Associative array of plugins data. It contains following keys:
  *    - 'additional_css': contains results of the 'get_additional_css function
  *    - 'additional_js': contains results of the 'get_additional_js' function
- *    - 'additional_localized_strings': contains results of the
- *      'get_additional_localized_strings' function
  *    - 'js_plugin_options': contains results of the 'get_js_plugin_options'
  *      function
  */
@@ -183,7 +148,6 @@ function get_plugins_data(Request $request)
     return array(
         'additional_css' => get_additional_css($request),
         'additional_js' => get_additional_js($request),
-        'additional_localized_strings' => get_additional_localized_strings($request),
         'js_plugin_options' => get_js_plugin_options($request)
     );
 }
