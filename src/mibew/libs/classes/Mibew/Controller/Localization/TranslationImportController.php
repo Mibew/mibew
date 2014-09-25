@@ -116,6 +116,9 @@ class TranslationImportController extends AbstractController
                 // Try to import new messages.
                 import_messages($target, $file->getRealPath(), $override);
 
+                // Remove cached client side translations.
+                $this->getCache()->getItem('translation/js/' . $target)->clear();
+
                 // The file is not needed any more. Remove it.
                 unlink($file->getRealPath());
             } catch (\Exception $e) {

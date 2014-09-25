@@ -25,53 +25,15 @@
         <script type="text/javascript" src="{{asset "js/compiled/default_app.js"}}"></script>
         <script type="text/javascript" src="{{asset "js/compiled/users_app.js"}}"></script>
 
+        <!-- Localized string -->
+        <script type="text/javascript" src="{{route "js_translation" locale=currentLocale}}"></script>
+
         <!-- Plugins JavaScript files -->
         {{{additional_js}}}
 
 
         <!-- Localization constants -->
         <script type="text/javascript"><!--
-            // Localized strings for the core
-            Mibew.Localization.set({
-                'Click to chat with the visitor': "{{#jsString}}{{l10n 'Click to chat with the visitor'}}{{/jsString}}",
-                'Watch the chat': "{{#jsString}}{{l10n 'Watch the chat'}}{{/jsString}}",
-                'Ban this visitor': "{{#jsString}}{{l10n 'Ban this visitor'}}{{/jsString}}",
-                'Show menu >>': "{{#jsString}}{{l10n 'Show menu >>'}}{{/jsString}}",
-                'Hide menu >>': "{{#jsString}}{{l10n 'Hide menu >>'}}{{/jsString}}",
-                'A new visitor is waiting for an answer.': "{{#jsString}}{{l10n 'A new visitor is waiting for an answer.'}}{{/jsString}}",
-                'Tracked visitor\'s path': "{{#jsString}}{{l10n 'Tracked visitor\'s path'}}{{/jsString}}",
-                'Invite to chat': "{{#jsString}}{{l10n 'Invite to chat'}}{{/jsString}}",
-                'Away': "{{#jsString}}{{l10n 'Away'}}{{/jsString}}",
-                'Up to date': "{{#jsString}}{{l10n 'Up to date'}}{{/jsString}}",
-                'Set status as "Available"': "{{#jsString}}{{l10n 'Set status as "Available"'}}{{/jsString}}",
-                'Set status as "Away"': "{{#jsString}}{{l10n 'Set status as "Away"'}}{{/jsString}}",
-                'Name': "{{#jsString}}{{l10n 'Name'}}{{/jsString}}",
-                'Actions': "{{#jsString}}{{l10n 'Actions'}}{{/jsString}}",
-                'Visitor\'s address': "{{#jsString}}{{l10n 'Visitor\'s address'}}{{/jsString}}",
-                'State': "{{#jsString}}{{l10n 'State'}}{{/jsString}}",
-                'Operator': "{{#jsString}}{{l10n 'Operator'}}{{/jsString}}",
-                'Total time': "{{#jsString}}{{l10n 'Total time'}}{{/jsString}}",
-                'Waiting time': "{{#jsString}}{{l10n 'Waiting time'}}{{/jsString}}",
-                'Misc': "{{#jsString}}{{l10n 'Misc'}}{{/jsString}}",
-                'Actions': "{{#jsString}}{{l10n 'Actions'}}{{/jsString}}",
-                'Name': "{{#jsString}}{{l10n 'Name'}}{{/jsString}}",
-                'Visitor\'s address': "{{#jsString}}{{l10n 'Visitor\'s address'}}{{/jsString}}",
-                'First seen': "{{#jsString}}{{l10n 'First seen'}}{{/jsString}}",
-                'Last seen': "{{#jsString}}{{l10n 'Last seen'}}{{/jsString}}",
-                'Invited by': "{{#jsString}}{{l10n 'Invited by'}}{{/jsString}}",
-                'Invitation time': "{{#jsString}}{{l10n 'Invitation time'}}{{/jsString}}",
-                'Invitations / Chats': "{{#jsString}}{{l10n 'Invitations / Chats'}}{{/jsString}}",
-                'Misc': "{{#jsString}}{{l10n 'Misc'}}{{/jsString}}",
-                'There are no visitors ready to chat on your site at present time': "{{#jsString}}{{l10n 'There are no visitors ready to chat on your site at present time'}}{{/jsString}}",
-                'The list of visitors waiting is empty': "{{#jsString}}{{l10n 'The list of visitors waiting is empty'}}{{/jsString}}",
-                'In queue': "{{#jsString}}{{l10n 'In queue'}}{{/jsString}}",
-                'Waiting for operator': "{{#jsString}}{{l10n 'Waiting for operator'}}{{/jsString}}",
-                'In chat': "{{#jsString}}{{l10n 'In chat'}}{{/jsString}}",
-                'Closed': "{{#jsString}}{{l10n 'Closed'}}{{/jsString}}",
-                'Loading': "{{#jsString}}{{l10n 'Loading'}}{{/jsString}}",
-                '[spam]': "{{#jsString}}{{l10n '[spam]'}}{{/jsString}}",
-                'Network problems detected. Please refresh the page.': "{{#jsString}}{{l10n 'Network problems detected. Please refresh the page.'}}{{/jsString}}"
-            });
             // Plugins localization
             Mibew.Localization.set({{{additional_localized_strings}}});
         //--></script>

@@ -190,6 +190,9 @@ class TranslationController extends AbstractController
 
         save_message($target, $string['source'], $translation);
 
+        // Remove cached client side translations.
+        $this->getCache()->getItem('translation/js/' . $target)->clear();
+
         $page['saved'] = true;
         $page['title'] = getlocal("Translations");
         $page = array_merge(

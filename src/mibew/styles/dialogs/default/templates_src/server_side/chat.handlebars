@@ -22,6 +22,9 @@
         <script type="text/javascript" src="{{asset "js/compiled/default_app.js"}}"></script>
         <script type="text/javascript" src="{{asset "js/compiled/chat_app.js"}}"></script>
 
+        <!-- Localized string -->
+        <script type="text/javascript" src="{{route "js_translation" locale=currentLocale}}"></script>
+
         <!-- Add style scripts -->
         <script type="text/javascript" src="{{asset "@CurrentStyle/js/compiled/scripts.js"}}"></script>
 
@@ -30,43 +33,11 @@
         <script type="text/javascript"><!--
             // Localized strings for the core
             Mibew.Localization.set({
-                'Are you sure want to leave chat?': '{{#jsString}}{{l10n "Are you sure want to leave chat?"}}{{/jsString}}',
-                'Remote user is typing...': '{{#jsString}}{{l10n "Remote user is typing..."}}{{/jsString}}',
-                'Select answer...': '{{#jsString}}{{l10n "Select answer..."}}{{/jsString}}',
-                'Send message': '{{#jsString}}{{l10n "Send message"}}{{/jsString}}',
                 'chat.window.send_message_short_and_shortcut': '{{#jsString}}{{l10n "Send ({0})" send_shortcut}}{{/jsString}}',
-                'Close chat': '{{#jsString}}{{l10n "Close chat"}}{{/jsString}}',
-                'Refresh': '{{#jsString}}{{l10n "Refresh"}}{{/jsString}}',
-                'Send chat history by e-mail': '{{#jsString}}{{l10n "Send chat history by e-mail"}}{{/jsString}}',
-                'Redirect visitor to another operator': '{{#jsString}}{{l10n "Redirect visitor to another operator"}}{{/jsString}}',
-                'Visit history': '{{#jsString}}{{l10n "Visit history"}}{{/jsString}}',
-                'You are': '{{#jsString}}{{l10n "You are"}}{{/jsString}}',
-                'Change name': '{{#jsString}}{{l10n "Change name"}}{{/jsString}}',
-                'Turn off sound': '{{#jsString}}{{l10n "Turn off sound"}}{{/jsString}}',
-                'Turn on sound': '{{#jsString}}{{l10n "Turn on sound"}}{{/jsString}}',
-                'Powered by:': '{{#jsString}}{{l10n "Powered by:"}}{{/jsString}}',
-                'Close...': '{{#jsString}}{{l10n "Close..."}}{{/jsString}}',
-                'Choose Department:': '{{#jsString}}{{l10n "Choose Department:"}}{{/jsString}}',
-                'Department description:': '{{#jsString}}{{l10n "Department description:"}}{{/jsString}}',
-                'Your email': '{{#jsString}}{{l10n "Your email"}}{{/jsString}}',
-                'Your name': '{{#jsString}}{{l10n "Your name"}}{{/jsString}}',
-                'Message': '{{#jsString}}{{l10n "Message"}}{{/jsString}}',
-                'Close': '{{#jsString}}{{l10n "Close"}}{{/jsString}}',
-                'Sorry. None of the support team is available at the moment. <br/>Please leave a message and someone will get back to you shortly.': '{{#jsString}}{{l10n "Sorry. None of the support team is available at the moment. <br/>Please leave a message and someone will get back to you shortly."}}{{/jsString}}',
-                'Thank you for your message. We\'ll answer your query by email as soon as possible.': '{{#jsString}}{{l10n "Thank you for your message. We'll answer your query by email as soon as possible."}}{{/jsString}}',
                 'leavemessage.error.email.required': '{{#jsString}}{{localized.[email.required]}}{{/jsString}}',
                 'leavemessage.error.name.required': '{{#jsString}}{{localized.[name.required]}}{{/jsString}}',
                 'leavemessage.error.message.required': '{{#jsString}}{{localized.[message.required]}}{{/jsString}}',
                 'leavemessage.error.wrong.email': '{{#jsString}}{{localized.[wrong.email]}}{{/jsString}}',
-                'The letters you typed don\'t match the letters that were shown in the picture.': '{{#jsString}}{{l10n "The letters you typed don't match the letters that were shown in the picture."}}{{/jsString}}',
-                'Send': '{{#jsString}}{{l10n "Send"}}{{/jsString}}',
-                'Name:': '{{#jsString}}{{l10n "Name:"}}{{/jsString}}',
-                'Email:': '{{#jsString}}{{l10n "Email:"}}{{/jsString}}',
-                'Initial Question:': '{{#jsString}}{{l10n "Initial Question:"}}{{/jsString}}',
-                'Start Chat': '{{#jsString}}{{l10n "Start Chat"}}{{/jsString}}',
-                'Wrong email address.': '{{#jsString}}{{l10n "Wrong email address."}}{{/jsString}}',
-                'Live support': '{{#jsString}}{{l10n "Live support"}}{{/jsString}}',
-                'Thank you for contacting us. Please fill out the form below and click the Start Chat button.': '{{#jsString}}{{l10n "Thank you for contacting us. Please fill out the form below and click the Start Chat button."}}{{/jsString}}'
             });
             // Plugins localization
             Mibew.Localization.set({{{additional_localized_strings}}});

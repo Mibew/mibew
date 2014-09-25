@@ -90,6 +90,13 @@ cron:
     path: /cron
     defaults: { _controller: Mibew\Controller\CronController::runAction }
 
+# A set of localization constants for the client side applications is generated
+# dynamically
+js_translation:
+    path: /locales/{locale}/translation.js
+    defaults:
+        _controller: Mibew\Controller\Localization\JsTranslationController::indexAction
+
 license:
     path: /license
     defaults: { _controller: Mibew\Controller\LicenseController::indexAction }
