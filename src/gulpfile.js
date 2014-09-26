@@ -26,8 +26,10 @@ var fs = require('fs'),
 // Set global configs.
 var config = {
     mibewPath: 'mibew',
+    configsPath: 'mibew/configs',
     phpVendorPath: 'mibew/vendor',
     pluginsPath: 'mibew/plugins',
+    avatarsPath: 'mibew/files/avatar',
     cachePath: 'mibew/cache',
     jsPath: 'mibew/js',
     chatStylesPath: 'mibew/styles/dialogs',
@@ -224,8 +226,15 @@ gulp.task('generate-pot', function() {
 gulp.task('pack-sources', ['composer-install'], function() {
     var sources = [
         config.mibewPath + '/**/*',
-        // Exclude cache files but include ".keep" file.
+        // Exclude user's config
+        '!' + config.configsPath + '/config.yml',
+        // Exclude cache files but not the ".keep" file.
         '!' + config.cachePath + '/**/!(.keep)',
+        // Exclude avatars but not the ".keep" file.
+        '!' + config.avatarsPath + '/!(.keep)',
+        // Exclude plugins but not the ".keep" file.
+        '!' + config.pluginsPath + '/!(.keep)',
+        '!' + config.pluginsPath + '/*/**/*',
         // Exclude Git repositories that can be shipped with third-party libs
         '!' + config.phpVendorPath + '/**/.git',
         '!' + config.phpVendorPath + '/**/.git/**/*'
