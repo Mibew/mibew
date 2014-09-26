@@ -150,7 +150,7 @@
                 this.clearInput();
                 this.enableInput();
                 if (this.focused) {
-                    this.ui.focus();
+                    this.ui.message.focus();
                 }
                 Mibew.Objects.Collections.messages.off(
                     'multiple:add',
@@ -197,7 +197,7 @@
              * Set focus indicator
              */
             setFocus: function() {
-                this.focused = true
+                this.focused = true;
             },
 
             /**
