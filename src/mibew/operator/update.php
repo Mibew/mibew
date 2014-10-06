@@ -98,7 +98,7 @@ $can_viewthreads, $can_takeover, $mysqlprefix;
 	}
 
 	$userAgent = get_useragent_version($thread['userAgent']);
-	$result .= "<useragent>" . safe_htmlspecialchars(safe_htmlspecialchars($userAgent)) . "</useragent>";
+	$result .= "<useragent>" . safe_htmlspecialchars($userAgent) . "</useragent>";
 	if ($thread["shownmessageid"] != 0) {
 		$query = "select tmessage from ${mysqlprefix}chatmessage where messageid = " . intval($thread["shownmessageid"]);
 		$line = select_one_row($query, $link);
