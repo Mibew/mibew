@@ -105,24 +105,7 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
      */
     public function handleRequest(Request $request)
     {
-        // Actualize request context in the internal router instance
-        $context = new RequestContext();
-        $context->fromRequest($request);
-        $this->getRouter()->setContext($context);
-
-        // Make cookie creation easy
-        $cookie_factory = CookieFactory::fromRequest($request);
-
-        $authentication_manager = $this->getAuthenticationManager();
-        // Actualize cookie factory in the authentication manager if it is
-        // needed.
-        if ($authentication_manager instanceof CookieFactoryAwareInterface) {
-            $authentication_manager->setCookieFactory($cookie_factory);
-        }
-        $authentication_manager->setOperatorFromRequest($request);
-
-        // Actualize AssetUrlGenerator
-        $this->assetUrlGenerator->setRequest($request);
+        $this->prepareRequest($request);
 
         try {
             // Try to match a route, check if the client can access it and add
@@ -169,19 +152,7 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
             $response = new Response((string)$response);
         }
 
-        // Attach operator's authentication info to the response to distinguish
-        // him in the next requests.
-        $authentication_manager->attachOperatorToResponse($response);
-
-        // Cache user's locale in the cookie. The code below should be treated
-        // as a temporary workaround.
-        // TODO: Move the following lines to Locales Manager when object
-        // oriented approach for locales will be implemented.
-        $response->headers->setCookie($cookie_factory->createCookie(
-            LOCALE_COOKIE_NAME,
-            get_current_locale(),
-            time() + 60 * 60 * 24 * 1000
-        ));
+        $this->finalizeRequest($request, $response);
 
         return $response;
     }
@@ -230,6 +201,56 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
     public function getAuthenticationManager()
     {
         return $this->authenticationManager;
+    }
+
+    /**
+     * Prepare request to be processed.
+     *
+     * @param Request $request Fresh incoming request.
+     */
+    protected function prepareRequest(Request $request)
+    {
+        // Actualize request context in the internal router instance
+        $context = new RequestContext();
+        $context->fromRequest($request);
+        $this->getRouter()->setContext($context);
+
+        $authentication_manager = $this->getAuthenticationManager();
+        // Actualize cookie factory in the authentication manager if it is
+        // needed.
+        if ($authentication_manager instanceof CookieFactoryAwareInterface) {
+            $authentication_manager->setCookieFactory(CookieFactory::fromRequest($request));
+        }
+        $authentication_manager->setOperatorFromRequest($request);
+
+        // Actualize AssetUrlGenerator
+        $this->assetUrlGenerator->setRequest($request);
+    }
+
+    /**
+     * Finalize the request and make sure that the response is in compliance
+     * with it.
+     *
+     * @param Request $request The processed request.
+     * @param Response $response The response which should be set to the client.
+     */
+    protected function finalizeRequest(Request $request, Response $response)
+    {
+        // Attach operator's authentication info to the response to distinguish
+        // him in the next requests.
+        $this->getAuthenticationManager()->attachOperatorToResponse($response);
+
+        // Cache user's locale in the cookie. The code below should be treated
+        // as a temporary workaround.
+        // TODO: Move the following lines to Locales Manager when object
+        // oriented approach for locales will be implemented.
+        $response->headers->setCookie(CookieFactory::fromRequest($request)->createCookie(
+            LOCALE_COOKIE_NAME,
+            get_current_locale(),
+            time() + 60 * 60 * 24 * 1000
+        ));
+
+        $response->prepare($request);
     }
 
     /**
