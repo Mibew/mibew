@@ -44,7 +44,7 @@ function get_useragent_version($userAgent)
 			}
 		}
 	}
-	return $userAgent;
+	return safe_htmlspecialchars($userAgent);
 }
 
 function get_user_addr($addr)
