@@ -28,7 +28,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates['visitor'],
+            template: Handlebars.templates['users/visitor'],
 
             /**
              * Default item view constructor.

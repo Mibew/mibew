@@ -150,25 +150,16 @@ gulp.task('page-styles', function() {
     // TODO: Process all available styles, not only the default one.
     var stylePath = config.pageStylesPath + '/default';
 
-    return eventStream.merge(
-        gulp.src(stylePath + '/templates_src/client_side/default/**/*.handlebars')
-            .pipe(handlebars({
-                // Use specific version of Handlebars.js
-                handlebars: handlebarsEngine
-            }))
-            .pipe(wrapHandlebarsTemplate())
-            .pipe(concat('default_app.tpl.js')),
-        gulp.src(stylePath + '/templates_src/client_side/users/**/*.handlebars')
-            .pipe(handlebars({
-                // Use specific version of Handlebars.js
-                handlebars: handlebarsEngine
-            }))
-            .pipe(wrapHandlebarsTemplate())
-            .pipe(concat('users_app.tpl.js'))
-    )
-    .pipe(uglify({preserveComments: 'some'}))
-    .pipe(header(config.compiledTemplatesHeader))
-    .pipe(gulp.dest(stylePath + '/templates_compiled/client_side'));
+    return gulp.src(stylePath + '/templates_src/client_side/**/*.handlebars')
+        .pipe(handlebars({
+            // Use specific version of Handlebars.js
+            handlebars: handlebarsEngine
+        }))
+        .pipe(wrapHandlebarsTemplate())
+        .pipe(concat('templates.js'))
+        .pipe(uglify({preserveComments: 'some'}))
+        .pipe(header(config.compiledTemplatesHeader))
+        .pipe(gulp.dest(stylePath + '/templates_compiled/client_side'));
 });
 
 // Generate .pot files based on the sources

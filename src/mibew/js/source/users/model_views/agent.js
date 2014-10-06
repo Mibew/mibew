@@ -28,7 +28,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates['agent'],
+            template: Handlebars.templates['users/agent'],
 
             /**
              * Name of wrapper tag for an agent view

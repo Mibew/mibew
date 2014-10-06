@@ -28,7 +28,7 @@
              * Template function
              * @type Function
              */
-            template: Handlebars.templates['queued_thread'],
+            template: Handlebars.templates['users/queued_thread'],
 
             /**
              * Default item view constructor.
