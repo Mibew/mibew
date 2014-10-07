@@ -24,7 +24,7 @@ $page['menuid'] = "updates";
 function tpl_header() { global $page, $mibewroot, $jsver;
 ?>	
 <script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/jquery-1.4.2.min.js"></script>
-<script type="text/javascript" language="javascript" src="http://mibew.org/latestMibew.js"></script>
+<script type="text/javascript" language="javascript" src="https://mibew.org/latestMibew.js"></script>
 <script type="text/javascript" language="javascript" src="<?php echo $mibewroot ?>/js/<?php echo $jsver ?>/update.js"></script>
 <?php
 }
