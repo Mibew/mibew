@@ -1,3 +1,7 @@
+  1.6.13
+  -----
+  [!] XSS fix (thanks to Nick M)
+
   1.6.12
   -----
   [!] fix Blowfish password hashing on several platforms
