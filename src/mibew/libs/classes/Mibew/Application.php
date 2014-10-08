@@ -20,7 +20,8 @@
 namespace Mibew;
 
 use Mibew\AccessControl\Check\CheckResolver;
-use Mibew\Asset\AssetUrlGenerator;
+use Mibew\Asset\AssetManager;
+use Mibew\Asset\AssetManagerInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Controller\ControllerResolver;
@@ -67,9 +68,9 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
     protected $authenticationManager = null;
 
     /**
-     * @var AssetUrlGenerator|null
+     * @var AssetManagerInterface|null
      */
-    protected $assetUrlGenerator = null;
+    protected $assetManager = null;
 
     /**
      * Class constructor.
@@ -87,11 +88,11 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
         $driver->setOptions(array('path' => MIBEW_FS_ROOT . '/cache'));
         $this->cache = new \Stash\Pool($driver);
 
-        $this->assetUrlGenerator = new AssetUrlGenerator();
+        $this->assetManager = new AssetManager();
         $this->controllerResolver = new ControllerResolver(
             $this->router,
             $this->authenticationManager,
-            $this->assetUrlGenerator,
+            $this->assetManager,
             $this->cache
         );
         $this->accessCheckResolver = new CheckResolver($this->authenticationManager);
@@ -224,7 +225,7 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
         $authentication_manager->setOperatorFromRequest($request);
 
         // Actualize AssetUrlGenerator
-        $this->assetUrlGenerator->setRequest($request);
+        $this->assetManager->setRequest($request);
     }
 
     /**

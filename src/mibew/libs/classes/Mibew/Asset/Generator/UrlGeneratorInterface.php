@@ -17,13 +17,13 @@
  * limitations under the License.
  */
 
-namespace Mibew\Asset;
+namespace Mibew\Asset\Generator;
 
 /**
  * UrlGeneratorInterface is the interface that all Asset URL generator classes
  * must implement.
  */
-interface AssetUrlGeneratorInterface
+interface UrlGeneratorInterface
 {
     /**
      * Generates an absolute URL, e.g. "http://example.com/dir/file".

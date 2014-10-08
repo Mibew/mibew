@@ -20,21 +20,21 @@
 namespace Mibew\Asset;
 
 /**
- * Indicates if a class is aware of AssetUrlGenerator class.
+ * Indicates if a class is aware of AssetManager class.
  */
-interface AssetUrlGeneratorAwareInterface
+interface AssetManagerAwareInterface
 {
     /**
-     * Gets an asset URL generator.
+     * Gets an asset manager.
      *
-     * @return AssetUrlGeneratorInterface
+     * @return AssetManagerInterface
      */
-    public function getAssetUrlGenerator();
+    public function getAssetManager();
 
     /**
-     * Sets an asset URL generator.
+     * Sets an asset manager.
      *
-     * @param AssetUrlGeneratorInterface $generator
+     * @param AssetManagerInterface $manager
      */
-    public function setAssetUrlGenerator(AssetUrlGeneratorInterface $generator);
+    public function setAssetManager(AssetManagerInterface $manager);
 }

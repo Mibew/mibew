@@ -19,8 +19,9 @@
 
 namespace Mibew\Controller;
 
-use Mibew\Asset\AssetUrlGeneratorAwareInterface;
-use Mibew\Asset\AssetUrlGeneratorInterface;
+use Mibew\Asset\AssetManagerAwareInterface;
+use Mibew\Asset\AssetManagerInterface;
+use Mibew\Asset\Generator\UrlGeneratorInterface as AssetUrlGeneratorInterface;
 use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Cache\CacheAwareInterface;
@@ -42,7 +43,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 abstract class AbstractController implements
     RouterAwareInterface,
     AuthenticationManagerAwareInterface,
-    AssetUrlGeneratorAwareInterface,
+    AssetManagerAwareInterface,
     CacheAwareInterface
 {
     /**
@@ -61,9 +62,9 @@ abstract class AbstractController implements
     protected $style = null;
 
     /**
-     * @var AssetUrlGeneratorInterface|null
+     * @var AssetManagerInterface|null
      */
-    protected $assetUrlGenerator = null;
+    protected $assetManager = null;
 
     /**
      * @var PoolInterface|null;
@@ -116,15 +117,15 @@ abstract class AbstractController implements
     /**
      * {@inheritdoc}
      */
-    public function setAssetUrlGenerator(AssetUrlGeneratorInterface $generator)
+    public function setAssetManager(AssetManagerInterface $manager)
     {
-        $this->assetUrlGenerator = $generator;
+        $this->assetManager = $manager;
 
         // Update URL generator in the style helpers
         if (!is_null($this->style) && $this->style instanceof HandlebarsAwareInterface) {
             $handlebars = $this->style->getHandlebars();
             if ($handlebars->hasHelper('asset')) {
-                $handlebars->getHelper('asset')->setAssetUrlGenerator($generator);
+                $handlebars->getHelper('asset')->setAssetUrlGenerator($manager->getUrlGenerator());
             }
         }
     }
@@ -132,9 +133,9 @@ abstract class AbstractController implements
     /**
      * {@inheritdoc}
      */
-    public function getAssetUrlGenerator()
+    public function getAssetManager()
     {
-        return $this->assetUrlGenerator;
+        return $this->assetManager;
     }
 
     /**
@@ -227,12 +228,12 @@ abstract class AbstractController implements
      * @param string $relative_path Relative path of an asset.
      * @param bool|string $reference_type Indicates what type of URL should be
      *   generated. It is equal to one of the
-     *   {@link \Mibew\Asset\AssetUrlGeneratorInterface} constants.
+     *   {@link AssetUrlGeneratorInterface} constants.
      * @return string Asset URL.
      */
     public function asset($relative_path, $reference_type = AssetUrlGeneratorInterface::ABSOLUTE_PATH)
     {
-        return $this->getAssetUrlGenerator()
+        return $this->getAssetManager()->getUrlGenerator()
             ->generate($relative_path, $reference_type);
     }
 
@@ -278,7 +279,7 @@ abstract class AbstractController implements
             $style->getHandlebars()->addHelper(
                 'asset',
                 new AssetHelper(
-                    $this->getAssetUrlGenerator(),
+                    $this->getAssetManager()->getUrlGenerator(),
                     array('CurrentStyle' => $style->getFilesPath())
                 )
             );

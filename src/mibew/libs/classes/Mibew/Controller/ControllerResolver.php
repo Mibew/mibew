@@ -19,8 +19,8 @@
 
 namespace Mibew\Controller;
 
-use Mibew\Asset\AssetUrlGeneratorAwareInterface;
-use Mibew\Asset\AssetUrlGeneratorInterface;
+use Mibew\Asset\AssetManagerAwareInterface;
+use Mibew\Asset\AssetManagerInterface;
 use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Cache\CacheAwareInterface;
@@ -32,7 +32,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ControllerResolver implements
     RouterAwareInterface,
     AuthenticationManagerAwareInterface,
-    AssetUrlGeneratorAwareInterface,
+    AssetManagerAwareInterface,
     CacheAwareInterface
 {
     /**
@@ -46,9 +46,9 @@ class ControllerResolver implements
     protected $authenticationManager = null;
 
     /**
-     * @var AssetUrlGeneratorInterface|null
+     * @var AssetManagerInterface|null
      */
-    protected $assetUrlGenerator = null;
+    protected $assetManager = null;
 
     /**
      * @var PoolInterface|null;
@@ -59,21 +59,21 @@ class ControllerResolver implements
      * Class constructor.
      *
      * @param RouterInterface $router Router instance.
-     * @param AuthenticationManagerInterface $manager Authentication manager
-     *   instance.
-     * @param AssetUrlGeneratorInterface $url_generator An instance of Asset
-     *   URL generator.
+     * @param AuthenticationManagerInterface $authentication_manager
+     *   Authentication manager instance.
+     * @param AssetManagerInterface $asset_manager An instance of Asset
+     *   Manager.
      * @param PoolInterface $cache An instance of Cache pool.
      */
     public function __construct(
         RouterInterface $router,
-        AuthenticationManagerInterface $manager,
-        AssetUrlGeneratorInterface $url_generator,
+        AuthenticationManagerInterface $authentication_manager,
+        AssetManagerInterface $asset_manager,
         PoolInterface $cache
     ) {
         $this->router = $router;
-        $this->authenticationManager = $manager;
-        $this->assetUrlGenerator = $url_generator;
+        $this->authenticationManager = $authentication_manager;
+        $this->assetManager = $asset_manager;
         $this->cache = $cache;
     }
 
@@ -112,17 +112,17 @@ class ControllerResolver implements
     /**
      * {@inheritdoc}
      */
-    public function setAssetUrlGenerator(AssetUrlGeneratorInterface $generator)
+    public function setAssetManager(AssetManagerInterface $manager)
     {
-        $this->assetUrlGenerator = $generator;
+        $this->assetManager = $manager;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getAssetUrlGenerator()
+    public function getAssetManager()
     {
-        return $this->assetUrlGenerator;
+        return $this->assetManager;
     }
 
     /**
@@ -202,8 +202,8 @@ class ControllerResolver implements
             $object->setAuthenticationManager($this->getAuthenticationManager());
         }
 
-        if ($object instanceof AssetUrlGeneratorAwareInterface) {
-            $object->setAssetUrlGenerator($this->getAssetUrlGenerator());
+        if ($object instanceof AssetManagerAwareInterface) {
+            $object->setAssetManager($this->getAssetManager());
         }
 
         if ($object instanceof CacheAwareInterface) {

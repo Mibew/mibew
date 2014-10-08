@@ -17,11 +17,11 @@
  * limitations under the License.
  */
 
-namespace Mibew\Asset;
+namespace Mibew\Asset\Generator;
 
 use Symfony\Component\HttpFoundation\Request;
 
-class AssetUrlGenerator implements AssetUrlGeneratorInterface
+class UrlGenerator implements UrlGeneratorInterface
 {
     protected $scheme;
     protected $host;
@@ -167,7 +167,7 @@ class AssetUrlGenerator implements AssetUrlGeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate($relative_path, $reference_type = AssetUrlGeneratorInterface::ABSOLUTE_PATH)
+    public function generate($relative_path, $reference_type = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         return $this->doGenerate($relative_path, $reference_type, false);
     }
@@ -175,7 +175,7 @@ class AssetUrlGenerator implements AssetUrlGeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generateSecure($relative_path, $reference_type = AssetUrlGeneratorInterface::ABSOLUTE_PATH)
+    public function generateSecure($relative_path, $reference_type = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         return $this->doGenerate($relative_path, $reference_type, true);
     }
@@ -195,7 +195,7 @@ class AssetUrlGenerator implements AssetUrlGeneratorInterface
 
         $need_host =
             // A user wants an absolute URL
-            ($reference_type === AssetUrlGeneratorInterface::ABSOLUTE_URL)
+            ($reference_type === UrlGeneratorInterface::ABSOLUTE_URL)
                 // A scheme deffers from one from request.
                 || $scheme !== $this->getScheme()
                 // A non-standard port is used.

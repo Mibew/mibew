@@ -118,7 +118,7 @@ class ButtonCodeController extends AbstractController
 
             $button_generator = new ImageButtonGenerator(
                 $this->getRouter(),
-                $this->getAssetUrlGenerator(),
+                $this->getAssetManager()->getUrlGenerator(),
                 $button_generator_options
             );
 

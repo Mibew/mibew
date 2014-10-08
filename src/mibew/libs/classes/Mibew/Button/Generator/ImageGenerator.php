@@ -19,7 +19,7 @@
 
 namespace Mibew\Button\Generator;
 
-use Mibew\Asset\AssetUrlGeneratorInterface;
+use Mibew\Asset\Generator\UrlGeneratorInterface as AssetUrlGeneratorInterface;
 use Mibew\Routing\Generator\SecureUrlGeneratorInterface as RouteUrlGeneratorInterface;
 use Mibew\Settings;
 use Mibew\Style\InvitationStyle;

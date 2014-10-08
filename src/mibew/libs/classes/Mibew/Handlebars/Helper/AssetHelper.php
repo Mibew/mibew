@@ -22,8 +22,7 @@ namespace Mibew\Handlebars\Helper;
 use Handlebars\Context;
 use Handlebars\Helper as HelperInterface;
 use Handlebars\Template;
-use Mibew\Asset\AssetUrlGeneratorAwareInterface;
-use Mibew\Asset\AssetUrlGeneratorInterface;
+use Mibew\Asset\Generator\UrlGeneratorInterface as AssetUrlGeneratorInterface;
 
 /**
  * A helper that generates URLs for assets.
@@ -47,7 +46,7 @@ use Mibew\Asset\AssetUrlGeneratorInterface;
  *   {{asset "@CustomStorage/images/the_best_logo.png"}}
  * <code>
  */
-class AssetHelper implements HelperInterface, AssetUrlGeneratorAwareInterface
+class AssetHelper implements HelperInterface
 {
     /**
      * @var array
@@ -79,7 +78,9 @@ class AssetHelper implements HelperInterface, AssetUrlGeneratorAwareInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Gets instance of Asset URL Generator.
+     *
+     * @return AssetUrlGeneratorInterface
      */
     public function getAssetUrlGenerator()
     {
@@ -87,7 +88,9 @@ class AssetHelper implements HelperInterface, AssetUrlGeneratorAwareInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Sets an instance of Asset URL Generator.
+     *
+     * @param AssetUrlGeneratorInterface $generator
      */
     public function setAssetUrlGenerator(AssetUrlGeneratorInterface $generator)
     {
