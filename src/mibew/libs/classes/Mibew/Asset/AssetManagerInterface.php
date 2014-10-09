@@ -63,7 +63,7 @@ interface AssetManagerInterface
      *   AssetManagerInterface::RELATIVE_URL or AssetManagerInterface::INLINE
      *   constants.
      */
-    public function addJsAsset($content, $type = self::ABSOLUTE_URL);
+    public function attachJs($content, $type = self::ABSOLUTE_URL);
 
     /**
      * Retrieves all attached and provided by plugins JavaScript assets.
@@ -89,7 +89,7 @@ interface AssetManagerInterface
      *   AssetManagerInterface::RELATIVE_URL or AssetManagerInterface::INLINE
      *   constants.
      */
-    public function addCssAsset($content, $type = self::ABSOLUTE_URL);
+    public function attachCss($content, $type = self::ABSOLUTE_URL);
 
     /**
      * Retrieves all attached and provided by plugins CSS assets.

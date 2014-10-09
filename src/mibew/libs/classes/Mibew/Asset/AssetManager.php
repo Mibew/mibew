@@ -93,7 +93,7 @@ class AssetManager implements AssetManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function addJsAsset($content, $type = AssetManagerInterface::RELATIVE_URL)
+    public function attachJs($content, $type = AssetManagerInterface::RELATIVE_URL)
     {
         $this->jsAssets[] = array(
             'content' => $content,
@@ -115,7 +115,7 @@ class AssetManager implements AssetManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function addCssAsset($content, $type = AssetManagerInterface::RELATIVE_URL)
+    public function attachCss($content, $type = AssetManagerInterface::RELATIVE_URL)
     {
         $this->cssAssets[] = array(
             'content' => $content,
