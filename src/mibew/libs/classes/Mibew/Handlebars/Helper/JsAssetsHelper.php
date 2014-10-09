@@ -32,10 +32,10 @@ use Mibew\Asset\AssetManagerInterface;
  *
  * Example of usage:
  * <code>
- *   {{additionalJs}}
+ *   {{jsAssets}}
  * </code>
  */
-class AdditionalJsHelper implements HelperInterface, AssetManagerAwareInterface
+class JsAssetsHelper implements HelperInterface, AssetManagerAwareInterface
 {
     /**
      * @var AssetManagerInterface|null
