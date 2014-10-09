@@ -51,9 +51,6 @@
 
     // Initialize application
     App.addInitializer(function(options){
-        // Store plugin options
-        Mibew.PluginOptions = options.plugins || {};
-
         // Create some shortcuts
         var objs = Mibew.Objects;
         var models = Mibew.Objects.Models;

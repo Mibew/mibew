@@ -10,7 +10,7 @@
         <script type="text/javascript" src="{{asset "js/compiled/users_app.js"}}"></script>
 
         <!-- Plugins JavaScript files -->
-        {{{additional_js}}}
+        {{additionalJs}}
 
 
         <script type="text/javascript"><!--
@@ -48,8 +48,7 @@
                         trackedVisitorWindowParams: "{{[coreStyles.trackedVisitorWindowParams]}}",
                         banWindowParams: "{{[coreStyles.banWindowParams]}}",
                         inviteWindowParams: "{{[coreStyles.inviteWindowParams]}}"
-                    },
-                    plugins: {{{js_plugin_options}}}
+                    }
                 });
             });
         //--></script>

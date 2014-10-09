@@ -28,7 +28,7 @@
         <!-- Add style scripts -->
         <script type="text/javascript" src="{{asset "@CurrentStyle/js/compiled/scripts.js"}}"></script>
 
-        {{{additional_js}}}
+        {{additionalJs}}
 
         <!-- Run application -->
         <script type="text/javascript"><!--
@@ -62,8 +62,7 @@
                     {{#if invitationOptions}}
                         invitationOptions: {{{invitationOptions}}},
                     {{/if}}
-                    startFrom: '{{startFrom}}',
-                    plugins: {{{js_plugin_options}}}
+                    startFrom: '{{startFrom}}'
                 });
             });
         //--></script>

@@ -28,9 +28,6 @@
 
     // Initialize application
     app.addInitializer(function(options){
-        // Store plugin options
-        Mibew.PluginOptions = options.plugins || {};
-
         // Initialize Server
         Mibew.Objects.server = new Mibew.Server(_.extend(
             {'interactionType': MibewAPIChatInteraction},

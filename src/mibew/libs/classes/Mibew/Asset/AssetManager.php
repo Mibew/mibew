@@ -151,8 +151,26 @@ class AssetManager implements AssetManagerInterface
     }
 
     /**
-     * Triggers "pageAddJS" and "pageAddJSPluginOptions" events and prepares JS
-     * assets which are returned by plugins.
+     * Gets additional JS assets by triggering some events.
+     *
+     * Triggers "pageAddJS" and pass to the listeners an associative array with
+     * the following keys:
+     *  - "request": {@link \Symfony\Component\HttpFoundation\Request}, a
+     *    request instance. JavaScript files will be attached to the requested
+     *    page.
+     *  - "js": array of assets. Each asset can be either string with absolute
+     *    JavaScript file URL or an array with "content" and "type" items. See
+     *    {@link \Mibew\Asset\AssetManagerInterface::getJsAssets()} for details
+     *    of their meaning. Modify this array to add or remove additional
+     *    JavaScript files.
+     *
+     * Triggers "pageAddJSPluginOptions" and pass to the listeners an
+     * associative array with the following keys:
+     *  - "request": {@link \Symfony\Component\HttpFoundation\Request}, a
+     *    request instance. Plugins will work at the requested page.
+     *  - "plugins": associative array, whose keys are plugins names and values
+     *    are plugins options. Modify this array to add or change plugins
+     *    options.
      *
      * @return array Assets list.
      */
