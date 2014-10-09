@@ -32,10 +32,10 @@ use Mibew\Asset\AssetManagerInterface;
  *
  * Example of usage:
  * <code>
- *   {{additionalCss}}
+ *   {{cssAssets}}
  * </code>
  */
-class AdditionalCssHelper implements HelperInterface, AssetManagerAwareInterface
+class CssAssetsHelper implements HelperInterface, AssetManagerAwareInterface
 {
     /**
      * @var AssetManagerInterface|null

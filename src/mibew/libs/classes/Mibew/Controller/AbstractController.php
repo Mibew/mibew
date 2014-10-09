@@ -26,10 +26,10 @@ use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Cache\CacheAwareInterface;
 use Mibew\Handlebars\HandlebarsAwareInterface;
-use Mibew\Handlebars\Helper\AdditionalCssHelper;
 use Mibew\Handlebars\Helper\AdditionalJsHelper;
 use Mibew\Handlebars\Helper\AssetHelper;
 use Mibew\Handlebars\Helper\CsrfProtectedRouteHelper;
+use Mibew\Handlebars\Helper\CssAssetsHelper;
 use Mibew\Handlebars\Helper\RouteHelper;
 use Mibew\Routing\RouterAwareInterface;
 use Mibew\Routing\RouterInterface;
@@ -132,8 +132,8 @@ abstract class AbstractController implements
             if ($handlebars->hasHelper('additionalJs')) {
                 $handlebars->getHelper('additionalJs')->setAssetManager($manager);
             }
-            if ($handlebars->hasHelper('additionalCss')) {
-                $handlebars->getHelper('additionalCss')->setAssetManager($manager);
+            if ($handlebars->hasHelper('cssAssets')) {
+                $handlebars->getHelper('cssAssets')->setAssetManager($manager);
             }
         }
     }
@@ -296,8 +296,8 @@ abstract class AbstractController implements
                 new AdditionalJsHelper($this->getAssetManager())
             );
             $style->getHandlebars()->addHelper(
-                'additionalCss',
-                new AdditionalCssHelper($this->getAssetManager())
+                'cssAssets',
+                new CssAssetsHelper($this->getAssetManager())
             );
         }
 
