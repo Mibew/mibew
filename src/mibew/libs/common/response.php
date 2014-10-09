@@ -17,9 +17,6 @@
  * limitations under the License.
  */
 
-use Mibew\EventDispatcher;
-use Symfony\Component\HttpFoundation\Request;
-
 function get_popup($href, $js_href, $message, $title, $wnd_name, $options)
 {
     if (!$js_href) {
@@ -31,55 +28,6 @@ function get_popup($href, $js_href, $message, $title, $wnd_name, $options)
         . "&amp;&amp; window.event.preventDefault) window.event.preventDefault();"
         . "this.newWindow = window.open($js_href, '$wnd_name', '$options');"
         . "this.newWindow.focus();this.newWindow.opener=window;return false;\">$message</a>";
-}
-
-/**
- * Load additional CSS files, required by plugins, and build HTML code to
- * include them
- *
- * Triggers 'pageAddCSS' and pass listeners associative array with
- * following keys:
- *  - 'request': {@link \Symfony\Component\HttpFoundation\Request}, a request
- *    instance. CSS files will be attached to the requested page.
- *  - 'css': array, with CSS files paths. Modify this array to add or remove
- *    additional CSS files.
- *
- * @param Request $request A Request instance.
- * @return string HTML block of 'link' tags
- */
-function get_additional_css(Request $request)
-{
-    // Prepare event arguments array
-    $args = array(
-        'request' => $request,
-        'css' => array(),
-    );
-
-    // Trigger event
-    $dispatcher = EventDispatcher::getInstance();
-    $dispatcher->triggerEvent('pageAddCSS', $args);
-
-    // Build resulting css list
-    $result = array();
-    foreach ($args['css'] as $css) {
-        $result[] = '<link rel="stylesheet" type="text/css" href="' . $css . '">';
-    }
-
-    return implode("\n", $result);
-}
-
-/**
- * Get additional plugins data for specified page
- *
- * @param Request $request A Request instance.
- * @return array Associative array of plugins data. It contains following keys:
- *    - 'additional_css': contains results of the 'get_additional_css function
- */
-function get_plugins_data(Request $request)
-{
-    return array(
-        'additional_css' => get_additional_css($request),
-    );
 }
 
 function no_field($key)

@@ -47,13 +47,10 @@ class UserChatController extends AbstractController
             throw new NotFoundException('The thread is not found.');
         }
 
-        $page = array_merge_recursive(
-            setup_chatview_for_user(
-                $this->getRouter(),
-                $request,
-                $thread
-            ),
-            get_plugins_data($request)
+        $page = setup_chatview_for_user(
+            $this->getRouter(),
+            $request,
+            $thread
         );
 
         // Build js application options
@@ -148,7 +145,6 @@ class UserChatController extends AbstractController
                         $info,
                         $referrer
                     ),
-                    get_plugins_data($request),
                     array(
                         'mibewBasePath' => $request->getBasePath(),
                         'mibewBaseUrl' => $request->getBaseUrl(),
@@ -185,7 +181,6 @@ class UserChatController extends AbstractController
                         $info,
                         $referrer
                     ),
-                    get_plugins_data($request),
                     array(
                         'mibewBasePath' => $request->getBasePath(),
                         'mibewBaseUrl' => $request->getBaseUrl(),
@@ -250,10 +245,7 @@ class UserChatController extends AbstractController
         $thread = Thread::load($invitation_state['threadid']);
 
         // Prepare page
-        $page = array_merge_recursive(
-            setup_invitation_view($thread),
-            get_plugins_data($request)
-        );
+        $page = setup_invitation_view($thread);
 
         // Build js application options
         $page['invitationOptions'] = json_encode($page['invitation']);

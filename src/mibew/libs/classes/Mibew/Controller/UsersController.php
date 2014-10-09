@@ -80,8 +80,6 @@ class UsersController extends AbstractController
         $page['title'] = getlocal("List of visitors waiting");
         $page['menuid'] = "users";
 
-        // Get additional plugins data
-        $page = array_merge($page, get_plugins_data($request));
         $page = array_merge($page, prepare_menu($operator));
 
         return $this->render('users', $page);

@@ -203,8 +203,17 @@ class AssetManager implements AssetManagerInterface
     }
 
     /**
-     * Triggers "pageAddCSS" event and prepares CSS assets which are returned by
-     * plugins.
+     * Gets additional CSS assets by triggering some events.
+     *
+     * Triggers "pageAddCSS" and passes to the listeners an associative array
+     * with the following keys:
+     *  - "request": {@link \Symfony\Component\HttpFoundation\Request}, a
+     *    request instance. CSS files will be attached to the requested page.
+     *  - "css": array of assets. Each asset can be either a string with
+     *    absolute URL of a CSS file or an array with "content" and "type"
+     *    items. See {@link \Mibew\Asset\AssetManagerInterface::getCssAssets()}
+     *    for details of their meaning. Modify this array to add or remove
+     *    additional CSS files.
      *
      * @return array Assets list.
      */

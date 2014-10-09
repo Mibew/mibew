@@ -26,6 +26,7 @@ use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Cache\CacheAwareInterface;
 use Mibew\Handlebars\HandlebarsAwareInterface;
+use Mibew\Handlebars\Helper\AdditionalCssHelper;
 use Mibew\Handlebars\Helper\AdditionalJsHelper;
 use Mibew\Handlebars\Helper\AssetHelper;
 use Mibew\Handlebars\Helper\CsrfProtectedRouteHelper;
@@ -130,6 +131,9 @@ abstract class AbstractController implements
             }
             if ($handlebars->hasHelper('additionalJs')) {
                 $handlebars->getHelper('additionalJs')->setAssetManager($manager);
+            }
+            if ($handlebars->hasHelper('additionalCss')) {
+                $handlebars->getHelper('additionalCss')->setAssetManager($manager);
             }
         }
     }
@@ -290,6 +294,10 @@ abstract class AbstractController implements
             $style->getHandlebars()->addHelper(
                 'additionalJs',
                 new AdditionalJsHelper($this->getAssetManager())
+            );
+            $style->getHandlebars()->addHelper(
+                'additionalCss',
+                new AdditionalCssHelper($this->getAssetManager())
             );
         }
 
