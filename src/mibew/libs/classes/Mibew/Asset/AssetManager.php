@@ -158,8 +158,9 @@ class AssetManager implements AssetManagerInterface
      *  - "request": {@link \Symfony\Component\HttpFoundation\Request}, a
      *    request instance. JavaScript files will be attached to the requested
      *    page.
-     *  - "js": array of assets. Each asset can be either string with absolute
-     *    JavaScript file URL or an array with "content" and "type" items. See
+     *  - "js": array of assets. Each asset can be either a string with
+     *    absolute URL of a JavaScript file or an array with "content" and
+     *    "type" items. See
      *    {@link \Mibew\Asset\AssetManagerInterface::getJsAssets()} for details
      *    of their meaning. Modify this array to add or remove additional
      *    JavaScript files.
