@@ -11,6 +11,9 @@
     <!--[if lte IE 7]><link href="{{asset "@CurrentStyle/css/default_ie.css"}}" rel="stylesheet" type="text/css" /><![endif] -->
     <!--[if lte IE 6]><script language="JavaScript" type="text/javascript" src="{{asset "@CurrentStyle/js/ie.js"}}"></script><![endif]-->
 
+    <!-- Extra CSS files -->
+    {{cssAssets}}
+
     <!-- External libs -->
     <script type="text/javascript" src="{{asset "js/libs/jquery.min.js"}}"></script>
     <script type="text/javascript" src="{{asset "js/libs/json2.js"}}"></script>
@@ -28,6 +31,9 @@
 
     <!-- Localized string -->
     <script type="text/javascript" src="{{route "js_translation" locale=currentLocale}}"></script>
+
+    <!-- Extra JavaScript files -->
+    {{jsAssets}}
 
     {{#block "head"}}{{/block}}
 </head>

@@ -82,6 +82,9 @@ class UsersController extends AbstractController
 
         $page = array_merge($page, prepare_menu($operator));
 
+        // Attach files of the client side application
+        $this->getAssetManager()->attachJs('js/compiled/users_app.js');
+
         return $this->render('users', $page);
     }
 
