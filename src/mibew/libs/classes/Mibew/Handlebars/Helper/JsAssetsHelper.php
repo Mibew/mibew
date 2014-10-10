@@ -19,13 +19,6 @@
 
 namespace Mibew\Handlebars\Helper;
 
-use Handlebars\Context;
-use Handlebars\Helper as HelperInterface;
-use Handlebars\SafeString;
-use Handlebars\Template;
-use Mibew\Asset\AssetManagerAwareInterface;
-use Mibew\Asset\AssetManagerInterface;
-
 /**
  * A helper that generates additional JavaSctipts list from assets attached to
  * Asset Manager.
@@ -35,77 +28,18 @@ use Mibew\Asset\AssetManagerInterface;
  *   {{jsAssets}}
  * </code>
  */
-class JsAssetsHelper implements HelperInterface, AssetManagerAwareInterface
+class JsAssetsHelper extends AbstractAssetsHelper
 {
     /**
-     * @var AssetManagerInterface|null
+     * {@inheritdoc}
      */
-    protected $manager = null;
-
-    /**
-     * Class constructor.
-     *
-     * @param AssetUrlGeneratorInterface $manager An instance of Asset Manager.
-     */
-    public function __construct(AssetManagerInterface $manager)
+    protected function getAssetsList()
     {
-        $this->manager = $manager;
+        return $this->getAssetManager()->getJsAssets();
     }
 
     /**
      * {@inheritdoc}
-     */
-    public function getAssetManager()
-    {
-        return $this->manager;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setAssetManager(AssetManagerInterface $manager)
-    {
-        $this->manager = $manager;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function execute(Template $template, Context $context, $args, $source)
-    {
-        $generator = $this->getAssetManager()->getUrlGenerator();
-        $buffer = array();
-
-        foreach ($this->getAssetManager()->getJsAssets() as $asset) {
-            switch ($asset['type']) {
-                case AssetManagerInterface::ABSOLUTE_URL:
-                    $buffer[] = $this->renderUrl($asset['content']);
-                    break;
-
-                case AssetManagerInterface::RELATIVE_URL:
-                    $buffer[] = $this->renderUrl($generator->generate($asset['content']));
-                    break;
-
-                case AssetManagerInterface::INLINE:
-                    $buffer[] = $this->renderContent($asset['content']);
-                    break;
-
-                default:
-                    throw new \RuntimeException(sprintf(
-                        'Unknown asset type "%s"',
-                        $asset['type']
-                    ));
-            }
-        }
-
-        return new SafeString(implode("\n", $buffer));
-    }
-
-    /**
-     * Renders URL of an asset.
-     *
-     * @param string $url URL of an asset.
-     * @return string HTML markup.
      */
     protected function renderUrl($url)
     {
@@ -116,10 +50,7 @@ class JsAssetsHelper implements HelperInterface, AssetManagerAwareInterface
     }
 
     /**
-     * Renders content of an asset.
-     *
-     * @param string $content Content of an asset.
-     * @return string HTML markup.
+     * {@inheritdoc}
      */
     protected function renderContent($content)
     {
