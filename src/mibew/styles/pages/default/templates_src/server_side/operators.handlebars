@@ -1,10 +1,6 @@
 {{#extends "_layout"}}
     {{#override "menu"}}{{> _menu}}{{/override}}
 
-    {{#override "head"}}
-        <script type="text/javascript" src="{{asset "@CurrentStyle/js/operators.js"}}"></script>
-    {{/override}}
-
     {{#override "content"}}
         {{l10n "This page displays a list of company operators."}}
 
@@ -75,7 +71,7 @@
                 {{#each allowedAgents}}
                     <tr>
                         <td class="notlast">
-                            <a id="ti{{operatorid}}" href="{{route "operator_edit" operator_id=operatorid}}" class="man">
+                            <a href="{{route "operator_edit" operator_id=operatorid}}" class="man">
                                 {{vclogin}}
                             </a>
                         </td>
@@ -106,7 +102,7 @@
                             </td>
 
                             <td>
-                                <a class="removelink" id="i{{operatorid}}" href="{{csrfProtectedRoute "operator_delete" operator_id=operatorid}}">
+                                <a class="remove-link" href="{{csrfProtectedRoute "operator_delete" operator_id=operatorid}}" data-operator-login="{{vclogin}}">
                                     {{l10n "remove"}}
                                 </a>
                             </td>

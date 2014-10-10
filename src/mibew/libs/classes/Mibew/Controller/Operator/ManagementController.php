@@ -90,6 +90,8 @@ class ManagementController extends AbstractController
         $page['menuid'] = 'operators';
         $page = array_merge($page, prepare_menu($operator));
 
+        $this->getAssetManager()->attachJs('js/compiled/operators.js');
+
         return $this->render('operators', $page);
     }
 
