@@ -18,12 +18,10 @@
 
 (function(Mibew, $) {
     $(document).ready(function(){
-        $('a.removelink').click(function(){
-            var groupName = $.trim($("#t" + this.id).text());
-
+        $('a.remove-link').click(function(){
             return confirm(Mibew.Localization.trans(
                 'Are you sure that you want to delete the group "{0}"?',
-                groupName
+                $(this).data('group-name')
             ));
         });
     });

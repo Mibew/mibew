@@ -82,6 +82,8 @@ class ManagementController extends AbstractController
         $page['menuid'] = 'groups';
         $page = array_merge($page, prepare_menu($operator));
 
+        $this->getAssetManager()->attachJs('js/compiled/groups.js');
+
         return $this->render('groups', $page);
     }
 
