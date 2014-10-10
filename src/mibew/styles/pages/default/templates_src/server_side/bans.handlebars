@@ -1,10 +1,6 @@
 {{#extends "_layout"}}
     {{#override "menu"}}{{> _menu}}{{/override}}
 
-    {{#override "head"}}
-        <script type="text/javascript" src="{{asset "@CurrentStyle/js/bans.js"}}"></script>
-    {{/override}}
-
     {{#override "content"}}
         {{l10n "Here you can block malicious visitors that affect your work with spam messages."}}
 
@@ -34,7 +30,7 @@
                 {{#each [pagination.items]}}
                     <tr>
                         <td class="notlast">
-                            <a href="{{route "history" q=address type="visitor"}}" class="man" id="ti{{banid}}">
+                            <a href="{{route "history" q=address type="visitor"}}" class="man">
                                 {{address}}
                             </a>
                         </td>
@@ -44,7 +40,7 @@
                         <td>{{cutString comment "30"}}</td>
 
                         <td>
-                            <a class="removelink" id="i{{banid}}" href="{{csrfProtectedRoute "ban_delete" ban_id=banid}}">
+                            <a class="remove-link" data-ban-address="{{address}}" href="{{csrfProtectedRoute "ban_delete" ban_id=banid}}">
                                 {{l10n "remove"}}
                             </a>,
                             <a href="{{route "ban_edit" ban_id=banid}}"

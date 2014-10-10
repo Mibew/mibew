@@ -18,12 +18,10 @@
 
 (function(Mibew, $) {
     $(document).ready(function() {
-        $('a.removelink').click(function() {
-            var address = $.trim($("#t" + this.id).text());
-
+        $('a.remove-link').click(function() {
             return confirm(Mibew.Localization.trans(
                 'Are you sure that you want to delete address {0} from the blocked list?',
-                address
+                $(this).data('ban-address')
             ));
         });
     });

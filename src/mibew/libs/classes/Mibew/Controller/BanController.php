@@ -65,6 +65,8 @@ class BanController extends AbstractController
         $page['pagination.items'] = $pagination['items'];
         $page = array_merge($page, prepare_menu($operator));
 
+        $this->getAssetManager()->attachJs('js/compiled/bans.js');
+
         return $this->render('bans', $page);
     }
 
