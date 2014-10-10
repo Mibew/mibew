@@ -1,10 +1,6 @@
 {{#extends "_layout"}}
     {{#override "menu"}}{{> _menu}}{{/override}}
 
-    {{#override "head"}}
-        <script type="text/javascript" language="javascript" src="{{asset "@CurrentStyle/js/features.js"}}"></script>
-    {{/override}}
-
     {{#override "content"}}
         {{l10n "Specify options affecting chat window and common system behavior."}}
 
@@ -42,14 +38,14 @@
                             </div>
 
                             <div class="field">
-                                <label for="enablessl" class="flabel">{{l10n "Allow secure connections (SSL)"}}</label>
+                                <label for="enable-ssl" class="flabel">{{l10n "Allow secure connections (SSL)"}}</label>
                                 <div class="fvalue">
-                                    <input id="enablessl" type="checkbox" name="enablessl" value="on"{{#if formenablessl}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    <input id="enable-ssl" type="checkbox" name="enablessl" value="on"{{#if formenablessl}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
                                 </div>
-                                <label for="enablessl" class="fdescr"> &mdash; {{l10n "Please note that your web server should be configured to support https requests."}}</label>
+                                <label for="enable-ssl" class="fdescr"> &mdash; {{l10n "Please note that your web server should be configured to support https requests."}}</label>
                                 <br clear="all"/>
 
-                                <div class="subfield underssl">
+                                <div class="subfield under-ssl">
                                     <label for="forcessl" class="flabel">{{l10n "Force all chats to be secure"}}</label>
                                     <div class="fvalue">
                                         <input id="forcessl" type="checkbox" name="forcessl" value="on"{{#if formforcessl}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
@@ -60,14 +56,14 @@
                             </div>
 
                             <div class="field">
-                                <label for="enablegroups" class="flabel">{{l10n "Enable \"Groups\""}}</label>
+                                <label for="enable-groups" class="flabel">{{l10n "Enable \"Groups\""}}</label>
                                 <div class="fvalue">
-                                    <input id="enablegroups" type="checkbox" name="enablegroups" value="on"{{#if formenablegroups}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    <input id="enable-groups" type="checkbox" name="enablegroups" value="on"{{#if formenablegroups}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
                                 </div>
-                                <label for="enablegroups" class="fdescr"> &mdash; {{l10n "Use it to have separate queues for different questions."}}</label>
+                                <label for="enable-groups" class="fdescr"> &mdash; {{l10n "Use it to have separate queues for different questions."}}</label>
                                 <br clear="all"/>
 
-                                <div class="subfield undergroups">
+                                <div class="subfield under-groups">
                                     <label for="enablegroupsisolation" class="flabel">{{l10n "Enable \"Groups Isolation\""}}</label>
                                     <div class="fvalue">
                                         <input id="enablegroupsisolation" type="checkbox" name="enablegroupsisolation" value="on"{{#if formenablegroupsisolation}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
@@ -87,14 +83,14 @@
                             </div>
 
                             <div class="field">
-                                <label for="enabletracking" class="flabel">{{l10n "Enable \"Tracking and inviting\""}}</label>
+                                <label for="enable-tracking" class="flabel">{{l10n "Enable \"Tracking and inviting\""}}</label>
                                 <div class="fvalue">
-                                    <input id="enabletracking" type="checkbox" name="enabletracking" value="on"{{#if formenabletracking}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    <input id="enable-tracking" type="checkbox" name="enabletracking" value="on"{{#if formenabletracking}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
                                 </div>
-                                <label for="enabletracking" class="fdescr"> &mdash; {{l10n "Enable tracking of visitors' activity on your site and ability to invite visitors to chat."}}</label>
+                                <label for="enable-tracking" class="fdescr"> &mdash; {{l10n "Enable tracking of visitors' activity on your site and ability to invite visitors to chat."}}</label>
                                 <br clear="all"/>
 
-                                <div class="subfield undertracking">
+                                <div class="subfield under-tracking">
                                     <label for="trackoperators" class="flabel">{{l10n "Track operators"}}</label>
                                     <div class="fvalue">
                                         <input id="trackoperators" type="checkbox" name="trackoperators" value="on"{{#if formtrackoperators}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
@@ -114,14 +110,14 @@
                             </div>
 
                             <div class="field">
-                                <label for="enablepresurvey" class="flabel">{{l10n "Enable \"Pre-chat survey\""}}</label>
+                                <label for="enable-presurvey" class="flabel">{{l10n "Enable \"Pre-chat survey\""}}</label>
                                 <div class="fvalue">
-                                    <input id="enablepresurvey" type="checkbox" name="enablepresurvey" value="on"{{#if formenablepresurvey}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    <input id="enable-presurvey" type="checkbox" name="enablepresurvey" value="on"{{#if formenablepresurvey}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
                                 </div>
-                                <label for="enablepresurvey" class="fdescr"> &mdash; {{l10n "Forces the user to fill out a special form to start a chat."}}</label>
+                                <label for="enable-presurvey" class="fdescr"> &mdash; {{l10n "Forces the user to fill out a special form to start a chat."}}</label>
                                 <br clear="all"/>
 
-                                <div class="subfield undersurvey">
+                                <div class="subfield under-survey">
                                     <label for="surveyaskmail" class="flabel">{{l10n "Ask for visitor's email"}}</label>
                                     <div class="fvalue">
                                         <input id="surveyaskmail" type="checkbox" name="surveyaskmail" value="on"{{#if formsurveyaskmail}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
@@ -130,7 +126,7 @@
                                     <br clear="all"/>
                                 </div>
 
-                                <div class="subfield undersurvey">
+                                <div class="subfield under-survey">
                                     <label for="surveyaskgroup" class="flabel">{{l10n "Allows a visitor to choose department/group"}}</label>
                                     <div class="fvalue">
                                         <input id="surveyaskgroup" type="checkbox" name="surveyaskgroup" value="on"{{#if formsurveyaskgroup}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
@@ -139,7 +135,7 @@
                                     <br clear="all"/>
                                 </div>
 
-                                <div class="subfield undersurvey">
+                                <div class="subfield under-survey">
                                     <label for="surveyaskmessage" class="flabel">{{l10n "Show initial question field"}}</label>
                                     <div class="fvalue">
                                         <input id="surveyaskmessage" type="checkbox" name="surveyaskmessage" value="on"{{#if formsurveyaskmessage}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>

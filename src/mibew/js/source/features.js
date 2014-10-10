@@ -18,48 +18,48 @@
 
 (function($) {
     function updateSurvey() {
-        if ($("#enablepresurvey").is(":checked")) {
-            $(".undersurvey").show();
+        if ($("#enable-presurvey").is(":checked")) {
+            $(".under-survey").show();
         } else {
-            $(".undersurvey").hide();
+            $(".under-survey").hide();
         }
     }
 
     function updateSSL() {
-        if ($("#enablessl").is(":checked")) {
-            $(".underssl").show();
+        if ($("#enable-ssl").is(":checked")) {
+            $(".under-ssl").show();
         } else {
-            $(".underssl").hide();
+            $(".under-ssl").hide();
         }
     }
 
     function updateGroups() {
-        if ($("#enablegroups").is(":checked")) {
-            $(".undergroups").show();
+        if ($("#enable-groups").is(":checked")) {
+            $(".under-groups").show();
         } else {
-            $(".undergroups").hide();
+            $(".under-groups").hide();
         }
     }
 
     function updateTracking() {
-        if ($("#enabletracking").is(":checked")) {
-            $(".undertracking").show();
+        if ($("#enable-tracking").is(":checked")) {
+            $(".under-tracking").show();
         } else {
-            $(".undertracking").hide();
+            $(".under-tracking").hide();
         }
     }
 
     $(function() {
-        $("#enablepresurvey").change(function() {
+        $("#enable-presurvey").change(function() {
             updateSurvey();
         });
-        $("#enablessl").change(function() {
+        $("#enable-ssl").change(function() {
             updateSSL();
         });
-        $("#enablegroups").change(function() {
+        $("#enable-groups").change(function() {
             updateGroups();
         });
-        $("#enabletracking").change(function() {
+        $("#enable-tracking").change(function() {
             updateTracking();
         });
         updateSurvey();

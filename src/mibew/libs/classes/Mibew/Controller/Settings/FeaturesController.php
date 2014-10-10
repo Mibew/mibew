@@ -61,6 +61,8 @@ class FeaturesController extends AbstractController
         $page = array_merge($page, prepare_menu($operator));
         $page['tabs'] = $this->buildTabs($request);
 
+        $this->getAssetManager()->attachJs('js/compiled/features.js');
+
         return $this->render('settings_features', $page);
     }
 
