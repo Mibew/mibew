@@ -248,7 +248,7 @@ class AssetManager implements AssetManagerInterface
             if (is_string($asset)) {
                 $normalized_assets[] = array(
                     'content' => $asset,
-                    'type' => AssetManagerInterface::ABSOLUTE_URL,
+                    'type' => AssetManagerInterface::RELATIVE_URL,
                 );
             } elseif (is_array($asset) && !empty($asset['type']) && !empty($asset['content'])) {
                 $normalized_assets[] = $asset;
