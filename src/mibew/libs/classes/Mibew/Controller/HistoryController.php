@@ -206,6 +206,8 @@ class HistoryController extends AbstractController
 
         $page = array_merge($page, prepare_menu($operator, false));
 
+        $this->getAssetManager()->attachJs('js/compiled/thread_log_app.js');
+
         return $this->render('history_thread', $page);
     }
 
