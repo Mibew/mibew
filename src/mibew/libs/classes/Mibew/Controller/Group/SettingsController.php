@@ -96,6 +96,8 @@ class SettingsController extends AbstractController
         $page = array_merge($page, prepare_menu($operator));
         $page['tabs'] = $this->buildTabs($request);
 
+        $this->getAssetManager()->attachJs('js/compiled/group.js');
+
         return $this->render('group_edit', $page);
     }
 

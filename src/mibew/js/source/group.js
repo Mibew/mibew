@@ -18,15 +18,15 @@
 
 (function($) {
     function updateParentGroup() {
-        if ($("#parentgroup").val() == '') {
-            $("#extrafields").show();
+        if ($("#parent-group").val() == '') {
+            $("#extra-fields").show();
         } else {
-            $("#extrafields").hide();
+            $("#extra-fields").hide();
         }
     }
 
     $(function() {
-        $("#parentgroup").change(function() {
+        $("#parent-group").change(function() {
             updateParentGroup();
         });
         updateParentGroup();

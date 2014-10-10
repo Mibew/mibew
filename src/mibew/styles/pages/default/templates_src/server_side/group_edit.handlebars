@@ -1,10 +1,6 @@
 {{#extends "_layout"}}
     {{#override "menu"}}{{> _menu}}{{/override}}
 
-    {{#override "head"}}
-        <script type="text/javascript" language="javascript" src="{{asset "@CurrentStyle/js/group.js"}}"></script>
-    {{/override}}
-
     {{#override "content"}}
         {{#if grid}}
             {{l10n "On this page you can edit group details."}}
@@ -89,19 +85,19 @@
                             </div>
 
                             <div class="field">
-                                <label for="parentgroup" class="flabel">{{l10n "Parent group"}}</label>
+                                <label for="parent-group" class="flabel">{{l10n "Parent group"}}</label>
                                 <div class="fvalue">
-                                    <select name="parentgroup" id="parentgroup">
+                                    <select name="parentgroup" id="parent-group">
                                         {{#each availableParentGroups}}
                                             <option value="{{groupid}}"{{#ifEqual groupid ../formparentgroup}} selected="selected"{{/ifEqual}}>{{#repeat level}}&nbsp;&nbsp;{{/repeat}}{{vclocalname}}</option>
                                         {{/each}}
                                     </select>
                                 </div>
-                                <label for="parentgroup" class="fdescr"> &mdash; {{l10n "Groups can be organized in a hierarchical structure"}}</label>
+                                <label for="parent-group" class="fdescr"> &mdash; {{l10n "Groups can be organized in a hierarchical structure"}}</label>
                                 <br clear="all"/>
                             </div>
 
-                            <div id="extrafields">
+                            <div id="extra-fields">
                                 <div class="fheader">{{l10n "The fields that located below are extra fields. These fields are only available for the top level groups and override corresponding system settings if specified."}}</div>
 
                                 <div class="field">
