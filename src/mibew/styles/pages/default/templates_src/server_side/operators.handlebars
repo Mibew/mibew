@@ -2,18 +2,7 @@
     {{#override "menu"}}{{> _menu}}{{/override}}
 
     {{#override "head"}}
-        <script type="text/javascript" language="javascript"><!--
-            (function($) {
-                $(document).ready(function(){
-                    var confirmMessage = "{{#jsString}}{{l10n 'Are you sure that you want to delete operator "{0}"?' '{login}'}}{{/jsString}}";
-
-                    $('a.removelink').click(function(){
-                        var login = $.trim($("#t" + this.id).text());
-                        return confirm(confirmMessage.replace("{login}", login));
-                    });
-                });
-            })(jQuery);
-        //--></script>
+        <script type="text/javascript" src="{{asset "@CurrentStyle/js/operators.js"}}"></script>
     {{/override}}
 
     {{#override "content"}}

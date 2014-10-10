@@ -2,18 +2,7 @@
     {{#override "menu"}}{{> _menu}}{{/override}}
 
     {{#override "head"}}
-        <script type="text/javascript" language="javascript"><!--
-            (function($) {
-                $(document).ready(function(){
-                    var confirmMessage = "{{#jsString}}{{l10n 'Are you sure that you want to delete address {0} from the blocked list?' '{addr}'}}{{/jsString}}";
-
-                    $('a.removelink').click(function(){
-                        var addr = $.trim($("#t" + this.id).text());
-                        return confirm(confirmMessage.replace("{addr}", addr));
-                    });
-                });
-            })(jQuery);
-        //--></script>
+        <script type="text/javascript" src="{{asset "@CurrentStyle/js/bans.js"}}"></script>
     {{/override}}
 
     {{#override "content"}}
