@@ -1,9 +1,4 @@
 {{#extends "install_step"}}
-
-    {{#override "head"}}
-        <script type="text/javascript" language="javascript" src="{{asset "js/compiled/soundcheck.js"}}"></script>
-    {{/override}}
-
     {{#override "nextStep"}}
         <br />
         <b>{{l10n "Application installed successfully."}}</b> {{{loginLink}}}

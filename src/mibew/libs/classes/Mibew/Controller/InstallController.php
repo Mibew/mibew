@@ -321,6 +321,8 @@ class InstallController extends AbstractController
             array($login_url)
         );
 
+        $this->getAssetManager()->attachJs('js/compiled/soundcheck.js');
+
         return $this->renderStep(
             'install_done',
             array('loginLink' => $login_link)
