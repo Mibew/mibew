@@ -2,12 +2,7 @@
     {{#override "content"}}
         {{#if saved}}
             {{l10n "Saved"}}
-            <script type="text/javascript"><!--
-                if(window.opener && window.opener.location) {
-                    window.opener.location.reload();
-                }
-                setTimeout( (function() { window.close(); }), 1500 );
-            //--></script>
+            <script type="text/javascript" src="{{asset "@CurrentStyle/js/autoclose.js"}}"></script>
         {{else}}
             {{#if key}}
                 {{l10n "Edit an existing message."}}

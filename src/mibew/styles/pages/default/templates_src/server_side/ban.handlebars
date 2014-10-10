@@ -3,12 +3,7 @@
         {{#if saved}}
             {{l10n "Address {0} is blocked for a specified number of days." address}}
 
-            <script type="text/javascript"><!--
-                if(window.opener && window.opener.location) {
-                    window.opener.location.reload();
-                }
-                setTimeout( (function() { window.close(); }), 1500 );
-            //--></script>
+            <script type="text/javascript" src="{{asset "@CurrentStyle/js/autoclose.js"}}"></script>
         {{else}}
             {{l10n "Here you can block malicious visitors that affect your work with spam messages."}}
 
