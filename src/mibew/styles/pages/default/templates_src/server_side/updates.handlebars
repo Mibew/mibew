@@ -1,11 +1,6 @@
 {{#extends "_layout"}}
     {{#override "menu"}}{{> _menu}}{{/override}}
 
-    {{#override "head"}}
-        <script type="text/javascript" language="javascript" src="http://mibew.org/latestMibew.js"></script>
-        <script type="text/javascript" language="javascript" src="{{asset "js/compiled/update.js"}}"></script>
-    {{/override}}
-
     {{#override "content"}}
         {{l10n "Messenger updates."}}
 
@@ -23,12 +18,12 @@
                     <div id="news"></div>
 
                     {{l10n "You are using:"}}<br/>
-                    <div id="cver">{{version}}</div>
+                    <div id="current-version">{{version}}</div>
 
                     <br/>
 
                     {{l10n "Latest version:"}}
-                    <div id="lver"></div>
+                    <div id="latest-version"></div>
 
                     <br/>
 

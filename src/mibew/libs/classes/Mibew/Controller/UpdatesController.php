@@ -19,6 +19,7 @@
 
 namespace Mibew\Controller;
 
+use Mibew\Asset\AssetManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -56,6 +57,12 @@ class UpdatesController extends AbstractController
         }
 
         $page = array_merge($page, prepare_menu($operator));
+
+        $this->getAssetManager()->attachJs(
+            'https://mibew.org/latestMibew.js',
+            AssetManagerInterface::ABSOLUTE_URL
+        );
+        $this->getAssetManager()->attachJs('js/compiled/update.js');
 
         return $this->render('updates', $page);
     }
