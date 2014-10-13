@@ -62,8 +62,10 @@ interface AssetManagerInterface
      *   AssetManagerInterface::ABSOLUTE_URL,
      *   AssetManagerInterface::RELATIVE_URL or AssetManagerInterface::INLINE
      *   constants.
+     * @param int $weight Weight of the assets. Assets with lower weight will be
+     *   "float" to the begging of the resulting assets array.
      */
-    public function attachJs($content, $type = self::RELATIVE_URL);
+    public function attachJs($content, $type = self::RELATIVE_URL, $weight = 0);
 
     /**
      * Retrieves all attached and provided by plugins JavaScript assets.
@@ -76,6 +78,8 @@ interface AssetManagerInterface
      *      AssetManagerInterface::ABSOLUTE_URL,
      *      AssetManagerInterface::RELATIVE_URL or AssetManagerInterface::INLINE
      *      constants.
+     *    - weight: int, weight of the asset which was set via
+     *      AssetManagerInterface::attachJs method.
      */
     public function getJsAssets();
 
@@ -88,8 +92,10 @@ interface AssetManagerInterface
      *   AssetManagerInterface::ABSOLUTE_URL,
      *   AssetManagerInterface::RELATIVE_URL or AssetManagerInterface::INLINE
      *   constants.
+     * @param int $weight Weight of the assets. Assets with lower weight will be
+     *   "float" to the begging of the resulting assets array.
      */
-    public function attachCss($content, $type = self::RELATIVE_URL);
+    public function attachCss($content, $type = self::RELATIVE_URL, $weight = 0);
 
     /**
      * Retrieves all attached and provided by plugins CSS assets.
@@ -101,6 +107,8 @@ interface AssetManagerInterface
      *      AssetManagerInterface::ABSOLUTE_URL,
      *      AssetManagerInterface::RELATIVE_URL or AssetManagerInterface::INLINE
      *      constants.
+     *    - weight: int, weight of the asset which was set via
+     *      AssetManagerInterface::attachCss method.
      */
     public function getCssAssets();
 }

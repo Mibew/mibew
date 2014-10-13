@@ -93,11 +93,12 @@ class AssetManager implements AssetManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function attachJs($content, $type = AssetManagerInterface::RELATIVE_URL)
+    public function attachJs($content, $type = AssetManagerInterface::RELATIVE_URL, $weight = 0)
     {
         $this->jsAssets[] = array(
             'content' => $content,
             'type' => $type,
+            'weight' => $weight,
         );
     }
 
@@ -106,20 +107,23 @@ class AssetManager implements AssetManagerInterface
      */
     public function getJsAssets()
     {
-        return array_merge(
-            $this->jsAssets,
-            $this->triggerJsEvent()
+        return $this->sort(
+            array_merge(
+                $this->jsAssets,
+                $this->triggerJsEvent()
+            )
         );
     }
 
     /**
      * {@inheritdoc}
      */
-    public function attachCss($content, $type = AssetManagerInterface::RELATIVE_URL)
+    public function attachCss($content, $type = AssetManagerInterface::RELATIVE_URL, $weight = 0)
     {
         $this->cssAssets[] = array(
             'content' => $content,
             'type' => $type,
+            'weight' => $weight,
         );
     }
 
@@ -128,9 +132,11 @@ class AssetManager implements AssetManagerInterface
      */
     public function getCssAssets()
     {
-        return array_merge(
-            $this->cssAssets,
-            $this->triggerCssEvent()
+        return $this->sort(
+            array_merge(
+                $this->cssAssets,
+                $this->triggerCssEvent()
+            )
         );
     }
 
@@ -159,8 +165,8 @@ class AssetManager implements AssetManagerInterface
      *    request instance. JavaScript files will be attached to the requested
      *    page.
      *  - "js": array of assets. Each asset can be either a string with
-     *    absolute URL of a JavaScript file or an array with "content" and
-     *    "type" items. See
+     *    relative URL of a JavaScript file or an array with "content",
+     *    "type" and "weight" items. See
      *    {@link \Mibew\Asset\AssetManagerInterface::getJsAssets()} for details
      *    of their meaning. Modify this array to add or remove additional
      *    JavaScript files.
@@ -198,6 +204,7 @@ class AssetManager implements AssetManagerInterface
                 json_encode($event['plugins'])
             ),
             'type' => AssetManagerInterface::INLINE,
+            'weight' => 0,
         );
 
         return $assets;
@@ -211,10 +218,11 @@ class AssetManager implements AssetManagerInterface
      *  - "request": {@link \Symfony\Component\HttpFoundation\Request}, a
      *    request instance. CSS files will be attached to the requested page.
      *  - "css": array of assets. Each asset can be either a string with
-     *    absolute URL of a CSS file or an array with "content" and "type"
-     *    items. See {@link \Mibew\Asset\AssetManagerInterface::getCssAssets()}
-     *    for details of their meaning. Modify this array to add or remove
-     *    additional CSS files.
+     *    relative URL of a CSS file or an array with "content", "type" and
+     *    "weight" items. See
+     *    {@link \Mibew\Asset\AssetManagerInterface::getCssAssets()} for details
+     *    of their meaning. Modify this array to add or remove additional CSS
+     *    files.
      *
      * @return array Assets list.
      */
@@ -249,14 +257,58 @@ class AssetManager implements AssetManagerInterface
                 $normalized_assets[] = array(
                     'content' => $asset,
                     'type' => AssetManagerInterface::RELATIVE_URL,
+                    'weight' => 0,
                 );
             } elseif (is_array($asset) && !empty($asset['type']) && !empty($asset['content'])) {
-                $normalized_assets[] = $asset;
+                // Weight is optional so we have to make sure it is in place.
+                $normalized_assets[] = $asset + array('weight' => 0);
             } else {
                 throw new \InvalidArgumentException('Invalid asset item');
             }
         }
 
         return $normalized_assets;
+    }
+
+    /**
+     * Sort assets according to their weights.
+     *
+     * If weights of two assets are equal the order from the original array will
+     * be kept.
+     *
+     * @param array $assets The original List of assets.
+     * @return array Sorted list of assets.
+     */
+    protected function sort($assets)
+    {
+        // We should keep order for assets with equal weight. Thus we must
+        // combine original order and weight property before real sort.
+        $tmp = array();
+        $offset = 0;
+        foreach ($assets as $asset) {
+            $key = $asset['weight'] . '|' . $offset;
+            $tmp[$key] = $asset;
+            $offset++;
+        }
+
+        uksort($tmp, function ($a, $b) {
+            list($a_weight, $a_offset) = explode('|', $a, 2);
+            list($b_weight, $b_offset) = explode('|', $b, 2);
+
+            if ($a_weight != $b_weight) {
+                return ($a_weight < $b_weight) ? -1 : 1;
+            }
+
+            // Weights are equal. Check the offset to determine which asset was
+            // attached first.
+            if ($a_offset != $b_offset) {
+                return ($a_offset < $b_offset) ? -1 : 1;
+            }
+
+            return 0;
+        });
+
+        // Artificial sorting keys should be removed from the resulting array.
+        return array_values($tmp);
     }
 }
