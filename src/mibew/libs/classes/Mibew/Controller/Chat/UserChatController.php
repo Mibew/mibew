@@ -19,6 +19,7 @@
 
 namespace Mibew\Controller\Chat;
 
+use Mibew\Asset\AssetManagerInterface;
 use Mibew\Http\Exception\NotFoundException;
 use Mibew\Settings;
 use Mibew\Thread;
@@ -54,13 +55,15 @@ class UserChatController extends AbstractController
         );
 
         // Build js application options
-        $page['chatOptions'] = json_encode($page['chat']);
-
-        $page['mibewBasePath'] = $request->getBasePath();
-        $page['mibewBaseUrl'] = $request->getBaseUrl();
+        $page['chatOptions'] = $page['chat'];
 
         // Initialize client side application
         $this->getAssetManager()->attachJs('js/compiled/chat_app.js');
+        $this->getAssetManager()->attachJs(
+            $this->startJsApplication($request, $page),
+            AssetManagerInterface::INLINE,
+            1000
+        );
 
         // Expand page
         return $this->render('chat', $page);
@@ -150,13 +153,15 @@ class UserChatController extends AbstractController
                         $group_id,
                         $info,
                         $referrer
-                    ),
-                    array(
-                        'mibewBasePath' => $request->getBasePath(),
-                        'mibewBaseUrl' => $request->getBaseUrl(),
                     )
                 );
-                $page['leaveMessageOptions'] = json_encode($page['leaveMessage']);
+                $page['leaveMessageOptions'] = $page['leaveMessage'];
+
+                $this->getAssetManager()->attachJs(
+                    $this->startJsApplication($request, $page),
+                    AssetManagerInterface::INLINE,
+                    1000
+                );
 
                 return $this->render('chat', $page);
             }
@@ -186,13 +191,15 @@ class UserChatController extends AbstractController
                         $group_id,
                         $info,
                         $referrer
-                    ),
-                    array(
-                        'mibewBasePath' => $request->getBasePath(),
-                        'mibewBaseUrl' => $request->getBaseUrl(),
                     )
                 );
-                $page['surveyOptions'] = json_encode($page['survey']);
+                $page['surveyOptions'] = $page['survey'];
+
+                $this->getAssetManager()->attachJs(
+                    $this->startJsApplication($request, $page),
+                    AssetManagerInterface::INLINE,
+                    1000
+                );
 
                 return $this->render('chat', $page);
             }
@@ -254,13 +261,15 @@ class UserChatController extends AbstractController
         $page = setup_invitation_view($thread);
 
         // Build js application options
-        $page['invitationOptions'] = json_encode($page['invitation']);
-
-        $page['mibewBasePath'] = $request->getBasePath();
-        $page['mibewBaseUrl'] = $request->getBaseUrl();
+        $page['invitationOptions'] = $page['invitation'];
 
         // Initialize client side application
         $this->getAssetManager()->attachJs('js/compiled/chat_app.js');
+        $this->getAssetManager()->attachJs(
+            $this->startJsApplication($request, $page),
+            AssetManagerInterface::INLINE,
+            1000
+        );
 
         // Expand page
         return $this->render('chat', $page);

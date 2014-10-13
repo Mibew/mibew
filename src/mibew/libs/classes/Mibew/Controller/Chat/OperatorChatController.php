@@ -19,6 +19,7 @@
 
 namespace Mibew\Controller\Chat;
 
+use Mibew\Asset\AssetManagerInterface;
 use Mibew\Http\Exception\NotFoundException;
 use Mibew\Thread;
 use Symfony\Component\HttpFoundation\Request;
@@ -68,13 +69,15 @@ class OperatorChatController extends AbstractController
         );
 
         // Build js application options
-        $page['chatOptions'] = json_encode($page['chat']);
-
-        $page['mibewBasePath'] = $request->getBasePath();
-        $page['mibewBaseUrl'] = $request->getBaseUrl();
+        $page['chatOptions'] = $page['chat'];
 
         // Initialize client side application
         $this->getAssetManager()->attachJs('js/compiled/chat_app.js');
+        $this->getAssetManager()->attachJs(
+            $this->startJsApplication($request, $page),
+            AssetManagerInterface::INLINE,
+            1000
+        );
 
         // Render the page with chat.
         return $this->render('chat', $page);

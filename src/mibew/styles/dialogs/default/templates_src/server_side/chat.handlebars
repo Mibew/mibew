@@ -6,43 +6,6 @@
 
         <!-- Add style scripts -->
         <script type="text/javascript" src="{{asset "@CurrentStyle/js/compiled/scripts.js"}}"></script>
-
-        <!-- Run application -->
-        <script type="text/javascript"><!--
-            jQuery(document).ready(function(){
-                Mibew.Application.start({
-                    server: {
-                        url: '{{route "chat_thread_update"}}',
-                        requestsFrequency: {{frequency}}
-                    },
-                    page: {
-                        style: '{{styleName}}',
-                        mibewBasePath: '{{mibewBasePath}}',
-                        mibewBaseUrl: '{{mibewBaseUrl}}',
-                        stylePath: '{{mibewBasePath}}/{{stylePath}}',
-                        company: {
-                            name: '{{#jsString}}{{company.name}}{{/jsString}}',
-                            chatLogoURL: '{{company.chatLogoURL}}'
-                        },
-                        mibewHost: '{{mibewHost}}',
-                        title: '{{#jsString}}{{[page.title]}}{{/jsString}}'
-                    },
-                    {{#if chatOptions}}
-                        chatOptions: {{{chatOptions}}},
-                    {{/if}}
-                    {{#if surveyOptions}}
-                        surveyOptions: {{{surveyOptions}}},
-                    {{/if}}
-                    {{#if leaveMessageOptions}}
-                        leaveMessageOptions: {{{leaveMessageOptions}}},
-                    {{/if}}
-                    {{#if invitationOptions}}
-                        invitationOptions: {{{invitationOptions}}},
-                    {{/if}}
-                    startFrom: '{{startFrom}}'
-                });
-            });
-        //--></script>
     {{/override}}
 
     {{#override "page"}}

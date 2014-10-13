@@ -68,4 +68,66 @@ abstract class AbstractController extends BaseAbstractController
 
         return $this->redirect($path);
     }
+
+    /**
+     * Generates JavaScript code that starts client side application.
+     *
+     * @param Request $request Incomming request.
+     * @param array $options Client side application options. At the moment the
+     *   method accepts the following options:
+     *   - "company": array, a set of company info. See {@link setup_logo()}
+     *     for details.
+     *   - "mibewHost": string, a URL which is used as a Mibew host. See
+     *     {@link setup_logo()} for details.
+     *   - "page.title": string, a value which will be used as a page title.
+     *   - "startFrom": string, indicates what module should be invoked first.
+     *   - "chatOptions": array, (optional) list of chat module options.
+     *   - "surveyOptions": array, (optional) list of pre-chat survey module
+     *     options.
+     *   - "leaveMessageOptions": array, (optional) list of leave message module
+     *     options.
+     *   - "invitationOptions": array, (optional) list of invitation module
+     *     options.
+     * @return string JavaScript code that starts "users" client side
+     *   application.
+     * @todo The way options passed here should be reviewed. The method must get
+     *   finite number of well-structured arguments.
+     */
+    protected function startJsApplication(Request $request, $options)
+    {
+        $app_settings = array(
+            'server' => array(
+                'url' => $this->generateUrl('chat_thread_update'),
+                'requestsFrequency' => Settings::get('updatefrequency_chat'),
+            ),
+            'page' => array(
+                'style' => $this->getStyle()->getName(),
+                'mibewBasePath' => $request->getBasePath(),
+                'mibewBaseUrl' => $request->getBaseUrl(),
+                'stylePath' => $request->getBasePath() . '/' . $this->getStyle()->getFilesPath(),
+                'company' => $options['company'],
+                'mibewHost' => $options['mibewHost'],
+                'title' => $options['page.title'],
+            ),
+            'startFrom' => $options['startFrom'],
+        );
+
+        // Add module specific options
+        $module_options_list = array(
+            'chatOptions',
+            'surveyOptions',
+            'leaveMessageOptions',
+            'invitationOptions',
+        );
+        foreach ($module_options_list as $key) {
+            if (isset($options[$key])) {
+                $app_settings[$key] = $options[$key];
+            }
+        }
+
+        return sprintf(
+            'jQuery(document).ready(function() {Mibew.Application.start(%s);});',
+            json_encode($app_settings)
+        );
+    }
 }
