@@ -3,48 +3,6 @@
         {{#override "menu"}}{{> _menu}}{{/override}}
     {{/if}}
 
-    {{#override "head"}}
-        <script type="text/javascript"><!--
-            jQuery(document).ready(function(){
-                Mibew.Application.start({
-                    server: {
-                        url: "{{route "users_update"}}",
-                        requestsFrequency: {{frequency}}
-                    },
-
-                    agent: {
-                        id: {{agentId}}
-                    },
-
-                    page: {
-                        mibewBasePath: "{{mibewBasePath}}",
-                        mibewBaseUrl: "{{mibewBaseUrl}}",
-
-                        showOnlineOperators: {{#if showonline}}true{{else}}false{{/if}},
-                        showVisitors: {{#if showvisitors}}true{{else}}false{{/if}},
-                        showPopup: {{#if showpopup}}true{{else}}false{{/if}},
-
-                        threadTag: "{{[coreStyles.threadTag]}}",
-                        visitorTag: "{{[coreStyles.visitorTag]}}",
-
-                        agentLink: "{{agentLink}}",
-                        geoLink: "{{geoLink}}",
-                        trackedLink: "{{trackedLink}}",
-                        banLink: "{{banLink}}",
-                        inviteLink: "{{inviteLink}}",
-
-                        chatWindowParams: "{{[chatStyles.chatWindowParams]}}",
-                        geoWindowParams: "{{geoWindowParams}}",
-                        trackedUserWindowParams: "{{[coreStyles.trackedUserWindowParams]}}",
-                        trackedVisitorWindowParams: "{{[coreStyles.trackedVisitorWindowParams]}}",
-                        banWindowParams: "{{[coreStyles.banWindowParams]}}",
-                        inviteWindowParams: "{{[coreStyles.inviteWindowParams]}}"
-                    }
-                });
-            });
-        //--></script>
-    {{/override}}
-
     {{#override "content"}}
         <div>
 

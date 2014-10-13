@@ -48,42 +48,20 @@ class UsersController extends AbstractController
 
         $page = array();
         $page['havemenu'] = !$request->query->has('nomenu');
-        $page['showpopup'] = (Settings::get('enablepopupnotification') == '1') ? "1" : "0";
-        $page['frequency'] = Settings::get('updatefrequency_operator');
-        $page['showonline'] = (Settings::get('showonlineoperators') == '1') ? "1" : "0";
-        $page['showvisitors'] = (Settings::get('enabletracking') == '1') ? "1" : "0";
-        $page['agentId'] = $operator['operatorid'];
-        $page['geoLink'] = Settings::get('geolink');
-        $page['geoWindowParams'] = Settings::get('geolinkparams');
-        $page['trackedLink'] = $request->getBaseUrl() . '/operator/history/user-track';
-        $page['banLink'] = $request->getBaseUrl() . '/operator/ban';
-        $page['inviteLink'] = $request->getBaseUrl() . '/operator/invite';
-        $page['agentLink'] = $request->getBaseUrl() . '/operator/chat';
-
-        $page['mibewBasePath'] = $request->getBasePath();
-        $page['mibewBaseUrl'] = $request->getBaseUrl();
-
-        // Load dialogs style options
-        $chat_style = new ChatStyle(ChatStyle::getCurrentStyle());
-        $style_config = $chat_style->getConfigurations();
-        $page['chatStyles.chatWindowParams'] = $style_config['chat']['window_params'];
-        $page['coreStyles.inviteWindowParams'] = $style_config['chat']['window_params'];
-
-        // Load page style options
-        $style_config = $this->getStyle()->getConfigurations();
-        $page['coreStyles.threadTag'] = $style_config['users']['thread_tag'];
-        $page['coreStyles.visitorTag'] = $style_config['users']['visitor_tag'];
-        $page['coreStyles.trackedUserWindowParams'] = $style_config['tracked']['user_window_params'];
-        $page['coreStyles.trackedVisitorWindowParams'] = $style_config['tracked']['visitor_window_params'];
-        $page['coreStyles.banWindowParams'] = $style_config['ban']['window_params'];
-
+        $page['showonline'] = (Settings::get('showonlineoperators') == '1');
+        $page['showvisitors'] = (Settings::get('enabletracking') == '1');
         $page['title'] = getlocal("List of visitors waiting");
         $page['menuid'] = "users";
 
         $page = array_merge($page, prepare_menu($operator));
 
-        // Attach files of the client side application
+        // Attach files of the client side application and start it
         $this->getAssetManager()->attachJs('js/compiled/users_app.js');
+        $this->getAssetManager()->attachJs(
+            $this->startJsApplication($request, $operator),
+            \Mibew\Asset\AssetManagerInterface::INLINE,
+            1000
+        );
 
         return $this->render('users', $page);
     }
@@ -100,5 +78,60 @@ class UsersController extends AbstractController
         $processor->setAuthenticationManager($this->getAuthenticationManager());
 
         return $processor->handleRequest($request);
+    }
+
+    /**
+     * Generates JavaScript code that starts client side application.
+     *
+     * @param Request $request Incoming request.
+     * @param array $operator Current operator.
+     * @return string JavaScript code that starts "users" client side
+     *   application.
+     */
+    protected function startJsApplication(Request $request, $operator)
+    {
+        // Load dialogs style options
+        $chat_style = new ChatStyle(ChatStyle::getCurrentStyle());
+        $chat_style_config = $style_config = $chat_style->getConfigurations();
+
+        // Load page style options
+        $page_style_config = $style_config = $this->getStyle()->getConfigurations();
+
+        return sprintf(
+            'jQuery(document).ready(function() {Mibew.Application.start(%s);});',
+            json_encode(array(
+                'server' => array(
+                    'url' => $this->generateUrl('users_update'),
+                    'requestFrequency' => Settings::get('updatefrequency_operator'),
+                ),
+                'agent' => array(
+                    'id' => $operator['operatorid'],
+                ),
+                'page' => array(
+                    'mibewBasePath' => $request->getBasePath(),
+                    'mibewBaseUrl' => $request->getBaseUrl(),
+
+                    'showOnlineOperators' => (Settings::get('showonlineoperators') == '1'),
+                    'showVisitors' => (Settings::get('enabletracking') == '1'),
+                    'showPopup' => (Settings::get('enablepopupnotification') == '1'),
+
+                    'threadTag' => $page_style_config['users']['thread_tag'],
+                    'visitorTag' => $page_style_config['users']['visitor_tag'],
+
+                    'agentLink' => $request->getBaseUrl() . '/operator/chat',
+                    'geoLink' => Settings::get('geolink'),
+                    'trackedLink' => $request->getBaseUrl() . '/operator/history/user-track',
+                    'banLink' => $request->getBaseUrl() . '/operator/ban',
+                    'inviteLink' => $request->getBaseUrl() . '/operator/invite',
+
+                    'chatWindowParams' => $chat_style_config['chat']['window_params'],
+                    'geoWindowParams' => Settings::get('geolinkparams'),
+                    'trackedUserWindowParams' => $page_style_config['tracked']['user_window_params'],
+                    'trackedVisitorWindowParams' => $page_style_config['tracked']['visitor_window_params'],
+                    'banWindowParams' => $page_style_config['ban']['window_params'],
+                    'inviteWindowParams' => $chat_style_config['chat']['window_params'],
+                ),
+            ))
+        );
     }
 }
