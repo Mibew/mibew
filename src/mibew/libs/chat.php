@@ -612,8 +612,6 @@ function setup_chatview_for_operator(
         )
     );
 
-    $data['namePostfix'] = "";
-
     return $data;
 }
 
