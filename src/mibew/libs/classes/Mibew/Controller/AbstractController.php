@@ -25,6 +25,7 @@ use Mibew\Asset\Generator\UrlGeneratorInterface as AssetUrlGeneratorInterface;
 use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Cache\CacheAwareInterface;
+use Mibew\Handlebars\CacheAdapter as HandlebarsCacheAdapter;
 use Mibew\Handlebars\HandlebarsAwareInterface;
 use Mibew\Handlebars\Helper\AssetHelper;
 use Mibew\Handlebars\Helper\CsrfProtectedRouteHelper;
@@ -160,6 +161,14 @@ abstract class AbstractController implements
     public function setCache(PoolInterface $cache)
     {
         $this->cache = $cache;
+
+        // Update cache inside the handlebars template engine if needed.
+        if ($this->getStyle() instanceof HandlebarsAwareInterface) {
+            $hbs = $this->getStyle()->getHandlebars();
+            if ($hbs->getCache() instanceof CacheAwareInterface) {
+                $hbs->getCache()->setCache($cache);
+            }
+        }
     }
 
     /**
@@ -275,27 +284,32 @@ abstract class AbstractController implements
     protected function prepareStyle(StyleInterface $style)
     {
         if ($style instanceof HandlebarsAwareInterface) {
+            $hbs = $style->getHandlebars();
+
+            // Use mibew cache to store Handlebars AST
+            $hbs->setCache(new HandlebarsCacheAdapter($this->getCache()));
+
             // Add more helpers to template engine
-            $style->getHandlebars()->addHelper(
+            $hbs->addHelper(
                 'route',
                 new RouteHelper($this->getRouter())
             );
-            $style->getHandlebars()->addHelper(
+            $hbs->addHelper(
                 'csrfProtectedRoute',
                 new CsrfProtectedRouteHelper($this->getRouter())
             );
-            $style->getHandlebars()->addHelper(
+            $hbs->addHelper(
                 'asset',
                 new AssetHelper(
                     $this->getAssetManager()->getUrlGenerator(),
                     array('CurrentStyle' => $style->getFilesPath())
                 )
             );
-            $style->getHandlebars()->addHelper(
+            $hbs->addHelper(
                 'jsAssets',
                 new JsAssetsHelper($this->getAssetManager())
             );
-            $style->getHandlebars()->addHelper(
+            $hbs->addHelper(
                 'cssAssets',
                 new CssAssetsHelper($this->getAssetManager())
             );
