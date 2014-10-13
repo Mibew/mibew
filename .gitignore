@@ -37,10 +37,10 @@ src/mibew/js/compiled/*
 !src/mibew/js/compiled/.keep
 
 # Do not index compiled files of chat styles
-src/mibew/styles/dialogs/default/templates_compiled/client_side/*
-!src/mibew/styles/dialogs/default/templates_compiled/client_side/.keep
-src/mibew/styles/dialogs/default/js/compiled/*
-!src/mibew/styles/dialogs/default/js/compiled/.keep
+src/mibew/styles/chats/default/templates_compiled/client_side/*
+!src/mibew/styles/chats/default/templates_compiled/client_side/.keep
+src/mibew/styles/chats/default/js/compiled/*
+!src/mibew/styles/chats/default/js/compiled/.keep
 
 # Do not index compiled files of page styles
 src/mibew/styles/pages/default/templates_compiled/client_side/*

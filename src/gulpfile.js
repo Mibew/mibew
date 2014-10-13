@@ -32,7 +32,7 @@ var config = {
     avatarsPath: 'mibew/files/avatar',
     cachePath: 'mibew/cache',
     jsPath: 'mibew/js',
-    chatStylesPath: 'mibew/styles/dialogs',
+    chatStylesPath: 'mibew/styles/chats',
     pageStylesPath: 'mibew/styles/pages',
     compiledTemplatesHeader: fs.readFileSync('tools/compiled_templates_header.txt'),
     getComposerUrl: 'https://getcomposer.org/installer',

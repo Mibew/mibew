@@ -35,7 +35,7 @@ class ChatStyle extends AbstractHandlebarsPoweredStyle implements StyleInterface
      */
     public function getFilesPath()
     {
-        return 'styles/dialogs/' . $this->getName();
+        return 'styles/chats/' . $this->getName();
     }
 
     /**
@@ -127,7 +127,7 @@ class ChatStyle extends AbstractHandlebarsPoweredStyle implements StyleInterface
      */
     public static function getAvailableStyles()
     {
-        $styles_root = MIBEW_FS_ROOT . '/styles/dialogs';
+        $styles_root = MIBEW_FS_ROOT . '/styles/chats';
 
         return self::getStyleList($styles_root);
     }
