@@ -1,15 +1,4 @@
 {{#extends "_layout"}}
-    {{#override "head"}}
-        <!-- Start application -->
-        <script type="text/javascript"><!--
-            jQuery(document).ready(function(){
-                Mibew.Application.start({
-                    messages: {{{threadMessages}}}
-                });
-            });
-        //--></script>
-    {{/override}}
-
     {{#override "content"}}
         {{l10n "This page displays chat details and content."}}
 

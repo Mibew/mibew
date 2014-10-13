@@ -201,12 +201,20 @@ class HistoryController extends AbstractController
             'sanitize_message',
             $thread->getMessages(false, $last_id)
         );
-        $page['threadMessages'] = json_encode($messages);
+
         $page['title'] = getlocal("Chat log");
 
         $page = array_merge($page, prepare_menu($operator, false));
 
         $this->getAssetManager()->attachJs('js/compiled/thread_log_app.js');
+        $this->getAssetManager()->attachJs(
+            sprintf(
+                'jQuery(document).ready(function(){Mibew.Application.start(%s);});',
+                json_encode(array('messages' => $messages))
+            ),
+            \Mibew\Asset\AssetManagerInterface::INLINE,
+            1000
+        );
 
         return $this->render('history_thread', $page);
     }
