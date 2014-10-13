@@ -4,31 +4,8 @@
             <link rel="stylesheet" type="text/css" href="{{asset "@CurrentStyle/chat_ie7.css"}}" media="all" />
         <![endif]-->
 
-        {{cssAssets}}
-
-        <!-- External libs -->
-        <script type="text/javascript" src="{{asset "js/libs/jquery.min.js"}}"></script>
-        <script type="text/javascript" src="{{asset "js/libs/json2.js"}}"></script>
-        <script type="text/javascript" src="{{asset "js/libs/underscore-min.js"}}"></script>
-        <script type="text/javascript" src="{{asset "js/libs/backbone-min.js"}}"></script>
-        <script type="text/javascript" src="{{asset "js/libs/backbone.marionette.min.js"}}"></script>
-        <script type="text/javascript" src="{{asset "js/libs/handlebars.min.js"}}"></script>
-
-        <!-- Javascript templates -->
-        <script type="text/javascript" src="{{asset "@CurrentStyle/templates_compiled/client_side/templates.js"}}"></script>
-
-        <!-- Application files -->
-        <script type="text/javascript" src="{{asset "js/compiled/mibewapi.js"}}"></script>
-        <script type="text/javascript" src="{{asset "js/compiled/default_app.js"}}"></script>
-        <script type="text/javascript" src="{{asset "js/compiled/chat_app.js"}}"></script>
-
-        <!-- Localized string -->
-        <script type="text/javascript" src="{{route "js_translation" locale=currentLocale}}"></script>
-
         <!-- Add style scripts -->
         <script type="text/javascript" src="{{asset "@CurrentStyle/js/compiled/scripts.js"}}"></script>
-
-        {{jsAssets}}
 
         <!-- Run application -->
         <script type="text/javascript"><!--

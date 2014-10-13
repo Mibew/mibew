@@ -59,6 +59,9 @@ class UserChatController extends AbstractController
         $page['mibewBasePath'] = $request->getBasePath();
         $page['mibewBaseUrl'] = $request->getBaseUrl();
 
+        // Initialize client side application
+        $this->getAssetManager()->attachJs('js/compiled/chat_app.js');
+
         // Expand page
         return $this->render('chat', $page);
     }
@@ -87,6 +90,9 @@ class UserChatController extends AbstractController
 
             return $this->render('nochat', $page);
         }
+
+        // Initialize client side application
+        $this->getAssetManager()->attachJs('js/compiled/chat_app.js');
 
         $thread = null;
         // Try to get thread from the session
@@ -252,6 +258,9 @@ class UserChatController extends AbstractController
 
         $page['mibewBasePath'] = $request->getBasePath();
         $page['mibewBaseUrl'] = $request->getBaseUrl();
+
+        // Initialize client side application
+        $this->getAssetManager()->attachJs('js/compiled/chat_app.js');
 
         // Expand page
         return $this->render('chat', $page);

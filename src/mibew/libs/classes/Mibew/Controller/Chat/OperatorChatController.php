@@ -73,6 +73,9 @@ class OperatorChatController extends AbstractController
         $page['mibewBasePath'] = $request->getBasePath();
         $page['mibewBaseUrl'] = $request->getBaseUrl();
 
+        // Initialize client side application
+        $this->getAssetManager()->attachJs('js/compiled/chat_app.js');
+
         // Render the page with chat.
         return $this->render('chat', $page);
     }
