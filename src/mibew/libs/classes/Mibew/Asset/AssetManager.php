@@ -43,13 +43,22 @@ class AssetManager implements AssetManagerInterface
      *
      * @var array
      */
-    protected $jsAssets = array();
+    protected $jsAssets = null;
     /**
      * List of attached CSS assets.
      *
      * @var array
      */
-    protected $cssAssets = array();
+    protected $cssAssets = null;
+
+    /**
+     * Class constructor.
+     */
+    public function __construct()
+    {
+        $this->jsAssets = new Package();
+        $this->cssAssets = new Package();
+    }
 
     /**
      * Sets a request which will be used as a context.
@@ -66,8 +75,8 @@ class AssetManager implements AssetManagerInterface
 
         // The request has been changed thus all attaches assets are outdated
         // now. Clear them all.
-        $this->jsAssets = array();
-        $this->cssAssets = array();
+        $this->jsAssets = new Package();
+        $this->cssAssets = new Package();
     }
 
     /**
@@ -95,11 +104,7 @@ class AssetManager implements AssetManagerInterface
      */
     public function attachJs($content, $type = AssetManagerInterface::RELATIVE_URL, $weight = 0)
     {
-        $this->jsAssets[] = array(
-            'content' => $content,
-            'type' => $type,
-            'weight' => $weight,
-        );
+        $this->jsAssets->addAsset($content, $type, $weight);
     }
 
     /**
@@ -107,12 +112,16 @@ class AssetManager implements AssetManagerInterface
      */
     public function getJsAssets()
     {
-        return $this->sort(
-            array_merge(
-                $this->jsAssets,
-                $this->triggerJsEvent()
-            )
-        );
+        // If plugins assets are stored in $this->jsAssets several calls to the
+        // method will duplicate The temporary package is used to avoid such
+        // behaviour.
+        $combined_assets = clone $this->jsAssets;
+        $combined_assets->merge($this->triggerJsEvent());
+
+        $assets = $combined_assets->getAssets();
+        unset($combined_assets);
+
+        return $assets;
     }
 
     /**
@@ -120,11 +129,7 @@ class AssetManager implements AssetManagerInterface
      */
     public function attachCss($content, $type = AssetManagerInterface::RELATIVE_URL, $weight = 0)
     {
-        $this->cssAssets[] = array(
-            'content' => $content,
-            'type' => $type,
-            'weight' => $weight,
-        );
+        $this->cssAssets->addAsset($content, $type, $weight);
     }
 
     /**
@@ -132,12 +137,16 @@ class AssetManager implements AssetManagerInterface
      */
     public function getCssAssets()
     {
-        return $this->sort(
-            array_merge(
-                $this->cssAssets,
-                $this->triggerCssEvent()
-            )
-        );
+        // If plugins assets are stored in $this->cssAssets several calls to the
+        // method will duplicate The temporary package is used to avoid such
+        // behaviour.
+        $combined_assets = clone $this->cssAssets;
+        $combined_assets->merge($this->triggerCssEvent());
+
+        $assets = $combined_assets->getAssets();
+        unset($combined_assets);
+
+        return $assets;
     }
 
     /**
@@ -179,7 +188,7 @@ class AssetManager implements AssetManagerInterface
      *    are plugins options. Modify this array to add or change plugins
      *    options.
      *
-     * @return array Assets list.
+     * @return Package Assets list.
      */
     protected function triggerJsEvent()
     {
@@ -198,13 +207,13 @@ class AssetManager implements AssetManagerInterface
             'plugins' => array(),
         );
         EventDispatcher::getInstance()->triggerEvent('pageAddJSPluginOptions', $event);
-        $assets[] = array(
-            'content' => sprintf(
+        $assets->addAsset(
+            sprintf(
                 'var Mibew = Mibew || {}; Mibew.PluginOptions = %s;',
                 json_encode($event['plugins'])
             ),
-            'type' => AssetManagerInterface::INLINE,
-            'weight' => 0,
+            AssetManagerInterface::INLINE,
+            0
         );
 
         return $assets;
@@ -224,7 +233,7 @@ class AssetManager implements AssetManagerInterface
      *    of their meaning. Modify this array to add or remove additional CSS
      *    files.
      *
-     * @return array Assets list.
+     * @return Package Assets list.
      */
     protected function triggerCssEvent()
     {
@@ -244,71 +253,34 @@ class AssetManager implements AssetManagerInterface
      *   string or an asset array. If a string is used it is treated as an
      *   absolute URL of the asset. If an array is used it is treated as a
      *   normal asset array and must have "content" and "type" items.
-     * @return array A list of normalized assets.
+     * @return Package A list of normalized assets.
      * @throws \InvalidArgumentException If the passed in assets list is not
      *   valid.
      */
     protected function normalizeAssets($assets)
     {
-        $normalized_assets = array();
+        $normalized_assets = new Package();
 
         foreach ($assets as $asset) {
             if (is_string($asset)) {
-                $normalized_assets[] = array(
-                    'content' => $asset,
-                    'type' => AssetManagerInterface::RELATIVE_URL,
-                    'weight' => 0,
+                $normalized_assets->addAsset(
+                    $asset,
+                    AssetManagerInterface::RELATIVE_URL,
+                    0
                 );
             } elseif (is_array($asset) && !empty($asset['type']) && !empty($asset['content'])) {
                 // Weight is optional so we have to make sure it is in place.
-                $normalized_assets[] = $asset + array('weight' => 0);
+                $asset += array('weight' => 0);
+                $normalized_assets->addAsset(
+                    $asset['content'],
+                    $asset['type'],
+                    $asset['weight']
+                );
             } else {
                 throw new \InvalidArgumentException('Invalid asset item');
             }
         }
 
         return $normalized_assets;
-    }
-
-    /**
-     * Sort assets according to their weights.
-     *
-     * If weights of two assets are equal the order from the original array will
-     * be kept.
-     *
-     * @param array $assets The original List of assets.
-     * @return array Sorted list of assets.
-     */
-    protected function sort($assets)
-    {
-        // We should keep order for assets with equal weight. Thus we must
-        // combine original order and weight property before real sort.
-        $tmp = array();
-        $offset = 0;
-        foreach ($assets as $asset) {
-            $key = $asset['weight'] . '|' . $offset;
-            $tmp[$key] = $asset;
-            $offset++;
-        }
-
-        uksort($tmp, function ($a, $b) {
-            list($a_weight, $a_offset) = explode('|', $a, 2);
-            list($b_weight, $b_offset) = explode('|', $b, 2);
-
-            if ($a_weight != $b_weight) {
-                return ($a_weight < $b_weight) ? -1 : 1;
-            }
-
-            // Weights are equal. Check the offset to determine which asset was
-            // attached first.
-            if ($a_offset != $b_offset) {
-                return ($a_offset < $b_offset) ? -1 : 1;
-            }
-
-            return 0;
-        });
-
-        // Artificial sorting keys should be removed from the resulting array.
-        return array_values($tmp);
     }
 }

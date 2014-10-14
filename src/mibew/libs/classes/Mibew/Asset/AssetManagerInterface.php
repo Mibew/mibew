@@ -29,15 +29,15 @@ interface AssetManagerInterface
     /**
      * Indicates that content of an asset is an absolute URL.
      */
-    const ABSOLUTE_URL = 'absolute';
+    const ABSOLUTE_URL = Package::ABSOLUTE_URL;
     /**
      * Indicates that content of an asset is a relative URL.
      */
-    const RELATIVE_URL = 'relative';
+    const RELATIVE_URL = Package::RELATIVE_URL;
     /**
      * Indicates that content of an asset is raw CSS or JS.
      */
-    const INLINE = 'inline';
+    const INLINE = Package::INLINE;
 
     /**
      * Gets an instance of Assets URL Generator.

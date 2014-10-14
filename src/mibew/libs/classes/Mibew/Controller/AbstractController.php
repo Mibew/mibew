@@ -226,6 +226,35 @@ abstract class AbstractController implements
      */
     public function render($template, array $parameters = array())
     {
+        // Attach all needed JavaScript files. This is done here to decouple
+        // templates and JavaScript applications.
+        $assets = array(
+            // External libs
+            'js/libs/jquery.min.js',
+            'js/libs/json2.js',
+            'js/libs/underscore-min.js',
+            'js/libs/backbone-min.js',
+            'js/libs/backbone.marionette.min.js',
+            'js/libs/handlebars.min.js',
+            // Client side templates
+            $this->getStyle()->getFilesPath() . '/templates_compiled/client_side/templates.js',
+            // Default client side application files
+            'js/compiled/mibewapi.js',
+            'js/compiled/default_app.js',
+        );
+
+        foreach ($assets as $asset) {
+            $this->getAssetManager()->attachJs($asset, AssetManagerInterface::RELATIVE_URL, -1000);
+        }
+
+        // Localization file is added as absolute URL because URL Generator
+        // already prepended base URL to its result.
+        $this->getAssetManager()->attachJs(
+            $this->generateUrl('js_translation', array('locale' => get_current_locale())),
+            AssetManagerInterface::ABSOLUTE_URL,
+            -1000
+        );
+
         return $this->getStyle()->render($template, $parameters);
     }
 
