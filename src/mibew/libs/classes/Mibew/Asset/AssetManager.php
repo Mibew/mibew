@@ -266,11 +266,11 @@ class AssetManager implements AssetManagerInterface
                 $normalized_assets->addAsset(
                     $asset,
                     AssetManagerInterface::RELATIVE_URL,
-                    0
+                    500
                 );
             } elseif (is_array($asset) && !empty($asset['type']) && !empty($asset['content'])) {
                 // Weight is optional so we have to make sure it is in place.
-                $asset += array('weight' => 0);
+                $asset += array('weight' => 500);
                 $normalized_assets->addAsset(
                     $asset['content'],
                     $asset['type'],
