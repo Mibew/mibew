@@ -47,7 +47,6 @@ class Helpers extends BaseHelpers
         $this->add('ifEven', new Helper\IfEvenHelper());
         $this->add('ifOdd', new Helper\IfOddHelper());
         $this->add('generatePagination', new Helper\GeneratePaginationHelper());
-        $this->add('jsString', new Helper\JsStringHelper());
         $this->add('repeat', new Helper\RepeatHelper());
         $this->add('replace', new Helper\ReplaceHelper());
         $this->add('formatDate', new Helper\FormatDateHelper());
