@@ -537,16 +537,6 @@ function get_operator_name($operator)
     }
 }
 
-function append_query($link, $pv)
-{
-    $infix = '?';
-    if (strstr($link, $infix) !== false) {
-        $infix = '&amp;';
-    }
-
-    return "$link$infix$pv";
-}
-
 function get_logged_in()
 {
     return isset($_SESSION[SESSION_PREFIX . "operator"])
