@@ -41,24 +41,15 @@ class AssetManager implements AssetManagerInterface
     /**
      * List of attached JS assets.
      *
-     * @var array
+     * @var Package
      */
-    protected $jsAssets = null;
+    protected $jsPackage = null;
     /**
      * List of attached CSS assets.
      *
-     * @var array
+     * @var Package
      */
-    protected $cssAssets = null;
-
-    /**
-     * Class constructor.
-     */
-    public function __construct()
-    {
-        $this->jsAssets = new Package();
-        $this->cssAssets = new Package();
-    }
+    protected $cssPackage = null;
 
     /**
      * Sets a request which will be used as a context.
@@ -75,8 +66,8 @@ class AssetManager implements AssetManagerInterface
 
         // The request has been changed thus all attaches assets are outdated
         // now. Clear them all.
-        $this->jsAssets = new Package();
-        $this->cssAssets = new Package();
+        $this->jsAssets = null;
+        $this->cssAssets = null;
     }
 
     /**
@@ -104,7 +95,7 @@ class AssetManager implements AssetManagerInterface
      */
     public function attachJs($content, $type = AssetManagerInterface::RELATIVE_URL, $weight = 0)
     {
-        $this->jsAssets->addAsset($content, $type, $weight);
+        $this->getJsPackage()->addAsset($content, $type, $weight);
     }
 
     /**
@@ -112,16 +103,7 @@ class AssetManager implements AssetManagerInterface
      */
     public function getJsAssets()
     {
-        // If plugins assets are stored in $this->jsAssets several calls to the
-        // method will duplicate The temporary package is used to avoid such
-        // behaviour.
-        $combined_assets = clone $this->jsAssets;
-        $combined_assets->merge($this->triggerJsEvent());
-
-        $assets = $combined_assets->getAssets();
-        unset($combined_assets);
-
-        return $assets;
+        return $this->getJsPackage()->getAssets();
     }
 
     /**
@@ -129,7 +111,7 @@ class AssetManager implements AssetManagerInterface
      */
     public function attachCss($content, $type = AssetManagerInterface::RELATIVE_URL, $weight = 0)
     {
-        $this->cssAssets->addAsset($content, $type, $weight);
+        $this->getCssPackage()->addAsset($content, $type, $weight);
     }
 
     /**
@@ -137,16 +119,7 @@ class AssetManager implements AssetManagerInterface
      */
     public function getCssAssets()
     {
-        // If plugins assets are stored in $this->cssAssets several calls to the
-        // method will duplicate The temporary package is used to avoid such
-        // behaviour.
-        $combined_assets = clone $this->cssAssets;
-        $combined_assets->merge($this->triggerCssEvent());
-
-        $assets = $combined_assets->getAssets();
-        unset($combined_assets);
-
-        return $assets;
+        return $this->getCssPackage()->getAssets();
     }
 
     /**
@@ -163,6 +136,34 @@ class AssetManager implements AssetManagerInterface
         }
 
         return $this->request;
+    }
+
+    /**
+     * Returns a package with JavaScript assets.
+     *
+     * @return Package
+     */
+    protected function getJsPackage()
+    {
+        if (is_null($this->jsPackage)) {
+            $this->jsPackage = $this->triggerJsEvent();
+        }
+
+        return $this->jsPackage;
+    }
+
+    /**
+     * Returns a package with CSS assets.
+     *
+     * @return Package
+     */
+    protected function getCssPackage()
+    {
+        if (is_null($this->cssPackage)) {
+            $this->cssPackage = $this->triggerCssEvent();
+        }
+
+        return $this->cssPackage;
     }
 
     /**
