@@ -33,4 +33,4 @@ test('Unknown string', function() {
         'An unknown string with a placeholder: test!',
         'Test placeholders'
     );
-})
+});
