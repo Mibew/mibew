@@ -90,8 +90,12 @@ class CacheAdapter implements HandlebarsCacheInterface, CacheAwareInterface
     public function set($name, $value)
     {
         $item = $this->getCacheItem($name);
-        // Cache templates for ten minutes
-        $item->set($value, 10*60);
+        // Cache templates for twelve hours. Actually we can use arbitrary value
+        // for cache ttl. Handlebars builds cache name according to template
+        // content, thus if template is changed another cache item will be used.
+        // At the same time ttl must be a finite value to allow garbage
+        // collector to remove unused cache items.
+        $item->set($value, 12 * 60 * 60);
     }
 
     /**
