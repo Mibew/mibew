@@ -40,9 +40,7 @@
                 'keydown #message-input': 'messageKeyDown',
                 'keyup #message-input': 'checkUserTyping',
                 'change #message-input': 'checkUserTyping',
-                'change #predefined': 'selectPredefinedAnswer',
-                'focus #message-input': 'setFocus',
-                'blur #message-input': 'dropFocus'
+                'change #predefined': 'selectPredefinedAnswer'
             },
 
             /**
@@ -149,9 +147,8 @@
             postMessageComplete: function() {
                 this.clearInput();
                 this.enableInput();
-                if (this.focused) {
-                    this.ui.message.focus();
-                }
+                // Always set focus on message input after message sent
+                this.ui.message.focus();
                 Mibew.Objects.Collections.messages.off(
                     'multiple:add',
                     this.postMessageComplete,
@@ -191,20 +188,6 @@
                 if (isTyping != user.get('typing')) {
                     user.set({typing: isTyping});
                 }
-            },
-
-            /**
-             * Set focus indicator
-             */
-            setFocus: function() {
-                this.focused = true;
-            },
-
-            /**
-             * Unset focus indicator
-             */
-            dropFocus: function() {
-                this.focused = false;
             },
 
             /**
