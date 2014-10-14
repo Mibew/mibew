@@ -20,3 +20,17 @@ test('Basic things', function() {
         'Test placeholders'
     );
 });
+
+test('Unknown string', function() {
+    equal(
+        Mibew.Localization.trans('An unknown string'),
+        'An unknown string',
+        'Test simple string'
+    );
+
+    equal(
+        Mibew.Localization.trans('An unknown string with a placeholder: {0}', 'test!'),
+        'An unknown string with a placeholder: test!',
+        'Test placeholders'
+    );
+})

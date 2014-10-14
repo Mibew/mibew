@@ -37,15 +37,14 @@
      * @returns {String} Localized string.
      */
     Mibew.Localization.trans = function(str) {
-        if (! localStrings.hasOwnProperty(str)) {
-            return false;
-        }
-
         // Replace "{n}" style placeholders with specified arguments. The first
         // argument is skipped because it is the localized string.
         var placeholders = Array.prototype.slice.call(arguments, 1);
 
-        return localStrings[str].replace(/\{([0-9]+)\}/g, function(match, index) {
+        // If there is no localized string use passed in one.
+        var localized = localStrings.hasOwnProperty(str) ? localStrings[str] : str;
+
+        return localized.replace(/\{([0-9]+)\}/g, function(match, index) {
             return placeholders[parseInt(index)] || '';
         });
     }
