@@ -131,7 +131,13 @@ if( !isset($_GET['token']) || !isset($_GET['thread']) ) {
 		}
 		$thread = create_thread($groupid,$visitor['name'], $remoteHost, $referrer,$current_locale,$visitor['id'], $userbrowser,$state_loading,$link);
 		$_SESSION['threadid'] = $thread['threadid'];
-		
+
+		// Store own thread ids to restrict access for other people
+		if (!isset($_SESSION['own_threads'])) {
+			$_SESSION['own_threads'] = array();
+		}
+		$_SESSION['own_threads'][] = $thread['threadid'];
+
 		if( $referrer ) {
 			post_message_($thread['threadid'],$kind_for_agent,getstring2('chat.came.from',array($referrer),true),$link);
 		}
@@ -163,8 +169,11 @@ $token = verifyparam( "token", "/^\d{1,10}$/");
 $threadid = verifyparam( "thread", "/^\d{1,10}$/");
 $level = verifyparam( "level", "/^(ajaxed|simple|old)$/");
 
+// We have to check that the thread is owned by the user.
+$is_own_thread = isset($_SESSION['own_threads']) && in_array($threadid, $_SESSION['own_threads']);
+
 $thread = thread_by_id($threadid);
-if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] ) {
+if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] || !$is_own_thread ) {
 	die("wrong thread");
 }
 

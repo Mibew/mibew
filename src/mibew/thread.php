@@ -35,8 +35,12 @@ if($threadid == 0 && ($token == 123 || $token == 124)) {
 	exit;
 }
 
+// If the request came from user we have to check that the thread is owned by
+// him. If the request came from operator he will be checked for login later.
+$is_own_thread = !$isuser || (isset($_SESSION['own_threads']) && in_array($threadid, $_SESSION['own_threads']));
+
 $thread = thread_by_id($threadid);
-if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] ) {
+if( !$thread || !isset($thread['ltoken']) || $token != $thread['ltoken'] || !$is_own_thread ) {
 	die("wrong thread");
 }
 
