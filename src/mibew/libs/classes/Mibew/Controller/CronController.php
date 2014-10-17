@@ -20,6 +20,7 @@
 namespace Mibew\Controller;
 
 use Mibew\EventDispatcher\EventDispatcher;
+use Mibew\EventDispatcher\Events;
 use Mibew\Settings;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -30,6 +31,8 @@ class CronController extends AbstractController
 {
     /**
      * Runs the cron.
+     *
+     * Triggers {@link \Mibew\EventDispatcher\Events::CRON_RUN} event.
      *
      * @param Request $request Incoming request.
      * @return string Rendered page content.
@@ -59,7 +62,7 @@ class CronController extends AbstractController
 
         // Trigger cron event
         $dispatcher = EventDispatcher::getInstance();
-        $dispatcher->triggerEvent('cronRun');
+        $dispatcher->triggerEvent(Events::CRON_RUN);
 
         // Update time of last cron run
         Settings::set('_last_cron_run', time());

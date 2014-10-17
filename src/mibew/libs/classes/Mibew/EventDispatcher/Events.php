@@ -25,6 +25,14 @@ namespace Mibew\EventDispatcher;
 final class Events
 {
     /**
+     * Cron is run.
+     *
+     * This event is triggered when cron is run. It provides an ability for
+     * plugins to perform custom maintenance actions.
+     */
+    const CRON_RUN = 'cronRun';
+
+    /**
      * An operator cannot be authenticated.
      *
      * This event is triggered if an operator cannot be authenticated by the
