@@ -155,4 +155,16 @@ final class Events
      *    a response object to this field.
      */
     const RESOURCE_NOT_FOUND = 'resourceNotFound';
+
+    /**
+     * Visitor is tracked by the system.
+     *
+     * This event is triggered every time a visitor is tracked by the widget. An
+     * associative array with the following items is passed to the event
+     * handlers:
+     *   - "visitor": array, list of visitor's info. See returned value of
+     *     {@link track_get_visitor_by_id()} function for details of its
+     *     structure.
+     */
+    const VISITOR_TRACK = 'visitorTrack';
 }

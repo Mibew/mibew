@@ -20,6 +20,7 @@
 namespace Mibew\Controller;
 
 use Mibew\EventDispatcher\EventDispatcher;
+use Mibew\EventDispatcher\Events;
 use Mibew\Settings;
 use Mibew\Thread;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,6 +34,8 @@ class WidgetController extends AbstractController
 {
     /**
      * Provides a gateway for widget requests.
+     *
+     * Triggers {@link \Mibew\EventDispatcher\Events::VISITOR_TRACK} event.
      *
      * @param Request $request
      * @return string Rendered page content
@@ -89,7 +92,7 @@ class WidgetController extends AbstractController
             // Provide an ability for others to make something on visitor
             // tracking
             $event_arguments = array('visitor' => $visitor);
-            EventDispatcher::getInstance()->triggerEvent('visitorTrack', $event_arguments);
+            EventDispatcher::getInstance()->triggerEvent(Events::VISITOR_TRACK, $event_arguments);
 
             // Get invitation state
             $invitation_state = invitation_state($visitor_id);
