@@ -21,7 +21,7 @@ namespace Mibew\RequestProcessor;
 
 // Import namespaces and classes of the core
 use Mibew\Database;
-use Mibew\EventDispatcher;
+use Mibew\EventDispatcher\EventDispatcher;
 use Mibew\RequestProcessor\Exception\AbstractProcessorException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

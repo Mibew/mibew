@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Mibew;
+namespace Mibew\EventDispatcher;
 
 use Mibew\Plugin\PluginInterface;
 

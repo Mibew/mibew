@@ -19,7 +19,7 @@
 
 // Import namespaces and classes of the core
 use Mibew\Database;
-use Mibew\EventDispatcher;
+use Mibew\EventDispatcher\EventDispatcher;
 use Mibew\Settings;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 

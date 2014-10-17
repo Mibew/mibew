@@ -21,7 +21,7 @@ namespace Mibew\Asset;
 
 use Mibew\Asset\Generator\UrlGenerator;
 use Mibew\Asset\Generator\UrlGeneratorInterface;
-use Mibew\EventDispatcher;
+use Mibew\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

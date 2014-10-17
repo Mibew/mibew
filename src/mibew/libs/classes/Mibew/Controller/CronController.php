@@ -19,7 +19,7 @@
 
 namespace Mibew\Controller;
 
-use Mibew\EventDispatcher;
+use Mibew\EventDispatcher\EventDispatcher;
 use Mibew\Settings;
 use Symfony\Component\HttpFoundation\Request;
 

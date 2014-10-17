@@ -20,7 +20,7 @@
 namespace Mibew\Routing;
 
 use Mibew\Plugin\Manager as PluginManager;
-use Mibew\EventDispatcher;
+use Mibew\EventDispatcher\EventDispatcher;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Config\FileLocatorInterface;

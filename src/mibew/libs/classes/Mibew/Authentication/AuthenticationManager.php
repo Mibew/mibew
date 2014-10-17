@@ -19,7 +19,7 @@
 
 namespace Mibew\Authentication;
 
-use Mibew\EventDispatcher;
+use Mibew\EventDispatcher\EventDispatcher;
 use Mibew\Http\CookieFactory;
 use Mibew\Http\CookieFactoryAwareInterface;
 use Symfony\Component\HttpFoundation\Request;

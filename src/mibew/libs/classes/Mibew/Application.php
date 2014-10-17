@@ -25,7 +25,7 @@ use Mibew\Asset\AssetManagerInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Controller\ControllerResolver;
-use Mibew\EventDispatcher;
+use Mibew\EventDispatcher\EventDispatcher;
 use Mibew\Http\CookieFactory;
 use Mibew\Http\CookieFactoryAwareInterface;
 use Mibew\Http\Exception\AccessDeniedException as AccessDeniedHttpException;

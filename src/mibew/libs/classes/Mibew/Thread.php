@@ -20,6 +20,7 @@
 namespace Mibew;
 
 // Import namespaces and classes of the core
+use Mibew\EventDispatcher\EventDispatcher;
 use Mibew\RequestProcessor\ThreadProcessor;
 
 /**

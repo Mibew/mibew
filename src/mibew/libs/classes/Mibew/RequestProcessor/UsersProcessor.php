@@ -23,7 +23,7 @@ namespace Mibew\RequestProcessor;
 use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Database;
-use Mibew\EventDispatcher;
+use Mibew\EventDispatcher\EventDispatcher;
 use Mibew\Settings;
 use Mibew\Thread;
 use Mibew\API\API as MibewAPI;
