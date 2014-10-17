@@ -141,4 +141,18 @@ final class Events
      *    a response object to this field.
      */
     const RESOURCE_ACCESS_DENIED = 'resourceAccessDenied';
+
+    /**
+     * Resource is not found.
+     *
+     * This event is triggered if a resource is not found. An
+     * associative array with the following items is passed to the event
+     * handlers:
+     *  - "request": {@link Symfony\Component\HttpFoundation\Request}, incoming
+     *    request object.
+     *  - "response": {@link Symfony\Component\HttpFoundation\Response}, if a
+     *    plugin wants to send a custom response to the client it should attach
+     *    a response object to this field.
+     */
+    const RESOURCE_NOT_FOUND = 'resourceNotFound';
 }

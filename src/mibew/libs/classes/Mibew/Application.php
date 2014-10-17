@@ -137,6 +137,8 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
             $response = call_user_func($controller, $request);
         } catch (AccessDeniedHttpException $e) {
             $response = $this->buildAccessDeniedResponse($request);
+        } catch (NotFoundHttpException $e) {
+            $response = $this->buildNotFoundResponse($request);
         } catch (HttpException $e) {
             // Build response based on status code which is stored in exception
             // instance.
@@ -290,5 +292,33 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
         $response = new RedirectResponse($this->getRouter()->generate('login'));
 
         return $response;
+    }
+
+    /**
+     * Builds response for a not found page.
+     *
+     * Triggers {@link \Mibew\EventDispatcher\Events::RESOURCE_NOT_FOUND}
+     * event.
+     *
+     * @param Request $request Incoming request
+     * @return Response
+     */
+    protected function buildNotFoundResponse(Request $request)
+    {
+        // Trigger fail
+        $args = array(
+            'request' => $request,
+            'response' => false,
+        );
+        $dispatcher = EventDispatcher::getInstance();
+        $dispatcher->triggerEvent(Events::RESOURCE_NOT_FOUND, $args);
+
+        if ($args['response'] && ($args['response'] instanceof Response)) {
+            // If one of event listeners returned the response object send it
+            // to the client.
+            return $args['response'];
+        }
+
+        return new Response('Not Found', 404);
     }
 }
