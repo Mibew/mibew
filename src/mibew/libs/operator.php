@@ -328,7 +328,6 @@ function update_operator(
         ':localname' => $locale_name,
         ':commonname' => $common_name,
         ':email' => $email,
-        ':jabbername' => '',
         ':operatorid' => $operator_id,
         ':code' => $code,
     );
@@ -339,7 +338,7 @@ function update_operator(
         ("UPDATE {operator} SET vclogin = :login, "
             . ($password ? " vcpassword=:password, " : "")
             . "vclocalename = :localname, vccommonname = :commonname, "
-            . "vcemail = :email, code = :code, vcjabbername= :jabbername "
+            . "vcemail = :email, code = :code "
             . "WHERE operatorid = :operatorid"),
         $values
     );
@@ -382,10 +381,10 @@ function create_operator(
     $db->query(
         ("INSERT INTO {operator} ("
             . "vclogin, vcpassword, vclocalename, vccommonname, vcavatar, "
-            . "vcemail, code, vcjabbername "
+            . "vcemail, code "
         . ") VALUES ("
             . ":login, :pass, :localename, :commonname, :avatar, "
-            . ":email, :code, :jabber"
+            . ":email, :code"
         . ")"),
         array(
             ':login' => $login,
@@ -395,7 +394,6 @@ function create_operator(
             ':avatar' => $avatar,
             ':email' => $email,
             ':code' => $code,
-            ':jabber' => '',
         )
     );
 

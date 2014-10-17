@@ -190,7 +190,6 @@ operator:
         istatus: "int DEFAULT 0"
         idisabled: "int DEFAULT 0"
         vcavatar: "varchar(255)"
-        vcjabbername: "varchar(255)"
         # Operators privileges bitmask.
         iperm: "int DEFAULT 0"
         dtmrestore: "int NOT NULL DEFAULT 0"
