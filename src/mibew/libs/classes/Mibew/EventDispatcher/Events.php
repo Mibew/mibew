@@ -57,6 +57,16 @@ final class Events
     const OPERATOR_LOGOUT = 'operatorLogout';
 
     /**
+     * An operator is created.
+     *
+     * This event is triggered after an operator has been created. An
+     * associative array with the following items is passed to the event
+     * handlers:
+     *  - "operator": operator's array.
+     */
+    const OPERATOR_CREATE = 'operatorCreate';
+
+    /**
      * An operator is deleted.
      *
      * This event is triggered after an operator has been deleted. An

@@ -357,6 +357,8 @@ function update_operator_avatar($operator_id, $avatar)
 /**
  * Create new operator
  *
+ * Triggers {@link \Mibew\EventDispatcher\Events::OPERATOR_CREATE} event.
+ *
  * @param string $login Operator's login
  * @param string $email Operator's
  * @param string $password Operator's password
@@ -398,12 +400,16 @@ function create_operator(
     );
 
     $id = $db->insertedId();
-
-    return $db->query(
+    $new_operator = $db->query(
         "SELECT * FROM {operator} WHERE operatorid = ?",
         array($id),
         array('return_rows' => Database::RETURN_ONE_ROW)
     );
+
+    $event = array('operator' => $new_operator);
+    EventDispatcher::getInstance()->triggerEvent(Events::OPERATOR_CREATE, $event);
+
+    return $new_operator;
 }
 
 /**
