@@ -157,6 +157,18 @@ final class Events
     const RESOURCE_NOT_FOUND = 'resourceNotFound';
 
     /**
+     * Visitor is created.
+     *
+     * This event is triggered when a visitor is tracked by the widget for the
+     * first time. An associative array with the following items is passed to
+     * the event handlers:
+     *   - "visitor": array, list of visitor's info. See returned value of
+     *     {@link track_get_visitor_by_id()} function for details of its
+     *     structure.
+     */
+    const VISITOR_CREATE = 'visitorCreate';
+
+    /**
      * Visitor is tracked by the system.
      *
      * This event is triggered every time a visitor is tracked by the widget. An

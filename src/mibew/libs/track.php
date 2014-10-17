@@ -18,6 +18,8 @@
  */
 
 // Import namespaces and classes of the core
+use Mibew\EventDispatcher\EventDispatcher;
+use Mibew\EventDispatcher\Events;
 use Mibew\Database;
 use Mibew\Settings;
 use Mibew\Thread;
@@ -45,6 +47,16 @@ function track_visitor($visitor_id, $entry, $referer)
     }
 }
 
+/**
+ * Initialize visitor tracknig.
+ *
+ * Triggers {@link \Mibew\EventDispatcher\Events::VISITOR_CREATE} event.
+ *
+ * @param string $entry The page the visitor came from to the page with
+ *   tracking code.
+ * @param string $referer The page where tracking code is placed.
+ * @return int ID of the visitor.
+ */
 function track_visitor_start($entry, $referer)
 {
     $visitor = visitor_from_request();
@@ -70,6 +82,9 @@ function track_visitor_start($entry, $referer)
     if ($id) {
         track_visit_page($id, $referer);
     }
+
+    $args = array('visitor' => track_get_visitor_by_id($id));
+    EventDispatcher::getInstance()->triggerEvent('visitorCreate', $args);
 
     return $id ? $id : 0;
 }
