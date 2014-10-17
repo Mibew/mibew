@@ -127,4 +127,18 @@ final class Events
      *    options.
      */
     const PAGE_ADD_JS_PLUGIN_OPTIONS = 'pageAddJsPluginOptions';
+
+    /**
+     * Access for resource is denied.
+     *
+     * This event is triggered if the access for resource is denied. An
+     * associative array with the following items is passed to the event
+     * handlers:
+     *  - "request": {@link Symfony\Component\HttpFoundation\Request}, incoming
+     *    request object.
+     *  - "response": {@link Symfony\Component\HttpFoundation\Response}, if a
+     *    plugin wants to send a custom response to the client it should attach
+     *    a response object to this field.
+     */
+    const RESOURCE_ACCESS_DENIED = 'resourceAccessDenied';
 }

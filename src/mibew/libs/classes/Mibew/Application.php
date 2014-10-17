@@ -26,6 +26,7 @@ use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Controller\ControllerResolver;
 use Mibew\EventDispatcher\EventDispatcher;
+use Mibew\EventDispatcher\Events;
 use Mibew\Http\CookieFactory;
 use Mibew\Http\CookieFactoryAwareInterface;
 use Mibew\Http\Exception\AccessDeniedException as AccessDeniedHttpException;
@@ -255,14 +256,10 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
     }
 
     /**
-     * Builds response for pages with denied access
+     * Builds response for a page if access to it is denied.
      *
-     * Triggers "accessDenied' event to provide an ability for plugins to set custom response.
-     * an associative array with folloing keys is passed to event listeners:
-     *  - 'request': {@link Symfony\Component\HttpFoundation\Request} object.
-     *
-     * An event listener can attach custom response to the arguments array
-     * (using "response" key) to send it to the client.
+     * Triggers {@link \Mibew\EventDispatcher\Events::RESOURCE_ACCESS_DENIED}
+     * event.
      *
      * @param Request $request Incoming request
      * @return Response
@@ -275,7 +272,7 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
             'response' => false,
         );
         $dispatcher = EventDispatcher::getInstance();
-        $dispatcher->triggerEvent('accessDenied', $args);
+        $dispatcher->triggerEvent(Events::RESOURCE_ACCESS_DENIED, $args);
 
         if ($args['response'] && ($args['response'] instanceof Response)) {
             // If one of event listeners returned the response object send it
