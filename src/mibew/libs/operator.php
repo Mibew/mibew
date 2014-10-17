@@ -20,6 +20,7 @@
 // Import namespaces and classes of the core
 use Mibew\Database;
 use Mibew\EventDispatcher\EventDispatcher;
+use Mibew\EventDispatcher\Events;
 use Mibew\Settings;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -410,9 +411,7 @@ function create_operator(
  *
  * This function remove operator and associations with groups for this operator
  * from datatabse.
- * It triggers 'operatorDelete' event and pass to event listeners associative
- * array with following keys:
- *  - 'id': int, deleted operator ID.
+ * It triggers {@link \Mibew\EventDispatcher\Events::OPERATOR_DELETE} event.
  *
  * @param int $operator_id Operator ID
  */
@@ -431,7 +430,7 @@ function delete_operator($operator_id)
     // Trigger 'operatorDelete' event
     $dispatcher = EventDispatcher::getInstance();
     $args = array('id' => $operator_id);
-    $dispatcher->triggerEvent('operatorDelete', $args);
+    $dispatcher->triggerEvent(Events::OPERATOR_DELETE, $args);
 }
 
 /**

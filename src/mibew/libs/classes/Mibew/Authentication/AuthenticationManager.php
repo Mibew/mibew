@@ -20,6 +20,7 @@
 namespace Mibew\Authentication;
 
 use Mibew\EventDispatcher\EventDispatcher;
+use Mibew\EventDispatcher\Events;
 use Mibew\Http\CookieFactory;
 use Mibew\Http\CookieFactoryAwareInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -82,12 +83,8 @@ class AuthenticationManager implements AuthenticationManagerInterface, CookieFac
     /**
      * {@inheritdoc}
      *
-     * Triggers 'operatorAuthenticate' event if operator is not authenticated by
-     * the system and pass to it an associative array with following items:
-     *  - 'operator': if a plugin has extracted operator from the request it
-     *    should set operator's data to this field.
-     *  - 'request': {@link Request}, incoming request. Can be used by a plugin
-     *    to extract an operator.
+     * Triggers {@link \Mibew\EventDispatcher\Events::OPERATOR_AUTHENTICATE}
+     * event.
      */
     public function setOperatorFromRequest(Request $request)
     {
@@ -123,7 +120,7 @@ class AuthenticationManager implements AuthenticationManagerInterface, CookieFac
             'request' => $request,
         );
         $dispatcher = EventDispatcher::getInstance();
-        $dispatcher->triggerEvent('operatorAuthenticate', $args);
+        $dispatcher->triggerEvent(Events::OPERATOR_AUTHENTICATE, $args);
 
         if (!empty($args['operator'])) {
             // Cache operator in the session
@@ -210,10 +207,7 @@ class AuthenticationManager implements AuthenticationManagerInterface, CookieFac
     /**
      * {@inheritdoc}
      *
-     * Triggers 'operatorLogin' event after operator logged in and pass to it an
-     * associative array with following items:
-     *  - 'operator': array of the logged in operator info;
-     *  - 'remember': boolean, indicates if system should remember operator.
+     * Triggers {@link \Mibew\EventDispatcher\Events::OPERATOR_LOGIN} event.
      */
     public function loginOperator($operator, $remember)
     {
@@ -228,13 +222,13 @@ class AuthenticationManager implements AuthenticationManagerInterface, CookieFac
             'remember' => $remember,
         );
         $dispatcher = EventDispatcher::getInstance();
-        $dispatcher->triggerEvent('operatorLogin', $args);
+        $dispatcher->triggerEvent(Events::OPERATOR_LOGIN, $args);
     }
 
     /**
      * {@inheritdoc}
      *
-     * Triggers 'operatorLogout' event after operator logged out.
+     * Triggers {@link \Mibew\EventDispatcher\Events::OPERATOR_LOGOUT} event.
      */
     public function logoutOperator()
     {
@@ -246,6 +240,6 @@ class AuthenticationManager implements AuthenticationManagerInterface, CookieFac
 
         // Trigger logout event
         $dispatcher = EventDispatcher::getInstance();
-        $dispatcher->triggerEvent('operatorLogout');
+        $dispatcher->triggerEvent(Events::OPERATOR_LOGOUT);
     }
 }
