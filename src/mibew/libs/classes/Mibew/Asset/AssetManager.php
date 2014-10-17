@@ -22,6 +22,7 @@ namespace Mibew\Asset;
 use Mibew\Asset\Generator\UrlGenerator;
 use Mibew\Asset\Generator\UrlGeneratorInterface;
 use Mibew\EventDispatcher\EventDispatcher;
+use Mibew\EventDispatcher\Events;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -169,25 +170,8 @@ class AssetManager implements AssetManagerInterface
     /**
      * Gets additional JS assets by triggering some events.
      *
-     * Triggers "pageAddJS" and pass to the listeners an associative array with
-     * the following keys:
-     *  - "request": {@link \Symfony\Component\HttpFoundation\Request}, a
-     *    request instance. JavaScript files will be attached to the requested
-     *    page.
-     *  - "js": array of assets. Each asset can be either a string with
-     *    relative URL of a JavaScript file or an array with "content",
-     *    "type" and "weight" items. See
-     *    {@link \Mibew\Asset\AssetManagerInterface::getJsAssets()} for details
-     *    of their meaning. Modify this array to add or remove additional
-     *    JavaScript files.
-     *
-     * Triggers "pageAddJSPluginOptions" and pass to the listeners an
-     * associative array with the following keys:
-     *  - "request": {@link \Symfony\Component\HttpFoundation\Request}, a
-     *    request instance. Plugins will work at the requested page.
-     *  - "plugins": associative array, whose keys are plugins names and values
-     *    are plugins options. Modify this array to add or change plugins
-     *    options.
+     * Triggers {@link \Mibew\EventDispatcher\Events::PAGE_ADD_JS} and
+     * {@link \Mibew\EventDispatcher\Events::PAGE_ADD_JS_PLUGIN_OPTIONS} events.
      *
      * @return Package Assets list.
      */
@@ -198,7 +182,7 @@ class AssetManager implements AssetManagerInterface
             'request' => $this->getRequest(),
             'js' => array(),
         );
-        EventDispatcher::getInstance()->triggerEvent('pageAddJS', $event);
+        EventDispatcher::getInstance()->triggerEvent(Events::PAGE_ADD_JS, $event);
         $assets = $this->normalizeAssets($event['js']);
 
         // Get plugins options, transform them into raw JS and attache to the
@@ -207,7 +191,7 @@ class AssetManager implements AssetManagerInterface
             'request' => $this->getRequest(),
             'plugins' => array(),
         );
-        EventDispatcher::getInstance()->triggerEvent('pageAddJSPluginOptions', $event);
+        EventDispatcher::getInstance()->triggerEvent(Events::PAGE_ADD_JS_PLUGIN_OPTIONS, $event);
         $assets->addAsset(
             sprintf(
                 'var Mibew = Mibew || {}; Mibew.PluginOptions = %s;',
@@ -223,16 +207,7 @@ class AssetManager implements AssetManagerInterface
     /**
      * Gets additional CSS assets by triggering some events.
      *
-     * Triggers "pageAddCSS" and passes to the listeners an associative array
-     * with the following keys:
-     *  - "request": {@link \Symfony\Component\HttpFoundation\Request}, a
-     *    request instance. CSS files will be attached to the requested page.
-     *  - "css": array of assets. Each asset can be either a string with
-     *    relative URL of a CSS file or an array with "content", "type" and
-     *    "weight" items. See
-     *    {@link \Mibew\Asset\AssetManagerInterface::getCssAssets()} for details
-     *    of their meaning. Modify this array to add or remove additional CSS
-     *    files.
+     * Triggers {@link \Mibew\EventDispatcher\Events::PAGE_ADD_CSS} event.
      *
      * @return Package Assets list.
      */
@@ -242,7 +217,7 @@ class AssetManager implements AssetManagerInterface
             'request' => $this->getRequest(),
             'css' => array(),
         );
-        EventDispatcher::getInstance()->triggerEvent('pageAddCSS', $event);
+        EventDispatcher::getInstance()->triggerEvent(Events::PAGE_ADD_CSS, $event);
 
         return $this->normalizeAssets($event['css']);
     }

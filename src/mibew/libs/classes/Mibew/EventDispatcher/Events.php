@@ -75,4 +75,56 @@ final class Events
      *  - "id": int, deleted operator ID.
      */
     const OPERATOR_DELETE = 'operatorDelete';
+
+    /**
+     * CSS assets are attached to a page.
+     *
+     * This event is triggered before CSS assets are attached to a page. It
+     * provides an ability for plugins to add custom CSS files (or inline
+     * styles) to a page. An associative array with the following items is
+     * passed to the event handlers:
+     *  - "request": {@link \Symfony\Component\HttpFoundation\Request}, a
+     *    request instance. CSS files will be attached to the requested page.
+     *  - "css": array of assets. Each asset can be either a string with
+     *    relative URL of a CSS file or an array with "content", "type" and
+     *    "weight" items. See
+     *    {@link \Mibew\Asset\AssetManagerInterface::getCssAssets()} for details
+     *    of their meaning. Modify this array to add or remove additional CSS
+     *    files.
+     */
+    const PAGE_ADD_CSS = 'pageAddCss';
+
+    /**
+     * JavaScript assets are attached to a page.
+     *
+     * This event is triggered before JavaScript assets are attached to a page.
+     * It provides an ability for plugins to add custom JavaScript files (or
+     * inline scripts) to a page. An associative array with the following items
+     * is passed to the event handlers:
+     *  - "request": {@link \Symfony\Component\HttpFoundation\Request}, a
+     *    request instance. JavaScript files will be attached to the requested
+     *    page.
+     *  - "js": array of assets. Each asset can be either a string with
+     *    relative URL of a JavaScript file or an array with "content",
+     *    "type" and "weight" items. See
+     *    {@link \Mibew\Asset\AssetManagerInterface::getJsAssets()} for details
+     *    of their meaning. Modify this array to add or remove additional
+     *    JavaScript files.
+     */
+    const PAGE_ADD_JS = 'pageAddJs';
+
+    /**
+     * Options of JavaScript plugins are attached to a page.
+     *
+     * This event is triggered before options of JavaScript plugins are attached
+     * to a page. It provides an ability for plugins to pass some data to the
+     * client side. An associative array with the following items is passed to
+     * the event handlers:
+     *  - "request": {@link \Symfony\Component\HttpFoundation\Request}, a
+     *    request instance. Plugins will work at the requested page.
+     *  - "plugins": associative array, whose keys are plugins names and values
+     *    are plugins options. Modify this array to add or change plugins
+     *    options.
+     */
+    const PAGE_ADD_JS_PLUGIN_OPTIONS = 'pageAddJsPluginOptions';
 }
