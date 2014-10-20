@@ -24,24 +24,14 @@ use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Database;
 use Mibew\EventDispatcher\EventDispatcher;
+use Mibew\EventDispatcher\Events;
 use Mibew\Settings;
 use Mibew\Thread;
 use Mibew\API\API as MibewAPI;
 use Mibew\RequestProcessor\Exception\UsersProcessorException;
 
 /**
- * Incapsulates awaiting users list api related functions.
- *
- * Events triggered by the class (see description of the RequestProcessor class
- * for details):
- *  - usersRequestReceived
- *  - usersReceiveRequestError
- *  - usersCallError
- *  - usersFunctionCall
- *
- * Also triggers follow events (see description of apiUpdateVisitors method):
- *  - usersUpdateVisitorsLoad
- *  - usersUpdateVisitorsAlter
+ * Incapsulates awaiting users list API related functions.
  */
 class UsersProcessor extends ClientSideProcessor implements AuthenticationManagerAwareInterface
 {
@@ -181,11 +171,8 @@ class UsersProcessor extends ClientSideProcessor implements AuthenticationManage
     /**
      * Return updated threads list. API function
      *
-     * Triggers the following events:
-     *  1. 'usersUpdateThreadsAlter': provide the ability to alter threads
-     *     list. Associative array is passed to event lister. It has the
-     *     following keys:
-     *      - 'threads': array of threads arrays.
+     * Triggers
+     * {@link \Mibew\EventDispatcher\Events::USERS_UPDATE_THREADS_ALTER} event.
      *
      * @param array $args Associative array of arguments. It must contains the
      *   following keys:
@@ -356,7 +343,7 @@ class UsersProcessor extends ClientSideProcessor implements AuthenticationManage
             'threads' => $threads,
         );
         $dispatcher = EventDispatcher::getInstance();
-        $dispatcher->triggerEvent('usersUpdateThreadsAlter', $arguments);
+        $dispatcher->triggerEvent(Events::USERS_UPDATE_THREADS_ALTER, $arguments);
 
         // Send results back to the client. "array_values" function should be
         // used to avoid problems with JSON conversion. If there will be gaps in
@@ -371,19 +358,10 @@ class UsersProcessor extends ClientSideProcessor implements AuthenticationManage
     /**
      * Return updated visitors list. API function.
      *
-     * Triggers following events:
-     *  1. 'usersUpdateVisitorsLoad': provide the ability to plugins to load,
-     *     sort and limiting visitors list. Associative array pass to event
-     *     lister have following keys:
-     *      - 'visitors': array of visitors arrays. Each visitor array must
-     *        contain at least following keys: 'id', 'userName', 'userAgent',
-     *        'userIp', 'remote', 'firstTime', 'lastTime', 'invitations',
-     *        'chats', 'invitationInfo'. If there are no visitors an empty array
-     *        should be used.
-     *
-     *  2. 'usersUpdateVisitorsAlter': provide the ability to alter visitors
-     *     list. Associative array pass to event lister have following keys:
-     *      - 'visitors': array of visitors arrays.
+     * Triggers
+     * {@link \Mibew\EventDispatcher\Events::USERS_UPDATE_VISITORS_LOAD} and
+     * {@link \Mibew\EventDispatcher\Events::USERS_UPDATE_VISITORS_ALTER}
+     * events.
      *
      * @param array $args Associative array of arguments. It must contains the
      *   following keys:
@@ -410,7 +388,7 @@ class UsersProcessor extends ClientSideProcessor implements AuthenticationManage
         $arguments = array(
             'visitors' => false
         );
-        $dispatcher->triggerEvent('usersUpdateVisitorsLoad', $arguments);
+        $dispatcher->triggerEvent(Events::USERS_UPDATE_VISITORS_LOAD, $arguments);
 
         // Check if visiors list loaded by plugins
         if (!is_array($arguments['visitors'])) {
@@ -502,7 +480,7 @@ class UsersProcessor extends ClientSideProcessor implements AuthenticationManage
         $arguments = array(
             'visitors' => $visitors,
         );
-        $dispatcher->triggerEvent('usersUpdateVisitorsAlter', $arguments);
+        $dispatcher->triggerEvent(Events::USERS_UPDATE_VISITORS_ALTER, $arguments);
 
         // Send results back to the client. "array_values" function should be
         // used to avoid problems with JSON conversion. If there will be gaps in

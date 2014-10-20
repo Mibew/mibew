@@ -165,6 +165,83 @@ final class Events
     const RESOURCE_NOT_FOUND = 'resourceNotFound';
 
     /**
+     * Threads list is ready to be sent to client.
+     *
+     * This event is triggered before the threads list is sent to the "users"
+     * client side application. It provide an ability to alter the list. A
+     * plugin can attach some fields to each thread or completeley replace the
+     * whole list. An associative array with the following items is passed to
+     * the event handlers:
+     *   - "threads": array of threads data arrays.
+     */
+    const USERS_UPDATE_THREADS_ALTER = 'usersUpdateThreadsAlter';
+
+    /**
+     * Load custom on site visitors list.
+     *
+     * This event is triggered before the list of on site visitors is loaded for
+     * sending to the "users" client side application. It provide an ability for
+     * plugins to load, sort and limit visitors list. An associative array with
+     * the following items is passed to the event handlers:
+     *   - "visitors": array of visitors data arrays. Each visitor array must
+     *     contain at least the following keys: "id", "userName", "userAgent",
+     *     "userIp", "remote", "firstTime", "lastTime", "invitations",
+     *     "chats", "invitationInfo". If there are no visitors an empty array
+     *     should be used.
+     *
+     * If the "visitors" item was not set by a plugin the default system loader
+     * will be used.
+     */
+    const USERS_UPDATE_VISITORS_LOAD = 'usersUpdateVisitorsLoad';
+
+    /**
+     * On site visitors list is ready to be sent to client.
+     *
+     * This event is triggered before the on site visitors list is sent to the
+     * "users" client application. It provide an ability to alter the list.
+     * A plugin can attach some fields to each visitor or completeley replace
+     * the whole list. An associative array with the following items is passed
+     * to the event handlers:
+     *   - "visitors": array of visitors data arrays.
+     */
+    const USERS_UPDATE_VISITORS_ALTER = 'usersUpdateVisitorsAlter';
+
+    /**
+     * A function was called at client side "users" application.
+     *
+     * This event is triggered when an API a function is called at client side
+     * in the "users" application, but the system is not aware of this function.
+     *
+     * Plugins can implement custom API functions by attaching handlers to the
+     * event. If a plugin wants to return some results, it should use "results"
+     * element of the event arguments array (see below).
+     *
+     * An associative array with the following items is passed to the event
+     * handlers:
+     *   - "function": string, name of the function that was called.
+     *   - "arguments": associative array of arguments that was passed to the
+     *     function.
+     *   - "results": array, list of function results.
+     *
+     * Here is an example of the event handler:
+     * <code>
+     * public function callHandler(&$function)
+     * {
+     *     // Check that the function we want to implement is called.
+     *     if ($function['function'] == 'microtime') {
+     *         // Check some function's arguments.
+     *         $as_float = empty($function['arguments']['as_float'])
+     *             ? false
+     *             : $function['arguments']['as_float'];
+     *         // Invoke the function and return the results.
+     *         $function['results']['time'] = microtime($as_float);
+     *     }
+     * }
+     * </code>
+     */
+    const USERS_FUNCTION_CALL = 'usersFunctionCall';
+
+    /**
      * Visitor is created.
      *
      * This event is triggered when a visitor is tracked by the widget for the
