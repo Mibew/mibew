@@ -844,6 +844,8 @@ class Thread
     /**
      * Close thread and send closing messages to the conversation members
      *
+     * Triggers {@link \Mibew\EventDispatcher\Events::THREAD_CLOSE} event.
+     *
      * @param boolean $is_user Boolean TRUE if user initiate thread closing or
      *   boolean FALSE otherwise
      */
@@ -906,6 +908,9 @@ class Thread
             $this->closed = time();
             $this->messageCount = $message_count;
             $this->save();
+
+            $args = array('thread' => $this);
+            EventDispatcher::getInstance()->triggerEvent(Events::THREAD_CLOSE, $args);
         }
     }
 

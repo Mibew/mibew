@@ -187,6 +187,15 @@ final class Events
     const THREAD_DELETE = 'threadDelete';
 
     /**
+     * A thread is closed.
+     *
+     * This event is triggered after a thread has been closed. An associative
+     * array with the following items is passed to the event handlers:
+     *  - "thread": an instance of {@link \Mibew\Thread}.
+     */
+    const THREAD_CLOSE = 'threadClose';
+
+    /**
      * Threads list is ready to be sent to client.
      *
      * This event is triggered before the threads list is sent to the "users"
