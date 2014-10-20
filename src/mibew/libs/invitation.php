@@ -206,6 +206,8 @@ function invitation_accept($visitor_id)
 /**
  * Inviation was rejected by visitor
  *
+ * Triggers {@link \Mibew\EventDispatcher\Events::INVITATION_REJECT} event.
+ *
  * @param int $visitor_id ID of the visitor
  */
 function invitation_reject($visitor_id)
@@ -237,6 +239,9 @@ function invitation_reject($visitor_id)
             ':now' => time(),
         )
     );
+
+    $args = array('invitation' => $thread);
+    EventDispatcher::getInstance()->triggerEvent(Events::INVITATION_REJECT, $args);
 }
 
 /**

@@ -71,6 +71,16 @@ final class Events
     const INVITATION_ACCEPT = 'invitationAccept';
 
     /**
+     * An invitation is rejected.
+     *
+     * This event is triggered after an invitation has been rejected by a
+     * visitor. An associative array with the following items is passed to the
+     * event handlers:
+     *  - "invitation": an instance of {@link \Mibew\Thread} class.
+     */
+    const INVITATION_REJECT = 'invitationReject';
+
+    /**
      * An operator cannot be authenticated.
      *
      * This event is triggered if an operator cannot be authenticated by the
