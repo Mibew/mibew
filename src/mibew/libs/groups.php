@@ -448,6 +448,8 @@ function update_group_members($group_id, $new_value)
 /**
  * Deletes a group with specified ID.
  *
+ * Triggers {@link \Mibew\EventDispatcher\Events::GROUP_DELETE} event.
+ *
  * @param int $group_id ID of the group that should be deleted.
  */
 function delete_group($group_id)
@@ -456,4 +458,7 @@ function delete_group($group_id)
     $db->query("DELETE FROM {opgroup} WHERE groupid = ?", array($group_id));
     $db->query("DELETE FROM {operatortoopgroup} WHERE groupid = ?", array($group_id));
     $db->query("UPDATE {thread} SET groupid = 0 WHERE groupid = ?", array($group_id));
+
+    $args = array('id' => $group_id);
+    EventDispatcher::getInstance()->triggerEvent(Events::GROUP_DELETE, $args);
 }

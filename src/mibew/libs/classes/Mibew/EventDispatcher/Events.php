@@ -42,6 +42,15 @@ final class Events
     const GROUP_CREATE = 'groupCreate';
 
     /**
+     * A group is deleted.
+     *
+     * This event is triggered after a group has been deleted. An associative
+     * array with the following items is passed to the event handlers:
+     *  - "id": int, deleted group ID.
+     */
+    const GROUP_DELETE = 'groupDelete';
+
+    /**
      * An operator cannot be authenticated.
      *
      * This event is triggered if an operator cannot be authenticated by the
