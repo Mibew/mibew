@@ -178,6 +178,15 @@ final class Events
     const THREAD_UPDATE = 'threadUpdate';
 
     /**
+     * A thread is deleted.
+     *
+     * This event is triggered after a thread has been deleted. An associative
+     * array with the following items is passed to the event handlers:
+     *  - "id": int, deleted thread ID.
+     */
+    const THREAD_DELETE = 'threadDelete';
+
+    /**
      * Threads list is ready to be sent to client.
      *
      * This event is triggered before the threads list is sent to the "users"

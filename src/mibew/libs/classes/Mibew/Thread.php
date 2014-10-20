@@ -532,6 +532,8 @@ class Thread
 
     /**
      * Remove thread from database
+     *
+     * Triggers {@link \Mibew\EventDispatcher\Events::THREAD_DELETE} event.
      */
     public function delete()
     {
@@ -540,6 +542,9 @@ class Thread
             "DELETE FROM {thread} WHERE threadid = :id LIMIT 1",
             array(':id' => $this->id)
         );
+
+        $args = array('id' => $this->id);
+        EventDispatcher::getInstance()->triggerEvent(Events::THREAD_DELETE, $args);
     }
 
     /**
