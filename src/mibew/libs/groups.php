@@ -18,6 +18,8 @@
  */
 
 // Import namespaces and classes of the core
+use Mibew\EventDispatcher\EventDispatcher;
+use Mibew\EventDispatcher\Events;
 use Mibew\Database;
 use Mibew\Settings;
 
@@ -291,6 +293,8 @@ function check_group_params($group, $extra_params = null)
 /**
  * Creates group
  *
+ * Triggers {@link \Mibew\EventDispatcher\Events::GROUP_CREATE} event.
+ *
  * @param array $group Operators' group. The $group array must contains the
  *   following keys:
  *     - name,
@@ -338,6 +342,9 @@ function create_group($group)
         array($id),
         array('return_rows' => Database::RETURN_ONE_ROW)
     );
+
+    $args = array('group' => $new_group);
+    EventDispatcher::getInstance()->triggerEvent(Events::GROUP_CREATE, $args);
 
     return $new_group;
 }

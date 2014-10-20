@@ -33,6 +33,15 @@ final class Events
     const CRON_RUN = 'cronRun';
 
     /**
+     * A group is created.
+     *
+     * This event is triggered after a group has been created. An associative
+     * array with the following items is passed to the event handlers:
+     *  - "group": group's array.
+     */
+    const GROUP_CREATE = 'groupCreate';
+
+    /**
      * An operator cannot be authenticated.
      *
      * This event is triggered if an operator cannot be authenticated by the
