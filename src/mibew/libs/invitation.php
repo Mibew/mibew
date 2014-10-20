@@ -18,6 +18,8 @@
  */
 
 // Import namespaces and classes of the core
+use Mibew\EventDispatcher\EventDispatcher;
+use Mibew\EventDispatcher\Events;
 use Mibew\Database;
 use Mibew\Settings;
 use Mibew\Thread;
@@ -58,6 +60,8 @@ function invitation_state($visitor_id)
 
 /**
  * Invite visitor by operator
+ *
+ * Triggers {@link \Mibew\EventDispatcher\Events::INVITATION_CREATE} event.
  *
  * @param int $visitor_id ID of the visitor, who must be invited.
  * @param array $operator Info for operator  who invite the visitor
@@ -136,6 +140,10 @@ function invitation_invite($visitor_id, $operator)
             'operator_id' => $operator['operatorid'],
         )
     );
+
+    // Let plugins know about the invitation.
+    $args = array('invitation' => $thread);
+    EventDispatcher::getInstance()->triggerEvent(Events::INVITATION_CREATE, $args);
 
     return $thread;
 }

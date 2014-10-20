@@ -51,6 +51,16 @@ final class Events
     const GROUP_DELETE = 'groupDelete';
 
     /**
+     * An invitation is created.
+     *
+     * This event is triggered after an invitation has been created. An
+     * associative array with the following items is passed to the event
+     * handlers:
+     *  - "invitation": an instance of {@link \Mibew\Thread} class.
+     */
+    const INVITATION_CREATE = 'invitationCreate';
+
+    /**
      * An operator cannot be authenticated.
      *
      * This event is triggered if an operator cannot be authenticated by the
