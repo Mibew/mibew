@@ -165,6 +165,19 @@ final class Events
     const RESOURCE_NOT_FOUND = 'resourceNotFound';
 
     /**
+     * Thread is updated.
+     *
+     * This event is triggered after a thread is saved and only if some of its
+     * fields have been changed. An associative array with the following items
+     * is passed to the event handlers:
+     *  - "thread": Thread object that was chanded.
+     *  - "changed_fields": list of changed fields. Names of the fields
+     *    correspond to class properties (see {@link \Mibew\Thread::propertyMap}
+     *    for details).
+     */
+    const THREAD_UPDATE = 'threadUpdate';
+
+    /**
      * Threads list is ready to be sent to client.
      *
      * This event is triggered before the threads list is sent to the "users"
