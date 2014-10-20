@@ -320,19 +320,22 @@ function create_group($group)
             . "parent, vclocalname, vclocaldescription, vccommonname, "
             . "vccommondescription, vcemail, vctitle, vcchattitle, vchosturl, "
             . "vclogo, iweight"
-            . ") values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"),
+            . ") values ("
+            . ":parent, :name, :desc, :common_name, "
+            . ":common_desc, :email, :title, :chat_title, :url, "
+            . ":logo, :weight)"),
         array(
-            ($group['parent'] ? (int) $group['parent'] : null),
-            $group['name'],
-            $group['description'],
-            $group['commonname'],
-            $group['commondescription'],
-            $group['email'],
-            $group['title'],
-            $group['chattitle'],
-            $group['hosturl'],
-            $group['logo'],
-            $group['weight'],
+            ':parent' => ($group['parent'] ? (int) $group['parent'] : null),
+            ':name' => $group['name'],
+            ':desc' => $group['description'],
+            ':common_name' => $group['commonname'],
+            ':common_desc' => $group['commondescription'],
+            ':email' => $group['email'],
+            ':title' => $group['title'],
+            ':chat_title' => $group['chattitle'],
+            ':url' => $group['hosturl'],
+            ':logo' => $group['logo'],
+            ':weight' => $group['weight'],
         )
     );
     $id = $db->insertedId();
