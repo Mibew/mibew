@@ -151,6 +151,8 @@ function invitation_invite($visitor_id, $operator)
 /**
  * Invitation was accepted by visitor
  *
+ * Triggers {@link \Mibew\EventDispatcher\Events::INVITATION_ACCEPT} event.
+ *
  * @param int $visitor_id ID of the visitor who accept invitation
  * @return Thread|boolean Thread object or boolean false on failure
  */
@@ -194,6 +196,9 @@ function invitation_accept($visitor_id)
             . "WHERE visitorid = :visitor_id"),
         array(':visitor_id' => $visitor_id)
     );
+
+    $args = array('invitation' => $thread);
+    EventDispatcher::getInstance()->triggerEvent(Events::INVITATION_ACCEPT, $args);
 
     return $thread;
 }

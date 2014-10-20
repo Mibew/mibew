@@ -61,6 +61,16 @@ final class Events
     const INVITATION_CREATE = 'invitationCreate';
 
     /**
+     * An invitation is accepted.
+     *
+     * This event is triggered after an invitation has been accepted by a
+     * visitor. An associative array with the following items is passed to the
+     * event handlers:
+     *  - "invitation": an instance of {@link \Mibew\Thread} class.
+     */
+    const INVITATION_ACCEPT = 'invitationAccept';
+
+    /**
      * An operator cannot be authenticated.
      *
      * This event is triggered if an operator cannot be authenticated by the
