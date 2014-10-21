@@ -34,6 +34,15 @@ final class Events
     const BAN_CREATE = 'banCreate';
 
     /**
+     * A ban is deleted.
+     *
+     * This event is triggered after a ban has been deleted. An associative
+     * array with the following items is passed to the event handlers:
+     *  - "id": int, deleted ban ID.
+     */
+    const BAN_DELETE = 'banDelete';
+
+    /**
      * Cron is run.
      *
      * This event is triggered when cron is run. It provides an ability for

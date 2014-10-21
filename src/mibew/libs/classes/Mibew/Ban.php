@@ -180,6 +180,8 @@ class Ban
 
     /**
      * Remove ban from the database.
+     *
+     * Triggers {@link \Mibew\EventDispatcher\Events::BAN_DELETE} event.
      */
     public function delete()
     {
@@ -187,11 +189,13 @@ class Ban
             throw new \RuntimeException('You cannot delete a ban without id');
         }
 
-        $db = Database::getInstance();
-        $db->query(
+        Database::getInstance()->query(
             "DELETE FROM {ban} WHERE banid = :id LIMIT 1",
             array(':id' => $this->id)
         );
+
+        $args = array('id' => $this->id);
+        EventDispatcher::getInstance()->triggerEvent(Events::BAN_DELETE, $args);
     }
 
     /**
