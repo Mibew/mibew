@@ -19,7 +19,7 @@
 
 namespace Mibew\Controller;
 
-use Mibew\Database;
+use Mibew\Ban;
 use Mibew\Http\Exception\BadRequestException;
 use Mibew\Http\Exception\NotFoundException;
 use Mibew\Thread;
@@ -46,17 +46,15 @@ class BanController extends AbstractController
         );
 
         // Prepare list of all banned visitors
-        $db = Database::getInstance();
-        $blocked_list = $db->query(
-            "SELECT banid, dtmtill AS till, address, comment FROM {ban}",
-            null,
-            array('return_rows' => Database::RETURN_ALL_ROWS)
-        );
-
-        foreach ($blocked_list as &$item) {
-            $item['comment'] = $item['comment'];
+        foreach (Ban::all() as $ban) {
+            $blocked_list[] = array(
+                'banid' => $ban->id,
+                'created' => $ban->created,
+                'till' => $ban->till,
+                'address' => $ban->address,
+                'comment' => $ban->comment,
+            );
         }
-        unset($item);
 
         $page['title'] = getlocal('Ban List');
         $page['menuid'] = 'bans';
@@ -75,6 +73,8 @@ class BanController extends AbstractController
      *
      * @param Request $request Incoming request.
      * @return string Rendered page content.
+     * @throws NotFoundException If the ban with specified ID is not found in
+     *   the system.
      */
     public function deleteAction(Request $request)
     {
@@ -82,9 +82,14 @@ class BanController extends AbstractController
 
         $ban_id = $request->attributes->getInt('ban_id');
 
-        // Remove ban from database
-        $db = Database::getInstance();
-        $db->query("DELETE FROM {ban} WHERE banid = ?", array($ban_id));
+        // Check if the ban exists
+        $ban = Ban::load($ban_id);
+        if (!$ban) {
+            throw new NotFoundException('The ban is not found.');
+        }
+
+        // Remove the ban
+        $ban->delete();
 
         // Redirect the current operator to page with bans list
         return $this->redirect($this->generateUrl('bans'));
@@ -120,25 +125,15 @@ class BanController extends AbstractController
             $ban_id = $request->attributes->getInt('ban_id');
 
             // Retrieve ban information from the database
-            $db = Database::getInstance();
-            $ban = $db->query(
-                ("SELECT banid, (dtmtill - :now) AS days, address, comment "
-                    . "FROM {ban} WHERE banid = :banid"),
-                array(
-                    ':banid' => $ban_id,
-                    ':now' => time(),
-                ),
-                array('return_rows' => Database::RETURN_ONE_ROW)
-            );
-
+            $ban = Ban::load($ban_id);
             if (!$ban) {
                 throw new NotFoundException('The ban is not found.');
             }
 
-            $page['banId'] = $ban['banid'];
-            $page['formaddress'] = $ban['address'];
-            $page['formdays'] = round($ban['days'] / 86400);
-            $page['formcomment'] = $ban['comment'];
+            $page['banId'] = $ban->id;
+            $page['formaddress'] = $ban->address;
+            $page['formdays'] = round(($ban->till - time()) / 86400);
+            $page['formcomment'] = $ban->comment;
         } elseif ($request->query->has('thread')) {
             // Prepopulate form using thread data
             $thread_id = $request->query->has('thread');
@@ -176,6 +171,8 @@ class BanController extends AbstractController
      *
      * @param Request $request Incoming request.
      * @return string Rendered page content.
+     * @throws NotFoundException If the ban with specified ID is not found in
+     *   the system.
      */
     public function submitEditFormAction(Request $request)
     {
@@ -208,14 +205,14 @@ class BanController extends AbstractController
         }
 
         // Check if the ban already exists in the database
-        $existing_ban = ban_for_addr($address);
+        $existing_ban = Ban::loadByAddress($address);
         $ban_duplicate = (!$ban_id && $existing_ban)
-            || ($ban_id && $existing_ban && $ban_id != $existing_ban['banid']);
+            || ($ban_id && $existing_ban && $ban_id != $existing_ban->id);
 
         if ($ban_duplicate) {
             $ban_url = $this->generateUrl(
                 'ban_edit',
-                array('ban_id' => $existing_ban['banid'])
+                array('ban_id' => $existing_ban->id)
             );
             $errors[] = getlocal('The specified address is already in use. Click <a href="{1}">here</a> if you want to edit it.', array($address, $ban_url));
         }
@@ -228,32 +225,19 @@ class BanController extends AbstractController
         }
 
         // Save ban into the database
-        $db = Database::getInstance();
-        $now = time();
-        $till_time = $now + $days * 24 * 60 * 60;
         if (!$ban_id) {
-            $db->query(
-                ("INSERT INTO {ban} (dtmcreated, dtmtill, address, comment) "
-                    . "VALUES (:now,:till,:address,:comment)"),
-                array(
-                    ':now' => $now,
-                    ':till' => $till_time,
-                    ':address' => $address,
-                    ':comment' => $comment,
-                )
-            );
+            $ban = new Ban();
+            $ban->created = time();
         } else {
-            $db->query(
-                ("UPDATE {ban} SET dtmtill = :till, address = :address, "
-                    . "comment = :comment WHERE banid = :banid"),
-                array(
-                    ':till' => $till_time,
-                    ':address' => $address,
-                    ':comment' => $comment,
-                    ':banid' => $ban_id,
-                )
-            );
+            $ban = Ban::load($ban_id);
+            if (!$ban) {
+                throw new NotFoundException('The ban is not found.');
+            }
         }
+        $ban->till = time() + $days * 24 * 60 * 60;
+        $ban->address = $address;
+        $ban->comment = $comment;
+        $ban->save();
 
         // Rerender the form page
         $page['saved'] = true;

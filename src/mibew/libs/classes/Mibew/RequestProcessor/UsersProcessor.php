@@ -22,6 +22,7 @@ namespace Mibew\RequestProcessor;
 // Import namespaces and classes of the core
 use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
+use Mibew\Ban;
 use Mibew\Database;
 use Mibew\EventDispatcher\EventDispatcher;
 use Mibew\EventDispatcher\Events;
@@ -245,16 +246,16 @@ class UsersProcessor extends ClientSideProcessor implements AuthenticationManage
 
 
             // Get ban info
-            $ban_info = (Settings::get('enableban') == "1")
-                ? ban_for_addr($thread->remote)
+            $ban = (Settings::get('enableban') == "1")
+                ? Ban::loadByAddress($thread->remote)
                 : false;
-            if ($ban_info !== false) {
-                $ban = array(
-                    'id' => $ban_info['banid'],
-                    'reason' => $ban_info['comment'],
+            if ($ban !== false && !$ban->isExpired()) {
+                $ban_info = array(
+                    'id' => $ban->id,
+                    'reason' => $ban->comment,
                 );
             } else {
-                $ban = false;
+                $ban_info = false;
             }
 
             // Get user name
@@ -322,7 +323,7 @@ class UsersProcessor extends ClientSideProcessor implements AuthenticationManage
                 'canOpen' => $can_open,
                 'canView' => $can_view,
                 'canBan' => $can_ban,
-                'ban' => $ban,
+                'ban' => $ban_info,
                 'state' => $thread->state,
                 'totalTime' => $thread->created,
                 'waitingTime' => $thread->modified,

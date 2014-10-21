@@ -616,27 +616,6 @@ function setup_chatview_for_operator(
 }
 
 /**
- * Check if the address is banned
- *
- * @param string $addr IP address which most be checked
- *
- * @return null|array It is banned address structure. contains (banid string,
- * comment string)
- */
-function ban_for_addr($addr)
-{
-    $db = Database::getInstance();
-    return $db->query(
-        "SELECT banid,comment FROM {ban} WHERE dtmtill > :now AND address = :addr",
-        array(
-            ':addr' => $addr,
-            ':now' => time(),
-        ),
-        array('return_rows' => Database::RETURN_ONE_ROW)
-    );
-}
-
-/**
  * @return array Return visitor info from active request. contains
  * (user_id string, user_name string)
  */
