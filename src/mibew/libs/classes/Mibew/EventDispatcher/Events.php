@@ -231,6 +231,18 @@ final class Events
     const RESOURCE_NOT_FOUND = 'resourceNotFound';
 
     /**
+     * Routes collection is loaded and ready to use.
+     *
+     * This event is triggered after all routes are loaded. It provides an
+     * ability for plugins to alter routes collection before it will be used. An
+     * associative array with the following items is passed to the event
+     * handlers:
+     *  - "routes" an instance of
+     *    {@link Symfony\Component\Routing\RouteCollection} class.
+     */
+    const ROUTES_ALTER = 'routesAlter';
+
+    /**
      * Thread is updated.
      *
      * This event is triggered after a thread is saved and only if some of its

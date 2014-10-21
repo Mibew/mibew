@@ -21,6 +21,7 @@ namespace Mibew\Routing;
 
 use Mibew\Plugin\Manager as PluginManager;
 use Mibew\EventDispatcher\EventDispatcher;
+use Mibew\EventDispatcher\Events;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Config\FileLocatorInterface;
@@ -91,7 +92,7 @@ class RouteCollectionLoader
 
         // Add an ability for plugins to alter routes list
         $arguments = array('routes' => $collection);
-        EventDispatcher::getInstance()->triggerEvent('routesAlter', $arguments);
+        EventDispatcher::getInstance()->triggerEvent(Events::ROUTES_ALTER, $arguments);
 
         return $arguments['routes'];
     }
