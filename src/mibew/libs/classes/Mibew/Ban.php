@@ -19,6 +19,9 @@
 
 namespace Mibew;
 
+use Mibew\EventDispatcher\EventDispatcher;
+use Mibew\EventDispatcher\Events;
+
 /**
  * A class that represents Ban entity.
  */
@@ -193,6 +196,8 @@ class Ban
 
     /**
      * Save the ban to the database.
+     *
+     * Triggers {@link \Mibew\EventDispatcher\Events::BAN_CREATE} event.
      */
     public function save()
     {
@@ -211,6 +216,9 @@ class Ban
                 )
             );
             $this->id = $db->insertedId();
+
+            $args = array('ban' => $this);
+            EventDispatcher::getInstance()->triggerEvent(Events::BAN_CREATE, $args);
         } else {
             // Update existing ban
             $db->query(

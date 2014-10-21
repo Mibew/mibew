@@ -25,6 +25,15 @@ namespace Mibew\EventDispatcher;
 final class Events
 {
     /**
+     * A ban is created.
+     *
+     * This event is triggered after a ban has been created. An associative
+     * array with the following items is passed to the event handlers:
+     *  - "ban": an instance of {@link \Mibew\Ban} class.
+     */
+    const BAN_CREATE = 'banCreate';
+
+    /**
      * Cron is run.
      *
      * This event is triggered when cron is run. It provides an ability for
