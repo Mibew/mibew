@@ -49,11 +49,11 @@ var Mibew = {};
         this.handlers = [];
 
         /**
-         * List of dependences between handlers and scripts
+         * List of dependencies between handlers and scripts
          * @type Object
          * @private
          */
-        this.handlersDependences = {};
+        this.handlersDependencies = {};
 
         /**
          * URL for requests
@@ -186,7 +186,7 @@ var Mibew = {};
         var load = response.load;
         var handlers = response.handlers;
         var data = response.data;
-        var dependences = response.dependences;
+        var dependencies = response.dependencies;
         var context = this;
 
         // Update list of scripts that must be loaded
@@ -203,18 +203,18 @@ var Mibew = {};
             }
         }
 
-        // Update list of dependences
-        for(var handler in dependences){
-            if (! dependences.hasOwnProperty(handler)) {
+        // Update list of dependencies
+        for(var handler in dependencies){
+            if (! dependencies.hasOwnProperty(handler)) {
                 continue;
             }
-            // Check if dependences for this handler already stored
-            if (! (handler in this.handlersDependences)) {
-                this.handlersDependences[handler] = dependences[handler];
+            // Check if dependencies for this handler already stored
+            if (! (handler in this.handlersDependencies)) {
+                this.handlersDependencies[handler] = dependencies[handler];
             }
         }
 
-        // Process all recieved handlers. Run handler if all dependences loaded
+        // Process all recieved handlers. Run handler if all dependencies loaded
         // and add it to handlers list otherwise.
         for (var i = 0; i < handlers.length; i++) {
             // Create shortcuts
@@ -291,7 +291,7 @@ var Mibew = {};
 
     /**
      * Event listener for script onLoad event. Run handlers which have no
-     * unload dependences.
+     * unload dependencies.
      * @param {String} id Identifier of the loaded script
      */
     Mibew.Widget.prototype.scriptReady = function(id) {
@@ -311,10 +311,10 @@ var Mibew = {};
      * Check if handler can be run
      */
     Mibew.Widget.prototype.canRunHandler = function(handlerName) {
-        var dependences = this.handlersDependences[handlerName];
-        // Check for dependencess
-        for(var i = 0; i < dependences.length; i++){
-            if(this.requestedScripts[dependences[i]].status != 'ready'){
+        var dependencies = this.handlersDependencies[handlerName];
+        // Check for dependencies
+        for(var i = 0; i < dependencies.length; i++){
+            if(this.requestedScripts[dependencies[i]].status != 'ready'){
                 return false;
             }
         }

@@ -46,7 +46,7 @@ class WidgetController extends AbstractController
         $response_data = array(
             'load' => array(),
             'handlers' => array(),
-            'dependences' => array(),
+            'dependencies' => array(),
             'data' => array(),
         );
 
@@ -85,7 +85,7 @@ class WidgetController extends AbstractController
             if ($user_id === false) {
                 // Update local cookie value at target site
                 $response_data['handlers'][] = 'updateUserId';
-                $response_data['dependences']['updateUserId'] = array();
+                $response_data['dependencies']['updateUserId'] = array();
                 $response_data['data']['user']['id'] = $visitor['userid'];
             }
 
@@ -100,7 +100,7 @@ class WidgetController extends AbstractController
             // Check if invitation is closed
             if (!$invitation_state['invited'] && !empty($_SESSION['invitation_threadid'])) {
                 $response_data['handlers'][] = 'invitationClose';
-                $response_data['dependences']['invitationClose'] = array();
+                $response_data['dependencies']['invitationClose'] = array();
                 unset($_SESSION['invitation_threadid']);
             }
 
@@ -123,7 +123,7 @@ class WidgetController extends AbstractController
 
                 // Show invitation dialog at widget side
                 $response_data['handlers'][] = 'invitationCreate';
-                $response_data['dependences']['invitationCreate'] = array();
+                $response_data['dependencies']['invitationCreate'] = array();
                 $response_data['data']['invitation'] = array(
                     'operatorName' => htmlspecialchars($operator_name),
                     'avatarUrl' => htmlspecialchars($operator['vcavatar']),
