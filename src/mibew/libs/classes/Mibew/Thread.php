@@ -620,18 +620,20 @@ class Thread
                 // Update user's last ping time
                 $this->lastPingUser = 0;
 
-                // And send a message to operator
-                $message_to_post = getlocal(
-                    'Visitor closed chat window',
-                    null,
-                    $this->locale,
-                    true
-                );
-                $this->postMessage(
-                    self::KIND_FOR_AGENT,
-                    $message_to_post,
-                    array('created' => $last_ping_other_side + self::CONNECTION_TIMEOUT)
-                );
+                // And send a message to operator.
+                if ($this->state == self::STATE_CHATTING) {
+                    $message_to_post = getlocal(
+                        'Visitor closed chat window',
+                        null,
+                        $this->locale,
+                        true
+                    );
+                    $this->postMessage(
+                        self::KIND_FOR_AGENT,
+                        $message_to_post,
+                        array('created' => $last_ping_other_side + self::CONNECTION_TIMEOUT)
+                    );
+                }
             }
         }
 
