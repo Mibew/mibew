@@ -245,7 +245,9 @@ function invitation_reject($visitor_id)
 }
 
 /**
- * Close old invitations
+ * Close old invitations.
+ *
+ * Triggers {@link \Mibew\EventDispatcher\Events::INVITATION_IGNORE} event.
  */
 function invitation_close_old()
 {
@@ -294,6 +296,10 @@ function invitation_close_old()
             Thread::KIND_FOR_AGENT,
             getlocal('Visitor ignored invitation and it was closed automatically', null, $thread->locale, true)
         );
+
+        $args = array('invitation' => $thread);
+        EventDispatcher::getInstance()->triggerEvent(Events::INVITATION_IGNORE, $args);
+
         unset($thread);
     }
 }
