@@ -234,7 +234,6 @@ ban:
         dtmtill: "int NOT NULL DEFAULT 0"
         address: "varchar(255)"
         comment: "varchar(255)"
-        blockedcount: "int DEFAULT 0"
 
 # Contains dynamic configs
 config:
