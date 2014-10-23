@@ -462,3 +462,189 @@ function delete_group($group_id)
     $args = array('id' => $group_id);
     EventDispatcher::getInstance()->triggerEvent(Events::GROUP_DELETE, $args);
 }
+
+function get_all_groups()
+{
+    $db = Database::getInstance();
+    $groups = $db->query(
+        ("SELECT {opgroup}.groupid AS groupid, parent, "
+            . "vclocalname, vclocaldescription "
+            . "FROM {opgroup} ORDER BY vclocalname"),
+        null,
+        array('return_rows' => Database::RETURN_ALL_ROWS)
+    );
+
+    return get_sorted_child_groups_($groups);
+}
+
+function get_all_groups_for_operator($operator)
+{
+    $db = Database::getInstance();
+    $query = "SELECT g.groupid AS groupid, g.parent, g.vclocalname, g.vclocaldescription "
+        . "FROM {opgroup} g, "
+        . "(SELECT DISTINCT parent FROM {opgroup}, {operatortoopgroup} "
+            . "WHERE {opgroup}.groupid = {operatortoopgroup}.groupid "
+                . "AND {operatortoopgroup}.operatorid = ?) i "
+        . "WHERE g.groupid = i.parent OR g.parent = i.parent "
+        . "ORDER BY vclocalname";
+
+    $groups = $db->query(
+        $query,
+        array($operator['operatorid']),
+        array('return_rows' => Database::RETURN_ALL_ROWS)
+    );
+
+    return get_sorted_child_groups_($groups);
+}
+
+function get_sorted_child_groups_(
+    $groups_list,
+    $skip_groups = array(),
+    $max_level = -1,
+    $group_id = null,
+    $level = 0
+) {
+    $child_groups = array();
+    foreach ($groups_list as $index => $group) {
+        if ($group['parent'] == $group_id && !in_array($group['groupid'], $skip_groups)) {
+            $group['level'] = $level;
+            $child_groups[] = $group;
+            if ($max_level == -1 || $level < $max_level) {
+                $child_groups = array_merge(
+                    $child_groups,
+                    get_sorted_child_groups_(
+                        $groups_list,
+                        $skip_groups,
+                        $max_level,
+                        $group['groupid'],
+                        $level + 1
+                    )
+                );
+            }
+        }
+    }
+
+    return $child_groups;
+}
+
+function get_groups_($check_away, $operator, $order = null)
+{
+    $db = Database::getInstance();
+    if ($order) {
+        switch ($order['by']) {
+            case 'weight':
+                $orderby = "iweight";
+                break;
+            case 'lastseen':
+                $orderby = "ilastseen";
+                break;
+            default:
+                $orderby = "{opgroup}.vclocalname";
+        }
+        $orderby = sprintf(
+            " IF(ISNULL({opgroup}.parent),CONCAT('_',%s),'') %s, {opgroup}.iweight ",
+            $orderby,
+            ($order['desc'] ? 'DESC' : 'ASC')
+        );
+    } else {
+        $orderby = "iweight, vclocalname";
+    }
+
+    $values = array(
+        ':now' => time(),
+    );
+    $query = "SELECT {opgroup}.groupid AS groupid, "
+        . "{opgroup}.parent AS parent, "
+        . "vclocalname, vclocaldescription, iweight, "
+        . "(SELECT count(*) "
+            . "FROM {operatortoopgroup} "
+            . "WHERE {opgroup}.groupid = {operatortoopgroup}.groupid"
+        . ") AS inumofagents, "
+        . "(SELECT MIN(:now - dtmlastvisited) AS time "
+            . "FROM {operatortoopgroup}, {operator} "
+            . "WHERE istatus = 0 "
+                . "AND {opgroup}.groupid = {operatortoopgroup}.groupid "
+                . "AND {operatortoopgroup}.operatorid = {operator}.operatorid" .
+        ") AS ilastseen"
+        . ($check_away
+            ? ", (SELECT MIN(:now - dtmlastvisited) AS time "
+                    . "FROM {operatortoopgroup}, {operator} "
+                    . "WHERE istatus <> 0 "
+                    . "AND {opgroup}.groupid = {operatortoopgroup}.groupid "
+                    . "AND {operatortoopgroup}.operatorid = {operator}.operatorid"
+                . ") AS ilastseenaway"
+            : "")
+        . " FROM {opgroup} ";
+
+    if ($operator) {
+        $query .= ", (SELECT DISTINCT parent "
+            . "FROM {opgroup}, {operatortoopgroup} "
+            . "WHERE {opgroup}.groupid = {operatortoopgroup}.groupid "
+                . "AND {operatortoopgroup}.operatorid = :operatorid) i "
+            . "WHERE {opgroup}.groupid = i.parent OR {opgroup}.parent = i.parent ";
+
+        $values[':operatorid'] = $operator['operatorid'];
+    }
+
+    $query .= " ORDER BY " . $orderby;
+    $groups = $db->query(
+        $query,
+        $values,
+        array('return_rows' => Database::RETURN_ALL_ROWS)
+    );
+
+    return get_sorted_child_groups_($groups);
+}
+
+function get_groups($check_away)
+{
+    return get_groups_($check_away, null);
+}
+
+function get_groups_for_operator($operator, $check_away)
+{
+    return get_groups_($check_away, $operator);
+}
+
+function get_sorted_groups($order)
+{
+    return get_groups_(true, null, $order);
+}
+
+function get_operator_group_ids($operator_id)
+{
+    $db = Database::getInstance();
+
+    return $db->query(
+        "SELECT groupid FROM {operatortoopgroup} WHERE operatorid = ?",
+        array($operator_id),
+        array('return_rows' => Database::RETURN_ALL_ROWS)
+    );
+}
+
+function get_operators_from_adjacent_groups($operator)
+{
+    $db = Database::getInstance();
+    $query = "SELECT DISTINCT {operator}.operatorid, vclogin, "
+            . "vclocalename,vccommonname, "
+            . "istatus, idisabled, code, "
+            . "(:now - dtmlastvisited) AS time "
+        . "FROM {operator}, {operatortoopgroup} "
+        . "WHERE {operator}.operatorid = {operatortoopgroup}.operatorid "
+            . "AND {operatortoopgroup}.groupid IN ("
+                . "SELECT g.groupid from {opgroup} g, "
+                    . "(SELECT DISTINCT parent FROM {opgroup}, {operatortoopgroup} "
+                    . "WHERE {opgroup}.groupid = {operatortoopgroup}.groupid "
+                        . "AND {operatortoopgroup}.operatorid = :operatorid) i "
+                . "WHERE g.groupid = i.parent OR g.parent = i.parent "
+        . ") ORDER BY vclogin";
+
+    return $db->query(
+        $query,
+        array(
+            ':operatorid' => $operator['operatorid'],
+            ':now' => time(),
+        ),
+        array('return_rows' => Database::RETURN_ALL_ROWS)
+    );
+}
