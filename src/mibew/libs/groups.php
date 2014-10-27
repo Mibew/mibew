@@ -269,17 +269,17 @@ function get_group_description($group)
 function check_group_params($group, $extra_params = null)
 {
     $obligatory_params = array(
-        'name',
-        'description',
-        'commonname',
-        'commondescription',
-        'email',
-        'weight',
+        'vclocalname',
+        'vclocaldescription',
+        'vccommonname',
+        'vccommondescription',
+        'vcemail',
+        'iweight',
         'parent',
-        'title',
-        'chattitle',
-        'hosturl',
-        'logo',
+        'vctitle',
+        'vcchattitle',
+        'vchosturl',
+        'vclogo',
     );
 
     $params = is_null($extra_params)
@@ -298,17 +298,17 @@ function check_group_params($group, $extra_params = null)
  *
  * @param array $group Operators' group. The $group array must contains the
  *   following keys:
- *     - name,
- *     - description,
- *     - commonname,
- *     - commondescription,
- *     - email,
- *     - weight,
+ *     - vclocalname,
+ *     - vclocaldescription,
+ *     - vccommonname,
+ *     - vccommondescription,
+ *     - vcemail,
+ *     - iweight,
  *     - parent,
- *     - title,
- *     - chattitle,
- *     - hosturl,
- *     - logo
+ *     - vctitle,
+ *     - vcchattitle,
+ *     - vchosturl,
+ *     - vclogo,
  * @return array Created group
  */
 function create_group($group)
@@ -327,16 +327,16 @@ function create_group($group)
             . ":logo, :weight)"),
         array(
             ':parent' => ($group['parent'] ? (int) $group['parent'] : null),
-            ':name' => $group['name'],
-            ':desc' => $group['description'],
-            ':common_name' => $group['commonname'],
-            ':common_desc' => $group['commondescription'],
-            ':email' => $group['email'],
-            ':title' => $group['title'],
-            ':chat_title' => $group['chattitle'],
-            ':url' => $group['hosturl'],
-            ':logo' => $group['logo'],
-            ':weight' => $group['weight'],
+            ':name' => $group['vclocalname'],
+            ':desc' => $group['vclocaldescription'],
+            ':common_name' => $group['vccommonname'],
+            ':common_desc' => $group['vccommondescription'],
+            ':email' => $group['vcemail'],
+            ':title' => $group['vctitle'],
+            ':chat_title' => $group['vcchattitle'],
+            ':url' => $group['vchosturl'],
+            ':logo' => $group['vclogo'],
+            ':weight' => $group['iweight'],
         )
     );
     $id = $db->insertedId();
@@ -358,25 +358,25 @@ function create_group($group)
  *
  * @param array $group Operators' group. The $group array must contains the
  *   following keys:
- *     - id,
- *     - name,
- *     - description,
- *     - commonname,
- *     - commondescription,
- *     - email,
- *     - weight,
+ *     - groupid,
+ *     - vclocalname,
+ *     - vclocaldescription,
+ *     - vccommonname,
+ *     - vccommondescription,
+ *     - vcemail,
+ *     - iweight,
  *     - parent,
- *     - title,
- *     - chattitle,
- *     - hosturl,
- *     - logo
+ *     - vctitle,
+ *     - vcchattitle,
+ *     - vchosturl,
+ *     - vclogo,
  */
 function update_group($group)
 {
-    check_group_params($group, array('id'));
+    check_group_params($group, array('groupid'));
 
     // Get the original state of the group to trigger the "update" event later.
-    $original_group = group_by_id($group['id']);
+    $original_group = group_by_id($group['groupid']);
 
     $db = Database::getInstance();
     $db->query(
@@ -388,17 +388,17 @@ function update_group($group)
             . "where groupid = ?"),
         array(
             ($group['parent'] ? (int) $group['parent'] : null),
-            $group['name'],
-            $group['description'],
-            $group['commonname'],
-            $group['commondescription'],
-            $group['email'],
-            $group['title'],
-            $group['chattitle'],
-            $group['hosturl'],
-            $group['logo'],
-            $group['weight'],
-            $group['id']
+            $group['vclocalname'],
+            $group['vclocaldescription'],
+            $group['vccommonname'],
+            $group['vccommondescription'],
+            $group['vcemail'],
+            $group['vctitle'],
+            $group['vcchattitle'],
+            $group['vchosturl'],
+            $group['vclogo'],
+            $group['iweight'],
+            $group['groupid']
         )
     );
 
@@ -409,24 +409,8 @@ function update_group($group)
         );
     }
 
-    // Get the current state of the group
-    $current_group = array(
-        'groupid' => $group['id'],
-        'parent' => ($group['parent'] ? (int) $group['parent'] : null),
-        'vclocalname' => $group['name'],
-        'vclocaldescription' => $group['description'],
-        'vccommonname' => $group['commonname'],
-        'vccommondescription' => $group['commondescription'],
-        'vcemail' => $group['email'],
-        'vctitle' => $group['title'],
-        'vcchattitle' => $group['chattitle'],
-        'vchosturl' => $group['hosturl'],
-        'vclogo' => $group['logo'],
-        'iweight' => $group['weight'],
-    );
-
     $args = array(
-        'group' => $current_group,
+        'group' => $group,
         'original_group' => $original_group,
     );
     EventDispatcher::getInstance()->triggerEvent(Events::GROUP_UPDATE, $args);

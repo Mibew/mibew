@@ -168,17 +168,17 @@ class SettingsController extends AbstractController
         if (!$group_id) {
             // Greate new group
             $new_dep = create_group(array(
-                'name' => $name,
-                'description' => $description,
-                'commonname' => $common_name,
-                'commondescription' => $common_description,
-                'email' => $email,
-                'weight' => $weight,
+                'vclocalname' => $name,
+                'vclocaldescription' => $description,
+                'vccommonname' => $common_name,
+                'vccommondescription' => $common_description,
+                'vcemail' => $email,
+                'iweight' => $weight,
                 'parent' => $parent_group,
-                'title' => $title,
-                'chattitle' => $chat_title,
-                'hosturl' => $host_url,
-                'logo' => $logo));
+                'vctitle' => $title,
+                'vcchattitle' => $chat_title,
+                'vchosturl' => $host_url,
+                'vclogo' => $logo));
 
             // Redirect an operator to group's member page.
             $redirect_to = $this->generateUrl(
@@ -188,18 +188,18 @@ class SettingsController extends AbstractController
         } else {
             // Update exisitng group
             update_group(array(
-                'id' => $group_id,
-                'name' => $name,
-                'description' => $description,
-                'commonname' => $common_name,
-                'commondescription' => $common_description,
-                'email' => $email,
-                'weight' => $weight,
+                'groupid' => $group_id,
+                'vclocalname' => $name,
+                'vclocaldescription' => $description,
+                'vccommonname' => $common_name,
+                'vccommondescription' => $common_description,
+                'vcemail' => $email,
+                'iweight' => $weight,
                 'parent' => $parent_group,
-                'title' => $title,
-                'chattitle' => $chat_title,
-                'hosturl' => $host_url,
-                'logo' => $logo));
+                'vctitle' => $title,
+                'vcchattitle' => $chat_title,
+                'vchosturl' => $host_url,
+                'vclogo' => $logo));
 
             // Redirect an operator to group's page.
             $redirect_to = $this->generateUrl(
