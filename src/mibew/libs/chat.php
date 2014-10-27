@@ -17,8 +17,6 @@
  * limitations under the License.
  */
 
-// Import namespaces and classes of the core
-use Mibew\Database;
 use Mibew\Settings;
 use Mibew\Thread;
 use Mibew\Style\ChatStyle;
