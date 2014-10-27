@@ -46,6 +46,7 @@ class BanController extends AbstractController
         );
 
         // Prepare list of all banned visitors
+        $blocked_list = array();
         foreach (Ban::all() as $ban) {
             $blocked_list[] = array(
                 'banid' => $ban->id,
