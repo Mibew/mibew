@@ -808,6 +808,9 @@ class Thread
      * One can also set plugin item of the $options array to indicate that
      * message was sent by a plugin.
      *
+     * Triggers {@link \Mibew\EventDispatcher\Events::THREAD_POST_MESSAGE}
+     * event.
+     *
      * @param int $kind Message kind. One of the Thread::KIND_*
      * @param string $message Message body
      * @param array $options List of additional options. It may contain
@@ -837,10 +840,20 @@ class Thread
      */
     public function postMessage($kind, $message, $options = array())
     {
-        $options = is_array($options) ? $options : array();
+        $event_args = array(
+            'thread' => $this,
+            'message_kind' => $kind,
+            'message_body' => $message,
+            'message_options' => (is_array($options) ? $options : array()),
+        );
+        EventDispatcher::getInstance()->triggerEvent(Events::THREAD_POST_MESSAGE, $event_args);
 
         // Send message
-        return $this->saveMessage($kind, $message, $options);
+        return $this->saveMessage(
+            $event_args['message_kind'],
+            $event_args['message_body'],
+            $event_args['message_options']
+        );
     }
 
     /**

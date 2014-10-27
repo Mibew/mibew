@@ -306,6 +306,21 @@ final class Events
     const THREAD_CLOSE = 'threadClose';
 
     /**
+     * A message is posted.
+     *
+     * This event is triggered before a message has been posted to thread. It
+     * provides an ability for plugins to alter message, its kind or options. An
+     * associative array with the following items is passed to the event
+     * handlers:
+     *  - "thread": an instance of {@link \Mibew\Thread}.
+     *  - "message_kind": int, message kind.
+     *  - "message_body": string, message body.
+     *  - "message_options": associative array, list of options passed to
+     *    {@link \Mibew\Thread::postMessage()} method as the third argument.
+     */
+    const THREAD_POST_MESSAGE = 'threadPostMessage';
+
+    /**
      * Threads list is ready to be sent to client.
      *
      * This event is triggered before the threads list is sent to the "users"
