@@ -381,24 +381,24 @@ function update_group($group)
     $db = Database::getInstance();
     $db->query(
         ("UPDATE {opgroup} SET "
-            . "parent = ?, vclocalname = ?, vclocaldescription = ?, "
-            . "vccommonname = ?, vccommondescription = ?, "
-            . "vcemail = ?, vctitle = ?, vcchattitle = ?, "
-            . "vchosturl = ?, vclogo = ?, iweight = ? "
-            . "where groupid = ?"),
+            . "parent = :parent, vclocalname = :name, vclocaldescription = :desc, "
+            . "vccommonname = :common_name, vccommondescription = :common_desc, "
+            . "vcemail = :email, vctitle = :title, vcchattitle = :chat_title, "
+            . "vchosturl = :host_url, vclogo = :logo, iweight = :weight "
+            . "where groupid = :id"),
         array(
-            ($group['parent'] ? (int) $group['parent'] : null),
-            $group['vclocalname'],
-            $group['vclocaldescription'],
-            $group['vccommonname'],
-            $group['vccommondescription'],
-            $group['vcemail'],
-            $group['vctitle'],
-            $group['vcchattitle'],
-            $group['vchosturl'],
-            $group['vclogo'],
-            $group['iweight'],
-            $group['groupid']
+            ':parent' => ($group['parent'] ? (int) $group['parent'] : null),
+            ':name' => $group['vclocalname'],
+            ':desc' => $group['vclocaldescription'],
+            ':common_name' => $group['vccommonname'],
+            ':common_desc' => $group['vccommondescription'],
+            ':email' => $group['vcemail'],
+            ':title' => $group['vctitle'],
+            ':chat_title' => $group['vcchattitle'],
+            ':host_url' => $group['vchosturl'],
+            ':logo' => $group['vclogo'],
+            ':weight' => $group['iweight'],
+            ':id' => $group['groupid'],
         )
     );
 
