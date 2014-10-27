@@ -374,6 +374,9 @@ function update_group($group)
 {
     check_group_params($group, array('id'));
 
+    // Get the original state of the group to trigger the "update" event later.
+    $original_group = group_by_id($group['id']);
+
     $db = Database::getInstance();
     $db->query(
         ("UPDATE {opgroup} SET "
@@ -404,6 +407,28 @@ function update_group($group)
             array($group['id'])
         );
     }
+
+    // Get the current state of the group
+    $current_group = array(
+        'groupid' => $group['id'],
+        'parent' => ($group['parent'] ? (int) $group['parent'] : null),
+        'vclocalname' => $group['name'],
+        'vclocaldescription' => $group['description'],
+        'vccommonname' => $group['commonname'],
+        'vccommondescription' => $group['commondescription'],
+        'vcemail' => $group['email'],
+        'vctitle' => $group['title'],
+        'vcchattitle' => $group['chattitle'],
+        'vchosturl' => $group['hosturl'],
+        'vclogo' => $group['logo'],
+        'iweight' => $group['weight'],
+    );
+
+    $args = array(
+        'group' => $current_group,
+        'original_group' => $original_group,
+    );
+    EventDispatcher::getInstance()->triggerEvent(Events::GROUP_UPDATE, $args);
 }
 
 /**

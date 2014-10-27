@@ -60,6 +60,16 @@ final class Events
     const GROUP_CREATE = 'groupCreate';
 
     /**
+     * A group is updated.
+     *
+     * This event is triggered after a group is saved. An associative array with
+     * the following items is passed to the event handlers:
+     *  - "group": array, the state of the group after update.
+     *  - "original_group": array, the state of the group before update.
+     */
+    const GROUP_UPDATE = 'groupUpdate';
+
+    /**
      * A group is deleted.
      *
      * This event is triggered after a group has been deleted. An associative
