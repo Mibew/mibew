@@ -172,11 +172,7 @@ class ManagementController extends AbstractController
         }
 
         // Disable the operator
-        $db = Database::getInstance();
-        $db->query(
-            "update {operator} set idisabled = ? where operatorid = ?",
-            array('1', $operator_id)
-        );
+        disable_operator($operator_id);
 
         // Redirect the current operator to the page with operators list
         return $this->redirect($this->generateUrl('operators'));
@@ -200,11 +196,7 @@ class ManagementController extends AbstractController
             throw new NotFoundException('The operator is not found.');
         }
 
-        $db = Database::getInstance();
-        $db->query(
-            "update {operator} set idisabled = ? where operatorid = ?",
-            array('0', $operator_id)
-        );
+        enable_operator($operator_id);
 
         // Redirect the current operator to the page with operators list
         return $this->redirect($this->generateUrl('operators'));

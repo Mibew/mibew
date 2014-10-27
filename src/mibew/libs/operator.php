@@ -766,3 +766,29 @@ function update_operator_groups($operator_id, $new_value)
         );
     }
 }
+
+/**
+ * Makes an operator disabled.
+ *
+ * @param int $operator_id ID of the operator to disable.
+ */
+function disable_operator($operator_id)
+{
+    Database::getInstance()->query(
+        'UPDATE {operator} SET idisabled = ? WHERE operatorid = ?',
+        array('1', $operator_id)
+    );
+}
+
+/**
+ * Makes an operator enabled.
+ *
+ * @param int $operator_id ID of the operator to enable.
+ */
+function enable_operator($operator_id)
+{
+    Database::getInstance()->query(
+        'UPDATE {operator} SET idisabled = ? WHERE operatorid = ?',
+        array('0', $operator_id)
+    );
+}
