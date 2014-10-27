@@ -405,7 +405,7 @@ function update_group($group)
     if ($group['parent']) {
         $db->query(
             "UPDATE {opgroup} SET parent = NULL WHERE parent = ?",
-            array($group['id'])
+            array($group['groupid'])
         );
     }
 
