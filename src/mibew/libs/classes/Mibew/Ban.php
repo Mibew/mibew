@@ -87,13 +87,9 @@ class Ban
             return false;
         }
 
-        // Store ban properties
+        // Create and populate ban object
         $ban = new self();
-        $ban->id = $ban_info['banid'];
-        $ban->created = $ban_info['dtmcreated'];
-        $ban->till = $ban_info['dtmtill'];
-        $ban->address = $ban_info['address'];
-        $ban->comment = $ban_info['comment'];
+        $ban->populateFromDbFields($ban_info);
 
         return $ban;
     }
@@ -123,13 +119,9 @@ class Ban
             return false;
         }
 
-        // Store ban properties
+        // Create and populate ban object
         $ban = new self();
-        $ban->id = $ban_info['banid'];
-        $ban->created = $ban_info['dtmcreated'];
-        $ban->till = $ban_info['dtmtill'];
-        $ban->address = $ban_info['address'];
-        $ban->comment = $ban_info['comment'];
+        $ban->populateFromDbFields($ban_info);
 
         return $ban;
     }
@@ -145,7 +137,7 @@ class Ban
     public static function all()
     {
         $rows = Database::getInstance()->query(
-            "SELECT banid, dtmtill AS till, address, comment FROM {ban}",
+            "SELECT * FROM {ban}",
             null,
             array('return_rows' => Database::RETURN_ALL_ROWS)
         );
@@ -157,10 +149,7 @@ class Ban
         $bans = array();
         foreach ($rows as $item) {
             $ban = new self();
-            $ban->id = $item['banid'];
-            $ban->till = $item['till'];
-            $ban->address = $item['address'];
-            $ban->comment = $item['comment'];
+            $ban->populateFromDbFields($item);
             $bans[] = $ban;
         }
 
@@ -255,5 +244,20 @@ class Ban
     public function isExpired()
     {
         return ($this->till < time());
+    }
+
+    /**
+     * Sets ban's fields according to the fields from Database.
+     *
+     * @param array $db_fields Associative array of database fields which keys
+     *   are fields names and the values are fields values.
+     */
+    protected function populateFromDbFields($db_fields)
+    {
+        $this->id = $db_fields['banid'];
+        $this->created = $db_fields['dtmcreated'];
+        $this->till = $db_fields['dtmtill'];
+        $this->address = $db_fields['address'];
+        $this->comment = $db_fields['comment'];
     }
 }
