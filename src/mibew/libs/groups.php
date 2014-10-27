@@ -356,6 +356,8 @@ function create_group($group)
 /**
  * Updates group info
  *
+ * Triggers {@link \Mibew\EventDispatcher\Events::GROUP_UPDATE} event.
+ *
  * @param array $group Operators' group. The $group array must contains the
  *   following keys:
  *     - groupid,
