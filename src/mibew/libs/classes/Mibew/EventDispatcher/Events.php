@@ -34,6 +34,18 @@ final class Events
     const BAN_CREATE = 'banCreate';
 
     /**
+     * A ban is updated.
+     *
+     * This event is triggered after a ban is saved. An associative array with
+     * the following items is passed to the event handlers:
+     *  - "ban": an instance of {@link \Mibew\Ban}, the state of the ban after
+     *    the update.
+     *  - "original_ban": an instance of {@link \Mibew\Ban}, the state of the
+     *    ban before the update.
+     */
+    const BAN_UPDATE = 'banUpdate';
+
+    /**
      * A ban is deleted.
      *
      * This event is triggered after a ban has been deleted. An associative

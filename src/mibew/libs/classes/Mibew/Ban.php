@@ -224,6 +224,9 @@ class Ban
             $args = array('ban' => $this);
             EventDispatcher::getInstance()->triggerEvent(Events::BAN_CREATE, $args);
         } else {
+            // Get the original state of the ban for "update" event.
+            $original_ban = Ban::load($this->id);
+
             // Update existing ban
             $db->query(
                 ("UPDATE {ban} SET dtmtill = :till, address = :address, "
@@ -235,6 +238,12 @@ class Ban
                     ':comment' => $this->comment,
                 )
             );
+
+            $args = array(
+                'ban' => $this,
+                'original_ban' => $original_ban,
+            );
+            EventDispatcher::getInstance()->triggerEvent(Events::BAN_UPDATE, $args);
         }
     }
 
