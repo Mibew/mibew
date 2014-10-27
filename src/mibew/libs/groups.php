@@ -276,6 +276,7 @@ function check_group_params($group, $extra_params = null)
         'email',
         'weight',
         'parent',
+        'title',
         'chattitle',
         'hosturl',
         'logo',
