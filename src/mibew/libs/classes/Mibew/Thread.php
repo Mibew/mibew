@@ -836,7 +836,6 @@ class Thread
      * @see Thread::KIND_EVENTS
      * @see Thread::KIND_PLUGIN
      * @see Thread::getMessages()
-     * @see Thread::postPluginMessage()
      */
     public function postMessage($kind, $message, $options = array())
     {
