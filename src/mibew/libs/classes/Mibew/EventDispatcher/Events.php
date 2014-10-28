@@ -173,6 +173,16 @@ final class Events
     const OPERATOR_CREATE = 'operatorCreate';
 
     /**
+     * An operator is updated.
+     *
+     * This event is triggered after an operator is saved. An associative array
+     * with the following items is passed to the event handlers:
+     *  - "operator": array, the state of the operator after update.
+     *  - "original_operator": array, the state of the operator before update.
+     */
+    const OPERATOR_UPDATE = 'operatorUpdate';
+
+    /**
      * An operator is deleted.
      *
      * This event is triggered after an operator has been deleted. An

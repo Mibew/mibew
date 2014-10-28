@@ -275,6 +275,8 @@ function operator_is_disabled($operator)
 /**
  * Update existing operator's info.
  *
+ * Triggers {@link \Mibew\EventDispatcher\Events::OPERATOR_UPDATE} event.
+ *
  * @param array $operator Associative array of operator's fields. This array
  * must contain the following keys:
  *   - operatorid,
@@ -299,6 +301,9 @@ function update_operator($operator)
     if (!check_operator_fields($operator)) {
         throw new \InvalidArgumentException('Not all operator fields are specified');
     }
+
+    // Get the original operator to trigger the "update" event later
+    $original_operator = operator_by_id($operator['operatorid']);
 
     Database::getInstance()->query(
         ('UPDATE {operator} SET vclogin = :login, vcpassword=:password, '
@@ -325,6 +330,12 @@ function update_operator($operator)
             ':code' => $operator['code'],
         )
     );
+
+    $args = array(
+        'operator' => $operator,
+        'original_operator' => $original_operator,
+    );
+    EventDispatcher::getInstance()->triggerEvent(Events::OPERATOR_UPDATE, $args);
 }
 
 function update_operator_avatar($operator_id, $avatar)
