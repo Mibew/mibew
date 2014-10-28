@@ -94,7 +94,9 @@ class ProfileController extends AbstractController
 
         $page['stored'] = $request->query->has('stored');
         $page['canmodify'] = $can_modify ? '1' : '';
-        $page['canchangelogin'] = is_capable(CAN_ADMINISTRATE, $operator);
+        // The login cannot be changed for existing operators because it will
+        // make the stored password hash invalid.
+        $page['canchangelogin'] = is_capable(CAN_ADMINISTRATE, $operator) && !$op_id;
         $page['title'] = getlocal('Operator details');
         $page['menuid'] = ($op_id == $operator['operatorid']) ? 'profile' : 'operators';
         $page['requirePassword'] = (!$op_id);
@@ -141,10 +143,14 @@ class ProfileController extends AbstractController
             $errors[] = no_field('International name (Latin)');
         }
 
-        if (!$login) {
-            $errors[] = no_field('Login');
-        } elseif (!preg_match("/^[\w_\.]+$/", $login)) {
-            $errors[] = getlocal('Login should contain only latin characters, numbers and underscore symbol.');
+        // The login is needed only for new operators. If login is changed for
+        // existing operator the stored password hash becomes invalid.
+        if (!$op_id) {
+            if (!$login) {
+                $errors[] = no_field('Login');
+            } elseif (!preg_match("/^[\w_\.]+$/", $login)) {
+                $errors[] = getlocal('Login should contain only latin characters, numbers and underscore symbol.');
+            }
         }
 
         if (!$email || !is_valid_email($email)) {
@@ -206,7 +212,6 @@ class ProfileController extends AbstractController
 
         // Mix old operator's fields with updated values
         $target_operator = array(
-            'vclogin' => $login,
             'vcemail' => $email,
             'vclocalename' => $local_name,
             'vccommonname' => $common_name,
