@@ -261,14 +261,15 @@ function get_group_description($group)
 }
 
 /**
- * Chaeck availability of chatgroup array params.
+ * Checks that group's array has all necessary fields.
  *
- * @param array $group Associative group array.
- * @param array $extra_params extra parameters for chatgroup array.
+ * @param array $group Associative group's array.
+ * @return bool Boolean true if all the fields are in place and false otherwise.
  */
-function check_group_params($group, $extra_params = null)
+function check_group_fields($group)
 {
-    $obligatory_params = array(
+    $obligatory_fields = array(
+        'groupid',
         'vclocalname',
         'vclocaldescription',
         'vccommonname',
@@ -282,13 +283,7 @@ function check_group_params($group, $extra_params = null)
         'vclogo',
     );
 
-    $params = is_null($extra_params)
-        ? $obligatory_params
-        : array_merge($obligatory_params, $extra_params);
-
-    if (count(array_diff($params, array_keys($group))) != 0) {
-        die('Wrong parameters set!');
-    }
+    return (count(array_diff($obligatory_fields, array_keys($group))) == 0);
 }
 
 /**
@@ -310,10 +305,15 @@ function check_group_params($group, $extra_params = null)
  *     - vchosturl,
  *     - vclogo,
  * @return array Created group
+ * @throws \InvalidArgumentException if not all of the group fields are
+ *   specified.
  */
 function create_group($group)
 {
-    check_group_params($group);
+    $group += array('groupid' => false);
+    if (!check_group_fields($group)) {
+        throw new \InvalidArgumentException('Not all group fields are specified');
+    }
 
     $db = Database::getInstance();
     $db->query(
@@ -372,10 +372,14 @@ function create_group($group)
  *     - vcchattitle,
  *     - vchosturl,
  *     - vclogo,
+ * @throws \InvalidArgumentException if not all of the group fields are
+ *   specified.
  */
 function update_group($group)
 {
-    check_group_params($group, array('groupid'));
+    if (!check_group_fields($group)) {
+        throw new \InvalidArgumentException('Not all group fields are specified');
+    }
 
     // Get the original state of the group to trigger the "update" event later.
     $original_group = group_by_id($group['groupid']);
