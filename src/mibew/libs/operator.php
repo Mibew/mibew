@@ -93,11 +93,9 @@ function permission_descriptions()
  */
 function update_operator_permissions($operator_id, $perm)
 {
-    $db = Database::getInstance();
-    $db->query(
-        "UPDATE {operator} SET iperm = ? WHERE operatorid = ?",
-        array($perm, $operator_id)
-    );
+    $operator = operator_by_id($operator_id);
+    $operator['iperm'] = $perm;
+    update_operator($operator);
 }
 
 function operator_by_login($login)
@@ -331,11 +329,9 @@ function update_operator($operator)
 
 function update_operator_avatar($operator_id, $avatar)
 {
-    $db = Database::getInstance();
-    $db->query(
-        "UPDATE {operator} SET vcavatar = ? WHERE operatorid = ?",
-        array($avatar, $operator_id)
-    );
+    $operator = operator_by_id($operator_id);
+    $operator['vcavatar'] = $avatar;
+    update_operator($operator);
 }
 
 /**
@@ -431,16 +427,10 @@ function delete_operator($operator_id)
  */
 function notify_operator_alive($operator_id, $istatus)
 {
-    $db = Database::getInstance();
-    $db->query(
-        ("UPDATE {operator} SET istatus = :istatus, dtmlastvisited = :now "
-            . "WHERE operatorid = :operatorid"),
-        array(
-            ':istatus' => $istatus,
-            ':now' => time(),
-            ':operatorid' => $operator_id,
-        )
-    );
+    $operator = operator_by_id($operator_id);
+    $operator['istatus'] = $istatus;
+    $operator['dtmlastvisited'] = time();
+    update_operator($operator);
 }
 
 /**
@@ -784,10 +774,9 @@ function update_operator_groups($operator_id, $new_value)
  */
 function disable_operator($operator_id)
 {
-    Database::getInstance()->query(
-        'UPDATE {operator} SET idisabled = ? WHERE operatorid = ?',
-        array('1', $operator_id)
-    );
+    $operator = operator_by_id($operator_id);
+    $operator['idisabled'] = 1;
+    update_operator($operator);
 }
 
 /**
@@ -797,10 +786,9 @@ function disable_operator($operator_id)
  */
 function enable_operator($operator_id)
 {
-    Database::getInstance()->query(
-        'UPDATE {operator} SET idisabled = ? WHERE operatorid = ?',
-        array('0', $operator_id)
-    );
+    $operator = operator_by_id($operator_id);
+    $operator['idisabled'] = 0;
+    update_operator($operator);
 }
 
 /**

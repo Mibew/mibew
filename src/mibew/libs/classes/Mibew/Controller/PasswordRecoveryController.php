@@ -19,7 +19,6 @@
 
 namespace Mibew\Controller;
 
-use Mibew\Database;
 use Mibew\Http\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -72,17 +71,10 @@ class PasswordRecoveryController extends AbstractController
                     ? openssl_random_pseudo_bytes(32)
                     : (time() + microtime()) . mt_rand(0, 99999999)));
 
-                $db = Database::getInstance();
-                $db->query(
-                    ("UPDATE {operator} "
-                        . "SET dtmrestore = :now, vcrestoretoken = :token "
-                        . "WHERE operatorid = :operatorid"),
-                    array(
-                        ':now' => time(),
-                        ':token' => $token,
-                        ':operatorid' => $to_restore['operatorid'],
-                    )
-                );
+                // Update the operator
+                $to_restore['dtmrestore'] = time();
+                $to_restore['vcrestoretoken'] = $token;
+                update_operator($to_restore);
 
                 $href = $this->getRouter()->generate(
                     'password_recovery_reset',
@@ -178,16 +170,11 @@ class PasswordRecoveryController extends AbstractController
             if (count($page['errors']) == 0) {
                 $page['isdone'] = true;
 
-                $db = Database::getInstance();
-                $db->query(
-                    ("UPDATE {operator} "
-                        . "SET vcpassword = ?, vcrestoretoken = '' "
-                        . "WHERE operatorid = ?"),
-                    array(
-                        calculate_password_hash($operator['vclogin'], $password),
-                        $op_id,
-                    )
-                );
+                // Update the operator
+                $operator['vcrestoretoken'] = '';
+                $operator['vcpassword'] = calculate_password_hash($operator['vclogin'], $password);
+                update_operator($operator);
+
                 $page['loginname'] = $operator['vclogin'];
 
                 return $this->render('password_recovery_reset', $page);
