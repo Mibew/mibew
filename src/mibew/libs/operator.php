@@ -277,45 +277,55 @@ function operator_is_disabled($operator)
 /**
  * Update existing operator's info.
  *
- * If $password argument is empty operators password will not be changed.
+ * @param array $operator Associative array of operator's fields. This array
+ * must contain the following keys:
+ *   - operatorid,
+ *   - vclogin,
+ *   - vcpassword,
+ *   - vclocalename,
+ *   - vccommonname,
+ *   - vcemail,
+ *   - dtmlastvisited,
+ *   - istatus,
+ *   - idisabled,
+ *   - vcavatar,
+ *   - iperm,
+ *   - dtmrestore,
+ *   - vcrestoretoken,
+ *   - code
  *
- * @param int $operator_id ID of operator to update
- * @param string $login Operator's login
- * @param string $email Operator's
- * @param string $password Operator's password
- * @param string $locale_name Operator's local name
- * @param string $common_name Operator's international name
- * @param string $code Operator's code which use to start chat with specified
- *   operator
+ * @throws \InvalidArgumentException if not all operator's fields are in place.
  */
-function update_operator(
-    $operator_id,
-    $login,
-    $email,
-    $password,
-    $locale_name,
-    $common_name,
-    $code
-) {
-    $db = Database::getInstance();
-    $values = array(
-        ':login' => $login,
-        ':localname' => $locale_name,
-        ':commonname' => $common_name,
-        ':email' => $email,
-        ':operatorid' => $operator_id,
-        ':code' => $code,
-    );
-    if ($password) {
-        $values[':password'] = calculate_password_hash($login, $password);
+function update_operator($operator)
+{
+    if (!check_operator_fields($operator)) {
+        throw new \InvalidArgumentException('Not all operator fields are specified');
     }
-    $db->query(
-        ("UPDATE {operator} SET vclogin = :login, "
-            . ($password ? " vcpassword=:password, " : "")
-            . "vclocalename = :localname, vccommonname = :commonname, "
-            . "vcemail = :email, code = :code "
-            . "WHERE operatorid = :operatorid"),
-        $values
+
+    Database::getInstance()->query(
+        ('UPDATE {operator} SET vclogin = :login, vcpassword=:password, '
+            . 'vclocalename = :local_name, vccommonname = :common_name, '
+            . 'vcemail = :email, dtmlastvisited = :last_visited, '
+            . 'istatus = :status, idisabled = :disabled, vcavatar = :avatar, '
+            . 'iperm = :permissions, dtmrestore = :restore_time, '
+            . 'vcrestoretoken = :restore_token, code = :code '
+            . 'WHERE operatorid = :id'),
+        array(
+            ':id' => $operator['operatorid'],
+            ':login' => $operator['vclogin'],
+            ':password' => $operator['vcpassword'],
+            ':local_name' => $operator['vclocalename'],
+            ':common_name' => $operator['vccommonname'],
+            ':email' => $operator['vcemail'],
+            ':last_visited' => $operator['dtmlastvisited'],
+            ':status' => $operator['istatus'],
+            ':disabled' => $operator['idisabled'],
+            ':avatar' => $operator['vcavatar'],
+            ':permissions' => $operator['iperm'],
+            ':restore_time' => $operator['dtmrestore'],
+            ':restore_token' => $operator['vcrestoretoken'],
+            ':code' => $operator['code'],
+        )
     );
 }
 
@@ -791,4 +801,32 @@ function enable_operator($operator_id)
         'UPDATE {operator} SET idisabled = ? WHERE operatorid = ?',
         array('0', $operator_id)
     );
+}
+
+/**
+ * Checks that operator array has all needed fields.
+ *
+ * @param array $operator Associative operator's array.
+ * @return bool Boolean true if all the fields are in place and false otherwise.
+ */
+function check_operator_fields($operator)
+{
+    $obligatory_fields = array(
+        'operatorid',
+        'vclogin',
+        'vcpassword',
+        'vclocalename',
+        'vccommonname',
+        'vcemail',
+        'dtmlastvisited',
+        'istatus',
+        'idisabled',
+        'vcavatar',
+        'iperm',
+        'dtmrestore',
+        'vcrestoretoken',
+        'code',
+    );
+
+    return (count(array_diff($obligatory_fields, array_keys($operator))) == 0);
 }

@@ -204,18 +204,29 @@ class ProfileController extends AbstractController
             return $this->redirect($redirect_to);
         }
 
-        // Update existing operator
-        update_operator($op_id, $login, $email, $password, $local_name, $common_name, $code);
+        // Mix old operator's fields with updated values
+        $target_operator = array(
+            'vclogin' => $login,
+            'vcemail' => $email,
+            'vclocalename' => $local_name,
+            'vccommonname' => $common_name,
+            'code' => $code,
+        ) + operator_by_id($op_id);
+        // Set the password only if it's not an empty string.
+        if ($password !== '') {
+            $target_operator['vcpassword'] = calculate_password_hash($login, $password);
+        }
+        // Update operator's fields in the database.
+        update_operator($target_operator);
 
-        // Operator data are cached in the authentication manager, thus we need
+        // Operator's data are cached in the authentication manager, thus we need
         // to manually update them.
-        if (!empty($password) && $op_id == $operator['operatorid']) {
+        if ($target_operator['operatorid'] == $operator['operatorid']) {
             // Check if the admin has set his password for the first time.
             $to_dashboard = check_password_hash($login, '', $operator['vcpassword']) && $password != '';
 
-            // Update operator's password.
-            $operator['vcpassword'] = calculate_password_hash($login, $password);
-            $this->getAuthenticationManager()->setOperator($operator);
+            // Update operator's fields.
+            $this->getAuthenticationManager()->setOperator($target_operator);
 
             // Redirect the admin to the home page if needed.
             if ($to_dashboard) {
