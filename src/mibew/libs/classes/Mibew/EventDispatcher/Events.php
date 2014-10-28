@@ -285,6 +285,41 @@ final class Events
     const ROUTES_ALTER = 'routesAlter';
 
     /**
+     * A function was called at client side "thread" application.
+     *
+     * This event is triggered when an API a function is called at client side
+     * in the "thread" application, but the system is not aware of this function.
+     *
+     * Plugins can implement custom API functions by attaching handlers to the
+     * event. If a plugin wants to return some results, it should use "results"
+     * element of the event arguments array (see below).
+     *
+     * An associative array with the following items is passed to the event
+     * handlers:
+     *   - "function": string, name of the function that was called.
+     *   - "arguments": associative array of arguments that was passed to the
+     *     function.
+     *   - "results": array, list of function results.
+     *
+     * Here is an example of the event handler:
+     * <code>
+     * public function callHandler(&$function)
+     * {
+     *     // Check that the function we want to implement is called.
+     *     if ($function['function'] == 'microtime') {
+     *         // Check some function's arguments.
+     *         $as_float = empty($function['arguments']['as_float'])
+     *             ? false
+     *             : $function['arguments']['as_float'];
+     *         // Invoke the function and return the results.
+     *         $function['results']['time'] = microtime($as_float);
+     *     }
+     * }
+     * </code>
+     */
+    const THREAD_FUNCTION_CALL = 'threadFunctionCall';
+
+    /**
      * Thread is updated.
      *
      * This event is triggered after a thread is saved and only if some of its
