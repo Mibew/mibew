@@ -84,7 +84,7 @@ function track_visitor_start($entry, $referer)
     }
 
     $args = array('visitor' => track_get_visitor_by_id($id));
-    EventDispatcher::getInstance()->triggerEvent('visitorCreate', $args);
+    EventDispatcher::getInstance()->triggerEvent(Events::VISITOR_CREATE, $args);
 
     return $id ? $id : 0;
 }
