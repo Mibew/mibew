@@ -45,7 +45,6 @@ class FeaturesController extends AbstractController
 
         if (Settings::get('featuresversion') != FEATURES_VERSION) {
             Settings::set('featuresversion', FEATURES_VERSION);
-            Settings::update();
         }
 
         // Load all needed options and fill form with them.
@@ -84,7 +83,6 @@ class FeaturesController extends AbstractController
             $value = $request->request->get($opt) == 'on' ? '1' : '0';
             Settings::set($opt, $value);
         }
-        Settings::update();
 
         // Redirect the current operator to the same page using GET method.
         $redirect_to = $this->generateUrl(

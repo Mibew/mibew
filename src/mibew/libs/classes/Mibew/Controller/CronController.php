@@ -66,7 +66,6 @@ class CronController extends AbstractController
 
         // Update time of last cron run
         Settings::set('_last_cron_run', time());
-        Settings::update();
 
         if (!$quiet) {
             // TODO: May be localize it

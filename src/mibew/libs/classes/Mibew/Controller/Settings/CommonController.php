@@ -210,7 +210,6 @@ class CommonController extends AbstractController
         foreach ($params as $key => $value) {
             Settings::set($key, $value);
         }
-        Settings::update();
 
         // Update styles params
         ChatStyle::setDefaultStyle($chat_style);

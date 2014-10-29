@@ -82,7 +82,6 @@ class InvitationStyle extends AbstractStyle implements StyleInterface
     public static function setDefaultStyle($style_name)
     {
         Settings::set('invitation_style', $style_name);
-        Settings::update();
     }
 
     /**

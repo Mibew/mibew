@@ -158,27 +158,21 @@ class Settings
     public static function set($name, $value)
     {
         $instance = self::getInstance();
+        // Update value in the instance
         $instance->settings[$name] = $value;
-    }
 
-    /**
-     * Updates settings in database.
-     */
-    public static function update()
-    {
-        $instance = self::getInstance();
+        // Update value in the database
         $db = Database::getInstance();
-        foreach ($instance->settings as $key => $value) {
-            if (!isset($instance->settingsInDb[$key])) {
-                $db->query(
-                    "INSERT INTO {config} (vckey) VALUES (?)",
-                    array($key)
-                );
-                $instance->settingsInDb[$key] = true;
-            }
+        if (!isset($instance->settingsInDb[$name])) {
             $db->query(
-                "UPDATE {config} SET vcvalue=? WHERE vckey=?",
-                array($value, $key)
+                "INSERT INTO {config} (vckey, vcvalue) VALUES (:name, :value)",
+                array(':name' => $name, ':value' => $value)
+            );
+            $instance->settingsInDb[$name] = true;
+        } else {
+            $db->query(
+                'UPDATE {config} SET vcvalue=:value WHERE vckey=:name',
+                array(':name' => $name, ':value' => $value)
             );
         }
     }

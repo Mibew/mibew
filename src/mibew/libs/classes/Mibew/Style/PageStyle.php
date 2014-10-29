@@ -95,7 +95,6 @@ class PageStyle extends AbstractHandlebarsPoweredStyle implements StyleInterface
     public static function setDefaultStyle($style_name)
     {
         Settings::set('page_style', $style_name);
-        Settings::update();
     }
 
     /**

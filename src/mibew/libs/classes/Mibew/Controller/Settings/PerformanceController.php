@@ -180,7 +180,6 @@ class PerformanceController extends AbstractController
         foreach ($params as $key => $value) {
             Settings::set($key, $value);
         }
-        Settings::update();
 
         // Redirect the current operator to the same page using get method.
         $redirect_to = $this->generateUrl('settings_performance', array('stored' => true));
