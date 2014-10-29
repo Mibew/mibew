@@ -394,11 +394,7 @@ class Thread
             // Get the lock
             Settings::set('_threads_close_old_lock_time', time());
 
-            $query = "UPDATE {thread} SET "
-                    . "lrevision = :next_revision, "
-                    . "dtmmodified = :now, "
-                    . "dtmclosed = :now, "
-                    . "istate = :state_closed "
+            $query = "SELECT * FROM {thread} "
                 . "WHERE istate <> :state_closed "
                     . "AND istate <> :state_left "
                     // Check created timestamp
@@ -432,17 +428,30 @@ class Thread
                         . ") "
                     . ")";
 
-            // Perform the cleaning
-            Database::getInstance()->query(
+            // Get appropriate threads
+            $now = time();
+            $rows = Database::getInstance()->query(
                 $query,
                 array(
-                    ':next_revision' => self::nextRevision(),
-                    ':now' => time(),
+                    ':now' => $now,
                     ':state_closed' => self::STATE_CLOSED,
                     ':state_left' => self::STATE_LEFT,
                     ':thread_lifetime' => Settings::get('thread_lifetime'),
-                )
+                ),
+                array('return_rows' => Database::RETURN_ALL_ROWS)
             );
+
+            // Perform the cleaning
+            $revision = self::nextRevision();
+            foreach ($rows as $row) {
+                $thread = Thread::createFromDbInfo($row);
+                $thread->lastRevision = $revision;
+                $thread->modified = $now;
+                $thread->closed = $now;
+                $thread->state = self::STATE_CLOSED;
+                $thread->save();
+                unset($thread);
+            }
 
             // Release the lock
             Settings::set('_threads_close_old_lock_time', '0');
