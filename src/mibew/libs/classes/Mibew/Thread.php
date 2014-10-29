@@ -373,64 +373,80 @@ class Thread
     }
 
     /**
-     * Close all old threads that were not closed by some reasons
+     * Close all old threads that were not closed by some reasons.
      */
     public static function closeOldThreads()
     {
         if (Settings::get('thread_lifetime') == 0) {
+            // Threads live forever.
             return;
         }
 
-        $db = Database::getInstance();
+        // We need to run only one instance of cleaning process. Use a lock with
+        // last run timestamp.
+        $lock_timestamp = (int)Settings::get('_threads_close_old_lock_time', 0);
+        $is_lock_free = !$lock_timestamp
+            // Lock cannot be got for more than 5 minutes. If such situation
+            // take place we have a deadlock.
+            || (time() - $lock_timestamp) > 5 * 60;
 
-        $query = "UPDATE {thread} SET "
-                . "lrevision = :next_revision, "
-                . "dtmmodified = :now, "
-                . "dtmclosed = :now, "
-                . "istate = :state_closed "
-            . "WHERE istate <> :state_closed "
-                . "AND istate <> :state_left "
-                // Check created timestamp
-                . "AND ABS(:now - dtmcreated) > :thread_lifetime "
-                // Check pings
-                . "AND ( "
-                    . "( "
-                        // Both user and operator have no connection problems.
-                        // Check all pings.
-                        . "lastpingagent <> 0 "
-                        . "AND lastpinguser <> 0 "
-                        . "AND ABS(:now - lastpinguser) > :thread_lifetime "
-                        . "AND ABS(:now - lastpingagent) > :thread_lifetime "
-                    . ") OR ( "
-                        // Only operator have connection problems.
-                        // Check user's ping.
-                        . "lastpingagent = 0 "
-                        . "AND lastpinguser <> 0 "
-                        . "AND ABS(:now - lastpinguser) > :thread_lifetime "
-                    . ") OR ( "
-                        // Only user have connection problems.
-                        // Check operator's ping.
-                        . "lastpinguser = 0 "
-                        . "AND lastpingagent <> 0 "
-                        . "AND ABS(:now - lastpingagent) > :thread_lifetime "
-                    . ") OR ( "
-                        // Both user and operator have connection problems.
-                        // Just close thread.
-                        . "lastpinguser = 0 "
-                        . "AND lastpingagent = 0 "
-                    . ") "
-                . ")";
+        if ($is_lock_free) {
+            // Get the lock
+            Settings::set('_threads_close_old_lock_time', time());
 
-        $db->query(
-            $query,
-            array(
-                ':next_revision' => self::nextRevision(),
-                ':now' => time(),
-                ':state_closed' => self::STATE_CLOSED,
-                ':state_left' => self::STATE_LEFT,
-                ':thread_lifetime' => Settings::get('thread_lifetime'),
-            )
-        );
+            $query = "UPDATE {thread} SET "
+                    . "lrevision = :next_revision, "
+                    . "dtmmodified = :now, "
+                    . "dtmclosed = :now, "
+                    . "istate = :state_closed "
+                . "WHERE istate <> :state_closed "
+                    . "AND istate <> :state_left "
+                    // Check created timestamp
+                    . "AND ABS(:now - dtmcreated) > :thread_lifetime "
+                    // Check pings
+                    . "AND ( "
+                        . "( "
+                            // Both user and operator have no connection
+                            // problems. Check all pings.
+                            . "lastpingagent <> 0 "
+                            . "AND lastpinguser <> 0 "
+                            . "AND ABS(:now - lastpinguser) > :thread_lifetime "
+                            . "AND ABS(:now - lastpingagent) > :thread_lifetime "
+                        . ") OR ( "
+                            // Only operator have connection problems.
+                            // Check user's ping.
+                            . "lastpingagent = 0 "
+                            . "AND lastpinguser <> 0 "
+                            . "AND ABS(:now - lastpinguser) > :thread_lifetime "
+                        . ") OR ( "
+                            // Only user have connection problems.
+                            // Check operator's ping.
+                            . "lastpinguser = 0 "
+                            . "AND lastpingagent <> 0 "
+                            . "AND ABS(:now - lastpingagent) > :thread_lifetime "
+                        . ") OR ( "
+                            // Both user and operator have connection problems.
+                            // Just close thread.
+                            . "lastpinguser = 0 "
+                            . "AND lastpingagent = 0 "
+                        . ") "
+                    . ")";
+
+            // Perform the cleaning
+            Database::getInstance()->query(
+                $query,
+                array(
+                    ':next_revision' => self::nextRevision(),
+                    ':now' => time(),
+                    ':state_closed' => self::STATE_CLOSED,
+                    ':state_left' => self::STATE_LEFT,
+                    ':thread_lifetime' => Settings::get('thread_lifetime'),
+                )
+            );
+
+            // Release the lock
+            Settings::set('_threads_close_old_lock_time', '0');
+        }
     }
 
     /**
