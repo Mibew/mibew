@@ -136,13 +136,17 @@ class Settings
      * Get setting value.
      *
      * @param string $name Variable's name
+     * @param mixed $default A value which will be used if the variable is not
+     *   set.
      * @return mixed
      */
-    public static function get($name)
+    public static function get($name, $default = null)
     {
         $instance = self::getInstance();
 
-        return $instance->settings[$name];
+        return isset($instance->settings[$name])
+            ? $instance->settings[$name]
+            : $default;
     }
 
     /**
