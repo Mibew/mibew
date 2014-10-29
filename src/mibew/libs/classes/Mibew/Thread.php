@@ -117,127 +117,160 @@ class Thread
     const CONNECTION_TIMEOUT = 30;
 
     /**
-     * Contain mapping of thread object properties to fields in database.
-     *
-     * Keys are object properties and vlues are {thread} table fields.
-     * Properties are available via magic __get and __set methods. Real values
-     * are stored in the Thread::$threadInfo array.
-     *
-     * Thread object have following properties:
-     *  - 'id': id of the thread
-     *  - 'lastRevision': last revision number
-     *  - 'state': state of the thread. See Thread::STATE_*
-     *  - 'invitationState': state of invitation. See INVITATION_* constants,
-     *    defined in libs/invitation.php
-     *  - 'lastToken': last chat token
-     *  - 'nextAgent': id of the next agent(agent that change current agent in
-     *    the chat)
-     *  - 'groupId': id of the group related to the thread
-     *  - 'shownMessageId': last id of shown message
-     *  - 'messageCount': count of user's messages related to the thread
-     *  - 'created': unix timestamp of the thread creation
-     *  - 'modified': unix timestamp of the thread's last modification
-     *  - 'closed': unix timestamp of the moment when the thread was closed
-     *  - 'chatStarted': unix timestamp of related to thread chat started
-     *  - 'agentId': id of an operator who take part in the chat
-     *  - 'agentName': name of an operator who take part in the chat
-     *  - 'agentTyping': "1" if operator typing at last ping time and "0"
-     *    otherwise
-     *  - 'lastPingAgent': unix timestamp of last operator ping
-     *  - 'locale': locale code of the chat related to thread
-     *  - 'userId': id of an user who take part in the chat
-     *  - 'userName': name of an user who take part in the chat
-     *  - 'userTyping': "1" if user typing at last ping time and "0" otherwise
-     *  - 'lastPingUser': unix timestamp of last user ping
-     *  - 'remote': user's IP
-     *  - 'referer': content of HTTP Referer header for user
-     *  - 'userAgent': content of HTTP User-agent header for user
-     *
-     * @var array
-     *
-     * @see Thread::__get()
-     * @see Thread::__set()
-     * @see Thread::$threadInfo
+     * ID of the thread.
+     * @var int|bool
      */
-    protected $propertyMap = array(
-        'id' => 'threadid',
-        'lastRevision' => 'lrevision',
-        'state' => 'istate',
-        'invitationState' => 'invitationstate',
-        'lastToken' => 'ltoken',
-        'nextAgent' => 'nextagent',
-        'groupId' => 'groupid',
-        'shownMessageId' => 'shownmessageid',
-        'messageCount' => 'messagecount',
-        'created' => 'dtmcreated',
-        'modified' => 'dtmmodified',
-        'chatStarted' => 'dtmchatstarted',
-        'closed' => 'dtmclosed',
-        'agentId' => 'agentid',
-        'agentName' => 'agentname',
-        'agentTyping' => 'agenttyping',
-        'lastPingAgent' => 'lastpingagent',
-        'locale' => 'locale',
-        'userId' => 'userid',
-        'userName' => 'username',
-        'userTyping' => 'usertyping',
-        'lastPingUser' => 'lastpinguser',
-        'remote' => 'remote',
-        'referer' => 'referer',
-        'userAgent' => 'useragent',
-    );
+    public $id;
 
     /**
-     * Contain loaded from database information about thread
-     *
-     * Do not use this property manually!
-     *
-     * @var array
+     * Number of the last revision
+     * @var int
      */
-    protected $threadInfo;
+    public $lastRevision;
 
     /**
-     * List of modified fields.
-     *
-     * Do not use this property manually!
-     *
-     * @var array
+     * State of the thread. See Thread::STATE_* constants for details.
+     * @var int
      */
-    protected $changedFields = array();
+    public $state;
 
     /**
-     * Create new empty thread in database
-     *
-     * @return boolean|Thread Returns an object of the Thread class or boolean
-     *   false on failure
+     * State of the invitation. See Thread::INVITATION_* constants for details.
+     * @var int
      */
-    public static function create()
-    {
-        // Get database object
-        $db = Database::getInstance();
+    public $invitationState;
 
-        // Create new empty thread
-        $thread = new self();
+    /**
+     * The last token of the chat thread.
+     * @var string
+     */
+    public $lastToken;
 
-        // Create thread
-        $db->query("insert into {thread} (threadid) values (NULL)");
+    /**
+     * ID of the next agent(agent that changes the current agent in the chat).
+     * @var int
+     */
+    public $nextAgent;
 
-        // Set thread Id
-        // In this case Thread::$threadInfo array use because id of a thread
-        // should not be update
-        $thread->threadInfo['threadid'] = $db->insertedId();
+    /**
+     * ID of the group related with the thread.
+     * @var int
+     */
+    public $groupId;
 
-        // Check if something went wrong
-        if (empty($thread->id)) {
-            return false;
-        }
+    /**
+     * ID of the last shown message.
+     * @var int
+     */
+    public $shownMessageId;
 
-        // Set initial values
-        $thread->lastToken = self::nextToken();
-        $thread->created = time();
+    /**
+     * Count of user's messages related to the thread.
+     * @var int
+     */
+    public $messageCount;
 
-        return $thread;
-    }
+    /**
+     * Unix timestamp of the moment the thread was created.
+     * @var int
+     */
+    public $created;
+
+    /**
+     * Unix timestamp of the moment the thread was modified last time.
+     * @var int
+     */
+    public $modified;
+
+    /**
+     * Unix timestamp of the moment when the thread was closed.
+     * @var int
+     */
+    public $closed;
+
+    /**
+     * Unix timestamp of the moment the chat related to the thread was started.
+     * @var int
+     */
+    public $chatStarted;
+
+    /**
+     * ID of an operator who take part in the chat.
+     * @var int
+     */
+    public $agentId;
+
+    /**
+     * Name of an operator who take part in the chat.
+     * @var string
+     */
+    public $agentName;
+
+    /**
+     * Indicates if the opertor who take part in the chat is typing or not.
+     *
+     * It is equal to "1" if the operator was typing at the last ping time and
+     * "0" otherwise.
+     * @var int
+     */
+    public $agentTyping;
+
+    /**
+     * Unix timestamp of the moment the operator was pinged for the last time.
+     * @var int
+     */
+    public $lastPingAgent;
+
+    /**
+     * Locale code of the chat thread.
+     * @var string
+     */
+    public $locale;
+
+    /**
+     * ID of a user who take part in the chat.
+     * @var string
+     */
+    public $userId;
+
+    /**
+     * Name of a user who take part in the chat.
+     * @var string
+     */
+    public $userName;
+
+    /**
+     * Indicates if the user who take part in the chat is typing or not.
+     *
+     * It is equal to "1" if the user was typing at the last ping time and "0"
+     * otherwise
+     * @var int
+     */
+    public $userTyping;
+
+    /**
+     * Unix timestamp of the moment the user was pinged for the last time.
+     * @var int
+     */
+    public $lastPingUser;
+
+    /**
+     * User's IP.
+     * @var string
+     */
+    public $remote;
+
+    /**
+     * Content of HTTP "Referer" header for the user.
+     * @var string
+     */
+    public $referer;
+
+    /**
+     * Content of HTTP "User-agent" header for the user.
+     * @var string
+     */
+    public $userAgent;
 
     /**
      * Create thread object from database info.
@@ -252,18 +285,7 @@ class Thread
     {
         // Create new empty thread
         $thread = new self();
-
-        // Check thread fields
-        $obligatory_fields = array_values($thread->propertyMap);
-        foreach ($obligatory_fields as $field) {
-            if (!array_key_exists($field, $thread_info)) {
-                // Obligatory field is missing
-                unset($thread);
-                return false;
-            }
-            // Copy field to Thread object
-            $thread->threadInfo[$field] = $thread_info[$field];
-        }
+        $thread->populateFromDbFields($thread_info);
 
         return $thread;
     }
@@ -282,14 +304,8 @@ class Thread
             return false;
         }
 
-        // Get database object
-        $db = Database::getInstance();
-
-        // Create new empty thread
-        $thread = new self();
-
         // Load thread
-        $thread_info = $db->query(
+        $thread_info = Database::getInstance()->query(
             "SELECT * FROM {thread} WHERE threadid = :threadid",
             array(':threadid' => $id),
             array('return_rows' => Database::RETURN_ONE_ROW)
@@ -300,13 +316,9 @@ class Thread
             return;
         }
 
-        // Store thread properties
-        $thread->threadInfo = $thread_info;
-
-        // Check if something went wrong
-        if ($thread->id != $id) {
-            return false;
-        }
+        // Create new empty thread and populate it with the values from database
+        $thread = new self();
+        $thread->populateFromDbFields($thread_info);
 
         // Check last token
         if (!is_null($last_token)) {
@@ -433,8 +445,7 @@ class Thread
             return false;
         }
 
-        $db = Database::getInstance();
-        $result = $db->query(
+        $result = Database::getInstance()->query(
             "SELECT COUNT(*) AS opened FROM {thread} WHERE remote = ? AND istate <> ? AND istate <> ?",
             array(
                 $remote,
@@ -452,82 +463,30 @@ class Thread
     }
 
     /**
-     * Implementation of the magic __get method
-     *
-     * Check if variable with name $name exists in the Thread::$propertyMap
-     * array. If it does not exist triggers an error with E_USER_NOTICE level
-     * and returns false.
-     *
-     * @param string $name property name
-     * @return mixed
-     * @see Thread::$propertyMap
+     * Class constructor.
      */
-    public function __get($name)
+    public function __construct()
     {
-        // Check property existance
-        if (!array_key_exists($name, $this->propertyMap)) {
-            trigger_error("Undefined property '{$name}'", E_USER_NOTICE);
-
-            return null;
-        }
-
-        $field_name = $this->propertyMap[$name];
-
-        return $this->threadInfo[$field_name];
-    }
-
-    /**
-     * Implementation of the magic __set method
-     *
-     * Check if variable with name $name exists in the Thread::$propertyMap
-     * array before setting. If it does not exist triggers an error
-     * with E_USER_NOTICE level and value will NOT set. If previous value is
-     * equal to new value the property will NOT be update and NOT update in
-     * database when Thread::save method call.
-     *
-     * @param string $name Property name
-     * @param mixed $value Property value
-     * @return mixed
-     * @see Thread::$propertyMap
-     */
-    public function __set($name, $value)
-    {
-        if (empty($this->propertyMap[$name])) {
-            trigger_error("Undefined property '{$name}'", E_USER_NOTICE);
-
-            return;
-        }
-
-        $field_name = $this->propertyMap[$name];
-
-        if (array_key_exists($field_name, $this->threadInfo) && ($this->threadInfo[$field_name] === $value)) {
-            return;
-        }
-
-        $this->threadInfo[$field_name] = $value;
-
-        if (!in_array($name, $this->changedFields)) {
-            $this->changedFields[] = $name;
-        }
-    }
-
-    /**
-     * Implementation of the magic __isset method
-     *
-     * Check if variable with $name exists.
-     *
-     * param string $name Variable name
-     * return boolean True if variable exists and false otherwise
-     */
-    public function __isset($name)
-    {
-        if (!array_key_exists($name, $this->propertyMap)) {
-            return false;
-        }
-
-        $property_name = $this->propertyMap[$name];
-
-        return isset($this->threadInfo[$property_name]);
+        // Set the defaults
+        $this->id = false;
+        $this->userName = '';
+        $this->agentId = 0;
+        $this->created = time();
+        $this->modified = time();
+        $this->chatStarted = 0;
+        $this->closed = 0;
+        $this->lastRevision = 0;
+        $this->state = self::STATE_QUEUE;
+        $this->invitationState = self::INVITATION_NOT_INVITED;
+        $this->lastToken = self::nextToken();
+        $this->nextAgent = 0;
+        $this->lastPingAgent = 0;
+        $this->lastPingUser = 0;
+        $this->userTyping = 0;
+        $this->agentTyping = 0;
+        $this->shownMessageId = 0;
+        $this->messageCount = 0;
+        $this->groupId = 0;
     }
 
     /**
@@ -537,8 +496,7 @@ class Thread
      */
     public function delete()
     {
-        $db = Database::getInstance();
-        $db->query(
+        Database::getInstance()->query(
             "DELETE FROM {thread} WHERE threadid = :id LIMIT 1",
             array(':id' => $this->id)
         );
@@ -650,42 +608,114 @@ class Thread
      */
     public function save($update_revision = true)
     {
-        $db = Database::getInstance();
-
-        // Update modified time and last revision if need
+        // Update modification time and revision number only if needed
         if ($update_revision) {
             $this->lastRevision = $this->nextRevision();
             $this->modified = time();
         }
 
-        // Do not save thread if nothing changed
-        if (empty($this->changedFields)) {
-            return;
+        $db = Database::getInstance();
+        if (!$this->id) {
+            $db->query(
+                ('INSERT INTO {thread} ('
+                    . 'username, userid, agentname, agentid, '
+                    . 'dtmcreated, dtmchatstarted, dtmmodified, dtmclosed, '
+                    . 'lrevision, istate, invitationstate, ltoken, remote, '
+                    . 'referer, nextagent, locale, lastpinguser, '
+                    . 'lastpingagent, usertyping, agenttyping, '
+                    . 'shownmessageid, useragent, messagecount, groupid'
+                . ') VALUES ('
+                    . ':user_name, :user_id, :agent_name, :agent_id, '
+                    . ':created, :chat_started, :modified, :closed, '
+                    . ':revision, :state, :invitation_state, :token, :remote, '
+                    . ':referer, :next_agent, :locale, :last_ping_user, '
+                    . ':last_ping_agent, :user_typing, :agent_typing, '
+                    . ':shown_message_id, :user_agent, :message_count, :group_id '
+                . ')'),
+                array(
+                    ':user_name' => $this->userName,
+                    ':user_id' => $this->userId,
+                    ':agent_name' => $this->agentName,
+                    ':agent_id' => $this->agentId,
+                    ':created' => $this->created,
+                    ':chat_started' => $this->chatStarted,
+                    ':modified' => $this->modified,
+                    ':closed' => $this->closed,
+                    ':revision' => $this->lastRevision,
+                    ':state' => $this->state,
+                    ':invitation_state' => $this->invitationState,
+                    ':token' => $this->lastToken,
+                    ':remote' => $this->remote,
+                    ':referer' => $this->referer,
+                    ':next_agent' => $this->nextAgent,
+                    ':locale' => $this->locale,
+                    ':last_ping_user' => $this->lastPingUser,
+                    ':last_ping_agent' => $this->lastPingAgent,
+                    ':user_typing' => $this->userTyping,
+                    ':agent_typing' => $this->agentTyping,
+                    ':shown_message_id' => $this->shownMessageId,
+                    ':user_agent' => $this->userAgent,
+                    ':message_count' => $this->messageCount,
+                    ':group_id' => $this->groupId,
+                )
+            );
+            $this->id = $db->insertedId();
+        } else {
+            // Get the original state of the thread to trigger event later.
+            $original_thread = Thread::load($this->id);
+
+            $db->query(
+                ('UPDATE {thread} SET '
+                    . 'username = :user_name, userid = :user_id, '
+                    . 'agentname = :agent_name, agentid = :agent_id, '
+                    . 'dtmcreated = :created, dtmchatstarted = :chat_started, '
+                    . 'dtmmodified = :modified, dtmclosed = :closed, '
+                    . 'lrevision = :revision, istate = :state, '
+                    . 'invitationstate = :invitation_state, ltoken = :token, '
+                    . 'remote = :remote, referer = :referer, '
+                    . 'nextagent = :next_agent, locale = :locale, '
+                    . 'lastpinguser = :last_ping_user, '
+                    . 'lastpingagent = :last_ping_agent, '
+                    . 'usertyping = :user_typing, agenttyping = :agent_typing, '
+                    . 'shownmessageid = :shown_message_id, '
+                    . 'useragent = :user_agent, messagecount = :message_count, '
+                    . 'groupid = :group_id '
+                . 'WHERE threadid = :thread_id'),
+                array(
+                    ':thread_id' => $this->id,
+                    ':user_name' => $this->userName,
+                    ':user_id' => $this->userId,
+                    ':agent_name' => $this->agentName,
+                    ':agent_id' => $this->agentId,
+                    ':created' => $this->created,
+                    ':chat_started' => $this->chatStarted,
+                    ':modified' => $this->modified,
+                    ':closed' => $this->closed,
+                    ':revision' => $this->lastRevision,
+                    ':state' => $this->state,
+                    ':invitation_state' => $this->invitationState,
+                    ':token' => $this->lastToken,
+                    ':remote' => $this->remote,
+                    ':referer' => $this->referer,
+                    ':next_agent' => $this->nextAgent,
+                    ':locale' => $this->locale,
+                    ':last_ping_user' => $this->lastPingUser,
+                    ':last_ping_agent' => $this->lastPingAgent,
+                    ':user_typing' => $this->userTyping,
+                    ':agent_typing' => $this->agentTyping,
+                    ':shown_message_id' => $this->shownMessageId,
+                    ':user_agent' => $this->userAgent,
+                    ':message_count' => $this->messageCount,
+                    ':group_id' => $this->groupId,
+                )
+            );
+
+            $args = array(
+                'thread' => $this,
+                'original_thread' => $original_thread,
+            );
+            EventDispatcher::getInstance()->triggerEvent(Events::THREAD_UPDATE, $args);
         }
-
-        $values = array();
-        $set_clause = array();
-        foreach ($this->changedFields as $field_name) {
-            $field_db_name = $this->propertyMap[$field_name];
-            $set_clause[] = "{$field_db_name} = ?";
-            $values[] = $this->threadInfo[$field_db_name];
-        }
-
-        $query = "UPDATE {thread} t SET " . implode(', ', $set_clause)
-            . " WHERE threadid = ?";
-        $values[] = $this->id;
-        $db->query($query, $values);
-
-        // Trigger thread changed event
-        $args = array(
-            'thread' => $this,
-            'changed_fields' => $this->changedFields,
-        );
-        $dispatcher = EventDispatcher::getInstance();
-        $dispatcher->triggerEvent(Events::THREAD_UPDATE, $args);
-
-        // Clear updated fields
-        $this->changedFields = array();
     }
 
     /**
@@ -1039,10 +1069,38 @@ class Thread
     }
 
     /**
-     * Forbid create instance from outside of the class
+     * Sets thread's fields according to the fields from Database.
+     *
+     * @param array $db_fields Associative array of database fields which keys
+     *   are fields names and the values are fields values.
      */
-    protected function __construct()
+    protected function populateFromDbFields($db_fields)
     {
+        $this->id = $db_fields['threadid'];
+        $this->userName = $db_fields['username'];
+        $this->userId = $db_fields['userid'];
+        $this->agentName = $db_fields['agentname'];
+        $this->agentId = $db_fields['agentid'];
+        $this->created = $db_fields['dtmcreated'];
+        $this->chatStarted = $db_fields['dtmchatstarted'];
+        $this->modified = $db_fields['dtmmodified'];
+        $this->closed = $db_fields['dtmclosed'];
+        $this->lastRevision = $db_fields['lrevision'];
+        $this->state = $db_fields['istate'];
+        $this->invitationState = $db_fields['invitationstate'];
+        $this->lastToken = $db_fields['ltoken'];
+        $this->remote = $db_fields['remote'];
+        $this->referer = $db_fields['referer'];
+        $this->nextAgent = $db_fields['nextagent'];
+        $this->locale = $db_fields['locale'];
+        $this->lastPingUser = $db_fields['lastpinguser'];
+        $this->lastPingAgent = $db_fields['lastpingagent'];
+        $this->userTyping = $db_fields['usertyping'];
+        $this->agentTyping = $db_fields['agenttyping'];
+        $this->shownMessageId = $db_fields['shownmessageid'];
+        $this->userAgent = $db_fields['useragent'];
+        $this->messageCount = $db_fields['messagecount'];
+        $this->groupId = $db_fields['groupid'];
     }
 
     /**

@@ -654,7 +654,7 @@ class ThreadProcessor extends ClientSideProcessor implements RouterAwareInterfac
         }
 
         // Create thread
-        $thread = Thread::create();
+        $thread = new Thread();
         $thread->groupId = $group_id;
         $thread->userName = $name;
         $thread->remote = $remote_host;

@@ -714,7 +714,7 @@ function chat_start_for_user(
         $thread->state = Thread::STATE_CHATTING;
     } else {
         // Create thread
-        $thread = Thread::create();
+        $thread = new Thread();
         $thread->state = Thread::STATE_LOADING;
         $thread->agentId = 0;
         if ($requested_operator && $requested_operator_online) {

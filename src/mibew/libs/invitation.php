@@ -91,11 +91,8 @@ function invitation_invite($visitor_id, $operator)
     $operator_name = get_operator_name($operator);
 
     // Create thread for invitation
-    $thread = Thread::create();
-    if (!$thread) {
-        // Something went wrong
-        return false;
-    }
+    $thread = new Thread();
+
     // Populate thread and save it
     $thread->agentId = $operator['operatorid'];
     $thread->agentName = $operator_name;
