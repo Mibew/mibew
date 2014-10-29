@@ -174,6 +174,7 @@ class Settings
                     "INSERT INTO {config} (vckey) VALUES (?)",
                     array($key)
                 );
+                $instance->settingsInDb[$key] = true;
             }
             $db->query(
                 "UPDATE {config} SET vcvalue=? WHERE vckey=?",
