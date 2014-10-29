@@ -320,6 +320,15 @@ final class Events
     const THREAD_FUNCTION_CALL = 'threadFunctionCall';
 
     /**
+     * A thread is created.
+     *
+     * This event is triggered after a thread has been created. An associative
+     * array with the following items is passed to the event handlers:
+     *  - "thread": an instance of {@link \Mibew\Thread}.
+     */
+    const THREAD_CREATE = 'threadCreate';
+
+    /**
      * Thread is updated.
      *
      * This event is triggered after a thread is saved. An associative array

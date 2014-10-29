@@ -601,7 +601,8 @@ class Thread
     /**
      * Save the thread to the database
      *
-     * Triggers {@link \Mibew\EventDispatcher\Events::THREAD_UPDATE} event.
+     * Triggers {@link \Mibew\EventDispatcher\Events::THREAD_UPDATE} and
+     * {@link \Mibew\EventDispatcher\Events::THREAD_CREATE} events.
      *
      * @param boolean $update_revision Indicates if last modified time and last
      *   revision should be updated.
@@ -660,6 +661,9 @@ class Thread
                 )
             );
             $this->id = $db->insertedId();
+
+            $args = array('thread' => $this);
+            EventDispatcher::getInstance()->triggerEvent(Events::THREAD_CREATE, $args);
         } else {
             // Get the original state of the thread to trigger event later.
             $original_thread = Thread::load($this->id);
