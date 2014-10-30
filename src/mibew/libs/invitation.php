@@ -21,6 +21,7 @@
 use Mibew\EventDispatcher\EventDispatcher;
 use Mibew\EventDispatcher\Events;
 use Mibew\Database;
+use Mibew\ProcessLock;
 use Mibew\Settings;
 use Mibew\Thread;
 
@@ -248,56 +249,63 @@ function invitation_reject($visitor_id)
  */
 function invitation_close_old()
 {
-    $db = Database::getInstance();
+    // Run only one instance of cleaning process.
+    $lock = new ProcessLock('invitations_close_old');
+    if ($lock->get()) {
+        $db = Database::getInstance();
 
-    // Get all threads to close
-    $threads = $db->query(
-        ("SELECT * FROM {thread} "
-            . "WHERE istate = :state_invited "
-            . "AND invitationstate = :invitation_wait "
-            . "AND (:now - dtmcreated) > :lifetime"),
-        array(
-            ':invitation_wait' => Thread::INVITATION_WAIT,
-            ':state_invited' => Thread::STATE_INVITED,
-            ':lifetime' => Settings::get('invitation_lifetime'),
-            ':now' => time(),
-        ),
-        array('return_rows' => Database::RETURN_ALL_ROWS)
-    );
-
-    // Remove old invitations
-    $db->query(
-        ("UPDATE {sitevisitor} v, {thread} t SET "
-            . "t.invitationstate = :invitation_ignored, "
-            . "t.istate = :state_closed, "
-            . "t.dtmclosed = :now, "
-            . "v.threadid = NULL "
-            . "WHERE t.istate = :state_invited "
-            . "AND t.invitationstate = :invitation_wait "
-            . "AND (:now - t.dtmcreated) > :lifetime"),
-        array(
-            ':invitation_ignored' => Thread::INVITATION_IGNORED,
-            ':invitation_wait' => Thread::INVITATION_WAIT,
-            ':state_closed' => Thread::STATE_CLOSED,
-            ':state_invited' => Thread::STATE_INVITED,
-            ':lifetime' => Settings::get('invitation_lifetime'),
-            ':now' => time(),
-        )
-    );
-
-    // Iterate over all threads and send messages to operator about close by
-    // timeout
-    foreach ($threads as $thread_info) {
-        $thread = Thread::createFromDbInfo($thread_info);
-        $thread->postMessage(
-            Thread::KIND_FOR_AGENT,
-            getlocal('Visitor ignored invitation and it was closed automatically', null, $thread->locale, true)
+        // Get all threads to close
+        $threads = $db->query(
+            ("SELECT * FROM {thread} "
+                . "WHERE istate = :state_invited "
+                . "AND invitationstate = :invitation_wait "
+                . "AND (:now - dtmcreated) > :lifetime"),
+            array(
+                ':invitation_wait' => Thread::INVITATION_WAIT,
+                ':state_invited' => Thread::STATE_INVITED,
+                ':lifetime' => Settings::get('invitation_lifetime'),
+                ':now' => time(),
+            ),
+            array('return_rows' => Database::RETURN_ALL_ROWS)
         );
 
-        $args = array('invitation' => $thread);
-        EventDispatcher::getInstance()->triggerEvent(Events::INVITATION_IGNORE, $args);
+        // Remove old invitations
+        $db->query(
+            ("UPDATE {sitevisitor} v, {thread} t SET "
+                . "t.invitationstate = :invitation_ignored, "
+                . "t.istate = :state_closed, "
+                . "t.dtmclosed = :now, "
+                . "v.threadid = NULL "
+                . "WHERE t.istate = :state_invited "
+                . "AND t.invitationstate = :invitation_wait "
+                . "AND (:now - t.dtmcreated) > :lifetime"),
+            array(
+                ':invitation_ignored' => Thread::INVITATION_IGNORED,
+                ':invitation_wait' => Thread::INVITATION_WAIT,
+                ':state_closed' => Thread::STATE_CLOSED,
+                ':state_invited' => Thread::STATE_INVITED,
+                ':lifetime' => Settings::get('invitation_lifetime'),
+                ':now' => time(),
+            )
+        );
 
-        unset($thread);
+        // Iterate over all threads and send messages to operator about close by
+        // timeout
+        foreach ($threads as $thread_info) {
+            $thread = Thread::createFromDbInfo($thread_info);
+            $thread->postMessage(
+                Thread::KIND_FOR_AGENT,
+                getlocal('Visitor ignored invitation and it was closed automatically', null, $thread->locale, true)
+            );
+
+            $args = array('invitation' => $thread);
+            EventDispatcher::getInstance()->triggerEvent(Events::INVITATION_IGNORE, $args);
+
+            unset($thread);
+        }
+
+        // Release the lock
+        $lock->release();
     }
 }
 
