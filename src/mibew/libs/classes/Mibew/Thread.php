@@ -382,18 +382,10 @@ class Thread
             return;
         }
 
-        // We need to run only one instance of cleaning process. Use a lock with
-        // last run timestamp.
-        $lock_timestamp = (int)Settings::get('_threads_close_old_lock_time', 0);
-        $is_lock_free = !$lock_timestamp
-            // Lock cannot be got for more than 5 minutes. If such situation
-            // take place we have a deadlock.
-            || (time() - $lock_timestamp) > 5 * 60;
+        // We need to run only one instance of cleaning process.
+        $lock = new ProcessLock('threads_close_old');
 
-        if ($is_lock_free) {
-            // Get the lock
-            Settings::set('_threads_close_old_lock_time', time());
-
+        if ($lock->get()) {
             $query = "SELECT * FROM {thread} "
                 . "WHERE istate <> :state_closed "
                     . "AND istate <> :state_left "
@@ -454,7 +446,7 @@ class Thread
             }
 
             // Release the lock
-            Settings::set('_threads_close_old_lock_time', '0');
+            $lock->release();
         }
     }
 
