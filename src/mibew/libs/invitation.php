@@ -252,9 +252,27 @@ function invitation_close_old()
     // Run only one instance of cleaning process.
     $lock = new ProcessLock('invitations_close_old');
     if ($lock->get()) {
+        // Freeze the time for the whole cleaning process.
+        $now = time();
+
         $db = Database::getInstance();
 
-        // Get all threads to close
+        // Remove links beteen visitors and invitations that will be closed.
+        $db->query(
+            ("UPDATE {sitevisitor} v, {thread} t SET "
+                . "v.threadid = NULL "
+                . "WHERE t.istate = :state_invited "
+                . "AND t.invitationstate = :invitation_wait "
+                . "AND (:now - t.dtmcreated) > :lifetime"),
+            array(
+                ':invitation_wait' => Thread::INVITATION_WAIT,
+                ':state_invited' => Thread::STATE_INVITED,
+                ':lifetime' => Settings::get('invitation_lifetime'),
+                ':now' => $now,
+            )
+        );
+
+        // Get all invitations to close
         $threads = $db->query(
             ("SELECT * FROM {thread} "
                 . "WHERE istate = :state_invited "
@@ -264,38 +282,28 @@ function invitation_close_old()
                 ':invitation_wait' => Thread::INVITATION_WAIT,
                 ':state_invited' => Thread::STATE_INVITED,
                 ':lifetime' => Settings::get('invitation_lifetime'),
-                ':now' => time(),
+                ':now' => $now,
             ),
             array('return_rows' => Database::RETURN_ALL_ROWS)
         );
 
-        // Remove old invitations
-        $db->query(
-            ("UPDATE {sitevisitor} v, {thread} t SET "
-                . "t.invitationstate = :invitation_ignored, "
-                . "t.istate = :state_closed, "
-                . "t.dtmclosed = :now, "
-                . "v.threadid = NULL "
-                . "WHERE t.istate = :state_invited "
-                . "AND t.invitationstate = :invitation_wait "
-                . "AND (:now - t.dtmcreated) > :lifetime"),
-            array(
-                ':invitation_ignored' => Thread::INVITATION_IGNORED,
-                ':invitation_wait' => Thread::INVITATION_WAIT,
-                ':state_closed' => Thread::STATE_CLOSED,
-                ':state_invited' => Thread::STATE_INVITED,
-                ':lifetime' => Settings::get('invitation_lifetime'),
-                ':now' => time(),
-            )
-        );
-
-        // Iterate over all threads and send messages to operator about close by
-        // timeout
+        // Close the invitations
         foreach ($threads as $thread_info) {
             $thread = Thread::createFromDbInfo($thread_info);
+            $thread->invitationState = Thread::INVITATION_IGNORED;
+            $thread->state = Thread::STATE_CLOSED;
+            $thread->closed = $now;
+            $thread->save();
+
+            // Notify the operator about autoclosing
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getlocal('Visitor ignored invitation and it was closed automatically', null, $thread->locale, true)
+                getlocal(
+                    'Visitor ignored invitation and it was closed automatically',
+                    null,
+                    $thread->locale,
+                    true
+                )
             );
 
             $args = array('invitation' => $thread);
