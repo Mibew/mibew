@@ -374,6 +374,19 @@ final class Events
     const THREAD_POST_MESSAGE = 'threadPostMessage';
 
     /**
+     * Related with a thread messages are loaded.
+     *
+     * This event is triggered after messages related with a thread are loaded.
+     * It provides an ability for plugins to alter messages set. An associative
+     * array with the following items is passed to the event handlers:
+     *  - "thread": an instance of {@link \Mibew\Thread}.
+     *  - "messages": array, list of messages. Each message is an associative
+     *    array. See {@link \Mibew\Thread::getMessages()} return value for
+     *    details of its structure.
+     */
+    const THREAD_GET_MESSAGES_ALTER = 'threadGetMessagesAlter';
+
+    /**
      * Threads list is ready to be sent to client.
      *
      * This event is triggered before the threads list is sent to the "users"

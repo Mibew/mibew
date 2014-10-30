@@ -846,14 +846,24 @@ class Thread
             } else {
                 $messages[$key]['data'] = array();
             }
+        }
 
-            // Get last message ID
+        // Trigger the "alter" event
+        $args = array(
+            'messages' => $messages,
+            'thread' => $this,
+        );
+        EventDispatcher::getInstance()->triggerEvent(Events::THREAD_GET_MESSAGES_ALTER, $args);
+        $altered_messages = $args['messages'];
+
+        // Get ID of the last message
+        foreach ($altered_messages as $msg) {
             if ($msg['id'] > $last_id) {
                 $last_id = $msg['id'];
             }
         }
 
-        return $messages;
+        return $altered_messages;
     }
 
     /**
