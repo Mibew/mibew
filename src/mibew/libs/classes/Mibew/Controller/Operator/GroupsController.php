@@ -68,9 +68,7 @@ class GroupsController extends AbstractController
         // Get IDs of groups the operator belongs to.
         $checked_groups = array();
         if ($op) {
-            foreach (get_operator_group_ids($op_id) as $rel) {
-                $checked_groups[] = $rel['groupid'];
-            }
+            $checked_groups = get_operator_group_ids($op_id);
         }
 
         // Get all available groups

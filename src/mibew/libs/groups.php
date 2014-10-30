@@ -635,13 +635,18 @@ function get_sorted_groups($order)
 
 function get_operator_group_ids($operator_id)
 {
-    $db = Database::getInstance();
-
-    return $db->query(
+    $rows = Database::getInstance()->query(
         "SELECT groupid FROM {operatortoopgroup} WHERE operatorid = ?",
         array($operator_id),
         array('return_rows' => Database::RETURN_ALL_ROWS)
     );
+
+    $groups = array();
+    foreach ($rows as $row) {
+        $groups[] = $row['groupid'];
+    }
+
+    return $groups;
 }
 
 function get_operators_from_adjacent_groups($operator)
