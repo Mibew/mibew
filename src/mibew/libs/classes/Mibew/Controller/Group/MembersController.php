@@ -63,10 +63,7 @@ class MembersController extends AbstractController
             : '';
 
         // Get list of group's members
-        $checked_operators = array();
-        foreach (get_group_members($group_id) as $rel) {
-            $checked_operators[] = $rel['operatorid'];
-        }
+        $checked_operators = get_group_members($group_id);
 
         // Prepare the list of all operators
         $page['operators'] = array();

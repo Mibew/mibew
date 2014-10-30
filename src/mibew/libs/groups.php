@@ -431,12 +431,18 @@ function update_group($group)
  */
 function get_group_members($group_id)
 {
-    $db = Database::getInstance();
-    return $db->query(
+    $rows =  Database::getInstance()->query(
         "SELECT operatorid FROM {operatortoopgroup} WHERE groupid = ?",
         array($group_id),
         array('return_rows' => Database::RETURN_ALL_ROWS)
     );
+
+    $operators = array();
+    foreach ($rows as $row) {
+        $operators[] = $row['operatorid'];
+    }
+
+    return $operators;
 }
 
 /**
