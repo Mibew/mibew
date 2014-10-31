@@ -193,12 +193,17 @@ function track_retrieve_details($visitor)
 }
 
 /**
- * Remove old visitors
+ * Remove old visitors.
+ *
+ * Triggers {@link \Mibew\EventDispatcher\Events::VISITOR_DELETE_OLD} event.
  */
 function track_remove_old_visitors()
 {
     $lock = new ProcessLock('visitors_remove_old');
     if ($lock->get()) {
+        // Freeze the time for the whole process
+        $now = time();
+
         $db = Database::getInstance();
 
         // Remove associations of visitors with closed threads
@@ -211,6 +216,23 @@ function track_remove_old_visitors()
             . "AND istate <> " . Thread::STATE_LEFT . ") = 0 "
         );
 
+        // Get all visitors that will be removed. They will be used in the
+        // "delete" event later.
+        $rows = $db->query(
+            ("SELECT visitorid FROM {sitevisitor} "
+                . "WHERE (:now - lasttime) > :lifetime "
+                . "AND threadid IS NULL"),
+            array(
+                ':lifetime' => Settings::get('tracking_lifetime'),
+                ':now' => $now,
+            ),
+            array('return_rows' => Database::RETURN_ALL_ROWS)
+        );
+        $removed_visitors = array();
+        foreach ($rows as $row) {
+            $removed_visitors[] = $row['visitorid'];
+        }
+
         // Remove old visitors
         $db->query(
             ("DELETE FROM {sitevisitor} "
@@ -218,9 +240,15 @@ function track_remove_old_visitors()
                 . "AND threadid IS NULL"),
             array(
                 ':lifetime' => Settings::get('tracking_lifetime'),
-                ':now' => time(),
+                ':now' => $now,
             )
         );
+
+        // Trigger the "delete" event only if visitors was removed.
+        if (count($removed_visitors) > 0) {
+            $args = array('visitors' => $removed_visitors);
+            EventDispatcher::getInstance()->triggerEvent(Events::VISITOR_DELETE_OLD, $args);
+        }
 
         // Release the lock
         $lock->release();

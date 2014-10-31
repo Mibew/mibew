@@ -498,4 +498,13 @@ final class Events
      *     structure.
      */
     const VISITOR_TRACK = 'visitorTrack';
+
+    /**
+     * Old visitors are deleted.
+     *
+     * This event is triggered after old visitors are deleted. An associative
+     * array with the following items is passed to the event handlers:
+     *   - "visitors": array, list of removed visitors' IDs.
+     */
+    const VISITOR_DELETE_OLD = 'visitorDeleteOld';
 }
