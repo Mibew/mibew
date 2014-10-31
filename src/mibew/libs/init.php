@@ -22,15 +22,10 @@
  */
 define('MIBEW_FS_ROOT', dirname(dirname(__FILE__)));
 
-// Initialize classes autoloading
-require_once(MIBEW_FS_ROOT . '/libs/classes/Mibew/Autoloader.php');
-Mibew\Autoloader::register(MIBEW_FS_ROOT . '/libs/classes');
-
-// Automatically load plugins
-Mibew\Autoloader::register(MIBEW_FS_ROOT . '/plugins');
-
-// Initialize external dependencies
-require_once(MIBEW_FS_ROOT . '/vendor/autoload.php');
+// Initialize autoloader for root classes and external dependecies
+$loader = require_once(MIBEW_FS_ROOT . '/vendor/autoload.php');
+$loader->addPsr4('', MIBEW_FS_ROOT . '/libs/classes/', true);
+$loader->addPsr4('', MIBEW_FS_ROOT . '/plugins/');
 
 // Load system configurations
 require_once(MIBEW_FS_ROOT . '/libs/common/configurations.php');
