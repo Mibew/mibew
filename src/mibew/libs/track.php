@@ -21,6 +21,7 @@
 use Mibew\EventDispatcher\EventDispatcher;
 use Mibew\EventDispatcher\Events;
 use Mibew\Database;
+use Mibew\ProcessLock;
 use Mibew\Settings;
 use Mibew\Thread;
 
@@ -196,28 +197,34 @@ function track_retrieve_details($visitor)
  */
 function track_remove_old_visitors()
 {
-    $db = Database::getInstance();
+    $lock = new ProcessLock('visitors_remove_old');
+    if ($lock->get()) {
+        $db = Database::getInstance();
 
-    // Remove associations of visitors with closed threads
-    $db->query(
-        "UPDATE {sitevisitor} SET threadid = NULL "
-        . "WHERE threadid IS NOT NULL AND "
-        . "(SELECT count(*) FROM {thread} "
-        . "WHERE threadid = {sitevisitor}.threadid "
-        . "AND istate <> " . Thread::STATE_CLOSED . " "
-        . "AND istate <> " . Thread::STATE_LEFT . ") = 0 "
-    );
+        // Remove associations of visitors with closed threads
+        $db->query(
+            "UPDATE {sitevisitor} SET threadid = NULL "
+            . "WHERE threadid IS NOT NULL AND "
+            . "(SELECT count(*) FROM {thread} "
+            . "WHERE threadid = {sitevisitor}.threadid "
+            . "AND istate <> " . Thread::STATE_CLOSED . " "
+            . "AND istate <> " . Thread::STATE_LEFT . ") = 0 "
+        );
 
-    // Remove old visitors
-    $db->query(
-        ("DELETE FROM {sitevisitor} "
-            . "WHERE (:now - lasttime) > :lifetime "
-            . "AND threadid IS NULL"),
-        array(
-            ':lifetime' => Settings::get('tracking_lifetime'),
-            ':now' => time(),
-        )
-    );
+        // Remove old visitors
+        $db->query(
+            ("DELETE FROM {sitevisitor} "
+                . "WHERE (:now - lasttime) > :lifetime "
+                . "AND threadid IS NULL"),
+            array(
+                ':lifetime' => Settings::get('tracking_lifetime'),
+                ':now' => time(),
+            )
+        );
+
+        // Release the lock
+        $lock->release();
+    }
 }
 
 /**
