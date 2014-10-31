@@ -762,8 +762,31 @@ function check_password_hash($login, $password, $hash)
     }
 }
 
+/**
+ * Updates set of groups the operator belongs to.
+ *
+ * Triggers {@link \Mibew\EventDispatcher\Events::GROUP_UPDATE_OPERATORS} event.
+ *
+ * @param int $operator_id ID of the operator.
+ * @param array $new_value List of operator's groups IDs.
+ */
 function update_operator_groups($operator_id, $new_value)
 {
+    // Get difference of groups the operator belongs to before and after the
+    // update.
+    $original_groups = get_operator_group_ids($operator_id);
+    $groups_union = array_unique(array_merge($original_groups, $new_value));
+    $groups_intersect = array_intersect($original_groups, $new_value);
+    $updated_groups = array_diff($groups_union, $groups_intersect);
+
+    // Get members of all updated groups. It will be used to trigger the
+    // "update" event later.
+    $original_relations = array();
+    foreach ($updated_groups as $group_id) {
+        $original_relations[$group_id] = get_group_members($group_id);
+    }
+
+    // Update group members
     $db = Database::getInstance();
     $db->query(
         "DELETE FROM {operatortoopgroup} WHERE operatorid = ?",
@@ -775,6 +798,16 @@ function update_operator_groups($operator_id, $new_value)
             "INSERT INTO {operatortoopgroup} (groupid, operatorid) VALUES (?,?)",
             array($group_id, $operator_id)
         );
+    }
+
+    // Trigger the "update" event
+    foreach ($original_relations as $group_id => $operators) {
+        $args = array(
+            'group' => group_by_id($group_id),
+            'original_operators' => $operators,
+            'operators' => get_group_members($group_id),
+        );
+        EventDispatcher::getInstance()->triggerEvent(Events::GROUP_UPDATE_OPERATORS, $args);
     }
 }
 

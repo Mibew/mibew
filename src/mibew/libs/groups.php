@@ -448,11 +448,17 @@ function get_group_members($group_id)
 /**
  * Update operators of specific group
  *
+ * Triggers {@link \Mibew\EventDispatcher\Events::GROUP_UPDATE_OPERATORS} event.
+ *
  * @param int $group_id ID of the group.
  * @param array $new_value list of all operators of specified group.
  */
 function update_group_members($group_id, $new_value)
 {
+    // Get the unchanged set of operators related with the group to trigger
+    // "update" event later
+    $original_operators = get_group_members($group_id);
+
     $db = Database::getInstance();
     $db->query(
         "DELETE FROM {operatortoopgroup} WHERE groupid = ?",
@@ -464,6 +470,15 @@ function update_group_members($group_id, $new_value)
             "INSERT INTO {operatortoopgroup} (groupid, operatorid) VALUES (?, ?)",
             array($group_id, $operator_id)
         );
+    }
+    if ($original_operators != $new_value) {
+        // Trigger the "update" event only if operators set is changed.
+        $args = array(
+            'group' => group_by_id($group_id),
+            'original_operators' => $original_operators,
+            'operators' => $new_value,
+        );
+        EventDispatcher::getInstance()->triggerEvent(Events::GROUP_UPDATE_OPERATORS, $args);
     }
 }
 

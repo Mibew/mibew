@@ -91,6 +91,18 @@ final class Events
     const GROUP_DELETE = 'groupDelete';
 
     /**
+     * Group's operators set is updated.
+     *
+     * This event is triggered after a set of operators related with a group has
+     * been changed. An associative array with the following items is passed to
+     * the event handlers:
+     *  - "group": group's array.
+     *  - "original_operators": array, list of operators IDs before the update.
+     *  - "operators": array, list of operators IDs after the update.
+     */
+    const GROUP_UPDATE_OPERATORS = 'groupUpdateOperators';
+
+    /**
      * An invitation is created.
      *
      * This event is triggered after an invitation has been created. An
