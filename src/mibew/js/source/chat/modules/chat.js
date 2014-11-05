@@ -203,6 +203,8 @@
                             "function": "update",
                             "arguments": {
                                 "return": {
+                                    'threadState': 'threadState',
+                                    'threadAgentId': 'threadAgentId',
                                     'typing': 'typing',
                                     'canPost': 'canPost'
                                 },
@@ -231,6 +233,11 @@
                     // Update user
                     Mibew.Objects.Models.user.set({
                         canPost: args.canPost || false
+                    });
+                    // Update thread fields
+                    Mibew.Objects.Models.thread.set({
+                        'agentId': args.threadAgentId,
+                        'state': args.threadState
                     });
                 }
             )

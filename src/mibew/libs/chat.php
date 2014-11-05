@@ -433,7 +433,9 @@ function setup_chatview(Thread $thread)
     // Set thread params
     $data['chat']['thread'] = array(
         'id' => $thread->id,
-        'token' => $thread->lastToken
+        'token' => $thread->lastToken,
+        'agentId' => $thread->agentId,
+        'userId' => $thread->userId,
     );
 
     $data['page.title'] = empty($group['vcchattitle'])

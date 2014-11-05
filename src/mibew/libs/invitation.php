@@ -336,6 +336,8 @@ function setup_invitation_view(Thread $thread)
     $data['invitation']['thread'] = array(
         'id' => $thread->id,
         'token' => $thread->lastToken,
+        'agentId' => $thread->agentId,
+        'userId' => $thread->userId,
     );
 
     $data['invitation']['user'] = array(

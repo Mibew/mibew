@@ -319,6 +319,7 @@ class UsersProcessor extends ClientSideProcessor implements AuthenticationManage
                 'userIp' => $user_ip,
                 'remote' => $thread->remote,
                 'userAgent' => get_user_agent_version($thread->userAgent),
+                'agentId' => $thread->agentId,
                 'agentName' => $agent_name,
                 'canOpen' => $can_open,
                 'canView' => $can_view,

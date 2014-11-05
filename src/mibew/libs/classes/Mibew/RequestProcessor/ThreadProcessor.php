@@ -265,6 +265,10 @@ class ThreadProcessor extends ClientSideProcessor implements RouterAwareInterfac
      *      message
      *    - 'canPost': indicates if agent(user can post message all the time)
      *      can post the message
+     *    - 'threadState': current state of the thread. See Thread::STATE_*
+     *      constants for details.
+     *    - 'threadAgentId': ID of the agent that is currently related with the
+     *      thread.
      */
     protected function apiUpdate($args)
     {
@@ -310,6 +314,8 @@ class ThreadProcessor extends ClientSideProcessor implements RouterAwareInterfac
         $can_post = $args['user'] || $operator['operatorid'] == $thread->agentId;
 
         return array(
+            'threadState' => $thread->state,
+            'threadAgentId' => $thread->agentId,
             'typing' => $is_typing,
             'canPost' => $can_post,
         );

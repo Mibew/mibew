@@ -26,7 +26,6 @@
         {
             /**
              * A list of default model values.
-             * Inherits values from Mibew.Models.User
              * @type Object
              */
             defaults: {
@@ -47,6 +46,17 @@
                  * @type Number
                  */
                 lastId: 0,
+
+                /**
+                 * ID of the user related with the chat.
+                 * @type String
+                 */
+                userId: null,
+
+                /**
+                 * ID of the agent related with the chat.
+                 */
+                agentId: null,
 
                 /**
                  * Thread's state
