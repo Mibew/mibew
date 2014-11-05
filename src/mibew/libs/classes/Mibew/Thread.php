@@ -1107,31 +1107,31 @@ class Thread
      */
     protected function populateFromDbFields($db_fields)
     {
-        $this->id = $db_fields['threadid'];
+        $this->id = (int)$db_fields['threadid'];
         $this->userName = $db_fields['username'];
         $this->userId = $db_fields['userid'];
         $this->agentName = $db_fields['agentname'];
-        $this->agentId = $db_fields['agentid'];
-        $this->created = $db_fields['dtmcreated'];
-        $this->chatStarted = $db_fields['dtmchatstarted'];
-        $this->modified = $db_fields['dtmmodified'];
-        $this->closed = $db_fields['dtmclosed'];
-        $this->lastRevision = $db_fields['lrevision'];
-        $this->state = $db_fields['istate'];
-        $this->invitationState = $db_fields['invitationstate'];
-        $this->lastToken = $db_fields['ltoken'];
+        $this->agentId = (int)$db_fields['agentid'];
+        $this->created = (int)$db_fields['dtmcreated'];
+        $this->chatStarted = (int)$db_fields['dtmchatstarted'];
+        $this->modified = (int)$db_fields['dtmmodified'];
+        $this->closed = (int)$db_fields['dtmclosed'];
+        $this->lastRevision = (int)$db_fields['lrevision'];
+        $this->state = (int)$db_fields['istate'];
+        $this->invitationState = (int)$db_fields['invitationstate'];
+        $this->lastToken = (int)$db_fields['ltoken'];
         $this->remote = $db_fields['remote'];
         $this->referer = $db_fields['referer'];
-        $this->nextAgent = $db_fields['nextagent'];
+        $this->nextAgent = (int)$db_fields['nextagent'];
         $this->locale = $db_fields['locale'];
-        $this->lastPingUser = $db_fields['lastpinguser'];
-        $this->lastPingAgent = $db_fields['lastpingagent'];
+        $this->lastPingUser = (int)$db_fields['lastpinguser'];
+        $this->lastPingAgent = (int)$db_fields['lastpingagent'];
         $this->userTyping = $db_fields['usertyping'];
         $this->agentTyping = $db_fields['agenttyping'];
-        $this->shownMessageId = $db_fields['shownmessageid'];
+        $this->shownMessageId = (int)$db_fields['shownmessageid'];
         $this->userAgent = $db_fields['useragent'];
         $this->messageCount = $db_fields['messagecount'];
-        $this->groupId = $db_fields['groupid'];
+        $this->groupId = (int)$db_fields['groupid'];
     }
 
     /**
