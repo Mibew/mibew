@@ -38,6 +38,7 @@ class ThreadController extends AbstractController
     {
         $processor = ThreadProcessor::getInstance();
         $processor->setRouter($this->getRouter());
+        $processor->setAuthenticationManager($this->getAuthenticationManager());
 
         return $processor->handleRequest($request);
     }

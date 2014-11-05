@@ -526,13 +526,6 @@ function get_operator_name($operator)
     }
 }
 
-function get_logged_in()
-{
-    return isset($_SESSION[SESSION_PREFIX . "operator"])
-        ? $_SESSION[SESSION_PREFIX . "operator"]
-        : false;
-}
-
 function setup_redirect_links(UrlGeneratorInterface $url_generator, $threadid, $operator, $token)
 {
     $result = array();

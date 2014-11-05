@@ -20,6 +20,8 @@
 namespace Mibew\RequestProcessor;
 
 // Import namespaces and classes of the core
+use Mibew\Authentication\AuthenticationManagerAwareInterface;
+use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Settings;
 use Mibew\Thread;
 use Mibew\API\API as MibewAPI;
@@ -44,8 +46,15 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @todo Move all API functions to another place.
  */
-class ThreadProcessor extends ClientSideProcessor implements RouterAwareInterface
+class ThreadProcessor extends ClientSideProcessor implements
+    RouterAwareInterface,
+    AuthenticationManagerAwareInterface
 {
+    /**
+     * @var AuthenticationManagerInterface|null
+     */
+    protected $authenticationManager = null;
+
     /**
      * The request which is hadled now.
      *
@@ -108,26 +117,6 @@ class ThreadProcessor extends ClientSideProcessor implements RouterAwareInterfac
     }
 
     /**
-     * Check if operator logged in
-     *
-     * @return array Operators info array
-     * @throws \Mibew\RequestProcessor\ThreadProcessorException If operator is
-     *   not logged in.
-     */
-    public static function checkOperator()
-    {
-        $operator = get_logged_in();
-        if (!$operator) {
-            throw new ThreadProcessorException(
-                "Operator is not logged in!",
-                ThreadProcessorException::ERROR_AGENT_NOT_LOGGED_IN
-            );
-        }
-
-        return $operator;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function handleRequest($request)
@@ -156,6 +145,22 @@ class ThreadProcessor extends ClientSideProcessor implements RouterAwareInterfac
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function setAuthenticationManager(AuthenticationManagerInterface $manager)
+    {
+        $this->authenticationManager = $manager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAuthenticationManager()
+    {
+        return $this->authenticationManager;
+    }
+
+    /**
      * Class constructor
      */
     protected function __construct()
@@ -175,6 +180,26 @@ class ThreadProcessor extends ClientSideProcessor implements RouterAwareInterfac
     protected function getMibewAPIInstance()
     {
         return MibewAPI::getAPI('\\Mibew\\API\\Interaction\\ChatInteraction');
+    }
+
+    /**
+     * Check if operator logged in
+     *
+     * @return array Operators info array
+     * @throws \Mibew\RequestProcessor\ThreadProcessorException If operator is
+     *   not logged in.
+     */
+    protected function checkOperator()
+    {
+        $operator = $this->getAuthenticationManager()->getOperator();
+        if (!$operator) {
+            throw new ThreadProcessorException(
+                "Operator is not logged in!",
+                ThreadProcessorException::ERROR_AGENT_NOT_LOGGED_IN
+            );
+        }
+
+        return $operator;
     }
 
     /**
@@ -279,7 +304,7 @@ class ThreadProcessor extends ClientSideProcessor implements RouterAwareInterfac
         self::checkParams($args, array('user', 'typed'));
 
         if (!$args['user']) {
-            $operator = self::checkOperator();
+            $operator = $this->checkOperator();
             $thread->checkForReassign($operator);
         }
 
@@ -341,7 +366,7 @@ class ThreadProcessor extends ClientSideProcessor implements RouterAwareInterfac
 
         // Check access
         if (!$args['user']) {
-            self::checkOperator();
+            $this->checkOperator();
         }
 
         // Send new messages
@@ -378,7 +403,7 @@ class ThreadProcessor extends ClientSideProcessor implements RouterAwareInterfac
 
         // Get operator's array
         if (!$args['user']) {
-            $operator = self::checkOperator();
+            $operator = $this->checkOperator();
         }
 
         // Check message can be sent
@@ -464,7 +489,7 @@ class ThreadProcessor extends ClientSideProcessor implements RouterAwareInterfac
 
         // Load operator
         if (!$args['user']) {
-            $operator = self::checkOperator();
+            $operator = $this->checkOperator();
         }
 
         // Close thread
