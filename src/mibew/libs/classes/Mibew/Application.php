@@ -287,8 +287,17 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
             return new Response('Forbidden', 403);
         }
 
-        // Operator is not logged in. Redirect him to the login page.
-        $_SESSION['backpath'] = $request->getUri();
+        // Operator is not logged in. Use the correct backpath to redirect him
+        // operator after login.
+        if ($request->attributes->get('_route') == 'users_update') {
+            // Do not use "users" client application gateway as the backpath.
+            // Use the awaiting visitors page instead.
+            $_SESSION['backpath'] = $this->getRouter()->generate('users');
+        } else {
+            // Just use the current URI as the backpath.
+            $_SESSION['backpath'] = $request->getUri();
+        }
+        // Redirect the operator to the login page.
         $response = new RedirectResponse($this->getRouter()->generate('login'));
 
         return $response;
