@@ -19,10 +19,8 @@
 
 namespace Mibew;
 
-// Import namespaces and classes of the core
 use Mibew\EventDispatcher\EventDispatcher;
 use Mibew\EventDispatcher\Events;
-use Mibew\RequestProcessor\ThreadProcessor;
 
 /**
  * Represents a chat thread
@@ -783,9 +781,6 @@ class Thread
 
             // Send messages
             $this->postMessage(self::KIND_EVENTS, $message_to_post);
-            $this->setupAvatar(
-                $operator['vcavatar'] ? $operator['vcavatar'] : ""
-            );
         }
     }
 
@@ -1065,9 +1060,6 @@ class Thread
         // Send message
         if ($message) {
             $this->postMessage(self::KIND_EVENTS, $message);
-            $this->setupAvatar(
-                $operator['vcavatar'] ? $operator['vcavatar'] : ""
-            );
         }
 
         return true;
@@ -1235,31 +1227,5 @@ class Thread
         }
 
         return $token;
-    }
-
-    /**
-     * Set operator avatar in the user's chat window
-     *
-     * @param string $link URL of the new operator avatar
-     */
-    protected function setupAvatar($link)
-    {
-        $processor = ThreadProcessor::getInstance();
-        $processor->call(
-            array(
-                array(
-                    'function' => 'setupAvatar',
-                    'arguments' => array(
-                        'threadId' => $this->id,
-                        'token' => $this->lastToken,
-                        'return' => array(),
-                        'references' => array(),
-                        'recipient' => 'user',
-                        'imageLink' => $link,
-                    ),
-                ),
-            ),
-            true
-        );
     }
 }

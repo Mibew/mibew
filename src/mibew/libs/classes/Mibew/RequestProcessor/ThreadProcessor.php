@@ -727,4 +727,30 @@ class ThreadProcessor extends ClientSideProcessor implements RouterAwareInterfac
             mibew_mail($inbox_mail, $email, $subject, $body);
         }
     }
+
+    /**
+     * Returns relative path of the avatar for operator related with the thread.
+     *
+     * @param array $args Associative array of arguments. It must contains the
+     *   following keys:
+     *    - 'threadId': ID of the thread the avatar should be retrieved for.
+     *    - 'token': Token of the thread.
+     * @return array Array of results. It contains following keys:
+     *    - 'imageLink': string, relative path to operator's avatar.
+     */
+    protected function apiGetAvatar($args)
+    {
+        // Load thread and check thread's last token
+        $thread = self::getThread($args['threadId'], $args['token']);
+
+        $image_link = false;
+        if ($thread->agentId) {
+            $operator = operator_by_id($thread->agentId);
+            if ($operator['vcavatar']) {
+                $image_link = $operator['vcavatar'];
+            }
+        }
+
+        return array('imageLink' => $image_link);
+    }
 }

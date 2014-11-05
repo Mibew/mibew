@@ -54,6 +54,13 @@
                         _.bind(this.apiSetupAvatar, this)
                     )
                 );
+
+                // Update avatar if operator changed.
+                Mibew.Objects.Models.thread.on(
+                    'change:agentId',
+                    this.setFromThread,
+                    this
+                );
             },
 
             // Model finalizer
@@ -72,9 +79,37 @@
              * @param args {Object} An object of passed arguments
              */
             apiSetupAvatar: function(args) {
-                if (args.imageLink) {
-                    this.set({imageLink: args.imageLink});
+                this.set({imageLink: (args.imageLink || false)});
+            },
+
+            /**
+             * Sets avatar based on data from the thread.
+             * @param {Object} thread An instance of Mibew.Models.Thread
+             */
+            setFromThread: function(thread) {
+                if (!thread.get('agentId')) {
+                    // There is no operator. Hide the avatar.
+                    this.set({imageLink: false});
+
+                    return;
                 }
+
+                // Request operator's avatar at the server side
+                Mibew.Objects.server.callFunctions(
+                    [{
+                        'function': 'getAvatar',
+                        'arguments': {
+                            'references': {},
+                            'return': {
+                                'imageLink': 'imageLink'
+                            },
+                            'threadId': thread.get('id'),
+                            'token': thread.get('token')
+                        }
+                    }],
+                    _.bind(this.apiSetupAvatar, this),
+                    true
+                );
             }
         }
     );
