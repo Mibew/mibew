@@ -413,8 +413,8 @@ abstract class AbstractProcessor
      *
      * @param array $function 'Function' array. See Mibew API for details
      * @param \Mibew\API\ExecutionContext &$context Execution context
-     * @return boolean lase if function returns errorCode and errorCode differs
-     *   from 0.
+     * @return boolean False if function returns errorCode and errorCode isn't 0
+     *   and true otherwise.
      */
     protected function processFunction($function, \Mibew\API\ExecutionContext &$context)
     {
