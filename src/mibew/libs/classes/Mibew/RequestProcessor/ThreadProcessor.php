@@ -22,6 +22,7 @@ namespace Mibew\RequestProcessor;
 // Import namespaces and classes of the core
 use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
+use Mibew\Http\Exception\AccessDeniedException;
 use Mibew\Settings;
 use Mibew\Thread;
 use Mibew\API\API as MibewAPI;
@@ -272,6 +273,34 @@ class ThreadProcessor extends ClientSideProcessor implements
                 ThreadProcessorException::WRONG_RECIPIENT_VALUE
             );
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function processFunction($function, \Mibew\API\ExecutionContext &$context)
+    {
+        // Check if a function can be called. Operators can call anythig, thus
+        // we should continue validation only for users.
+        if (!$this->getAuthenticationManager()->getOperator()) {
+            // A function is called by a user. We need to check that the thread
+            // is related with the user.
+            $arguments = $context->getArgumentsList($function);
+            $thread_id = $arguments['threadid'];
+            // As defined in Mibew\API\Interaction\ChatInteraction "threadid"
+            // argument is mandatory, but some function allows it to be null. In
+            // such cases there is no thread and there is nothing to check.
+            if (!is_null($thread_id)) {
+                $is_own_thread = isset($_SESSION['own_threads'])
+                    && in_array($thread_id, $_SESSION['own_threads']);
+                if (!$is_own_thread) {
+                    throw new AccessDeniedException();
+                }
+            }
+        }
+
+        // The function can be called. Process it.
+        parent::processFunction($function, $context);
     }
 
     /**

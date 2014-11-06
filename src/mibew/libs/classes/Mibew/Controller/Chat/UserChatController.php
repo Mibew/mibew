@@ -43,8 +43,12 @@ class UserChatController extends AbstractController
         $thread_id = $request->attributes->getInt('thread_id');
         $token = $request->attributes->get('token');
 
+        // We have to check that the thread is owned by the user.
+        $is_own_thread = isset($_SESSION['own_threads'])
+            && in_array($thread_id, $_SESSION['own_threads']);
+
         $thread = Thread::load($thread_id, $token);
-        if (!$thread) {
+        if (!$thread || !$is_own_thread) {
             throw new NotFoundException('The thread is not found.');
         }
 
@@ -256,6 +260,12 @@ class UserChatController extends AbstractController
         }
 
         $thread = Thread::load($invitation_state['threadid']);
+
+        // Store own thread ids to restrict access for other people
+        if (!isset($_SESSION['own_threads'])) {
+            $_SESSION['own_threads'] = array();
+        }
+        $_SESSION['own_threads'][] = $thread->id;
 
         // Prepare page
         $page = setup_invitation_view($thread);

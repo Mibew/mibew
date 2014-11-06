@@ -736,6 +736,12 @@ function chat_start_for_user(
 
     $_SESSION['threadid'] = $thread->id;
 
+    // Store own thread ids to restrict access for other people
+    if (!isset($_SESSION['own_threads'])) {
+        $_SESSION['own_threads'] = array();
+    }
+    $_SESSION['own_threads'][] = $thread->id;
+
     // Bind thread to the visitor
     if (Settings::get('enabletracking')) {
         track_visitor_bind_thread($visitor_id, $thread);
