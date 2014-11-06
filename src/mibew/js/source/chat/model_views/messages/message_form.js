@@ -91,12 +91,12 @@
                 if (msg != '') {
                     this.disableInput();
                     this.model.postMessage(msg);
+                    Mibew.Objects.Collections.messages.once(
+                        'multiple:add',
+                        this.postMessageComplete,
+                        this
+                    );
                 }
-                Mibew.Objects.Collections.messages.on(
-                    'multiple:add',
-                    this.postMessageComplete,
-                    this
-                );
             },
 
             /**
@@ -149,11 +149,6 @@
                 this.enableInput();
                 // Always set focus on message input after message sent
                 this.ui.message.focus();
-                Mibew.Objects.Collections.messages.off(
-                    'multiple:add',
-                    this.postMessageComplete,
-                    this
-                );
             },
 
             /**
