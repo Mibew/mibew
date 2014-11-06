@@ -32,9 +32,12 @@
     var t;
 
     /**
-     * Stretch #messages-region to fill the window
+     * Stretch #messages-region to fill the window.
+     *
+     * @param {Boolean} recalculateHeight Indicates if height of elements must
+     *   be recalculated. It can be usefull when elements set is changed.
      */
-    var updateHeight = function() {
+    var updateHeight = function(recalculateHeight) {
         if ($('#messages-region').size() == 0) {
             return;
         }
@@ -43,14 +46,14 @@
         var $ava = $('#avatar-region');
 
         // Calculate delta
-        if (delta === false) {
+        if (delta === false || recalculateHeight) {
             var max = 0;
             $('body > *').each(function() {
                 var $el = $(this);
                 var pos = $el.offset();
                 var height = $el.height();
                 if (max < (pos.top + height)) {
-                    max = pos.top + height
+                    max = pos.top + height;
                 }
             });
             delta = max - $msgs.height();
@@ -73,13 +76,18 @@
     }
 
     /**
-     * Fix bug with window resize event
+     * Fix bug with window resize event.
+     *
+     * @param {Boolean} recalculateHeight Indicates if height of elements must
+     *   be recalculated. The default value is false.
      */
-    var updateHeightWrapper = function() {
+    var updateHeightWrapper = function(recalculateHeight) {
         if (t) {
             clearTimeout(t);
         }
-        t = setTimeout(updateHeight, 0);
+        t = setTimeout(function() {
+            updateHeight(recalculateHeight || false);
+        }, 0);
     }
 
     // Stretch messages region after chat page initialize
@@ -124,6 +132,12 @@
             } else {
                 $el.load(imageLoadCallback);
             }
+        });
+
+        // Change of user's "canPost" field changes visibility of message input
+        // form. Thus we should manually update the height.
+        Mibew.Objects.Models.user.on('change:canPost', function() {
+            updateHeightWrapper(true);
         });
     });
 

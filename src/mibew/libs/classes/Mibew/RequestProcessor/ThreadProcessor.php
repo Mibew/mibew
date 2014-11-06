@@ -361,11 +361,14 @@ class ThreadProcessor extends ClientSideProcessor implements
         if ($args['user']) {
             $is_typing = abs($thread->lastPingAgent - time()) < Thread::CONNECTION_TIMEOUT
                 && $thread->agentTyping;
+            // Users can post messages only when thread is open.
+            $can_post = $thread->state != Thread::STATE_CLOSED;
         } else {
             $is_typing = abs($thread->lastPingUser - time()) < Thread::CONNECTION_TIMEOUT
                 && $thread->userTyping;
+            // Operators can always post messages.
+            $can_post = true;
         }
-        $can_post = $args['user'] || $operator['operatorid'] == $thread->agentId;
 
         return array(
             'threadState' => $thread->state,
@@ -433,10 +436,14 @@ class ThreadProcessor extends ClientSideProcessor implements
         // Get operator's array
         if (!$args['user']) {
             $operator = $this->checkOperator();
+            // Operators can always post messages.
+            $can_post = true;
+        } else {
+            // Users can post messages only when a thread is open.
+            $can_post = $thread->state != Thread::STATE_CLOSED;
         }
 
-        // Check message can be sent
-        if (!$args['user'] && $operator['operatorid'] != $thread->agentId) {
+        if (!$can_post) {
             throw new ThreadProcessorException(
                 "Cannot send",
                 ThreadProcessorException::ERROR_CANNOT_SEND
