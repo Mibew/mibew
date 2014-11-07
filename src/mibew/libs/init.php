@@ -44,16 +44,20 @@ require_once(MIBEW_FS_ROOT . '/libs/common/request.php');
 require_once(MIBEW_FS_ROOT . '/libs/common/response.php');
 require_once(MIBEW_FS_ROOT . '/libs/common/string.php');
 
+// We need to get some info from the request. Use symfony wrapper because it's
+// the simplest way.
+$tmp_request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
+
 // Make session cookie more secure
 @ini_set('session.cookie_httponly', true);
-if (is_secure_request()) {
+if ($tmp_request->isSecure()) {
     @ini_set('session.cookie_secure', true);
 }
-@ini_set(
-    'session.cookie_path',
-    \Symfony\Component\HttpFoundation\Request::createFromGlobals()->getBasePath() . "/"
-);
+@ini_set('session.cookie_path', $tmp_request->getBasePath() . "/");
 @ini_set('session.name', 'MibewSessionID');
+
+// Remove temporary request to keep global scope clean.
+unset($tmp_request);
 
 // Initialize user session
 session_start();

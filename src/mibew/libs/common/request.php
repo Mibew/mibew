@@ -29,10 +29,3 @@ function get_get_param($name, $default = '')
 
     return $value;
 }
-
-function is_secure_request()
-{
-    return (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443')
-        || (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on")
-        || (isset($_SERVER["HTTP_HTTPS"]) && $_SERVER["HTTP_HTTPS"] == "on");
-}
