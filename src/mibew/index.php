@@ -27,6 +27,7 @@ use Mibew\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Config\FileLocator;
 
+// Prepare router
 $file_locator = new FileLocator(array(MIBEW_FS_ROOT));
 $router = new Router(new RouteCollectionLoader($file_locator));
 $router->setOption(
@@ -34,7 +35,13 @@ $router->setOption(
     RouteCollectionLoader::ROUTES_CORE | RouteCollectionLoader::ROUTES_PLUGINS
 );
 
+// Prepare files cache
+$cache_driver = new \Stash\Driver\FileSystem();
+$cache_driver->setOptions(array('path' => MIBEW_FS_ROOT . '/cache'));
+$cache = new \Stash\Pool($cache_driver);
+
 $application = new Application($router, new AuthenticationManager());
+$application->setCache($cache);
 
 // Process request
 $request = Request::createFromGlobals();

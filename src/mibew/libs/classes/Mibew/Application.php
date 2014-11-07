@@ -24,6 +24,7 @@ use Mibew\Asset\AssetManager;
 use Mibew\Asset\AssetManagerInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Authentication\AuthenticationManagerAwareInterface;
+use Mibew\Cache\CacheAwareInterface;
 use Mibew\Controller\ControllerResolver;
 use Mibew\EventDispatcher\EventDispatcher;
 use Mibew\EventDispatcher\Events;
@@ -47,7 +48,10 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException as ResourceNot
 /**
  * Incapsulates whole application
  */
-class Application implements RouterAwareInterface, AuthenticationManagerAwareInterface
+class Application implements
+    RouterAwareInterface,
+    AuthenticationManagerAwareInterface,
+    CacheAwareInterface
 {
     /**
      * @var RouterInterface|null
@@ -201,15 +205,20 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
     }
 
     /**
-     * Returns an instance of Cache Pool related with the application.
-     *
-     * @return PoolInterface
+     * {@inheritdoc}
      */
-    protected function getCache()
+    public function setCache(PoolInterface $cache)
+    {
+        $this->cache = $cache;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCache()
     {
         if (is_null($this->cache)) {
-            $driver = new \Stash\Driver\FileSystem();
-            $driver->setOptions(array('path' => MIBEW_FS_ROOT . '/cache'));
+            $driver = new \Stash\Driver\Ephemeral();
             $this->cache = new \Stash\Pool($driver);
         }
 
