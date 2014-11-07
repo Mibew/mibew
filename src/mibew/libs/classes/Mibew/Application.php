@@ -36,6 +36,7 @@ use Mibew\Http\Exception\NotFoundException as NotFoundHttpException;
 use Mibew\Routing\RouterAwareInterface;
 use Mibew\Routing\RouterInterface;
 use Mibew\Routing\Exception\AccessDeniedException as AccessDeniedRoutingException;
+use Stash\Interfaces\PoolInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -74,6 +75,11 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
     protected $assetManager = null;
 
     /**
+     * @var PoolInterface|null;
+     */
+    protected $cache = null;
+
+    /**
      * Class constructor.
      *
      * @param RouterInterface $router Appropriate router instance.
@@ -82,21 +88,8 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
      */
     public function __construct(RouterInterface $router, AuthenticationManagerInterface $manager)
     {
-        $this->router = $router;
-        $this->authenticationManager = $manager;
-
-        $driver = new \Stash\Driver\FileSystem();
-        $driver->setOptions(array('path' => MIBEW_FS_ROOT . '/cache'));
-        $this->cache = new \Stash\Pool($driver);
-
-        $this->assetManager = new AssetManager();
-        $this->controllerResolver = new ControllerResolver(
-            $this->router,
-            $this->authenticationManager,
-            $this->assetManager,
-            $this->cache
-        );
-        $this->accessCheckResolver = new CheckResolver($this->authenticationManager);
+        $this->setRouter($router);
+        $this->setAuthenticationManager($manager);
     }
 
     /**
@@ -117,7 +110,7 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
                 $request->attributes->add($parameters);
 
                 // Check if the user can access the page
-                $access_check = $this->accessCheckResolver->getCheck($request);
+                $access_check = $this->getAccessCheckResolver()->getCheck($request);
                 if (!call_user_func($access_check, $request)) {
                     throw new AccessDeniedRoutingException();
                 }
@@ -133,7 +126,7 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
             }
 
             // Get controller and perform its action to get a response.
-            $controller = $this->controllerResolver->getController($request);
+            $controller = $this->getControllerResolver()->getController($request);
             $response = call_user_func($controller, $request);
         } catch (AccessDeniedHttpException $e) {
             $response = $this->buildAccessDeniedResponse($request);
@@ -208,6 +201,70 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
     }
 
     /**
+     * Returns an instance of Cache Pool related with the application.
+     *
+     * @return PoolInterface
+     */
+    protected function getCache()
+    {
+        if (is_null($this->cache)) {
+            $driver = new \Stash\Driver\FileSystem();
+            $driver->setOptions(array('path' => MIBEW_FS_ROOT . '/cache'));
+            $this->cache = new \Stash\Pool($driver);
+        }
+
+        return $this->cache;
+    }
+
+    /**
+     * Returns an instance of Controller Resolver related with the application.
+     *
+     * @return ControllerResolver
+     */
+    protected function getControllerResolver()
+    {
+        if (is_null($this->controllerResolver)) {
+            $this->controllerResolver = new ControllerResolver(
+                $this->getRouter(),
+                $this->getAuthenticationManager(),
+                $this->getAssetManager(),
+                $this->getCache()
+            );
+        }
+
+        return $this->controllerResolver;
+    }
+
+    /**
+     * Returns an instance of Asset Manager related with the application.
+     *
+     * @return AssetManagerInterface
+     */
+    protected function getAssetManager()
+    {
+        if (is_null($this->assetManager)) {
+            $this->assetManager = new AssetManager();
+        }
+
+        return $this->assetManager;
+    }
+
+    /**
+     * Returns an instance of Access Check Resolver related with the
+     * application.
+     *
+     * @return CheckResolver
+     */
+    protected function getAccessCheckResolver()
+    {
+        if (is_null($this->accessCheckResolver)) {
+            $this->accessCheckResolver = new CheckResolver($this->getAuthenticationManager());
+        }
+
+        return $this->accessCheckResolver;
+    }
+
+    /**
      * Prepare request to be processed.
      *
      * @param Request $request Fresh incoming request.
@@ -228,7 +285,7 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
         $authentication_manager->setOperatorFromRequest($request);
 
         // Actualize AssetUrlGenerator
-        $this->assetManager->setRequest($request);
+        $this->getAssetManager()->setRequest($request);
     }
 
     /**
@@ -282,7 +339,7 @@ class Application implements RouterAwareInterface, AuthenticationManagerAwareInt
             return $args['response'];
         }
 
-        if ($this->authenticationManager->getOperator()) {
+        if ($this->getAuthenticationManager()->getOperator()) {
             // If the operator already logged in, display 403 page.
             return new Response('Forbidden', 403);
         }
