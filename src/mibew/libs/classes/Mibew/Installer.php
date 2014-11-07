@@ -118,11 +118,15 @@ class Installer
         if (!$this->checkPhpVersion()) {
             return false;
         }
-
         $this->log[] = getlocal(
             'PHP version {0}',
             array(format_version_id($this->getPhpVersionId()))
         );
+
+        if (!$this->checkFsPermissions()) {
+            return false;
+        }
+        $this->log[] = getlocal('Directories permissions are correct');
 
         return true;
     }
@@ -464,6 +468,36 @@ class Installer
                     format_version_id($current_version),
                     format_version_id(self::MIN_PHP_VERSION)
                 )
+            );
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Checks if files and directories permissions are correct.
+     *
+     * @return boolean True if all permissions are correct and false otherwise.
+     */
+    protected function checkFsPermissions()
+    {
+        // Check cache directory
+        if (!is_writable(MIBEW_FS_ROOT . '/cache')) {
+            $this->errors[] = getlocal(
+                'Cache directory "{0}" is not writable.',
+                array('cache/')
+            );
+
+            return false;
+        }
+
+        // Check avatars directory
+        if (!is_writable(MIBEW_FS_ROOT . '/files/avatar')) {
+            $this->errors[] = getlocal(
+                'Avatars directory "{0}" is not writable.',
+                array('files/avatar/')
             );
 
             return false;
