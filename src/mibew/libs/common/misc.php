@@ -23,15 +23,16 @@ function div($a, $b)
 }
 
 /**
- * Checks if currently processed script is installation script.
+ * Checks if the system is under maintenance and gets maintenance mode name.
  *
- * @return boolean
+ * @return boolean|string Name of maintenace mode or boolean false if the system
+ *   is not in maintenance mode.
  */
-function installation_in_progress()
+function get_maintenance_mode()
 {
-    if (!defined('INSTALLATION_IN_PROGRESS')) {
+    if (!defined('MAINTENANCE_MODE')) {
         return false;
     }
 
-    return INSTALLATION_IN_PROGRESS;
+    return MAINTENANCE_MODE;
 }

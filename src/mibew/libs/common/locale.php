@@ -57,8 +57,8 @@ function get_available_locales()
     static $available_locales = null;
 
     if (is_null($available_locales)) {
-        if (installation_in_progress()) {
-            // We cannot rely on the database during installation, thus we only
+        if (get_maintenance_mode() !== false) {
+            // We cannot rely on the database during maintenance, thus we only
             // can use discovered locales as available locales.
             $available_locales = discover_locales();
         } else {
@@ -728,9 +728,9 @@ function load_messages($locale)
     if (!isset($messages[$locale])) {
         $messages[$locale] = array();
 
-        if (installation_in_progress()) {
+        if (get_maintenance_mode() !== false) {
             // Load localized strings from files because we cannot rely on the
-            // database during installation.
+            // database during maintenance.
             $locale_file = MIBEW_FS_ROOT . "/locales/{$locale}/translation.po";
             $locale_data = read_locale_file($locale_file);
 
@@ -859,9 +859,9 @@ function get_localized_string($string, $locale)
 
     // The string is not localized, save it to the database to provide an
     // ability to translate it from the UI later. At the same time we cannot
-    // rely on the database during installation, thus we should check if the
-    // installation is in progress.
-    if (!installation_in_progress()) {
+    // rely on the database during maintenance, thus we should check the
+    // current system state.
+    if (get_maintenance_mode() === false) {
         save_message($locale, $string, $string);
     }
 

@@ -69,7 +69,7 @@ if (function_exists("date_default_timezone_set")) {
     @date_default_timezone_set($timezone);
 }
 
-if (!installation_in_progress()) {
+if (get_maintenance_mode() === false) {
     // Initialize the database
     \Mibew\Database::initialize(
         $configs['database']['host'],

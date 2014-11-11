@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-define('INSTALLATION_IN_PROGRESS', true);
+define('MAINTENANCE_MODE', 'install');
 
 // Initialize libraries
 require_once(dirname(__FILE__) . '/libs/init.php');
