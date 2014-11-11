@@ -37,7 +37,7 @@ $router->setOption(
 
 // Prepare files cache
 $cache_driver = new \Stash\Driver\FileSystem();
-$cache_driver->setOptions(array('path' => MIBEW_FS_ROOT . '/cache'));
+$cache_driver->setOptions(array('path' => MIBEW_FS_ROOT . '/cache/stash'));
 $cache = new \Stash\Pool($cache_driver);
 
 $application = new Application($router, new AuthenticationManager());
