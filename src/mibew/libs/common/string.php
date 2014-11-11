@@ -52,11 +52,6 @@ function cut_string($string, $length = 75, $ellipsis = '')
     return $result;
 }
 
-function escape_with_cdata($text)
-{
-    return "<![CDATA[" . str_replace("]]>", "]]>]]&gt;<![CDATA[", $text) . "]]>";
-}
-
 /**
  * Simple HTML sanitation.
  *
