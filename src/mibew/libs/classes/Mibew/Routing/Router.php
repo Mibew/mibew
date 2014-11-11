@@ -19,181 +19,48 @@
 
 namespace Mibew\Routing;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\Routing\RouteCollection;
-use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
-use Symfony\Component\Routing\Matcher\UrlMatcher;
-use Mibew\Routing\Generator\UrlGenerator;
-use Mibew\Routing\RouteCollectionLoader;
+use Mibew\EventDispatcher\EventDispatcher;
+use Mibew\EventDispatcher\Events;
+use Symfony\Component\Routing\Router as BaseRouter;
 
-class Router implements RouterInterface, RequestMatcherInterface
+class Router extends BaseRouter implements RouterInterface
 {
     /**
-     * @var UrlMatcher|null
-     */
-    protected $matcher = null;
-
-    /**
-     * @var UrlGenerator|null
-     */
-    protected $generator = null;
-
-    /**
-     * @var RequestContext
-     */
-    protected $context;
-
-    /**
-     * @var RouteCollection|null
-     */
-    protected $collection = null;
-
-    /**
-     * @var RouteCollectionLoader|null
-     */
-    protected $loader = null;
-
-    /**
-     * @var array Router's options.
-     */
-    protected $options = array();
-
-    /**
-     * Class constructor.
+     * {@inheritdoc}
      *
-     * @param RouteLoader $loader An instance of route loader.
-     * @param RequestContext $context The context of the request.
+     * The only difference from
+     * {@link \Symfony\Component\Routing\Router::setOptions()} is in default
+     * values.
      */
-    public function __construct(RouteCollectionLoader $loader, RequestContext $context = null, $options = array())
+    public function setOptions(array $options)
     {
-        $this->context = $context ? $context : new RequestContext();
-        $this->loader = $loader;
-        $this->setOptions($options);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getRouteCollection()
-    {
-        if (is_null($this->collection)) {
-            $this->collection = $this->loader->load($this->getOption('route_collection'));
-        }
-
-        return $this->collection;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function generate($name, $parameters = array(), $referenceType = self::ABSOLUTE_PATH)
-    {
-        return $this->getGenerator()->generate($name, $parameters, $referenceType);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function generateSecure($name, $parameters = array(), $referenceType = self::ABSOLUTE_PATH)
-    {
-        return $this->getGenerator()->generateSecure($name, $parameters, $referenceType);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getContext()
-    {
-        return $this->context;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setContext(RequestContext $context)
-    {
-        $this->context = $context;
-
-        // Update request context in URL matcher instance
-        if (!is_null($this->matcher)) {
-            $this->matcher->setContext($context);
-        }
-
-        // Update request context in URL generator instance
-        if (!is_null($this->generator)) {
-            $this->generator->setContext($context);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function matchRequest(Request $request)
-    {
-        return $this->getMatcher()->matchRequest($request);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function match($pathinfo)
-    {
-        return $this->getMatcher()->match($pathinfo);
-    }
-
-    /**
-     * Gets the UrlMatcher instance associated with this Router.
-     *
-     * @return UrlMatcher
-     */
-    public function getMatcher()
-    {
-        if (is_null($this->matcher)) {
-            $this->matcher = new UrlMatcher($this->getRouteCollection(), $this->getContext());
-        }
-
-        return $this->matcher;
-    }
-
-    /**
-     * Gets the UrlGenerator instance associated with this Router.
-     *
-     * @return UrlGenerator
-     */
-    public function getGenerator()
-    {
-        if (is_null($this->generator)) {
-            $this->generator = new UrlGenerator($this->getRouteCollection(), $this->getContext());
-        }
-
-        return $this->generator;
-    }
-
-    /**
-     * Sets all router's options.
-     *
-     * @param array $options List of options to set.
-     * @throws \InvalidArgumentException If not supported option is found.
-     */
-    public function setOptions($options)
-    {
-        // Reset router's options to defaults.
         $this->options = array(
-            'route_collection' => RouteCollectionLoader::ROUTES_ALL,
+            'cache_dir'              => null,
+            'debug'                  => false,
+            'generator_class'        => 'Mibew\\Routing\\Generator\\UrlGenerator',
+            'generator_base_class'   => 'Mibew\\Routing\\Generator\\UrlGenerator',
+            'generator_dumper_class' => 'Symfony\\Component\\Routing\\Generator\\Dumper\\PhpGeneratorDumper',
+            'generator_cache_class'  => 'MibewUrlGenerator',
+            'matcher_class'          => 'Symfony\\Component\\Routing\\Matcher\\UrlMatcher',
+            'matcher_base_class'     => 'Symfony\\Component\\Routing\\Matcher\\UrlMatcher',
+            'matcher_dumper_class'   => 'Symfony\\Component\\Routing\\Matcher\\Dumper\\PhpMatcherDumper',
+            'matcher_cache_class'    => 'MibewUrlMatcher',
+            'resource_type'          => null,
+            'strict_requirements'    => true,
         );
 
-        // Update options and find invalid ones.
+        // Check option names and live merge, if errors are encountered
+        // Exception will be thrown
         $invalid = array();
-        foreach ($options as $name => $value) {
-            if (array_key_exists($name, $this->options)) {
-                $this->options[$name] = $value;
+        foreach ($options as $key => $value) {
+            if (array_key_exists($key, $this->options)) {
+                $this->options[$key] = $value;
             } else {
-                $invalid[] = $name;
+                $invalid[] = $key;
             }
         }
 
-        if (!empty($invalid)) {
+        if ($invalid) {
             throw new \InvalidArgumentException(sprintf(
                 'The Router does not support the following options: "%s".',
                 implode('", "', $invalid)
@@ -202,34 +69,28 @@ class Router implements RouterInterface, RequestMatcherInterface
     }
 
     /**
-     * Sets router's option to the specified value.
-     *
-     * @param string $name Option name.
-     * @param string $value Option value.
-     * @throws \InvalidArgumentException If the option is not supported.
+     * {@inheritdoc}
      */
-    public function setOption($name, $value)
+    public function getRouteCollection()
     {
-        if (!array_key_exists($name, $this->options)) {
-            throw new \InvalidArgumentException(sprintf('The Router does not support "%s" option.', $name));
+        if (null === $this->collection) {
+            $collection = $this->loader->load($this->resource, $this->options['resource_type']);
+
+            // Add an ability for plugins to alter routes list
+            $arguments = array('routes' => $collection);
+            EventDispatcher::getInstance()->triggerEvent(Events::ROUTES_ALTER, $arguments);
+
+            $this->collection = $arguments['routes'];
         }
 
-        $this->options[$name] = $value;
+        return $this->collection;
     }
 
     /**
-     * Gets router's option by its name.
-     *
-     * @param string $name Option name.
-     * @return mixed Option value.
-     * @throws \InvalidArgumentException If the option is not supported.
+     * {@inheritdoc}
      */
-    public function getOption($name)
+    public function generateSecure($name, $parameters = array(), $referenceType = self::ABSOLUTE_PATH)
     {
-        if (!array_key_exists($name, $this->options)) {
-            throw new \InvalidArgumentException(sprintf('The Router does not support "%s" option.', $name));
-        }
-
-        return $this->options[$name];
+        return $this->getGenerator()->generateSecure($name, $parameters, $referenceType);
     }
 }

@@ -1,3 +1,9 @@
+# The following route is a fake and is used only to load routes of the core. It
+# can have any unique name.
+_include_core_routes:
+    resource: routing.yml
+    type: yaml
+
 # Override the home route to allow users use <mibew root>/install.php path to
 # the installer.
 home:

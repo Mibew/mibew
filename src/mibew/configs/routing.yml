@@ -697,7 +697,17 @@ users_update:
         _controller: Mibew\Controller\UsersController::updateAction
         _access_check: Mibew\AccessControl\Check\LoggedInCheck
 
-# Remove trailing slashe. This route is the last one because previous rotes can
+# System routes and includes
+
+# The following route is a fake and is used only to load plugins routes. It can
+# have any unique name.
+_include_pluign_routes:
+    # Resource name has no meaning and can be any value.
+    resource: .
+    # The type actually indicates that plugins routes should be included.
+    type: plugin
+
+# Remove trailing slashes. This route is the last one because previous rotes can
 # (but definitely should not) have trailing slashes.
 remove_trailing_slash:
     path: /{url}
