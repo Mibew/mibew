@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Mibew;
+namespace Mibew\Maintenance;
 
 use Mibew\Database;
 use Symfony\Component\Yaml\Parser as YamlParser;

@@ -19,7 +19,7 @@
 
 namespace Mibew\Controller;
 
-use Mibew\Installer;
+use Mibew\Maintenance\Installer;
 use Mibew\Style\PageStyle;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -474,7 +474,7 @@ class InstallController extends AbstractController
     /**
      * Initialize installer.
      *
-     * @return \Mibew\Installer
+     * @return \Mibew\Maintenance\Installer
      */
     protected function getInstaller()
     {
