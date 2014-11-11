@@ -20,11 +20,12 @@
 namespace Mibew\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Process all system level redirect actions.
  */
-class RedirectController extends AbstractController
+class RedirectController
 {
     /**
      * Redirect a user to the URL without trailing slash with 301 HTTP code.
@@ -38,6 +39,6 @@ class RedirectController extends AbstractController
         $request_uri = $request->getRequestUri();
         $url = str_replace($path_info, rtrim($path_info, ' /'), $request_uri);
 
-        return $this->redirect($url, 301);
+        return new RedirectResponse($url, 301);
     }
 }
