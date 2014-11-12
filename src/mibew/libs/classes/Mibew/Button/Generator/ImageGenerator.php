@@ -19,6 +19,7 @@
 
 namespace Mibew\Button\Generator;
 
+use Canteen\HTML5;
 use Mibew\Asset\Generator\UrlGeneratorInterface as AssetUrlGeneratorInterface;
 use Mibew\Routing\Generator\SecureUrlGeneratorInterface as RouteUrlGeneratorInterface;
 use Mibew\Settings;
@@ -74,14 +75,20 @@ class ImageGenerator extends TextGenerator
             '&amp;',
             $this->generateUrl('button', $image_link_args)
         );
-        $message = "<img src=\"{$image_url}\" border=\"0\" alt=\"\"/>";
+        $image = HTML5\html('img');
+        $image->setAttributes(array(
+            'src' => $image_url,
+            'border' => 0,
+            'alt' => '',
+        ));
 
-        $button = "<!-- mibew button -->"
-            . $this->getPopup($message)
-            . $this->getWidgetCode()
-            . "<!-- / mibew button -->";
+        $button = HTML5\html('fragment');
+        $button->addChild(HTML5\html('comment', 'mibew button'));
+        $button->addChild($this->getPopup($image));
+        $button->addChild($this->getWidgetCode());
+        $button->addChild(HTML5\html('comment', '/ mibew button'));
 
-        return $button;
+        return (string)$button;
     }
 
     /**
@@ -140,13 +147,20 @@ class ImageGenerator extends TextGenerator
         // blocked
         $widget_data['visitorCookieName'] = VISITOR_COOKIE_NAME;
 
-        // Build additional button code
-        return '<div id="mibewinvitation"></div>'
-            . '<script type="text/javascript" src="'
-            . $this->generateAssetUrl('js/compiled/widget.js')
-            . '"></script>'
-            . '<script type="text/javascript">'
-            . 'Mibew.Widget.init(' . json_encode($widget_data) . ')'
-            . '</script>';
+        $markup = HTML5\html('fragment');
+        $markup->addChild(HTML5\html('div#mibewinvitation'));
+        $markup->addChild(
+            HTML5\html('script')->setAttributes(array(
+                'type' => 'text/javascript',
+                'src' => $this->generateAssetUrl('js/compiled/widget.js'),
+            ))
+        );
+        $markup->addChild(
+            HTML5\html('script')
+                ->setAttribute('type', 'text/javascript')
+                ->addChild('Mibew.Widget.init(' . json_encode($widget_data) . ')')
+        );
+
+        return $markup;
     }
 }

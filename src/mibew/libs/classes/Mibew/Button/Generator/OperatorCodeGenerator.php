@@ -19,6 +19,8 @@
 
 namespace Mibew\Button\Generator;
 
+use Canteen\HTML5;
+
 /**
  * Generates an Operator's Code field.
  */
@@ -29,19 +31,35 @@ class OperatorCodeGenerator extends AbstractGenerator implements GeneratorInterf
      */
     public function generate()
     {
-        $js_link = $this->getChatUrlForJs();
-        $popup_options = $this->getPopupOptions();
+        $form = HTML5\html('form');
+        $form->setAttributes(array(
+            'action' => '',
+            'onsubmit' => sprintf(
+                ("if(navigator.userAgent.toLowerCase().indexOf('opera') != -1 "
+                    . "&amp;&amp; window.event.preventDefault) window.event.preventDefault();"
+                . "this.newWindow = window.open(%s + '&amp;operator_code=' "
+                    . "+ document.getElementById('mibewOperatorCodeField').value, 'mibew', '%s');"
+                . "this.newWindow.focus();"
+                . "this.newWindow.opener=window;"
+                . "return false;"),
+                $this->getChatUrlForJs(),
+                $this->getPopupOptions()
+            ),
+            'id' => 'mibewOperatorCodeForm',
+        ));
+        $form->addChild(HTML5\html(
+            'input',
+            array(
+                'type' => 'text',
+                'id' => 'mibewOperatorCodeField',
+            )
+        ));
 
-        $form_on_submit = "if(navigator.userAgent.toLowerCase().indexOf('opera') != -1 "
-            . "&amp;&amp; window.event.preventDefault) window.event.preventDefault();"
-            . "this.newWindow = window.open({$js_link} + '&amp;operator_code=' "
-            . "+ document.getElementById('mibewOperatorCodeField').value, 'mibew', '{$popup_options}');"
-            . "this.newWindow.focus();this.newWindow.opener=window;return false;";
+        $button = HTML5\html('fragment');
+        $button->addChild(HTML5\html('comment', 'mibew operator code field'));
+        $button->addChild($form);
+        $button->addChild(HTML5\html('comment', '/ mibew operator code field'));
 
-        $temp = '<form action="" onsubmit="' . $form_on_submit . '" id="mibewOperatorCodeForm">'
-            . '<input type="text" id="mibewOperatorCodeField" />'
-            . '</form>';
-
-        return "<!-- mibew operator code field -->" . $temp . "<!-- / mibew operator code field -->";
+        return (string)$button;
     }
 }

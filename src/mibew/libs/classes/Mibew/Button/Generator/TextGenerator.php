@@ -19,6 +19,8 @@
 
 namespace Mibew\Button\Generator;
 
+use Canteen\HTML5;
+
 /**
  * Generates a Text button.
  */
@@ -29,9 +31,12 @@ class TextGenerator extends AbstractGenerator implements GeneratorInterface
      */
     public function generate()
     {
-        return "<!-- mibew text link -->"
-            . $this->getPopup($this->getOption('caption'))
-            . "<!-- / mibew text link -->";
+        $button = HTML5\html('fragment');
+        $button->addChild(HTML5\html('comment', 'mibew text link'));
+        $button->addChild($this->getPopup($this->getOption('caption')));
+        $button->addChild(HTML5\html('comment', '/ mibew text link'));
+
+        return (string)$button;
     }
 
     /**
@@ -41,16 +46,29 @@ class TextGenerator extends AbstractGenerator implements GeneratorInterface
      */
     protected function getPopup($message)
     {
-        $url = str_replace('&', '&amp;', $this->getChatUrl());
-        $js_url = $this->getChatUrlForJs();
-        $options = $this->getPopupOptions();
-        $title = $this->getOption('title');
+        $link = HTML5\html('a', $message);
 
-        return "<a id=\"mibewAgentButton\" href=\"$url\" target=\"_blank\" "
-            . ($title ? "title=\"$title\" " : "")
-            . "onclick=\"if(navigator.userAgent.toLowerCase().indexOf('opera') != -1 "
-            . "&amp;&amp; window.event.preventDefault) window.event.preventDefault();"
-            . "this.newWindow = window.open($js_url, 'mibew', '$options');"
-            . "this.newWindow.focus();this.newWindow.opener=window;return false;\">$message</a>";
+        $link->setAttributes(array(
+            'id' => 'mibewAgentButton',
+            'href' =>  str_replace('&', '&amp;', $this->getChatUrl()),
+            'target' => '_blank',
+            'onclick' =>sprintf(
+                ("if(navigator.userAgent.toLowerCase().indexOf('opera') != -1 "
+                    . "&amp;&amp; window.event.preventDefault) window.event.preventDefault();"
+                    . "this.newWindow = window.open(%s, 'mibew', '%s');"
+                    . "this.newWindow.focus();"
+                    . "this.newWindow.opener=window;"
+                    . "return false;"),
+                $this->getChatUrlForJs(),
+                $this->getPopupOptions()
+            ),
+        ));
+
+        $title = $this->getOption('title');
+        if ($title) {
+            $link->setAttribute('title', $title);
+        }
+
+        return $link;
     }
 }
