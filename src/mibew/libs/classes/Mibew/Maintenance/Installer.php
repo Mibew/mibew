@@ -120,7 +120,7 @@ class Installer
         }
         $this->log[] = getlocal(
             'PHP version {0}',
-            array(format_version_id($this->getPhpVersionId()))
+            array(Utils::formatVersionId($this->getPhpVersionId()))
         );
 
         if (!$this->checkFsPermissions()) {
@@ -465,8 +465,8 @@ class Installer
             $this->errors[] = getlocal(
                 "PHP version is {0}, but Mibew works with {1} and later versions.",
                 array(
-                    format_version_id($current_version),
-                    format_version_id(self::MIN_PHP_VERSION)
+                    Utils::formatVersionId($current_version),
+                    Utils::formatVersionId(self::MIN_PHP_VERSION)
                 )
             );
 
