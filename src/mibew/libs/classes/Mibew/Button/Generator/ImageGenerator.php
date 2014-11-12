@@ -59,7 +59,7 @@ class ImageGenerator extends TextGenerator
     /**
      * {@inheritdoc}
      */
-    public function generate()
+    public function doGenerate()
     {
         $image_link_args = array(
             'i' => $this->getOption('image'),
@@ -88,7 +88,7 @@ class ImageGenerator extends TextGenerator
         $button->addChild($this->getWidgetCode());
         $button->addChild(HTML5\html('comment', '/ mibew button'));
 
-        return (string)$button;
+        return $button;
     }
 
     /**

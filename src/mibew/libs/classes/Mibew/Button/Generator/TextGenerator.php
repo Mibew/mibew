@@ -24,19 +24,19 @@ use Canteen\HTML5;
 /**
  * Generates a Text button.
  */
-class TextGenerator extends AbstractGenerator implements GeneratorInterface
+class TextGenerator extends AbstractGenerator
 {
     /**
      * {@inheritdoc}
      */
-    public function generate()
+    public function doGenerate()
     {
         $button = HTML5\html('fragment');
         $button->addChild(HTML5\html('comment', 'mibew text link'));
         $button->addChild($this->getPopup($this->getOption('caption')));
         $button->addChild(HTML5\html('comment', '/ mibew text link'));
 
-        return (string)$button;
+        return $button;
     }
 
     /**

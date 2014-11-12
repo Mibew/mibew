@@ -55,6 +55,19 @@ final class Events
     const BAN_DELETE = 'banDelete';
 
     /**
+     * A button is generated.
+     *
+     * This event is triggered after a button has been deleted. An associative
+     * array with the following items is passed to the event handlers:
+     *  - "button": an instance of {@link \Canteen\HTML5\Fragment} which
+     *    represents markup of the button.
+     *  - "generator": an instance of
+     *    {@link \Mibew\Button\Generator\GeneratorInterface} which is used for
+     *    button generation.
+     */
+    const BUTTON_GENERATE = 'buttonGenerate';
+
+    /**
      * Cron is run.
      *
      * This event is triggered when cron is run. It provides an ability for

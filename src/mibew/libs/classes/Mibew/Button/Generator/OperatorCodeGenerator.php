@@ -24,12 +24,12 @@ use Canteen\HTML5;
 /**
  * Generates an Operator's Code field.
  */
-class OperatorCodeGenerator extends AbstractGenerator implements GeneratorInterface
+class OperatorCodeGenerator extends AbstractGenerator
 {
     /**
      * {@inheritdoc}
      */
-    public function generate()
+    public function doGenerate()
     {
         $form = HTML5\html('form');
         $form->setAttributes(array(
@@ -60,6 +60,6 @@ class OperatorCodeGenerator extends AbstractGenerator implements GeneratorInterf
         $button->addChild($form);
         $button->addChild(HTML5\html('comment', '/ mibew operator code field'));
 
-        return (string)$button;
+        return $button;
     }
 }

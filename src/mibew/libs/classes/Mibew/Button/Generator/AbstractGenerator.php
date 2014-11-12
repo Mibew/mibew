@@ -19,13 +19,15 @@
 
 namespace Mibew\Button\Generator;
 
+use Mibew\EventDispatcher\EventDispatcher;
+use Mibew\EventDispatcher\Events;
 use Mibew\Routing\Generator\SecureUrlGeneratorInterface as RouteUrlGeneratorInterface;
 use Mibew\Style\ChatStyle;
 
 /**
  * Contains base button generation functionality.
  */
-abstract class AbstractGenerator
+abstract class AbstractGenerator implements GeneratorInterface
 {
     /**
      * A routes URL generator.
@@ -72,6 +74,27 @@ abstract class AbstractGenerator
     {
         return isset($this->options[$name]) ? $this->options[$name] : $default;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function generate()
+    {
+        $args = array(
+            'button' => $this->doGenerate(),
+            'generator' => $this,
+        );
+        EventDispatcher::getInstance()->triggerEvent(Events::BUTTON_GENERATE, $args);
+
+        return (string)$args['button'];
+    }
+
+    /**
+     * Really generates the button.
+     *
+     * @return \Canteen\HTML5\Fragment Button's markup.
+     */
+    abstract protected function doGenerate();
 
     /**
      * Generates URL for the specified route.
