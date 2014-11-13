@@ -28,32 +28,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Controls operator's authentication.
+ *
+ * This is the base authentication manager for the system.
  */
-class AuthenticationManager implements AuthenticationManagerInterface, CookieFactoryAwareInterface
+class AuthenticationManager extends SessionAuthenticationManager implements CookieFactoryAwareInterface
 {
-    /**
-     * Indicates if the operator is logged in.
-     * @var boolean
-     */
-    protected $loggedIn = false;
-
     /**
      * Indicates if the operator should be remembered after login.
      * @var boolean
      */
     protected $remember = false;
-
-    /**
-     * Indicates if the current operator is logged out.
-     * @var boolean
-     */
-    protected $loggedOut = false;
-
-    /**
-     * The current operator.
-     * @var array|null
-     */
-    protected $operator = null;
 
     /**
      * @var CookieFactory|null
@@ -89,9 +73,7 @@ class AuthenticationManager implements AuthenticationManagerInterface, CookieFac
     public function setOperatorFromRequest(Request $request)
     {
         // Try to get operator from session.
-        if (isset($_SESSION[SESSION_PREFIX . 'operator'])) {
-            $this->operator = $_SESSION[SESSION_PREFIX . 'operator'];
-
+        if (parent::setOperatorFromRequest($request)) {
             return true;
         }
 
@@ -106,8 +88,6 @@ class AuthenticationManager implements AuthenticationManagerInterface, CookieFac
                 && calculate_password_hash($op['vclogin'], $op['vcpassword']) == $pwd
                 && !operator_is_disabled($op);
             if ($can_login) {
-                // Cache operator in the session data
-                $_SESSION[SESSION_PREFIX . 'operator'] = $op;
                 $this->operator = $op;
 
                 return true;
@@ -123,8 +103,6 @@ class AuthenticationManager implements AuthenticationManagerInterface, CookieFac
         $dispatcher->triggerEvent(Events::OPERATOR_AUTHENTICATE, $args);
 
         if (!empty($args['operator'])) {
-            // Cache operator in the session
-            $_SESSION[SESSION_PREFIX . 'operator'] = $args['operator'];
             $this->operator = $args['operator'];
 
             return true;
@@ -139,11 +117,9 @@ class AuthenticationManager implements AuthenticationManagerInterface, CookieFac
      */
     public function attachOperatorToResponse(Response $response)
     {
-        if ($this->loggedOut) {
-            // An operator is logged out. Clean up session data.
-            unset($_SESSION[SESSION_PREFIX . 'operator']);
-            unset($_SESSION['backpath']);
+        parent::attachOperatorToResponse($response);
 
+        if ($this->loggedOut) {
             // Clear remember cookie.
             $cookie_factory = $this->getCookieFactory();
             $response->headers->clearCookie(
@@ -152,9 +128,6 @@ class AuthenticationManager implements AuthenticationManagerInterface, CookieFac
                 $cookie_factory->getDomain()
             );
         } elseif ($this->loggedIn) {
-            // An operator is logged in. Update operator in the session.
-            $_SESSION[SESSION_PREFIX . 'operator'] = $this->operator;
-
             // Set remember me cookie if needed
             if ($this->remember) {
                 $password_hash = calculate_password_hash(
@@ -170,18 +143,7 @@ class AuthenticationManager implements AuthenticationManagerInterface, CookieFac
 
                 $response->headers->setCookie($remember_cookie);
             }
-        } elseif ($this->operator) {
-            // Update the current operator.
-            $_SESSION[SESSION_PREFIX . 'operator'] = $this->operator;
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getOperator()
-    {
-        return $this->operator;
     }
 
     /**
@@ -189,19 +151,13 @@ class AuthenticationManager implements AuthenticationManagerInterface, CookieFac
      */
     public function setOperator($operator)
     {
-        $operator_updated = $operator
-            && $this->operator
-            && ($this->operator['operatorid'] == $operator['operatorid']);
-        if (!$operator_updated) {
+        if ($this->isOperatorChanged($operator)) {
             // If the current operator is changed (not updated) we should
-            // reset all login/logout flags.
-            $this->loggedIn = false;
-            $this->loggedOut = false;
+            // reset remember flag.
             $this->remember = false;
         }
 
-        // Update the current operator
-        $this->operator = $operator;
+        parent::setOperator($operator);
     }
 
     /**
@@ -211,10 +167,8 @@ class AuthenticationManager implements AuthenticationManagerInterface, CookieFac
      */
     public function loginOperator($operator, $remember)
     {
-        $this->loggedIn = true;
+        parent::loginOperator($operator, $remember);
         $this->remember = $remember;
-        $this->loggedOut = false;
-        $this->operator = $operator;
 
         // Trigger login event
         $args = array(
@@ -232,11 +186,8 @@ class AuthenticationManager implements AuthenticationManagerInterface, CookieFac
      */
     public function logoutOperator()
     {
-        $this->loggedOut = true;
-        $this->loggedIn = false;
+        parent::logoutOperator();
         $this->remember = false;
-
-        $this->operator = null;
 
         // Trigger logout event
         $dispatcher = EventDispatcher::getInstance();
