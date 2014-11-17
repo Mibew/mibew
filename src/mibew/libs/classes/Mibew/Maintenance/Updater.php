@@ -20,6 +20,7 @@
 namespace Mibew\Maintenance;
 
 use Mibew\Database;
+use Stash\Interfaces\PoolInterface;
 
 /**
  * Encapsulates update process.
@@ -51,6 +52,23 @@ class Updater
      * @var string[]
      */
     protected $log = array();
+
+    /**
+     * An instance of cache pool.
+     *
+     * @var PoolInterface|null
+     */
+    protected $cache = null;
+
+    /**
+     * Class constructor.
+     *
+     * @param PoolInterface $cache An instance of cache pool.
+     */
+    public function __construct(PoolInterface $cache)
+    {
+        $this->cache = $cache;
+    }
 
     /**
      * Retuns list of all errors that took place during update process.
@@ -152,6 +170,9 @@ class Updater
 
             return false;
         }
+
+        // Clean up the cache
+        $this->cache->flush();
 
         return true;
     }

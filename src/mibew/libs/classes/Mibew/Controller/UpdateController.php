@@ -94,7 +94,7 @@ class UpdateController extends AbstractController
     protected function getUpdater()
     {
         if (is_null($this->updater)) {
-            $this->updater = new Updater();
+            $this->updater = new Updater($this->getCache());
         }
 
         return $this->updater;
