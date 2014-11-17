@@ -20,17 +20,17 @@
 /**
  * Current version of Mibew Messenger
  */
-define('MIBEW_VERSION', '2.0');
+define('MIBEW_VERSION', '2.0.0-beta.1');
 
 /**
  * Current version of database structure
  */
-define('DB_VERSION', 20000);
+define('DB_VERSION', '2.0.0-beta.1');
 
 /**
  * Current version of implemented features
  */
-define('FEATURES_VERSION', '2.0');
+define('FEATURES_VERSION', '2.0.0-beta.1');
 
 /**
  * Prefix for session variables.

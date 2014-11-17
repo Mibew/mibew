@@ -563,7 +563,7 @@ class Installer
      *
      * If Mibew is not installed yet boolean false will be returned.
      *
-     * @return int|boolean Database structure version or boolean false if the
+     * @return string|boolean Database structure version or boolean false if the
      *   version cannot be determined.
      */
     protected function getDatabaseVersion()
@@ -585,10 +585,10 @@ class Installer
         if (!$result) {
             // It seems that database structure version isn't stored in the
             // database.
-            return 0;
+            return '0.0.0';
         }
 
-        return intval($result['version']);
+        return $result['version'];
     }
 
     /**
@@ -598,7 +598,7 @@ class Installer
      */
     protected function tablesNeedUpdate()
     {
-        return ($this->getDatabaseVersion() < DB_VERSION);
+        return version_compare($this->getDatabaseVersion(), DB_VERSION, '<');
     }
 
     /**

@@ -907,7 +907,7 @@ table.awaiting .no-threads, table.awaiting .no-visitors  {
 	z-index:101;  
 }  
 
-/* install */
+/* install/update */
 
 #install li {
 	list-style-type: circle;
@@ -931,6 +931,10 @@ table.awaiting .no-threads, table.awaiting .no-visitors  {
 #install .warning {
     color: #c13030;
     font-weight: bold;
+}
+
+#install .error {
+    color: #c13030;
 }
 
 /* chat */

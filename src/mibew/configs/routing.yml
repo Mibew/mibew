@@ -678,6 +678,20 @@ translations:
         _access_permissions: [CAN_ADMINISTRATE]
 
 ## Updates
+update:
+    path: /update
+    defaults:
+        _controller: Mibew\Controller\UpdateController::indexAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+
+update_run:
+    path: /update/run
+    defaults:
+        _controller: Mibew\Controller\UpdateController::runUpdateAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+
 updates:
     path: /operator/updates
     defaults:

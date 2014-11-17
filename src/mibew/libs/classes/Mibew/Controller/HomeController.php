@@ -52,11 +52,11 @@ class HomeController extends AbstractController
         $page = array(
             'version' => MIBEW_VERSION,
             'localeLinks' => get_locale_links(),
-            'needUpdate' => Settings::get('dbversion') != DB_VERSION,
+            'needUpdate' => version_compare(Settings::get('dbversion'), DB_VERSION, '<'),
             'profilePage' => $this->generateUrl('operator_edit', array('operator_id' => $operator['operatorid'])),
             // Use another entry point as an install URL.
             // TODO: Use real update route when the System Updater will be ready
-            'updateWizard' => $request->getBasePath() . '/install.php',
+            'updateWizard' => $this->generateUrl('update'),
             'newFeatures' => Settings::get('featuresversion') != FEATURES_VERSION,
             'featuresPage' => $this->generateUrl('settings_features'),
             'isOnline' => $is_online,
