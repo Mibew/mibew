@@ -133,10 +133,22 @@ class Manager
                 $plugin_classname,
                 'getDependencies',
             ));
-            foreach ($plugin_dependencies as $dependency) {
+            foreach ($plugin_dependencies as $dependency => $required_version) {
                 if (empty(self::$loadedPlugins[$dependency])) {
                     $error_message = "Plugin '{$dependency}' was not loaded "
                         . "yet, but exists in '{$plugin_name}' dependencies list!";
+                    trigger_error($error_message, E_USER_WARNING);
+                    continue 2;
+                }
+
+                $dependency_version = call_user_func(array(
+                    self::$loadedPlugins[$dependency],
+                    'getVersion'
+                ));
+
+                if ($required_version !== $dependency_version) {
+                    $error_message = "Plugin '{$dependency}' has version "
+                        . "incompatible with '{$plugin_name}' requirements!";
                     trigger_error($error_message, E_USER_WARNING);
                     continue 2;
                 }

@@ -60,8 +60,9 @@ interface PluginInterface
     /**
      * Returns list of plugin's dependencies.
      *
-     * Each element in the list is a string with a plugin name. If plugin have
-     * no dependencies an empty array should be returned.
+     * Each key in the array is a string with a plugin name. Each value is
+     * required plugin version. If the plugin have no dependencies an empty
+     * array should be returned.
      *
      * @return array List of plugin's dependencies.
      */
@@ -77,6 +78,17 @@ interface PluginInterface
      * @return array Associative array with plugin info
      */
     public static function getInfo();
+
+    /**
+     * Returns version of the plugin.
+     *
+     * Version ID should follow semantic versioning convention (see
+     * {@link http://semver.org/} for details). It is used to check plugin's
+     * dependences.
+     *
+     * @return string Plugin's version.
+     */
+    public static function getVersion();
 
     /**
      * Makes all actions that are needed to install the plugin.
