@@ -19,6 +19,9 @@
 
 namespace Mibew\Plugin;
 
+use vierbergenlars\SemVer\version as Version;
+use vierbergenlars\SemVer\expression as VersionExpression;
+
 /**
  * Manage plugins
  */
@@ -141,12 +144,13 @@ class Manager
                     continue 2;
                 }
 
+                $version_constrain = new VersionExpression($required_version);
                 $dependency_version = call_user_func(array(
                     self::$loadedPlugins[$dependency],
                     'getVersion'
                 ));
 
-                if ($required_version !== $dependency_version) {
+                if (!$version_constrain->satisfiedBy(new Version($dependency_version))) {
                     $error_message = "Plugin '{$dependency}' has version "
                         . "incompatible with '{$plugin_name}' requirements!";
                     trigger_error($error_message, E_USER_WARNING);

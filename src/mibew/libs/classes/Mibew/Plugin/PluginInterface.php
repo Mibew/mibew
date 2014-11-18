@@ -61,8 +61,22 @@ interface PluginInterface
      * Returns list of plugin's dependencies.
      *
      * Each key in the array is a string with a plugin name. Each value is
-     * required plugin version. If the plugin have no dependencies an empty
-     * array should be returned.
+     * plugin version constrain. A constrain can be in one of the following
+     * formats:
+     *  - "1.2.3": exact version number;
+     *  - ">1.2.3": grater than a specific version;
+     *  - ">=1.2.3": greater than a specific version or equal to it;
+     *  - "<1.2.3": less than a specific version;
+     *  - "<=1.2.3": less than a specific version or equal to it;
+     *  - "1.2.3 - 2.3.4": equals to ">=1.2.3 <=2.3.4";
+     *  - "~1.2.3": equivalent for ">=1.2.3 <1.3.0";
+     *  - "~1.2": equivalent for ">=1.2.0 <2.0.0";
+     *  - "^1.2.3" equivalent for ">=1.2.3 <2.0.0";
+     *  - "^0.1.2" equivalent for ">=0.1.2 <0.2.0";
+     *  - "1.2.x": equivalent for ">=1.2.0 <2.0.0";
+     *  - "1.x": equivalent for ">=1.0.0 <2.0.0";
+     *
+     * If the plugin have no dependencies an empty array should be returned.
      *
      * @return array List of plugin's dependencies.
      */
