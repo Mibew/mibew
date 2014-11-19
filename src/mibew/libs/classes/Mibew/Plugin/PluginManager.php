@@ -35,10 +35,11 @@ class PluginManager
     protected static $loadedPlugins = array();
 
     /**
-     * Returns plugin object
+     * Returns plugin instance.
      *
-     * @param string $plugin_name
-     * @return \Mibew\Plugin
+     * @param string $plugin_name Name of the plugin to retrieve.
+     * @return \Mibew\Plugin\PluginInterface|boolean Instance of the plugin or
+     *   boolean false if there is no plugin with such name.
      */
     public static function getPlugin($plugin_name)
     {
@@ -47,6 +48,8 @@ class PluginManager
                 "Plugin '{$plugin_name}' does not initialized!",
                 E_USER_WARNING
             );
+
+            return false;
         }
 
         return self::$loadedPlugins[$plugin_name];
