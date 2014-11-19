@@ -23,16 +23,38 @@ use vierbergenlars\SemVer\version as Version;
 use vierbergenlars\SemVer\expression as VersionExpression;
 
 /**
- * Manage plugins
+ * Manage plugins.
+ *
+ * Implements singleton pattern.
  */
 class PluginManager
 {
+    /**
+     * An instance of Plugin Manager class.
+     * @var PluginManager
+     */
+    protected static $instance = null;
+
     /**
      * Contains all loaded plugins
      *
      * @var array
      */
-    protected static $loadedPlugins = array();
+    protected $loadedPlugins = array();
+
+    /**
+     * Get instance of PluginManager class.
+     *
+     * @return PluginManager
+     */
+    public static function getInstance()
+    {
+        if (is_null(self::$instance)) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
 
     /**
      * Returns plugin instance.
@@ -41,9 +63,9 @@ class PluginManager
      * @return \Mibew\Plugin\PluginInterface|boolean Instance of the plugin or
      *   boolean false if there is no plugin with such name.
      */
-    public static function getPlugin($plugin_name)
+    public function getPlugin($plugin_name)
     {
-        if (empty(self::$loadedPlugins[$plugin_name])) {
+        if (empty($this->loadedPlugins[$plugin_name])) {
             trigger_error(
                 "Plugin '{$plugin_name}' does not initialized!",
                 E_USER_WARNING
@@ -52,7 +74,7 @@ class PluginManager
             return false;
         }
 
-        return self::$loadedPlugins[$plugin_name];
+        return $this->loadedPlugins[$plugin_name];
     }
 
     /**
@@ -62,9 +84,9 @@ class PluginManager
      *
      * @return array
      */
-    public static function getAllPlugins()
+    public function getAllPlugins()
     {
-        return self::$loadedPlugins;
+        return $this->loadedPlugins;
     }
 
     /**
@@ -88,7 +110,7 @@ class PluginManager
      *
      * @see \Mibew\Plugin\PluginInterface::run()
      */
-    public static function loadPlugins($plugins_list)
+    public function loadPlugins($plugins_list)
     {
         // Load plugins one by one
         $loading_queue = array();
@@ -140,7 +162,7 @@ class PluginManager
                 'getDependencies',
             ));
             foreach ($plugin_dependencies as $dependency => $required_version) {
-                if (empty(self::$loadedPlugins[$dependency])) {
+                if (empty($this->loadedPlugins[$dependency])) {
                     $error_message = "Plugin '{$dependency}' was not loaded "
                         . "yet, but exists in '{$plugin_name}' dependencies list!";
                     trigger_error($error_message, E_USER_WARNING);
@@ -149,7 +171,7 @@ class PluginManager
 
                 $version_constrain = new VersionExpression($required_version);
                 $dependency_version = call_user_func(array(
-                    self::$loadedPlugins[$dependency],
+                    $this->loadedPlugins[$dependency],
                     'getVersion'
                 ));
 
@@ -165,7 +187,7 @@ class PluginManager
             $plugin_instance = new $plugin_classname($plugin_config);
             if ($plugin_instance->initialized()) {
                 // Store plugin instance
-                self::$loadedPlugins[$plugin_name] = $plugin_instance;
+                $this->loadedPlugins[$plugin_name] = $plugin_instance;
                 $loading_queue[$plugin_instance->getWeight() . "_" . $offset] = $plugin_instance;
                 $offset++;
             } else {

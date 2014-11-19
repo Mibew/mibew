@@ -34,7 +34,7 @@ class PluginLoader extends Loader
     public function load($resource, $type = null)
     {
         $collection = new RouteCollection();
-        foreach (PluginManager::getAllPlugins() as $plugin) {
+        foreach (PluginManager::getInstance()->getAllPlugins() as $plugin) {
             $resource = $plugin->getFilesPath() . '/routing.yml';
             if (!file_exists($resource)) {
                 // The plugin has no routing file.

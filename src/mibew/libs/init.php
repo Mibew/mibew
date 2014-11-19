@@ -84,7 +84,7 @@ if (get_maintenance_mode() === false) {
     if (!empty($configs['plugins'])) {
         // A list of plugins is defined in $plugins_list variable in
         // configs/config.yml
-        \Mibew\Plugin\PluginManager::loadPlugins($configs['plugins']);
+        \Mibew\Plugin\PluginManager::getInstance()->loadPlugins($configs['plugins']);
     }
 }
 
