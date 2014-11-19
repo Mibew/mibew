@@ -19,7 +19,7 @@
 
 namespace Mibew\Routing\Loader;
 
-use Mibew\Plugin\Manager as PluginManager;
+use Mibew\Plugin\PluginManager;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Routing\RouteCollection;
 

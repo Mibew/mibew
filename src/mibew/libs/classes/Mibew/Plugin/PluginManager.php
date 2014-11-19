@@ -25,7 +25,7 @@ use vierbergenlars\SemVer\expression as VersionExpression;
 /**
  * Manage plugins
  */
-class Manager
+class PluginManager
 {
     /**
      * Contains all loaded plugins
