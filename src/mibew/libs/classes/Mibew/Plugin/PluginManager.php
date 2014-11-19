@@ -122,23 +122,21 @@ class PluginManager
             }
             $plugin_name = $plugin['name'];
 
-            // Split full name to vendor name and short name
-            list($vendor_name, $plugin_short_name) = explode(':', $plugin_name, 2);
-            if (empty($vendor_name) || empty($plugin_short_name)) {
+            // Get vendor name and short name from plugin's name
+            if (!Utils::isValidPluginName($plugin_name)) {
                 trigger_error(
                     "Wrong formated plugin name '" . $plugin_name . "'!",
                     E_USER_WARNING
                 );
                 continue;
             }
+            list($vendor_name, $plugin_short_name) = explode(':', $plugin_name, 2);
 
             $plugin_config = isset($plugin['config']) ? $plugin['config'] : array();
 
             // Build name of the plugin class
-            $plugin_name_parts = explode('_', $plugin_short_name);
-            $plugin_name_parts = array_map('ucfirst', $plugin_name_parts);
-            $plugin_classname = '\\' . ucfirst($vendor_name)
-                . '\\Mibew\\Plugin\\' . implode('', $plugin_name_parts) . '\\Plugin';
+            $plugin_classname = '\\' . $vendor_name
+                . '\\Mibew\\Plugin\\' . $plugin_short_name . '\\Plugin';
 
             // Check plugin class name
             if (!class_exists($plugin_classname)) {

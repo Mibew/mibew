@@ -25,6 +25,11 @@ namespace Mibew\Plugin;
 class Utils
 {
     /**
+     * Describes a valid plugin name.
+     */
+    const pluginNameRegExp = "/^([A-Z][0-9A-Za-z]+):([A-Z][0-9A-Za-z]+)$/";
+
+    /**
      * Gets list of plugins existing in File System.
      *
      * @return array List of existing plugins. Each item is a full plugin name
@@ -59,6 +64,17 @@ class Utils
         }
 
         return $plugins;
+    }
+
+    /**
+     * Checks if the specified name is a valid plugin name.
+     *
+     * @param string $name A string to check.
+     * @return boolean
+     */
+    public static function isValidPluginName($name)
+    {
+        return (preg_match(self::pluginNameRegExp, $name) != 0);
     }
 
     /**
