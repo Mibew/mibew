@@ -121,6 +121,7 @@ class PluginManager
                 continue;
             }
             $plugin_name = $plugin['name'];
+            $plugin_config = isset($plugin['config']) ? $plugin['config'] : array();
 
             // Get vendor name and short name from plugin's name
             if (!Utils::isValidPluginName($plugin_name)) {
@@ -130,13 +131,9 @@ class PluginManager
                 );
                 continue;
             }
-            list($vendor_name, $plugin_short_name) = explode(':', $plugin_name, 2);
-
-            $plugin_config = isset($plugin['config']) ? $plugin['config'] : array();
 
             // Build name of the plugin class
-            $plugin_classname = '\\' . $vendor_name
-                . '\\Mibew\\Plugin\\' . $plugin_short_name . '\\Plugin';
+            $plugin_classname = Utils::getPluginClassName($plugin_name);
 
             // Check plugin class name
             if (!class_exists($plugin_classname)) {

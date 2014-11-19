@@ -45,22 +45,23 @@ class Utils
 
         $plugins = array();
         foreach (glob($pattern) as $plugin_file) {
+            // Build plugin's name and validate it.
             $parts = array_reverse(explode(DIRECTORY_SEPARATOR, $plugin_file));
-            $plugin = $parts[1];
-            $vendor = $parts[4];
+            $plugin_name = $parts[4] . ':' . $parts[1];
+            if (!self::isValidPluginName($plugin_name)) {
+                continue;
+            }
 
-            $class_name = '\\' . $vendor . '\\Mibew\\Plugin\\' . $plugin . '\\Plugin';
-
-            // Check plugin class name
+            // Make sure we found a plugin.
+            $class_name = self::getPluginClassName($plugin_name);
             if (!class_exists($class_name)) {
                 continue;
             }
-            // Check if plugin implements 'Plugin' interface
             if (!in_array('Mibew\\Plugin\\PluginInterface', class_implements($class_name))) {
                 continue;
             }
 
-            $plugins[] = $vendor . ':' . $plugin;
+            $plugins[] = $plugin_name;
         }
 
         return $plugins;
@@ -75,6 +76,24 @@ class Utils
     public static function isValidPluginName($name)
     {
         return (preg_match(self::pluginNameRegExp, $name) != 0);
+    }
+
+    /**
+     * Builds class name for a plugin with the specified name.
+     *
+     * @param string $plugin_name Plugin's name in "Vendor:Name" format.
+     * @return string Fully qualified class name for the plugin.
+     * @throws \InvalidArgumentException If the passed in plugin name is
+     *   invalid.
+     */
+    public static function getPluginClassName($plugin_name)
+    {
+        if (!self::isValidPluginName($plugin_name)) {
+            throw new \InvalidArgumentException('Wrong formated plugin name');
+        }
+        list($vendor, $short_name) = explode(':', $plugin_name, 2);
+
+        return '\\' . $vendor . '\\Mibew\\Plugin\\' . $short_name . '\\Plugin';
     }
 
     /**
