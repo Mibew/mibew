@@ -80,12 +80,6 @@ if (get_maintenance_mode() === false) {
         $configs['database']['db'],
         $configs['database']['tables_prefix']
     );
-
-    if (!empty($configs['plugins'])) {
-        // A list of plugins is defined in $plugins_list variable in
-        // configs/config.yml
-        \Mibew\Plugin\PluginManager::getInstance()->loadPlugins($configs['plugins']);
-    }
 }
 
 // Load all other libraries
@@ -101,3 +95,10 @@ require_once(MIBEW_FS_ROOT . '/libs/pagination.php');
 require_once(MIBEW_FS_ROOT . '/libs/statistics.php');
 require_once(MIBEW_FS_ROOT . '/libs/track.php');
 require_once(MIBEW_FS_ROOT . '/libs/userinfo.php');
+
+// Run plugins only after all libs are loaded.
+if (get_maintenance_mode() === false && !empty($configs['plugins'])) {
+    // A list of plugins is defined in $plugins_list variable in
+    // configs/config.yml
+    \Mibew\Plugin\PluginManager::getInstance()->loadPlugins($configs['plugins']);
+}
