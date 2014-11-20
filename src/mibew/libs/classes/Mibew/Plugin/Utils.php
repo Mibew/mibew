@@ -27,7 +27,7 @@ class Utils
     /**
      * Describes a valid plugin name.
      */
-    const pluginNameRegExp = "/^([A-Z][0-9A-Za-z]+):([A-Z][0-9A-Za-z]+)$/";
+    const PLUGIN_NAME_REG_EXP = "/^([A-Z][0-9A-Za-z]+):([A-Z][0-9A-Za-z]+)$/";
 
     /**
      * Gets list of plugins existing in File System.
@@ -75,7 +75,7 @@ class Utils
      */
     public static function isValidPluginName($name)
     {
-        return (preg_match(self::pluginNameRegExp, $name) != 0);
+        return (preg_match(self::PLUGIN_NAME_REG_EXP, $name) != 0);
     }
 
     /**
