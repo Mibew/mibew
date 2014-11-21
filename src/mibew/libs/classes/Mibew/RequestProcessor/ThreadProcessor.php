@@ -286,7 +286,7 @@ class ThreadProcessor extends ClientSideProcessor implements
             // A function is called by a user. We need to check that the thread
             // is related with the user.
             $arguments = $context->getArgumentsList($function);
-            $thread_id = $arguments['threadid'];
+            $thread_id = $arguments['threadId'];
             // As defined in Mibew\API\Interaction\ChatInteraction "threadid"
             // argument is mandatory, but some function allows it to be null. In
             // such cases there is no thread and there is nothing to check.
