@@ -75,7 +75,7 @@ class Ban
             return false;
         }
 
-        // Load thread
+        // Load ban info
         $ban_info = Database::getInstance()->query(
             "SELECT * FROM {ban} WHERE banid = :id",
             array(':id' => $id),
@@ -107,7 +107,7 @@ class Ban
             return false;
         }
 
-        // Load thread
+        // Load ban info
         $ban_info = Database::getInstance()->query(
             "SELECT * FROM {ban} WHERE address = :address",
             array(':address' => $address),
