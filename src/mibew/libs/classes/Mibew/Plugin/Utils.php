@@ -37,31 +37,36 @@ class Utils
      */
     public static function discoverPlugins()
     {
-        $pattern = MIBEW_FS_ROOT . str_replace(
-            '/',
-            DIRECTORY_SEPARATOR,
-            '/plugins/*/Mibew/Plugin/*/Plugin.php'
-        );
+        static $plugins = null;
 
-        $plugins = array();
-        foreach (glob($pattern) as $plugin_file) {
-            // Build plugin's name and validate it.
-            $parts = array_reverse(explode(DIRECTORY_SEPARATOR, $plugin_file));
-            $plugin_name = $parts[4] . ':' . $parts[1];
-            if (!self::isValidPluginName($plugin_name)) {
-                continue;
-            }
+        if (is_null($plugins)) {
+            $plugins = array();
 
-            // Make sure we found a plugin.
-            $class_name = self::getPluginClassName($plugin_name);
-            if (!class_exists($class_name)) {
-                continue;
-            }
-            if (!in_array('Mibew\\Plugin\\PluginInterface', class_implements($class_name))) {
-                continue;
-            }
+            $pattern = MIBEW_FS_ROOT . str_replace(
+                '/',
+                DIRECTORY_SEPARATOR,
+                '/plugins/*/Mibew/Plugin/*/Plugin.php'
+            );
 
-            $plugins[] = $plugin_name;
+            foreach (glob($pattern) as $plugin_file) {
+                // Build plugin's name and validate it.
+                $parts = array_reverse(explode(DIRECTORY_SEPARATOR, $plugin_file));
+                $plugin_name = $parts[4] . ':' . $parts[1];
+                if (!self::isValidPluginName($plugin_name)) {
+                    continue;
+                }
+
+                // Make sure we found a plugin.
+                $class_name = self::getPluginClassName($plugin_name);
+                if (!class_exists($class_name)) {
+                    continue;
+                }
+                if (!in_array('Mibew\\Plugin\\PluginInterface', class_implements($class_name))) {
+                    continue;
+                }
+
+                $plugins[] = $plugin_name;
+            }
         }
 
         return $plugins;
