@@ -49,22 +49,12 @@ class Utils
             );
 
             foreach (glob($pattern) as $plugin_file) {
-                // Build plugin's name and validate it.
+                // Build plugin's name and make sure the plugin exists.
                 $parts = array_reverse(explode(DIRECTORY_SEPARATOR, $plugin_file));
                 $plugin_name = $parts[4] . ':' . $parts[1];
-                if (!self::isValidPluginName($plugin_name)) {
+                if (!self::pluginExists($plugin_name)) {
                     continue;
                 }
-
-                // Make sure we found a plugin.
-                $class_name = self::getPluginClassName($plugin_name);
-                if (!class_exists($class_name)) {
-                    continue;
-                }
-                if (!in_array('Mibew\\Plugin\\PluginInterface', class_implements($class_name))) {
-                    continue;
-                }
-
                 $plugins[] = $plugin_name;
             }
         }
@@ -99,6 +89,30 @@ class Utils
         list($vendor, $short_name) = explode(':', $plugin_name, 2);
 
         return '\\' . $vendor . '\\Mibew\\Plugin\\' . $short_name . '\\Plugin';
+    }
+
+    /**
+     * Checks if a plugin with specified name exists.
+     *
+     * @param string $plugin_name Name of the plugin to check.
+     * @return boolean True if the plugin exists and false otherwise.
+     */
+    public static function pluginExists($plugin_name)
+    {
+        if (!self::isValidPluginName($plugin_name)) {
+            return false;
+        }
+
+        // Make sure plugin class exists and represents a real plugin.
+        $class_name = self::getPluginClassName($plugin_name);
+        if (!class_exists($class_name)) {
+            return false;
+        }
+        if (!in_array('Mibew\\Plugin\\PluginInterface', class_implements($class_name))) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
