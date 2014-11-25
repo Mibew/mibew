@@ -62,7 +62,7 @@ require_once('inc_errors.php');
 		<div class="field">
 			<div class="flabel"><?php echo getlocal('form.field.login') ?><span class="required">*</span></div>
 			<div class="fvalue">
-				<input type="text" name="login" size="40" value="<?php echo form_value('login') ?>" class="formauth"<?php echo $page['canmodify'] ? "" : " disabled=\"disabled\"" ?>/>
+				<input type="text" name="login" size="40" value="<?php echo form_value('login') ?>" class="formauth"<?php echo $page['canmodify'] && !$page['opid'] ? "" : " disabled=\"disabled\"" ?>/>
 			</div>
 			<div class="fdescr"> &mdash; <?php echo getlocal('form.field.login.description') ?></div>
 			<br clear="all"/>
