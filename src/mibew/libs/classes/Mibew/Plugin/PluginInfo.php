@@ -94,8 +94,8 @@ class PluginInfo
      * Returns dependencies of the plugin.
      *
      * @return array Dependencies list. See
-     *   {@link \Mibew\Plugin\PluginInterface::getDependencies()} for detail of
-     *   array structure.
+     *   {@link \Mibew\Plugin\PluginInterface::getDependencies()} for details of
+     *   the array structure.
      */
     public function getDependencies()
     {
@@ -118,5 +118,19 @@ class PluginInfo
         }
 
         return $dependent_plugins;
+    }
+
+    /**
+     * Creates an instance of the plugin.
+     *
+     * @param array $configs Configurations array that will be passed to
+     *   plugin's constructor.
+     * @return \Mibew\Plugin\PluginInterface
+     */
+    public function getInstance($configs = array())
+    {
+        $plugin_class = $this->getClass();
+
+        return new $plugin_class($configs);
     }
 }
