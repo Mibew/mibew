@@ -1,5 +1,5 @@
 /**
- * @preserve This file is part a of Mibew Messenger.
+ * @preserve This file is a part of Mibew Messenger.
  * http://mibew.org
  * 
  * Copyright (c) 2005-2014 Mibew Messenger Community
