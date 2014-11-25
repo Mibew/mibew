@@ -24,6 +24,8 @@ $operator = check_login();
 csrfchecktoken();
 check_permissions($operator, $can_administrate);
 
+$errors = array();
+
 if (isset($_GET['act']) && $_GET['act'] == 'del') {
 	$operatorid = isset($_GET['id']) ? $_GET['id'] : "";
 
