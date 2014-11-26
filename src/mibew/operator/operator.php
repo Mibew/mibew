@@ -29,9 +29,21 @@ $errors = array();
 $opId = '';
 
 loadsettings();
-if (isset($_POST['login']) && isset($_POST['password'])) {
+if ((isset($_POST['opid']) || isset($_POST['login'])) && isset($_POST['password'])) {
 	$opId = verifyparam("opid", "/^(\d{1,10})?$/", "");
-	$login = getparam('login');
+	if ($opId) {
+	    $given_operator = operator_by_id($opId);
+	    if (!$given_operator) {
+		$errors[] = getlocal("no_such_operator");
+		$login = '';
+	    }
+	    else {
+		$login = $given_operator['vclogin'];
+	    }
+	}
+	else {
+	    $login = getparam('login');
+	}
 	$email = getparam('email');
 	$jabber = getparam('jabber');
 	$password = getparam('password');
