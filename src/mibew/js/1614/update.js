@@ -1,3 +1,11 @@
+/*
+ This file is a part of Mibew Messenger.
+ http://mibew.org
+
+ Copyright (c) 2005-2014 Mibew Messenger Community
+ License: http://mibew.org/license.php
+*/
+
 function loadNews() {
 	if (typeof(window.mibewNews) == "undefined" || typeof(window.mibewNews.length) == "undefined")
 		return;
