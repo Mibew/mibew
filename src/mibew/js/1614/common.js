@@ -4,6 +4,9 @@
 
  Copyright (c) 2005-2014 Mibew Messenger Community
  License: http://mibew.org/license.php
+
+ common.js Based on Prototype JavaScript framework, version 1.3.1
+ http://prototype.conio.net/ (c) 2005 Sam Stephenson <sam@conio.net>
 */
 var Class={create:function(){return function(){this.initialize.apply(this,arguments)}},inherit:function(a,b,c){Object.extend(Object.extend(a.prototype,b.prototype),c)}};Object.extend=function(a,b){for(property in b)a[property]=b[property];return a};Object.prototype.extend=function(a){return Object.extend.apply(this,[this,a])};Function.prototype.bind=function(a){var b=this;return function(){return b.apply(a,arguments)}};
 Function.prototype.bindAsEventListener=function(a){var b=this;return function(c){b.call(a,c||window.event)}};Number.prototype.toColorPart=function(){var a=this.toString(16);return 16>this?"0"+a:a};var Try={these:function(){for(var a,b=0;b<arguments.length;b++){var c=arguments[b];try{a=c();break}catch(d){}}return a}},PeriodicalExecuter=Class.create();
