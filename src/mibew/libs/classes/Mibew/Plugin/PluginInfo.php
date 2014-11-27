@@ -19,6 +19,9 @@
 
 namespace Mibew\Plugin;
 
+use vierbergenlars\SemVer\version as Version;
+use vierbergenlars\SemVer\expression as VersionExpression;
+
 /**
  * Provides a handy wrapper for plugin info.
  */
@@ -35,6 +38,12 @@ class PluginInfo
      * @var string|null
      */
     protected $pluginClass = null;
+
+    /**
+     * The current state of the plugin.
+     * @var State|null
+     */
+    protected $pluginState = null;
 
     /**
      * Class constructor.
@@ -54,6 +63,46 @@ class PluginInfo
         }
 
         $this->pluginName = $plugin_name;
+    }
+
+    /**
+     * Returns current state of the plugin.
+     *
+     * @return State
+     */
+    public function getState()
+    {
+        if (is_null($this->pluginState)) {
+            $state = State::loadByName($this->pluginName);
+            if (!$state) {
+                // There is no appropriate state in the database. Use a new one.
+                $state = new State();
+                $state->pluginName = $this->pluginName;
+                $state->version = false;
+                $state->installed = false;
+                $state->enabled = false;
+            }
+            $this->pluginState = $state;
+        }
+
+        return $this->pluginState;
+    }
+
+    /**
+     * Clears state of the plugin attached to the info object.
+     *
+     * Also the method deletes state from database but only if it's stored
+     * where.
+     */
+    public function clearState()
+    {
+        if (!is_null($this->pluginState)) {
+            if ($this->pluginState->id) {
+                // Remove state only if it's in the database.
+                $this->pluginState->delete();
+            }
+            $this->pluginState = null;
+        }
     }
 
     /**
@@ -88,6 +137,20 @@ class PluginInfo
     public function getVersion()
     {
         return call_user_func(array($this->getClass(), 'getVersion'));
+    }
+
+    /**
+     * Returns installed version of the plugin.
+     *
+     * Notice that in can differs from
+     * {@link \Mibew\Plugin\PluginInfo::getVersion()} results if the plugin's
+     * files are updated without database changes.
+     *
+     * @return string
+     */
+    public function getInstalledVersion()
+    {
+        return $this->getState()->version;
     }
 
     /**
@@ -132,5 +195,116 @@ class PluginInfo
         $plugin_class = $this->getClass();
 
         return new $plugin_class($configs);
+    }
+
+    /**
+     * Checks if the plugin is enabled.
+     *
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return $this->getState()->enabled;
+    }
+
+    /**
+     * Checks if the plugin is installed.
+     *
+     * @return bool
+     */
+    public function isInstalled()
+    {
+        return $this->getState()->installed;
+    }
+
+    /**
+     * Checks if the plugin can be enabled.
+     *
+     * @return boolean
+     */
+    public function canBeEnabled()
+    {
+        if ($this->isEnabled()) {
+            // The plugin cannot be enabled twice
+            return false;
+        }
+
+        // Make sure all plugin's dependencies exist, are enabled and have
+        // appropriate versions
+        foreach ($this->getDependencies() as $plugin_name => $required_version) {
+            if (!Utils::pluginExists($plugin_name)) {
+                return false;
+            }
+            $plugin = new PluginInfo($plugin_name);
+            if (!$plugin->isInstalled() || !$plugin->isEnabled()) {
+                return false;
+            }
+            $version_constrain = new VersionExpression($required_version);
+            if (!$version_constrain->satisfiedBy(new Version($plugin->getInstalledVersion()))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Checks if the plugin can be disabled.
+     *
+     * @return boolean
+     */
+    public function canBeDisabled()
+    {
+        if (!$this->isEnabled()) {
+            // The plugin was not enabled thus it cannot be disabled
+            return false;
+        }
+
+        // Make sure that the plugin has no enabled dependent plugins.
+        foreach ($this->getDependentPlugins() as $plugin_name) {
+            $plugin = new PluginInfo($plugin_name);
+            if ($plugin->isEnabled()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Checks if the plugin can be uninstalled.
+     *
+     * @return boolean
+     */
+    public function canBeUninstalled()
+    {
+        if ($this->isEnabled()) {
+            // Enabled plugin cannot be uninstalled
+            return false;
+        }
+
+        // Make sure that the plugin has no installed dependent plugins.
+        foreach ($this->getDependentPlugins() as $plugin_name) {
+            $plugin = new PluginInfo($plugin_name);
+            if ($plugin->isInstalled()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Creates plugin info object based on a state object.
+     *
+     * @param State $state A state of the plugin.
+     * @return PluginInfo
+     */
+    public static function fromState(State $state)
+    {
+        $info = new self($state->pluginName);
+        $info->pluginState = $state;
+
+        return $info;
     }
 }

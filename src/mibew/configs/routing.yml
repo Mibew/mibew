@@ -548,6 +548,35 @@ password_recovery_reset:
     defaults:
         _controller: Mibew\Controller\PasswordRecoveryController::resetAction
 
+## Plugins
+plugin_enable:
+    path: /operator/plugin/{plugin_name}/enable
+    defaults:
+        _controller: Mibew\Controller\PluginController::enableAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+
+plugin_disable:
+    path: /operator/plugin/{plugin_name}/disable
+    defaults:
+        _controller: Mibew\Controller\PluginController::disableAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+
+plugin_uninstall:
+    path: /operator/plugin/{plugin_name}/uninstall
+    defaults:
+        _controller: Mibew\Controller\PluginController::uninstallAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+
+plugins:
+    path: /operator/plugin
+    defaults:
+        _controller: Mibew\Controller\PluginController::indexAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+
 ## Settings
 settings_common:
     path: /operator/settings

@@ -31,12 +31,8 @@ plugins: []
 
 ## Exapmle of plugins configuration
 # plugins:
-#     -
-#         name: "VendorName:PluginName"
-#         config:
-#             weight: 100
-#             some_configurable_value: value
-#     -
-#         name: "VendorName:AnotherPluginName"
-#         config:
-#             very_important_value: "$3.50"
+#     "VendorName:PluginName":
+#         weight: 100
+#         some_configurable_value: value
+#     "VendorName:AnotherPluginName":
+#         very_important_value: "$3.50"

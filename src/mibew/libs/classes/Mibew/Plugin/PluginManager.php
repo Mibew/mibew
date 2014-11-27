@@ -19,9 +19,6 @@
 
 namespace Mibew\Plugin;
 
-use vierbergenlars\SemVer\version as Version;
-use vierbergenlars\SemVer\expression as VersionExpression;
-
 /**
  * Manage plugins.
  *
@@ -92,110 +89,181 @@ class PluginManager
     /**
      * Loads plugins.
      *
-     * The method checks dependences and plugin avaiulability before loading and
+     * The method checks dependences and plugin availability before loading and
      * invokes PluginInterface::run() after loading.
      *
-     * @param array $plugins_list List of plugins' names and configurations.
-     *   For example:
-     * <code>
-     * $plugins_list = array();
-     * $plugins_list[] = array(
-     *   'name' => 'vendor:plugin_name',     // Obligatory value
-     *   'config' => array(                  // Pass to plugin constructor
-     *     'weight' => 100,
-     *     'some_configurable_value' => 'value'
-     *   )
-     * )
-     * </code>
+     * @param array $configs List of plugins' configurations. Each key is a
+     * plugin name and each value is a configurations array.
      *
      * @see \Mibew\Plugin\PluginInterface::run()
      */
-    public function loadPlugins($plugins_list)
+    public function loadPlugins($configs)
     {
-        // Load plugins one by one
-        $loading_queue = array();
+        // Builds Dependency graph with available plugins.
+        $graph = new DependencyGraph();
+        foreach (State::loadAllEnabled() as $plugin_state) {
+            if (!Utils::pluginExists($plugin_state->pluginName)) {
+                trigger_error(
+                    sprintf(
+                        'Plugin "%s" exists in database base but is not found in file system!',
+                        $plugin_state->pluginName
+                    ),
+                    E_USER_WARNING
+                );
+                continue;
+            }
+
+            $plugin_info = PluginInfo::fromState($plugin_state);
+            if ($plugin_info->getVersion() != $plugin_info->getInstalledVersion()) {
+                trigger_error(
+                    sprintf(
+                        'Versions of "%s" plugin in database and in file system are different!'
+                    ),
+                    E_USER_WARNING
+                );
+                continue;
+            }
+
+            $graph->addPlugin($plugin_info);
+        }
+
         $offset = 0;
-        foreach ($plugins_list as $plugin) {
-            if (empty($plugin['name'])) {
-                trigger_error("Plugin name is undefined!", E_USER_WARNING);
-                continue;
-            }
-            $plugin_name = $plugin['name'];
-            $plugin_config = isset($plugin['config']) ? $plugin['config'] : array();
-
-            // Get vendor name and short name from plugin's name
-            if (!Utils::isValidPluginName($plugin_name)) {
-                trigger_error(
-                    "Wrong formated plugin name '" . $plugin_name . "'!",
-                    E_USER_WARNING
-                );
-                continue;
-            }
-
-            // Build name of the plugin class
-            $plugin_classname = Utils::getPluginClassName($plugin_name);
-
-            // Check plugin class name
-            if (!class_exists($plugin_classname)) {
-                trigger_error(
-                    "Plugin class '{$plugin_classname}' is undefined!",
-                    E_USER_WARNING
-                );
-                continue;
-            }
-            // Check if plugin extends abstract 'Plugin' class
-            if (!in_array('Mibew\\Plugin\\PluginInterface', class_implements($plugin_classname))) {
-                $error_message = "Plugin class '{$plugin_classname}' does not "
-                    . "implement '\\Mibew\\Plugin\\PluginInterface' interface!";
-                trigger_error($error_message, E_USER_WARNING);
-                continue;
-            }
-
-            // Check plugin dependencies
-            $plugin_dependencies = call_user_func(array(
-                $plugin_classname,
-                'getDependencies',
-            ));
-            foreach ($plugin_dependencies as $dependency => $required_version) {
-                if (empty($this->loadedPlugins[$dependency])) {
-                    $error_message = "Plugin '{$dependency}' was not loaded "
-                        . "yet, but exists in '{$plugin_name}' dependencies list!";
-                    trigger_error($error_message, E_USER_WARNING);
-                    continue 2;
-                }
-
-                $version_constrain = new VersionExpression($required_version);
-                $dependency_version = call_user_func(array(
-                    $this->loadedPlugins[$dependency],
-                    'getVersion'
-                ));
-
-                if (!$version_constrain->satisfiedBy(new Version($dependency_version))) {
-                    $error_message = "Plugin '{$dependency}' has version "
-                        . "incompatible with '{$plugin_name}' requirements!";
-                    trigger_error($error_message, E_USER_WARNING);
+        $running_queue = array();
+        foreach ($graph->getLoadingQueue() as $plugin_info) {
+            // Make sure all depedendencies are loaded
+            foreach (array_keys($plugin_info->getDependencies()) as $dependency) {
+                if (!isset($this->loadedPlugins[$dependency])) {
+                    trigger_error(
+                        sprintf(
+                            'Plugin "%s" was not loaded yet, but exists in "%s" dependencies list!',
+                            $dependency,
+                            $plugin_info->getName()
+                        ),
+                        E_USER_WARNING
+                    );
                     continue 2;
                 }
             }
 
-            // Add plugin to loading queue
-            $plugin_instance = new $plugin_classname($plugin_config);
-            if ($plugin_instance->initialized()) {
-                // Store plugin instance
-                $this->loadedPlugins[$plugin_name] = $plugin_instance;
-                $loading_queue[$plugin_instance->getWeight() . "_" . $offset] = $plugin_instance;
+            // Try to load the plugin.
+            $name = $plugin_info->getName();
+            $config = isset($configs[$name]) ? $configs[$name] : array();
+            $instance = $plugin_info->getInstance($config);
+            if ($instance->initialized()) {
+                // Store the plugin and add it to running queue
+                $this->loadedPlugins[$name] = $instance;
+                $running_queue[$instance->getWeight() . "_" . $offset] = $instance;
                 $offset++;
             } else {
+                // The plugin cannot be loaded. Just skip it.
                 trigger_error(
-                    "Plugin '{$plugin_name}' was not initialized correctly!",
+                    "Plugin '{$name}' was not initialized correctly!",
                     E_USER_WARNING
                 );
             }
         }
+
         // Sort queue in order to plugins' weights and run plugins one by one
-        uksort($loading_queue, 'strnatcmp');
-        foreach ($loading_queue as $plugin) {
+        uksort($running_queue, 'strnatcmp');
+        foreach ($running_queue as $plugin) {
             $plugin->run();
         }
+    }
+
+    /**
+     * Tries to enable a plugin.
+     *
+     * @param string $plugin_name Name of the plugin to enable.
+     * @return boolean Indicates if the plugin has been enabled or not.
+     */
+    public function enable($plugin_name)
+    {
+        $plugin = new PluginInfo($plugin_name);
+
+        if ($plugin->isEnabled()) {
+            // The plugin is already enabled. There is nothing we can do.
+            return true;
+        }
+
+        if (!$plugin->canBeEnabled()) {
+            // The plugin cannot be enabled.
+            return false;
+        }
+
+        if (!$plugin->isInstalled()) {
+            // Try to install the plugin.
+            $plugin_class = $plugin->getClass();
+            if (!$plugin_class::install()) {
+                return false;
+            }
+
+            // Plugin installed successfully. Update the state
+            $plugin->getState()->version = $plugin->getVersion();
+            $plugin->getState()->installed = true;
+        }
+
+        $plugin->getState()->enabled = true;
+        $plugin->getState()->save();
+
+        return true;
+    }
+
+    /**
+     * Tries to disable a plugin.
+     *
+     * @param string $plugin_name Name of the plugin to disable.
+     * @return boolean Indicates if the plugin has been disabled or not.
+     */
+    public function disable($plugin_name)
+    {
+        $plugin = new PluginInfo($plugin_name);
+
+        if (!$plugin->isEnabled()) {
+            // The plugin is not enabled
+            return true;
+        }
+
+        if (!$plugin->canBeDisabled()) {
+            // The plugin cannot be disabled
+            return false;
+        }
+
+        $plugin->getState()->enabled = false;
+        $plugin->getState()->save();
+
+        return true;
+    }
+
+    /**
+     * Tries to uninstall a plugin.
+     *
+     * @param string $plugin_name Name of the plugin to uninstall.
+     * @return boolean Indicates if the plugin has been uninstalled or not.
+     */
+    public function uninstall($plugin_name)
+    {
+        $plugin = new PluginInfo($plugin_name);
+
+        if (!$plugin->isInstalled()) {
+            // The plugin was not installed
+            return true;
+        }
+
+        if (!$plugin->canBeUninstalled()) {
+            // The plugin cannot be uninstalled.
+            return false;
+        }
+
+        // Try to uninstall the plugin.
+        $plugin_class = $plugin->getClass();
+        if (!$plugin_class::uninstall()) {
+            // Something went wrong. The plugin cannot be uninstalled.
+            return false;
+        }
+
+        // The plugin state is not needed anymore.
+        $plugin->clearState();
+
+        return true;
     }
 }

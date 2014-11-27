@@ -573,6 +573,11 @@ table.list td.level1{
 	padding-left: 20px;
 }
 
+table.list .disabled-link {
+    cursor: pointer;
+    text-decoration: none;
+}
+
 /* awaiting */
 
 table.awaiting {
