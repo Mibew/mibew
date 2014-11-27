@@ -123,6 +123,11 @@ class Installer
             array(Utils::formatVersionId($this->getPhpVersionId()))
         );
 
+        if (!$this->checkPhpExtensions()) {
+            return false;
+        }
+        $this->log[] = getlocal('All necessary PHP extensions are loaded');
+
         if (!$this->checkFsPermissions()) {
             return false;
         }
@@ -471,6 +476,27 @@ class Installer
             );
 
             return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Checks that all necessary PHP extensions are loaded.
+     *
+     * @return boolean True if all necessary extensions are loaded and false
+     *   otherwise.
+     */
+    protected function checkPhpExtensions()
+    {
+        $extensions = array('PDO', 'pdo_mysql', 'gd', 'iconv');
+
+        foreach ($extensions as $ext) {
+            if (!extension_loaded($ext)) {
+                $this->errors[] = getlocal('PHP {0} extension is not loaded', array($ext));
+
+                return false;
+            }
         }
 
         return true;
