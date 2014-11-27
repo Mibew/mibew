@@ -337,17 +337,16 @@ var Mibew = {};
     Mibew.Utils = {};
 
     /**
-     * Create session cookie for top level domain with path equals to '/'.
+     * Create session cookie for a second level domain with path equals to '/'.
      *
      * @param {String} name Cookie name
      * @param {String} value Cookie value
      */
     Mibew.Utils.createCookie = function(name, value) {
-        var domainParts = /([^\.]+\.[^\.]+)$/.exec(document.location.hostname);
-        var domain = domainParts[1];
+        var domain = /([^\.]+\.[^\.]+)$/.exec(document.location.hostname);
         document.cookie = "" + name + "=" + value + "; "
             + "path=/; "
-            + (domain ? ("domain=" + domain + ";") : '');
+            + (domain ? ("domain=" + domain[1] + ";") : '');
     }
 
     /**
