@@ -78,6 +78,18 @@ class PluginManager
     }
 
     /**
+     * Checks if there is an instance of the plugin in the manager.
+     *
+     * @param string $plugin_name Name of the plugin to check
+     * @return boolean True if the plugin exists in the manager and false
+     *   otherwise.
+     */
+    public function hasPlugin($plugin_name)
+    {
+        return isset($this->loadedPlugins[$plugin_name]);
+    }
+
+    /**
      * Returns associative array of loaded plugins.
      *
      * Key represents plugin's name and value contains Plugin object
