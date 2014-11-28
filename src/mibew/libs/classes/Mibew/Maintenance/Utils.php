@@ -50,6 +50,37 @@ class Utils
     }
 
     /**
+     * Gets list of all available updates.
+     *
+     * @param object $container Instance of the class that keeps update methods.
+     * @return array The keys of this array are version numbers and values are
+     *   methods of the $container class that should be performed.
+     */
+    public static function getUpdates($container)
+    {
+        $updates = array();
+
+        $container_reflection = new \ReflectionClass($container);
+        foreach ($container_reflection->getMethods() as $method_reflection) {
+            // Filter update methods
+            $name = $method_reflection->getName();
+            if (preg_match("/^update([0-9]+)(?:Beta([0-9]+))?$/", $name, $matches)) {
+                $version = self::formatVersionId($matches[1]);
+                // Check if a beta version is defined.
+                if (!empty($matches[2])) {
+                    $version .= '-beta.' . $matches[2];
+                }
+
+                $updates[$version] = $name;
+            }
+        }
+
+        uksort($updates, 'version_compare');
+
+        return $updates;
+    }
+
+    /**
      * This class should not be instantiated
      */
     private function __construct()

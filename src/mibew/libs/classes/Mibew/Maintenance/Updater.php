@@ -122,7 +122,7 @@ class Updater
         }
 
         // Get list of all available updates
-        $updates = $this->getUpdates();
+        $updates = Utils::getUpdates($this);
 
         // Check if updates should be performed
         $versions = array_keys($updates);
@@ -257,36 +257,5 @@ class Updater
             // The query fails by some reason.
             return false;
         }
-    }
-
-    /**
-     * Gets list of all available updates.
-     *
-     * @return array The keys of this array are version numbers and values are
-     *   methods of the {@link \Mibew\Maintenance\Updater} class that should be
-     *   performed.
-     */
-    protected function getUpdates()
-    {
-        $updates = array();
-
-        $self_reflection = new \ReflectionClass($this);
-        foreach ($self_reflection->getMethods() as $method_reflection) {
-            // Filter update methods
-            $name = $method_reflection->getName();
-            if (preg_match("/^update([0-9]+)(?:Beta([0-9]+))?$/", $name, $matches)) {
-                $version = Utils::formatVersionId($matches[1]);
-                // Check if a beta version is defined.
-                if (!empty($matches[2])) {
-                    $version .= '-beta.' . $matches[2];
-                }
-
-                $updates[$version] = $name;
-            }
-        }
-
-        uksort($updates, 'version_compare');
-
-        return $updates;
     }
 }
