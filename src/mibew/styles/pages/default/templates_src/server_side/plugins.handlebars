@@ -48,6 +48,13 @@
                                     {{/if}}
                                 {{/if}}
                             {{/if}}
+                            {{#if needsUpdate}}
+                                {{#if canBeUpdated}}
+                                    <a href="{{csrfProtectedRoute "plugin_update" plugin_name=name}}">{{l10n "update"}}</a>
+                                {{else}}
+                                    <span class="disabled-link" title="{{l10n "Update all the dependencies first"}}">{{l10n "update"}}</span>
+                                {{/if}}
+                            {{/if}}
                         </td>
                     </tr>
                 {{else}}

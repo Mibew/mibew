@@ -570,6 +570,13 @@ plugin_uninstall:
         _access_check: Mibew\AccessControl\Check\PermissionsCheck
         _access_permissions: [CAN_ADMINISTRATE]
 
+plugin_update:
+    path: /operator/plugin/{plugin_name}/update
+    defaults:
+        _controller: Mibew\Controller\PluginController::updateAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+
 plugins:
     path: /operator/plugin
     defaults:

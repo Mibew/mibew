@@ -19,6 +19,9 @@
 
 namespace Mibew\Plugin;
 
+use Mibew\Plugin\Utils as PluginUtils;
+use Mibew\Maintenance\Utils as MaintenanceUtils;
+
 /**
  * Manage plugins.
  *
@@ -102,7 +105,7 @@ class PluginManager
         // Builds Dependency graph with available plugins.
         $graph = new DependencyGraph();
         foreach (State::loadAllEnabled() as $plugin_state) {
-            if (!Utils::pluginExists($plugin_state->pluginName)) {
+            if (!PluginUtils::pluginExists($plugin_state->pluginName)) {
                 trigger_error(
                     sprintf(
                         'Plugin "%s" exists in database base but is not found in file system!',
@@ -263,6 +266,76 @@ class PluginManager
 
         // The plugin state is not needed anymore.
         $plugin->clearState();
+
+        return true;
+    }
+
+    /**
+     * Tries to update a plugin.
+     *
+     * @param string $plugin_name Name of the plugin to update.
+     * @return boolean Indicates if the plugin has been updated or not.
+     */
+    public function update($plugin_name)
+    {
+        $plugin = new PluginInfo($plugin_name);
+
+        if (!$plugin->needsUpdate()) {
+            // There is no need to update the plugin
+            return true;
+        }
+
+        if (!$plugin->canBeUpdated()) {
+            // The plugin cannot be updated.
+            return false;
+        }
+
+        try {
+            // Perform incremental updates
+            $updates = MaintenanceUtils::getUpdates($plugin->getClass());
+            foreach ($updates as $version => $method) {
+                // Skip updates to lower versions.
+                if (version_compare($version, $plugin->getInstalledVersion()) <= 0) {
+                    continue;
+                }
+
+                // Skip updates to versions that greater then the current plugin
+                // version.
+                if (version_compare($version, $plugin->getVersion()) > 0) {
+                    break;
+                }
+
+                // Run the update
+                if (!$method()) {
+                    // By some reasons we cannot update to the next version.
+                    // Stop the process here.
+                    return false;
+                }
+
+                // Store new version number in the database. With this info
+                // we can rerun the updating process if one of pending
+                // updates fails.
+                $plugin->getState()->version = $version;
+                $plugin->getState()->save();
+            }
+        } catch (\Exception $e) {
+            // Something went wrong
+            trigger_error(
+                sprintf(
+                    'Update of "%s" plugin failed: %s',
+                    $plugin->getName(),
+                    $e->getMessage()
+                ),
+                E_USER_WARNING
+            );
+
+            return false;
+        }
+
+        // All updates are done. Make sure the state of the plugin contains
+        // current plugin version.
+        $plugin->getState()->version = $plugin->getVersion();
+        $plugin->getState()->save();
 
         return true;
     }

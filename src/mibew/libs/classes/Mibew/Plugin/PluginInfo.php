@@ -218,6 +218,17 @@ class PluginInfo
     }
 
     /**
+     * Checks if the plugin needs to be updated.
+     *
+     * @return bool
+     */
+    public function needsUpdate()
+    {
+        return $this->isInstalled()
+            && (version_compare($this->getVersion(), $this->getInstalledVersion()) > 0);
+    }
+
+    /**
      * Checks if the plugin can be enabled.
      *
      * @return boolean
@@ -287,6 +298,27 @@ class PluginInfo
         foreach ($this->getDependentPlugins() as $plugin_name) {
             $plugin = new PluginInfo($plugin_name);
             if ($plugin->isInstalled()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Checks if the plugin can be updated.
+     *
+     * @return boolean
+     */
+    public function canBeUpdated()
+    {
+        if (!$this->needsUpdate()) {
+            return false;
+        }
+
+        foreach (array_keys($this->getDependencies()) as $dependency_name) {
+            $dependency = new PluginInfo($dependency_name);
+            if ($dependency->needsUpdate()) {
                 return false;
             }
         }

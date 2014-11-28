@@ -159,6 +159,40 @@ class PluginController extends AbstractController
     }
 
     /**
+     * Updates a plugin.
+     *
+     * @param Request $request Incoming request.
+     * @return string Rendered page content.
+     * @throws NotFoundException If the plugin with specified name is not found
+     *   in the system.
+     */
+    public function updateAction(Request $request)
+    {
+        csrf_check_token($request);
+
+        $plugin_name = $request->attributes->get('plugin_name');
+
+        if (!PluginUtils::pluginExists($plugin_name)) {
+            throw new NotFoundException('The plugin is not found.');
+        }
+
+        // Update the plugin
+        if (!PluginManager::getInstance()->update($plugin_name)) {
+            $error = getlocal(
+                'Plugin "{0}" cannot be updated.',
+                array($plugin_name)
+            );
+            $request->attributes->set('errors', array($error));
+
+            // The plugin cannot be updated by some reasons. Just rebuild
+            // index page and show errors there.
+            return $this->indexAction($request);
+        }
+
+        return $this->redirect($this->generateUrl('plugins'));
+    }
+
+    /**
      * Builds plugins list that will be passed to templates engine.
      *
      * @return array
@@ -170,13 +204,15 @@ class PluginController extends AbstractController
             $plugin = new PluginInfo($plugin_name);
             $plugins[] = array(
                 'name' => $plugin_name,
-                'version' => $plugin->getInstalledVersion() ?: $plugin->getVersion(),
+                'version' => $plugin->isInstalled() ? $plugin->getInstalledVersion() : $plugin->getVersion(),
                 'dependencies' => $plugin->getDependencies(),
                 'enabled' => $plugin->isEnabled(),
                 'installed' => $plugin->isInstalled(),
+                'needsUpdate' => $plugin->needsUpdate(),
                 'canBeEnabled' => $plugin->canBeEnabled(),
                 'canBeDisabled' => $plugin->canBeDisabled(),
                 'canBeUninstalled' => $plugin->canBeUninstalled(),
+                'canBeUpdated' => $plugin->canBeUpdated(),
             );
         }
 
