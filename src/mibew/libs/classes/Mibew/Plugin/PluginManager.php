@@ -117,10 +117,10 @@ class PluginManager
             }
 
             $plugin_info = PluginInfo::fromState($plugin_state);
-            if ($plugin_info->getVersion() != $plugin_info->getInstalledVersion()) {
+            if ($plugin_info->needsUpdate()) {
                 trigger_error(
                     sprintf(
-                        'Versions of "%s" plugin in database and in file system are different!',
+                        'Update "%s" plugin before use it!',
                         $plugin_info->getName()
                     ),
                     E_USER_WARNING
