@@ -120,7 +120,8 @@ class PluginManager
             if ($plugin_info->getVersion() != $plugin_info->getInstalledVersion()) {
                 trigger_error(
                     sprintf(
-                        'Versions of "%s" plugin in database and in file system are different!'
+                        'Versions of "%s" plugin in database and in file system are different!',
+                        $plugin_info->getName()
                     ),
                     E_USER_WARNING
                 );
