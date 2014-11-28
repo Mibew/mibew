@@ -64,11 +64,11 @@ class Utils
         foreach ($container_reflection->getMethods() as $method_reflection) {
             // Filter update methods
             $name = $method_reflection->getName();
-            if (preg_match("/^update([0-9]+)(?:Beta([0-9]+))?$/", $name, $matches)) {
+            if (preg_match("/^update([0-9]+)(?:(Alpha|Beta|Rc)([0-9]+))?$/", $name, $matches)) {
                 $version = self::formatVersionId($matches[1]);
                 // Check if a beta version is defined.
                 if (!empty($matches[2])) {
-                    $version .= '-beta.' . $matches[2];
+                    $version .= sprintf('-%s.%u', strtolower($matches[2]), $matches[3]);
                 }
 
                 $updates[$version] = $name;

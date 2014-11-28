@@ -100,7 +100,7 @@ class Updater
     {
         $current_version = $this->getDatabaseVersion();
 
-        if (!preg_match("/^([0-9]{1,2}\.){2}[0-9]{1,2}(-beta\.[0-9]+)?$/", $current_version)) {
+        if (!preg_match("/^([0-9]{1,2}\.){2}[0-9]{1,2}(-(alpha|beta|rc)\.[0-9]+)?$/", $current_version)) {
             $this->errors[] = getlocal(
                 'The current version ({0}) is unknown or wrong formated',
                 array($current_version)
