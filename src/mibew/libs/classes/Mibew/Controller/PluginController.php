@@ -213,9 +213,40 @@ class PluginController extends AbstractController
                 'canBeDisabled' => $plugin->canBeDisabled(),
                 'canBeUninstalled' => $plugin->canBeUninstalled(),
                 'canBeUpdated' => $plugin->canBeUpdated(),
+                'state' => $this->getPluginState($plugin),
             );
         }
 
         return $plugins;
+    }
+
+    /**
+     * Gets string representation of the current plugin state.
+     *
+     * @param PluginInfo $plugin Plugin to get state for.
+     * @return string Human readable representation of plugin's state.
+     */
+    protected function getPluginState(PluginInfo $plugin)
+    {
+        if (!$plugin->isEnabled()) {
+            // The plugin is just disabled
+            return getlocal('disabled');
+        }
+
+        if (PluginManager::getInstance()->hasPlugin($plugin->getName())) {
+            // The plugin is enabled and works well
+            return getlocal('working');
+        }
+
+        // The plugin is enabled but something is wrong.
+        if ($plugin->needsUpdate()) {
+            // The plugin is not working because it needs to be updated.
+            return getlocal('needs update');
+        }
+
+        // Actually we do not know why the plugin does not work. The only thing
+        // that can be said is the plugin was not initialized correctly by some
+        // reasons.
+        return getlocal('not initialized');
     }
 }

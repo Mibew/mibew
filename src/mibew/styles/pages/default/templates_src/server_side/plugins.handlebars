@@ -15,6 +15,7 @@
                     <th>{{l10n "Name"}}</th>
                     <th>{{l10n "Version"}}</th>
                     <th>{{l10n "Dependencies"}}</th>
+                    <th>{{l10n "State"}}</th>
                     <th>{{l10n "Edit"}}</th>
                 </tr>
             </thead>
@@ -26,6 +27,9 @@
                         <td class="notlast">{{version}}</td>
                         <td class="notlast">
                             {{#each dependencies}}{{#unless @first}}, {{/unless}}{{@key}}({{this}}){{/each}}
+                        </td>
+                        <td class="notlast">
+                            {{state}}
                         </td>
                         <td>
                             {{#if enabled}}
