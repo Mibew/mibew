@@ -52,13 +52,31 @@ class Utils
     /**
      * Gets list of all available updates.
      *
-     * @param object $container Instance of the class that keeps update methods.
+     * @param object|string $container Either an instance of the class that
+     *   keeps update methods or fully classified name of such class.
      * @return array The keys of this array are version numbers and values are
      *   methods of the $container class that should be performed.
      */
     public static function getUpdates($container)
     {
         $updates = array();
+
+        if (is_object($container)) {
+            // If an objects is passed to the method we can use its public
+            // static and non-static methods as updates.
+            $methods_filter = \ReflectionMethod::IS_PUBLIC;
+        } else {
+            // If a class name is passed to the method we can use only its
+            // public static methods as updates. Also we need to make sure the
+            // class exists.
+            if (!class_exists($container)) {
+                throw new \InvalidArgumentException(sprintf(
+                    'Class "%s" does not exist',
+                    $container
+                ));
+            }
+            $methods_filter = \ReflectionMethod::IS_PUBLIC & \ReflectionMethod::IS_STATIC;
+        }
 
         $container_reflection = new \ReflectionClass($container);
         foreach ($container_reflection->getMethods() as $method_reflection) {
@@ -71,7 +89,10 @@ class Utils
                     $version .= sprintf('-%s.%u', strtolower($matches[2]), $matches[3]);
                 }
 
-                $updates[$version] = $name;
+                $updates[$version] = array(
+                    $method_reflection->isStatic() ? $container_reflection->getName() : $container,
+                    $name
+                );
             }
         }
 

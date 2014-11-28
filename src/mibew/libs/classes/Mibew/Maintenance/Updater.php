@@ -142,7 +142,7 @@ class Updater
                 }
 
                 // Run the update
-                if (!$this->{$method}()) {
+                if (!$method()) {
                     $this->errors[] = getlocal('Cannot update to {0}', array($version));
 
                     return false;
