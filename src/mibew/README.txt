@@ -3,15 +3,17 @@ Copyright 2005-2014 the original author or authors.
 
 REQUIREMENTS
 
- * Apache web server 1.3.34 or above
+ * Apache web server 1.3.34 or above with the ability to use local .htaccess
+   files (mod_rewrite module is optional, but recommended)
  * MySQL database 5.0 or above
- * PHP 5.3.3 or above with MySQL support
+ * PHP 5.3.3 or above with PDO, pdo_mysql, gd, and iconv extensions
 
 INSTALLATION
 
 1. Create folder with name 'mibew' in the root of your website.
-2. Upload all the files contained in this archive (retaining the directory structure) into created folder.
-   Be sure to chmod the mibew folder to 755.
+2. Upload all the files contained in this archive (retaining the directory
+   structure) into created folder.
+   Be sure to chmod the mibew folder to 0755.
 3. Add a MySQL database with the name 'mibew'
 4. Copy /mibew/configs/default_config.yml to /mibew/configs/config.yml
 5. Edit /mibew/configs/config.yml to the information needed to connect to the database
@@ -29,4 +31,4 @@ On unix/linux platforms change the owner of /mibew/files/avatar and
 /mibew/cache folders to the user, under which the web server is running
 (for instance, www). The owner should have all rights on the folders
 /mibew/files/avatar and /mibew/cache
-(chmod 700 /mibew/files/avatar && chmod 700 /mibew/cache).
+(chmod 0700 /mibew/files/avatar && chmod 0700 /mibew/cache).
