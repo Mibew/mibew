@@ -11,7 +11,7 @@ This repository contains the core of Mibew Messenger application.
 ## Server requirements
 
 1. A webserver or web hosting account running on any major Operating System
-2. PHP (5.3.3 and above) with MySQL support
+2. PHP (5.3.3 and above) with PDO, pdo_mysql, gd, and iconv extensions
 3. MySQL 5.0 and above
 
 ## Build from sources
