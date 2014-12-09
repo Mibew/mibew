@@ -32,6 +32,8 @@ use Mibew\Handlebars\Helper\CsrfProtectedRouteHelper;
 use Mibew\Handlebars\Helper\CssAssetsHelper;
 use Mibew\Handlebars\Helper\JsAssetsHelper;
 use Mibew\Handlebars\Helper\RouteHelper;
+use Mibew\Mail\MailerFactoryAwareInterface;
+use Mibew\Mail\MailerFactoryInterface;
 use Mibew\Routing\RouterAwareInterface;
 use Mibew\Routing\RouterInterface;
 use Mibew\Style\StyleInterface;
@@ -47,7 +49,8 @@ abstract class AbstractController implements
     RouterAwareInterface,
     AuthenticationManagerAwareInterface,
     AssetManagerAwareInterface,
-    CacheAwareInterface
+    CacheAwareInterface,
+    MailerFactoryAwareInterface
 {
     /**
      * @var RouterInterface|null
@@ -73,6 +76,11 @@ abstract class AbstractController implements
      * @var PoolInterface|null;
      */
     protected $cache = null;
+
+    /**
+     * @var MailerFactoryInterface|null
+     */
+    protected $mailerFactory = null;
 
     /**
      * {@inheritdoc}
@@ -169,6 +177,22 @@ abstract class AbstractController implements
                 $hbs->getCache()->setCache($cache);
             }
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setMailerFactory(MailerFactoryInterface $factory)
+    {
+        $this->mailerFactory = $factory;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMailerFactory()
+    {
+        return $this->mailerFactory;
     }
 
     /**
@@ -281,6 +305,18 @@ abstract class AbstractController implements
     {
         return $this->getAssetManager()->getUrlGenerator()
             ->generate($relative_path, $reference_type);
+    }
+
+    /**
+     * Sends an email.
+     *
+     * It's just a handy shortcut for
+     * `$this->getMailerFactory()->getMailer()->send($message);` sequence.
+     * @param \Swift_Message $message A message that should be sent.
+     */
+    public function sendMail(\Swift_Message $message)
+    {
+        $this->getMailerFactory()->getMailer()->send($message);
     }
 
     /**

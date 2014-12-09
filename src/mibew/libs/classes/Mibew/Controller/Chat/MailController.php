@@ -20,6 +20,7 @@
 namespace Mibew\Controller\Chat;
 
 use Mibew\Http\Exception\NotFoundException;
+use Mibew\Mail\Utils as MailUtils;
 use Mibew\Settings;
 use Mibew\Thread;
 use Symfony\Component\HttpFoundation\Request;
@@ -129,7 +130,7 @@ class MailController extends AbstractController
             $mail_template['body']
         );
 
-        mibew_mail($email, MIBEW_MAILBOX, $mail_template['subject'], $body);
+        $this->sendMail(MailUtils::buildMessage($email, MIBEW_MAILBOX, $mail_template['subject'], $body));
 
         $page = setup_logo($group);
         $page['email'] = $email;

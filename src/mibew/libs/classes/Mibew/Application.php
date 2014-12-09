@@ -34,6 +34,9 @@ use Mibew\Http\Exception\AccessDeniedException as AccessDeniedHttpException;
 use Mibew\Http\Exception\HttpException;
 use Mibew\Http\Exception\MethodNotAllowedException as MethodNotAllowedHttpException;
 use Mibew\Http\Exception\NotFoundException as NotFoundHttpException;
+use Mibew\Mail\MailerFactory;
+use Mibew\Mail\MailerFactoryAwareInterface;
+use Mibew\Mail\MailerFactoryInterface;
 use Mibew\Routing\RouterAwareInterface;
 use Mibew\Routing\RouterInterface;
 use Mibew\Routing\Exception\AccessDeniedException as AccessDeniedRoutingException;
@@ -51,7 +54,8 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException as ResourceNot
 class Application implements
     RouterAwareInterface,
     AuthenticationManagerAwareInterface,
-    CacheAwareInterface
+    CacheAwareInterface,
+    MailerFactoryAwareInterface
 {
     /**
      * @var RouterInterface|null
@@ -82,6 +86,11 @@ class Application implements
      * @var PoolInterface|null;
      */
     protected $cache = null;
+
+    /**
+     * @var MailerFactoryInterface|null;
+     */
+    protected $mailerFactory = null;
 
     /**
      * Class constructor.
@@ -226,6 +235,30 @@ class Application implements
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function setMailerFactory(MailerFactoryInterface $factory)
+    {
+        $this->mailerFactory = $factory;
+
+        if (!is_null($this->controllerResolver)) {
+            $this->controllerResolver->setMailerFactory($factory);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMailerFactory()
+    {
+        if (is_null($this->mailerFactory)) {
+            $this->mailerFactory = new MailerFactory();
+        }
+
+        return $this->mailerFactory;
+    }
+
+    /**
      * Returns an instance of Controller Resolver related with the application.
      *
      * @return ControllerResolver
@@ -237,7 +270,8 @@ class Application implements
                 $this->getRouter(),
                 $this->getAuthenticationManager(),
                 $this->getAssetManager(),
-                $this->getCache()
+                $this->getCache(),
+                $this->getMailerFactory()
             );
         }
 

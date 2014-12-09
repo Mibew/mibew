@@ -23,6 +23,9 @@ namespace Mibew\RequestProcessor;
 use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Http\Exception\AccessDeniedException;
+use Mibew\Mail\MailerFactoryAwareInterface;
+use Mibew\Mail\MailerFactoryInterface;
+use Mibew\Mail\Utils as MailUtils;
 use Mibew\Settings;
 use Mibew\Thread;
 use Mibew\API\API as MibewAPI;
@@ -49,7 +52,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ThreadProcessor extends ClientSideProcessor implements
     RouterAwareInterface,
-    AuthenticationManagerAwareInterface
+    AuthenticationManagerAwareInterface,
+    MailerFactoryAwareInterface
 {
     /**
      * @var AuthenticationManagerInterface|null
@@ -69,6 +73,11 @@ class ThreadProcessor extends ClientSideProcessor implements
      * @var RouterInterface|null
      */
     protected $router = null;
+
+    /**
+     * @var MailerFactoryInterface|null
+     */
+    protected $mailerFactory = null;
 
     /**
      * Loads thread by id and token and checks if thread loaded
@@ -159,6 +168,22 @@ class ThreadProcessor extends ClientSideProcessor implements
     public function getAuthenticationManager()
     {
         return $this->authenticationManager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setMailerFactory(MailerFactoryInterface $factory)
+    {
+        $this->mailerFactory = $factory;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMailerFactory()
+    {
+        return $this->mailerFactory;
     }
 
     /**
@@ -785,7 +810,9 @@ class ThreadProcessor extends ClientSideProcessor implements
             );
 
             // Send
-            mibew_mail($inbox_mail, $email, $subject, $body);
+            $this->getMailerFactory()->getMailer()->send(
+                MailUtils::buildMessage($inbox_mail, $email, $subject, $body)
+            );
         }
     }
 

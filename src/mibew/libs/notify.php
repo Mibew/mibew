@@ -20,30 +20,6 @@
 use Mibew\Database;
 use Symfony\Component\Yaml\Parser as YamlParser;
 
-function mibew_mail($to_addr, $reply_to, $subject, $body)
-{
-    $headers = "From: " . MIBEW_MAILBOX . "\r\n"
-        . "Reply-To: " . $reply_to . "\r\n"
-        . "Content-Type: text/plain; charset=utf-8\r\n"
-        . 'X-Mailer: PHP/' . phpversion();
-
-    $real_subject = "=?utf-8?B?" . base64_encode($subject) . "?=";
-
-    $body = preg_replace("/\n/", "\r\n", $body);
-
-    $old_from = ini_get('sendmail_from');
-    @ini_set('sendmail_from', MIBEW_MAILBOX);
-    @mail(
-        $to_addr,
-        $real_subject,
-        wordwrap($body, 70),
-        $headers
-    );
-    if (isset($old_from)) {
-        @ini_set('sendmail_from', $old_from);
-    }
-}
-
 /**
  * Loads an email template.
  *

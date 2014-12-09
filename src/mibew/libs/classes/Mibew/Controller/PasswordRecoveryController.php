@@ -20,6 +20,7 @@
 namespace Mibew\Controller;
 
 use Mibew\Http\Exception\BadRequestException;
+use Mibew\Mail\Utils as MailUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -97,7 +98,7 @@ class PasswordRecoveryController extends AbstractController
                     $mail_template['body']
                 );
 
-                mibew_mail($email, $email, $mail_template['subject'], $body);
+                $this->sendMail(MailUtils::buildMessage($email, $email, $mail_template['subject'], $body));
                 $page['isdone'] = true;
 
                 return $this->render('password_recovery', $page);

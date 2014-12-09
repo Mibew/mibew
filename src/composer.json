@@ -26,7 +26,8 @@
         "symfony/translation": "2.6.*",
         "tedivm/stash": "0.12.*",
         "canteen/html5": "1.1.*",
-        "vierbergenlars/php-semver": "3.0.*"
+        "vierbergenlars/php-semver": "3.0.*",
+        "swiftmailer/swiftmailer": "5.3.*"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "1.*"

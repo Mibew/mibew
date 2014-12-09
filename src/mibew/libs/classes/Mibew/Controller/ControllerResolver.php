@@ -24,6 +24,8 @@ use Mibew\Asset\AssetManagerInterface;
 use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Cache\CacheAwareInterface;
+use Mibew\Mail\MailerFactoryAwareInterface;
+use Mibew\Mail\MailerFactoryInterface;
 use Mibew\Routing\RouterAwareInterface;
 use Mibew\Routing\RouterInterface;
 use Stash\Interfaces\PoolInterface;
@@ -33,7 +35,8 @@ class ControllerResolver implements
     RouterAwareInterface,
     AuthenticationManagerAwareInterface,
     AssetManagerAwareInterface,
-    CacheAwareInterface
+    CacheAwareInterface,
+    MailerFactoryAwareInterface
 {
     /**
      * @var RouterInterface|null
@@ -56,6 +59,11 @@ class ControllerResolver implements
     protected $cache = null;
 
     /**
+     * @var MailerFactoryInterface|null
+     */
+    protected $mailerFactory = null;
+
+    /**
      * Class constructor.
      *
      * @param RouterInterface $router Router instance.
@@ -69,12 +77,14 @@ class ControllerResolver implements
         RouterInterface $router,
         AuthenticationManagerInterface $authentication_manager,
         AssetManagerInterface $asset_manager,
-        PoolInterface $cache
+        PoolInterface $cache,
+        MailerFactoryInterface $mailer_factory
     ) {
         $this->router = $router;
         $this->authenticationManager = $authentication_manager;
         $this->assetManager = $asset_manager;
         $this->cache = $cache;
+        $this->mailerFactory = $mailer_factory;
     }
 
     /**
@@ -139,6 +149,22 @@ class ControllerResolver implements
     public function setCache(PoolInterface $cache)
     {
         $this->cache = $cache;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setMailerFactory(MailerFactoryInterface $factory)
+    {
+        $this->mailerFactory = $factory;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMailerFactory()
+    {
+        return $this->mailerFactory;
     }
 
     /**
@@ -208,6 +234,10 @@ class ControllerResolver implements
 
         if ($object instanceof CacheAwareInterface) {
             $object->setCache($this->getCache());
+        }
+
+        if ($object instanceof MailerFactoryAwareInterface) {
+            $object->setMailerFactory($this->getMailerFactory());
         }
 
         return array($object, $method);
