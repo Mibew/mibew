@@ -54,8 +54,6 @@ class HomeController extends AbstractController
             'localeLinks' => get_locale_links(),
             'needUpdate' => version_compare(Settings::get('dbversion'), DB_VERSION, '<'),
             'profilePage' => $this->generateUrl('operator_edit', array('operator_id' => $operator['operatorid'])),
-            // Use another entry point as an install URL.
-            // TODO: Use real update route when the System Updater will be ready
             'updateWizard' => $this->generateUrl('update'),
             'newFeatures' => Settings::get('featuresversion') != FEATURES_VERSION,
             'featuresPage' => $this->generateUrl('settings_features'),
