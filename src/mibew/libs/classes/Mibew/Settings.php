@@ -101,6 +101,7 @@ class Settings
             'showonlineoperators' => '0',
             'enablecaptcha' => '0',
             'online_timeout' => 30, /* Timeout (in seconds) when online operator becomes offline */
+            'connection_timeout' => 30, /* Timeout (in seconds) from the last ping when messaging window disconnects */
             'updatefrequency_operator' => 2,
             'updatefrequency_chat' => 2,
             'statistics_aggregation_interval' => 24 * 60 * 60,

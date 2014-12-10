@@ -36,6 +36,15 @@
                             </div>
 
                             <div class="field">
+                                <label for="connectiontimeout" class="flabel">{{l10n "Connection timeout for messaging window"}}</label>
+                                <div class="fvalue">
+                                    <input id="connectiontimeout" type="text" name="connectiontimeout" size="40" value="{{formconnectiontimeout}}" class="formauth"/>
+                                </div>
+                                <label for="connectiontimeout" class="fdescr"> &mdash; {{l10n "Set the number of seconds after the last ping to consider the chat window still connected. Default is 30 seconds."}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
                                 <label for="frequencyoperator" class="flabel">{{l10n "Operator's console refresh time"}}</label>
                                 <div class="fvalue">
                                     <input id="frequencyoperator" type="text" name="frequencyoperator" size="40" value="{{formfrequencyoperator}}" class="formauth"/>
