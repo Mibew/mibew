@@ -110,11 +110,6 @@ class Thread
     const KIND_PLUGIN = 7;
 
     /**
-     * Messaging window connection timeout.
-     */
-    const CONNECTION_TIMEOUT = 30;
-
-    /**
      * ID of the thread.
      * @var int|bool
      */
@@ -558,7 +553,7 @@ class Thread
         }
 
         // Check if other side of the conversation have connection problems
-        if ($last_ping_other_side > 0 && abs(time() - $last_ping_other_side) > self::CONNECTION_TIMEOUT) {
+        if ($last_ping_other_side > 0 && abs(time() - $last_ping_other_side) > Settings::get('connection_timeout')) {
             // Connection problems detected
             if ($is_user) {
                 // _Other_ side is operator
@@ -577,7 +572,7 @@ class Thread
                     $this->postMessage(
                         self::KIND_CONN,
                         $message_to_post,
-                        array('created' => $last_ping_other_side + self::CONNECTION_TIMEOUT)
+                        array('created' => $last_ping_other_side + Settings::get('connection_timeout'))
                     );
 
                     // And update thread
@@ -604,7 +599,7 @@ class Thread
                     $this->postMessage(
                         self::KIND_FOR_AGENT,
                         $message_to_post,
-                        array('created' => $last_ping_other_side + self::CONNECTION_TIMEOUT)
+                        array('created' => $last_ping_other_side + Settings::get('connection_timeout'))
                     );
                 }
             }

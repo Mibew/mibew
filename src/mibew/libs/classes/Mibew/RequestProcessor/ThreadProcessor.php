@@ -359,12 +359,12 @@ class ThreadProcessor extends ClientSideProcessor implements
 
         // Get status values
         if ($args['user']) {
-            $is_typing = abs($thread->lastPingAgent - time()) < Thread::CONNECTION_TIMEOUT
+            $is_typing = abs($thread->lastPingAgent - time()) < Settings::get('connection_timeout')
                 && $thread->agentTyping;
             // Users can post messages only when thread is open.
             $can_post = $thread->state != Thread::STATE_CLOSED;
         } else {
-            $is_typing = abs($thread->lastPingUser - time()) < Thread::CONNECTION_TIMEOUT
+            $is_typing = abs($thread->lastPingUser - time()) < Settings::get('connection_timeout')
                 && $thread->userTyping;
             // Operators can always post messages.
             $can_post = true;

@@ -48,6 +48,7 @@ class PerformanceController extends AbstractController
         // Load settings from the database
         $options = array(
             'online_timeout',
+            'connection_timeout',
             'updatefrequency_operator',
             'updatefrequency_chat',
             'max_connections_from_one_host',
@@ -69,6 +70,7 @@ class PerformanceController extends AbstractController
         $form = $request->request;
 
         $page['formonlinetimeout'] = $form->get('onlinetimeout', $params['online_timeout']);
+        $page['formconnectiontimeout'] = $form->get('connectiontimeout', $params['connection_timeout']);
         $page['formfrequencyoperator'] = $form->get('frequencyoperator', $params['updatefrequency_operator']);
         $page['formfrequencychat'] = $form->get('frequencychat', $params['updatefrequency_chat']);
         $page['formonehostconnections'] = $form->get('onehostconnections', $params['max_connections_from_one_host']);
@@ -115,6 +117,11 @@ class PerformanceController extends AbstractController
         $params['online_timeout'] = $request->request->get('onlinetimeout');
         if (!is_numeric($params['online_timeout'])) {
             $errors[] = wrong_field("Operator online time threshold");
+        }
+
+        $params['connection_timeout'] = $request->request->get('connectiontimeout');
+        if (!is_numeric($params['connection_timeout'])) {
+            $errors[] = wrong_field("Connection timeout for messaging window");
         }
 
         $params['updatefrequency_operator'] = $request->request->get('frequencyoperator');
