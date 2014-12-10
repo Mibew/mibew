@@ -296,9 +296,9 @@ plugin:
         # Artificial ID
         id: "INT NOT NULL auto_increment PRIMARY KEY"
         # Plugin name in "<Vendor>:<Name>" format.
-        name: "varchar(1024) NOT NULL"
+        name: "varchar(255) NOT NULL"
         # Installed version of the plugin.
-        version: "varchar(256) NOT NULL"
+        version: "varchar(255) NOT NULL"
         # Indicates if the plugin is installed or not.
         installed: "tinyint NOT NULL DEFAULT 0"
         # Indicates if the plugin is enabled or not.
