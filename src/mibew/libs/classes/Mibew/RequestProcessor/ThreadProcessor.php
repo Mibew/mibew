@@ -25,6 +25,7 @@ use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Http\Exception\AccessDeniedException;
 use Mibew\Mail\MailerFactoryAwareInterface;
 use Mibew\Mail\MailerFactoryInterface;
+use Mibew\Mail\Template as MailTemplate;
 use Mibew\Mail\Utils as MailUtils;
 use Mibew\Settings;
 use Mibew\Thread;
@@ -789,25 +790,18 @@ class ThreadProcessor extends ClientSideProcessor implements
         // Send email
         if ($inbox_mail) {
             // Prepare message to send by email
-            $mail_template = mail_template_load('leave_message', $message_locale);
+            $mail_template = MailTemplate::loadByName('leave_message', $message_locale);
             if (!$mail_template) {
                 throw new \RuntimeException('Cannot load "leave_message" mail template');
             }
-            $subject = str_replace(
-                '{0}',
+
+            $subject = $mail_template->buildSubject(array($args['name']));
+            $body = $mail_template->buildBody(array(
                 $args['name'],
-                $mail_template['subject']
-            );
-            $body = str_replace(
-                array('{0}', '{1}', '{2}', '{3}'),
-                array(
-                    $args['name'],
-                    $email,
-                    $message,
-                    ($info ? $info . "\n" : "")
-                ),
-                $mail_template['body']
-            );
+                $email,
+                $message,
+                ($info ? $info . "\n" : ""),
+            ));
 
             // Send
             $this->getMailerFactory()->getMailer()->send(

@@ -20,6 +20,7 @@
 namespace Mibew\Maintenance;
 
 use Mibew\Database;
+use Mibew\Mail\Utils as MailUtils;
 use Symfony\Component\Yaml\Parser as YamlParser;
 
 /**
@@ -731,7 +732,7 @@ class Installer
                 $mail_templates_file = MIBEW_FS_ROOT . '/locales/' . $locale
                     . '/mail_templates.yml';
                 if (is_readable($mail_templates_file)) {
-                    import_mail_templates($locale, $mail_templates_file);
+                    MailUtils::importTemplates($locale, $mail_templates_file);
                 }
 
                 // Mark the locale as "enabled" to indicate that all its content

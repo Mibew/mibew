@@ -20,6 +20,7 @@
 namespace Mibew\Controller;
 
 use Mibew\Http\Exception\BadRequestException;
+use Mibew\Mail\Template as MailTemplate;
 use Mibew\Mail\Utils as MailUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -87,18 +88,20 @@ class PasswordRecoveryController extends AbstractController
                 );
 
                 // Load mail templates and substitute placeholders there.
-                $mail_template = mail_template_load('password_recovery', get_current_locale());
+                $mail_template = MailTemplate::loadByName('password_recovery', get_current_locale());
                 if (!$mail_template) {
                     throw new \RuntimeException('Cannot load "password_recovery" mail template');
                 }
 
-                $body = str_replace(
-                    array('{0}', '{1}'),
-                    array(get_operator_name($to_restore), $href),
-                    $mail_template['body']
-                );
-
-                $this->sendMail(MailUtils::buildMessage($email, $email, $mail_template['subject'], $body));
+                $this->sendMail(MailUtils::buildMessage(
+                    $email,
+                    $email,
+                    $mail_template->buildSubject(),
+                    $mail_template->buildBody(array(
+                        get_operator_name($to_restore),
+                        $href,
+                    ))
+                ));
                 $page['isdone'] = true;
 
                 return $this->render('password_recovery', $page);

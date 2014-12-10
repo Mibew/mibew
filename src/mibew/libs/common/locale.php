@@ -18,6 +18,7 @@
  */
 
 use Mibew\Database;
+use Mibew\Mail\Utils as MailUtils;
 use Symfony\Component\Translation\Loader\PoFileLoader;
 
 /**
@@ -969,7 +970,7 @@ function enable_locale($locale)
         // files.
         $mail_templates_file = MIBEW_FS_ROOT . '/locales/' . $locale . '/mail_templates.yml';
         if (is_readable($mail_templates_file)) {
-            import_mail_templates($locale, $mail_templates_file);
+            MailUtils::importTemplates($locale, $mail_templates_file);
         }
     } else {
         // The locale exists in the database. Update it.

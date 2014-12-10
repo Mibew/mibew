@@ -19,6 +19,8 @@
 
 namespace Mibew\Mail;
 
+use Symfony\Component\Yaml\Parser as YamlParser;
+
 /**
  * Contains a set of utility methods related with emails.
  */
@@ -45,6 +47,45 @@ class Utils
             ->setReplyTo($reply_to)
             ->setSubject($subject)
             ->setBody(preg_replace("/\n/", "\r\n", $body));
+    }
+
+    /**
+     * Imports mail templates from a YAML file.
+     *
+     * @param string $locale Locale code.
+     * @param string $file Full path to the file that should be imported.
+     */
+    public static function importTemplates($locale, $file)
+    {
+        // Get new mail templates
+        $parser = new YamlParser();
+        $new_templates = $parser->parse(file_get_contents($file));
+        if (empty($new_templates)) {
+            // Nothing to import.
+            return;
+        }
+
+        foreach ($new_templates as $name => $template_info) {
+            // Validate the template
+            $is_valid_template = is_array($template_info)
+                && array_key_exists('subject', $template_info)
+                && array_key_exists('body', $template_info);
+            if (!$is_valid_template) {
+                throw new \RuntimeException(sprintf(
+                    'An invalid mail template "%s" is found in "%s".',
+                    $name,
+                    $file
+                ));
+            }
+
+            if (!Template::loadByName($name, $locale, true)) {
+                // Import only templates that are not already in the database.
+                $template = new Template($name, $locale);
+                $template->subject = $template_info['subject'];
+                $template->body = $template_info['body'];
+                $template->save();
+            }
+        }
     }
 
     /**

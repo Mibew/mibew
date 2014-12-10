@@ -19,6 +19,8 @@
 
 namespace Mibew\Controller;
 
+use Mibew\Http\Exception\NotFoundException;
+use Mibew\Mail\Template as MailTemplate;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -84,12 +86,15 @@ class MailTemplateController extends AbstractController
             'errors' => $request->attributes->get('errors', array()),
         );
 
-        $template = $this->loadMailTemplate($template_name, $lang);
+        $template = MailTemplate::loadByName($template_name, $lang);
+        if (!$template) {
+            throw new NotFoundException('The template is not found');
+        }
 
         // Use values from the request or the default ones if they are not
         // available.
-        $page['formsubject'] = $request->request->get('subject', $template['subject']);
-        $page['formbody'] = $request->request->get('body', $template['body']);
+        $page['formsubject'] = $request->request->get('subject', $template->subject);
+        $page['formbody'] = $request->request->get('body', $template->body);
 
         $page['formname'] = $template_name;
         $page['formlang'] = $lang;
@@ -140,9 +145,17 @@ class MailTemplateController extends AbstractController
             return $this->showEditFormAction($request);
         }
 
-        // Save the template and redirect the operator to the page with mail
-        // templates list.
-        mail_template_save($name, $lang, $subject, $body);
+        // Get the instance of mail template that should be modified.
+        $template = MailTemplate::loadByName($name, $lang, true);
+        if (!$template) {
+            // The template cannot be loaded. Create a new one.
+            $template = new MailTemplate($name, $lang);
+        }
+
+        $template->subject = $subject;
+        $template->body = $body;
+        $template->save();
+
         $redirect_to = $this->generateUrl(
             'mail_templates',
             array(
@@ -184,7 +197,7 @@ class MailTemplateController extends AbstractController
      */
     protected function loadMailTemplate($name, $locale)
     {
-        $template = mail_template_load($name, $locale);
+        $template = MailTemplate::loadByName($name, $locale);
 
         if (!$template) {
             throw new \RuntimeException(sprintf('Cannot load "%s" mail template', $name));

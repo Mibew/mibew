@@ -20,6 +20,7 @@
 namespace Mibew\Controller\Chat;
 
 use Mibew\Http\Exception\NotFoundException;
+use Mibew\Mail\Template as MailTemplate;
 use Mibew\Mail\Utils as MailUtils;
 use Mibew\Settings;
 use Mibew\Thread;
@@ -114,23 +115,22 @@ class MailController extends AbstractController
         }
 
         // Load mail templates and substitute placeholders there.
-        $mail_template = mail_template_load('user_history', get_current_locale());
+        $mail_template = MailTemplate::loadByName('user_history', get_current_locale());
         if (!$mail_template) {
             throw new \RuntimeException('Cannot load "user_history" mail template');
         }
 
-        $body = str_replace(
-            array('{0}', '{1}', '{2}', '{3}'),
-            array(
+        $this->sendMail(MailUtils::buildMessage(
+            $email,
+            MIBEW_MAILBOX,
+            $mail_template->buildSubject(),
+            $mail_template->buildBody(array(
                 $thread->userName,
                 $history,
                 Settings::get('title'),
                 Settings::get('hosturl'),
-            ),
-            $mail_template['body']
-        );
-
-        $this->sendMail(MailUtils::buildMessage($email, MIBEW_MAILBOX, $mail_template['subject'], $body));
+            ))
+        ));
 
         $page = setup_logo($group);
         $page['email'] = $email;
