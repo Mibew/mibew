@@ -22,6 +22,7 @@ require_once(dirname(__FILE__) . '/libs/init.php');
 
 use Mibew\Application;
 use Mibew\Authentication\AuthenticationManager;
+use Mibew\Mail\MailerFactory;
 use Mibew\Routing\Router;
 use Mibew\Routing\Loader\PluginLoader;
 use Symfony\Component\Config\FileLocator;
@@ -38,13 +39,17 @@ $loader_resolver = new LoaderResolver(array(
 ));
 $router = new Router($route_loader, 'configs/routing.yml');
 
-// Prepare files cache
+$application = new Application($router, new AuthenticationManager());
+
+// Use custom files cache
 $cache_driver = new \Stash\Driver\FileSystem();
 $cache_driver->setOptions(array('path' => MIBEW_FS_ROOT . '/cache/stash'));
 $cache = new \Stash\Pool($cache_driver);
-
-$application = new Application($router, new AuthenticationManager());
 $application->setCache($cache);
+
+// Use custom config-dependent mailer factory
+$configs = load_system_configs();
+$application->setMailerFactory(new MailerFactory($configs['mailer']));
 
 // Process request
 $request = Request::createFromGlobals();

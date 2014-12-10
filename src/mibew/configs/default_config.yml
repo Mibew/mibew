@@ -12,8 +12,32 @@ database:
     tables_prefix: ""
     use_persistent_connection: false
 
-# Mailbox
+# Mail
+## This value will be used as sender address in all e-mails Mibew send.
 mailbox: mibew@yourdomain.com
+
+## Mailer parameters
+mailer:
+    # This value determines what kind of mailer will be used. Possible values
+    # are "mail" and "smtp".
+    #
+    # To use standard PHP mail function just set this option to "mail". No
+    # additional configs are required in this case.
+    #
+    # To use SMTP-based solution set this option "smtp". This approach require
+    # some extra configuration to be done (see below).
+    transport: mail
+
+    # The lines below represents default SMTP mailer configurations. They will
+    # be used only if the "transport" option is set to "smtp".
+    host: localhost
+    port: 25
+    user: user
+    pass: ""
+    # The following option determines what kind of encryption should be used.
+    # false means no encyption at all. Another values once can use are "ssl" and
+    # "tls".
+    encryption: false
 
 # Locales
 ## Native name will be used in this locale
