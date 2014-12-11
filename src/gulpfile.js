@@ -228,7 +228,9 @@ gulp.task('pack-sources', ['composer-install'], function() {
         '!' + config.pluginsPath + '/*/**/*',
         // Exclude Git repositories that can be shipped with third-party libs
         '!' + config.phpVendorPath + '/**/.git',
-        '!' + config.phpVendorPath + '/**/.git/**/*'
+        '!' + config.phpVendorPath + '/**/.git/**/*',
+        // Exclude vendors binaries
+        '!' + config.phpVendorPath + '/bin/**/*'
     ];
     var srcOptions = {
         // Dot files (.htaccess, .keep, etc.) must be included in the package.
