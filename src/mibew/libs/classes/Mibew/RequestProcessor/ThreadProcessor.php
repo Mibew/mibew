@@ -792,7 +792,12 @@ class ThreadProcessor extends ClientSideProcessor implements
             // Prepare message to send by email
             $mail_template = MailTemplate::loadByName('leave_message', $message_locale);
             if (!$mail_template) {
-                throw new \RuntimeException('Cannot load "leave_message" mail template');
+                trigger_error(
+                    'Cannot send e-mail because "leave_message" mail template cannot be loaded.',
+                    E_USER_WARNING
+                );
+
+                return;
             }
 
             $subject = $mail_template->buildSubject(array($args['name']));
