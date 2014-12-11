@@ -37,7 +37,7 @@ var config = {
     compiledTemplatesHeader: fs.readFileSync('tools/compiled_templates_header.txt'),
     getComposerUrl: 'https://getcomposer.org/installer',
     phpBin: 'php -d "suhosin.executor.include.whitelist = phar"',
-    package: require('./package.json')
+    package: require('./composer.json')
 }
 
 
@@ -202,7 +202,7 @@ gulp.task('generate-pot', function() {
     .pipe(concatPo('translation.pot', {
         headers: {
             'Project-Id-Version': 'Mibew Messenger ' + config.package.version,
-            'Report-Msgid-Bugs-To': config.package.bugs.email,
+            'Report-Msgid-Bugs-To': config.package.support.email,
             'POT-Creation-Date': strftime('%Y-%m-%d %H:%M%z'),
             'PO-Revision-Date': '',
             'Last-Translator': '',

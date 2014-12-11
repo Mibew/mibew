@@ -1,12 +1,4 @@
 {
-    "name": "Mibew",
-    "version": "2.0.0-alpha5",
-    "description": "Mibew Messenger - open-source live support application",
-    "private": true,
-    "bugs": {
-        "email": "support@mibew.org",
-        "url": "https://github.com/mibew/mibew/issues"
-    },
     "devDependencies": {
         "gulp": "~3.8.0",
         "gulp-phpcs": "~0.2.1",
