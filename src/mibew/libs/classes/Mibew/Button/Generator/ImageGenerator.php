@@ -113,16 +113,12 @@ class ImageGenerator extends TextGenerator
     }
 
     /**
-     * Generates HTML coed for Mibew widget.
+     * Generates HTML markup for Mibew widget.
      *
-     * @return string
+     * @return \Canteen\HTML5\Fragment
      */
     protected function getWidgetCode()
     {
-        if (!Settings::get('enabletracking')) {
-            return '';
-        }
-
         $widget_data = array();
 
         // Get actual invitation style instance
