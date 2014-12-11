@@ -98,8 +98,8 @@ class LoginController extends AbstractController
             $this->getAuthenticationManager()->loginOperator($operator, $remember);
 
             // Redirect the current operator to the needed page.
-            $target = isset($_SESSION['backpath'])
-                ? $_SESSION['backpath']
+            $target = isset($_SESSION[SESSION_PREFIX . 'backpath'])
+                ? $_SESSION[SESSION_PREFIX . 'backpath']
                 : $request->getUriForPath('/operator');
 
             return $this->redirect($target);

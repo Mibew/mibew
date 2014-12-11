@@ -39,8 +39,8 @@ class ButtonController extends AbstractController
     {
         $referer = $request->server->get('HTTP_REFERER', '');
 
-        if ($referer && isset($_SESSION['threadid'])) {
-            $thread = Thread::load($_SESSION['threadid']);
+        if ($referer && isset($_SESSION[SESSION_PREFIX . 'threadid'])) {
+            $thread = Thread::load($_SESSION[SESSION_PREFIX . 'threadid']);
             if ($thread && $thread->state != Thread::STATE_CLOSED) {
                 $msg = getlocal(
                     "Visitor navigated to {0}",

@@ -206,14 +206,14 @@ function get_current_locale()
             && locale_is_available($locale);
 
         // Check if locale code stored in session data is valid
-        $session_locale_valid = isset($_SESSION['locale'])
-            && locale_pattern_check($_SESSION['locale'])
-            && locale_is_available($_SESSION['locale']);
+        $session_locale_valid = isset($_SESSION[SESSION_PREFIX . 'locale'])
+            && locale_pattern_check($_SESSION[SESSION_PREFIX . 'locale'])
+            && locale_is_available($_SESSION[SESSION_PREFIX . 'locale']);
 
         if ($locale_param_valid) {
-            $_SESSION['locale'] = $locale;
+            $_SESSION[SESSION_PREFIX . 'locale'] = $locale;
         } elseif ($session_locale_valid) {
-            $locale = $_SESSION['locale'];
+            $locale = $_SESSION[SESSION_PREFIX . 'locale'];
         } else {
             $locale = get_user_locale();
         }

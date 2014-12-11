@@ -317,8 +317,8 @@ class ThreadProcessor extends ClientSideProcessor implements
             // argument is mandatory, but some function allows it to be null. In
             // such cases there is no thread and there is nothing to check.
             if (!is_null($thread_id)) {
-                $is_own_thread = isset($_SESSION['own_threads'])
-                    && in_array($thread_id, $_SESSION['own_threads']);
+                $is_own_thread = isset($_SESSION[SESSION_PREFIX . 'own_threads'])
+                    && in_array($thread_id, $_SESSION[SESSION_PREFIX . 'own_threads']);
                 if (!$is_own_thread) {
                     throw new AccessDeniedException();
                 }
@@ -698,10 +698,10 @@ class ThreadProcessor extends ClientSideProcessor implements
         // Check captcha
         if (Settings::get('enablecaptcha') == '1' && can_show_captcha()) {
             $captcha = $args['captcha'];
-            $original = isset($_SESSION["mibew_captcha"])
-                ? $_SESSION["mibew_captcha"]
+            $original = isset($_SESSION[SESSION_PREFIX . 'mibew_captcha'])
+                ? $_SESSION[SESSION_PREFIX . 'mibew_captcha']
                 : '';
-            unset($_SESSION['mibew_captcha']);
+            unset($_SESSION[SESSION_PREFIX . 'mibew_captcha']);
             if (empty($original) || empty($captcha) || $captcha != $original) {
                 throw new ThreadProcessorException(
                     getlocal('The letters you typed don\'t match the letters that were shown in the picture.'),

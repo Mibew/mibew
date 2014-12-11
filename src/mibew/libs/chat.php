@@ -692,7 +692,7 @@ function chat_start_for_user(
     // Check if visitor was invited to chat
     $is_invited = false;
     if (Settings::get('enabletracking')) {
-        $invitation_state = invitation_state($_SESSION['visitorid']);
+        $invitation_state = invitation_state($_SESSION[SESSION_PREFIX . 'visitorid']);
         if ($invitation_state['invited']) {
             $is_invited = true;
         }
@@ -709,7 +709,7 @@ function chat_start_for_user(
     // Get thread object
     if ($is_invited) {
         // Get thread from invitation
-        $thread = invitation_accept($_SESSION['visitorid']);
+        $thread = invitation_accept($_SESSION[SESSION_PREFIX . 'visitorid']);
         if (!$thread) {
             die("Cannot start thread");
         }
@@ -734,13 +734,13 @@ function chat_start_for_user(
     $thread->userAgent = $user_browser;
     $thread->save();
 
-    $_SESSION['threadid'] = $thread->id;
+    $_SESSION[SESSION_PREFIX . 'threadid'] = $thread->id;
 
     // Store own thread ids to restrict access for other people
-    if (!isset($_SESSION['own_threads'])) {
-        $_SESSION['own_threads'] = array();
+    if (!isset($_SESSION[SESSION_PREFIX . 'own_threads'])) {
+        $_SESSION[SESSION_PREFIX . 'own_threads'] = array();
     }
-    $_SESSION['own_threads'][] = $thread->id;
+    $_SESSION[SESSION_PREFIX . 'own_threads'][] = $thread->id;
 
     // Bind thread to the visitor
     if (Settings::get('enabletracking')) {

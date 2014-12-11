@@ -402,10 +402,10 @@ class Application implements
         if ($request->attributes->get('_route') == 'users_update') {
             // Do not use "users" client application gateway as the backpath.
             // Use the awaiting visitors page instead.
-            $_SESSION['backpath'] = $this->getRouter()->generate('users');
+            $_SESSION[SESSION_PREFIX . 'backpath'] = $this->getRouter()->generate('users');
         } else {
             // Just use the current URI as the backpath.
-            $_SESSION['backpath'] = $request->getUri();
+            $_SESSION[SESSION_PREFIX . 'backpath'] = $request->getUri();
         }
         // Redirect the operator to the login page.
         $response = new RedirectResponse($this->getRouter()->generate('login'));

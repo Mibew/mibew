@@ -36,7 +36,7 @@ function csrf_check_token(Request $request)
         ? $token = $request->request->get('csrf_token', false)
         : $token = $request->query->get('csrf_token', false);
 
-    if ($token !== $_SESSION['csrf_token']) {
+    if ($token !== $_SESSION[SESSION_PREFIX . 'csrf_token']) {
         throw new BadRequestException('CSRF failure');
     }
 
@@ -47,21 +47,21 @@ function get_csrf_token_input()
 {
     set_csrf_token();
 
-    return '<input name="csrf_token" type="hidden" value="' . $_SESSION['csrf_token'] . '" />';
+    return '<input name="csrf_token" type="hidden" value="' . $_SESSION[SESSION_PREFIX . 'csrf_token'] . '" />';
 }
 
 function get_csrf_token()
 {
     set_csrf_token();
 
-    return $_SESSION['csrf_token'];
+    return $_SESSION[SESSION_PREFIX . 'csrf_token'];
 }
 
 /* set csrf token */
 function set_csrf_token()
 {
-    if (!isset($_SESSION['csrf_token'])) {
-        $_SESSION['csrf_token'] = sha1(session_id() . (function_exists('openssl_random_pseudo_bytes')
+    if (!isset($_SESSION[SESSION_PREFIX . 'csrf_token'])) {
+        $_SESSION[SESSION_PREFIX . 'csrf_token'] = sha1(session_id() . (function_exists('openssl_random_pseudo_bytes')
             ? openssl_random_pseudo_bytes(32)
             : (time() + microtime()) . mt_rand(0, 99999999)));
     }

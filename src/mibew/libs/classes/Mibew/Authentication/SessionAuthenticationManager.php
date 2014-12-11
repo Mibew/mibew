@@ -72,7 +72,7 @@ class SessionAuthenticationManager implements AuthenticationManagerInterface
         if ($this->loggedOut) {
             // An operator is logged out. Clean up session data.
             unset($_SESSION[SESSION_PREFIX . 'operator']);
-            unset($_SESSION['backpath']);
+            unset($_SESSION[SESSION_PREFIX . 'backpath']);
         } elseif ($this->loggedIn) {
             // An operator is logged in. Update operator in the session.
             $_SESSION[SESSION_PREFIX . 'operator'] = $this->operator;

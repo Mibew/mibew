@@ -60,9 +60,9 @@ class WidgetController extends AbstractController
             $user_id = $request->query->get('user_id', false);
 
             // Check if session was started
-            if (isset($_SESSION['visitorid']) && preg_match('/^[0-9]+$/', $_SESSION['visitorid'])) {
+            if (isset($_SESSION[SESSION_PREFIX . 'visitorid']) && preg_match('/^[0-9]+$/', $_SESSION[SESSION_PREFIX . 'visitorid'])) {
                 // Session was started. Just track the visitor.
-                $visitor_id = track_visitor($_SESSION['visitorid'], $entry, $referer);
+                $visitor_id = track_visitor($_SESSION[SESSION_PREFIX . 'visitorid'], $entry, $referer);
                 $visitor = track_get_visitor_by_id($visitor_id);
             } else {
                 $visitor = track_get_visitor_by_user_id($user_id);
@@ -79,7 +79,7 @@ class WidgetController extends AbstractController
             }
 
             if ($visitor_id) {
-                $_SESSION['visitorid'] = $visitor_id;
+                $_SESSION[SESSION_PREFIX . 'visitorid'] = $visitor_id;
             }
 
             if ($user_id === false) {
@@ -98,17 +98,17 @@ class WidgetController extends AbstractController
             $invitation_state = invitation_state($visitor_id);
 
             // Check if invitation is closed
-            if (!$invitation_state['invited'] && !empty($_SESSION['invitation_threadid'])) {
+            if (!$invitation_state['invited'] && !empty($_SESSION[SESSION_PREFIX . 'invitation_threadid'])) {
                 $response_data['handlers'][] = 'invitationClose';
                 $response_data['dependencies']['invitationClose'] = array();
-                unset($_SESSION['invitation_threadid']);
+                unset($_SESSION[SESSION_PREFIX . 'invitation_threadid']);
             }
 
             // Check if the visitor is just invited to chat
             $is_invited = $invitation_state['invited']
-                && (empty($_SESSION['invitation_threadid'])
+                && (empty($_SESSION[SESSION_PREFIX . 'invitation_threadid'])
                     ? true
-                    : ($_SESSION['invitation_threadid'] != $invitation_state['threadid']));
+                    : ($_SESSION[SESSION_PREFIX . 'invitation_threadid'] != $invitation_state['threadid']));
 
             if ($is_invited) {
                 // Load invitation thread
@@ -135,7 +135,7 @@ class WidgetController extends AbstractController
                     'acceptCaption' => getlocal('Answer'),
                 );
 
-                $_SESSION['invitation_threadid'] = $thread->id;
+                $_SESSION[SESSION_PREFIX . 'invitation_threadid'] = $thread->id;
             }
 
             // Check if the visitor rejects invitation

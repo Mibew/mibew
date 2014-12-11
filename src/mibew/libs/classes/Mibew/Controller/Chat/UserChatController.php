@@ -44,8 +44,8 @@ class UserChatController extends AbstractController
         $token = $request->attributes->get('token');
 
         // We have to check that the thread is owned by the user.
-        $is_own_thread = isset($_SESSION['own_threads'])
-            && in_array($thread_id, $_SESSION['own_threads']);
+        $is_own_thread = isset($_SESSION[SESSION_PREFIX . 'own_threads'])
+            && in_array($thread_id, $_SESSION[SESSION_PREFIX . 'own_threads']);
 
         $thread = Thread::load($thread_id, $token);
         if (!$thread || !$is_own_thread) {
@@ -103,8 +103,8 @@ class UserChatController extends AbstractController
 
         $thread = null;
         // Try to get thread from the session
-        if (isset($_SESSION['threadid'])) {
-            $thread = Thread::reopen($_SESSION['threadid']);
+        if (isset($_SESSION[SESSION_PREFIX . 'threadid'])) {
+            $thread = Thread::reopen($_SESSION[SESSION_PREFIX . 'threadid']);
         }
 
         // Create new thread
@@ -171,8 +171,8 @@ class UserChatController extends AbstractController
             }
 
             // Get invitation info
-            if (Settings::get('enabletracking') && !empty($_SESSION['visitorid'])) {
-                $invitation_state = invitation_state($_SESSION['visitorid']);
+            if (Settings::get('enabletracking') && !empty($_SESSION[SESSION_PREFIX . 'visitorid'])) {
+                $invitation_state = invitation_state($_SESSION[SESSION_PREFIX . 'visitorid']);
                 $visitor_is_invited = $invitation_state['invited'];
             } else {
                 $visitor_is_invited = false;
@@ -253,7 +253,7 @@ class UserChatController extends AbstractController
         }
 
         // Check if user invited to chat.
-        $invitation_state = invitation_state($_SESSION['visitorid']);
+        $invitation_state = invitation_state($_SESSION[SESSION_PREFIX . 'visitorid']);
 
         if (!$invitation_state['invited'] || !$invitation_state['threadid']) {
             return $this->redirect($this->generateUrl('chat_user_start'));
@@ -262,10 +262,10 @@ class UserChatController extends AbstractController
         $thread = Thread::load($invitation_state['threadid']);
 
         // Store own thread ids to restrict access for other people
-        if (!isset($_SESSION['own_threads'])) {
-            $_SESSION['own_threads'] = array();
+        if (!isset($_SESSION[SESSION_PREFIX . 'own_threads'])) {
+            $_SESSION[SESSION_PREFIX . 'own_threads'] = array();
         }
-        $_SESSION['own_threads'][] = $thread->id;
+        $_SESSION[SESSION_PREFIX . 'own_threads'][] = $thread->id;
 
         // Prepare page
         $page = setup_invitation_view($thread);

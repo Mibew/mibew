@@ -36,7 +36,7 @@ class CaptchaController extends AbstractController
     public function drawAction(Request $request)
     {
         $captcha_code = gen_captcha();
-        $_SESSION["mibew_captcha"] = $captcha_code;
+        $_SESSION[SESSION_PREFIX . 'mibew_captcha'] = $captcha_code;
         $image = draw_captcha($captcha_code, true);
 
         $response = new Response(
