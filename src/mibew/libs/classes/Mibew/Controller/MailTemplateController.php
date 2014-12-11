@@ -186,21 +186,23 @@ class MailTemplateController extends AbstractController
     /**
      * Loads mail template.
      *
-     * It's just a wrapper for {@link mail_template_load()} function which
-     * throws an exception if a template cannot be loaded.
+     * It's just a wrapper for {@link \Mibew\Mail\Template::loadByName()}
+     * method which creates an empty template if it does not exist.
      *
      * @param string $name Machine name of the template
      * @param string $locale Locale code which should be used for template
      *   loading.
-     * @return array Mail template.
-     * @throws \RuntimeException If the template cannot be loaded.
+     * @return \Mibew\Mail\Template Mail template.
      */
     protected function loadMailTemplate($name, $locale)
     {
         $template = MailTemplate::loadByName($name, $locale);
 
         if (!$template) {
-            throw new \RuntimeException(sprintf('Cannot load "%s" mail template', $name));
+            // Create an empty template. It can be helpful in the case a new
+            // template is added to the system.
+            $template = new MailTemplate($name, $locale);
+            $template->save();
         }
 
         return $template;
