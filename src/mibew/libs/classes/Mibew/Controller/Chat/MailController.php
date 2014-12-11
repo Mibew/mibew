@@ -116,21 +116,24 @@ class MailController extends AbstractController
 
         // Load mail templates and substitute placeholders there.
         $mail_template = MailTemplate::loadByName('user_history', get_current_locale());
-        if (!$mail_template) {
-            throw new \RuntimeException('Cannot load "user_history" mail template');
+        if ($mail_template) {
+            $this->sendMail(MailUtils::buildMessage(
+                $email,
+                MIBEW_MAILBOX,
+                $mail_template->buildSubject(),
+                $mail_template->buildBody(array(
+                    $thread->userName,
+                    $history,
+                    Settings::get('title'),
+                    Settings::get('hosturl'),
+                ))
+            ));
+        } else {
+            trigger_error(
+                'Cannot send e-mail because "user_history" mail template cannot be loaded.',
+                E_USER_WARNING
+            );
         }
-
-        $this->sendMail(MailUtils::buildMessage(
-            $email,
-            MIBEW_MAILBOX,
-            $mail_template->buildSubject(),
-            $mail_template->buildBody(array(
-                $thread->userName,
-                $history,
-                Settings::get('title'),
-                Settings::get('hosturl'),
-            ))
-        ));
 
         $page = setup_logo($group);
         $page['email'] = $email;
