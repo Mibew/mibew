@@ -235,12 +235,20 @@ abstract class AbstractProcessor
                     return $this->buildSyncResponses($this->responses);
                 }
             }
-
-            // Output response
         } catch (\Exception $e) {
             // Something went wrong. Trigger error event
             $vars = array('exception' => $e);
             $dispatcher->triggerEvent($this->eventPrefix . 'RequestError', $vars);
+            trigger_error(
+                sprintf(
+                    'A request cannot be properly handled because of uncaught exception %s "%s" (%s:%u)',
+                    get_class($e),
+                    $e->getMessage(),
+                    $e->getFile(),
+                    $e->getLine()
+                ),
+                E_USER_WARNING
+            );
 
             return false;
         }
@@ -319,6 +327,16 @@ abstract class AbstractProcessor
             // Trigger error event
             $vars = array('exception' => $e);
             $dispatcher->triggerEvent($this->eventPrefix . "CallError", $vars);
+            trigger_error(
+                sprintf(
+                    'Function call failed because of uncaught exception %s "%s" (%s:%u)',
+                    get_class($e),
+                    $e->getMessage(),
+                    $e->getFile(),
+                    $e->getLine()
+                ),
+                E_USER_WARNING
+            );
 
             return false;
         }
