@@ -153,6 +153,16 @@ class Application implements
 
             $response = new Response($content, $http_status);
         } catch (\Exception $e) {
+            trigger_error(
+                sprintf(
+                    'Application stopped because of uncaught exception %s "%s" (%s:%u)',
+                    get_class($e),
+                    $e->getMessage(),
+                    $e->getFile(),
+                    $e->getLine()
+                ),
+                E_USER_WARNING
+            );
             $response = new Response('Internal Server Error', 500);
         }
 
