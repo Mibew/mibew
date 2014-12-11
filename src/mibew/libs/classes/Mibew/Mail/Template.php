@@ -96,7 +96,7 @@ class Template
      * @param string $locale Locale of the template to load.
      * @param boolean $strict Indicates if only specified locale should be used.
      *   If the argument is set to false and there is no template for
-     *   specified locale a template for default locale will be loaded.
+     *   specified locale a template for "en" locale will be loaded.
      * @return boolean|Ban Returns a Template instance or boolean false on
      *   failure.
      */
@@ -123,13 +123,13 @@ class Template
             return false;
         }
 
-        // Try to load a template with specified name for the default locale.
-        if ($locale != get_default_locale()) {
-            return self::loadByName($name, get_default_locale());
+        // Try to load a template with specified name for "en" locale.
+        if ($locale != 'en') {
+            return self::loadByName($name, 'en');
         }
 
         // There is no template with specified name neither for specified locale
-        // nor for the default one.
+        // nor for "en" locale.
         return false;
     }
 
