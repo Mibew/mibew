@@ -85,7 +85,9 @@ class ImageGenerator extends TextGenerator
         $button = HTML5\html('fragment');
         $button->addChild(HTML5\html('comment', 'mibew button'));
         $button->addChild($this->getPopup($image));
-        $button->addChild($this->getWidgetCode());
+        if (Settings::get('enabletracking')) {
+            $button->addChild($this->getWidgetCode());
+        }
         $button->addChild(HTML5\html('comment', '/ mibew button'));
 
         return $button;
