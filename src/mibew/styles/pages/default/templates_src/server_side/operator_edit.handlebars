@@ -14,7 +14,7 @@
         {{> _errors}}
 
         {{#if stored}}
-            <div id="formmessage">{{l10n "Changes saved"}}</div>
+            <div id="form-message">{{l10n "Changes saved"}}</div>
         {{/if}}
 
         {{#ifAny opid canmodify}}
@@ -24,91 +24,91 @@
                 <div>
                     {{> _tabs}}
 
-                    <div class="mform">
-                        <div class="formtop">
-                            <div class="formtopi"></div>
+                    <div class="form-wrapper">
+                        <div class="form-header">
+                            <div class="form-header-inwards"></div>
                         </div>
 
-                        <div class="forminner">
+                        <div class="form-inwards">
 
-                            <div class="fieldForm">
+                            <div class="form-fields">
                                 <div class="field">
-                                    <label for="login" class="flabel">{{l10n "Login"}}<span class="required">*</span></label>
-                                    <div class="fvalue">
-                                        <input id="login" type="text" name="login" size="40" value="{{formlogin}}" class="formauth"{{#unless canchangelogin}} disabled="disabled"{{/unless}}/>
+                                    <label for="login" class="field-label">{{l10n "Login"}}<span class="required">*</span></label>
+                                    <div class="field-value">
+                                        <input id="login" type="text" name="login" size="40" value="{{formlogin}}" class="field-input"{{#unless canchangelogin}} disabled="disabled"{{/unless}}/>
                                     </div>
-                                    <label for="login" class="fdescr"> &mdash; {{l10n "Login can consist of small Latin letters and underscore."}}</label>
+                                    <label for="login" class="field-description"> &mdash; {{l10n "Login can consist of small Latin letters and underscore."}}</label>
                                     <br clear="all"/>
                                 </div>
 
                                 <div class="field">
-                                    <label for="email" class="flabel">{{l10n "E-mail"}}<span class="required">*</span></label>
-                                    <div class="fvalue">
-                                        <input id="email" type="text" name="email" size="40" value="{{formemail}}" class="formauth"{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    <label for="email" class="field-label">{{l10n "E-mail"}}<span class="required">*</span></label>
+                                    <div class="field-value">
+                                        <input id="email" type="text" name="email" size="40" value="{{formemail}}" class="field-input"{{#unless canmodify}} disabled="disabled"{{/unless}}/>
                                     </div>
-                                    <label for="email" class="fdescr"> &mdash; {{l10n "For notifications and password retrieval."}}</label>
+                                    <label for="email" class="field-description"> &mdash; {{l10n "For notifications and password retrieval."}}</label>
                                     <br clear="all"/>
                                 </div>
 
                                 <div class="field">
-                                    <label for="password" class="flabel">
+                                    <label for="password" class="field-label">
                                         {{l10n "Password"}}{{#if requirePassword}}<span class="required">*</span>{{/if}}
                                     </label>
-                                    <div class="fvalue">
-                                        <input id="password" type="password" name="password" size="40" value="" class="formauth"{{#unless canmodify}} disabled="disabled"{{/unless}} autocomplete="off"/>
+                                    <div class="field-value">
+                                        <input id="password" type="password" name="password" size="40" value="" class="field-input"{{#unless canmodify}} disabled="disabled"{{/unless}} autocomplete="off"/>
                                     </div>
-                                    <label for="password" class="fdescr"> &mdash; {{l10n "Enter a new password or leave the field empty to keep the previous one."}}</label>
+                                    <label for="password" class="field-description"> &mdash; {{l10n "Enter a new password or leave the field empty to keep the previous one."}}</label>
                                     <br clear="all"/>
                                 </div>
 
                                 <div class="field">
-                                    <label for="passwordConfirm" class="flabel">
+                                    <label for="password-confirm" class="field-label">
                                         {{l10n "Confirmation"}}{{#if requirePassword}}<span class="required">*</span>{{/if}}
                                     </label>
-                                    <div class="fvalue">
-                                        <input id="passwordConfirm" type="password" name="passwordConfirm" size="40" value="" class="formauth"{{#unless canmodify}} disabled="disabled"{{/unless}} autocomplete="off"/>
+                                    <div class="field-value">
+                                        <input id="password-confirm" type="password" name="passwordConfirm" size="40" value="" class="field-input"{{#unless canmodify}} disabled="disabled"{{/unless}} autocomplete="off"/>
                                     </div>
-                                    <label for="passwordConfirm" class="fdescr"> &mdash; {{l10n "Confirm new password."}}</label>
+                                    <label for="password-confirm" class="field-description"> &mdash; {{l10n "Confirm new password."}}</label>
                                     <br clear="all"/>
                                 </div>
 
                                 <div class="field">
-                                    <label for="name" class="flabel">{{l10n "Name"}}<span class="required">*</span></label>
-                                    <div class="fvalue">
-                                        <input id="name" type="text" name="name" size="40" value="{{formname}}" class="formauth"{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    <label for="name" class="field-label">{{l10n "Name"}}<span class="required">*</span></label>
+                                    <div class="field-value">
+                                        <input id="name" type="text" name="name" size="40" value="{{formname}}" class="field-input"{{#unless canmodify}} disabled="disabled"{{/unless}}/>
                                     </div>
-                                    <label for="name" class="fdescr"> &mdash; {{l10n "This name will be seen by your visitors."}}</label>
+                                    <label for="name" class="field-description"> &mdash; {{l10n "This name will be seen by your visitors."}}</label>
                                     <br clear="all"/>
                                 </div>
 
                                 <div class="field">
-                                    <label for="commonname" class="flabel">{{l10n "International name (Latin)"}}<span class="required">*</span></label>
-                                    <div class="fvalue">
-                                        <input id="commonname" type="text" name="commonname" size="40" value="{{formcommonname}}" class="formauth"{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    <label for="common-name" class="field-label">{{l10n "International name (Latin)"}}<span class="required">*</span></label>
+                                    <div class="field-value">
+                                        <input id="common-name" type="text" name="commonname" size="40" value="{{formcommonname}}" class="field-input"{{#unless canmodify}} disabled="disabled"{{/unless}}/>
                                     </div>
-                                    <label for="commonname" class="fdescr"> &mdash; {{l10n "This name will be seen by your visitors."}}</label>
+                                    <label for="common-name" class="field-description"> &mdash; {{l10n "This name will be seen by your visitors."}}</label>
                                     <br clear="all"/>
                                 </div>
 
                                 <div class="field">
-                                    <label for="code" class="flabel">{{l10n "Code"}}</label>
-                                    <div class="fvalue">
-                                        <input id="code" type="text" name="code" size="40" value="{{formcode}}" class="formauth"{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    <label for="code" class="field-label">{{l10n "Code"}}</label>
+                                    <div class="field-value">
+                                        <input id="code" type="text" name="code" size="40" value="{{formcode}}" class="field-input"{{#unless canmodify}} disabled="disabled"{{/unless}}/>
                                     </div>
-                                    <label for="code" class="fdescr"> &mdash; {{l10n "Use to start chat with determined operator"}}</label>
+                                    <label for="code" class="field-description"> &mdash; {{l10n "Use to start chat with determined operator"}}</label>
                                     <br clear="all"/>
                                 </div>
 
                                 {{#if canmodify}}
-                                    <div class="fbutton">
-                                        <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "Save"}}"/>
+                                    <div class="form-button">
+                                        <input type="submit" name="save" class="submit-button-background save-button" value="{{l10n "Save"}}"/>
                                     </div>
                                 {{/if}}
                             </div>
                         </div>
 
-                        <div class="formbottom">
-                            <div class="formbottomi"></div>
+                        <div class="form-footer">
+                            <div class="form-footer-inwards"></div>
                         </div>
                     </div>
                 </div>

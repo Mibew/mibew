@@ -13,19 +13,19 @@
 
             {{> _tabs}}
 
-            <div class="mform">
-                <div class="formtop">
-                    <div class="formtopi"></div>
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <div class="form-header-inwards"></div>
                 </div>
 
-                <div class="forminner">
-                    <div class="fieldForm">
+                <div class="form-inwards">
+                    <div class="form-fields">
                         <div class="field">
-                            <div class="flabel">{{l10n "Select dates"}}</div>
-                            <div class="fvaluenodesc">
-                                <div class="searchctrl">
-                                    <label for="startday">{{l10n "From:"}}</label>
-                                    <select id="startday" name="startday">
+                            <div class="field-label">{{l10n "Select dates"}}</div>
+                            <div class="field-value-no-description">
+                                <div class="search-controls">
+                                    <label for="start-day">{{l10n "From:"}}</label>
+                                    <select id="start-day" name="startday">
                                         {{#each availableDays}}
                                             <option value="{{this}}"{{#ifEqual this ../formstartday}} selected="selected"{{/ifEqual}}>{{this}}</option>
                                         {{/each}}
@@ -37,9 +37,9 @@
                                         {{/each}}
                                     </select>
                                 </div>
-                                <div class="searchctrl">
-                                    <label for="endday">{{l10n "Till:"}}</label>
-                                    <select id="endday" name="endday">
+                                <div class="search-controls">
+                                    <label for="end-day">{{l10n "Till:"}}</label>
+                                    <select id="end-day" name="endday">
                                         {{#each availableDays}}
                                             <option value="{{this}}"{{#ifEqual this ../formendday}} selected="selected"{{/ifEqual}}>{{this}}</option>
                                         {{/each}}
@@ -51,8 +51,8 @@
                                         {{/each}}
                                     </select>
                                 </div>
-                                <div id="searchbutton">
-                                    <input type="submit" name="search" class="submit-bg-button login-button" value="{{l10n "Search"}}" />
+                                <div id="search-button">
+                                    <input type="submit" name="search" class="submit-button-background login-button" value="{{l10n "Search"}}" />
                                 </div>
                             </div>
                             <br clear="all"/>
@@ -60,8 +60,8 @@
                     </div>
                 </div>
 
-                <div class="formbottom">
-                    <div class="formbottomi"></div>
+                <div class="form-footer">
+                    <div class="form-footer-inwards"></div>
                 </div>
             </div>
         </form>
@@ -71,7 +71,7 @@
                 <br/>
                 <br/>
 
-                <div class="tabletitle">
+                <div class="table-title">
                     {{l10n "Usage statistics for each date"}}
                 </div>
 
@@ -142,7 +142,7 @@
                 <br/>
                 <br/>
 
-                <div class="tabletitle">{{l10n "Threads by operator"}}</div>
+                <div class="table-title">{{l10n "Threads by operator"}}</div>
                 <table class="statistics">
                     <thead>
                         <tr>
@@ -188,7 +188,7 @@
                 <br/>
                 <br/>
 
-                <div class="tabletitle">{{l10n "Chat threads by page"}}</div>
+                <div class="table-title">{{l10n "Chat threads by page"}}</div>
                 <table class="statistics">
                     <thead>
                         <tr>

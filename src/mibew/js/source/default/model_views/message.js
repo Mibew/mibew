@@ -75,10 +75,10 @@
                     return "hidden";
                 }
                 if (kind == this.model.KIND_INFO) {
-                    return "inf";
+                    return "info";
                 }
                 if (kind == this.model.KIND_CONN) {
-                    return "conn";
+                    return "connection";
                 }
                 if (kind == this.model.KIND_EVENTS) {
                     return "event";

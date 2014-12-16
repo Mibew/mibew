@@ -120,7 +120,7 @@
                     }
 
                     // Create new style name
-                    var style = ((queueCode != this.QUEUE_BAN)?'in':'')
+                    var style = ((queueCode != this.QUEUE_BAN)?'in-':'')
                         + this.queueCodeToString(queueCode);
 
                     // Store new styles
@@ -216,16 +216,16 @@
              */
             queueCodeToString: function(code) {
                 if (code == this.QUEUE_PRIO) {
-                    return "prio";
+                    return "priority-queue";
                 }
                 if (code == this.QUEUE_WAITING) {
-                    return "wait";
+                    return "waiting";
                 }
                 if (code == this.QUEUE_CHATTING) {
                     return "chat";
                 }
                 if (code == this.QUEUE_BAN) {
-                    return "ban";
+                    return "banned";
                 }
                 if (code == this.QUEUE_CLOSED) {
                     return "closed";

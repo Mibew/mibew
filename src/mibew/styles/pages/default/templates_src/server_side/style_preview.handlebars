@@ -11,16 +11,16 @@
             <div>
                 {{> _tabs}}
 
-                <div class="mform">
-                    <div class="formtop">
-                        <div class="formtopi"></div>
+                <div class="form-wrapper">
+                    <div class="form-header">
+                        <div class="form-header-inwards"></div>
                     </div>
 
-                    <div class="forminner">
-                        <div class="fieldForm">
+                    <div class="form-inwards">
+                        <div class="form-fields">
                             <div class="field">
-                                <label for="preview" class="flabel">{{l10n "Choose style"}}</label>
-                                <div class="fvaluenodesc">
+                                <label for="preview" class="field-label">{{l10n "Choose style"}}</label>
+                                <div class="field-value-no-description">
                                     <select id="preview" name="preview" onchange="this.form.submit();">
                                         {{#each availablePreviews}}
                                             <option value="{{this}}"{{#ifEqual this ../formpreview}} selected="selected"{{/ifEqual}}>{{this}}</option>
@@ -30,8 +30,8 @@
                             </div>
                             {{#each screenshotsList}}
                                 <div class="field">
-                                    <div class="flabel">{{description}}</div>
-                                    <div class="fvalueframe">
+                                    <div class="field-label">{{description}}</div>
+                                    <div class="field-iframe-value">
                                         <img class="screenshot" alt="{{name}}" src="{{file}}" />
                                     </div>
                                 </div>
@@ -39,8 +39,8 @@
                         </div>
                     </div>
 
-                    <div class="formbottom">
-                        <div class="formbottomi"></div>
+                    <div class="form-footer">
+                        <div class="form-footer-inwards"></div>
                     </div>
                 </div>
             </div>

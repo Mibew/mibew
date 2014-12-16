@@ -17,9 +17,9 @@
  */
 
 .inline-block,
-.dashitem,
-.pagination .prevpage,
-.pagination .nextpage {
+.dashboard-item,
+.pagination .prev-page,
+.pagination .next-page {
     display: inline;
     zoom: 1;
 }

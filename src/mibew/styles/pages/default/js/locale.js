@@ -20,18 +20,18 @@ var popupStatus = 0;
 
 function loadPopup(){
 	if(popupStatus==0){
-		$("#backgroundPopup").css({
+		$("#background-popup").css({
 			"opacity": "0.7"
 		});
-		$("#backgroundPopup").fadeIn("slow");
-		$("#dashlocalesPopup").fadeIn("slow");
+		$("#background-popup").fadeIn("slow");
+		$("#dashboard-locales-popup").fadeIn("slow");
 		popupStatus = 1;
 	}
 }
 function disablePopup(){
 	if(popupStatus==1){
-		$("#backgroundPopup").fadeOut("slow");
-		$("#dashlocalesPopup").fadeOut("slow");
+		$("#background-popup").fadeOut("slow");
+		$("#dashboard-locales-popup").fadeOut("slow");
 		popupStatus = 0;
 	}
 }
@@ -46,29 +46,29 @@ function normpos(a) {
 function centerPopup(){
 	var windowWidth = document.documentElement.clientWidth;
 	var windowHeight = document.documentElement.clientHeight;
-	var popupHeight = $("#dashlocalesPopup").height();
-	var popupWidth = $("#dashlocalesPopup").width();
-	$("#dashlocalesPopup").css({
+	var popupHeight = $("#dashboard-locales-popup").height();
+	var popupWidth = $("#dashboard-locales-popup").width();
+	$("#dashboard-locales-popup").css({
 		"position": "absolute",
 		"top": normpos((windowHeight-popupHeight) * 0.2),
 		"left": normpos(windowWidth/2-popupWidth/2)
 	});
-	$("#backgroundPopup").css({
+	$("#background-popup").css({
 		"height": windowHeight
 	});
 }
 
 $(function(){
-	$("#changelang").click(function(){
+	$("#change-language").click(function(){
 		centerPopup();
 		loadPopup();
 		return false;
 	});
-	$("#dashlocalesPopupClose").click(function(){
+	$("#dashboard-locales-popup-close").click(function(){
 		disablePopup();
 		return false;
 	});
-	$("#backgroundPopup").click(function(){
+	$("#background-popup").click(function(){
 		disablePopup();
 	});
 	$(document).keypress(function(e){

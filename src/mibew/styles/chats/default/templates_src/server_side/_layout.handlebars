@@ -18,7 +18,7 @@
     <body class="{{#if startFrom}}{{startFrom}}{{/if}}{{#if rtl}} rtl{{/if}}">
         {{#block "page"}}
             {{! Logo block}}
-            <div id="top2">
+            <div id="logo-wrapper">
                 <div id="logo">
                     {{#if company.chatLogoURL}}
                         {{#if mibewHost}}
@@ -44,11 +44,11 @@
 
             {{! Header block. Contains page description and buttons}}
             <div id="headers">
-                <div class="wndb"><div class="wndl"><div class="wndr"><div class="wndt"><div class="wndtl"><div class="wndtr"><div class="wndbl"><div class="wndbr">
+                <div class="headers-inwards-wrapper-common"><div class="headers-inwards-wrapper-left"><div class="headers-inwards-wrapper-right"><div class="headers-inwards-wrapper-top"><div class="headers-inwards-wrapper-top-left"><div class="headers-inwards-wrapper-top-right"><div class="headers-inwards-wrapper-bottom-left"><div class="headers-inwards-wrapper-bottom-right">
                     <div class="buttons">
                         {{#block "buttons"}}{{/block}}
                     </div>
-                    <div class="messagetxt">
+                    <div class="info-message">
                         {{#block "message"}}&nbsp;{{/block}}
                     </div>
                 </div></div></div></div></div></div></div></div>

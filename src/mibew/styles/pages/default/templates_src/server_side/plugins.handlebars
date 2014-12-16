@@ -23,9 +23,9 @@
             <tbody>
                 {{#each plugins}}
                     <tr>
-                        <td class="notlast">{{name}}</td>
-                        <td class="notlast">{{version}}</td>
-                        <td class="notlast">
+                        <td class="not-last">{{name}}</td>
+                        <td class="not-last">{{version}}</td>
+                        <td class="not-last">
                             {{#each dependencies}}{{#unless @first}}, {{/unless}}{{@key}}({{this}}){{/each}}
                         </td>
                         <td class="notlast">

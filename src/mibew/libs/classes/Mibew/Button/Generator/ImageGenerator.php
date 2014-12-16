@@ -146,7 +146,7 @@ class ImageGenerator extends TextGenerator
         $widget_data['visitorCookieName'] = VISITOR_COOKIE_NAME;
 
         $markup = HTML5\html('fragment');
-        $markup->addChild(HTML5\html('div#mibewinvitation'));
+        $markup->addChild(HTML5\html('div#mibew-invitation'));
         $markup->addChild(
             HTML5\html('script')->setAttributes(array(
                 'type' => 'text/javascript',

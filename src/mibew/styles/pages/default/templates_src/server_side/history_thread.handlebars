@@ -4,57 +4,57 @@
 
         <br/><br/>
 
-        <div class="logpane">
+        <div class="log-pane">
             <div class="header">
 
-                    <div class="wlabel">
+                    <div class="param-label">
                         {{l10n "Name"}}:
                     </div>
-                    <div class="wvalue">
+                    <div class="param-value">
                         {{threadInfo.userName}}
                     </div>
                     <br clear="all"/>
 
-                    <div class="wlabel">
+                    <div class="param-label">
                         {{l10n "Visitor's address"}}:
                     </div>
-                    <div class="wvalue">
+                    <div class="param-value">
                         {{{threadInfo.userAddress}}}
                     </div>
                     <br clear="all"/>
 
-                    <div class="wlabel">
+                    <div class="param-label">
                         {{l10n "Browser"}}:
                     </div>
-                    <div class="wvalue">
+                    <div class="param-value">
                         {{threadInfo.userAgentVersion}}
                     </div>
                     <br clear="all"/>
 
                     {{#if threadInfo.groupName}}
-                        <div class="wlabel">
+                        <div class="param-label">
                             {{l10n "Group"}}:
                         </div>
-                        <div class="wvalue">
+                        <div class="param-value">
                             {{threadInfo.groupName}}
                         </div>
                         <br clear="all"/>
                     {{/if}}
 
                     {{#if threadInfo.agentName}}
-                        <div class="wlabel">
+                        <div class="param-label">
                             {{l10n "Operator"}}:
                         </div>
-                        <div class="wvalue">
+                        <div class="param-value">
                             {{threadInfo.agentName}}
                         </div>
                         <br clear="all"/>
                     {{/if}}
 
-                    <div class="wlabel">
+                    <div class="param-label">
                         {{l10n "Time in chat"}}:
                     </div>
-                    <div class="wvalue">
+                    <div class="param-value">
                         {{formatDateDiff threadInfo.chatTime}}
                             ({{formatDate threadInfo.chatStarted}})
                     </div>

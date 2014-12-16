@@ -21,7 +21,7 @@
 </head>
 
 <body{{#unlessOverridden "menu"}} style="min-width: 400px;"{{/unlessOverridden}}>
-    <div id="{{#if fixedwrap}}fixedwrap{{else}}{{#ifOverridden "menu"}}wrap700{{else}}wrap400{{/ifOverridden}}{{/if}}" class="l{{#if rtl}}rtl{{else}}ltr{{/if}}">
+    <div id="{{#if fixedwrap}}fixed-wrap{{else}}{{#ifOverridden "menu"}}wrap700{{else}}wrap400{{/ifOverridden}}{{/if}}" class="{{#if rtl}}rtl{{else}}ltr{{/if}}">
         <div id="header">
             <div id="title">
                 <h1><img src="{{asset "@CurrentStyle/images/logo.png"}}" alt="" width="32" height="32" class="left logo" />
@@ -32,11 +32,11 @@
                 <div id="path"><p>{{l10n "You are {0}" operator}}</p></div>
             {{else}}
                 {{#if show_small_login}}
-                    <div id="loginsmallpane">
+                    <div id="login-small-pane">
                         <form name="smallLogin" method="post" action="{{route "login"}}">
                             {{l10n "Login:"}}
-                            <input type="text" name="login" size="8" class="formauth"/>
-                            <input type="password" name="password" size="8" class="formauth" autocomplete="off"/>
+                            <input type="text" name="login" size="8" class="field-input"/>
+                            <input type="password" name="password" size="8" class="field-input" autocomplete="off"/>
                             <input type="hidden" name="isRemember" value=""/>
                             <input type="submit" value="&gt;&gt;" class="butt"/>
                         </form>
@@ -47,12 +47,12 @@
 
         <br clear="all"/>
 
-        <div class="contentdiv">
+        <div class="content-div">
 
             {{#ifOverridden "menu"}}
-            <div id="wcontent" class="contentinner">
+            <div id="content" class="content-inner">
             {{else}}
-            <div id="wcontent" class="contentnomenu">
+            <div id="content" class="content-no-menu">
             {{/ifOverridden}}
                 {{#block "content"}}{{/block}}
             </div>
@@ -62,11 +62,11 @@
 
         <div style="clear: both;">&nbsp;</div>
 
-        <div class="empty_inner" style="">&#160;</div>
+        <div class="empty-inner" style="">&#160;</div>
     </div>
 
     <div id="footer">
-        <p id="legal"><a href="http://mibew.org/" target="_blank" class="flink">Mibew Messenger</a> {{mibewVersion}} | (c) 2011-2014 mibew.org</p>
+        <p id="legal"><a href="http://mibew.org/" target="_blank" class="footer-link">Mibew Messenger</a> {{mibewVersion}} | (c) 2011-2014 mibew.org</p>
     </div>
 </body>
 </html>

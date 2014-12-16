@@ -14,16 +14,20 @@
  * limitations under the License.
  */
 
-html, body {
+/* basic settings */
+html,
+body {
     height: 100%;
 }
 body {
     margin: 0;
     padding: 0;
-    font: normal 11px Tahoma;
+    font-weight: normal;
+    font-size: 11px;
+    font-family: Tahoma, sans-serif;
     line-height: 1;
     min-width: 500px;
-    background-color: #F1F2F2;
+    background-color: #f1f2f2;
 }
 body.rtl {
     text-align: right;
@@ -35,7 +39,7 @@ body.invitation {
 }
 a {
     text-decoration: underline;
-    color: #008AD9;
+    color: #008ad9;
 }
 a:hover {
     text-decoration: none;
@@ -53,30 +57,30 @@ img {
     visibility: hidden;
 }
 
-/* layout chat */
+/* layout of chat */
 #top {
     position: relative;
     padding: 5px 14px;
-    background: #FFF url("images/topbg.gif") scroll repeat-x 0 100%;
-    _zoom:1; /* IE6 fix */
+    background: #ffffff url("images/topbg.gif") scroll repeat-x 0 100%;
+    _zoom: 1; /* IE6 fix */
 }
 #chat-header {
     position: relative;
     padding: 0 10px;
-    background: #F1F2F2 url("images/chatheaderbg.gif") scroll repeat-x 0 0;
-    _zoom:1; /* IE6 fix */
+    background: #f1f2f2 url("images/chatheaderbg.gif") scroll repeat-x 0 0;
+    _zoom: 1; /* IE6 fix */
 }
 #chat {
     padding: 0 10px;
-    background: #F1F2F2;
+    background: #f1f2f2;
 }
 #message {
     padding: 0 10px;
-    background: #F1F2F2;
+    background: #f1f2f2;
 }
 #send {
     padding: 0 10px 5px;
-    background: #FFF url("images/bottombg.gif") scroll repeat-x 0 0;
+    background: #ffffff url("images/bottombg.gif") scroll repeat-x 0 0;
 }
 #footer {
     width: 400px;
@@ -84,27 +88,28 @@ img {
     padding-top: 5px;
     padding-bottom: 5px;
     text-align: center;
-    color: #999;
+    color: #999999;
 }
 #footer a {
-    color: #999;
+    color: #999999;
 }
-/* ----------- */
 
-/* #chatheader */
-#chat-header .bgc {
-    background: #FFF url("images/chatheaderbgc.gif") scroll repeat-x 0 0;
+/* chat header (#chat-header) */
+#chat-header .background-center {
+    background: #ffffff url("images/chatheaderbgc.gif") scroll repeat-x 0 0;
 }
-#chat-header .bgl {
+#chat-header .background-left {
     background: transparent url("images/chatheaderbgl.gif") scroll no-repeat 0 0;
-    _zoom:1; /* IE6 fix */
+    _zoom: 1; /* IE6 fix */
 }
-#chat-header .bgr {
+#chat-header .background-right {
     height: 42px;
     background: transparent url("images/chatheaderbgr.gif") scroll no-repeat 100% 0;
 }
 #logo {
-    font: normal 17px Arial;
+    font-weight: normal;
+    font-size: 17px;
+    font-family: Arial, sans-serif;
     color: #495151;
     padding: 10px 0;
 }
@@ -117,9 +122,8 @@ img {
     margin-top: 5px;
     text-align: right;
 }
-/* ----------- */
 
-/* controls */
+/* common controls */
 #controls-region {
     padding-right: 25px;
 }
@@ -134,10 +138,10 @@ img {
     height: 16px;
     background: transparent url("images/buttons.gif") scroll no-repeat 0 0;
 }
-.iclosewin {
+.image-close-window {
 	background-position: -128px -16px;
 }
-a:hover .iclosewin {
+a:hover .image-close-window {
 	background-position: -128px 0;
 }
 .close-control .tpl-image {
@@ -211,11 +215,11 @@ a:hover .iclosewin {
 .user-name-control-change:hover {
     background-position: -16px 0;
 }
-.user-name-control-input-bg {
+.user-name-control-input-background {
     width: 95px;
     height: 16px;
     padding: 3px;
-    background: #FFF url("images/input_name.gif") scroll no-repeat 0 0;
+    background: #ffffff url("images/input_name.gif") scroll no-repeat 0 0;
     display: inline-block;
     _background-color: transparent;
 }
@@ -225,39 +229,39 @@ a:hover .iclosewin {
     margin: 0;
     padding: 0;
     border: 0 none;
-    font: normal 12px Tahoma;
+    font-weight: normal;
+    font-size: 12px;
+    font-family: Tahoma, sans-serif;
 }
 .user-name-control-prefix {
     padding-right: 10px;
 }
 
-/* ------------------ */
-
-/* #chat */
-#chat .bgl {
-    background: #FFF url("images/chatbgl.gif") scroll repeat-y 0 0;
+/* main chat region (#chat) */
+#chat .background-left {
+    background: #ffffff url("images/chatbgl.gif") scroll repeat-y 0 0;
 }
-#chat .bgr {
+#chat .background-right {
     background: transparent url("images/chatbgr.gif") scroll repeat-y 100% 0;
 }
-#chat .sdwbgc {
+#chat .background-shady-center {
     background: transparent url("images/sdwbgc.png") scroll repeat-x 0 100%;
 }
-#chat .sdwbgl {
+#chat .background-shady-left {
     background: transparent url("images/sdwbgl.png") scroll no-repeat 0 100%;
 }
-#chat .sdwbgr {
+#chat .background-shady-right {
     position: relative;
     padding: 0 4px 40px;
     background: transparent url("images/sdwbgr.png") scroll no-repeat 100% 100%;
-    _zoom:1; /* IE6 fix */
+    _zoom: 1; /* IE6 fix */
 }
 #status-region {
     position: absolute;
     bottom: 20px;
     left: 14px;
     font-size: 12px;
-    color: #333;
+    color: #333333;
 }
 .status {
     float: left;
@@ -266,7 +270,7 @@ a:hover .iclosewin {
 #avatar-region {
     float: right;
     height: 200px;
-    background: #EEE url("images/avatarbg.gif") scroll repeat-y 100% 0;
+    background: #eeeeee url("images/avatarbg.gif") scroll repeat-y 100% 0;
 }
 .avatar {
     width: 100px;
@@ -291,43 +295,44 @@ a:hover .iclosewin {
     min-height: 150px;
     overflow-y: auto;
     padding: 10px 10px 0;
-    font: normal 10px Tahoma;
+    font-weight: normal;
+    font-size: 10px;
+    font-family: Tahoma, sans-serif;
     line-height: 1.8em;
     color: #999;
 }
-#messages-region .minf {
+#messages-region .message-info {
     font-size: 1.1em;
-    color: #7BAA0F;
+    color: #7baa0f;
 }
-#messages-region .mhidden,
-#messages-region .mevent {
+#messages-region .message-hidden,
+#messages-region .message-event {
     font-size: 1.1em;
 }
-#messages-region .nagent {
+#messages-region .name-agent {
     font-size: 1.1em;
     font-weight: bold;
     color: #000;
 }
-#messages-region .nuser {
+#messages-region .name-user {
     font-size: 1.1em;
     font-weight: bold;
-    color: #DA251D;
+    color: #da251d;
 }
-#messages-region .magent,
-#messages-region .muser {
+#messages-region .message-agent,
+#messages-region .message-user {
     font-size: 1.1em;
     color: #000;
 }
-/* ----- */
 
-/* #message */
-#message .bgc {
-    background: #FFF url("images/message.png") scroll repeat-x 0 -95px;
+/* message area (#message) */
+#message .background-center {
+    background: #ffffff url("images/message.png") scroll repeat-x 0 -95px;
 }
-#message .bgl {
+#message .background-left {
     background: transparent url("images/message.png") scroll no-repeat 0 0;
 }
-#message .bgr {
+#message .background-right {
     height: 58px;
     padding: 14px 14px 23px;
     background: transparent url("images/message.png") scroll no-repeat 100% -190px;
@@ -338,21 +343,24 @@ a:hover .iclosewin {
     height: 100%;
     margin: 0;
     padding: 0;
-    font: normal 12px Tahoma;
+    font-weight: normal;
+    font-size: 12px;
+    font-family: Tahoma, sans-serif;
     border: 0 none;
     background: transparent;
-    resize: none; /* disable resize textarea in google chrome, safari and firefox 4 */
+    resize: none; /* disable resize textarea in Google Chrome, Safari and Firefox 4 */
 }
-/* -------- */
 
-/* #send */
-#postmessage {
+/* sending message area (#send) */
+#post-message {
 }
 #send-message, .submit-button {
     float: right;
     width: 190px;
     height: 33px;
-    font: normal 17px Arial;
+    font-weight: normal;
+    font-size: 17px;
+    font-family: Arial, sans-serif;
     line-height: 30px;
     text-align: center;
     text-decoration: none;
@@ -360,7 +368,7 @@ a:hover .iclosewin {
     background: url("images/submit.gif") no-repeat 0 0 transparent;
 }
 #send-message:hover, .submit-button:hover {
-    color: #000;
+    color: #000000;
     background: url("images/submit.gif") no-repeat -190px 0 transparent;
 }
 #predefined-wrapper {
@@ -370,64 +378,66 @@ a:hover .iclosewin {
 #predefined {
     width: 200px;
 }
-/* ----- */
 
-/* error.tpl */
-#top2 {
+/* error page (error.tpl) */
+#logo-wrapper {
     position: relative;
     padding: 5px 14px;
-    background: #FFF url("images/logobg.gif") scroll repeat-x 0 100%;
-    _zoom:1; /* IE6 fix */
+    background: #ffffff url("images/logobg.gif") scroll repeat-x 0 100%;
+    _zoom: 1; /* IE6 fix */
 }
-.wndb {
-    background: #FFF url("images/wndb.gif") scroll repeat-x 0 100%;
+.headers-inwards-wrapper-common {
+    background: #ffffff url("images/wndb.gif") scroll repeat-x 0 100%;
 }
-.wndl {
+.headers-inwards-wrapper-left {
     background: transparent url("images/chatbgl.gif") scroll repeat-y 0 0;
 }
-.wndr {
+.headers-inwards-wrapper-right {
     background: transparent url("images/chatbgr.gif") scroll repeat-y 100% 0;
 }
-.wndt {
+.headers-inwards-wrapper-top {
     background: transparent url("images/wndt.gif") scroll repeat-x 0 0;
 }
-.wndtl {
+.headers-inwards-wrapper-top-left {
     background: transparent url("images/wndtl.gif") scroll no-repeat 0 0;
 }
-.wndtr {
+.headers-inwards-wrapper-top-right {
     background: transparent url("images/wndtr.gif") scroll no-repeat 100% 0;
 }
-.wndbl {
+.headers-inwards-wrapper-bottom-left {
     background: transparent url("images/wndbl.gif") scroll no-repeat 0 100%;
 }
-.wndbr {
+.headers-inwards-wrapper-bottom-right {
     position: relative;
     padding: 14px;
     background: transparent url("images/wndbr.gif") scroll no-repeat 100% 100%;
 }
-.wndbr .buttons {
+.headers-inwards-wrapper-bottom-right .buttons {
     top: 14px;
     position: absolute;
     right: 25px;
 }
 #headers {
     padding: 0 10px;
-    background: #F1F2F2;
+    background: #f1f2f2;
 }
 #content-wrapper {
     padding: 10px 14px 50px;
     background: transparent url("images/content.gif") scroll repeat-x 0 -2px;
 }
 #content-wrapper {
-    font: normal 13px Arial;
+    font-weight: normal;
+    font-size: 13px;
+    font-family: Arial, sans-serif;
 }
-.messagetxt {
+.info-message {
     padding: 0 60px 0 0;
-    font: normal 13px Arial;
+    font-weight: normal;
+    font-size: 13px;
+    font-family: Arial, sans-serif;
 }
-/* --------- */
 
-/* redirect.tpl */
+/* redirection page (redirect.tpl) */
 .left {
     float: left;
     width: 49%;
@@ -451,9 +461,8 @@ ul li {
     list-style: none outside none;
     background: transparent url("images/list.gif") scroll no-repeat 0 5px;
 }
-/* ------------ */
 
-/* other */
+/* miscellanea */
 .form {
     margin: 0;
     padding: 0;
@@ -474,8 +483,8 @@ ul li {
 }
 #content-wrapper input,
 #content-wrapper textarea,
-.wndbr input {
-    border: 1px solid #BBC4C4;
+.headers-inwards-wrapper-bottom-right input {
+    border: 1px solid #bbc4c4;
 }
 #ajax-loader {
     display: none;
@@ -483,61 +492,60 @@ ul li {
     top: 200px;
     left: 250px;
 }
-/* ----- */
 
-/* Invitations */
+/* invitations */
 #invitation-messages-region {
     height: 150px;
     min-height: 150px;
     width: 388px;
     overflow-y: auto;
-    padding: 0px;
-    font: normal 10px Tahoma;
+    padding: 0;
+    font-weight: normal;
+    font-size: 10px;
+    font-family: Tahoma, sans-serif;
     line-height: 1.8em;
-    color: #999;
-    background-color: #FFFFFF;
+    color: #999999;
+    background-color: #ffffff;
 }
-#invitation-messages-region .minf {
+#invitation-messages-region .message-info {
     font-size: 1.1em;
-    color: #7BAA0F;
+    color: #7baa0f;
 }
-#invitation-messages-region .mhidden,
-#invitation-messages-region .mevent {
+#invitation-messages-region .message-hidden,
+#invitation-messages-region .message-event {
     font-size: 1.1em;
 }
-#invitation-messages-region .nagent {
-    font-size: 1.1em;
-    font-weight: bold;
-    color: #000;
-}
-#invitation-messages-region .nuser {
+#invitation-messages-region .name-agent {
     font-size: 1.1em;
     font-weight: bold;
-    color: #DA251D;
+    color: #000000;
 }
-#invitation-messages-region .magent,
-#invitation-messages-region .muser {
+#invitation-messages-region .name-user {
     font-size: 1.1em;
-    color: #000;
+    font-weight: bold;
+    color: #da251d;
 }
-/* ----- */
+#invitation-messages-region .message-agent,
+#invitation-messages-region .message-user {
+    font-size: 1.1em;
+    color: #000000;
+}
 
-/* Confirmation */
-.messagetxt .visitor {
+/* confirmation dialogue */
+.info-message .visitor {
     color: blue;
 }
-.messagetxt .operator {
+.info-message .operator {
     color: green;
 }
-#confirmpane {
+#confirm-pane {
     width: 100%;
 }
-#confirmpane .button-wrapper {
+#confirm-pane .button-wrapper {
     width: 400px;
     margin: 140px auto 0;
 }
-#confirmpane .submit-button {
+#confirm-pane .submit-button {
     float: none;
     display: inline-block;
 }
-/* ----- */

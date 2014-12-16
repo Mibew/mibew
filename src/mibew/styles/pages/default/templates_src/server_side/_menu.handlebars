@@ -2,7 +2,7 @@
     <ul>
     {{#if warnOffline}}
         {{#unless isOnline}}
-            <li id="offwarn">
+            <li id="offline-warning">
                 <img src="{{asset "@CurrentStyle/images/dash/warn.gif"}}" alt="" width="24" height="24"/>
                 <p>{{{l10n "You are Offline.<br/><a href=\"{0}\">Connect...</a>" (route "users" nomenu="1")}}}</p>
             </li>

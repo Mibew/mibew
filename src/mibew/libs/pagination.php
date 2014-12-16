@@ -177,7 +177,7 @@ function generate_pagination($pagination, $bottom = true)
             $result .= generate_pagination_link(
                 $curr_page - 1,
                 generate_pagination_arrow(
-                    "prevpage",
+                    "prev-page",
                     getlocal("previous")
                 )
             ) . PAGINATION_SPACING;
@@ -199,7 +199,7 @@ function generate_pagination($pagination, $bottom = true)
             $result .= PAGINATION_SPACING . generate_pagination_link(
                 $curr_page + 1,
                 generate_pagination_arrow(
-                    "nextpage",
+                    "next-page",
                     getlocal("next")
                 )
             );
