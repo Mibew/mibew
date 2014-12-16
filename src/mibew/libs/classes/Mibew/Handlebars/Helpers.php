@@ -20,6 +20,7 @@
 namespace Mibew\Handlebars;
 
 use Handlebars\Helpers as BaseHelpers;
+use JustBlackBird\HandlebarsHelpers;
 
 /**
  * Handlebars helpers collection.
@@ -35,23 +36,25 @@ class Helpers extends BaseHelpers
     {
         parent::addDefaultHelpers();
 
-        $blocks = new BlockStorage();
         $this->add('l10n', new Helper\L10nHelper());
-        $this->add('extends', new Helper\ExtendsHelper());
-        $this->add('block', new Helper\BlockHelper($blocks));
-        $this->add('override', new Helper\OverrideHelper($blocks));
-        $this->add('ifOverridden', new Helper\IfOverriddenHelper($blocks));
-        $this->add('unlessOverridden', new Helper\UnlessOverriddenHelper($blocks));
-        $this->add('ifEqual', new Helper\IfEqualHelper());
-        $this->add('ifAny', new Helper\IfAnyHelper());
-        $this->add('ifEven', new Helper\IfEvenHelper());
-        $this->add('ifOdd', new Helper\IfOddHelper());
         $this->add('generatePagination', new Helper\GeneratePaginationHelper());
-        $this->add('repeat', new Helper\RepeatHelper());
-        $this->add('replace', new Helper\ReplaceHelper());
         $this->add('formatDate', new Helper\FormatDateHelper());
         $this->add('formatDateDiff', new Helper\FormatDateDiffHelper());
-        $this->add('cutString', new Helper\CutStringHelper());
         $this->add('csrfTokenInput', new Helper\CsrfTokenInputHelper());
+
+        // Use third party helpers
+        $this->add('ifEqual', new HandlebarsHelpers\Comparison\IfEqualHelper());
+        $this->add('ifAny', new HandlebarsHelpers\Comparison\IfAnyHelper());
+        $this->add('ifEven', new HandlebarsHelpers\Comparison\IfEvenHelper());
+        $this->add('ifOdd', new HandlebarsHelpers\Comparison\IfOddHelper());
+        $this->add('repeat', new HandlebarsHelpers\String\RepeatHelper());
+        $this->add('replace', new HandlebarsHelpers\String\ReplaceHelper());
+        $this->add('cutString', new HandlebarsHelpers\String\TruncateHelper());
+        $blocks = new HandlebarsHelpers\Layout\BlockStorage();
+        $this->add('extends', new HandlebarsHelpers\Layout\ExtendsHelper($blocks));
+        $this->add('block', new HandlebarsHelpers\Layout\BlockHelper($blocks));
+        $this->add('override', new HandlebarsHelpers\Layout\OverrideHelper($blocks));
+        $this->add('ifOverridden', new HandlebarsHelpers\Layout\IfOverriddenHelper($blocks));
+        $this->add('unlessOverridden', new HandlebarsHelpers\Layout\UnlessOverriddenHelper($blocks));
     }
 }
