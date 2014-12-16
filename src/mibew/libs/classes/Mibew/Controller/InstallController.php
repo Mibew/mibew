@@ -317,7 +317,7 @@ class InstallController extends AbstractController
         );
 
         $login_link = getlocal(
-            'You can login to usgin <a href="{0}">this</a> link.',
+            'You can login to using <a href="{0}">this</a> link.',
             array($login_url)
         );
 
