@@ -33,6 +33,9 @@ function load_system_configs()
     if (is_null($configs)) {
         $parser = new YamlParser();
         $configs = $parser->parse(file_get_contents(MIBEW_FS_ROOT . '/configs/config.yml'));
+        // Mailer configs are not necessary and can be omited but the section
+        // must exist anyway.
+        $configs += array('mailer' => array());
     }
 
     return $configs;
