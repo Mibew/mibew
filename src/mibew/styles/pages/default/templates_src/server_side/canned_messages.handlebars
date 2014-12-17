@@ -10,13 +10,13 @@
         {{> _errors}}
 
         <form name="cannedForm" method="get" action="{{route "canned_messages"}}">
-            <div class="mform">
-                <div class="formtop">
-                    <div class="formtopi"></div>
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <div class="form-header-inwards"></div>
                 </div>
 
-                <div class="forminner">
-                    <div class="packedFormField">
+                <div class="form-inwards">
+                    <div class="packed-form-fields">
                         {{l10n "For language:"}}<br/>
                         <select name="lang" onchange="this.form.submit();">
                             {{#each locales}}
@@ -25,7 +25,7 @@
                         </select>
                     </div>
 
-                    <div class="packedFormField">
+                    <div class="packed-form-fields">
                         {{l10n "For group:"}}<br/>
                         <select name="group" onchange="this.form.submit();">
                             {{#each groups}}
@@ -37,14 +37,14 @@
                     <br clear="all"/>
                 </div>
 
-                <div class="formbottom">
-                    <div class="formbottomi"></div>
+                <div class="form-footer">
+                    <div class="form-footer-inwards"></div>
                 </div>
             </div>
         </form>
         <br/>
 
-        <div class="tabletool">
+        <div class="table-toolbar">
             <img src="{{asset "@CurrentStyle/images/buttons/createban.gif"}}" border="0" alt=""/>
             <a href="{{route "canned_message_add" lang=formlang group=formgroup}}" target="_blank"
                         onclick="this.newWindow = window.open('{{route "canned_message_add" lang=formlang group=formgroup}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">

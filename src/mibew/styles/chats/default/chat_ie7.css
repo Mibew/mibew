@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-/* controls */
+/* common controls */
 .control,
 .user-name-control-set,
 .user-name-control-change,
-.user-name-control-input-bg,
-#confirmpane .submit-button
-{
+.user-name-control-input-background,
+#confirm-pane .submit-button {
     display: inline;
     zoom: 1;
 }
-/* ------------------ */

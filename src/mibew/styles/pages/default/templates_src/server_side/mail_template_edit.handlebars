@@ -14,38 +14,38 @@
             <input type="hidden" name="lang" value="{{formlang}}" />
 
             <div>
-                <div class="mform">
-                    <div class="formtop">
-                        <div class="formtopi"></div>
+                <div class="form-wrapper">
+                    <div class="form-header">
+                        <div class="form-header-inwards"></div>
                     </div>
 
-                    <div class="forminner">
-                        <div class="fieldForm">
+                    <div class="form-inwards">
+                        <div class="form-fields">
                             <div class="field">
-                                <label for="subject" class="flabel">{{l10n "Mail subject"}}<span class="required">*</span></label>
-                                <div class="fvalue">
-                                    <input id="subject" type="text" name="subject" size="40" value="{{formsubject}}" class="formauth" />
+                                <label for="subject" class="field-label">{{l10n "Mail subject"}}<span class="required">*</span></label>
+                                <div class="field-value">
+                                    <input id="subject" type="text" name="subject" size="40" value="{{formsubject}}" class="field-input" />
                                 </div>
                                 <br clear="all"/>
                             </div>
 
                             <div class="field">
-                                <label for="body" class="flabel">{{l10n "Mail body"}}<span class="required">*</span></label>
-                                <div class="fvaluenodesc">
+                                <label for="body" class="field-label">{{l10n "Mail body"}}<span class="required">*</span></label>
+                                <div class="field-valuenodesc">
                                     <textarea id="body" name="body" cols="20" rows="5" class="wide">{{formbody}}</textarea>
                                 </div>
                                 <br clear="all"/>
                             </div>
 
-                            <div class="fbutton">
-                                <input type="submit" name="save" class="submit-bg-button save-button" value="{{l10n "Save"}}"/>
+                            <div class="form-button">
+                                <input type="submit" name="save" class="submit-button-background save-button" value="{{l10n "Save"}}"/>
                             </div>
 
                         </div>
                     </div>
 
-                    <div class="formbottom">
-                        <div class="formbottomi"></div>
+                    <div class="form-footer">
+                        <div class="form-footer-inwards"></div>
                     </div>
 
                 </div>

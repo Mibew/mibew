@@ -4,13 +4,13 @@
 
         <br/><br/>
 
-        <div class="logpane">
+        <div class="log-pane">
             <div class="header">
-                <div class="wlabel">
+                <div class="param-label">
                     {{l10n "Visitor came from"}}:
                 </div>
 
-                <div class="wvalue">
+                <div class="param-value">
                     {{#if entry}}
                         <a href="{{entry}}">{{entry}}</a>
                     {{else}}
@@ -32,7 +32,7 @@
                     <tbody>
                         {{#each history}}
                             <tr>
-                                <td class="notlast">{{date}}</td>
+                                <td class="not-last">{{date}}</td>
                                 <td><a href="{{link}}">{{link}}</a></td>
                             </tr>
                         {{/each}}

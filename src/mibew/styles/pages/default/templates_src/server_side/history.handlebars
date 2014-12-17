@@ -8,33 +8,33 @@
         <br />
 
         <form name="searchForm" method="get" action="{{route "history"}}">
-            <div class="mform">
-                <div class="formtop">
-                    <div class="formtopi"></div>
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <div class="form-header-inwards"></div>
                 </div>
 
-                <div class="forminner">
-                    <div class="fieldForm">
+                <div class="form-inwards">
+                    <div class="form-fields">
                         <div class="field">
-                            <label for="q" class="flabel">{{l10n "User name, operator name or message text search:"}}</label>
-                            <div class="fvaluenodesc">
-                                <div id="searchtext">
-                                    <input id="q" type="text" name="q" size="60" value="{{formq}}" class="formauth"/>
+                            <label for="q" class="field-label">{{l10n "User name, operator name or message text search:"}}</label>
+                            <div class="field-value-no-description">
+                                <div id="search-text">
+                                    <input id="q" type="text" name="q" size="60" value="{{formq}}" class="field-input"/>
                                 </div>
-                                <div class="searchctrl">
+                                <div class="search-controls">
                                     <label for="type">{{l10n "Search:"}}</label>
-                                    <select id="type" name="type" onchange="if (this.value == 'all' || this.value == 'message') {document.getElementById('inSystemMessages').style.display='inline'} else {document.getElementById('inSystemMessages').style.display='none'}; ">
+                                    <select id="type" name="type" onchange="if (this.value == 'all' || this.value == 'message') {document.getElementById('in-system-messages').style.display='inline'} else {document.getElementById('in-system-messages').style.display='none'}; ">
                                         <option value="all" {{#ifEqual formtype "all"}}selected="selected"{{/ifEqual}}>{{l10n "everywhere"}}</option>
                                         <option value="message" {{#ifEqual formtype "message"}}selected="selected"{{/ifEqual}}>{{l10n "in messages"}}</option>
                                         <option value="operator" {{#ifEqual formtype "operator"}}selected="selected"{{/ifEqual}}>{{l10n "by operator"}}</option>
                                         <option value="visitor" {{#ifEqual formtype "visitor"}}selected="selected"{{/ifEqual}}>{{l10n "by visitor"}}</option>
                                     </select>
                                 </div>
-                                <div id="searchbutton">
-                                    <input type="submit" name="search" class="submit-bg-button login-button" value="{{l10n "Search"}}" />
+                                <div id="search-button">
+                                    <input type="submit" name="search" class="submit-button-background login-button" value="{{l10n "Search"}}" />
                                 </div><br clear="all"/>
-                                <div class="searchctrl" id="inSystemMessages"{{#if canSearchInSystemMessages}} style="display: none;"{{/if}}>
-                                    <input id="insystemmessagesfield" type="checkbox" name="insystemmessages" {{#if forminsystemmessages}}checked="checked"{{/if}}/> <label for="insystemmessagesfield">{{l10n "Search in system messages"}}</label>
+                                <div class="search-controls" id="in-system-messages"{{#if canSearchInSystemMessages}} style="display: none;"{{/if}}>
+                                    <input id="in-system-messages-field" type="checkbox" name="insystemmessages" {{#if forminsystemmessages}}checked="checked"{{/if}}/> <label for="in-system-messages-field">{{l10n "Search in system messages"}}</label>
                                 </div>
                             </div>
                             <br clear="all"/>
@@ -42,8 +42,8 @@
                     </div>
                 </div>
 
-                <div class="formbottom">
-                    <div class="formbottomi"></div>
+                <div class="form-footer">
+                    <div class="form-footer-inwards"></div>
                 </div>
             </div>
         </form>

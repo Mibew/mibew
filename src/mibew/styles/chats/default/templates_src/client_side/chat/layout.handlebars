@@ -3,7 +3,7 @@
 
 {{! Chat header}}
 <div id="chat-header">
-    <div class="bgc"><div class="bgl"><div class="bgr">
+    <div class="background-center"><div class="background-left"><div class="background-right">
         {{! Chat controls region}}
         <div id="controls-region"></div>
     </div></div></div>
@@ -11,7 +11,7 @@
 
 {{! Chat region}}
 <div id="chat">
-    <div class="bgl"><div class="bgr"><div class="sdwbgc"><div class="sdwbgl"><div class="sdwbgr">
+    <div class="background-left"><div class="background-right"><div class="background-shady-center"><div class="background-shady-left"><div class="background-shady-right">
         {{#unless user.isAgent}}
         <div id="avatar-region"></div>
         {{/unless}}
@@ -26,4 +26,4 @@
 <div id="message-form-region"></div>
 
 {{! Footer links}}
-<div id="footer">{{l10n "Powered by:"}} <a id="poweredByLink" href="http://mibew.org" title="Mibew Community" target="_blank">mibew.org</a></div>
+<div id="footer">{{l10n "Powered by:"}} <a id="poweredby-link" href="http://mibew.org" title="Mibew Community" target="_blank">mibew.org</a></div>

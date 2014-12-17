@@ -9,7 +9,7 @@
 
         {{> _errors}}
 
-        <div class="tabletool">
+        <div class="table-toolbar">
             <img src="{{asset "@CurrentStyle/images/buttons/createban.gif"}}" border="0" alt=""/>
             <a href="{{route "ban_add"}}" title="{{l10n "Add address"}}"
                 onclick="this.newWindow = window.open('{{route "ban_add"}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{l10n "Add address"}}</a>
@@ -29,13 +29,13 @@
             <tbody>
                 {{#each [pagination.items]}}
                     <tr>
-                        <td class="notlast">
+                        <td class="not-last">
                             <a href="{{route "history" q=address type="visitor"}}" class="man">
                                 {{address}}
                             </a>
                         </td>
 
-                        <td class="notlast">{{formatDate till}}</td>
+                        <td class="not-last">{{formatDate till}}</td>
 
                         <td>{{cutString comment "30"}}</td>
 

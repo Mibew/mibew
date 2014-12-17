@@ -10,13 +10,13 @@
         {{> _errors}}
 
         <form name="agentsForm" method="get" action="{{route "operators"}}">
-            <div class="mform">
-                <div class="formtop">
-                    <div class="formtopi"></div>
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <div class="form-header-inwards"></div>
                 </div>
 
-                <div class="forminner">
-                    <div class="packedFormField">
+                <div class="form-inwards">
+                    <div class="packed-form-fields">
                         {{l10n "Sort by:"}}<br/>
                         <select name="sortby" onchange="this.form.submit();">
                             {{#each availableOrders}}
@@ -25,7 +25,7 @@
                         </select>
                     </div>
 
-                    <div class="packedFormField">
+                    <div class="packed-form-fields">
                         {{l10n "Sort direction:"}}<br/>
                         <select name="sortdirection" onchange="this.form.submit();">
                             {{#each availableDirections}}
@@ -37,15 +37,15 @@
                     <br clear="all"/>
                 </div>
 
-                <div class="formbottom">
-                    <div class="formbottomi"></div>
+                <div class="form-footer">
+                    <div class="form-footer-inwards"></div>
                 </div>
             </div>
         </form>
         <br />
 
         {{#if canmodify}}
-            <div class="tabletool">
+            <div class="table-toolbar">
                 <img src="{{asset "@CurrentStyle/images/buttons/createagent.gif"}}" border="0" alt="" />
                 <a href="{{route "operator_add"}}" title="{{l10n "Add operator..."}}">
                     {{l10n "Add operator..."}}
@@ -70,17 +70,17 @@
             <tbody>
                 {{#each allowedAgents}}
                     <tr>
-                        <td class="notlast">
+                        <td class="not-last">
                             <a href="{{route "operator_edit" operator_id=operatorid}}" class="man">
                                 {{vclogin}}
                             </a>
                         </td>
 
-                        <td class="notlast">
+                        <td class="not-last">
                             {{vclocalename}} / {{vccommonname}}
                         </td>
 
-                        <td class="notlast">
+                        <td class="not-last">
                             {{#ifAny isAvailable isAway}}
                                 {{#if isAvailable}}
                                     {{l10n "Online"}}

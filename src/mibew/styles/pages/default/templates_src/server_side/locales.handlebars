@@ -11,19 +11,19 @@
 
         {{> _tabs}}
 
-        <div class="mform">
-            <div class="formtop">
-                <div class="formtopi"></div>
+        <div class="form-wrapper">
+            <div class="form-header">
+                <div class="form-header-inwards"></div>
             </div>
 
-            <div class="forminner">
+            <div class="form-inwards">
                 {{! It is just an empty plate under the tabs bar.}}
 
                 <br clear="all"/>
             </div>
 
-            <div class="formbottom">
-                <div class="formbottomi"></div>
+            <div class="form-footer">
+                <div class="form-footer-inwards"></div>
             </div>
         </div>
 
@@ -41,11 +41,11 @@
             <tbody>
                 {{#each localesList}}
                     <tr>
-                        <td class="notlast">
+                        <td class="not-last">
                             {{code}}
                         </td>
 
-                        <td class="notlast">
+                        <td class="not-last">
                             {{name}}
                         </td>
 

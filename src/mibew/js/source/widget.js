@@ -391,8 +391,8 @@ var Mibew = {};
         var threadUrl = options.threadUrl;
         var acceptCaption = options.acceptCaption;
 
-        var popuptext = '<div id="mibewinvitationpopup" style="display: none;">';
-        popuptext += '<div id="mibewinvitationclose">'
+        var popuptext = '<div id="mibew-invitation-popup" style="display: none;">';
+        popuptext += '<div id="mibew-invitation-close">'
             + '<a href="javascript:void(0);" onclick="Mibew.Invitation.reject();">'
             + '&times;</a></div>';
 
@@ -405,7 +405,7 @@ var Mibew = {};
 
         // Add operator avatar
         if (avatarUrl) {
-            popuptext += '<img id="mibewinvitationavatar" src="' + avatarUrl
+            popuptext += '<img id="mibew-invitation-avatar" src="' + avatarUrl
                 + '" title="' + operatorName
                 + '" alt="' + operatorName
                 + '" onclick="Mibew.Invitation.accept();" />';
@@ -413,14 +413,14 @@ var Mibew = {};
 
         // Broadcast message from the thread related with invitation into iframe
         if (threadUrl) {
-            popuptext += '<iframe id="mibewinvitationframe" '
+            popuptext += '<iframe id="mibew-invitation-frame" '
                 + 'src="' + threadUrl + '" onload="Mibew.Invitation.show();" '
                 + 'frameBorder="0"></iframe>';
         }
 
         // Add accept button if acceptCaption set
         if (acceptCaption) {
-            popuptext += '<div id="mibewinvitationaccept"'
+            popuptext += '<div id="mibew-invitation-accept"'
                 + ' onclick="Mibew.Invitation.accept();">'
                 + acceptCaption
                 + '</div>';
@@ -428,7 +428,7 @@ var Mibew = {};
 
         popuptext += '<div style="clear: both;"></div></div>';
 
-        var invitationdiv = document.getElementById("mibewinvitation");
+        var invitationdiv = document.getElementById("mibew-invitation");
         if (invitationdiv) {
                 invitationdiv.innerHTML = popuptext;
         }
@@ -438,7 +438,7 @@ var Mibew = {};
      * Display invitation popup
      */
     Mibew.Invitation.show = function() {
-        var invitationPopup = document.getElementById('mibewinvitationpopup');
+        var invitationPopup = document.getElementById('mibew-invitation-popup');
         if (invitationPopup) {
             Mibew.Invitation.trigger('show');
             invitationPopup.style.display = 'block';
@@ -449,7 +449,7 @@ var Mibew = {};
      * Hide invitation popup and remove it from DOM
      */
     Mibew.Invitation.hide = function() {
-        var invitationPopup = document.getElementById('mibewinvitationpopup');
+        var invitationPopup = document.getElementById('mibew-invitation-popup');
         if (invitationPopup) {
             Mibew.Invitation.trigger('hide');
             invitationPopup.parentNode.removeChild(invitationPopup);

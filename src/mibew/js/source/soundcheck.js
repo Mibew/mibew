@@ -18,11 +18,11 @@
 
 (function(Mibew, $) {
     $(document).ready(function() {
-        $('#check-nv').click(function(){
+        $('#check-new-visitor').click(function(){
             Mibew.Utils.playSound('../sounds/new_user');
         });
 
-        $('#check-nm').click(function() {
+        $('#check-new-message').click(function() {
             Mibew.Utils.playSound('../sounds/new_message');
         });
     });

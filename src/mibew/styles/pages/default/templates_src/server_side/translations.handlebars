@@ -10,13 +10,13 @@
         <form name="translateForm" method="get" action="{{route "translations"}}">
             {{> _tabs}}
 
-            <div class="mform">
-                <div class="formtop">
-                    <div class="formtopi"></div>
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <div class="form-header-inwards"></div>
                 </div>
 
-                <div class="forminner">
-                    <div class="packedFormField">
+                <div class="form-inwards">
+                    <div class="packed-form-fields">
                         {{l10n "For language:"}}<br/>
                         <select name="target" onchange="this.form.submit();">
                             {{#each availableLocales}}
@@ -25,7 +25,7 @@
                         </select>
                     </div>
 
-                    <div class="packedFormField">
+                    <div class="packed-form-fields">
                         {{l10n "Sort by:"}}<br/>
                         <select name="sort" onchange="this.form.submit();">
                             {{#each availableOrders}}
@@ -38,8 +38,8 @@
 
                 </div>
 
-                <div class="formbottom">
-                    <div class="formbottomi"></div>
+                <div class="form-footer">
+                    <div class="form-footer-inwards"></div>
                 </div>
             </div>
         </form>

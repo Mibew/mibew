@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#mibewinvitationpopup {
+#mibew-invitation-popup {
     margin: 0 !important;
     padding: 5px !important;
     border: 0 !important;
@@ -32,7 +32,7 @@
     background: -moz-linear-gradient(right, #dfdfdf, #fafafa) !important;
     background: -ms-linear-gradient(right, #dfdfdf, #fafafa) !important;
     background: linear-gradient(to right, #dfdfdf, #fafafa) !important;
-    color: #000 !important;
+    color: #000000 !important;
     position: fixed !important;
     bottom: 5px !important;
     right: 5px !important;
@@ -45,12 +45,12 @@
     -moz-box-shadow: 0 1px 1px 1px #ddd !important;
     -webkit-box-shadow: 0 1px 1px 1px #ddd !important;
 }
-
-#mibewinvitationpopup h1, #mibewinvitationpopup p, #mibewinvitationclose a {
+#mibew-invitation-popup h1,
+#mibew-invitation-popup p,
+#mibew-invitation-close a {
     cursor: pointer !important;
 }
-
-#mibewinvitationpopup h1 {
+#mibew-invitation-popup h1 {
     color: #909090 !important;
     font-size: 20px !important;
     font-weight: bold !important;
@@ -58,44 +58,40 @@
     overflow: hidden !important;
     margin-top: 10px !important;
     margin-bottom: 10px !important;
-    background: url('./24x24.png') 7px 1px no-repeat !important;
+    background: url("./24x24.png") 7px 1px no-repeat !important;
     text-align: left !important;
     padding-left: 40px !important;
     display: inline-block !important;
 }
-
-#mibewinvitationclose {
+#mibew-invitation-close {
     float: right !important;
-    background: url('./close.gif') center no-repeat !important;
+    background: url("./close.gif") center no-repeat !important;
     padding: 1px !important;
     margin: 0 !important;
 }
-
-#mibewinvitationclose a {
+#mibew-invitation-close a {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif !important;
     font-size: 12px !important;
     font-weight: normal !important;
     color: white !important;
     margin: 0 4px 0 4px !important;
 }
-
-#mibewinvitationclose a, #mibewinvitationclose a:link, #mibewinvitationclose a:hover {
+#mibew-invitation-close a,
+#mibew-invitation-close a:link,
+#mibew-invitation-close a:hover {
     text-decoration: none !important;
 }
-
-#mibewinvitationpopup p {
+#mibew-invitation-popup p {
     padding: 2px !important;
     margin: 2px !important;
 }
-
-#mibewinvitationavatar {
+#mibew-invitation-avatar {
     margin: 2px 10px 5px 2px !important;
     cursor: pointer !important;
     float: right !important;
     max-width: 100px !important;
 }
-
-#mibewinvitationframe {
+#mibew-invitation-frame {
     width: 388px !important;
     height: 150px !important;
     overflow: hidden !important;
@@ -107,8 +103,7 @@
     -moz-border-radius: 5px !important;
     margin-bottom: 5px !important;
 }
-
-#mibewinvitationaccept {
+#mibew-invitation-accept {
     color: #495151 !important;
     font-size: 17px !important;
     font-weight: normal !important;
@@ -131,8 +126,7 @@
     float: right !important;
     padding: 5px 65px !important;
 }
-
-#mibewinvitationaccept:hover {
+#mibew-invitation-accept:hover {
     color: black !important;
     background: #c6e5f6 !important;
     background: -webkit-linear-gradient(#e9f6fc, #c6e5f6) !important;
