@@ -34,13 +34,13 @@
              * Default item view constructor.
              * @type Function
              */
-            itemView: Mibew.Views.Control,
+            childView: Mibew.Views.Control,
 
             /**
              * DOM element for collection items
              * @type String
              */
-            itemViewContainer: '.visitor-controls',
+            childViewContainer: '.visitor-controls',
 
             /**
              * CSS class name for view's DOM element

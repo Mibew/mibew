@@ -30,13 +30,13 @@
              * Default item view constructor.
              * @type Function
              */
-            itemView: Mibew.Views.QueuedThread,
+            childView: Mibew.Views.QueuedThread,
 
             /**
              * DOM element for collection items
              * @type String
              */
-            itemViewContainer: '#threads-container',
+            childViewContainer: '#threads-container',
 
             /**
              * Empty view constructor.
@@ -64,7 +64,7 @@
              * Pass some options to item view
              * @returns {Object} Options object
              */
-            itemViewOptions: function(model) {
+            childViewOptions: function(model) {
                 var page = Mibew.Objects.Models.page;
                 return {
                     tagName: page.get('threadTag'),
@@ -79,8 +79,8 @@
                 // Update time in timers
                 window.setInterval(_.bind(this.updateTimers, this), 2 * 1000);
                 // Register events
-                this.on('itemview:before:render', this.updateStyles, this);
-                this.on('composite:collection:rendered', this.updateTimers, this);
+                this.on('childview:before:render', this.updateStyles, this);
+                this.on('render:collection', this.updateTimers, this);
             },
 
             /**

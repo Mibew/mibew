@@ -254,7 +254,7 @@
     // Add module finalizer
     chat.addFinalizer(function() {
         // Close layout
-        Mibew.Objects.chatLayout.close();
+        Mibew.Objects.chatLayout.destroy();
 
 
         // Stop call functions periodically

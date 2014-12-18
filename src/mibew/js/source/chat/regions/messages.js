@@ -26,11 +26,11 @@
         {
             /**
              * Show view event handler. Register handler to view's
-             * 'after:item:added' event.
+             * 'add:child' event.
              * @param {Backbone.Marionette.ItemView} view View to show in region
              */
             onShow: function(view) {
-                view.on('after:item:added', this.scrollToBottom, this);
+                view.on('add:child', this.scrollToBottom, this);
             },
 
             /**

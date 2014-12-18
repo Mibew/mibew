@@ -21,7 +21,7 @@
     /**
      * Represents leave message page layout
      */
-    Mibew.Layouts.LeaveMessage = Backbone.Marionette.Layout.extend(
+    Mibew.Layouts.LeaveMessage = Backbone.Marionette.LayoutView.extend(
         /** @lends Mibew.Layouts.LeaveMessage.prototype */
         {
             /**

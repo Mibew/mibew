@@ -30,13 +30,13 @@
              * Default item view constructor.
              * @type Function
              */
-            itemView: Mibew.Views.Visitor,
+            childView: Mibew.Views.Visitor,
 
             /**
              * DOM element for collection items
              * @type String
              */
-            itemViewContainer: '#visitors-container',
+            childViewContainer: '#visitors-container',
 
             /**
              * Empty view constructor.
@@ -62,7 +62,7 @@
              * Pass some options to item view
              * @returns {Object} Options object
              */
-            itemViewOptions: function(model) {
+            childViewOptions: function(model) {
                 var page = Mibew.Objects.Models.page;
                 return {
                     tagName: page.get('visitorTag'),
@@ -77,7 +77,7 @@
                 // Update time in timers
                 window.setInterval(_.bind(this.updateTimers, this), 2 * 1000);
                 // Register events
-                this.on('composite:collection:rendered', this.updateTimers, this);
+                this.on('render:collection', this.updateTimers, this);
             },
 
             /**

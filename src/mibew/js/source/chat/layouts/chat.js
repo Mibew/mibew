@@ -21,7 +21,7 @@
     /**
      * Represents chat layout
      */
-    Mibew.Layouts.Chat = Backbone.Marionette.Layout.extend(
+    Mibew.Layouts.Chat = Backbone.Marionette.LayoutView.extend(
         /** @lends Mibew.Layouts.Chat.prototype */
         {
             /**
@@ -39,7 +39,7 @@
                 avatarRegion: '#avatar-region',
                 messagesRegion: {
                     selector: '#messages-region',
-                    regionType: Mibew.Regions.Messages
+                    regionClass: Mibew.Regions.Messages
                 },
                 statusRegion: '#status-region',
                 messageFormRegion: '#message-form-region'

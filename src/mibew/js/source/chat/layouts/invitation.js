@@ -21,7 +21,7 @@
     /**
      * Represents invitation layout
      */
-    Mibew.Layouts.Invitation = Backbone.Marionette.Layout.extend(
+    Mibew.Layouts.Invitation = Backbone.Marionette.LayoutView.extend(
         /** @lends Mibew.Layouts.Invitation.prototype */
         {
             /**
@@ -37,7 +37,7 @@
             regions: {
                 messagesRegion: {
                     selector: '#invitation-messages-region',
-                    regionType: Mibew.Regions.Messages
+                    regionClass: Mibew.Regions.Messages
                 }
             }
         }

@@ -28,7 +28,7 @@
              * Default item view constructor.
              * @type Function
              */
-            itemView: Mibew.Views.Status,
+            childView: Mibew.Views.Status,
 
             /**
              * Class name for view's DOM element

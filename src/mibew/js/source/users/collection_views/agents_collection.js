@@ -28,7 +28,7 @@
              * Default item view constructor.
              * @type Function
              */
-            itemView: Mibew.Views.Agent,
+            childView: Mibew.Views.Agent,
 
             /**
              * Class name for view's DOM element
@@ -49,7 +49,7 @@
              */
             initialize: function() {
                 // Register events
-                this.on('itemview:before:render', this.updateIndexes, this);
+                this.on('childview:before:render', this.updateIndexes, this);
             },
 
             /**

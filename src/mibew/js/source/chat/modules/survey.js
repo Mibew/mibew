@@ -50,7 +50,7 @@
     // Add module finalizer
     survey.addFinalizer(function() {
         // Close layout
-        Mibew.Objects.surveyLayout.close();
+        Mibew.Objects.surveyLayout.destroy();
 
         // Remove instance of survey form model
         delete Mibew.Objects.Models.surveyForm;

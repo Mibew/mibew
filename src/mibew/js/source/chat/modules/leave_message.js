@@ -58,8 +58,8 @@
         // When message sent form should be hide and description should be
         // changed
         models.leaveMessageForm.on('submit:complete', function() {
-            objs.leaveMessageLayout.leaveMessageFormRegion.close();
-            objs.leaveMessageLayout.descriptionRegion.close();
+            objs.leaveMessageLayout.leaveMessageFormRegion.empty();
+            objs.leaveMessageLayout.descriptionRegion.empty();
 
             objs.leaveMessageLayout.descriptionRegion.show(
                 new Mibew.Views.LeaveMessageSentDescription()
@@ -71,7 +71,7 @@
     // Add module finalizer
     leaveMessage.addFinalizer(function() {
         // Close layout
-        Mibew.Objects.leaveMessageLayout.close();
+        Mibew.Objects.leaveMessageLayout.destroy();
 
         // Remove instance of leaveMessage form model
         delete Mibew.Objects.Models.leaveMessageForm;

@@ -21,7 +21,7 @@
     /**
      * Represents survey layout
      */
-    Mibew.Layouts.Survey = Backbone.Marionette.Layout.extend(
+    Mibew.Layouts.Survey = Backbone.Marionette.LayoutView.extend(
         /** @lends Mibew.Layouts.Survey.prototype */
         {
             /**

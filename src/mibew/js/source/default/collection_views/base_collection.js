@@ -24,22 +24,22 @@
      * Mibew.Views.CompositeBase
      * @private
      * @param {Backbone.Model} item Collection item
-     * @param {Function} ItemViewType Default item view constructor
-     * @param {Object} itemViewOptions Additional item view options
+     * @param {Function} ChildViewType Default item view constructor
+     * @param {Object} childViewOptions Additional item view options
      * @returns Item view instance
      */
-    var buildItemView = function(item, ItemViewType, itemViewOptions) {
+    var buildChildView = function(item, ChildViewType, childViewOptions) {
         // Build options object
-        var options = _.extend({model: item}, itemViewOptions);
+        var options = _.extend({model: item}, childViewOptions);
         // Try to find special view for this model
         if (typeof item.getModelType != 'function') {
-            return new ItemViewType(options);
+            return new ChildViewType(options);
         }
         var modelType = item.getModelType();
         if (modelType && Mibew.Views[modelType]) {
             return new Mibew.Views[modelType](options);
         } else {
-            return new ItemViewType(options);
+            return new ChildViewType(options);
         }
     }
 
@@ -53,13 +53,13 @@
              * Default item view constructor.
              * @type Function
              */
-            itemView: Backbone.Marionette.ItemView,
+            childView: Backbone.Marionette.ItemView,
 
             /**
              * Return special contructor for an item view if it exists or the
              * default constructor otherwise.
              */
-            buildItemView: buildItemView
+            buildChildView: buildChildView
         }
     );
 
@@ -70,7 +70,7 @@
              * Return special contructor for an item view if it exists or the
              * default constructor otherwise.
              */
-            buildItemView: buildItemView
+            buildChildView: buildChildView
         }
     );
 

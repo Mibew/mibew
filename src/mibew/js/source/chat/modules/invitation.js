@@ -95,7 +95,7 @@
     // Add module finalizer
     invitation.addFinalizer(function() {
         // Close layout
-        Mibew.Objects.invitationLayout.close();
+        Mibew.Objects.invitationLayout.destroy();
 
 
         // Stop call functions periodically

@@ -33,7 +33,7 @@
             /**
              * View initializer
              * @param {Object} options Options object passed from
-             * {@link Mibew.Views.VisitorsCollection.prototype.itemViewOptions}
+             * {@link Mibew.Views.VisitorsCollection.prototype.childViewOptions}
              */
             initialize: function(options) {
                 this.tagName = options.tagName;
