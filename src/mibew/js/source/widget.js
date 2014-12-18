@@ -124,7 +124,7 @@ var Mibew = {};
         this.doLoadScript(
             this.requestURL
                 + '?' + this.getQuery(),
-            'responseScript'
+            'mibew-response-script'
         );
 
         // Clean up request data
@@ -248,7 +248,7 @@ var Mibew = {};
      */
     Mibew.Widget.prototype.cleanUpAfterRequest = function() {
         document.getElementsByTagName('head')[0]
-            .removeChild(document.getElementById('responseScript'));
+            .removeChild(document.getElementById('mibew-response-script'));
     }
 
     /**
