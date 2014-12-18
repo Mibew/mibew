@@ -27,22 +27,10 @@
             template: Handlebars.templates['users/threads_collection'],
 
             /**
-             * Default item view constructor.
-             * @type Function
-             */
-            childView: Mibew.Views.QueuedThread,
-
-            /**
              * DOM element for collection items
              * @type String
              */
             childViewContainer: '#threads-container',
-
-            /**
-             * Empty view constructor.
-             * @type Function
-             */
-            emptyView: Mibew.Views.NoThreads,
 
             /**
              * Class name for view's DOM element
@@ -58,6 +46,33 @@
                 'sort': 'render',
                 'sort:field': 'createSortField',
                 'add': 'threadAdded'
+            },
+
+            /**
+             * Returns default child view constructor.
+             *
+             * The function is used instead of "childView" property to provide
+             * an ability to override child view constructor without this class
+             * overriding.
+             *
+             * @param {Backbone.Model} model The model the view created for.
+             * @returns {Backbone.Marionette.ItemView}
+             */
+            getChildView: function(model) {
+                return Mibew.Views.QueuedThread;
+            },
+
+            /**
+             * Returns empty view constructor.
+             *
+             * The function is used instead of "emptyView" property to provide
+             * an ability to override empty view constructor without this class
+             * overriding.
+             *
+             * @returns {Backbone.Marionette.ItemView}
+             */
+            getEmptyView: function() {
+                return Mibew.Views.NoThreads;
             },
 
             /**

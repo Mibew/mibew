@@ -25,12 +25,6 @@
         /** @lends Mibew.Views.AgentsCollection.prototype */
         {
             /**
-             * Default item view constructor.
-             * @type Function
-             */
-            childView: Mibew.Views.Agent,
-
-            /**
              * Class name for view's DOM element
              * @type String
              */
@@ -42,6 +36,20 @@
              */
             collectionEvents: {
                 'sort add remove reset': 'render'
+            },
+
+            /**
+             * Returns default child view constructor.
+             *
+             * The function is used instead of "childView" property to provide
+             * an ability to override child view constructor without this class
+             * overriding.
+             *
+             * @param {Backbone.Model} model The model the view created for.
+             * @returns {Backbone.Marionette.ItemView}
+             */
+            getChildView: function(model) {
+                return Mibew.Views.Agent;
             },
 
             /**

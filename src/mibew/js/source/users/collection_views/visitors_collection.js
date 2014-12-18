@@ -27,22 +27,10 @@
             template: Handlebars.templates['users/visitors_collection'],
 
             /**
-             * Default item view constructor.
-             * @type Function
-             */
-            childView: Mibew.Views.Visitor,
-
-            /**
              * DOM element for collection items
              * @type String
              */
             childViewContainer: '#visitors-container',
-
-            /**
-             * Empty view constructor.
-             * @type Function
-             */
-            emptyView: Mibew.Views.NoVisitors,
 
             /**
              * Class name for view's DOM element
@@ -56,6 +44,33 @@
              */
             collectionEvents: {
                 'sort': 'render'
+            },
+
+            /**
+             * Returns default child view constructor.
+             *
+             * The function is used instead of "childView" property to provide
+             * an ability to override child view constructor without this class
+             * overriding.
+             *
+             * @param {Backbone.Model} model The model the view created for.
+             * @returns {Backbone.Marionette.ItemView}
+             */
+            getChildView: function(model) {
+                return Mibew.Views.Visitor;
+            },
+
+            /**
+             * Returns empty view constructor.
+             *
+             * The function is used instead of "emptyView" property to provide
+             * an ability to override empty view constructor without this class
+             * overriding.
+             *
+             * @returns {Backbone.Marionette.ItemView}
+             */
+            getEmptyView: function() {
+                return Mibew.Views.NoVisitors;
             },
 
             /**

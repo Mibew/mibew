@@ -25,16 +25,24 @@
         /** @lends Mibew.Views.StatusCollection.prototype */
         {
             /**
-             * Default item view constructor.
-             * @type Function
-             */
-            childView: Mibew.Views.Status,
-
-            /**
              * Class name for view's DOM element
              * @type String
              */
-            className: 'status-collection'
+            className: 'status-collection',
+
+            /**
+             * Returns default child view constructor.
+             *
+             * The function is used instead of "childView" property to provide
+             * an ability to override child view constructor without this class
+             * overriding.
+             *
+             * @param {Backbone.Model} model The model the view created for.
+             * @returns {Backbone.Marionette.ItemView}
+             */
+            getChildView: function(model) {
+                return Mibew.Views.Status;
+            }
         }
     );
 

@@ -25,16 +25,24 @@
         /** @lends Mibew.Views.ControlsCollection.prototype */
         {
             /**
-             * Default item view constructor.
-             * @type Function
-             */
-            childView: Mibew.Views.Control,
-
-            /**
              * Class name for view's DOM element
              * @type String
              */
-            className: 'controls-collection'
+            className: 'controls-collection',
+
+            /**
+             * Returns default child view constructor.
+             *
+             * The function is used instead of "childView" property to provide
+             * an ability to override child view constructor without this class
+             * overriding.
+             *
+             * @param {Backbone.Model} model The model the view created for.
+             * @returns {Backbone.Marionette.ItemView}
+             */
+            getChildView: function(model) {
+                return Mibew.Views.Control;
+            }
         }
     );
 
