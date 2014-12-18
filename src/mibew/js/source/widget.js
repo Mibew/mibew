@@ -460,9 +460,9 @@ var Mibew = {};
      * Accept invitation and open chat window
      */
     Mibew.Invitation.accept = function() {
-        if (document.getElementById('mibewAgentButton')) {
+        if (document.getElementById('mibew-agent-button')) {
             Mibew.Invitation.trigger('accept');
-            document.getElementById('mibewAgentButton').onclick();
+            document.getElementById('mibew-agent-button').onclick();
             Mibew.Invitation.hide();
         }
     }

@@ -49,7 +49,7 @@ class TextGenerator extends AbstractGenerator
         $link = HTML5\html('a', $message);
 
         $link->setAttributes(array(
-            'id' => 'mibewAgentButton',
+            'id' => 'mibew-agent-button',
             'href' =>  str_replace('&', '&amp;', $this->getChatUrl()),
             'target' => '_blank',
             'onclick' =>sprintf(
