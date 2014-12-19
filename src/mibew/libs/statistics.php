@@ -166,8 +166,6 @@ function calculate_thread_statistics()
     $db = Database::getInstance();
     $db_throw_exceptions = $db->throwExeptions(true);
 
-    $interval = Settings::get('statistics_aggregation_interval');
-
     try {
         // Start transaction
         $db->query('START TRANSACTION');
@@ -180,7 +178,7 @@ function calculate_thread_statistics()
         );
 
         $start = empty($result['start']) ? 0 : $result['start'];
-        $today = floor(time() / $interval) * $interval;
+        $today = floor(time() / STATISTICS_AGGREGATION_INTERVAL) * STATISTICS_AGGREGATION_INTERVAL;
 
         // Calculate statistics
         // Get base threads info
@@ -211,7 +209,7 @@ function calculate_thread_statistics()
             . "WHERE t.threadid = tmp.threadid "
                 . "AND (t.dtmcreated - :start) > :interval "
                 // Calculate statistics only for threads that older than
-                // statistics_aggregation_interval
+                // statistics aggregation interval
                 . "AND (:today - t.dtmcreated) > :interval "
                 // Ignore threads when operator does not start chat
                 . "AND t.dtmchatstarted <> 0 "
@@ -222,7 +220,7 @@ function calculate_thread_statistics()
             array(
                 ':start' => $start,
                 ':today' => $today,
-                ':interval' => $interval,
+                ':interval' => STATISTICS_AGGREGATION_INTERVAL,
                 ':not_invited' => Thread::INVITATION_NOT_INVITED,
                 ':invitation_accepted' => Thread::INVITATION_ACCEPTED,
                 ':kind_agent' => Thread::KIND_AGENT,
@@ -245,7 +243,7 @@ function calculate_thread_statistics()
             . "FROM {thread} "
             . "WHERE (dtmcreated - :start) > :interval "
                 // Calculate statistics only for threads that older than
-                // statistics_aggregation_interval
+                // statistics aggregation interval
                 . "AND (:today - dtmcreated) > :interval "
                 // Ignore threads when operator does not start chat
                 . "AND dtmchatstarted = 0 "
@@ -255,7 +253,7 @@ function calculate_thread_statistics()
             array(
                 ':start' => $start,
                 ':today' => $today,
-                ':interval' => $interval,
+                ':interval' => STATISTICS_AGGREGATION_INTERVAL,
                 ':not_invited' => Thread::INVITATION_NOT_INVITED,
             ),
             array('return_rows' => Database::RETURN_ALL_ROWS)
@@ -275,7 +273,7 @@ function calculate_thread_statistics()
             . "FROM {thread} "
             . "WHERE (dtmcreated - :start) > :interval "
                 // Calculate statistics only for threads that older than
-                // statistics_aggregation_interval
+                // statistics aggregation interval
                 . "AND (:today - dtmcreated) > :interval "
                 // Ignore threads when operator does not start chat
                 . "AND dtmchatstarted <> 0 "
@@ -285,7 +283,7 @@ function calculate_thread_statistics()
             array(
                 ':start' => $start,
                 ':today' => $today,
-                ':interval' => $interval,
+                ':interval' => STATISTICS_AGGREGATION_INTERVAL,
                 ':not_invited' => Thread::INVITATION_NOT_INVITED,
             ),
             array('return_rows' => Database::RETURN_ALL_ROWS)
@@ -308,7 +306,7 @@ function calculate_thread_statistics()
             . "FROM {thread} "
             . "WHERE (dtmcreated - :start) > :interval "
                 // Calculate statistics only for threads that older than
-                // statistics_aggregation_interval
+                // statistics aggregation interval
                 . "AND (:today - dtmcreated) > :interval "
                 . "AND (invitationstate = :invitation_accepted "
                     . "OR invitationstate = :invitation_rejected "
@@ -317,7 +315,7 @@ function calculate_thread_statistics()
             array(
                 ':start' => $start,
                 ':today' => $today,
-                ':interval' => $interval,
+                ':interval' => STATISTICS_AGGREGATION_INTERVAL,
                 ':invitation_accepted' => Thread::INVITATION_ACCEPTED,
                 ':invitation_rejected' => Thread::INVITATION_REJECTED,
                 ':invitation_ignored' => Thread::INVITATION_IGNORED,
@@ -402,8 +400,6 @@ function calculate_operator_statistics()
     $db = Database::getInstance();
     $db_throw_exceptions = $db->throwExeptions(true);
 
-    $interval = Settings::get('statistics_aggregation_interval');
-
     try {
         // Start transaction
         $db->query('START TRANSACTION');
@@ -416,7 +412,7 @@ function calculate_operator_statistics()
         );
 
         $start = empty($result['start']) ? 0 : $result['start'];
-        $today = floor(time() / $interval) * $interval;
+        $today = floor(time() / STATISTICS_AGGREGATION_INTERVAL) * STATISTICS_AGGREGATION_INTERVAL;
 
         // Caclculate statistics
         // Get base operator's info
@@ -434,7 +430,7 @@ function calculate_operator_statistics()
                 . "AND  m.threadid = t.threadid "
                 . "AND (m.dtmcreated - :start) > :interval "
                 // Calculate statistics only for messages that older
-                // statistics_aggregation_interval
+                // statistics aggregation interval
                 . "AND (:today - m.dtmcreated) > :interval "
                 // Ignore not accepted invitations
                 . "AND (t.invitationstate = :not_invited "
@@ -443,7 +439,7 @@ function calculate_operator_statistics()
             array(
                 ':start' => $start,
                 ':today' => $today,
-                ':interval' => $interval,
+                ':interval' => STATISTICS_AGGREGATION_INTERVAL,
                 ':not_invited' => Thread::INVITATION_NOT_INVITED,
                 ':invitation_accepted' => Thread::INVITATION_ACCEPTED,
                 ':kind_agent' => Thread::KIND_AGENT,
@@ -469,7 +465,7 @@ function calculate_operator_statistics()
             . "FROM {thread} "
             . "WHERE (dtmcreated - :start) > :interval "
                 // Calculate statistics only for threads that older than
-                // statistics_aggregation_interval
+                // statistics aggregation interval
                 . "AND (:today - dtmcreated) > :interval "
                 // Check if thread has related operator
                 . "AND agentid != 0 "
@@ -481,7 +477,7 @@ function calculate_operator_statistics()
             array(
                 ':start' => $start,
                 ':today' => $today,
-                ':interval' => $interval,
+                ':interval' => STATISTICS_AGGREGATION_INTERVAL,
                 ':invitation_accepted' => Thread::INVITATION_ACCEPTED,
                 ':invitation_rejected' => Thread::INVITATION_REJECTED,
                 ':invitation_ignored' => Thread::INVITATION_IGNORED,
@@ -561,8 +557,6 @@ function calculate_page_statistics()
     $db = Database::getInstance();
     $db_throw_exceptions = $db->throwExeptions(true);
 
-    $interval = Settings::get('statistics_aggregation_interval');
-
     try {
         // Start transaction
         $db->query('START TRANSACTION');
@@ -575,7 +569,7 @@ function calculate_page_statistics()
         );
 
         $start = empty($result['start']) ? 0 : $result['start'];
-        $today = floor(time() / $interval) * $interval;
+        $today = floor(time() / STATISTICS_AGGREGATION_INTERVAL) * STATISTICS_AGGREGATION_INTERVAL;
 
         $statistics = array();
 
@@ -593,7 +587,7 @@ function calculate_page_statistics()
             array(
                 ':start' => $start,
                 ':today' => $today,
-                ':interval' => $interval,
+                ':interval' => STATISTICS_AGGREGATION_INTERVAL,
             ),
             array('return_rows' => Database::RETURN_ALL_ROWS)
         );
@@ -632,7 +626,7 @@ function calculate_page_statistics()
             array(
                 ':start' => $start,
                 ':today' => $today,
-                ':interval' => $interval,
+                ':interval' => STATISTICS_AGGREGATION_INTERVAL,
                 ':not_invited' => Thread::INVITATION_NOT_INVITED,
                 ':invitation_accepted' => Thread::INVITATION_ACCEPTED,
                 ':kind_agent' => Thread::KIND_AGENT,
@@ -665,7 +659,7 @@ function calculate_page_statistics()
             array(
                 ':start' => $start,
                 ':today' => $today,
-                ':interval' => $interval,
+                ':interval' => STATISTICS_AGGREGATION_INTERVAL,
                 ':invitation_accepted' => Thread::INVITATION_ACCEPTED,
             ),
             array('return_rows' => Database::RETURN_ALL_ROWS)
@@ -695,7 +689,7 @@ function calculate_page_statistics()
             array(
                 ':start' => $start,
                 ':today' => $today,
-                ':interval' => $interval,
+                ':interval' => STATISTICS_AGGREGATION_INTERVAL,
                 ':invitation_rejected' => Thread::INVITATION_REJECTED,
             ),
             array('return_rows' => Database::RETURN_ALL_ROWS)
@@ -725,7 +719,7 @@ function calculate_page_statistics()
             array(
                 ':start' => $start,
                 ':today' => $today,
-                ':interval' => $interval,
+                ':interval' => STATISTICS_AGGREGATION_INTERVAL,
                 ':invitation_ignored' => Thread::INVITATION_IGNORED,
             ),
             array('return_rows' => Database::RETURN_ALL_ROWS)
@@ -782,7 +776,7 @@ function calculate_page_statistics()
                 . "AND calculated = 0"),
             array(
                 ':today' => $today,
-                ':interval' => $interval,
+                ':interval' => STATISTICS_AGGREGATION_INTERVAL,
             )
         );
 

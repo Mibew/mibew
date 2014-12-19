@@ -67,3 +67,8 @@ define('USERNAME_COOKIE_NAME', 'MIBEW_Data');
  * Mailbox of the current installation
  */
 define('MIBEW_MAILBOX', $configs['mailbox']);
+
+/**
+ * Represents statistics aggregation interval in seconds.
+ */
+define('STATISTICS_AGGREGATION_INTERVAL', 24 * 60 * 60);

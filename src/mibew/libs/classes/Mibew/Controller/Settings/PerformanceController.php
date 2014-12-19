@@ -57,7 +57,6 @@ class PerformanceController extends AbstractController
             'invitation_lifetime',
             'tracking_lifetime',
             'thread_lifetime',
-            'statistics_aggregation_interval',
             'max_uploaded_file_size',
         );
 
@@ -76,10 +75,6 @@ class PerformanceController extends AbstractController
         $page['formonehostconnections'] = $form->get('onehostconnections', $params['max_connections_from_one_host']);
         $page['formthreadlifetime'] = $form->get('threadlifetime', $params['thread_lifetime']);
         $page['formmaxuploadedfilesize'] = $form->get('maxuploadedfilesize', $params['max_uploaded_file_size']);
-        $page['formstatistics_aggregation_interval'] = $form->get(
-            'statistics_aggregation_interval',
-            $params['statistics_aggregation_interval']
-        );
 
         if (Settings::get('enabletracking')) {
             $page['formfrequencytracking'] = $form->get('frequencytracking', $params['updatefrequency_tracking']);
@@ -142,11 +137,6 @@ class PerformanceController extends AbstractController
         $params['thread_lifetime'] = $request->request->get('threadlifetime');
         if (!is_numeric($params['thread_lifetime'])) {
             $errors[] = getlocal("\"Thread lifetime\" field should be a number");
-        }
-
-        $params['statistics_aggregation_interval'] = $request->request->get('statistics_aggregation_interval');
-        if (!is_numeric($params['statistics_aggregation_interval'])) {
-            $errors[] = wrong_field("Statistics aggregation interval");
         }
 
         if (Settings::get('enabletracking')) {
