@@ -770,7 +770,7 @@ table.awaiting .no-visitors  {
 .dashboard-item:hover {
 }
 .dashboard-item a {
-    padding-top: 2px;
+    padding-top: 6px;
     padding-bottom: 10px;
     display: block;
 }
