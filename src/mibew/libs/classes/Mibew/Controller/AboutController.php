@@ -47,11 +47,11 @@ class AboutController extends AbstractController
             prepare_menu($this->getOperator())
         );
 
+        $this->getAssetManager()->attachJs('js/compiled/about.js');
         $this->getAssetManager()->attachJs(
-            'https://mibew.org/latestMibew.js',
+            'https://mibew.org/api/updates',
             AssetManagerInterface::ABSOLUTE_URL
         );
-        $this->getAssetManager()->attachJs('js/compiled/about.js');
 
         return $this->render('about', $page);
     }

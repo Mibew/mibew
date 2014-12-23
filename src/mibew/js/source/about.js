@@ -16,26 +16,25 @@
  * limitations under the License.
  */
 
-(function ($) {
-    var loadVersion = function () {
-        if (typeof (window.mibewLatest) == "undefined" || typeof (window.mibewLatest.version) == "undefined") {
+(function (Mibew, $) {
+    Mibew.updateVersion = function(data) {
+        if (!data.core || !data.core.stable) {
             return;
         }
 
-        var current = $("#current-version").html();
+        $(document).ready(function() {
+            var currentVersion = $("#current-version").html(),
+                core = data.core.stable;
 
-        if (current != window.mibewLatest.version) {
-            if (current < window.mibewLatest.version) {
-                $("#current-version").css("color", "red");
+            if (currentVersion != core.version) {
+                if (currentVersion < core.version) {
+                    $("#current-version").css("color", "red");
+                }
+                $("#latest-version").html(core.version + ", Download <a href=\"" + core.download + "\">" + core.title + "</a>");
+            } else {
+                $("#current-version").css("color", "green");
+                $("#latest-version").html(core.version);
             }
-            $("#latest-version").html(window.mibewLatest.version + ", Download <a href=\"" + window.mibewLatest.download + "\">" + window.mibewLatest.title + "</a>");
-        } else {
-            $("#current-version").css("color", "green");
-            $("#latest-version").html(window.mibewLatest.version);
-        }
+        });
     }
-
-    $(function () {
-        loadVersion();
-    });
-})(jQuery);
+})(Mibew, jQuery);
