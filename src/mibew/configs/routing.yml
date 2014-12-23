@@ -735,12 +735,6 @@ update_run:
         _access_check: Mibew\AccessControl\Check\PermissionsCheck
         _access_permissions: [CAN_ADMINISTRATE]
 
-updates:
-    path: /operator/updates
-    defaults:
-        _controller: Mibew\Controller\UpdatesController::indexAction
-        _access_check: Mibew\AccessControl\Check\LoggedInCheck
-
 ## Users (visitors avaiting page)
 users:
     path: /operator/users

@@ -75,6 +75,27 @@
                         <li>Traditional Chinese – Dawei; X Chen</li>
                         <li>Ukrainian – azzepis</li>
                     </ul>
+
+                    <h2>{{l10n "System information"}}</h2>
+                    <h3>{{l10n "You are using:"}}</h3>
+                    <div id="current-version">{{version}}</div>
+
+                    <br/>
+
+                    <h3>{{l10n "Latest version:"}}</h3>
+                    <div id="latest-version">{{l10n "unknown"}}</div>
+
+                    <br/>
+
+                    <h3>{{l10n "Installed localizations:"}}</h3>
+                    {{#each localizations}}
+                        {{this}}
+                    {{/each}}
+
+                    <br/><br/>
+
+                    <h3>{{l10n "Environment:"}}</h3>
+                    PHP {{phpVersion}} {{#each extensions}}{{@key}}{{#if loaded}}{{#if version}}/{{version}}{{/if}}{{else}}/absent{{/if}} {{/each}}
                 </div>
 
                 <div class="form-footer">

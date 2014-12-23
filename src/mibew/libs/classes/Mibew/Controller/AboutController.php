@@ -19,6 +19,7 @@
 
 namespace Mibew\Controller;
 
+use Mibew\Asset\AssetManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -36,12 +37,53 @@ class AboutController extends AbstractController
     {
         $page = array_merge(
             array(
+                'localizations' => get_available_locales(),
+                'phpVersion' => phpversion(),
+                'extensions' => $this->getExtensionsInfo(),
+                'version' => MIBEW_VERSION,
                 'title' => getlocal('About'),
                 'menuid' => 'about',
             ),
             prepare_menu($this->getOperator())
         );
 
+        $this->getAssetManager()->attachJs(
+            'https://mibew.org/latestMibew.js',
+            AssetManagerInterface::ABSOLUTE_URL
+        );
+        $this->getAssetManager()->attachJs('js/compiled/about.js');
+
         return $this->render('about', $page);
+    }
+
+    /**
+     * Builds info about required extensions.
+     *
+     * @return array Associative array of extensions info. Its keys are
+     * extensions names and the values are associative arrays with the following
+     * keys:
+     *  - "loaded": boolean, indicates it the extension was loaded or not.
+     *  - "version": string, extension version or boolean false if the version
+     *    cannot be obtained.
+     */
+    protected function getExtensionsInfo()
+    {
+        $required_extensions = array('PDO', 'pdo_mysql', 'gd', 'iconv');
+        $info = array();
+        foreach ($required_extensions as $ext) {
+            if (!extension_loaded($ext)) {
+                $info[$ext] = array(
+                    'loaded' => false,
+                    'version' => false,
+                );
+            } else {
+                $info[$ext] = array(
+                    'loaded' => true,
+                    'version' => phpversion($ext),
+                );
+            }
+        }
+
+        return $info;
     }
 }

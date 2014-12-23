@@ -17,19 +17,6 @@
  */
 
 (function ($) {
-    var loadNews = function () {
-        if (typeof (window.mibewNews) == "undefined" || typeof (window.mibewNews.length) == "undefined") {
-            return;
-        }
-
-        var str = "<div>";
-        for (var i = 0; i < window.mibewNews.length; i++) {
-            str += "<div class=\"news-title\"><a hre" + "f=\"" + window.mibewNews[i].link + "\">" + window.mibewNews[i].title + "</a>, <span class=\"small\">" + window.mibewNews[i].date + "</span></div>";
-            str += "<div class=\"news-text\">" + window.mibewNews[i].message + "</div>";
-        }
-        $("#news").html(str + "</div>");
-    }
-
     var loadVersion = function () {
         if (typeof (window.mibewLatest) == "undefined" || typeof (window.mibewLatest.version) == "undefined") {
             return;
@@ -49,7 +36,6 @@
     }
 
     $(function () {
-        loadNews();
         loadVersion();
     });
 })(jQuery);
