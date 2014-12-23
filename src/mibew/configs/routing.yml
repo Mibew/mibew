@@ -97,10 +97,6 @@ js_translation:
     defaults:
         _controller: Mibew\Controller\Localization\JsTranslationController::indexAction
 
-license:
-    path: /license
-    defaults: { _controller: Mibew\Controller\LicenseController::indexAction }
-
 widget_gateway:
     path: /widget
     defaults: { _controller: Mibew\Controller\WidgetController::indexAction }
