@@ -107,6 +107,13 @@ widget_gateway:
 
 # Operators' pages
 
+## About page
+about:
+    path: /operator/about
+    defaults:
+        _controller: Mibew\Controller\AboutController::indexAction
+        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+
 ## Banned visitors
 ban_add:
     path: /operator/ban/add

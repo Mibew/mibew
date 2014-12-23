@@ -154,6 +154,16 @@
 
             <div class="dashboard-item">
                 <div class="dashboard-item-content">
+                    <img src="{{asset "@CurrentStyle/images/dash/information.png"}}" alt=""/>
+                    <a href="{{route "about"}}">
+                        {{l10n "About"}}
+                    </a>
+                    {{l10n "View about page."}}
+                </div>
+            </div>
+
+            <div class="dashboard-item">
+                <div class="dashboard-item-content">
                     <img src="{{asset "@CurrentStyle/images/dash/exit.png"}}" alt=""/>
                     <a href="{{route "logout"}}">
                         {{l10n "Exit"}}

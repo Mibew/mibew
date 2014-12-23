@@ -899,6 +899,23 @@ table.awaiting .no-visitors  {
     margin-bottom: 1em;
 }
 
+/* about page */
+.about-page h2 {
+    font-size: 1.5em;
+    margin-bottom: 0.3em;
+}
+.about-page h3 {
+    font-size: 1.2em;
+    margin-bottom: 0.2em;
+}
+.about-page ul {
+    padding-left: 2em;
+    margin-bottom: 1em;
+}
+.about-page li {
+    list-style-type: disc;
+}
+
 /* pagination controls */
 .pagination .next-page,
 .pagination .prev-page {
@@ -959,4 +976,8 @@ table.awaiting .no-visitors  {
 }
 .rtl input.search-button {
     background: url("../images/buttons/search_rtl.png") top left no-repeat;
+}
+.rtl .about-page ul {
+    padding-left: 0;
+    padding-right: 2em;
 }
