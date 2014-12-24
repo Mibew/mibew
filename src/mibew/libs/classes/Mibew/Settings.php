@@ -68,7 +68,6 @@ class Settings
         // Set default values
         $this->settings = array(
             'dbversion' => 0,
-            'featuresversion' => 0,
             'title' => 'Your Company',
             'hosturl' => 'http://mibew.org',
             'logo' => '',

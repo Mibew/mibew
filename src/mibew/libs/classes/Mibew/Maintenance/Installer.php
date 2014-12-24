@@ -428,7 +428,7 @@ class Installer
                     'INSERT INTO {config} (vckey, vcvalue) VALUES (:key, :value)',
                     array(
                         ':key' => 'dbversion',
-                        ':value' => DB_VERSION,
+                        ':value' => MIBEW_VERSION,
                     )
                 );
             }
@@ -625,7 +625,7 @@ class Installer
      */
     protected function tablesNeedUpdate()
     {
-        return version_compare($this->getDatabaseVersion(), DB_VERSION, '<');
+        return version_compare($this->getDatabaseVersion(), MIBEW_VERSION, '<');
     }
 
     /**

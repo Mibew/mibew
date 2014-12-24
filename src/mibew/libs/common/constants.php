@@ -23,16 +23,6 @@
 define('MIBEW_VERSION', '2.0.0-beta.1');
 
 /**
- * Current version of database structure
- */
-define('DB_VERSION', '2.0.0-beta.1');
-
-/**
- * Current version of implemented features
- */
-define('FEATURES_VERSION', '2.0.0-beta.1');
-
-/**
  * Prefix for session variables.
  * Provide an ability to instal several mibew instances on one server.
  */

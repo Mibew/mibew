@@ -52,11 +52,8 @@ class HomeController extends AbstractController
         $page = array(
             'version' => MIBEW_VERSION,
             'localeLinks' => get_locale_links(),
-            'needUpdate' => version_compare(Settings::get('dbversion'), DB_VERSION, '<'),
+            'needUpdate' => version_compare(Settings::get('dbversion'), MIBEW_VERSION, '<'),
             'profilePage' => $this->generateUrl('operator_edit', array('operator_id' => $operator['operatorid'])),
-            'updateWizard' => $this->generateUrl('update'),
-            'newFeatures' => Settings::get('featuresversion') != FEATURES_VERSION,
-            'featuresPage' => $this->generateUrl('settings_features'),
             'isOnline' => $is_online,
             'warnOffline' => true,
             'title' => getlocal('Home'),

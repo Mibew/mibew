@@ -43,10 +43,6 @@ class FeaturesController extends AbstractController
             'errors' => array(),
         );
 
-        if (Settings::get('featuresversion') != FEATURES_VERSION) {
-            Settings::set('featuresversion', FEATURES_VERSION);
-        }
-
         // Load all needed options and fill form with them.
         $options = $this->getOptionsList();
         foreach ($options as $opt) {

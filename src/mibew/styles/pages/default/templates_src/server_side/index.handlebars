@@ -10,13 +10,8 @@
     {{#override "content"}}
         <br/>
         {{#if needUpdate}}
-            <div id="form-message">{{l10n "Please run the <a href=\"{0}\">Update wizard</a> to adjust your database." updateWizard}}</div>
+            <div id="form-message">{{l10n "Please run the <a href=\"{0}\">Update wizard</a> to adjust your database." (route "update")}}</div>
             <br/>
-        {{else}}
-            {{#if newFeatures}}
-                <div><div id="form-message">{{l10n "Congratulations! You now have Mibew Messenger {1} installed. Turn on more features on the <a href=\"{0}\">Optional services</a> page." featuresPage mibewVersion}}</div></div>
-                <br/>
-            {{/if}}
         {{/if}}
 
         <div id="dashboard">
