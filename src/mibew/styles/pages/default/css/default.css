@@ -143,6 +143,10 @@ img.left {
 img.logo {
     margin-top: 2px;
 }
+#header img.logo {
+    width: 32px;
+    height: 32px;
+}
 #header h1 {
     font-size: 2em;
     line-height: 32px;
