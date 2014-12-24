@@ -85,10 +85,15 @@
     padding: 2px !important;
     margin: 2px !important;
 }
-#mibew-invitation-avatar {
+#mibew-invitation-avatar-wrapper {
     margin: 2px 10px 5px 2px !important;
     cursor: pointer !important;
     float: right !important;
+    max-width: 100px !important;
+    max-height: 100px !important;
+    overflow: hidden;
+}
+#mibew-invitation-avatar {
     max-width: 100px !important;
 }
 #mibew-invitation-frame {

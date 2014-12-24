@@ -396,19 +396,21 @@ var Mibew = {};
             + '<a href="javascript:void(0);" onclick="Mibew.Invitation.reject();">'
             + '&times;</a></div>';
 
+        // Add operator avatar
+        if (avatarUrl) {
+            popuptext += '<div id="mibew-invitation-avatar-wrapper">'
+                + '<img id="mibew-invitation-avatar" src="' + avatarUrl
+                + '" title="' + operatorName
+                + '" alt="' + operatorName
+                + '" onclick="Mibew.Invitation.accept();" />'
+                + '</div>';
+        }
+
         // Add operator name
         if (operatorName) {
             popuptext += '<h1 onclick="Mibew.Invitation.accept();">'
                 + operatorName
                 + '</h1>';
-        }
-
-        // Add operator avatar
-        if (avatarUrl) {
-            popuptext += '<img id="mibew-invitation-avatar" src="' + avatarUrl
-                + '" title="' + operatorName
-                + '" alt="' + operatorName
-                + '" onclick="Mibew.Invitation.accept();" />';
         }
 
         // Broadcast message from the thread related with invitation into iframe
