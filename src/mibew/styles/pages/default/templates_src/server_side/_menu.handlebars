@@ -38,9 +38,6 @@
                     <li{{#ifEqual menuid "mail_templates"}} class="active"{{/ifEqual}}><a href="{{route "mail_templates"}}">{{l10n "Mail templates"}}</a></li>
                     <li{{#ifEqual menuid "about"}} class="active"{{/ifEqual}}><a href="{{route "about"}}">{{l10n "About"}}</a></li>
                 {{/if}}
-                {{#if currentopid}}
-                    <li{{#ifEqual menuid "profile"}} class="active"{{/ifEqual}}><a href="{{route "operator_edit" operator_id=currentopid}}">{{l10n "Profile"}}</a></li>
-                {{/if}}
             </ul>
         </li>
         <li>

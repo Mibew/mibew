@@ -31,7 +31,15 @@
             </div>
 
             {{#if operator}}
-                <div id="path"><p>{{l10n "You are {0}" operator}}</p></div>
+                <div id="path">
+                    <p>
+                        {{#if currentopid}}
+                            {{{l10n "You are <a href=\"{0}\">{1}</a>" (route "operator_edit" operator_id=currentopid) operator}}}
+                        {{else}}
+                            {{{l10n "You are <a href=\"{0}\">{1}</a>" "#" operator}}}
+                        {{/if}}
+                    </p>
+                </div>
             {{else}}
                 {{#if show_small_login}}
                     <div id="login-small-pane">
