@@ -36,13 +36,13 @@
                     <li{{#ifEqual menuid "styles"}} class="active"{{/ifEqual}}><a href="{{route "style_preview" type="page"}}">{{l10n "Styles"}}</a></li>
                     <li{{#ifEqual menuid "translation"}} class="active"{{/ifEqual}}><a href="{{route "translations"}}">{{l10n "Localize"}}</a></li>
                     <li{{#ifEqual menuid "mail_templates"}} class="active"{{/ifEqual}}><a href="{{route "mail_templates"}}">{{l10n "Mail templates"}}</a></li>
-                    <li{{#ifEqual menuid "about"}} class="active"{{/ifEqual}}><a href="{{route "about"}}">{{l10n "About"}}</a></li>
                 {{/if}}
             </ul>
         </li>
         <li>
             <h2>{{l10n "Other"}}</h2>
             <ul class="submenu">
+                <li{{#ifEqual menuid "about"}} class="active"{{/ifEqual}}><a href="{{route "about"}}">{{l10n "About"}}</a></li>
                 <li><a href="{{route "logout"}}">{{l10n "Exit"}}</a></li>
             </ul>
         </li>
