@@ -411,6 +411,12 @@ input.field-input {
     margin: -10px 2px 10px;
     color: #515151;
 }
+#form-message img.warning {
+    height: 24px;
+    width: 24px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
 #offline-warning {
     border: 1px solid #4cd496;
     background-color: #e7f9f1;

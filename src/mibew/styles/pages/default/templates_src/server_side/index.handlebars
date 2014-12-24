@@ -10,7 +10,7 @@
     {{#override "content"}}
         <br/>
         {{#if needUpdate}}
-            <div id="form-message">{{l10n "Please run the <a href=\"{0}\">Update wizard</a> to adjust your database." (route "update")}}</div>
+            <div id="form-message"><img src="{{asset "@CurrentStyle/images/dash/warning.png"}}" alt="" class="warning" /> {{l10n "Please run the <a href=\"{0}\">Update wizard</a> to adjust your database." (route "update")}}</div>
             <br/>
         {{/if}}
 
