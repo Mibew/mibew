@@ -392,8 +392,8 @@ class ThreadProcessor extends ClientSideProcessor implements
         } else {
             $is_typing = abs($thread->lastPingUser - time()) < Settings::get('connection_timeout')
                 && $thread->userTyping;
-            // Operators can always post messages.
-            $can_post = true;
+            // Operators can post messages only to own threads.
+            $can_post = ($operator['operatorid'] == $thread->agentId);
         }
 
         return array(
@@ -462,8 +462,8 @@ class ThreadProcessor extends ClientSideProcessor implements
         // Get operator's array
         if (!$args['user']) {
             $operator = $this->checkOperator();
-            // Operators can always post messages.
-            $can_post = true;
+            // Operators can post messages only to own threads.
+            $can_post = ($operator['operatorid'] == $thread->agentId);
         } else {
             // Users can post messages only when a thread is open.
             $can_post = $thread->state != Thread::STATE_CLOSED;
