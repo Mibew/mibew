@@ -38,20 +38,20 @@ class OperatorCodeGenerator extends AbstractGenerator
                 ("if(navigator.userAgent.toLowerCase().indexOf('opera') != -1 "
                     . "&amp;&amp; window.event.preventDefault) window.event.preventDefault();"
                 . "this.newWindow = window.open(%s + '&amp;operator_code=' "
-                    . "+ document.getElementById('mibewOperatorCodeField').value, 'mibew', '%s');"
+                    . "+ document.getElementById('mibew-operator-code-field').value, 'mibew', '%s');"
                 . "this.newWindow.focus();"
                 . "this.newWindow.opener=window;"
                 . "return false;"),
                 $this->getChatUrlForJs(),
                 $this->getPopupOptions()
             ),
-            'id' => 'mibewOperatorCodeForm',
+            'id' => 'mibew-operator-code-form',
         ));
         $form->addChild(HTML5\html(
             'input',
             array(
                 'type' => 'text',
-                'id' => 'mibewOperatorCodeField',
+                'id' => 'mibew-operator-code-field',
             )
         ));
 
