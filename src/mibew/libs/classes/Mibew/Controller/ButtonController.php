@@ -39,7 +39,13 @@ class ButtonController extends AbstractController
     {
         $referer = $request->server->get('HTTP_REFERER', '');
 
-        if ($referer && isset($_SESSION[SESSION_PREFIX . 'threadid'])) {
+        // We need to display message about visited page only if the visitor
+        // really change it.
+        $new_page = empty($_SESSION[SESSION_PREFIX . 'last_visited_page'])
+            || $_SESSION[SESSION_PREFIX . 'last_visited_page'] != $referer;
+
+        // Display message about page change
+        if ($referer && isset($_SESSION[SESSION_PREFIX . 'threadid']) && $new_page) {
             $thread = Thread::load($_SESSION[SESSION_PREFIX . 'threadid']);
             if ($thread && $thread->state != Thread::STATE_CLOSED) {
                 $msg = getlocal(
@@ -51,6 +57,7 @@ class ButtonController extends AbstractController
                 $thread->postMessage(Thread::KIND_FOR_AGENT, $msg);
             }
         }
+        $_SESSION[SESSION_PREFIX . 'last_visited_page'] = $referer;
 
         $image = $request->query->get('i', '');
         if (!preg_match("/^\w+$/", $image)) {
