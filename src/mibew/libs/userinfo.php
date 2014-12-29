@@ -17,38 +17,18 @@
  * limitations under the License.
  */
 
-// Import namespaces and classes of the core
 use Mibew\Settings;
+use UAParser\Parser as UAParser;
 
 function get_user_agent_version($user_agent)
 {
-    $known_agents = get_known_user_agents();
-    if (is_array($known_agents)) {
-        $user_agent = strtolower($user_agent);
-        foreach ($known_agents as $agent) {
-            if (strstr($user_agent, $agent)) {
-                if (preg_match("/" . $agent . "[\\s\/]?(\\d+(\\.\\d+(\\.\\d+(\\.\\d+)?)?)?)/", $user_agent, $matches)) {
-                    $ver = $matches[1];
-                    if ($agent == 'safari') {
-                        if (preg_match("/version\/(\\d+(\\.\\d+(\\.\\d+)?)?)/", $user_agent, $matches)) {
-                            $ver = $matches[1];
-                        } else {
-                            $ver = "1 or 2 (build " . $ver . ")";
-                        }
-                        if (preg_match("/mobile\/(\\d+(\\.\\d+(\\.\\d+)?)?)/", $user_agent, $matches)) {
-                            $user_agent = "iPhone " . $matches[1] . " ($agent $ver)";
-                            break;
-                        }
-                    }
+    static $parser = null;
 
-                    $user_agent = ucfirst($agent) . " " . $ver;
-                    break;
-                }
-            }
-        }
+    if (is_null($parser)) {
+        $parser = UAParser::create();
     }
 
-    return $user_agent;
+    return $parser->parse($user_agent)->ua->toString();
 }
 
 function get_user_addr($addr)
