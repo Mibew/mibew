@@ -95,12 +95,6 @@ class OperatorChatController extends AbstractController
         $operator = $this->getOperator();
         $thread_id = $request->attributes->getInt('thread_id');
 
-        // Check operator's browser level because old browsers aren't supported.
-        $remote_level = get_remote_level($request->headers->get('User-Agent'));
-        if ($remote_level != 'ajaxed') {
-            return $this->showErrors(array(getlocal('Old browser is used, please update it')));
-        }
-
         // Check if the thread can be loaded.
         $thread = Thread::load($thread_id);
         if (!$thread || !isset($thread->lastToken)) {
