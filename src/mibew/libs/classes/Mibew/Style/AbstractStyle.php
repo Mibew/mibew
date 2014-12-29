@@ -101,7 +101,7 @@ abstract class AbstractStyle
             // cache the result.
             $loaded_config = $this->getConfigParser()->parse(file_get_contents($config_file));
             $default_config = $this->getDefaultConfigurations();
-            $this->cachedConfigurations = $loaded_config + $default_config;
+            $this->cachedConfigurations = array_replace_recursive($default_config, $loaded_config);
         }
 
         return $this->cachedConfigurations;
