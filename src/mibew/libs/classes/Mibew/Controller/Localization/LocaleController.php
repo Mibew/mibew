@@ -119,7 +119,7 @@ class LocaleController extends AbstractController
             if (count($available_locales) > 1) {
                 disable_locale($locale);
             } else {
-                $errors[] = getlocal('page_locales.cannot_disable_all');
+                $errors[] = getlocal('Cannot disable all locales.');
             }
         }
 
