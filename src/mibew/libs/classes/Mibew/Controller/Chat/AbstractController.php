@@ -105,9 +105,9 @@ abstract class AbstractController extends BaseAbstractController
                 'mibewBasePath' => $request->getBasePath(),
                 'mibewBaseUrl' => $request->getBaseUrl(),
                 'stylePath' => $request->getBasePath() . '/' . $this->getStyle()->getFilesPath(),
-                'company' => $options['company'],
-                'mibewHost' => $options['mibewHost'],
-                'title' => $options['page.title'],
+                'company' => isset($options['company']) ? $options['company'] : '',
+                'mibewHost' => isset($options['mibewHost']) ? $options['mibewHost'] : '',
+                'title' => isset($options['page.title']) ? $options['page.title'] : '',
             ),
             'startFrom' => $options['startFrom'],
         );
