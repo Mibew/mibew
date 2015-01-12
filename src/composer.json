@@ -29,7 +29,7 @@
         "canteen/html5": "1.1.*",
         "vierbergenlars/php-semver": "3.0.*",
         "swiftmailer/swiftmailer": "5.3.*",
-        "ua-parser/ua-parser": "dev-master#c95b59bc18e5f0a2a44ae145b6f32561c7e4fc25"
+        "ua-parser/uap-php": "3.4.*"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "1.*"
@@ -37,12 +37,6 @@
     "config": {
         "vendor-dir": "mibew/vendor"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/ua-parser/uap-php"
-        }
-    ],
     "scripts": {
         "post-install-cmd": "php mibew/vendor/bin/uaparser.php ua-parser:update"
     }
