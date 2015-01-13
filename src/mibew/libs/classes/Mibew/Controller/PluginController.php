@@ -205,7 +205,7 @@ class PluginController extends AbstractController
             $plugins[] = array(
                 'name' => $plugin_name,
                 'version' => $plugin->isInstalled() ? $plugin->getInstalledVersion() : $plugin->getVersion(),
-                'dependencies' => $plugin->getDependencies(),
+                'dependencies' => array_merge($plugin->getSystemRequirements(), $plugin->getDependencies()),
                 'enabled' => $plugin->isEnabled(),
                 'installed' => $plugin->isInstalled(),
                 'needsUpdate' => $plugin->needsUpdate(),

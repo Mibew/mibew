@@ -83,6 +83,39 @@ interface PluginInterface
     public static function getDependencies();
 
     /**
+     * Returns list of plugin's system requirements.
+     *
+     * Each key in the array is a string with a requirement name. Each value is
+     * plugin version constrain.
+     *
+     * A requirement name can be on of the following:
+     *  - "mibew": Mibew core;
+     *  - "php": PHP used in the system;
+     *  - "ext-*": name of a PHP extension.
+     *
+     * A constrain can be in one of the following
+     * formats:
+     *  - "1.2.3": exact version number;
+     *  - ">1.2.3": grater than a specific version;
+     *  - ">=1.2.3": greater than a specific version or equal to it;
+     *  - "<1.2.3": less than a specific version;
+     *  - "<=1.2.3": less than a specific version or equal to it;
+     *  - "1.2.3 - 2.3.4": equals to ">=1.2.3 <=2.3.4";
+     *  - "~1.2.3": equivalent for ">=1.2.3 <1.3.0";
+     *  - "~1.2": equivalent for ">=1.2.0 <2.0.0";
+     *  - "^1.2.3" equivalent for ">=1.2.3 <2.0.0";
+     *  - "^0.1.2" equivalent for ">=0.1.2 <0.2.0";
+     *  - "1.2.x": equivalent for ">=1.2.0 <2.0.0";
+     *  - "1.x": equivalent for ">=1.0.0 <2.0.0";
+     *
+     * If the plugin have no system requirements an empty array should be
+     * returned.
+     *
+     * @return array List of plugin's requirements.
+     */
+    public static function getSystemRequirements();
+
+    /**
      * Returns some info about plugin such as human-readable name, description,
      * version, etc.
      *

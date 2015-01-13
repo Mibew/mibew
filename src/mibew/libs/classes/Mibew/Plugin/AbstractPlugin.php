@@ -137,6 +137,20 @@ abstract class AbstractPlugin
     }
 
     /**
+     * Implementation of
+     * {@link \Mibew\Plugin\PluginInterface::getSystemRequirements()}.
+     *
+     * Returns an empty array to tell the Plugin Manager that the plugin has
+     * no system requirements.
+     *
+     * @return array
+     */
+    public static function getSystemRequirements()
+    {
+        return array();
+    }
+
+    /**
      * Implementation of {@link \Mibew\Plugin\PluginInterface::getInfo()}.
      *
      * Returns an empty array.

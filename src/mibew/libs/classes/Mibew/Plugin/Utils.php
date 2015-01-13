@@ -116,6 +116,34 @@ class Utils
     }
 
     /**
+     * Returns list of environment items.
+     *
+     * @return array List of environment items. Each key is a string with one of
+     * the following value:
+     *  - "mibew": represents Mibew core;
+     *  - "php": represents PHP installed in the system;
+     *  - "ext-*": represents one of PHP extensions.
+     * Each value of the array is version of the item.
+     */
+    public static function getSystemInfo()
+    {
+        static $system = null;
+
+        if (is_null($system)) {
+            $system = array(
+                'php' => phpversion(),
+                'mibew' => MIBEW_VERSION,
+            );
+
+            foreach (get_loaded_extensions() as $ext) {
+                $system['ext-' . str_replace(' ', '-', $ext)] = phpversion($ext) ?: '0.0.0';
+            }
+        }
+
+        return $system;
+    }
+
+    /**
      * This class should not be instantiated
      */
     private function __construct()

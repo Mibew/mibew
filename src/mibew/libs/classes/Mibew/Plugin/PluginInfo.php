@@ -166,6 +166,18 @@ class PluginInfo
     }
 
     /**
+     * Returns system requirements of the plugin.
+     *
+     * @return array Requirements list. See
+     *   {@link \Mibew\Plugin\PluginInterface::getSystemRequirements()} for
+     *   details of the array structure.
+     */
+    public function getSystemRequirements()
+    {
+        return call_user_func(array($this->getClass(), 'getSystemRequirements'));
+    }
+
+    /**
      * Returns list of dependent plugins.
      *
      * @return array List of plugins names.
@@ -229,6 +241,31 @@ class PluginInfo
     }
 
     /**
+     * Checks if the plugin has unsatisfied system requirements.
+     *
+     * @return bool
+     */
+    public function hasUnsatisfiedSystemRequirements()
+    {
+        $system_info = Utils::getSystemInfo();
+
+        foreach ($this->getSystemRequirements() as $lib => $required_version) {
+            // Check if the library exists
+            if (!isset($system_info[$lib])) {
+                return true;
+            }
+
+            // Check exact version of the library
+            $version_constrain = new VersionExpression($required_version);
+            if (!$version_constrain->satisfiedBy(new Version($system_info[$lib]))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Checks if the plugin can be enabled.
      *
      * @return boolean
@@ -237,6 +274,10 @@ class PluginInfo
     {
         if ($this->isEnabled()) {
             // The plugin cannot be enabled twice
+            return false;
+        }
+
+        if ($this->hasUnsatisfiedSystemRequirements()) {
             return false;
         }
 

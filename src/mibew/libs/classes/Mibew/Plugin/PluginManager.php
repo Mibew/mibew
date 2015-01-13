@@ -140,6 +140,17 @@ class PluginManager
                 continue;
             }
 
+            if ($plugin_info->hasUnsatisfiedSystemRequirements()) {
+                trigger_error(
+                    sprintf(
+                        'Plugin "%s" has unsatisfied system requirements!',
+                        $plugin_info->getName()
+                    ),
+                    E_USER_WARNING
+                );
+                continue;
+            }
+
             $graph->addPlugin($plugin_info);
         }
 
