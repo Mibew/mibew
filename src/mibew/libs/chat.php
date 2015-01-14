@@ -358,7 +358,7 @@ function setup_chatview(Thread $thread)
     $chat_style = new ChatStyle(ChatStyle::getCurrentStyle());
     $style_config = $chat_style->getConfigurations();
     $data['chat']['windowsParams']['mail']
-        = $style_config['mail']['window_params'];
+        = $style_config['mail']['window'];
 
     // Load core style options
     $page_style = new PageStyle(PageStyle::getCurrentStyle());

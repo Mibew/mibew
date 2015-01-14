@@ -8,8 +8,11 @@ chat:
         resizable: true
 
 mail:
-    # window_param use as param string in JavaScript window.open method
-    window_params: "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=603,height=254,resizable=0"
+    # These params are used for send mail windows opened via JavaScript's window.open.
+    window:
+        height: 254
+        width: 603
+        resizable: false
 
 # Screenshots section describe all screenshots shiped with style
 # Params names should be equals to file names without extension. Pictures
