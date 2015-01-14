@@ -20,7 +20,13 @@ tracked:
         width: 640
         height: 480
         resizable: true
-    visitor_window_params: "toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1"
+    # These params are used for visitor's track windows opened via JavaScript's
+    # window.open method.
+    visitor_window:
+        width: 640
+        height: 480
+        scrollbars: true
+        resizable: true
 
 ban:
     # These params are used for history windows opened via JavaScript's

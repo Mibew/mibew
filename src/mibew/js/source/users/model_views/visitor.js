@@ -101,7 +101,7 @@
                         + '?visitor='
                         + visitorId,
                     'ImTracked' + visitorId,
-                    page.get('trackedVisitorWindowParams')
+                    Mibew.Utils.buildWindowParams(page.get('trackedVisitorWindowParams'))
                 );
             },
 

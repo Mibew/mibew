@@ -127,7 +127,7 @@ class PageStyle extends AbstractHandlebarsPoweredStyle implements StyleInterface
             ),
             'tracked' => array(
                 'user_window' => array(),
-                'visitor_window_params' => '',
+                'visitor_window' => array(),
             ),
             'ban' => array(
                 'window' => array(),
