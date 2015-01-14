@@ -51,7 +51,7 @@
                 var link = this.model.get('link');
                 var page = Mibew.Objects.Models.page;
                 if (link) {
-                    var winParams = Mibew.Utils.buildWindowOptions(this.model.get('windowParams'));
+                    var winParams = Mibew.Utils.buildWindowParams(this.model.get('windowParams'));
 
                     var style = page.get('style');
                     var styleArg = '';

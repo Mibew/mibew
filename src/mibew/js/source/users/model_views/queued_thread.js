@@ -193,7 +193,7 @@
                         + '/' + threadId
                         + (viewOnly ? '?viewonly=true': ''),
                     'ImCenter' + threadId,
-                    Mibew.Utils.buildWindowOptions(page.get('chatWindowParams'))
+                    Mibew.Utils.buildWindowParams(page.get('chatWindowParams'))
                 );
             },
 

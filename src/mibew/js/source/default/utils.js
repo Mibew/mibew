@@ -88,11 +88,11 @@
     }
 
     /**
-     * Builds options string for window.open method.
+     * Builds params string for window.open method.
      * @param {Object} options List of options to use in the target string.
      * @returns {String}
      */
-    Mibew.Utils.buildWindowOptions = function(options) {
+    Mibew.Utils.buildWindowParams = function(options) {
         var allOptions = _.defaults({}, options, {
             toolbar: false,
             scrollbars: false,
