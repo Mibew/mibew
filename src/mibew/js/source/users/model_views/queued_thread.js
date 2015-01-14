@@ -232,7 +232,7 @@
                             ? ban.id + '/edit'
                             : 'add?thread='+ thread.id),
                     'ImBan' + ban.id,
-                    page.get('banWindowParams')
+                    Mibew.Utils.buildWindowParams(page.get('banWindowParams'))
                 );
             },
 

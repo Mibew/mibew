@@ -19,8 +19,12 @@ tracked:
     visitor_window_params: "toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1"
 
 ban:
-    # window_param use as param string in JavaScript window.open method
-    window_params: "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=720,height=480,resizable=1"
+    # These params are used for history windows opened via JavaScript's
+    # window.open method.
+    window:
+        width: 720
+        height: 480
+        resizable: true
 
 # Screenshots section describe all screenshots shiped with style
 # Params names should be equals to file names without extension. Pictures

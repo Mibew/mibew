@@ -128,7 +128,7 @@ class UsersController extends AbstractController
                     'geoWindowParams' => Settings::get('geolinkparams'),
                     'trackedUserWindowParams' => $page_style_config['tracked']['user_window_params'],
                     'trackedVisitorWindowParams' => $page_style_config['tracked']['visitor_window_params'],
-                    'banWindowParams' => $page_style_config['ban']['window_params'],
+                    'banWindowParams' => $page_style_config['ban']['window'],
                     'inviteWindowParams' => $chat_style_config['chat']['window'],
                 ),
             ))
