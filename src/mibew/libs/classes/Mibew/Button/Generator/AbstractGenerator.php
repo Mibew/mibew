@@ -178,8 +178,8 @@ abstract class AbstractGenerator implements GeneratorInterface
 
         return sprintf(
             "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=%u,height=%u,resizable=%u",
-            $chat_configurations['chat']['window']['width'],
-            $chat_configurations['chat']['window']['height'],
+            $chat_configurations['chat']['window']['width'] ?: 640,
+            $chat_configurations['chat']['window']['height'] ?: 480,
             $chat_configurations['chat']['window']['resizable'] ? '1' : '0'
         );
     }
