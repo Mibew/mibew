@@ -1,8 +1,11 @@
 # This file determines some core styles options
 
 history:
-    # window_param use as param string in JavaScript window.open method
-    window_params: "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=720,height=560,resizable=1"
+    # These params are used for history windows opened via JavaScript's window.open.
+    window:
+        width: 720
+        height: 560
+        resizable: true
 
 users:
     # Use as wrap tag for the thread element

@@ -364,7 +364,7 @@ function setup_chatview(Thread $thread)
     $page_style = new PageStyle(PageStyle::getCurrentStyle());
     $style_config = $page_style->getConfigurations();
     $data['chat']['windowsParams']['history']
-        = $style_config['history']['window_params'];
+        = $style_config['history']['window'];
 
     $data['startFrom'] = 'chat';
 

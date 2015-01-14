@@ -119,7 +119,7 @@ class PageStyle extends AbstractHandlebarsPoweredStyle implements StyleInterface
     {
         return array(
             'history' => array(
-                'window_params' => '',
+                'window' => array(),
             ),
             'users' => array(
                 'thread_tag' => 'div',

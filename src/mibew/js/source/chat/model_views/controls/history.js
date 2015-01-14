@@ -51,7 +51,7 @@
                 var user = Mibew.Objects.Models.user;
                 var link = this.model.get('link');
                 if (user.get('isAgent') && link) {
-                    var winParams = this.model.get('windowParams');
+                    var winParams = Mibew.Utils.buildWindowParams(this.model.get('windowParams'));
 
                     // TODO: Kill &amp; at the server side
                     link = link.replace('&amp;', '&', 'g');
