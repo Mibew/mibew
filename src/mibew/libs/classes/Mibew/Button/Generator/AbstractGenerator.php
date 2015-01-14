@@ -176,6 +176,11 @@ abstract class AbstractGenerator implements GeneratorInterface
         $chat_style = new ChatStyle($style_name);
         $chat_configurations = $chat_style->getConfigurations();
 
-        return $chat_configurations['chat']['window_params'];
+        return sprintf(
+            "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=%u,height=%u,resizable=%u",
+            $chat_configurations['chat']['window']['width'],
+            $chat_configurations['chat']['window']['height'],
+            $chat_configurations['chat']['window']['resizable'] ? '1' : '0'
+        );
     }
 }
