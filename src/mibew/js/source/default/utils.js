@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-(function(Mibew, $){
+(function(Mibew, $, _){
 
     /**
      * @namespace Holds utility functions
@@ -87,4 +87,33 @@
         }
     }
 
-})(Mibew, $);
+    /**
+     * Builds options string for window.open method.
+     * @param {Object} options List of options to use in the target string.
+     * @returns {String}
+     */
+    Mibew.Utils.buildWindowOptions = function(options) {
+        var allOptions = _.defaults({}, options, {
+            toolbar: false,
+            scrollbars: false,
+            location: false,
+            status: true,
+            menubar: false,
+            width: 640,
+            heght: 480,
+            resizable: true
+        });
+
+        return [
+            'toolbar=' + (allOptions.toolbar ? '1' : '0'),
+            'scrollbars=' + (allOptions.scrollbars ? '1' : '0'),
+            'location=' + (allOptions.location ? '1' : '0'),
+            'status=' + (allOptions.status ? '1' : '0'),
+            'menubar=' + (allOptions.menubar ? '1' : '0'),
+            'width=' + allOptions.width,
+            'height=' + allOptions.height,
+            'resizable=' + (allOptions.resizable ? '1' : '0')
+        ].join(',');
+    }
+
+})(Mibew, jQuery, _);
