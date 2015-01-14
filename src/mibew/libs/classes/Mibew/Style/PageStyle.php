@@ -129,9 +129,6 @@ class PageStyle extends AbstractHandlebarsPoweredStyle implements StyleInterface
                 'user_window_params' => '',
                 'visitor_window_params' => '',
             ),
-            'invitation' => array(
-                'window_params' => '',
-            ),
             'ban' => array(
                 'window_params' => '',
             ),

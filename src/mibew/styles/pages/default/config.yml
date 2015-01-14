@@ -18,10 +18,6 @@ tracked:
     user_window_params: "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1"
     visitor_window_params: "toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1"
 
-invitation:
-    # window_param use as param string in JavaScript window.open method
-    window_params: "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1"
-
 ban:
     # window_param use as param string in JavaScript window.open method
     window_params: "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=720,height=480,resizable=1"
