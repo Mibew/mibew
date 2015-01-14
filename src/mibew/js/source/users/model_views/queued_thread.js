@@ -211,7 +211,7 @@
                         + '?thread='
                         + threadId,
                     'ImTracked' + threadId,
-                    page.get('trackedUserWindowParams')
+                    Mibew.Utils.buildWindowParams(page.get('trackedUserWindowParams'))
                 );
             },
 
