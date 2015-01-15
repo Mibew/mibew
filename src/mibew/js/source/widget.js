@@ -337,16 +337,19 @@ var Mibew = {};
     Mibew.Utils = {};
 
     /**
-     * Create session cookie for a second level domain with path equals to '/'.
+     * Create a cookie for the second level domain with path equals to '/'.
      *
      * @param {String} name Cookie name
      * @param {String} value Cookie value
+     * @param {Date} expires Indicates when the cookie expires. If the value is
+     * omitted a session cookie will be created.
      */
-    Mibew.Utils.createCookie = function(name, value) {
+    Mibew.Utils.createCookie = function(name, value, expires) {
         var domain = /([^\.]+\.[^\.]+)$/.exec(document.location.hostname);
         document.cookie = "" + name + "=" + value + "; "
             + "path=/; "
-            + (domain ? ("domain=" + domain[1] + ";") : '');
+            + (domain ? ("domain=" + domain[1] + "; ") : '')
+            + (expires ?  ('expires=' + expires.toUTCString() + '; ') : '');
     }
 
     /**
@@ -369,6 +372,14 @@ var Mibew = {};
         return value;
     }
 
+    /**
+     * Deletes cookie.
+     *
+     * @param {String} name Name of the cookie that should be deleted.
+     */
+    Mibew.Utils.deleteCookie = function(name) {
+        Mibew.Utils.createCookie(name, '', (new Date(0)));
+    }
 
     /**
      * @namespace Holds invitation stuff
