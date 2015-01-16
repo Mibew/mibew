@@ -82,7 +82,7 @@
                             + '?visitor='
                             + visitorId,
                         'ImCenter' + visitorId,
-                        page.get('inviteWindowParams')
+                        Mibew.Utils.buildWindowParams(page.get('inviteWindowParams'))
                     );
                 }
             },
