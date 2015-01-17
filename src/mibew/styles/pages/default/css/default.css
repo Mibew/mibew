@@ -92,7 +92,7 @@ a {
     overflow: hidden;
 }
 .content-no-menu {
-    padding: 10px 60px 10px 20px;
+    padding: 10px 20px 10px 20px;
 }
 .empty-inner {
     height: 40px;
@@ -401,9 +401,8 @@ input.field-input {
     margin-right: 15px;
     padding-right: 0;
 }
-#form-message {
-    border: 1px solid #4c96d4;
-    background-color: #e7f1f9;
+#form-message,
+#offline-dashboard-warning {
     padding: 8px 11px;
     font-size: 0.85em;
     font-weight: bold;
@@ -411,7 +410,16 @@ input.field-input {
     margin: -10px 2px 10px;
     color: #515151;
 }
-#form-message img.warning {
+#form-message {
+    border: 1px solid #4c96d4;
+    background-color: #e7f1f9;
+}
+#offline-dashboard-warning {
+    border: 1px solid #4cd496;
+    background-color: #e7f9f1;
+}
+#form-message img.warning,
+#offline-dashboard-warning img.warning {
     height: 24px;
     width: 24px;
     vertical-align: middle;
@@ -770,14 +778,19 @@ table.awaiting .no-visitors  {
     width: 100%;
 }
 .dashboard-item {
-    width: 32%;
+    width: 300px;
+    height: 200px;
+    margin-bottom: 0.4em;
     vertical-align: top;
     display: inline-block;
+    border: 1px solid #ededed;
 }
 .dashboard-item-content {
     padding: 5px 2em 5em;
 }
 .dashboard-item:hover {
+    background-color: #efefef;
+    cursor: pointer;
 }
 .dashboard-item a {
     padding-top: 6px;

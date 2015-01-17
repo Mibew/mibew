@@ -3,9 +3,8 @@
         {{#if localeLinks}}
             <script type="text/javascript" language="javascript" src="{{asset "@CurrentStyle/js/locale.js"}}"></script>
         {{/if}}
+        <script type="text/javascript" language="javascript" src="{{asset "@CurrentStyle/js/dashboard.js"}}"></script>
     {{/override}}
-
-    {{#override "menu"}}{{> _menu}}{{/override}}
 
     {{#override "content"}}
         <br/>
@@ -14,8 +13,15 @@
             <br/>
         {{/if}}
 
+        {{#if warnOffline}}
+            {{#unless isOnline}}
+                <div id="offline-dashboard-warning"><img src="{{asset "@CurrentStyle/images/dash/warning.png"}}" alt="" class="warning"/> {{{l10n "You are Offline. <a href=\"{0}\">Connect...</a>" (route "users" nomenu="1")}}}</div>
+                <br/>
+            {{/unless}}
+        {{/if}}
+
         <div id="dashboard">
-            <div class="dashboard-item">
+            <div class="dashboard-item" data="aaa">
                 <div class="dashboard-item-content">
                     <img src="{{asset "@CurrentStyle/images/dash/visitors.png"}}" alt=""/>
                     <a href="{{route "users"}}">
@@ -107,6 +113,46 @@
                             {{l10n "Settings"}}
                         </a>
                         {{l10n "Specify options affecting chat window and common system behavior."}}
+                    </div>
+                </div>
+
+                <div class="dashboard-item">
+                    <div class="dashboard-item-content">
+                        <img src="{{asset "@CurrentStyle/images/dash/plugins.png"}}" alt=""/>
+                        <a href="{{route "plugins"}}">
+                            {{l10n "Plugins"}}
+                        </a>
+                        {{l10n "Manage plugins."}}
+                    </div>
+                </div>
+
+                <div class="dashboard-item">
+                    <div class="dashboard-item-content">
+                        <img src="{{asset "@CurrentStyle/images/dash/styles.png"}}" alt=""/>
+                        <a href="{{route "style_preview" type="page"}}">
+                            {{l10n "Styles"}}
+                        </a>
+                        {{l10n "Manage styles."}}
+                    </div>
+                </div>
+
+                <div class="dashboard-item">
+                    <div class="dashboard-item-content">
+                        <img src="{{asset "@CurrentStyle/images/dash/translations.png"}}" alt=""/>
+                        <a href="{{route "translations"}}">
+                            {{l10n "Translations"}}
+                        </a>
+                        {{l10n "Manage translations."}}
+                    </div>
+                </div>
+
+                <div class="dashboard-item">
+                    <div class="dashboard-item-content">
+                        <img src="{{asset "@CurrentStyle/images/dash/mail_templates.png"}}" alt=""/>
+                        <a href="{{route "mail_templates"}}">
+                            {{l10n "Mail templates"}}
+                        </a>
+                        {{l10n "Manage mail templates."}}
                     </div>
                 </div>
             {{/if}}
