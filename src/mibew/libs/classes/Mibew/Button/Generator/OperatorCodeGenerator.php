@@ -35,15 +35,12 @@ class OperatorCodeGenerator extends AbstractGenerator
         $form->setAttributes(array(
             'action' => '',
             'onsubmit' => sprintf(
-                ("if(navigator.userAgent.toLowerCase().indexOf('opera') != -1 "
-                    . "&amp;&amp; window.event.preventDefault) window.event.preventDefault();"
-                . "this.newWindow = window.open(%s + '&amp;operator_code=' "
-                    . "+ document.getElementById('mibew-operator-code-field').value, 'mibew', '%s');"
-                . "this.newWindow.focus();"
-                . "this.newWindow.opener=window;"
-                . "return false;"),
-                $this->getChatUrlForJs(),
-                $this->getPopupOptions()
+                ("var popup = Mibew.Objects.ChatPopups['%s'];"
+                    . "popup.open(popup.buildChatUrl() "
+                        . "+ '&amp;operator_code=' "
+                        . "+ document.getElementById('mibew-operator-code-field').value);"
+                    . "return false;"),
+                $this->getOption('unique_id')
             ),
             'id' => 'mibew-operator-code-form',
         ));
@@ -58,6 +55,7 @@ class OperatorCodeGenerator extends AbstractGenerator
         $button = HTML5\html('fragment');
         $button->addChild(HTML5\html('comment', 'mibew operator code field'));
         $button->addChild($form);
+        $button->addChild($this->getPopup());
         $button->addChild(HTML5\html('comment', '/ mibew operator code field'));
 
         return $button;

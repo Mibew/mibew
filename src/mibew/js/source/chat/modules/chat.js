@@ -188,6 +188,15 @@
 
         models.soundManager = new Mibew.Models.ChatSoundManager();
 
+        // If the chat is ran inside an iframe we need to tell the parent page
+        // that the chat is started. This is needed to reopen chat when the user
+        // navigates to another page.
+        if (!models.user.get('isAgent') && options.links.chat) {
+            if (window.parent && window.parent.postMessage && (window.parent !== window)) {
+                window.parent.postMessage('mibew-chat-started:' + window.name + ':' + options.links.chat, '*');
+            }
+        }
+
         // TODO: May be move it somewhere else
         // Periodically call update function at the server side
         periodicallyCalled.push(

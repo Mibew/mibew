@@ -82,6 +82,7 @@ class ButtonCodeController extends AbstractController
         $show_host = $request->query->get('hostname') == 'on';
         $force_secure = $request->query->get('secure') == 'on';
         $mod_security = $request->query->get('modsecurity') == 'on';
+        $force_windows = $request->query->get('forcewindows') == 'on';
 
         $code_type = $request->query->get('codetype', 'button');
         if (!in_array($code_type, array('button', 'operator_code', 'text_link'))) {
@@ -101,11 +102,13 @@ class ButtonCodeController extends AbstractController
             'show_host' => $show_host,
             'force_secure' => $force_secure,
             'mod_security' => $mod_security,
+            'prefer_iframe' => !$force_windows,
         );
 
         if ($operator_code) {
             $button_generator = new OperatorCodeFieldGenerator(
                 $this->getRouter(),
+                $this->getAssetManager()->getUrlGenerator(),
                 $button_generator_options
             );
         } elseif ($generate_button) {
@@ -134,6 +137,7 @@ class ButtonCodeController extends AbstractController
 
             $button_generator = new TextButtonGenerator(
                 $this->getRouter(),
+                $this->getAssetManager()->getUrlGenerator(),
                 $button_generator_options
             );
 
@@ -166,6 +170,7 @@ class ButtonCodeController extends AbstractController
         $page['formsecure'] = $force_secure;
         $page['formmodsecurity'] = $mod_security;
         $page['formcodetype'] = $code_type;
+        $page['formforcewindows'] = $force_windows;
 
         $page['enabletracking'] = Settings::get('enabletracking');
         $page['operator_code'] = $operator_code;

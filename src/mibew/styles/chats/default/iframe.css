@@ -1,0 +1,37 @@
+/*
+ * Copyright 2005-2014 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+iframe.mibew-chat-frame {
+    background-color: #f1f2f2 !important;
+    margin: 0 !important;
+    padding: 0px !important;
+    border: 0 !important;
+    outline: 0 !important;
+    border: 1px solid #aaa !important;
+    position: fixed !important;
+    bottom: 5px !important;
+    right: 5px !important;
+    width: 510px !important;
+    height: 480px !important;
+    overflow: hidden !important;
+    z-index: 100 !important;
+    border-radius: 10px !important;
+    -webkit-border-radius: 10px !important;
+    -moz-border-radius: 10px !important;
+    box-shadow: 0 1px 1px 1px #ddd !important;
+    -moz-box-shadow: 0 1px 1px 1px #ddd !important;
+    -webkit-box-shadow: 0 1px 1px 1px #ddd !important;
+}

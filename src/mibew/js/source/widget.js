@@ -19,14 +19,14 @@
 /**
  * @namespace Holds all Mibew functionality
  */
-var Mibew = {};
+var Mibew = Mibew || {};
 
 (function(Mibew){
 
     /**
      * @namespace Holds objects instances
      */
-    Mibew.Objects = {};
+    Mibew.Objects = Mibew.Objects || {};
 
     /**
      * Create new widget
@@ -93,11 +93,7 @@ var Mibew = {};
         this.dataToSend = {};
 
         // Load additional styles
-        var styleSheet = document.createElement('link');
-        styleSheet.setAttribute('rel', 'stylesheet');
-        styleSheet.setAttribute('type', 'text/css');
-        styleSheet.setAttribute('href', options.inviteStyle);
-        document.getElementsByTagName('head')[0].appendChild(styleSheet);
+        Mibew.Utils.loadStyleSheet(options.inviteStyle);
     }
 
     /**
@@ -121,7 +117,7 @@ var Mibew = {};
             }
         }
 
-        this.doLoadScript(
+        Mibew.Utils.loadScript(
             this.requestURL
                 + '?' + this.getQuery(),
             'mibew-response-script'
@@ -260,7 +256,7 @@ var Mibew = {};
         // Store context
         var context = this;
         // Load script by adding script tag to DOM
-        var script = this.doLoadScript(this.requestedScripts[id].url, id);
+        var script = Mibew.Utils.loadScript(this.requestedScripts[id].url, id);
 
         // Check if script loaded
         script.onload = function(){
@@ -272,21 +268,6 @@ var Mibew = {};
                 context.scriptReady(id);
             }
         }
-    }
-
-    /**
-     * Dynamically add script tag to DOM
-     * @param {String} url URL of the script to load
-     * @param {String} id Identifier of the script to load
-     * @private
-     */
-    Mibew.Widget.prototype.doLoadScript = function(url, id) {
-        var script = document.createElement('script');
-        script.setAttribute('type', 'text/javascript');
-        script.setAttribute('src', url);
-        script.setAttribute('id', id);
-        document.getElementsByTagName('head')[0].appendChild(script);
-        return script;
     }
 
     /**
@@ -328,57 +309,6 @@ var Mibew = {};
     Mibew.Widget.init = function(options) {
         Mibew.Objects.widget = new Mibew.Widget(options);
         Mibew.Objects.widget.makeRequest();
-    }
-
-
-    /**
-     * @namespace Holds utility functions
-     */
-    Mibew.Utils = {};
-
-    /**
-     * Create a cookie for the second level domain with path equals to '/'.
-     *
-     * @param {String} name Cookie name
-     * @param {String} value Cookie value
-     * @param {Date} expires Indicates when the cookie expires. If the value is
-     * omitted a session cookie will be created.
-     */
-    Mibew.Utils.createCookie = function(name, value, expires) {
-        var domain = /([^\.]+\.[^\.]+)$/.exec(document.location.hostname);
-        document.cookie = "" + name + "=" + value + "; "
-            + "path=/; "
-            + (domain ? ("domain=" + domain[1] + "; ") : '')
-            + (expires ?  ('expires=' + expires.toUTCString() + '; ') : '');
-    }
-
-    /**
-     * Try to read cookie.
-     *
-     * @param {String} name Cookie name
-     * @returns {String|Boolean} Cookie value or boolean false if cookie with
-     * specified name does not exist
-     */
-    Mibew.Utils.readCookie = function(name) {
-        var cookies = document.cookie.split('; ');
-        var nameForSearch = name + '=';
-        var value = false;
-        for (var i = 0; i < cookies.length; i++) {
-            if (cookies[i].indexOf(nameForSearch) != -1) {
-                value = cookies[i].substr(nameForSearch.length);
-                break;
-            }
-        }
-        return value;
-    }
-
-    /**
-     * Deletes cookie.
-     *
-     * @param {String} name Name of the cookie that should be deleted.
-     */
-    Mibew.Utils.deleteCookie = function(name) {
-        Mibew.Utils.createCookie(name, '', (new Date(0)));
     }
 
     /**

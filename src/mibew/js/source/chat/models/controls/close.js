@@ -59,7 +59,7 @@
                     }],
                     function(args){
                         if (args.closed) {
-                            window.close();
+                            Mibew.Utils.closeChatPopup();
                         } else {
                             // Something went wrong. Display error message
                             Mibew.Objects.Models.Status.message.setMessage(

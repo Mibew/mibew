@@ -72,6 +72,14 @@ chat_user_mail_send:
         token: \d{1,10}
     methods: [POST]
 
+chat_user_popup_style:
+    path: /chat/style/popup/{style}
+    defaults:
+        _controller: Mibew\Controller\Chat\StyleController::loadPopupStyleAction
+        style: ""
+    requirements:
+        style: "[0-9A-Za-z_]*"
+
 chat_user_start:
     path: /chat
     defaults:

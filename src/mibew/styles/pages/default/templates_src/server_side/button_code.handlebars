@@ -50,6 +50,13 @@
                                 </select>
                             </div>
                         </div>
+
+                        <div class="field-in-row">
+                            <label for="force-windows" class="field-label">{{l10n "Use windows (even for modern browsers)"}}</label>
+                            <div class="field-value-no-description">
+                                <input id="force-windows" type="checkbox" name="forcewindows" value="on"{{#if formforcewindows}} checked="checked"{{/if}} onchange="this.form.submit();"/>
+                            </div>
+                        </div>
                         <br clear="all"/>
 
                         {{#if generateButton}}

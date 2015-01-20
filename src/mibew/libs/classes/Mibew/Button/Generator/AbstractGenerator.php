@@ -19,6 +19,8 @@
 
 namespace Mibew\Button\Generator;
 
+use Canteen\HTML5;
+use Mibew\Asset\Generator\UrlGeneratorInterface as AssetUrlGeneratorInterface;
 use Mibew\EventDispatcher\EventDispatcher;
 use Mibew\EventDispatcher\Events;
 use Mibew\Routing\Generator\SecureUrlGeneratorInterface as RouteUrlGeneratorInterface;
@@ -37,6 +39,13 @@ abstract class AbstractGenerator implements GeneratorInterface
     protected $routeUrlGenerator = null;
 
     /**
+     * An assets URL generator.
+     *
+     * @var AssetUrlGeneratorInterface|null
+     */
+    protected $assetUrlGenerator = null;
+
+    /**
      * List of the generator's options.
      *
      * @var array
@@ -53,10 +62,14 @@ abstract class AbstractGenerator implements GeneratorInterface
      */
     public function __construct(
         RouteUrlGeneratorInterface $routeUrlGenerator,
+        AssetUrlGeneratorInterface $assetUrlGenerator,
         $options = array()
     ) {
         $this->routeUrlGenerator = $routeUrlGenerator;
-        $this->options = $options;
+        $this->assetUrlGenerator = $assetUrlGenerator;
+        $this->options = $options + array(
+            'unique_id' => uniqid() . dechex(rand(0, pow(2, 12))),
+        );
     }
 
     /**
@@ -118,6 +131,25 @@ abstract class AbstractGenerator implements GeneratorInterface
     }
 
     /**
+     * Generates URL for the specified asset.
+     *
+     * @param stirng $asset The relative path of the asset.
+     * @return string The URL for the specified asset.
+     */
+    protected function generateAssetUrl($asset)
+    {
+        $generator = $this->assetUrlGenerator;
+
+        if (!$this->getOption('show_host')) {
+            return $generator->generate($asset);
+        }
+
+        return $this->getOption('force_secure')
+            ? $generator->generateSecure($asset, RouteUrlGeneratorInterface::ABSOLUTE_URL)
+            : $generator->generate($asset, RouteUrlGeneratorInterface::ABSOLUTE_URL);
+    }
+
+    /**
      * Gets the URL of the chat start point.
      *
      * @return string
@@ -161,26 +193,76 @@ abstract class AbstractGenerator implements GeneratorInterface
     }
 
     /**
-     * Gets the options string for the chat popup window.
+     * Gets the style options string for the chat popup.
      *
-     * @return string
+     * @return array
      */
-    protected function getPopupOptions()
+    protected function getPopupStyle()
     {
-        $style_name = $this->getOption('chat_style');
+        $defaults = array(
+            'width' => 640,
+            'height' => 480,
+            'resizable' => true,
+        );
 
+        $style_name = $this->getOption('chat_style');
         if (!$style_name) {
-            return "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1";
+            return $defaults + array(
+                'styleLoader' => $this->generateUrl('chat_user_popup_style'),
+            );
         }
 
         $chat_style = new ChatStyle($style_name);
-        $chat_configurations = $chat_style->getConfigurations();
+        $chat_configs = $chat_style->getConfigurations();
 
-        return sprintf(
-            "toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=%u,height=%u,resizable=%u",
-            $chat_configurations['chat']['window']['width'] ?: 640,
-            $chat_configurations['chat']['window']['height'] ?: 480,
-            $chat_configurations['chat']['window']['resizable'] ? '1' : '0'
+        // Intersection is used to limit style options to keys from the defaults
+        // array.
+        return array_intersect_key(
+            $chat_configs['chat']['window'] + $defaults,
+            $defaults
+        ) + array(
+            'styleLoader' => $this->generateUrl(
+                'chat_user_popup_style',
+                array('style' => $style_name)
+            ),
         );
+    }
+
+    /**
+     * Builds options list for a chat popup.
+     *
+     * @return array
+     */
+    protected function getPopupOptions()
+    {
+        return array(
+            'id' => $this->getOption('unique_id'),
+            'url' => str_replace('&', '&amp;', $this->getChatUrl()),
+            'preferIFrame' => $this->getOption('prefer_iframe'),
+            'modSecurity' => $this->getOption('mod_security'),
+        ) + $this->getPopupStyle();
+    }
+
+    /**
+     * Builds markup with chat popup initialization code.
+     *
+     * @return \Canteen\HTML5\Fragment
+     */
+    protected function getPopup()
+    {
+        $fragment = HTML5\html('fragment');
+        $fragment->addChild(
+            HTML5\html('script')->setAttributes(array(
+                'type' => 'text/javascript',
+                'src' => $this->generateAssetUrl('js/compiled/chat_popup.js'),
+            ))
+        );
+        $fragment->addChild(
+            HTML5\html('script')
+                ->setAttribute('type', 'text/javascript')
+                ->addChild('Mibew.ChatPopup.init(' . json_encode($this->getPopupOptions()) . ');')
+        );
+
+        return $fragment;
     }
 }

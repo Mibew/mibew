@@ -416,6 +416,16 @@ function setup_chatview_for_user(
         );
     }
 
+    // Set chat link
+    $data['chat']['links']['chat'] = $url_generator->generate(
+        'chat_user',
+        array(
+            'thread_id' => $thread->id,
+            'token' => $thread->lastToken,
+        ),
+        UrlGeneratorInterface::ABSOLUTE_URL
+    );
+
     // Set default operator's avatar
     $operator = operator_by_id($thread->agentId);
     $data['chat']['avatar'] = ($operator['vcavatar'] ? $operator['vcavatar'] : '');
@@ -464,6 +474,16 @@ function setup_chatview_for_operator(
             UrlGeneratorInterface::ABSOLUTE_URL
         );
     }
+
+    // Set chat link
+    $data['chat']['links']['chat'] = $url_generator->generate(
+        'chat_operator',
+        array(
+            'thread_id' => $thread->id,
+            'token' => $thread->lastToken,
+        ),
+        UrlGeneratorInterface::ABSOLUTE_URL
+    );
 
     // Set history window params
     $data['chat']['links']['history'] = $url_generator->generate(

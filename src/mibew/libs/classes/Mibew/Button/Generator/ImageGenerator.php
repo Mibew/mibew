@@ -20,8 +20,6 @@
 namespace Mibew\Button\Generator;
 
 use Canteen\HTML5;
-use Mibew\Asset\Generator\UrlGeneratorInterface as AssetUrlGeneratorInterface;
-use Mibew\Routing\Generator\SecureUrlGeneratorInterface as RouteUrlGeneratorInterface;
 use Mibew\Settings;
 use Mibew\Style\InvitationStyle;
 
@@ -30,32 +28,6 @@ use Mibew\Style\InvitationStyle;
  */
 class ImageGenerator extends TextGenerator
 {
-    /**
-     * An assets URL generator.
-     *
-     * @var AssetUrlGeneratorInterface|null
-     */
-    protected $assetUrlGenerator = null;
-
-    /**
-     * Class contructor.
-     *
-     * @param RouteUrlGeneratorInterface $routeUrlGenerator A routes URL
-     *   generator.
-     * @param AssetUrlGeneratorInterface $assetUrlGenerator An assets URL
-     *   generator.
-     * @param array $options Associative array with generator's initial options.
-     *   The set of options can vary for the child classes.
-     */
-    public function __construct(
-        RouteUrlGeneratorInterface $routeUrlGenerator,
-        AssetUrlGeneratorInterface $assetUrlGenerator,
-        $options = array()
-    ) {
-        parent::__construct($routeUrlGenerator, $options);
-        $this->assetUrlGenerator = $assetUrlGenerator;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -84,32 +56,13 @@ class ImageGenerator extends TextGenerator
 
         $button = HTML5\html('fragment');
         $button->addChild(HTML5\html('comment', 'mibew button'));
-        $button->addChild($this->getPopup($image));
+        $button->addChild($this->getPopupLink($image));
         if (Settings::get('enabletracking')) {
             $button->addChild($this->getWidgetCode());
         }
         $button->addChild(HTML5\html('comment', '/ mibew button'));
 
         return $button;
-    }
-
-    /**
-     * Generates URL for the specified asset.
-     *
-     * @param stirng $asset The relative path of the asset.
-     * @return string The URL for the specified asset.
-     */
-    protected function generateAssetUrl($asset)
-    {
-        $generator = $this->assetUrlGenerator;
-
-        if (!$this->getOption('show_host')) {
-            return $generator->generate($asset);
-        }
-
-        return $this->getOption('force_secure')
-            ? $generator->generateSecure($asset, RouteUrlGeneratorInterface::ABSOLUTE_URL)
-            : $generator->generate($asset, RouteUrlGeneratorInterface::ABSOLUTE_URL);
     }
 
     /**

@@ -33,35 +33,28 @@ class TextGenerator extends AbstractGenerator
     {
         $button = HTML5\html('fragment');
         $button->addChild(HTML5\html('comment', 'mibew text link'));
-        $button->addChild($this->getPopup($this->getOption('caption')));
+        $button->addChild($this->getPopupLink($this->getOption('caption')));
         $button->addChild(HTML5\html('comment', '/ mibew text link'));
 
         return $button;
     }
 
     /**
-     * Generates a markup for opening popup window with the chat.
+     * Generates a markup for link that opens chat popup.
      *
+     * @param string|\Canteen\HTML5\Node $caption A string or an HTML node that
+     * is used as popup link caption.
      * @return string HTML markup.
      */
-    protected function getPopup($message)
+    protected function getPopupLink($caption)
     {
-        $link = HTML5\html('a', $message);
-
+        $link = HTML5\html('a', $caption);
         $link->setAttributes(array(
             'id' => 'mibew-agent-button',
             'href' =>  str_replace('&', '&amp;', $this->getChatUrl()),
             'target' => '_blank',
-            'onclick' =>sprintf(
-                ("if(navigator.userAgent.toLowerCase().indexOf('opera') != -1 "
-                    . "&amp;&amp; window.event.preventDefault) window.event.preventDefault();"
-                    . "this.newWindow = window.open(%s, 'mibew', '%s');"
-                    . "this.newWindow.focus();"
-                    . "this.newWindow.opener=window;"
-                    . "return false;"),
-                $this->getChatUrlForJs(),
-                $this->getPopupOptions()
-            ),
+            'onclick' => ("Mibew.Objects.ChatPopups['" . $this->getOption('unique_id') . "'].open();"
+                . "return false;"),
         ));
 
         $title = $this->getOption('title');
@@ -69,6 +62,10 @@ class TextGenerator extends AbstractGenerator
             $link->setAttribute('title', $title);
         }
 
-        return $link;
+        $fragment = HTML5\html('fragment');
+        $fragment->addChild($link);
+        $fragment->addChild($this->getPopup());
+
+        return $fragment;
     }
 }

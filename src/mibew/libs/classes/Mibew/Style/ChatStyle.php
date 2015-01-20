@@ -142,6 +142,7 @@ class ChatStyle extends AbstractHandlebarsPoweredStyle implements StyleInterface
         return array(
             'chat' => array(
                 'window' => array(),
+                'iframe' => array(),
             ),
             'mail' => array(
                 'window' => array(),
