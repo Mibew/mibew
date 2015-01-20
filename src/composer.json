@@ -29,15 +29,12 @@
         "canteen/html5": "1.1.*",
         "vierbergenlars/php-semver": "3.0.*",
         "swiftmailer/swiftmailer": "5.3.*",
-        "ua-parser/uap-php": "3.4.*"
+        "ua-parser/uap-php": "dev-master#7be4405fbabfc4c8ae715e2845163ebc73e62564"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "1.*"
     },
     "config": {
         "vendor-dir": "mibew/vendor"
-    },
-    "scripts": {
-        "post-install-cmd": "php mibew/vendor/bin/uaparser.php ua-parser:update"
     }
 }
