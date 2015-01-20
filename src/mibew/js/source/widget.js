@@ -22,6 +22,11 @@
 var Mibew = Mibew || {};
 
 (function(Mibew){
+    if (Mibew.Widget) {
+        // It seems that the script was already loaded. We do not need to do the
+        // job twice so just stop here.
+        return;
+    }
 
     /**
      * @namespace Holds objects instances
