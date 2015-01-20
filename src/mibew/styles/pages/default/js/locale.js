@@ -61,16 +61,16 @@
     }
 
     $(function(){
-        $("#change-language").click(function(){
+        $("#change-language").on('click', function(){
             centerPopup();
             loadPopup();
             return false;
         });
-        $("#dashboard-locales-popup-close").click(function(){
+        $("#dashboard-locales-popup-close").on('click', function(){
             disablePopup();
             return false;
         });
-        $("#background-popup").click(function(){
+        $("#background-popup").on('click', function(){
             disablePopup();
         });
         $(document).keypress(function(e){
