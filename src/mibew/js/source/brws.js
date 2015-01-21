@@ -2,7 +2,7 @@
  * @preserve This file is a part of Mibew Messenger.
  * http://mibew.org
  * 
- * Copyright (c) 2005-2014 Mibew Messenger Community
+ * Copyright (c) 2005-2015 Mibew Messenger Community
  * License: http://mibew.org/license.php
  */
 
