@@ -219,7 +219,7 @@ class ProfileController extends AbstractController
         ) + operator_by_id($op_id);
         // Set the password only if it's not an empty string.
         if ($password !== '') {
-            $target_operator['vcpassword'] = calculate_password_hash($login, $password);
+            $target_operator['vcpassword'] = calculate_password_hash($target_operator['vclogin'], $password);
         }
         // Update operator's fields in the database.
         update_operator($target_operator);
