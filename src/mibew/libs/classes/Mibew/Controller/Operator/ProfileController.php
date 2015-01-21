@@ -228,7 +228,7 @@ class ProfileController extends AbstractController
         // to manually update them.
         if ($target_operator['operatorid'] == $operator['operatorid']) {
             // Check if the admin has set his password for the first time.
-            $to_dashboard = check_password_hash($login, '', $operator['vcpassword']) && $password != '';
+            $to_dashboard = check_password_hash($operator['vclogin'], '', $operator['vcpassword']) && $password != '';
 
             // Update operator's fields.
             $this->getAuthenticationManager()->setOperator($target_operator);
