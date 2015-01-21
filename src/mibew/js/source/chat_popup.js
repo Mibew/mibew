@@ -300,8 +300,13 @@ var Mibew = Mibew || {};
 
         this.iframe = null;
 
+        // Load default styles. These styles hide the popup while real styles
+        // are loading.
+        this.attachDefaultStyles();
         // Load extra style sheets.
         Mibew.Utils.loadScript(this.styleLoader);
+
+        // Check if the popup should be reopened.
         var openedChatUrl = Mibew.Utils.readCookie('mibew-chat-frame-' + this.id);
         if (openedChatUrl) {
             // The chat was not closed so the popup should be reopened when a
@@ -312,6 +317,39 @@ var Mibew = Mibew || {};
 
     // Set correct prototype chain for IFrame popup.
     Mibew.Utils.inherits(Mibew.ChatPopup.IFrame, BasePopup);
+
+    /**
+     * Attaches default styles to the DOM.
+     *
+     * This function do its job only once no matter how many times it is called.
+     *
+     * @type {Function}
+     */
+    Mibew.ChatPopup.IFrame.prototype.attachDefaultStyles = (function() {
+        var executed = false;
+
+        return function() {
+            if (executed) {
+                // The function was already called. Just do nothing.
+                return;
+            }
+
+            executed = true;
+
+            var style = document.createElement('style'),
+                // These rules hides the popup while real styles are loading.
+                css = '.mibew-chat-frame {height: 0px; width: 0px;}';
+
+            style.setAttribute('type', 'text/css');
+            if (style.styleSheet){
+                style.styleSheet.cssText = css;
+            } else {
+                style.appendChild(document.createTextNode(css));
+            }
+
+            document.getElementsByTagName('head')[0].appendChild(style);
+        };
+    })();
 
     /**
      * Opens the popup.
