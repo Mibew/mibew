@@ -37,8 +37,8 @@ $home_locale = locale_pattern_check($home_locale) && locale_exists($home_locale)
 
 $locale_cookie_name = 'mibew_locale';
 
-$version = '1.6.14';
-$jsver = "1614";
+$version = '1.6.15';
+$jsver = "1615";
 
 // Make session cookie more secure
 @ini_set('session.cookie_httponly', TRUE);
