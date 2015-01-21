@@ -121,13 +121,7 @@ class ProfileController extends AbstractController
         $errors = array();
         $operator = $this->getOperator();
         $op_id = $request->attributes->getInt('operator_id');
-
-        if (is_capable(CAN_ADMINISTRATE, $operator)) {
-            $login = $request->request->get('login');
-        } else {
-            $login = $operator['vclogin'];
-        }
-
+        $login = $request->request->get('login');
         $email = $request->request->get('email');
         $password = $request->request->get('password');
         $password_confirm = $request->request->get('passwordConfirm');
