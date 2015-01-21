@@ -49,10 +49,17 @@
         if (typeof str != 'string') {
             return false;
         }
-        var parts = str.match(/((?:[A-Z]?[a-z]+)|(?:[A-Z][a-z]*))/g);
+
+        var parts = str.match(/((?:[A-Z]?[a-z0-9]+)|(?:[A-Z][a-z0-9]*))/g);
+        if (!parts) {
+            // It seems that the sting has no convertible parts.
+            return '';
+        }
+
         for(var i = 0; i < parts.length; i++) {
             parts[i] = parts[i].toLowerCase();
         }
+
         return parts.join('-');
     }
 
