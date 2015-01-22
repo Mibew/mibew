@@ -76,8 +76,13 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * 5. "<eventPrefix>FunctionCall" - triggers when function from request calls.
  *
- * An associative array passed to event handler is 'function' array. See Mibew
- * API for detail of the 'function' array structure.
+ * An associative array passed to event handler contains the following items:
+ *  - "request_processor": an instance of a subclass of
+ *    {\Mibew\RequestProcessor\AbstractProcessor} which processes the current
+ *    call.
+ *  - "function": string, name of the function that was called.
+ *  - "arguments": array, arguments that was passed to the function.
+ *  - "results": array, results of the function execution.
  *
  * If function wants to return some results, it should add results to the
  * 'results' element of the function array.
@@ -449,6 +454,7 @@ abstract class AbstractProcessor
         $this->processorCall($call_vars);
 
         // Trigger FunctionCall event
+        $call_vars['request_processor'] = $this;
         $dispatcher = EventDispatcher::getInstance();
         $dispatcher->triggerEvent($this->eventPrefix . 'FunctionCall', $call_vars);
 

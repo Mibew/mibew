@@ -321,6 +321,9 @@ final class Events
      *
      * An associative array with the following items is passed to the event
      * handlers:
+     *  - "request_processor": an instance of
+     *    {\Mibew\RequestProcessor\ThreadProcessor} which processes the current
+     *    call.
      *   - "function": string, name of the function that was called.
      *   - "arguments": associative array of arguments that was passed to the
      *     function.
@@ -465,6 +468,9 @@ final class Events
      *
      * An associative array with the following items is passed to the event
      * handlers:
+     *  - "request_processor": an instance of
+     *    {\Mibew\RequestProcessor\UsersProcessor} which processes the current
+     *    call.
      *   - "function": string, name of the function that was called.
      *   - "arguments": associative array of arguments that was passed to the
      *     function.
