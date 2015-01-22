@@ -526,4 +526,68 @@ final class Events
      *   - "visitors": array, list of removed visitors' IDs.
      */
     const VISITOR_DELETE_OLD = 'visitorDeleteOld';
+
+    /**
+     * Widget response is ready.
+     *
+     * This event is triggered every time the widget data is ready to be sent.
+     * An associative array with the following items is passed to the event
+     * listeners:
+     *  - "visitor": array, visitor's info.
+     *  - "request": an instance of
+     *    {@link \Symfony\Component\HttpFoundation\Request} which represents
+     *    incoming request.
+     *  - "response": array, set of data that will be sent to the widget. See
+     *    description of its stucture and use case below.
+     *  - "route_url_generator": an instance of
+     *    {@link \Mibew\Routing\Generator\SecureUrlGeneratorInterface}.
+     *  - "asset_url_generator": an instance of
+     *    {@link \Mibew\Asset\Generator\UrlGeneratorInterface}.
+     *
+     * This event can be used to do something at page the visitor is currenlty
+     * browsing.
+     *
+     * For example we can call a function every time the widget
+     * get the response from the server. Here is the event listener code from a
+     * plugin:
+     * <code>
+     * public function callHandler(&$args)
+     * {
+     *     // This is just a shortcut for URL generator.
+     *     $g = $args['asset_url_generator'];
+     *
+     *     // The external libraries can be loaded before the function will be
+     *     // called. There can be as many libraries as needed (even none).
+     *     // The keys of the "load" array are libraries IDs and values are
+     *     // their URLs.
+     *     $args['response']['load']['the_lib'] = 'http://example.com/lib.js';
+     *     $args['response']['load']['the_func'] = $g->generate($this->getFilesPath() . '/func.js');
+     *
+     *     // The "handlers" array contains a list of functions that should be
+     *     // called.
+     *     $args['response']['handlers'][] = 'usefulFunc';
+     *
+     *     // The "dependencies" array lists all libraries a function depend on.
+     *     // In this example "usefulFunc" depends on libraries with "the_lib"
+     *     // and "the_func" IDs.
+     *     $args['response']['dependencies']['usefulFunc'] = array('the_lib', 'the_func');
+     *
+     *     // Some extra data can be passed to the function.
+     *     $args['response']['data']['usefulFunc'] = array('time' => microtime(true));
+     * }
+     * </code>
+     *
+     * Here is the JavaScript part of the example:
+     * <code>
+     * (function(Mibew) {
+     *     // Notice the full function name. All callable functions must be
+     *     // defined as properties of Mibew.APIFunctions object.
+     *     Mibew.APIFunctions.usefulFunc = function(data) {
+     *         // Do some job here.
+     *         console.dir(data.usefulFunc);
+     *     }
+     * })(Mibew);
+     * </code>
+     */
+    const WIDGET_RESPONSE_ALTER = 'widgetResponseAlter';
 }

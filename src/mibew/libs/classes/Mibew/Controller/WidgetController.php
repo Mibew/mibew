@@ -142,6 +142,16 @@ class WidgetController extends AbstractController
             if ($invitation_state['invited'] && $request->query->get('invitation_rejected')) {
                 invitation_reject($visitor_id);
             }
+
+            $event_arguments = array(
+                'visitor' => $visitor,
+                'request' => $request,
+                'response' => $response_data,
+                'route_url_generator' => $this->getRouter(),
+                'asset_url_generator' => $this->getAssetManager()->getUrlGenerator(),
+            );
+            EventDispatcher::getInstance()->triggerEvent(Events::WIDGET_RESPONSE_ALTER, $event_arguments);
+            $response_data = $event_arguments['response'];
         }
 
         // Builds JSONP response
