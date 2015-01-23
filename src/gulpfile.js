@@ -329,7 +329,7 @@ var wrapHandlebarsTemplate = function() {
             + 'Handlebars.templates["<%= relative %>"] = <%= handlebars %>;\n'
             + '})()',
         context: function(context) {
-            return {relative: context.file.relative.replace(/\.js$/, '')};
+            return {relative: context.file.relative.replace(/\.js$/, '').replace(/\\/g, '/')};
         }
     });
 }
