@@ -109,6 +109,12 @@ class Updater
             return false;
         }
 
+        if (version_compare($current_version, MIBEW_VERSION) == 0) {
+            $this->log[] = getlocal('The database is already up to date');
+
+            return true;
+        }
+
         if (version_compare($current_version, self::MIN_VERSION) < 0) {
             $this->errors[] = getlocal(
                 'You can update the system only from {0} and later versions. The current version is {1}',
@@ -121,21 +127,9 @@ class Updater
             return false;
         }
 
-        // Get list of all available updates
-        $updates = Utils::getUpdates($this);
-
-        // Check if updates should be performed
-        $versions = array_keys($updates);
-        $last_version = end($versions);
-        if (version_compare($current_version, $last_version) >= 0) {
-            $this->log[] = getlocal('The database is already up to date');
-
-            return true;
-        }
-
         try {
             // Perform incremental updates
-            foreach ($updates as $version => $method) {
+            foreach (Utils::getUpdates($this) as $version => $method) {
                 if (version_compare($version, $current_version) <= 0) {
                     // Skip updates to lower versions.
                     continue;
@@ -152,8 +146,6 @@ class Updater
                 // we can rerun the updating process if one of pending
                 // updates fails.
                 if (!$this->setDatabaseVersion($version)) {
-                    $this->errors[] = getlocal('Cannot store new version number');
-
                     return false;
                 } else {
                     $this->log[] = getlocal('Updated to {0}', array($version));
@@ -168,6 +160,12 @@ class Updater
                 array($e->getMessage())
             );
 
+            return false;
+        }
+
+        // Use the version from the PHP's constant as the current database
+        // version.
+        if ($this->setDatabaseVersion(MIBEW_VERSION)) {
             return false;
         }
 
@@ -255,6 +253,8 @@ class Updater
             );
         } catch (\Exception $e) {
             // The query fails by some reason.
+            $this->errors[] = getlocal('Cannot store new version number');
+
             return false;
         }
     }
