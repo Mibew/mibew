@@ -237,7 +237,7 @@ abstract class AbstractGenerator implements GeneratorInterface
     {
         return array(
             'id' => $this->getOption('unique_id'),
-            'url' => str_replace('&', '&amp;', $this->getChatUrl()),
+            'url' => $this->getChatUrl(),
             'preferIFrame' => $this->getOption('prefer_iframe'),
             'modSecurity' => $this->getOption('mod_security'),
         ) + $this->getPopupStyle();
