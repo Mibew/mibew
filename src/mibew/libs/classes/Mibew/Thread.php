@@ -749,7 +749,6 @@ class Thread
             || $this->agentId == $operator['operatorid'];
 
         if ($this->state == self::STATE_WAITING && $is_operator_correct) {
-
             // Prepare message
             if ($this->nextAgent == $operator['operatorid']) {
                 $message_to_post = getlocal(

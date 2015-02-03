@@ -431,7 +431,6 @@ class UsersProcessor extends ClientSideProcessor implements AuthenticationManage
 
             $visitors = array();
             foreach ($rows as $row) {
-
                 // Get visitor details
                 $details = track_retrieve_details($row);
 

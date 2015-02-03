@@ -90,12 +90,12 @@ use Symfony\Component\HttpFoundation\Response;
  * Example of the event handler:
  * <code>
  * public function callHandler(&$function) {
- * 	if ($function['function'] == 'microtime') {
- * 		$as_float = empty($function['arguments']['as_float'])
- * 			? false
- * 			: $function['arguments']['as_float'];
- * 		$function['results']['time'] = microtime($as_float);
- * 	}
+ *   if ($function['function'] == 'microtime') {
+ *     $as_float = empty($function['arguments']['as_float'])
+ *       ? false
+ *       : $function['arguments']['as_float'];
+ *     $function['results']['time'] = microtime($as_float);
+ *   }
  * }
  * </code>
  *

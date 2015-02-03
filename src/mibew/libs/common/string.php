@@ -88,11 +88,9 @@ function sanitize_string($string, $tags_level = 'high', $attr_level = 'high')
 
     $attr_level = array_key_exists($attr_level, $sanitize_attributes) ? $attr_level : 'high';
     if ($sanitize_attributes[$attr_level]) {
-
         preg_match_all("/<([^ !\/\>\n]+)([^>]*)>/i", $string, $elements);
         foreach ($elements[1] as $key => $element) {
             if ($elements[2][$key]) {
-
                 $new_attributes = '';
                 preg_match_all(
                     "/([^ =]+)\s*=\s*[\"|']{0,1}([^\"']*)[\"|']{0,1}/i",

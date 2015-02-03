@@ -72,7 +72,7 @@ function group_by_name($name)
  *
  * @param array $group chat group object
  *
- * @return string return chat group name 
+ * @return string return chat group name
  */
 function get_group_name($group)
 {
