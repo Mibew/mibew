@@ -172,27 +172,6 @@ abstract class AbstractGenerator implements GeneratorInterface
     }
 
     /**
-     * Gets the URL of the chat start point.
-     *
-     * The result is a JavaScript String with several additional dynamic
-     * parameters. It can be use only as a JS String.
-     *
-     * @return string
-     */
-    protected function getChatUrlForJs()
-    {
-        $url = str_replace('&', '&amp;', $this->getChatUrl());
-        $modsecfix = $this->getOption('mod_security')
-            ? ".replace('http://','').replace('https://','')"
-            : '';
-
-        return "'" . $url
-            . ((strpos($url, '?') === false) ? '?' : '&amp;')
-            . "url='+escape(document.location.href$modsecfix)+'&amp;"
-            . "referrer='+escape(document.referrer$modsecfix)";
-    }
-
-    /**
      * Gets the style options string for the chat popup.
      *
      * @return array
