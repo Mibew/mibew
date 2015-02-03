@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-(function(Mibew, $, _){
+(function(Mibew, $, _, vex){
 
     /**
      * @namespace Holds utility functions
@@ -124,11 +124,24 @@
     }
 
     /**
+     * Sets default options for Vex dialogs.
+     * @type {Function}
+     */
+    var setVexDefaults = _.once(function() {
+        if (!vex.defaultOptions.className) {
+            vex.defaultOptions.className = 'vex-theme-default';
+        }
+        vex.dialog.buttons.YES.text = Mibew.Localization.trans('OK');
+        vex.dialog.buttons.NO.text = Mibew.Localization.trans('Cancel');
+    });
+
+    /**
      * Alerts a message.
      * @param {String} message A message that should be displayed.
      */
     Mibew.Utils.alert = function(message) {
-        alert(message);
+        setVexDefaults();
+        vex.dialog.alert({message: message});
     }
 
     /**
@@ -139,8 +152,11 @@
      * boolean that represents confirmation result.
      */
     Mibew.Utils.confirm = function(message, callback) {
-        var result = confirm(message);
-        callback(result);
+        setVexDefaults();
+        vex.dialog.confirm({
+            message: message,
+            callback: callback
+        });
     }
 
     /**
@@ -151,8 +167,11 @@
      * the entered result.
      */
     Mibew.Utils.prompt = function(message, callback) {
-        var result = prompt(message);
-        callback(result);
+        setVexDefaults();
+        vex.dialog.prompt({
+            message: message,
+            callback: callback
+        });
     }
 
-})(Mibew, jQuery, _);
+})(Mibew, jQuery, _, vex);

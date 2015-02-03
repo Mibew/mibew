@@ -250,6 +250,10 @@ abstract class AbstractController implements
      */
     public function render($template, array $parameters = array())
     {
+        // Attach all default css files
+        $this->getAssetManager()->attachCss('css/vex.css', AssetManagerInterface::RELATIVE_URL, -1000);
+        $this->getAssetManager()->attachCss('css/vex-theme-default.css', AssetManagerInterface::RELATIVE_URL, -1000);
+
         // Attach all needed JavaScript files. This is done here to decouple
         // templates and JavaScript applications.
         $assets = array(
@@ -260,6 +264,7 @@ abstract class AbstractController implements
             'js/libs/backbone-min.js',
             'js/libs/backbone.marionette.min.js',
             'js/libs/handlebars.min.js',
+            'js/libs/vex.combined.min.js',
             // Client side templates
             $this->getStyle()->getFilesPath() . '/templates_compiled/client_side/templates.js',
             // Default client side application files
