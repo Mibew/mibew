@@ -283,7 +283,7 @@ var Mibew = Mibew || {};
         }
 
         return this.url
-            + ((this.url.indexOf('?') === false) ? '?' : '&') + 'url=' + escape(href)
+            + ((this.url.indexOf('?') === -1) ? '?' : '&') + 'url=' + escape(href)
             + '&referrer=' + escape(referrer);
     }
 
