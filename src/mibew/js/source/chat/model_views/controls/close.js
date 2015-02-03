@@ -49,13 +49,15 @@
              */
             closeThread: function() {
                 // Show confirmation message if can
-                var confirmMessage = Mibew.Localization.trans('Are you sure want to leave chat?');
+                var confirmMessage = Mibew.Localization.trans('Are you sure want to leave chat?'),
+                    context = this;
                 if (confirmMessage !== false) {
-                    if (! confirm(confirmMessage)) {
-                        return;
-                    }
+                    Mibew.Utils.confirm(confirmMessage, function(value) {
+                        if (value) {
+                            context.model.closeThread();
+                        }
+                    });
                 }
-                this.model.closeThread();
             }
         }
     );

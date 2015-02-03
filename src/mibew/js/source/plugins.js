@@ -19,10 +19,19 @@
 (function(Mibew, $) {
     $(document).ready(function(){
         $('a.uninstall-link').click(function(){
-            return confirm(Mibew.Localization.trans(
-                'Are you sure that you want to uninstall plugin "{0}"?',
-                $(this).data('plugin-name')
-            ));
+            var url = $(this).attr('href'),
+                message = Mibew.Localization.trans(
+                    'Are you sure that you want to uninstall plugin "{0}"?',
+                    $(this).data('plugin-name')
+                );
+
+            Mibew.Utils.confirm(message, function(value) {
+                if (value) {
+                    window.location.href = url;
+                }
+            });
+
+            return false;
         });
     });
 })(Mibew, jQuery);

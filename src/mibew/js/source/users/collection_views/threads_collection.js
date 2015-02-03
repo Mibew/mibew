@@ -190,7 +190,7 @@
                 // Show popup notification if need
                 if (Mibew.Objects.Models.page.get('showPopup')) {
                     this.once('render', function() {
-                        alert(
+                        Mibew.Utils.alert(
                             Mibew.Localization.trans('A new visitor is waiting for an answer.')
                         );
                     })

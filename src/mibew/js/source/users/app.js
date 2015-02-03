@@ -33,7 +33,7 @@
         badRequestsCount++;
         // Check if there is
         if (badRequestsCount == 10) {
-            alert(Mibew.Localization.trans('Network problems detected. Please refresh the page.'));
+            Mibew.Utils.alert(Mibew.Localization.trans('Network problems detected. Please refresh the page.'));
             badRequestsCount = 0;
         }
     }

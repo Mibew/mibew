@@ -123,4 +123,36 @@
         ].join(',');
     }
 
+    /**
+     * Alerts a message.
+     * @param {String} message A message that should be displayed.
+     */
+    Mibew.Utils.alert = function(message) {
+        alert(message);
+    }
+
+    /**
+     * Requires user confirmation.
+     * @param {String} message An assertion that should be confirmed.
+     * @param {Function} callback A function that will be called when the
+     * dialog is closed. This function accepts only one argument which is
+     * boolean that represents confirmation result.
+     */
+    Mibew.Utils.confirm = function(message, callback) {
+        var result = confirm(message);
+        callback(result);
+    }
+
+    /**
+     * Requests some info from the user.
+     * @param {String} message A message that will be displayed to user.
+     * @param {Function} callback A function that will be called when the
+     * dialog is closed. This function accepts only one argument which is
+     * the entered result.
+     */
+    Mibew.Utils.prompt = function(message, callback) {
+        var result = prompt(message);
+        callback(result);
+    }
+
 })(Mibew, jQuery, _);

@@ -19,10 +19,19 @@
 (function(Mibew, $) {
     $(document).ready(function(){
         $('a.remove-link').click(function(){
-            return confirm(Mibew.Localization.trans(
-                'Are you sure that you want to delete operator "{0}"?',
-                $(this).data('operator-login')
-            ));
+            var url = $(this).attr('href'),
+                message = Mibew.Localization.trans(
+                    'Are you sure that you want to delete operator "{0}"?',
+                    $(this).data('operator-login')
+                );
+
+            Mibew.Utils.confirm(message, function(value) {
+                if (value) {
+                    window.location.href = url;
+                }
+            });
+
+            return false;
         });
     });
 })(Mibew, jQuery);

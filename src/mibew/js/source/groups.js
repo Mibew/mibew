@@ -18,11 +18,20 @@
 
 (function(Mibew, $) {
     $(document).ready(function(){
-        $('a.remove-link').click(function(){
-            return confirm(Mibew.Localization.trans(
-                'Are you sure that you want to delete the group "{0}"?',
-                $(this).data('group-name')
-            ));
+        $('a.remove-link').click(function() {
+            var url = $(this).attr('href'),
+                message = Mibew.Localization.trans(
+                    'Are you sure that you want to delete the group "{0}"?',
+                    $(this).data('group-name')
+                );
+
+            Mibew.Utils.confirm(message, function(value) {
+                if (value) {
+                    window.location.href = url;
+                }
+            });
+
+            return false;
         });
     });
 })(Mibew, jQuery);

@@ -242,7 +242,7 @@
             showFirstMessage: function() {
                 var message = this.model.get('firstMessage');
                 if (message) {
-                    alert(message);
+                    Mibew.Utils.alert(message);
                 }
             }
 
