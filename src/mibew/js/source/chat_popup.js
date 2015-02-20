@@ -260,12 +260,6 @@ var Mibew = Mibew || {};
          * @type {Boolean}
          */
         this.modSecurity = options.modSecurity || false;
-
-        /**
-         * Indicates if the popup is opened.
-         * @type {Boolean}
-         */
-        this.isOpened = false;
     }
 
     /**
@@ -298,7 +292,17 @@ var Mibew = Mibew || {};
         // Call parent constructor.
         BasePopup.call(this, options);
 
+        /**
+         * Popup iframe DOM Element.
+         * @type {Node}
+         */
         this.iframe = null;
+
+        /**
+         * Indicates if the popup is opened.
+         * @type {Boolean}
+         */
+        this.isOpened = false;
 
         // Load default styles. These styles hide the popup while real styles
         // are loading.
@@ -422,11 +426,6 @@ var Mibew = Mibew || {};
      * value is omitted, the chat initialization URL will be loaded.
      */
     Mibew.ChatPopup.Window.prototype.open = function(url) {
-        if (this.isOpened) {
-            // Do not open the popup twice.
-            return;
-        }
-
         this.window = window.open(
             url || this.buildChatUrl(),
             'mibewChat' + this.id,
@@ -434,22 +433,19 @@ var Mibew = Mibew || {};
         );
         this.window.focus();
         this.window.opener = window;
-
-        this.isOpened = true;
     }
 
     /**
      * Closes the popup.
      */
     Mibew.ChatPopup.Window.prototype.close = function() {
-        if (!this.isOpened) {
-            // The window was not opened thus it should not be closed.
+        if (!this.window) {
+            // There is nothing to close.
             return;
         }
 
         this.window.close();
         this.window = null;
-        this.isOpened = false;
     }
 
     /**
