@@ -102,7 +102,7 @@ class UsersController extends AbstractController
             json_encode(array(
                 'server' => array(
                     'url' => $this->generateUrl('users_update'),
-                    'requestFrequency' => Settings::get('updatefrequency_operator'),
+                    'requestsFrequency' => Settings::get('updatefrequency_operator'),
                 ),
                 'agent' => array(
                     'id' => $operator['operatorid'],
