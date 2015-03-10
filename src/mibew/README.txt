@@ -24,8 +24,13 @@ INSTALLATION
                   user: admin
                   password: <your password>
 9. Get button code and setup it on your site.
-10. Change your name.
-11. Wait for your visitors on 'Pending users' page.
+10. Configure periodically running tasks by setting up an automated
+    process to visit the page http://<yourdomain>/cron?cron_key=<key>
+
+    The full URL including the secret "cron key" used to protect against
+    unauthorized access can be seen on the 'General' tab at the 'Settings' page.
+11. Change your name.
+12. Wait for your visitors on 'Pending users' page.
 
 On unix/linux platforms change the owner of /mibew/files/avatar and
 /mibew/cache folders to the user, under which the web server is running
