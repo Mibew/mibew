@@ -40,5 +40,5 @@ function verify_param($name, $reg_exp, $default = null)
 
 function is_valid_email($email)
 {
-    return preg_match("/^[^@]+@[^\.]+(\.[^\.]+)*$/", $email);
+    return (bool)filter_var($email, FILTER_VALIDATE_EMAIL);
 }
