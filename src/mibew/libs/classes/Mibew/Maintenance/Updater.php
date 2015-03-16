@@ -258,4 +258,63 @@ class Updater
             return false;
         }
     }
+
+    /**
+     * Performs all database updates needed for 2.0.0-beta.4.
+     *
+     * @return boolean True if the updates have been applied successfully and
+     * false otherwise.
+     */
+    protected function update20000Beta4()
+    {
+        $db = $this->getDatabase();
+
+        if (!$db) {
+            return false;
+        }
+
+        $db->query('START TRANSACTION');
+        try {
+            $operators = $db->query(
+                'SELECT operatorid AS id, vcavatar AS avatar FROM {operator}',
+                null,
+                array('return_rows' => Database::RETURN_ALL_ROWS)
+            );
+
+            // Mibew base path should not be included in operators' avatars
+            // which stored in the database. Remove the prefixes one by one.
+            foreach ($operators as $operator) {
+                if (empty($operator['avatar'])) {
+                    // The operator has no avatar.
+                    continue;
+                }
+
+                if (!preg_match("/^.*(files\/avatar\/[^\/]+)$/", $operator['avatar'], $matches)) {
+                    // Avatar's path has an unknown format.
+                    continue;
+                }
+
+                // Remove Mibew's web root from avatar's path
+                $db->query(
+                    'UPDATE {operator} SET vcavatar = :avatar WHERE operatorid = :id',
+                    array(
+                        ':id' => $operator['id'],
+                        ':avatar' => $matches[1],
+                    )
+                );
+            }
+        } catch (\Exception $e) {
+            // Something went wrong. We actually cannot update the database.
+            $this->errors[] = getlocal('Cannot update content: {0}', $e->getMessage());
+            // The database changes should be discarded.
+            $db->query('ROLLBACK');
+
+            return false;
+        }
+
+        // All needed data has been updated.
+        $db->query('COMMIT');
+
+        return true;
+    }
 }

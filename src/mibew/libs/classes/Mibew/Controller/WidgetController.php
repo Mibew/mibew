@@ -19,6 +19,7 @@
 
 namespace Mibew\Controller;
 
+use Mibew\Asset\Generator\UrlGeneratorInterface as AssetUrlGeneratorInterface;
 use Mibew\EventDispatcher\EventDispatcher;
 use Mibew\EventDispatcher\Events;
 use Mibew\Settings;
@@ -125,7 +126,10 @@ class WidgetController extends AbstractController
                 $response_data['dependencies']['invitationCreate'] = array();
                 $response_data['data']['invitation'] = array(
                     'operatorName' => htmlspecialchars($operator_name),
-                    'avatarUrl' => htmlspecialchars($operator['vcavatar']),
+                    'avatarUrl' => htmlspecialchars($this->asset(
+                        $operator['vcavatar'],
+                        AssetUrlGeneratorInterface::ABSOLUTE_URL
+                    )),
                     'threadUrl' => $this->generateUrl(
                         'chat_user_invitation',
                         array(),

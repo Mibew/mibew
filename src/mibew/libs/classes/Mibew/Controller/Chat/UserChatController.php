@@ -54,6 +54,7 @@ class UserChatController extends AbstractController
 
         $page = setup_chatview_for_user(
             $this->getRouter(),
+            $this->getAssetManager()->getUrlGenerator(),
             $request,
             $thread
         );

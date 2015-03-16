@@ -40,6 +40,7 @@ class ThreadController extends AbstractController
         $processor->setRouter($this->getRouter());
         $processor->setAuthenticationManager($this->getAuthenticationManager());
         $processor->setMailerFactory($this->getMailerFactory());
+        $processor->setAssetManager($this->getAssetManager());
 
         return $processor->handleRequest($request);
     }

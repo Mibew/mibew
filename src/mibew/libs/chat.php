@@ -17,6 +17,7 @@
  * limitations under the License.
  */
 
+use Mibew\Asset\Generator\UrlGeneratorInterface as AssetUrlGeneratorInterface;
 use Mibew\Settings;
 use Mibew\Thread;
 use Mibew\Style\ChatStyle;
@@ -375,12 +376,15 @@ function setup_chatview(Thread $thread)
  * Prepare some data for chat for user
  *
  * @param UrlGeneratorInterface $url_generator A URL generator object.
+ * @param AssetUrlGeneratorInterface $asset_url_generator An asset URL generator
+ * object.
  * @param Request $request The current request.
  * @param Thread $thread thread object that will be used
  * @return array Array of chat view data
  */
 function setup_chatview_for_user(
     UrlGeneratorInterface $url_generator,
+    AssetUrlGeneratorInterface $asset_url_generator,
     Request $request,
     Thread $thread
 ) {
@@ -428,7 +432,9 @@ function setup_chatview_for_user(
 
     // Set default operator's avatar
     $operator = operator_by_id($thread->agentId);
-    $data['chat']['avatar'] = ($operator['vcavatar'] ? $operator['vcavatar'] : '');
+    $data['chat']['avatar'] = $operator['vcavatar']
+        ? $asset_url_generator->generate($operator['vcavatar'])
+        : '';
 
     return $data;
 }

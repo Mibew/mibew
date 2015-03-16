@@ -20,6 +20,8 @@
 namespace Mibew\RequestProcessor;
 
 // Import namespaces and classes of the core
+use Mibew\Asset\AssetManagerAwareInterface;
+use Mibew\Asset\AssetManagerInterface;
 use Mibew\Authentication\AuthenticationManagerAwareInterface;
 use Mibew\Authentication\AuthenticationManagerInterface;
 use Mibew\Http\Exception\AccessDeniedException;
@@ -53,6 +55,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ThreadProcessor extends ClientSideProcessor implements
     RouterAwareInterface,
+    AssetManagerAwareInterface,
     AuthenticationManagerAwareInterface,
     MailerFactoryAwareInterface
 {
@@ -79,6 +82,13 @@ class ThreadProcessor extends ClientSideProcessor implements
      * @var MailerFactoryInterface|null
      */
     protected $mailerFactory = null;
+
+    /**
+     * An instance of asset manager.
+     *
+     * @var AssetManagerInterface|null
+     */
+    protected $assetManager = null;
 
     /**
      * Loads thread by id and token and checks if thread loaded
@@ -185,6 +195,22 @@ class ThreadProcessor extends ClientSideProcessor implements
     public function getMailerFactory()
     {
         return $this->mailerFactory;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAssetManager()
+    {
+        return $this->assetManager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setAssetManager(AssetManagerInterface $manager)
+    {
+        $this->assetManager = $manager;
     }
 
     /**
@@ -662,6 +688,7 @@ class ThreadProcessor extends ClientSideProcessor implements
         // Prepare chat options
         $client_data = setup_chatview_for_user(
             $this->getRouter(),
+            $this->getAssetManager()->getUrlGenerator(),
             $this->currentRequest,
             $thread
         );
@@ -834,7 +861,8 @@ class ThreadProcessor extends ClientSideProcessor implements
         if ($thread->agentId) {
             $operator = operator_by_id($thread->agentId);
             if ($operator['vcavatar']) {
-                $image_link = $operator['vcavatar'];
+                $url_generator = $this->getAssetManager()->getUrlGenerator();
+                $image_link = $url_generator->generate($operator['vcavatar']);
             }
         }
 

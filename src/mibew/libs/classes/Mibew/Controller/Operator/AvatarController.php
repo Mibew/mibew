@@ -58,7 +58,7 @@ class AvatarController extends AbstractController
             throw new NotFoundException('The operator is not found');
         }
 
-        $page['avatar'] = $op['vcavatar'];
+        $page['avatar'] = $op['vcavatar'] ? $this->asset($op['vcavatar']) : '';
         $page['currentop'] = $op
             ? get_operator_name($op) . ' (' . $op['vclogin'] . ')'
             : getlocal('-not found-');
@@ -123,7 +123,7 @@ class AvatarController extends AbstractController
                 // Move uploaded file to avatar directory
                 try {
                     $file->move($avatar_local_dir, $new_file_name);
-                    $avatar = $this->asset('files/avatar/' . $new_file_name);
+                    $avatar = 'files/avatar/' . $new_file_name;
                 } catch (Exception $e) {
                     $errors[] = failed_uploading_file($orig_filename, "Error moving file");
                 }
