@@ -38,6 +38,8 @@ class PasswordRecoveryController extends AbstractController
      */
     public function indexAction(Request $request)
     {
+        set_csrf_token();
+
         if ($this->getOperator()) {
             // If the operator is logged in just redirect him to the home page.
             return $this->redirect($request->getUriForPath('/operator'));
@@ -53,7 +55,14 @@ class PasswordRecoveryController extends AbstractController
         );
         $login_or_email = '';
 
-        if ($request->request->has('loginoremail')) {
+        if ($request->isMethod('POST')) {
+            // When HTTP GET method is used the form is just rendered but the
+            // user does not pass any data. Thus we need to prevent CSRF attacks
+            // only for POST requests
+            csrf_check_token($request);
+        }
+
+        if ($request->isMethod('POST') && $request->request->has('loginoremail')) {
             $login_or_email = $request->request->get('loginoremail');
 
             $to_restore = MailUtils::isValidAddress($login_or_email)
@@ -123,6 +132,8 @@ class PasswordRecoveryController extends AbstractController
      */
     public function resetAction(Request $request)
     {
+        set_csrf_token();
+
         $page = array(
             'version' => MIBEW_VERSION,
             'showform' => true,
@@ -132,6 +143,13 @@ class PasswordRecoveryController extends AbstractController
             'fixedwrap' => true,
             'errors' => array(),
         );
+
+        if ($request->isMethod('POST')) {
+            // When HTTP GET method is used the form is just rendered but the
+            // user does not pass any data. Thus we need to prevent CSRF attacks
+            // only for POST requests
+            csrf_check_token($request);
+        }
 
         // Make sure user id is specified and its format is correct.
         $op_id = $request->isMethod('GET')
@@ -159,7 +177,7 @@ class PasswordRecoveryController extends AbstractController
             $page['showform'] = false;
         }
 
-        if (count($page['errors']) == 0 && $request->request->has('password')) {
+        if (count($page['errors']) == 0 && $request->isMethod('POST') && $request->request->has('password')) {
             $password = $request->request->get('password');
             $password_confirm = $request->request->get('passwordConfirm');
 
