@@ -265,6 +265,7 @@ abstract class AbstractController implements
             'js/libs/backbone.marionette.min.js',
             'js/libs/handlebars.min.js',
             'js/libs/vex.combined.min.js',
+            'js/libs/validator.min.js',
             // Client side templates
             $this->getStyle()->getFilesPath() . '/templates_compiled/client_side/templates.js',
             // Default client side application files

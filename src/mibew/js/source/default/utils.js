@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-(function(Mibew, $, _, vex){
+(function(Mibew, $, _, vex, validator){
 
     /**
      * @namespace Holds utility functions
@@ -69,7 +69,7 @@
      * @returns {Boolean} true if address is valid and false otherwise
      */
     Mibew.Utils.checkEmail = function(email) {
-        return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
+        return validator.isEmail(email);
     }
 
     /**
@@ -174,4 +174,4 @@
         });
     }
 
-})(Mibew, jQuery, _, vex);
+})(Mibew, jQuery, _, vex, validator);
