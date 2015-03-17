@@ -77,6 +77,10 @@
         // fully compatible with RFC 2822. See
         // {@link https://github.com/chriso/validator.js/issues/377} for
         // details. Thus we need a custom validation method for emails.
+        if (!email) {
+            return false;
+        }
+
         var chunks = email.split('@');
 
         if (chunks.length < 2) {
