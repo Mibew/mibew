@@ -37,8 +37,3 @@ function verify_param($name, $reg_exp, $default = null)
     echo "<html><head></head><body>Wrong parameter used or absent: " . $name . "</body></html>";
     exit;
 }
-
-function is_valid_email($email)
-{
-    return (bool)filter_var($email, FILTER_VALIDATE_EMAIL);
-}

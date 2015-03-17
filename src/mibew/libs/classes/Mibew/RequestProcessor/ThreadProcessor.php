@@ -744,7 +744,7 @@ class ThreadProcessor extends ClientSideProcessor implements
         $info = $args['info'];
         $referrer = $args['referrer'];
 
-        if (!is_valid_email($email)) {
+        if (!MailUtils::isValidAddress($email)) {
             throw new ThreadProcessorException(
                 wrong_field("Your email"),
                 ThreadProcessorException::ERROR_WRONG_EMAIL

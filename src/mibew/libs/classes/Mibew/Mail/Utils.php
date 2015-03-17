@@ -27,6 +27,17 @@ use Symfony\Component\Yaml\Parser as YamlParser;
 class Utils
 {
     /**
+     * Checks if the passed in e-mail address is valid.
+     *
+     * @param string $address E-mail address to check.
+     * @return boolean
+     */
+    public static function isValidAddress($address)
+    {
+        return (bool)filter_var($address, FILTER_VALIDATE_EMAIL);
+    }
+
+    /**
      * Builds an instance of \Swift_message.
      *
      * @param string $to_addr Address the message should be send to.

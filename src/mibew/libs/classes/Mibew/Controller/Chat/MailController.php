@@ -96,7 +96,7 @@ class MailController extends AbstractController
         $group = is_null($thread->groupId) ? null : group_by_id($thread->groupId);
         if (!$email) {
             $errors[] = no_field('Your email');
-        } elseif (!is_valid_email($email)) {
+        } elseif (!MailUtils::isValidAddress($email)) {
             $errors[] = wrong_field('Your email');
         }
 

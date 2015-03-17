@@ -20,6 +20,7 @@
 namespace Mibew\Controller\Group;
 
 use Mibew\Http\Exception\NotFoundException;
+use Mibew\Mail\Utils as MailUtils;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -136,7 +137,7 @@ class SettingsController extends AbstractController
             $errors[] = no_field("Name");
         }
 
-        if ($email != '' && !is_valid_email($email)) {
+        if ($email != '' && !MailUtils::isValidAddress($email)) {
             $errors[] = wrong_field("E-mail");
         }
 

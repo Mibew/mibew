@@ -56,7 +56,7 @@ class PasswordRecoveryController extends AbstractController
         if ($request->request->has('loginoremail')) {
             $login_or_email = $request->request->get('loginoremail');
 
-            $to_restore = is_valid_email($login_or_email)
+            $to_restore = MailUtils::isValidAddress($login_or_email)
                 ? operator_by_email($login_or_email)
                 : operator_by_login($login_or_email);
             if (!$to_restore) {
@@ -64,7 +64,7 @@ class PasswordRecoveryController extends AbstractController
             }
 
             $email = $to_restore['vcemail'];
-            if (count($page['errors']) == 0 && !is_valid_email($email)) {
+            if (count($page['errors']) == 0 && !MailUtils::isValidAddress($email)) {
                 $page['errors'][] = "Operator hasn't set his e-mail";
             }
 

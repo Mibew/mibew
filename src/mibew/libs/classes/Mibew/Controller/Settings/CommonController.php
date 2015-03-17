@@ -20,6 +20,7 @@
 namespace Mibew\Controller\Settings;
 
 use Mibew\Http\Exception\BadRequestException;
+use Mibew\Mail\Utils as MailUtils;
 use Mibew\Settings;
 use Mibew\Style\ChatStyle;
 use Mibew\Style\InvitationStyle;
@@ -153,7 +154,7 @@ class CommonController extends AbstractController
             $params['left_messages_locale'] = get_home_locale();
         }
 
-        if ($params['email'] && !is_valid_email($params['email'])) {
+        if ($params['email'] && !MailUtils::isValidAddress($params['email'])) {
             $errors[] = getlocal('Enter a valid email address');
         }
 
