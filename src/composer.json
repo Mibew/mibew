@@ -29,7 +29,8 @@
         "canteen/html5": "1.1.*",
         "vierbergenlars/php-semver": "3.0.*",
         "swiftmailer/swiftmailer": "5.3.*",
-        "ua-parser/uap-php": "~3.4.1"
+        "ua-parser/uap-php": "~3.4.1",
+        "true/punycode": "~1.1"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "2.*"

@@ -20,6 +20,7 @@
 namespace Mibew\Mail;
 
 use Symfony\Component\Yaml\Parser as YamlParser;
+use True\Punycode;
 
 /**
  * Contains a set of utility methods related with emails.
@@ -29,16 +30,28 @@ class Utils
     /**
      * Checks if the passed in e-mail address is valid.
      *
+     * The method play nice with addresses that have national characters in the
+     * domain part.
+     *
      * @param string $address E-mail address to check.
      * @return boolean
      */
     public static function isValidAddress($address)
     {
-        return (bool)filter_var($address, FILTER_VALIDATE_EMAIL);
+        // Email address can contain UTF8 characters in the domain part, but
+        // PHP's validator does not allow IDN. Thus address normalization is
+        // used here to convert domain part of the address to punycode.
+        $normalized_address = self::normalizeAddress($address);
+
+        return (bool)filter_var($normalized_address, FILTER_VALIDATE_EMAIL);
     }
 
     /**
      * Builds an instance of \Swift_message.
+     *
+     * The method assumes that $to_addr and $reply_to arguments are valid email
+     * addresses. One can use {@link Utils::isValidAddress} for address
+     * validation.
      *
      * @param string $to_addr Address the message should be send to.
      * @param string $reply_to The address which will be used in "Reply-to"
@@ -54,8 +67,8 @@ class Utils
             ->setCharset('utf-8')
             ->setMaxLineLength(70)
             ->setFrom(MIBEW_MAILBOX)
-            ->setTo($to_addr)
-            ->setReplyTo($reply_to)
+            ->setTo(self::normalizeAddress($to_addr))
+            ->setReplyTo(self::normalizeAddress($reply_to))
             ->setSubject($subject)
             ->setBody(preg_replace("/\n/", "\r\n", $body));
     }
@@ -97,6 +110,30 @@ class Utils
                 $template->save();
             }
         }
+    }
+
+    /**
+     * Converts domain part of the address to punycode if needed.
+     *
+     * @param string $address The address that should be normalized.
+     * @return string
+     */
+    private static function normalizeAddress($address)
+    {
+        $chunks = explode('@', $address);
+        if (count($chunks) < 2) {
+            // The address has no "@" character thus it's not a real email
+            // address and should not be normalized at all.
+            return $address;
+        }
+
+        $punycode = new Punycode();
+        // Domain part should be converted to punycode to play nice with IDN.
+        $domain = $punycode->encode(array_pop($chunks));
+        // Local part should be left as is.
+        $local_part = implode('@', $chunks);
+
+        return $local_part . '@' . $domain;
     }
 
     /**
