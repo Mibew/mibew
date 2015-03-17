@@ -64,12 +64,37 @@
     }
 
     /**
-     * Check if email address valid or not
+     * Check if email address valid or not.
+     *
+     * The method play nice with addresses that have national characters in the
+     * domain part.
+     *
      * @param {String} email Address to check
      * @returns {Boolean} true if address is valid and false otherwise
      */
     Mibew.Utils.checkEmail = function(email) {
-        return validator.isEmail(email);
+        // The problem is "validator.isEmail" cannot be used because it's not
+        // fully compatible with RFC 2822. See
+        // {@link https://github.com/chriso/validator.js/issues/377} for
+        // details. Thus we need a custom validation method for emails.
+        var chunks = email.split('@');
+
+        if (chunks.length < 2) {
+            // There is no "@" character in the address thus it cannot be valid.
+            return false;
+        }
+
+        var domain = chunks.pop(),
+            localPart = chunks.join('@');
+
+        if (!validator.isFQDN(domain)) {
+            // The domain part is invalid.
+            return false;
+        }
+
+        // The regular exprassion is base on RFC 2822. It's not fully compatible
+        // with RFC but is sutabe for most real cases.
+        return /^(([a-zA-Z0-9!#$%&'*+\-/=?\^_`{|}~]+(\.[a-zA-Z0-9!#$%&'*+\-/=?\^_`{|}~]+)*)|(\".+\"))$/.test(localPart);
     }
 
     /**
