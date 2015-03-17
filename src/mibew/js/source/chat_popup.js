@@ -277,8 +277,8 @@ var Mibew = Mibew || {};
         }
 
         return this.url
-            + ((this.url.indexOf('?') === -1) ? '?' : '&') + 'url=' + escape(href)
-            + '&referrer=' + escape(referrer);
+            + ((this.url.indexOf('?') === -1) ? '?' : '&') + 'url=' + encodeURIComponent(href)
+            + '&referrer=' + encodeURIComponent(referrer);
     }
 
     /**
