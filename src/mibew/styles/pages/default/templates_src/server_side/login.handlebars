@@ -9,6 +9,8 @@
         </div>
 
         <form name="loginForm" method="post" action="{{route "login_submit"}}">
+            {{csrfTokenInput}}
+
             <div id="login-pane">
 
                 <div class="header">
