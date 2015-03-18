@@ -51,3 +51,16 @@ Options +FollowSymLinks
 <FilesMatch "\.(yml|po|ini|handlebars|keep)$">
     Deny from all
 </FilesMatch>
+
+# Turn on Expires
+ExpiresActive On
+ExpiresDefault "access plus 2 days"
+
+# Speed up caching
+FileETag MTime Size
+
+# Set up 2 days caching and specific cache-control for files
+<FilesMatch "\.(.*)\.(js|css|jpg|png|gif|svg)$">
+ ExpiresDefault A172800
+ Header append Cache-Control "proxy-revalidate"
+</FilesMatch>
