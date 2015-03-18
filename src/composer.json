@@ -28,7 +28,7 @@
         "tedivm/stash": "0.12.*",
         "canteen/html5": "1.1.*",
         "vierbergenlars/php-semver": "3.0.*",
-        "swiftmailer/swiftmailer": "5.3.*",
+        "swiftmailer/swiftmailer": "~5.4.0",
         "ua-parser/uap-php": "~3.4.1",
         "true/punycode": "~1.1"
     },
