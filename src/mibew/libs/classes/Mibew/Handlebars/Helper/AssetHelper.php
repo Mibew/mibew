@@ -22,6 +22,7 @@ namespace Mibew\Handlebars\Helper;
 use Handlebars\Context;
 use Handlebars\Helper as HelperInterface;
 use Handlebars\Template;
+use Mibew\Asset\AssetManagerAwareInterface;
 use Mibew\Asset\Generator\UrlGeneratorInterface as AssetUrlGeneratorInterface;
 
 /**
@@ -36,7 +37,7 @@ use Mibew\Asset\Generator\UrlGeneratorInterface as AssetUrlGeneratorInterface;
  * paths. Lets assume that the following array is passed to the constructor:
  * <code>
  *   $helper = new AssetHelper(
- *     $generator,
+ *     $asset_manager_container,
  *     array('CustomStorage' => 'custom/files/storage')
  *   );
  * </code>
@@ -54,47 +55,28 @@ class AssetHelper implements HelperInterface
     protected $locations = null;
 
     /**
-     * @var AssetUrlGeneratorInterface|null
+     * @var AssetManagerAwareInterface|null
      */
-    protected $generator = null;
+    protected $assetManagerContainer = null;
 
     /**
      * Class constructor.
      *
-     * @param AssetUrlGeneratorInterface $generator An instance of URL generator
+     * @param AssetManagerAwareInterface $manager_container An object which
+     * knows where to get an appropriate Asset Manager.
      * @param array $locations Associative array of locations that can be used
      *   as prefixes for asset relative paths. The keys are prefixes and the
      *   values are locations relative paths. These paths must not content
      *   neither leading nor trailing slashes.
      */
-    public function __construct(AssetUrlGeneratorInterface $generator, $locations = array())
+    public function __construct(AssetManagerAwareInterface $manager_container, $locations = array())
     {
-        $this->generator = $generator;
+        $this->assetManagerContainer = $manager_container;
 
         // Strip slashes from location paths.
         foreach ($locations as $name => $path) {
             $this->locations[$name] = trim($path, '/');
         }
-    }
-
-    /**
-     * Gets instance of Asset URL Generator.
-     *
-     * @return AssetUrlGeneratorInterface
-     */
-    public function getAssetUrlGenerator()
-    {
-        return $this->generator;
-    }
-
-    /**
-     * Sets an instance of Asset URL Generator.
-     *
-     * @param AssetUrlGeneratorInterface $generator
-     */
-    public function setAssetUrlGenerator(AssetUrlGeneratorInterface $generator)
-    {
-        $this->generator = $generator;
     }
 
     /**
@@ -120,7 +102,18 @@ class AssetHelper implements HelperInterface
             );
         }
 
-        return $this->generator->generate($relative_path);
+        return $this->getAssetUrlGenerator()->generate($relative_path);
+    }
+
+    /**
+     * Extracts an instance of Asset URL Generator from the Asset Manager
+     * container related with the object.
+     *
+     * @return AssetUrlGeneratorInterface
+     */
+    protected function getAssetUrlGenerator()
+    {
+        return $this->assetManagerContainer->getAssetManager()->getUrlGenerator();
     }
 
     /**

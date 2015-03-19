@@ -120,20 +120,6 @@ abstract class AbstractController implements
     public function setAssetManager(AssetManagerInterface $manager)
     {
         $this->assetManager = $manager;
-
-        // Update URL generator in the style helpers
-        if (!is_null($this->style) && $this->style instanceof HandlebarsAwareInterface) {
-            $handlebars = $this->style->getHandlebars();
-            if ($handlebars->hasHelper('asset')) {
-                $handlebars->getHelper('asset')->setAssetUrlGenerator($manager->getUrlGenerator());
-            }
-            if ($handlebars->hasHelper('jsAssets')) {
-                $handlebars->getHelper('jsAssets')->setAssetManager($manager);
-            }
-            if ($handlebars->hasHelper('cssAssets')) {
-                $handlebars->getHelper('cssAssets')->setAssetManager($manager);
-            }
-        }
     }
 
     /**
@@ -358,18 +344,12 @@ abstract class AbstractController implements
             $hbs->addHelper(
                 'asset',
                 new AssetHelper(
-                    $this->getAssetManager()->getUrlGenerator(),
+                    $this,
                     array('CurrentStyle' => $style->getFilesPath())
                 )
             );
-            $hbs->addHelper(
-                'jsAssets',
-                new JsAssetsHelper($this->getAssetManager())
-            );
-            $hbs->addHelper(
-                'cssAssets',
-                new CssAssetsHelper($this->getAssetManager())
-            );
+            $hbs->addHelper('jsAssets', new JsAssetsHelper($this));
+            $hbs->addHelper('cssAssets', new CssAssetsHelper($this));
         }
 
         return $style;

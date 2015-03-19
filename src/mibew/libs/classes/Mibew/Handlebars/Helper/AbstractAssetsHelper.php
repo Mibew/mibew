@@ -29,37 +29,22 @@ use Mibew\Asset\AssetManagerInterface;
 /**
  * Contains for basic functionality for all helpers which renders assets lists.
  */
-abstract class AbstractAssetsHelper implements HelperInterface, AssetManagerAwareInterface
+abstract class AbstractAssetsHelper implements HelperInterface
 {
     /**
-     * @var AssetManagerInterface|null
+     * @var AssetManagerAwareInterface|null
      */
-    protected $manager = null;
+    protected $assetManagerContainer = null;
 
     /**
      * Class constructor.
      *
-     * @param AssetUrlGeneratorInterface $manager An instance of Asset Manager.
+     * @param AssetManagerAwareInterface $manager_container An object which know
+     * where to get an appropriate Asset Manager.
      */
-    public function __construct(AssetManagerInterface $manager)
+    public function __construct(AssetManagerAwareInterface $manager_container)
     {
-        $this->manager = $manager;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAssetManager()
-    {
-        return $this->manager;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setAssetManager(AssetManagerInterface $manager)
-    {
-        $this->manager = $manager;
+        $this->assetManagerContainer = $manager_container;
     }
 
     /**
@@ -93,6 +78,17 @@ abstract class AbstractAssetsHelper implements HelperInterface, AssetManagerAwar
         }
 
         return new SafeString(implode("\n", $buffer));
+    }
+
+    /**
+     * Extracts asset manager from the asset manager's container related with
+     * the object.
+     *
+     * @return AssetManagerInterface
+     */
+    protected function getAssetManager()
+    {
+        return $this->assetManagerContainer->getAssetManager();
     }
 
     /**
