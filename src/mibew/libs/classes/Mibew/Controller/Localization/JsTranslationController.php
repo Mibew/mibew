@@ -46,6 +46,7 @@ class JsTranslationController extends AbstractController
             $item->lock();
 
             $messages = load_messages($locale);
+            // Store JSON-encoded data to reduce count of json_encode calls.
             $content = sprintf(
                 '%s(%s);',
                 'Mibew.Localization.set',
@@ -55,8 +56,39 @@ class JsTranslationController extends AbstractController
             $item->set($content);
         }
 
+        // Session is started automatically during application initialization
+        // and PHP sets "Cache-Control" and "Expires" headers to forbid caching
+        // and to keep the session private. In this script we actually does not
+        // use session stuff, thus we can remove these headers to provide
+        // caching. Notice that all headers are removed to clear "Set-Cookie"
+        // header with session ID and may be some other unsafe headers that
+        // must not be cached.
+        header_remove();
+
+        // The whole response body (JSON-encoded with a callback function) is
+        // cached via cache backend, thus it's simplier to use Symfony's
+        // Response class instead of JsonResponse.
         $response = new Response();
         $response->headers->set('Content-Type', 'text/javascript');
+
+        // Set various cache headers
+        $response->setPublic();
+        $response->setMaxAge(120);
+        if ($item->getCreation()) {
+            // Creation field can be unavailable for some cache drivers.
+            $response->setLastModified($item->getCreation());
+        }
+        $response->setETag(sha1($content));
+
+        if ($response->isNotModified($request)) {
+            $response->setNotModified();
+
+            // We does not need to send content for the client. Just return 304
+            // status code.
+            return $response;
+        }
+
+        // Pass the whole response for the client.
         $response->setContent($content);
 
         return $response;
