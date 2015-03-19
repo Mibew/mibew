@@ -88,17 +88,6 @@ abstract class AbstractController implements
     public function setRouter(RouterInterface $router)
     {
         $this->router = $router;
-
-        // Update router in the style helpers
-        if (!is_null($this->style) && $this->style instanceof HandlebarsAwareInterface) {
-            $handlebars = $this->style->getHandlebars();
-            if ($handlebars->hasHelper('route')) {
-                $handlebars->getHelper('route')->setRouter($router);
-            }
-            if ($handlebars->hasHelper('csrfProtectedRoute')) {
-                $handlebars->getHelper('csrfProtectedRoute')->setRouter($router);
-            }
-        }
     }
 
     /**
@@ -361,13 +350,10 @@ abstract class AbstractController implements
             $hbs->setCache(new HandlebarsCacheAdapter($this->getCache()));
 
             // Add more helpers to template engine
-            $hbs->addHelper(
-                'route',
-                new RouteHelper($this->getRouter())
-            );
+            $hbs->addHelper('route', new RouteHelper($this));
             $hbs->addHelper(
                 'csrfProtectedRoute',
-                new CsrfProtectedRouteHelper($this->getRouter())
+                new CsrfProtectedRouteHelper($this)
             );
             $hbs->addHelper(
                 'asset',

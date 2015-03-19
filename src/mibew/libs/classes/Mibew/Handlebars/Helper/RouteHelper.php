@@ -35,37 +35,22 @@ use Mibew\Routing\RouterInterface;
  * The code above generates URL for route named "hello" and pass parameter
  * "to" equals to "world" to URL generator.
  */
-class RouteHelper implements HelperInterface, RouterAwareInterface
+class RouteHelper implements HelperInterface
 {
     /**
-     * @var RouterInterface
+     * @var RouterAwareInterface
      */
-    protected $router = null;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getRouter()
-    {
-        return $this->router;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setRouter(RouterInterface $router)
-    {
-        $this->router = $router;
-    }
+    protected $routerContainer = null;
 
     /**
      * Helper's constructor.
      *
-     * @param RouterInterface $router A Router instance.
+     * @param RouterAwareInterface $router_container An object that keeps router
+     * instance.
      */
-    public function __construct(RouterInterface $router)
+    public function __construct(RouterAwareInterface $router_container)
     {
-        $this->setRouter($router);
+        $this->routerContainer = $router_container;
     }
 
     /**
@@ -86,5 +71,15 @@ class RouteHelper implements HelperInterface, RouterAwareInterface
         }
 
         return $this->getRouter()->generate($route_name, $parameters);
+    }
+
+    /**
+     * Extracts router from the router's container related with the object.
+     *
+     * @return RouterInterface
+     */
+    protected function getRouter()
+    {
+        return $this->routerContainer->getRouter();
     }
 }
