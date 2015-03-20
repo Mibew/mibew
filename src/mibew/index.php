@@ -24,27 +24,31 @@ use Mibew\Application;
 use Mibew\Authentication\AuthenticationManager;
 use Mibew\Mail\MailerFactory;
 use Mibew\Routing\Router;
+use Mibew\Routing\Loader\CacheLoader;
 use Mibew\Routing\Loader\PluginLoader;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
 
-// Prepare router
-$file_locator = new FileLocator(array(MIBEW_FS_ROOT));
-$route_loader = new YamlFileLoader($file_locator);
-$loader_resolver = new LoaderResolver(array(
-    $route_loader,
-    new PluginLoader(),
-));
-$router = new Router($route_loader, 'configs/routing.yml');
-
-$application = new Application($router, new AuthenticationManager());
-
-// Use custom files cache
+// Use custom cache
 $cache_driver = new \Stash\Driver\FileSystem();
 $cache_driver->setOptions(array('path' => MIBEW_FS_ROOT . '/cache/stash'));
 $cache = new \Stash\Pool($cache_driver);
+
+// The main route loader which loads nothig but works as a cache proxy for other
+// loaders.
+$route_loader = new CacheLoader($cache);
+// Real loaders are attached via the resolver.
+$loader_resolver = new LoaderResolver(array(
+    $route_loader,
+    new YamlFileLoader(new FileLocator(array(MIBEW_FS_ROOT))),
+    new PluginLoader(),
+));
+
+$router = new Router($route_loader, 'configs/routing.yml');
+
+$application = new Application($router, new AuthenticationManager());
 $application->setCache($cache);
 
 // Use custom config-dependent mailer factory

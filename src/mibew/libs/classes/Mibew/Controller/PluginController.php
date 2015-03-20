@@ -87,6 +87,11 @@ class PluginController extends AbstractController
             return $this->indexAction($request);
         }
 
+        // Plugins can have own routing files and when the plugin becomes
+        // enabled its routes should become enabled too. So the cache is cleared
+        // to make sure the routes set is up to date.
+        $this->getCache()->getItem('routing/resources')->clear();
+
         return $this->redirect($this->generateUrl('plugins'));
     }
 
@@ -120,6 +125,11 @@ class PluginController extends AbstractController
             // index page and show errors there.
             return $this->indexAction($request);
         }
+
+        // Plugins can have own routing files and when the plugin becomes
+        // disabled its routes should become disabled too. So the cache is
+        // cleared to make sure the routes set is up to date.
+        $this->getCache()->getItem('routing/resources')->clear();
 
         return $this->redirect($this->generateUrl('plugins'));
     }
