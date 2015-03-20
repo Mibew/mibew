@@ -13,6 +13,7 @@ src/mibew/files/avatar/*
 # Do not index cache files
 src/mibew/cache/*
 !src/mibew/cache/.keep
+!src/mibew/cache/.htaccess
 
 # Do not index plugins
 src/mibew/plugins/*
