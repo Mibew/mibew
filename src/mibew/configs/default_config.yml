@@ -39,6 +39,19 @@ mailer:
     # "tls".
     encryption: false
 
+# Cache subsystem
+cache:
+    # This value determines where the cached data will be stored. Possible
+    # values are "none" and "file_system".
+    #
+    # If "none" is used the caching will be disabled. This option should be used
+    # only if none of the other options works.
+    #
+    # If "file_system" is used the cached data will be stored in files within
+    # the "cache/" directory. Notice, that the file system storage does not work
+    # on NFS systems bucause exclusive file locks are not supported where.
+    storage: file_system
+
 # Locales
 ## Native name will be used in this locale
 home_locale: en
