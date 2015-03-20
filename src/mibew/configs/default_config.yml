@@ -42,7 +42,7 @@ mailer:
 # Cache subsystem
 cache:
     # This value determines where the cached data will be stored. Possible
-    # values are "none" and "file_system".
+    # values are "none", "file_system" and "memcached".
     #
     # If "none" is used the caching will be disabled. This option should be used
     # only if none of the other options works.
@@ -50,7 +50,16 @@ cache:
     # If "file_system" is used the cached data will be stored in files within
     # the "cache/" directory. Notice, that the file system storage does not work
     # on NFS systems bucause exclusive file locks are not supported where.
+    #
+    # If "memcached" is used the cached data will be stored in Memcached
+    # storage. Before using this kind of storage make sure PHP's memcached
+    # extension is installed and enabled.
     storage: file_system
+
+    # The lines below represents default Memcached server configurations. They
+    # will be used only if the "storage" option is set to "memcached".
+    memcached_host: localhost
+    memcached_port: 11211
 
 # Locales
 ## Native name will be used in this locale

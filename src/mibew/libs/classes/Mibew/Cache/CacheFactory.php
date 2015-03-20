@@ -22,6 +22,7 @@ namespace Mibew\Cache;
 use Stash\Interfaces\PoolInterface;
 use Stash\Driver\Ephemeral as EphemeralDriver;
 use Stash\Driver\FileSystem as FileSystemDriver;
+use Stash\Driver\Memcache as MemcacheDriver;
 use Stash\Pool as CachePool;
 
 /**
@@ -97,6 +98,8 @@ class CacheFactory
         $defaults = array(
             'storage' => 'file_system',
             'path' => '/tmp',
+            'memcached_host' => 'localhost',
+            'memcached_port' => 11211,
         );
 
         // Make sure all passed options are known
@@ -124,6 +127,9 @@ class CacheFactory
     /**
      * Builds cache pool instance.
      *
+     * @todo Most likely the factory should return Ephemeral cache if a real
+     * storage cannot be used by some resons.
+     *
      * @return PoolInterface An instance of cache pool.
      * @throws \RuntimeException If at least one of factory's options is
      * invalid.
@@ -137,6 +143,16 @@ class CacheFactory
             } elseif ($storage === 'file_system') {
                 $driver = new FileSystemDriver();
                 $driver->setOptions(array('path' => $this->getOption('path')));
+            } elseif ($storage === 'memcached') {
+                $driver = new MemcacheDriver();
+                $driver->setOptions(array(
+                    'servers' => array(
+                        $this->getOption('memcached_host'),
+                        $this->getOption('memcached_port'),
+                    ),
+                    // Use only PHP's "memcached" extension.
+                    'extension' => 'memcached'
+                ));
             } else {
                 throw new \RuntimeException(sprintf(
                     'Wrong value of "storage" option: "%s"',
