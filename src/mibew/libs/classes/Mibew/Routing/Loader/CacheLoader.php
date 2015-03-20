@@ -45,11 +45,11 @@ class CacheLoader extends Loader
      * Constructor of the class.
      *
      * @param PoolInterface $cache An instance of cache pool.
-     * @param int $max_age Maximum time in seconds the cache can be stored.
-     * Notice that the cache can be invalidated before the max age timeout is
-     * expired.
+     * @param int|null $max_age Maximum time in seconds the cache can be stored.
+     * If the null is passed in the cache will never expired but can be
+     * invalidated by some other resons.
      */
-    public function __construct(PoolInterface $cache, $max_age = 600)
+    public function __construct(PoolInterface $cache, $max_age = null)
     {
         $this->cache = $cache;
         $this->cacheMaxAge = $max_age;
