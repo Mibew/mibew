@@ -1,0 +1,17 @@
+{
+    "name": "mibew",
+    "private": true,
+    "dependencies": {
+        "underscore": "1.8.2",
+        "json": "2012.10.08",
+        "jquery": "1.11.2",
+        "backbone": "1.1.2",
+        "marionette": "2.4.1",
+        "handlebars": "3.0.0",
+        "vex": "2.3.2",
+        "validator-js": "3.34.0"
+    },
+    "resolutions": {
+        "underscore": "1.8.2"
+    }
+}

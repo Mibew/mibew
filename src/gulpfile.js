@@ -7,6 +7,7 @@ var fs = require('fs'),
     lodash = require('lodash'),
     PoFile = require('pofile'),
     strftime = require('strftime'),
+    bower = require('bower'),
     gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     concat = require('gulp-concat'),
@@ -21,13 +22,15 @@ var fs = require('fs'),
     gzip = require('gulp-gzip'),
     chmod = require('gulp-chmod'),
     xgettext = require('gulp-xgettext'),
-    concatPo = require('gulp-concat-po');
+    concatPo = require('gulp-concat-po'),
+    rename = require('gulp-rename');
 
 // Set global configs.
 var config = {
     mibewPath: 'mibew',
     configsPath: 'mibew/configs',
     phpVendorPath: 'mibew/vendor',
+    jsVendorPath: 'mibew/js/vendor',
     pluginsPath: 'mibew/plugins',
     avatarsPath: 'mibew/files/avatar',
     cachePath: 'mibew/cache',
@@ -96,6 +99,45 @@ gulp.task('composer-install-dev', ['get-composer'], function(callback) {
     exec(config.phpBin + ' composer.phar install', function(error, stdout, stderr) {
         callback(error ? stderr : null);
     });
+});
+
+// Installs bower dependencies
+gulp.task('bower-install', function(callback) {
+    bower.commands.install([], {}, {})
+        .on('error', function(error) {
+            callback(error);
+        })
+        .on('end', function() {
+            // We should manually minify JavaScript files that was not minified
+            // by bower packages' authors.
+            // TODO: This is a temproary workaround and should be removed once
+            // the packages will be fixed.
+            var stream = eventStream.merge(
+                gulp.src(config.jsVendorPath + '/backbone/backbone.js', {base: config.jsVendorPath})
+                    .pipe(uglify({preserveComments: 'some'}))
+                    // There are neither "@license" tag nor "!preserve" in the
+                    // header. Add the header manually.
+                    .pipe(header(
+                        "// Backbone.js 1.1.2\n"
+                            + "// (c) 2010-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors\n"
+                            + "// Backbone may be freely distributed under the MIT license.\n"
+                            + "// For all details and documentation:\n"
+                            + "// http://backbonejs.org\n"
+                    ))
+                    .pipe(rename('backbone/backbone-min.js')),
+                gulp.src(config.jsVendorPath + '/json/json2.js', {base: config.jsVendorPath})
+                    .pipe(uglify({preserveComments: 'some'}))
+                    // There are neither "@license" tag nor "!preserve" in the
+                    // header. Add the header manually.
+                    .pipe(header("// json2.js. Public Domain. See http://www.JSON.org/js.html\n"))
+                    .pipe(rename('json/json2.min.js'))
+            );
+
+            stream.pipe(gulp.dest(config.jsVendorPath));
+            stream
+                .on('error', callback)
+                .on('end', callback);
+        });
 });
 
 // Compile all JavaScript files of the Mibew Core
@@ -214,7 +256,7 @@ gulp.task('generate-pot', function() {
 });
 
 // Pack sources to .zip and .tar.gz archives.
-gulp.task('pack-sources', ['composer-install'], function() {
+gulp.task('pack-sources', ['composer-install', 'bower-install'], function() {
     var sources = [
         config.mibewPath + '/**/*',
         // Exclude user's config
@@ -232,7 +274,29 @@ gulp.task('pack-sources', ['composer-install'], function() {
         // Exclude vendors binaries
         '!' + config.phpVendorPath + '/bin/**/*',
         // Exclude JavaScript sources
-        '!' + config.jsPath + '/source/**/*'
+        '!' + config.jsPath + '/source/**/*',
+        // Actually we does not need backbone.babysitter and backbone.wreqr
+        // dependencies because they embed into marionette.js. So we exclude
+        // "backbone.babysitter" and "backbone.wreqr" directories and all their
+        // contents.
+        '!' + config.jsVendorPath + '/backbone.babysitter{,/**}',
+        '!' + config.jsVendorPath + '/backbone.wreqr{,/**}',
+        // Exclude dot files within third-party JS libraries.
+        '!' + config.jsVendorPath + '/**/.*',
+        // Exclude config files of various package systems
+        '!' + config.jsVendorPath + '/**/{bower,component,package,composer}.json',
+        // Exclude config files of various build systems
+        '!' + config.jsVendorPath + '/**/Gruntfile.*',
+        '!' + config.jsVendorPath + '/**/gulpfile.*',
+        '!' + config.jsVendorPath + '/**/Makefile',
+        // Exclude HTML files from third-party JS libraries. Such files can be
+        // used for docs or for tests, we need none of them.
+        '!' + config.jsVendorPath + '/**/*.html',
+        // There are too many useless files in Vex.js library. Exclude them.
+        '!' + config.jsVendorPath + '/vex/sass{,/**}',
+        '!' + config.jsVendorPath + '/vex/docs{,/**}',
+        '!' + config.jsVendorPath + '/vex/docs{,/**}',
+        '!' + config.jsVendorPath + '/vex/coffee{,/**}'
     ];
     var srcOptions = {
         // Dot files (.htaccess, .keep, etc.) must be included in the package.

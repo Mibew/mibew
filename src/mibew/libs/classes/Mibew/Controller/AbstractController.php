@@ -226,21 +226,21 @@ abstract class AbstractController implements
     public function render($template, array $parameters = array())
     {
         // Attach all default css files
-        $this->getAssetManager()->attachCss('css/vex.css', AssetManagerInterface::RELATIVE_URL, -1000);
-        $this->getAssetManager()->attachCss('css/vex-theme-default.css', AssetManagerInterface::RELATIVE_URL, -1000);
+        $this->getAssetManager()->attachCss('js/vendor/vex/css/vex.css', AssetManagerInterface::RELATIVE_URL, -1000);
+        $this->getAssetManager()->attachCss('js/vendor/vex/css/vex-theme-default.css', AssetManagerInterface::RELATIVE_URL, -1000);
 
         // Attach all needed JavaScript files. This is done here to decouple
         // templates and JavaScript applications.
         $assets = array(
             // External libs
-            'js/libs/jquery.min.js',
-            'js/libs/json2.js',
-            'js/libs/underscore-min.js',
-            'js/libs/backbone-min.js',
-            'js/libs/backbone.marionette.min.js',
-            'js/libs/handlebars.min.js',
-            'js/libs/vex.combined.min.js',
-            'js/libs/validator.min.js',
+            'js/vendor/jquery/dist/jquery.min.js',
+            'js/vendor/json/json2.min.js',
+            'js/vendor/underscore/underscore-min.js',
+            'js/vendor/backbone/backbone-min.js',
+            'js/vendor/marionette/lib/backbone.marionette.min.js',
+            'js/vendor/handlebars/handlebars.min.js',
+            'js/vendor/vex/js/vex.combined.min.js',
+            'js/vendor/validator-js/validator.min.js',
             // Client side templates
             $this->getStyle()->getFilesPath() . '/templates_compiled/client_side/templates.js',
             // Default client side application files
