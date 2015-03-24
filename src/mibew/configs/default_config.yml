@@ -58,8 +58,13 @@ cache:
 
     # The lines below represents default Memcached server configurations. They
     # will be used only if the "storage" option is set to "memcached".
-    memcached_host: localhost
-    memcached_port: 11211
+    memcached_servers:
+        - host: localhost
+          port: 11211
+          # The "weight" field is optional and can be omitted.
+          weight: 0
+          # Actually, one can use any number of memcached servers he wants. Just
+          # add servers description like the one above.
 
 # Locales
 ## Native name will be used in this locale

@@ -98,8 +98,7 @@ class CacheFactory
         $defaults = array(
             'storage' => 'file_system',
             'path' => '/tmp',
-            'memcached_host' => 'localhost',
-            'memcached_port' => 11211,
+            'memcached_servers' => array(),
         );
 
         // Make sure all passed options are known
@@ -144,12 +143,26 @@ class CacheFactory
                 $driver = new FileSystemDriver();
                 $driver->setOptions(array('path' => $this->getOption('path')));
             } elseif ($storage === 'memcached') {
+                $servers = $this->getOption('memcached_servers');
+
+                // Make sure memcached servers was described correctly. The next
+                // statement will throw Exception if something is wrong so we do
+                // not need to check the result.
+                $this->validateMemcachedServers($servers);
+
+                // Convert structure from the "memcached_servers" option to the
+                // form used in cache driver.
+                $formated_servers = array_map(function ($server) {
+                    return array(
+                        $server['host'],
+                        intval($server['port']),
+                        isset($server['weight']) ? intval($server['weight']) : 0,
+                    );
+                }, $servers);
+
                 $driver = new MemcacheDriver();
                 $driver->setOptions(array(
-                    'servers' => array(
-                        $this->getOption('memcached_host'),
-                        $this->getOption('memcached_port'),
-                    ),
+                    'servers' => $formated_servers,
                     // Use only PHP's "memcached" extension.
                     'extension' => 'memcached'
                 ));
@@ -164,5 +177,47 @@ class CacheFactory
         }
 
         return $this->cache;
+    }
+
+    /**
+     * Checks if the specified array is a valid memcached servers array.
+     *
+     * @param Array $servers
+     * @throws \UnexpectedValueException
+     */
+    private function validateMemcachedServers($servers)
+    {
+        foreach ($servers as $server) {
+            // The host should be specified.
+            if (!isset($server['host']) || !$server['host']) {
+                throw new \UnexpectedValueException('Memcached server port was not specified.');
+            }
+
+            // The port can be only a positive integer.
+            $correct_port = isset($server['port'])
+                && (bool)filter_var($server['port'], FILTER_VALIDATE_INT)
+                && intval($server['port']) > 0;
+            if (!$correct_port) {
+                throw new \UnexpectedValueException(sprintf(
+                    'Memcached server port can be only a positive integer. "%s" is given.',
+                    isset($server['port']) ? $server['port'] : ''
+                ));
+            }
+
+            if (!isset($server['weight'])) {
+                // The weight is optional thus it can be missed.
+                continue;
+            }
+
+            // The weight can be only a positive integer if specified.
+            $correct_weight = (bool)filter_var($server['weight'], FILTER_VALIDATE_INT)
+                && intval($server['weight']) > 0;
+            if (!$correct_weight) {
+                throw new \UnexpectedValueException(sprintf(
+                    'Memcached server weight can be only a positive integer. "%s" is given.',
+                    $server['weight']
+                ));
+            }
+        }
     }
 }
