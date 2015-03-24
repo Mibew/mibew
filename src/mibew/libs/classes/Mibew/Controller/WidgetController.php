@@ -120,16 +120,16 @@ class WidgetController extends AbstractController
                 $operator_name = ($locale == get_home_locale())
                     ? $operator['vclocalename']
                     : $operator['vccommonname'];
+                $avatar_url = $operator['vcavatar']
+                    ? $this->asset($operator['vcavatar'], AssetUrlGeneratorInterface::ABSOLUTE_URL)
+                    : false;
 
                 // Show invitation dialog at widget side
                 $response_data['handlers'][] = 'invitationCreate';
                 $response_data['dependencies']['invitationCreate'] = array();
                 $response_data['data']['invitation'] = array(
                     'operatorName' => htmlspecialchars($operator_name),
-                    'avatarUrl' => htmlspecialchars($this->asset(
-                        $operator['vcavatar'],
-                        AssetUrlGeneratorInterface::ABSOLUTE_URL
-                    )),
+                    'avatarUrl' => htmlspecialchars($avatar_url),
                     'threadUrl' => $this->generateUrl(
                         'chat_user_invitation',
                         array(),
