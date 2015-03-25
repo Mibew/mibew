@@ -176,9 +176,18 @@
             },
 
             /**
-             * Play sound when new thread add to collection
+             * Play sound when new thread add to collection.
+             * @param {Mibew.Models.QueuedThread} thread The thread model that
+             * have been added.
              */
-            threadAdded: function() {
+            threadAdded: function(thread) {
+                // Do nothing for threads that do not need to be processed by
+                // the operator.
+                var queueCode = this.getQueueCode(thread);
+                if (queueCode !== this.QUEUE_WAITING && queueCode !== this.QUEUE_PRIO) {
+                    return;
+                }
+
                 // Build sound path
                 var path = Mibew.Objects.Models.page.get('mibewBasePath');
                 if (typeof path !== 'undefined') {
