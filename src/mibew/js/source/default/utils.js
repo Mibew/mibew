@@ -165,11 +165,23 @@
     });
 
     /**
+     * Checks if vex dialog is already opened.
+     * @returns {Boolean}
+     */
+    var isVexOpened = function () {
+        return (vex.getAllVexes().length > 0);
+    }
+
+    /**
      * Alerts a message.
      * @param {String} message A message that should be displayed.
      */
     Mibew.Utils.alert = function(message) {
         setVexDefaults();
+        if (isVexOpened()) {
+            // Do not open alert if one already opened.
+            return;
+        }
         vex.dialog.alert({message: message});
     }
 
