@@ -489,6 +489,53 @@ function has_online_operators($group_id = "")
 }
 
 /**
+ * Gets list of operators that are currently online.
+ *
+ * @param int|null $group_id ID of the group online operators should belong to
+ * or null to search within all groups.
+ * @return Array List of online operators. Each item of the list is an array
+ * with operators info. For details of its structure See description of
+ * {@link operator_by_id()} function's return value.
+ */
+function get_online_operators($group_id = null)
+{
+    $db = Database::getInstance();
+
+    $groups = false;
+    if (!$group_id) {
+        // We should not care about groups. Just return all online operators.
+        $groups = $db->query(
+            ('SELECT * FROM {operator} '
+                . 'WHERE istatus = 0 AND (:now - dtmlastvisited) < :timeout'),
+            array(
+                ':now' => time(),
+                ':timeout' => Settings::get('online_timeout'),
+            ),
+            array('return_rows' => Database::RETURN_ALL_ROWS)
+        );
+    } else {
+        $groups = $db->query(
+            ('SELECT o.* FROM {operator} o, {operatortoopgroup} r, {opgroup} g '
+                // The operator should be online
+                . 'WHERE o.istatus = 0 AND (:now - o.dtmlastvisited) < :timeout '
+                    // And it should belong to the specified group or to one of
+                    // its children.
+                    . 'AND o.operatorid = r.operatorid '
+                    . 'AND r.groupid = g.groupid '
+                    . 'AND (g.groupid = :group_id OR g.parent = :group_id)'),
+            array(
+                ':now' => time(),
+                ':timeout' => Settings::get('online_timeout'),
+                ':group_id' => $group_id,
+            ),
+            array('return_rows' => Database::RETURN_ALL_ROWS)
+        );
+    }
+
+    return $groups ? $groups : array();
+}
+
+/**
  * Indicates if operator online or not
  *
  * @param int $operator_id Id of the operator
