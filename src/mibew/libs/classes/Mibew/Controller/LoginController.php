@@ -34,8 +34,6 @@ class LoginController extends AbstractController
      */
     public function showFormAction(Request $request)
     {
-        set_csrf_token();
-
         // Check if the operator already logged in
         if ($this->getOperator()) {
             // Redirect the operator to home page.

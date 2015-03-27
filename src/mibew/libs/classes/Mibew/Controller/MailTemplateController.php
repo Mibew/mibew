@@ -74,8 +74,6 @@ class MailTemplateController extends AbstractController
      */
     public function showEditFormAction(Request $request)
     {
-        set_csrf_token();
-
         $operator = $this->getOperator();
         $lang = $this->extractLocale($request);
         $template_name = $request->attributes->get('name');

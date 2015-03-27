@@ -35,8 +35,6 @@ class ManagementController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        set_csrf_token();
-
         $operator = $this->getOperator();
         $page = array(
             'errors' => array(),

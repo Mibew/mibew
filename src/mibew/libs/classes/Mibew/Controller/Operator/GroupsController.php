@@ -37,8 +37,6 @@ class GroupsController extends AbstractController
      */
     public function showFormAction(Request $request)
     {
-        set_csrf_token();
-
         $operator = $this->getOperator();
         $operator_in_isolation = in_isolation($operator);
         $op_id = $request->attributes->getInt('operator_id');

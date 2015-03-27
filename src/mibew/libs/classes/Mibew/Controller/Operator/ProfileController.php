@@ -38,8 +38,6 @@ class ProfileController extends AbstractController
      */
     public function showFormAction(Request $request)
     {
-        set_csrf_token();
-
         $operator = $this->getOperator();
         $page = array(
             'opid' => false,

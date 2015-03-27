@@ -35,8 +35,6 @@ class LocaleController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        set_csrf_token();
-
         $operator = $this->getOperator();
         $page = array(
             // Use errors list stored in the request. We need to do so to have

@@ -37,8 +37,6 @@ class PermissionsController extends AbstractController
      */
     public function showFormAction(Request $request)
     {
-        set_csrf_token();
-
         $operator = $this->getOperator();
         $op_id = $request->attributes->get('operator_id');
 

@@ -57,7 +57,11 @@ function get_csrf_token()
     return $_SESSION[SESSION_PREFIX . 'csrf_token'];
 }
 
-/* set csrf token */
+/**
+ * Sets CSRF token.
+ *
+ * This function is internal and should not be used directly in controllers.
+ */
 function set_csrf_token()
 {
     if (!isset($_SESSION[SESSION_PREFIX . 'csrf_token'])) {

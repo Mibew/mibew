@@ -118,8 +118,6 @@ class TranslationController extends AbstractController
      */
     public function showEditFormAction(Request $request)
     {
-        set_csrf_token();
-
         $operator = $this->getOperator();
         $string_id = $request->attributes->get('string_id');
         $string = $this->loadString($string_id);

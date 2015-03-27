@@ -35,8 +35,6 @@ class CannedMessageController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        set_csrf_token();
-
         $operator = $this->getOperator();
         $page = array(
             'errors' => array(),
@@ -145,8 +143,6 @@ class CannedMessageController extends AbstractController
      */
     public function showEditFormAction(Request $request)
     {
-        set_csrf_token();
-
         $operator = $this->getOperator();
         $message_id = $request->attributes->getInt('message_id');
         $page = array(

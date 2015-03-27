@@ -37,7 +37,6 @@ class TranslationExportController extends AbstractController
      */
     public function showFormAction(Request $request)
     {
-        set_csrf_token();
         $operator = $this->getOperator();
 
         $target = $request->request->get('target');

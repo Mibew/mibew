@@ -38,8 +38,6 @@ class SettingsController extends AbstractController
      */
     public function showFormAction(Request $request)
     {
-        set_csrf_token();
-
         $operator = $this->getOperator();
         $group_id = $request->attributes->getInt('group_id');
 

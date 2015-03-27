@@ -35,8 +35,6 @@ class FeaturesController extends AbstractController
      */
     public function showFormAction(Request $request)
     {
-        set_csrf_token();
-
         $operator = $this->getOperator();
         $page = array(
             'agentId' => '',

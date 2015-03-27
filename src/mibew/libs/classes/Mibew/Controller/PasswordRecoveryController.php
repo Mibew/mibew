@@ -38,8 +38,6 @@ class PasswordRecoveryController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        set_csrf_token();
-
         if ($this->getOperator()) {
             // If the operator is logged in just redirect him to the home page.
             return $this->redirect($request->getUriForPath('/operator'));
@@ -132,8 +130,6 @@ class PasswordRecoveryController extends AbstractController
      */
     public function resetAction(Request $request)
     {
-        set_csrf_token();
-
         $page = array(
             'version' => MIBEW_VERSION,
             'showform' => true,

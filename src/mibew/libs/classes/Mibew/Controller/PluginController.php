@@ -38,8 +38,6 @@ class PluginController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        set_csrf_token();
-
         $page = array(
             // Use errors list stored in the request. We need to do so to have
             // an ability to pass errors from another actions.
