@@ -164,7 +164,7 @@ function calculate_thread_statistics()
 {
     // Prepare database
     $db = Database::getInstance();
-    $db_throw_exceptions = $db->throwExeptions(true);
+    $db_throw_exceptions = $db->throwExceptions(true);
 
     try {
         // Start transaction
@@ -379,7 +379,7 @@ function calculate_thread_statistics()
         $db->query('ROLLBACK');
 
         // Set throw exceptions back
-        $db->throwExeptions($db_throw_exceptions);
+        $db->throwExceptions($db_throw_exceptions);
 
         return;
     }
@@ -388,7 +388,7 @@ function calculate_thread_statistics()
     $db->query('COMMIT');
 
     // Set throw exceptions back
-    $db->throwExeptions($db_throw_exceptions);
+    $db->throwExceptions($db_throw_exceptions);
 }
 
 /**
@@ -398,7 +398,7 @@ function calculate_operator_statistics()
 {
     // Prepare database
     $db = Database::getInstance();
-    $db_throw_exceptions = $db->throwExeptions(true);
+    $db_throw_exceptions = $db->throwExceptions(true);
 
     try {
         // Start transaction
@@ -536,7 +536,7 @@ function calculate_operator_statistics()
         $db->query('ROLLBACK');
 
         // Set throw exceptions back
-        $db->throwExeptions($db_throw_exceptions);
+        $db->throwExceptions($db_throw_exceptions);
 
         return;
     }
@@ -545,7 +545,7 @@ function calculate_operator_statistics()
     $db->query('COMMIT');
 
     // Set throw exceptions back
-    $db->throwExeptions($db_throw_exceptions);
+    $db->throwExceptions($db_throw_exceptions);
 }
 
 /**
@@ -555,7 +555,7 @@ function calculate_page_statistics()
 {
     // Prepare database
     $db = Database::getInstance();
-    $db_throw_exceptions = $db->throwExeptions(true);
+    $db_throw_exceptions = $db->throwExceptions(true);
 
     try {
         // Start transaction
@@ -791,7 +791,7 @@ function calculate_page_statistics()
         $db->query('ROLLBACK');
 
         // Set throw exceptions back
-        $db->throwExeptions($db_throw_exceptions);
+        $db->throwExceptions($db_throw_exceptions);
 
         return;
     }
@@ -800,7 +800,7 @@ function calculate_page_statistics()
     $db->query('COMMIT');
 
     // Set throw exceptions back
-    $db->throwExeptions($db_throw_exceptions);
+    $db->throwExceptions($db_throw_exceptions);
 }
 
 /**

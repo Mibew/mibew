@@ -101,7 +101,7 @@ class Database
      * Controls if exception must be processed into class or thrown
      * @var boolean
      */
-    protected $throwExceptions = false;
+    protected $useExceptions = false;
 
     /**
      * Get instance of Database class.
@@ -209,14 +209,37 @@ class Database
      * If called without arguments just return previous value without changing
      * anything.
      *
-     * @param boolean $value Value that should be set. This argument is optional
+     * There is a typo in the method name. One should use
+     * {@link Database::throwExceptions()} method instead.
+     *
+     * @deprecated since version 2.0.0
+     * @param boolean|null $value Value that should be set. This argument is
+     * optional and can be skipped (or set to null) to keep the internal value
+     * unchanged.
      * @return bool Previous value
      */
-    public function throwExeptions()
+    public function throwExeptions($value = null)
     {
-        $last_value = $this->throwExceptions;
-        if (func_num_args() > 0) {
-            $this->throwExceptions = func_get_arg(0);
+        return $this->throwExceptions($value);
+    }
+
+    /**
+     * Set if exceptions must be process into the class or thrown and return
+     * previous value.
+     *
+     * If called without arguments just return previous value without changing
+     * anything.
+     *
+     * @param boolean|null $value Value that should be set. This argument is
+     * optional and can be skipped (or set to null) to keep the internal value
+     * unchanged.
+     * @return bool Previous value
+     */
+    public function throwExceptions($value = null)
+    {
+        $last_value = $this->useExceptions;
+        if (!is_null($value)) {
+            $this->useExceptions = $value;
         }
 
         return $last_value;
@@ -400,7 +423,7 @@ class Database
      */
     protected function handleError(\Exception $e)
     {
-        if ($this->throwExceptions) {
+        if ($this->useExceptions) {
             throw $e;
         }
         die($e->getMessage());

@@ -185,7 +185,7 @@ class Updater
     {
         try {
             $db = Database::getInstance();
-            $db->throwExeptions(true);
+            $db->throwExceptions(true);
 
             return $db;
         } catch (\Exception $e) {

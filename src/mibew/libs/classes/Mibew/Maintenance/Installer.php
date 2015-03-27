@@ -787,7 +787,7 @@ class Installer
         }
 
         $db = Database::getInstance();
-        $db->throwExeptions(true);
+        $db->throwExceptions(true);
 
         return $db;
     }
