@@ -638,7 +638,6 @@ function chat_start_for_user(
         if (!$thread) {
             die("Cannot start thread");
         }
-        $thread->state = Thread::STATE_CHATTING;
     } else {
         // Create thread
         $thread = new Thread();

@@ -183,7 +183,7 @@ function invitation_accept($visitor_id)
     }
 
     // Update thread info
-    $thread->state = Thread::STATE_LOADING;
+    $thread->state = Thread::STATE_CHATTING;
     $thread->invitationState = Thread::INVITATION_ACCEPTED;
     $thread->chatStarted = time();
     $thread->save();
