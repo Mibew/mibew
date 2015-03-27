@@ -50,6 +50,11 @@ class HistoryController extends AbstractController
         $search_in_system_messages = ($request->query->get('insystemmessages') == 'on') || !$query;
 
         if ($query !== false) {
+            // Escape MySQL LIKE wildcards in the query
+            $escaped_query = str_replace(array('%', '_'), array('\\%', '\\_'), $query);
+            // Replace commonly used "?" and "*" wildcards with MySQL ones.
+            $escaped_query = str_replace(array('*', '?'), array('%', '_'), $escaped_query);
+
             $db = Database::getInstance();
             $groups = $db->query(
                 ("SELECT {opgroup}.groupid AS groupid, vclocalname " .
@@ -65,7 +70,7 @@ class HistoryController extends AbstractController
             }
 
             $values = array(
-                ':query' => "%{$query}%",
+                ':query' => "%{$escaped_query}%",
                 ':invitation_accepted' => Thread::INVITATION_ACCEPTED,
                 ':invitation_not_invited' => Thread::INVITATION_NOT_INVITED,
             );
