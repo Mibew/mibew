@@ -986,70 +986,71 @@ class Thread
      */
     public function take($operator)
     {
-        $take_thread = false;
+        // There are states which forbids thread taking. Make sure the current
+        // state is not one of them.
+        $forbidden_states = array(
+            self::STATE_CLOSED,
+            self::STATE_LEFT,
+            self::STATE_INVITED,
+        );
+        if (in_array($this->state, $forbidden_states)) {
+            return false;
+        }
+
+        $is_operator_changed = ($operator['operatorid'] != $this->agentId)
+            // Only these states allow operators changing. In other states
+            // changing of operator's ID is treated in different ways (join or
+            // come back).
+            && ($this->state == self::STATE_WAITING || $this->state == self::STATE_CHATTING);
+
+        // For these states we assume that the thread has no operator yet. The
+        // check for operator changing is skipped because it will always
+        // return positive result.
+        $is_operator_joined = ($this->state == self::STATE_LOADING)
+            || ($this->state == self::STATE_QUEUE);
+
+        $is_operator_back = ($this->state == self::STATE_WAITING)
+            && ($operator['operatorid'] == $this->agentId);
+
         $message = '';
         $operator_name = ($this->locale == get_home_locale())
             ? $operator['vclocalename']
             : $operator['vccommonname'];
 
-        $no_operator_in_chat = self::STATE_QUEUE
-            || self::STATE_WAITING
-            || self::STATE_LOADING;
-
-        if ($no_operator_in_chat) {
-            // User waiting
-            $take_thread = true;
-            if ($this->state == self::STATE_WAITING) {
-                if ($operator['operatorid'] != $this->agentId) {
-                    $message = getlocal(
-                        "Operator <strong>{0}</strong> changed operator <strong>{1}</strong>",
-                        array($operator_name, $this->agentName),
-                        $this->locale,
-                        true
-                    );
-                } else {
-                    $message = getlocal(
-                        "Operator {0} is back",
-                        array($operator_name),
-                        $this->locale,
-                        true
-                    );
-                }
-            } else {
-                $message = getlocal(
-                    "Operator {0} joined the chat",
-                    array($operator_name),
-                    $this->locale,
-                    true
-                );
-            }
-        } elseif ($this->state == self::STATE_CHATTING) {
-            // User chatting
-            if ($operator['operatorid'] != $this->agentId) {
-                $take_thread = true;
-                $message = getlocal(
-                    "Operator <strong>{0}</strong> changed operator <strong>{1}</strong>",
-                    array($operator_name, $this->agentName),
-                    $this->locale,
-                    true
-                );
-            }
-        } else {
-            // Thread closed
-            return false;
+        if ($is_operator_changed) {
+            $message = getlocal(
+                "Operator <strong>{0}</strong> changed operator <strong>{1}</strong>",
+                array($operator_name, $this->agentName),
+                $this->locale,
+                true
+            );
+        } elseif ($is_operator_joined) {
+            $message = getlocal(
+                "Operator {0} joined the chat",
+                array($operator_name),
+                $this->locale,
+                true
+            );
+        } elseif ($is_operator_back) {
+            $message = getlocal(
+                "Operator {0} is back",
+                array($operator_name),
+                $this->locale,
+                true
+            );
         }
 
-        // Change operator and update chat info
-        if ($take_thread) {
-            $this->state = self::STATE_CHATTING;
-            $this->nextAgent = 0;
-            $this->agentId = $operator['operatorid'];
-            $this->agentName = $operator_name;
-            if (empty($this->chatStarted)) {
-                $this->chatStarted = time();
-            }
-            $this->save();
+        // Make sure the thread have correct operator and state.
+        $this->state = self::STATE_CHATTING;
+        $this->nextAgent = 0;
+        $this->agentId = $operator['operatorid'];
+        $this->agentName = $operator_name;
+        if (empty($this->chatStarted)) {
+            // This is needed only if the chat was not started yet. Such threads
+            // should originally belong to STATE_QUEUE or STATE_LOADING.
+            $this->chatStarted = time();
         }
+        $this->save();
 
         // Send message
         if ($message) {
