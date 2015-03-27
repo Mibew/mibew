@@ -158,6 +158,13 @@ function track_visit_page($visitor_id, $page)
                 ':now' => time(),
             )
         );
+
+        // If the visitor was invited and he goes to another page the invitation
+        // should be automatically rejected.
+        $invitation_state = invitation_state($visitor_id);
+        if ($invitation_state['invited']) {
+            invitation_reject($visitor_id);
+        }
     }
 }
 
