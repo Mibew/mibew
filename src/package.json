@@ -22,6 +22,7 @@
         "pofile": "~0.2.12",
         "lodash": "~2.4.1",
         "strftime": "~0.8.2",
+        "del": "~1.1.1",
         "event-stream": "~3.2.1"
     }
 }

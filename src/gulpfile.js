@@ -7,6 +7,7 @@ var fs = require('fs'),
     lodash = require('lodash'),
     PoFile = require('pofile'),
     strftime = require('strftime'),
+    del = require('del'),
     bower = require('bower'),
     gulp = require('gulp'),
     uglify = require('gulp-uglify'),
@@ -43,6 +44,21 @@ var config = {
     package: require('./composer.json')
 }
 
+
+// Cleans all built files
+gulp.task('clean', function(callback) {
+    del([
+        'release',
+        'composer.lock',
+        config.phpVendorPath,
+        config.jsVendorPath,
+        config.jsPath + '/compiled/**/*.*',
+        '!' + config.jsPath + '/compiled/.keep',
+        config.chatStylesPath + '/default/templates_compiled/client_side/*.js',
+        config.chatStylesPath + '/default/js/compiled/*.js',
+        config.pageStylesPath + '/default/templates_compiled/client_side/*.js'
+    ], callback);
+});
 
 // Checks all PHP files with PHP Code Sniffer.
 gulp.task('phpcs', ['composer-install-dev'], function() {
@@ -323,6 +339,7 @@ gulp.task('pack-sources', ['composer-install', 'bower-install'], function() {
 // Performs all tasks in the correct order.
 gulp.task('prepare-release', function(callback) {
     runSequence(
+        'clean',
         ['phpcs', 'js', 'chat-styles', 'page-styles', 'generate-pot'],
         'pack-sources',
         callback
