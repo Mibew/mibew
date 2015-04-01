@@ -19,8 +19,7 @@
 
 namespace Mibew\Controller;
 
-use Mibew\EventDispatcher\EventDispatcher;
-use Mibew\EventDispatcher\Events;
+use Mibew\Maintenance\CronWorker;
 use Mibew\Settings;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -47,29 +46,27 @@ class CronController extends AbstractController
             return '';
         }
 
+        // Do the job.
+        $worker = new CronWorker($this->getCache());
+        $success = $worker->run();
+
         // Determine use or not quiet mode
         $quiet = $request->query->has('q');
-
-        set_time_limit(0);
-
-        // Remove stale cached items
-        $this->getCache()->purge();
-
-        // Run cron jobs of the core
-        calculate_thread_statistics();
-        calculate_operator_statistics();
-        calculate_page_statistics();
-
-        // Trigger cron event
-        $dispatcher = EventDispatcher::getInstance();
-        $dispatcher->triggerEvent(Events::CRON_RUN);
-
-        // Update time of last cron run
-        Settings::set('_last_cron_run', time());
-
         if (!$quiet) {
-            // TODO: May be localize it
-            return 'All cron jobs done.';
+            if ($success) {
+                // Everything is fine.
+                return 'All cron jobs done.';
+            }
+
+            // Prepare error message for system's error log.
+            $error_message = "Cron job failed. Here are the errors:\n";
+            foreach ($worker->getErrors() as $error) {
+                $error_message .= '    ' . $error . "\n";
+            }
+            trigger_error($error_message, E_USER_WARNING);
+
+            // Let the client know about the problem.
+            return 'Cron job failed.';
         }
     }
 }
