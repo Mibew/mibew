@@ -4,6 +4,11 @@ Options -Indexes
 # Follow symbolic links in the directory
 Options +FollowSymLinks
 
+<IfModule mod_negotiation.c>
+    # Forbid apache to guess file extensions
+    Options -MultiViews
+</IfModule>
+
 # Disable mod_security for Apache 1.x
 <IfModule mod_security.c>
     SecFilterEngine Off
@@ -51,3 +56,8 @@ Options +FollowSymLinks
 <FilesMatch "\.(yml|po|ini|handlebars|keep)$">
     Deny from all
 </FilesMatch>
+
+# Deny access to CLI cron worker from the outside
+<Files "cron.php">
+    Deny from all
+</Files>
