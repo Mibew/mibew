@@ -62,7 +62,7 @@
         <div class="content-div">
 
             {{#ifOverridden "menu"}}
-            <div id="content" class="content-inner">
+            <div id="content" class="{{#if showMenu}}content-inner{{else}}content-no-menu{{/if}}">
             {{else}}
             <div id="content" class="content-no-menu">
             {{/ifOverridden}}

@@ -1,15 +1,23 @@
 {{#extends "_layout"}}
-    {{#if havemenu}}
-        {{#override "menu"}}{{> _menu}}{{/override}}
-    {{/if}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "head"}}
+        <script type="text/javascript" src="{{asset "@CurrentStyle/js/toggle_menu.js"}}"></script>
+    {{/override}}
 
     {{#override "content"}}
         <div>
-
-        {{l10n "This page displays a list of visitors who are waiting."}}
-        <br/>
-        {{l10n "To answer the visitor click their name in the list."}}
+            <div id="toggle-menu">
+                <a href="#">{{#if showMenu}}{{l10n "Hide menu"}}{{else}}{{l10n "Show menu"}}{{/if}}</a>
+            </div>
+            <div>
+                {{l10n "This page displays a list of visitors who are waiting."}}
+                <br/>
+                {{l10n "To answer the visitor click their name in the list."}}
+            </div>
+            <div style="clear: both;"></div>
         </div>
+
         <br/>
 
         <div id="threads-region"></div>

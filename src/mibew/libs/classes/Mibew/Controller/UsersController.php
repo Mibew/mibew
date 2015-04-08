@@ -47,13 +47,14 @@ class UsersController extends AbstractController
         $_SESSION[SESSION_PREFIX . "operatorgroups"] = get_operator_groups_list($operator['operatorid']);
 
         $page = array();
-        $page['havemenu'] = !$request->query->has('nomenu');
         $page['showonline'] = (Settings::get('showonlineoperators') == '1');
         $page['showvisitors'] = (Settings::get('enabletracking') == '1');
         $page['title'] = getlocal("List of visitors waiting");
         $page['menuid'] = "users";
 
         $page = array_merge($page, prepare_menu($operator));
+
+        $page['showMenu'] = !$request->query->has('nomenu');
 
         // Attach files of the client side application and start it
         $this->getAssetManager()->attachJs('js/compiled/users_app.js');

@@ -91,6 +91,10 @@ a {
     padding: 10px 60px 10px 20px;
     overflow: hidden;
 }
+#toggle-menu {
+    float: right;
+    margin-top: 12px;
+}
 .content-no-menu {
     padding: 10px 20px 10px 20px;
 }
@@ -178,6 +182,9 @@ img.logo {
     margin-top: 20px;
     position: relative;
     line-height: 180%
+}
+.sidebar-hidden {
+    display: none;
 }
 #sidebar ul {
     margin: 0;

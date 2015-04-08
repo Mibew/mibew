@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="sidebar"{{#unless showMenu}} class="sidebar-hidden"{{/unless}}>
     <ul>
     {{#if warnOffline}}
         {{#unless isOnline}}
@@ -8,7 +8,6 @@
             </li>
         {{/unless}}
     {{/if}}
-    {{#if showMenu}}
         <li>
             <h2>{{l10n "Main"}}</h2>
             <ul class="submenu">
@@ -46,6 +45,5 @@
                 <li><a href="{{route "logout"}}">{{l10n "Exit"}}</a></li>
             </ul>
         </li>
-    {{/if}}
     </ul>
 </div>
