@@ -52,7 +52,7 @@ gulp.task('clean', function(callback) {
         'composer.lock',
         config.phpVendorPath,
         config.jsVendorPath,
-        config.jsPath + '/compiled/**/*.*',
+        config.jsPath + '/compiled/**/*',
         '!' + config.jsPath + '/compiled/.keep',
         config.chatStylesPath + '/default/templates_compiled/client_side/*.js',
         config.chatStylesPath + '/default/js/compiled/*.js',
