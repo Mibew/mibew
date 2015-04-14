@@ -147,9 +147,9 @@ gulp.task('bower-install', function(callback) {
                     // header. Add the header manually.
                     .pipe(header("// json2.js. Public Domain. See http://www.JSON.org/js.html\n"))
                     .pipe(rename('json/json2.min.js'))
-            );
+            )
+            .pipe(gulp.dest(config.jsVendorPath));
 
-            stream.pipe(gulp.dest(config.jsVendorPath));
             stream
                 .on('error', callback)
                 .on('end', callback);
