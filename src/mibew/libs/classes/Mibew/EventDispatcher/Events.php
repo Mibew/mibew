@@ -57,7 +57,7 @@ final class Events
     /**
      * A button is generated.
      *
-     * This event is triggered after a button has been deleted. An associative
+     * This event is triggered after a button has been generated. An associative
      * array with the following items is passed to the event handlers:
      *  - "button": an instance of {@link \Canteen\HTML5\Fragment} which
      *    represents markup of the button.
