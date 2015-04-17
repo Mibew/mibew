@@ -346,6 +346,16 @@ gulp.task('prepare-release', function(callback) {
     );
 });
 
+// Prepares ready to use development version of Mibew without packing or
+// validating it.
+gulp.task('rebuild', function(callback) {
+    runSequence(
+        'clean',
+        ['js', 'chat-styles', 'page-styles', 'composer-install', 'bower-install'],
+        callback
+    );
+});
+
 // Builds the sources
 gulp.task('default', function(callback) {
     runSequence(
