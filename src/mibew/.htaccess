@@ -36,7 +36,7 @@ Options +FollowSymLinks
     # Use separate front controller for the system installator
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^install(|/(.*))$ install.php [QSA,L]
+    RewriteRule ^install(/(.*))?$ install.php [QSA,L]
 
     # Rewrite all other requests for files and directories that do not exist to
     # the main front controller
