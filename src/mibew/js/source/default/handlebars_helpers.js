@@ -193,14 +193,17 @@
      * </code>
      */
     Handlebars.registerHelper('replace', function(search, replacement, options) {
-        // Convert serch value to string and escape special regexp characters
-        var searchPattern = search.toString().replace(
-                /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g,
-                "\\$&"
-            ),
-            re = new RegExp(searchPattern, 'g');
+        var unescapedSearch = search
+            // Allow using new line character
+            .replace(/\\n/g, '\n')
+            // Allow using tab character
+            .replace(/\\t/g, '\t')
+            // Allow using all UTF characters in \uXXX format.
+            .replace(/\\u([A-Za-z0-9])/g, function(match, code) {
+                return String.fromCharCode(parseInt(code, 16));
+            });
 
-        return options.fn(this).replace(re, replacement);
+        return options.fn(this).split(unescapedSearch).join(replacement);
     });
 
     /**
