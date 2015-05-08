@@ -57,7 +57,7 @@ class MailController extends AbstractController
         }
 
         $email = $request->request->get('email', '');
-        $group = is_null($thread->groupId) ? null : group_by_id($thread->groupId);
+        $group = $thread->groupId ? group_by_id($thread->groupId) : null;
 
         $page['formemail'] = $email;
         $page['chat.thread.id'] = $thread->id;
@@ -93,7 +93,7 @@ class MailController extends AbstractController
         }
 
         $email = $request->request->get('email');
-        $group = is_null($thread->groupId) ? null : group_by_id($thread->groupId);
+        $group = $thread->groupId ? group_by_id($thread->groupId) : null;
         if (!$email) {
             $errors[] = no_field('Your email');
         } elseif (!MailUtils::isValidAddress($email)) {

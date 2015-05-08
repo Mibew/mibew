@@ -102,19 +102,17 @@ class UserChatController extends AbstractController
         // Create new thread
         if (!$thread) {
             // Load group info
-            $group_id = '';
+            $group_id = 0;
             $group_name = '';
             $group = null;
             if (Settings::get('enablegroups') == '1') {
-                $group_id = $request->query->get('group');
-                if (!preg_match("/^\d{1,10}$/", $group_id)) {
-                    $group_id = false;
-                }
+                // ID of the group can be either positive integer or zero.
+                $group_id = max(0, $request->query->getInt('group'));
 
                 if ($group_id) {
                     $group = group_by_id($group_id);
                     if (!$group) {
-                        $group_id = false;
+                        $group_id = 0;
                     } else {
                         $group_name = get_group_name($group);
                     }

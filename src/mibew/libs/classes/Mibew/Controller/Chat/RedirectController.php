@@ -118,7 +118,7 @@ class RedirectController extends AbstractController
                     'The visitor has been placed in a priorty queue of the group {0}.',
                     array(get_group_name($next_group))
                 );
-                if (!$this->redirectToGroup($thread, $next_id)) {
+                if (!$this->redirectToGroup($thread, (int)$next_id)) {
                     $page['errors'][] = getlocal('You are not chatting with the visitor.');
                 }
             } else {

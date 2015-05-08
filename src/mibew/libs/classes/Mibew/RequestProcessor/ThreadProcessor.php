@@ -618,13 +618,13 @@ class ThreadProcessor extends ClientSideProcessor implements
         $referrer = $args['referrer'];
 
         // Verify group id
-        $group_id = '';
+        $group_id = 0;
         $group = null;
         if (Settings::get('enablegroups') == '1') {
             if (preg_match("/^\d{1,8}$/", $args['groupId']) != 0) {
                 $group = group_by_id($args['groupId']);
                 if ($group) {
-                    $group_id = $args['groupId'];
+                    $group_id = (int)$args['groupId'];
                 }
             }
         }
@@ -752,12 +752,12 @@ class ThreadProcessor extends ClientSideProcessor implements
         }
 
         // Verify group id
-        $group_id = '';
+        $group_id = 0;
         if (Settings::get('enablegroups') == '1') {
             if (preg_match("/^\d{1,8}$/", $args['groupId']) != 0) {
                 $group = group_by_id($args['groupId']);
                 if ($group) {
-                    $group_id = $args['groupId'];
+                    $group_id = (int)$args['groupId'];
                 }
             }
         }

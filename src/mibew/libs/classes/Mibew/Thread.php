@@ -147,6 +147,9 @@ class Thread
 
     /**
      * ID of the group related with the thread.
+     *
+     * If there is no attached group the value should be equal to 0 (zero).
+     *
      * @var int
      */
     public $groupId;
