@@ -61,6 +61,18 @@
              * @param Object attributes Attributes hash for test
              */
             validate: function(attributes) {
+                // Check visitor's name
+                if (this.get('canChangeName') && typeof attributes.name != 'undefined') {
+                    var trimmedName = attributes.name
+                        // Remove leading spaces from the name
+                        .replace(/^\s+/, '')
+                        // Remove trailing spaces from the name
+                        .replace(/\s+$/, '');
+                    if (trimmedName.length === 0) {
+                        return Mibew.Localization.trans('Name is required.');
+                    }
+                }
+
                 // Check email
                 if (this.get('showEmail')) {
                     if (typeof attributes.email != 'undefined') {
