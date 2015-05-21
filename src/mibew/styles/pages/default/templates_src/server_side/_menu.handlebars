@@ -1,4 +1,4 @@
-<div id="sidebar"{{#unless showMenu}} class="sidebar-hidden"{{/unless}}>
+<div id="sidebar"{{#if hideMenu}} class="sidebar-hidden"{{/if}}>
     <ul>
     {{#if warnOffline}}
         {{#unless isOnline}}

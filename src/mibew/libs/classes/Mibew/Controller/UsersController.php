@@ -54,7 +54,7 @@ class UsersController extends AbstractController
 
         $page = array_merge($page, prepare_menu($operator));
 
-        $page['showMenu'] = !$request->query->has('nomenu');
+        $page['hideMenu'] = (bool)$request->query->has('nomenu');
 
         // Attach files of the client side application and start it
         $this->getAssetManager()->attachJs('js/compiled/users_app.js');

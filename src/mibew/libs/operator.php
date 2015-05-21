@@ -686,7 +686,6 @@ function prepare_menu($operator, $has_right = true)
 {
     $result = array();
 
-    $result['showMenu'] = true;
     $result['operator'] = get_operator_name($operator);
     if ($has_right) {
         $result['showban'] = Settings::get('enableban') == "1";
