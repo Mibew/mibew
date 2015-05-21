@@ -714,26 +714,8 @@ class Installer
             foreach ($locales as $locale_info) {
                 $locale = $locale_info['code'];
 
-                // Import localized messages
-                import_messages(
-                    $locale,
-                    MIBEW_FS_ROOT . '/locales/' . $locale . '/translation.po',
-                    true
-                );
-
-                // Import canned messages
-                $canned_messages_file = MIBEW_FS_ROOT . '/locales/' . $locale
-                    . '/canned_messages.yml';
-                if (is_readable($canned_messages_file)) {
-                    import_canned_messages($locale, $canned_messages_file);
-                }
-
-                // Import mail templates
-                $mail_templates_file = MIBEW_FS_ROOT . '/locales/' . $locale
-                    . '/mail_templates.yml';
-                if (is_readable($mail_templates_file)) {
-                    MailUtils::importTemplates($locale, $mail_templates_file);
-                }
+                // Import translations, formats, mail templates, ...
+                import_locale_content($locale);
 
                 // Mark the locale as "enabled" to indicate that all its content
                 // is imported.

@@ -20,6 +20,7 @@
 use Mibew\Database;
 use Mibew\Mail\Utils as MailUtils;
 use Symfony\Component\Translation\Loader\PoFileLoader;
+use Symfony\Component\Yaml\Parser as YamlParser;
 
 /**
  * Name for the cookie to store locale code in use
@@ -245,17 +246,11 @@ function get_locale_links()
 /**
  * Returns meta data for all known locales.
  *
+ * This function is deprecated. Use {get_locale_info()} instead.
+ *
+ * @deprecated since 2.1.0
  * @return array Associative arrays which keys are locale codes and the values
- *   are locales info. Locale info itself is an associative array with the
- *   following keys:
- *     - name: string, human readable locale name.
- *     - rtl: boolean, indicates with the locale uses right-to-left
- *       writing mode.
- *     - time_locale: string, locale code which is used in {@link setlocale()}
- *       function to set the correct date/time formatting.
- *     - date_format: array, list of available date formats. Each key of the
- *       array is format name and each value is a format string for
- *       {@link strftime()} function.
+ *   are locales info.
  */
 function get_locales()
 {
@@ -696,19 +691,61 @@ function get_locales()
 /**
  * Returns locale info by its code.
  *
- * It is a wrapper for {@link get_locales()} function and can be used to improve
- * readability of the code.
- *
  * @param string $locale
  * @return array|false Associative array of locale info or boolean false if the
- *   locale is unknown. See {@link get_locales()} description for details of the
- *   info array keys.
+ *   locale is unknown. Locale info array contains the following keys:
+ *     - name: string, human readable locale name.
+ *     - rtl: boolean, indicates with the locale uses right-to-left
+ *       writing mode.
+ *     - time_locale: string, locale code which is used in {@link setlocale()}
+ *       function to set the correct date/time formatting.
+ *     - date_format: array, list of available date formats. Each key of the
+ *       array is format name and each value is a format string for
+ *       {@link strftime()} function.
  */
 function get_locale_info($locale)
 {
-    $locales = get_locales();
+    static $cache = array();
 
-    return isset($locales[$locale]) ? $locales[$locale] : false;
+    if (!isset($cache[$locale])) {
+        if (get_maintenance_mode() === false) {
+            // Load local info from the database
+            $info = Database::getInstance()->query(
+                'SELECT * FROM {locale} WHERE code = :code',
+                array(':code' => $locale),
+                array('return_rows' => Database::RETURN_ONE_ROW)
+            );
+
+            $cache[$locale] = $info
+                ? array(
+                    'name' => $info['name'],
+                    'rtl' => (bool)$info['rtl'],
+                    'time_locale' => $info['time_locale'],
+                    'date_format' => unserialize($info['date_format'])
+                )
+                : false;
+        } else {
+            // Either installation or update is performed. Try to get locale
+            // info from its config file.
+            $config_path = MIBEW_FS_ROOT . '/locales/' . $locale . '/config.yml';
+            $info = read_locale_config($config_path);
+
+            $cache[$locale] = $info
+                ? $info +  array(
+                    'name' => $locale,
+                    'rtl' => false,
+                    'time_locale' => 'en_US',
+                    'date_format' => array(
+                        'full' => '%B %d, %Y %I:%M %p',
+                        'date' => '%B %d, %Y',
+                        'time' => '%I:%M %p',
+                    ),
+                )
+                : false;
+        }
+    }
+
+    return $cache[$locale];
 }
 
 /**
@@ -926,7 +963,6 @@ function save_message($locale, $key, $value)
  * Enables specified locale.
  *
  * @param string $locale Locale code according to RFC 5646.
- * @todo Rewrite the function and move somewhere locale creation and its import.
  */
 function enable_locale($locale)
 {
@@ -944,34 +980,17 @@ function enable_locale($locale)
 
     if ($count == 0) {
         // The locale does not exist in the database. Create it.
-        $db->query(
-            "INSERT INTO {locale} (code, enabled) VALUES (:code, :enabled)",
+        Database::getInstance()->query(
+            ('INSERT INTO {locale} (code, enabled) VALUES(:code, :enabled)'),
             array(
                 ':code' => $locale,
                 ':enabled' => 1,
             )
         );
 
-        // Import localized messages to the just created locale
-        import_messages(
-            $locale,
-            MIBEW_FS_ROOT . '/locales/' . $locale . '/translation.po',
-            true
-        );
-
-        // Import canned messages for the locale if they exist in the locale's
-        // files.
-        $canned_messages_file = MIBEW_FS_ROOT . '/locales/' . $locale . '/canned_messages.yml';
-        if (is_readable($canned_messages_file)) {
-            import_canned_messages($locale, $canned_messages_file);
-        }
-
-        // Import mail templates for the locale if they exist in the locale's
-        // files.
-        $mail_templates_file = MIBEW_FS_ROOT . '/locales/' . $locale . '/mail_templates.yml';
-        if (is_readable($mail_templates_file)) {
-            MailUtils::importTemplates($locale, $mail_templates_file);
-        }
+        // Import all locale-related info (translations, mail, templates,
+        // formats...) to databse.
+        import_locale_content($locale);
     } else {
         // The locale exists in the database. Update it.
         $db->query(
@@ -998,4 +1017,81 @@ function disable_locale($locale)
             ':code' => $locale,
         )
     );
+}
+
+/**
+ * Imports all locale's content (messages, mail templates, configs) to database.
+ *
+ * This function does not create the locale in database so you have to create it
+ * by yourself.
+ *
+ * @param string $locale Code of the locale to import.
+ */
+function import_locale_content($locale)
+{
+    $config = (read_locale_config(MIBEW_FS_ROOT . '/locales/' . $locale . '/config.yml') ?: array())
+        + array(
+            'name' => $locale,
+            'rtl' => false,
+            'time_locale' => 'en_US',
+            'date_format' => array(
+                'full' => '%B %d, %Y %I:%M %p',
+                'date' => '%B %d, %Y',
+                'time' => '%I:%M %p',
+            ),
+        );
+
+    Database::getInstance()->query(
+        ('UPDATE {locale} SET '
+            . 'name = :name, rtl = :rtl, time_locale = :time_locale,'
+            . 'date_format = :date_format '
+            . 'WHERE code = :code'),
+        array(
+            ':code' => $locale,
+            ':name' => $config['name'],
+            ':rtl' => $config['rtl'] ? 1 : 0,
+            ':time_locale' => $config['time_locale'],
+            ':date_format' => serialize($config['date_format'])
+        )
+    );
+
+    // Import localized messages to the just created locale
+    import_messages(
+        $locale,
+        MIBEW_FS_ROOT . '/locales/' . $locale . '/translation.po',
+        true
+    );
+
+    // Import canned messages for the locale if they exist in the locale's
+    // files.
+    $canned_messages_file = MIBEW_FS_ROOT . '/locales/' . $locale . '/canned_messages.yml';
+    if (is_readable($canned_messages_file)) {
+        import_canned_messages($locale, $canned_messages_file);
+    }
+
+    // Import mail templates for the locale if they exist in the locale's
+    // files.
+    $mail_templates_file = MIBEW_FS_ROOT . '/locales/' . $locale . '/mail_templates.yml';
+    if (is_readable($mail_templates_file)) {
+        MailUtils::importTemplates($locale, $mail_templates_file);
+    }
+}
+
+/**
+ * Reads locale's config files.
+ *
+ * @param string $path Path of the file to read.
+ * @return boolean|array Boolean false if the file is not found and associative
+ * configs array otherwise.
+ */
+function read_locale_config($path)
+{
+    if (!is_readable($path)) {
+        return false;
+    }
+
+    $parser = new YamlParser();
+    $config = $parser->parse(file_get_contents($path));
+
+    return $config;
 }
