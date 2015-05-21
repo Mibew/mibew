@@ -27,8 +27,8 @@
                             {{/each}}
                         </ul>
 
-                        {{#unless errors}}
-                            {{#block "nextStep"}}
+                        {{#block "nextStep"}}
+                            {{#unless errors}}
                                 {{#if nextstep}}
                                     <br/>
                                     <br/>
@@ -45,8 +45,8 @@
                                         </li>
                                     </ul>
                                 {{/if}}
-                            {{/block}}
-                        {{/unless}}
+                            {{/unless}}
+                        {{/block}}
                     </div>
 
                     <div class="form-footer">
