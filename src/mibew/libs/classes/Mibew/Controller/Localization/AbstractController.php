@@ -55,7 +55,10 @@ abstract class AbstractController extends BaseAbstractController
             ? $this->generateUrl('translation_export')
             : '';
 
-        $tabs[getlocal('Locales')] = ($route != 'locales')
+        $locales = ($route == 'locales'
+            || $route == 'locale_edit'
+            || $route == 'locale_edit_save');
+        $tabs[getlocal('Locales')] = !$locales
             ? $this->generateUrl('locales')
             : '';
 

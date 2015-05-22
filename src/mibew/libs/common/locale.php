@@ -705,7 +705,7 @@ function get_locales()
  */
 function get_locale_info($locale)
 {
-    static $cache = array();
+    $cache = get_locale_info_cache();
 
     if (!isset($cache[$locale])) {
         if (get_maintenance_mode() === false) {
@@ -746,6 +746,77 @@ function get_locale_info($locale)
     }
 
     return $cache[$locale];
+}
+
+/**
+ * Updates locale meta info.
+ *
+ * @param string $locale Code of the locale to update.
+ * @param array $info Associative array of locale's info. This array should
+ * contain the follwing keys:
+ *  - "name"
+ *  - "rtl"
+ *  - "time_locale"
+ *  - "date_format"
+ * See description of {@link get_locale_info()} function for keys meaning.
+ * @return boolean True if the info is updated and false otherwise.
+ * @throws \InvalidArgumentException If the $info array is invalid.
+ */
+function set_locale_info($locale, $info)
+{
+    // Make sure $info array is correct
+    $missed_keys = array_diff(
+        array(
+            'name',
+            'rtl',
+            'time_locale',
+            'date_format'
+        ),
+        array_keys($info)
+    );
+
+    if (count($missed_keys) > 0) {
+        throw new \InvalidArgumentException(sprintf(
+            'These fields are missed: "%s".',
+            implode('", "', $missed_keys)
+        ));
+    }
+
+    $success = Database::getInstance()->query(
+        ('UPDATE {locale} SET name = :name, rtl = :rtl, '
+            . 'time_locale = :time_locale, date_format = :date_format '
+            . 'WHERE code = :code'),
+        array(
+            ':code' => $locale,
+            ':name' => $info['name'],
+            ':rtl' => $info['rtl'] ? 1 : 0,
+            ':time_locale' => $info['time_locale'],
+            ':date_format' => serialize($info['date_format'])
+        )
+    );
+
+    if (!$success) {
+        return false;
+    }
+
+    // Update the cache.
+    $cache = get_locale_info_cache();
+    $cache[$locale] = $info;
+
+    return true;
+}
+
+/**
+ * Retrieves locales info cache.
+ *
+ * @return array Locales info cached. It's stored as static variable inside the
+ * function.
+ */
+function &get_locale_info_cache()
+{
+    static $cache = array();
+
+    return $cache;
 }
 
 /**
