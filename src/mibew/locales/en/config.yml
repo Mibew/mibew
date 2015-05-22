@@ -1,0 +1,11 @@
+# This is human-readable name which will be used everywhere in UI.
+name: English
+# Indicates if the locale uses Right-to-Left writing.
+rtl: false
+# Locale name which will be passed into PHP's setlocale function.
+time_locale: en_US
+# Various formats which will be used with PHP's strftime function.
+date_format:
+    full: "%B %d, %Y %I:%M %p"
+    date: "%B %d, %Y"
+    time: "%I:%M %p"

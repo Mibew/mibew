@@ -317,4 +317,80 @@ class Updater
 
         return true;
     }
+
+    /**
+     * Performs all database updates needed for 2.1.0.
+     *
+     * @return boolean True if the updates have been applied successfully and
+     * false otherwise.
+     */
+    protected function update20100()
+    {
+        $db = $this->getDatabase();
+
+        if (!$db) {
+            return false;
+        }
+
+        // Alter locale table.
+        try {
+            $db->query('ALTER TABLE {locale} ADD COLUMN name varchar(128) NOT NULL DEFAULT "" AFTER code');
+            $db->query('ALTER TABLE {locale} ADD COLUMN rtl tinyint NOT NULL DEFAULT 0');
+            $db->query('ALTER TABLE {locale} ADD COLUMN time_locale varchar(128) NOT NULL DEFAULT "en_US"');
+            $db->query('ALTER TABLE {locale} ADD COLUMN date_format text');
+
+            $db->query('ALTER TABLE {locale} ADD UNIQUE KEY code (code)');
+        } catch (\Exception $e) {
+            $this->errors[] = getlocal('Cannot update tables: {0}', $e->getMessage());
+
+            return false;
+        }
+
+        try {
+            // Store configs for available locales in the database.
+            $locales = $db->query(
+                'SELECT localeid as id, code from {locale}',
+                null,
+                array('return_rows' => Database::RETURN_ALL_ROWS)
+            );
+
+            $locales_info = get_locales();
+            foreach ($locales as $row) {
+                $id = $row['id'];
+                $code = $row['code'];
+                $info = (isset($locales_info[$code]) ? $locales_info[$code] : array())
+                    // Default info
+                    + array(
+                        'name' => $code,
+                        'rtl' => false,
+                        'time_locale' => 'en_US',
+                        'date_format' => array(
+                            'full' => '%d %B %Y, %H:%M',
+                            'date' => '%d %B %Y',
+                            'time' => '%H:%M',
+                        ),
+                    );
+
+                $db->query(
+                    ('UPDATE {locale} SET '
+                        . 'name = :name, rtl = :rtl, time_locale = :time_locale, '
+                        . 'date_format = :date_format '
+                    . 'WHERE localeid = :id'),
+                    array(
+                        ':id' => $id,
+                        ':name' => $info['name'],
+                        ':rtl' => $info['rtl'] ? 1 : 0,
+                        ':time_locale' => $info['time_locale'],
+                        ':date_format' => serialize($info['date_format']),
+                    )
+                );
+            }
+        } catch (\Exception $e) {
+            $this->errors[] = getlocal('Cannot update content: {0}', $e->getMessage());
+
+            return false;
+        }
+
+        return true;
+    }
 }

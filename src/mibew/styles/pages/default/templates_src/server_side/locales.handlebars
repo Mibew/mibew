@@ -55,6 +55,10 @@
                             {{else}}
                                 <a href="{{csrfProtectedRoute "locale_disable" locale=code}}">{{l10n "disable"}}</a>
                             {{/if}}
+
+                            {{#unless isDisabled}}
+                                <a href="{{route "locale_edit" locale=code}}">{{l10n "edit"}}</a>
+                            {{/unless}}
                         </td>
                     </tr>
                 {{/each}}

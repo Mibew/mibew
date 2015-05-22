@@ -129,12 +129,23 @@ translation:
 # Contains locales info
 locale:
     fields:
-        # Artificial primary key
+        # Artificial primary key.
         localeid: "int NOT NULL auto_increment PRIMARY KEY"
         # Locale code
         code: "varchar(5) NOT NULL"
-        # Indicates if a locale is enabled or not.
+        # Human readable name of the locale.
+        name: "varchar(128) NOT NULL DEFAULT ''"
+        # Indicates if the locale is enabled or not.
         enabled: "tinyint NOT NULL DEFAULT 0"
+        # Indicates if the locale uses RTL writing.
+        rtl: "tinyint NOT NULL DEFAULT 0"
+        # Name of the locale which is used with PHP's setlocale to format dates.
+        time_locale: "varchar(128) NOT NULL DEFAULT 'en_US'"
+        # Serialized array of various date formats.
+        date_format: "text"
+    unique_keys:
+        # Make sure locale code can be duplicated
+        code: [code]
 
 # Contains localized mail templates
 mailtemplate:

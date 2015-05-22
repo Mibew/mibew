@@ -130,4 +130,127 @@ class LocaleController extends AbstractController
 
         return $this->redirect($this->generateUrl('locales'));
     }
+
+    /**
+     * Builds locale edit page.
+     *
+     * @param Request $request Incoming request.
+     * @return string Rendered page content.
+     * @throws NotFoundException If the locale with specified code is not found
+     *   in the system.
+     */
+    public function showEditFormAction(Request $request)
+    {
+        $page = array(
+            // Use errors list stored in the request. We need to do so to have
+            // an ability to pass the request from the "submitEditForm" action.
+            'errors' => $request->attributes->get('errors', array()),
+        );
+
+        $locale = $request->attributes->get('locale');
+
+        // Check if locale exists and enabled.
+        if (!in_array($locale, get_available_locales())) {
+            throw new NotFoundException();
+        }
+
+        $info = get_locale_info($locale);
+
+        $page['formtimelocale'] = $info['time_locale'];
+        $page['formdateformatfull'] = $info['date_format']['full'];
+        $page['formdateformatdate'] = $info['date_format']['date'];
+        $page['formdateformattime'] = $info['date_format']['time'];
+
+        // Override fields from the request if it's needed. This case will take
+        // place when a save handler fails and passes the request to this
+        // action.
+        if ($request->isMethod('POST')) {
+            $page['formtimelocale'] = $request->request->get('timelocale');
+            $page['formdateformatfull'] = $request->request->get('dateformatfull');
+            $page['formdateformatdate'] = $request->request->get('dateformatdate');
+            $page['formdateformattime'] = $request->request->get('dateformattime');
+        }
+
+        $page['stored'] = $request->query->has('stored');
+        $page['title'] = getlocal('Locale details');
+        $page['menuid'] = 'translation';
+        $page['formaction'] = $request->getBaseUrl() . $request->getPathInfo();
+        $page = array_merge($page, prepare_menu($this->getOperator()));
+        $page['tabs'] = $this->buildTabs($request);
+
+        return $this->render('locale_edit', $page);
+    }
+
+    /**
+     * Processes submitting of the form which is generated in
+     * {@link \Mibew\Controller\Localization\LocaleController::showEditFormAction()}
+     * method.
+     *
+     * @param Request $request Incoming request.
+     * @return string Rendered page content.
+     * @throws NotFoundException If the locale with specified code is not found
+     *   in the system.
+     */
+    public function submitEditFormAction(Request $request)
+    {
+        csrf_check_token($request);
+
+        $errors = array();
+        $locale = $request->attributes->get('locale');
+        $time_locale = $request->request->get('timelocale');
+        $date_format_full = $request->request->get('dateformatfull');
+        $date_format_date = $request->request->get('dateformatdate');
+        $date_format_time = $request->request->get('dateformattime');
+
+        if (!$locale) {
+            throw new NotFoundException();
+        }
+
+        if (!$time_locale) {
+            $errors[] = no_field('Time locale');
+        }
+
+        if (!$date_format_full) {
+            $errors[] = no_field('Date format (full)');
+        }
+
+        if (!$date_format_date) {
+            $errors[] = no_field('Date format (date)');
+        }
+
+        if (!$date_format_time) {
+            $errors[] = no_field('Date format (time)');
+        }
+
+        if (count($errors) != 0) {
+            $request->attributes->set('errors', $errors);
+
+            // The form should be rebuild. Invoke appropriate action.
+            return $this->showEditFormAction($request);
+        }
+
+        $locale_info = get_locale_info($locale);
+
+        $locale_info['time_locale'] = $time_locale;
+        $locale_info['date_format'] = array(
+            'full' => $date_format_full,
+            'date' => $date_format_date,
+            'time' => $date_format_time,
+        );
+
+        // Save the locale
+        set_locale_info($locale, $locale_info);
+
+        // Redirect the user to edit page again to use GET method instead of
+        // POST.
+        $redirect_to = $this->generateUrl(
+            'locale_edit',
+            array(
+                'locale' => $locale,
+                'stored' => true,
+            )
+        );
+
+        return $this->redirect($redirect_to);
+    }
 }

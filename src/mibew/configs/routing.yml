@@ -351,6 +351,26 @@ locale_disable:
     requirements:
         locale: "[a-z\-]{2,5}"
 
+locale_edit:
+    path: /operator/locale/{locale}/edit
+    defaults:
+        _controller: Mibew\Controller\Localization\LocaleController::showEditFormAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    requirements:
+        locale: "[a-z\-]{2,5}"
+    methods: [GET]
+
+locale_edit_save:
+    path: /operator/locale/{locale}/edit
+    defaults:
+        _controller: Mibew\Controller\Localization\LocaleController::submitEditFormAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+    requirements:
+        locale: "[a-z\-]{2,5}"
+    methods: [POST]
+
 locale_enable:
     path: /operator/locale/{locale}/enable
     defaults:
