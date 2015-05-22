@@ -33,7 +33,7 @@
         "true/punycode": "~1.1"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "2.*"
+        "squizlabs/php_codesniffer": "dev-master#8451638b4c896d5d7aedec240757243b6080625f"
     },
     "config": {
         "vendor-dir": "mibew/vendor"
