@@ -20,7 +20,6 @@
 namespace Mibew\Maintenance;
 
 use Mibew\Database;
-use Mibew\Mail\Utils as MailUtils;
 use Symfony\Component\Yaml\Parser as YamlParser;
 
 /**
