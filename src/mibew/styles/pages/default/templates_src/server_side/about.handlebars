@@ -34,8 +34,8 @@
 
                     <br/><br/>
 
+                    <h2>{{l10n "Available updates"}}</h2>
                     {{#if availableUpdates}}
-                        <h2>{{l10n "Available updates"}}</h2>
                         {{#each availableUpdates}}
                             <h3>{{title}} ({{version}})</h3>
                             {{#if description}}
@@ -47,7 +47,10 @@
 
                             <br/>
                         {{/each}}
+                    {{else}}
+                        There is no available updates.<br/><br/>
                     {{/if}}
+                    <a href="{{route "update_check"}}">{{l10n "Check for available updates"}}</a>
                 </div>
 
                 <div class="form-footer">

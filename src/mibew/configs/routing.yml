@@ -759,6 +759,13 @@ update_run:
         _access_check: Mibew\AccessControl\Check\PermissionsCheck
         _access_permissions: [CAN_ADMINISTRATE]
 
+update_check:
+    path: /update/check
+    defaults:
+        _controller: Mibew\Controller\UpdateController::checkUpdatesAction
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
+
 ## Users (visitors avaiting page)
 users:
     path: /operator/users
