@@ -97,6 +97,7 @@ class Settings
             'surveyaskgroup' => '1',
             'surveyaskmessage' => '0',
             'enablepopupnotification' => '0',
+            'autocheckupdates' => '1', /* Check updates automatically */
             'showonlineoperators' => '0',
             'enablecaptcha' => '0',
             'online_timeout' => 30, /* Timeout (in seconds) when online operator becomes offline */

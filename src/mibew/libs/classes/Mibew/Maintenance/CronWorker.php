@@ -97,14 +97,16 @@ class CronWorker
             $dispatcher = EventDispatcher::getInstance();
             $dispatcher->triggerEvent(Events::CRON_RUN);
 
-            // Run the update checker
-            if (!$this->updateChecker->run()) {
-                $this->errors = array_merge(
-                    $this->errors,
-                    $this->updateChecker->getErrors()
-                );
+            if (Settings::get('autocheckupdates') == '1') {
+                // Run the update checker
+                if (!$this->updateChecker->run()) {
+                    $this->errors = array_merge(
+                        $this->errors,
+                        $this->updateChecker->getErrors()
+                    );
 
-                return false;
+                    return false;
+                }
             }
         } catch (\Exception $e) {
             $this->log[] = $e->getMessage();

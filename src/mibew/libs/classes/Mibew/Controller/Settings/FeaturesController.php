@@ -111,6 +111,7 @@ class FeaturesController extends AbstractController
             'showonlineoperators',
             'enablecaptcha',
             'trackoperators',
+            'autocheckupdates',
         );
     }
 }
