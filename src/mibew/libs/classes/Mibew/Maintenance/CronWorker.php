@@ -41,7 +41,7 @@ class CronWorker
      *
      * @var string[]
      */
-    protected $errors = array('asd', 'qwe');
+    protected $errors = array();
 
     /**
      * List of log messages.
