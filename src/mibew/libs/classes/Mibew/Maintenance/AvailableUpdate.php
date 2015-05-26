@@ -140,7 +140,7 @@ class AvailableUpdate
     public static function all()
     {
         $rows = Database::getInstance()->query(
-            "SELECT * FROM {available_updates}",
+            "SELECT * FROM {available_update}",
             null,
             array('return_rows' => Database::RETURN_ALL_ROWS)
         );
