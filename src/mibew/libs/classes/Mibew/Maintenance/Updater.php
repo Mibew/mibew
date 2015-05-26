@@ -332,14 +332,24 @@ class Updater
             return false;
         }
 
-        // Alter locale table.
         try {
+            // Alter locale table.
             $db->query('ALTER TABLE {locale} ADD COLUMN name varchar(128) NOT NULL DEFAULT "" AFTER code');
             $db->query('ALTER TABLE {locale} ADD COLUMN rtl tinyint NOT NULL DEFAULT 0');
             $db->query('ALTER TABLE {locale} ADD COLUMN time_locale varchar(128) NOT NULL DEFAULT "en_US"');
             $db->query('ALTER TABLE {locale} ADD COLUMN date_format text');
 
             $db->query('ALTER TABLE {locale} ADD UNIQUE KEY code (code)');
+
+            // Create a table for available updates.
+            $db->query('CREATE TABLE {available_update} ( '
+                . 'id INT NOT NULL auto_increment PRIMARY KEY, '
+                . 'target varchar(255) NOT NULL, '
+                . 'version varchar(255) NOT NULL, '
+                . 'url text, '
+                . 'description text, '
+                . 'UNIQUE KEY target (target) '
+                . ') charset utf8 ENGINE=InnoDb');
         } catch (\Exception $e) {
             $this->errors[] = getlocal('Cannot update tables: {0}', $e->getMessage());
 

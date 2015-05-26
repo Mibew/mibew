@@ -37,6 +37,13 @@ class CronWorker
     protected $cache = null;
 
     /**
+     * An instance of update checker.
+     *
+     * @var UpdateChecker|null
+     */
+    protected $updateChecker = null;
+
+    /**
      * List of errors.
      *
      * @var string[]
@@ -54,10 +61,14 @@ class CronWorker
      * Class constructor.
      *
      * @param PoolInterface $cache An instance of cache pool.
+     * @param UpdateChecker $update_checker An instance of update checker.
      */
-    public function __construct(PoolInterface $cache)
+    public function __construct(PoolInterface $cache, UpdateChecker $update_checker = null)
     {
         $this->cache = $cache;
+        $this->updateChecker = is_null($update_checker)
+            ? new UpdateChecker()
+            : $update_checker;
     }
 
     /**
@@ -71,6 +82,9 @@ class CronWorker
         try {
             set_time_limit(0);
 
+            // Update time of last cron run
+            Settings::set('_last_cron_run', time());
+
             // Remove stale cached items
             $this->cache->purge();
 
@@ -83,8 +97,15 @@ class CronWorker
             $dispatcher = EventDispatcher::getInstance();
             $dispatcher->triggerEvent(Events::CRON_RUN);
 
-            // Update time of last cron run
-            Settings::set('_last_cron_run', time());
+            // Run the update checker
+            if (!$this->updateChecker->run()) {
+                $this->errors = array_merge(
+                    $this->errors,
+                    $this->updateChecker->getErrors()
+                );
+
+                return false;
+            }
         } catch (\Exception $e) {
             $this->log[] = $e->getMessage();
 

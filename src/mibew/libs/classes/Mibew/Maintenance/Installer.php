@@ -489,7 +489,7 @@ class Installer
      */
     protected function checkPhpExtensions()
     {
-        $extensions = array('PDO', 'pdo_mysql', 'gd');
+        $extensions = array('PDO', 'pdo_mysql', 'gd', 'curl');
 
         foreach ($extensions as $ext) {
             if (!extension_loaded($ext)) {
