@@ -207,9 +207,8 @@ function calculate_thread_statistics()
                 . "GROUP BY m.threadid) tmp "
             . "WHERE t.threadid = tmp.threadid "
                 . "AND (t.dtmcreated - :start) > :interval "
-                // Calculate statistics only for threads that older than
-                // statistics aggregation interval
-                . "AND (:today - t.dtmcreated) > :interval "
+                // Calculate statistics only for yesterday
+                . "AND :today > t.dtmcreated "
                 // Ignore threads when operator does not start chat
                 . "AND t.dtmchatstarted <> 0 "
                 // Ignore not accepted invitations
@@ -241,9 +240,8 @@ function calculate_thread_statistics()
                 . "COUNT(*) as missed_threads "
             . "FROM {thread} "
             . "WHERE (dtmcreated - :start) > :interval "
-                // Calculate statistics only for threads that older than
-                // statistics aggregation interval
-                . "AND (:today - dtmcreated) > :interval "
+                // Calculate statistics only for yesterday
+                . "AND :today > dtmcreated "
                 // Ignore threads when operator does not start chat
                 . "AND dtmchatstarted = 0 "
                 // Ignore not accepted invitations
@@ -271,9 +269,8 @@ function calculate_thread_statistics()
                 . "ROUND(AVG(dtmchatstarted-dtmcreated),1) AS avg_waiting_time "
             . "FROM {thread} "
             . "WHERE (dtmcreated - :start) > :interval "
-                // Calculate statistics only for threads that older than
-                // statistics aggregation interval
-                . "AND (:today - dtmcreated) > :interval "
+                // Calculate statistics only for yesterday
+                . "AND :today > dtmcreated "
                 // Ignore threads when operator does not start chat
                 . "AND dtmchatstarted <> 0 "
                 // Ignore all invitations
@@ -304,9 +301,8 @@ function calculate_thread_statistics()
                 . "SUM(invitationstate = :invitation_ignored) AS invitations_ignored "
             . "FROM {thread} "
             . "WHERE (dtmcreated - :start) > :interval "
-                // Calculate statistics only for threads that older than
-                // statistics aggregation interval
-                . "AND (:today - dtmcreated) > :interval "
+                // Calculate statistics only for yesterday
+                . "AND :today > dtmcreated "
                 . "AND (invitationstate = :invitation_accepted "
                     . "OR invitationstate = :invitation_rejected "
                     . "OR invitationstate = :invitation_ignored) "
@@ -428,9 +424,8 @@ function calculate_operator_statistics()
             . "WHERE m.ikind = :kind_agent "
                 . "AND  m.threadid = t.threadid "
                 . "AND (m.dtmcreated - :start) > :interval "
-                // Calculate statistics only for messages that older
-                // statistics aggregation interval
-                . "AND (:today - m.dtmcreated) > :interval "
+                // Calculate statistics only for yesterday
+                . "AND :today > m.dtmcreated "
                 // Ignore not accepted invitations
                 . "AND (t.invitationstate = :not_invited "
                     . "OR t.invitationstate = :invitation_accepted) "
@@ -463,9 +458,8 @@ function calculate_operator_statistics()
                 . "SUM(invitationstate = :invitation_ignored) AS invitations_ignored "
             . "FROM {thread} "
             . "WHERE (dtmcreated - :start) > :interval "
-                // Calculate statistics only for threads that older than
-                // statistics aggregation interval
-                . "AND (:today - dtmcreated) > :interval "
+                // Calculate statistics only for yesterday
+                . "AND :today > dtmcreated "
                 // Check if thread has related operator
                 . "AND agentid != 0 "
                 // Ignore not accepted invitations
@@ -581,7 +575,8 @@ function calculate_page_statistics()
             . "FROM {visitedpage} "
             . "WHERE calculated = 0 "
                 . "AND (visittime - :start) > :interval "
-                . "AND (:today - visittime) > :interval "
+                // Calculate statistics only for yesterday
+                . "AND :today > visittime "
             . "GROUP BY date, address"),
             array(
                 ':start' => $start,
@@ -616,7 +611,8 @@ function calculate_page_statistics()
                 . "AND tmp.msgs > 0 "
                 . "AND t.dtmchatstarted <> 0 "
                 . "AND (p.visittime - :start) > :interval "
-                . "AND (:today - p.visittime) > :interval "
+                // Calculate statistics only for yesterday
+                . "AND :today > p.visittime "
                 . "AND DATE(FROM_UNIXTIME(p.visittime)) "
                     . "= DATE(FROM_UNIXTIME(t.dtmcreated)) "
                 . "AND (t.invitationstate = :not_invited "
@@ -650,7 +646,8 @@ function calculate_page_statistics()
             . "WHERE t.referer = p.address "
                 . "AND p.calculated = 0 "
                 . "AND (p.visittime - :start) > :interval "
-                . "AND (:today - p.visittime) > :interval "
+                // Calculate statistics only for yesterday
+                . "AND :today > p.visittime "
                 . "AND DATE(FROM_UNIXTIME(p.visittime)) "
                     . "= DATE(FROM_UNIXTIME(t.dtmcreated)) "
                 . "AND t.invitationstate = :invitation_accepted "
@@ -680,7 +677,8 @@ function calculate_page_statistics()
             . "WHERE t.referer = p.address "
                 . "AND p.calculated = 0 "
                 . "AND (p.visittime - :start) > :interval "
-                . "AND (:today - p.visittime) > :interval "
+                // Calculate statistics only for yesterday
+                . "AND :today > p.visittime "
                 . "AND DATE(FROM_UNIXTIME(p.visittime)) "
                     . "= DATE(FROM_UNIXTIME(t.dtmcreated)) "
                 . "AND t.invitationstate = :invitation_rejected "
@@ -710,7 +708,8 @@ function calculate_page_statistics()
             . "WHERE t.referer = p.address "
                 . "AND p.calculated = 0 "
                 . "AND (p.visittime - :start) > :interval "
-                . "AND (:today - p.visittime) > :interval "
+                // Calculate statistics only for yesterday
+                . "AND :today > p.visittime "
                 . "AND DATE(FROM_UNIXTIME(p.visittime)) "
                     . "= DATE(FROM_UNIXTIME(t.dtmcreated)) "
                 . "AND t.invitationstate = :invitation_ignored "
@@ -771,11 +770,10 @@ function calculate_page_statistics()
         // Mark all visited pages as 'calculated'
         $db->query(
             ("UPDATE {visitedpage} SET calculated = 1 "
-                . "WHERE (:today - visittime) > :interval "
+                . "WHERE :today > visittime "
                 . "AND calculated = 0"),
             array(
-                ':today' => $today,
-                ':interval' => STATISTICS_AGGREGATION_INTERVAL,
+                ':today' => $today
             )
         );
 
