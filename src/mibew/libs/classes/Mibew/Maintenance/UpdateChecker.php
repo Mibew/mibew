@@ -68,7 +68,7 @@ class UpdateChecker
     public function getUrl()
     {
         return is_null($this->url)
-            ? 'https://mibew.org/api/auto-updates'
+            ? 'https://mibew.org/api/updates.json'
             : $this->url;
     }
 
