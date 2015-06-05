@@ -319,7 +319,7 @@ plugin:
 
 # Contains info about all available updates
 available_update:
-    field:
+    fields:
         # Artificial ID
         id: "INT NOT NULL auto_increment PRIMARY KEY"
         # Can be either "core" or fully qualified plugin's name
