@@ -102,6 +102,40 @@ class Utils
     }
 
     /**
+     * Generates random unique 64 characters length ID for Mibew instance.
+     *
+     * WARNING: This ID should not be used for any security/cryptographic. If
+     * you need an ID for such purpose you have to use PHP's
+     * {@link openssl_random_pseudo_bytes()} function instead.
+     *
+     * @return string
+     */
+    public static function generateInstanceId()
+    {
+        $chars = '0123456789abcdefghijklmnopqrstuvwxyz';
+        $rnd = (string)microtime(true);
+
+        // Add ten random characters before and after the timestamp
+        $max_char = strlen($chars) - 1;
+        for ($i = 0; $i < 10; $i++) {
+            $rnd = $chars[rand(0, $max_char)] . $rnd . $chars[rand(0, $max_char)];
+        }
+
+        if (function_exists('hash')) {
+            // There is hash function that can give us 64-length hash.
+            return hash('sha256', $rnd);
+        }
+
+        // We should build random 64 character length hash using old'n'good md5
+        // function.
+        $middle = (int)floor(strlen($rnd) / 2);
+        $rnd_left = substr($rnd, 0, $middle);
+        $rnd_right = substr($rnd, $middle);
+
+        return md5($rnd_left) . md5($rnd_right);
+    }
+
+    /**
      * This class should not be instantiated
      */
     private function __construct()

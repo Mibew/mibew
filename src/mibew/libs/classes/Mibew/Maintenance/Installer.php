@@ -440,6 +440,46 @@ class Installer
             return false;
         }
 
+        // Generate Unique ID for Mibew Instance
+        try {
+            list($count) = $db->query(
+                'SELECT COUNT(*) FROM {config} WHERE vckey = :key',
+                array(':key' => '_instance_id'),
+                array(
+                    'return_rows' => Database::RETURN_ONE_ROW,
+                    'fetch_type' => Database::FETCH_NUM,
+                )
+            );
+
+            if ($count == 0) {
+                $db->query(
+                    'INSERT INTO {config} (vckey, vcvalue) VALUES (:key, :value)',
+                    array(
+                        ':key' => '_instance_id',
+                        ':value' => Utils::generateInstanceId(),
+                    )
+                );
+            } else {
+                // The option is already in the database. It seems that
+                // something went wrong with the previous installation attempt.
+                // Just update the instance ID.
+                $db->query(
+                    'UPDATE {config} SET vcvalue = :value WHERE vckey = :key',
+                    array(
+                        ':key' => '_instance_id',
+                        ':value' => Utils::generateInstanceId(),
+                    )
+                );
+            }
+        } catch (\Exception $e) {
+            $this->errors[] = getlocal(
+                'Cannot store instance ID. Error {0}',
+                array($e->getMessage())
+            );
+
+            return false;
+        }
+
         return true;
     }
 

@@ -115,6 +115,10 @@ class Settings
             // underscore sign(_).
             // Unix timestamp when cron job ran last time.
             '_last_cron_run' => 0,
+            // Random unique ID which is used for getting info about new
+            // updates. This value is initialized during Installation or Update
+            // process.
+            '_instance_id' => '',
         );
 
         // Load values from database

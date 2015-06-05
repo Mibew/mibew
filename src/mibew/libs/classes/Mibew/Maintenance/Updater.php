@@ -350,6 +350,15 @@ class Updater
                 . 'description text, '
                 . 'UNIQUE KEY target (target) '
                 . ') charset utf8 ENGINE=InnoDb');
+
+            // Generate Unique ID of Mibew instance.
+            $db->query(
+                'INSERT INTO {config} (vckey, vcvalue) VALUES (:key, :value)',
+                array(
+                    ':key' => '_instance_id',
+                    ':value' => Utils::generateInstanceId(),
+                )
+            );
         } catch (\Exception $e) {
             $this->errors[] = getlocal('Cannot update tables: {0}', $e->getMessage());
 
