@@ -316,3 +316,19 @@ plugin:
         enabled: "tinyint NOT NULL DEFAULT 0"
     unique_keys:
         name: [name]
+
+# Contains info about all available updates
+availableupdate:
+    fields:
+        # Artificial ID
+        id: "INT NOT NULL auto_increment PRIMARY KEY"
+        # Can be either "core" or fully qualified plugin's name
+        target: "varchar(255) NOT NULL"
+        # The latest available version of the plugin
+        version: "varchar(255) NOT NULL"
+        # A URL where the new version can be downloaded
+        url: "text"
+        # Description of the update
+        description: "text"
+    unique_keys:
+        target: [target]

@@ -172,6 +172,15 @@
                                 <br clear="all"/>
                             </div>
 
+                            <div class="field">
+                                <label for="autocheck-updates" class="field-label">{{l10n "Check updates automatically"}}</label>
+                                <div class="field-value">
+                                    <input id="autocheck-updates" type="checkbox" name="autocheckupdates" value="on"{{#if formautocheckupdates}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                </div>
+                                <label for="autocheck-updates" class="field-description"> &mdash; {{l10n "System will check updates for the core and plugins automatically using cron"}}</label>
+                                <br clear="all"/>
+                            </div>
+
                             {{#if canmodify}}
                                 <div class="form-button">
                                     <input type="submit" name="save" class="submit-button-background save-button" value="{{l10n "Save"}}"/>

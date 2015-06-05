@@ -332,14 +332,33 @@ class Updater
             return false;
         }
 
-        // Alter locale table.
         try {
+            // Alter locale table.
             $db->query('ALTER TABLE {locale} ADD COLUMN name varchar(128) NOT NULL DEFAULT "" AFTER code');
             $db->query('ALTER TABLE {locale} ADD COLUMN rtl tinyint NOT NULL DEFAULT 0');
             $db->query('ALTER TABLE {locale} ADD COLUMN time_locale varchar(128) NOT NULL DEFAULT "en_US"');
             $db->query('ALTER TABLE {locale} ADD COLUMN date_format text');
 
             $db->query('ALTER TABLE {locale} ADD UNIQUE KEY code (code)');
+
+            // Create a table for available updates.
+            $db->query('CREATE TABLE {availableupdate} ( '
+                . 'id INT NOT NULL auto_increment PRIMARY KEY, '
+                . 'target varchar(255) NOT NULL, '
+                . 'version varchar(255) NOT NULL, '
+                . 'url text, '
+                . 'description text, '
+                . 'UNIQUE KEY target (target) '
+                . ') charset utf8 ENGINE=InnoDb');
+
+            // Generate Unique ID of Mibew instance.
+            $db->query(
+                'INSERT INTO {config} (vckey, vcvalue) VALUES (:key, :value)',
+                array(
+                    ':key' => '_instance_id',
+                    ':value' => Utils::generateInstanceId(),
+                )
+            );
         } catch (\Exception $e) {
             $this->errors[] = getlocal('Cannot update tables: {0}', $e->getMessage());
 

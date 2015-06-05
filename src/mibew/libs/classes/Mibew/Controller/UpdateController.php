@@ -19,7 +19,9 @@
 
 namespace Mibew\Controller;
 
+use Mibew\Maintenance\UpdateChecker;
 use Mibew\Maintenance\Updater;
+use Mibew\Settings;
 use Mibew\Style\PageStyle;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -32,6 +34,11 @@ class UpdateController extends AbstractController
      * @var Updater|null
      */
     protected $updater = null;
+
+    /**
+     * @var UpdateChecker|null
+     */
+    protected $updateChecker = null;
 
     /**
      * Renders update intro page.
@@ -75,6 +82,26 @@ class UpdateController extends AbstractController
     }
 
     /**
+     * Runs the Update checker.
+     *
+     * @param Request $request Incoming request.
+     * @return Response|string Rendered page contents or Symfony's response
+     *   object.
+     */
+    public function checkUpdatesAction(Request $request)
+    {
+        $checker = $this->getUpdateChecker();
+        $success = $checker->run();
+        if (!$success) {
+            foreach ($checker->getErrors() as $error) {
+                trigger_error('Update checking failed: ' . $error, E_USER_WARNING);
+            }
+        }
+
+        return $this->redirect($this->generateUrl('about'));
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function getStyle()
@@ -98,5 +125,23 @@ class UpdateController extends AbstractController
         }
 
         return $this->updater;
+    }
+
+    /**
+     * Returns an instance of Update Checker.
+     *
+     * @return UpdateChecker
+     */
+    protected function getUpdateChecker()
+    {
+        if (is_null($this->updateChecker)) {
+            $this->updateChecker = new UpdateChecker();
+            $id = Settings::get('_instance_id');
+            if ($id) {
+                $this->updateChecker->setInstanceId($id);
+            }
+        }
+
+        return $this->updateChecker;
     }
 }

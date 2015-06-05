@@ -37,6 +37,13 @@ class CronWorker
     protected $cache = null;
 
     /**
+     * An instance of update checker.
+     *
+     * @var UpdateChecker|null
+     */
+    protected $updateChecker = null;
+
+    /**
      * List of errors.
      *
      * @var string[]
@@ -54,10 +61,15 @@ class CronWorker
      * Class constructor.
      *
      * @param PoolInterface $cache An instance of cache pool.
+     * @param UpdateChecker $update_checker An instance of update checker.
      */
-    public function __construct(PoolInterface $cache)
+    public function __construct(PoolInterface $cache, UpdateChecker $update_checker = null)
     {
         $this->cache = $cache;
+
+        if (!is_null($update_checker)) {
+            $this->updateChecker = $update_checker;
+        }
     }
 
     /**
@@ -71,6 +83,9 @@ class CronWorker
         try {
             set_time_limit(0);
 
+            // Update time of last cron run
+            Settings::set('_last_cron_run', time());
+
             // Remove stale cached items
             $this->cache->purge();
 
@@ -83,8 +98,18 @@ class CronWorker
             $dispatcher = EventDispatcher::getInstance();
             $dispatcher->triggerEvent(Events::CRON_RUN);
 
-            // Update time of last cron run
-            Settings::set('_last_cron_run', time());
+            if (Settings::get('autocheckupdates') == '1') {
+                // Run the update checker
+                $update_checker = $this->getUpdateChecker();
+                if (!$update_checker->run()) {
+                    $this->errors = array_merge(
+                        $this->errors,
+                        $update_checker->getErrors()
+                    );
+
+                    return false;
+                }
+            }
         } catch (\Exception $e) {
             $this->log[] = $e->getMessage();
 
@@ -113,5 +138,25 @@ class CronWorker
     public function getLog()
     {
         return $this->log;
+    }
+
+    /**
+     * Retrives an instance of Update Checker attached to the worker.
+     *
+     * If there was no attached checker it creates a new one.
+     *
+     * @return UpdateChecker
+     */
+    protected function getUpdateChecker()
+    {
+        if (is_null($this->updateChecker)) {
+            $this->updateChecker = new UpdateChecker();
+            $id = Settings::get('_instance_id');
+            if ($id) {
+                $this->updateChecker->setInstanceId($id);
+            }
+        }
+
+        return $this->updateChecker;
     }
 }

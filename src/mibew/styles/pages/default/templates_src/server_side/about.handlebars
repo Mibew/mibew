@@ -22,11 +22,6 @@
 
                     <br/>
 
-                    <h3>{{l10n "Latest version:"}}</h3>
-                    <div id="latest-version"></div>
-
-                    <br/>
-
                     <h3>{{l10n "Installed localizations:"}}</h3>
                     {{#each localizations}}
                         {{this}}
@@ -36,6 +31,26 @@
 
                     <h3>{{l10n "Environment:"}}</h3>
                     PHP {{phpVersion}} {{#each extensions}}{{@key}}{{#if loaded}}{{#if version}}/{{version}}{{/if}}{{else}}/absent{{/if}} {{/each}}
+
+                    <br/><br/>
+
+                    <h2>{{l10n "Available updates"}}</h2>
+                    {{#if availableUpdates}}
+                        {{#each availableUpdates}}
+                            <h3>{{title}} ({{version}})</h3>
+                            {{#if description}}
+                                <div>{{description}}</div>
+                            {{/if}}
+                            <div>
+                                <a href="{{url}}">Download</a>
+                            </div>
+
+                            <br/>
+                        {{/each}}
+                    {{else}}
+                        There is no available updates.<br/><br/>
+                    {{/if}}
+                    <a href="{{route "update_check"}}">{{l10n "Check for available updates"}}</a>
                 </div>
 
                 <div class="form-footer">

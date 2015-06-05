@@ -19,7 +19,7 @@
 
 namespace Mibew\Controller;
 
-use Mibew\Asset\AssetManagerInterface;
+use Mibew\Maintenance\AvailableUpdate;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -43,14 +43,9 @@ class AboutController extends AbstractController
                 'version' => MIBEW_VERSION,
                 'title' => getlocal('About'),
                 'menuid' => 'about',
+                'availableUpdates' => $this->getAvailableUpdates(),
             ),
             prepare_menu($this->getOperator())
-        );
-
-        $this->getAssetManager()->attachJs('js/compiled/about.js');
-        $this->getAssetManager()->attachJs(
-            'https://mibew.org/api/updates',
-            AssetManagerInterface::ABSOLUTE_URL
         );
 
         return $this->render('about', $page);
@@ -68,7 +63,7 @@ class AboutController extends AbstractController
      */
     protected function getExtensionsInfo()
     {
-        $required_extensions = array('PDO', 'pdo_mysql', 'gd');
+        $required_extensions = array('PDO', 'pdo_mysql', 'gd', 'curl');
         $info = array();
         foreach ($required_extensions as $ext) {
             if (!extension_loaded($ext)) {
@@ -85,5 +80,40 @@ class AboutController extends AbstractController
         }
 
         return $info;
+    }
+
+    /**
+     * Builds list of available updates to display in the template.
+     *
+     * @return array List of updates data. Each item of the list is associative
+     * array with the following keys:
+     *   - "title": string, title of the update.
+     *   - "version": string, the latest available version.
+     *   - "url": string, URL of the page the updated version can be downloaded
+     *     from.
+     *   - "description": string, description of the update.
+     */
+    protected function getAvailableUpdates()
+    {
+        $updates = AvailableUpdate::all();
+        if (!$updates) {
+            return array();
+        }
+
+        $data = array();
+        foreach ($updates as $update) {
+            $title = ($update->target == 'core')
+                ? 'Mibew'
+                : getlocal('{0} plugin', array($update->target));
+
+            $data[] = array(
+                'title' => $title,
+                'version' => $update->version,
+                'url' => $update->url,
+                'description' => $update->description,
+            );
+        }
+
+        return $data;
     }
 }
