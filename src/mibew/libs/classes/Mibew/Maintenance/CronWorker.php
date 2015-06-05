@@ -66,9 +66,10 @@ class CronWorker
     public function __construct(PoolInterface $cache, UpdateChecker $update_checker = null)
     {
         $this->cache = $cache;
-        $this->updateChecker = is_null($update_checker)
-            ? new UpdateChecker()
-            : $update_checker;
+
+        if (!is_null($update_checker)) {
+            $this->updateChecker = $update_checker;
+        }
     }
 
     /**
@@ -99,10 +100,11 @@ class CronWorker
 
             if (Settings::get('autocheckupdates') == '1') {
                 // Run the update checker
-                if (!$this->updateChecker->run()) {
+                $update_checker = $this->getUpdateChecker();
+                if (!$update_checker->run()) {
                     $this->errors = array_merge(
                         $this->errors,
-                        $this->updateChecker->getErrors()
+                        $update_checker->getErrors()
                     );
 
                     return false;
@@ -136,5 +138,21 @@ class CronWorker
     public function getLog()
     {
         return $this->log;
+    }
+
+    /**
+     * Retrives an instance of Update Checker attached to the worker.
+     *
+     * If there was no attached checker it creates a new one.
+     *
+     * @return UpdateChecker
+     */
+    protected function getUpdateChecker()
+    {
+        if (is_null($this->updateChecker)) {
+            $this->updateChecker = new UpdateChecker();
+        }
+
+        return $this->updateChecker;
     }
 }
