@@ -35,6 +35,13 @@ class UpdateChecker
     private $url = null;
 
     /**
+     * Unique 64 character length ID of the Mibew instance.
+     *
+     * @var string
+     */
+    private $instanceId = '';
+
+    /**
      * A cache for plugins info array.
      *
      * @var array|null
@@ -70,6 +77,34 @@ class UpdateChecker
         return is_null($this->url)
             ? 'https://mibew.org/api/updates.json'
             : $this->url;
+    }
+
+    /**
+     * Sets Unique ID of the Mibew instance.
+     *
+     * @param string $id Unique ID that is 64 characters length at most.
+     * @throws \InvalidArgumentException
+     */
+    public function setInstanceId($id)
+    {
+        if (strlen($id) > 64) {
+            throw new \InvalidArgumentException(
+                'The ID is too long. It can be 64 characters length at most.'
+            );
+        }
+
+        // Make sure the ID is always a string.
+        $this->instanceId = $id ?: '';
+    }
+
+    /**
+     * Retrieve Unique ID of the Mibew instance.
+     *
+     * @return string
+     */
+    public function getInstanceId()
+    {
+        return $this->instanceId;
     }
 
     /**
@@ -157,10 +192,18 @@ class UpdateChecker
      */
     protected function getSystemInfo()
     {
-        return array(
+        $info = array(
             'core' => MIBEW_VERSION,
             'plugins' => $this->getPluginsInfo(),
         );
+
+        // Attach Instance ID to the info but only if it's not empty.
+        $id = $this->getInstanceId();
+        if ($id) {
+            $info['uid'] = $id;
+        }
+
+        return $info;
     }
 
     /**

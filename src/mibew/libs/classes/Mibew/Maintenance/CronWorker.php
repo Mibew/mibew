@@ -151,6 +151,10 @@ class CronWorker
     {
         if (is_null($this->updateChecker)) {
             $this->updateChecker = new UpdateChecker();
+            $id = Settings::get('_instance_id');
+            if ($id) {
+                $this->updateChecker->setInstanceId($id);
+            }
         }
 
         return $this->updateChecker;
