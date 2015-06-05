@@ -21,6 +21,7 @@ namespace Mibew\Controller;
 
 use Mibew\Maintenance\UpdateChecker;
 use Mibew\Maintenance\Updater;
+use Mibew\Settings;
 use Mibew\Style\PageStyle;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -135,6 +136,10 @@ class UpdateController extends AbstractController
     {
         if (is_null($this->updateChecker)) {
             $this->updateChecker = new UpdateChecker();
+            $id = Settings::get('_instance_id');
+            if ($id) {
+                $this->updateChecker->setInstanceId($id);
+            }
         }
 
         return $this->updateChecker;
