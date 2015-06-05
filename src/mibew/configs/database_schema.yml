@@ -318,7 +318,7 @@ plugin:
         name: [name]
 
 # Contains info about all available updates
-available_update:
+availableupdate:
     fields:
         # Artificial ID
         id: "INT NOT NULL auto_increment PRIMARY KEY"

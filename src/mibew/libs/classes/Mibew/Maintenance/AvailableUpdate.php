@@ -79,7 +79,7 @@ class AvailableUpdate
 
         // Load update's info
         $info = Database::getInstance()->query(
-            "SELECT * FROM {available_update} WHERE id = :id",
+            "SELECT * FROM {availableupdate} WHERE id = :id",
             array(':id' => $id),
             array('return_rows' => Database::RETURN_ONE_ROW)
         );
@@ -112,7 +112,7 @@ class AvailableUpdate
 
         // Load update info
         $info = Database::getInstance()->query(
-            "SELECT * FROM {available_update} WHERE target = :target",
+            "SELECT * FROM {availableupdate} WHERE target = :target",
             array(':target' => $target),
             array('return_rows' => Database::RETURN_ONE_ROW)
         );
@@ -140,7 +140,7 @@ class AvailableUpdate
     public static function all()
     {
         $rows = Database::getInstance()->query(
-            "SELECT * FROM {available_update}",
+            "SELECT * FROM {availableupdate}",
             null,
             array('return_rows' => Database::RETURN_ALL_ROWS)
         );
@@ -182,7 +182,7 @@ class AvailableUpdate
         }
 
         Database::getInstance()->query(
-            "DELETE FROM {available_update} WHERE id = :id LIMIT 1",
+            "DELETE FROM {availableupdate} WHERE id = :id LIMIT 1",
             array(':id' => $this->id)
         );
     }
@@ -209,7 +209,7 @@ class AvailableUpdate
         if (!$this->id) {
             // This update is new.
             $db->query(
-                ("INSERT INTO {available_update} (target, version, url, description) "
+                ("INSERT INTO {availableupdate} (target, version, url, description) "
                     . "VALUES (:target, :version, :url, :description)"),
                 array(
                     ':target' => $this->target,
@@ -222,7 +222,7 @@ class AvailableUpdate
         } else {
             // Update existing update
             $db->query(
-                ("UPDATE {available_update} SET target = :target, url = :url, "
+                ("UPDATE {availableupdate} SET target = :target, url = :url, "
                     . "version = :version, description = :description "
                     . "WHERE id = :id"),
                 array(

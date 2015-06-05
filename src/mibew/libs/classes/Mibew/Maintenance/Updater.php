@@ -342,7 +342,7 @@ class Updater
             $db->query('ALTER TABLE {locale} ADD UNIQUE KEY code (code)');
 
             // Create a table for available updates.
-            $db->query('CREATE TABLE {available_update} ( '
+            $db->query('CREATE TABLE {availableupdate} ( '
                 . 'id INT NOT NULL auto_increment PRIMARY KEY, '
                 . 'target varchar(255) NOT NULL, '
                 . 'version varchar(255) NOT NULL, '
