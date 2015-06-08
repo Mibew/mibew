@@ -95,18 +95,12 @@ class HistoryController extends AbstractController
                 $search_conditions[] = "({thread}.remote LIKE :query)";
             }
 
-            // Build access condition:
+            // Build access condition
             $operator = $this->getOperator();
-            $access_condition = '';
-            // Operators without "view threads" permission can view only their
-            // own history. Administrators can view anything.
-            $can_view_others = is_capable(CAN_VIEWTHREADS, $operator)
-                || is_capable(CAN_ADMINISTRATE, $operator);
 
-            if (!$can_view_others) {
-                $access_condition = ' AND {thread}.agentid = :operator_id ';
-                $values[':operator_id'] = $operator['operatorid'];
-            }
+            $access = $this->buildAccessCondition($operator);
+            $access_condition = $access['condition'];
+            $values += $access['values'];
 
             // Load threads
             list($threads_count) = $db->query(
@@ -349,5 +343,66 @@ class HistoryController extends AbstractController
         $page['show_small_login'] = false;
 
         return $this->render('tracked', $page);
+    }
+
+    /**
+     * Builds access condition for history select query.
+     *
+     * @param array $operator List of operator's fields.
+     * @return array Associative array with the following keys:
+     *  - "condition": string, additional condition that should be used in SQL
+     *    query's where clause.
+     *  - "values": array, list of additional values for placeholders.
+     */
+    protected function buildAccessCondition($operator)
+    {
+        // Administrators can view anything
+        if (is_capable(CAN_ADMINISTRATE, $operator)) {
+            return array(
+                'condition' => '',
+                'values' => array(),
+            );
+        }
+
+        // Operators without "view threads" permission can view only their
+        // own history.
+        if (!is_capable(CAN_VIEWTHREADS, $operator)) {
+            return array(
+                'condition' => ' AND {thread}.agentid = :operator_id ',
+                'values' => array(
+                    ':operator_id' => $operator['operatorid'],
+                ),
+            );
+        }
+
+        // Operators who have "view threads" permission can be in isolation.
+        if (in_isolation($operator)) {
+            // This is not the best way of getting operators from adjacent
+            // groups, but it's the only way that does not break encapsulation
+            // of operators storage.
+            $operators = get_operators_list(array(
+                'isolated_operator_id' => $operator['operatorid'],
+            ));
+
+            $values = array();
+            $counter = 0;
+            foreach ($operators as $op) {
+                $values[':_access_op_' . $counter] = $op['operatorid'];
+                $counter++;
+            }
+
+            $in_statement = implode(', ', array_keys($values));
+
+            return array(
+                'condition' => ' AND {thread}.agentid IN (' . $in_statement . ') ',
+                'values' => $values,
+            );
+        }
+
+        // It seems that the operator can view anything.
+        return array(
+            'condition' => '',
+            'values' => array(),
+        );
     }
 }
