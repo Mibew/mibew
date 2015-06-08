@@ -95,6 +95,19 @@ class HistoryController extends AbstractController
                 $search_conditions[] = "({thread}.remote LIKE :query)";
             }
 
+            // Build access condition:
+            $operator = $this->getOperator();
+            $access_condition = '';
+            // Operators without "view threads" permission can view only their
+            // own history. Administrators can view anything.
+            $can_view_others = is_capable(CAN_VIEWTHREADS, $operator)
+                || is_capable(CAN_ADMINISTRATE, $operator);
+
+            if (!$can_view_others) {
+                $access_condition = ' AND {thread}.agentid = :operator_id ';
+                $values[':operator_id'] = $operator['operatorid'];
+            }
+
             // Load threads
             list($threads_count) = $db->query(
                 ("SELECT COUNT(DISTINCT {thread}.dtmcreated) "
@@ -102,7 +115,8 @@ class HistoryController extends AbstractController
                 . "WHERE {message}.threadid = {thread}.threadid "
                     . "AND ({thread}.invitationstate = :invitation_accepted "
                         . "OR {thread}.invitationstate = :invitation_not_invited) "
-                    . "AND (" . implode(' OR ', $search_conditions) . ")"),
+                    . "AND (" . implode(' OR ', $search_conditions) . ") "
+                    . $access_condition),
                 $values,
                 array(
                     'return_rows' => Database::RETURN_ONE_ROW,
@@ -125,6 +139,7 @@ class HistoryController extends AbstractController
                         . "AND ({thread}.invitationstate = :invitation_accepted "
                             . "OR {thread}.invitationstate = :invitation_not_invited) "
                         . "AND (" . implode(' OR ', $search_conditions) . ") "
+                        . $access_condition
                     . "ORDER BY {thread}.dtmcreated DESC "
                     . "LIMIT " . $limit_start . ", " . $limit_end),
                     $values,
