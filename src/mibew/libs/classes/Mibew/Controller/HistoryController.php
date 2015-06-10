@@ -384,18 +384,35 @@ class HistoryController extends AbstractController
                 'isolated_operator_id' => $operator['operatorid'],
             ));
 
-            $values = array();
+            $operators_placeholders = array();
             $counter = 0;
             foreach ($operators as $op) {
-                $values[':_access_op_' . $counter] = $op['operatorid'];
+                $operators_placeholders[':_access_op_' . $counter] = $op['operatorid'];
                 $counter++;
             }
 
-            $in_statement = implode(', ', array_keys($values));
+            $operators_in_statement = implode(', ', array_keys($operators_placeholders));
+
+            // Also the operator can view threads for the groups he belongs too.
+            // These threads include ones that had no related operator but were
+            // started for a specified group.
+            $groups = get_all_groups_for_operator($operator);
+
+            $groups_placeholders = array();
+            $counter = 0;
+            foreach ($groups as $group) {
+                $groups_placeholders[':_access_grp_' . $counter] = $group['groupid'];
+                $counter++;
+            }
+
+            $groups_in_statement = implode(', ', array_keys($groups_placeholders));
 
             return array(
-                'condition' => ' AND {thread}.agentid IN (' . $in_statement . ') ',
-                'values' => $values,
+                'condition' => (' AND ('
+                    . '{thread}.agentid IN (' . $operators_in_statement . ') '
+                    . 'OR {thread}.groupid IN (' . $groups_in_statement . ')'
+                    . ') '),
+                'values' => $operators_placeholders + $groups_placeholders,
             );
         }
 
