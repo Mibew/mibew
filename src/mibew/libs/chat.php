@@ -18,6 +18,8 @@
  */
 
 use Mibew\Asset\Generator\UrlGeneratorInterface as AssetUrlGeneratorInterface;
+use Mibew\EventDispatcher\EventDispatcher;
+use Mibew\EventDispatcher\Events;
 use Mibew\Settings;
 use Mibew\Thread;
 use Mibew\Style\ChatStyle;
@@ -716,6 +718,11 @@ function chat_start_for_user(
             getlocal('Info: {0}', array($info), get_current_locale(), true)
         );
     }
+
+    // Let plugins know that user is ready to chat.
+    $dispatcher = EventDispatcher::getInstance();
+    $event_args = array('thread' => $thread);
+    $dispatcher->triggerEvent(Events::THREAD_USER_IS_READY, $event_args);
 
     return $thread;
 }

@@ -415,6 +415,18 @@ final class Events
     const THREAD_GET_MESSAGES_ALTER = 'threadGetMessagesAlter';
 
     /**
+     * User is ready to chat.
+     *
+     * This event is triggered after the thread is created, the user passed
+     * pre-chat survey and all system messages are sent to him. This event is
+     * not triggered if there are no online operators and the chat cannot be
+     * started. An associative array with the following items is passed to the
+     * event handlers:
+     *  - "thread": an instance of {@link \Mibew\Thread}.
+     */
+    const THREAD_USER_IS_READY = 'threadUserIsReady';
+
+    /**
      * Threads list is ready to be sent to client.
      *
      * This event is triggered before the threads list is sent to the "users"
