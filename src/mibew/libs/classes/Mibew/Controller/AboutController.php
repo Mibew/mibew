@@ -63,7 +63,7 @@ class AboutController extends AbstractController
      */
     protected function getExtensionsInfo()
     {
-        $required_extensions = array('PDO', 'pdo_mysql', 'gd', 'curl');
+        $required_extensions = array('PDO', 'pdo_mysql', 'gd', 'curl', 'mbstring');
         $info = array();
         foreach ($required_extensions as $ext) {
             if (!extension_loaded($ext)) {
