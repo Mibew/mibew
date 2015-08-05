@@ -72,7 +72,7 @@ class CannedMessageController extends AbstractController
 
         // Build list of available groups
         $all_groups = in_isolation($operator)
-            ? get_all_groups_for_operator($operator)
+            ? get_groups_for_operator($operator)
             : get_all_groups();
         $page['groups'] = array();
         $page['groups'][] = array(

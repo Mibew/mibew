@@ -514,27 +514,21 @@ function get_all_groups()
     return get_sorted_child_groups_($groups);
 }
 
+/**
+ * Retrieves list of groups the operator can see.
+ *
+ * This function keeps in mind groups isolation.
+ *
+ * @deprecated since 2.1.1. Use {@link get_groups_for_operator()} function
+ * instead.
+ * @param array $operator List of operator's fields. See
+ * {@link operator_by_id()} for details of its keys.
+ * @return array List of group arrays. See {@link group_by_id()} for details
+ * about their structure.
+ */
 function get_all_groups_for_operator($operator)
 {
-    $db = Database::getInstance();
-    $query = "SELECT DISTINCT g.groupid AS groupid, g.parent, g.vclocalname, g.vclocaldescription "
-        . "FROM {opgroup} g, "
-        . "(SELECT {opgroup}.groupid, {opgroup}.parent FROM {opgroup}, {operatortoopgroup} "
-            . "WHERE {opgroup}.groupid = {operatortoopgroup}.groupid "
-                . "AND {operatortoopgroup}.operatorid = ?) i "
-        . "WHERE g.groupid = i.parent "
-            . "OR g.parent = i.groupid "
-            . "OR (g.parent = i.parent AND g.parent IS NOT NULL) "
-            . "OR g.groupid = i.groupid "
-        . "ORDER BY vclocalname";
-
-    $groups = $db->query(
-        $query,
-        array($operator['operatorid']),
-        array('return_rows' => Database::RETURN_ALL_ROWS)
-    );
-
-    return get_sorted_child_groups_($groups);
+    return get_groups_for_operator($operator, false);
 }
 
 function get_sorted_child_groups_(
@@ -643,7 +637,7 @@ function get_groups($check_away)
     return get_groups_($check_away, null);
 }
 
-function get_groups_for_operator($operator, $check_away)
+function get_groups_for_operator($operator, $check_away = false)
 {
     return get_groups_($check_away, $operator);
 }

@@ -404,7 +404,7 @@ class HistoryController extends AbstractController
             // Also the operator can view threads for the groups he belongs too.
             // These threads include ones that had no related operator but were
             // started for a specified group.
-            $groups = get_all_groups_for_operator($operator);
+            $groups = get_groups_for_operator($operator);
 
             $groups_placeholders = array();
             $counter = 0;

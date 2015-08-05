@@ -53,7 +53,7 @@ class GroupsController extends AbstractController
         );
 
         $groups = $operator_in_isolation
-            ? get_all_groups_for_operator($operator)
+            ? get_groups_for_operator($operator)
             : get_all_groups();
 
         $can_modify = is_capable(CAN_ADMINISTRATE, $operator);
@@ -114,7 +114,7 @@ class GroupsController extends AbstractController
 
         // Get all groups that are available for the target operator.
         $groups = $operator_in_isolation
-            ? get_all_groups_for_operator($operator)
+            ? get_groups_for_operator($operator)
             : get_all_groups();
 
         // Build list of operator's new groups.
