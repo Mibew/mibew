@@ -377,6 +377,9 @@ class HistoryController extends AbstractController
 
         // Operators who have "view threads" permission can be in isolation.
         if (in_isolation($operator)) {
+            $query_conditions = array();
+            $query_values = array();
+
             // This is not the best way of getting operators from adjacent
             // groups, but it's the only way that does not break encapsulation
             // of operators storage.
@@ -391,7 +394,12 @@ class HistoryController extends AbstractController
                 $counter++;
             }
 
-            $operators_in_statement = implode(', ', array_keys($operators_placeholders));
+            if (count($operators_placeholders) > 0) {
+                // Make sure at least one operator was loaded.
+                $operators_in_statement = implode(', ', array_keys($operators_placeholders));
+                $query_conditions[] = '{thread}.agentid IN (' . $operators_in_statement . ')';
+                $query_values = $operators_placeholders;
+            }
 
             // Also the operator can view threads for the groups he belongs too.
             // These threads include ones that had no related operator but were
@@ -405,14 +413,28 @@ class HistoryController extends AbstractController
                 $counter++;
             }
 
-            $groups_in_statement = implode(', ', array_keys($groups_placeholders));
+            if (count($groups_placeholders) > 0) {
+                // Make sure at least one group was loaded.
+                $groups_in_statement = implode(', ', array_keys($groups_placeholders));
+                $query_conditions[] = '{thread}.groupid IN (' . $groups_in_statement . ')';
+                $query_values += $groups_placeholders;
+            }
+
+            if (count($query_conditions) == 0) {
+                // It seems that the does not belong to any groups or there is
+                // just no another operators in adjuscent groups. Thus the
+                // operator can view only his own threads.
+                return array(
+                    'condition' => ' AND {thread}.agentid = :operator_id ',
+                    'values' => array(
+                        ':operator_id' => $operator['operatorid'],
+                    ),
+                );
+            }
 
             return array(
-                'condition' => (' AND ('
-                    . '{thread}.agentid IN (' . $operators_in_statement . ') '
-                    . 'OR {thread}.groupid IN (' . $groups_in_statement . ')'
-                    . ') '),
-                'values' => $operators_placeholders + $groups_placeholders,
+                'condition' => ' AND (' . implode(' OR ', $query_conditions) . ') ',
+                'values' => $query_values,
             );
         }
 
