@@ -204,10 +204,13 @@ function get_operators_list($options = array())
                 . "WHERE {operator}.operatorid = {operatortoopgroup}.operatorid "
                 . "AND {operatortoopgroup}.groupid IN ("
                     . "SELECT g.groupid FROM {opgroup} g, "
-                        . "(SELECT DISTINCT parent FROM {opgroup}, {operatortoopgroup} "
+                        . "(SELECT {opgroup}.groupid, {opgroup}.parent FROM {opgroup}, {operatortoopgroup} "
                         . "WHERE {opgroup}.groupid = {operatortoopgroup}.groupid "
                         . "AND {operatortoopgroup}.operatorid = :operatorid) i "
-                    . "WHERE g.groupid = i.parent OR g.parent = i.parent "
+                    . "WHERE g.groupid = i.parent "
+                        . "OR g.parent = i.groupid "
+                        . "OR (g.parent = i.parent AND g.parent IS NOT NULL) "
+                        . "OR g.groupid = i.groupid "
                 . ")")
         . " ORDER BY " . $orderby;
 

@@ -517,12 +517,15 @@ function get_all_groups()
 function get_all_groups_for_operator($operator)
 {
     $db = Database::getInstance();
-    $query = "SELECT g.groupid AS groupid, g.parent, g.vclocalname, g.vclocaldescription "
+    $query = "SELECT DISTINCT g.groupid AS groupid, g.parent, g.vclocalname, g.vclocaldescription "
         . "FROM {opgroup} g, "
-        . "(SELECT DISTINCT parent FROM {opgroup}, {operatortoopgroup} "
+        . "(SELECT {opgroup}.groupid, {opgroup}.parent FROM {opgroup}, {operatortoopgroup} "
             . "WHERE {opgroup}.groupid = {operatortoopgroup}.groupid "
                 . "AND {operatortoopgroup}.operatorid = ?) i "
-        . "WHERE g.groupid = i.parent OR g.parent = i.parent "
+        . "WHERE g.groupid = i.parent "
+            . "OR g.parent = i.groupid "
+            . "OR (g.parent = i.parent AND g.parent IS NOT NULL) "
+            . "OR g.groupid = i.groupid "
         . "ORDER BY vclocalname";
 
     $groups = $db->query(
@@ -590,7 +593,7 @@ function get_groups_($check_away, $operator, $order = null)
     $values = array(
         ':now' => time(),
     );
-    $query = "SELECT {opgroup}.groupid AS groupid, "
+    $query = "SELECT DISTINCT {opgroup}.groupid AS groupid, "
         . "{opgroup}.parent AS parent, "
         . "vclocalname, vclocaldescription, iweight, "
         . "(SELECT count(*) "
@@ -614,12 +617,14 @@ function get_groups_($check_away, $operator, $order = null)
         . " FROM {opgroup} ";
 
     if ($operator) {
-        $query .= ", (SELECT DISTINCT parent "
+        $query .= ", (SELECT {opgroup}.groupid, {opgroup}.parent "
             . "FROM {opgroup}, {operatortoopgroup} "
             . "WHERE {opgroup}.groupid = {operatortoopgroup}.groupid "
                 . "AND {operatortoopgroup}.operatorid = :operatorid) i "
-            . "WHERE {opgroup}.groupid = i.parent OR {opgroup}.parent = i.parent ";
-
+            . "WHERE {opgroup}.groupid = i.parent "
+                . "OR {opgroup}.parent = i.groupid "
+                . "OR ({opgroup}.parent = i.parent AND {opgroup}.parent IS NOT NULL) "
+                . "OR {opgroup}.groupid = i.groupid ";
         $values[':operatorid'] = $operator['operatorid'];
     }
 
@@ -675,10 +680,13 @@ function get_operators_from_adjacent_groups($operator)
         . "WHERE {operator}.operatorid = {operatortoopgroup}.operatorid "
             . "AND {operatortoopgroup}.groupid IN ("
                 . "SELECT g.groupid from {opgroup} g, "
-                    . "(SELECT DISTINCT parent FROM {opgroup}, {operatortoopgroup} "
+                    . "(SELECT {opgroup}.groupid, {opgroup}.parent FROM {opgroup}, {operatortoopgroup} "
                     . "WHERE {opgroup}.groupid = {operatortoopgroup}.groupid "
                         . "AND {operatortoopgroup}.operatorid = :operatorid) i "
-                . "WHERE g.groupid = i.parent OR g.parent = i.parent "
+                . "WHERE g.groupid = i.parent "
+                    . "OR g.parent = i.groupid "
+                    . "OR (g.parent = i.parent AND g.parent IS NOT NULL) "
+                    . "OR g.groupid = i.groupid "
         . ") ORDER BY vclogin";
 
     return $db->query(
