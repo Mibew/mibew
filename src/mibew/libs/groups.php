@@ -665,30 +665,7 @@ function get_operator_group_ids($operator_id)
 
 function get_operators_from_adjacent_groups($operator)
 {
-    $db = Database::getInstance();
-    $query = "SELECT DISTINCT {operator}.operatorid, vclogin, "
-            . "vclocalename,vccommonname, "
-            . "istatus, idisabled, code, "
-            . "(:now - dtmlastvisited) AS time "
-        . "FROM {operator}, {operatortoopgroup} "
-        . "WHERE {operator}.operatorid = {operatortoopgroup}.operatorid "
-            . "AND {operatortoopgroup}.groupid IN ("
-                . "SELECT g.groupid from {opgroup} g, "
-                    . "(SELECT {opgroup}.groupid, {opgroup}.parent FROM {opgroup}, {operatortoopgroup} "
-                    . "WHERE {opgroup}.groupid = {operatortoopgroup}.groupid "
-                        . "AND {operatortoopgroup}.operatorid = :operatorid) i "
-                . "WHERE g.groupid = i.parent "
-                    . "OR g.parent = i.groupid "
-                    . "OR (g.parent = i.parent AND g.parent IS NOT NULL) "
-                    . "OR g.groupid = i.groupid "
-        . ") ORDER BY vclogin";
-
-    return $db->query(
-        $query,
-        array(
-            ':operatorid' => $operator['operatorid'],
-            ':now' => time(),
-        ),
-        array('return_rows' => Database::RETURN_ALL_ROWS)
-    );
+    return get_operators_list(array(
+        'isolated_operator_id' => $operator['operatorid'],
+    ));
 }
