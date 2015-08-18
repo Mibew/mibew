@@ -437,6 +437,7 @@ class Thread
                 $thread->modified = $now;
                 $thread->closed = $now;
                 $thread->state = self::STATE_CLOSED;
+                $thread->messageCount = $thread->getUserMessageCount();
                 $thread->save();
                 unset($thread);
             }
@@ -908,6 +909,26 @@ class Thread
         );
     }
 
+    public function getUserMessageCount() {
+        // Get messages count
+        $db = Database::getInstance();
+
+        list($message_count) = $db->query(
+            ("SELECT COUNT(*) FROM {message} "
+                . "WHERE {message}.threadid = :threadid AND ikind = :kind_user"),
+            array(
+                ':threadid' => $this->id,
+                ':kind_user' => Thread::KIND_USER,
+            ),
+            array(
+                'return_rows' => Database::RETURN_ONE_ROW,
+                'fetch_type' => Database::FETCH_NUM,
+            )
+        );
+
+        return $message_count;
+    }
+
     /**
      * Close thread and send closing messages to the conversation members
      *
@@ -953,27 +974,11 @@ class Thread
             }
         }
 
-        // Get messages count
-        $db = Database::getInstance();
-
-        list($message_count) = $db->query(
-            ("SELECT COUNT(*) FROM {message} "
-                . "WHERE {message}.threadid = :threadid AND ikind = :kind_user"),
-            array(
-                ':threadid' => $this->id,
-                ':kind_user' => Thread::KIND_USER,
-            ),
-            array(
-                'return_rows' => Database::RETURN_ONE_ROW,
-                'fetch_type' => Database::FETCH_NUM,
-            )
-        );
-
         // Close thread if it's not already closed
         if ($this->state != self::STATE_CLOSED) {
             $this->state = self::STATE_CLOSED;
             $this->closed = time();
-            $this->messageCount = $message_count;
+            $this->messageCount = $this->getUserMessageCount();
             $this->save();
 
             $args = array('thread' => $this);
