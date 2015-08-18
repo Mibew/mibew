@@ -18,6 +18,26 @@
 
 (function(Mibew, Handlebars){
     /**
+     * Registers "ifAgentSide" helper.
+     *
+     * This helper checks if this chat window opened by agent
+     * <code>
+     *   {{#ifAgentSide}}
+     *     Render some specific agent element
+     *   {{else}}
+     *     Render some specific client element
+     *   {{/ifEqual}}
+     * </code>
+     */
+    Handlebars.registerHelper('ifAgentSide', function(options) {
+        if (Mibew.Objects.Models.user.get('isAgent')) {
+            return options.fn(this);
+        } else {
+            return options.inverse(this);
+        }
+    });
+
+    /**
      * Register 'formatTime' Handlebars helper.
      *
      * This helper takes unix timestamp as argument and return time in
