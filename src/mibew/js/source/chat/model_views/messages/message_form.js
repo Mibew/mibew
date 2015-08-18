@@ -84,6 +84,9 @@
              * Get, check and post message
              */
             postMessage: function() {
+                if (this.isDisabledInput()){
+                    return;
+                }
                 var msg = this.ui.message.val();
                 // TODO: Think about it
                 // Cut multiple line breaks
@@ -129,6 +132,13 @@
             },
 
             /**
+             * Check is disabled message input area
+             */
+            isDisabledInput: function() {
+                return this.ui.message.attr('disabled') == 'disabled';
+            },
+
+            /**svn
              * Clear message input area
              */
             clearInput: function() {
