@@ -189,6 +189,10 @@
 
         models.soundManager = new Mibew.Models.ChatSoundManager();
 
+        if (!models.user.get('isAgent')){
+            models.autoCloser = new Mibew.Models.AutoChatCloser();
+        }
+
         // If the chat is ran inside an iframe we need to tell the parent page
         // that the chat is started. This is needed to reopen chat when the user
         // navigates to another page.
