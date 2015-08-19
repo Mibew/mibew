@@ -21,6 +21,7 @@
 use Mibew\Database;
 use Mibew\EventDispatcher\EventDispatcher;
 use Mibew\EventDispatcher\Events;
+use Mibew\Ldap;
 use Mibew\Settings;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -100,6 +101,14 @@ function update_operator_permissions($operator_id, $perm)
 
 function operator_by_login($login)
 {
+    if (operator_can_login_by_ad($login)) {
+        auto_update_operator_from_ad($login);
+    }
+    return operator_by_login_from_db($login);
+}
+
+function operator_by_login_from_db($login)
+{
     $db = Database::getInstance();
 
     return $db->query(
@@ -107,6 +116,119 @@ function operator_by_login($login)
         array($login),
         array('return_rows' => Database::RETURN_ONE_ROW)
     );
+}
+
+function operator_can_login_by_ad($login)
+{
+    $ldap = Ldap::getInstance();
+    return $ldap->searchForOperator($login);
+}
+
+function authenticate_operator_in_ad($login, $password) {
+    $ldap = Ldap::getInstance();
+    return $ldap->authenticate($login, $password);
+}
+
+function auto_update_operator_from_ad($login) {
+    $operatorDb = operator_by_login_from_db($login);
+    $ldap = Ldap::getInstance();
+
+    $operatorData = $ldap->getOperatorData($login);
+    $userperm = 6;
+    if ($ldap->userIsAdmin($login)) {
+        $userperm += 1;
+    }
+    if ($operatorDb) {
+        if ($operatorDb['vclocalename'] == null) {
+            $operatorDb['vclocalename'] = $operatorData['commonname'];
+        }
+        if ($operatorDb['vccommonname'] == null) {
+            $operatorDb['vccommonname'] = $operatorData['commonname'];
+        }
+        $operatorDb['vcemail'] = $operatorData['email'];
+    } else {
+        $operatorDb = create_operator($login, $operatorData['email'], generateStrongPassword(), $operatorData['commonname'],
+            $operatorData['commonname'], null, null);
+    }
+    if ($operatorDb['vclogin'] != 'admin') {
+        $operatorDb['iperm'] = $userperm;
+    }
+    $operatorDb = save_operator_avatar($operatorDb, $operatorData['avatar']);
+    update_operator($operatorDb);
+    return $operatorDb;
+}
+
+function save_operator_avatar($operator, $avatar_data) {
+    $avatar = $operator['vcavatar'];
+    if (!is_null($avatar_data)) {
+        $ext = "." . getImgType($avatar_data);
+        $new_avatar = 'files/avatar/' . intval($operator['operatorid']) . $ext;
+        $full_file_path = MIBEW_FS_ROOT . "/" . $new_avatar;
+        $file = fopen($full_file_path, "wb");
+        fwrite($file,$avatar_data);
+        fclose($file);
+    } else {
+        $new_avatar = null;
+    }
+    if (!is_null($avatar) && $avatar != $new_avatar) {
+        unlink(MIBEW_FS_ROOT . "/" . $avatar);
+    }
+    $operator['vcavatar'] = $new_avatar;
+    return $operator;
+}
+
+function getImgType($filedata) {
+    $types = array('jpeg' => "\xFF\xD8\xFF", 'gif' => 'GIF', 'png' => "\x89\x50\x4e\x47\x0d\x0a", 'bmp' => 'BM', 'psd' => '8BPS', 'swf' => 'FWS');
+    $bytes = substr($filedata, 0, 8);
+    $found = 'other';
+
+    foreach ($types as $type => $header) {
+        if (strpos($bytes, $header) === 0) {
+            $found = $type;
+            break;
+        }
+    }
+    return $found;
+}
+
+function generateStrongPassword($length = 9, $add_dashes = false, $available_sets = 'luds')
+{
+    $sets = array();
+    if(strpos($available_sets, 'l') !== false)
+        $sets[] = 'abcdefghjkmnpqrstuvwxyz';
+    if(strpos($available_sets, 'u') !== false)
+        $sets[] = 'ABCDEFGHJKMNPQRSTUVWXYZ';
+    if(strpos($available_sets, 'd') !== false)
+        $sets[] = '23456789';
+    if(strpos($available_sets, 's') !== false)
+        $sets[] = '!@#$%&*?';
+
+    $all = '';
+    $password = '';
+    foreach($sets as $set)
+    {
+        $password .= $set[array_rand(str_split($set))];
+        $all .= $set;
+    }
+
+    $all = str_split($all);
+    for($i = 0; $i < $length - count($sets); $i++)
+        $password .= $all[array_rand($all)];
+
+    $password = str_shuffle($password);
+
+    if(!$add_dashes)
+        return $password;
+
+    $dash_len = floor(sqrt($length));
+    $dash_str = '';
+    while(strlen($password) > $dash_len)
+    {
+        $dash_str .= substr($password, 0, $dash_len) . '-';
+        $password = substr($password, $dash_len);
+    }
+    $dash_str .= $password;
+    return $dash_str;
 }
 
 function operator_by_email($mail)

@@ -44,6 +44,9 @@ require_once(MIBEW_FS_ROOT . '/libs/common/request.php');
 require_once(MIBEW_FS_ROOT . '/libs/common/response.php');
 require_once(MIBEW_FS_ROOT . '/libs/common/string.php');
 
+// Include adLDAP lib
+require_once(MIBEW_FS_ROOT . '/libs/adldap/adLDAP.php');
+
 // We need to get some info from the request. Use symfony wrapper because it's
 // the simplest way.
 $tmp_request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
@@ -79,6 +82,20 @@ if (get_maintenance_mode() === false) {
         $configs['database']['use_persistent_connection'],
         $configs['database']['db'],
         $configs['database']['tables_prefix']
+    );
+    // Initialize the LDAP
+    \Mibew\Ldap::initialize(
+        $configs['adldap']['domain'],
+        $configs['adldap']['account_suffix'],
+        $configs['adldap']['base_dn'],
+        $configs['adldap']['domain_controllers'],
+        $configs['adldap']['operator_group'],
+        $configs['adldap']['admin_group'],
+        $configs['adldap']['search_username'],
+        $configs['adldap']['search_password'],
+        $configs['adldap']['port'],
+        $configs['adldap']['useSSL'],
+        $configs['adldap']['useTLS']
     );
 }
 
