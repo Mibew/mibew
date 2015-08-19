@@ -159,7 +159,8 @@
         // Initialize avatar only for user
         if (! models.user.get('isAgent')) {
             models.avatar = new Mibew.Models.Avatar({
-                imageLink: (options.avatar || false)
+                imageLink: (options.avatar || false),
+                operatorName: (options.operatorName || false)
             });
             layout.avatarRegion.show(new Mibew.Views.Avatar({
                 model: models.avatar

@@ -20,11 +20,11 @@
 use Mibew\Asset\Generator\UrlGeneratorInterface as AssetUrlGeneratorInterface;
 use Mibew\EventDispatcher\EventDispatcher;
 use Mibew\EventDispatcher\Events;
+use Mibew\Routing\Generator\SecureUrlGeneratorInterface as UrlGeneratorInterface;
 use Mibew\Settings;
-use Mibew\Thread;
 use Mibew\Style\ChatStyle;
 use Mibew\Style\PageStyle;
-use Mibew\Routing\Generator\SecureUrlGeneratorInterface as UrlGeneratorInterface;
+use Mibew\Thread;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -169,7 +169,7 @@ function setup_leavemessage($name, $email, $group_id, $info, $referrer)
         'groupName' => $group_name,
         'info' => $info,
         'referrer' => $referrer,
-        'showCaptcha' => (bool) (Settings::get("enablecaptcha") == "1" && can_show_captcha()),
+        'showCaptcha' => (bool)(Settings::get("enablecaptcha") == "1" && can_show_captcha()),
     );
 
     $data['page.title'] = (empty($group_name) ? '' : $group_name . ': ')
@@ -211,9 +211,9 @@ function setup_survey($name, $email, $group_id, $info, $referrer)
         'email' => $email,
         'info' => $info,
         'referrer' => $referrer,
-        'showEmail' => (bool) (Settings::get("surveyaskmail") == "1"),
-        'showMessage' => (bool) (Settings::get("surveyaskmessage") == "1"),
-        'canChangeName' => (bool) (Settings::get('usercanchangename') == "1"),
+        'showEmail' => (bool)(Settings::get("surveyaskmail") == "1"),
+        'showMessage' => (bool)(Settings::get("surveyaskmessage") == "1"),
+        'canChangeName' => (bool)(Settings::get('usercanchangename') == "1"),
     );
 
     $data['page.title'] = getlocal('Live support');
@@ -265,7 +265,7 @@ function prepare_groups_select($group_id)
     $selected_group_id = $group_id;
 
     foreach ($all_groups as $group) {
-        $group_is_empty = (bool) ($group['inumofagents'] == 0);
+        $group_is_empty = (bool)($group['inumofagents'] == 0);
         $group_related_with_specified = empty($group_id)
             || $group['parent'] == $group_id
             || $group['groupid'] == $group_id;
@@ -283,7 +283,7 @@ function prepare_groups_select($group_id)
             'name' => get_group_name($group),
             'description' => get_group_description($group),
             'online' => group_is_online($group),
-            'selected' => (bool) ($group['groupid'] == $selected_group_id),
+            'selected' => (bool)($group['groupid'] == $selected_group_id),
         );
     }
 
@@ -341,7 +341,7 @@ function setup_chatview(Thread $thread)
     );
 
     $data['page.title'] = empty($group['vcchattitle'])
-        ? Settings::get('chattitle')
+        ? getlocal(Settings::get('chattitle'), null, get_current_locale(), true)
         : $group['vcchattitle'];
     $data['chat']['page'] = array(
         'title' => $data['page.title']
@@ -395,8 +395,8 @@ function setup_chatview_for_user(
     // Set user info
     $data['chat']['user'] = array(
         'name' => htmlspecialchars($thread->userName),
-        'canChangeName' => (bool) (Settings::get('usercanchangename') == "1"),
-        'defaultName' => (bool) (getlocal("Guest") != $thread->userName),
+        'canChangeName' => (bool)(Settings::get('usercanchangename') == "1"),
+        'defaultName' => (bool)(getlocal("Guest") != $thread->userName),
         'canPost' => true,
         'isAgent' => false,
     );
@@ -438,6 +438,8 @@ function setup_chatview_for_user(
         ? $asset_url_generator->generate($operator['vcavatar'])
         : '';
 
+    $data['chat']['operatorName'] = $operator['vclocalename'];
+
     return $data;
 }
 
@@ -467,7 +469,7 @@ function setup_chatview_for_operator(
                 $thread->userId
             )
         ),
-        'canPost' => (bool) ($thread->agentId == $operator['operatorid']),
+        'canPost' => (bool)($thread->agentId == $operator['operatorid']),
         'isAgent' => true,
     );
 
@@ -551,7 +553,7 @@ function visitor_from_request()
     $default_name = getlocal("Guest");
     $user_name = $default_name;
     if (isset($_COOKIE[USERNAME_COOKIE_NAME])) {
-        $data = base64_decode(strtr($_COOKIE[USERNAME_COOKIE_NAME], '-_,', '+/='));
+        $data = base64_decode(strtr($_COOKIE[USERNAME_COOKIE_NAME], ' -_,', '++/='));
         if (strlen($data) > 0) {
             $user_name = $data;
         }
@@ -690,7 +692,7 @@ function chat_start_for_user(
         if ($referrer) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getlocal('Vistor came from page {0}', array($referrer), get_current_locale(), true)
+                getlocal('Visitor came from page {0}', array($referrer), get_current_locale(), true)
             );
         }
         if ($requested_operator && !$requested_operator_online) {
@@ -704,10 +706,10 @@ function chat_start_for_user(
                 )
             );
         } else {
-            $thread->postMessage(
-                Thread::KIND_INFO,
+                $thread->postMessage(
+                    Thread::KIND_INFO,
                 getlocal('Thank you for contacting us. An operator will be with you shortly.', null, get_current_locale(), true)
-            );
+                );
         }
     }
 
