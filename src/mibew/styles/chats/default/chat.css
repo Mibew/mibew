@@ -263,6 +263,13 @@ a:hover .image-close-window {
     font-size: 12px;
     color: #333333;
 }
+#status-region .typing-icon {
+    display: inline-block;
+    height: 16px;
+    width: 18px;
+    background: transparent url("images/user_typing.png") scroll no-repeat;
+    vertical-align: middle;
+}
 .status {
     float: left;
     padding-right: 10px;
@@ -285,11 +292,35 @@ a:hover .image-close-window {
     background: transparent url("images/avatar.jpg") scroll no-repeat 50% 10px;
     width: 100px;
     height: 100px;
+    display: inline-block;
+    vertical-align: middle;
 }
 .avatar img {
     max-width: 100px;
     border: none;
+    vertical-align: middle;
 }
+#avatar-img {
+    display: inline-block;
+}
+#operator-text {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.operator-name {
+    font-size: 14px;
+    line-height: 20px;
+    margin-left: 6px;
+}
+
+.operator-depart {
+    font-size: 13px;
+    line-height: 32px;
+    margin-left: 6px;
+    color: #80787a;
+}
+
 #messages-region {
     height: 200px;
     min-height: 150px;
