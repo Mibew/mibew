@@ -55,7 +55,7 @@ class UpdateChecker
      *
      * @var array
      */
-    private $errors = [];
+    private $errors = array();
 
     /**
      * Sets URL of updates server.
@@ -219,7 +219,7 @@ class UpdateChecker
     protected function getPluginsInfo()
     {
         if (is_null($this->pluginsInfo)) {
-            $this->pluginsInfo = [];
+            $this->pluginsInfo = array();
             $names = PluginUtils::discoverPlugins();
             foreach ($names as $plugin_name) {
                 $info = new PluginInfo($plugin_name);
