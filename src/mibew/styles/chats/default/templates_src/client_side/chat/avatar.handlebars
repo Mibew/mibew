@@ -1,1 +1,3 @@
-{{#if imageLink}}<img src="{{imageLink}}" border="0" alt="" />{{else}}<div class="default-avatar"></div>{{/if}}
+<div id="avatar-img">{{#if imageLink}}<img src="{{imageLink}}" border="0" alt="{{operatorName}}"/>{{else}}<div class="default-avatar"></div>{{/if}}</div>
+<div id="operator-text">{{#if operatorName}}<span class="operator-name">{{operatorName}}<br/></span>{{/if}}
+<span class="operator-depart">{{l10n "Support service"}}</span></div>

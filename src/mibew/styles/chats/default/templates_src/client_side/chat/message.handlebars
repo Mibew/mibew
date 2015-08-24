@@ -1,3 +1,9 @@
-<span>{{formatTime created}}</span> 
-{{#if name}}<span class='name-{{kindName}}'>{{name}}</span>: {{/if}}
+<span>{{formatTime created}}</span>
+{{#if name}}
+    {{#ifAgentSide}}
+        <span class='name-{{kindName}}'>{{name}}</span>:
+    {{else}}
+        <span class='name-{{kindName}}'>{{#ifEqual kindName "user"}}{{l10n "You"}}{{else}}{{name}}{{/ifEqual}}</span>:
+    {{/ifAgentSide}}
+{{/if}}
 <span class='message-{{kindName}}'>{{#replace "\n" "<br/>"}}{{urlReplace message}}{{/replace}}</span><br/>

@@ -159,7 +159,8 @@
         // Initialize avatar only for user
         if (! models.user.get('isAgent')) {
             models.avatar = new Mibew.Models.Avatar({
-                imageLink: (options.avatar || false)
+                imageLink: (options.avatar || false),
+                operatorName: (options.operatorName || false)
             });
             layout.avatarRegion.show(new Mibew.Views.Avatar({
                 model: models.avatar
@@ -187,6 +188,10 @@
         }));
 
         models.soundManager = new Mibew.Models.ChatSoundManager();
+
+        if (!models.user.get('isAgent')){
+            models.autoCloser = new Mibew.Models.AutoChatCloser();
+        }
 
         // If the chat is ran inside an iframe we need to tell the parent page
         // that the chat is started. This is needed to reopen chat when the user

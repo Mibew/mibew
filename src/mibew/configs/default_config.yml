@@ -1,6 +1,21 @@
 # IMPORTANT: Before install mibew copy this file to config.yml and fill it with
 # your own settings!
 
+# Active Directory LDAP parameters
+adldap:
+    ### required
+    domain: "some.domain.com"
+    search_username: "username"
+    search_password: "password"
+    operator_group: "domain users"
+    admin_group: "domain admins"
+    ### optional
+#    account_suffix: "@some.domain.com"
+#    base_dn: "DC=some,DC=domain,DC=com"
+#    domain_controllers: ["dc1.some.domain.com", "dc2.some.domain.com"]
+#    port: 389
+#    useSSL: false                # strongly recommended use one of SSL or TLS
+#    useTLS: false                # cannot be true simultaneously with SSL
 
 # MySQL Database parameters
 database:

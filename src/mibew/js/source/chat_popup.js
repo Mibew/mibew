@@ -278,7 +278,7 @@ var Mibew = Mibew || {};
 
         return this.url
             + ((this.url.indexOf('?') === -1) ? '?' : '&') + 'url=' + encodeURIComponent(href)
-            + '&referrer=' + encodeURIComponent(referrer);
+            + '&referrer=' + encodeURIComponent(referrer) + "&_t=" + new Date().getTime();
     }
 
     /**
@@ -308,7 +308,7 @@ var Mibew = Mibew || {};
         // are loading.
         this.attachDefaultStyles();
         // Load extra style sheets.
-        Mibew.Utils.loadScript(this.styleLoader);
+        Mibew.Utils.loadScript(this.styleLoader + "?_t=" + new Date().getTime());
 
         // Check if the popup should be reopened.
         var openedChatUrl = Mibew.Utils.readCookie('mibew-chat-frame-' + this.id);

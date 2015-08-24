@@ -33,7 +33,12 @@
                  * An URL of the avatar image or false by default.
                  * @type String|Boolean
                  */
-                imageLink: false
+                imageLink: false,
+                /**
+                 * An operator name
+                 * @type String|Boolean
+                 */
+                operatorName: false
             },
 
             /**
@@ -79,7 +84,10 @@
              * @param args {Object} An object of passed arguments
              */
             apiSetupAvatar: function(args) {
-                this.set({imageLink: (args.imageLink || false)});
+                this.set({
+                    imageLink: (args.imageLink || false),
+                    operatorName: (args.operatorName || false)
+                });
             },
 
             /**
@@ -89,7 +97,7 @@
             setFromThread: function(thread) {
                 if (!thread.get('agentId')) {
                     // There is no operator. Hide the avatar.
-                    this.set({imageLink: false});
+                    this.set({imageLink: false, operatorName: false});
 
                     return;
                 }
@@ -101,7 +109,8 @@
                         'arguments': {
                             'references': {},
                             'return': {
-                                'imageLink': 'imageLink'
+                                'imageLink': 'imageLink',
+                                'operatorName': 'operatorName'
                             },
                             'threadId': thread.get('id'),
                             'token': thread.get('token')

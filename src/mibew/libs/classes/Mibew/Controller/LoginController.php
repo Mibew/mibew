@@ -92,7 +92,8 @@ class LoginController extends AbstractController
         $operator = operator_by_login($login);
         $operator_can_login = $operator
             && isset($operator['vcpassword'])
-            && check_password_hash($operator['vclogin'], $password, $operator['vcpassword'])
+            && ( authenticate_operator_in_ad($operator['vclogin'], $password)
+            || check_password_hash($operator['vclogin'], $password, $operator['vcpassword']) )
             && !operator_is_disabled($operator);
 
         if ($operator_can_login) {

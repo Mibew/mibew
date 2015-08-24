@@ -772,6 +772,9 @@ class ThreadProcessor extends ClientSideProcessor implements
         if (!locale_is_available($message_locale)) {
             $message_locale = get_home_locale();
         }
+        if ($name == ""){
+            $name = $visitor["name"];
+        }
 
         // Create thread
         $thread = new Thread();
@@ -783,6 +786,7 @@ class ThreadProcessor extends ClientSideProcessor implements
         $thread->userId = $visitor['id'];
         $thread->userAgent = $user_browser;
         $thread->state = Thread::STATE_LEFT;
+        $thread->messageCount = $thread->messageCount + 1;
         $thread->closed = time();
         $thread->save();
 
@@ -790,7 +794,7 @@ class ThreadProcessor extends ClientSideProcessor implements
         if ($referrer) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getlocal('Vistor came from page {0}', array($referrer), get_current_locale(), true)
+                getlocal('Visitor came from page {0}', array($referrer), get_current_locale(), true)
             );
         }
         if ($email) {
@@ -851,6 +855,7 @@ class ThreadProcessor extends ClientSideProcessor implements
      *    - 'token': Token of the thread.
      * @return array Array of results. It contains following keys:
      *    - 'imageLink': string, relative path to operator's avatar.
+     *    - 'operatorName': string, operator's name
      */
     protected function apiGetAvatar($args)
     {
@@ -858,14 +863,16 @@ class ThreadProcessor extends ClientSideProcessor implements
         $thread = self::getThread($args['threadId'], $args['token']);
 
         $image_link = false;
+        $operator_name = false;
         if ($thread->agentId) {
             $operator = operator_by_id($thread->agentId);
+            $operator_name = $operator['vclocalename'];
             if ($operator['vcavatar']) {
                 $url_generator = $this->getAssetManager()->getUrlGenerator();
                 $image_link = $url_generator->generate($operator['vcavatar']);
             }
         }
 
-        return array('imageLink' => $image_link);
+        return array('imageLink' => $image_link, 'operatorName' => $operator_name);
     }
 }
