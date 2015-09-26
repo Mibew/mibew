@@ -29,7 +29,7 @@
             return false;
         }
         return localStrings[str];
-    }
+    };
 
     /**
      * Store localization object. Can be call multiple times, localization

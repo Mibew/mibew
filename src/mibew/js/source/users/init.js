@@ -33,7 +33,7 @@
 
         newWindow.focus();
         newWindow.opener = window;
-    }
+    };
 
     /**
      * Update time in timers

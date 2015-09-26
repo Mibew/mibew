@@ -60,7 +60,7 @@
         if ($ava.size() > 0) {
             $ava.height($msgs.innerHeight());
         }
-    }
+    };
 
     /**
      * Fix bug with window resize event
@@ -70,7 +70,7 @@
             clearTimeout(t);
         }
         t = setTimeout(updateHeight, 0);
-    }
+    };
 
     // Stretch messages region after chat page initialize
     Mibew.Application.Chat.addInitializer(function() {
@@ -101,7 +101,7 @@
                 // Stretch messages region on resize
                 $(window).resize(updateHeightWrapper);
             }
-        }
+        };
 
         // Change size of message region only after all images will be loaded
         $('img').each(function(){

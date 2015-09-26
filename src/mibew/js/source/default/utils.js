@@ -26,7 +26,7 @@
             return str;
         }
         return str.substring(0, 1).toUpperCase() + str.substring(1);
-    }
+    };
 
     /**
      * Cast string in camel case to dash format.
@@ -44,7 +44,7 @@
             parts[i] = parts[i].toLowerCase();
         }
         return parts.join('-');
-    }
+    };
 
     /**
      * Check if email address valid or not
@@ -53,7 +53,7 @@
      */
     Mibew.Utils.checkEmail = function(email) {
         return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
-    }
+    };
 
     /**
      * Play .wav sound file

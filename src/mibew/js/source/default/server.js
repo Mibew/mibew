@@ -82,7 +82,7 @@
          * @type Object
          * @private
          */
-        this.functions = {}
+        this.functions = {};
 
         /**
          * Id of the last registered function
@@ -97,7 +97,7 @@
          * @private
          */
         this.mibewAPI = new MibewAPI(new this.options['interactionType']());
-    }
+    };
 
     /**
      * Make call to the server
@@ -138,7 +138,7 @@
             return false;
         }
         return true;
-    }
+    };
 
     /**
      * Call function at every request to build functions list
@@ -155,7 +155,7 @@
             callbackFunction: callbackFunction
         };
         return this.callPeriodicallyLastId;
-    }
+    };
 
     /**
      * Stop calling function at every request.
@@ -167,7 +167,7 @@
         if (id in this.callPeriodically) {
             delete this.callPeriodically[id];
         }
-    }
+    };
 
     /**
      * Generates unique request token
@@ -185,7 +185,7 @@
         // Check token uniqueness
         } while(token in this.callbacks);
         return token;
-    }
+    };
 
     /**
      * Process request
@@ -226,7 +226,7 @@
                 delete this.callbacks[requestObject.token];
             }
         }
-    }
+    };
 
     /**
      * Process function
@@ -256,7 +256,7 @@
 
         // Add function results to the execution context
         context.storeFunctionResults(functionObject, results);
-    }
+    };
 
     /**
      * Send the request to the server
@@ -281,14 +281,14 @@
             success: _.bind(self.receiveResponse, self),
             error: _.bind(self.onError, self)
         });
-    }
+    };
 
     /**
      * Start automatic updater
      */
     Mibew.Server.prototype.runUpdater = function() {
         this.update();
-    }
+    };
 
     /**
      * Call Mibew.Server.update after specified timeout
@@ -300,7 +300,7 @@
             _.bind(this.update, this),
             time * 1000
         );
-    }
+    };
 
     /**
      * Restarts the automatic updater
@@ -316,7 +316,7 @@
         }
         // Restart updater. Try to reconnect after a while
         this.updateAfter(this.options.reconnectPause);
-    }
+    };
 
     /**
      * Send request to server
@@ -350,7 +350,7 @@
             // Handle errors
             this.options.onUpdateError(e);
         }
-    }
+    };
 
     /**
      * Process response from the Server
@@ -377,7 +377,7 @@
         } finally {
             this.updateAfter(this.options.requestsFrequency);
         }
-    }
+    };
 
     /**
      * Add function that can be called by the Server
@@ -393,7 +393,7 @@
         }
         this.functions[functionName][this.functionsLastId] = handler;
         return this.functionsLastId;
-    }
+    };
 
     /**
      * Remove function that can be called by Server

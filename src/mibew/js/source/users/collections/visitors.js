@@ -67,7 +67,7 @@
                 // Create default sort field
                 var sort = {
                     field: visitor.get('firstTime').toString()
-                }
+                };
 
                 // Trigger event to provide an ability to change sorting order
                 this.trigger('sort:field', visitor, sort);

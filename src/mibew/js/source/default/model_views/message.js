@@ -20,7 +20,7 @@
         '"': "&quot;",
         "'": "&#x27;",
         "`": "&#x60;"
-    }
+    };
 
     /**
      * Regular expression for characters that must be replaced by HTML entities

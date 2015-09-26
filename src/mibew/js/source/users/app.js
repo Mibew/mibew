@@ -26,7 +26,7 @@
             alert(Mibew.Localization.get('pending.errors.network'));
             badRequestsCount = 0;
         }
-    }
+    };
 
     // Create application instance
     var App = new Backbone.Marionette.Application();

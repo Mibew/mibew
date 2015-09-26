@@ -109,7 +109,7 @@
                     eventArgs = {
                         'messageData': messageData,
                         'model': false
-                    }
+                    };
 
                     // Trigger event. See description of eventName and eventArgs
                     // above.

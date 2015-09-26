@@ -8,4 +8,4 @@ function mkwidth(){
 	if(document.getElementById("wrap400")) {
 		document.getElementById("wrap400").style.width = document.documentElement.clientWidth < 450 ? "450px" : "100%";
 	}
-};
+}

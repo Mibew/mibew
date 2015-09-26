@@ -31,7 +31,7 @@
         } else {
             return new ItemViewType(options);
         }
-    }
+    };
 
     /**
      * @class Represents base collection view

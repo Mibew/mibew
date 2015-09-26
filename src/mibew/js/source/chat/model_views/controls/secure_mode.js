@@ -38,7 +38,7 @@
              * Move to secure chat
              */
             secure: function() {
-                var link = this.model.get('link')
+                var link = this.model.get('link');
                 if (link) {
                     var style = Mibew.Objects.Models.page.get('style');
                     window.location.href = link.replace(/\&amp\;/g, '&')

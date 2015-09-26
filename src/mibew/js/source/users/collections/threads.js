@@ -80,7 +80,7 @@
                 // Create default sort field
                 var sort = {
                     field: thread.get('waitingTime').toString()
-                }
+                };
 
                 // Trigger event to provide an ability to change sorting order
                 this.trigger('sort:field', thread, sort);

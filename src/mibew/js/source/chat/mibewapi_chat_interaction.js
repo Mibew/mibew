@@ -31,5 +31,5 @@ MibewAPIChatInteraction = function() {
             'result'
         ];
     }
-}
+};
 MibewAPIChatInteraction.prototype = new MibewAPIInteraction();
