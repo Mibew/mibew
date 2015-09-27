@@ -51,7 +51,7 @@
                 app.Invitation.start(options.invitationOptions);
                 break;
             default:
-                throw new Error('Dont know how to start!');
+                throw new Error("Don't know how to start!");
                 break;
         }
     });

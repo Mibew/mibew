@@ -425,7 +425,7 @@ test("getResult", function() {
     }
 
     // Try to get 'result' function from functions list that have no 'result'
-    // function. 'existance' argument set to true
+    // function. 'existence' argument set to true
     try {
         mibewAPI.getResultFunction({}, true);
     } catch (e) {
@@ -437,25 +437,25 @@ test("getResult", function() {
     }
 
     // Try to get 'result' function from functions list that have no 'result'
-    // function. 'existance' argument set to false
+    // function. 'existence' argument set to false
     equal(
         mibewAPI.getResultFunction({}, false),
         null,
-        "Test with no 'result' function in functions list, 'existance' " +
+        "Test with no 'result' function in functions list, 'existence' " +
         "argument equals to false and null as the result functionon returned"
     );
 
     // Try to get 'result' function from functions list that have no 'result'
-    // function. 'existance' argument set to null
+    // function. 'existence' argument set to null
     equal(
         mibewAPI.getResultFunction({}, null),
         null,
-        "Test with no 'result' function in functions list, 'existance' " +
+        "Test with no 'result' function in functions list, 'existence' " +
         "argument equals to null and null as the result functionon returned"
     );
 
     // Try to get 'result' function from functions list that have 'result'
-    // function. 'existance' argument set to false
+    // function. 'existence' argument set to false
     try {
         mibewAPI.getResultFunction([
             {"function" : "result"}

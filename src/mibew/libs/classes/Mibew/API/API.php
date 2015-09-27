@@ -288,7 +288,7 @@ class API
      *
      * @param array $functions_list Array of functions. See Mibew API
      *   specification for function structure details.
-     * @param mixed $existance Control existance of the 'result' function in
+     * @param mixed $existence Control existence of the 'result' function in
      *   request. Use boolean true if 'result' function must exists in request,
      *   boolean false if must not and null if it doesn't matter.
      * @return mixed Function array if 'result' function found and NULL
