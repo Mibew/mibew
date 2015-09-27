@@ -100,7 +100,7 @@ MibewAPI.prototype.checkFunction = function(functionObject, filterReservedFuncti
             functionObject["function"] + "' function"
         );
     }
-}
+};
 
 /**
  * Validate request
@@ -134,7 +134,7 @@ MibewAPI.prototype.checkRequest = function(requestObject) {
     for (var i = 0; i < requestObject.functions.length; i++) {
         this.checkFunction(requestObject.functions[i]);
     }
-}
+};
 
 /**
  * Validate package.
@@ -177,7 +177,7 @@ MibewAPI.prototype.checkPackage = function (packageObject) {
     for (var i = 0; i < packageObject.requests.length; i++) {
         this.checkRequest(packageObject.requests[i]);
     }
-}
+};
 
 /**
  * Search 'result' function in functionsList. If request contains more than
@@ -222,7 +222,7 @@ MibewAPI.prototype.getResultFunction = function(functionsList, existance){
         throw new Error("There is 'result' function in functions list");
     }
     return resultFunction;
-}
+};
 
 /**
  * Builds result package
@@ -249,7 +249,7 @@ MibewAPI.prototype.buildResult = function(resultArguments, token) {
             }
         ]
     }
-}
+};
 
 /**
  * Encodes package
@@ -265,7 +265,7 @@ MibewAPI.prototype.encodePackage =  function(requests) {
     packageObject.async = true;
     packageObject.requests = requests;
     return encodeURIComponent(JSON.stringify(packageObject)).replace(/\%20/gi, '+');
-}
+};
 
 /**
  * Decodes package and validate package structure
@@ -280,7 +280,7 @@ MibewAPI.prototype.decodePackage = function(encodedPackage){
     var decodedPackage = JSON.parse(decodeURIComponent(encodedPackage.replace(/\+/gi, ' ')));
     this.checkPackage(decodedPackage);
     return decodedPackage;
-}
+};
 /**
  * End of MibewAPI Class
  */
@@ -318,7 +318,7 @@ function MibewAPIInteraction(){
      */
     this.mandatoryArguments = function() {
         return {};
-    }
+    };
 
     /**
      * Returns reserved (system) functions' names
@@ -362,7 +362,7 @@ MibewAPIInteraction.prototype.getMandatoryArguments = function(functionName) {
         }
     }
     return mandatoryArguments;
-}
+};
 
 /**
  * Returns default values of mandatory arguments for the functionName function
@@ -393,7 +393,7 @@ MibewAPIInteraction.prototype.getMandatoryArgumentsDefaults = function(functionN
         }
     }
     return mandatoryArguments;
-}
+};
 /**
  * End of MibewAPIInteraction class
  */
@@ -470,7 +470,7 @@ MibewAPIExecutionContext.prototype.getArgumentsList = function(functionObject) {
         argumentsList[variableName] = this.functionsResults[funcNum - 1][referenceTo];
     }
     return argumentsList;
-}
+};
 
 /**
  * Returns requets results
@@ -479,7 +479,7 @@ MibewAPIExecutionContext.prototype.getArgumentsList = function(functionObject) {
  */
 MibewAPIExecutionContext.prototype.getResults = function(){
     return this.returnValues;
-}
+};
 
 /**
  * Stores functions results in execution context and add values to request
@@ -516,7 +516,7 @@ MibewAPIExecutionContext.prototype.storeFunctionResults = function(functionObjec
     }
     // Store function results in execution context
     this.functionsResults.push(results);
-}
+};
 /**
  * End of MibewAPIExecutionContext class
  */

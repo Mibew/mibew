@@ -18,7 +18,7 @@ function MibewAPITestInteraction() {
                 'bar': 127
             }
         };
-    }
+    };
 
     this.getReservedFunctionsNames = function() {
         return [
@@ -181,7 +181,7 @@ test("checkRequest", function() {
             "references" : [],
             "testArgument" : "testValue"
         }
-    }
+    };
 
     // Try to check request without token
     try {
@@ -274,7 +274,7 @@ test("checkPackage", function() {
                 }
             }
         ]
-    }
+    };
 
     // Try to check package with no signature
     try {
@@ -407,7 +407,7 @@ test("getResult", function() {
     var resultFunction = {
         "function" : "result",
         "test_field" : "test_value"
-    }
+    };
 
     // Try to get result function from function list, but it contains more than
     // one 'result' function
@@ -483,7 +483,7 @@ test("buildResult", function() {
     var testArguments = {
         "first" : "test_value",
         "second" : "test_value"
-    }
+    };
     var token = "some token";
     var testPackage = {
         "token" : token,
@@ -498,7 +498,7 @@ test("buildResult", function() {
                 }
             }
         ]
-    }
+    };
 
     // Compare result package
     deepEqual(
@@ -517,7 +517,7 @@ test("encodePackage", function() {
         "proto" : mibewAPI.protocolVersion,
         "async" : true,
         "requests" : [testRequest]
-    }
+    };
 
     // Compare encoded packages
     equal(
@@ -536,7 +536,7 @@ test("decodePackage", function() {
         "proto" : mibewAPI.protocolVersion,
         "async" : true,
         "requests" : [testRequest]
-    }
+    };
     var encodedPackage = mibewAPI.encodePackage([testRequest]);
 
     // Try to decode broken package

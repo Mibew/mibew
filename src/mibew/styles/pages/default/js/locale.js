@@ -28,7 +28,7 @@
             $("#dashboard-locales-popup").fadeIn("slow");
             isPopupOpened = true;
         }
-    }
+    };
 
     var disablePopup = function(){
         if(isPopupOpened){
@@ -36,14 +36,14 @@
             $("#dashboard-locales-popup").fadeOut("slow");
             isPopupOpened = false;
         }
-    }
+    };
 
     var normalizePosition = function(a) {
         if(a < 10) {
             return 10;
         }
         return a;
-    }
+    };
 
     var centerPopup = function(){
         var windowWidth = document.documentElement.clientWidth;
@@ -58,7 +58,7 @@
         $("#background-popup").css({
             "height": windowHeight
         });
-    }
+    };
 
     $(function(){
         $("#change-language").on('click', function(){

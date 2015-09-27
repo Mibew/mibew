@@ -262,7 +262,7 @@ test('inheritance', function() {
         childOuterBlock: Handlebars.compile(
             '{{#extends "parent"}}{{#override "first"}}foo{{/override}}{{/extends}}'
         )
-    }
+    };
 
     equal(
         Handlebars.templates['childInnerBlock']({}),

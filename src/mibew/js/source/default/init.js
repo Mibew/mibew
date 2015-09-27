@@ -26,7 +26,7 @@ var Mibew = {};
     // Use Backbone.Marionette with handlebars.js
     Backbone.Marionette.TemplateCache.prototype.compileTemplate = function(rawTemplate) {
         return Handlebars.compile(rawTemplate);
-    }
+    };
 
     // Use all handlebars template as partials too
     // We does not use Handlebars.partials property because of it can be changed
