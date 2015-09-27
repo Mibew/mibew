@@ -310,7 +310,7 @@ class ThreadProcessor extends ClientSideProcessor implements
      */
     protected function checkFunction($function)
     {
-        // Check recipient argument existance
+        // Check recipient argument existence
         if (!array_key_exists('recipient', $function['arguments'])) {
             throw new ThreadProcessorException(
                 "'recipient' argument is not set in function '{$function['function']}'!",

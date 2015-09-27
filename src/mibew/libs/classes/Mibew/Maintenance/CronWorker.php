@@ -120,7 +120,7 @@ class CronWorker
     }
 
     /**
-     * Retuns list of all errors that took place during running periodical
+     * Returns list of all errors that took place during running periodical
      * actions.
      *
      * @return string[]

@@ -34,7 +34,7 @@ function load_system_configs()
         $parser = new YamlParser();
         $configs = $parser->parse(file_get_contents(MIBEW_FS_ROOT . '/configs/config.yml'));
 
-        // Mailer configs are not necessary and can be omited but the section
+        // Mailer configs are not necessary and can be omitted but the section
         // must exist anyway. Empty statement is used to make sure null, false
         // and "" will be converted to an empty array.
         if (empty($configs['mailer'])) {

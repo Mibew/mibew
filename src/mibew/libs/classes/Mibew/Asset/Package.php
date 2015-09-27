@@ -25,7 +25,7 @@ namespace Mibew\Asset;
 class Package
 {
     /**
-     * Indicates that assets sould not be sorted.
+     * Indicates that assets should not be sorted.
      */
     const SORT_NONE = 'none';
     /**

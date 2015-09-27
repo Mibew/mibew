@@ -294,7 +294,7 @@ class InstallController extends AbstractController
             // The installation has been finished (or had not been started yet)
             // We should prevent access to this action but cannot use Access
             // Check functionallity becase the user should be redirected to the
-            // beginnig.
+            // beginning.
             return $this->redirect($this->generateUrl('install'));
         }
 

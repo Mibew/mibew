@@ -159,7 +159,7 @@ class UpdateChecker
         }
 
         if ($response_code != 200) {
-            // Unexpected HTTP recieved.
+            // Unexpected HTTP received.
             $this->errors[] = sprintf(
                 'Update server returns %u HTTP code instead of 200',
                 $response_code
@@ -265,7 +265,7 @@ class UpdateChecker
         $plugins_info = $this->getPluginsInfo();
         foreach ($updates['plugins'] as $plugin_name => $update) {
             if (!isset($plugins_info[$plugin_name])) {
-                // It's strange. We recieve update info for a plugin that does
+                // It's strange. We receive update info for a plugin that does
                 // not exist in the system. Just do nothing.
                 continue;
             }

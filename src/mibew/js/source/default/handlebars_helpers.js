@@ -290,7 +290,7 @@
      * </code>
      */
     Handlebars.registerHelper('override', function(name, options) {
-        // We need to provide unlimited inheritence level. Rendering is started
+        // We need to provide unlimited inheritance level. Rendering is started
         // from the deepest level template. If the content is in the block
         // storage it is related with the deepest level template. Thus we do not
         // need to override it.

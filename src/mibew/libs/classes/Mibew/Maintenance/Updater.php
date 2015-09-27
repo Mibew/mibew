@@ -71,7 +71,7 @@ class Updater
     }
 
     /**
-     * Retuns list of all errors that took place during update process.
+     * Returns list of all errors that took place during update process.
      *
      * @return string[]
      */
@@ -102,7 +102,7 @@ class Updater
 
         if (!preg_match("/^([0-9]{1,2}\.){2}[0-9]{1,2}(-(alpha|beta|rc)\.[0-9]+)?$/", $current_version)) {
             $this->errors[] = getlocal(
-                'The current version ({0}) is unknown or wrong formated',
+                'The current version ({0}) is unknown or wrongly formatted',
                 array($current_version)
             );
 

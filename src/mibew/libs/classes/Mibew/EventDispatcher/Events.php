@@ -550,7 +550,7 @@ final class Events
      *    {@link \Symfony\Component\HttpFoundation\Request} which represents
      *    incoming request.
      *  - "response": array, set of data that will be sent to the widget. See
-     *    description of its stucture and use case below.
+     *    description of its structure and use case below.
      *  - "route_url_generator": an instance of
      *    {@link \Mibew\Routing\Generator\SecureUrlGeneratorInterface}.
      *  - "asset_url_generator": an instance of

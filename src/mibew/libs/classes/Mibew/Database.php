@@ -107,8 +107,9 @@ class Database
      * Get instance of Database class.
      *
      * If no instance exists, creates new instance.
-     * Use Database::initialize() before try to get an instance. If database
-     * was not initilize coorectly triggers an error with E_USER_ERROR level.
+     * Use Database::initialize() before trying to get an instance.
+     * If database was not initialized correctly triggers an error
+     * with E_USER_ERROR level.
      *
      * @return Database
      * @see Database::initialize()
@@ -274,7 +275,7 @@ class Database
      * @param array $params Array of query parameters. It can contains values
      *   with following keys:
      *   - 'return_rows' control if rows must be returned and how many rows must
-     *     be returnd. The value can be Database::RETURN_ONE_ROW for olny one
+     *     be returned. The value can be Database::RETURN_ONE_ROW for only one
      *     row or Database::RETURN_ALL_ROWS for all rows. If this key not
      *     specified, the function will not return any rows.
      *   - 'fetch_type' control indexes in resulting rows. The value can be

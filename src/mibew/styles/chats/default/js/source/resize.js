@@ -35,7 +35,7 @@
      * Stretch #messages-region to fill the window.
      *
      * @param {Boolean} recalculateHeight Indicates if height of elements must
-     *   be recalculated. It can be usefull when elements set is changed.
+     *   be recalculated. It can be useful when elements set is changed.
      */
     var updateHeight = function(recalculateHeight) {
         if ($('#messages-region').size() == 0) {
