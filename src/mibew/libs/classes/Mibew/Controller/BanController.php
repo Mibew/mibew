@@ -133,7 +133,7 @@ class BanController extends AbstractController
             $page['formcomment'] = $ban->comment;
         } elseif ($request->query->has('thread')) {
             // Prepopulate form using thread data
-            $thread_id = $request->query->has('thread');
+            $thread_id = $request->query->get('thread');
             if (!preg_match("/^\d{1,10}$/", $thread_id)) {
                 throw new BadRequestException('Wrong value of "thread" argument.');
             }
