@@ -129,7 +129,7 @@ class BanController extends AbstractController
 
             $page['banId'] = $ban->id;
             $page['formaddress'] = $ban->address;
-            $page['formdays'] = round(($ban->till - time()) / 86400);
+            $page['formdays'] = $ban->till > 0 ? round(($ban->till - time()) / 86400) : 0;
             $page['formcomment'] = $ban->comment;
         } elseif ($request->query->has('thread')) {
             // Prepopulate form using thread data
@@ -231,7 +231,7 @@ class BanController extends AbstractController
                 throw new NotFoundException('The ban is not found.');
             }
         }
-        $ban->till = time() + $days * 24 * 60 * 60;
+        $ban->till = $days > 0 ? time() + $days * 24 * 60 * 60 : 0;
         $ban->address = $address;
         $ban->comment = $comment;
         $ban->save();

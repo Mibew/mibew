@@ -243,7 +243,7 @@ class Ban
      */
     public function isExpired()
     {
-        return ($this->till < time());
+        return ($this->till > 0 && $this->till < time());
     }
 
     /**
