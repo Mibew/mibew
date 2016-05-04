@@ -99,7 +99,7 @@ var Mibew = Mibew || {};
 
         // Load additional styles
         Mibew.Utils.loadStyleSheet(options.inviteStyle);
-    }
+    };
 
     /**
      * Make request to the server.
@@ -130,7 +130,7 @@ var Mibew = Mibew || {};
 
         // Clean up request data
         this.dataToSend = {};
-    }
+    };
 
     /**
      * Build GET request params list
@@ -146,7 +146,7 @@ var Mibew = Mibew || {};
             query.push(index + '=' + this.dataToSend[index]);
         }
         return query.join('&');
-    }
+    };
 
     /**
      * Send arbitrary data to the Server as GET params
@@ -176,7 +176,7 @@ var Mibew = Mibew || {};
 
             this.dataToSend[index] = value;
         }
-    }
+    };
 
     /**
      * Parse server response. Called as JSONP callback function
@@ -241,7 +241,7 @@ var Mibew = Mibew || {};
                 context.makeRequest();
             },
             this.requestTimeout);
-    }
+    };
 
     /**
      * Remove dynamically loaded request script from DOM
@@ -250,7 +250,7 @@ var Mibew = Mibew || {};
     Mibew.Widget.prototype.cleanUpAfterRequest = function() {
         document.getElementsByTagName('head')[0]
             .removeChild(document.getElementById('mibew-response-script'));
-    }
+    };
 
     /**
      * Load script and add handler for script onLoad event
@@ -266,14 +266,14 @@ var Mibew = Mibew || {};
         // Check if script loaded
         script.onload = function(){
             context.scriptReady(id);
-        }
+        };
         // Do it in crossbrowser way
         script.onreadystatechange = function(){
             if (this.readyState == 'complete' || this.readyState == 'loaded') {
                 context.scriptReady(id);
             }
         }
-    }
+    };
 
     /**
      * Event listener for script onLoad event. Run handlers which have no
@@ -291,7 +291,7 @@ var Mibew = Mibew || {};
                 delete this.handlers[handlerName];
             }
         }
-    }
+    };
 
     /**
      * Check if handler can be run
@@ -305,7 +305,7 @@ var Mibew = Mibew || {};
             }
         }
         return true;
-    }
+    };
 
     /**
      * Helper function which create new widget object, store it into
@@ -314,7 +314,7 @@ var Mibew = Mibew || {};
     Mibew.Widget.init = function(options) {
         Mibew.Objects.widget = new Mibew.Widget(options);
         Mibew.Objects.widget.makeRequest();
-    }
+    };
 
     /**
      * @namespace Holds invitation stuff
@@ -380,7 +380,7 @@ var Mibew = Mibew || {};
         if (invitationdiv) {
                 invitationdiv.innerHTML = popuptext;
         }
-    }
+    };
 
     /**
      * Display invitation popup
@@ -391,7 +391,7 @@ var Mibew = Mibew || {};
             Mibew.Invitation.trigger('show');
             invitationPopup.style.display = 'block';
         }
-    }
+    };
 
     /**
      * Hide invitation popup and remove it from DOM
@@ -402,7 +402,7 @@ var Mibew = Mibew || {};
             Mibew.Invitation.trigger('hide');
             invitationPopup.parentNode.removeChild(invitationPopup);
         }
-    }
+    };
 
     /**
      * Accept invitation and open chat window
@@ -413,7 +413,7 @@ var Mibew = Mibew || {};
             document.getElementById('mibew-agent-button').onclick();
             Mibew.Invitation.hide();
         }
-    }
+    };
 
     /**
      * Visitor rejects invitation
@@ -422,7 +422,7 @@ var Mibew = Mibew || {};
         Mibew.Invitation.trigger('reject');
         Mibew.Objects.widget.sendToServer({'invitation_rejected': 1});
         Mibew.Invitation.hide();
-    }
+    };
 
     /**
      * Contains callbacks for invitation events.
@@ -451,7 +451,7 @@ var Mibew = Mibew || {};
         }
 
         invitaionEventsCallbacks[event].push(callback);
-    }
+    };
 
     /**
      * Triggers invitation event.
@@ -476,7 +476,7 @@ var Mibew = Mibew || {};
         for(var i = 0, length = callbacks.length; i < length; i++) {
             callbacks[i](data);
         }
-    }
+    };
 
     /**
      * @namespace Holds functions that can be called by the Core
@@ -492,7 +492,7 @@ var Mibew = Mibew || {};
             Mibew.Objects.widget.visitorCookieName,
             response.user.id
         );
-    }
+    };
 
     /**
      * Show invitation popup
@@ -500,7 +500,7 @@ var Mibew = Mibew || {};
      */
     Mibew.APIFunctions.invitationCreate = function(data) {
         Mibew.Invitation.create(data.invitation);
-    }
+    };
 
     /**
      * Close invitation popup

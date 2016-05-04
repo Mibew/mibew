@@ -42,7 +42,7 @@ var config = {
     getComposerUrl: 'https://getcomposer.org/installer',
     phpBin: 'php -d "suhosin.executor.include.whitelist = phar"',
     package: require('./composer.json')
-}
+};
 
 
 // Cleans all built files
@@ -322,7 +322,7 @@ gulp.task('pack-sources', ['composer-install', 'bower-install'], function() {
         // At the same we need to see all errors that take place.
         strict: false,
         silent: false
-    }
+    };
     var version = config.package.version;
 
     return eventStream.merge(
@@ -405,7 +405,7 @@ var getClientSideApp = function(name) {
             {base: process.cwd()}
         ))
         .pipe(concat(name + '_app.js'));
-}
+};
 
 /**
  * Wraps a handlebars template with a function and attach it to the
@@ -424,7 +424,7 @@ var wrapHandlebarsTemplate = function() {
             return {relative: context.file.relative.replace(/\.js$/, '').replace(/\\/g, '/')};
         }
     });
-}
+};
 
 /**
  * Extracts gettext messages from handlebars templates.
@@ -465,4 +465,4 @@ var xgettextHandlebars = function() {
 
         callback();
     });
-}
+};

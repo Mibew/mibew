@@ -96,7 +96,7 @@
              * @returns {Object} Template data
              */
             serializeData: function() {
-                var thread = this.model
+                var thread = this.model;
                 var page = Mibew.Objects.Models.page;
                 var data = thread.toJSON();
                 data.stateDesc = this.stateToDesc(thread.get('state'));

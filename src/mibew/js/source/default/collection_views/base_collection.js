@@ -41,7 +41,7 @@
         } else {
             return new ChildViewType(options);
         }
-    }
+    };
 
     /**
      * @class Represents base collection view
