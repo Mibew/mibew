@@ -25,7 +25,7 @@
     var controlsConstructors = [];
 
     /**
-     * Prepresent thread in users queue
+     * Represent thread in users queue
      * @class
      */
     var QueuedThread = Mibew.Models.QueuedThread = Mibew.Models.Thread.extend(

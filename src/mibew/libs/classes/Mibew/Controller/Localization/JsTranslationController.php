@@ -66,7 +66,7 @@ class JsTranslationController extends AbstractController
         header_remove();
 
         // The whole response body (JSON-encoded with a callback function) is
-        // cached via cache backend, thus it's simplier to use Symfony's
+        // cached via cache backend, thus it's simpler to use Symfony's
         // Response class instead of JsonResponse.
         $response = new Response();
         $response->headers->set('Content-Type', 'text/javascript');

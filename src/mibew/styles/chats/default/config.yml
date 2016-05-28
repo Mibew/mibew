@@ -17,9 +17,9 @@ mail:
         width: 603
         resizable: false
 
-# Screenshots section describe all screenshots shiped with style
+# Screenshots section describe all screenshots shipped with style
 # Params names should be equals to file names without extension. Pictures
 # extension should be '.png'
-# Params values should be equals to screenshot desription
+# Params values should be equals to screenshot description
 screenshots:
     client_chat: "Client chat window"

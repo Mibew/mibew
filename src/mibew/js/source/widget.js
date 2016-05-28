@@ -215,7 +215,7 @@ var Mibew = Mibew || {};
             }
         }
 
-        // Process all recieved handlers. Run handler if all dependencies loaded
+        // Process all received handlers. Run handler if all dependencies loaded
         // and add it to handlers list otherwise.
         for (var i = 0; i < handlers.length; i++) {
             // Create shortcuts

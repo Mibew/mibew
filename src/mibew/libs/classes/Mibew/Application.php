@@ -106,7 +106,7 @@ class Application implements
     }
 
     /**
-     * Handles incomming request.
+     * Handles incoming request.
      *
      * @param Request $request Incoming request
      * @return Response Resulting response

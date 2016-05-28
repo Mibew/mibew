@@ -855,8 +855,8 @@ class Thread
      *
      * One can attach arbitrary data to the message by setting 'data' item
      * in the $options array. DO NOT serialize data manually - it will be
-     * automatically coverted to array and serialized before save in database
-     * and unserialized after retreive form database.
+     * automatically converted to array and serialized before save in database
+     * and unserialized after retrieve form database.
      *
      * One can also set plugin item of the $options array to indicate that
      * message was sent by a plugin.
@@ -1070,7 +1070,7 @@ class Thread
      */
     public function renameUser($new_name)
     {
-        // Rename only if a new name is realy new
+        // Rename only if a new name is really new
         if ($this->userName != $new_name) {
             // Save old name
             $old_name = $this->userName;

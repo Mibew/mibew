@@ -28,7 +28,7 @@ use Mibew\Routing\Generator\SecureUrlGeneratorInterface as UrlGeneratorInterface
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Convert messages to formated text
+ * Convert messages to formatted text
  *
  * @param array $msg message object which most be formatted
  *

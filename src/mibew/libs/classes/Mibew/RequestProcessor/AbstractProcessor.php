@@ -155,7 +155,7 @@ abstract class AbstractProcessor
     }
 
     /**
-     * Proccess received packages
+     * Process received packages
      *
      * On any error function returns only boolean false. To handle error add
      * listener to the "<eventPrefix>RequestError" event.
@@ -392,7 +392,7 @@ abstract class AbstractProcessor
      * Process request
      *
      * @param array $request 'Requests' array. See Mibew API for details.
-     * @param mixed $result_function Control existance of the 'result' function
+     * @param mixed $result_function Control existence of the 'result' function
      *   in request. Use boolean true if 'result' function must exists in
      *   request, boolean false if must not and null if it doesn't matter.
      * @return array Array of requests results.

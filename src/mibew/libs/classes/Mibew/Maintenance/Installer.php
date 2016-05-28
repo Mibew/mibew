@@ -72,7 +72,7 @@ class Installer
     }
 
     /**
-     * Retuns list of all errors that took place during installation process.
+     * Returns list of all errors that took place during installation process.
      *
      * @return string[]
      */
@@ -590,7 +590,7 @@ class Installer
      *
      * For example, for PHP 5.3.3 the number 50303 will be returned.
      *
-     * @return integer Verison ID.
+     * @return integer Version ID.
      */
     protected function getPhpVersionId()
     {

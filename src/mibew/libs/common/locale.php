@@ -49,7 +49,7 @@ function locale_pattern_check($locale)
 /**
  * Gets available locales list.
  *
- * Returns a list of locales wich are exist and are enabled in the system. That
+ * Returns a list of locales which exist and are enabled in the system. That
  * list is statically cached inside the function.
  *
  * @return string[] List of available locales codes.

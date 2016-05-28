@@ -72,7 +72,7 @@ abstract class AbstractController extends BaseAbstractController
     /**
      * Generates JavaScript code that starts client side application.
      *
-     * @param Request $request Incomming request.
+     * @param Request $request Incoming request.
      * @param array $options Client side application options. At the moment the
      *   method accepts the following options:
      *   - "company": array, a set of company info. See {@link setup_logo()}

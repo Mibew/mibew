@@ -49,7 +49,7 @@ function generate_pagination_link($page, $title)
  * The resulting markup is a div tag with specifed class and title.
  *
  * @param string $class Name of the CSS class which should be used.
- * @param string $title Value of an 'title' atribute of the div tag.
+ * @param string $title Value of an 'title' attribute of the div tag.
  * @return string HTML markup
  */
 function generate_pagination_arrow($class, $title)

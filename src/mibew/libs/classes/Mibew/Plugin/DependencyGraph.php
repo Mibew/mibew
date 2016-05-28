@@ -169,7 +169,7 @@ class DependencyGraph
      * dependencies and sorts the others by loading turn.
      *
      * Together with {@link \Mibew\Plugin\DependencyGraph::doSortStep()} method
-     * is implements topological sorting algoritm. The only deference from the
+     * it implements topological sorting algorithm. The only deference from the
      * topological sorting the results are in reverse order.
      *
      * @return PluginInfo[]

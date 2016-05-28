@@ -257,7 +257,7 @@ function invitation_close_old()
 
         $db = Database::getInstance();
 
-        // Remove links beteen visitors and invitations that will be closed.
+        // Remove links between visitors and invitations that will be closed.
         $db->query(
             ("UPDATE {sitevisitor} v, {thread} t SET "
                 . "v.threadid = NULL "

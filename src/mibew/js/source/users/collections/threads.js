@@ -37,7 +37,7 @@
                 // Initialize fields and methods
 
                 /**
-                 * Last threads revision number. Prevent transfering not
+                 * Last threads revision number. Prevent transferring not
                  * modified threads.
                  * @type Number
                  * @fieldOf Mibew.Collections.Threads
