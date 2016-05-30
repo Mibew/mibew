@@ -24,7 +24,8 @@ var fs = require('fs'),
     chmod = require('gulp-chmod'),
     xgettext = require('gulp-xgettext'),
     concatPo = require('gulp-concat-po'),
-    rename = require('gulp-rename');
+    rename = require('gulp-rename'),
+    eslint = require('gulp-eslint');
 
 // Set global configs.
 var config = {
@@ -81,6 +82,14 @@ gulp.task('phpcs', ['composer-install-dev'], function() {
     }))
     .pipe(phpcs.reporter('log'))
     .pipe(phpcs.reporter('fail'));
+});
+
+// Checks all JavaScript Source files with ESLint.
+gulp.task('eslint', function() {
+    return gulp.src(config.jsPath + '/source/**/*.js')
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
 });
 
 // Get and install PHP Composer
