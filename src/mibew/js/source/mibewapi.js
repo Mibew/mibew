@@ -87,6 +87,10 @@ MibewAPI.prototype.checkFunction = function(functionObject, filterReservedFuncti
     );
     argumentsLoop:
     for (var argName in functionObject.arguments){
+        if (!functionObject.arguments.hasOwnProperty(argName)) {
+            // Work with own properties only.
+            continue;
+        }
         for (var i = 0; i < mandatoryArgumentsList.length; i++) {
             if (argName == mandatoryArgumentsList[i]) {
                 mandatoryArgumentsCount++;

@@ -377,9 +377,7 @@
         }
         try {
             var packageObject = this.mibewAPI.decodePackage(data);
-            // TODO: Try to use 'for' loop instead of 'for in' loop
-            // or use hasOwnProperty method
-            for (var i in packageObject.requests) {
+            for (var i = 0, len = packageObject.requests.length; i < len; i++) {
                 this.processRequest(packageObject.requests[i]);
             }
         } catch (e) {
