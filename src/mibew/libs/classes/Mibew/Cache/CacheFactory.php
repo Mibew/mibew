@@ -152,7 +152,7 @@ class CacheFactory
 
                 // Convert structure from the "memcached_servers" option to the
                 // form used in cache driver.
-                $formated_servers = array_map(function ($server) {
+                $formatted_servers = array_map(function ($server) {
                     return array(
                         $server['host'],
                         intval($server['port']),
@@ -162,7 +162,7 @@ class CacheFactory
 
                 $driver = new MemcacheDriver();
                 $driver->setOptions(array(
-                    'servers' => $formated_servers,
+                    'servers' => $formatted_servers,
                     // Use only PHP's "memcached" extension.
                     'extension' => 'memcached'
                 ));

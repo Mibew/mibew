@@ -84,7 +84,7 @@ class Utils
     public static function getPluginClassName($plugin_name)
     {
         if (!self::isValidPluginName($plugin_name)) {
-            throw new \InvalidArgumentException('Wrong formated plugin name');
+            throw new \InvalidArgumentException('Wrong formatted plugin name');
         }
         list($vendor, $short_name) = explode(':', $plugin_name, 2);
 

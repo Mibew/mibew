@@ -185,7 +185,7 @@ MibewAPI.prototype.checkPackage = function (packageObject) {
  *
  * @param {Object[]} functionsList Array of functions. See MibewAPI for
  * function structure details
- * @param {Boolean|null} [existance="null"] (optional) Control existance of
+ * @param {Boolean|null} [existence="null"] (optional) Control existence of
  * the 'result' function in request. Use boolean true if 'result' function
  * must exists in request, boolean false if must not and null if it doesn't
  * matter.
@@ -193,9 +193,9 @@ MibewAPI.prototype.checkPackage = function (packageObject) {
  * null otherwise
  * @throws Error
  */
-MibewAPI.prototype.getResultFunction = function(functionsList, existance){
-    if (typeof existance == "undefined") {
-        existance = null;
+MibewAPI.prototype.getResultFunction = function(functionsList, existence){
+    if (typeof existence == "undefined") {
+        existence = null;
     }
     var resultFunction = null;
     // Try to find result function
@@ -214,11 +214,11 @@ MibewAPI.prototype.getResultFunction = function(functionsList, existance){
             resultFunction = functionsList[i];
         }
     }
-    if (existance === true && resultFunction === null) {
+    if (existence === true && resultFunction === null) {
         // 'result' function must present in request
         throw new Error("There is no 'result' function in functions list");
     }
-    if (existance === false && resultFunction !== null) {
+    if (existence === false && resultFunction !== null) {
         throw new Error("There is 'result' function in functions list");
     }
     return resultFunction;
