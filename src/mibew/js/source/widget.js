@@ -378,7 +378,7 @@ var Mibew = Mibew || {};
 
         var invitationdiv = document.getElementById("mibew-invitation");
         if (invitationdiv) {
-                invitationdiv.innerHTML = popuptext;
+            invitationdiv.innerHTML = popuptext;
         }
     }
 

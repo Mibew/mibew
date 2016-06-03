@@ -461,12 +461,11 @@ MibewAPIExecutionContext.prototype.getArgumentsList = function(functionObject) {
         referenceTo = argumentsList[variableName];
 
         // Check target value
-        if (typeof this.functionsResults[funcNum - 1][referenceTo] ==
-                "undefined") {
-                throw new Error(
-                    "Wrong reference in '" + functionObject['function'] +
-                    "' function. There is no '" + referenceTo +
-                    "' argument in #" + funcNum + " function results"
+        if (typeof this.functionsResults[funcNum - 1][referenceTo] == "undefined") {
+            throw new Error(
+                "Wrong reference in '" + functionObject['function'] +
+                "' function. There is no '" + referenceTo +
+                "' argument in #" + funcNum + " function results"
             );
         }
 
