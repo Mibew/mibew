@@ -59,7 +59,7 @@
                 return {
                     page: models.page.toJSON(),
                     user: models.user.toJSON()
-                }
+                };
             }
         }
     );

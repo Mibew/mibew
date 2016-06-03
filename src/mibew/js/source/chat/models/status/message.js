@@ -53,7 +53,7 @@
              * @returns {String} Model type
              */
             getModelType: function() {
-                return 'StatusMessage'
+                return 'StatusMessage';
             },
 
             /**

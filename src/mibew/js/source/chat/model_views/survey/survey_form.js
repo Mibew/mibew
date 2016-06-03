@@ -58,7 +58,7 @@
 
                 // Update group id
                 if (this.model.get('groups')) {
-                    values.groupId = this.ui.groupSelect.val()
+                    values.groupId = this.ui.groupSelect.val();
                 }
 
                 // Update name

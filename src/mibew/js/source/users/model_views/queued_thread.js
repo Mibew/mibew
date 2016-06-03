@@ -96,7 +96,7 @@
              * @returns {Object} Template data
              */
             serializeData: function() {
-                var thread = this.model
+                var thread = this.model;
                 var page = Mibew.Objects.Models.page;
                 var data = thread.toJSON();
                 data.stateDesc = this.stateToDesc(thread.get('state'));
@@ -105,7 +105,7 @@
                 if (data.firstMessage) {
                     data.firstMessagePreview = data.firstMessage.length > 30
                         ? data.firstMessage.substring(0,30) + '...'
-                        : data.firstMessage
+                        : data.firstMessage;
                 }
                 return data;
             },

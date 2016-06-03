@@ -47,7 +47,7 @@
         return localized.replace(/\{([0-9]+)\}/g, function(match, index) {
             return placeholders[parseInt(index)] || '';
         });
-    }
+    };
 
     /**
      * Store localization object. Can be call multiple times, localization
@@ -56,6 +56,6 @@
      */
     Mibew.Localization.set = function(strs) {
         _.extend(localStrings, strs);
-    }
+    };
 
 })(Mibew, _);

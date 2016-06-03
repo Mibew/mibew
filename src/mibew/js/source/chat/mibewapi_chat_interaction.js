@@ -40,6 +40,6 @@ MibewAPIChatInteraction = function() {
         return [
             'result'
         ];
-    }
-}
+    };
+};
 MibewAPIChatInteraction.prototype = new MibewAPIInteraction();

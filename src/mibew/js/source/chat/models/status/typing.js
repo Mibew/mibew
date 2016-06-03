@@ -55,7 +55,7 @@
              * @returns {String} Model type
              */
             getModelType: function() {
-                return 'StatusTyping'
+                return 'StatusTyping';
             },
 
             /**

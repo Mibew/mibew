@@ -134,7 +134,7 @@
              * @param {Function} Mibew.Models.Control or inherited constructor
              */
             addControl: function(control) {
-                controlsConstructors.push(control)
+                controlsConstructors.push(control);
             },
 
             /**

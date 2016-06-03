@@ -78,7 +78,7 @@
                                 "user": true
                             }
                         }
-                    ]
+                    ];
                 },
                 function() {}
             )
@@ -90,7 +90,7 @@
         // Restart server updater because module just started and there are no
         // reasons to wait refresh time to get results of previous request
         Mibew.Objects.server.restartUpdater();
-    })
+    });
 
     // Add module finalizer
     invitation.addFinalizer(function() {

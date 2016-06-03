@@ -36,7 +36,7 @@
             return str;
         }
         return str.substring(0, 1).toUpperCase() + str.substring(1);
-    }
+    };
 
     /**
      * Cast string in camel case to dash format.
@@ -61,7 +61,7 @@
         }
 
         return parts.join('-');
-    }
+    };
 
     /**
      * Check if email address valid or not.
@@ -99,7 +99,7 @@
         // The regular exprassion is base on RFC 2822. It's not fully compatible
         // with RFC but is sutabe for most real cases.
         return /^(([a-zA-Z0-9!#$%&'*+\-/=?\^_`{|}~]+(\.[a-zA-Z0-9!#$%&'*+\-/=?\^_`{|}~]+)*)|(\".+\"))$/.test(localPart);
-    }
+    };
 
     /**
      * Play .wav or .mp3 sound file
@@ -121,7 +121,7 @@
                 audioTag.attr('data-file', file);
             }
         }
-    }
+    };
 
     /**
      * Builds params string for window.open method.
@@ -150,7 +150,7 @@
             'height=' + allOptions.height,
             'resizable=' + (allOptions.resizable ? '1' : '0')
         ].join(',');
-    }
+    };
 
     /**
      * Sets default options for Vex dialogs.
@@ -170,7 +170,7 @@
      */
     var isVexOpened = function () {
         return (vex.getAllVexes().length > 0);
-    }
+    };
 
     /**
      * Alerts a message.
@@ -183,7 +183,7 @@
             return;
         }
         vex.dialog.alert({message: message});
-    }
+    };
 
     /**
      * Requires user confirmation.
@@ -198,7 +198,7 @@
             message: message,
             callback: callback
         });
-    }
+    };
 
     /**
      * Requests some info from the user.
@@ -213,6 +213,6 @@
             message: message,
             callback: callback
         });
-    }
+    };
 
 })(Mibew, jQuery, _, vex, validator);

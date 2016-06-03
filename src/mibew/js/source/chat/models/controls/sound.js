@@ -60,7 +60,7 @@
              * @returns {String} Model type
              */
             getModelType: function() {
-                return 'SoundControl'
+                return 'SoundControl';
             }
         }
     );

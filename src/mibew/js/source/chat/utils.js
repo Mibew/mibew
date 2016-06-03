@@ -38,6 +38,6 @@
             // Just close the window.
             window.close();
         }
-    }
+    };
 
 })(Mibew);

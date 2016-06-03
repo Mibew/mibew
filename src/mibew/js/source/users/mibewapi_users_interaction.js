@@ -33,12 +33,12 @@ MibewAPIUsersInteraction = function() {
                 'errorCode': 0
             }
         };
-    }
+    };
 
     this.getReservedFunctionsNames = function() {
         return [
             'result'
         ];
-    }
-}
+    };
+};
 MibewAPIUsersInteraction.prototype = new MibewAPIInteraction();

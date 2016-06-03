@@ -50,7 +50,7 @@
             serializeData: function() {
                 return {
                     page: Mibew.Objects.Models.page.toJSON()
-                }
+                };
             }
         }
     );

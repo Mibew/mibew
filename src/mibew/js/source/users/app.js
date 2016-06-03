@@ -36,7 +36,7 @@
             Mibew.Utils.alert(Mibew.Localization.trans('Network problems detected. Please refresh the page.'));
             badRequestsCount = 0;
         }
-    }
+    };
 
     // Create application instance
     var App = new Backbone.Marionette.Application();

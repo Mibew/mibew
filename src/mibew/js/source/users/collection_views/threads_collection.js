@@ -84,7 +84,7 @@
                 return {
                     tagName: page.get('threadTag'),
                     collection: model.get('controls')
-                }
+                };
             },
 
             /**
@@ -172,7 +172,7 @@
                 var queueCode = this.getQueueCode(thread) || 'Z';
                 sort.field = queueCode.toString()
                         + '_'
-                        + thread.get('waitingTime').toString()
+                        + thread.get('waitingTime').toString();
             },
 
             /**
@@ -202,7 +202,7 @@
                         Mibew.Utils.alert(
                             Mibew.Localization.trans('A new visitor is waiting for an answer.')
                         );
-                    })
+                    });
                 }
             },
 

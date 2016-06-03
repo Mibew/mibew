@@ -82,7 +82,7 @@
                 return {
                     tagName: page.get('visitorTag'),
                     collection: model.get('controls')
-                }
+                };
             },
 
             /**

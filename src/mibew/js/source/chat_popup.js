@@ -62,7 +62,7 @@ var Mibew = Mibew || {};
             + "path=/; "
             + (domain ? ("domain=" + domain[1] + "; ") : '')
             + (expires ?  ('expires=' + expires.toUTCString() + '; ') : '');
-    }
+    };
 
     /**
      * Try to read cookie.
@@ -82,7 +82,7 @@ var Mibew = Mibew || {};
             }
         }
         return value;
-    }
+    };
 
     /**
      * Deletes cookie.
@@ -91,7 +91,7 @@ var Mibew = Mibew || {};
      */
     Mibew.Utils.deleteCookie = function(name) {
         Mibew.Utils.createCookie(name, '', (new Date(0)));
-    }
+    };
 
     /**
      * Sets correct prototypes chain.
@@ -119,7 +119,7 @@ var Mibew = Mibew || {};
             ctor.prototype = new Tmp();
             Tmp.prototype = null;
             ctor.prototype.constructor = ctor;
-        }
+        };
     })();
 
     /**
@@ -169,7 +169,7 @@ var Mibew = Mibew || {};
         document.getElementsByTagName('head')[0].appendChild(styleSheet);
 
         return styleSheet;
-    }
+    };
 
     /**
      * Loads JavaScript file and attach it to DOM.
@@ -189,7 +189,7 @@ var Mibew = Mibew || {};
         document.getElementsByTagName('head')[0].appendChild(script);
 
         return script;
-    }
+    };
 
     /**
      * Initialize a proper chat popup.
@@ -205,7 +205,7 @@ var Mibew = Mibew || {};
             Popup = canUseIFrame ? Mibew.ChatPopup.IFrame : Mibew.ChatPopup.Window;
 
         Mibew.Objects.ChatPopups[options.id] = new Popup(options);
-    }
+    };
 
     /**
      * A constructor for base (abstract) popup object.
@@ -260,7 +260,7 @@ var Mibew = Mibew || {};
          * @type {Boolean}
          */
         this.modSecurity = options.modSecurity || false;
-    }
+    };
 
     /**
      * Builds an URL that initializes a chat.
@@ -279,7 +279,7 @@ var Mibew = Mibew || {};
         return this.url
             + ((this.url.indexOf('?') === -1) ? '?' : '&') + 'url=' + encodeURIComponent(href)
             + '&referrer=' + encodeURIComponent(referrer);
-    }
+    };
 
     /**
      * Constructs IFrame popup.
@@ -317,7 +317,7 @@ var Mibew = Mibew || {};
             // new page is visited.
             this.open(openedChatUrl);
         }
-    }
+    };
 
     // Set correct prototype chain for IFrame popup.
     Mibew.Utils.inherits(Mibew.ChatPopup.IFrame, BasePopup);
@@ -386,7 +386,7 @@ var Mibew = Mibew || {};
         this.iframe.style.display = 'block';
         this.iframe.src = url || this.buildChatUrl();
         this.isOpened = true;
-    }
+    };
 
     /**
      * Closes the popup.
@@ -401,7 +401,7 @@ var Mibew = Mibew || {};
         this.iframe.src = '';
         this.isOpened = false;
         Mibew.Utils.deleteCookie('mibew-chat-frame-' + this.id);
-    }
+    };
 
     /**
      * Constructs Window popup.
@@ -414,7 +414,7 @@ var Mibew = Mibew || {};
         BasePopup.call(this, options);
 
         this.window = null;
-    }
+    };
 
     // Set correct prototype chain for Window popup.
     Mibew.Utils.inherits(Mibew.ChatPopup.Window, BasePopup);
@@ -433,7 +433,7 @@ var Mibew = Mibew || {};
         );
         this.window.focus();
         this.window.opener = window;
-    }
+    };
 
     /**
      * Closes the popup.
@@ -446,7 +446,7 @@ var Mibew = Mibew || {};
 
         this.window.close();
         this.window = null;
-    }
+    };
 
     /**
      * Builds window params string.
@@ -468,7 +468,7 @@ var Mibew = Mibew || {};
             'height=' + this.height.toString(),
             'resizable=' + (this.resizable ? '1' : '0')
         ].join(',');
-    }
+    };
 
     // Attach a listener to window's "message" event to get the url of the chat
     // which is opened in iframe popup.

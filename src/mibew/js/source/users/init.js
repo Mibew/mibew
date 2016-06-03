@@ -43,7 +43,7 @@
 
         newWindow.focus();
         newWindow.opener = window;
-    }
+    };
 
     /**
      * Update time in timers
@@ -73,6 +73,6 @@
             // Build result string
             $(this).html(result.join(':'));
         });
-    }
+    };
 
 })(Mibew, jQuery);
