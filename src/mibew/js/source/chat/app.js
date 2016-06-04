@@ -52,7 +52,6 @@
                 break;
             default:
                 throw new Error("Don't know how to start!");
-                break;
         }
     });
 
