@@ -26,4 +26,4 @@
             Mibew.Utils.playSound('../sounds/new_message');
         });
     });
-})(Mibew, $);
+})(Mibew, jQuery);

@@ -442,4 +442,4 @@
         }
     };
 
-})(Mibew, MibewAPI, $, _);
+})(Mibew, MibewAPI, jQuery, _);
