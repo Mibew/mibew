@@ -4,7 +4,8 @@
         "indent": ["error", 4, {"SwitchCase": 1}],
         "no-trailing-spaces": "error",
         "semi": ["error", "always"],
-        "guard-for-in": "error"
+        "guard-for-in": "error",
+        "no-unused-vars": ["error", {"caughtErrors": "none"}]
     },
     "globals": {
         "Mibew": true,
