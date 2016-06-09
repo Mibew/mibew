@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-(function(Mibew, Backbone, _){
+(function(Mibew, Backbone){
 
     /**
      * @class Represents messages list
@@ -54,4 +54,4 @@
         }
     );
 
-})(Mibew, Backbone, _);
+})(Mibew, Backbone);
