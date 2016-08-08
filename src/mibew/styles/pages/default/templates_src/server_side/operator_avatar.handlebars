@@ -28,7 +28,7 @@
                                 <div class="field">
                                     <div class="field-label">{{l10n "Current avatar image"}}</div>
                                     <div class="field-value">
-                                        <img src="{{avatar}}" alt="cannot load avatar"/><br/>
+                                        <img src="{{avatar}}" alt="{{l10n "cannot load avatar"}}"/><br/>
                                         {{#if canmodify}}
                                             <a class="field-input" href="{{csrfProtectedRoute "operator_avatar_delete" operator_id=opid}}">
                                                 {{l10n "Remove avatar"}}
