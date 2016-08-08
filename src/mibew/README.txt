@@ -1,5 +1,5 @@
 Mibew Messenger
-Copyright 2005-2015 the original author or authors.
+Copyright 2005-2016 the original author or authors.
 
 REQUIREMENTS
 
