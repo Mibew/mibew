@@ -61,8 +61,8 @@ cache:
     memcached_servers:
         - host: localhost
           port: 11211
-          # The "weight" field is optional and can be omitted.
-          weight: 0
+          # The "weight" field is optional and can be omitted and it's only positive int number.
+          weight: 1
           # Actually, one can use any number of memcached servers he wants. Just
           # add servers description like the one above.
 
