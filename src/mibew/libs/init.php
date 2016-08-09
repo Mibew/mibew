@@ -60,17 +60,14 @@ if ($tmp_request->isSecure()) {
 unset($tmp_request);
 
 if (version_compare(phpversion(), '5.4.0', '<')) {
-     if(session_id() == '') {
+    if (session_id() == '') {
         session_start();
-     }
- }
- else
- {
+    }
+} else {
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
- }
-
+}
 
 if (function_exists("date_default_timezone_set")) {
     $timezone = !empty($configs['timezone'])
