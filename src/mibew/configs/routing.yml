@@ -90,6 +90,10 @@ button:
     path: /b
     defaults: { _controller: Mibew\Controller\ButtonController::indexAction }
 
+op_status:
+    path: /opstatus
+    defaults: { _controller: Mibew\Controller\OpStatusController::indexAction }
+
 captcha:
     path: /captcha
     defaults: { _controller: Mibew\Controller\CaptchaController::drawAction }
