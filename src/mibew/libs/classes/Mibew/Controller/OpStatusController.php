@@ -23,12 +23,12 @@ use Mibew\Settings;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Represents button-related actions
+ * Operator Status actions
  */
 class OpStatusController extends AbstractController
 {
     /**
-     * Returns content of the chat button.
+     * Returns true or false of whether an operator is online or not.
      *
      * @param Request $request
      * @return string Rendered page content
@@ -50,7 +50,7 @@ class OpStatusController extends AbstractController
             }
         }
 
-        // Get image file content
+        // Get status of operators in chat. (supports group based status)
         $op_status = has_online_operators($group_id) ? true : false;
         
         return $op_status;
