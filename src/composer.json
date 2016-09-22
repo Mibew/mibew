@@ -19,7 +19,7 @@
     },
     "require": {
         "xamin/handlebars.php": "0.10.*",
-        "justblackbird/handlebars.php-helpers": "~0.2.1",
+        "justblackbird/handlebars.php-helpers": "1.*",
         "symfony/http-foundation": "2.6.*",
         "symfony/routing": "2.6.*",
         "symfony/config": "2.6.*",

@@ -47,9 +47,9 @@ class Helpers extends BaseHelpers
         $this->add('ifAny', new HandlebarsHelpers\Comparison\IfAnyHelper());
         $this->add('ifEven', new HandlebarsHelpers\Comparison\IfEvenHelper());
         $this->add('ifOdd', new HandlebarsHelpers\Comparison\IfOddHelper());
-        $this->add('repeat', new HandlebarsHelpers\String\RepeatHelper());
-        $this->add('replace', new HandlebarsHelpers\String\ReplaceHelper());
-        $this->add('cutString', new HandlebarsHelpers\String\TruncateHelper());
+        $this->add('repeat', new HandlebarsHelpers\Text\RepeatHelper());
+        $this->add('replace', new HandlebarsHelpers\Text\ReplaceHelper());
+        $this->add('cutString', new HandlebarsHelpers\Text\TruncateHelper());
         $blocks = new HandlebarsHelpers\Layout\BlockStorage();
         $this->add('extends', new HandlebarsHelpers\Layout\ExtendsHelper($blocks));
         $this->add('block', new HandlebarsHelpers\Layout\BlockHelper($blocks));
