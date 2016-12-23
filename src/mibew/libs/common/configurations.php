@@ -52,6 +52,21 @@ function load_system_configs()
         if (empty($configs['cache'])) {
             $configs['cache'] = array();
         }
+
+        // Database section should exists too. Also it should have an appropriate structure.
+        if (empty($configs['database'])) {
+            $configs['database'] = array();
+        }
+        foreach (array('host', 'port', 'db', 'login', 'pass', 'tables_prefix', 'use_persistent_connection') as $key) {
+            if (!array_key_exists($key, $configs['database'])) {
+                $configs['database'][$key] = '';
+            }
+        }
+
+        // Mailbox value should exists.
+        if (!array_key_exists('mailbox', $configs)) {
+            $configs['mailbox'] = '';
+        }
     }
 
     return $configs;
