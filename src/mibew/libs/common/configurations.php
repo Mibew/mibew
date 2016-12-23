@@ -41,13 +41,13 @@ function load_system_configs()
         }
 
         // Mailer configs are not necessary and can be omitted but the section
-        // must exist anyway. Empty statement is used to make sure null, false
+        // should exists anyway. Empty statement is used to make sure null, false
         // and "" will be converted to an empty array.
         if (empty($configs['mailer'])) {
             $configs['mailer'] = array();
         }
 
-        // Cache section must extst too. The logic behind "empty" statement is
+        // Cache section should exists too. The logic behind "empty" statement is
         // the same as above.
         if (empty($configs['cache'])) {
             $configs['cache'] = array();
