@@ -329,13 +329,13 @@ class HistoryController extends AbstractController
 
         $path = track_get_path($visitor);
 
-        $page['entry'] = htmlspecialchars($visitor['entry']);
+        $page['entry'] = $visitor['entry'];
         $page['history'] = array();
         ksort($path);
         foreach ($path as $k => $v) {
             $page['history'][] = array(
                 'date' => date_to_text($k),
-                'link' => htmlspecialchars($v),
+                'link' => $v,
             );
         }
 
