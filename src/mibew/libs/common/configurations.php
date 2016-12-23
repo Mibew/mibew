@@ -31,8 +31,14 @@ function load_system_configs()
     static $configs = null;
 
     if (is_null($configs)) {
-        $parser = new YamlParser();
-        $configs = $parser->parse(file_get_contents(MIBEW_FS_ROOT . '/configs/config.yml'));
+        // Make sure that configuration file exists, otherwise initialize empty config
+        if (file_exists(MIBEW_FS_ROOT . '/configs/config.yml')) {
+            $parser = new YamlParser();
+            $configs = $parser->parse(file_get_contents(MIBEW_FS_ROOT . '/configs/config.yml'));
+        }
+        else {
+            $configs = array();
+        }
 
         // Mailer configs are not necessary and can be omitted but the section
         // must exist anyway. Empty statement is used to make sure null, false
