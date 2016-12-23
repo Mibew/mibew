@@ -106,19 +106,12 @@
             },
 
             /**
-             * Open window with geo information
+             * Open window with a tip for geolocation
              */
             showGeoInfo: function() {
                 var ip = this.model.get('userIp');
                 if (ip) {
-                    var page = Mibew.Objects.Models.page;
-                    var geoLink = page.get('geoLink')
-                        .replace("{ip}", ip);
-                    Mibew.Popup.open(
-                        geoLink,
-                        'ip' + ip,
-                        page.get('geoWindowParams')
-                    );
+                    Mibew.Utils.alert(Mibew.Localization.trans('No geolocation data available. We recommend you to install Mibew:GeoIp and Mibew:GoogleMaps plugins.'));
                 }
             }
         }

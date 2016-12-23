@@ -76,8 +76,6 @@ class Settings
             'invitation_style' => 'default',
             'page_style' => 'default',
             'chattitle' => 'Live Support',
-            'geolink' => 'http://api.hostip.info/get_html.php?ip={ip}',
-            'geolinkparams' => 'width=440,height=100,toolbar=0,scrollbars=0,location=0,status=1,menubar=0,resizable=1',
             'max_uploaded_file_size' => 100000,
             'max_connections_from_one_host' => 10,
             'thread_lifetime' => 600,

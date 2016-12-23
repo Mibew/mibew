@@ -120,13 +120,11 @@ class UsersController extends AbstractController
                     'visitorTag' => $page_style_config['users']['visitor_tag'],
 
                     'agentLink' => $request->getBaseUrl() . '/operator/chat',
-                    'geoLink' => Settings::get('geolink'),
                     'trackedLink' => $request->getBaseUrl() . '/operator/history/user-track',
                     'banLink' => $request->getBaseUrl() . '/operator/ban',
                     'inviteLink' => $request->getBaseUrl() . '/operator/invite',
 
                     'chatWindowParams' => $chat_style_config['chat']['window'],
-                    'geoWindowParams' => Settings::get('geolinkparams'),
                     'trackedUserWindowParams' => $page_style_config['tracked']['user_window'],
                     'trackedVisitorWindowParams' => $page_style_config['tracked']['visitor_window'],
                     'banWindowParams' => $page_style_config['ban']['window'],

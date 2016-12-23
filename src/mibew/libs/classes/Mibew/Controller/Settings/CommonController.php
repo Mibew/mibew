@@ -58,8 +58,6 @@ class CommonController extends AbstractController
             'hosturl',
             'usernamepattern',
             'chattitle',
-            'geolink',
-            'geolinkparams',
             'sendmessagekey',
             'cron_key',
             'left_messages_locale',
@@ -78,8 +76,6 @@ class CommonController extends AbstractController
         $page['formtitle'] = $form->get('title', $params['title']);
         $page['formlogo'] = $form->get('logo', $params['logo']);
         $page['formhosturl'] = $form->get('hosturl', $params['hosturl']);
-        $page['formgeolink'] = $form->get('geolink', $params['geolink']);
-        $page['formgeolinkparams'] = $form->get('geolinkparams', $params['geolinkparams']);
         $page['formusernamepattern'] = $form->get('usernamepattern', $params['usernamepattern']);
         $page['formchatstyle'] = $form->get('chatstyle', ChatStyle::getDefaultStyle());
         $page['formpagestyle'] = $form->get('pagestyle', PageStyle::getDefaultStyle());
@@ -137,8 +133,6 @@ class CommonController extends AbstractController
         $params['hosturl'] = $request->request->get('hosturl');
         $params['usernamepattern'] = $request->request->get('usernamepattern');
         $params['chattitle'] = $request->request->get('chattitle');
-        $params['geolink'] = $request->request->get('geolink');
-        $params['geolinkparams'] = $request->request->get('geolinkparams');
         $params['cron_key'] = $request->request->get('cronkey');
 
         $send_key = $request->request->get('sendmessagekey');
@@ -154,20 +148,6 @@ class CommonController extends AbstractController
 
         if ($params['email'] && !MailUtils::isValidAddress($params['email'])) {
             $errors[] = getlocal('Enter a valid email address');
-        }
-
-        if ($params['geolinkparams']) {
-            foreach (explode(',', $params['geolinkparams']) as $one_param) {
-                $wrong_param = !preg_match(
-                    "/^\s*(toolbar|scrollbars|location|status|menubar|width|height|resizable)=\d{1,4}$/",
-                    $one_param
-                );
-                if ($wrong_param) {
-                    $errors[] = "Wrong link parameter: \"$one_param\", "
-                        . "should be one of 'toolbar, scrollbars, location, "
-                        . "status, menubar, width, height or resizable'";
-                }
-            }
         }
 
         if (preg_match("/^[0-9A-Za-z]*$/", $params['cron_key']) == 0) {

@@ -33,17 +33,5 @@ function get_user_agent_version($user_agent)
 
 function get_user_addr($addr)
 {
-    if (Settings::get('geolink') && preg_match("/(\\d+\\.\\d+\\.\\d+\\.\\d+)/", $addr, $matches)) {
-        $user_ip = $matches[1];
-        return get_popup(
-            str_replace("{ip}", $user_ip, Settings::get('geolink')),
-            '',
-            htmlspecialchars($addr),
-            "GeoLocation",
-            "ip$user_ip",
-            Settings::get('geolinkparams')
-        );
-    }
-
     return htmlspecialchars($addr);
 }
