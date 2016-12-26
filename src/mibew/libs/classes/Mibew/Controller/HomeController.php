@@ -47,14 +47,12 @@ class HomeController extends AbstractController
     public function dashboardAction(Request $request)
     {
         $operator = $this->getOperator();
-        $is_online = is_operator_online($operator['operatorid']);
 
         $page = array(
             'version' => MIBEW_VERSION,
             'localeLinks' => get_locale_links(),
             'needUpdate' => version_compare(Settings::get('dbversion'), MIBEW_VERSION, '<'),
             'profilePage' => $this->generateUrl('operator_edit', array('operator_id' => $operator['operatorid'])),
-            'isOnline' => $is_online,
             'warnOffline' => true,
             'title' => getlocal('Home'),
             'menuid' => 'main',
