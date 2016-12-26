@@ -690,14 +690,13 @@ function prepare_menu($operator, $has_right = true)
     $result = array();
 
     $result['operator'] = get_operator_name($operator);
-    $result['is_online'] = is_operator_online($operator['operatorid']);
+    $result['isOnline'] = is_operator_online($operator['operatorid']);
     if ($has_right) {
         $result['showban'] = Settings::get('enableban') == "1";
         $result['showstat'] = Settings::get('enablestatistics') == "1";
         $result['showadmin'] = is_capable(CAN_ADMINISTRATE, $operator);
         $result['currentopid'] = $operator['operatorid'];
     }
-
     return $result;
 }
 
