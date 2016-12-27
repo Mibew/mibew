@@ -304,6 +304,12 @@ var Mibew = Mibew || {};
          */
         this.isOpened = false;
 
+        /**
+         * Indicates if the popup is minified.
+         * @type {Boolean}
+         */
+        this.isMinified = false;
+
         // Load default styles. These styles hide the popup while real styles
         // are loading.
         this.attachDefaultStyles();
@@ -401,6 +407,14 @@ var Mibew = Mibew || {};
         this.iframe.src = '';
         this.isOpened = false;
         Mibew.Utils.deleteCookie('mibew-chat-frame-' + this.id);
+    };
+
+    /**
+     * Toggles the popup.
+     */
+    Mibew.ChatPopup.IFrame.prototype.toggle = function() {
+        this.iframe.style.display = this.isMinified ? "block" : "none";
+        this.isMinified = !this.isMinified;
     };
 
     /**
