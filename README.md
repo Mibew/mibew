@@ -33,7 +33,28 @@ Mibew Messenger is licensed under the terms of [Apache License, Version 2.0](htt
 
 ## Other repositories of the Mibew project
 
+### Actual
 1. [Mibew Messenger i18n repository](https://github.com/Mibew/i18n)
 2. [Mibew Messenger design repository](https://github.com/Mibew/design)
-3. [Mibew Java applications repository](https://github.com/Mibew/java)
-4. [Mibew Tray repository](https://github.com/Mibew/tray)
+3. [Mibew documentation repository](https://github.com/Mibew/docs.mibew.org)
+
+### Obsolete
+1. [Mibew Java applications repository](https://github.com/Mibew/java)
+2. [Mibew Tray repository](https://github.com/Mibew/tray)
+
+### Plugins
+
+1. [Mibew Boilerplate plugin](https://github.com/Mibew/boilerplate-plugin) - a template for a real plugin
+
+#### Ready for production use
+1. [Mibew Emoji plugin](https://github.com/Mibew/emoji-plugin)
+2. [Mibew Geo IP plugin](https://github.com/Mibew/geo-ip-plugin)
+3. [Mibew Google Maps plugin](https://github.com/Mibew/google-maps-plugin)
+4. [Mibew Purge History plugin](https://github.com/Mibew/purge-history-plugin)
+5. [Mibew Real Ban plugin](https://github.com/Mibew/real-ban-plugin)
+6. [Mibew Title Notification plugin](https://github.com/Mibew/title-notification-plugin)
+
+#### Not ready for production use (not stable, broken, obsolete, etc.)
+1. [Mibew Button Refresh plugin](https://github.com/Mibew/button-refresh-plugin)
+2. [Mibew External API plugin](https://github.com/Mibew/external-api-plugin)
+3. [Mibew First Message plugin](https://github.com/Mibew/first-message-plugin)
