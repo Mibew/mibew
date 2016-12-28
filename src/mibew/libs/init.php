@@ -101,8 +101,3 @@ require_once(MIBEW_FS_ROOT . '/libs/pagination.php');
 require_once(MIBEW_FS_ROOT . '/libs/statistics.php');
 require_once(MIBEW_FS_ROOT . '/libs/track.php');
 require_once(MIBEW_FS_ROOT . '/libs/userinfo.php');
-
-// Run plugins only after all libs are loaded.
-if (get_maintenance_mode() === false) {
-    \Mibew\Plugin\PluginManager::getInstance()->loadPlugins($configs['plugins']);
-}

@@ -22,6 +22,7 @@ require_once(dirname(__FILE__) . '/libs/init.php');
 
 use Mibew\Cache\CacheFactory;
 use Mibew\Maintenance\CronWorker;
+use Mibew\Plugin\PluginManager;
 
 $configs = load_system_configs();
 
@@ -29,6 +30,11 @@ $configs = load_system_configs();
 $cache_factory = new CacheFactory($configs['cache']);
 // For now directory for cache files cannot be changed via the configs file.
 $cache_factory->setOption('path', MIBEW_FS_ROOT . '/cache/stash');
+
+// Run plugins
+if (get_maintenance_mode() === false) {
+    PluginManager::getInstance()->loadPlugins($configs['plugins']);
+}
 
 // Do the job.
 $worker = new CronWorker($cache_factory->getCache());
