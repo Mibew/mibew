@@ -314,6 +314,8 @@ plugin:
         installed: "tinyint NOT NULL DEFAULT 0"
         # Indicates if the plugin is enabled or not.
         enabled: "tinyint NOT NULL DEFAULT 0"
+        # Indicates if the plugin is initialized or not.
+        initialized: "tinyint NOT NULL DEFAULT 0"
     unique_keys:
         name: [name]
 

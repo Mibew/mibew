@@ -412,4 +412,30 @@ class Updater
 
         return true;
     }
+
+    /**
+     * Performs all database updates needed for 2.2.0.
+     *
+     * @return boolean True if the updates have been applied successfully and
+     * false otherwise.
+     */
+    protected function update20200()
+    {
+        $db = $this->getDatabase();
+
+        if (!$db) {
+            return false;
+        }
+
+        try {
+            // Alter locale table.
+            $db->query('ALTER TABLE {plugin} ADD COLUMN initialized tinyint NOT NULL DEFAULT 0 AFTER enabled');
+        } catch (\Exception $e) {
+            $this->errors[] = getlocal('Cannot update tables: {0}', $e->getMessage());
+
+            return false;
+        }
+
+        return true;
+    }
 }
