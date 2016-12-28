@@ -299,6 +299,12 @@ var Mibew = Mibew || {};
         this.iframe = null;
 
         /**
+         * Toggle iframe DOM Element.
+         * @type {Node}
+         */
+        this.toggleDiv = null;
+
+        /**
          * Indicates if the popup is opened.
          * @type {Boolean}
          */
@@ -322,6 +328,11 @@ var Mibew = Mibew || {};
             // The chat was not closed so the popup should be reopened when a
             // new page is visited.
             this.open(openedChatUrl);
+            // Check minification status of the popup and toggle it if needed.
+            var minifiedPopup = Mibew.Utils.readCookie('mibew-chat-frame-minified-' + this.id);
+            if (minifiedPopup === 'true') {
+                this.toggle();
+            }
         }
     };
 
@@ -387,6 +398,21 @@ var Mibew = Mibew || {};
             this.iframe.setAttribute('frameBorder', 0);
             this.iframe.style.display = 'none';
             document.getElementsByTagName('body')[0].appendChild(this.iframe);
+
+            // Setup toggle element. As it's not a part of the iframe, it should be
+            // treated separately.
+            this.toggleDiv = document.createElement('div');
+            this.toggleDiv.setAttribute('id', 'mibew-chat-frame-toggle-' + this.id);
+            this.toggleDiv.className = 'mibew-chat-frame-toggle mibew-chat-frame-toggle-on';
+            Mibew.Utils.addEventListener(this.toggleDiv, 'click', function(event) {
+                var popups = Mibew.Objects.ChatPopups,
+                matches = /^mibew-chat-frame-toggle-([0-9A-Za-z]+)$/.exec(this.id);
+
+                if (matches && popups[matches[1]]) {
+                    popups[matches[1]].toggle();
+                }
+            });
+            document.getElementsByTagName('body')[0].appendChild(this.toggleDiv);
         }
 
         this.iframe.style.display = 'block';
@@ -406,7 +432,9 @@ var Mibew = Mibew || {};
         this.iframe.style.display = 'none';
         this.iframe.src = '';
         this.isOpened = false;
+        this.toggleDiv.style.display = 'none';
         Mibew.Utils.deleteCookie('mibew-chat-frame-' + this.id);
+        Mibew.Utils.deleteCookie('mibew-chat-frame-minified' + this.id);
     };
 
     /**
@@ -415,6 +443,9 @@ var Mibew = Mibew || {};
     Mibew.ChatPopup.IFrame.prototype.toggle = function() {
         this.iframe.style.display = this.isMinified ? "block" : "none";
         this.isMinified = !this.isMinified;
+        this.toggleDiv.className = 'mibew-chat-frame-toggle mibew-chat-frame-toggle-'
+            + (this.isMinified ? 'off' : 'on');
+        Mibew.Utils.createCookie('mibew-chat-frame-minified-' + this.id, this.isMinified);
     };
 
     /**

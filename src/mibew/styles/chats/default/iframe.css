@@ -35,3 +35,34 @@ iframe.mibew-chat-frame {
     -moz-box-shadow: 0 1px 1px 1px #ddd !important;
     -webkit-box-shadow: 0 1px 1px 1px #ddd !important;
 }
+
+div.mibew-chat-frame-toggle {
+    border: 1px solid black;
+    position: fixed !important;
+    border: 1px solid #aaa !important;
+    overflow: hidden !important;
+    z-index: 100 !important;
+    border-radius: 10px !important;
+    -webkit-border-radius: 10px !important;
+    -moz-border-radius: 10px !important;
+    box-shadow: 0 1px 1px 1px #ddd !important;
+    -moz-box-shadow: 0 1px 1px 1px #ddd !important;
+    -webkit-box-shadow: 0 1px 1px 1px #ddd !important;
+    cursor: pointer;
+}
+
+div.mibew-chat-frame-toggle-on {
+    width: 27px !important;
+    height: 480px !important;
+    right: 517px !important;
+    bottom: 5px !important;
+    background: #ffffff url("images/right.png") scroll no-repeat 0 0;
+}
+
+div.mibew-chat-frame-toggle-off {
+    width: 40px !important;
+    height: 40px !important;
+    right: 5px !important;
+    bottom: 5px !important;
+    background: #ffffff url("images/default-logo-short.png") scroll no-repeat 4px 5px;
+}
