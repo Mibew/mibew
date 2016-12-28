@@ -181,12 +181,22 @@ class PluginManager
                 $this->loadedPlugins[$name] = $instance;
                 $running_queue[$instance->getWeight() . "_" . $offset] = $instance;
                 $offset++;
+                if (!$plugin_info->isInitialized()) {
+                    $plugin_info->getState()->initialized = true;
+                    $plugin_info->getState()->save();
+# TODO: clear cache
+                }
             } else {
                 // The plugin cannot be loaded. Just skip it.
                 trigger_error(
                     "Plugin '{$name}' was not initialized correctly!",
                     E_USER_WARNING
                 );
+                if ($plugin_info->isInitialized()) {
+                    $plugin_info->getState()->initialized = false;
+                    $plugin_info->getState()->save();
+# TODO: clear cache
+                }
             }
         }
 
@@ -256,6 +266,7 @@ class PluginManager
         }
 
         $plugin->getState()->enabled = false;
+        $plugin->getState()->initialized = false;
         $plugin->getState()->save();
 
         return true;
