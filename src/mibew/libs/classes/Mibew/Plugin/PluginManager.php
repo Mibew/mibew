@@ -208,7 +208,10 @@ class PluginManager implements
                 if (!$plugin_info->isInitialized()) {
                     $plugin_info->getState()->initialized = true;
                     $plugin_info->getState()->save();
-# TODO: clear cache
+                    // Plugins can have own routing files and when the plugin becomes
+                    // initialized after non-initialized state its routes should be
+                    // reset. So the cache is cleared to make sure the routes set is up to date.
+                    $this->getCache()->getItem('routing/resources')->clear();
                 }
             } else {
                 // The plugin cannot be loaded. Just skip it.
@@ -219,7 +222,10 @@ class PluginManager implements
                 if ($plugin_info->isInitialized()) {
                     $plugin_info->getState()->initialized = false;
                     $plugin_info->getState()->save();
-# TODO: clear cache
+                    // Plugins can have own routing files and when the plugin becomes
+                    // non-initialized after initialized state its routes should be
+                    // removed. So the cache is cleared to make sure the routes set is up to date.
+                    $this->getCache()->getItem('routing/resources')->clear();
                 }
             }
         }
