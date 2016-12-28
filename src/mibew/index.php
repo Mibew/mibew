@@ -43,7 +43,9 @@ $cache_factory->setOption('path', MIBEW_FS_ROOT . '/cache/stash');
 
 // Run plugins
 if (get_maintenance_mode() === false) {
-    PluginManager::getInstance()->loadPlugins($configs['plugins']);
+    $plugin_manager = PluginManager::getInstance();
+    $plugin_manager->setCache($cache_factory->getCache());
+    $plugin_manager->loadPlugins($configs['plugins']);
 }
 
 // The main route loader which loads nothig but works as a cache proxy for other

@@ -19,21 +19,29 @@
 
 namespace Mibew\Plugin;
 
+use Mibew\Cache\CacheAwareInterface;
 use Mibew\Plugin\Utils as PluginUtils;
 use Mibew\Maintenance\Utils as MaintenanceUtils;
+use Stash\Interfaces\PoolInterface;
 
 /**
  * Manage plugins.
  *
  * Implements singleton pattern.
  */
-class PluginManager
+class PluginManager implements
+    CacheAwareInterface
 {
     /**
      * An instance of Plugin Manager class.
      * @var PluginManager
      */
     protected static $instance = null;
+
+    /**
+     * @var PoolInterface|null
+     */
+    protected $cache = null;
 
     /**
      * Contains all loaded plugins
@@ -54,6 +62,22 @@ class PluginManager
         }
 
         return self::$instance;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCache(PoolInterface $cache)
+    {
+        $this->cache = $cache;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCache()
+    {
+        return $this->cache;
     }
 
     /**
