@@ -87,7 +87,7 @@ class CacheAdapter implements HandlebarsCacheInterface, CacheAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function set($name, $value)
+    public function set($name, $value, $ttl = 0)
     {
         $item = $this->getCacheItem($name);
         // Cache templates for twelve hours. Actually we can use arbitrary value
