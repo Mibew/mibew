@@ -19,21 +19,29 @@
 
 namespace Mibew\Plugin;
 
+use Mibew\Cache\CacheAwareInterface;
 use Mibew\Plugin\Utils as PluginUtils;
 use Mibew\Maintenance\Utils as MaintenanceUtils;
+use Stash\Interfaces\PoolInterface;
 
 /**
  * Manage plugins.
  *
  * Implements singleton pattern.
  */
-class PluginManager
+class PluginManager implements
+    CacheAwareInterface
 {
     /**
      * An instance of Plugin Manager class.
      * @var PluginManager
      */
     protected static $instance = null;
+
+    /**
+     * @var PoolInterface|null
+     */
+    protected $cache = null;
 
     /**
      * Contains all loaded plugins
@@ -54,6 +62,22 @@ class PluginManager
         }
 
         return self::$instance;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCache(PoolInterface $cache)
+    {
+        $this->cache = $cache;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCache()
+    {
+        return $this->cache;
     }
 
     /**
@@ -181,12 +205,28 @@ class PluginManager
                 $this->loadedPlugins[$name] = $instance;
                 $running_queue[$instance->getWeight() . "_" . $offset] = $instance;
                 $offset++;
+                if (!$plugin_info->isInitialized()) {
+                    $plugin_info->getState()->initialized = true;
+                    $plugin_info->getState()->save();
+                    // Plugins can have own routing files and when the plugin becomes
+                    // initialized after non-initialized state its routes should be
+                    // reset. So the cache is cleared to make sure the routes set is up to date.
+                    $this->getCache()->getItem('routing/resources')->clear();
+                }
             } else {
                 // The plugin cannot be loaded. Just skip it.
                 trigger_error(
                     "Plugin '{$name}' was not initialized correctly!",
                     E_USER_WARNING
                 );
+                if ($plugin_info->isInitialized()) {
+                    $plugin_info->getState()->initialized = false;
+                    $plugin_info->getState()->save();
+                    // Plugins can have own routing files and when the plugin becomes
+                    // non-initialized after initialized state its routes should be
+                    // removed. So the cache is cleared to make sure the routes set is up to date.
+                    $this->getCache()->getItem('routing/resources')->clear();
+                }
             }
         }
 
@@ -256,6 +296,7 @@ class PluginManager
         }
 
         $plugin->getState()->enabled = false;
+        $plugin->getState()->initialized = false;
         $plugin->getState()->save();
 
         return true;

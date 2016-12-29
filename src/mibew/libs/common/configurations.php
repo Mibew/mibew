@@ -53,6 +53,12 @@ function load_system_configs()
             $configs['cache'] = array();
         }
 
+        // Plugins section should exists too. The logic behind "empty" statement is
+        // the same as above.
+        if (empty($configs['plugins'])) {
+            $configs['plugins'] = array();
+        }
+
         // Database section should exists too. Also it should have an appropriate structure.
         if (empty($configs['database'])) {
             $configs['database'] = array();

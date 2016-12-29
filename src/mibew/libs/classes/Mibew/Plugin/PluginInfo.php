@@ -81,6 +81,7 @@ class PluginInfo
                 $state->version = false;
                 $state->installed = false;
                 $state->enabled = false;
+                $state->initialized = false;
             }
             $this->pluginState = $state;
         }
@@ -207,6 +208,16 @@ class PluginInfo
         $plugin_class = $this->getClass();
 
         return new $plugin_class($configs);
+    }
+
+    /**
+     * Checks if the plugin is initialized.
+     *
+     * @return bool
+     */
+    public function isInitialized()
+    {
+        return $this->getState()->initialized;
     }
 
     /**

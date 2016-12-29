@@ -193,6 +193,7 @@ class State
         $this->version = null;
         $this->installed = false;
         $this->enabled = false;
+        $this->initialized = false;
     }
 
     /**
@@ -205,13 +206,14 @@ class State
         if (!$this->id) {
             // This state is new.
             $db->query(
-                ("INSERT INTO {plugin} (name, version, installed, enabled) "
-                    . "VALUES (:name, :version, :installed, :enabled)"),
+                ("INSERT INTO {plugin} (name, version, installed, enabled, initialized) "
+                    . "VALUES (:name, :version, :installed, :enabled, :initialized)"),
                 array(
                     ':name' => $this->pluginName,
                     ':version' => $this->version,
                     ':installed' => (int)$this->installed,
                     ':enabled' => (int)$this->enabled,
+                    ':initialized' => (int)$this->initialized,
                 )
             );
             $this->id = $db->insertedId();
@@ -219,13 +221,14 @@ class State
             // Update existing state
             $db->query(
                 ("UPDATE {plugin} SET name = :name, version = :version, "
-                    . "installed = :installed, enabled = :enabled WHERE id = :id"),
+                    . "installed = :installed, enabled = :enabled, initialized = :initialized WHERE id = :id"),
                 array(
                     ':id' => $this->id,
                     ':name' => $this->pluginName,
                     ':version' => $this->version,
                     ':installed' => (int)$this->installed,
                     ':enabled' => (int)$this->enabled,
+                    ':initialized' => (int)$this->initialized,
                 )
             );
         }
@@ -261,5 +264,6 @@ class State
         $this->version = $db_fields['version'];
         $this->enabled = (bool)$db_fields['enabled'];
         $this->installed = (bool)$db_fields['installed'];
+        $this->initialized = (bool)$db_fields['initialized'];
     }
 }

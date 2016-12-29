@@ -24,6 +24,7 @@ use Mibew\Application;
 use Mibew\Authentication\AuthenticationManager;
 use Mibew\Cache\CacheFactory;
 use Mibew\Mail\MailerFactory;
+use Mibew\Plugin\PluginManager;
 use Mibew\Routing\Router;
 use Mibew\Routing\Loader\CacheLoader;
 use Mibew\Routing\Loader\PluginLoader;
@@ -39,6 +40,13 @@ $cache_factory = new CacheFactory($configs['cache']);
 // For now directory for cache files cannot be changed via the configs file.
 // TODO: Evaluate possibility of using custom cache directory.
 $cache_factory->setOption('path', MIBEW_FS_ROOT . '/cache/stash');
+
+// Run plugins
+if (get_maintenance_mode() === false) {
+    $plugin_manager = PluginManager::getInstance();
+    $plugin_manager->setCache($cache_factory->getCache());
+    $plugin_manager->loadPlugins($configs['plugins']);
+}
 
 // The main route loader which loads nothig but works as a cache proxy for other
 // loaders.
