@@ -430,15 +430,17 @@ class Thread
             );
 
             // Perform the cleaning
-            $revision = self::nextRevision();
-            foreach ($rows as $row) {
-                $thread = Thread::createFromDbInfo($row);
-                $thread->lastRevision = $revision;
-                $thread->modified = $now;
-                $thread->closed = $now;
-                $thread->state = self::STATE_CLOSED;
-                $thread->save();
-                unset($thread);
+            if (count($rows) > 0) {
+                $revision = self::nextRevision();
+                foreach ($rows as $row) {
+                    $thread = Thread::createFromDbInfo($row);
+                    $thread->lastRevision = $revision;
+                    $thread->modified = $now;
+                    $thread->closed = $now;
+                    $thread->state = self::STATE_CLOSED;
+                    $thread->save(false);
+                    unset($thread);
+                }
             }
 
             // Release the lock
