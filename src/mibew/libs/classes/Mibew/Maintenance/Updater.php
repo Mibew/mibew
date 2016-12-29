@@ -428,7 +428,7 @@ class Updater
         }
 
         try {
-            // Alter locale table.
+            // Alter plugin table.
             $db->query('ALTER TABLE {plugin} ADD COLUMN initialized tinyint NOT NULL DEFAULT 0 AFTER enabled');
         } catch (\Exception $e) {
             $this->errors[] = getlocal('Cannot update tables: {0}', $e->getMessage());
