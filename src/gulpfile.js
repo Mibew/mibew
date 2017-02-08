@@ -341,7 +341,7 @@ gulp.task('pack-sources', ['composer-install', 'bower-install'], function() {
             .pipe(tar('mibew-' + version + '.tar'))
             .pipe(gzip())
     )
-    .pipe(chmod(0644))
+    .pipe(chmod(644))
     .pipe(gulp.dest('release'));
 });
 
