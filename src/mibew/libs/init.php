@@ -44,6 +44,10 @@ require_once(MIBEW_FS_ROOT . '/libs/common/request.php');
 require_once(MIBEW_FS_ROOT . '/libs/common/response.php');
 require_once(MIBEW_FS_ROOT . '/libs/common/string.php');
 
+if (count($configs['trusted_proxies']) > 0) {
+    \Symfony\Component\HttpFoundation\Request::setTrustedProxies($configs['trusted_proxies']);
+}
+
 // We need to get some info from the request. Use symfony wrapper because it's
 // the simplest way.
 $tmp_request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();

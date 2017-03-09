@@ -59,6 +59,12 @@ function load_system_configs()
             $configs['plugins'] = array();
         }
 
+        // Trusted proxies section should exists too. The logic behind "empty" statement is
+        // the same as above.
+        if (empty($configs['trusted_proxies'])) {
+            $configs['trusted_proxies'] = array();
+        }
+
         // Database section should exists too. Also it should have an appropriate structure.
         if (empty($configs['database'])) {
             $configs['database'] = array();

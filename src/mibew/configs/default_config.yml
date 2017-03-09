@@ -77,6 +77,15 @@ default_locale: en
 # http://php.net/manual/en/timezones.php
 timezone: ""
 
+# List of proxy's IP Mibew should trust. You should set this option if you use
+# Mibew with a load balancer or behind a proxy.
+trusted_proxies: []
+# Here is an example of what values this option can take:
+# trusted_proxies:
+#     - 127.0.0.1
+#     - ::1
+#     - 10.0.0.0/8
+
 # Plugins
 plugins: []
 
