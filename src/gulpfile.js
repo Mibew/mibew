@@ -186,47 +186,74 @@ gulp.task('chat-styles', ['chat-styles-handlebars', 'chat-styles-js'], function(
 
 // Compile and concatenate handlebars files for all chat styles.
 gulp.task('chat-styles-handlebars', function() {
-    // TODO: Process all available styles, not only the default one.
-    var stylePath = config.chatStylesPath + '/default';
-
-    return gulp.src(stylePath + '/templates_src/client_side/**/*.handlebars')
-        .pipe(handlebars({
-            // Use specific version of Handlebars.js
-            handlebars: handlebarsEngine
-        }))
-        .pipe(wrapHandlebarsTemplate())
-        .pipe(concat('templates.js'))
-        .pipe(uglify({preserveComments: 'some'}))
-        .pipe(header(config.compiledTemplatesHeader))
-        .pipe(gulp.dest(stylePath + '/templates_compiled/client_side'));
+    var promises = [];
+    fs.readdir(config.chatStylesPath, function(err, list){
+        if(err) return done(err);
+        list.filter(function(path){
+            return fs.lstatSync(config.chatStylesPath + "/" + path).isDirectory();
+        }).map(function(dir){
+            promises.push(new Promise(function(resolve, reject){
+                var pipeline = gulp.src(config.chatStylesPath + '/' + dir + '/templates_src/client_side/**/*.handlebars')
+                  .pipe(handlebars({
+                      // Use specific version of Handlebars.js
+                      handlebars: handlebarsEngine
+                  }))
+                  .pipe(wrapHandlebarsTemplate())
+                  .pipe(concat('templates.js'))
+                  .pipe(uglify({preserveComments: 'some'}))
+                  .pipe(header(config.compiledTemplatesHeader))
+                  .pipe(gulp.dest(config.chatStylesPath + '/' + dir + '/templates_compiled/client_side'));
+                pipeline.on('end', resolve);
+                pipeline.on('error', reject);
+            }));
+        });
+    });
 });
 
 // Compile and concatenate js files for all chat styles.
 gulp.task('chat-styles-js', function() {
-    // TODO: Process all available styles, not only the default one.
-    var stylePath = config.chatStylesPath + '/default';
-
-    return gulp.src(stylePath + '/js/source/**/*.js')
-        .pipe(concat('scripts.js'))
-        .pipe(uglify({preserveComments: 'some'}))
-        .pipe(gulp.dest(stylePath + '/js/compiled'));
+    var promises = [];
+    fs.readdir(config.chatStylesPath, function(err, list){
+        if(err) return done(err);
+        list.filter(function(path){
+            return fs.lstatSync(config.chatStylesPath + "/" + path).isDirectory();
+        }).map(function(dir){
+            promises.push(new Promise(function(resolve, reject){
+                var pipeline = gulp.src(config.chatStylesPath + '/' + dir + '/js/source/**/*.js')
+                  .pipe(concat('scripts.js'))
+                  .pipe(uglify({preserveComments: 'some'}))
+                  .pipe(gulp.dest(config.chatStylesPath + '/' + dir + '/js/compiled'));
+                pipeline.on('end', resolve);
+                pipeline.on('error', reject);
+            }));
+        });
+    });
 });
 
 // Performs all job related with pages styles.
 gulp.task('page-styles', function() {
-    // TODO: Process all available styles, not only the default one.
-    var stylePath = config.pageStylesPath + '/default';
-
-    return gulp.src(stylePath + '/templates_src/client_side/**/*.handlebars')
-        .pipe(handlebars({
-            // Use specific version of Handlebars.js
-            handlebars: handlebarsEngine
-        }))
-        .pipe(wrapHandlebarsTemplate())
-        .pipe(concat('templates.js'))
-        .pipe(uglify({preserveComments: 'some'}))
-        .pipe(header(config.compiledTemplatesHeader))
-        .pipe(gulp.dest(stylePath + '/templates_compiled/client_side'));
+    var promises = [];
+    fs.readdir(config.pageStylesPath, function(err, list){
+        if(err) return done(err);
+        list.filter(function(path){
+            return fs.lstatSync(config.pageStylesPath + "/" + path).isDirectory();
+        }).map(function(dir){
+            promises.push(new Promise(function(resolve, reject){
+                var pipeline = gulp.src(config.pageStylesPath + '/' + dir + '/templates_src/client_side/**/*.handlebars')
+                    .pipe(handlebars({
+                // Use specific version of Handlebars.js
+                        handlebars: handlebarsEngine
+                    }))
+                    .pipe(wrapHandlebarsTemplate())
+                    .pipe(concat('templates.js'))
+                    .pipe(uglify({preserveComments: 'some'}))
+                    .pipe(header(config.compiledTemplatesHeader))
+                    .pipe(gulp.dest(config.pageStylesPath + '/' + dir + '/templates_compiled/client_side'));
+                pipeline.on('end', resolve);
+                pipeline.on('error', reject);
+            }));
+        });
+    });
 });
 
 // Generate .pot files based on the sources
