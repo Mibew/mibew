@@ -256,6 +256,13 @@ gulp.task('page-styles', function() {
     });
 });
 
+// Watch styles
+gulp.task('watch', [], function(){
+  gulp.watch(config.pageStylesPath + '/**/*.handlebars', ['page-styles']);
+  gulp.watch(config.chatStylesPath + '/**/js/source/**/*.js', ['chat-styles-js']);
+  gulp.watch(config.chatStylesPath + '/**/*.handlebars', ['chat-styles-handlebars']);
+});
+
 // Generate .pot files based on the sources
 gulp.task('generate-pot', function() {
     return eventStream.merge(
