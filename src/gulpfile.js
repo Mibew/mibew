@@ -189,7 +189,7 @@ gulp.task('chat-styles-handlebars', function() {
     fs.readdir(config.chatStylesPath, function(err, list) {
         if(err) {
             throw err;
-	    }
+        }
 
         list.filter(function(path) {
             return fs.lstatSync(config.chatStylesPath + "/" + path).isDirectory();
@@ -212,8 +212,8 @@ gulp.task('chat-styles-handlebars', function() {
 gulp.task('chat-styles-js', function() {
     fs.readdir(config.chatStylesPath, function(err, list) {
         if(err) {
-	        throw err;
-	    }
+            throw err;
+        }
 
         list.filter(function(path) {
             return fs.lstatSync(config.chatStylesPath + "/" + path).isDirectory();
@@ -230,8 +230,8 @@ gulp.task('chat-styles-js', function() {
 gulp.task('page-styles', function() {
     fs.readdir(config.pageStylesPath, function(err, list) {
         if(err) {
-	        throw err;
-	    }
+            throw err;
+        }
 
         list.filter(function(path) {
             return fs.lstatSync(config.pageStylesPath + "/" + path).isDirectory();
