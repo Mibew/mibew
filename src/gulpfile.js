@@ -193,21 +193,17 @@ gulp.task('chat-styles-handlebars', function() {
 
         list.filter(function(path) {
             return fs.lstatSync(config.chatStylesPath + "/" + path).isDirectory();
-        }).map(function(dir) {
-            return new Promise(function(resolve, reject) {
-                gulp.src(config.chatStylesPath + '/' + dir + '/templates_src/client_side/**/*.handlebars')
-                    .pipe(handlebars({
-                        // Use specific version of Handlebars.js
-                        handlebars: handlebarsEngine
-                    }))
-                    .pipe(wrapHandlebarsTemplate())
-                    .pipe(concat('templates.js'))
-                    .pipe(uglify({preserveComments: 'some'}))
-                    .pipe(header(config.compiledTemplatesHeader))
-                    .pipe(gulp.dest(config.chatStylesPath + '/' + dir + '/templates_compiled/client_side'))
-                    .on('end', resolve)
-                    .on('error', reject);
-            });
+        }).forEach(function(dir) {
+            gulp.src(config.chatStylesPath + '/' + dir + '/templates_src/client_side/**/*.handlebars')
+                .pipe(handlebars({
+                    // Use specific version of Handlebars.js
+                    handlebars: handlebarsEngine
+                }))
+                .pipe(wrapHandlebarsTemplate())
+                .pipe(concat('templates.js'))
+                .pipe(uglify({preserveComments: 'some'}))
+                .pipe(header(config.compiledTemplatesHeader))
+                .pipe(gulp.dest(config.chatStylesPath + '/' + dir + '/templates_compiled/client_side'));
         });
     });
 });
@@ -221,15 +217,11 @@ gulp.task('chat-styles-js', function() {
 
         list.filter(function(path) {
             return fs.lstatSync(config.chatStylesPath + "/" + path).isDirectory();
-        }).map(function(dir) {
-            return new Promise(function(resolve, reject) {
-                gulp.src(config.chatStylesPath + '/' + dir + '/js/source/**/*.js')
-                    .pipe(concat('scripts.js'))
-                    .pipe(uglify({preserveComments: 'some'}))
-                    .pipe(gulp.dest(config.chatStylesPath + '/' + dir + '/js/compiled'))
-                    .on('end', resolve)
-                    .on('error', reject);
-            });
+        }).forEach(function(dir) {
+            gulp.src(config.chatStylesPath + '/' + dir + '/js/source/**/*.js')
+                .pipe(concat('scripts.js'))
+                .pipe(uglify({preserveComments: 'some'}))
+                .pipe(gulp.dest(config.chatStylesPath + '/' + dir + '/js/compiled'));
         });
     });
 });
@@ -243,21 +235,17 @@ gulp.task('page-styles', function() {
 
         list.filter(function(path) {
             return fs.lstatSync(config.pageStylesPath + "/" + path).isDirectory();
-        }).map(function(dir) {
-            return new Promise(function(resolve, reject) {
-                gulp.src(config.pageStylesPath + '/' + dir + '/templates_src/client_side/**/*.handlebars')
-                    .pipe(handlebars({
-                        // Use specific version of Handlebars.js
-                        handlebars: handlebarsEngine
-                    }))
-                    .pipe(wrapHandlebarsTemplate())
-                    .pipe(concat('templates.js'))
-                    .pipe(uglify({preserveComments: 'some'}))
-                    .pipe(header(config.compiledTemplatesHeader))
-                    .pipe(gulp.dest(config.pageStylesPath + '/' + dir + '/templates_compiled/client_side'))
-                    .on('end', resolve)
-                    .on('error', reject);
-            });
+        }).forEach(function(dir) {
+            gulp.src(config.pageStylesPath + '/' + dir + '/templates_src/client_side/**/*.handlebars')
+                .pipe(handlebars({
+                    // Use specific version of Handlebars.js
+                    handlebars: handlebarsEngine
+                }))
+                .pipe(wrapHandlebarsTemplate())
+                .pipe(concat('templates.js'))
+                .pipe(uglify({preserveComments: 'some'}))
+                .pipe(header(config.compiledTemplatesHeader))
+                .pipe(gulp.dest(config.pageStylesPath + '/' + dir + '/templates_compiled/client_side'));
         });
     });
 });
