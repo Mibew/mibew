@@ -266,8 +266,8 @@ class UsersProcessor extends ClientSideProcessor implements AuthenticationManage
             );
 
             // Get user ip
-            if (preg_match("/(\\d+\\.\\d+\\.\\d+\\.\\d+)/", $thread->remote, $matches) != 0) {
-                $user_ip = $matches[1];
+            if (preg_match_all("/(\\d+\\.\\d+\\.\\d+\\.\\d+)/", $thread->remote, $matches) != 0) {
+                $user_ip = end($matches[1]);
             } else {
                 $user_ip = false;
             }
