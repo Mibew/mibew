@@ -186,74 +186,56 @@ gulp.task('chat-styles', ['chat-styles-handlebars', 'chat-styles-js'], function(
 
 // Compile and concatenate handlebars files for all chat styles.
 gulp.task('chat-styles-handlebars', function() {
-    var promises = [];
-    fs.readdir(config.chatStylesPath, function(err, list){
-        if(err) return done(err);
-        list.filter(function(path){
-            return fs.lstatSync(config.chatStylesPath + "/" + path).isDirectory();
-        }).map(function(dir){
-            promises.push(new Promise(function(resolve, reject){
-                var pipeline = gulp.src(config.chatStylesPath + '/' + dir + '/templates_src/client_side/**/*.handlebars')
-                  .pipe(handlebars({
-                      // Use specific version of Handlebars.js
-                      handlebars: handlebarsEngine
-                  }))
-                  .pipe(wrapHandlebarsTemplate())
-                  .pipe(concat('templates.js'))
-                  .pipe(uglify({preserveComments: 'some'}))
-                  .pipe(header(config.compiledTemplatesHeader))
-                  .pipe(gulp.dest(config.chatStylesPath + '/' + dir + '/templates_compiled/client_side'));
-                pipeline.on('end', resolve);
-                pipeline.on('error', reject);
-            }));
+    return Promise.all(getChildDirs(config.chatStylesPath).map(function (dir) {
+        return new Promise(function(resolve, reject){
+            gulp.src(config.chatStylesPath + '/' + dir + '/templates_src/client_side/**/*.handlebars')
+                .pipe(handlebars({
+                    // Use specific version of Handlebars.js
+                    handlebars: handlebarsEngine
+                }))
+                .pipe(wrapHandlebarsTemplate())
+                .pipe(concat('templates.js'))
+                .pipe(uglify({preserveComments: 'some'}))
+                .pipe(header(config.compiledTemplatesHeader))
+                .pipe(gulp.dest(config.chatStylesPath + '/' + dir + '/templates_compiled/client_side'))
+                .on('end', resolve)
+                .on('error', reject);
         });
-    });
+    }));
 });
 
 // Compile and concatenate js files for all chat styles.
 gulp.task('chat-styles-js', function() {
-    var promises = [];
-    fs.readdir(config.chatStylesPath, function(err, list){
-        if(err) return done(err);
-        list.filter(function(path){
-            return fs.lstatSync(config.chatStylesPath + "/" + path).isDirectory();
-        }).map(function(dir){
-            promises.push(new Promise(function(resolve, reject){
-                var pipeline = gulp.src(config.chatStylesPath + '/' + dir + '/js/source/**/*.js')
-                  .pipe(concat('scripts.js'))
-                  .pipe(uglify({preserveComments: 'some'}))
-                  .pipe(gulp.dest(config.chatStylesPath + '/' + dir + '/js/compiled'));
-                pipeline.on('end', resolve);
-                pipeline.on('error', reject);
-            }));
+    return Promise.all(getChildDirs(config.chatStylesPath).map(function (dir) {
+        return new Promise(function(resolve, reject){
+            gulp.src(config.chatStylesPath + '/' + dir + '/js/source/**/*.js')
+                .pipe(concat('scripts.js'))
+                .pipe(uglify({preserveComments: 'some'}))
+                .pipe(gulp.dest(config.chatStylesPath + '/' + dir + '/js/compiled'))
+                .on('end', resolve)
+                .on('error', reject);
         });
-    });
+    }));
 });
 
 // Performs all job related with pages styles.
 gulp.task('page-styles', function() {
-    var promises = [];
-    fs.readdir(config.pageStylesPath, function(err, list){
-        if(err) return done(err);
-        list.filter(function(path){
-            return fs.lstatSync(config.pageStylesPath + "/" + path).isDirectory();
-        }).map(function(dir){
-            promises.push(new Promise(function(resolve, reject){
-                var pipeline = gulp.src(config.pageStylesPath + '/' + dir + '/templates_src/client_side/**/*.handlebars')
-                    .pipe(handlebars({
-                // Use specific version of Handlebars.js
-                        handlebars: handlebarsEngine
-                    }))
-                    .pipe(wrapHandlebarsTemplate())
-                    .pipe(concat('templates.js'))
-                    .pipe(uglify({preserveComments: 'some'}))
-                    .pipe(header(config.compiledTemplatesHeader))
-                    .pipe(gulp.dest(config.pageStylesPath + '/' + dir + '/templates_compiled/client_side'));
-                pipeline.on('end', resolve);
-                pipeline.on('error', reject);
-            }));
+    return Promise.all(getChildDirs(config.pageStylesPath).map(function (dir) {
+        return new Promise(function(resolve, reject){
+            gulp.src(config.pageStylesPath + '/' + dir + '/templates_src/client_side/**/*.handlebars')
+                .pipe(handlebars({
+                    // Use specific version of Handlebars.js
+                    handlebars: handlebarsEngine
+                }))
+                .pipe(wrapHandlebarsTemplate())
+                .pipe(concat('templates.js'))
+                .pipe(uglify({preserveComments: 'some'}))
+                .pipe(header(config.compiledTemplatesHeader))
+                .pipe(gulp.dest(config.pageStylesPath + '/' + dir + '/templates_compiled/client_side'))
+                .on('end', resolve)
+                .on('error', reject);
         });
-    });
+    }));
 });
 
 // Watch styles
@@ -507,5 +489,17 @@ var xgettextHandlebars = function() {
         this.push(file);
 
         callback();
+    });
+}
+
+/**
+ * Retrieves list of all dirs which are placed in the specified one.
+ *
+ * @param {String} srcDir A dir where to search.
+ * @returns {String[]}
+ */
+var getChildDirs = function(srcDir) {
+    return fs.readdirSync(srcDir).filter(function (dir) {
+        return fs.lstatSync(config.chatStylesPath + '/' + dir).isDirectory();
     });
 }
