@@ -186,56 +186,65 @@ gulp.task('chat-styles', ['chat-styles-handlebars', 'chat-styles-js'], function(
 
 // Compile and concatenate handlebars files for all chat styles.
 gulp.task('chat-styles-handlebars', function() {
-    return Promise.all(getChildDirs(config.chatStylesPath).map(function (dir) {
-        return new Promise(function(resolve, reject){
-            gulp.src(config.chatStylesPath + '/' + dir + '/templates_src/client_side/**/*.handlebars')
-                .pipe(handlebars({
-                    // Use specific version of Handlebars.js
-                    handlebars: handlebarsEngine
-                }))
-                .pipe(wrapHandlebarsTemplate())
-                .pipe(concat('templates.js'))
-                .pipe(uglify({preserveComments: 'some'}))
-                .pipe(header(config.compiledTemplatesHeader))
-                .pipe(gulp.dest(config.chatStylesPath + '/' + dir + '/templates_compiled/client_side'))
-                .on('end', resolve)
-                .on('error', reject);
+    return getChildDirs(config.chatStylesPath)
+        .then(function (dirs) {
+            return Promise.all(dirs.map(function (dir) {
+                return new Promise(function(resolve, reject){
+                    gulp.src(config.chatStylesPath + '/' + dir + '/templates_src/client_side/**/*.handlebars')
+                        .pipe(handlebars({
+                            // Use specific version of Handlebars.js
+                            handlebars: handlebarsEngine
+                        }))
+                        .pipe(wrapHandlebarsTemplate())
+                        .pipe(concat('templates.js'))
+                        .pipe(uglify({preserveComments: 'some'}))
+                        .pipe(header(config.compiledTemplatesHeader))
+                        .pipe(gulp.dest(config.chatStylesPath + '/' + dir + '/templates_compiled/client_side'))
+                        .on('end', resolve)
+                        .on('error', reject);
+                });
+            }));
         });
-    }));
 });
 
 // Compile and concatenate js files for all chat styles.
 gulp.task('chat-styles-js', function() {
-    return Promise.all(getChildDirs(config.chatStylesPath).map(function (dir) {
-        return new Promise(function(resolve, reject){
-            gulp.src(config.chatStylesPath + '/' + dir + '/js/source/**/*.js')
-                .pipe(concat('scripts.js'))
-                .pipe(uglify({preserveComments: 'some'}))
-                .pipe(gulp.dest(config.chatStylesPath + '/' + dir + '/js/compiled'))
-                .on('end', resolve)
-                .on('error', reject);
+    return getChildDirs(config.chatStylesPath)
+        .then(function (dirs) {
+            return Promise.all(dirs.map(function (dir) {
+                return new Promise(function(resolve, reject){
+                    gulp.src(config.chatStylesPath + '/' + dir + '/js/source/**/*.js')
+                        .pipe(concat('scripts.js'))
+                        .pipe(uglify({preserveComments: 'some'}))
+                        .pipe(gulp.dest(config.chatStylesPath + '/' + dir + '/js/compiled'))
+                        .on('end', resolve)
+                        .on('error', reject);
+                });
+            }));
         });
-    }));
 });
 
 // Performs all job related with pages styles.
 gulp.task('page-styles', function() {
-    return Promise.all(getChildDirs(config.pageStylesPath).map(function (dir) {
-        return new Promise(function(resolve, reject){
-            gulp.src(config.pageStylesPath + '/' + dir + '/templates_src/client_side/**/*.handlebars')
-                .pipe(handlebars({
-                    // Use specific version of Handlebars.js
-                    handlebars: handlebarsEngine
-                }))
-                .pipe(wrapHandlebarsTemplate())
-                .pipe(concat('templates.js'))
-                .pipe(uglify({preserveComments: 'some'}))
-                .pipe(header(config.compiledTemplatesHeader))
-                .pipe(gulp.dest(config.pageStylesPath + '/' + dir + '/templates_compiled/client_side'))
-                .on('end', resolve)
-                .on('error', reject);
+    return getChildDirs(config.pageStylesPath)
+        .then(function (dirs) {
+            return Promise.all(dirs.map(function (dir) {
+                return new Promise(function(resolve, reject){
+                    gulp.src(config.pageStylesPath + '/' + dir + '/templates_src/client_side/**/*.handlebars')
+                        .pipe(handlebars({
+                            // Use specific version of Handlebars.js
+                            handlebars: handlebarsEngine
+                        }))
+                        .pipe(wrapHandlebarsTemplate())
+                        .pipe(concat('templates.js'))
+                        .pipe(uglify({preserveComments: 'some'}))
+                        .pipe(header(config.compiledTemplatesHeader))
+                        .pipe(gulp.dest(config.pageStylesPath + '/' + dir + '/templates_compiled/client_side'))
+                        .on('end', resolve)
+                        .on('error', reject);
+                });
+            }));
         });
-    }));
 });
 
 // Watch styles
@@ -496,10 +505,35 @@ var xgettextHandlebars = function() {
  * Retrieves list of all dirs which are placed in the specified one.
  *
  * @param {String} srcDir A dir where to search.
- * @returns {String[]}
+ * @returns Promise A promise which will be resolved with list of child dirs or
+ *   rejected with the occured error.
  */
 var getChildDirs = function(srcDir) {
-    return fs.readdirSync(srcDir).filter(function (dir) {
-        return fs.lstatSync(config.chatStylesPath + '/' + dir).isDirectory();
+    return (new Promise(function(resolve, reject) {
+        fs.readdir(srcDir, function (err, files) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(files);
+            }
+        });
+    })).then(function (files) {
+        // Replace all the files that are not a directory with nulls.
+        return Promise.all(files.map(function (file) {
+            return new Promise(function (resolve, reject) {
+                fs.lstat(config.chatStylesPath + '/' + file, function (err, stat) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(stat.isDirectory() ? file : null);
+                    }
+                });
+            });
+        }));
+    }).then(function(dirs) {
+        // Remove all the nulls from the array.
+        return dirs.filter(function (dir) {
+            return null !== dir;
+        });
     });
 }
