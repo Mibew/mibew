@@ -52,7 +52,8 @@ Mibew Messenger is licensed under the terms of [Apache License, Version 2.0](htt
 3. [Mibew Google Maps plugin](https://github.com/Mibew/google-maps-plugin)
 4. [Mibew Purge History plugin](https://github.com/Mibew/purge-history-plugin)
 5. [Mibew Real Ban plugin](https://github.com/Mibew/real-ban-plugin)
-6. [Mibew Title Notification plugin](https://github.com/Mibew/title-notification-plugin)
+6. [Mibew Slack plugin](https://github.com/Mibew/mibew_slack)
+7. [Mibew Title Notification plugin](https://github.com/Mibew/title-notification-plugin)
 
 #### Not ready for production use (not stable, broken, obsolete, etc.)
 1. [Mibew Button Refresh plugin](https://github.com/Mibew/button-refresh-plugin)
