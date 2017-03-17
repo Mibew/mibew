@@ -41,14 +41,16 @@ On unix/linux platforms change the owner of /mibew/files/avatar and
 UPDATE
 
 1. Backup your actual installation (i.e. code and database).
-2. Delete all items in your Mibew Messenger directory on the server.
-3. Unpack the archive with the official distrubition in that directory.
-4. Remove install.php file.
-5. Restore configuration (configs/ directory), plugins (plugins/ directory),
+2. Disable all plugins.
+3. Delete all items in your Mibew Messenger directory on the server.
+4. Unpack the archive with the official distrubition in that directory.
+5. Remove install.php file.
+6. Restore configuration (configs/ directory), plugins (plugins/ directory),
    (maybe) custom styles (if you have any), (maybe) additional
    locales (if you use any), and avatars (files/avatar/ directory) from the
    backup you've made at the step 1.
-6. Visit http://<yourdomain>/<path to your Mibew Messenger>/update and follow
+7. Visit http://<yourdomain>/<path to your Mibew Messenger>/update and follow
    the instructions to update the database tables (if needed).
+8. Enable disabled plugins.
 
 
