@@ -581,7 +581,11 @@ function get_remote_host()
     $has_proxy = isset($_SERVER['HTTP_X_FORWARDED_FOR'])
         && $_SERVER['HTTP_X_FORWARDED_FOR'] != $_SERVER['REMOTE_ADDR'];
     if ($has_proxy) {
-        $ext_addr = $_SERVER['REMOTE_ADDR'] . ' (' . $_SERVER['HTTP_X_FORWARDED_FOR'] . ')';
+        $count = 0;
+        $ext_addr = preg_replace('/^([^,]+)(,\s.+)?/', '\\1', $_SERVER['HTTP_X_FORWARDED_FOR'], -1, $count);
+        if ($count > 1) {
+            $ext_addr = $ext_addr . ' (' . $_SERVER['HTTP_X_FORWARDED_FOR'] . ')';
+        }
     }
 
     return isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $ext_addr;
