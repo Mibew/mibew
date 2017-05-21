@@ -572,8 +572,7 @@ function visitor_from_request()
 }
 
 /**
- * @return array Return remote host from active request. contains
- * (user_id string, user_name string)
+ * @return string Return remote host from active request
  */
 function get_remote_host()
 {
