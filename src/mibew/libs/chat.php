@@ -580,11 +580,10 @@ function get_remote_host()
     $has_proxy = isset($_SERVER['HTTP_X_FORWARDED_FOR'])
         && $_SERVER['HTTP_X_FORWARDED_FOR'] != $_SERVER['REMOTE_ADDR'];
     if ($has_proxy) {
-        $count = 0;
-        $ext_addr = preg_replace('/^([^,]+)(,\s.+)?/', '\\1', $_SERVER['HTTP_X_FORWARDED_FOR'], -1, $count);
-        if ($count > 1) {
-            $ext_addr = $ext_addr . ' (' . $_SERVER['HTTP_X_FORWARDED_FOR'] . ')';
-        }
+        $ips = explode(' ', $_SERVER['HTTP_X_FORWARDED_FOR'], 2);
+        $ext_addr = (count($ips) > 1)
+            ? $ips[0] . ' (' . $_SERVER['HTTP_X_FORWARDED_FOR'] . ')'
+            : $ips[0];
     }
 
     return isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $ext_addr;
