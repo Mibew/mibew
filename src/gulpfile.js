@@ -55,9 +55,9 @@ gulp.task('clean', function(callback) {
         config.jsVendorPath,
         config.jsPath + '/compiled/**/*',
         '!' + config.jsPath + '/compiled/.keep',
-        config.chatStylesPath + '/default/templates_compiled/client_side/*.js',
-        config.chatStylesPath + '/default/js/compiled/*.js',
-        config.pageStylesPath + '/default/templates_compiled/client_side/*.js'
+        config.chatStylesPath + '/*/templates_compiled/client_side/*.js',
+        config.chatStylesPath + '/*/js/compiled/*.js',
+        config.pageStylesPath + '/*/templates_compiled/client_side/*.js'
     ], callback);
 });
 
