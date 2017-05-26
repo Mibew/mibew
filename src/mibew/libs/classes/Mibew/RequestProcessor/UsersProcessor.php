@@ -266,11 +266,8 @@ class UsersProcessor extends ClientSideProcessor implements AuthenticationManage
             );
 
             // Get user ip
-            if (preg_match("/(\\d+\\.\\d+\\.\\d+\\.\\d+)/", $thread->remote, $matches) != 0) {
-                $user_ip = $matches[1];
-            } else {
-                $user_ip = false;
-            }
+            $user_ip = preg_replace('/^(\S+)(\s.+)?/', '\\1', $thread->remote);
+            $user_ip = filter_var($user_ip, FILTER_VALIDATE_IP);
 
             // Get thread operartor name
             $next_agent = $thread->nextAgent != 0
@@ -438,11 +435,8 @@ class UsersProcessor extends ClientSideProcessor implements AuthenticationManage
                 $user_agent = get_user_agent_version($details['user_agent']);
 
                 // Get user ip
-                if (preg_match("/(\\d+\\.\\d+\\.\\d+\\.\\d+)/", $details['remote_host'], $matches) != 0) {
-                    $user_ip = $matches[1];
-                } else {
-                    $user_ip = false;
-                }
+                $user_ip = preg_replace('/^(\S+)(\s.+)?/', '\\1', $details['remote_host']);
+                $user_ip = filter_var($user_ip, FILTER_VALIDATE_IP);
 
                 // Get invitation info
                 $row['invited'] = ($row['invitationstate'] == Thread::INVITATION_WAIT);

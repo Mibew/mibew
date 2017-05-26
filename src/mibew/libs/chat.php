@@ -572,8 +572,7 @@ function visitor_from_request()
 }
 
 /**
- * @return array Return remote host from active request. contains
- * (user_id string, user_name string)
+ * @return string Return remote host from active request
  */
 function get_remote_host()
 {
@@ -581,7 +580,10 @@ function get_remote_host()
     $has_proxy = isset($_SERVER['HTTP_X_FORWARDED_FOR'])
         && $_SERVER['HTTP_X_FORWARDED_FOR'] != $_SERVER['REMOTE_ADDR'];
     if ($has_proxy) {
-        $ext_addr = $_SERVER['REMOTE_ADDR'] . ' (' . $_SERVER['HTTP_X_FORWARDED_FOR'] . ')';
+        $ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'], 2);
+        $ext_addr = (count($ips) > 1)
+            ? $ips[0] . ' (' . $_SERVER['HTTP_X_FORWARDED_FOR'] . ')'
+            : $ips[0];
     }
 
     return isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $ext_addr;
