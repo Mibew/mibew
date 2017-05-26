@@ -35,8 +35,7 @@ function load_system_configs()
         if (file_exists(MIBEW_FS_ROOT . '/configs/config.yml')) {
             $parser = new YamlParser();
             $configs = $parser->parse(file_get_contents(MIBEW_FS_ROOT . '/configs/config.yml'));
-        }
-        else {
+        } else {
             $configs = array();
         }
 
