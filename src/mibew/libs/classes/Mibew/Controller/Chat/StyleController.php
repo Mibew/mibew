@@ -52,7 +52,7 @@ class StyleController extends AbstractController
                 $style->getFilesPath() . '/' . $configs['chat']['iframe']['css'],
                 UrlGeneratorInterface::ABSOLUTE_URL
             );
-            $response->setData($css);
+            $response->setData(str_replace("http","https",$css))
             $response->setCallback('Mibew.Utils.loadStyleSheet');
         }
 
