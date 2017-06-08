@@ -704,7 +704,7 @@ class ThreadProcessor extends ClientSideProcessor implements
     /**
      * Process submitted leave message form.
      *
-     * Send message to operator email and create special meil thread.
+     * Send message to operator email and create special mail thread.
      * @param array $args Associative array of arguments. It must contains the
      *   following keys:
      *    - 'threadId': for this function this param equals to null;
