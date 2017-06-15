@@ -127,6 +127,7 @@ class ButtonCodeController extends AbstractController
 
             // Set generator-specific options
             $button_generator->setOption('image', $image);
+            $button_generator->setOption('invitation_style', $invitation_style);
         } else {
             // Make sure locale exists
             if (!$lang || !in_array($lang, $locales_list)) {
