@@ -48,7 +48,12 @@ class Utils
                 '/plugins/*/Mibew/Plugin/*/Plugin.php'
             );
 
-            foreach (glob($pattern) as $plugin_file) {
+            $plugin_files = glob($pattern);
+            if ($plugin_files === FALSE) {
+                // TODO: Maybe one should raise some exception here
+                return $plugins;
+            }
+            foreach ($plugin_files as $plugin_file) {
                 // Build plugin's name and make sure the plugin exists.
                 $parts = array_reverse(explode(DIRECTORY_SEPARATOR, $plugin_file));
                 $plugin_name = $parts[4] . ':' . $parts[1];
