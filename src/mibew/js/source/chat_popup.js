@@ -416,6 +416,7 @@ var Mibew = Mibew || {};
         }
 
         this.iframe.style.display = 'block';
+        this.toggleDiv.style.display = 'block';
         this.iframe.src = url || this.buildChatUrl();
         this.isOpened = true;
     };
