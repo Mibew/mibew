@@ -48,10 +48,15 @@ class StyleController extends AbstractController
         $response = new JsonResponse();
         if ($configs['chat']['iframe']['css']) {
             $generator = $this->getAssetManager()->getUrlGenerator();
-            $css = $generator->generate(
-                $style->getFilesPath() . '/' . $configs['chat']['iframe']['css'],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
+            $css = $request->attributes->get('force_secure') ?
+                    $generator->generateSecure(
+                        $style->getFilesPath() . '/' . $configs['chat']['iframe']['css'],
+                        UrlGeneratorInterface::ABSOLUTE_URL
+                    ) :
+                    $generator->generate(
+                        $style->getFilesPath() . '/' . $configs['chat']['iframe']['css'],
+                        UrlGeneratorInterface::ABSOLUTE_URL
+                    );
             $response->setData($css);
             $response->setCallback('Mibew.Utils.loadStyleSheet');
         }
