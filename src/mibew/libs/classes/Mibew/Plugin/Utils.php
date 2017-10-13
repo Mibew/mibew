@@ -49,7 +49,7 @@ class Utils
             );
 
             $plugin_files = glob($pattern);
-            if ($plugin_files === FALSE) {
+            if ($plugin_files === false) {
                 // TODO: Maybe one should raise some exception here
                 return $plugins;
             }
