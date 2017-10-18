@@ -189,7 +189,7 @@ function setup_leavemessage($name, $email, $group_id, $info, $referrer)
 }
 
 /**
- * Prepare data to dispaly pre-chat survey
+ * Prepare data to display pre-chat survey
  *
  * @param string $name User name
  * @param string $email User email
