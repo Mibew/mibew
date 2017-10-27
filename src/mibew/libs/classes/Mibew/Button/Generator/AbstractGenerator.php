@@ -187,7 +187,7 @@ abstract class AbstractGenerator implements GeneratorInterface
         $style_name = $this->getOption('chat_style');
         if (!$style_name) {
             return $defaults + array(
-                'styleLoader' => $this->generateUrl('chat_user_popup_style'),
+                'styleLoader' =>  $this->generateUrl($this->getOption('force_secure') ? 'chat_user_popup_style_force_secure' : 'chat_user_popup_style') // An ugly way to solve the architecture issue
             );
         }
 
@@ -201,7 +201,7 @@ abstract class AbstractGenerator implements GeneratorInterface
             $defaults
         ) + array(
             'styleLoader' => $this->generateUrl(
-                'chat_user_popup_style',
+                $this->getOption('force_secure') ? 'chat_user_popup_style_force_secure' : 'chat_user_popup_style', // An ugly way to solve the architecture issue
                 array('style' => $style_name)
             ),
         );
@@ -219,6 +219,7 @@ abstract class AbstractGenerator implements GeneratorInterface
             'url' => $this->getChatUrl(),
             'preferIFrame' => $this->getOption('prefer_iframe'),
             'modSecurity' => $this->getOption('mod_security'),
+            'forceSecure' => $this->getOption('force_secure'),
         ) + $this->getPopupStyle();
     }
 

@@ -80,6 +80,15 @@ chat_user_popup_style:
     requirements:
         style: "[0-9A-Za-z_]*"
 
+chat_user_popup_style_force_secure:
+    path: /chat/style/popup/{style}/force_secure
+    defaults:
+        _controller: Mibew\Controller\Chat\StyleController::loadPopupStyleAction
+        style: ""
+        force_secure: on
+    requirements:
+        style: "[0-9A-Za-z_]*"
+
 chat_user_start:
     path: /chat
     defaults:
