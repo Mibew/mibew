@@ -187,7 +187,7 @@ abstract class AbstractGenerator implements GeneratorInterface
         $style_name = $this->getOption('chat_style');
         if (!$style_name) {
             return $defaults + array(
-                'styleLoader' =>  $this->generateUrl($this->getOption('force_secure') ? 'chat_user_popup_style_force_secure' : 'chat_user_popup_style') // An ugly way to solve the architecture issue
+                'styleLoader' =>  $this->generateUrl($this->getOption('force_secure') ? 'chat_user_popup_style_force_secure' : 'chat_user_popup_style'), // An ugly way to solve the architecture issue
             );
         }
 
