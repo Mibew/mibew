@@ -72,7 +72,7 @@ thread:
         useragent: "varchar(255)"
         # Total count of user's messages related with the thread.
         messagecount: "varchar(16)"
-        # ID of the group at Mibew side related with the thread.
+        # ID of the group at Mibew Messenger side related with the thread.
         groupid: "int references {opgroup}(groupid)"
 
 # Contains "by thread" statistics

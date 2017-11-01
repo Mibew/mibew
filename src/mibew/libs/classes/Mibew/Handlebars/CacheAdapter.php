@@ -25,7 +25,7 @@ use Stash\Interfaces\PoolInterface;
 use Stash\Invalidation;
 
 /**
- * An adapter to use Mibew cache with Handlebars template engine.
+ * An adapter to use Mibew Messenger cache with Handlebars template engine.
  */
 class CacheAdapter implements HandlebarsCacheInterface, CacheAwareInterface
 {

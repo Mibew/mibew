@@ -77,8 +77,8 @@ abstract class AbstractController extends BaseAbstractController
      *   method accepts the following options:
      *   - "company": array, a set of company info. See {@link setup_logo()}
      *     for details.
-     *   - "mibewHost": string, a URL which is used as a Mibew host. See
-     *     {@link setup_logo()} for details.
+     *   - "mibewHost": string, a URL which is used as a Mibew Messenger host.
+     *     See {@link setup_logo()} for details.
      *   - "page.title": string, a value which will be used as a page title.
      *   - "startFrom": string, indicates what module should be invoked first.
      *   - "chatOptions": array, (optional) list of chat module options.

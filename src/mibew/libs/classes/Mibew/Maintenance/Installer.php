@@ -28,7 +28,7 @@ use Symfony\Component\Yaml\Parser as YamlParser;
 class Installer
 {
     /**
-     * Minimal PHP version Mibew works with.
+     * Minimal PHP version Mibew Messenger works with.
      */
     const MIN_PHP_VERSION = 50303;
 
@@ -92,7 +92,7 @@ class Installer
     }
 
     /**
-     * Checks if Mibew is already installed or not.
+     * Checks if Mibew Messenger is already installed or not.
      *
      * @return boolean
      */
@@ -440,7 +440,7 @@ class Installer
             return false;
         }
 
-        // Generate Unique ID for Mibew Instance
+        // Generate Unique ID for Mibew Messenger Instance
         try {
             list($count) = $db->query(
                 'SELECT COUNT(*) FROM {config} WHERE vckey = :key',
@@ -508,7 +508,7 @@ class Installer
 
         if ($current_version < self::MIN_PHP_VERSION) {
             $this->errors[] = getlocal(
-                "PHP version is {0}, but Mibew works with {1} and later versions.",
+                "PHP version is {0}, but Mibew Messenger works with {1} and later versions.",
                 array(
                     Utils::formatVersionId($current_version),
                     Utils::formatVersionId(self::MIN_PHP_VERSION)
@@ -627,7 +627,7 @@ class Installer
     /**
      * Gets version of existing database structure.
      *
-     * If Mibew is not installed yet boolean false will be returned.
+     * If Mibew Messenger is not installed yet boolean false will be returned.
      *
      * @return string|boolean Database structure version or boolean false if the
      *   version cannot be determined.

@@ -66,7 +66,7 @@ class ImageGenerator extends TextGenerator
     }
 
     /**
-     * Generates HTML markup for Mibew widget.
+     * Generates HTML markup for Mibew Messenger Widget.
      *
      * @return \Canteen\HTML5\Fragment
      */

@@ -17,7 +17,7 @@
  */
 
 /**
- * @namespace Holds all Mibew functionality
+ * @namespace Holds all Mibew Messenger functionality
  */
 var Mibew = Mibew || {};
 

@@ -125,7 +125,7 @@ class Utils
      *
      * @return array List of environment items. Each key is a string with one of
      * the following value:
-     *  - "mibew": represents Mibew core;
+     *  - "mibew": represents Mibew Messenger Core;
      *  - "php": represents PHP installed in the system;
      *  - "ext-*": represents one of PHP extensions.
      * Each value of the array is version of the item.

@@ -165,7 +165,7 @@ gulp.task('bower-install', function(callback) {
         });
 });
 
-// Compile all JavaScript files of the Mibew Core
+// Compile all JavaScript files of the Mibew Messenger Core
 gulp.task('js', function() {
     return eventStream.merge(
         getClientSideApp('default'),
@@ -380,8 +380,8 @@ gulp.task('prepare-release', function(callback) {
     );
 });
 
-// Prepares ready to use development version of Mibew without packing or
-// validating it.
+// Prepares ready to use development version of Mibew Messenger without packing
+// or validating it.
 gulp.task('rebuild', function(callback) {
     runSequence(
         'clean',

@@ -102,7 +102,8 @@ class Utils
     }
 
     /**
-     * Generates random unique 64 characters length ID for Mibew instance.
+     * Generates random unique 64 characters length ID for Mibew Messenger
+     * instance.
      *
      * WARNING: This ID should not be used for any security/cryptographic. If
      * you need an ID for such purpose you have to use PHP's

@@ -46,9 +46,10 @@ Options +FollowSymLinks
 </IfModule>
 
 <IfModule !mod_rewrite.c>
-    # There is no mod_rewrite in the system. For the root Mibew directory
-    # index_fallback.php should be loaded first to activate old-fashioned URLs.
-    # For all other directories index.php is just a directory index file.
+    # There is no mod_rewrite in the system. For the root Mibew Messenger
+    # directory index_fallback.php should be loaded first to activate
+    # old-fashioned URLs. For all other directories index.php is just a
+    # directory index file.
     DirectoryIndex index_fallback.php index.php
 </IfModule>
 

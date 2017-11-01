@@ -20,7 +20,7 @@
 namespace Mibew\API\Interaction;
 
 /**
- * Implements Mibew Core - Mibew Chat Window interaction
+ * Implements Mibew Messenger Core - Mibew Messenger Chat Window interaction
  */
 class ChatInteraction extends AbstractInteraction
 {
