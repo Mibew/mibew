@@ -52,7 +52,6 @@ function get_by_date_statistics($start, $end)
         . "FROM {threadstatistics} s "
         . "WHERE s.date >= :start "
             . "AND s.date < :end "
-        . "GROUP BY DATE(FROM_UNIXTIME(date)) "
         . "ORDER BY s.date DESC"),
         array(
             ':start' => $start,
@@ -63,8 +62,7 @@ function get_by_date_statistics($start, $end)
 
     // Get statistics aggregated for all accessed interval
     $total = $db->query(
-        ("SELECT DATE(FROM_UNIXTIME(date)) AS date, "
-            . "SUM(threads) AS threads, "
+        ("SELECT SUM(threads) AS threads, "
             . "SUM(missedthreads) AS missedthreads, "
             . "SUM(sentinvitations) AS sentinvitations, "
             . "SUM(acceptedinvitations) AS acceptedinvitations, "
@@ -116,7 +114,7 @@ function get_by_operator_statistics($start, $end)
         . "WHERE s.operatorid = o.operatorid "
             . "AND s.date >= :start "
             . "AND s.date < :end "
-        . "GROUP BY s.operatorid"),
+        . "GROUP BY s.operatorid, o.vclocalename"),
         array(
             ':start' => $start,
             ':end' => $end,

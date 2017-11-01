@@ -20,4 +20,4 @@
 // Force the user to specify the entry point. This should be done only when
 // mod_rewrite is not used by apache.
 header('HTTP/1.0 301 Moved Permanently');
-header('Location: index.php/');
+header('Location: index.php');
