@@ -89,7 +89,7 @@ trusted_proxies: []
 # Plugins
 plugins: []
 
-## Exapmle of plugins configuration
+## Example of plugins configuration
 # plugins:
 #     "VendorName:PluginName":
 #         weight: 100
