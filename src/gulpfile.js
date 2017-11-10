@@ -25,9 +25,10 @@ var fs = require('fs'),
     xgettext = require('gulp-xgettext'),
     concatPo = require('gulp-concat-po'),
     rename = require('gulp-rename'),
-    eslint = require('gulp-eslint');
+    eslint = require('gulp-eslint'),
+    mkdirp = require('mkdirp');
 
-// Set global configs.
+// Set global configs
 var config = {
     mibewPath: 'mibew',
     configsPath: 'mibew/configs',
@@ -39,17 +40,22 @@ var config = {
     jsPath: 'mibew/js',
     chatStylesPath: 'mibew/styles/chats',
     pageStylesPath: 'mibew/styles/pages',
+    i18nPath: 'i18n',
+    i18nPrefix: 'mibew-i18n-',
+    releasePath: 'release',
     compiledTemplatesHeader: fs.readFileSync('tools/compiled_templates_header.txt'),
     getComposerUrl: 'https://getcomposer.org/installer',
     phpBin: 'php -d "suhosin.executor.include.whitelist = phar" -d "memory_limit=512M"',
-    package: require('./composer.json')
+    package: require('./composer.json'),
+    msginit: 'msginit',
+    msgcat: 'msgcat'
 }
-
+config.i18nSuffix = '-' + config.package.version + '-' + strftime('%Y%m%d');
 
 // Cleans all built files
 gulp.task('clean', function(callback) {
     del([
-        'release',
+        config.releasePath,
         'composer.lock',
         config.phpVendorPath,
         config.jsVendorPath,
@@ -61,7 +67,7 @@ gulp.task('clean', function(callback) {
     ], callback);
 });
 
-// Checks all PHP files with PHP Code Sniffer.
+// Checks all PHP files with PHP Code Sniffer
 gulp.task('phpcs', ['composer-install-dev'], function() {
     return gulp.src([
         config.mibewPath + '/**/*.php',
@@ -84,7 +90,7 @@ gulp.task('phpcs', ['composer-install-dev'], function() {
     .pipe(phpcs.reporter('fail'));
 });
 
-// Checks all JavaScript Source files with ESLint.
+// Checks all JavaScript Source files with ESLint
 gulp.task('eslint', function() {
     return gulp.src(config.jsPath + '/source/**/*.js')
         .pipe(eslint())
@@ -189,7 +195,7 @@ gulp.task('chat-styles-handlebars', function() {
     return getChildDirs(config.chatStylesPath)
         .then(function (dirs) {
             return Promise.all(dirs.map(function (dir) {
-                return new Promise(function(resolve, reject){
+                return new Promise(function(resolve, reject) {
                     gulp.src(config.chatStylesPath + '/' + dir + '/templates_src/client_side/**/*.handlebars')
                         .pipe(handlebars({
                             // Use specific version of Handlebars.js
@@ -212,7 +218,7 @@ gulp.task('chat-styles-js', function() {
     return getChildDirs(config.chatStylesPath)
         .then(function (dirs) {
             return Promise.all(dirs.map(function (dir) {
-                return new Promise(function(resolve, reject){
+                return new Promise(function(resolve, reject) {
                     gulp.src(config.chatStylesPath + '/' + dir + '/js/source/**/*.js')
                         .pipe(concat('scripts.js'))
                         .pipe(uglify({preserveComments: 'some'}))
@@ -291,7 +297,7 @@ gulp.task('generate-pot', function() {
         ], {base: config.mibewPath})
             .pipe(xgettextHandlebars())
     )
-    .pipe(concatPo('translation.pot', {
+    .pipe(concatPo(config.i18nPrefix + 'translation' + config.i18nSuffix + '.pot', {
         headers: {
             'Project-Id-Version': 'Mibew Messenger ' + config.package.version,
             'Report-Msgid-Bugs-To': config.package.support.email,
@@ -302,11 +308,104 @@ gulp.task('generate-pot', function() {
             'Content-Type': 'text/plain; charset=UTF-8'
         }
     }))
-    .pipe(gulp.dest('release'));
+    .pipe(gulp.dest(config.releasePath));
+});
+
+gulp.task('generate-tmp-po', ['generate-pot'], function(callback) {
+    return exec(config.msginit + ' --no-translator --no-wrap -i ' + config.releasePath + '/' + config.i18nPrefix + 'translation' + config.i18nSuffix + '.pot' + ' -l en -o ' + config.releasePath + '/translation.po', function(error, stdout, stderr) {
+        callback(error ? stderr : null);
+    });
+});
+
+gulp.task('generate-pos', ['generate-tmp-po'], function(callback) {
+
+    return getChildDirs(config.i18nPath + '/translations')
+       .then(function (dirs) {
+            return Promise.all(dirs.map(function (dir) {
+                return new Promise(function(resolve, reject) {
+                    mkdirp(config.releasePath + '/' + dir, function (error) {
+                        if (error) {
+                            reject(error);
+                        }
+                    });
+                    exec(config.msgcat + ' ' + config.i18nPath + '/translations/' + dir + '/translation.po ' + config.releasePath + '/translation.po --no-location --no-wrap --use-first -o ' + config.releasePath + '/' + dir + '/translation.po', function(error, stdout, stderr) {
+                        if (error) {
+                            reject(error);
+                        }
+                    });
+
+                    var sources = [
+                        config.i18nPath + '/translations/' + dir + '/**/*',
+                        '!' + config.i18nPath + '/translations/' + dir + '/translation.po'
+                    ];
+
+                    gulp.src(sources)
+                        .pipe(gulp.dest(config.releasePath + '/' + dir))
+                        .on('error', reject)
+                        .on('end', resolve);
+
+                });
+            }));
+    });
+});
+
+gulp.task('pack-i18n', function(callback) {
+        return getChildDirs(config.i18nPath + '/translations')
+           .then(function (dirs) {
+                return Promise.all(dirs.map(function (dir) {
+                    return new Promise(function(resolve, reject) {
+
+                    var srcOptions = {
+                        base: config.releasePath
+                    };
+
+                    eventStream.merge(
+                        gulp.src(config.releasePath + '/' + dir + '/**/*', srcOptions)
+                            .pipe(zip(config.i18nPrefix + dir + config.i18nSuffix + '.zip')),
+                        gulp.src(config.releasePath + '/' + dir + '/**/*', srcOptions)
+                            .pipe(tar(config.i18nPrefix + dir + config.i18nSuffix + '.tar'))
+                            .pipe(gzip())
+                    )
+                    .pipe(chmod(644))
+                    .pipe(gulp.dest(config.releasePath))
+                    .on('error', reject)
+                    .on('end', resolve);
+
+                    });
+                }));
+            });
+
+});
+
+
+gulp.task('clean-tmp-po', function() {
+    return del([config.releasePath + '/translation.po']);
+});
+
+gulp.task('clean-tmp-i18n-files', function() {
+    return del([config.releasePath + '/**/*',
+                '!' + config.releasePath + '/*.zip',
+                '!' + config.releasePath + '/*.tar.gz',
+                '!' + config.releasePath + '/*.pot'
+    ]);
+});
+
+gulp.task('prepare-i18n-release', function(callback) {
+    runSequence( 'clean-tmp-po',
+                 'generate-pos',
+                 'pack-i18n',
+                 'clean-tmp-i18n-files',
+                 callback
+    );
 });
 
 // Pack sources to .zip and .tar.gz archives.
 gulp.task('pack-sources', ['composer-install', 'bower-install'], function() {
+    gulp.src(config.mibewPath + '/locales/en/translation.po')
+        .pipe(gulp.dest('.'));
+    gulp.src(config.releasePath + '/translation.po')
+        .pipe(gulp.dest(config.mibewPath + '/locales/en/'));
+
     var sources = [
         config.mibewPath + '/**/*',
         // Exclude user's config
@@ -368,15 +467,24 @@ gulp.task('pack-sources', ['composer-install', 'bower-install'], function() {
             .pipe(gzip())
     )
     .pipe(chmod(644))
-    .pipe(gulp.dest('release'));
+    .pipe(gulp.dest(config.releasePath));
+
+});
+
+gulp.task('post-pack-clean', function(callback) {
+    gulp.src('translation.po')
+        .pipe(gulp.dest(config.mibewPath + '/locales/en/'));
+
+    del(['translation.po', config.releasePath + '/translation.po'], callback);
 });
 
 // Performs all tasks in the correct order.
 gulp.task('prepare-release', function(callback) {
     runSequence(
         'clean',
-        ['phpcs', 'js', 'chat-styles', 'page-styles', 'generate-pot'],
+        ['phpcs', 'js', 'chat-styles', 'page-styles', 'generate-pot', 'generate-tmp-po'],
         'pack-sources',
+        'post-pack-clean',
         callback
     );
 });
@@ -505,7 +613,7 @@ var xgettextHandlebars = function() {
 /**
  * Retrieves list of all dirs which are placed in the specified one.
  *
- * @param {String} srcDir A dir where to search.
+ * @param {String} srcDir A dir to search.
  * @returns Promise A promise which will be resolved with list of child dirs or
  *   rejected with the occured error.
  */
@@ -519,7 +627,7 @@ var getChildDirs = function(srcDir) {
             }
         });
     })).then(function (files) {
-        // Replace all the files that are not a directory with nulls.
+        // Replace all files that are not a directory with nulls.
         return Promise.all(files.map(function (file) {
             return new Promise(function (resolve, reject) {
                 fs.lstat(srcDir + '/' + file, function (err, stat) {
@@ -532,7 +640,7 @@ var getChildDirs = function(srcDir) {
             });
         }));
     }).then(function(dirs) {
-        // Remove all the nulls from the array.
+        // Remove all nulls from the array.
         return dirs.filter(function (dir) {
             return null !== dir;
         });
