@@ -1,0 +1,3 @@
+[submodule "src/i18n"]
+	path = src/i18n
+	url = git@github.com:Mibew/i18n.git

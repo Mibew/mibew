@@ -41,7 +41,7 @@ var config = {
     pageStylesPath: 'mibew/styles/pages',
     compiledTemplatesHeader: fs.readFileSync('tools/compiled_templates_header.txt'),
     getComposerUrl: 'https://getcomposer.org/installer',
-    phpBin: 'php -d "suhosin.executor.include.whitelist = phar"',
+    phpBin: 'php -d "suhosin.executor.include.whitelist = phar" -d "memory_limit=512M"',
     package: require('./composer.json')
 }
 
