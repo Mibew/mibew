@@ -521,7 +521,7 @@ var getChildDirs = function(srcDir) {
         // Replace all the files that are not a directory with nulls.
         return Promise.all(files.map(function (file) {
             return new Promise(function (resolve, reject) {
-                fs.lstat(config.chatStylesPath + '/' + file, function (err, stat) {
+                fs.lstat(srcDir + '/' + file, function (err, stat) {
                     if (err) {
                         reject(err);
                     } else {
