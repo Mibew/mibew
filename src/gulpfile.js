@@ -355,7 +355,8 @@ gulp.task('pack-sources', ['composer-install', 'bower-install'], function() {
         // we must to set "strict" option to false to prevent "EACCES" errors.
         // At the same we need to see all errors that take place.
         strict: false,
-        silent: false
+        silent: false,
+        base: '.'
     }
     var version = config.package.version;
 
