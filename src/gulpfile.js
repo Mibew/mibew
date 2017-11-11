@@ -43,6 +43,7 @@ var config = {
     i18nPath: 'i18n',
     i18nPrefix: 'mibew-i18n-',
     releasePath: 'release',
+    uploadPath: 'upload',
     compiledTemplatesHeader: fs.readFileSync('tools/compiled_templates_header.txt'),
     getComposerUrl: 'https://getcomposer.org/installer',
     phpBin: 'php -d "suhosin.executor.include.whitelist = phar" -d "memory_limit=512M"',
@@ -377,6 +378,25 @@ gulp.task('pack-i18n', function(callback) {
 
 });
 
+gulp.task('prepare-for-upload', function(callback) {
+    gulp.src(config.releasePath + '/mibew-' + config.package.version + '.*')
+        .pipe(gulp.dest(config.uploadPath + '/core/' + config.package.version + '/'));
+
+    gulp.src(config.releasePath + '/mibew-i18n-translation-' + config.package.version + '-*.pot')
+        .pipe(gulp.dest(config.uploadPath + '/i18n/_pot/' + config.package.version + '/'));
+
+    return getChildDirs(config.i18nPath + '/translations')
+           .then(function (dirs) {
+                return Promise.all(dirs.map(function (dir) {
+                    return new Promise(function(resolve, reject) {
+                        gulp.src(config.releasePath + '/mibew-i18n-' + dir + '-' + config.package.version + '-*.*')
+                            .pipe(gulp.dest(config.uploadPath + '/i18n/' + dir + '/' + config.package.version + '/'))
+                            .on('error', reject)
+                            .on('end', resolve);
+                    });
+                }));
+           });
+});
 
 gulp.task('clean-tmp-po', function() {
     return del([config.releasePath + '/translation.po']);
@@ -388,6 +408,15 @@ gulp.task('clean-tmp-i18n-files', function() {
                 '!' + config.releasePath + '/*.tar.gz',
                 '!' + config.releasePath + '/*.pot'
     ]);
+});
+
+gulp.task('clean-upload', function(callback) {
+    return del([config.uploadPath], callback);
+});
+
+gulp.task('clean-all', function(callback) {
+    runSequence( ['clean', 'clean-upload'],
+                 callback );
 });
 
 gulp.task('prepare-i18n-release', function(callback) {
@@ -485,6 +514,16 @@ gulp.task('prepare-release', function(callback) {
         ['phpcs', 'js', 'chat-styles', 'page-styles', 'generate-pot', 'generate-tmp-po'],
         'pack-sources',
         'post-pack-clean',
+        callback
+    );
+});
+
+gulp.task('prepare-all', function(callback) {
+    runSequence(
+        'clean-all',
+        'prepare-release',
+        'prepare-i18n-release',
+        'prepare-for-upload',
         callback
     );
 });
