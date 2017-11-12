@@ -1,3 +1,4 @@
+// Initialize requirements
 var fs = require('fs'),
     https = require('https'),
     exec = require('child_process').exec,
@@ -28,7 +29,7 @@ var fs = require('fs'),
     eslint = require('gulp-eslint'),
     mkdirp = require('mkdirp');
 
-// Set global configs
+// Set global configuration
 var config = {
     mibewPath: 'mibew',
     configsPath: 'mibew/configs',
@@ -53,6 +54,8 @@ var config = {
 }
 config.i18nSuffix = '-' + config.package.version + '-' + strftime('%Y%m%d');
 
+// Tasks for cleaning //////////////////
+
 // Cleans all built files
 gulp.task('clean', function(callback) {
     del([
@@ -68,27 +71,55 @@ gulp.task('clean', function(callback) {
     ], callback);
 });
 
+// Cleans temporary English translation in the release dir
+gulp.task('clean-tmp-po', function() {
+    return del([config.releasePath + '/translation.po']);
+});
+
+// Cleans temporary files of translations in the release dir
+gulp.task('clean-tmp-i18n-files', function() {
+    return del([
+            config.releasePath + '/**/*',
+            '!' + config.releasePath + '/*.zip',
+            '!' + config.releasePath + '/*.tar.gz',
+            '!' + config.releasePath + '/*.pot'
+    ]);
+});
+
+// Cleans all files prepared for uploading to CDN
+gulp.task('clean-upload', function(callback) {
+    return del([config.uploadPath], callback);
+});
+
+// Cleans everything
+gulp.task('clean-all', function(callback) {
+    runSequence( ['clean', 'clean-upload'],
+                 callback );
+});
+
+// Tasks for checking //////////////////
+
 // Checks all PHP files with PHP Code Sniffer
 gulp.task('phpcs', ['composer-install-dev'], function() {
     return gulp.src([
-        config.mibewPath + '/**/*.php',
-        '!' + config.phpVendorPath + '/**/*.*',
-        '!' + config.pluginsPath + '/**/*.*',
-        '!' + config.cachePath + '/**/*.*'
-    ], {
-        // Content of the cache directory is readable only for webserver. Thus
-        // we must to set "strict" option to false to prevent "EACCES" errors.
-        // At the same we need to see all errors that take place.
-        strict: false,
-        silent: false
-    })
-    .pipe(phpcs({
-        bin: config.phpVendorPath + '/bin/phpcs',
-        standard: 'PSR2',
-        warningSeverity: 0
-    }))
-    .pipe(phpcs.reporter('log'))
-    .pipe(phpcs.reporter('fail'));
+                config.mibewPath + '/**/*.php',
+                '!' + config.phpVendorPath + '/**/*.*',
+                '!' + config.pluginsPath + '/**/*.*',
+                '!' + config.cachePath + '/**/*.*'
+        ], {
+            // Content of the cache directory is readable only for webserver.
+            // Thus we must to set "strict" option to false to prevent "EACCES"
+            // errors. At the same we need to see all errors that take place.
+            strict: false,
+            silent: false
+        })
+        .pipe(phpcs({
+            bin: config.phpVendorPath + '/bin/phpcs',
+            standard: 'PSR2',
+            warningSeverity: 0
+        }))
+        .pipe(phpcs.reporter('log'))
+        .pipe(phpcs.reporter('fail'));
 });
 
 // Checks all JavaScript Source files with ESLint
@@ -99,16 +130,26 @@ gulp.task('eslint', function() {
         .pipe(eslint.failAfterError());
 });
 
+// Watcher tasks ///////////////////////
+
+// Watch styles
+gulp.task('watch', [], function(){
+    gulp.watch(config.pageStylesPath + '/**/*.handlebars', ['page-styles']);
+    gulp.watch(config.chatStylesPath + '/**/js/source/**/*.js', ['chat-styles-js']);
+    gulp.watch(config.chatStylesPath + '/**/*.handlebars', ['chat-styles-handlebars']);
+});
+
+// Service tasks //////////////////
+
 // Get and install PHP Composer
 gulp.task('get-composer', function(callback) {
-    // Check if Composer already in place
+    // Check whether Composer is already in place
     if (fs.existsSync('./composer.phar')) {
         callback(null);
-
         return;
     }
 
-    // Get installer from the internet
+    // Get installer from the Internet
     https.get(config.getComposerUrl, function(response) {
         // Run PHP to install Composer
         var php = exec(config.phpBin, function(error, stdout, stderr) {
@@ -121,16 +162,18 @@ gulp.task('get-composer', function(callback) {
 
 // Install Composer dependencies excluding development ones
 gulp.task('composer-install', ['get-composer'], function(callback) {
-    exec(config.phpBin + ' composer.phar install --no-dev', function(error, stdout, stderr) {
-        callback(error ? stderr : null);
-    });
+    exec(config.phpBin + ' composer.phar install --no-dev',
+        function(error, stdout, stderr) {
+            callback(error ? stderr : null);
+        });
 });
 
 // Install all Composer dependencies
 gulp.task('composer-install-dev', ['get-composer'], function(callback) {
-    exec(config.phpBin + ' composer.phar install', function(error, stdout, stderr) {
-        callback(error ? stderr : null);
-    });
+    exec(config.phpBin + ' composer.phar install',
+        function(error, stdout, stderr) {
+            callback(error ? stderr : null);
+        });
 });
 
 // Installs bower dependencies
@@ -141,14 +184,15 @@ gulp.task('bower-install', function(callback) {
         })
         .on('end', function() {
             // We should manually minify JavaScript files that was not minified
-            // by bower packages' authors.
+            // by bower packages' authors
             // TODO: This is a temproary workaround and should be removed once
-            // the packages will be fixed.
+            // the packages will be fixed
             var stream = eventStream.merge(
-                gulp.src(config.jsVendorPath + '/backbone/backbone.js', {base: config.jsVendorPath})
+                gulp.src(config.jsVendorPath + '/backbone/backbone.js',
+                         {base: config.jsVendorPath})
                     .pipe(uglify({preserveComments: 'some'}))
                     // There are neither "@license" tag nor "!preserve" in the
-                    // header. Add the header manually.
+                    // header. Add the header manually
                     .pipe(header(
                         "// Backbone.js 1.1.2\n"
                             + "// (c) 2010-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors\n"
@@ -157,10 +201,11 @@ gulp.task('bower-install', function(callback) {
                             + "// http://backbonejs.org\n"
                     ))
                     .pipe(rename('backbone/backbone-min.js')),
-                gulp.src(config.jsVendorPath + '/json/json2.js', {base: config.jsVendorPath})
+                gulp.src(config.jsVendorPath + '/json/json2.js',
+                         {base: config.jsVendorPath})
                     .pipe(uglify({preserveComments: 'some'}))
                     // There are neither "@license" tag nor "!preserve" in the
-                    // header. Add the header manually.
+                    // header, add the header manually
                     .pipe(header("// json2.js. Public Domain. See http://www.JSON.org/js.html\n"))
                     .pipe(rename('json/json2.min.js'))
             )
@@ -172,7 +217,17 @@ gulp.task('bower-install', function(callback) {
         });
 });
 
-// Compile all JavaScript files of the Mibew Core
+// Restore empty English translation in the source code
+gulp.task('post-pack-cleanup', function(callback) {
+    gulp.src('translation.po')
+        .pipe(gulp.dest(config.mibewPath + '/locales/en/'));
+
+    del(['translation.po', config.releasePath + '/translation.po'], callback);
+});
+
+// Tasks of compiling //////////////////
+
+// Compile all JavaScript files of the Mibew Messenger Core
 gulp.task('js', function() {
     return eventStream.merge(
         getClientSideApp('default'),
@@ -185,19 +240,14 @@ gulp.task('js', function() {
     .pipe(gulp.dest(config.jsPath + '/compiled'));
 });
 
-// Performs all job related with chat styles.
-gulp.task('chat-styles', ['chat-styles-handlebars', 'chat-styles-js'], function() {
-    // This task is just a combination of other tasks. That is why there is no
-    // real code.
-});
-
-// Compile and concatenate handlebars files for all chat styles.
+// Compile and concatenate Handlebars templates for all chat styles
 gulp.task('chat-styles-handlebars', function() {
     return getChildDirs(config.chatStylesPath)
         .then(function (dirs) {
             return Promise.all(dirs.map(function (dir) {
                 return new Promise(function(resolve, reject) {
-                    gulp.src(config.chatStylesPath + '/' + dir + '/templates_src/client_side/**/*.handlebars')
+                    gulp.src(config.chatStylesPath + '/' + dir
+                             + '/templates_src/client_side/**/*.handlebars')
                         .pipe(handlebars({
                             // Use specific version of Handlebars.js
                             handlebars: handlebarsEngine
@@ -206,7 +256,8 @@ gulp.task('chat-styles-handlebars', function() {
                         .pipe(concat('templates.js'))
                         .pipe(uglify({preserveComments: 'some'}))
                         .pipe(header(config.compiledTemplatesHeader))
-                        .pipe(gulp.dest(config.chatStylesPath + '/' + dir + '/templates_compiled/client_side'))
+                        .pipe(gulp.dest(config.chatStylesPath + '/' + dir
+                                        + '/templates_compiled/client_side'))
                         .on('end', resolve)
                         .on('error', reject);
                 });
@@ -214,16 +265,18 @@ gulp.task('chat-styles-handlebars', function() {
         });
 });
 
-// Compile and concatenate js files for all chat styles.
+// Compile and concatenate js files for all chat styles
 gulp.task('chat-styles-js', function() {
     return getChildDirs(config.chatStylesPath)
         .then(function (dirs) {
             return Promise.all(dirs.map(function (dir) {
                 return new Promise(function(resolve, reject) {
-                    gulp.src(config.chatStylesPath + '/' + dir + '/js/source/**/*.js')
+                    gulp.src(config.chatStylesPath + '/' + dir
+                             + '/js/source/**/*.js')
                         .pipe(concat('scripts.js'))
                         .pipe(uglify({preserveComments: 'some'}))
-                        .pipe(gulp.dest(config.chatStylesPath + '/' + dir + '/js/compiled'))
+                        .pipe(gulp.dest(config.chatStylesPath + '/' + dir
+                                        + '/js/compiled'))
                         .on('end', resolve)
                         .on('error', reject);
                 });
@@ -231,13 +284,14 @@ gulp.task('chat-styles-js', function() {
         });
 });
 
-// Performs all job related with pages styles.
+// Performs all job related to pages styles
 gulp.task('page-styles', function() {
     return getChildDirs(config.pageStylesPath)
         .then(function (dirs) {
             return Promise.all(dirs.map(function (dir) {
                 return new Promise(function(resolve, reject){
-                    gulp.src(config.pageStylesPath + '/' + dir + '/templates_src/client_side/**/*.handlebars')
+                    gulp.src(config.pageStylesPath + '/' + dir
+                             + '/templates_src/client_side/**/*.handlebars')
                         .pipe(handlebars({
                             // Use specific version of Handlebars.js
                             handlebars: handlebarsEngine
@@ -246,7 +300,8 @@ gulp.task('page-styles', function() {
                         .pipe(concat('templates.js'))
                         .pipe(uglify({preserveComments: 'some'}))
                         .pipe(header(config.compiledTemplatesHeader))
-                        .pipe(gulp.dest(config.pageStylesPath + '/' + dir + '/templates_compiled/client_side'))
+                        .pipe(gulp.dest(config.pageStylesPath + '/' + dir
+                                        + '/templates_compiled/client_side'))
                         .on('end', resolve)
                         .on('error', reject);
                 });
@@ -254,28 +309,40 @@ gulp.task('page-styles', function() {
         });
 });
 
-// Watch styles
-gulp.task('watch', [], function(){
-  gulp.watch(config.pageStylesPath + '/**/*.handlebars', ['page-styles']);
-  gulp.watch(config.chatStylesPath + '/**/js/source/**/*.js', ['chat-styles-js']);
-  gulp.watch(config.chatStylesPath + '/**/*.handlebars', ['chat-styles-handlebars']);
+// Performs all job related to chat styles
+gulp.task('chat-styles', ['chat-styles-handlebars', 'chat-styles-js'], function() {
+    // This task is just a combination of other tasks, there is no real code.
 });
 
-// Generate .pot files based on the sources
+// Prepares ready to use development version of Mibew Messenger without
+// packing or validating it
+gulp.task('rebuild', function(callback) {
+    runSequence(
+        'clean',
+        ['js', 'chat-styles', 'page-styles', 'composer-install',
+         'bower-install'],
+        callback
+    );
+});
+
+// Tasks for localization issues ///////
+
+// Generate POT-file based upon the source code
 gulp.task('generate-pot', function() {
     return eventStream.merge(
         gulp.src([
-            config.mibewPath + '/**/*.php',
-            '!' + config.phpVendorPath + '/**/*.*',
-            '!' + config.pluginsPath + '/**/*.*',
-            '!' + config.cachePath + '/**/*.*'
-        ], {
-            // Content of the cache directory is readable only for webserver.
-            // Thus we must to set "strict" option to false to prevent "EACCES"
-            // errors. At the same we need to see all errors that take place.
-            strict: false,
-            silent: false
-        })
+                config.mibewPath + '/**/*.php',
+                '!' + config.phpVendorPath + '/**/*.*',
+                '!' + config.pluginsPath + '/**/*.*',
+                '!' + config.cachePath + '/**/*.*'
+            ], {
+                // Content of the cache directory is readable only for
+                // webserver. Thus we must to set "strict" option to false
+                // to prevent "EACCES" errors. At the same we need to see all
+                // errors that take place.
+                strict: false,
+                silent: false
+            })
             .pipe(xgettext({
                 language: 'PHP',
                 keywords: [
@@ -293,31 +360,42 @@ gulp.task('generate-pot', function() {
                 ]
             })),
         gulp.src([
-            config.chatStylesPath + '/default/templates_src/**/*.handlebars',
-            config.pageStylesPath + '/default/templates_src/**/*.handlebars'
-        ], {base: config.mibewPath})
+                config.chatStylesPath + '/default/templates_src/**/*.handlebars',
+                config.pageStylesPath + '/default/templates_src/**/*.handlebars'
+            ], {base: config.mibewPath})
             .pipe(xgettextHandlebars())
     )
-    .pipe(concatPo(config.i18nPrefix + 'translation' + config.i18nSuffix + '.pot', {
-        headers: {
-            'Project-Id-Version': 'Mibew Messenger ' + config.package.version,
-            'Report-Msgid-Bugs-To': config.package.support.email,
-            'POT-Creation-Date': strftime('%Y-%m-%d %H:%M%z'),
-            'PO-Revision-Date': '',
-            'Last-Translator': '',
-            'Language-Team': '',
-            'Content-Type': 'text/plain; charset=UTF-8'
-        }
-    }))
+    .pipe(concatPo(config.i18nPrefix + 'translation'
+                   + config.i18nSuffix + '.pot',
+            {
+                headers: {
+                    'Project-Id-Version': 'Mibew Messenger '
+                                            + config.package.version,
+                    'Report-Msgid-Bugs-To': config.package.support.email,
+                    'POT-Creation-Date': strftime('%Y-%m-%d %H:%M%z'),
+                    'PO-Revision-Date': '',
+                    'Last-Translator': '',
+                    'Language-Team': '',
+                    'Content-Type': 'text/plain; charset=UTF-8'
+                }
+            })
+    )
     .pipe(gulp.dest(config.releasePath));
 });
 
+// Generate temporary English translation to be used in the release
 gulp.task('generate-tmp-po', ['generate-pot'], function(callback) {
-    return exec(config.msginit + ' --no-translator --no-wrap -i ' + config.releasePath + '/' + config.i18nPrefix + 'translation' + config.i18nSuffix + '.pot' + ' -l en -o ' + config.releasePath + '/translation.po', function(error, stdout, stderr) {
-        callback(error ? stderr : null);
-    });
+    return exec(config.msginit + ' --no-translator --no-wrap -i '
+                + config.releasePath + '/' + config.i18nPrefix + 'translation'
+                + config.i18nSuffix + '.pot' + ' -l en -o '
+                + config.releasePath + '/translation.po',
+            function(error, stdout, stderr) {
+                callback(error ? stderr : null);
+            });
 });
 
+// Generate complete translations (that includes missed strings) to be used
+// in the release
 gulp.task('generate-pos', ['generate-tmp-po'], function(callback) {
 
     return getChildDirs(config.i18nPath + '/translations')
@@ -329,106 +407,35 @@ gulp.task('generate-pos', ['generate-tmp-po'], function(callback) {
                             reject(error);
                         }
                     });
-                    exec(config.msgcat + ' ' + config.i18nPath + '/translations/' + dir + '/translation.po ' + config.releasePath + '/translation.po --no-location --no-wrap --use-first -o ' + config.releasePath + '/' + dir + '/translation.po', function(error, stdout, stderr) {
-                        if (error) {
-                            reject(error);
-                        }
+                    exec(config.msgcat + ' ' + config.i18nPath + '/translations/'
+                         + dir + '/translation.po ' + config.releasePath
+                         + '/translation.po --no-location --no-wrap --use-first'
+                         + ' -o ' + config.releasePath + '/' + dir
+                         + '/translation.po',
+                         function(error, stdout, stderr) {
+                            if (error) {
+                                reject(error);
+                            }
                     });
 
                     var sources = [
                         config.i18nPath + '/translations/' + dir + '/**/*',
-                        '!' + config.i18nPath + '/translations/' + dir + '/translation.po'
+                        '!' + config.i18nPath + '/translations/' + dir
+                        + '/translation.po'
                     ];
 
                     gulp.src(sources)
                         .pipe(gulp.dest(config.releasePath + '/' + dir))
                         .on('error', reject)
                         .on('end', resolve);
-
                 });
             }));
     });
 });
 
-gulp.task('pack-i18n', function(callback) {
-        return getChildDirs(config.i18nPath + '/translations')
-           .then(function (dirs) {
-                return Promise.all(dirs.map(function (dir) {
-                    return new Promise(function(resolve, reject) {
+// Packaging tasks /////////////////////
 
-                    var srcOptions = {
-                        base: config.releasePath
-                    };
-
-                    eventStream.merge(
-                        gulp.src(config.releasePath + '/' + dir + '/**/*', srcOptions)
-                            .pipe(zip(config.i18nPrefix + dir + config.i18nSuffix + '.zip')),
-                        gulp.src(config.releasePath + '/' + dir + '/**/*', srcOptions)
-                            .pipe(tar(config.i18nPrefix + dir + config.i18nSuffix + '.tar'))
-                            .pipe(gzip())
-                    )
-                    .pipe(chmod(644))
-                    .pipe(gulp.dest(config.releasePath))
-                    .on('error', reject)
-                    .on('end', resolve);
-
-                    });
-                }));
-            });
-
-});
-
-gulp.task('prepare-for-upload', function(callback) {
-    gulp.src(config.releasePath + '/mibew-' + config.package.version + '.*')
-        .pipe(gulp.dest(config.uploadPath + '/core/' + config.package.version + '/'));
-
-    gulp.src(config.releasePath + '/mibew-i18n-translation-' + config.package.version + '-*.pot')
-        .pipe(gulp.dest(config.uploadPath + '/i18n/_pot/' + config.package.version + '/'));
-
-    return getChildDirs(config.i18nPath + '/translations')
-           .then(function (dirs) {
-                return Promise.all(dirs.map(function (dir) {
-                    return new Promise(function(resolve, reject) {
-                        gulp.src(config.releasePath + '/mibew-i18n-' + dir + '-' + config.package.version + '-*.*')
-                            .pipe(gulp.dest(config.uploadPath + '/i18n/' + dir + '/' + config.package.version + '/'))
-                            .on('error', reject)
-                            .on('end', resolve);
-                    });
-                }));
-           });
-});
-
-gulp.task('clean-tmp-po', function() {
-    return del([config.releasePath + '/translation.po']);
-});
-
-gulp.task('clean-tmp-i18n-files', function() {
-    return del([config.releasePath + '/**/*',
-                '!' + config.releasePath + '/*.zip',
-                '!' + config.releasePath + '/*.tar.gz',
-                '!' + config.releasePath + '/*.pot'
-    ]);
-});
-
-gulp.task('clean-upload', function(callback) {
-    return del([config.uploadPath], callback);
-});
-
-gulp.task('clean-all', function(callback) {
-    runSequence( ['clean', 'clean-upload'],
-                 callback );
-});
-
-gulp.task('prepare-i18n-release', function(callback) {
-    runSequence( 'clean-tmp-po',
-                 'generate-pos',
-                 'pack-i18n',
-                 'clean-tmp-i18n-files',
-                 callback
-    );
-});
-
-// Pack sources to .zip and .tar.gz archives.
+// Pack sources for release as .zip and .tar.gz archives
 gulp.task('pack-sources', ['composer-install', 'bower-install'], function() {
     gulp.src(config.mibewPath + '/locales/en/translation.po')
         .pipe(gulp.dest('.'));
@@ -477,13 +484,14 @@ gulp.task('pack-sources', ['composer-install', 'bower-install'], function() {
         '!' + config.jsVendorPath + '/vex/coffee{,/**}'
     ];
     var srcOptions = {
-        // Dot files (.htaccess, .keep, etc.) must be included in the package.
+        // Dot files (.htaccess, .keep, etc.) must be included in the package
         dot: true,
         // Content of the cache directory is readable only for webserver. Thus
         // we must to set "strict" option to false to prevent "EACCES" errors.
         // At the same we need to see all errors that take place.
         strict: false,
         silent: false,
+        // Preserve root directory name (i.e. 'mibew/')
         base: '.'
     }
     var version = config.package.version;
@@ -497,63 +505,109 @@ gulp.task('pack-sources', ['composer-install', 'bower-install'], function() {
     )
     .pipe(chmod(644))
     .pipe(gulp.dest(config.releasePath));
-
 });
 
-gulp.task('post-pack-clean', function(callback) {
-    gulp.src('translation.po')
-        .pipe(gulp.dest(config.mibewPath + '/locales/en/'));
+// Pack translations for release as .zip and .tar.gz archives
+gulp.task('pack-i18n', function(callback) {
+    return getChildDirs(config.i18nPath + '/translations')
+       .then(function (dirs) {
+            return Promise.all(dirs.map(function (dir) {
+                return new Promise(function(resolve, reject) {
 
-    del(['translation.po', config.releasePath + '/translation.po'], callback);
+                    var srcOptions = {
+                        base: config.releasePath
+                    };
+
+                    eventStream.merge(
+                        gulp.src(config.releasePath + '/' + dir
+                                 + '/**/*', srcOptions)
+                            .pipe(zip(config.i18nPrefix + dir
+                                      + config.i18nSuffix + '.zip')),
+                        gulp.src(config.releasePath + '/' + dir
+                                 + '/**/*', srcOptions)
+                            .pipe(tar(config.i18nPrefix + dir
+                                      + config.i18nSuffix + '.tar'))
+                            .pipe(gzip())
+                    )
+                    .pipe(chmod(644))
+                    .pipe(gulp.dest(config.releasePath))
+                    .on('error', reject)
+                    .on('end', resolve);
+
+                });
+            }));
+    });
 });
 
-// Performs all tasks in the correct order.
+// Tasks of releasing //////////////////
+
+// Prepare release of Mibew Messenger
 gulp.task('prepare-release', function(callback) {
     runSequence(
         'clean',
-        ['phpcs', 'js', 'chat-styles', 'page-styles', 'generate-pot', 'generate-tmp-po'],
+        ['phpcs', 'js', 'chat-styles', 'page-styles', 'generate-pot',
+         'generate-tmp-po'],
         'pack-sources',
-        'post-pack-clean',
+        'post-pack-cleanup',
         callback
     );
 });
 
+// Prepare releases of translations for Mibew Messenger
+gulp.task('prepare-i18n-release', function(callback) {
+    runSequence( 'clean-tmp-po',
+                 'generate-pos',
+                 'pack-i18n',
+                 'clean-tmp-i18n-files',
+                 callback
+    );
+});
+
+// Mirror prepared releases of Mibew Messenger and its translations in a form
+// intended for uploading into the CDN
+gulp.task('prepare-for-upload', function(callback) {
+    gulp.src(config.releasePath + '/mibew-' + config.package.version + '.*')
+        .pipe(gulp.dest(config.uploadPath + '/core/' + config.package.version + '/'));
+
+    gulp.src(config.releasePath + '/mibew-i18n-translation-' + config.package.version + '-*.pot')
+        .pipe(gulp.dest(config.uploadPath + '/i18n/_pot/' + config.package.version + '/'));
+
+    return getChildDirs(config.i18nPath + '/translations')
+           .then(function (dirs) {
+                return Promise.all(dirs.map(function (dir) {
+                    return new Promise(function(resolve, reject) {
+                        gulp.src(config.releasePath + '/mibew-i18n-' + dir + '-' + config.package.version + '-*.*')
+                            .pipe(gulp.dest(config.uploadPath + '/i18n/' + dir + '/' + config.package.version + '/'))
+                            .on('error', reject)
+                            .on('end', resolve);
+                    });
+                }));
+           });
+});
+
+// Perform all preparations before uploading the release of Mibew Messenger and
+// its translations into the CDN
 gulp.task('prepare-all', function(callback) {
-    runSequence(
-        'clean-all',
-        'prepare-release',
-        'prepare-i18n-release',
-        'prepare-for-upload',
-        callback
-    );
+    runSequence('clean-all', 'prepare-release', 'prepare-i18n-release',
+                'prepare-for-upload', callback);
 });
 
-// Prepares ready to use development version of Mibew without packing or
-// validating it.
-gulp.task('rebuild', function(callback) {
-    runSequence(
-        'clean',
-        ['js', 'chat-styles', 'page-styles', 'composer-install', 'bower-install'],
-        callback
-    );
-});
-
-// Builds the sources
+// Prepare release archives of the development version of Mibew Messenger
 gulp.task('default', function(callback) {
     runSequence(
         'clean',
         ['js', 'chat-styles', 'page-styles'],
         'pack-sources',
+        'post-pack-cleanup',
         callback
     );
 });
-
 
 /**
  * Loads and prepare js file for a client side application with the specified
  * name.
  *
- * @param {String} name Application name
+ * @param {String} name Application name.
  * @returns A files stream that can be piped to any gulp plugin.
  */
 var getClientSideApp = function(name) {
@@ -623,7 +677,7 @@ var xgettextHandlebars = function() {
             contents = file.contents.toString();
 
         while (match = helperRegExp.exec(contents)) {
-            // Try to find item in the .po file by its name.
+            // Try to find item in the .po file by its name
             var item = lodash.find(po.items, function(item) {
                 return match[2] === item.msgid;
             });
@@ -631,7 +685,7 @@ var xgettextHandlebars = function() {
             var line = contents.substr(0, match.index).split(/\r?\n|\r/g).length;
 
             if (!item) {
-                // There is no such item. Create new one.
+                // There is no such item, create new one
                 item = new PoFile.Item();
                 item.msgid = match[2].replace(/\\'/g, "'").replace(/\\"/g, '"');
                 po.items.push(item);
