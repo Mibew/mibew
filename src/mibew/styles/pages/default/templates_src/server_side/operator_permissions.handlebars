@@ -13,7 +13,7 @@
             <div id="form-message">{{l10n "Changes saved"}}</div>
         {{/if}}
 
-        <form name="permissionsForm" method="post" action="{{route "operator_permissions_save" operator_id=opid}}">
+        <form id="permissionsForm" name="permissionsForm" method="post" action="{{route "operator_permissions_save" operator_id=opid}}">
             {{csrfTokenInput}}
 
             <div>
@@ -29,7 +29,7 @@
 
                         {{#each permissionsList}}
                             <label>
-                                <input type="checkbox" name="permissions{{id}}" value="on"{{#if checked}} checked="checked"{{/if}}{{#unless ../canmodify}} disabled="disabled"{{/unless}}/>
+                                <input type="checkbox" id="permissions{{id}}" name="permissions{{id}}" value="on"{{#if checked}} checked="checked"{{/if}}{{#unless ../canmodify}} disabled="disabled"{{/unless}}/>
                                 {{descr}}
                             </label>
                             <br/>

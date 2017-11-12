@@ -46,6 +46,10 @@ class PermissionsController extends AbstractController
             'errors' => array(),
         );
 
+        if ($op_id === $operator['operatorid']) {
+            $this->getAssetManager()->attachJs('js/compiled/operator_permissions.js');
+        }
+
         $op = operator_by_id($op_id);
         if (!$op) {
             throw new NotFoundException('The operator is not found.');
