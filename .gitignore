@@ -1,6 +1,8 @@
 src/mibew/install/package
 src/absent_*
 src/release*
+src/upload*
+src/*.po
 
 # Do not index actual configuration files
 src/mibew/configs/config.yml
