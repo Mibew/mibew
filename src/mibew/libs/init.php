@@ -18,7 +18,7 @@
  */
 
 /**
- * File system root directory of the Mibew installations
+ * File system root directory of the Mibew Messenger installations
  */
 define('MIBEW_FS_ROOT', dirname(dirname(__FILE__)));
 

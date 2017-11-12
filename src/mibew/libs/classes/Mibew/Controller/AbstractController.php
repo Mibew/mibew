@@ -332,7 +332,7 @@ abstract class AbstractController implements
         if ($style instanceof HandlebarsAwareInterface) {
             $hbs = $style->getHandlebars();
 
-            // Use mibew cache to store Handlebars AST
+            // Use Mibew Messenger cache to store Handlebars AST
             $hbs->setCache(new HandlebarsCacheAdapter($this->getCache()));
 
             // Add more helpers to template engine

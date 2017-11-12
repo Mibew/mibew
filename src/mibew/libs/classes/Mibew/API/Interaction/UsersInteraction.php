@@ -20,7 +20,7 @@
 namespace Mibew\API\Interaction;
 
 /**
- * Implements Mibew Core - Mibew Users list interaction
+ * Implements Mibew Messenger Core - Mibew Messenger Users list interaction
  */
 class UsersInteraction extends AbstractInteraction
 {

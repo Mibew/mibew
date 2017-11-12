@@ -28,7 +28,7 @@ use Stash\Interfaces\PoolInterface;
 class Updater
 {
     /**
-     * A minimum version Mibew can be updated from.
+     * A minimum version Mibew Messenger can be updated from.
      */
     const MIN_VERSION = '2.0.0-beta.1';
 
@@ -201,7 +201,7 @@ class Updater
     /**
      * Gets version of existing database structure.
      *
-     * If Mibew is not installed yet boolean false will be returned.
+     * If Mibew Messenger is not installed yet boolean false will be returned.
      *
      * @return int|boolean Database structure version or boolean false if the
      *   version cannot be determined.
@@ -281,8 +281,9 @@ class Updater
                 array('return_rows' => Database::RETURN_ALL_ROWS)
             );
 
-            // Mibew base path should not be included in operators' avatars
-            // which stored in the database. Remove the prefixes one by one.
+            // Mibew Messenger base path should not be included in operators'
+            // avatars which stored in the database. Remove the prefixes one
+            // by one.
             foreach ($operators as $operator) {
                 if (empty($operator['avatar'])) {
                     // The operator has no avatar.
@@ -351,7 +352,7 @@ class Updater
                 . 'UNIQUE KEY target (target) '
                 . ') charset utf8 ENGINE=InnoDb');
 
-            // Generate Unique ID of Mibew instance.
+            // Generate Unique ID of Mibew Messenger instance.
             $db->query(
                 'INSERT INTO {config} (vckey, vcvalue) VALUES (:key, :value)',
                 array(

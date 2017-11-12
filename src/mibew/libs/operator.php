@@ -32,7 +32,7 @@ define('REMEMBER_OPERATOR_COOKIE_NAME', 'mibew_operator');
 /** Permissions constants */
 
 /**
- * Operator can administer Mibew instalation
+ * Operator can administer Mibew Messenger installation
  */
 define('CAN_ADMINISTRATE', 0);
 

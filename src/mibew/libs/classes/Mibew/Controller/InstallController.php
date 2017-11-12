@@ -51,7 +51,7 @@ class InstallController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        // Check if Mibew is already installed.
+        // Check if Mibew Messenger is already installed.
         $in_progress = !empty($_SESSION[SESSION_PREFIX . 'installation_in_progress']);
         if (!$in_progress) {
             if ($this->getInstaller()->isInstalled()) {

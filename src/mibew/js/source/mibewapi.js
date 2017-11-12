@@ -26,7 +26,7 @@
 function MibewAPI(interaction) {
 
     /**
-     * Version of the MIBEW API protocol implemented by the object
+     * Version of the Mibew API protocol implemented by the object
      */
     this.protocolVersion = "1.0";
 

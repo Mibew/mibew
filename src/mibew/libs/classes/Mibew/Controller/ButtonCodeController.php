@@ -35,7 +35,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ButtonCodeController extends AbstractController
 {
     /**
-     * Generates a page with Mibew button code form.
+     * Generates a page with Mibew Messenger button code form.
      *
      * @param Request $request Incoming request
      * @return Response Rendered content of the page.

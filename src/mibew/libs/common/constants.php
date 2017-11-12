@@ -24,7 +24,7 @@ define('MIBEW_VERSION', '2.2.3');
 
 /**
  * Prefix for session variables.
- * Provide an ability to instal several mibew instances on one server.
+ * Provide an ability to instal several Mibew Messenger instances on one server.
  */
 define('SESSION_PREFIX', md5(
     $configs['database']['host'] . '##'

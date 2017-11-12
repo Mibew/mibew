@@ -27,7 +27,7 @@ use Mibew\Database;
 class AvailableUpdate
 {
     /**
-     * Unique (for the current Mibew instance) update ID.
+     * Unique (for the current Mibew Messenger instance) update ID.
      *
      * @type int
      */

@@ -28,8 +28,8 @@ use Mibew\Settings;
 class InvitationStyle extends AbstractStyle implements StyleInterface
 {
     /**
-     * Builds base path for style files. This path is relative Mibew root and
-     * does not contain neither leading nor trailing slash.
+     * Builds base path for style files. This path is relative Mibew Messenger
+     * root and does not contain neither leading nor trailing slash.
      *
      * @return string Base path for style files
      */

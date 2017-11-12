@@ -32,8 +32,8 @@ interface PluginInterface
     public function getWeight();
 
     /**
-     * Builds base path for plugin files. This path is relative to Mibew root
-     * and does not contain neither leading nor trailing slash.
+     * Builds base path for plugin files. This path is relative to Mibew
+     * Messenger root and does not contain neither leading nor trailing slash.
      *
      * @return string Base path for plugin files
      */
@@ -89,7 +89,7 @@ interface PluginInterface
      * plugin version constrain.
      *
      * A requirement name can be on of the following:
-     *  - "mibew": Mibew core;
+     *  - "mibew": Mibew Messenger Core;
      *  - "php": PHP used in the system;
      *  - "ext-*": name of a PHP extension.
      *

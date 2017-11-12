@@ -35,7 +35,7 @@ class UpdateChecker
     private $url = null;
 
     /**
-     * Unique 64 character length ID of the Mibew instance.
+     * Unique 64 character length ID of the Mibew Messenger instance.
      *
      * @var string
      */
@@ -80,7 +80,7 @@ class UpdateChecker
     }
 
     /**
-     * Sets Unique ID of the Mibew instance.
+     * Sets Unique ID of the Mibew Messenger instance.
      *
      * @param string $id Unique ID that is 64 characters length at most.
      * @throws \InvalidArgumentException
@@ -98,7 +98,7 @@ class UpdateChecker
     }
 
     /**
-     * Retrieve Unique ID of the Mibew instance.
+     * Retrieve Unique ID of the Mibew Messenger instance.
      *
      * @return string
      */

@@ -1,1 +1,1 @@
-# This file is empty because english strings are a part of Mibew core
+# This file is empty because english strings are a part of Mibew Messenger core

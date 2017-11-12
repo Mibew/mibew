@@ -1,5 +1,5 @@
-# IMPORTANT: Before install mibew copy this file to config.yml and fill it with
-# your own settings!
+# IMPORTANT: Before install Mibew Messenger copy this file to config.yml and
+# fill it with your own settings!
 
 
 # MySQL Database parameters
@@ -13,7 +13,7 @@ database:
     use_persistent_connection: false
 
 # Mail
-## This value will be used as sender address in all e-mails Mibew send.
+## This value will be used as sender address in all e-mails Mibew Messenger send.
 mailbox: mibew@yourdomain.com
 
 ## Mailer parameters
@@ -77,8 +77,8 @@ default_locale: en
 # http://php.net/manual/en/timezones.php
 timezone: ""
 
-# List of proxy's IP Mibew should trust. You should set this option if you use
-# Mibew with a load balancer or behind a proxy.
+# List of proxy's IP Mibew Messenger should trust. You should set this option
+# if you use Mibew Messenger with a load balancer or behind a proxy.
 trusted_proxies: []
 # Here is an example of what values this option can take:
 # trusted_proxies:
@@ -89,7 +89,7 @@ trusted_proxies: []
 # Plugins
 plugins: []
 
-## Exapmle of plugins configuration
+## Example of plugins configuration
 # plugins:
 #     "VendorName:PluginName":
 #         weight: 100
