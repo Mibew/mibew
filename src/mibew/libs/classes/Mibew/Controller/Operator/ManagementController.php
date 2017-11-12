@@ -114,8 +114,6 @@ class ManagementController extends AbstractController
             $operator = operator_by_id($operator_id);
             if (!$operator) {
                 throw new NotFoundException('The operator is not found.');
-            } elseif ($operator['vclogin'] == 'admin') {
-                $errors[] = getlocal("Cannot remove operator \"admin\".");
             }
         }
 
@@ -155,8 +153,6 @@ class ManagementController extends AbstractController
             $operator = operator_by_id($operator_id);
             if (!$operator) {
                 throw new NotFoundException('The operator is not found.');
-            } elseif ($operator['vclogin'] == 'admin') {
-                $errors[] = getlocal('Cannot disable "admin".');
             }
         }
 
