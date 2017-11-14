@@ -790,7 +790,7 @@ class ThreadProcessor extends ClientSideProcessor implements
         if ($referrer) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getlocal('Vistor came from page {0}', array($referrer), get_current_locale(), true)
+                getlocal('Visitor came from page {0}', array($referrer), get_current_locale(), true)
             );
         }
         if ($email) {

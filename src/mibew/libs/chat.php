@@ -692,7 +692,7 @@ function chat_start_for_user(
         if ($referrer) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getlocal('Vistor came from page {0}', array($referrer), get_current_locale(), true)
+                getlocal('Visitor came from page {0}', array($referrer), get_current_locale(), true)
             );
         }
         if ($requested_operator && !$requested_operator_online) {
