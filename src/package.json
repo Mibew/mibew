@@ -16,7 +16,7 @@
         "gulp-concat-po": "^0.1.1",
         "gulp-rename": "^1.2.2",
         "bower": "^1.4.1",
-        "handlebars": "^3.0.3",
+        "handlebars": "^4.0.11",
         "run-sequence": "^1.1.0",
         "through2": "^0.6.5",
         "pofile": "^0.2.12",
