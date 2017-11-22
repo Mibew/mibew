@@ -254,11 +254,15 @@ abstract class AbstractController implements
 
         // Localization file is added as absolute URL because URL Generator
         // already prepended base URL to its result.
-        $this->getAssetManager()->attachJs(
-            $this->generateUrl('js_translation', array('locale' => get_current_locale())),
-            AssetManagerInterface::ABSOLUTE_URL,
-            -1000
-        );
+        // Localization file is generated using contents from the database,
+        // so it should not be attached when in the maintenance mode
+        if (get_maintenance_mode() === false) {
+            $this->getAssetManager()->attachJs(
+                $this->generateUrl('js_translation', array('locale' => get_current_locale())),
+                AssetManagerInterface::ABSOLUTE_URL,
+                -1000
+            );
+        }
 
         return $this->getStyle()->render($template, $parameters);
     }
