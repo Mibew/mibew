@@ -27,6 +27,7 @@ var fs = require('fs'),
     concatPo = require('gulp-concat-po'),
     rename = require('gulp-rename'),
     eslint = require('gulp-eslint'),
+    removeDuplicateHeaders = require('mibew-gulp-greh'),
     mkdirp = require('mkdirp');
 
 // Set global configuration
@@ -237,6 +238,7 @@ gulp.task('js', function() {
         gulp.src(config.jsPath + '/source/**/*.js')
     )
     .pipe(uglify({preserveComments: 'some'}))
+    .pipe(removeDuplicateHeaders())
     .pipe(gulp.dest(config.jsPath + '/compiled'));
 });
 
