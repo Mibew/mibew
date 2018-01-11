@@ -65,17 +65,17 @@
                 </div>
             {{/if}}
 
-            <div class="dashboard-item">
-                <div class="dashboard-item-content">
-                    <img src="{{asset "@CurrentStyle/images/dash/canned.png"}}" alt=""/>
-                    <a href="{{route "canned_messages"}}">
-                        {{l10n "Canned Messages"}}
-                    </a>
-                    {{l10n "Edit messages that you frequently type into the chat."}}
-                </div>
-            </div>
-
             {{#if showadmin}}
+                <div class="dashboard-item">
+                    <div class="dashboard-item-content">
+                        <img src="{{asset "@CurrentStyle/images/dash/canned.png"}}" alt=""/>
+                        <a href="{{route "canned_messages"}}">
+                            {{l10n "Canned Messages"}}
+                        </a>
+                        {{l10n "Edit messages that you frequently type into the chat."}}
+                    </div>
+                </div>
+
                 <div class="dashboard-item">
                     <div class="dashboard-item-content">
                         <img src="{{asset "@CurrentStyle/images/dash/wizard.png"}}" alt=""/>

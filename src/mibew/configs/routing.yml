@@ -187,21 +187,24 @@ canned_message_add:
     path: /operator/canned-message/add
     defaults:
         _controller: Mibew\Controller\CannedMessageController::showEditFormAction
-        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
     methods: [GET]
 
 canned_message_add_save:
     path: /operator/canned-message/add
     defaults:
         _controller: Mibew\Controller\CannedMessageController::submitEditFormAction
-        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
     methods: [POST]
 
 canned_message_delete:
     path: /operator/canned-message/{message_id}/delete
     defaults:
         _controller: Mibew\Controller\CannedMessageController::deleteAction
-        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
     requirements:
         message_id: \d{1,10}
 
@@ -209,7 +212,8 @@ canned_message_edit:
     path: /operator/canned-message/{message_id}/edit
     defaults:
         _controller: Mibew\Controller\CannedMessageController::showEditFormAction
-        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
     requirements:
         message_id: \d{1,10}
     methods: [GET]
@@ -218,7 +222,8 @@ canned_message_edit_save:
     path: /operator/canned-message/{message_id}/edit
     defaults:
         _controller: Mibew\Controller\CannedMessageController::submitEditFormAction
-        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
     requirements:
         message_id: \d{1,10}
     methods: [POST]
@@ -227,7 +232,8 @@ canned_messages:
     path: /operator/canned-message
     defaults:
         _controller: Mibew\Controller\CannedMessageController::indexAction
-        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_ADMINISTRATE]
 
 ## Groups
 group_add:
