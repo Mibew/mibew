@@ -69,7 +69,7 @@ class PermissionsCheck extends LoggedInCheck
      *
      * @param string $permission_name Name of permission. Can be one of
      *   "CAN_ADMINISTRATE", "CAN_TAKEOVER", "CAN_VIEWTHREADS",
-     *   "CAN_MODIFYPROFILE".
+     *   "CAN_MODIFYPROFILE", "CAN_VIEWSTATISTICS".
      * @return int Permission code.
      * @throws \InvalidArgumentException
      */
@@ -87,6 +87,9 @@ class PermissionsCheck extends LoggedInCheck
                 break;
             case 'CAN_MODIFYPROFILE':
                 $permission_code = CAN_MODIFYPROFILE;
+                break;
+            case 'CAN_VIEWSTATISTICS':
+                $permission_code = CAN_VIEWSTATISTICS;
                 break;
             default:
                 throw new \InvalidArgumentException(sprintf('Unknown permission "%s".', $permission_name));

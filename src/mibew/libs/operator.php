@@ -51,6 +51,12 @@ define('CAN_VIEWTHREADS', 2);
  */
 define('CAN_MODIFYPROFILE', 3);
 
+/**
+ * Operator can view system statistics
+ */
+define('CAN_VIEWSTATISTICS', 4);
+
+
 /** End of permissions constants */
 
 /**
@@ -62,6 +68,7 @@ function permission_ids()
 {
     return array(
         CAN_ADMINISTRATE => "admin",
+        CAN_VIEWSTATISTICS => "statistics",
         CAN_TAKEOVER => "takeover",
         CAN_VIEWTHREADS => "viewthreads",
         CAN_MODIFYPROFILE => "modifyprofile",
@@ -80,6 +87,7 @@ function permission_descriptions()
 {
     return array(
         CAN_ADMINISTRATE => getlocal('System administration: settings, operators management, button generation'),
+        CAN_VIEWSTATISTICS => getlocal('Ability to view system statistics'),
         CAN_TAKEOVER => getlocal('Take over chat thread'),
         CAN_VIEWTHREADS => getlocal('View another operator\'s chat thread'),
         CAN_MODIFYPROFILE => getlocal('Ability to modify profile'),
@@ -693,7 +701,7 @@ function prepare_menu($operator, $has_right = true)
     $result['isOnline'] = is_operator_online($operator['operatorid']);
     if ($has_right) {
         $result['showban'] = Settings::get('enableban') == "1";
-        $result['showstat'] = Settings::get('enablestatistics') == "1";
+        $result['showstat'] = is_capable(CAN_VIEWSTATISTICS, $operator) && (Settings::get('enablestatistics') == "1");
         $result['showadmin'] = is_capable(CAN_ADMINISTRATE, $operator);
         $result['currentopid'] = $operator['operatorid'];
     }

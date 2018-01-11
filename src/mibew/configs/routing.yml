@@ -679,7 +679,8 @@ statistics:
     defaults:
         type: "by-date"
         _controller: Mibew\Controller\StatisticsController::indexAction
-        _access_check: Mibew\AccessControl\Check\LoggedInCheck
+        _access_check: Mibew\AccessControl\Check\PermissionsCheck
+        _access_permissions: [CAN_VIEWSTATISTICS]
     requirements:
         type: by-date|by-operator|by-page
 
