@@ -35,8 +35,10 @@ class AboutController extends AbstractController
      */
     public function indexAction(Request $request)
     {
+        $operator = $this->getOperator();
         $page = array_merge(
             array(
+                'showSystemInfo' => is_capable(CAN_ADMINISTRATE, $operator),
                 'localizations' => get_available_locales(),
                 'phpVersion' => phpversion(),
                 'extensions' => $this->getExtensionsInfo(),
@@ -45,7 +47,7 @@ class AboutController extends AbstractController
                 'menuid' => 'about',
                 'availableUpdates' => $this->getAvailableUpdates(),
             ),
-            prepare_menu($this->getOperator())
+            prepare_menu($operator)
         );
 
         return $this->render('about', $page);
