@@ -30,7 +30,7 @@ class Installer
     /**
      * Minimal PHP version Mibew Messenger works with.
      */
-    const MIN_PHP_VERSION = 50303;
+    const MIN_PHP_VERSION = 50400;
 
     /**
      * Associative array of system configs.
