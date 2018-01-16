@@ -22,11 +22,11 @@
                 {{/if}}
             </ul>
         </li>
-        <li>
-            <h2>{{l10n "Administration"}}</h2>
-            <ul class="submenu">
-                <li{{#ifEqual menuid "canned"}} class="active"{{/ifEqual}}><a href="{{route "canned_messages"}}">{{l10n "Canned Messages"}}</a></li>
-                {{#if showadmin}}
+        {{#if showadmin}}
+            <li>
+                <h2>{{l10n "Administration"}}</h2>
+                <ul class="submenu">
+                    <li{{#ifEqual menuid "canned"}} class="active"{{/ifEqual}}><a href="{{route "canned_messages"}}">{{l10n "Canned Messages"}}</a></li>
                     <li{{#ifEqual menuid "getcode"}} class="active"{{/ifEqual}}><a href="{{route "button_code"}}">{{l10n "Button code"}}</a></li>
                     <li{{#ifEqual menuid "operators"}} class="active"{{/ifEqual}}><a href="{{route "operators"}}">{{l10n "Operators"}}</a></li>
                     <li{{#ifEqual menuid "groups"}} class="active"{{/ifEqual}}><a href="{{route "groups"}}">{{l10n "Groups"}}</a></li>
@@ -35,9 +35,9 @@
                     <li{{#ifEqual menuid "styles"}} class="active"{{/ifEqual}}><a href="{{route "style_preview" type="page"}}">{{l10n "Styles"}}</a></li>
                     <li{{#ifEqual menuid "translation"}} class="active"{{/ifEqual}}><a href="{{route "translations"}}">{{l10n "Localize"}}</a></li>
                     <li{{#ifEqual menuid "mail_templates"}} class="active"{{/ifEqual}}><a href="{{route "mail_templates"}}">{{l10n "Mail templates"}}</a></li>
-                {{/if}}
-            </ul>
-        </li>
+                </ul>
+            </li>
+        {{/if}}
         <li>
             <h2>{{l10n "Other"}}</h2>
             <ul class="submenu">

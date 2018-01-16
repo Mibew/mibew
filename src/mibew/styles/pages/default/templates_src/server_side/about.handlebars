@@ -14,43 +14,45 @@
                     <p>{{{l10n "Copyright &copy; {0} Contributors of the Mibew Messenger project." "2005-2017"}}}</p>
                     <p>{{{l10n "For more information visit the official site of the project: <a href=\"https://mibew.org/\">https://mibew.org/</a>"}}}</p>
 
-                    <br/><br/>
+                    {{#if showSystemInfo}}
+                        <br/><br/>
 
-                    <h2>{{l10n "System information"}}</h2>
-                    <h3>{{l10n "You are using:"}}</h3>
-                    <div id="current-version">{{version}}</div>
+                        <h2>{{l10n "System information"}}</h2>
+                        <h3>{{l10n "You are using:"}}</h3>
+                        <div id="current-version">{{version}}</div>
 
-                    <br/>
+                        <br/>
 
-                    <h3>{{l10n "Installed localizations:"}}</h3>
-                    {{#each localizations}}
-                        {{this}}
-                    {{/each}}
-
-                    <br/><br/>
-
-                    <h3>{{l10n "Environment:"}}</h3>
-                    PHP {{phpVersion}} {{#each extensions}}{{@key}}{{#if loaded}}{{#if version}}/{{version}}{{/if}}{{else}}/absent{{/if}} {{/each}}
-
-                    <br/><br/>
-
-                    <h2>{{l10n "Available updates"}}</h2>
-                    {{#if availableUpdates}}
-                        {{#each availableUpdates}}
-                            <h3>{{title}} ({{version}})</h3>
-                            {{#if description}}
-                                <div>{{description}}</div>
-                            {{/if}}
-                            <div>
-                                <a href="{{url}}">{{l10n "Download"}}</a>
-                            </div>
-
-                            <br/>
+                        <h3>{{l10n "Installed localizations:"}}</h3>
+                        {{#each localizations}}
+                            {{this}}
                         {{/each}}
-                    {{else}}
-                        {{l10n "There is no available updates."}}<br/><br/>
+
+                        <br/><br/>
+
+                        <h3>{{l10n "Environment:"}}</h3>
+                        PHP {{phpVersion}} {{#each extensions}}{{@key}}{{#if loaded}}{{#if version}}/{{version}}{{/if}}{{else}}/absent{{/if}} {{/each}}
+
+                        <br/><br/>
+
+                        <h2>{{l10n "Available updates"}}</h2>
+                        {{#if availableUpdates}}
+                            {{#each availableUpdates}}
+                                <h3>{{title}} ({{version}})</h3>
+                                {{#if description}}
+                                    <div>{{description}}</div>
+                                {{/if}}
+                                <div>
+                                    <a href="{{url}}">{{l10n "Download"}}</a>
+                                </div>
+
+                                <br/>
+                            {{/each}}
+                        {{else}}
+                            {{l10n "There is no available updates."}}<br/><br/>
+                        {{/if}}
+                        <a href="{{route "update_check"}}">{{l10n "Check for available updates"}}</a>
                     {{/if}}
-                    <a href="{{route "update_check"}}">{{l10n "Check for available updates"}}</a>
                 </div>
 
                 <div class="form-footer">
