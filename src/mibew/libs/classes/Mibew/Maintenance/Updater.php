@@ -439,4 +439,30 @@ class Updater
 
         return true;
     }
+
+    /**
+     * Performs all database updates needed for 3.1.0.
+     *
+     * @return boolean True if the updates have been applied successfully and
+     * false otherwise.
+     */
+    protected function update30100()
+    {
+        $db = $this->getDatabase();
+
+        if (!$db) {
+            return false;
+        }
+
+        try {
+            // Alter plugin table.
+            $db->query('ALTER TABLE {revision} ADD PRIMARY KEY (id)');
+        } catch (\Exception $e) {
+            $this->errors[] = getlocal('Cannot update tables: {0}', $e->getMessage());
+
+            return false;
+        }
+
+        return true;
+    }
 }

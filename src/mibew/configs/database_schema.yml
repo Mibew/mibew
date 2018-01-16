@@ -226,7 +226,7 @@ operatorstatistics:
 
 revision:
     fields:
-        id: "INT NOT NULL"
+        id: "INT NOT NULL PRIMARY KEY"
 
 # Contains relations between operators and groups
 operatortoopgroup:
