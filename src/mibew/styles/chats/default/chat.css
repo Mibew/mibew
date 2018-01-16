@@ -379,6 +379,17 @@ a:hover .image-close-window {
     width: 200px;
 }
 
+/* survey */
+#message-survey {
+    resize: none;
+}
+
+/* leavy message */
+
+#message-leave {
+    resize: none;
+}
+
 /* error page (error.tpl) */
 #logo-wrapper {
     position: relative;
