@@ -21,6 +21,8 @@ div.mibew-chat-wrapper {
     position: fixed !important;
     bottom: 5px !important;
     right: 5px !important;
+    -webkit-overflow-scrolling: touch !important;
+    overflow-y: scroll !important;
 }
 
 iframe.mibew-chat-frame {
