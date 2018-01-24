@@ -21,8 +21,6 @@ div.mibew-chat-wrapper {
     position: fixed !important;
     bottom: 5px !important;
     right: 5px !important;
-    -webkit-overflow-scrolling: touch !important;
-    overflow-y: scroll !important;
 }
 
 iframe.mibew-chat-frame {
@@ -74,4 +72,12 @@ div.mibew-chat-frame-toggle-off {
     right: 5px !important;
     bottom: 5px !important;
     background: #ffffff url("images/default-logo-short.png") scroll no-repeat 4px 5px;
+}
+
+/* responsive design for mobile devices */
+@media only screen and (max-width: 500px) {
+    div.mibew-chat-wrapper {
+        -webkit-overflow-scrolling: touch !important;
+        overflow-y: scroll !important;
+    }
 }
