@@ -83,7 +83,6 @@ img {
     background: #ffffff url("images/bottombg.gif") scroll repeat-x 0 0;
 }
 #footer {
-    width: 400px;
     margin: 0 auto;
     padding-top: 5px;
     padding-bottom: 5px;
@@ -576,5 +575,12 @@ ul li {
     }
     #logo img {
         max-width: 100%;
+    }
+}
+
+/* additional trick for desktops */
+@media (min-width: 501px) {
+    #footer {
+        width: 400px;
     }
 }
