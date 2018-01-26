@@ -506,7 +506,6 @@ ul li {
 #invitation-messages-region {
     height: 150px;
     min-height: 150px;
-    width: 388px;
     overflow-y: auto;
     padding: 0;
     font-weight: normal;
@@ -576,11 +575,17 @@ ul li {
     #logo img {
         max-width: 100%;
     }
+    #invitation-messages-region {
+        max-width: 100%;
+    }
 }
 
-/* additional trick for desktops */
+/* additional tricks for desktops */
 @media (min-width: 501px) {
     #footer {
         width: 400px;
+    }
+    #invitation-messages-region {
+        width: 388px;
     }
 }

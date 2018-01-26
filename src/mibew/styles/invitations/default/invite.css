@@ -36,7 +36,6 @@
     position: fixed !important;
     bottom: 5px !important;
     right: 5px !important;
-    width: 400px !important;
     z-index: 100 !important;
     border-radius: 10px !important;
     -webkit-border-radius: 10px !important;
@@ -97,7 +96,6 @@
     max-width: 100px !important;
 }
 #mibew-invitation-frame {
-    width: 388px !important;
     height: 150px !important;
     overflow: hidden !important;
     border: 1px solid #bbc4c4 !important;
@@ -139,4 +137,25 @@
     background: -moz-linear-gradient(#e9f6fc, #c6e5f6) !important;
     background: -ms-linear-gradient(#e9f6fc, #c6e5f6) !important;
     background: linear-gradient(#e9f6fc, #c6e5f6) !important;
+}
+
+/* responsive design for mobile devices */
+@media only screen and (max-width: 500px) {
+    #mibew-invitation-popup {
+        max-width: 100% !important;
+    }
+    #mibew-invitation-frame {
+        max-width: 100% !important;
+    }
+}
+
+/* additional trick for desktops */
+@media (min-width: 501px) {
+    #mibew-invitation-popup {
+        width: 400px !important;
+    }
+
+    #mibew-invitation-frame {
+        width: 388px !important;
+    }
 }
