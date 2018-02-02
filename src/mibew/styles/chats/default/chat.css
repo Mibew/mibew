@@ -83,7 +83,6 @@ img {
     background: #ffffff url("images/bottombg.gif") scroll repeat-x 0 0;
 }
 #footer {
-    width: 400px;
     margin: 0 auto;
     padding-top: 5px;
     padding-bottom: 5px;
@@ -379,6 +378,16 @@ a:hover .image-close-window {
     width: 200px;
 }
 
+/* survey */
+#message-survey {
+    resize: none;
+}
+
+/* leavy message */
+#message-leave {
+    resize: none;
+}
+
 /* error page (error.tpl) */
 #logo-wrapper {
     position: relative;
@@ -497,7 +506,6 @@ ul li {
 #invitation-messages-region {
     height: 150px;
     min-height: 150px;
-    width: 388px;
     overflow-y: auto;
     padding: 0;
     font-weight: normal;
@@ -548,4 +556,36 @@ ul li {
 #confirm-pane .submit-button {
     float: none;
     display: inline-block;
+}
+
+/* responsive design for mobile devices */
+@media only screen and (max-width: 500px) {
+    body {
+        min-width: auto;
+    }
+    #footer {
+        max-width: 100%;
+    }
+    #message-leave {
+        width: 100%;
+    }
+    .username {
+        width: 100%;
+    }
+    #logo img {
+        max-width: 100%;
+    }
+    #invitation-messages-region {
+        max-width: 100%;
+    }
+}
+
+/* additional tricks for desktops */
+@media (min-width: 501px) {
+    #footer {
+        width: 400px;
+    }
+    #invitation-messages-region {
+        width: 388px;
+    }
 }

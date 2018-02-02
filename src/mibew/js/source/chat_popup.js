@@ -293,6 +293,12 @@ var Mibew = Mibew || {};
         BasePopup.call(this, options);
 
         /**
+         * Wrapper for popup iframe DOM Element.
+         * @type {Node}
+         */
+        this.wrapperDiv = null;
+
+        /**
          * Popup iframe DOM Element.
          * @type {Node}
          */
@@ -384,20 +390,23 @@ var Mibew = Mibew || {};
             return;
         }
 
-        if (!this.iframe) {
-            // Create new iframe.
+        if (!this.wrapperDiv) {
+            // Create new iframe and its wrapper.
             // There is a bug in IE <= 7 that make "name" attribute unchangeble
             // for elements that already exist. Thus a temporary div is used
             // here as a workaround.
-            var tmpDiv = document.createElement('div');
-            tmpDiv.innerHTML = '<iframe name="mibewChat' + this.id + '"></iframe>';
+            this.wrapperDiv = document.createElement('div');
+            this.wrapperDiv.className = 'mibew-chat-wrapper';
+            this.wrapperDiv.setAttribute('id', 'mibew-chat-wrapper-' + this.id);
+            this.wrapperDiv.style.display = 'none';
+            this.wrapperDiv.innerHTML = '<iframe name="mibewChat' + this.id + '"></iframe>';
 
-            this.iframe = tmpDiv.getElementsByTagName('iframe')[0];
+            this.iframe = this.wrapperDiv.getElementsByTagName('iframe')[0];
             this.iframe.setAttribute('id', 'mibew-chat-frame-' + this.id);
             this.iframe.className = 'mibew-chat-frame';
             this.iframe.setAttribute('frameBorder', 0);
-            this.iframe.style.display = 'none';
-            document.getElementsByTagName('body')[0].appendChild(this.iframe);
+
+            document.getElementsByTagName('body')[0].appendChild(this.wrapperDiv);
 
             // Setup toggle element. As it's not a part of the iframe, it should be
             // treated separately.
@@ -415,7 +424,7 @@ var Mibew = Mibew || {};
             document.getElementsByTagName('body')[0].appendChild(this.toggleDiv);
         }
 
-        this.iframe.style.display = 'block';
+        this.wrapperDiv.style.display = 'block';
         this.toggleDiv.style.display = 'block';
         this.iframe.src = url || this.buildChatUrl();
         this.isOpened = true;
@@ -430,7 +439,7 @@ var Mibew = Mibew || {};
             return;
         }
 
-        this.iframe.style.display = 'none';
+        this.wrapperDiv.style.display = 'none';
         this.iframe.src = '';
         this.isOpened = false;
         this.toggleDiv.style.display = 'none';
@@ -442,7 +451,7 @@ var Mibew = Mibew || {};
      * Toggles the popup.
      */
     Mibew.ChatPopup.IFrame.prototype.toggle = function() {
-        this.iframe.style.display = this.isMinified ? "block" : "none";
+        this.wrapperDiv.style.display = this.isMinified ? "block" : "none";
         this.isMinified = !this.isMinified;
         this.toggleDiv.className = 'mibew-chat-frame-toggle mibew-chat-frame-toggle-'
             + (this.isMinified ? 'off' : 'on');
