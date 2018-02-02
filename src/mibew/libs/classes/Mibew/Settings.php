@@ -69,7 +69,7 @@ class Settings
         $this->settings = array(
             'dbversion' => 0,
             'title' => 'Your Company',
-            'hosturl' => 'http://mibew.org',
+            'hosturl' => 'https://mibew.org',
             'logo' => '',
             'usernamepattern' => '{name}',
             'chat_style' => 'default',

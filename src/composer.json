@@ -3,18 +3,18 @@
     "version": "3.1.0",
     "description": "Mibew Messenger - open-source live support application",
     "type": "project",
-    "homepage": "http://mibew.org",
+    "homepage": "https://mibew.org",
     "license": "Apache-2.0",
     "authors": [
         {
             "name": "Mibew Messenger Project",
-            "homepage": "http://mibew.org/credits"
+            "homepage": "https://mibew.org/credits"
         }
     ],
     "support": {
         "email": "support@mibew.org",
         "issues": "https://github.com/mibew/mibew/issues",
-        "forum": "http://mibew.org/forums",
+        "forum": "https://mibew.org/forums",
         "source": "https://github.com/mibew/mibew"
     },
     "require": {
