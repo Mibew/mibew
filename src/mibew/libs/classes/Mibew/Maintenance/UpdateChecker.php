@@ -245,20 +245,25 @@ class UpdateChecker
     protected function processUpdates($updates)
     {
         // Process updates of the core.
+        $success = false;
         if (version_compare($updates['core']['version'], MIBEW_VERSION) > 0) {
             $update = $updates['core'];
-            // Save info about update for the core only if its version changed
+            // Save info about update for the core only if its version changed.
             $success = $this->saveUpdate(
                 'core',
                 $update['version'],
                 $update['download'],
                 empty($update['description']) ? '' : $update['description']
             );
-            if (!$success) {
-                // Something went wrong. The error is already logged so just
-                // notify the outer code.
-                return false;
-            }
+        }
+        else {
+            // Remove obsolete info if core already was updated.
+            $success = $this->deleteUpdate('core');
+        }
+        if (!$success) {
+            // Something went wrong. The error is already logged so just
+            // notify the outer code.
+            return false;
         }
 
         // Process plugins updates.
@@ -271,19 +276,21 @@ class UpdateChecker
             }
 
             $info = $plugins_info[$plugin_name];
-
-            if (version_compare($update['version'], $info['version']) <= 0) {
-                // Version of the plugin is not updated. Just do nothing.
-                continue;
+            $success = false;
+            if (version_compare($update['version'], $info['version']) > 0) {
+                // Save the update
+                $success = $this->saveUpdate(
+                    $plugin_name,
+                    $update['version'],
+                    $update['download'],
+                    empty($update['description']) ? '' : $update['description']
+                );
+            }
+            else {
+                // Version of the plugin is not updated. Remove obsolete info if need to.
+                $success = $this->deleteUpdate($plugin_name);
             }
 
-            // Save the update
-            $success = $this->saveUpdate(
-                $plugin_name,
-                $update['version'],
-                $update['download'],
-                empty($update['description']) ? '' : $update['description']
-            );
             if (!$success) {
                 // Something went wrong. The error is already logged so just
                 // notify the outer code.
@@ -322,6 +329,33 @@ class UpdateChecker
             $update->save();
         } catch (\Exception $e) {
             $this->errors[] = 'Cannot save available update: ' + $e->getMessage();
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Deletes record about available update from the database.
+     *
+     * @param string $target Update's target. Can be either "core" or fully
+     * qualified plugin's name.
+     * @return boolean False on failure and true otherwise. To get more info
+     * about the error call {@link UpdateChecker::getErrors()} method.
+     */
+    protected function deleteUpdate($target)
+    {
+        try {
+            $update = AvailableUpdate::loadByTarget($target);
+            if (!$update) {
+                // There is no such update in the database. Do nothing.
+                return true;
+            }
+
+            $update->delete();
+        } catch (\Exception $e) {
+            $this->errors[] = 'Cannot delete obsolete update: ' + $e->getMessage();
 
             return false;
         }
