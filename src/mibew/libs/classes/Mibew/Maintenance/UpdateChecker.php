@@ -298,6 +298,20 @@ class UpdateChecker
             }
         }
 
+        // Remove information about updates for absent plugins.
+        $updates = AvailableUpdate::all();
+        $plugins = PluginUtils::discoverPlugins();
+        foreach ($updates as $update) {
+            $name = $update->target;
+            // Skip information about the core.
+            if (!strcmp($name, 'core')) {
+                continue;
+            }
+            elseif (!in_array($name, $plugins)) {
+                $this->deleteUpdate($name);
+            }
+        }
+
         return true;
     }
 
