@@ -255,8 +255,7 @@ class UpdateChecker
                 $update['download'],
                 empty($update['description']) ? '' : $update['description']
             );
-        }
-        else {
+        } else {
             // Remove obsolete info if core already was updated.
             $success = $this->deleteUpdate('core');
         }
@@ -285,8 +284,7 @@ class UpdateChecker
                     $update['download'],
                     empty($update['description']) ? '' : $update['description']
                 );
-            }
-            else {
+            } else {
                 // Version of the plugin is not updated. Remove obsolete info if need to.
                 $success = $this->deleteUpdate($plugin_name);
             }
@@ -306,8 +304,7 @@ class UpdateChecker
             // Skip information about the core.
             if (!strcmp($name, 'core')) {
                 continue;
-            }
-            elseif (!in_array($name, $plugins)) {
+            } elseif (!in_array($name, $plugins)) {
                 $this->deleteUpdate($name);
             }
         }
