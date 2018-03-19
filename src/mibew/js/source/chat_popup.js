@@ -440,10 +440,10 @@ var Mibew = Mibew || {};
         var check = Mibew.Utils.loadScript(url + '/check', 'mibew-check-iframe-' + this.id);
         check.popup = this;
         check.url = url;
-        check.onload = function(){
+        check.onload = function() {
             this.popup.open(this.url);
-        }
-        check.onerror = function(){
+        };
+        check.onerror = function() {
             this.popup.close();
         };
     };
