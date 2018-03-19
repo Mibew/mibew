@@ -333,7 +333,7 @@ var Mibew = Mibew || {};
         if (openedChatUrl) {
             // The chat was not closed so the popup should be reopened when a
             // new page is visited.
-            this.open(openedChatUrl);
+            this.safeOpen(openedChatUrl);
             // Check minification status of the popup and toggle it if needed.
             var minifiedPopup = Mibew.Utils.readCookie('mibew-chat-frame-minified-' + this.id);
             if (minifiedPopup === 'true') {
@@ -428,6 +428,24 @@ var Mibew = Mibew || {};
         this.toggleDiv.style.display = 'block';
         this.iframe.src = url || this.buildChatUrl();
         this.isOpened = true;
+    };
+
+    /**
+     * Check chat URL via special request, open the chat if check passes,
+     * close the popup if the check fails.
+     *
+     * @param {String} [url] The URL to open in the popup
+     */
+    Mibew.ChatPopup.IFrame.prototype.safeOpen = function(url) {
+        var check = Mibew.Utils.loadScript(url + '/check', 'mibew-check-iframe-' + this.id);
+        check.popup = this;
+        check.url = url;
+        check.onload = function(){
+            this.popup.open(this.url);
+        }
+        check.onerror = function(){
+            this.popup.close();
+        };
     };
 
     /**

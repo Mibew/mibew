@@ -49,6 +49,14 @@ chat_user:
         thread_id: \d{1,10}
         token: \d{1,10}
 
+chat_user_check:
+    path: /chat/{thread_id}/{token}/check
+    defaults:
+        _controller: Mibew\Controller\Chat\UserChatController::checkAction
+    requirements:
+        thread_id: \d{1,10}
+        token: \d{1,10}
+
 chat_user_invitation:
     path: /chat/invitation
     defaults:

@@ -75,6 +75,31 @@ class UserChatController extends AbstractController
     }
 
     /**
+     * Check chat to exists.
+     *
+     * @param Request $request Incoming request.
+     * @return string Empty string.
+     * @throws NotFoundException If the thread with specified ID and token is
+     * not found.
+     */
+    public function checkAction(Request $request)
+    {
+        $thread_id = $request->attributes->getInt('thread_id');
+        $token = $request->attributes->get('token');
+
+        // We have to check that the thread is owned by the user.
+        $is_own_thread = isset($_SESSION[SESSION_PREFIX . 'own_threads'])
+            && in_array($thread_id, $_SESSION[SESSION_PREFIX . 'own_threads']);
+
+        $thread = Thread::load($thread_id, $token);
+        if (!$thread || !$is_own_thread) {
+            throw new NotFoundException('The thread is not found.');
+        }
+
+        return "";
+    }
+
+    /**
      * Starts the chat.
      *
      * @param Request $request Incoming request.
