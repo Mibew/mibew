@@ -334,11 +334,6 @@ var Mibew = Mibew || {};
             // The chat was not closed so the popup should be reopened when a
             // new page is visited.
             this.safeOpen(openedChatUrl);
-            // Check minification status of the popup and toggle it if needed.
-            var minifiedPopup = Mibew.Utils.readCookie('mibew-chat-frame-minified-' + this.id);
-            if (minifiedPopup === 'true') {
-                this.toggle();
-            }
         }
     };
 
@@ -428,6 +423,12 @@ var Mibew = Mibew || {};
         this.toggleDiv.style.display = 'block';
         this.iframe.src = url || this.buildChatUrl();
         this.isOpened = true;
+
+// Check minification status of the popup and toggle it if needed.
+        var minifiedPopup = Mibew.Utils.readCookie('mibew-chat-frame-minified-' + this.id);
+        if (minifiedPopup === 'true') {
+            this.toggle();
+        }
     };
 
     /**
