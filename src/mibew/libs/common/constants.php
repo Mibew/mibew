@@ -20,7 +20,7 @@
 /**
  * Current version of Mibew Messenger
  */
-define('MIBEW_VERSION', '3.1.1');
+define('MIBEW_VERSION', '3.1.2');
 
 /**
  * Prefix for session variables.
