@@ -142,7 +142,7 @@
             showGeoInfo: function() {
                 var ip = this.model.get('userIp');
                 if (ip) {
-                    Mibew.Utils.alert(Mibew.Localization.trans('No geolocation data available. We recommend you to install Mibew:GeoIp and Mibew:GoogleMaps plugins.'));
+                    Mibew.Utils.alert(Mibew.Localization.trans('No geolocation data available. We recommend you to install Mibew:GeoIp and Mibew:OpenStreetMap (or Mibew:GoogleMaps) plugins.'));
                 }
             },
 
