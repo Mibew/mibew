@@ -485,7 +485,7 @@ abstract class AbstractProcessor
         $db = Database::getInstance();
 
         $query = "INSERT INTO {requestcallback} ( "
-            . "token, function, arguments "
+            . "token, func, arguments "
             . ") VALUES ( "
             . ":token, :function, :arguments"
             . ")";
@@ -526,7 +526,7 @@ abstract class AbstractProcessor
         }
 
         return array(
-            'function' => $callback['function'],
+            'function' => $callback['func'],
             'arguments' => unserialize($callback['arguments']),
         );
     }
