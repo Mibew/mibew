@@ -465,4 +465,32 @@ class Updater
 
         return true;
     }
+
+    /**
+     * Performs all database updates needed for 3.2.0.
+     *
+     * @return boolean True if the updates have been applied successfully and
+     * false otherwise.
+     */
+    protected function update30200()
+    {
+        $db = $this->getDatabase();
+
+        if (!$db) {
+            return false;
+        }
+
+        try {
+            // Alter requestcallback table: replace column with an invalid name.
+            $db->query('ALTER TABLE {requestcallback} ADD COLUMN `func` VARCHAR(64) NOT NULL AFTER `function`');
+            $db->query('UPDATE {requestcallback} SET `func` = `function`');
+            $db->query('ALTER TABLE {requestcallback} DROP COLUMN `function`');
+        } catch (\Exception $e) {
+            $this->errors[] = getlocal('Cannot update tables: {0}', $e->getMessage());
+
+            return false;
+        }
+
+        return true;
+    }
 }
