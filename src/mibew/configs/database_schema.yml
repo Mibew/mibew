@@ -104,7 +104,7 @@ requestcallback:
     fields:
         callbackid: "int NOT NULL auto_increment PRIMARY KEY"
         token: "varchar(64) NOT NULL DEFAULT ''"
-        function: "varchar(64) NOT NULL"
+        func: "varchar(64) NOT NULL"
         arguments: "varchar(1024)"
     indexes:
         token: [token]
