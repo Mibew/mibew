@@ -455,7 +455,7 @@ class Updater
         }
 
         try {
-            // Alter plugin table.
+            // Add primary key to the revision table.
             $db->query('ALTER TABLE {revision} ADD PRIMARY KEY (id)');
         } catch (\Exception $e) {
             $this->errors[] = getlocal('Cannot update tables: {0}', $e->getMessage());
