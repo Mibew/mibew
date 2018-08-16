@@ -221,6 +221,12 @@ function setup_survey($name, $email, $group_id, $info, $referrer)
         'title' => $data['page.title']
     );
 
+    // Set privacy policy link (if needed)
+    if (Settings::get('enableprivacypolicy')
+         && strcmp('', Settings::get('privacypolicy'))) {
+        $data['survey']['surveyForm']['privacyPolicyUrl'] = Settings::get('privacypolicy');
+    }
+
     if (Settings::get('enablegroups') == '1' && Settings::get('surveyaskgroup') == '1') {
         $data['survey']['surveyForm']['groups']
             = prepare_groups_select($group_id);
@@ -437,6 +443,7 @@ function setup_chatview_for_user(
     $data['chat']['avatar'] = $operator['vcavatar']
         ? $asset_url_generator->generate($operator['vcavatar'])
         : '';
+
 
     return $data;
 }

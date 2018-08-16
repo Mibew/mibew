@@ -98,6 +98,8 @@ class Settings
             'autocheckupdates' => '1', /* Check updates automatically */
             'showonlineoperators' => '0',
             'enablecaptcha' => '0',
+            'enableprivacypolicy' => '0',
+            'privacypolicy' => '',
             'online_timeout' => 30, /* Timeout (in seconds) when online operator becomes offline */
             'connection_timeout' => 30, /* Timeout (in seconds) from the last ping when messaging window disconnects */
             'updatefrequency_operator' => 2,

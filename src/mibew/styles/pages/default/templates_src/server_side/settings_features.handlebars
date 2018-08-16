@@ -143,6 +143,24 @@
                                     <label for="survey-ask-message" class="field-description"> &mdash; {{l10n "Show/hide initial question field in the survey"}}</label>
                                     <br clear="all"/>
                                 </div>
+
+                                <div class="subfield under-survey">
+                                    <label for="enable-privacy-policy" class="field-label">{{l10n "Enable \"Privacy policy\""}}</label>
+                                    <div class="field-value">
+                                        <input id="enable-privacy-policy" type="checkbox" name="enableprivacypolicy" value="on"{{#if formenableprivacypolicy}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="enable-privacy-policy" class="field-description"> &mdash; {{l10n "Display a notice with the link to privacy policy on the survey page"}}</label>
+                                    <br clear="all"/>
+
+                                    <div class="subfield under-privacy-policy">
+                                        <label for="privacy-policy" class="field-label">{{l10n "Privacy policy"}}</label>
+                                        <div class="field-value">
+                                            <input id="privacy-policy" type="text" name="privacypolicy" size="40" value="{{formprivacypolicy}}" class="field-input"{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                        </div>
+                                        <label for="privacy-policy" class="field-description"> &mdash; {{l10n "Enter a URL of your privacy policy"}}</label>
+                                        <br clear="all"/>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="field">
