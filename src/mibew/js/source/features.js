@@ -49,6 +49,14 @@
         }
     }
 
+    function updatePrivacyPolicy() {
+        if ($("#enable-privacy-policy").is(":checked")) {
+            $(".under-privacy-policy").show();
+        } else {
+            $(".under-privacy-policy").hide();
+        }
+    }
+
     $(function() {
         $("#enable-presurvey").change(function() {
             updateSurvey();
@@ -62,9 +70,13 @@
         $("#enable-tracking").change(function() {
             updateTracking();
         });
+        $("#enable-privacy-policy").change(function() {
+            updatePrivacyPolicy();
+        });
         updateSurvey();
         updateSSL();
         updateGroups();
         updateTracking();
+        updatePrivacyPolicy();
     });
 })(jQuery);

@@ -47,6 +47,12 @@ class FeaturesController extends AbstractController
             $page['form' . $opt] = (Settings::get($opt) == '1');
         }
 
+        // Load all needed featured values and fill the form.
+        $values = $this->getValuesList();
+        foreach ($values as $val) {
+            $page['form' . $val] = Settings::get($val);
+        }
+
         $page['canmodify'] = is_capable(CAN_ADMINISTRATE, $operator);
         $page['stored'] = $request->query->get('stored');
         $page['title'] = getlocal('Messenger settings');
@@ -76,6 +82,13 @@ class FeaturesController extends AbstractController
         foreach ($options as $opt) {
             $value = $request->request->get($opt) == 'on' ? '1' : '0';
             Settings::set($opt, $value);
+        }
+
+        // Update featured values in the database.
+        $values = $this->getValuesList();
+        foreach ($values as $val) {
+            $value = $request->request->get($val);
+            Settings::set($val, $value);
         }
 
         // Redirect the current operator to the same page using GET method.
@@ -110,8 +123,21 @@ class FeaturesController extends AbstractController
             'enablepopupnotification',
             'showonlineoperators',
             'enablecaptcha',
+            'enableprivacypolicy',
             'trackoperators',
             'autocheckupdates',
+        );
+    }
+
+    /**
+     * Returns list with names of all featured values.
+     *
+     * @return array Featured values names.
+     */
+    protected function getValuesList()
+    {
+        return array(
+            'privacypolicy',
         );
     }
 }

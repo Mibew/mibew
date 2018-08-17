@@ -42,7 +42,13 @@
             <td valign="top"><textarea id="message-survey" name="message" tabindex="0" cols="45" rows="2">{{message}}</textarea></td>
         </tr>
     {{/if}}
+    {{#if privacyPolicyUrl}}
+        <tr>
+            <td colspan="2"><strong>{{{l10n "Please note that by starting the chat you're explicitly agree with the <a href=\"{0}\" target=\"_blank\">Privacy Policy</a>" privacyPolicyUrl}}}</strong></td>
+        </tr>
+    {{/if}}
     </table>
+    <br/>
     <a href="javascript:void(0);" class="but" id="submit-survey">{{l10n "Start Chat"}}</a>
     <div class="clear">&nbsp;</div>
 </form>
