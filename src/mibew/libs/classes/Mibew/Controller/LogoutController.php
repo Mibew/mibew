@@ -36,7 +36,7 @@ class LogoutController extends AbstractController
      */
     public function logoutAction(Request $request)
     {
-        // Login the operator from the system
+        // Logout the operator from the system
         $this->getAuthenticationManager()->logoutOperator();
 
         // Redirect the current operator to the login page.
