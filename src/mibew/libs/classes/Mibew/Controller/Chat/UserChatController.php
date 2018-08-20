@@ -195,7 +195,7 @@ class UserChatController extends AbstractController
 
             // Get operator info
             $requested_operator = false;
-            if ($operator_code) {
+            if ($operator_code !== false) {
                 $requested_operator = operator_by_code($operator_code);
             }
 
