@@ -13,6 +13,11 @@
             <div id="form-message">{{l10n "Features activated"}}</div>
         {{/if}}
 
+        {{#if regeneratebutton}}
+            <br/>
+            <div id="form-message"><img src="{{asset "@CurrentStyle/images/dash/warning.png"}}" alt="" class="warning" /> {{l10n "<a href=\"{0}\">Regenerate the chat button</a> for options to take effect" (route "button_code")}}</div>
+        {{/if}}
+
         <form name="features" method="post" action="{{route "settings_features_save"}}">
             {{csrfTokenInput}}
             <input type="hidden" name="sent" value="true"/>

@@ -55,6 +55,7 @@ class FeaturesController extends AbstractController
 
         $page['canmodify'] = is_capable(CAN_ADMINISTRATE, $operator);
         $page['stored'] = $request->query->get('stored');
+        $page['regeneratebutton'] = $request->query->get('regenerate');
         $page['title'] = getlocal('Messenger settings');
         $page['menuid'] = 'settings';
         $page = array_merge($page, prepare_menu($operator));
@@ -77,10 +78,15 @@ class FeaturesController extends AbstractController
     {
         csrf_check_token($request);
 
+        $regenerate_button = false;
+
         // Update options in the database.
         $options = $this->getOptionsList();
         foreach ($options as $opt) {
             $value = $request->request->get($opt) == 'on' ? '1' : '0';
+            if (($opt === 'enabletracking') && (Settings::get($opt) != $value)) {
+                $regenerate_button = true;
+            }
             Settings::set($opt, $value);
         }
 
@@ -94,7 +100,7 @@ class FeaturesController extends AbstractController
         // Redirect the current operator to the same page using GET method.
         $redirect_to = $this->generateUrl(
             'settings_features',
-            array('stored' => true)
+            array('stored' => true, 'regenerate' => $regenerate_button)
         );
 
         return $this->redirect($redirect_to);

@@ -83,6 +83,7 @@ class PerformanceController extends AbstractController
 
         $page['enabletracking'] = Settings::get('enabletracking');
         $page['stored'] = $request->query->get('stored');
+        $page['regeneratebutton'] = $request->query->get('regenerate');
         $page['title'] = getlocal("Messenger settings");
         $page['menuid'] = "settings";
 
@@ -106,6 +107,8 @@ class PerformanceController extends AbstractController
 
         $errors = array();
         $params = array();
+
+        $regenerate_button = false;
 
         $params['online_timeout'] = $request->request->get('onlinetimeout');
         if (!is_numeric($params['online_timeout'])) {
@@ -141,6 +144,10 @@ class PerformanceController extends AbstractController
             $params['updatefrequency_tracking'] = $request->request->get('frequencytracking');
             if (!is_numeric($params['updatefrequency_tracking'])) {
                 $errors[] = wrong_field("Tracking refresh time");
+            } else {
+                if (Settings::get('updatefrequency_tracking') != $params['updatefrequency_tracking']) {
+                    $regenerate_button = true;
+                }
             }
 
             $params['visitors_limit'] = $request->request->get('visitorslimit');
@@ -177,7 +184,7 @@ class PerformanceController extends AbstractController
         }
 
         // Redirect the current operator to the same page using get method.
-        $redirect_to = $this->generateUrl('settings_performance', array('stored' => true));
+        $redirect_to = $this->generateUrl('settings_performance', array('stored' => true, 'regenerate' => $regenerate_button));
 
         return $this->redirect($redirect_to);
     }
