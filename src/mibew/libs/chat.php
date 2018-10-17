@@ -178,6 +178,12 @@ function setup_leavemessage($name, $email, $group_id, $info, $referrer)
         'title' => $data['page.title']
     );
 
+    // Set privacy policy link (if needed)
+    if (Settings::get('enableprivacypolicy')
+         && strcmp('', Settings::get('privacypolicy'))) {
+        $data['leaveMessage']['leaveMessageForm']['privacyPolicyUrl'] = Settings::get('privacypolicy');
+    }
+
     if (Settings::get('enablegroups') == '1') {
         $data['leaveMessage']['leaveMessageForm']['groups']
             = prepare_groups_select($group_id);
