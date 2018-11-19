@@ -452,7 +452,7 @@ var Mibew = Mibew || {};
         check.url = url;
         var style = Mibew.Utils.readCookie('mibew-chat-frame-style-' + this.id);
         check.onload = function() {
-            this.popup.open(this.url + '?style=' + style);
+            this.popup.open(this.url + (style ? '?style=' + style : ''));
         };
         check.onerror = function() {
             this.popup.close();
