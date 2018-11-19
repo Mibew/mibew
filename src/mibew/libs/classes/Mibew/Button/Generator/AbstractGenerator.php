@@ -220,6 +220,7 @@ abstract class AbstractGenerator implements GeneratorInterface
             'preferIFrame' => $this->getOption('prefer_iframe'),
             'modSecurity' => $this->getOption('mod_security'),
             'forceSecure' => $this->getOption('force_secure'),
+            'style' => $this->getOption('chat_style'),
         ) + $this->getPopupStyle();
     }
 

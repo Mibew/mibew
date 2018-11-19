@@ -203,7 +203,6 @@ var Mibew = Mibew || {};
     Mibew.ChatPopup.init = function(options) {
         var canUseIFrame = (window.postMessage && options.preferIFrame),
             Popup = canUseIFrame ? Mibew.ChatPopup.IFrame : Mibew.ChatPopup.Window;
-
         Mibew.Objects.ChatPopups[options.id] = new Popup(options);
     };
 
@@ -260,6 +259,13 @@ var Mibew = Mibew || {};
          * @type {Boolean}
          */
         this.modSecurity = options.modSecurity || false;
+
+        /**
+         * Chat style
+         * @type {String}
+         */
+        this.styleName = options.style;
+
     };
 
     /**
@@ -424,6 +430,9 @@ var Mibew = Mibew || {};
         this.iframe.src = url || this.buildChatUrl();
         this.isOpened = true;
 
+// Store style name in case we need it during iframe reopening
+        Mibew.Utils.createCookie('mibew-chat-frame-style-' + this.id, this.styleName);
+
 // Check minification status of the popup and toggle it if needed.
         var minifiedPopup = Mibew.Utils.readCookie('mibew-chat-frame-minified-' + this.id);
         if (minifiedPopup === 'true') {
@@ -441,8 +450,9 @@ var Mibew = Mibew || {};
         var check = Mibew.Utils.loadScript(url + '/check', 'mibew-check-iframe-' + this.id);
         check.popup = this;
         check.url = url;
+        var style = Mibew.Utils.readCookie('mibew-chat-frame-style-' + this.id);
         check.onload = function() {
-            this.popup.open(this.url);
+            this.popup.open(this.url + '?style=' + style);
         };
         check.onerror = function() {
             this.popup.close();
@@ -548,7 +558,6 @@ var Mibew = Mibew || {};
     // which is opened in iframe popup.
     Mibew.Utils.addEventListener(window, 'message', function(event) {
         var matches = /^mibew-chat-started\:mibewChat([0-9A-Za-z]+)\:(.*)$/.exec(event.data);
-
         if (matches) {
             Mibew.Utils.createCookie('mibew-chat-frame-' + matches[1], matches[2]);
         }
