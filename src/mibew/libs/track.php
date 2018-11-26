@@ -49,7 +49,7 @@ function track_visitor($visitor_id, $entry, $referer)
 }
 
 /**
- * Initialize visitor tracknig.
+ * Initialize visitor tracking.
  *
  * Triggers {@link \Mibew\EventDispatcher\Events::VISITOR_CREATE} event.
  *
