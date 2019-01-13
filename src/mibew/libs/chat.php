@@ -571,7 +571,8 @@ function visitor_from_request()
     }
 
     if ($user_name == $default_name) {
-        $user_name = get_get_param('name', $user_name);
+        $temp = Request::createFromGlobals()->query->get('name');
+        $user_name = $temp ? $temp : $user_name;
     }
 
     if (isset($_COOKIE[USERID_COOKIE_NAME])) {
