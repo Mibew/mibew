@@ -281,7 +281,7 @@ class DependencyGraph
             // Check that version of the dependency satisfied requirements
             $version_constrain = new VersionExpression($required_version);
             $dependency = $this->getPlugin($dependency_name);
-            if (!$version_constrain->satisfiedBy(new Version($dependency->getInstalledVersion()))) {
+            if (!$version_constrain->satisfiedBy(new Version($dependency->getInstalledVersion(), true))) {
                 trigger_error(
                     sprintf(
                         'Plugin "%s" has version incompatible with "%s" requirements!',
