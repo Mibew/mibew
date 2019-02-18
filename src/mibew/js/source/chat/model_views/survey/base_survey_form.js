@@ -39,7 +39,7 @@
              */
             ui: {
                 groupSelect: 'select[name="group"]',
-                groupDescription: '#groupDescription',
+                groupDescription: '#group-description',
                 name: 'input[name="name"]',
                 email: 'input[name="email"]',
                 message: 'textarea[name="message"]',
