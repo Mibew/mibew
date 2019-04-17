@@ -17,9 +17,19 @@
         "forum": "https://mibew.org/forums",
         "source": "https://github.com/mibew/mibew"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/mibew/handlebars.php"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/mibew/handlebars.php-helpers"
+        }
+    ],
     "require": {
-        "xamin/handlebars.php": "~0.10.3",
-        "justblackbird/handlebars.php-helpers": "1.*",
+        "mibew/handlebars.php": "~0.10.5",
+        "mibew/handlebars.php-helpers": "1.*",
         "symfony/http-foundation": "2.6.*",
         "symfony/routing": "2.6.*",
         "symfony/config": "2.6.*",
