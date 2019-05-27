@@ -473,7 +473,7 @@ var Mibew = Mibew || {};
         this.isOpened = false;
         this.toggleDiv.style.display = 'none';
         Mibew.Utils.deleteCookie('mibew-chat-frame-' + this.id);
-        Mibew.Utils.deleteCookie('mibew-chat-frame-minified' + this.id);
+        Mibew.Utils.deleteCookie('mibew-chat-frame-minified-' + this.id);
     };
 
     /**
