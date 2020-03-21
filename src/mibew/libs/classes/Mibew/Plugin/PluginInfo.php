@@ -268,7 +268,7 @@ class PluginInfo
 
             // Check exact version of the library
             $version_constrain = new VersionExpression($required_version);
-            if (!$version_constrain->satisfiedBy(new Version($system_info[$lib], true))) {
+            if (!$version_constrain->satisfiedBy(new Version(preg_replace('/~/', '-', $system_info[$lib]), true))) {
                 return true;
             }
         }
