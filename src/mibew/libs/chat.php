@@ -697,7 +697,7 @@ function chat_start_for_user(
             Thread::KIND_FOR_AGENT,
             getlocal(
                 'Visitor accepted invitation from operator {0}',
-                array($operator_name),
+                array(safe_htmlspecialchars($operator_name)),
                 get_current_locale(),
                 true
             )
@@ -706,7 +706,7 @@ function chat_start_for_user(
         if ($referrer) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getlocal('Visitor came from page {0}', array($referrer), get_current_locale(), true)
+                getlocal('Visitor came from page {0}', array(safe_htmlspecialchars($referrer)), get_current_locale(), true)
             );
         }
         if ($requested_operator && !$requested_operator_online) {
@@ -714,7 +714,7 @@ function chat_start_for_user(
                 Thread::KIND_INFO,
                 getlocal(
                     'Thank you for contacting us. We are sorry, but requested operator <strong>{0}</strong> is offline. Another operator will be with you shortly.',
-                    array(get_operator_name($requested_operator)),
+                    array(safe_htmlspecialchars(get_operator_name($requested_operator))),
                     get_current_locale(),
                     true
                 )
@@ -731,7 +731,7 @@ function chat_start_for_user(
     if ($info) {
         $thread->postMessage(
             Thread::KIND_FOR_AGENT,
-            getlocal('Info: {0}', array($info), get_current_locale(), true)
+            getlocal('Info: {0}', array(safe_htmlspecialchars($info)), get_current_locale(), true)
         );
     }
 

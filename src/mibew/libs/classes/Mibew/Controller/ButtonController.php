@@ -50,7 +50,7 @@ class ButtonController extends AbstractController
             if ($thread && $thread->state != Thread::STATE_CLOSED) {
                 $msg = getlocal(
                     "Visitor navigated to {0}",
-                    array($referer),
+                    array(safe_htmlspecialchars($referer)),
                     $thread->locale,
                     true
                 );

@@ -758,14 +758,14 @@ class Thread
             if ($this->nextAgent == $operator['operatorid']) {
                 $message_to_post = getlocal(
                     "Operator <strong>{0}</strong> changed operator <strong>{1}</strong>",
-                    array($operator_name, $this->agentName),
+                    array(safe_htmlspecialchars($operator_name), safe_htmlspecialchars($this->agentName)),
                     $this->locale,
                     true
                 );
             } else {
                 $message_to_post = getlocal(
                     "Operator {0} is back",
-                    array($operator_name),
+                    array(safe_htmlspecialchars($operator_name)),
                     $this->locale,
                     true
                 );
@@ -926,7 +926,7 @@ class Thread
                 self::KIND_EVENTS,
                 getlocal(
                     "Visitor {0} left the chat",
-                    array($this->userName),
+                    array(safe_htmlspecialchars($this->userName)),
                     $this->locale,
                     true
                 )
@@ -947,7 +947,7 @@ class Thread
                     self::KIND_EVENTS,
                     getlocal(
                         "Operator {0} left the chat",
-                        array($this->agentName),
+                        array(safe_htmlspecialchars($this->agentName)),
                         $this->locale,
                         true
                     )
@@ -1025,21 +1025,21 @@ class Thread
         if ($is_operator_changed) {
             $message = getlocal(
                 "Operator <strong>{0}</strong> changed operator <strong>{1}</strong>",
-                array($operator_name, $this->agentName),
+                array(safe_htmlspecialchars($operator_name), safe_htmlspecialchars($this->agentName)),
                 $this->locale,
                 true
             );
         } elseif ($is_operator_joined) {
             $message = getlocal(
                 "Operator {0} joined the chat",
-                array($operator_name),
+                array(safe_htmlspecialchars($operator_name)),
                 $this->locale,
                 true
             );
         } elseif ($is_operator_back) {
             $message = getlocal(
                 "Operator {0} is back",
-                array($operator_name),
+                array(safe_htmlspecialchars($operator_name)),
                 $this->locale,
                 true
             );
@@ -1083,7 +1083,7 @@ class Thread
             // Send message about renaming
             $message = getlocal(
                 "The visitor changed their name <strong>{0}</strong> to <strong>{1}</strong>",
-                array($old_name, $new_name),
+                array(safe_htmlspecialchars($old_name), safe_htmlspecialchars($new_name)),
                 $this->locale,
                 true
             );

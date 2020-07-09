@@ -181,7 +181,7 @@ class RedirectController extends AbstractController
             Thread::KIND_EVENTS,
             getlocal(
                 'Operator {0} redirected you to another operator. Please wait a while.',
-                array(get_operator_name($this->getOperator())),
+                array(safe_htmlspecialchars(get_operator_name($this->getOperator()))),
                 $thread->locale,
                 true
             )
@@ -235,7 +235,7 @@ class RedirectController extends AbstractController
             Thread::KIND_EVENTS,
             getlocal(
                 'Operator {0} redirected you to another operator. Please wait a while.',
-                array(get_operator_name($this->getOperator())),
+                array(safe_htmlspecialchars(get_operator_name($this->getOperator()))),
                 $thread->locale,
                 true
             )

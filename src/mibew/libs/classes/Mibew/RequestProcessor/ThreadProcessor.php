@@ -671,7 +671,7 @@ class ThreadProcessor extends ClientSideProcessor implements
         if ($email) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getlocal('E-Mail: {0}', array($email), get_current_locale(), true)
+                getlocal('E-Mail: {0}', array(safe_htmlspecialchars($email)), get_current_locale(), true)
             );
         }
 
@@ -790,19 +790,19 @@ class ThreadProcessor extends ClientSideProcessor implements
         if ($referrer) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getlocal('Visitor came from page {0}', array($referrer), get_current_locale(), true)
+                getlocal('Visitor came from page {0}', array(safe_htmlspecialchars($referrer)), get_current_locale(), true)
             );
         }
         if ($email) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getlocal('E-Mail: {0}', array($email), get_current_locale(), true)
+                getlocal('E-Mail: {0}', array(safe_htmlspecialchars($email)), get_current_locale(), true)
             );
         }
         if ($info) {
             $thread->postMessage(
                 Thread::KIND_FOR_AGENT,
-                getlocal('Info: {0}', array($info), get_current_locale(), true)
+                getlocal('Info: {0}', array(safe_htmlspecialchars($info)), get_current_locale(), true)
             );
         }
         $thread->postMessage(Thread::KIND_USER, $message, array('name' => $name));

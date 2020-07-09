@@ -125,7 +125,7 @@ function invitation_invite($visitor_id, $operator)
         Thread::KIND_FOR_AGENT,
         getlocal(
             'Operator {0} invites visitor at {1} page',
-            array($operator_name, $last_visited_page),
+            array(safe_htmlspecialchars($operator_name), safe_htmlspecialchars($last_visited_page)),
             get_current_locale(),
             true
         )
