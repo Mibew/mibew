@@ -173,6 +173,21 @@
     };
 
     /**
+     * Sanitize message used in Vex dialog
+     * @type {Function}
+     * @param {String} message A message to sanitize.
+     * @returns {String}
+     */
+
+    var sanitizeMessage = function(message) {
+    return message.replace(/&/g, "&amp;")
+                  .replace(/</g, "&lt;")
+                  .replace(/>/g, "&gt;")
+                  .replace(/"/g, "&quot;")
+                  .replace(/'/g, "&#039;");
+    };
+
+    /**
      * Alerts a message.
      * @param {String} message A message that should be displayed.
      */
@@ -182,7 +197,7 @@
             // Do not open alert if one already opened.
             return;
         }
-        vex.dialog.alert({message: message});
+        vex.dialog.alert({message: sanitizeMessage(message)});
     };
 
     /**
@@ -195,7 +210,7 @@
     Mibew.Utils.confirm = function(message, callback) {
         setVexDefaults();
         vex.dialog.confirm({
-            message: message,
+            message: sanitizeMessage(message),
             callback: callback
         });
     };
@@ -210,7 +225,7 @@
     Mibew.Utils.prompt = function(message, callback) {
         setVexDefaults();
         vex.dialog.prompt({
-            message: message,
+            message: sanitizeMessage(message),
             callback: callback
         });
     };
