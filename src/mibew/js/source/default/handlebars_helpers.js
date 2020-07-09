@@ -41,7 +41,7 @@
     /**
      * Register 'urlReplace' Handlebars helper.
      *
-     * This helper serch URLs and replace them by 'a' tag
+     * This helper seeks URLs and replaces them by 'a' tag
      */
     Handlebars.registerHelper('urlReplace', function(text) {
         return new Handlebars.SafeString(
