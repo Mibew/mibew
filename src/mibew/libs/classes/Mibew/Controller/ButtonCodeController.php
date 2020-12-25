@@ -51,7 +51,7 @@ class ButtonCodeController extends AbstractController
         $image_locales_map = $this->getImageLocalesMap(MIBEW_FS_ROOT . '/locales');
         $image = $request->query->get('i', 'mibew');
         if (!isset($image_locales_map[$image])) {
-            $page['errors'][] = 'Unknown image: ' . $image;
+            $page['errors'][] = 'Unknown image: ' . htmlspecialchars($image);
             $avail = array_keys($image_locales_map);
             $image = $avail[0];
         }
