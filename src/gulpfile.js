@@ -3,7 +3,7 @@ var fs = require('fs'),
     https = require('https'),
     exec = require('child_process').exec,
     eventStream = require('event-stream'),
-    runSequence = require('run-sequence'),
+    runSequence = require('gulp4-run-sequence'),
     through = require('through2'),
     lodash = require('lodash'),
     PoFile = require('pofile'),
@@ -59,7 +59,7 @@ config.i18nSuffix = '-' + config.package.version + '-' + strftime('%Y%m%d');
 
 // Cleans all built files
 gulp.task('clean', function(callback) {
-    del([
+    return del([
         config.releasePath,
         'composer.lock',
         config.phpVendorPath,
@@ -73,18 +73,18 @@ gulp.task('clean', function(callback) {
 });
 
 // Cleans temporary English translation in the release dir
-gulp.task('clean-tmp-po', function() {
-    return del([config.releasePath + '/translation.po']);
+gulp.task('clean-tmp-po', function(callback) {
+    return del([config.releasePath + '/translation.po'], callback);
 });
 
 // Cleans temporary files of translations in the release dir
-gulp.task('clean-tmp-i18n-files', function() {
+gulp.task('clean-tmp-i18n-files', function(callback) {
     return del([
             config.releasePath + '/**/*',
             '!' + config.releasePath + '/*.zip',
             '!' + config.releasePath + '/*.tar.gz',
             '!' + config.releasePath + '/*.pot'
-    ]);
+    ], callback);
 });
 
 // Cleans all files prepared for uploading to CDN
@@ -98,46 +98,14 @@ gulp.task('clean-all', function(callback) {
                  callback );
 });
 
-// Tasks for checking //////////////////
-
-// Checks all PHP files with PHP Code Sniffer
-gulp.task('phpcs', ['composer-install-dev'], function() {
-    return gulp.src([
-                config.mibewPath + '/**/*.php',
-                '!' + config.phpVendorPath + '/**/*.*',
-                '!' + config.pluginsPath + '/**/*.*',
-                '!' + config.cachePath + '/**/*.*'
-        ], {
-            // Content of the cache directory is readable only for webserver.
-            // Thus we must to set "strict" option to false to prevent "EACCES"
-            // errors. At the same we need to see all errors that take place.
-            strict: false,
-            silent: false
-        })
-        .pipe(phpcs({
-            bin: config.phpVendorPath + '/bin/phpcs',
-            standard: 'PSR2',
-            warningSeverity: 0
-        }))
-        .pipe(phpcs.reporter('log'))
-        .pipe(phpcs.reporter('fail'));
-});
-
-// Checks all JavaScript Source files with ESLint
-gulp.task('eslint', function() {
-    return gulp.src(config.jsPath + '/source/**/*.js')
-        .pipe(eslint())
-        .pipe(eslint.format())
-        .pipe(eslint.failAfterError());
-});
 
 // Watcher tasks ///////////////////////
 
 // Watch styles
-gulp.task('watch', [], function(){
-    gulp.watch(config.pageStylesPath + '/**/*.handlebars', ['page-styles']);
-    gulp.watch(config.chatStylesPath + '/**/js/source/**/*.js', ['chat-styles-js']);
-    gulp.watch(config.chatStylesPath + '/**/*.handlebars', ['chat-styles-handlebars']);
+gulp.task('watch', function() {
+    gulp.watch(config.pageStylesPath + '/**/*.handlebars', gulp.series('page-styles'));
+    gulp.watch(config.chatStylesPath + '/**/js/source/**/*.js', gulp.series('chat-styles-js'));
+    gulp.watch(config.chatStylesPath + '/**/*.handlebars', gulp.series('chat-styles-handlebars'));
 });
 
 // Service tasks //////////////////
@@ -162,20 +130,20 @@ gulp.task('get-composer', function(callback) {
 });
 
 // Install Composer dependencies excluding development ones
-gulp.task('composer-install', ['get-composer'], function(callback) {
+gulp.task('composer-install', gulp.series('get-composer', function(callback) {
     exec(config.phpBin + ' composer.phar install --no-dev',
         function(error, stdout, stderr) {
             callback(error ? stderr : null);
         });
-});
+}));
 
 // Install all Composer dependencies
-gulp.task('composer-install-dev', ['get-composer'], function(callback) {
+gulp.task('composer-install-dev', gulp.series('get-composer', function(callback) {
     exec(config.phpBin + ' composer.phar install',
         function(error, stdout, stderr) {
             callback(error ? stderr : null);
         });
-});
+}));
 
 // Installs bower dependencies
 gulp.task('bower-install', function(callback) {
@@ -217,6 +185,40 @@ gulp.task('bower-install', function(callback) {
                 .on('end', callback);
         });
 });
+
+// Tasks for checking //////////////////
+
+// Checks all PHP files with PHP Code Sniffer
+gulp.task('phpcs', gulp.series('composer-install-dev', function() {
+    return gulp.src([
+                config.mibewPath + '/**/*.php',
+                '!' + config.phpVendorPath + '/**/*.*',
+                '!' + config.pluginsPath + '/**/*.*',
+                '!' + config.cachePath + '/**/*.*'
+        ], {
+            // Content of the cache directory is readable only for webserver.
+            // Thus we must to set "strict" option to false to prevent "EACCES"
+            // errors. At the same we need to see all errors that take place.
+            strict: false,
+            silent: false
+        })
+        .pipe(phpcs({
+            bin: config.phpVendorPath + '/bin/phpcs',
+            standard: 'PSR2',
+            warningSeverity: 0
+        }))
+        .pipe(phpcs.reporter('log'))
+        .pipe(phpcs.reporter('fail'));
+}));
+
+// Checks all JavaScript Source files with ESLint
+gulp.task('eslint', function() {
+    return gulp.src(config.jsPath + '/source/**/*.js')
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
+});
+
 
 // Restore empty English translation in the source code
 gulp.task('post-pack-cleanup', function(callback) {
@@ -312,9 +314,7 @@ gulp.task('page-styles', function() {
 });
 
 // Performs all job related to chat styles
-gulp.task('chat-styles', ['chat-styles-handlebars', 'chat-styles-js'], function() {
-    // This task is just a combination of other tasks, there is no real code.
-});
+gulp.task('chat-styles', gulp.series('chat-styles-handlebars', 'chat-styles-js'));
 
 // Prepares ready to use development version of Mibew Messenger without
 // packing or validating it
@@ -386,7 +386,7 @@ gulp.task('generate-pot', function() {
 });
 
 // Generate temporary English translation to be used in the release
-gulp.task('generate-tmp-po', ['generate-pot'], function(callback) {
+gulp.task('generate-tmp-po', gulp.series('generate-pot', function(callback) {
     return exec(config.msginit + ' --no-translator --no-wrap -i '
                 + config.releasePath + '/' + config.i18nPrefix + 'translation'
                 + config.i18nSuffix + '.pot' + ' -l en -o '
@@ -394,11 +394,11 @@ gulp.task('generate-tmp-po', ['generate-pot'], function(callback) {
             function(error, stdout, stderr) {
                 callback(error ? stderr : null);
             });
-});
+}));
 
 // Generate complete translations (that includes missed strings) to be used
 // in the release
-gulp.task('generate-pos', ['generate-tmp-po'], function(callback) {
+gulp.task('generate-pos', gulp.series('generate-tmp-po', function(callback) {
 
     return getChildDirs(config.i18nPath + '/translations')
        .then(function (dirs) {
@@ -433,12 +433,12 @@ gulp.task('generate-pos', ['generate-tmp-po'], function(callback) {
                 });
             }));
     });
-});
+}));
 
 // Packaging tasks /////////////////////
 
 // Pack sources for release as .zip and .tar.gz archives
-gulp.task('pack-sources', ['composer-install', 'bower-install'], function() {
+gulp.task('pack-sources', gulp.series('composer-install', 'bower-install', function() {
     gulp.src(config.mibewPath + '/locales/en/translation.po')
         .pipe(gulp.dest('.'));
     gulp.src(config.releasePath + '/translation.po')
@@ -507,7 +507,7 @@ gulp.task('pack-sources', ['composer-install', 'bower-install'], function() {
     )
     .pipe(chmod(644))
     .pipe(gulp.dest(config.releasePath));
-});
+}));
 
 // Pack translations for release as .zip and .tar.gz archives
 gulp.task('pack-i18n', function(callback) {
@@ -598,9 +598,9 @@ gulp.task('prepare-all', function(callback) {
 gulp.task('default', function(callback) {
     runSequence(
         'clean',
-        ['js', 'chat-styles', 'page-styles'],
+        ['js', 'chat-styles', 'page-styles', 'generate-tmp-po'],
         'pack-sources',
-        'post-pack-cleanup',
+        ['post-pack-cleanup', 'clean-tmp-po'],
         callback
     );
 });
@@ -698,7 +698,7 @@ var xgettextHandlebars = function() {
         }
 
         // Update file contents
-        file.contents = new Buffer(po.toString());
+        file.contents = Buffer.from(po.toString());
         this.push(file);
 
         callback();
