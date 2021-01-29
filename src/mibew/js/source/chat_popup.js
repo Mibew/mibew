@@ -416,7 +416,7 @@ var Mibew = Mibew || {};
             this.toggleDiv.className = 'mibew-chat-frame-toggle mibew-chat-frame-toggle-on';
             Mibew.Utils.addEventListener(this.toggleDiv, 'click', function(event) {
                 var popups = Mibew.Objects.ChatPopups,
-                matches = /^mibew-chat-frame-toggle-([0-9A-Za-z]+)$/.exec(this.id);
+                    matches = /^mibew-chat-frame-toggle-([0-9A-Za-z]+)$/.exec(this.id);
 
                 if (matches && popups[matches[1]]) {
                     popups[matches[1]].toggle();

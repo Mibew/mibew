@@ -91,7 +91,7 @@ MibewAPI.prototype.checkFunction = function(functionObject, filterReservedFuncti
             // Work with own properties only.
             continue;
         }
-        for (var i = 0; i < mandatoryArgumentsList.length; i++) {
+        for (i = 0; i < mandatoryArgumentsList.length; i++) {
             if (argName == mandatoryArgumentsList[i]) {
                 mandatoryArgumentsCount++;
                 continue argumentsLoop;
@@ -358,7 +358,7 @@ MibewAPIInteraction.prototype.getMandatoryArguments = function(functionName) {
     }
     // Add mandatory arguments for given function
     if (typeof allMandatoryArguments[functionName] == 'object') {
-        for (var arg in allMandatoryArguments[functionName]) {
+        for (arg in allMandatoryArguments[functionName]) {
             if (! allMandatoryArguments[functionName].hasOwnProperty(arg)) {
                 continue;
             }
@@ -389,7 +389,7 @@ MibewAPIInteraction.prototype.getMandatoryArgumentsDefaults = function(functionN
     }
     // Add mandatory arguments for given function
     if (typeof allMandatoryArguments[functionName] == 'object') {
-        for (var arg in allMandatoryArguments[functionName]) {
+        for (arg in allMandatoryArguments[functionName]) {
             if (! allMandatoryArguments[functionName].hasOwnProperty(arg)) {
                 continue;
             }

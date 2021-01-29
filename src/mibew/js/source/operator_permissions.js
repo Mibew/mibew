@@ -21,7 +21,7 @@
         $('#permissionsForm').submit(function(e){
             if (!$('#permissionsadmin').is(":checked")) {
                 e.preventDefault();
-                message = Mibew.Localization.trans(
+                var message = Mibew.Localization.trans(
                         'This action is irreversible, proceed anyway?'
                 );
                 Mibew.Utils.confirm(message, function(value) {

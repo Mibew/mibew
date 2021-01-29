@@ -148,7 +148,7 @@
                     }
 
                     // Add styles names to DOM element
-                    for(var i = 0, l = childView.lastStyles.length; i < l; i++) {
+                    for(i = 0, l = childView.lastStyles.length; i < l; i++) {
                         childView.$el.addClass(childView.lastStyles[i]);
                     }
                 }
