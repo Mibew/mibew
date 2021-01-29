@@ -3,7 +3,7 @@
 
  This file is a part of Mibew Messenger.
 
- Copyright 2005-2020 the original author or authors.
+ Copyright 2005-2021 the original author or authors.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -135,7 +135,7 @@ sub update_dir {
 
 # Function: update_file
 # Description
-#       Function to update header of the (php) file
+#       Function to update header of the (php|js) file
 # Argument(s)
 #       1. (string) name of the file
 #       2. (string) new header as a valid comment
@@ -148,8 +148,8 @@ sub update_file {
     my $quiet = shift || 0;
 
 # check file's extension
-    unless ($file =~ /\.php$/) {
-	print "[info] Skipped file $file: not a php script\n" unless $quiet;
+    unless ($file =~ /\.(php|js)$/) {
+	print "[info] Skipped file $file: neither a php script, nor a js\n" unless $quiet;
 	return 0;
     }
 
@@ -161,13 +161,24 @@ sub update_file {
     }
 
 # check file's content to be a php code
-    unless ($content->{'content'} =~ /^<\?php/) {
-	print "[info] Skipped file $file: not a php script\n" unless $quiet;
+    my $type = ($content->{'content'} =~ /^<\?php/)
+	       ? 'php'
+	       : ($content->{'content'} =~ /^\/\*!/)
+	         ? 'js'
+	       : undef;
+    unless (defined($type)) {
+	print "[info] Skipped file $file: neither a php script, nor a js\n" unless $quiet;
 	return 0;
     }
 
 # update header
-    $content->{'content'} =~ s~^(<\?php\n)/\*.*?\*/~$1$header~s;
+    if ($type eq 'php') {
+	$content->{'content'} =~ s~^(<\?php\n)/\*.*?\*/~$1$header~s;
+    }
+    elsif ($type eq 'js') {
+	$content->{'content'} =~ s~^(/\*!\n).*?\*/~$header~s;
+	$content->{'content'} =~ s/^(\/\*)/$1!/;
+    }
 
 # try to set the new contents of the file
     if (set_file_content($file, $content->{'content'})) {
