@@ -35,6 +35,7 @@ src/mibew/js/vendor
 
 # Do not index node.js modules that are used for building
 src/node_modules
+src/package-lock.json
 
 # Do not index compiled js files of the core
 src/mibew/js/compiled/*
