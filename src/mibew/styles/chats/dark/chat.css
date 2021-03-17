@@ -356,7 +356,7 @@ a:hover .image-close-window {
 /* sending message area (#send) */
 #post-message {
 }
-#send-message, .submit-button {
+#send-message, .submit-button, .form-button {
     float: right;
     width: 190px;
     height: 33px;
@@ -369,7 +369,10 @@ a:hover .image-close-window {
     color: #9d6e06;
     background: url("images/submit.gif") no-repeat 0 0 transparent;
 }
-#send-message:hover, .submit-button:hover {
+.form-button {
+    float: left;
+}
+#send-message:hover, .submit-button:hover, .form-button:hover {
     color: #000000;
     background: url("images/submit.gif") no-repeat -190px 0 transparent;
 }
