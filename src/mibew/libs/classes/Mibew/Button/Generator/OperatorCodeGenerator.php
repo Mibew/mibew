@@ -20,6 +20,7 @@
 namespace Mibew\Button\Generator;
 
 use Canteen\HTML5;
+use Mibew\Settings;
 
 /**
  * Generates an Operator's Code field.
@@ -57,6 +58,9 @@ class OperatorCodeGenerator extends AbstractGenerator
         $button->addChild($form);
         $button->addChild($this->getPopup());
         $button->addChild(HTML5\html('comment', '/ mibew operator code field'));
+        if (Settings::get('enabletracking') && !$this->getOption('disable_tracking')) {
+            $button->addChild($this->getWidgetCode());
+        }
 
         return $button;
     }

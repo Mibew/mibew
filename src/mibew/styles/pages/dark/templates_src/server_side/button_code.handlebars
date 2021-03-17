@@ -70,8 +70,18 @@
                                     </select>
                                 </div>
                             </div>
+                        <br clear="all"/>
+                        {{/if}}
 
-                            {{#if enabletracking}}
+                        {{#if enabletracking}}
+                            <div class="field-in-row">
+                                <label for="disable-tracking" class="field-label">{{l10n "Disable tracking"}}</label>
+                                <div class="field-value-no-description">
+                                    <input id="disable-tracking" type="checkbox" name="disabletracking" value="on"{{#if formdisabletracking}} checked="checked"{{/if}} onchange="this.form.submit();"/>
+                                </div>
+                            </div>
+
+                            {{#unless formdisabletracking}}
                                 <div class="field-in-row">
                                     <label for="invitation-style" class="field-label">{{l10n "Invitation style"}}</label>
                                     <div class="field-value-no-description">
@@ -82,8 +92,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            {{/if}}
-
+                            {{/unless}}
                             <br clear="all"/>
                         {{/if}}
 

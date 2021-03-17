@@ -84,6 +84,8 @@ class ButtonCodeController extends AbstractController
         $mod_security = $request->query->get('modsecurity') == 'on';
         $force_windows = $request->query->get('forcewindows') == 'on';
 
+        $disable_tracking = $request->query->get('disabletracking') == 'on';
+
         $code_type = $request->query->get('codetype', 'button');
         if (!in_array($code_type, array('button', 'operator_code', 'text_link'))) {
             throw new BadRequestException('Wrong value of "codetype" param.');
@@ -103,6 +105,8 @@ class ButtonCodeController extends AbstractController
             'force_secure' => $force_secure,
             'mod_security' => $mod_security,
             'prefer_iframe' => !$force_windows,
+            'invitation_style' => $invitation_style,
+            'disable_tracking' => $disable_tracking
         );
 
         if ($operator_code) {
@@ -127,7 +131,6 @@ class ButtonCodeController extends AbstractController
 
             // Set generator-specific options
             $button_generator->setOption('image', $image);
-            $button_generator->setOption('invitation_style', $invitation_style);
         } else {
             // Make sure locale exists
             if (!$lang || !in_array($lang, $locales_list)) {
@@ -172,6 +175,7 @@ class ButtonCodeController extends AbstractController
         $page['formmodsecurity'] = $mod_security;
         $page['formcodetype'] = $code_type;
         $page['formforcewindows'] = $force_windows;
+        $page['formdisabletracking'] = $disable_tracking;
 
         $page['enabletracking'] = Settings::get('enabletracking');
         $page['operator_code'] = $operator_code;

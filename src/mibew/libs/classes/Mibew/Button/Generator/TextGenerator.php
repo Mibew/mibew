@@ -20,6 +20,7 @@
 namespace Mibew\Button\Generator;
 
 use Canteen\HTML5;
+use Mibew\Settings;
 
 /**
  * Generates a Text button.
@@ -65,6 +66,9 @@ class TextGenerator extends AbstractGenerator
         $fragment = HTML5\html('fragment');
         $fragment->addChild($link);
         $fragment->addChild($this->getPopup());
+        if (Settings::get('enabletracking') && !$this->getOption('disable_tracking')) {
+            $fragment->addChild($this->getWidgetCode());
+        }
 
         return $fragment;
     }

@@ -21,7 +21,6 @@ namespace Mibew\Button\Generator;
 
 use Canteen\HTML5;
 use Mibew\Settings;
-use Mibew\Style\InvitationStyle;
 
 /**
  * Generates an Image button.
@@ -57,61 +56,11 @@ class ImageGenerator extends TextGenerator
         $button = HTML5\html('fragment');
         $button->addChild(HTML5\html('comment', 'mibew button'));
         $button->addChild($this->getPopupLink($image));
-        if (Settings::get('enabletracking')) {
+        if (Settings::get('enabletracking') && !$this->getOption('disable_tracking')) {
             $button->addChild($this->getWidgetCode());
         }
         $button->addChild(HTML5\html('comment', '/ mibew button'));
 
         return $button;
-    }
-
-    /**
-     * Generates HTML markup for Mibew Messenger Widget.
-     *
-     * @return \Canteen\HTML5\Fragment
-     */
-    protected function getWidgetCode()
-    {
-        $widget_data = array();
-
-        // Get actual invitation style instance
-        $style_name = $this->getOption('invitation_style')
-            ? $this->getOption('invitation_style')
-            : InvitationStyle::getCurrentStyle();
-        $style = new InvitationStyle($style_name);
-
-        // URL of file with additional CSS rules for invitation popup
-        $widget_data['inviteStyle'] = $this->generateAssetUrl(
-            $style->getFilesPath() . '/invite.css'
-        );
-
-        // Time between requests to the server in milliseconds
-        $widget_data['requestTimeout'] = Settings::get('updatefrequency_tracking') * 1000;
-
-        // URL for requests
-        $widget_data['requestURL'] = $this->generateUrl('widget_gateway');
-
-        // Locale for invitation
-        $widget_data['locale'] = $this->getOption('locale');
-
-        // Name of the cookie to track user. It is used if third-party cookie
-        // blocked
-        $widget_data['visitorCookieName'] = VISITOR_COOKIE_NAME;
-
-        $markup = HTML5\html('fragment');
-        $markup->addChild(HTML5\html('div#mibew-invitation'));
-        $markup->addChild(
-            HTML5\html('script')->setAttributes(array(
-                'type' => 'text/javascript',
-                'src' => $this->generateAssetUrl('js/compiled/widget.js'),
-            ))
-        );
-        $markup->addChild(
-            HTML5\html('script')
-                ->setAttribute('type', 'text/javascript')
-                ->addChild('Mibew.Widget.init(' . json_encode($widget_data) . ')')
-        );
-
-        return $markup;
     }
 }
