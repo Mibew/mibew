@@ -1,0 +1,57 @@
+<form name="leaveMessageForm" method="post" action="">
+    <input type="hidden" name="style" value="{{page.style}}"/>
+    <input type="hidden" name="info" value="{{info}}"/>
+    <input type="hidden" name="referrer" value="{{referrer}}"/>
+    {{#unless groups}}{{#if groupId}}<input type="hidden" name="group" value="{{groupId}}"/>{{/if}}{{/unless}}
+
+    <div class="errors"></div>
+
+    <table cellspacing="1" cellpadding="5" border="0" class="form">
+        <tr>
+            <td><strong>{{l10n "Your email"}}:</strong></td>
+            <td><input type="text" name="email" size="50" value="{{email}}" class="username"/></td>
+        </tr>
+        <tr>
+            <td><strong>{{l10n "Your name"}}:</strong></td>
+            <td><input type="text" name="name" size="50" value="{{name}}" class="username"/></td>
+        </tr>
+    {{#if groups}}
+        <tr>
+            <td class="text"><strong>{{l10n "Choose Department:"}}</strong></td>
+            <td>
+                <select name="group" style="min-width:200px;">
+                    {{#each groups}}
+                        <option value="{{this.id}}" {{#if this.selected}}selected="selected"{{/if}}>{{this.name}}</option>
+                    {{/each}}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="text"><strong>{{l10n "Department description:"}}</strong></td>
+            <td class="text" id="group-description">
+                {{#each groups}}{{#if this.selected}}{{this.description}}{{/if}}{{/each}}
+            </td>
+        </tr>
+    {{/if}}
+        <tr>
+            <td><strong>{{l10n "Message"}}:</strong></td>
+            <td valign="top">
+                <textarea id="message-leave" name="message" tabindex="0" cols="40" rows="5">{{message}}</textarea>
+            </td>
+        </tr>
+    {{#if showCaptcha}}
+        <tr>
+            <td><img id="captcha-img" src="captcha"/></td>
+            <td><input type="text" name="captcha" size="50" maxlength="15" value="" class="username"/></td>
+        </tr>
+    {{/if}}
+    {{#if privacyPolicyUrl}}
+        <tr>
+            <td colspan="2"><strong>{{{l10n "Please note that by leaving the message you're explicitly agree with the <a href=\"{0}\" target=\"_blank\">Privacy Policy</a>" privacyPolicyUrl}}}</strong></td>
+        </tr>
+    {{/if}}
+    </table>
+    <a href="javascript:void(0);" class="but" id="send-message">{{l10n "Send"}}</a>
+    <div class="clear">&nbsp;</div>
+</form>
+<div id="ajax-loader"><img src="{{page.stylePath}}/images/ajax-loader.gif" alt="Loading..." /></div>

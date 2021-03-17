@@ -1,0 +1,51 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "View and edit the member list."}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        {{#if stored}}
+            <div id="form-message">{{l10n "Changes saved"}}</div>
+        {{/if}}
+
+        <form name="membersForm" method="post" action="{{route "group_members_save" group_id=groupid}}">
+            {{csrfTokenInput}}
+
+            <div>
+                {{> _tabs}}
+
+                <div class="form-wrapper">
+                    <div class="form-header">
+                        <div class="form-header-inwards"></div>
+                    </div>
+
+                    <div class="form-inwards">
+                        <p><b>{{currentgroup}}</b></p>
+
+                        {{#each operators}}
+                            <div class="field">
+                                <div class="field-value-no-description">
+                                    <input id="op{{operatorid}}" type="checkbox" name="op{{operatorid}}" value="on"{{#if checked}} checked="checked"{{/if}}/>
+                                    <label for="op{{operatorid}}">{{vclocalename}} (<a href="{{route "operator_edit" operator_id=operatorid}}">{{vclogin}}</a>)</label>
+                                </div>
+                            </div>
+                        {{/each}}
+
+                        <div class="form-button">
+                            <input type="submit" name="save" class="submit-button-background save-button" value="{{l10n "Save"}}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-footer">
+                        <div class="form-footer-inwards"></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    {{/override}}
+{{/extends}}

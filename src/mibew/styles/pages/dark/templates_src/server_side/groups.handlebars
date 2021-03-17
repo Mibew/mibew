@@ -1,0 +1,126 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "This page displays a list of groups. Each group can have separate button and canned responses."}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        <form name="groupsForm" method="get" action="{{route "groups"}}">
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <div class="form-header-inwards"></div>
+                </div>
+
+                <div class="form-inwards">
+                    <div class="packed-form-fields">
+                        {{l10n "Sort by:"}}<br/>
+                        <select name="sortby" onchange="this.form.submit();">
+                            {{#each availableOrders}}
+                                <option value="{{id}}"{{#ifEqual id ../formsortby}} selected="selected"{{/ifEqual}}>{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <div class="packed-form-fields">
+                        {{l10n "Sort direction:"}}<br/>
+                        <select name="sortdirection" onchange="this.form.submit();">
+                            {{#each availableDirections}}
+                                <option value="{{id}}"{{#ifEqual id ../formsortdirection}} selected="selected"{{/ifEqual}}>{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <br clear="all"/>
+                </div>
+
+                <div class="form-footer">
+                    <div class="form-footer-inwards"></div>
+                </div>
+            </div>
+        </form>
+        <br />
+
+        {{#if canmodify}}
+            <div class="table-toolbar">
+                <img src="{{asset "@CurrentStyle/images/buttons/plus.png"}}" border="0" alt="" />
+                <a href="{{route "group_add"}}" title="{{l10n "Create new group"}}">
+                    {{l10n "Create new group"}}
+                </a>
+            </div>
+            <br clear="all"/>
+        {{/if}}
+
+        <table class="list">
+            <thead>
+                <tr class="header">
+                    <th>{{l10n "Name"}}</th>
+                    <th>{{l10n "Description"}}</th>
+                    <th>{{l10n "Last active"}}</th>
+                    <th>{{l10n "Operators"}}</th>
+                    <th>{{l10n "Weight"}}</th>
+                    {{#if canmodify}}
+                        <th></th>
+                    {{/if}}
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each groups}}
+                    <tr>
+                        <td class="not-last level{{level}}">
+                            <a href="{{route "group_edit" group_id=groupid}}" class="man">
+                                {{vclocalname}}
+                            </a>
+                        </td>
+
+                        <td class="not-last">
+                            {{#if vclocaldescription}}
+                                {{vclocaldescription}}
+                            {{else}}
+                                &lt;none&gt;
+                            {{/if}}
+                        </td>
+
+                        <td class="not-last">
+                            {{#ifAny isOnline isAway}}
+                                {{#if isOnline}}
+                                    {{l10n "Online"}}
+                                {{else}}
+                                    {{l10n "Away"}}
+                                {{/if}}
+                            {{else}}
+                                {{formatDate lastTimeOnline}}
+                            {{/ifAny}}
+                        </td>
+
+                        <td>
+                            <a href="{{route "group_members" group_id=groupid}}">
+                                {{inumofagents}}
+                            </a>
+                        </td>
+
+                        <td>
+                            {{iweight}}
+                        </td>
+
+                        {{#if ../canmodify}}
+                            <td>
+                                <a href="{{csrfProtectedRoute "group_delete" group_id=groupid}}" class="remove-link" data-group-name="{{vclocalname}}">
+                                    {{l10n "remove"}}
+                                </a>
+                            </td>
+                        {{/if}}
+                    </tr>
+                {{else}}
+                    <tr>
+                        <td colspan="5">{{l10n "No elements"}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    {{/override}}
+{{/extends}}

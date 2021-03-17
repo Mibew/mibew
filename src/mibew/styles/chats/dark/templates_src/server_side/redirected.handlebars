@@ -1,0 +1,11 @@
+{{#extends "_layout"}}
+    {{#override "pageTitle"}}{{l10n "The visitor has been redirected to another operator"}}{{/override}}
+
+    {{#override "buttons"}}
+        <a href="javascript:window.close();" title="{{l10n 'Close...'}}">
+            <img class="tpl-image image-close-window" src="{{asset "@CurrentStyle/images/free.gif"}}" alt="{{l10n 'Close...'}}" />
+        </a>
+    {{/override}}
+
+    {{#override "message"}}{{message}}{{/override}}
+{{/extends}}

@@ -1,0 +1,43 @@
+{{#extends "_layout"}}
+    {{#override "content"}}
+        {{l10n "You can find the chat history of your visitors here."}}
+
+        <br />
+        <br />
+
+        <table class="list">
+            <thead>
+                <tr class="header">
+                    <th>{{l10n "Name"}}</th>
+                    <th>{{l10n "Visitor's address"}}</th>
+                    <th>{{l10n "Operator"}}</th>
+                    <th>{{l10n "Time in chat"}}</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each [pagination.items]}}
+                    <tr>
+                        <td>
+                            <a href="{{route "history_thread" thread_id=threadId}}" target="_blank" onclick="this.newWindow = window.open('{{route "history_thread" thread_id=threadId}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=720,height=520,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{userName}}</a>
+                        </td>
+                        <td>{{{userAddress}}}</td>
+                        <td>{{agentName}}</td>
+                        <td>{{formatDateDiff chatTime}}, {{formatDate chatCreated}}</td>
+                    </tr>
+                {{else}}
+                    <tr>
+                        <td colspan="5">
+                            {{l10n "Found 0 elements"}}
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+        {{#if pagination}}
+            <br />
+            {{generatePagination pagination}}
+        {{/if}}
+    {{/override}}
+{{/extends}}

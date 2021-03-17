@@ -1,0 +1,25 @@
+{{! Logo block}}
+<div id="logo-wrapper">
+    <div id="logo">
+        {{#if page.company.chatLogoURL}}
+            {{#if page.mibewHost}}
+                <a onclick="window.open('{{page.mibewHost}}');return false;" href="{{page.mibewHost}}">
+                    <img src="{{page.company.chatLogoURL}}" alt=""/>
+                </a>
+            {{else}}
+                <img src="{{page.company.chatLogoURL}}" alt=""/>
+            {{/if}}
+        {{else}}
+            {{#if page.mibewHost}}
+                <a onclick="window.open('{{page.mibewHost}}');return false;" href="{{page.mibewHost}}">
+                    <img src="{{page.stylePath}}/images/default-logo.png" alt=""/>
+                </a>
+            {{else}}
+                <img src="{{page.stylePath}}/images/default-logo.png" alt=""/>
+            {{/if}}
+        {{/if}}
+        &nbsp;
+        <div id="page-title">{{page.title}}</div>
+        <div class="clear">&nbsp;</div>
+    </div>
+</div>

@@ -1,0 +1,175 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "Specify options affecting chat window and common system behavior."}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        {{#if stored}}
+            <div id="form-message">{{l10n "Changes saved"}}</div>
+        {{/if}}
+
+        <form name="settings" method="post" action="{{route "settings_common_save"}}">
+            {{csrfTokenInput}}
+
+            <div>
+                {{> _tabs}}
+
+                <div class="form-wrapper">
+                    <div class="form-header">
+                        <div class="form-header-inwards"></div>
+                    </div>
+
+                    <div class="form-inwards">
+
+                        <div class="form-fields">
+                            <div class="field">
+                                <label for="email" class="field-label">{{l10n "Email"}}</label>
+                                <div class="field-value">
+                                    <input id="email" type="text" name="email" size="40" value="{{formemail}}" class="field-input"/>
+                                </div>
+                                <label for="email" class="field-description"> &mdash; {{l10n "Enter an email to receive system messages"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="left-messages-locale" class="field-label">{{l10n "Language of the messages left by visitors"}}</label>
+                                <div class="field-value">
+                                    <select id="left-messages-locale" name="leftmessageslocale">
+                                        {{#each availableLocales}}
+                                            <option value="{{this}}"{{#ifEqual this ../formleftmessageslocale}} selected="selected"{{/ifEqual}}>{{this}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                <label for="left-messages-locale" class="field-description"> &mdash; {{l10n "Language of the messages that could be left by visitors when operators aren't available"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="title-field" class="field-label">{{l10n "Company title"}}</label>
+                                <div class="field-value">
+                                    <input id="title-field" type="text" name="title" size="40" value="{{formtitle}}" class="field-input"/>
+                                </div>
+                                <label for="title-field" class="field-description"> &mdash; {{l10n "Enter your company title"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="chat-title" class="field-label">{{l10n "Title in the chat window"}}</label>
+                                <div class="field-value">
+                                    <input id="chat-title" type="text" name="chattitle" size="40" value="{{formchattitle}}" class="field-input"/>
+                                </div>
+                                <label for="chat-title" class="field-description"> &mdash; {{l10n "Name of your company for example."}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="logo-field" class="field-label">{{l10n "Your company logo"}}</label>
+                                <div class="field-value">
+                                    <input id="logo-field" type="text" name="logo" size="40" value="{{formlogo}}" class="field-input"/>
+                                </div>
+                                <label for="logo-field" class="field-description"> &mdash; {{l10n "Enter http address of your company logo"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="host-url" class="field-label">{{l10n "URL of your website"}}</label>
+                                <div class="field-value">
+                                    <input id="host-url" type="text" name="hosturl" size="40" value="{{formhosturl}}" class="field-input"/>
+                                </div>
+                                <label for="host-url" class="field-description"> &mdash; {{l10n "Destination for your company name or logo link"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="username-pattern" class="field-label">{{l10n "Visitor's identifier"}}</label>
+                                <div class="field-value">
+                                    <input id="username-pattern" type="text" name="usernamepattern" size="40" value="{{formusernamepattern}}" class="field-input"/>
+                                </div>
+                                <label for="username-pattern" class="field-description"> &mdash; {{l10n "How to build visitor's identifying string from {name}, {id} or {addr}. Default: {name}"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="cron-key" class="field-label">{{l10n "Cron security key"}}</label>
+                                <div class="field-value">
+                                    <input id="cron-key" type="text" name="cronkey" size="40" value="{{formcronkey}}" class="field-input"/>
+                                </div>
+                                <label for="cron-key" class="field-description"> &mdash; {{l10n "To run cron use link <a href=\"{0}\">{0}</a>." cron_path}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="page-style" class="field-label">{{l10n "Select a style for your operator pages"}}</label>
+                                <div class="field-value">
+                                    <select id="page-style" name="page_style">
+                                        {{#each availablePageStyles}}
+                                            <option value="{{this}}"{{#ifEqual this ../formpagestyle}} selected="selected"{{/ifEqual}}>{{this}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                <label for="page-style" class="field-description"> &mdash; {{l10n "A preview for each style is available <a href=\"{0}\">here</a>" pageStylePreviewPath}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="chat-style" class="field-label">{{l10n "Select a style for your chat windows"}}</label>
+                                <div class="field-value">
+                                    <select id="chat-style" name="chat_style" >
+                                        {{#each availableChatStyles}}
+                                            <option value="{{this}}"{{#ifEqual this ../formchatstyle}} selected="selected"{{/ifEqual}}>{{this}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                <label for="chat-style" class="field-description"> &mdash; {{l10n "A preview all pages for each style is available <a href=\"{0}\">here</a>" chatStylePreviewPath}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            {{#if enabletracking}}
+                                <div class="field">
+                                    <label for="invitation-style" class="field-label">{{l10n "Select a style for your invitation"}}</label>
+                                    <div class="field-value">
+                                        <select id="invitation-style" name="invitation_style" >
+                                            {{#each availableInvitationStyles}}
+                                                <option value="{{this}}"{{#ifEqual this ../forminvitationstyle}} selected="selected"{{/ifEqual}}>{{this}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                    <label for="invitation-style" class="field-description"> &mdash; {{l10n "A preview for invitation style is available <a href=\"{0}\">here</a>" invitationStylePreviewPath}}</label>
+                                    <br clear="all"/>
+                                </div>
+                            {{/if}}
+
+                            <div class="field">
+                                <div class="field-label">{{l10n "Send messages with:"}}</div>
+                                <div class="field-value-no-description">
+                                    <input id="send-message-key-enter" type="radio" name="sendmessagekey" value="enter" {{#ifEqual formsendmessagekey "enter"}} checked="checked"{{/ifEqual}}/><label for="send-message-key-enter">Enter</label>
+                                    <input id="send-message-key-ctrl-enter" type="radio" name="sendmessagekey" value="center" {{#ifEqual formsendmessagekey "center"}} checked="checked"{{/ifEqual}}/><label for="send-message-key-ctrl-enter">Ctrl-Enter</label>
+                                </div>
+                            </div>
+
+                            <div class="form-button">
+                                <input type="submit" name="save" class="submit-button-background save-button" value="{{l10n "Save"}}"/>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-footer">
+                        <div class="form-footer-inwards"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="asterisk">
+                <span class="required">*</span> - {{l10n "mandatory fields"}}
+            </div>
+
+        </form>
+    {{/override}}
+{{/extends}}

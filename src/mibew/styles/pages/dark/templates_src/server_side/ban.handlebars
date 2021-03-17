@@ -1,0 +1,79 @@
+{{#extends "_layout"}}
+    {{#override "content"}}
+        {{#if saved}}
+            {{l10n "Address {0} is blocked for a specified number of days." address}}
+
+            <script type="text/javascript" src="{{asset "@CurrentStyle/js/autoclose.js"}}"></script>
+        {{else}}
+            {{l10n "Here you can block malicious visitors that affect your work with spam messages."}}
+
+            <br/>
+            <br/>
+
+            {{> _errors}}
+
+            {{#if thread}}
+                {{l10n "You opened this window for \"{0}\" thread. <i>Address</i> field is already filled. Select a number of days and click <i>Send</i>." thread}}<br/>
+                <br/>
+            {{/if}}
+
+            <form name="banForm" method="post" action="{{formaction}}">
+                {{csrfTokenInput}}
+
+                {{#if threadid}}
+                    <input type="hidden" name="threadid" value="{{threadid}}"/>
+                {{/if}}
+
+                <div class="form-wrapper">
+                    <div class="form-header">
+                        <div class="form-header-inwards"></div>
+                    </div>
+
+                    <div class="form-inwards">
+                        <div class="form-fields">
+                            <div class="field">
+                                <label for="address" class="field-label">{{l10n "Visitor's Address"}}<span class="required">*</span></label>
+                                <div class="field-value">
+                                    <input id="address" type="text" name="address" size="40" value="{{formaddress}}" class="field-input"/>
+                                </div>
+                                <label for="address" class="field-description"> &mdash; {{l10n "Ex: 127.0.0.1 or example.com"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="days" class="field-label">{{l10n "Days"}}<span class="required">*</span></label>
+                                <div class="field-value">
+                                    <input id="days" type="text" name="days" size="4" value="{{formdays}}" class="field-input"/>
+                                </div>
+                                <label for="days" class="field-description"> &mdash; {{l10n "Numbers of days this address is blocked"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="comment" class="field-label">{{l10n "Comment"}}<span class="required">*</span></label>
+                                <div class="field-value">
+                                    <input id="comment" type="text" name="comment" size="40" value="{{formcomment}}" class="field-input"/>
+                                </div>
+                                <label for="comment" class="field-description"> &mdash; {{l10n "Reason for block"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="form-button">
+                                <input type="submit" name="save" class="submit-button-background save-button" value="{{l10n "Save"}}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-footer">
+                        <div class="form-footer-inwards"></div>
+                    </div>
+                </div>
+
+                <div class="asterisk">
+                    <span class="required">*</span> - {{l10n "mandatory fields"}}
+                </div>
+
+            </form>
+        {{/if}}
+    {{/override}}
+{{/extends}}

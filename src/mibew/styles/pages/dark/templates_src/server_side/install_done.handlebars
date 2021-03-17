@@ -1,0 +1,18 @@
+{{#extends "install_step"}}
+    {{#override "nextStep"}}
+        <br />
+        <b>{{l10n "Application installed successfully."}}</b> {{{loginLink}}}
+        <br />
+        <br />
+
+
+        {{l10n "Click to check the sound"}}:
+        <ul>
+            <li><a id="check-new-visitor" href="javascript:void(0)">{{l10n "New Visitor"}}</a></li>
+            <li><a id="check-new-message" href="javascript:void(0)">{{l10n "New Message"}}</a></li>
+        </ul>
+        <br />
+        <span class="warning">{{l10n "For security reasons you should remove install.php file from your server."}}</span>
+
+    {{/override}}
+{{/extends}}

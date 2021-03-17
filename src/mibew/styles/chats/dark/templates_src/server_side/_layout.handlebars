@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"{{#if rtl}} dir="rtl"{{/if}}>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <title>{{#block "windowTitle"}}{{l10n "Mibew Messenger"}}{{/block}}</title>
+        <link rel="shortcut icon" href="{{asset "@CurrentStyle/images/favicon.ico"}}" type="image/x-icon" />
+        <link rel="stylesheet" type="text/css" href="{{asset "@CurrentStyle/chat.css"}}" media="all" />
+
+        <!-- Extra CSS files -->
+        {{cssAssets}}
+
+        <!-- Extra JavaScript files -->
+        {{jsAssets}}
+
+        <link href="{{asset "@CurrentStyle/vex.css"}}" rel="stylesheet" type="text/css" />
+
+        {{#block "head"}}{{/block}}
+    </head>
+
+    <body class="{{#if startFrom}}{{startFrom}}{{/if}}{{#if rtl}} rtl{{/if}}">
+        {{#block "page"}}
+            {{! Logo block}}
+            <div id="logo-wrapper">
+                <div id="logo">
+                    {{#if company.chatLogoURL}}
+                        {{#if mibewHost}}
+                            <a onclick="window.open('{{mibewHost}}');return false;" href="{{mibewHost}}">
+                                <img src="{{company.chatLogoURL}}" alt=""/>
+                            </a>
+                        {{else}}
+                            <img src="{{company.chatLogoURL}}" alt=""/>
+                        {{/if}}
+                    {{else}}
+                        {{#if mibewHost}}
+                            <a onclick="window.open('{{mibewHost}}');return false;" href="{{mibewHost}}">
+                                <img src="{{asset "@CurrentStyle/images/default-logo.png"}}" alt=""/>
+                            </a>
+                        {{else}}
+                            <img src="{{asset "@CurrentStyle/images/default-logo.png"}}" alt=""/>
+                        {{/if}}
+                    {{/if}}
+                    <div id="page-title">{{#block "pageTitle"}}{{l10n "Mibew Messenger"}}{{/block}}</div>
+                    <div class="clear">&nbsp;</div>
+                </div>
+            </div>
+
+            {{! Header block. Contains page description and buttons}}
+            <div id="headers">
+                <div class="headers-inwards-wrapper-common"><div class="headers-inwards-wrapper-left"><div class="headers-inwards-wrapper-right"><div class="headers-inwards-wrapper-top"><div class="headers-inwards-wrapper-top-left"><div class="headers-inwards-wrapper-top-right"><div class="headers-inwards-wrapper-bottom-left"><div class="headers-inwards-wrapper-bottom-right">
+                    <div class="buttons">
+                        {{#block "buttons"}}{{/block}}
+                    </div>
+                    <div class="info-message">
+                        {{#block "message"}}&nbsp;{{/block}}
+                    </div>
+                </div></div></div></div></div></div></div></div>
+            </div>
+
+            {{! Main content block}}
+            <div id="content-wrapper">
+                {{#block "content"}}&nbsp;{{/block}}
+            </div>
+        {{/block}}
+    </body>
+</html>

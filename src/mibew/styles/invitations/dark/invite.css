@@ -1,0 +1,158 @@
+/*
+ * Copyright 2005-2021 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#mibew-invitation-popup {
+    margin: 0 !important;
+    padding: 5px !important;
+    border: 0 !important;
+    outline: 0 !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 14px !important;
+    vertical-align: baseline !important;
+    line-height: normal !important;
+    border: 1px solid #aaa !important;
+    background: #464646 !important;
+    background: -webkit-linear-gradient(left, #464646, #a0a0a0) !important;
+    background: -o-linear-gradient(right, #464646, #a0a0a0) !important;
+    background: -moz-linear-gradient(right, #464646, #a0a0a0) !important;
+    background: -ms-linear-gradient(right, #464646, #a0a0a0) !important;
+    background: linear-gradient(to right, #464646, #a0a0a0) !important;
+    color: #000000 !important;
+    position: fixed !important;
+    bottom: 5px !important;
+    right: 5px !important;
+    z-index: 100 !important;
+    border-radius: 10px !important;
+    -webkit-border-radius: 10px !important;
+    -moz-border-radius: 10px !important;
+    box-shadow: 0 1px 1px 1px #222 !important;
+    -moz-box-shadow: 0 1px 1px 1px #222 !important;
+    -webkit-box-shadow: 0 1px 1px 1px #222 !important;
+}
+#mibew-invitation-popup h1,
+#mibew-invitation-popup p,
+#mibew-invitation-close a {
+    cursor: pointer !important;
+}
+#mibew-invitation-popup h1 {
+    color: #b0b0b0 !important;
+    font-size: 20px !important;
+    font-weight: bold !important;
+    max-width: 220px !important;
+    overflow: hidden !important;
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+    background: url("./24x24.png") 7px 1px no-repeat !important;
+    text-align: left !important;
+    padding-left: 40px !important;
+    display: inline-block !important;
+}
+#mibew-invitation-close {
+    float: right !important;
+    background: url("./close.gif") center no-repeat !important;
+    padding: 1px !important;
+    margin: 0 !important;
+}
+#mibew-invitation-close a {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif !important;
+    font-size: 12px !important;
+    font-weight: normal !important;
+    color: #9d9d9d !important;
+    margin: 0 4px 0 4px !important;
+}
+#mibew-invitation-close a,
+#mibew-invitation-close a:link,
+#mibew-invitation-close a:hover {
+    text-decoration: none !important;
+}
+#mibew-invitation-popup p {
+    padding: 2px !important;
+    margin: 2px !important;
+}
+#mibew-invitation-avatar-wrapper {
+    margin: 2px 10px 5px 2px !important;
+    cursor: pointer !important;
+    float: right !important;
+    max-width: 100px !important;
+    max-height: 100px !important;
+    overflow: hidden;
+}
+#mibew-invitation-avatar {
+    max-width: 100px !important;
+}
+#mibew-invitation-frame {
+    height: 150px !important;
+    overflow: hidden !important;
+    border: 1px solid #445454 !important;
+    background-color: #666666 !important;
+    padding: 5px !important;
+    border-radius: 5px !important;
+    -webkit-border-radius: 5px !important;
+    -moz-border-radius: 5px !important;
+    margin-bottom: 5px !important;
+}
+#mibew-invitation-accept {
+    color: #f1a600 !important;
+    font-size: 17px !important;
+    font-weight: normal !important;
+    text-align: center !important;
+    cursor: pointer !important;
+    background: #464646 !important;
+    background: -webkit-linear-gradient(#a0a0a0, #464646) !important;
+    background: -o-linear-gradient(#a0a0a0, #464646) !important;
+    background: -moz-linear-gradient(#a0a0a0, #464646) !important;
+    background: -ms-linear-gradient(#a0a0a0, #464646) !important;
+    background: linear-gradient(#a0a0a0, #464646) !important;
+    border: 1px solid #111 !important;
+    border-radius: 7px !important;
+    -webkit-border-radius: 7px !important;
+    -moz-border-radius: 7px !important;
+    display: inline-block !important;
+    float: right !important;
+    padding: 5px 65px !important;
+}
+#mibew-invitation-accept:hover {
+    color: black !important;
+    background: #b78007 !important;
+    background: -webkit-linear-gradient(#eba200, #b78007) !important;
+    background: -o-linear-gradient(#eba200, #b78007) !important;
+    background: -moz-linear-gradient(#eba200, #b78007) !important;
+    background: -ms-linear-gradient(#eba200, #b78007) !important;
+    background: linear-gradient(#eba200, #b78007) !important;
+}
+
+/* responsive design for mobile devices */
+@media only screen and (max-width: 500px) {
+    #mibew-invitation-popup {
+        max-width: 100% !important;
+    }
+    #mibew-invitation-frame {
+        max-width: 100% !important;
+    }
+}
+
+/* additional trick for desktops */
+@media (min-width: 501px) {
+    #mibew-invitation-popup {
+        width: 400px !important;
+    }
+
+    #mibew-invitation-frame {
+        width: 388px !important;
+    }
+}

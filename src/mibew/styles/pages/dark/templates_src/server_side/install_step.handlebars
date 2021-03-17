@@ -1,0 +1,62 @@
+{{#extends "_layout"}}
+    {{#if localeLinks}}
+        {{#override "menu"}}{{> _locales}}{{/override}}
+    {{/if}}
+
+    {{#override "content"}}
+        {{l10n "Follow the wizard to setup your database."}}
+
+        <br/>
+        <br/>
+
+        {{> _errors}}
+
+        {{#if done}}
+            <div id="install">
+                <div class="form-wrapper">
+                    <div class="form-header">
+                        <div class="form-header-inwards"></div>
+                    </div>
+
+                    <div class="form-inwards">
+                        {{l10n "Completed:"}}
+
+                        <ul>
+                            {{#each done}}
+                                <li>{{l10n this}}</li>
+                            {{/each}}
+                        </ul>
+
+                        {{#block "nextStep"}}
+                            {{#unless errors}}
+                                {{#if nextstep}}
+                                    <br/>
+                                    <br/>
+
+                                    {{l10n "Next step:"}}
+
+                                    <ul>
+                                        <li>
+                                            {{#if nextnotice}}
+                                                {{{nextnotice}}}<br/><br/>
+                                            {{/if}}
+
+                                            <a href="{{nextstepurl}}">{{nextstep}}</a>
+                                        </li>
+                                    </ul>
+                                {{/if}}
+                            {{/unless}}
+                        {{/block}}
+                    </div>
+
+                    <div class="form-footer">
+                        <div class="form-footer-inwards"></div>
+                    </div>
+                </div>
+            </div>
+        {{/if}}
+
+        <br/>
+        <a href="{{asset "LICENSE.txt"}}">{{l10n "Software license agreement"}}</a>
+    {{/override}}
+{{/extends}}

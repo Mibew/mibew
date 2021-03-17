@@ -1,0 +1,151 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "You can generate HTML code to place at your site here."}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        <form name="buttonCodeForm" method="get" action="{{route "button_code"}}">
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <div class="form-header-inwards"></div>
+                </div>
+
+                <div class="form-inwards">
+                    <div class="form-fields">
+                        <div class="field-in-row">
+                            <label for="lang" class="field-label">{{l10n "Code for language"}}</label>
+                            <div class="field-value-no-description">
+                                <select id="lang" name="lang" onchange="this.form.submit();">
+                                    {{#each availableLocales}}
+                                        <option value="{{this}}"{{#ifEqual this ../formlang}} selected="selected"{{/ifEqual}}>{{this}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="field-in-row">
+                            <label for="style" class="field-label">{{l10n "Chat window style"}}</label>
+                            <div class="field-value-no-description">
+                                <select id="style" name="style" onchange="this.form.submit();">
+                                    {{#each availableChatStyles}}
+                                        "<option value="{{@key}}"{{#ifEqual @key ../formstyle}} selected="selected"{{/ifEqual}}>{{this}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                        <br clear="all"/>
+
+                        <div class="field-in-row">
+                            <label for="code-type" class="field-label">{{l10n "Generating code type"}}</label>
+                            <div class="field-value-no-description">
+                                <select id="code-type" name="codetype" onchange="this.form.submit();">
+                                    {{#each availableCodeTypes}}
+                                        <option value="{{@key}}"{{#ifEqual @key ../formcodetype}} selected="selected"{{/ifEqual}}>{{this}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="field-in-row">
+                            <label for="force-windows" class="field-label">{{l10n "Use windows (even for modern browsers)"}}</label>
+                            <div class="field-value-no-description">
+                                <input id="force-windows" type="checkbox" name="forcewindows" value="on"{{#if formforcewindows}} checked="checked"{{/if}} onchange="this.form.submit();"/>
+                            </div>
+                        </div>
+                        <br clear="all"/>
+
+                        {{#if generateButton}}
+                            <div class="field-in-row">
+                                <label for="i" class="field-label">{{l10n "Choose image"}}</label>
+                                <div class="field-value-no-description">
+                                    <select id="i" name="i" onchange="this.form.submit();">
+                                        {{#each availableImages}}
+                                            <option value="{{this}}"{{#ifEqual this ../formimage}} selected="selected"{{/ifEqual}}>{{this}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+
+                            {{#if enabletracking}}
+                                <div class="field-in-row">
+                                    <label for="invitation-style" class="field-label">{{l10n "Invitation style"}}</label>
+                                    <div class="field-value-no-description">
+                                        <select id="invitation-style" name="invitationstyle" onchange="this.form.submit();">
+                                            {{#each availableInvitationStyles}}
+                                                <option value="{{@key}}"{{#ifEqual @key ../forminvitationstyle}} selected="selected"{{/ifEqual}}>{{this}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                </div>
+                            {{/if}}
+
+                            <br clear="all"/>
+                        {{/if}}
+
+                        <div class="field-in-row">
+                            <label for="group" class="field-label">{{l10n "Code for group"}}</label>
+                            <div class="field-value-no-description">
+                                <select id="group" name="group" onchange="this.form.submit();">
+                                    {{#each groups}}
+                                        <option value="{{groupid}}"{{#ifEqual groupid ../formgroup}} selected="selected"{{/ifEqual}}>{{#repeat level}}&nbsp;&nbsp;{{/repeat}}{{vclocalname}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                        <br clear="all"/>
+
+                        <div class="field-in-row">
+                            <label for="hostname" class="field-label">{{l10n "Include host name into the code"}}</label>
+                            <div class="field-value-no-description">
+                                <input id="hostname" type="checkbox" name="hostname" value="on"{{#if formhostname}} checked="checked"{{/if}} onchange="this.form.submit();"/>
+                            </div>
+                        </div>
+
+                        {{#if formhostname}}
+                            <div class="field-in-row">
+                                <label for="secure" class="field-label">{{l10n "Use secure links (https)"}}</label>
+                                <div class="field-value-no-description">
+                                    <input id="secure" type="checkbox" name="secure" value="on"{{#if formsecure}} checked="checked"{{/if}} onchange="this.form.submit();"/>
+                                </div>
+                            </div>
+                        {{/if}}
+
+                        <br clear="all"/>
+
+                        <div class="field">
+                            <label for="mod-security" class="field-label">{{l10n "Compatibility with mod_security (modsecurity.org), turn on only if you have problems with it"}}</label>
+                            <div class="field-value-no-description">
+                                <input id="mod-security" type="checkbox" name="modsecurity" value="on"{{#if formmodsecurity}} checked="checked"{{/if}} onchange="this.form.submit();"/>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label for="button-code" class="field-label">{{l10n "HTML code"}}</label>
+                            <div class="field-textarea-value" dir="ltr">
+                                <textarea id="button-code" cols="44" rows="15">{{buttonCode}}</textarea>
+                            </div>
+                            <label for="button-code" class="field-description">{{l10n "<strong>Caution!</strong> Please don't change<br/> the code manually because<br/> we don't guarantee that<br/> it will work!"}}</label>
+                            <br clear="all"/>
+                        </div>
+
+                        <div class="field">
+                            <div class="field-label">{{l10n "Example"}}</div>
+                            <div class="field-value-no-description">
+                                {{{buttonCode}}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-footer">
+                    <div class="form-footer-inwards"></div>
+                </div>
+            </div>
+        </form>
+    {{/override}}
+{{/extends}}

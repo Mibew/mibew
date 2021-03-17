@@ -1,0 +1,224 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "Specify options affecting chat window and common system behavior."}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        {{#if stored}}
+            <div id="form-message">{{l10n "Features activated"}}</div>
+        {{/if}}
+
+        {{#if regeneratebutton}}
+            <br/>
+            <div id="form-message"><img src="{{asset "@CurrentStyle/images/dash/warning.png"}}" alt="" class="warning" /> {{l10n "<a href=\"{0}\">Regenerate the chat button</a> for options to take effect" (route "button_code")}}</div>
+        {{/if}}
+
+        <form name="features" method="post" action="{{route "settings_features_save"}}">
+            {{csrfTokenInput}}
+            <input type="hidden" name="sent" value="true"/>
+
+            <div>
+                {{> _tabs}}
+
+                <div class="form-wrapper">
+                    <div class="form-header">
+                        <div class="form-header-inwards"></div>
+                    </div>
+
+                    <div class="form-inwards">
+
+                        <div class="form-fields">
+                            <div class="field">
+                                <label for="user-can-change-name" class="field-label">{{l10n "Allows users to change their names"}}</label>
+                                <div class="field-value">
+                                    <input id="user-can-change-name" type="checkbox" name="usercanchangename" value="on"{{#if formusercanchangename}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                </div>
+                                <label for="user-can-change-name" class="field-description"> &mdash; {{l10n "Turn off to hide edit box from chat window"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="enable-ssl" class="field-label">{{l10n "Allow secure connections (SSL)"}}</label>
+                                <div class="field-value">
+                                    <input id="enable-ssl" type="checkbox" name="enablessl" value="on"{{#if formenablessl}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                </div>
+                                <label for="enable-ssl" class="field-description"> &mdash; {{l10n "Please note that your web server should be configured to support https requests."}}</label>
+                                <br clear="all"/>
+
+                                <div class="subfield under-ssl">
+                                    <label for="force-ssl" class="field-label">{{l10n "Force all chats to be secure"}}</label>
+                                    <div class="field-value">
+                                        <input id="force-ssl" type="checkbox" name="forcessl" value="on"{{#if formforcessl}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="force-ssl" class="field-description"> &mdash; {{l10n "Show chats only through https connection"}}</label>
+                                    <br clear="all"/>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="enable-groups" class="field-label">{{l10n "Enable \"Groups\""}}</label>
+                                <div class="field-value">
+                                    <input id="enable-groups" type="checkbox" name="enablegroups" value="on"{{#if formenablegroups}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                </div>
+                                <label for="enable-groups" class="field-description"> &mdash; {{l10n "Use it to have separate queues for different questions."}}</label>
+                                <br clear="all"/>
+
+                                <div class="subfield under-groups">
+                                    <label for="enable-groups-isolation" class="field-label">{{l10n "Enable \"Groups Isolation\""}}</label>
+                                    <div class="field-value">
+                                        <input id="enable-groups-isolation" type="checkbox" name="enablegroupsisolation" value="on"{{#if formenablegroupsisolation}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="enable-groups-isolation" class="field-description"> &mdash; {{l10n "Use it to completely isolate groups from each other."}}</label>
+                                    <br clear="all"/>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="enable-statistics" class="field-label">{{l10n "Enable \"Statistics\""}}</label>
+                                <div class="field-value">
+                                    <input id="enable-statistics" type="checkbox" name="enablestatistics" value="on"{{#if formenablestatistics}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                </div>
+                                <label for="enable-statistics" class="field-description"> &mdash; {{l10n "Adds a page with messenger usage reports."}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="enable-tracking" class="field-label">{{l10n "Enable \"Tracking and inviting\""}}</label>
+                                <div class="field-value">
+                                    <input id="enable-tracking" type="checkbox" name="enabletracking" value="on"{{#if formenabletracking}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                </div>
+                                <label for="enable-tracking" class="field-description"> &mdash; {{l10n "Enable tracking of visitors' activity on your site and ability to invite visitors to chat."}}</label>
+                                <br clear="all"/>
+
+                                <div class="subfield under-tracking">
+                                    <label for="track-operators" class="field-label">{{l10n "Track operators"}}</label>
+                                    <div class="field-value">
+                                        <input id="track-operators" type="checkbox" name="trackoperators" value="on"{{#if formtrackoperators}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="track-operators" class="field-description"> &mdash; {{l10n "Allow tracking system to treat operators as normal visitors and add show in the visitors on site list."}}</label>
+                                    <br clear="all"/>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="enable-bans" class="field-label">{{l10n "Enable feature \"Malicious Visitors\""}}</label>
+                                <div class="field-value">
+                                    <input id="enable-bans" type="checkbox" name="enableban" value="on"{{#if formenableban}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                </div>
+                                <label for="enable-bans" class="field-description"> &mdash; {{l10n "Using it you can block attacks from specific IPs"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="enable-presurvey" class="field-label">{{l10n "Enable \"Pre-chat survey\""}}</label>
+                                <div class="field-value">
+                                    <input id="enable-presurvey" type="checkbox" name="enablepresurvey" value="on"{{#if formenablepresurvey}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                </div>
+                                <label for="enable-presurvey" class="field-description"> &mdash; {{l10n "Forces the user to fill out a special form to start a chat."}}</label>
+                                <br clear="all"/>
+
+                                <div class="subfield under-survey">
+                                    <label for="survey-ask-mail" class="field-label">{{l10n "Ask for visitor's email"}}</label>
+                                    <div class="field-value">
+                                        <input id="survey-ask-mail" type="checkbox" name="surveyaskmail" value="on"{{#if formsurveyaskmail}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="survey-ask-mail" class="field-description"> &mdash; {{l10n "Show/hide email field in the survey"}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="subfield under-survey">
+                                    <label for="survey-ask-group" class="field-label">{{l10n "Allows a visitor to choose department/group"}}</label>
+                                    <div class="field-value">
+                                        <input id="survey-ask-group" type="checkbox" name="surveyaskgroup" value="on"{{#if formsurveyaskgroup}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="survey-ask-group" class="field-description"> &mdash; {{l10n "Show/hide department selection field in the survey"}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="subfield under-survey">
+                                    <label for="survey-ask-message" class="field-label">{{l10n "Show initial question field"}}</label>
+                                    <div class="field-value">
+                                        <input id="survey-ask-message" type="checkbox" name="surveyaskmessage" value="on"{{#if formsurveyaskmessage}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="survey-ask-message" class="field-description"> &mdash; {{l10n "Show/hide initial question field in the survey"}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="subfield under-survey">
+                                    <label for="enable-privacy-policy" class="field-label">{{l10n "Enable \"Privacy policy\""}}</label>
+                                    <div class="field-value">
+                                        <input id="enable-privacy-policy" type="checkbox" name="enableprivacypolicy" value="on"{{#if formenableprivacypolicy}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="enable-privacy-policy" class="field-description"> &mdash; {{l10n "Display a notice with the link to privacy policy on the survey page"}}</label>
+                                    <br clear="all"/>
+
+                                    <div class="subfield under-privacy-policy">
+                                        <label for="privacy-policy" class="field-label">{{l10n "Privacy policy"}}</label>
+                                        <div class="field-value">
+                                            <input id="privacy-policy" type="text" name="privacypolicy" size="40" value="{{formprivacypolicy}}" class="field-input"{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                        </div>
+                                        <label for="privacy-policy" class="field-description"> &mdash; {{l10n "Enter a URL of your privacy policy"}}</label>
+                                        <br clear="all"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="enable-popup-notification" class="field-label">{{l10n "Enable \"Popup dialog notification of the new visitor\"."}}</label>
+                                <div class="field-value">
+                                    <input id="enable-popup-notification" type="checkbox" name="enablepopupnotification" value="on"{{#if formenablepopupnotification}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                </div>
+                                <label for="enable-popup-notification" class="field-description"> &mdash; {{l10n "Small dialog appears to attract your attention."}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="show-online-operators" class="field-label">{{l10n "Show online operators on \"List of awaiting visitors\" page"}}</label>
+                                <div class="field-value">
+                                    <input id="show-online-operators" type="checkbox" name="showonlineoperators" value="on"{{#if formshowonlineoperators}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                </div>
+                                <label for="show-online-operators" class="field-description"> &mdash; {{l10n "Can slow down the update rate of the list"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="enable-captcha" class="field-label">{{l10n "Force visitor to enter a verification code when leaving message"}}</label>
+                                <div class="field-value">
+                                    <input id="enable-captcha" type="checkbox" name="enablecaptcha" value="on"{{#if formenablecaptcha}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                </div>
+                                <label for="enable-captcha" class="field-description"> &mdash; {{l10n "Protection against automated spam (captcha)"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="autocheck-updates" class="field-label">{{l10n "Check updates automatically"}}</label>
+                                <div class="field-value">
+                                    <input id="autocheck-updates" type="checkbox" name="autocheckupdates" value="on"{{#if formautocheckupdates}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                </div>
+                                <label for="autocheck-updates" class="field-description"> &mdash; {{l10n "System will check updates for the core and plugins automatically using cron"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            {{#if canmodify}}
+                                <div class="form-button">
+                                    <input type="submit" name="save" class="submit-button-background save-button" value="{{l10n "Save"}}"/>
+                                </div>
+                            {{/if}}
+                        </div>
+
+                    </div>
+
+                    <div class="form-footer">
+                        <div class="form-footer-inwards"></div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    {{/override}}
+{{/extends}}

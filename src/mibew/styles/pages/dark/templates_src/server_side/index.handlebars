@@ -1,0 +1,219 @@
+{{#extends "_layout"}}
+    {{#override "head"}}
+        {{#if localeLinks}}
+            <script type="text/javascript" language="javascript" src="{{asset "@CurrentStyle/js/locale.js"}}"></script>
+        {{/if}}
+        <script type="text/javascript" language="javascript" src="{{asset "@CurrentStyle/js/dashboard.js"}}"></script>
+    {{/override}}
+
+    {{#override "content"}}
+        <br/>
+        {{#if needUpdate}}
+            <div id="form-message"><img src="{{asset "@CurrentStyle/images/dash/warning.png"}}" alt="" class="warning" /> {{l10n "Please run the <a href=\"{0}\">Update wizard</a> to adjust your database." (route "update")}}</div>
+            <br/>
+        {{/if}}
+
+        {{#if warnOffline}}
+            {{#unless isOnline}}
+                <div id="offline-dashboard-warning"><img src="{{asset "@CurrentStyle/images/dash/warning.png"}}" alt="" class="warning"/> {{{l10n "You are Offline. <a href=\"{0}\">Connect...</a>" (route "users" nomenu="1")}}}</div>
+                <br/>
+            {{/unless}}
+        {{/if}}
+
+        <div id="dashboard">
+            <div class="dashboard-item">
+                <div class="dashboard-item-content">
+                    <img src="{{asset "@CurrentStyle/images/dash/visitors.png"}}" alt=""/>
+                    <a href="{{route "users"}}">
+                        {{l10n "Visitors"}}
+                    </a>
+                    {{l10n "You can find awaiting visitors."}}
+                </div>
+            </div>
+
+            <div class="dashboard-item">
+                <div class="dashboard-item-content">
+                    <img src="{{asset "@CurrentStyle/images/dash/history.png"}}" alt=""/>
+                    <a href="{{route "history"}}">
+                        {{l10n "Chat history"}}
+                    </a>
+                    {{l10n "Search the dialogs history."}}
+                </div>
+            </div>
+
+            {{#if showstat}}
+                <div class="dashboard-item">
+                    <div class="dashboard-item-content">
+                        <img src="{{asset "@CurrentStyle/images/dash/statistics.png"}}" alt=""/>
+                        <a href="{{route "statistics"}}">
+                            {{l10n "Statistics"}}
+                        </a>
+                        {{l10n "From this page you can generate a variety of usage reports."}}
+                    </div>
+                </div>
+            {{/if}}
+
+            {{#if showban}}
+                <div class="dashboard-item">
+                    <div class="dashboard-item-content">
+                        <img src="{{asset "@CurrentStyle/images/dash/blocked.png"}}" alt=""/>
+                        <a href="{{route "bans"}}">
+                            {{l10n "Blocked visitors"}}
+                        </a>
+                        {{l10n "Here you can block malicious visitors."}}
+                    </div>
+                </div>
+            {{/if}}
+
+            {{#if showadmin}}
+                <div class="dashboard-item">
+                    <div class="dashboard-item-content">
+                        <img src="{{asset "@CurrentStyle/images/dash/canned.png"}}" alt=""/>
+                        <a href="{{route "canned_messages"}}">
+                            {{l10n "Canned Messages"}}
+                        </a>
+                        {{l10n "Edit messages that you frequently type into the chat."}}
+                    </div>
+                </div>
+
+                <div class="dashboard-item">
+                    <div class="dashboard-item-content">
+                        <img src="{{asset "@CurrentStyle/images/dash/wizard.png"}}" alt=""/>
+                        <a href="{{route "button_code"}}">
+                            {{l10n "Button code"}}
+                        </a>
+                        {{l10n "Button HTML code generation."}}
+                    </div>
+                </div>
+
+                <div class="dashboard-item">
+                    <div class="dashboard-item-content">
+                        <img src="{{asset "@CurrentStyle/images/dash/operator.png"}}" alt=""/>
+                        <a href="{{route "operators"}}">
+                            {{l10n "Operators"}}
+                        </a>
+                        {{l10n "Create or delete company operators. Manage their permissions."}}
+                    </div>
+                </div>
+
+                <div class="dashboard-item">
+                    <div class="dashboard-item-content">
+                        <img src="{{asset "@CurrentStyle/images/dash/group.png"}}" alt=""/>
+                        <a href="{{route "groups"}}">
+                            {{l10n "Groups"}}
+                        </a>
+                        {{l10n "Department or skill based groups."}}
+                    </div>
+                </div>
+
+                <div class="dashboard-item">
+                    <div class="dashboard-item-content">
+                        <img src="{{asset "@CurrentStyle/images/dash/settings.png"}}" alt=""/>
+                        <a href="{{route "settings_common"}}">
+                            {{l10n "Settings"}}
+                        </a>
+                        {{l10n "Specify options affecting chat window and common system behavior."}}
+                    </div>
+                </div>
+
+                <div class="dashboard-item">
+                    <div class="dashboard-item-content">
+                        <img src="{{asset "@CurrentStyle/images/dash/plugins.png"}}" alt=""/>
+                        <a href="{{route "plugins"}}">
+                            {{l10n "Plugins"}}
+                        </a>
+                        {{l10n "Manage plugins."}}
+                    </div>
+                </div>
+
+                <div class="dashboard-item">
+                    <div class="dashboard-item-content">
+                        <img src="{{asset "@CurrentStyle/images/dash/styles.png"}}" alt=""/>
+                        <a href="{{route "style_preview" type="page"}}">
+                            {{l10n "Styles"}}
+                        </a>
+                        {{l10n "Manage styles."}}
+                    </div>
+                </div>
+
+                <div class="dashboard-item">
+                    <div class="dashboard-item-content">
+                        <img src="{{asset "@CurrentStyle/images/dash/translations.png"}}" alt=""/>
+                        <a href="{{route "translations"}}">
+                            {{l10n "Translations"}}
+                        </a>
+                        {{l10n "Manage translations."}}
+                    </div>
+                </div>
+
+                <div class="dashboard-item">
+                    <div class="dashboard-item-content">
+                        <img src="{{asset "@CurrentStyle/images/dash/mail_templates.png"}}" alt=""/>
+                        <a href="{{route "mail_templates"}}">
+                            {{l10n "Mail templates"}}
+                        </a>
+                        {{l10n "Manage mail templates."}}
+                    </div>
+                </div>
+            {{/if}}
+
+            {{#if currentopid}}
+                <div class="dashboard-item">
+                    <div class="dashboard-item-content">
+                        <img src="{{asset "@CurrentStyle/images/dash/profile.png"}}"  alt=""/>
+                        <a href="{{route "operator_edit" operator_id=currentopid}}">
+                            {{l10n "Profile"}}
+                        </a>
+                        {{l10n "You can change your personal information on this page."}}
+                    </div>
+                </div>
+            {{/if}}
+
+            {{#if localeLinks}}
+                <div class="dashboard-item">
+                    <div class="dashboard-item-content">
+                        <img src="{{asset "@CurrentStyle/images/dash/locale.png"}}"  alt=""/>
+                        <a href="#" id="change-language">
+                            {{l10n "Language"}}
+                        </a>
+                        {{l10n "Change locale."}}
+                    </div>
+                </div>
+            {{/if}}
+
+            <div class="dashboard-item">
+                <div class="dashboard-item-content">
+                    <img src="{{asset "@CurrentStyle/images/dash/information.png"}}" alt=""/>
+                    <a href="{{route "about"}}">
+                        {{l10n "About"}}
+                    </a>
+                    {{l10n "View about page."}}
+                </div>
+            </div>
+
+            <div class="dashboard-item">
+                <div class="dashboard-item-content">
+                    <img src="{{asset "@CurrentStyle/images/dash/exit.png"}}" alt=""/>
+                    <a href="{{route "logout"}}">
+                        {{l10n "Exit"}}
+                    </a>
+                    {{l10n "Log out of the system."}}
+                </div>
+            </div>
+
+        </div>
+
+        {{#if localeLinks}}
+            <div id="dashboard-locales-popup">
+                <a href="#" id="dashboard-locales-popup-close"><img src="{{asset "@CurrentStyle/images/dash/close.gif"}}" alt="X"/></a>
+                <h2><img src="{{asset "@CurrentStyle/images/dash/locale.png"}}" alt=""/><b>{{l10n "Choose your language"}}</b></h2>
+                <ul class="locales">
+                    {{#each localeLinks}}
+                        <li{{#ifEqual currentLocale @key}} class="active"{{/ifEqual}}><a href="?locale={{@key}}">{{this}}</a></li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div id="background-popup"></div>
+        {{/if}}
+    {{/override}}
+{{/extends}}

@@ -1,0 +1,49 @@
+<div id="sidebar"{{#if hideMenu}} class="sidebar-hidden"{{/if}}>
+    <ul>
+    {{#if warnOffline}}
+        {{#unless isOnline}}
+            <li id="offline-warning">
+                <img src="{{asset "@CurrentStyle/images/dash/warning.png"}}" alt="" width="24" height="24"/>
+                <p>{{{l10n "You are Offline.<br/><a href=\"{0}\">Connect...</a>" (route "users" nomenu="1")}}}</p>
+            </li>
+        {{/unless}}
+    {{/if}}
+        <li>
+            <h2>{{l10n "Main"}}</h2>
+            <ul class="submenu">
+                <li{{#ifEqual menuid "main"}} class="active"{{/ifEqual}}><a href="{{route "home_operator"}}">{{l10n "Home"}}</a></li>
+                <li{{#ifEqual menuid "users"}} class="active"{{/ifEqual}}><a href="{{route "users"}}">{{l10n "Visitors"}}</a> <span class="small">(<a class="inner" href="{{route "users" nomenu="1"}}">{{l10n "without menu"}}</a>)</span></li>
+                <li{{#ifEqual menuid "history"}} class="active"{{/ifEqual}}><a href="{{route "history"}}">{{l10n "Chat history"}}</a></li>
+                {{#if showstat}}
+                    <li{{#ifEqual menuid "statistics"}} class="active"{{/ifEqual}}><a href="{{route "statistics"}}">{{l10n "Statistics"}}</a></li>
+                {{/if}}
+                {{#if showban}}
+                    <li{{#ifEqual menuid "bans"}} class="active"{{/ifEqual}}><a href="{{route "bans"}}">{{l10n "Blocked visitors"}}</a></li>
+                {{/if}}
+            </ul>
+        </li>
+        {{#if showadmin}}
+            <li>
+                <h2>{{l10n "Administration"}}</h2>
+                <ul class="submenu">
+                    <li{{#ifEqual menuid "canned"}} class="active"{{/ifEqual}}><a href="{{route "canned_messages"}}">{{l10n "Canned Messages"}}</a></li>
+                    <li{{#ifEqual menuid "getcode"}} class="active"{{/ifEqual}}><a href="{{route "button_code"}}">{{l10n "Button code"}}</a></li>
+                    <li{{#ifEqual menuid "operators"}} class="active"{{/ifEqual}}><a href="{{route "operators"}}">{{l10n "Operators"}}</a></li>
+                    <li{{#ifEqual menuid "groups"}} class="active"{{/ifEqual}}><a href="{{route "groups"}}">{{l10n "Groups"}}</a></li>
+                    <li{{#ifEqual menuid "settings"}} class="active"{{/ifEqual}}><a href="{{route "settings_common"}}">{{l10n "Settings"}}</a></li>
+                    <li{{#ifEqual menuid "plugins"}} class="active"{{/ifEqual}}><a href="{{route "plugins"}}">{{l10n "Plugins"}}</a></li>
+                    <li{{#ifEqual menuid "styles"}} class="active"{{/ifEqual}}><a href="{{route "style_preview" type="page"}}">{{l10n "Styles"}}</a></li>
+                    <li{{#ifEqual menuid "translation"}} class="active"{{/ifEqual}}><a href="{{route "translations"}}">{{l10n "Localize"}}</a></li>
+                    <li{{#ifEqual menuid "mail_templates"}} class="active"{{/ifEqual}}><a href="{{route "mail_templates"}}">{{l10n "Mail templates"}}</a></li>
+                </ul>
+            </li>
+        {{/if}}
+        <li>
+            <h2>{{l10n "Other"}}</h2>
+            <ul class="submenu">
+                <li{{#ifEqual menuid "about"}} class="active"{{/ifEqual}}><a href="{{route "about"}}">{{l10n "About"}}</a></li>
+                <li><a href="{{route "logout"}}">{{l10n "Exit"}}</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>

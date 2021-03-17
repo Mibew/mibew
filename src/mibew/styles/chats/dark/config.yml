@@ -1,0 +1,25 @@
+# This file determines some chat styles options
+
+chat:
+    # These params are used for chat windows opened via JavaScript's window.open.
+    window:
+        height: 480
+        width: 640
+        resizable: true
+    # These params are used to customize chat popup.
+    iframe:
+        css: iframe.css
+
+mail:
+    # These params are used for send mail windows opened via JavaScript's window.open.
+    window:
+        height: 254
+        width: 603
+        resizable: false
+
+# Screenshots section describe all screenshots shipped with style
+# Params names should be equals to file names without extension. Pictures
+# extension should be '.png'
+# Params values should be equals to screenshot description
+screenshots:
+    client_chat: "Client chat window"

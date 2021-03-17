@@ -1,0 +1,65 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "Here you can block malicious visitors that affect your work with spam messages."}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        <div class="table-toolbar">
+            <img src="{{asset "@CurrentStyle/images/buttons/plus.png"}}" border="0" alt=""/>
+            <a href="{{route "ban_add"}}" title="{{l10n "Add address"}}"
+                onclick="this.newWindow = window.open('{{route "ban_add"}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{l10n "Add address"}}</a>
+        </div>
+        <br clear="all"/>
+
+        <table class="list">
+            <thead>
+                <tr class="header">
+                    <th>{{l10n "Visitor's Address"}}</th>
+                    <th>{{l10n "Till"}}</th>
+                    <th>{{l10n "Comment"}}</th>
+                    <th>{{l10n "Edit"}}</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each [pagination.items]}}
+                    <tr>
+                        <td class="not-last">
+                            <a href="{{route "history" q=address type="visitor"}}" class="man">
+                                {{address}}
+                            </a>
+                        </td>
+
+                        <td class="not-last">{{formatDate till}}</td>
+
+                        <td>{{cutString comment "30"}}</td>
+
+                        <td>
+                            <a class="remove-link" data-ban-address="{{address}}" href="{{csrfProtectedRoute "ban_delete" ban_id=banid}}">
+                                {{l10n "remove"}}
+                            </a>,
+                            <a href="{{route "ban_edit" ban_id=banid}}"
+                                onclick="this.newWindow = window.open('{{route "ban_edit" ban_id=banid}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{l10n "edit"}}</a>
+                        </td>
+                    </tr>
+                {{else}}
+                    <tr>
+                        <td colspan="4">
+                            {{l10n "No elements"}}
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+        {{#if pagination}}
+            <br />
+            {{generatePagination pagination}}
+        {{/if}}
+    {{/override}}
+{{/extends}}

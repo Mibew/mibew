@@ -1,0 +1,32 @@
+{{#extends "_layout"}}
+    {{#override "pageTitle"}}{{l10n "Redirect to<br/>another operator"}}{{/override}}
+
+    {{#override "buttons"}}
+        <a href="javascript:window.close();" title="{{l10n 'Back...'}}">
+            <img class="tpl-image image-close-window" src="{{asset "@CurrentStyle/images/free.gif"}}" alt="{{l10n 'Back...'}}" />
+        </a>
+    {{/override}}
+
+    {{#override "message"}}{{l10n "Choose:"}}{{/override}}
+
+    {{#override "content"}}
+        <div class="left">
+            {{#if redirectToAgent}}
+                <strong>{{l10n "Operator:"}}</strong>
+                <ul class="agentlist">
+                    {{{redirectToAgent}}}
+                </ul>
+            {{/if}}
+        </div>
+        <div class="right">
+            {{#if redirectToGroup}}
+                <strong>{{l10n "Group:"}}</strong>
+                <ul class="agentlist">
+                    {{{redirectToGroup}}}
+                </ul>
+            {{/if}}
+        </div>
+        <div class="clear">&nbsp;</div>
+        <div class="center">{{generatePagination pagination}}</div>
+    {{/override}}
+{{/extends}}

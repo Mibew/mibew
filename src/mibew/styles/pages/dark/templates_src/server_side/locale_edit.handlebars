@@ -1,0 +1,84 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "Edit locale settings."}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        {{#if stored}}
+            <div id="form-message">{{l10n "Changes saved"}}</div>
+        {{/if}}
+
+        <form name="localeForm" method="post" action="{{formaction}}">
+            {{csrfTokenInput}}
+
+            <div>
+                {{> _tabs}}
+
+                <div class="form-wrapper">
+                    <div class="form-header">
+                        <div class="form-header-inwards"></div>
+                    </div>
+
+                    <div class="form-inwards">
+
+                        <div class="form-fields">
+                            <div class="field">
+                                <label for="time-locale" class="field-label">{{l10n "Time locale"}}<span class="required">*</span></label>
+                                <div class="field-value">
+                                    <input id="time-locale" type="text" name="timelocale" size="40" value="{{formtimelocale}}" class="field-input" />
+                                </div>
+                                <label for="time-locale" class="field-description"> &mdash; {{l10n "This value will be passed to PHP's setlocale function to localize words in date/time string."}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="date-format-full" class="field-label">{{l10n "Date format (full)"}}<span class="required">*</span></label>
+                                <div class="field-value">
+                                    <input id="date-format-full" type="text" name="dateformatfull" size="40" value="{{formdateformatfull}}" class="field-input" />
+                                </div>
+                                <label for="date-format-full" class="field-description"> &mdash; {{l10n "This value will be used with PHP's strftime to format date with time."}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="date-format-date" class="field-label">{{l10n "Date format (date)"}}<span class="required">*</span></label>
+                                <div class="field-value">
+                                    <input id="date-format-date" type="text" name="dateformatdate" size="40" value="{{formdateformatdate}}" class="field-input" />
+                                </div>
+                                <label for="date-format-date" class="field-description"> &mdash; {{l10n "This value will be used with PHP's strftime to format date only."}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="date-format-time" class="field-label">{{l10n "Date format (time)"}}<span class="required">*</span></label>
+                                <div class="field-value">
+                                    <input id="date-format-time" type="text" name="dateformattime" size="40" value="{{formdateformattime}}" class="field-input" />
+                                </div>
+                                <label for="date-format-time" class="field-description"> &mdash; {{l10n "This value will be used with PHP's strftime to format time only."}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="form-button">
+                                <input type="submit" name="save" class="submit-button-background save-button" value="{{l10n "Save"}}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-footer">
+                        <div class="form-footer-inwards"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="asterisk">
+                <span class="required">*</span> - {{l10n "mandatory fields"}}
+            </div>
+
+        </form>
+    {{/override}}
+{{/extends}}

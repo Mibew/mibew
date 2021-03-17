@@ -1,0 +1,31 @@
+{{#extends "_layout"}}
+    {{#override "pageTitle"}}{{l10n "Send chat history<br/>by mail"}}{{/override}}
+
+    {{#override "buttons"}}
+        <a href="javascript:window.close();" title="{{l10n 'Close...'}}">
+            <img class="tpl-image image-close-window" src="{{asset "@CurrentStyle/images/free.gif"}}" alt="{{l10n 'Close...'}}" />
+        </a>
+    {{/override}}
+
+    {{#override "message"}}
+        <form name="mailThreadForm" method="post" action="{{route "chat_user_mail_send" thread_id=this.[chat.thread.id] token=this.[chat.thread.token]}}">
+            <input type="hidden" name="style" value="{{styleName}}"/>
+            <input type="hidden" name="level" value="{{level}}"/>
+
+            <strong>{{l10n "Enter your email:"}}</strong>
+            <input type="text" name="email" size="20" value="{{formemail}}" class="username" />&nbsp;
+            <a href="javascript:document.mailThreadForm.submit();">{{l10n "Send"}}</a>
+        </form>
+    {{/override}}
+
+    {{#override "content"}}
+        {{#if errors}}
+            <b>{{l10n "Correct the mistakes:"}}</b><br/>
+            <ul>
+            {{#each errors}}
+                <li class="error">{{{this}}}</li>
+            {{/each}}
+            </ul>
+        {{/if}}
+    {{/override}}
+{{/extends}}

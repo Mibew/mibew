@@ -1,0 +1,68 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "On this page you can configure locales which are used in the system"}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        {{> _tabs}}
+
+        <div class="form-wrapper">
+            <div class="form-header">
+                <div class="form-header-inwards"></div>
+            </div>
+
+            <div class="form-inwards">
+                {{! It is just an empty plate under the tabs bar.}}
+
+                <br clear="all"/>
+            </div>
+
+            <div class="form-footer">
+                <div class="form-footer-inwards"></div>
+            </div>
+        </div>
+
+        <br />
+
+        <table class="list">
+            <thead>
+                <tr class="header">
+                    <th>{{l10n "Code"}}</th>
+                    <th>{{l10n "Name"}}</th>
+                    <th>{{l10n "Modify"}}</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each localesList}}
+                    <tr>
+                        <td class="not-last">
+                            {{code}}
+                        </td>
+
+                        <td class="not-last">
+                            {{name}}
+                        </td>
+
+                        <td>
+                            {{#if isDisabled}}
+                                <a href="{{csrfProtectedRoute "locale_enable" locale=code}}">{{l10n "enable"}}</a>
+                            {{else}}
+                                <a href="{{csrfProtectedRoute "locale_disable" locale=code}}">{{l10n "disable"}}</a>
+                            {{/if}}
+
+                            {{#unless isDisabled}}
+                                <a href="{{route "locale_edit" locale=code}}">{{l10n "edit"}}</a>
+                            {{/unless}}
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    {{/override}}
+{{/extends}}

@@ -1,0 +1,86 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "If you don't agree with the translation please send us an update."}}
+
+        <br />
+        <br />
+
+        <form name="translateForm" method="get" action="{{route "translations"}}">
+            {{> _tabs}}
+
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <div class="form-header-inwards"></div>
+                </div>
+
+                <div class="form-inwards">
+                    <div class="packed-form-fields">
+                        {{l10n "For language:"}}<br/>
+                        <select name="target" onchange="this.form.submit();">
+                            {{#each availableLocales}}
+                                <option value="{{id}}"{{#ifEqual id ../formtarget}} selected="selected"{{/ifEqual}}>{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <div class="packed-form-fields">
+                        {{l10n "Sort by:"}}<br/>
+                        <select name="sort" onchange="this.form.submit();">
+                            {{#each availableOrders}}
+                                <option value="{{id}}"{{#ifEqual id ../formsort}} selected="selected"{{/ifEqual}}>{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <br clear="all"/>
+
+                </div>
+
+                <div class="form-footer">
+                    <div class="form-footer-inwards"></div>
+                </div>
+            </div>
+        </form>
+        <br/>
+
+
+        {{#if pagination}}
+            {{generatePagination pagination "false"}}
+        {{/if}}
+
+        <table class="translate">
+            <thead>
+                <tr class="header"><th>
+                    {{l10n "Source string"}}
+                </th><th>
+                    {{localeName}}
+                </th></tr>
+            </thead>
+            <tbody>
+
+            {{#each [pagination.items]}}
+                <tr>
+                    <td>
+                        {{{source}}}
+                    </td>
+                    <td>
+                        <a href="{{route "translation_edit" string_id=id}}" target="_blank" onclick="this.newWindow = window.open('{{route "translation_edit" string_id=id}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{{translation}}}</a>
+                    </td>
+                </tr>
+            {{else}}
+                <tr>
+                    <td colspan="2">{{l10n "Found 0 elements"}}</td>
+                </tr>
+            {{/each}}
+
+            </tbody>
+        </table>
+
+        {{#if pagination}}
+            <br />
+            {{generatePagination pagination}}
+        {{/if}}
+    {{/override}}
+{{/extends}}

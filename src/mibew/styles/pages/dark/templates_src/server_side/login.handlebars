@@ -1,0 +1,68 @@
+{{#extends "_layout"}}
+    {{#if localeLinks}}
+        {{#override "menu"}}{{> _locales}}{{/override}}
+    {{/if}}
+
+    {{#override "content"}}
+        <div id="login-intro">
+        <p>{{l10n "Mibew Messenger is an open-source live support application."}}</p>
+        </div>
+
+        <form name="loginForm" method="post" action="{{route "login_submit"}}">
+            {{csrfTokenInput}}
+
+            <div id="login-pane">
+
+                <div class="header">
+                    <h2>{{l10n "Login"}}</h2>
+                </div>
+
+                <div class="form-fields">
+                    {{l10n "Please enter your username and password to access administrative tools. See your visitors and browse the history."}}
+
+                    <br/>
+                    <br/>
+
+                    {{> _errors}}
+
+                    <div class="field">
+                        <div class="field-label-left">{{l10n "Login:"}}</div>
+                        <div class="field-value">
+                            <input type="text" name="login" size="25" value="{{formlogin}}" class="field-input"/>
+                        </div>
+                        <br clear="all"/>
+                    </div>
+
+                    <div class="field">
+                        <div class="field-label-left">{{l10n "Password:"}}</div>
+                        <div class="field-value">
+                            <input type="password" name="password" size="25" value="" class="field-input" autocomplete="off"/>
+                        </div>
+                        <br clear="all"/>
+                    </div>
+
+                    <div class="field">
+                        <div class="field-label-left">&nbsp;</div>
+                        <div class="field-value">
+                            <label>
+                                <input type="checkbox" name="isRemember" value="on"{{#if formisRemember}} checked="checked"{{/if}} />
+                                {{l10n "Remember"}}
+                            </label>
+                        </div>
+                        <br clear="all"/>
+                    </div>
+
+                    <div class="form-button">
+                        <input type="submit" name="submit" class="submit-button-background login-button" value="{{l10n "Enter"}}" />
+
+                        <div class="links">
+                            <a href="{{route "password_recovery"}}">{{l10n "Forgot your password?"}}</a><br/>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </form>
+    {{/override}}
+{{/extends}}

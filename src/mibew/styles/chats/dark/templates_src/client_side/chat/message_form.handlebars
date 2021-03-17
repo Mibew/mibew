@@ -1,0 +1,26 @@
+<div id="message">
+{{#if user.canPost}}
+    <div class="background-center"><div class="background-left"><div class="background-right">
+        <textarea id="message-input" class="message" tabindex="0" rows="4" cols="10"></textarea>
+    </div></div></div>
+{{/if}}
+</div>
+
+<div id="send">
+{{#if user.canPost}}
+    <div id="post-message">
+        <div id="predefined-wrapper">
+            {{#if user.isAgent}}
+                <select id="predefined" size="1" class="answer">
+                    <option>{{l10n "Select answer..."}}</option>
+                {{#each predefinedAnswers}}
+                    <option>{{this.short}}</option>
+                {{/each}}
+                </select>
+            {{/if}}
+        </div>
+        <a href="javascript:void(0)" id="send-message" title="{{l10n "Send message"}}">{{{l10n "Send ({0})" sendShortcut}}}</a>
+    </div>
+{{/if}}
+</div>
+<div class="clear"></div>

@@ -1,0 +1,83 @@
+/*
+ * Copyright 2005-2021 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+div.mibew-chat-wrapper {
+    border: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: fixed !important;
+    bottom: 5px !important;
+    right: 5px !important;
+}
+
+iframe.mibew-chat-frame {
+    background: url("images/ajax-loader.gif") center center no-repeat #aeaeae !important;
+    margin: 0 !important;
+    padding: 0px !important;
+    border: 0 !important;
+    outline: 0 !important;
+    border: 1px solid #aaa !important;
+    width: 510px !important;
+    max-width: 100% !important;
+    height: 480px !important;
+    overflow: hidden !important;
+    z-index: 100 !important;
+    border-radius: 10px !important;
+    -webkit-border-radius: 10px !important;
+    -moz-border-radius: 10px !important;
+    box-shadow: 0 1px 1px 1px #777 !important;
+    -moz-box-shadow: 0 1px 1px 1px #777 !important;
+    -webkit-box-shadow: 0 1px 1px 1px #777 !important;
+}
+
+div.mibew-chat-frame-toggle {
+    border: 1px solid black;
+    position: fixed !important;
+    border: 1px solid #aaa !important;
+    overflow: hidden !important;
+    z-index: 100 !important;
+    border-radius: 10px !important;
+    -webkit-border-radius: 10px !important;
+    -moz-border-radius: 10px !important;
+    box-shadow: 0 1px 1px 1px #777 !important;
+    -moz-box-shadow: 0 1px 1px 1px #777 !important;
+    -webkit-box-shadow: 0 1px 1px 1px #777 !important;
+    cursor: pointer;
+}
+
+div.mibew-chat-frame-toggle-on {
+    width: 27px !important;
+    height: 480px !important;
+    right: 517px !important;
+    bottom: 5px !important;
+    background: #999999 url("images/right.png") scroll no-repeat 0 0;
+}
+
+div.mibew-chat-frame-toggle-off {
+    width: 40px !important;
+    height: 40px !important;
+    right: 5px !important;
+    bottom: 5px !important;
+    background: #999999 url("images/default-logo-short.png") scroll no-repeat 4px 5px;
+}
+
+/* responsive design for mobile devices */
+@media only screen and (max-width: 500px) {
+    div.mibew-chat-wrapper {
+        -webkit-overflow-scrolling: touch !important;
+        overflow-y: scroll !important;
+    }
+}

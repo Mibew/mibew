@@ -1,0 +1,83 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "You can upload your photo only as JPG, GIF, PNG or TIF image files."}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        <form name="avatarForm" method="post" action="{{route "operator_avatar_save" operator_id=opid}}" enctype="multipart/form-data">
+            {{csrfTokenInput}}
+
+            <div>
+                {{> _tabs}}
+                <div class="form-wrapper">
+                    <div class="form-header">
+                        <div class="form-header-inwards"></div>
+                    </div>
+
+                    <div class="form-inwards">
+                        <p><b>{{currentop}}&lrm;</b></p>
+
+                        <div class="form-fields">
+
+                            {{#if avatar}}
+                                <div class="field">
+                                    <div class="field-label">{{l10n "Current avatar image"}}</div>
+                                    <div class="field-value">
+                                        <img src="{{avatar}}" alt="{{l10n "cannot load avatar"}}"/><br/>
+                                        {{#if canmodify}}
+                                            <a class="field-input" href="{{csrfProtectedRoute "operator_avatar_delete" operator_id=opid}}">
+                                                {{l10n "Remove avatar"}}
+                                            </a>
+                                        {{/if}}
+                                    </div>
+                                    <div class="field-description"> &mdash; {{l10n "Your avatar image."}}</div>
+                                    <br clear="all"/>
+                                </div>
+                            {{else}}
+                                {{#unless canmodify}}
+                                    <div class="field">
+                                        <div class="field-value-no-description">
+                                            No avatar
+                                        </div>
+                                    </div>
+                                {{/unless}}
+                            {{/if}}
+
+                            {{#if canmodify}}
+                                <div class="field">
+                                    <label for="avatar-file" class="field-label">
+                                        {{l10n "Upload avatar"}}<span class="required">*</span>
+                                    </label>
+                                    <div class="field-value">
+                                        <input id="avatar-file" type="file" name="avatarFile" size="40" value="{{formavatarFile}}" class="field-input"/>
+                                    </div>
+                                    <label for="avatar-file" class="field-description"> &mdash; {{l10n "Choose the avatar file to upload.<br/>The picture size should not exceed 100x100 px."}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="form-button">
+                                    <input type="submit" name="save" class="submit-button-background save-button" value="{{l10n "Save"}}"/>
+                                </div>
+                            {{/if}}
+                        </div>
+
+                    </div>
+
+                    <div class="form-footer">
+                        <div class="form-footer-inwards"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="asterisk">
+                <span class="required">*</span> - {{l10n "mandatory fields"}}
+            </div>
+        </form>
+    {{/override}}
+{{/extends}}

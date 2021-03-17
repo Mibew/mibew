@@ -1,0 +1,12 @@
+{{#if user.canChangeName}}
+    <span class="user-name-control-prefix">{{l10n "You are"}}</span>
+    {{#if nameInput}}
+        <div class="user-name-control-input-background"><input id="user-name-control-input" type="text" size="12" value="{{user.name}}" class="username" /></div>
+        <a href="javascript:void(0)" class="user-name-control-set tpl-image" title="{{l10n "Change name"}}"></a>
+    {{else}}
+        <a href="javascript:void(0)" title="{{l10n "Change name"}}">{{user.name}}</a>
+        <a class="user-name-control-change tpl-image" title="{{l10n "Change name"}}"></a>
+    {{/if}}
+{{else}}
+{{l10n "You are"}}&nbsp;{{user.name}}
+{{/if}}

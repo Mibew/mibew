@@ -1,0 +1,158 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{#if grid}}
+            {{l10n "On this page you can edit group details."}}
+        {{else}}
+            {{l10n "Create new group here."}}
+        {{/if}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        {{#if stored}}
+            <div id="form-message">{{l10n "Changes saved"}}</div>
+        {{/if}}
+
+        <form name="groupForm" method="post" action="{{formaction}}">
+            {{csrfTokenInput}}
+
+            <div>
+                {{> _tabs}}
+
+                <div class="form-wrapper">
+                    <div class="form-header">
+                        <div class="form-header-inwards"></div>
+                    </div>
+
+                    <div class="form-inwards">
+                        <div class="form-fields">
+                            <div class="field">
+                                <label for="name" class="field-label">{{l10n "Name"}}<span class="required">*</span></label>
+                                <div class="field-value">
+                                    <input id="name" type="text" name="name" size="40" value="{{formname}}" class="field-input"/>
+                                </div>
+                                <label for="name" class="field-description"> &mdash; {{l10n "Name to identify the group."}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="description" class="field-label">{{l10n "Description"}}</label>
+                                <div class="field-value">
+                                    <input id="description" type="text" name="description" size="40" value="{{formdescription}}" class="field-input"/>
+                                </div>
+                                <label for="description" class="field-description"> &mdash; {{l10n "Description of the group."}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="common-name" class="field-label">{{l10n "International name"}}</label>
+                                <div class="field-value">
+                                    <input id="common-name" type="text" name="commonname" size="40" value="{{formcommonname}}" class="field-input"/>
+                                </div>
+                                <label for="common-name" class="field-description"> &mdash; {{l10n "Name in English."}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="common-description" class="field-label">{{l10n "International description"}}</label>
+                                <div class="field-value">
+                                    <input id="common-description" type="text" name="commondescription" size="40" value="{{formcommondescription}}" class="field-input"/>
+                                </div>
+                                <label for="common-description" class="field-description"> &mdash; {{l10n "Description in English."}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="email" class="field-label">{{l10n "E-mail"}}</label>
+                                <div class="field-value">
+                                    <input id="email" type="text" name="email" size="40" value="{{formemail}}" class="field-input"/>
+                                </div>
+                                <label for="email" class="field-description"> &mdash; {{l10n "Group email for notifications. Leave empty to use the default address."}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="weight" class="field-label">{{l10n "Weight"}}</label>
+                                <div class="field-value">
+                                    <input id="weight" type="text" name="weight" size="40" value="{{formweight}}" class="field-input"/>
+                                </div>
+                                <label for="weight" class="field-description"> &mdash; {{l10n "Groups with lower weight display higher in groups list. Group weight is a positive integer value."}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="parent-group" class="field-label">{{l10n "Parent group"}}</label>
+                                <div class="field-value">
+                                    <select name="parentgroup" id="parent-group">
+                                        {{#each availableParentGroups}}
+                                            <option value="{{groupid}}"{{#ifEqual groupid ../formparentgroup}} selected="selected"{{/ifEqual}}>{{#repeat level}}&nbsp;&nbsp;{{/repeat}}{{vclocalname}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                <label for="parent-group" class="field-description"> &mdash; {{l10n "Groups can be organized in a hierarchical structure"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div id="extra-fields">
+                                <div class="fields-header">{{l10n "The fields that located below are extra fields. These fields are only available for the top level groups and override corresponding system settings if specified."}}</div>
+
+                                <div class="field">
+                                    <label for="title-field" class="field-label">{{l10n "Company title"}}</label>
+                                    <div class="field-value">
+                                        <input id="title-field" type="text" name="title" size="40" value="{{formtitle}}" class="field-input"/>
+                                    </div>
+                                    <label for="title-field" class="field-description"> &mdash; {{l10n "Enter your company title"}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="field">
+                                    <label for="chat-title" class="field-label">{{l10n "Title in the chat window"}}</label>
+                                    <div class="field-value">
+                                        <input id="chat-title" type="text" name="chattitle" size="40" value="{{formchattitle}}" class="field-input"/>
+                                    </div>
+                                    <label for="chat-title" class="field-description"> &mdash; {{l10n "Title in the chat window"}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="field">
+                                    <label for="logo-field" class="field-label">{{l10n "Your company logo"}}</label>
+                                    <div class="field-value">
+                                        <input id="logo-field" type="text" name="logo" size="40" value="{{formlogo}}" class="field-input"/>
+                                    </div>
+                                    <label for="logo-field" class="field-description"> &mdash; {{l10n "Enter http address of your company logo"}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="field">
+                                    <label for="host-url" class="field-label">{{l10n "URL of your website"}}</label>
+                                    <div class="field-value">
+                                        <input id="host-url" type="text" name="hosturl" size="40" value="{{formhosturl}}" class="field-input"/>
+                                    </div>
+                                    <label for="host-url" class="field-description"> &mdash; {{l10n "Destination for your company name or logo link"}}</label>
+                                    <br clear="all"/>
+                                </div>
+                            </div>
+
+                            <div class="form-button">
+                                <input type="submit" name="save" class="submit-button-background save-button" value="{{l10n "Save"}}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-footer">
+                        <div class="form-footer-inwards"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="asterisk">
+                <span class="required">*</span> - {{l10n "mandatory fields"}}
+            </div>
+
+        </form>
+    {{/override}}
+{{/extends}}

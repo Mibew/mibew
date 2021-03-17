@@ -1,0 +1,78 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "On this page you can edit mail templates which are used in the system."}}
+
+        <br />
+        <br />
+
+        {{#if stored}}
+            <div id="form-message">{{l10n "Changes saved"}}</div>
+        {{/if}}
+
+        {{> _errors}}
+
+        <form name="mail_templates" method="get" action="{{formaction}}">
+            <div>
+                {{> _tabs}}
+
+                <div class="form-wrapper">
+                    <div class="form-header">
+                        <div class="form-header-inwards"></div>
+                    </div>
+
+                    <div class="form-inwards">
+
+                        <div class="packed-form-fields">
+                            {{l10n "For language:"}}<br/>
+                            <select name="lang" onchange="this.form.submit();">
+                                {{#each locales}}
+                                    <option value="{{id}}"{{#ifEqual id ../formlang}} selected="selected"{{/ifEqual}}>{{name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                        <br clear="all"/>
+
+                    </div>
+
+                    <div class="form-footer">
+                        <div class="form-footer-inwards"></div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+
+        <table class="translate">
+            <thead>
+                <tr class="header">
+                    <th>{{l10n "Machine name"}}</th>
+                    <th>{{l10n "Mail subject"}}</th>
+                    <th>{{l10n "Mail body"}}</th>
+                    <th>{{l10n "Modify"}}</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each mailTemplates}}
+                    <tr>
+                        <td>
+                            {{name}}
+                        </td>
+                        <td>
+                            {{subject}}
+                        </td>
+                        <td>
+                            {{body}}
+                        </td>
+                        <td>
+                            <a href="{{route "mail_template_edit" name=name lang=../formlang}}">{{l10n "edit"}}</a>
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    {{/override}}
+{{/extends}}

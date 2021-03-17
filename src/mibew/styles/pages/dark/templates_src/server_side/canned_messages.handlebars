@@ -1,0 +1,93 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "Edit messages that you frequently type into the chat."}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        <form name="cannedForm" method="get" action="{{route "canned_messages"}}">
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <div class="form-header-inwards"></div>
+                </div>
+
+                <div class="form-inwards">
+                    <div class="packed-form-fields">
+                        {{l10n "For language:"}}<br/>
+                        <select name="lang" onchange="this.form.submit();">
+                            {{#each locales}}
+                                <option value="{{id}}"{{#ifEqual id ../formlang}} selected="selected"{{/ifEqual}}>{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <div class="packed-form-fields">
+                        {{l10n "For group:"}}<br/>
+                        <select name="group" onchange="this.form.submit();">
+                            {{#each groups}}
+                                <option value="{{groupid}}"{{#ifEqual groupid ../formgroup}} selected="selected"{{/ifEqual}}>{{#repeat level}}&nbsp;&nbsp;{{/repeat}}{{vclocalname}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <br clear="all"/>
+                </div>
+
+                <div class="form-footer">
+                    <div class="form-footer-inwards"></div>
+                </div>
+            </div>
+        </form>
+        <br/>
+
+        <div class="table-toolbar">
+            <img src="{{asset "@CurrentStyle/images/buttons/plus.png"}}" border="0" alt=""/>
+            <a href="{{route "canned_message_add" lang=formlang group=formgroup}}" target="_blank"
+                        onclick="this.newWindow = window.open('{{route "canned_message_add" lang=formlang group=formgroup}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">
+                {{l10n "Add message..."}}
+            </a>
+        </div>
+        <br clear="all"/>
+
+        <table class="translate">
+            <thead>
+                <tr class="header">
+                    <th>{{l10n "Title"}}</th>
+                    <th>{{l10n "Message"}}</th>
+                    <th>{{l10n "Modify"}}</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each [pagination.items]}}
+                    <tr>
+                        <td>
+                            {{#replace "\n" ""}}{{vctitle}}{{/replace}}
+                        </td>
+                        <td>
+                            {{#replace "\n" "<br/>"}}{{vcvalue}}{{/replace}}
+                        </td>
+                        <td>
+                            <a href="{{route "canned_message_edit" message_id=id}}" target="_blank"
+                                onclick="this.newWindow = window.open('{{route "canned_message_edit" message_id=id}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{l10n "edit"}}</a>,
+                            <a href="{{csrfProtectedRoute "canned_message_delete" message_id=id lang=../formlang group=../formgroup}}">{{l10n "remove"}}</a>
+                        </td>
+                    </tr>
+                {{else}}
+                    <tr>
+                        <td colspan="3">{{l10n "No elements"}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+        {{#if pagination}}
+            <br />
+            {{generatePagination pagination}}
+        {{/if}}
+    {{/override}}
+{{/extends}}

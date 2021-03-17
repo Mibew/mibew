@@ -1,0 +1,55 @@
+<form name="surveyForm" method="post" action="">
+    <input type="hidden" name="style" value="{{page.style}}"/>
+    <input type="hidden" name="info" value="{{info}}"/>
+    <input type="hidden" name="referrer" value="{{referrer}}"/>
+    <input type="hidden" name="survey" value="on"/>
+    {{#unless showEmail}}<input type="hidden" name="email" value="{{email}}"/>{{/unless}}
+    {{#unless groups}}{{#if groupId}}<input type="hidden" name="group" value="{{groupId}}"/>{{/if}}{{/unless}}
+    {{#unless showMessage}}<input type="hidden" name="message" value="{{message}}"/>{{/unless}}
+
+    <div class="errors"></div>
+
+    <table class="form">
+    {{#if groups}}
+        <tr>
+            <td><strong>{{l10n "Choose Department:"}}</strong></td>
+            <td>
+                <select name="group">
+                    {{#each groups}}
+                        <option value="{{this.id}}" {{#if this.selected}}selected="selected"{{/if}}>{{this.name}}{{#unless this.online}} (offline){{/unless}}</option>
+                    {{/each}}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>{{l10n "Department description:"}}</strong></td>
+            <td id="group-description">{{#each groups}}{{#if this.selected}}{{this.description}}{{/if}}{{/each}}</td>
+        </tr>
+    {{/if}}
+        <tr>
+            <td><strong>{{l10n "Name:"}}</strong></td>
+            <td><input type="text" name="name" size="50" value="{{name}}" class="username" {{#unless canChangeName}}disabled="disabled"{{/unless}}/></td>
+        </tr>
+    {{#if showEmail}}
+        <tr>
+            <td><strong>{{l10n "Email:"}}</strong></td>
+            <td><input type="text" name="email" size="50" value="{{email}}" class="username"/></td>
+        </tr>
+    {{/if}}
+    {{#if showMessage}}
+        <tr>
+            <td><strong>{{l10n "Initial Question:"}}</strong></td>
+            <td valign="top"><textarea id="message-survey" name="message" tabindex="0" cols="45" rows="2">{{message}}</textarea></td>
+        </tr>
+    {{/if}}
+    {{#if privacyPolicyUrl}}
+        <tr>
+            <td colspan="2"><strong>{{{l10n "Please note that by starting the chat you're explicitly agree with the <a href=\"{0}\" target=\"_blank\">Privacy Policy</a>" privacyPolicyUrl}}}</strong></td>
+        </tr>
+    {{/if}}
+    </table>
+    <br/>
+    <a href="javascript:void(0);" class="but" id="submit-survey">{{l10n "Start Chat"}}</a>
+    <div class="clear">&nbsp;</div>
+</form>
+<div id="ajax-loader"><img src="{{page.stylePath}}/images/ajax-loader.gif" alt="Loading..." /></div>

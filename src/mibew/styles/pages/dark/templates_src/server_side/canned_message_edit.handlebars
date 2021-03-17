@@ -1,0 +1,61 @@
+{{#extends "_layout"}}
+    {{#override "content"}}
+        {{#if saved}}
+            {{l10n "Saved"}}
+            <script type="text/javascript" src="{{asset "@CurrentStyle/js/autoclose.js"}}"></script>
+        {{else}}
+            {{#if key}}
+                {{l10n "Edit an existing message."}}
+            {{else}}
+                {{l10n "Add new message."}}
+            {{/if}}
+
+            <br/>
+            <br/>
+
+            {{> _errors}}
+
+            <form name="cannedForm" method="post" action="{{formaction}}">
+                {{csrfTokenInput}}
+
+                {{#unless key}}
+                    <input type="hidden" name="lang" value="{{locale}}"/>
+                    <input type="hidden" name="group" value="{{groupid}}"/>
+                {{/unless}}
+
+                <div class="form-wrapper">
+                    <div class="form-header">
+                        <div class="form-header-inwards"></div>
+                    </div>
+
+                    <div class="form-inwards">
+                        <div class="form-fields">
+                            <div class="field">
+                                <label for="title-field" class="field-label">{{l10n "Title"}}</label>
+                                <div class="field-value-no-description">
+                                    <input id="title-field" type="text" name="title" class="wide" maxlength="100" value="{{formtitle}}"/>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="message" class="field-label">{{l10n "Message"}}</label>
+                                <div class="field-value-no-description">
+                                    <textarea id="message" name="message" cols="20" rows="5" class="wide">{{formmessage}}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-button">
+                                <input type="submit" name="save" class="submit-button-background save-button" value="{{l10n "Save"}}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-footer">
+                        <div class="form-footer-inwards"></div>
+                    </div>
+                </div>
+            </form>
+
+        {{/if}}
+    {{/override}}
+{{/extends}}

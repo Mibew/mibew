@@ -1,0 +1,44 @@
+{{#extends "_layout"}}
+    {{#override "content"}}
+        {{l10n "This page displays tracked history of visitor's activity on site."}}
+
+        <br/><br/>
+
+        <div class="log-pane">
+            <div class="header">
+                <div class="param-label">
+                    {{l10n "Visitor came from"}}:
+                </div>
+
+                <div class="param-value">
+                    {{#if entry}}
+                        <a href="{{entry}}">{{entry}}</a>
+                    {{else}}
+                        {{l10n "direct visit"}}
+                    {{/if}}
+                </div>
+                <br clear="all"/>
+            </div>
+
+            <div class="message">
+                <table class="list">
+                    <thead>
+                        <tr class="header">
+                            <th>{{l10n "Visit time"}}</th>
+                            <th>{{l10n "Visited page"}}</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {{#each history}}
+                            <tr>
+                                <td class="not-last">{{date}}</td>
+                                <td><a href="{{link}}">{{link}}</a></td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {{/override}}
+{{/extends}}

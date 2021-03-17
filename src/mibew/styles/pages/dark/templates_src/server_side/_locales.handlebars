@@ -1,0 +1,14 @@
+<div id="sidebar">
+    <ul>
+        <li>
+            <h2><b>{{l10n "Choose your language"}}</b></h2>
+            <ul class="locales">
+                {{#each localeLinks}}
+                    <li {{#ifEqual @key ../currentLocale}} class="active"{{/ifEqual}}>
+                        <a href="?locale={{@key}}">{{this}}</a>
+                    </li>
+                {{/each}}
+            </ul>
+        </li>
+    </ul>
+</div>

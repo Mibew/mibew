@@ -1,0 +1,154 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "Specify options affecting chat window and common system behavior."}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        {{#if stored}}
+            <div id="form-message">{{l10n "Changes saved"}}</div>
+        {{/if}}
+
+        {{#if regeneratebutton}}
+            <br/>
+            <div id="form-message"><img src="{{asset "@CurrentStyle/images/dash/warning.png"}}" alt="" class="warning" /> {{l10n "<a href=\"{0}\">Regenerate the chat button</a> for options to take effect" (route "button_code")}}</div>
+        {{/if}}
+
+        <form name="performance" method="post" action="{{route "settings_performance_save"}}">
+            {{csrfTokenInput}}
+
+            <div>
+                {{> _tabs}}
+
+                <div class="form-wrapper">
+                    <div class="form-header">
+                        <div class="form-header-inwards"></div>
+                    </div>
+
+                    <div class="form-inwards">
+                        <div class="form-fields">
+                            <div class="field">
+                                <label for="online-timeout" class="field-label">{{l10n "Operator online time threshold"}}</label>
+                                <div class="field-value">
+                                    <input id="online-timeout" type="text" name="onlinetimeout" size="40" value="{{formonlinetimeout}}" class="field-input"/>
+                                </div>
+                                <label for="online-timeout" class="field-description"> &mdash; {{l10n "Set the number of seconds to show an operator as online. Default is 30 seconds."}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="connection-timeout" class="field-label">{{l10n "Connection timeout for messaging window"}}</label>
+                                <div class="field-value">
+                                    <input id="connection-timeout" type="text" name="connectiontimeout" size="40" value="{{formconnectiontimeout}}" class="field-input"/>
+                                </div>
+                                <label for="connection-timeout" class="field-description"> &mdash; {{l10n "Set the number of seconds after the last ping to consider the chat window still connected. Default is 30 seconds."}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="operator-frequency" class="field-label">{{l10n "Operator's console refresh time"}}</label>
+                                <div class="field-value">
+                                    <input id="operator-frequency" type="text" name="frequencyoperator" size="40" value="{{formfrequencyoperator}}" class="field-input"/>
+                                </div>
+                                <label for="operator-frequency" class="field-description"> &mdash; {{l10n "Specify the poll interval in seconds. Default is 2 seconds."}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="chat-frequency" class="field-label">{{l10n "Chat refresh time"}}</label>
+                                <div class="field-value">
+                                    <input id="chat-frequency" type="text" name="frequencychat" size="40" value="{{formfrequencychat}}" class="field-input"/>
+                                </div>
+                                <label for="chat-frequency" class="field-description"> &mdash; {{l10n "Specify the poll interval in seconds. Default is 2 seconds."}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="connections-per-host" class="field-label">{{l10n "Max number of threads from one address"}}</label>
+                                <div class="field-value">
+                                    <input id="connections-per-host" type="text" name="onehostconnections" size="40" value="{{formonehostconnections}}" class="field-input"/>
+                                </div>
+                                <label for="connections-per-host" class="field-description"> &mdash; {{l10n "0 allows any number of connections"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="thread-lifetime" class="field-label">{{l10n "Thread lifetime"}}</label>
+                                <div class="field-value">
+                                    <input id="thread-lifetime" type="text" name="threadlifetime" size="40" value="{{formthreadlifetime}}" class="field-input"/>
+                                </div>
+                                <label for="thread-lifetime" class="field-description"> &mdash; {{l10n "Specify the lifetime of the thread after closing the dialog box in seconds. Default is 600 seconds. Set 0 for unlimited thread lifetime."}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            {{#if enabletracking}}
+                                <div class="field">
+                                    <label for="tracking-frequency" class="field-label">{{l10n "Tracking refresh time"}}</label>
+                                    <div class="field-value">
+                                        <input id="tracking-frequency" type="text" name="frequencytracking" size="40" value="{{formfrequencytracking}}" class="field-input"/>
+                                    </div>
+                                    <label for="tracking-frequency" class="field-description"> &mdash; {{l10n "Specify the poll interval in seconds. Default is 10 seconds."}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="field">
+                                    <label for="tracked-visitors-limit" class="field-label">{{l10n "Limit for tracked visitors list"}}</label>
+                                    <div class="field-value">
+                                        <input id="tracked-visitors-limit" type="text" name="visitorslimit" size="40" value="{{formvisitorslimit}}" class="field-input"/>
+                                    </div>
+                                    <label for="tracked-visitors-limit" class="field-description"> &mdash; {{l10n "Specify the number of items to display in tracked visitors list. Default is 20. Set 0 for all visitors (not recommended)."}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="field">
+                                    <label for="invitation-lifetime" class="field-label">{{l10n "Invitation lifetime"}}</label>
+                                    <div class="field-value">
+                                        <input id="invitation-lifetime" type="text" name="invitationlifetime" size="40" value="{{forminvitationlifetime}}" class="field-input"/>
+                                    </div>
+                                    <label for="invitation-lifetime" class="field-description"> &mdash; {{l10n "Specify the lifetime of invitation in seconds. Default is 60 seconds."}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="field">
+                                    <label for="tracking-lifetime" class="field-label">{{l10n "Track lifetime"}}</label>
+                                    <div class="field-value">
+                                        <input id="tracking-lifetime" type="text" name="trackinglifetime" size="40" value="{{formtrackinglifetime}}" class="field-input"/>
+                                    </div>
+                                    <label for="tracking-lifetime" class="field-description"> &mdash; {{l10n "Specify the lifetime of old visitor's tracks in seconds. Default is 600 seconds."}}</label>
+                                    <br clear="all"/>
+                                </div>
+                            {{/if}}
+
+                            <div class="field">
+                                <label for="max-uploaded-file-size" class="field-label">{{l10n "Maximum size of uploaded files"}}</label>
+                                <div class="field-value">
+                                    <input id="max-uploaded-file-size" type="text" name="maxuploadedfilesize" size="40" value="{{formmaxuploadedfilesize}}" class="field-input"/>
+                                </div>
+                                <label for="max-uploaded-file-size" class="field-description"> &mdash; {{l10n "The upper limit of uploaded files (avatars) in bytes. Default is 100000 bytes."}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="form-button">
+                                <input type="submit" name="save" class="submit-button-background save-button" value="{{l10n "Save"}}"/>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-footer">
+                        <div class="form-footer-inwards"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="asterisk">
+                <span class="required">*</span> - {{l10n "mandatory fields"}}
+            </div>
+
+        </form>
+    {{/override}}
+{{/extends}}

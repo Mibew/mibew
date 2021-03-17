@@ -1,0 +1,12 @@
+{{#if errors}}
+    <div class="error-info">
+        <img src="{{asset "@CurrentStyle/images/icon_err.gif"}}" width="40" height="40" border="0" alt="" class="left"/>
+        <b>{{l10n "Correct the mistakes:"}}</b><br/>
+        <ul>
+        {{#each errors}}
+            <li class="error">{{{this}}}</li>
+        {{/each}}
+        </ul>
+    </div>
+    <br clear="all"/>
+{{/if}}

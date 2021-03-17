@@ -1,0 +1,47 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "On this page you can download translations."}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        <form  method="post" action="{{route "translation_export_process"}}">
+            {{csrfTokenInput}}
+
+            <div>
+                {{> _tabs}}
+
+                <div class="form-wrapper">
+                    <div class="form-header">
+                        <div class="form-header-inwards"></div>
+                    </div>
+
+                    <div class="form-inwards">
+                        <div class="form-fields">
+                            {{l10n "For language:"}}<br/>
+                            <select name="target">
+                                {{#each localesList}}
+                                    <option value="{{id}}"{{#ifEqual id ../formtarget}} selected="selected"{{/ifEqual}}>{{name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                        <div class="form-fields">
+                            <div class="form-button">
+                                <input type="submit" name="save" class="submit-button-background save-button" value="{{l10n "Download"}}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-footer">
+                        <div class="form-footer-inwards"></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    {{/override}}
+{{/extends}}

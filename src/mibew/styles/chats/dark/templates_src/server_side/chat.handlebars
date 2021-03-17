@@ -1,0 +1,14 @@
+{{#extends "_layout"}}
+    {{#override "head"}}
+        <!--[if IE 7]>
+            <link rel="stylesheet" type="text/css" href="{{asset "@CurrentStyle/chat_ie7.css"}}" media="all" />
+        <![endif]-->
+
+        <!-- Add style scripts -->
+        <script type="text/javascript" src="{{asset "@CurrentStyle/js/compiled/scripts.js"}}"></script>
+    {{/override}}
+
+    {{#override "page"}}
+        <div id="main-region"></div>
+    {{/override}}
+{{/extends}}

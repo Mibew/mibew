@@ -1,0 +1,37 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "head"}}
+        <script type="text/javascript" src="{{asset "@CurrentStyle/js/toggle_menu.js"}}"></script>
+    {{/override}}
+
+    {{#override "content"}}
+        <div>
+            <div id="toggle-menu">
+                <a href="#">{{#if hideMenu}}{{l10n "Show menu"}}{{else}}{{l10n "Hide menu"}}{{/if}}</a>
+            </div>
+            <div>
+                {{l10n "This page displays a list of visitors who are waiting."}}
+                <br/>
+                {{l10n "To answer the visitor click their name in the list."}}
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+
+        <br/>
+
+        <div id="threads-region"></div>
+
+        {{#if showvisitors}}
+            <div class="table-title">{{l10n "Visitors on site"}}</div>
+            {{l10n "The table below represents a list of visitors ready to chat on your site."}}
+            <br/>
+            {{l10n "To invite the visitor to chat click on his/her name in the list."}}
+            <div id="visitors-region"></div>
+            <hr/>
+        {{/if}}
+
+        <div id="status-panel-region"></div>
+        <div id="agents-region"></div>
+    {{/override}}
+{{/extends}}

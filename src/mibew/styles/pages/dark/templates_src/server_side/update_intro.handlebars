@@ -1,0 +1,29 @@
+{{#extends "_layout"}}
+    {{#override "content"}}
+        {{l10n "Follow the wizard to update your database."}}
+
+        <br/>
+        <br/>
+        <div id="install">
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <div class="form-header-inwards"></div>
+                </div>
+
+                <div class="form-inwards">
+                    <ol>
+                        <li>{{l10n "Backup the database"}}</li>
+                        <li>{{l10n "Backup the code"}}</li>
+                        <li>{{l10n "Replace all files with ones from the new version"}}</li>
+                        <li>{{l10n "Update configs file if needed"}}</li>
+                        <li>{{l10n "Run the <a href=\"{0}\">update wizard</a>" (route "update_run")}}</li>
+                    </ol>
+                </div>
+
+                <div class="form-footer">
+                    <div class="form-footer-inwards"></div>
+                </div>
+            </div>
+        </div>
+    {{/override}}
+{{/extends}}

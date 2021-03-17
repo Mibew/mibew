@@ -1,0 +1,13 @@
+{{#extends "_layout"}}
+    {{#override "message"}}
+        {{l10n "Visitor <span class=\"visitor\">{0}</span> is already being assisted by <span class=\"operator\">{1}</span>.<br/> Are you really sure you want to start chatting the visitor?" user agent}}
+    {{/override}}
+
+    {{#override "content"}}
+        <div id="confirm-pane">
+            <div class="button-wrapper">
+                <a href="{{link}}" class="submit-button">{{l10n "Yes. I'm sure"}}</a> <a href="javascript:window.close();" class="submit-button">{{l10n "No. Close the window"}}</a>
+            </div>
+        </div>
+    {{/override}}
+{{/extends}}

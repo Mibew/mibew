@@ -1,0 +1,123 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{#if opid}}
+            {{l10n "Edit general operator settings."}}
+        {{else}}
+            {{l10n "You can create a new operator here."}}
+        {{/if}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        {{#if stored}}
+            <div id="form-message">{{l10n "Changes saved"}}</div>
+        {{/if}}
+
+        {{#ifAny opid canmodify}}
+            <form name="agentForm" method="post" action="{{formaction}}">
+                {{csrfTokenInput}}
+
+                <div>
+                    {{> _tabs}}
+
+                    <div class="form-wrapper">
+                        <div class="form-header">
+                            <div class="form-header-inwards"></div>
+                        </div>
+
+                        <div class="form-inwards">
+
+                            <div class="form-fields">
+                                <div class="field">
+                                    <label for="login" class="field-label">{{l10n "Login"}}<span class="required">*</span></label>
+                                    <div class="field-value">
+                                        <input id="login" type="text" name="login" size="40" value="{{formlogin}}" class="field-input"{{#unless canchangelogin}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="login" class="field-description"> &mdash; {{l10n "Login can consist of small Latin letters and underscore."}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="field">
+                                    <label for="email" class="field-label">{{l10n "E-mail"}}<span class="required">*</span></label>
+                                    <div class="field-value">
+                                        <input id="email" type="text" name="email" size="40" value="{{formemail}}" class="field-input"{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="email" class="field-description"> &mdash; {{l10n "For notifications and password retrieval."}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="field">
+                                    <label for="password" class="field-label">
+                                        {{l10n "Password"}}{{#if requirePassword}}<span class="required">*</span>{{/if}}
+                                    </label>
+                                    <div class="field-value">
+                                        <input id="password" type="password" name="password" size="40" value="" class="field-input"{{#unless canmodify}} disabled="disabled"{{/unless}} autocomplete="off"/>
+                                    </div>
+                                    <label for="password" class="field-description"> &mdash; {{l10n "Enter a new password or leave the field empty to keep the previous one."}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="field">
+                                    <label for="password-confirm" class="field-label">
+                                        {{l10n "Confirmation"}}{{#if requirePassword}}<span class="required">*</span>{{/if}}
+                                    </label>
+                                    <div class="field-value">
+                                        <input id="password-confirm" type="password" name="passwordConfirm" size="40" value="" class="field-input"{{#unless canmodify}} disabled="disabled"{{/unless}} autocomplete="off"/>
+                                    </div>
+                                    <label for="password-confirm" class="field-description"> &mdash; {{l10n "Confirm new password."}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="field">
+                                    <label for="name" class="field-label">{{l10n "Name"}}<span class="required">*</span></label>
+                                    <div class="field-value">
+                                        <input id="name" type="text" name="name" size="40" value="{{formname}}" class="field-input"{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="name" class="field-description"> &mdash; {{l10n "This name will be seen by your visitors."}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="field">
+                                    <label for="common-name" class="field-label">{{l10n "International name (Latin)"}}<span class="required">*</span></label>
+                                    <div class="field-value">
+                                        <input id="common-name" type="text" name="commonname" size="40" value="{{formcommonname}}" class="field-input"{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="common-name" class="field-description"> &mdash; {{l10n "This name will be seen by your visitors."}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                <div class="field">
+                                    <label for="code" class="field-label">{{l10n "Code"}}</label>
+                                    <div class="field-value">
+                                        <input id="code" type="text" name="code" size="40" value="{{formcode}}" class="field-input"{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="code" class="field-description"> &mdash; {{l10n "Use to start chat with determined operator"}}</label>
+                                    <br clear="all"/>
+                                </div>
+
+                                {{#if canmodify}}
+                                    <div class="form-button">
+                                        <input type="submit" name="save" class="submit-button-background save-button" value="{{l10n "Save"}}"/>
+                                    </div>
+                                {{/if}}
+                            </div>
+                        </div>
+
+                        <div class="form-footer">
+                            <div class="form-footer-inwards"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="asterisk">
+                    <span class="required">*</span> - {{l10n "mandatory fields"}}
+                </div>
+
+            </form>
+        {{/ifAny}}
+    {{/override}}
+{{/extends}}

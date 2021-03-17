@@ -1,0 +1,11 @@
+{{#extends "_layout"}}
+    {{#override "pageTitle"}}{{l10n "Sent"}}{{/override}}
+
+    {{#override "buttons"}}
+        <a href="javascript:window.close();" title="{{l10n 'Close...'}}">
+            <img class="tpl-image image-close-window" src="{{asset "@CurrentStyle/images/free.gif"}}" alt="{{l10n 'Close...'}}" />
+        </a>
+    {{/override}}
+
+    {{#override "message"}}{{l10n "A history of your chat was sent to address {0}" email}}{{/override}}
+{{/extends}}

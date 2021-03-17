@@ -1,0 +1,57 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "Choose groups according to operator skills."}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        {{#if stored}}
+            <div id="form-message">{{l10n "Changes saved"}}</div>
+        {{/if}}
+
+        <form name="opgroupsForm" method="post" action="{{route "operator_groups_save" operator_id=opid}}">
+            {{csrfTokenInput}}
+
+            <div>
+                {{> _tabs}}
+                <div class="form-wrapper">
+                    <div class="form-header">
+                        <div class="form-header-inwards"></div>
+                    </div>
+
+                    <div class="form-inwards">
+                        <p><b>{{currentop}}&lrm;</b></p>
+
+                        {{#each groups}}
+                            <div class="field level{{level}}">
+                                <label for="group{{groupid}}" class="field-label">{{vclocalname}}</label>
+                                <div class="field-value">
+                                    <input id="group{{groupid}}" type="checkbox" name="group{{groupid}}" value="on"{{#if checked}} checked="checked"{{/if}}{{#unless ../canmodify}} disabled="disabled"{{/unless}}/>
+                                </div>
+                                <label for="group{{groupid}}" class="field-description">
+                                    &mdash; {{#if vclocaldescription}}{{vclocaldescription}}{{else}}{{l10n "&lt;no description&gt;"}}{{/if}}
+                                </label>
+                                <br clear="all"/>
+                            </div>
+                        {{/each}}
+
+                        {{#if canmodify}}
+                            <div class="form-button">
+                                <input type="submit" name="save" class="submit-button-background save-button" value="{{l10n "Save"}}"/>
+                            </div>
+                        {{/if}}
+                    </div>
+
+                    <div class="form-footer">
+                        <div class="form-footer-inwards"></div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    {{/override}}
+{{/extends}}

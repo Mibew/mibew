@@ -1,0 +1,52 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "Change restrictions and available features for this operator."}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        {{#if stored}}
+            <div id="form-message">{{l10n "Changes saved"}}</div>
+        {{/if}}
+
+        <form id="permissionsForm" name="permissionsForm" method="post" action="{{route "operator_permissions_save" operator_id=opid}}">
+            {{csrfTokenInput}}
+
+            <div>
+                {{> _tabs}}
+
+                <div class="form-wrapper">
+                    <div class="form-header">
+                        <div class="form-header-inwards"></div>
+                    </div>
+
+                    <div class="form-inwards">
+                        <p><b>{{currentop}}&lrm;</b></p>
+
+                        {{#each permissionsList}}
+                            <label>
+                                <input type="checkbox" id="permissions{{id}}" name="permissions{{id}}" value="on"{{#if checked}} checked="checked"{{/if}}{{#unless ../canmodify}} disabled="disabled"{{/unless}}/>
+                                {{descr}}
+                            </label>
+                            <br/>
+                        {{/each}}
+
+                        {{#if canmodify}}
+                            <div class="form-button">
+                                <input type="submit" name="save" class="submit-button-background save-button" value="{{l10n "Save"}}"/>
+                            </div>
+                        {{/if}}
+                    </div>
+
+                    <div class="form-footer">
+                        <div class="form-footer-inwards"></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    {{/override}}
+{{/extends}}

@@ -1,0 +1,60 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "On this page you can edit mail templates which are used in the system."}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        <form name="mail_template" method="post" action="{{formaction}}">
+            {{csrfTokenInput}}
+            <input type="hidden" name="lang" value="{{formlang}}" />
+
+            <div>
+                <div class="form-wrapper">
+                    <div class="form-header">
+                        <div class="form-header-inwards"></div>
+                    </div>
+
+                    <div class="form-inwards">
+                        <div class="form-fields">
+                            <div class="field">
+                                <label for="subject" class="field-label">{{l10n "Mail subject"}}<span class="required">*</span></label>
+                                <div class="field-value">
+                                    <input id="subject" type="text" name="subject" size="40" value="{{formsubject}}" class="field-input" />
+                                </div>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
+                                <label for="body" class="field-label">{{l10n "Mail body"}}<span class="required">*</span></label>
+                                <div class="field-valuenodesc">
+                                    <textarea id="body" name="body" cols="20" rows="5" class="wide">{{formbody}}</textarea>
+                                </div>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="form-button">
+                                <input type="submit" name="save" class="submit-button-background save-button" value="{{l10n "Save"}}"/>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-footer">
+                        <div class="form-footer-inwards"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="asterisk">
+                <span class="required">*</span> - {{l10n "mandatory fields"}}
+            </div>
+
+        </form>
+    {{/override}}
+{{/extends}}

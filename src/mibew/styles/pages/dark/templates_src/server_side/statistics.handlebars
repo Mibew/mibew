@@ -1,0 +1,233 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{{pageDescription}}}<br/>
+        {{l10n "Beware that statistics is aggregated up to yesterday."}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        <form name="statisticsForm" method="get" action="{{route "statistics" type=type}}">
+
+            {{> _tabs}}
+
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <div class="form-header-inwards"></div>
+                </div>
+
+                <div class="form-inwards">
+                    <div class="form-fields">
+                        <div class="field">
+                            <div class="field-label">{{l10n "Select dates"}}</div>
+                            <div class="field-value-no-description">
+                                <div class="search-controls">
+                                    <label for="start-day">{{l10n "From:"}}</label>
+                                    <select id="start-day" name="startday">
+                                        {{#each availableDays}}
+                                            <option value="{{this}}"{{#ifEqual this ../formstartday}} selected="selected"{{/ifEqual}}>{{this}}</option>
+                                        {{/each}}
+                                    </select>
+
+                                    <select name="startmonth">
+                                        {{#each availableMonth}}
+                                            <option value="{{@key}}"{{#ifEqual @key ../formstartmonth}} selected="selected"{{/ifEqual}}>{{this}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                <div class="search-controls">
+                                    <label for="end-day">{{l10n "Till:"}}</label>
+                                    <select id="end-day" name="endday">
+                                        {{#each availableDays}}
+                                            <option value="{{this}}"{{#ifEqual this ../formendday}} selected="selected"{{/ifEqual}}>{{this}}</option>
+                                        {{/each}}
+                                    </select>
+
+                                    <select name="endmonth">
+                                        {{#each availableMonth}}
+                                            <option value="{{@key}}"{{#ifEqual @key ../formendmonth}} selected="selected"{{/ifEqual}}>{{this}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                <div id="search-button">
+                                    <input type="submit" name="search" class="submit-button-background login-button" value="{{l10n "Search"}}" />
+                                </div>
+                            </div>
+                            <br clear="all"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-footer">
+                    <div class="form-footer-inwards"></div>
+                </div>
+            </div>
+        </form>
+
+        {{#if showresults}}
+            {{#if showbydate}}
+                <br/>
+                <br/>
+
+                <div class="table-title">
+                    {{l10n "Usage statistics for each date"}}
+                </div>
+
+                <table class="statistics">
+                    <thead>
+                        <tr>
+                            <th>{{l10n "Date"}}</th>
+                            <th>{{l10n "Chat threads"}}</th>
+                            <th>{{l10n "Missed threads"}}</th>
+                            <th>{{l10n "Messages from operators"}}</th>
+                            <th>{{l10n "Messages from visitors"}}</th>
+                            <th>{{l10n "Average waiting time (in seconds)"}}</th>
+                            <th>{{l10n "Average chat time (in seconds)"}}</th>
+                            {{#if show_invitations_info}}
+                                <th>{{l10n "Invitations sent"}}</th>
+                                <th>{{l10n "Invitations accepted"}}</th>
+                                <th>{{l10n "Invitations rejected"}}</th>
+                                <th>{{l10n "Invitations ignored"}}</th>
+                            {{/if}}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#if reportByDate}}
+                            {{#each reportByDate}}
+                                <tr>
+                                    <td>{{date}}</td>
+                                    <td>{{threads}}</td>
+                                    <td>{{missedthreads}}</td>
+                                    <td>{{agents}}</td>
+                                    <td>{{users}}</td>
+                                    <td>{{avgwaitingtime}}</td>
+                                    <td>{{avgchattime}}</td>
+                                    {{#if ../show_invitations_info}}
+                                        <td>{{sentinvitations}}</td>
+                                        <td>{{acceptedinvitations}}</td>
+                                        <td>{{rejectedinvitations}}</td>
+                                        <td>{{ignoredinvitations}}</td>
+                                    {{/if}}
+                                </tr>
+                            {{/each}}
+                            <tr>
+                                <td><b>{{l10n "Total:"}}</b></td>
+                                <td>{{reportByDateTotal.threads}}</td>
+                                <td>{{reportByDateTotal.missedthreads}}</td>
+                                <td>{{reportByDateTotal.agents}}</td>
+                                <td>{{reportByDateTotal.users}}</td>
+                                <td>{{reportByDateTotal.avgwaitingtime}}</td>
+                                <td>{{reportByDateTotal.avgchattime}}</td>
+                                {{#if show_invitations_info}}
+                                    <td>{{reportByDateTotal.sentinvitations}}</td>
+                                    <td>{{reportByDateTotal.acceptedinvitations}}</td>
+                                    <td>{{reportByDateTotal.rejectedinvitations}}</td>
+                                    <td>{{reportByDateTotal.ignoredinvitations}}</td>
+                                {{/if}}
+                            </tr>
+                        {{else}}
+                            <tr>
+                                <td colspan="{{#if show_invitations_info}}11{{else}}7{{/if}}">
+                                    {{l10n "Not enough data"}}
+                                </td>
+                            </tr>
+                        {{/if}}
+                    </tbody>
+                </table>
+            {{/if}}
+
+            {{#if showbyagent}}
+                <br/>
+                <br/>
+
+                <div class="table-title">{{l10n "Threads by operator"}}</div>
+                <table class="statistics">
+                    <thead>
+                        <tr>
+                            <th>{{l10n "Operator"}}</th>
+                            <th>{{l10n "Chat Threads"}}</th>
+                            <th>{{l10n "Messages"}}</th>
+                            <th>{{l10n "Average message length (in chars)"}}</th>
+                            {{#if show_invitations_info}}
+                                <th>{{l10n "Invitations sent"}}</th>
+                                <th>{{l10n "Invitations accepted"}}</th>
+                                <th>{{l10n "Invitations rejected"}}</th>
+                                <th>{{l10n "Invitations ignored"}}</th>
+                            {{/if}}
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {{#each reportByAgent}}
+                            <tr>
+                                <td><a href="{{route "history" q=name type="operator"}}">{{name}}</a></td>
+                                <td>{{threads}}</td>
+                                <td>{{msgs}}</td>
+                                <td>{{avglen}}</td>
+                                {{#if ../show_invitations_info}}
+                                    <td>{{sentinvitations}}</td>
+                                    <td>{{acceptedinvitations}}</td>
+                                    <td>{{rejectedinvitations}}</td>
+                                    <td>{{ignoredinvitations}}</td>
+                                {{/if}}
+                            </tr>
+                        {{else}}
+                            <tr>
+                                <td colspan="{{#if show_invitations_info}}8{{else}}4{{/if}}">
+                                    {{l10n "Not enough data"}}
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            {{/if}}
+
+            {{#if showbypage}}
+                <br/>
+                <br/>
+
+                <div class="table-title">{{l10n "Chat threads by page"}}</div>
+                <table class="statistics">
+                    <thead>
+                        <tr>
+                            <th>{{l10n "Page"}}</th>
+                            <th>{{l10n "View times"}}</th>
+                            <th>{{l10n "Chat threads"}}</th>
+                            {{#if show_invitations_info}}
+                                <th>{{l10n "Invitations sent"}}</th>
+                                <th>{{l10n "Invitations accepted"}}</th>
+                                <th>{{l10n "Invitations rejected"}}</th>
+                                <th>{{l10n "Invitations ignored"}}</th>
+                            {{/if}}
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {{#each reportByPage}}
+                            <tr>
+                                <td><a href="{{address}}">{{address}}</a></td>
+                                <td>{{visittimes}}</td>
+                                <td>{{chattimes}}</td>
+                                {{#if ../show_invitations_info}}
+                                    <td>{{sentinvitations}}</td>
+                                    <td>{{acceptedinvitations}}</td>
+                                    <td>{{rejectedinvitations}}</td>
+                                    <td>{{ignoredinvitations}}</td>
+                                {{/if}}
+                            </tr>
+                        {{else}}
+                            <tr>
+                                <td colspan="{{#if show_invitations_info}}7{{else}}3{{/if}}">
+                                    {{l10n "Not enough data"}}
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            {{/if}}
+        {{/if}}
+    {{/override}}
+{{/extends}}

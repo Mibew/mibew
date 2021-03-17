@@ -1,0 +1,50 @@
+{{#extends "_layout"}}
+    {{#if localeLinks}}
+        {{#override "menu"}}{{> _locales}}{{/override}}
+    {{/if}}
+
+    {{#override "content"}}
+        {{l10n "Follow the wizard to update your database."}}
+
+        <br/>
+        <br/>
+
+        <div id="install">
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <div class="form-header-inwards"></div>
+                </div>
+
+                <div class="form-inwards">
+                    {{#ifAny done errors}}
+                        {{l10n "Progress:"}}
+                        <ul>
+                            {{#each done}}
+                                <li>{{{this}}}</li>
+                            {{/each}}
+                            {{#each errors}}
+                                <li class="error">{{{this}}}</li>
+                            {{/each}}
+                        </ul>
+                        <br />
+                    {{/ifAny}}
+
+                    {{#if errors}}
+                        <b>{{l10n "Update failed."}}</b><br />
+                        {{l10n "You can try to restore database from the backup and run the update wizard again."}}
+                    {{else}}
+                        <b>{{l10n "Application successfully updated."}}</b> {{l10n "Go to <a href=\"{0}\">home page</a>" (route "home")}}
+                    {{/if}}
+                </div>
+
+                <div class="form-footer">
+                    <div class="form-footer-inwards"></div>
+                </div>
+            </div>
+        </div>
+
+        {{#if errors}}
+
+        {{/if}}
+    {{/override}}
+{{/extends}}

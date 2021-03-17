@@ -1,0 +1,115 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "This page displays a list of company operators."}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        <form name="agentsForm" method="get" action="{{route "operators"}}">
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <div class="form-header-inwards"></div>
+                </div>
+
+                <div class="form-inwards">
+                    <div class="packed-form-fields">
+                        {{l10n "Sort by:"}}<br/>
+                        <select name="sortby" onchange="this.form.submit();">
+                            {{#each availableOrders}}
+                                <option value="{{id}}"{{#ifEqual id ../formsortby}} selected="selected"{{/ifEqual}}>{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <div class="packed-form-fields">
+                        {{l10n "Sort direction:"}}<br/>
+                        <select name="sortdirection" onchange="this.form.submit();">
+                            {{#each availableDirections}}
+                                <option value="{{id}}"{{#ifEqual id ../formsortdirection}} selected="selected"{{/ifEqual}}>{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <br clear="all"/>
+                </div>
+
+                <div class="form-footer">
+                    <div class="form-footer-inwards"></div>
+                </div>
+            </div>
+        </form>
+        <br />
+
+        {{#if canmodify}}
+            <div class="table-toolbar">
+                <img src="{{asset "@CurrentStyle/images/buttons/plus.png"}}" border="0" alt="" />
+                <a href="{{route "operator_add"}}" title="{{l10n "Add operator..."}}">
+                    {{l10n "Add operator..."}}
+                </a>
+            </div>
+            <br clear="all"/>
+        {{/if}}
+
+        <table class="list">
+            <thead>
+                <tr class="header">
+                    <th>{{l10n "Login"}}</th>
+                    <th>{{l10n "Name"}}</th>
+                    <th>{{l10n "Last active"}}</th>
+                    {{#if canmodify}}
+                        <th></th>
+                        <th></th>
+                    {{/if}}
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each allowedAgents}}
+                    <tr>
+                        <td class="not-last">
+                            <a href="{{route "operator_edit" operator_id=operatorid}}" class="man">
+                                {{vclogin}}
+                            </a>
+                        </td>
+
+                        <td class="not-last">
+                            {{vclocalename}} / {{vccommonname}}
+                        </td>
+
+                        <td class="not-last">
+                            {{#ifAny isAvailable isAway}}
+                                {{#if isAvailable}}
+                                    {{l10n "Online"}}
+                                {{else}}
+                                    {{l10n "Away"}}
+                                {{/if}}
+                            {{else}}
+                                {{formatDate lastTimeOnline}}
+                            {{/ifAny}}
+                        </td>
+
+                        {{#if ../canmodify}}
+                            <td>
+                                {{#if isDisabled}}
+                                    <a href="{{csrfProtectedRoute "operator_enable" operator_id=operatorid}}">{{l10n "enable"}}</a>
+                                {{else}}
+                                    <a href="{{csrfProtectedRoute "operator_disable" operator_id=operatorid}}">{{l10n "disable"}}</a>
+                                {{/if}}
+                            </td>
+
+                            <td>
+                                <a class="remove-link" href="{{csrfProtectedRoute "operator_delete" operator_id=operatorid}}" data-operator-login="{{vclogin}}">
+                                    {{l10n "remove"}}
+                                </a>
+                            </td>
+                        {{/if}}
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    {{/override}}
+{{/extends}}

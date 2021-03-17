@@ -1,0 +1,44 @@
+# This file determines some core styles options
+
+history:
+    # These params are used for history windows opened via JavaScript's window.open.
+    window:
+        width: 720
+        height: 560
+        resizable: true
+
+users:
+    # Use as wrap tag for the thread element
+    thread_tag: "tr"
+    # Use as wrap tag for the visitor element
+    visitor_tag: "tr"
+
+tracked:
+    # These params are used for user's track windows opened via JavaScript's
+    # window.open method.
+    user_window:
+        width: 640
+        height: 480
+        resizable: true
+    # These params are used for visitor's track windows opened via JavaScript's
+    # window.open method.
+    visitor_window:
+        width: 640
+        height: 480
+        scrollbars: true
+        resizable: true
+
+ban:
+    # These params are used for history windows opened via JavaScript's
+    # window.open method.
+    window:
+        width: 720
+        height: 480
+        resizable: true
+
+# Screenshots section describe all screenshots shipped with style
+# Params names should be equals to file names without extension. Pictures
+# extension should be '.png'
+# Params values should be equals to screenshot description
+screenshots:
+    home: "Operator's home page"

@@ -1,0 +1,104 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "Search the chat history for a specified user, an operator or a specified phrase in messages."}}
+
+        <br />
+        <br />
+
+        <form name="searchForm" method="get" action="{{route "history"}}">
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <div class="form-header-inwards"></div>
+                </div>
+
+                <div class="form-inwards">
+                    <div class="form-fields">
+                        <div class="field">
+                            <label for="q" class="field-label">{{l10n "User name, operator name or message text search:"}}</label>
+                            <div class="field-value-no-description">
+                                <div id="search-text">
+                                    <input id="q" type="text" name="q" size="60" value="{{formq}}" class="field-input"/>
+                                </div>
+                                <div class="search-controls">
+                                    <label for="type">{{l10n "Search:"}}</label>
+                                    <select id="type" name="type" onchange="if (this.value == 'all' || this.value == 'message') {document.getElementById('in-system-messages').style.display='inline'} else {document.getElementById('in-system-messages').style.display='none'}; ">
+                                        <option value="all" {{#ifEqual formtype "all"}}selected="selected"{{/ifEqual}}>{{l10n "everywhere"}}</option>
+                                        <option value="message" {{#ifEqual formtype "message"}}selected="selected"{{/ifEqual}}>{{l10n "in messages"}}</option>
+                                        <option value="operator" {{#ifEqual formtype "operator"}}selected="selected"{{/ifEqual}}>{{l10n "by operator"}}</option>
+                                        <option value="visitor" {{#ifEqual formtype "visitor"}}selected="selected"{{/ifEqual}}>{{l10n "by visitor"}}</option>
+                                    </select>
+                                </div>
+                                <div id="search-button">
+                                    <input type="submit" name="search" class="submit-button-background login-button" value="{{l10n "Search"}}" />
+                                </div><br clear="all"/>
+                                <div class="search-controls" id="in-system-messages"{{#if canSearchInSystemMessages}} style="display: none;"{{/if}}>
+                                    <input id="in-system-messages-field" type="checkbox" name="insystemmessages" {{#if forminsystemmessages}}checked="checked"{{/if}}/> <label for="in-system-messages-field">{{l10n "Search in system messages"}}</label>
+                                </div>
+                            </div>
+                            <br clear="all"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-footer">
+                    <div class="form-footer-inwards"></div>
+                </div>
+            </div>
+        </form>
+        <br/>
+
+
+        <table class="list">
+            <thead>
+                <tr class="header">
+                    <th>{{l10n "Name"}}</th>
+                    <th>{{l10n "Visitor's address"}}</th>
+                    <th>{{l10n "Operator"}}</th>
+                    <th>{{l10n "Visitor's messages"}}</th>
+                    <th>{{l10n "Time in chat"}}</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each [pagination.items]}}
+                    <tr>
+                        <td>
+                            <a class="man" href="{{route "history_thread" thread_id=threadId}}" target="_blank" onclick="this.newWindow = window.open('{{route "history_thread" thread_id=threadId}}', '', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=720,height=520,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;">{{userName}}</a>
+                        </td>
+                        <td>
+                            {{{userAddress}}}
+                        </td>
+                        <td>
+                            {{#if agentName}}
+                                {{agentName}}
+                            {{else}}
+                                {{#if groupName}}
+                                    - {{groupName}} -
+                                {{/if}}
+                            {{/if}}
+                        </td>
+                        <td>
+                            {{messageCount}}
+                        </td>
+                        <td>
+                            {{formatDateDiff chatTime}}, {{formatDate chatCreated}}
+                        </td>
+                    </tr>
+                {{else}}
+                    <tr>
+                        <td colspan="5">
+                            {{l10n "Found 0 elements"}}
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+        {{#if pagination}}
+            <br/>
+            {{generatePagination pagination}}
+        {{/if}}
+    {{/override}}
+{{/extends}}

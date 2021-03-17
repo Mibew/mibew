@@ -1,0 +1,74 @@
+{{#extends "_layout"}}
+    {{#override "menu"}}{{> _menu}}{{/override}}
+
+    {{#override "content"}}
+        {{l10n "Here you can manage plugins. Notice that plugins are configured via the main config file."}}
+
+        <br />
+        <br />
+
+        {{> _errors}}
+
+        <table class="list">
+            <thead>
+                <tr class="header">
+                    <th>{{l10n "Name"}}</th>
+                    <th>{{l10n "Version"}}</th>
+                    <th>{{l10n "Dependencies"}}</th>
+                    <th>{{l10n "State"}}</th>
+                    <th>{{l10n "Edit"}}</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each plugins}}
+                    <tr>
+                        <td class="not-last">{{name}}</td>
+                        <td class="not-last">{{version}}</td>
+                        <td class="not-last">
+                            {{#each dependencies}}{{#unless @first}}, {{/unless}}{{@key}}({{this}}){{/each}}
+                        </td>
+                        <td class="notlast">
+                            {{state}}
+                        </td>
+                        <td>
+                            {{#if enabled}}
+                                {{#if canBeDisabled}}
+                                    <a href="{{csrfProtectedRoute "plugin_disable" plugin_name=name}}">{{l10n "disable"}}</a>
+                                {{else}}
+                                    <span class="disabled-link" title="{{l10n "Disable all the dependencies first"}}">{{l10n "disable"}}</span>
+                                {{/if}}
+                            {{else}}
+                                {{#if canBeEnabled}}
+                                    <a href="{{csrfProtectedRoute "plugin_enable" plugin_name=name}}">{{l10n "enable"}}</a>
+                                {{else}}
+                                    <span class="disabled-link" title="{{l10n "Enable all the dependencies first"}}">{{l10n "enable"}}</span>
+                                {{/if}}
+                                {{#if installed}}
+                                    {{#if canBeUninstalled}}
+                                        <a href="{{csrfProtectedRoute "plugin_uninstall" plugin_name=name}}" class="uninstall-link" data-plugin-name="{{name}}">{{l10n "uninstall"}}</a>
+                                    {{else}}
+                                        <span class="disabled-link" title="{{l10n "Uninstall all the dependencies first"}}">{{l10n "uninstall"}}</span>
+                                    {{/if}}
+                                {{/if}}
+                            {{/if}}
+                            {{#if needsUpdate}}
+                                {{#if canBeUpdated}}
+                                    <a href="{{csrfProtectedRoute "plugin_update" plugin_name=name}}">{{l10n "update"}}</a>
+                                {{else}}
+                                    <span class="disabled-link" title="{{l10n "Update all the dependencies first"}}">{{l10n "update"}}</span>
+                                {{/if}}
+                            {{/if}}
+                        </td>
+                    </tr>
+                {{else}}
+                    <tr>
+                        <td colspan="5">
+                            {{l10n "No elements"}}
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    {{/override}}
+{{/extends}}

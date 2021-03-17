@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"{{#if rtl}} dir="rtl"{{/if}}>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="{{asset "@CurrentStyle/images/favicon.ico"}}" type="image/x-icon"/>
+    <title>
+        {{title}} - {{l10n "Mibew Messenger"}}
+    </title>
+    <link href="{{asset "@CurrentStyle/css/default.css"}}" rel="stylesheet" type="text/css" />
+    <!--[if lte IE 7]><link href="{{asset "@CurrentStyle/css/default_ie.css"}}" rel="stylesheet" type="text/css" /><![endif] -->
+    <!--[if lte IE 6]><script language="JavaScript" type="text/javascript" src="{{asset "@CurrentStyle/js/ie.js"}}"></script><![endif]-->
+
+    <!-- Extra CSS files -->
+    {{cssAssets}}
+
+    <!-- Extra JavaScript files -->
+    {{jsAssets}}
+
+    <link href="{{asset "@CurrentStyle/css/vex.css"}}" rel="stylesheet" type="text/css" />
+
+    {{#block "head"}}{{/block}}
+</head>
+
+<body{{#unlessOverridden "menu"}} style="min-width: 400px;"{{/unlessOverridden}}>
+    <div id="{{#if fixedwrap}}fixed-wrap{{else}}{{#ifOverridden "menu"}}wrap700{{else}}wrap400{{/ifOverridden}}{{/if}}" class="{{#if rtl}}rtl{{else}}ltr{{/if}}">
+        <div id="header">
+            <div id="title">
+                <h1>
+                    <a href="{{route "home_operator"}}"><img src="{{asset "@CurrentStyle/images/logo.png"}}" alt="" class="left logo" /></a>
+                    {{#if headertitle}}{{headertitle}}{{else}}{{title}}{{/if}}
+                </h1>
+            </div>
+
+            {{#if operator}}
+                <div id="path">
+                    <p>
+                        {{#if currentopid}}
+                            {{{l10n "You are <a href=\"{0}\">{1}</a>" (route "operator_edit" operator_id=currentopid) operator}}}
+                        {{else}}
+                            {{{l10n "You are <a href=\"{0}\">{1}</a>" "#" operator}}}
+                        {{/if}}
+                    </p>
+                </div>
+            {{else}}
+                {{#if show_small_login}}
+                    <div id="login-small-pane">
+                        <form name="smallLogin" method="post" action="{{route "login"}}">
+                            {{csrfTokenInput}}
+
+                            {{l10n "Login:"}}
+                            <input type="text" name="login" size="8" class="field-input"/>
+                            <input type="password" name="password" size="8" class="field-input" autocomplete="off"/>
+                            <input type="hidden" name="isRemember" value=""/>
+                            <input type="submit" value="&gt;&gt;" class="butt"/>
+                        </form>
+                    </div>
+                {{/if}}
+            {{/if}}
+        </div>
+
+        <br clear="all"/>
+
+        <div class="content-div">
+
+            {{#ifOverridden "menu"}}
+            <div id="content" class="{{#if hideMenu}}content-no-menu{{else}}content-inner{{/if}}">
+            {{else}}
+            <div id="content" class="content-no-menu">
+            {{/ifOverridden}}
+                {{#block "content"}}{{/block}}
+            </div>
+        </div>
+
+        {{#block "menu"}}{{/block}}
+
+        <div style="clear: both;">&nbsp;</div>
+
+        <div class="empty-inner" style="">&#160;</div>
+    </div>
+
+    <div id="footer">
+        <p id="legal"><a href="https://mibew.org/" target="_blank" class="footer-link">Mibew Messenger</a> {{mibewVersion}} | (c) 2011-2021 mibew.org</p>
+    </div>
+</body>
+</html>

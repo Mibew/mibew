@@ -1,0 +1,9 @@
+# This file determines some invitation style options
+
+# Screenshots section describe all screenshots shipped with style
+# Params names should be equals to file names without extension. Pictures
+# extension should be '.png'
+# Params values should be equals to screenshot description
+screenshots:
+    invitation: "Appearance of the invitation"
+    location: "Location of the invitation on a page"

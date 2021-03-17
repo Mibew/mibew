@@ -1,0 +1,22 @@
+{{#extends "_layout"}}
+    {{#override "windowTitle"}}{{l10n "Error"}}{{/override}}
+
+    {{#override "pageTitle"}}{{l10n "Error"}}{{/override}}
+
+    {{#override "buttons"}}
+        <a href="javascript:window.close();" title="{{l10n 'Close...'}}">
+            <img class="tpl-image image-close-window" src="{{asset "@CurrentStyle/images/free.gif"}}" alt="{{l10n 'Close...'}}" />
+        </a>
+    {{/override}}
+
+    {{#override "content"}}
+        {{#if errors}}
+            <b>{{l10n "Cannot execute:"}}</b><br/>
+            <ul>
+            {{#each errors}}
+                <li class="error">{{{this}}}</li>
+            {{/each}}
+            </ul>
+        {{/if}}
+    {{/override}}
+{{/extends}}
