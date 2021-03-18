@@ -197,7 +197,7 @@
             // Do not open alert if one already opened.
             return;
         }
-        vex.dialog.alert({message: sanitizeMessage(message)});
+        return vex.dialog.alert({message: sanitizeMessage(message)});
     };
 
     /**
@@ -228,6 +228,14 @@
             message: sanitizeMessage(message),
             callback: callback
         });
+    };
+
+    /**
+     * Close alert.
+     * @param {Object} alert instance.
+     */
+    Mibew.Utils.closeAlert = function(alertInstance) {
+        var res = vex.close(alertInstance.id);
     };
 
 })(Mibew, jQuery, _, vex, validator);

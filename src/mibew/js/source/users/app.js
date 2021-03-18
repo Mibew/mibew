@@ -25,6 +25,12 @@
     var badRequestsCount = 0;
 
     /**
+     * Represent alert object for network problems notification
+     * @type Object
+     */
+     var networkProblemsAlert = null;
+
+    /**
      * Increase badRequestsCount and show reconnect message if need.
      * Calls on every bad request.
      */
@@ -32,11 +38,23 @@
         // Increase bad requests count
         badRequestsCount++;
         // Check if there is
-        if (badRequestsCount == 10) {
-            Mibew.Utils.alert(Mibew.Localization.trans('Network problems detected. Please refresh the page.'));
+        if (!networkProblemsAlert && (badRequestsCount == 10)) {
+            networkProblemsAlert = Mibew.Utils.alert(Mibew.Localization.trans('Network problems detected. Please refresh the page.'));
             badRequestsCount = 0;
         }
     };
+
+    /**
+     * Reset badRequestsCount and close reconnect message if need.
+     * Calls on every successful request.
+     */
+    var successfulResponseHandler = function() {
+        badRequestsCount = 0;
+        if (networkProblemsAlert) {
+            Mibew.Utils.closeAlert(networkProblemsAlert);
+        }
+        networkProblemsAlert = null;
+    }
 
     // Create application instance
     var App = new Backbone.Marionette.Application();
@@ -61,7 +79,8 @@
             {
                 'interactionType': MibewAPIUsersInteraction,
                 onTimeout: requestErrorHandler,
-                onTransportError: requestErrorHandler
+                onTransportError: requestErrorHandler,
+                onReceiveResponse: successfulResponseHandler,
             },
             options.server
         ));

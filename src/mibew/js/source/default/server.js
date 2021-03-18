@@ -41,6 +41,8 @@
             // Pause before restarting updater using Server.restartUpdater
             // function (in seconds)
             reconnectPause: 1,
+            // Call on successful response
+            onReceiveResponse: function() {},
             // Call on request timeout
             onTimeout: function() {},
             // Call when transport error was caught
@@ -371,6 +373,8 @@
      * @private
      */
     Mibew.Server.prototype.receiveResponse = function(data, textStatus, jqXHR) {
+        // Call hook on successful request
+        this.options.onReceiveResponse();
         // Do not parse empty responses
         if (data == '') {
             this.updateAfter(this.options.requestsFrequency);
