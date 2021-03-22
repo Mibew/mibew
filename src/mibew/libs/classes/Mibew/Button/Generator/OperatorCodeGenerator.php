@@ -57,10 +57,10 @@ class OperatorCodeGenerator extends AbstractGenerator
         $button->addChild(HTML5\html('comment', 'mibew operator code field'));
         $button->addChild($form);
         $button->addChild($this->getPopup());
-        $button->addChild(HTML5\html('comment', '/ mibew operator code field'));
         if (Settings::get('enabletracking') && !$this->getOption('disable_tracking')) {
             $button->addChild($this->getWidgetCode());
         }
+        $button->addChild(HTML5\html('comment', '/ mibew operator code field'));
 
         return $button;
     }
