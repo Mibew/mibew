@@ -33,13 +33,13 @@
         "symfony/http-foundation": "~2.8.52",
         "symfony/routing": "2.6.*",
         "symfony/config": "2.6.*",
-        "symfony/yaml": "2.6.*",
+        "symfony/yaml": "^5.2",
         "symfony/translation": "2.6.*",
         "tedivm/stash": "0.12.*",
         "canteen/html5": "1.1.*",
         "vierbergenlars/php-semver": "3.0.*",
         "swiftmailer/swiftmailer": "~5.4.0",
-        "ua-parser/uap-php": "~3.4.1",
+        "ua-parser/uap-php": "^3.9",
         "true/punycode": "~1.1"
     },
     "require-dev": {
