@@ -446,9 +446,10 @@ function setup_chatview_for_user(
 
     // Set default operator's avatar
     $operator = operator_by_id($thread->agentId);
-    $data['chat']['avatar'] = $operator['vcavatar']
-        ? $asset_url_generator->generate($operator['vcavatar'])
-        : '';
+    $data['chat']['avatar'] = '';
+    if (!empty($operator['vcavatar'])) {
+        $data['chat']['avatar'] = $asset_url_generator->generate($operator['vcavatar']);
+    }
 
 
     return $data;
