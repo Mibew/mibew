@@ -372,7 +372,7 @@ locale_disable:
         _access_check: Mibew\AccessControl\Check\PermissionsCheck
         _access_permissions: [CAN_ADMINISTRATE]
     requirements:
-        locale: "[a-z\-]{2,5}"
+        locale: "[a-z\\-]{2,5}"
 
 locale_edit:
     path: /operator/locale/{locale}/edit
@@ -381,7 +381,7 @@ locale_edit:
         _access_check: Mibew\AccessControl\Check\PermissionsCheck
         _access_permissions: [CAN_ADMINISTRATE]
     requirements:
-        locale: "[a-z\-]{2,5}"
+        locale: "[a-z\\-]{2,5}"
     methods: [GET]
 
 locale_edit_save:
@@ -391,7 +391,7 @@ locale_edit_save:
         _access_check: Mibew\AccessControl\Check\PermissionsCheck
         _access_permissions: [CAN_ADMINISTRATE]
     requirements:
-        locale: "[a-z\-]{2,5}"
+        locale: "[a-z\\-]{2,5}"
     methods: [POST]
 
 locale_enable:
@@ -401,7 +401,7 @@ locale_enable:
         _access_check: Mibew\AccessControl\Check\PermissionsCheck
         _access_permissions: [CAN_ADMINISTRATE]
     requirements:
-        locale: "[a-z\-]{2,5}"
+        locale: "[a-z\\-]{2,5}"
 
 locales:
     path: /operator/locale
@@ -716,7 +716,7 @@ translation_edit:
         _access_check: Mibew\AccessControl\Check\PermissionsCheck
         _access_permissions: [CAN_ADMINISTRATE]
     requirements:
-        string_id: "\d{1,10}"
+        string_id: "\\d{1,10}"
     methods: [GET]
 
 translation_edit_save:
@@ -726,7 +726,7 @@ translation_edit_save:
         _access_check: Mibew\AccessControl\Check\PermissionsCheck
         _access_permissions: [CAN_ADMINISTRATE]
     requirements:
-        string_id: "\d{1,10}"
+        string_id: "\\d{1,10}"
     methods: [POST]
 
 translation_export:
