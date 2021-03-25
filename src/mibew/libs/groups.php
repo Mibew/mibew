@@ -76,6 +76,10 @@ function group_by_name($name)
  */
 function get_group_name($group)
 {
+    if (!is_array($group)) {
+        return null;
+    }
+
     $use_local_name = (get_home_locale() == get_current_locale())
         || !isset($group['vccommonname'])
         || !$group['vccommonname'];
