@@ -77,7 +77,7 @@ function group_by_name($name)
 function get_group_name($group)
 {
     if (!is_array($group)) {
-        return null;
+        return '';
     }
 
     $use_local_name = (get_home_locale() == get_current_locale())
