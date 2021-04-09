@@ -78,7 +78,7 @@ class PasswordRecoveryController extends AbstractController
             if (count($page['errors']) == 0) {
                 $token = sha1($to_restore['vclogin'] . (function_exists('openssl_random_pseudo_bytes')
                     ? openssl_random_pseudo_bytes(32)
-                    : (time() + microtime()) . mt_rand(0, 99999999)));
+                    : (time() + microtime(true)) . mt_rand(0, 99999999)));
 
                 // Update the operator
                 $to_restore['dtmrestore'] = time();
