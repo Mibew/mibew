@@ -6,7 +6,7 @@ REQUIREMENTS
  * Apache web server 1.3.34 or above with the ability to use local .htaccess
    files (mod_rewrite module is optional, but recommended)
  * MySQL database 5.0 or above
- * PHP 7.1.3 or above with PDO, pdo_mysql, cURL, mbstring and gd extensions
+ * PHP 7.2.5 or above with PDO, pdo_mysql, cURL, mbstring and gd extensions
 
 INSTALLATION
 
