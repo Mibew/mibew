@@ -202,8 +202,9 @@ function get_group_email($group_id)
 {
     // Try to get group email
     $group = group_by_id($group_id);
+
     if (empty($group)) {
-        return '';
+        return false;
     }
 
     if ($group && !empty($group['vcemail'])) {
