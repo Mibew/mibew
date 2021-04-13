@@ -76,14 +76,22 @@
                     var visitorId = this.model.id;
                     var page = Mibew.Objects.Models.page;
 
-                    // Open invite window
-                    Mibew.Popup.open(
-                        page.get('inviteLink')
-                            + '?visitor='
-                            + visitorId,
-                        'ImCenter' + visitorId,
-                        Mibew.Utils.buildWindowParams(page.get('inviteWindowParams'))
-                    );
+                    // Check whether operator could actually chat
+                    // (see libs/operator.php, has_online_operators function for details)
+                    if (page.get('operatorCouldNotInvite')) {
+                        Mibew.Utils.alert(Mibew.Localization.trans('Unable to invite user: groups are enabled, and you don\'t belong to any of them.'));
+                    }
+                    else {
+
+                        // Open invite window
+                        Mibew.Popup.open(
+                            page.get('inviteLink')
+                                + '?visitor='
+                                + visitorId,
+                            'ImCenter' + visitorId,
+                            Mibew.Utils.buildWindowParams(page.get('inviteWindowParams'))
+                        );
+                    }
                 }
             },
 

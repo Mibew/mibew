@@ -124,6 +124,8 @@ class UsersController extends AbstractController
                     'banLink' => $request->getBaseUrl() . '/operator/ban',
                     'inviteLink' => $request->getBaseUrl() . '/operator/invite',
 
+                    'operatorCouldNotInvite' => (Settings::get('enablegroups') == 1) && !count(get_operator_group_ids($operator['operatorid'])),
+
                     'chatWindowParams' => $chat_style_config['chat']['window'],
                     'trackedUserWindowParams' => $page_style_config['tracked']['user_window'],
                     'trackedVisitorWindowParams' => $page_style_config['tracked']['visitor_window'],
