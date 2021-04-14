@@ -98,6 +98,9 @@ class Installer
      */
     public function isInstalled()
     {
+        if (!extension_loaded('PDO') || !extension_loaded('pdo_mysql')) {
+            return false;
+        }
         return ($this->getDatabaseVersion() !== false);
     }
 
