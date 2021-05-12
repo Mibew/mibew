@@ -131,6 +131,7 @@ class UpdateChecker
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
+        curl_setopt($ch, CURLOPT_SSL_CIPHER_LIST, 'DEFAULT@SECLEVEL=1');
 
         $json = json_encode($this->getSystemInfo());
         curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
