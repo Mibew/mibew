@@ -411,6 +411,7 @@ function setup_chatview_for_user(
         'defaultName' => (bool) (getlocal("Guest") != $thread->userName),
         'canPost' => true,
         'isAgent' => false,
+        'canSendEmail' => (bool) (Settings::get('usercansendemail') == "1"),
     );
 
     // Set link to send mail page

@@ -86,6 +86,7 @@ class Settings
             'enablessl' => '0',
             'forcessl' => '0',
             'usercanchangename' => '1',
+            'usercansendemail' => '1',
             'enablegroups' => '0',
             'enablegroupsisolation' => '0',
             'enablestatistics' => '1',

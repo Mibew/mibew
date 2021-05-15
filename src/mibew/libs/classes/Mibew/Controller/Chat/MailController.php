@@ -19,6 +19,7 @@
 
 namespace Mibew\Controller\Chat;
 
+use Mibew\Http\Exception\AccessDeniedException;
 use Mibew\Http\Exception\NotFoundException;
 use Mibew\Mail\Template as MailTemplate;
 use Mibew\Mail\Utils as MailUtils;
@@ -41,6 +42,12 @@ class MailController extends AbstractController
      */
     public function showFormAction(Request $request)
     {
+
+        // Check whether this feature is enabled at all
+        if (!Settings::get('usercansendemail')) {
+            throw new AccessDeniedException();
+        }
+
         $page = array(
             // Use errors list stored in the request. We need to do so to have
             // an ability to pass the request from the "submitForm" action.
@@ -85,6 +92,12 @@ class MailController extends AbstractController
      */
     public function submitFormAction(Request $request)
     {
+
+        // Check whether this feature is enabled at all
+        if (!Settings::get('usercansendemail')) {
+            throw new AccessDeniedException();
+        }
+
         $errors = array();
 
         $thread_id = $request->attributes->get('thread_id');

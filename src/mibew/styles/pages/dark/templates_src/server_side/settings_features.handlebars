@@ -43,6 +43,15 @@
                             </div>
 
                             <div class="field">
+                                <label for="user-can-send-email" class="field-label">{{l10n "Allows users to send chat history by email"}}</label>
+                                <div class="field-value">
+                                    <input id="user-can-send-email" type="checkbox" name="usercansendemail" value="on"{{#if formusercansendemail}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                </div>
+                                <label for="user-can-send-email" class="field-description"> &mdash; {{l10n "Turn off to disable user's ability to send chat history by email"}}</label>
+                                <br clear="all"/>
+                            </div>
+
+                            <div class="field">
                                 <label for="enable-ssl" class="field-label">{{l10n "Allow secure connections (SSL)"}}</label>
                                 <div class="field-value">
                                     <input id="enable-ssl" type="checkbox" name="enablessl" value="on"{{#if formenablessl}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>

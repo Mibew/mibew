@@ -45,6 +45,17 @@
             ),
 
             /**
+             * Override Backbone.Marionette.ItemView.serializeData to pass some
+             * extra fields to template.
+             * @returns {Object} Template data
+             */
+            serializeData: function() {
+                var data = this.model.toJSON();
+                data.user = Mibew.Objects.Models.user.toJSON();
+                return data;
+            },
+
+            /**
              * Load and display send mail window
              */
             sendMail: function() {

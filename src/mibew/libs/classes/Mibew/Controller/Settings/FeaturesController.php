@@ -116,6 +116,7 @@ class FeaturesController extends AbstractController
         return array(
             'enableban',
             'usercanchangename',
+            'usercansendemail',
             'enablegroups',
             'enablegroupsisolation',
             'enablestatistics',
