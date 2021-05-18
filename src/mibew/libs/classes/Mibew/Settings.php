@@ -87,6 +87,7 @@ class Settings
             'forcessl' => '0',
             'usercanchangename' => '1',
             'usercansendemail' => '1',
+            'enableemailcaptcha' => '0',
             'enablegroups' => '0',
             'enablegroupsisolation' => '0',
             'enablestatistics' => '1',

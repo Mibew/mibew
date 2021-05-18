@@ -117,6 +117,7 @@ class FeaturesController extends AbstractController
             'enableban',
             'usercanchangename',
             'usercansendemail',
+            'enableemailcaptcha',
             'enablegroups',
             'enablegroupsisolation',
             'enablestatistics',

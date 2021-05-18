@@ -49,6 +49,15 @@
                                 </div>
                                 <label for="user-can-send-email" class="field-description"> &mdash; {{l10n "Turn off to disable user's ability to send chat history by email"}}</label>
                                 <br clear="all"/>
+
+                                <div class="subfield under-user-can-send-email">
+                                    <label for="enable-email-captcha" class="field-label">{{l10n "Force visitor to enter a verification code when sending chat history by email"}}</label>
+                                    <div class="field-value">
+                                        <input id="enable-email-captcha" type="checkbox" name="enableemailcaptcha" value="on"{{#if formenableemailcaptcha}} checked="checked"{{/if}}{{#unless canmodify}} disabled="disabled"{{/unless}}/>
+                                    </div>
+                                    <label for="enable-email-captcha" class="field-description"> &mdash; {{l10n "Protection against spam (captcha) in the pop-up form to send chat history by email"}}</label>
+                                    <br clear="all"/>
+                                </div>
                             </div>
 
                             <div class="field">

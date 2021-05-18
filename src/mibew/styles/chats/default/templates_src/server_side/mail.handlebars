@@ -14,6 +14,14 @@
 
             <strong>{{l10n "Enter your email:"}}</strong>
             <input type="text" name="email" size="20" value="{{formemail}}" class="username" />&nbsp;
+
+            {{#if showCaptcha}}
+            <div>
+                <img id="captcha-img" src="{{route "captcha"}}"/>
+                <input type="text" name="captcha" size="21" maxlength="15" value="" class="username"/>
+            </div>
+            {{/if}}
+
             <a href="javascript:document.mailThreadForm.submit();">{{l10n "Send"}}</a>
         </form>
     {{/override}}

@@ -52,6 +52,8 @@ class MailController extends AbstractController
             // Use errors list stored in the request. We need to do so to have
             // an ability to pass the request from the "submitForm" action.
             'errors' => $request->attributes->get('errors', array()),
+            // Setup CAPTCHA if needed
+            'showCaptcha' => Settings::get('enableemailcaptcha'),
         );
 
         $thread_id = $request->attributes->get('thread_id');
@@ -113,12 +115,24 @@ class MailController extends AbstractController
             throw new NotFoundException('The thread is not found.');
         }
 
+        // Check email
         $email = $request->request->get('email');
-        $group = $thread->groupId ? group_by_id($thread->groupId) : null;
         if (!$email) {
             $errors[] = no_field('Your email');
         } elseif (!MailUtils::isValidAddress($email)) {
             $errors[] = wrong_field('Your email');
+        }
+
+        // Check captcha
+        if (Settings::get('enableemailcaptcha') == '1' && can_show_captcha()) {
+            $captcha = $request->request->get('captcha');
+            $original = isset($_SESSION[SESSION_PREFIX . 'mibew_captcha'])
+                ? $_SESSION[SESSION_PREFIX . 'mibew_captcha']
+                : '';
+            unset($_SESSION[SESSION_PREFIX . 'mibew_captcha']);
+            if (empty($original) || empty($captcha) || $captcha != $original) {
+                $errors[] = 'The letters you typed don\'t match the letters that were shown in the picture.';
+            }
         }
 
         if (count($errors) > 0) {
@@ -156,6 +170,7 @@ class MailController extends AbstractController
             );
         }
 
+        $group = $thread->groupId ? group_by_id($thread->groupId) : null;
         $page = setup_logo($group);
         $page['email'] = $email;
 

@@ -17,6 +17,14 @@
  */
 
 (function($) {
+    function updateSendEmail() {
+        if ($("#user-can-send-email").is(":checked")) {
+            $(".under-user-can-send-email").show();
+        } else {
+            $(".under-user-can-send-email").hide();
+        }
+    }
+
     function updateSurvey() {
         if ($("#enable-presurvey").is(":checked")) {
             $(".under-survey").show();
@@ -58,6 +66,9 @@
     }
 
     $(function() {
+        $("#user-can-send-email").change(function() {
+            updateSendEmail();
+        });
         $("#enable-presurvey").change(function() {
             updateSurvey();
         });
@@ -73,6 +84,7 @@
         $("#enable-privacy-policy").change(function() {
             updatePrivacyPolicy();
         });
+        updateSendEmail();
         updateSurvey();
         updateSSL();
         updateGroups();
