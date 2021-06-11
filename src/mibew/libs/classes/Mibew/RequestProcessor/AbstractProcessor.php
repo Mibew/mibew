@@ -22,6 +22,7 @@ namespace Mibew\RequestProcessor;
 // Import namespaces and classes of the core
 use Mibew\Database;
 use Mibew\EventDispatcher\EventDispatcher;
+use Mibew\Http\Exception\AccessDeniedException;
 use Mibew\RequestProcessor\Exception\AbstractProcessorException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -240,6 +241,9 @@ abstract class AbstractProcessor
                     return $this->buildSyncResponses($this->responses);
                 }
             }
+        } catch (AccessDeniedException $e) {
+            // don't log exception thrown in ThreadProcessor
+            return false;
         } catch (\Exception $e) {
             // Something went wrong. Trigger error event
             $vars = array('exception' => $e);
