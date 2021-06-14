@@ -48,11 +48,15 @@
              * Move to secure chat
              */
             secure: function() {
+                if (window.location.protocol == 'https:') {
+                    return;
+                }
                 var link = this.model.get('link');
                 if (link) {
                     var style = Mibew.Objects.Models.page.get('style');
                     window.location.href = link.replace(/\&amp\;/g, '&')
-                        + (style ? ('&style=' + style) : '');
+                        + (style ? ((link.indexOf('?') > -1 ? '&' : '?')
+                        + 'style=' + style) : '');
                 }
             }
         }
