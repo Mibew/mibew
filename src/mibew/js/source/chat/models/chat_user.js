@@ -57,7 +57,7 @@
                     * Not applicable for agents.
                     * @type Boolean
                     */
-                    dafaultName: true
+                    defaultName: true
                 }
             )
         }
