@@ -433,7 +433,7 @@ class Database
     /**
      * Forbid clone objects
      */
-    final private function __clone()
+    final public function __clone()
     {
     }
 }
