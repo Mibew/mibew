@@ -36,7 +36,7 @@
         "symfony/yaml": "^5.2",
         "symfony/translation": "2.6.*",
         "tedivm/stash": "0.12.*",
-        "canteen/html5": "1.1.*",
+        "mibew/html5": "1.1.*",
         "vierbergenlars/php-semver": "3.0.*",
         "swiftmailer/swiftmailer": "~5.4.0",
         "ua-parser/uap-php": "^3.9",
