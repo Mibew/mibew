@@ -57,11 +57,14 @@ var Mibew = Mibew || {};
      * omitted a session cookie will be created.
      */
     Mibew.Utils.createCookie = function(name, value, expires) {
-        var domain = /([^\.]+\.[^\.]+)$/.exec(document.location.hostname);
-        document.cookie = "" + name + "=" + value + "; "
-            + "path=/; "
-            + (domain ? ("domain=" + domain[1] + "; ") : '')
-            + (expires ?  ('expires=' + expires.toUTCString() + '; ') : '');
+        if (navigator.cookieEnabled) {
+            var domain = /([^\.]+\.[^\.]+)$/.exec(document.location.hostname);
+            document.cookie = "" + name + "=" + value + "; "
+                + "path=/; "
+                + (document.location.protocol == 'https:' ? "SameSite=None; secure; " : '')
+                + (domain ? ("domain=" + domain[1] + "; ") : '')
+                + (expires ?  ('expires=' + expires.toUTCString() + '; ') : '');
+        }
     };
 
     /**
