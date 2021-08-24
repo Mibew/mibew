@@ -65,7 +65,7 @@ function track_visitor_start($entry, $referer)
     $db = Database::getInstance();
     $db->query(
         ("INSERT INTO {sitevisitor} ( "
-            . "userid, username, firsttime, lasttime, entry,details "
+            . "userid, username, firsttime, lasttime, entry, details "
         . ") VALUES ( "
             . ":userid, :username, :now, :now, :entry, :details "
         . ")"),
