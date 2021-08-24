@@ -55,6 +55,7 @@ $tmp_request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
 @ini_set('session.cookie_httponly', true);
 if ($tmp_request->isSecure()) {
     @ini_set('session.cookie_secure', true);
+    @ini_set('session.cookie_samesite', 'None');
 }
 @ini_set('session.cookie_path', $tmp_request->getBasePath() . "/");
 @ini_set('session.name', 'MibewSessionID');
