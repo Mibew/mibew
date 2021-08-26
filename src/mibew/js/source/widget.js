@@ -357,6 +357,12 @@ var Mibew = Mibew || {};
                 + '</h1>';
         }
 
+        // Play sound
+        var sound = document.getElementById('mibew-notification-sound');
+        if (sound) {
+            sound.play();
+        }
+
         // Broadcast message from the thread related with invitation into iframe
         if (threadUrl) {
             popuptext += '<iframe id="mibew-invitation-frame" '
