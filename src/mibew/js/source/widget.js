@@ -428,7 +428,7 @@ var Mibew = Mibew || {};
      * @private
      * @type Object
      */
-    var invitaionEventsCallbacks = {};
+    var invitationEventsCallbacks = {};
 
     /**
      * Attaches event handler to invitation events.
@@ -444,11 +444,11 @@ var Mibew = Mibew || {};
             return;
         }
 
-        if (!invitaionEventsCallbacks.hasOwnProperty(event)) {
-            invitaionEventsCallbacks[event] = [];
+        if (!invitationEventsCallbacks.hasOwnProperty(event)) {
+            invitationEventsCallbacks[event] = [];
         }
 
-        invitaionEventsCallbacks[event].push(callback);
+        invitationEventsCallbacks[event].push(callback);
     };
 
     /**
@@ -463,14 +463,14 @@ var Mibew = Mibew || {};
             data = {};
         }
 
-        if (!invitaionEventsCallbacks.hasOwnProperty(event)) {
+        if (!invitationEventsCallbacks.hasOwnProperty(event)) {
             // There is no callback for the event. So there is no reasons to
             // continue.
             return;
         }
 
         // Run callbacks one by one
-        var callbacks = invitaionEventsCallbacks[event];
+        var callbacks = invitationEventsCallbacks[event];
         for(var i = 0, length = callbacks.length; i < length; i++) {
             callbacks[i](data);
         }
