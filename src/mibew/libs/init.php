@@ -55,6 +55,7 @@ $tmp_request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
 @ini_set('session.cookie_httponly', true);
 if ($tmp_request->isSecure()) {
     @ini_set('session.cookie_secure', true);
+    @ini_set('session.cookie_samesite', 'None');
 }
 @ini_set('session.cookie_path', $tmp_request->getBasePath() . "/");
 @ini_set('session.name', 'MibewSessionID');
@@ -62,14 +63,8 @@ if ($tmp_request->isSecure()) {
 // Remove temporary request to keep global scope clean.
 unset($tmp_request);
 
-if (version_compare(phpversion(), '5.4.0', '<')) {
-    if (session_id() == '') {
-        session_start();
-    }
-} else {
-    if (session_status() == PHP_SESSION_NONE) {
-        session_start();
-    }
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
 }
 
 if (function_exists("date_default_timezone_set")) {

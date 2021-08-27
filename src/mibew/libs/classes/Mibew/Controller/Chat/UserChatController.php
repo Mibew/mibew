@@ -299,4 +299,29 @@ class UserChatController extends AbstractController
         // Expand page
         return $this->render('chat', $page);
     }
+
+    /**
+     * Check possibility to set cookie on the client side: it's crusial for chat to work,
+     * since otherwise there will be no session.
+     *
+     * @param Request $request Incoming request.
+     * @return string Empty string.
+     * @throws AccessDeniedException if the thread with specified ID and token is
+     * not found.
+     */
+    public function cookieSetPermissionAction(Request $request)
+    {
+        $blocked = true;
+        $token1 = $request->query->get('rnd');
+        if ($request->cookies->has('mibewCheckToken')) {
+            $token2 = $request->cookies->get('mibewCheckToken');
+            if ($token1 === $token2) {
+                $blocked = false;
+            }
+        }
+        if ($blocked) {
+            throw new NotFoundException('Cookies are blocked.');
+        }
+        return "";
+    }
 }

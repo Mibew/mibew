@@ -302,6 +302,12 @@ var Mibew = Mibew || {};
         BasePopup.call(this, options);
 
         /**
+        * Store options in case we need some of them later.
+        * @type {Object}
+        */
+        this.options = options;
+
+        /**
          * Wrapper for popup iframe DOM Element.
          * @type {Node}
          */
@@ -331,6 +337,12 @@ var Mibew = Mibew || {};
          */
         this.isMinified = false;
 
+        /**
+         * Indicates if cookies are blocked.
+         * @type {Boolean}
+         */
+        this.cookiesBlocked = false;
+
         // Load default styles. These styles hide the popup while real styles
         // are loading.
         this.attachDefaultStyles();
@@ -344,6 +356,18 @@ var Mibew = Mibew || {};
             // new page is visited.
             this.safeOpen(openedChatUrl);
         }
+
+        // Check if it's possible to set cookies at all
+        var rnd = Math.random();
+        Mibew.Utils.createCookie('mibewCheckToken', rnd);
+        var checkCookiesBlock = Mibew.Utils.loadScript(options.url.split('?')[0] + '/cookies-set-permission' + '?rnd=' + rnd);
+        checkCookiesBlock.popup = this;
+        checkCookiesBlock.onload = function() {
+            this.popup.cookiesBlocked = false;
+        };
+        checkCookiesBlock.onerror = function() {
+            this.popup.cookiesBlocked = true;
+        };
     };
 
     // Set correct prototype chain for IFrame popup.
@@ -391,6 +415,14 @@ var Mibew = Mibew || {};
     Mibew.ChatPopup.IFrame.prototype.open = function(url) {
         if (this.isOpened) {
             // Do not open the popup twice.
+            return;
+        }
+
+        if (this.cookiesBlocked) {
+            // Last resort. Replace this iframe-based popup with window-based popup
+            // and try to open a chat in a separate window.
+            Mibew.Objects.ChatPopups[this.id] = new Mibew.ChatPopup.Window(this.options);
+            Mibew.Objects.ChatPopups[this.id].open(url);
             return;
         }
 
@@ -513,6 +545,10 @@ var Mibew = Mibew || {};
      * value is omitted, the chat initialization URL will be loaded.
      */
     Mibew.ChatPopup.Window.prototype.open = function(url) {
+        // Windows is already opened, nothing to do.
+        if (this.window != null && !this.window.closed) {
+            return;
+        }
         this.window = window.open(
             url || this.buildChatUrl(),
             'mibewChat' + this.id,

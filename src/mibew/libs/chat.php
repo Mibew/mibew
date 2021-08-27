@@ -563,6 +563,8 @@ function setup_chatview_for_operator(
  */
 function visitor_from_request()
 {
+    $tmp_request = Request::createFromGlobals();
+
     $default_name = getlocal("Guest");
     $user_name = $default_name;
     if (isset($_COOKIE[USERNAME_COOKIE_NAME])) {
@@ -573,16 +575,31 @@ function visitor_from_request()
     }
 
     if ($user_name == $default_name) {
-        $temp = Request::createFromGlobals()->query->get('name');
+        $temp = $tmp_request->query->get('name');
         $user_name = (isset($temp) && ($temp !== '')) ? $temp : $user_name;
     }
 
     if (isset($_COOKIE[USERID_COOKIE_NAME])) {
         $user_id = $_COOKIE[USERID_COOKIE_NAME];
     } else {
-        $user_id = uniqid('', true);
-        setcookie(USERID_COOKIE_NAME, $user_id, time() + 60 * 60 * 24 * 365);
+        // Check whether user id already exists in absence of the appropriate cookie:
+        // some browsers could have weird behaviour
+        $temp = $tmp_request->query->get('user_id');
+        $user_id = (isset($temp)) ? $temp : uniqid('', true);
+
+        $cookie_properties = array( 'expires' => time() + 60 * 60 * 24 * 365 );
+        if (version_compare(phpversion(), '7.3.0', '<')) {
+            setcookie(USERID_COOKIE_NAME, $user_id, $cookie_properties['expires']);
+        } else {
+            if ($tmp_request->isSecure()) {
+                $cookie_properties['samesite'] = 'None';
+                $cookie_properties['secure'] = true;
+            }
+            setcookie(USERID_COOKIE_NAME, $user_id, $cookie_properties);
+        }
     }
+
+    unset($tmp_request);
 
     return array('id' => $user_id, 'name' => $user_name);
 }

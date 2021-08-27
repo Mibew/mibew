@@ -553,7 +553,17 @@ class ThreadProcessor extends ClientSideProcessor implements
         $thread->renameUser($args['name']);
         // Update user name in cookies
         $data = strtr(base64_encode($args['name']), '+/=', '-_,');
-        setcookie(USERNAME_COOKIE_NAME, $data, time() + 60 * 60 * 24 * 365);
+
+        $cookie_properties = array( 'expires' => time() + 60 * 60 * 24 * 365 );
+        if (version_compare(phpversion(), '7.3.0', '<')) {
+            setcookie(USERNAME_COOKIE_NAME, $data, $cookie_properties['expires']);
+        } else {
+            if ($this->currentRequest && $this->currentRequest->isSecure()) {
+                $cookie_properties['samesite'] = 'None';
+                $cookie_properties['secure'] = true;
+            }
+            setcookie(USERNAME_COOKIE_NAME, $data, $cookie_properties);
+        }
     }
 
     /**

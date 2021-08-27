@@ -30,7 +30,7 @@
     "require": {
         "mibew/handlebars.php": "~0.10.5",
         "mibew/handlebars.php-helpers": "1.*",
-        "symfony/http-foundation": "~2.8.52",
+        "symfony/http-foundation": "~3.2",
         "symfony/routing": "2.6.*",
         "symfony/config": "2.6.*",
         "symfony/yaml": "^5.2",

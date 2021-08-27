@@ -79,6 +79,12 @@ var Mibew = Mibew || {};
         this.visitorCookieName = options.visitorCookieName;
 
         /**
+         * Name of tracking cookie
+         * @type String
+         */
+        this.cookiesBlocked = false;
+
+        /**
          * URL of file with additional CSS rules for invitation
          * @type String
          */
@@ -112,7 +118,14 @@ var Mibew = Mibew || {};
         // Prepare GET params list
         this.dataToSend.entry = escape(document.referrer),
         this.dataToSend.locale = this.locale;
+        // Random value should be set both as a GET param and as a cookie,
+        // so it will be possible to find out whether cookies are blocked
+        // Also it will prevent response from being cached at any level
         this.dataToSend.rnd = Math.random();
+        Mibew.Utils.createCookie(
+            'mibewRndValue',
+            this.dataToSend.rnd
+        );
         if (userId !== false) {
             this.dataToSend.user_id = userId;
         } else {
@@ -330,6 +343,12 @@ var Mibew = Mibew || {};
      *  - 'acceptCaption': String, caption for accept button.
      */
     Mibew.Invitation.create = function (options) {
+
+        // Cookies are blocked, invitation will behave badly
+        if (Mibew.Objects.widget.cookiesBlocked) {
+            return;
+        }
+
         var operatorName = options.operatorName;
         var avatarUrl = options.avatarUrl;
         var threadUrl = options.threadUrl;
@@ -486,6 +505,14 @@ var Mibew = Mibew || {};
      * @namespace Holds functions that can be called by the Core
      */
     Mibew.APIFunctions = {};
+
+    /**
+     * Update cookies status. API function
+     * @param {Object} response Data object from server
+     */
+    Mibew.APIFunctions.updateCookiesBlockStatus = function(response) {
+        Mibew.Objects.widget.cookiesBlocked = response.cookiesBlocked;
+    };
 
     /**
      * Update user id. API function
