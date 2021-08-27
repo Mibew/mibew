@@ -241,6 +241,9 @@ abstract class AbstractProcessor
                 }
             }
         } catch (\Exception $e) {
+            // Looks like a try to use chat with blocked cookies or something, return 403
+                return new Response('Update forbidden', Response::HTTP_FORBIDDEN);
+        } catch (\Exception $e) {
             // Something went wrong. Trigger error event
             $vars = array('exception' => $e);
             $dispatcher->triggerEvent($this->eventPrefix . 'RequestError', $vars);
