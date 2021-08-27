@@ -83,11 +83,14 @@ class CookieFactory
      * @param string $name The name of the cookie.
      * @param string $value The value of the cookie.
      * @param int|string|\DateTime $expire The time the cookie expires.
-     * @param bool $httpOnly Whether the cookie will be made accessible only
+     * @param bool $http_only Whether the cookie will be made accessible only
      *   through the HTTP protocol.
+     * @param bool $same_site Whether the cookie should be used only on the
+     *   original site. Otherwise (but only if it's already marked as secure)
+     *   it will be marked as SameSite=None
      * @return Cookie
      */
-    public function createCookie($name, $value = null, $expire = 0, $http_only = true)
+    public function createCookie($name, $value = null, $expire = 0, $http_only = true, $same_site = true)
     {
         return new Cookie(
             $name,
@@ -96,7 +99,9 @@ class CookieFactory
             $this->getPath(),
             $this->getDomain(),
             $this->isSecure(),
-            $http_only
+            $http_only,
+            true,
+            !$same_site && $this->isSecure() ? 'None' : false
         );
     }
 

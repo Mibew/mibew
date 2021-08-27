@@ -361,7 +361,9 @@ class Application implements
         $response->headers->setCookie(CookieFactory::fromRequest($request)->createCookie(
             LOCALE_COOKIE_NAME,
             get_current_locale(),
-            time() + 60 * 60 * 24 * 1000
+            time() + 60 * 60 * 24 * 1000,
+            true,
+            false
         ));
 
         $response->prepare($request);
