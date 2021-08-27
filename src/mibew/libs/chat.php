@@ -590,8 +590,7 @@ function visitor_from_request()
         $cookie_properties = array( 'expires' => time() + 60 * 60 * 24 * 365 );
         if (version_compare(phpversion(), '7.3.0', '<')) {
             setcookie(USERID_COOKIE_NAME, $user_id, $cookie_properties['expires']);
-        }
-        else {
+        } else {
             if ($tmp_request->isSecure()) {
                 $cookie_properties['samesite'] = 'None';
                 $cookie_properties['secure'] = true;

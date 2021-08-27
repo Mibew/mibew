@@ -60,8 +60,7 @@ class WidgetController extends AbstractController
             if ($rnd_value1 !== $rnd_value2) {
                 $cookies_blocked = true;
             }
-        }
-        else {
+        } else {
             $cookies_blocked = true;
         }
 
@@ -75,7 +74,6 @@ class WidgetController extends AbstractController
             && !$cookies_blocked;
 
         if ($tracking_allowed) {
-
             $entry = $request->query->get('entry', '');
             $referer = $request->server->get('HTTP_REFERER', '');
             $user_id = $request->query->get('user_id', false);
