@@ -51,10 +51,31 @@ class WidgetController extends AbstractController
             'data' => array(),
         );
 
+        // Check whether third parties cookies are blocked
+        // It will be impossible to chat if they are
+        $cookies_blocked = false;
+        $rnd_value1 = $request->query->get('rnd', false);
+        if ($request->cookies->has('mibewRndValue')) {
+            $rnd_value2 = $request->cookies->get('mibewRndValue');
+            if ($rnd_value1 !== $rnd_value2) {
+                $cookies_blocked = true;
+            }
+        }
+        else {
+            $cookies_blocked = true;
+        }
+
+        // Update status on blocked cookie
+        $response_data['handlers'][] = 'updateCookiesBlockStatus';
+        $response_data['dependencies']['updateCookiesBlockStatus'] = array();
+        $response_data['data']['cookiesBlocked'] = $cookies_blocked;
+
         $tracking_allowed = (Settings::get('enabletracking') == '1')
-            && (Settings::get('trackoperators') == '1' || !$this->getOperator());
+            && (Settings::get('trackoperators') == '1' || !$this->getOperator())
+            && !$cookies_blocked;
 
         if ($tracking_allowed) {
+
             $entry = $request->query->get('entry', '');
             $referer = $request->server->get('HTTP_REFERER', '');
             $user_id = $request->query->get('user_id', false);
