@@ -17,19 +17,6 @@
  * limitations under the License.
  */
 
-function get_popup($href, $js_href, $message, $title, $wnd_name, $options)
-{
-    if (!$js_href) {
-        $js_href = "'$href'";
-    }
-    return "<a href=\"$href\" target=\"_blank\" "
-        . ($title ? "title=\"$title\" " : "")
-        . "onclick=\"if(navigator.userAgent.toLowerCase().indexOf('opera') != -1 "
-        . "&amp;&amp; window.event.preventDefault) window.event.preventDefault();"
-        . "this.newWindow = window.open($js_href, '$wnd_name', '$options');"
-        . "this.newWindow.focus();this.newWindow.opener=window;return false;\">$message</a>";
-}
-
 function no_field($key)
 {
     return getlocal('Please fill "{0}".', array(getlocal($key)));
@@ -43,18 +30,4 @@ function failed_uploading_file($filename, $key)
 function wrong_field($key)
 {
     return getlocal('Please fill "{0}" correctly.', array(getlocal($key)));
-}
-
-function add_params($servlet, $params)
-{
-    $infix = '?';
-    if (strstr($servlet, $infix) !== false) {
-        $infix = '&amp;';
-    }
-    foreach ($params as $k => $v) {
-        $servlet .= $infix . $k . "=" . $v;
-        $infix = '&amp;';
-    }
-
-    return $servlet;
 }
