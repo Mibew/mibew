@@ -102,6 +102,11 @@ chat_user_start:
     defaults:
         _controller: Mibew\Controller\Chat\UserChatController::startAction
 
+chat_user_cookie_set_permission:
+    path: /chat/cookies-set-permission
+    defaults:
+        _controller: Mibew\Controller\Chat\UserChatController::cookieSetPermissionAction
+
 # Pages that are available for all users
 button:
     path: /b
