@@ -468,6 +468,11 @@ input.save-button {
 input.search-button {
     background: url("../images/buttons/search.png") top left no-repeat;
 }
+button#copy-button-code {
+    float: left;
+    clear: both;
+    margin-top: 5px;
+}
 
 /* tables */
 .table-toolbar {
