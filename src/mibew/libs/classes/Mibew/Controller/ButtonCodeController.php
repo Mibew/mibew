@@ -48,6 +48,8 @@ class ButtonCodeController extends AbstractController
             'errors' => array(),
         );
 
+        $this->getAssetManager()->attachJs('js/compiled/button_code.js');
+
         $image_locales_map = $this->getImageLocalesMap(MIBEW_FS_ROOT . '/locales');
         $image = $request->query->get('i', 'mibew');
         if (!isset($image_locales_map[$image])) {
