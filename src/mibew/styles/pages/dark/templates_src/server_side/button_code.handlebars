@@ -92,6 +92,12 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="field-in-row">
+                                    <label for="silent-invitation" class="field-label">{{l10n "Silent invitations"}}</label>
+                                    <div class="field-value-no-description">
+                                        <input id="silent-invitation" type="checkbox" name="silentinvitation" value="on"{{#if formsilentinvitation}} checked="checked"{{/if}} onchange="this.form.submit();"/>
+                                    </div>
+                                </div>
                             {{/unless}}
                             <br clear="all"/>
                         {{/if}}

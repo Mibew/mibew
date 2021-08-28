@@ -275,6 +275,9 @@ abstract class AbstractGenerator implements GeneratorInterface
         // URL for requests
         $widget_data['requestURL'] = $this->generateUrl('widget_gateway');
 
+        // Silent invitations
+        $widget_data['silentInvitation'] = $this->getOption('silent_invitation');
+
         // Locale for invitation
         $widget_data['locale'] = $this->getOption('locale');
 

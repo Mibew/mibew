@@ -86,6 +86,8 @@ class ButtonCodeController extends AbstractController
 
         $disable_tracking = $request->query->get('disabletracking') == 'on';
 
+        $silent_invitation = $request->query->get('silentinvitation') == 'on';
+
         $code_type = $request->query->get('codetype', 'button');
         if (!in_array($code_type, array('button', 'operator_code', 'text_link'))) {
             throw new BadRequestException('Wrong value of "codetype" param.');
@@ -106,7 +108,8 @@ class ButtonCodeController extends AbstractController
             'mod_security' => $mod_security,
             'prefer_iframe' => !$force_windows,
             'invitation_style' => $invitation_style,
-            'disable_tracking' => $disable_tracking
+            'disable_tracking' => $disable_tracking,
+            'silent_invitation' => $silent_invitation
         );
 
         if ($operator_code) {
@@ -176,7 +179,7 @@ class ButtonCodeController extends AbstractController
         $page['formcodetype'] = $code_type;
         $page['formforcewindows'] = $force_windows;
         $page['formdisabletracking'] = $disable_tracking;
-
+        $page['formsilentinvitation'] = $silent_invitation;
         $page['enabletracking'] = Settings::get('enabletracking');
         $page['operator_code'] = $operator_code;
         $page['generateButton'] = $generate_button;

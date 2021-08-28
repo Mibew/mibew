@@ -155,8 +155,10 @@ class WidgetController extends AbstractController
                         UrlGeneratorInterface::ABSOLUTE_URL
                     ),
                     'acceptCaption' => getlocal('Answer'),
+                    'soundFile' => $request->query->get('silent', false)
+                                   ? false
+                                   : $this->asset('sounds/invite', AssetUrlGeneratorInterface::ABSOLUTE_URL),
                 );
-
                 $_SESSION[SESSION_PREFIX . 'invitation_threadid'] = $thread->id;
             }
 

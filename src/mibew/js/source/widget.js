@@ -91,6 +91,12 @@ var Mibew = Mibew || {};
         this.inviteStyle = options.inviteStyle;
 
         /**
+         * Flag to disable sound notification on invitations
+         * @type Boolean
+         */
+         this.silentInvitation = options.silentInvitation;
+
+        /**
          * Locale of the Widget
          * @type String
          */
@@ -134,7 +140,7 @@ var Mibew = Mibew || {};
                 delete this.dataToSend.user_id;
             }
         }
-
+        this.dataToSend.silent = this.silentInvitation ? 1 : 0;
         Mibew.Utils.loadScript(
             this.requestURL
                 + '?' + this.getQuery(),
@@ -341,10 +347,12 @@ var Mibew = Mibew || {};
      *  - 'threadUrl': String, URL of the invitation thread which must be
      *    dispaly in invitation iframe.
      *  - 'acceptCaption': String, caption for accept button.
+     *  - 'soundFile': String, pseudo URL (without extension) of the sound file to
+     *    play on invitation event (in case when it's possible)
      */
     Mibew.Invitation.create = function (options) {
 
-        // Cookies are blocked, invitation will behave badly
+        // Cookies are blocked, invitation will behave badly, won't even try
         if (Mibew.Objects.widget.cookiesBlocked) {
             return;
         }
@@ -353,6 +361,7 @@ var Mibew = Mibew || {};
         var avatarUrl = options.avatarUrl;
         var threadUrl = options.threadUrl;
         var acceptCaption = options.acceptCaption;
+        var soundFile = options.soundFile;
 
         var popuptext = '<div id="mibew-invitation-popup" style="display: none;">';
         popuptext += '<div id="mibew-invitation-close">'
@@ -376,10 +385,19 @@ var Mibew = Mibew || {};
                 + '</h1>';
         }
 
-        // Play sound
-        var sound = document.getElementById('mibew-notification-sound');
-        if (sound) {
-            sound.play();
+        // Try to play sound
+        if (soundFile) {
+            var sound = document.getElementById('mibew-notification-sound');
+            if (!sound) {
+                sound = document.createElement('audio');
+                sound.setAttribute('id', 'mibew-notification-sound');
+                sound.setAttribute('style', 'display: none;');
+                sound.innerHTML = '<source src="' + soundFile + '.wav" type="audio/x-wav" />'
+                                + '<source src="' + soundFile + '.mp3" type="audio/mpeg" codecs="mp3" />';
+                document.getElementsByTagName('body')[0].appendChild(sound);
+            }
+            // User should do something on a page before it could be possible to play sound, so just try
+            sound.play().then( function(s) {}, function(e) {} );
         }
 
         // Broadcast message from the thread related with invitation into iframe
