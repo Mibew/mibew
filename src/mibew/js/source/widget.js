@@ -393,7 +393,8 @@ var Mibew = Mibew || {};
                 sound.setAttribute('id', 'mibew-notification-sound');
                 sound.setAttribute('style', 'display: none;');
                 sound.innerHTML = '<source src="' + soundFile + '.wav" type="audio/x-wav" />'
-                                + '<source src="' + soundFile + '.mp3" type="audio/mpeg" codecs="mp3" />';
+                                + '<source src="' + soundFile + '.mp3" type="audio/mpeg" codecs="mp3" />'
+                                + '<source src="' + soundFile + '.ogg" type="audio/ogg" codecs="vorbis" />';
                 document.getElementsByTagName('body')[0].appendChild(sound);
             }
             // User should do something on a page before it could be possible to play sound, so just try

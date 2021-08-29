@@ -102,7 +102,7 @@
     };
 
     /**
-     * Play .wav or .mp3 sound file
+     * Play .wav, or .mp3, or .ogg sound file
      * @param {String} file File path (without extension)
      */
     Mibew.Utils.playSound = function (file) {
@@ -114,6 +114,7 @@
             var audioTag = $("<audio>", {autoplay: true, style: "display: none"}).append(
             '<source src="' + file + '.wav" type="audio/x-wav" />' +
             '<source src="' + file + '.mp3" type="audio/mpeg" codecs="mp3" />' +
+            '<source src="' + file + '.ogg" type="audio/ogg" codecs="vorbis" />' +
             '<embed src="' + file + '.wav" type="audio/x-wav" hidden="true" autostart="true" loop="false" />'
             );
             $('body').append(audioTag);
