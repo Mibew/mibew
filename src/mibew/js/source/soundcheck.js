@@ -25,5 +25,9 @@
         $('#check-new-message').click(function() {
             Mibew.Utils.playSound('../sounds/new_message');
         });
+
+        $('#check-invitation').click(function() {
+            Mibew.Utils.playSound('../sounds/invite');
+        });
     });
 })(Mibew, jQuery);
