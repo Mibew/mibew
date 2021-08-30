@@ -101,7 +101,7 @@ class CookieFactory
             $this->isSecure(),
             $http_only,
             true,
-            !$same_site && $this->isSecure() ? 'None' : false
+            !$same_site && $this->isSecure() ? 'None' : 'Lax'
         );
     }
 
