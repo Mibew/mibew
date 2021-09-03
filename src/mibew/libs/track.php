@@ -145,10 +145,7 @@ function track_visit_page($visitor_id, $page)
         array($visitor_id),
         array('return_rows' => Database::RETURN_ONE_ROW)
     );
-    if (is_bool($last_page)) {
-        return;
-    }
-    if ($last_page['address'] != $page) {
+    if (is_bool($last_page) || ($last_page['address'] != $page)) {
         $db->query(
             ("INSERT INTO {visitedpage} ("
                 . "visitorid, address, visittime "
