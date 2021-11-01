@@ -90,10 +90,8 @@ function sanitize_string($string, $tags_level = 'high', $attr_level = 'high')
                     $replacement,
                     $string
                 );
-
             }
         }
-
     }
 
     return $string;
