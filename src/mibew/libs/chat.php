@@ -644,7 +644,9 @@ function chat_start_for_user(
 ) {
     // Get user info
     $remote_host = get_remote_host();
-    $user_browser = $_SERVER['HTTP_USER_AGENT'];
+    $user_browser = isset($_SERVER['HTTP_USER_AGENT'])
+        ? $_SERVER['HTTP_USER_AGENT']
+        : '';
 
     // Check connection limit
     if (Thread::connectionLimitReached($remote_host)) {
