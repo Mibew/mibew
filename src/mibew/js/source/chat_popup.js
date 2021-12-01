@@ -58,12 +58,25 @@ var Mibew = Mibew || {};
      */
     Mibew.Utils.createCookie = function(name, value, expires) {
         if (navigator.cookieEnabled) {
-            var domain = /([^\.]+\.[^\.]+)$/.exec(document.location.hostname);
-            document.cookie = "" + name + "=" + value + "; "
-                + "path=/; "
-                + (document.location.protocol == 'https:' ? "SameSite=None; secure; " : '')
-                + (domain ? ("domain=" + domain[1] + "; ") : '')
-                + (expires ?  ('expires=' + expires.toUTCString() + '; ') : '');
+            var domain_parts = document.location.hostname.split('.').reverse();
+            var domain = domain_parts[0];
+            var position = 0;
+            do {
+                document.cookie = "" + name + "=" + value + "; "
+                    + "path=/; "
+                    + (document.location.protocol == 'https:' ? "SameSite=None; secure; " : '')
+                    + "domain=" + (Mibew.Utils.cookiesDomain || domain) + "; "
+                    + (expires ?  ('expires=' + expires.toUTCString() + '; ') : '');
+                if (Mibew.Utils.readCookie(name) == value) {
+                    if (!Mibew.Utils.cookiesDomain) {
+                        Mibew.Utils.cookiesDomain = domain;
+                    }
+                }
+                else {
+                    position++;
+                    domain = domain_parts[position] + '.' + domain;
+                }
+            } while((position < domain_parts.length) && !Mibew.Utils.cookiesDomain);
         }
     };
 
