@@ -609,9 +609,11 @@ function visitor_from_request()
  */
 function get_remote_host()
 {
-    $ext_addr = $_SERVER['REMOTE_ADDR'];
+    $ext_addr = isset($_SERVER['REMOTE_ADDR'])
+                ? $_SERVER['REMOTE_ADDR']
+                : '';
     $has_proxy = isset($_SERVER['HTTP_X_FORWARDED_FOR'])
-        && $_SERVER['HTTP_X_FORWARDED_FOR'] != $_SERVER['REMOTE_ADDR'];
+        && $_SERVER['HTTP_X_FORWARDED_FOR'] != $ext_addr;
     if ($has_proxy) {
         $ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'], 2);
         $ext_addr = (count($ips) > 1)

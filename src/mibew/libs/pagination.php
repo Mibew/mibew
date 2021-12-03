@@ -36,7 +36,9 @@ define('PAGINATION_LINKS_ON_PAGE', 5);
  */
 function generate_pagination_link($page, $title)
 {
-    $lnk = $_SERVER['REQUEST_URI'];
+    $lnk = isset($_SERVER['REQUEST_URI'])
+           ? $_SERVER['REQUEST_URI']
+           : '';
     $href = preg_replace("/\?page=\d+\&/", "?", preg_replace("/\&page=\d+/", "", $lnk));
     $href .= strstr($href, "?") ? "&page=$page" : "?page=$page";
 
