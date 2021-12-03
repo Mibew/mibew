@@ -774,7 +774,9 @@ class ThreadProcessor extends ClientSideProcessor implements
 
         // Create thread for left message
         $remote_host = get_remote_host();
-        $user_browser = $_SERVER['HTTP_USER_AGENT'];
+        $user_browser = isset($_SERVER['HTTP_USER_AGENT'])
+            ? $_SERVER['HTTP_USER_AGENT']
+            : '';
         $visitor = visitor_from_request();
 
         // Get message locale

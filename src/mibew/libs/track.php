@@ -187,7 +187,9 @@ function track_get_path($visitor)
 function track_build_details()
 {
     $result = array(
-        'user_agent' => $_SERVER['HTTP_USER_AGENT'],
+        'user_agent' => (isset($_SERVER['HTTP_USER_AGENT'])
+                         ? $_SERVER['HTTP_USER_AGENT']
+                         : ''),
         'remote_host' => get_remote_host(),
     );
 
