@@ -43,6 +43,12 @@ abstract class AbstractPlugin
     protected $weight = 0;
 
     /**
+     * Path to plugin's files
+     * @var string
+     */
+    private $path = '';
+
+    /**
      * Default plugin constructor.
      *
      * Saves passed in variable in AbstractPlugin::$config property. Also
@@ -72,9 +78,8 @@ abstract class AbstractPlugin
      */
     public function getFilesPath()
     {
-        static $path = false;
 
-        if ($path === false) {
+        if ($this->path === '') {
             // Get full name of the file with the current plugin class
             $reflection = new \ReflectionClass($this);
             $file_path = $reflection->getFileName();
@@ -90,10 +95,10 @@ abstract class AbstractPlugin
                 trim($file_path, DIRECTORY_SEPARATOR)
             );
             array_pop($path_parts);
-            $path = implode(DIRECTORY_SEPARATOR, $path_parts);
+            $this->path = implode(DIRECTORY_SEPARATOR, $path_parts);
         }
 
-        return $path;
+        return $this->path;
     }
 
     /**
