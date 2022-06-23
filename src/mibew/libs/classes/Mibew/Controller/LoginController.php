@@ -106,7 +106,7 @@ class LoginController extends AbstractController
 
             return $this->redirect($target);
         } else {
-            if (operator_is_disabled($operator)) {
+            if ($operator && operator_is_disabled($operator)) {
                 $errors[] = getlocal('Your account is temporarily blocked. Please contact system administrator.');
             } else {
                 $errors[] = getlocal("Entered login/password is incorrect");
