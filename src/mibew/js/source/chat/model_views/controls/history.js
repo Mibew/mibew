@@ -45,7 +45,7 @@
             ),
 
             /**
-             * Dispalay history window
+             * Display history window
              */
             showHistory: function() {
                 var user = Mibew.Objects.Models.user;
