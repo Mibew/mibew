@@ -170,6 +170,12 @@ a:hover .image-close-window {
 .active-history-control .tpl-image {
     background-position: -112px 0;
 }
+.tracked-path-control .tpl-image {
+    background-position: -192px -16px;
+}
+.active-tracked-path-control .tpl-image {
+    background-position: -192px 0;
+}
 .sound-control .sound-control-on {
     background-position: -48px -16px;
 }

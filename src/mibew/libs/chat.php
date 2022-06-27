@@ -380,6 +380,8 @@ function setup_chatview(Thread $thread)
     $style_config = $page_style->getConfigurations();
     $data['chat']['windowsParams']['history']
         = $style_config['history']['window'];
+    $data['chat']['windowsParams']['trackedPath']
+        = $style_config['tracked']['visitor_window'];
 
     $data['startFrom'] = 'chat';
 
@@ -517,10 +519,12 @@ function setup_chatview_for_operator(
     // Set tracking params
     if (Settings::get('enabletracking')) {
         $visitor = track_get_visitor_by_thread_id($thread->id);
-        $data['chat']['links']['tracked'] = $url_generator->generate(
-            'history_user_track',
-            array('visitor' => $visitor['visitorid'])
-        );
+        if ($visitor) {
+            $data['chat']['links']['tracked'] = $url_generator->generate(
+                'history_user_track',
+                array('visitor' => $visitor['visitorid'])
+            );
+        }
     }
 
     // Check if agent can post messages

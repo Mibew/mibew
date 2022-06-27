@@ -101,6 +101,15 @@
                 windowParams: options.windowsParams.history
             });
             ctrlsCollection.add(controls.history);
+
+            if (options.links.tracked) {
+                controls.tracked_path = new Mibew.Models.TrackedPathControl({
+                    weight: 170,
+                    link: options.links.tracked,
+                    windowParams: options.windowsParams.trackedPath
+                });
+                ctrlsCollection.add(controls.tracked_path);
+            }
         }
 
         // Create toggle sound button
