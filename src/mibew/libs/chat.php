@@ -261,7 +261,7 @@ function setup_survey($name, $email, $group_id, $info, $referrer)
  */
 function prepare_groups_select($group_id)
 {
-    $show_groups = ($group_id == '') ? true : group_has_children($group_id);
+    $show_groups = ($group_id == 0) ? true : group_has_children($group_id);
 
     if (!$show_groups) {
         return false;
