@@ -30,9 +30,9 @@
     "require": {
         "mibew/handlebars.php": "~0.10.5",
         "mibew/handlebars.php-helpers": "1.*",
-        "symfony/http-foundation": "~3.2",
-        "symfony/routing": "2.6.*",
-        "symfony/config": "2.6.*",
+        "symfony/http-foundation": "4.4.*",
+        "symfony/routing": "4.4.*",
+        "symfony/config": "4.4.*",
         "symfony/yaml": "^5.2",
         "symfony/translation": "2.6.*",
         "tedivm/stash": "0.12.*",
