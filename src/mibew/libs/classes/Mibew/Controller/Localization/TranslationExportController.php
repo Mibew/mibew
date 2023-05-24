@@ -40,6 +40,7 @@ class TranslationExportController extends AbstractController
         $operator = $this->getOperator();
 
         $target = $request->request->get('target');
+        $target = is_null($target) ? '' : $target;
         if (!preg_match("/^[\w-]{2,5}$/", $target)) {
             $target = get_current_locale();
         }
