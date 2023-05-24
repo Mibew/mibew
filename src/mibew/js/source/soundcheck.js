@@ -18,16 +18,17 @@
 
 (function(Mibew, $) {
     $(document).ready(function() {
+        var basePath = window.location.href.replace(/install\.php\/install\/done$/, 'install/done');
         $('#check-new-visitor').click(function(){
-            Mibew.Utils.playSound('../sounds/new_user');
+            Mibew.Utils.playSound(basePath + '/../../sounds/new_user');
         });
 
         $('#check-new-message').click(function() {
-            Mibew.Utils.playSound('../sounds/new_message');
+            Mibew.Utils.playSound(basePath + '/../../sounds/new_message');
         });
 
         $('#check-invitation').click(function() {
-            Mibew.Utils.playSound('../sounds/invite');
+            Mibew.Utils.playSound(basePath + '/../../sounds/invite');
         });
     });
 })(Mibew, jQuery);
